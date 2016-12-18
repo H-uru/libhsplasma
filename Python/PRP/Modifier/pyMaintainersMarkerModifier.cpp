@@ -46,10 +46,6 @@ static int pyMaintainersMarkerModifier_setCalibration(
     return 0;
 }
 
-static PyMethodDef pyMaintainersMarkerModifier_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyMaintainersMarkerModifier_GetSet[] = {
     { _pycs("calibration"), (getter)pyMaintainersMarkerModifier_getCalibration,
         (setter)pyMaintainersMarkerModifier_setCalibration, NULL, NULL },
@@ -88,7 +84,7 @@ PyTypeObject pyMaintainersMarkerModifier_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyMaintainersMarkerModifier_Methods, /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyMaintainersMarkerModifier_GetSet, /* tp_getset */
     NULL,                               /* tp_base */

@@ -96,10 +96,6 @@ static int pyEventCallbackMsg_setUser(pyEventCallbackMsg* self, PyObject* value,
     return 0;
 }
 
-static PyMethodDef pyEventCallbackMsg_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyEventCallbackMsg_GetSet[] = {
     { _pycs("eventTime"), (getter)pyEventCallbackMsg_getEventTime,
         (setter)pyEventCallbackMsg_setEventTime, NULL, NULL },
@@ -146,7 +142,7 @@ PyTypeObject pyEventCallbackMsg_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyEventCallbackMsg_Methods,         /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyEventCallbackMsg_GetSet,          /* tp_getset */
     NULL,                               /* tp_base */

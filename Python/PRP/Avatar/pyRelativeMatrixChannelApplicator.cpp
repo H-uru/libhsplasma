@@ -30,10 +30,6 @@ static PyObject* pyRelativeMatrixChannelApplicator_new(PyTypeObject* type, PyObj
     return (PyObject*)self;
 }
 
-static PyMethodDef pyRelativeMatrixChannelApplicator_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyRelativeMatrixChannelApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plRelativeMatrixChannelApplicator", /* tp_name */
@@ -66,7 +62,7 @@ PyTypeObject pyRelativeMatrixChannelApplicator_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyRelativeMatrixChannelApplicator_Methods,   /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

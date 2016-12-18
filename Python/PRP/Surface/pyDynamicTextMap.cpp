@@ -102,10 +102,6 @@ static int pyDynamicTextMap_setInitBuffer(pyDynamicTextMap* self, PyObject* valu
     return 0;
 }
 
-static PyMethodDef pyDynamicTextMap_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyDynamicTextMap_GetSet[] = {
     { _pycs("visWidth"), (getter)pyDynamicTextMap_getWidth,
         (setter)pyDynamicTextMap_setWidth, NULL, NULL },
@@ -150,7 +146,7 @@ PyTypeObject pyDynamicTextMap_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyDynamicTextMap_Methods,           /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyDynamicTextMap_GetSet,            /* tp_getset */
     NULL,                               /* tp_base */

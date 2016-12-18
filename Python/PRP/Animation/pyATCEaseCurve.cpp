@@ -108,10 +108,6 @@ static int pyATCEaseCurve_setBegin(pyATCEaseCurve* self, PyObject* value, void*)
     return 0;
 }
 
-static PyMethodDef pyATCEaseCurve_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyATCEaseCurve_GetSet[] = {
     { _pycs("startSpeed"), (getter)pyATCEaseCurve_getStartSpeed,
         (setter)pyATCEaseCurve_setStartSpeed, NULL, NULL },
@@ -160,7 +156,7 @@ PyTypeObject pyATCEaseCurve_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyATCEaseCurve_Methods,             /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyATCEaseCurve_GetSet,              /* tp_getset */
     NULL,                               /* tp_base */

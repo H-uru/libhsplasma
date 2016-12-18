@@ -71,10 +71,6 @@ static int pyAGApplicator_setChannelName(pyAGApplicator* self, PyObject* value, 
     return 0;
 }
 
-static PyMethodDef pyAGApplicator_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyAGApplicator_GetSet[] = {
     { _pycs("channel"), (getter)pyAGApplicator_getChannel,
         (setter)pyAGApplicator_setChannel, NULL, NULL },
@@ -117,7 +113,7 @@ PyTypeObject pyAGApplicator_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyAGApplicator_Methods,             /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyAGApplicator_GetSet,              /* tp_getset */
     NULL,                               /* tp_base */

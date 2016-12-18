@@ -44,10 +44,6 @@ static int pyQuatChannel_setResult(pyQuatChannel* self, PyObject* value, void*) 
     return 0;
 }
 
-static PyMethodDef pyQuatChannel_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyQuatChannel_GetSet[] = {
     { _pycs("result"), (getter)pyQuatChannel_getResult,
         (setter)pyQuatChannel_setResult, NULL, NULL },
@@ -86,7 +82,7 @@ PyTypeObject pyQuatChannel_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyQuatChannel_Methods,              /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyQuatChannel_GetSet,               /* tp_getset */
     NULL,                               /* tp_base */

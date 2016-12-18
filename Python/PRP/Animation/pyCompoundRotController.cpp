@@ -91,10 +91,6 @@ static int pyCompoundRotController_setZ(pyCompoundRotController* self, PyObject*
     return 0;
 }
 
-static PyMethodDef pyCompoundRotController_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyCompoundRotController_GetSet[] = {
     { _pycs("X"), (getter)pyCompoundRotController_getX,
         (setter)pyCompoundRotController_setX, NULL, NULL },
@@ -137,7 +133,7 @@ PyTypeObject pyCompoundRotController_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyCompoundRotController_Methods,    /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyCompoundRotController_GetSet,     /* tp_getset */
     NULL,                               /* tp_base */

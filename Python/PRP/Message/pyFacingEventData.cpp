@@ -90,10 +90,6 @@ static int pyFacingEventData_setEnabled(pyFacingEventData* self, PyObject* value
     return 0;
 }
 
-static PyMethodDef pyFacingEventData_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyFacingEventData_GetSet[] = {
     { _pycs("facer"), (getter)pyFacingEventData_getFacer,
         (setter)pyFacingEventData_setFacer, NULL, NULL },
@@ -138,7 +134,7 @@ PyTypeObject pyFacingEventData_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyFacingEventData_Methods,          /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyFacingEventData_GetSet,           /* tp_getset */
     NULL,                               /* tp_base */

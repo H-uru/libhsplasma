@@ -85,9 +85,6 @@ static int pyVariableEventData_setKey(pyVariableEventData* self, PyObject* value
         return -1;
     }
 }
-static PyMethodDef pyVariableEventData_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyVariableEventData_GetSet[] = {
     { _pycs("name"), (getter)pyVariableEventData_getName,
@@ -133,7 +130,7 @@ PyTypeObject pyVariableEventData_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyVariableEventData_Methods,        /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyVariableEventData_GetSet,         /* tp_getset */
     NULL,                               /* tp_base */

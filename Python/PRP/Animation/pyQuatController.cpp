@@ -36,10 +36,6 @@ static PyObject* pyQuatController_new(PyTypeObject* type, PyObject* args, PyObje
     return (PyObject*)self;
 }
 
-static PyMethodDef pyQuatController_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyQuatController_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plQuatController",      /* tp_name */
@@ -72,7 +68,7 @@ PyTypeObject pyQuatController_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyQuatController_Methods,           /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

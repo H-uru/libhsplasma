@@ -136,10 +136,6 @@ static int pyLayerAnimationBase_setTransform(pyLayerAnimationBase* self, PyObjec
     return 0;
 }
 
-static PyMethodDef pyLayerAnimationBase_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyLayerAnimationBase_GetSet[] = {
     { _pycs("preshadeCtl"), (getter)pyLayerAnimationBase_getPreshade,
         (setter)pyLayerAnimationBase_setPreshade, NULL, NULL },
@@ -188,7 +184,7 @@ PyTypeObject pyLayerAnimationBase_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyLayerAnimationBase_Methods,       /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyLayerAnimationBase_GetSet,        /* tp_getset */
     NULL,                               /* tp_base */

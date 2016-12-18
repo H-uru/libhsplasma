@@ -43,10 +43,6 @@ static int pySoundVolumeApplicator_setIndex(pySoundVolumeApplicator* self, PyObj
     return 0;
 }
 
-static PyMethodDef pySoundVolumeApplicator_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pySoundVolumeApplicator_GetSet[] = {
     { _pycs("index"), (getter)pySoundVolumeApplicator_getIndex,
         (setter)pySoundVolumeApplicator_setIndex, NULL, NULL },
@@ -85,7 +81,7 @@ PyTypeObject pySoundVolumeApplicator_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pySoundVolumeApplicator_Methods,    /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pySoundVolumeApplicator_GetSet,     /* tp_getset */
     NULL,                               /* tp_base */

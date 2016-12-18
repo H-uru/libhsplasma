@@ -36,10 +36,6 @@ static PyObject* pyPoint3Controller_new(PyTypeObject* type, PyObject* args, PyOb
     return (PyObject*)self;
 }
 
-static PyMethodDef pyPoint3Controller_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyPoint3Controller_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plPoint3Controller",    /* tp_name */
@@ -72,7 +68,7 @@ PyTypeObject pyPoint3Controller_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyPoint3Controller_Methods,         /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

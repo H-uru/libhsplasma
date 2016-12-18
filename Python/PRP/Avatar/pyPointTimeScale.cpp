@@ -30,10 +30,6 @@ static PyObject* pyPointTimeScale_new(PyTypeObject* type, PyObject* args, PyObje
     return (PyObject*)self;
 }
 
-static PyMethodDef pyPointTimeScale_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyPointTimeScale_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plPointTimeScale",      /* tp_name */
@@ -66,7 +62,7 @@ PyTypeObject pyPointTimeScale_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyPointTimeScale_Methods,           /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

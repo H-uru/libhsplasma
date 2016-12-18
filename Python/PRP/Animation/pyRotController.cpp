@@ -36,10 +36,6 @@ static int pyRotController_setType(pyRotController* self, PyObject* value, void*
     return -1;
 }
 
-static PyMethodDef pyRotController_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyRotController_GetSet[] = {
     { _pycs("type"), (getter)pyRotController_getType, (setter)pyRotController_setType, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
@@ -77,7 +73,7 @@ PyTypeObject pyRotController_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyRotController_Methods,            /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyRotController_GetSet,             /* tp_getset */
     NULL,                               /* tp_base */

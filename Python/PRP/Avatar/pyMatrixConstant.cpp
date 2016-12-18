@@ -30,10 +30,6 @@ static PyObject* pyMatrixConstant_new(PyTypeObject* type, PyObject* args, PyObje
     return (PyObject*)self;
 }
 
-static PyMethodDef pyMatrixConstant_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyMatrixConstant_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plMatrixConstant",      /* tp_name */
@@ -66,7 +62,7 @@ PyTypeObject pyMatrixConstant_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyMatrixConstant_Methods,           /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

@@ -44,10 +44,6 @@ static int pyMatrixChannel_setAffine(pyMatrixChannel* self, PyObject* value, voi
     return 0;
 }
 
-static PyMethodDef pyMatrixChannel_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyMatrixChannel_GetSet[] = {
     { _pycs("affine"), (getter)pyMatrixChannel_getAffine,
         (setter)pyMatrixChannel_setAffine, NULL, NULL },
@@ -86,7 +82,7 @@ PyTypeObject pyMatrixChannel_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyMatrixChannel_Methods,            /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyMatrixChannel_GetSet,             /* tp_getset */
     NULL,                               /* tp_base */

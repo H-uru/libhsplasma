@@ -30,10 +30,6 @@ static PyObject* pyOmniSqApplicator_new(PyTypeObject* type, PyObject* args, PyOb
     return (PyObject*)self;
 }
 
-static PyMethodDef pyOmniSqApplicator_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyOmniSqApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plOmniSqApplicator",    /* tp_name */
@@ -66,7 +62,7 @@ PyTypeObject pyOmniSqApplicator_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyOmniSqApplicator_Methods,         /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

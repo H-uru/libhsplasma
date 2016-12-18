@@ -30,10 +30,6 @@ static PyObject* pyQuatChannelApplicator_new(PyTypeObject* type, PyObject* args,
     return (PyObject*)self;
 }
 
-static PyMethodDef pyQuatChannelApplicator_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyQuatChannelApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plQuatChannelApplicator", /* tp_name */
@@ -66,7 +62,7 @@ PyTypeObject pyQuatChannelApplicator_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyQuatChannelApplicator_Methods,    /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

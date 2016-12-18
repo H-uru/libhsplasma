@@ -43,10 +43,6 @@ static int pyLayerSDLAnimation_setVarName(pyLayerSDLAnimation* self, PyObject* v
     return 0;
 }
 
-static PyMethodDef pyLayerSDLAnimation_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyLayerSDLAnimation_GetSet[] = {
     { _pycs("varName"), (getter)pyLayerSDLAnimation_getVarName,
         (setter)pyLayerSDLAnimation_setVarName, NULL, NULL },
@@ -85,7 +81,7 @@ PyTypeObject pyLayerSDLAnimation_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyLayerSDLAnimation_Methods,        /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyLayerSDLAnimation_GetSet,         /* tp_getset */
     NULL,                               /* tp_base */

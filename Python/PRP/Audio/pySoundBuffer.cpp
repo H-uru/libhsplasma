@@ -109,9 +109,6 @@ static int pySoundBuffer_setData(pySoundBuffer* self, PyObject* value, void*) {
     return 0;
 }
 
-static PyMethodDef pySoundBuffer_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pySoundBuffer_GetSet[] = {
     { _pycs("header"), (getter)pySoundBuffer_getHeader,
@@ -159,7 +156,7 @@ PyTypeObject pySoundBuffer_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pySoundBuffer_Methods,              /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pySoundBuffer_GetSet,               /* tp_getset */
     NULL,                               /* tp_base */

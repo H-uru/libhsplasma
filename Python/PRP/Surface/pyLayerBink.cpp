@@ -30,10 +30,6 @@ static PyObject* pyLayerBink_new(PyTypeObject* type, PyObject* args, PyObject* k
     return (PyObject*)self;
 }
 
-static PyMethodDef pyLayerBink_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyLayerBink_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plLayerBink",           /* tp_name */
@@ -66,7 +62,7 @@ PyTypeObject pyLayerBink_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyLayerBink_Methods,                /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

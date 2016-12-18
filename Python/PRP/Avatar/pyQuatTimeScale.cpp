@@ -30,10 +30,6 @@ static PyObject* pyQuatTimeScale_new(PyTypeObject* type, PyObject* args, PyObjec
     return (PyObject*)self;
 }
 
-static PyMethodDef pyQuatTimeScale_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyQuatTimeScale_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plQuatTimeScale",       /* tp_name */
@@ -66,7 +62,7 @@ PyTypeObject pyQuatTimeScale_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyQuatTimeScale_Methods,            /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

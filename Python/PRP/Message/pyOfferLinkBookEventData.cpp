@@ -73,10 +73,6 @@ static int pyOfferLinkBookEventData_setOfferee(pyOfferLinkBookEventData* self, P
     return 0;
 }
 
-static PyMethodDef pyOfferLinkBookEventData_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyOfferLinkBookEventData_GetSet[] = {
     { _pycs("offerer"), (getter)pyOfferLinkBookEventData_getOfferer,
         (setter)pyOfferLinkBookEventData_setOfferer, NULL, NULL },
@@ -119,7 +115,7 @@ PyTypeObject pyOfferLinkBookEventData_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyOfferLinkBookEventData_Methods,   /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyOfferLinkBookEventData_GetSet,    /* tp_getset */
     NULL,                               /* tp_base */

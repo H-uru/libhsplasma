@@ -36,10 +36,6 @@ static PyObject* pyEaseController_new(PyTypeObject* type, PyObject* args, PyObje
     return (PyObject*)self;
 }
 
-static PyMethodDef pyEaseController_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyEaseController_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plEaseController",      /* tp_name */
@@ -72,7 +68,7 @@ PyTypeObject pyEaseController_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyEaseController_Methods,           /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

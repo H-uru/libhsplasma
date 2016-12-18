@@ -49,10 +49,6 @@ static int pyMatrixControllerChannel_setController(pyMatrixControllerChannel* se
     return 0;
 }
 
-static PyMethodDef pyMatrixControllerChannel_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyMatrixControllerChannel_GetSet[] = {
     { _pycs("controller"), (getter)pyMatrixControllerChannel_getController,
         (setter)pyMatrixControllerChannel_setController, NULL, NULL },
@@ -91,7 +87,7 @@ PyTypeObject pyMatrixControllerChannel_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyMatrixControllerChannel_Methods,  /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyMatrixControllerChannel_GetSet,   /* tp_getset */
     NULL,                               /* tp_base */

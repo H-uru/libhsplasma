@@ -55,10 +55,6 @@ static int pySimpleScaleController_setValue(pySimpleScaleController* self, PyObj
     return 0;
 }
 
-static PyMethodDef pySimpleScaleController_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pySimpleScaleController_GetSet[] = {
     { _pycs("value"), (getter)pySimpleScaleController_getValue,
         (setter)pySimpleScaleController_setValue, NULL, NULL },
@@ -97,7 +93,7 @@ PyTypeObject pySimpleScaleController_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pySimpleScaleController_Methods,    /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pySimpleScaleController_GetSet,     /* tp_getset */
     NULL,                               /* tp_base */

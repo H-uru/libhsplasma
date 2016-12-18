@@ -48,10 +48,6 @@ static int pyAudioInterface_setAudible(pyAudioInterface* self, PyObject* value, 
     }
 }
 
-PyMethodDef pyAudioInterface_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyGetSetDef pyAudioInterface_GetSet[] = {
     { _pycs("audible"), (getter)pyAudioInterface_getAudible,
         (setter)pyAudioInterface_setAudible, _pycs("The Audible key"), NULL },
@@ -90,7 +86,7 @@ PyTypeObject pyAudioInterface_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyAudioInterface_Methods,           /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyAudioInterface_GetSet,            /* tp_getset */
     NULL,                               /* tp_base */

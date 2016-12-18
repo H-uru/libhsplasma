@@ -56,10 +56,6 @@ static int pyControlKeyEventData_setDown(pyControlKeyEventData* self, PyObject* 
     return 0;
 }
 
-static PyMethodDef pyControlKeyEventData_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyControlKeyEventData_GetSet[] = {
     { _pycs("controlKey"), (getter)pyControlKeyEventData_getControlKey,
         (setter)pyControlKeyEventData_setControlKey, NULL, NULL },
@@ -100,7 +96,7 @@ PyTypeObject pyControlKeyEventData_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyControlKeyEventData_Methods,      /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyControlKeyEventData_GetSet,       /* tp_getset */
     NULL,                               /* tp_base */

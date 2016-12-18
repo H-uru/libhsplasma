@@ -36,10 +36,6 @@ static int pyScaleController_setType(pyScaleController* self, PyObject* value, v
     return -1;
 }
 
-static PyMethodDef pyScaleController_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyScaleController_GetSet[] = {
     { _pycs("type"), (getter)pyScaleController_getType,
         (setter)pyScaleController_setType, NULL, NULL },
@@ -78,7 +74,7 @@ PyTypeObject pyScaleController_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyScaleController_Methods,          /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyScaleController_GetSet,           /* tp_getset */
     NULL,                               /* tp_base */

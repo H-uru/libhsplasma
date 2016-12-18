@@ -72,9 +72,6 @@ static int pyMultiStageEventData_setAvatar(pyMultiStageEventData* self, PyObject
         return -1;
     }
 }
-static PyMethodDef pyMultiStageEventData_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyMultiStageEventData_GetSet[] = {
     { _pycs("stage"), (getter)pyMultiStageEventData_getStage,
@@ -118,7 +115,7 @@ PyTypeObject pyMultiStageEventData_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyMultiStageEventData_Methods,      /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyMultiStageEventData_GetSet,       /* tp_getset */
     NULL,                               /* tp_base */

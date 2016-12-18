@@ -49,10 +49,6 @@ static int pyScalarControllerChannel_setController(pyScalarControllerChannel* se
     return 0;
 }
 
-static PyMethodDef pyScalarControllerChannel_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyScalarControllerChannel_GetSet[] = {
     { _pycs("controller"), (getter)pyScalarControllerChannel_getController,
         (setter)pyScalarControllerChannel_setController, NULL, NULL },
@@ -91,7 +87,7 @@ PyTypeObject pyScalarControllerChannel_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyScalarControllerChannel_Methods,  /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyScalarControllerChannel_GetSet,   /* tp_getset */
     NULL,                               /* tp_base */

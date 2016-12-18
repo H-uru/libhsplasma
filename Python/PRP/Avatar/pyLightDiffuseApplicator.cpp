@@ -30,10 +30,6 @@ static PyObject* pyLightDiffuseApplicator_new(PyTypeObject* type, PyObject* args
     return (PyObject*)self;
 }
 
-static PyMethodDef pyLightDiffuseApplicator_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyLightDiffuseApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plLightDiffuseApplicator", /* tp_name */
@@ -66,7 +62,7 @@ PyTypeObject pyLightDiffuseApplicator_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyLightDiffuseApplicator_Methods,   /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

@@ -30,10 +30,6 @@ static PyObject* pyMatrixDelayedCorrectionApplicator_new(PyTypeObject* type, PyO
     return (PyObject*)self;
 }
 
-static PyMethodDef pyMatrixDelayedCorrectionApplicator_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyMatrixDelayedCorrectionApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plMatrixDelayedCorrectionApplicator", /* tp_name */
@@ -66,7 +62,7 @@ PyTypeObject pyMatrixDelayedCorrectionApplicator_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyMatrixDelayedCorrectionApplicator_Methods,   /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

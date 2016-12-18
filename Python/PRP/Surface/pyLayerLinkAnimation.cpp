@@ -62,10 +62,6 @@ static int pyLayerLinkAnimation_setLeavingAge(pyLayerLinkAnimation* self, PyObje
     return 0;
 }
 
-static PyMethodDef pyLayerLinkAnimation_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyLayerLinkAnimation_GetSet[] = {
     { _pycs("linkKey"), (getter)pyLayerLinkAnimation_getLinkKey,
         (setter)pyLayerLinkAnimation_setLinkKey, NULL, NULL },
@@ -106,7 +102,7 @@ PyTypeObject pyLayerLinkAnimation_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyLayerLinkAnimation_Methods,       /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyLayerLinkAnimation_GetSet,        /* tp_getset */
     NULL,                               /* tp_base */

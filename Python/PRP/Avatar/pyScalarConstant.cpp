@@ -30,10 +30,6 @@ static PyObject* pyScalarConstant_new(PyTypeObject* type, PyObject* args, PyObje
     return (PyObject*)self;
 }
 
-static PyMethodDef pyScalarConstant_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyScalarConstant_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plScalarConstant",      /* tp_name */
@@ -66,7 +62,7 @@ PyTypeObject pyScalarConstant_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyScalarConstant_Methods,           /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

@@ -30,10 +30,6 @@ static PyObject* pyScalarChannelApplicator_new(PyTypeObject* type, PyObject* arg
     return (PyObject*)self;
 }
 
-static PyMethodDef pyScalarChannelApplicator_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyScalarChannelApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plScalarChannelApplicator", /* tp_name */
@@ -66,7 +62,7 @@ PyTypeObject pyScalarChannelApplicator_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyScalarChannelApplicator_Methods,  /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

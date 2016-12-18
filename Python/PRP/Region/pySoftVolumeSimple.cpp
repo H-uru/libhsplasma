@@ -61,7 +61,6 @@ static int pySoftVolumeSimple_setSoftDist(pySoftVolumeSimple* self, PyObject* va
     return 0;
 }
 
-
 PyGetSetDef pySoftVolumeSimple_GetSet[] = {
     { _pycs("volume"), (getter)pySoftVolumeSimple_getVolume, (setter)pySoftVolumeSimple_setVolume, NULL, NULL },
     { _pycs("softDist"), (getter)pySoftVolumeSimple_getSoftDist, (setter)pySoftVolumeSimple_setSoftDist, NULL, NULL },

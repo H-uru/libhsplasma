@@ -26,10 +26,6 @@ static PyObject* pyController_new(PyTypeObject* type, PyObject* args, PyObject* 
     return NULL;
 }
 
-static PyMethodDef pyController_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyController_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plController",          /* tp_name */
@@ -62,7 +58,7 @@ PyTypeObject pyController_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyController_Methods,               /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

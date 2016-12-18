@@ -30,10 +30,6 @@ static PyObject* pyATCChannel_new(PyTypeObject* type, PyObject* args, PyObject* 
     return (PyObject*)self;
 }
 
-static PyMethodDef pyATCChannel_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyATCChannel_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plATCChannel",          /* tp_name */
@@ -66,7 +62,7 @@ PyTypeObject pyATCChannel_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyATCChannel_Methods,               /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

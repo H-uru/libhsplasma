@@ -54,10 +54,6 @@ static int pyKeyedObjectStub_setStub(pyKeyedObjectStub* self, PyObject* value, v
     return -1;
 }
 
-static PyMethodDef pyKeyedObjectStub_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyKeyedObjectStub_GetSet[] = {
     { _pycs("stub"), (getter)pyKeyedObjectStub_getStub,
         (setter)pyKeyedObjectStub_setStub,
@@ -97,7 +93,7 @@ PyTypeObject pyKeyedObjectStub_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyKeyedObjectStub_Methods,          /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyKeyedObjectStub_GetSet,           /* tp_getset */
     NULL,                               /* tp_base */

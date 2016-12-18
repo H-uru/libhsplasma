@@ -48,10 +48,6 @@ static int pySimulationInterface_setPhysical(pySimulationInterface* self, PyObje
     }
 }
 
-PyMethodDef pySimulationInterface_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyGetSetDef pySimulationInterface_GetSet[] = {
     { _pycs("physical"), (getter)pySimulationInterface_getPhysical,
         (setter)pySimulationInterface_setPhysical, _pycs("The Physical key"), NULL },
@@ -90,7 +86,7 @@ PyTypeObject pySimulationInterface_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pySimulationInterface_Methods,      /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pySimulationInterface_GetSet,       /* tp_getset */
     NULL,                               /* tp_base */

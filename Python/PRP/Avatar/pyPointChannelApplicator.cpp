@@ -30,10 +30,6 @@ static PyObject* pyPointChannelApplicator_new(PyTypeObject* type, PyObject* args
     return (PyObject*)self;
 }
 
-static PyMethodDef pyPointChannelApplicator_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyPointChannelApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plPointChannelApplicator", /* tp_name */
@@ -66,7 +62,7 @@ PyTypeObject pyPointChannelApplicator_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyPointChannelApplicator_Methods,   /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

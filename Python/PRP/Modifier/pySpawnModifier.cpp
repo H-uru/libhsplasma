@@ -31,10 +31,6 @@ static PyObject* pySpawnModifier_new(PyTypeObject* type, PyObject* args, PyObjec
     return (PyObject*)self;
 }
 
-static PyMethodDef pySpawnModifier_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pySpawnModifier_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plSpawnModifier",       /* tp_name */
@@ -67,7 +63,7 @@ PyTypeObject pySpawnModifier_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pySpawnModifier_Methods,            /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

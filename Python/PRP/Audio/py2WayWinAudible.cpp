@@ -30,10 +30,6 @@ static PyObject* py2WayWinAudible_new(PyTypeObject* type, PyObject* args, PyObje
     return (PyObject*)self;
 }
 
-static PyMethodDef py2WayWinAudible_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject py2WayWinAudible_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.pl2WayWinAudible",      /* tp_name */
@@ -66,7 +62,7 @@ PyTypeObject py2WayWinAudible_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    py2WayWinAudible_Methods,           /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

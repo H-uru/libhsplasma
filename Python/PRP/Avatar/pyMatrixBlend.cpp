@@ -30,10 +30,6 @@ static PyObject* pyMatrixBlend_new(PyTypeObject* type, PyObject* args, PyObject*
     return (PyObject*)self;
 }
 
-static PyMethodDef pyMatrixBlend_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyMatrixBlend_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plMatrixBlend",         /* tp_name */
@@ -66,7 +62,7 @@ PyTypeObject pyMatrixBlend_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyMatrixBlend_Methods,              /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

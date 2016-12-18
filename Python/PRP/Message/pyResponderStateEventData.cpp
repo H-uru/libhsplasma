@@ -42,10 +42,6 @@ static int pyResponderStateEventData_setState(pyResponderStateEventData* self, P
     return 0;
 }
 
-static PyMethodDef pyResponderStateEventData_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyResponderStateEventData_GetSet[] = {
     { _pycs("state"), (getter)pyResponderStateEventData_getState,
         (setter)pyResponderStateEventData_setState, NULL, NULL },
@@ -84,7 +80,7 @@ PyTypeObject pyResponderStateEventData_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyResponderStateEventData_Methods,  /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyResponderStateEventData_GetSet,   /* tp_getset */
     NULL,                               /* tp_base */

@@ -55,10 +55,6 @@ static int pyBookEventData_setLinkID(pyBookEventData* self, PyObject* value, voi
     return 0;
 }
 
-static PyMethodDef pyBookEventData_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyBookEventData_GetSet[] = {
     { _pycs("event"), (getter)pyBookEventData_getEvent,
         (setter)pyBookEventData_setEvent, NULL, NULL },
@@ -99,7 +95,7 @@ PyTypeObject pyBookEventData_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyBookEventData_Methods,            /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyBookEventData_GetSet,             /* tp_getset */
     NULL,                               /* tp_base */

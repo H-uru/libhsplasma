@@ -49,10 +49,6 @@ static int pyPointControllerChannel_setController(pyPointControllerChannel* self
     return 0;
 }
 
-static PyMethodDef pyPointControllerChannel_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyPointControllerChannel_GetSet[] = {
     { _pycs("controller"), (getter)pyPointControllerChannel_getController,
         (setter)pyPointControllerChannel_setController, NULL, NULL },
@@ -91,7 +87,7 @@ PyTypeObject pyPointControllerChannel_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyPointControllerChannel_Methods,   /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyPointControllerChannel_GetSet,    /* tp_getset */
     NULL,                               /* tp_base */

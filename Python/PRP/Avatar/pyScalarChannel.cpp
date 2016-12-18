@@ -43,10 +43,6 @@ static int pyScalarChannel_setResult(pyScalarChannel* self, PyObject* value, voi
     return 0;
 }
 
-static PyMethodDef pyScalarChannel_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyScalarChannel_GetSet[] = {
     { _pycs("result"), (getter)pyScalarChannel_getResult,
         (setter)pyScalarChannel_setResult, NULL, NULL },
@@ -85,7 +81,7 @@ PyTypeObject pyScalarChannel_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyScalarChannel_Methods,            /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyScalarChannel_GetSet,             /* tp_getset */
     NULL,                               /* tp_base */

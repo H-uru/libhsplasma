@@ -69,10 +69,6 @@ static int pySpotLightInfo_setSpotOuter(pySpotLightInfo* self, PyObject* value, 
     return 0;
 }
 
-static PyMethodDef pySpotLightInfo_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pySpotLightInfo_GetSet[] = {
     { _pycs("falloff"), (getter)pySpotLightInfo_getFalloff,
         (setter)pySpotLightInfo_setFalloff, NULL, NULL },
@@ -115,7 +111,7 @@ PyTypeObject pySpotLightInfo_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pySpotLightInfo_Methods,            /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pySpotLightInfo_GetSet,             /* tp_getset */
     NULL,                               /* tp_base */

@@ -31,10 +31,6 @@ static PyObject* pyAudible_new(PyTypeObject* type, PyObject* args, PyObject* kwd
     return (PyObject*)self;
 }
 
-static PyMethodDef pyAudible_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyAudible_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plAudible",             /* tp_name */
@@ -67,7 +63,7 @@ PyTypeObject pyAudible_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyAudible_Methods,                  /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

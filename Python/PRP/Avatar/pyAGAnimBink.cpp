@@ -69,10 +69,6 @@ static int pyAGAnimBink_setSubtitleId(pyAGAnimBink* self, PyObject* value, void*
     return 0;
 }
 
-static PyMethodDef pyAGAnimBink_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyAGAnimBink_GetSet[] = {
     { _pycs("binkFilename"), (getter)pyAGAnimBink_getBinkFilename,
         (setter)pyAGAnimBink_setBinkFilename, NULL, NULL },
@@ -115,7 +111,7 @@ PyTypeObject pyAGAnimBink_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyAGAnimBink_Methods,               /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyAGAnimBink_GetSet,                /* tp_getset */
     NULL,                               /* tp_base */

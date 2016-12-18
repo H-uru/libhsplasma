@@ -30,10 +30,6 @@ static PyObject* pyLayerAVI_new(PyTypeObject* type, PyObject* args, PyObject* kw
     return (PyObject*)self;
 }
 
-static PyMethodDef pyLayerAVI_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyLayerAVI_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plLayerAVI",            /* tp_name */
@@ -66,7 +62,7 @@ PyTypeObject pyLayerAVI_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyLayerAVI_Methods,                 /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

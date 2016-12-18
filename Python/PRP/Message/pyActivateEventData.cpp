@@ -55,10 +55,6 @@ static int pyActivateEventData_setActivate(pyActivateEventData* self, PyObject* 
     return 0;
 }
 
-static PyMethodDef pyActivateEventData_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyActivateEventData_GetSet[] = {
     { _pycs("active"), (getter)pyActivateEventData_getActive,
         (setter)pyActivateEventData_setActive, NULL, NULL },
@@ -99,7 +95,7 @@ PyTypeObject pyActivateEventData_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyActivateEventData_Methods,        /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyActivateEventData_GetSet,         /* tp_getset */
     NULL,                               /* tp_base */

@@ -44,10 +44,6 @@ static int pyLayerMovie_setMovieName(pyLayerMovie* self, PyObject* value, void*)
     return 0;
 }
 
-static PyMethodDef pyLayerMovie_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyLayerMovie_GetSet[] = {
     { _pycs("movieName"), (getter)pyLayerMovie_getMovieName,
         (setter)pyLayerMovie_setMovieName, NULL, NULL },
@@ -86,7 +82,7 @@ PyTypeObject pyLayerMovie_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyLayerMovie_Methods,               /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyLayerMovie_GetSet,                /* tp_getset */
     NULL,                               /* tp_base */

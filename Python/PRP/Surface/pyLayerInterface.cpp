@@ -247,10 +247,6 @@ static int pyLayerInterface_setState(pyLayerInterface* self, PyObject* value, vo
     return -1;
 }
 
-static PyMethodDef pyLayerInterface_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyLayerInterface_GetSet[] = {
     { _pycs("underLay"), (getter)pyLayerInterface_getUnderLay,
         (setter)pyLayerInterface_setUnderLay, NULL, NULL },
@@ -317,7 +313,7 @@ PyTypeObject pyLayerInterface_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyLayerInterface_Methods,           /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyLayerInterface_GetSet,            /* tp_getset */
     NULL,                               /* tp_base */

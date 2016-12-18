@@ -113,10 +113,6 @@ static int pyOneShotMod_setSeekDuration(pyOneShotMod* self, PyObject* value, voi
     return 0;
 }
 
-static PyMethodDef pyOneShotMod_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyOneShotMod_GetSet[] = {
     { _pycs("animName"), (getter)pyOneShotMod_getAnimName,
         (setter)pyOneShotMod_setAnimName, NULL, NULL },
@@ -165,7 +161,7 @@ PyTypeObject pyOneShotMod_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyOneShotMod_Methods,               /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyOneShotMod_GetSet,                /* tp_getset */
     NULL,                               /* tp_base */

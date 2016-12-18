@@ -55,10 +55,6 @@ static int pySimpleRotController_setRot(pySimpleRotController* self, PyObject* v
     return 0;
 }
 
-static PyMethodDef pySimpleRotController_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pySimpleRotController_GetSet[] = {
     { _pycs("rot"), (getter)pySimpleRotController_getRot,
         (setter)pySimpleRotController_setRot, NULL, NULL },
@@ -97,7 +93,7 @@ PyTypeObject pySimpleRotController_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pySimpleRotController_Methods,      /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pySimpleRotController_GetSet,       /* tp_getset */
     NULL,                               /* tp_base */

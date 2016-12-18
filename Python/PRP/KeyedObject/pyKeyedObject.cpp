@@ -52,10 +52,6 @@ static int pyKeyedObject_setKey(pyKeyedObject* self, PyObject* value, void*) {
     return -1;
 }
 
-static PyMethodDef pyKeyedObject_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyKeyedObject_GetSet[] = {
     { _pycs("key"), (getter)pyKeyedObject_getKey, (setter)pyKeyedObject_setKey,
         _pycs("The plKey for this object"), NULL },
@@ -94,7 +90,7 @@ PyTypeObject pyKeyedObject_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyKeyedObject_Methods,              /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyKeyedObject_GetSet,               /* tp_getset */
     NULL,                               /* tp_base */

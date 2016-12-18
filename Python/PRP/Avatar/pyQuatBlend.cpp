@@ -30,10 +30,6 @@ static PyObject* pyQuatBlend_new(PyTypeObject* type, PyObject* args, PyObject* k
     return (PyObject*)self;
 }
 
-static PyMethodDef pyQuatBlend_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyQuatBlend_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plQuatBlend",           /* tp_name */
@@ -66,7 +62,7 @@ PyTypeObject pyQuatBlend_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyQuatBlend_Methods,                /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

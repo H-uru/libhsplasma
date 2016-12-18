@@ -171,9 +171,6 @@ static int pyAnimStage_setRegressTo(pyAnimStage* self, PyObject* value, void*) {
     }
 }
 
-static PyMethodDef pyAnimStage_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyAnimStage_GetSet[] = {
     { _pycs("forwardType"), (getter)pyAnimStage_getForwardType, (setter)pyAnimStage_setForwardType, NULL, NULL },
@@ -220,7 +217,7 @@ PyTypeObject pyAnimStage_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyAnimStage_Methods,                /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyAnimStage_GetSet,                 /* tp_getset */
     NULL,                               /* tp_base */

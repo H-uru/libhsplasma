@@ -39,10 +39,6 @@ static int pyAGChannel_setName(pyAGChannel* self, PyObject* value, void*) {
     return 0;
 }
 
-static PyMethodDef pyAGChannel_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyAGChannel_GetSet[] = {
     { _pycs("name"), (getter)pyAGChannel_getName, (setter)pyAGChannel_setName, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
@@ -80,7 +76,7 @@ PyTypeObject pyAGChannel_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyAGChannel_Methods,                /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyAGChannel_GetSet,                 /* tp_getset */
     NULL,                               /* tp_base */

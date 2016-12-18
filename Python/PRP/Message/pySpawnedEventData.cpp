@@ -64,10 +64,6 @@ static int pySpawnedEventData_setSpawnee(pySpawnedEventData* self, PyObject* val
     }
 }
 
-static PyMethodDef pySpawnedEventData_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pySpawnedEventData_GetSet[] = {
     { _pycs("spawner"), (getter)pySpawnedEventData_getSpawner,
         (setter)pySpawnedEventData_setSpawner, NULL, NULL },
@@ -108,7 +104,7 @@ PyTypeObject pySpawnedEventData_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pySpawnedEventData_Methods,         /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pySpawnedEventData_GetSet,          /* tp_getset */
     NULL,                               /* tp_base */

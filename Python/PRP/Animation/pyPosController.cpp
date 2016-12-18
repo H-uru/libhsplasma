@@ -36,10 +36,6 @@ static int pyPosController_setType(pyPosController* self, PyObject* value, void*
     return -1;
 }
 
-static PyMethodDef pyPosController_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyPosController_GetSet[] = {
     { _pycs("type"), (getter)pyPosController_getType,
         (setter)pyPosController_setType, NULL, NULL },
@@ -78,7 +74,7 @@ PyTypeObject pyPosController_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyPosController_Methods,            /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyPosController_GetSet,             /* tp_getset */
     NULL,                               /* tp_base */

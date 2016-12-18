@@ -99,10 +99,6 @@ static int pyShader_setOutput(pyShader* self, PyObject* value, void*) {
     return 0;
 }
 
-static PyMethodDef pyShader_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyShader_GetSet[] = {
     { _pycs("constants"), (getter)pyShader_getConsts, (setter)pyShader_setConsts, NULL, NULL },
     { _pycs("id"), (getter)pyShader_getID, (setter)pyShader_setID, NULL, NULL },
@@ -143,7 +139,7 @@ PyTypeObject pyShader_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyShader_Methods,                   /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyShader_GetSet,                    /* tp_getset */
     NULL,                               /* tp_base */

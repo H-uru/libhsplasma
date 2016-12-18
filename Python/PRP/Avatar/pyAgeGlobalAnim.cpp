@@ -43,10 +43,6 @@ static int pyAgeGlobalAnim_setGlobalVarName(pyAgeGlobalAnim* self, PyObject* val
     return 0;
 }
 
-static PyMethodDef pyAgeGlobalAnim_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyAgeGlobalAnim_GetSet[] = {
     { _pycs("globalVarName"), (getter)pyAgeGlobalAnim_getGlobalVarName,
         (setter)pyAgeGlobalAnim_setGlobalVarName, NULL, NULL },
@@ -85,7 +81,7 @@ PyTypeObject pyAgeGlobalAnim_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyAgeGlobalAnim_Methods,            /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyAgeGlobalAnim_GetSet,             /* tp_getset */
     NULL,                               /* tp_base */

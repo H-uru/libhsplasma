@@ -113,10 +113,6 @@ static int pyViewFaceModifier_setMaxBounds(pyViewFaceModifier* self, PyObject* v
     return 0;
 }
 
-static PyMethodDef pyViewFaceModifier_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyViewFaceModifier_GetSet[] = {
     { _pycs("scale"), (getter)pyViewFaceModifier_getScale,
         (setter)pyViewFaceModifier_setScale, NULL, NULL },
@@ -165,7 +161,7 @@ PyTypeObject pyViewFaceModifier_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyViewFaceModifier_Methods,         /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyViewFaceModifier_GetSet,          /* tp_getset */
     NULL,                               /* tp_base */

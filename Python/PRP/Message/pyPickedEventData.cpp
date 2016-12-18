@@ -91,10 +91,6 @@ static int pyPickedEventData_setHitPoint(pyPickedEventData* self, PyObject* valu
     return 0;
 }
 
-static PyMethodDef pyPickedEventData_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyPickedEventData_GetSet[] = {
     { _pycs("picker"), (getter)pyPickedEventData_getPicker,
         (setter)pyPickedEventData_setPicker, NULL, NULL },
@@ -139,7 +135,7 @@ PyTypeObject pyPickedEventData_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyPickedEventData_Methods,          /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyPickedEventData_GetSet,           /* tp_getset */
     NULL,                               /* tp_base */

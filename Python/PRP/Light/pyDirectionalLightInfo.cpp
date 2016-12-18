@@ -30,10 +30,6 @@ static PyObject* pyDirectionalLightInfo_new(PyTypeObject* type, PyObject* args, 
     return (PyObject*)self;
 }
 
-static PyMethodDef pyDirectionalLightInfo_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyDirectionalLightInfo_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plDirectionalLightInfo",/* tp_name */
@@ -66,7 +62,7 @@ PyTypeObject pyDirectionalLightInfo_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyDirectionalLightInfo_Methods,     /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

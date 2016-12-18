@@ -27,10 +27,6 @@ static PyObject* pyPhysical_new(PyTypeObject* type, PyObject* args, PyObject* kw
     return NULL;
 }
 
-static PyMethodDef pyPhysical_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyPhysical_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plPhysical",            /* tp_name */
@@ -63,7 +59,7 @@ PyTypeObject pyPhysical_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyPhysical_Methods,                 /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

@@ -109,10 +109,6 @@ static int pyShadowMaster_setMinSize(pyShadowMaster* self, PyObject* value, void
     return 0;
 }
 
-static PyMethodDef pyShadowMaster_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyShadowMaster_GetSet[] = {
     { _pycs("attenDist"), (getter)pyShadowMaster_getAttenDist,
         (setter)pyShadowMaster_setAttenDist, NULL, NULL },
@@ -161,7 +157,7 @@ PyTypeObject pyShadowMaster_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyShadowMaster_Methods,             /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyShadowMaster_GetSet,              /* tp_getset */
     NULL,                               /* tp_base */

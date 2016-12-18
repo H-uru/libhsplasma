@@ -91,10 +91,6 @@ static int pyCompoundPosController_setZ(pyCompoundPosController* self, PyObject*
     return 0;
 }
 
-static PyMethodDef pyCompoundPosController_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyCompoundPosController_GetSet[] = {
     { _pycs("X"), (getter)pyCompoundPosController_getX,
         (setter)pyCompoundPosController_setX, NULL, NULL },
@@ -137,7 +133,7 @@ PyTypeObject pyCompoundPosController_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyCompoundPosController_Methods,    /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyCompoundPosController_GetSet,     /* tp_getset */
     NULL,                               /* tp_base */

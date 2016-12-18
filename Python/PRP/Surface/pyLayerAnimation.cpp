@@ -40,10 +40,6 @@ static int pyLayerAnimation_setTimeConvert(pyLayerAnimation* self, PyObject* val
     return -1;
 }
 
-static PyMethodDef pyLayerAnimation_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyLayerAnimation_GetSet[] = {
     { _pycs("timeConvert"), (getter)pyLayerAnimation_getTimeConvert,
         (setter)pyLayerAnimation_setTimeConvert, NULL, NULL },
@@ -82,7 +78,7 @@ PyTypeObject pyLayerAnimation_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyLayerAnimation_Methods,           /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyLayerAnimation_GetSet,            /* tp_getset */
     NULL,                               /* tp_base */

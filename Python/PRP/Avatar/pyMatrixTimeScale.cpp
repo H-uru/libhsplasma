@@ -30,10 +30,6 @@ static PyObject* pyMatrixTimeScale_new(PyTypeObject* type, PyObject* args, PyObj
     return (PyObject*)self;
 }
 
-static PyMethodDef pyMatrixTimeScale_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyMatrixTimeScale_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plMatrixTimeScale",     /* tp_name */
@@ -66,7 +62,7 @@ PyTypeObject pyMatrixTimeScale_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyMatrixTimeScale_Methods,          /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

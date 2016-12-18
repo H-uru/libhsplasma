@@ -30,10 +30,6 @@ static PyObject* pyPointBlend_new(PyTypeObject* type, PyObject* args, PyObject* 
     return (PyObject*)self;
 }
 
-static PyMethodDef pyPointBlend_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyPointBlend_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plPointBlend",          /* tp_name */
@@ -66,7 +62,7 @@ PyTypeObject pyPointBlend_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyPointBlend_Methods,               /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

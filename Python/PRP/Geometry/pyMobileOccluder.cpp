@@ -75,10 +75,6 @@ static int pyMobileOccluder_setLocalBounds(pyMobileOccluder* self, PyObject* val
     return 0;
 }
 
-static PyMethodDef pyMobileOccluder_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyMobileOccluder_GetSet[] = {
     { _pycs("localToWorld"), (getter)pyMobileOccluder_getLocalToWorld,
         (setter)pyMobileOccluder_setLocalToWorld, NULL, NULL },
@@ -121,7 +117,7 @@ PyTypeObject pyMobileOccluder_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyMobileOccluder_Methods,           /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyMobileOccluder_GetSet,            /* tp_getset */
     NULL,                               /* tp_base */

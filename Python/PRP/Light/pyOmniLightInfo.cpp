@@ -82,10 +82,6 @@ static int pyOmniLightInfo_setAttenCutoff(pyOmniLightInfo* self, PyObject* value
     return 0;
 }
 
-static PyMethodDef pyOmniLightInfo_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyOmniLightInfo_GetSet[] = {
     { _pycs("attenConst"), (getter)pyOmniLightInfo_getAttenConst,
         (setter)pyOmniLightInfo_setAttenConst, NULL, NULL },
@@ -130,7 +126,7 @@ PyTypeObject pyOmniLightInfo_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyOmniLightInfo_Methods,            /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyOmniLightInfo_GetSet,             /* tp_getset */
     NULL,                               /* tp_base */

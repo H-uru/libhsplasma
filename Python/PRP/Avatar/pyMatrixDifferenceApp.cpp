@@ -30,10 +30,6 @@ static PyObject* pyMatrixDifferenceApp_new(PyTypeObject* type, PyObject* args, P
     return (PyObject*)self;
 }
 
-static PyMethodDef pyMatrixDifferenceApp_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyMatrixDifferenceApp_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plMatrixDifferenceApp", /* tp_name */
@@ -66,7 +62,7 @@ PyTypeObject pyMatrixDifferenceApp_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyMatrixDifferenceApp_Methods,      /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

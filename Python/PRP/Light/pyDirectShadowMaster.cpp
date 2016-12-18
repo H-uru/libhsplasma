@@ -30,10 +30,6 @@ static PyObject* pyDirectShadowMaster_new(PyTypeObject* type, PyObject* args, Py
     return (PyObject*)self;
 }
 
-static PyMethodDef pyDirectShadowMaster_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyDirectShadowMaster_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plDirectShadowMaster",  /* tp_name */
@@ -66,7 +62,7 @@ PyTypeObject pyDirectShadowMaster_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyDirectShadowMaster_Methods,       /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

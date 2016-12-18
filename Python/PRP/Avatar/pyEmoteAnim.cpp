@@ -69,10 +69,6 @@ static int pyEmoteAnim_setFadeOut(pyEmoteAnim* self, PyObject* value, void*) {
     return 0;
 }
 
-static PyMethodDef pyEmoteAnim_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyEmoteAnim_GetSet[] = {
     { _pycs("bodyUsage"), (getter)pyEmoteAnim_getBodyUsage,
         (setter)pyEmoteAnim_setBodyUsage, NULL, NULL },
@@ -115,7 +111,7 @@ PyTypeObject pyEmoteAnim_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyEmoteAnim_Methods,                /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyEmoteAnim_GetSet,                 /* tp_getset */
     NULL,                               /* tp_base */

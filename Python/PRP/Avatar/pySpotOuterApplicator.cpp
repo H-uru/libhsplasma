@@ -30,10 +30,6 @@ static PyObject* pySpotOuterApplicator_new(PyTypeObject* type, PyObject* args, P
     return (PyObject*)self;
 }
 
-static PyMethodDef pySpotOuterApplicator_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pySpotOuterApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plSpotOuterApplicator", /* tp_name */
@@ -66,7 +62,7 @@ PyTypeObject pySpotOuterApplicator_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pySpotOuterApplicator_Methods,      /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

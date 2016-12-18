@@ -36,10 +36,6 @@ static PyObject* pyMatrix33Controller_new(PyTypeObject* type, PyObject* args, Py
     return (PyObject*)self;
 }
 
-static PyMethodDef pyMatrix33Controller_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyMatrix33Controller_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plMatrix33Controller",  /* tp_name */
@@ -72,7 +68,7 @@ PyTypeObject pyMatrix33Controller_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyMatrix33Controller_Methods,       /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

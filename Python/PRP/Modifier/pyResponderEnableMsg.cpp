@@ -44,10 +44,6 @@ static int pyResponderEnableMsg_setEnable(pyResponderEnableMsg* self, PyObject* 
     return 0;
 }
 
-static PyMethodDef pyResponderEnableMsg_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyResponderEnableMsg_GetSet[] = {
     { _pycs("enable"), (getter)pyResponderEnableMsg_getEnable,
         (setter)pyResponderEnableMsg_setEnable, NULL, NULL },
@@ -86,7 +82,7 @@ PyTypeObject pyResponderEnableMsg_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyResponderEnableMsg_Methods,       /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyResponderEnableMsg_GetSet,        /* tp_getset */
     NULL,                               /* tp_base */

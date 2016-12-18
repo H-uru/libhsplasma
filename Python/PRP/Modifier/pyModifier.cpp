@@ -27,10 +27,6 @@ static PyObject* pyModifier_new(PyTypeObject* type, PyObject* args, PyObject* kw
     return NULL;
 }
 
-static PyMethodDef pyModifier_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyModifier_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plModifier",            /* tp_name */
@@ -63,7 +59,7 @@ PyTypeObject pyModifier_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyModifier_Methods,                 /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

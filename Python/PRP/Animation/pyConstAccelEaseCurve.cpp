@@ -30,10 +30,6 @@ static PyObject* pyConstAccelEaseCurve_new(PyTypeObject* type, PyObject* args, P
     return (PyObject*)self;
 }
 
-static PyMethodDef pyConstAccelEaseCurve_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyConstAccelEaseCurve_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plConstAccelEaseCurve", /* tp_name */
@@ -66,7 +62,7 @@ PyTypeObject pyConstAccelEaseCurve_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyConstAccelEaseCurve_Methods,      /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

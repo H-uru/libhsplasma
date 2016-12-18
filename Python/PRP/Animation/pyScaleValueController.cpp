@@ -36,10 +36,6 @@ static PyObject* pyScaleValueController_new(PyTypeObject* type, PyObject* args, 
     return (PyObject*)self;
 }
 
-static PyMethodDef pyScaleValueController_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyScaleValueController_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plScaleValueController",/* tp_name */
@@ -72,7 +68,7 @@ PyTypeObject pyScaleValueController_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyScaleValueController_Methods,     /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

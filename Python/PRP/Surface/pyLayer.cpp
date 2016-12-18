@@ -30,10 +30,6 @@ static PyObject* pyLayer_new(PyTypeObject* type, PyObject* args, PyObject* kwds)
     return (PyObject*)self;
 }
 
-static PyMethodDef pyLayer_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyLayer_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plLayer",               /* tp_name */
@@ -66,7 +62,7 @@ PyTypeObject pyLayer_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyLayer_Methods,                    /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

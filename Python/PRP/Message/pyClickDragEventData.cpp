@@ -29,10 +29,6 @@ static PyObject* pyClickDragEventData_new(PyTypeObject* type, PyObject* args, Py
     return (PyObject*)self;
 }
 
-static PyMethodDef pyClickDragEventData_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyClickDragEventData_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.proClickDragEventData", /* tp_name */
@@ -65,7 +61,7 @@ PyTypeObject pyClickDragEventData_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyClickDragEventData_Methods,       /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

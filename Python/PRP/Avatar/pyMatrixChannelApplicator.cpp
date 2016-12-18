@@ -30,10 +30,6 @@ static PyObject* pyMatrixChannelApplicator_new(PyTypeObject* type, PyObject* arg
     return (PyObject*)self;
 }
 
-static PyMethodDef pyMatrixChannelApplicator_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyMatrixChannelApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plMatrixChannelApplicator", /* tp_name */
@@ -66,7 +62,7 @@ PyTypeObject pyMatrixChannelApplicator_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyMatrixChannelApplicator_Methods,  /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

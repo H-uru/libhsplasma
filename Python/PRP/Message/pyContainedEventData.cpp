@@ -77,10 +77,6 @@ static int pyContainedEventData_setEntering(pyContainedEventData* self, PyObject
     return 0;
 }
 
-static PyMethodDef pyContainedEventData_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyContainedEventData_GetSet[] = {
     { _pycs("contained"), (getter)pyContainedEventData_getContained,
         (setter)pyContainedEventData_setContained, NULL, NULL },
@@ -123,7 +119,7 @@ PyTypeObject pyContainedEventData_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyContainedEventData_Methods,       /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyContainedEventData_GetSet,        /* tp_getset */
     NULL,                               /* tp_base */

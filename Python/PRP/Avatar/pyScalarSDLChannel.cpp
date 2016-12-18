@@ -30,10 +30,6 @@ static PyObject* pyScalarSDLChannel_new(PyTypeObject* type, PyObject* args, PyOb
     return (PyObject*)self;
 }
 
-static PyMethodDef pyScalarSDLChannel_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyScalarSDLChannel_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plScalarSDLChannel",    /* tp_name */
@@ -66,7 +62,7 @@ PyTypeObject pyScalarSDLChannel_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyScalarSDLChannel_Methods,         /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

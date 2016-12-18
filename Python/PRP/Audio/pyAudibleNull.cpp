@@ -30,10 +30,6 @@ static PyObject* pyAudibleNull_new(PyTypeObject* type, PyObject* args, PyObject*
     return (PyObject*)self;
 }
 
-static PyMethodDef pyAudibleNull_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyAudibleNull_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plAudibleNull",         /* tp_name */
@@ -66,7 +62,7 @@ PyTypeObject pyAudibleNull_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyAudibleNull_Methods,              /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

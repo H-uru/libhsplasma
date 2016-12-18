@@ -30,10 +30,6 @@ static PyObject* pyMatrixControllerCacheChannel_new(PyTypeObject* type, PyObject
     return (PyObject*)self;
 }
 
-static PyMethodDef pyMatrixControllerCacheChannel_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 PyTypeObject pyMatrixControllerCacheChannel_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plMatrixControllerCacheChannel", /* tp_name */
@@ -66,7 +62,7 @@ PyTypeObject pyMatrixControllerCacheChannel_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyMatrixControllerCacheChannel_Methods,              /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */

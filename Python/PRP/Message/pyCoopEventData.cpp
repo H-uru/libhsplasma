@@ -55,10 +55,6 @@ static int pyCoopEventData_setSerial(pyCoopEventData* self, PyObject* value, voi
     return 0;
 }
 
-static PyMethodDef pyCoopEventData_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyCoopEventData_GetSet[] = {
     { _pycs("id"), (getter)pyCoopEventData_getID,
         (setter)pyCoopEventData_setID, NULL, NULL },
@@ -99,7 +95,7 @@ PyTypeObject pyCoopEventData_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyCoopEventData_Methods,            /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyCoopEventData_GetSet,             /* tp_getset */
     NULL,                               /* tp_base */
