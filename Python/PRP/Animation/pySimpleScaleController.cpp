@@ -37,28 +37,12 @@ static PyObject* pySimpleScaleController_new(PyTypeObject* type, PyObject* args,
     return (PyObject*)self;
 }
 
-static PyObject* pySimpleScaleController_getValue(pySimpleScaleController* self, void*) {
-    return ICreate(self->fThis->getValue());
-}
-
-static int pySimpleScaleController_setValue(pySimpleScaleController* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setValue(NULL);
-        return 0;
-    }
-    if (!pyScaleValueController_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "value should be a plScaleValueController");
-        return -1;
-    }
-    self->fThis->setValue(((pyScaleValueController*)value)->fThis);
-    ((pyScaleValueController*)value)->fPyOwned = false;
-    return 0;
-}
+PY_PROPERTY_CREATABLE(plScaleValueController, ScaleValueController,
+                      SimpleScaleController, value, getValue, setValue)
 
 static PyGetSetDef pySimpleScaleController_GetSet[] = {
-    { _pycs("value"), (getter)pySimpleScaleController_getValue,
-        (setter)pySimpleScaleController_setValue, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pySimpleScaleController_value_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pySimpleScaleController_Type = {

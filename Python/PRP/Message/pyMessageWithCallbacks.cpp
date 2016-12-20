@@ -92,7 +92,7 @@ static int pyMessageWithCallbacks_setCallbacks(pyMessageWithCallbacks* self, PyO
 static PyGetSetDef pyMessageWithCallbacks_GetSet[] = {
     { _pycs("callbacks"), (getter)pyMessageWithCallbacks_getCallbacks,
        (setter)pyMessageWithCallbacks_setCallbacks, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyMessageWithCallbacks_Type = {

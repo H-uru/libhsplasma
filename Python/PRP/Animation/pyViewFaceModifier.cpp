@@ -35,98 +35,21 @@ static PyObject* pyViewFaceModifier_new(PyTypeObject* type, PyObject* args, PyOb
     return (PyObject*)self;
 }
 
-static PyObject* pyViewFaceModifier_getScale(pyViewFaceModifier* self, void*) {
-    return pyVector3_FromVector3(self->fThis->getScale());
-}
-
-static PyObject* pyViewFaceModifier_getOffset(pyViewFaceModifier* self, void*) {
-    return pyVector3_FromVector3(self->fThis->getOffset());
-}
-
-static PyObject* pyViewFaceModifier_getL2P(pyViewFaceModifier* self, void*) {
-    return pyMatrix44_FromMatrix44(self->fThis->getLocalToParent());
-}
-
-static PyObject* pyViewFaceModifier_getP2L(pyViewFaceModifier* self, void*) {
-    return pyMatrix44_FromMatrix44(self->fThis->getParentToLocal());
-}
-
-static PyObject* pyViewFaceModifier_getFaceObj(pyViewFaceModifier* self, void*) {
-    return pyKey_FromKey(self->fThis->getFaceObj());
-}
-
-static PyObject* pyViewFaceModifier_getMaxBounds(pyViewFaceModifier* self, void*) {
-    return ICreateBounds(self->fThis->getMaxBounds());
-}
-
-static int pyViewFaceModifier_setScale(pyViewFaceModifier* self, PyObject* value, void*) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "scale should be an hsVector3");
-        return -1;
-    }
-    self->fThis->setScale(*((pyVector3*)value)->fThis);
-    return 0;
-}
-
-static int pyViewFaceModifier_setOffset(pyViewFaceModifier* self, PyObject* value, void*) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "offset should be an hsVector3");
-        return -1;
-    }
-    self->fThis->setOffset(*((pyVector3*)value)->fThis);
-    return 0;
-}
-
-static int pyViewFaceModifier_setL2P(pyViewFaceModifier* self, PyObject* value, void*) {
-    if (value == NULL || !pyMatrix44_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "localToParent should be an hsMatrix44");
-        return -1;
-    }
-    self->fThis->setLocalToParent(*((pyMatrix44*)value)->fThis);
-    return 0;
-}
-
-static int pyViewFaceModifier_setP2L(pyViewFaceModifier* self, PyObject* value, void*) {
-    if (value == NULL || !pyMatrix44_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "parentToLocal should be an hsMatrix44");
-        return -1;
-    }
-    self->fThis->setParentToLocal(*((pyMatrix44*)value)->fThis);
-    return 0;
-}
-
-static int pyViewFaceModifier_setFaceObj(pyViewFaceModifier* self, PyObject* value, void*) {
-    if (value == NULL || !pyKey_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "faceObj should be a plKey");
-        return -1;
-    }
-    self->fThis->setFaceObj(*((pyKey*)value)->fThis);
-    return 0;
-}
-
-static int pyViewFaceModifier_setMaxBounds(pyViewFaceModifier* self, PyObject* value, void*) {
-    if (value == NULL || !pyBounds3Ext_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "maxBounds should be an hsBounds3Ext");
-        return -1;
-    }
-    self->fThis->setMaxBounds(*((pyBounds3Ext*)value)->fThis);
-    return 0;
-}
+PY_PROPERTY(hsVector3, ViewFaceModifier, scale, getScale, setScale)
+PY_PROPERTY(hsVector3, ViewFaceModifier, offset, getOffset, setOffset)
+PY_PROPERTY(hsMatrix44, ViewFaceModifier, localToparent, getLocalToParent, setLocalToParent)
+PY_PROPERTY(hsMatrix44, ViewFaceModifier, parentToLocal, getParentToLocal, setParentToLocal)
+PY_PROPERTY(plKey, ViewFaceModifier, faceObj, getFaceObj, setFaceObj)
+PY_PROPERTY_BOUNDS(Bounds3Ext, ViewFaceModifier, maxBounds, getMaxBounds, setMaxBounds)
 
 static PyGetSetDef pyViewFaceModifier_GetSet[] = {
-    { _pycs("scale"), (getter)pyViewFaceModifier_getScale,
-        (setter)pyViewFaceModifier_setScale, NULL, NULL },
-    { _pycs("offset"), (getter)pyViewFaceModifier_getOffset,
-        (setter)pyViewFaceModifier_setOffset, NULL, NULL },
-    { _pycs("localToParent"), (getter)pyViewFaceModifier_getL2P,
-        (setter)pyViewFaceModifier_setL2P, NULL, NULL },
-    { _pycs("parentToLocal"), (getter)pyViewFaceModifier_getP2L,
-        (setter)pyViewFaceModifier_setP2L, NULL, NULL },
-    { _pycs("faceObj"), (getter)pyViewFaceModifier_getFaceObj,
-        (setter)pyViewFaceModifier_setFaceObj, NULL, NULL },
-    { _pycs("maxBounds"), (getter)pyViewFaceModifier_getMaxBounds,
-        (setter)pyViewFaceModifier_setMaxBounds, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyViewFaceModifier_scale_getset,
+    pyViewFaceModifier_offset_getset,
+    pyViewFaceModifier_localToparent_getset,
+    pyViewFaceModifier_parentToLocal_getset,
+    pyViewFaceModifier_faceObj_getset,
+    pyViewFaceModifier_maxBounds_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyViewFaceModifier_Type = {

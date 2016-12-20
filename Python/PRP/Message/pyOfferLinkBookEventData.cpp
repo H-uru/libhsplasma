@@ -30,57 +30,15 @@ static PyObject* pyOfferLinkBookEventData_new(PyTypeObject* type, PyObject* args
     return (PyObject*)self;
 }
 
-static PyObject* pyOfferLinkBookEventData_getOfferer(pyOfferLinkBookEventData* self, void*) {
-    return pyKey_FromKey(self->fThis->getOfferer());
-}
-
-static PyObject* pyOfferLinkBookEventData_getTargetAge(pyOfferLinkBookEventData* self, void*) {
-    return PyInt_FromLong(self->fThis->getTargetAge());
-}
-
-static PyObject* pyOfferLinkBookEventData_getOfferee(pyOfferLinkBookEventData* self, void*) {
-    return PyInt_FromLong(self->fThis->getOfferee());
-}
-
-static int pyOfferLinkBookEventData_setOfferer(pyOfferLinkBookEventData* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setOfferer(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setOfferer(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "offerer should be a plKey");
-        return -1;
-    }
-}
-
-static int pyOfferLinkBookEventData_setTargetAge(pyOfferLinkBookEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "targetAge should be an int");
-        return -1;
-    }
-    self->fThis->setTargetAge(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyOfferLinkBookEventData_setOfferee(pyOfferLinkBookEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "offeree should be an int");
-        return -1;
-    }
-    self->fThis->setOfferee(PyInt_AsLong(value));
-    return 0;
-}
+PY_PROPERTY(plKey, OfferLinkBookEventData, offerer, getOfferer, setOfferer)
+PY_PROPERTY(int, OfferLinkBookEventData, targetAge, getTargetAge, setTargetAge)
+PY_PROPERTY(int, OfferLinkBookEventData, offeree, getOfferee, setOfferee)
 
 static PyGetSetDef pyOfferLinkBookEventData_GetSet[] = {
-    { _pycs("offerer"), (getter)pyOfferLinkBookEventData_getOfferer,
-        (setter)pyOfferLinkBookEventData_setOfferer, NULL, NULL },
-    { _pycs("targetAge"), (getter)pyOfferLinkBookEventData_getTargetAge,
-        (setter)pyOfferLinkBookEventData_setTargetAge, NULL, NULL },
-    { _pycs("offeree"), (getter)pyOfferLinkBookEventData_getOfferee,
-        (setter)pyOfferLinkBookEventData_setOfferee, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyOfferLinkBookEventData_offerer_getset,
+    pyOfferLinkBookEventData_targetAge_getset,
+    pyOfferLinkBookEventData_offeree_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyOfferLinkBookEventData_Type = {

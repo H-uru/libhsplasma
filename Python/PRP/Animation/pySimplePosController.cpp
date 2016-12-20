@@ -37,32 +37,12 @@ static PyObject* pySimplePosController_new(PyTypeObject* type, PyObject* args, P
     return (PyObject*)self;
 }
 
-static PyObject* pySimplePosController_getPosition(pySimplePosController* self, void*) {
-    return ICreate(self->fThis->getPosition());
-}
-
-static int pySimplePosController_setPosition(pySimplePosController* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setPosition(NULL);
-        return 0;
-    }
-    if (!pyPoint3Controller_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "position should be a plPoint3Controller");
-        return -1;
-    }
-    self->fThis->setPosition(((pyPoint3Controller*)value)->fThis);
-    ((pyPoint3Controller*)value)->fPyOwned = false;
-    return 0;
-}
-
-static PyMethodDef pySimplePosController_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
+PY_PROPERTY_CREATABLE(plPoint3Controller, Point3Controller, SimplePosController,
+                      position, getPosition, setPosition)
 
 static PyGetSetDef pySimplePosController_GetSet[] = {
-    { _pycs("position"), (getter)pySimplePosController_getPosition,
-        (setter)pySimplePosController_setPosition, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pySimplePosController_position_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pySimplePosController_Type = {
@@ -97,7 +77,7 @@ PyTypeObject pySimplePosController_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pySimplePosController_Methods,      /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pySimplePosController_GetSet,       /* tp_getset */
     NULL,                               /* tp_base */

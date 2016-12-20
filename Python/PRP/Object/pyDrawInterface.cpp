@@ -152,7 +152,7 @@ PyGetSetDef pyDrawInterface_GetSet[] = {
         _pycs("Drawable references and keys"), NULL },
     { _pycs("regions"), (getter)pyDrawInterface_getRegions,
         (setter)pyDrawInterface_setRegions, _pycs("Drawable regions"), NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyDrawInterface_Type = {

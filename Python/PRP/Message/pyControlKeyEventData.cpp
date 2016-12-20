@@ -30,38 +30,13 @@ static PyObject* pyControlKeyEventData_new(PyTypeObject* type, PyObject* args, P
     return (PyObject*)self;
 }
 
-static PyObject* pyControlKeyEventData_getControlKey(pyControlKeyEventData* self, void*) {
-    return PyInt_FromLong(self->fThis->getControlKey());
-}
-
-static PyObject* pyControlKeyEventData_getDown(pyControlKeyEventData* self, void*) {
-    return PyBool_FromLong(self->fThis->isDown());
-}
-
-static int pyControlKeyEventData_setControlKey(pyControlKeyEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "controlKey should be an int");
-        return -1;
-    }
-    self->fThis->setControlKey(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyControlKeyEventData_setDown(pyControlKeyEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "down should be a bool");
-        return -1;
-    }
-    self->fThis->setDown(PyInt_AsLong(value) != 0);
-    return 0;
-}
+PY_PROPERTY(int, ControlKeyEventData, controlKey, getControlKey, setControlKey)
+PY_PROPERTY(bool, ControlKeyEventData, down, isDown, setDown)
 
 static PyGetSetDef pyControlKeyEventData_GetSet[] = {
-    { _pycs("controlKey"), (getter)pyControlKeyEventData_getControlKey,
-        (setter)pyControlKeyEventData_setControlKey, NULL, NULL },
-    { _pycs("down"), (getter)pyControlKeyEventData_getDown,
-        (setter)pyControlKeyEventData_setDown, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyControlKeyEventData_controlKey_getset,
+    pyControlKeyEventData_down_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyControlKeyEventData_Type = {

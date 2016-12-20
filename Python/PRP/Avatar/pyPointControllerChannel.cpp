@@ -31,28 +31,12 @@ static PyObject* pyPointControllerChannel_new(PyTypeObject* type, PyObject* args
     return (PyObject*)self;
 }
 
-static PyObject* pyPointControllerChannel_getController(pyPointControllerChannel* self, void*) {
-    return ICreate(self->fThis->getController());
-}
-
-static int pyPointControllerChannel_setController(pyPointControllerChannel* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setController(NULL);
-        return 0;
-    }
-    if (!pyController_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "controller should be a plController");
-        return -1;
-    }
-    self->fThis->setController(((pyController*)value)->fThis);
-    ((pyController*)value)->fPyOwned = false;
-    return 0;
-}
+PY_PROPERTY_CREATABLE(plController, Controller, PointControllerChannel,
+                      controller, getController, setController)
 
 static PyGetSetDef pyPointControllerChannel_GetSet[] = {
-    { _pycs("controller"), (getter)pyPointControllerChannel_getController,
-        (setter)pyPointControllerChannel_setController, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyPointControllerChannel_controller_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyPointControllerChannel_Type = {

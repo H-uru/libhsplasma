@@ -30,72 +30,17 @@ static PyObject* pyVariableEventData_new(PyTypeObject* type, PyObject* args, PyO
     return (PyObject*)self;
 }
 
-static PyObject* pyVariableEventData_getName(pyVariableEventData* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getName());
-}
-
-static PyObject* pyVariableEventData_getDataType(pyVariableEventData* self, void*) {
-    return PyInt_FromLong(self->fThis->getDataType());
-}
-
-static PyObject* pyVariableEventData_getNumber(pyVariableEventData* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getNumber());
-}
-
-static PyObject* pyVariableEventData_getKey(pyVariableEventData* self, void*) {
-    return pyKey_FromKey(self->fThis->getKey());
-}
-
-static int pyVariableEventData_setName(pyVariableEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyAnyStr_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "name should be a string");
-        return -1;
-    }
-    self->fThis->setName(PyStr_To_PlStr(value));
-    return 0;
-}
-
-static int pyVariableEventData_setDataType(pyVariableEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "dataType should be an int");
-        return -1;
-    }
-    self->fThis->setDataType(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyVariableEventData_setNumber(pyVariableEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "number should be a float");
-        return -1;
-    }
-    self->fThis->setNumber(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyVariableEventData_setKey(pyVariableEventData* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setKey(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setKey(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "key should be a plKey");
-        return -1;
-    }
-}
+PY_PROPERTY(plString, VariableEventData, name, getName, setName)
+PY_PROPERTY(int, VariableEventData, dataType, getDataType, setDataType)
+PY_PROPERTY(float, VariableEventData, number, getNumber, setNumber)
+PY_PROPERTY(plKey, VariableEventData, key, getKey, setKey)
 
 static PyGetSetDef pyVariableEventData_GetSet[] = {
-    { _pycs("name"), (getter)pyVariableEventData_getName,
-        (setter)pyVariableEventData_setName, NULL, NULL },
-    { _pycs("dataType"), (getter)pyVariableEventData_getDataType,
-        (setter)pyVariableEventData_setDataType, NULL, NULL },
-    { _pycs("number"), (getter)pyVariableEventData_getNumber,
-        (setter)pyVariableEventData_setNumber, NULL, NULL },
-    { _pycs("key"), (getter)pyVariableEventData_getKey,
-        (setter)pyVariableEventData_setKey, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyVariableEventData_name_getset,
+    pyVariableEventData_dataType_getset,
+    pyVariableEventData_number_getset,
+    pyVariableEventData_key_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyVariableEventData_Type = {

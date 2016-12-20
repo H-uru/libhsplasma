@@ -31,83 +31,19 @@ static PyObject* pyEventCallbackMsg_new(PyTypeObject* type, PyObject* args, PyOb
     return (PyObject*)self;
 }
 
-static PyObject* pyEventCallbackMsg_getEventTime(pyEventCallbackMsg* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getEventTime());
-}
-
-static PyObject* pyEventCallbackMsg_getEvent(pyEventCallbackMsg* self, void*) {
-    return PyInt_FromLong(self->fThis->getEvent());
-}
-
-static PyObject* pyEventCallbackMsg_getIndex(pyEventCallbackMsg* self, void*) {
-    return PyInt_FromLong(self->fThis->getIndex());
-}
-
-static PyObject* pyEventCallbackMsg_getRepeats(pyEventCallbackMsg* self, void*) {
-    return PyInt_FromLong(self->fThis->getRepeats());
-}
-
-static PyObject* pyEventCallbackMsg_getUser(pyEventCallbackMsg* self, void*) {
-    return PyInt_FromLong(self->fThis->getUser());
-}
-
-static int pyEventCallbackMsg_setEventTime(pyEventCallbackMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "eventTime should be a float");
-        return -1;
-    }
-    self->fThis->setEventTime(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyEventCallbackMsg_setEvent(pyEventCallbackMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "event should be an int");
-        return -1;
-    }
-    self->fThis->setEvent((CallbackEvent)PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyEventCallbackMsg_setIndex(pyEventCallbackMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "index should be an int");
-        return -1;
-    }
-    self->fThis->setIndex(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyEventCallbackMsg_setRepeats(pyEventCallbackMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "repeats should be an int");
-        return -1;
-    }
-    self->fThis->setRepeats(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyEventCallbackMsg_setUser(pyEventCallbackMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "user should be an int");
-        return -1;
-    }
-    self->fThis->setUser(PyInt_AsLong(value));
-    return 0;
-}
+PY_PROPERTY(float, EventCallbackMsg, eventTime, getEventTime, setEventTime)
+PY_PROPERTY(CallbackEvent, EventCallbackMsg, event, getEvent, setEvent)
+PY_PROPERTY(short, EventCallbackMsg, index, getIndex, setIndex)
+PY_PROPERTY(short, EventCallbackMsg, repeats, getRepeats, setRepeats)
+PY_PROPERTY(short, EventCallbackMsg, user, getUser, setUser)
 
 static PyGetSetDef pyEventCallbackMsg_GetSet[] = {
-    { _pycs("eventTime"), (getter)pyEventCallbackMsg_getEventTime,
-        (setter)pyEventCallbackMsg_setEventTime, NULL, NULL },
-    { _pycs("event"), (getter)pyEventCallbackMsg_getEvent,
-        (setter)pyEventCallbackMsg_setEvent, NULL, NULL },
-    { _pycs("index"), (getter)pyEventCallbackMsg_getIndex,
-        (setter)pyEventCallbackMsg_setIndex, NULL, NULL },
-    { _pycs("repeats"), (getter)pyEventCallbackMsg_getRepeats,
-        (setter)pyEventCallbackMsg_setRepeats, NULL, NULL },
-    { _pycs("user"), (getter)pyEventCallbackMsg_getUser,
-        (setter)pyEventCallbackMsg_setUser, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyEventCallbackMsg_eventTime_getset,
+    pyEventCallbackMsg_event_getset,
+    pyEventCallbackMsg_index_getset,
+    pyEventCallbackMsg_repeats_getset,
+    pyEventCallbackMsg_user_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyEventCallbackMsg_Type = {

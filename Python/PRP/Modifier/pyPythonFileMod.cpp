@@ -74,10 +74,6 @@ static PyObject* pyPythonFileMod_addParameter(pyPythonFileMod* self, PyObject* a
     return Py_None;
 }
 
-static PyObject* pyPythonFileMod_getFilename(pyPythonFileMod* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getFilename());
-}
-
 static PyObject* pyPythonFileMod_getReceivers(pyPythonFileMod* self, void*) {
     PyObject* list = PyList_New(self->fThis->getReceivers().size());
     for (size_t i=0; i<self->fThis->getReceivers().size(); i++)
@@ -90,19 +86,6 @@ static PyObject* pyPythonFileMod_getParameters(pyPythonFileMod* self, void*) {
     for (size_t i=0; i<self->fThis->getParameters().size(); i++)
         PyList_SET_ITEM(list, i, pyPythonParameter_FromPythonParameter(self->fThis->getParameters()[i]));
     return list;
-}
-
-static int pyPythonFileMod_setFilename(pyPythonFileMod* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setFilename("");
-        return 0;
-    }
-    if (!PyAnyStr_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "filename should be a string");
-        return -1;
-    }
-    self->fThis->setFilename(PyStr_To_PlStr(value));
-    return 0;
 }
 
 static int pyPythonFileMod_setReceivers(pyPythonFileMod* self, PyObject* value, void*) {
@@ -129,14 +112,15 @@ static PyMethodDef pyPythonFileMod_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(plString, PythonFileMod, filename, getFilename, setFilename)
+
 static PyGetSetDef pyPythonFileMod_GetSet[] = {
-    { _pycs("filename"), (getter)pyPythonFileMod_getFilename,
-        (setter)pyPythonFileMod_setFilename, NULL, NULL },
+    pyPythonFileMod_filename_getset,
     { _pycs("receivers"), (getter)pyPythonFileMod_getReceivers,
         (setter)pyPythonFileMod_setReceivers, NULL, NULL },
     { _pycs("parameters"), (getter)pyPythonFileMod_getParameters,
         (setter)pyPythonFileMod_setParameters, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyPythonFileMod_Type = {

@@ -27,58 +27,16 @@ static PyObject* pyAGApplicator_new(PyTypeObject* type, PyObject* args, PyObject
     return NULL;
 }
 
-static PyObject* pyAGApplicator_getChannel(pyAGApplicator* self, void*) {
-    return ICreate(self->fThis->getChannel());
-}
-
-static PyObject* pyAGApplicator_getEnabled(pyAGApplicator* self, void*) {
-    return PyBool_FromLong(self->fThis->isEnabled() ? 1 : 0);
-}
-
-static PyObject* pyAGApplicator_getChannelName(pyAGApplicator* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getChannelName());
-}
-
-static int pyAGApplicator_setChannel(pyAGApplicator* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setChannel(NULL);
-        return 0;
-    }
-    if (!pyAGChannel_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "channel should be a plAGChannel");
-        return -1;
-    }
-    self->fThis->setChannel(((pyAGChannel*)value)->fThis);
-    ((pyAGChannel*)value)->fPyOwned = false;
-    return 0;
-}
-
-static int pyAGApplicator_setEnabled(pyAGApplicator* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "enabled should be a bool");
-        return -1;
-    }
-    self->fThis->setEnabled(PyInt_AsLong(value) != 0);
-    return 0;
-}
-
-static int pyAGApplicator_setChannelName(pyAGApplicator* self, PyObject* value, void*) {
-    if (value == NULL || !PyAnyStr_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "channelName should be a string");
-        return -1;
-    }
-    self->fThis->setChannelName(PyStr_To_PlStr(value));
-    return 0;
-}
+PY_PROPERTY_CREATABLE(plAGChannel, AGChannel, AGApplicator, channel,
+                      getChannel, setChannel)
+PY_PROPERTY(bool, AGApplicator, enabled, isEnabled, setEnabled)
+PY_PROPERTY(plString, AGApplicator, channelName, getChannelName, setChannelName)
 
 static PyGetSetDef pyAGApplicator_GetSet[] = {
-    { _pycs("channel"), (getter)pyAGApplicator_getChannel,
-        (setter)pyAGApplicator_setChannel, NULL, NULL },
-    { _pycs("enabled"), (getter)pyAGApplicator_getEnabled,
-        (setter)pyAGApplicator_setEnabled, NULL, NULL },
-    { _pycs("channelName"), (getter)pyAGApplicator_getChannelName,
-        (setter)pyAGApplicator_setChannelName, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyAGApplicator_channel_getset,
+    pyAGApplicator_enabled_getset,
+    pyAGApplicator_channelName_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyAGApplicator_Type = {

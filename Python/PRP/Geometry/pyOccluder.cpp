@@ -97,18 +97,6 @@ static PyObject* pyOccluder_delVisRegion(pyOccluder* self, PyObject* args) {
     return Py_None;
 }
 
-static PyObject* pyOccluder_getPriority(pyOccluder* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getPriority());
-}
-
-static PyObject* pyOccluder_getBounds(pyOccluder* self, void*) {
-    return ICreateBounds(self->fThis->getWorldBounds());
-}
-
-static PyObject* pyOccluder_getNode(pyOccluder* self, void*) {
-    return pyKey_FromKey(self->fThis->getSceneNode());
-}
-
 static PyObject* pyOccluder_getPolys(pyOccluder* self, void*) {
     PyObject* list = PyList_New(self->fThis->getPolys().size());
     for (size_t i=0; i<self->fThis->getPolys().size(); i++)
@@ -121,41 +109,6 @@ static PyObject* pyOccluder_getVisRegions(pyOccluder* self, void*) {
     for (size_t i=0; i<self->fThis->getVisRegions().size(); i++)
         PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getVisRegions()[i]));
     return list;
-}
-
-static int pyOccluder_setPriority(pyOccluder* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "priority should be a float");
-        return -1;
-    }
-    self->fThis->setPriority(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyOccluder_setBounds(pyOccluder* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setWorldBounds(hsBounds3Ext());
-        return 0;
-    }
-    if (!pyBounds3Ext_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "worldBounds should be an hsBounds3Ext");
-        return -1;
-    }
-    self->fThis->setWorldBounds(*((pyBounds3Ext*)value)->fThis);
-    return 0;
-}
-
-static int pyOccluder_setNode(pyOccluder* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setSceneNode(plKey());
-        return 0;
-    }
-    if (!pyKey_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "sceneNode should be a plKey");
-        return -1;
-    }
-    self->fThis->setSceneNode(*((pyKey*)value)->fThis);
-    return 0;
 }
 
 static int pyOccluder_setPolys(pyOccluder* self, PyObject* value, void*) {
@@ -188,18 +141,19 @@ static PyMethodDef pyOccluder_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(float, Occluder, priority, getPriority, setPriority)
+PY_PROPERTY_BOUNDS(Bounds3Ext, Occluder, worldBounds, getWorldBounds, setWorldBounds)
+PY_PROPERTY(plKey, Occluder, sceneNode, getSceneNode, setSceneNode)
+
 static PyGetSetDef pyOccluder_GetSet[] = {
-    { _pycs("priority"), (getter)pyOccluder_getPriority,
-        (setter)pyOccluder_setPriority, NULL, NULL },
-    { _pycs("worldBounds"), (getter)pyOccluder_getBounds,
-        (setter)pyOccluder_setBounds, NULL, NULL },
-    { _pycs("sceneNode"), (getter)pyOccluder_getNode,
-        (setter)pyOccluder_setNode, NULL, NULL },
+    pyOccluder_priority_getset,
+    pyOccluder_worldBounds_getset,
+    pyOccluder_sceneNode_getset,
     { _pycs("polys"), (getter)pyOccluder_getPolys,
         (setter)pyOccluder_setPolys, NULL, NULL },
     { _pycs("visRegions"), (getter)pyOccluder_getVisRegions,
         (setter)pyOccluder_setVisRegions, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyOccluder_Type = {

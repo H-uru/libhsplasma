@@ -90,40 +90,9 @@ static PyObject* pyLogicModBase_getCommands(pyLogicModBase* self, void*) {
     return list;
 }
 
-static PyObject* pyLogicModBase_getNotify(pyLogicModBase* self, void*) {
-    return ICreate(self->fThis->getNotify());
-}
-
-static PyObject* pyLogicModBase_getDisabled(pyLogicModBase* self, void*) {
-    return PyBool_FromLong(self->fThis->isDisabled() ? 1 : 0);
-}
-
 static int pyLogicModBase_setCommands(pyLogicModBase* self, PyObject* value, void*) {
     PyErr_SetString(PyExc_RuntimeError, "to add commands, use addCommand");
     return -1;
-}
-
-static int pyLogicModBase_setNotify(pyLogicModBase* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setNotify(NULL);
-        return 0;
-    } else if (pyNotifyMsg_Check(value)) {
-        self->fThis->setNotify(((pyNotifyMsg*)value)->fThis);
-        ((pyNotifyMsg*)value)->fPyOwned = false;
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "notify should be a plNotifyMsg");
-        return -1;
-    }
-}
-
-static int pyLogicModBase_setDisabled(pyLogicModBase* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "disabled should be a bool");
-        return -1;
-    }
-    self->fThis->setDisabled(PyInt_AsLong(value) != 0);
-    return 0;
 }
 
 static PyMethodDef pyLogicModBase_Methods[] = {
@@ -144,14 +113,16 @@ static PyMethodDef pyLogicModBase_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY_CREATABLE(plNotifyMsg, NotifyMsg, LogicModBase, notify,
+                      getNotify, setNotify)
+PY_PROPERTY(bool, LogicModBase, disabled, isDisabled, setDisabled)
+
 static PyGetSetDef pyLogicModBase_GetSet[] = {
     { _pycs("commands"), (getter)pyLogicModBase_getCommands,
         (setter)pyLogicModBase_setCommands, NULL, NULL },
-    { _pycs("notify"), (getter)pyLogicModBase_getNotify,
-        (setter)pyLogicModBase_setNotify, NULL, NULL },
-    { _pycs("disabled"), (getter)pyLogicModBase_getDisabled,
-        (setter)pyLogicModBase_setDisabled, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyLogicModBase_notify_getset,
+    pyLogicModBase_disabled_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyLogicModBase_Type = {

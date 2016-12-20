@@ -168,75 +168,6 @@ static PyObject* pyLocation_unparse(pyLocation* self) {
     return PyInt_FromLong(self->fThis->unparse());
 }
 
-static PyObject* pyLocation_getVer(pyLocation* self, void*) {
-    return PyInt_FromLong(self->fThis->getVer());
-}
-
-static PyObject* pyLocation_getPrefix(pyLocation* self, void*) {
-    return PyInt_FromLong(self->fThis->getSeqPrefix());
-}
-
-static PyObject* pyLocation_getPage(pyLocation* self, void*) {
-    return PyInt_FromLong(self->fThis->getPageNum());
-}
-
-static PyObject* pyLocation_getFlags(pyLocation* self, void*) {
-    return PyInt_FromLong(self->fThis->getFlags());
-}
-
-
-static int pyLocation_setVer(pyLocation* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setVer(PlasmaVer::pvUnknown);
-    } else {
-        if (!PyInt_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "version must be an int");
-            return -1;
-        }
-        self->fThis->setVer((PlasmaVer)PyInt_AsLong(value));
-    }
-    return 0;
-}
-
-static int pyLocation_setPrefix(pyLocation* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setSeqPrefix(-1);
-    } else {
-        if (!PyInt_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "prefix must be an int");
-            return -1;
-        }
-        self->fThis->setSeqPrefix(PyInt_AsLong(value));
-    }
-    return 0;
-}
-
-static int pyLocation_setPage(pyLocation* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setPageNum(-1);
-    } else {
-        if (!PyInt_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "page must be an int");
-            return -1;
-        }
-        self->fThis->setPageNum(PyInt_AsLong(value));
-    }
-    return 0;
-}
-
-static int pyLocation_setFlags(pyLocation* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setFlags(-1);
-    } else {
-        if (!PyInt_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "flags must be an int");
-            return -1;
-        }
-        self->fThis->setFlags(PyInt_AsLong(value));
-    }
-    return 0;
-}
-
 static PyMethodDef pyLocation_Methods[] = {
     { "read", (PyCFunction)pyLocation_read, METH_VARARGS,
       "Params: stream\n"
@@ -266,16 +197,17 @@ static PyMethodDef pyLocation_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(int, Location, version, getVer, setVer)
+PY_PROPERTY(int, Location, prefix, getSeqPrefix, setSeqPrefix)
+PY_PROPERTY(int, Location, page, getPageNum, setPageNum)
+PY_PROPERTY(unsigned short, Location, flags, getFlags, setFlags)
+
 static PyGetSetDef pyLocation_GetSet[] = {
-    { _pycs("version"), (getter)pyLocation_getVer, (setter)pyLocation_setVer,
-        _pycs("The Plasma Version (for file parsing)"), NULL },
-    { _pycs("prefix"), (getter)pyLocation_getPrefix, (setter)pyLocation_setPrefix,
-        _pycs("The Sequence Prefix of the age"), NULL },
-    { _pycs("page"), (getter)pyLocation_getPage, (setter)pyLocation_setPage,
-        _pycs("The Page Number of the page"), NULL },
-    { _pycs("flags"), (getter)pyLocation_getFlags, (setter)pyLocation_setFlags,
-        _pycs("The Location flags"), NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyLocation_version_getset,
+    pyLocation_prefix_getset,
+    pyLocation_page_getset,
+    pyLocation_flags_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyLocation_Type = {

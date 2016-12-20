@@ -31,23 +31,11 @@ static PyObject* pyLayerMovie_new(PyTypeObject* type, PyObject* args, PyObject* 
     return (PyObject*)self;
 }
 
-static PyObject* pyLayerMovie_getMovieName(pyLayerMovie* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getMovieName());
-}
-
-static int pyLayerMovie_setMovieName(pyLayerMovie* self, PyObject* value, void*) {
-    if (value == NULL || !PyAnyStr_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "movieName should be a string");
-        return -1;
-    }
-    self->fThis->setMovieName(PyStr_To_PlStr(value));
-    return 0;
-}
+PY_PROPERTY(plString, LayerMovie, movieName, getMovieName, setMovieName)
 
 static PyGetSetDef pyLayerMovie_GetSet[] = {
-    { _pycs("movieName"), (getter)pyLayerMovie_getMovieName,
-        (setter)pyLayerMovie_setMovieName, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyLayerMovie_movieName_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyLayerMovie_Type = {

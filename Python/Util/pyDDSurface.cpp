@@ -116,393 +116,6 @@ static PyObject* pyDDSurface_calcTotalSize(pyDDSurface* self) {
     return PyInt_FromLong((long)totSize);
 }
 
-static PyObject* pyDDSurface_getFlags(pyDDSurface* self, void*) {
-    return PyInt_FromLong(self->fThis->fFlags);
-}
-
-static PyObject* pyDDSurface_getHeight(pyDDSurface* self, void*) {
-    return PyInt_FromLong(self->fThis->fHeight);
-}
-
-static PyObject* pyDDSurface_getWidth(pyDDSurface* self, void*) {
-    return PyInt_FromLong(self->fThis->fWidth);
-}
-
-static PyObject* pyDDSurface_getPitch(pyDDSurface* self, void*) {
-    return PyInt_FromLong(self->fThis->fPitch);
-}
-
-static PyObject* pyDDSurface_getDepth(pyDDSurface* self, void*) {
-    return PyInt_FromLong(self->fThis->fDepth);
-}
-
-static PyObject* pyDDSurface_getMipCount(pyDDSurface* self, void*) {
-    return PyInt_FromLong(self->fThis->fMipmapCount);
-}
-
-static PyObject* pyDDSurface_getAlphaDepth(pyDDSurface* self, void*) {
-    return PyInt_FromLong(self->fThis->fAlphaDepth);
-}
-
-static PyObject* pyDDSurface_getCKDestOverlay(pyDDSurface* self, void*) {
-    return Py_BuildValue("ii", self->fThis->fCKDestOverlay.fColorSpaceLow,
-                               self->fThis->fCKDestOverlay.fColorSpaceHigh);
-}
-
-static PyObject* pyDDSurface_getCKDestBlt(pyDDSurface* self, void*) {
-    return Py_BuildValue("ii", self->fThis->fCKDestBlt.fColorSpaceLow,
-                               self->fThis->fCKDestBlt.fColorSpaceHigh);
-}
-
-static PyObject* pyDDSurface_getCKSrcOverlay(pyDDSurface* self, void*) {
-    return Py_BuildValue("ii", self->fThis->fCKSrcOverlay.fColorSpaceLow,
-                               self->fThis->fCKSrcOverlay.fColorSpaceHigh);
-}
-
-static PyObject* pyDDSurface_getCKSrcBlt(pyDDSurface* self, void*) {
-    return Py_BuildValue("ii", self->fThis->fCKSrcBlt.fColorSpaceLow,
-                               self->fThis->fCKSrcBlt.fColorSpaceHigh);
-}
-
-static PyObject* pyDDSurface_getFVF(pyDDSurface* self, void*) {
-    return PyInt_FromLong(self->fThis->fFVF);
-}
-
-static PyObject* pyDDSurface_getCaps(pyDDSurface* self, void*) {
-    return PyInt_FromLong(self->fThis->fCaps);
-}
-
-static PyObject* pyDDSurface_getCaps2(pyDDSurface* self, void*) {
-    return PyInt_FromLong(self->fThis->fCaps2);
-}
-
-static PyObject* pyDDSurface_getCaps3(pyDDSurface* self, void*) {
-    return PyInt_FromLong(self->fThis->fCaps3);
-}
-
-static PyObject* pyDDSurface_getCaps4(pyDDSurface* self, void*) {
-    return PyInt_FromLong(self->fThis->fCaps4);
-}
-
-static PyObject* pyDDSurface_getTextureStage(pyDDSurface* self, void*) {
-    return PyInt_FromLong(self->fThis->fTextureStage);
-}
-
-static PyObject* pyDDSurface_getPF_Flags(pyDDSurface* self, void*) {
-    return PyInt_FromLong(self->fThis->fPixelFormat.fFlags);
-}
-
-static PyObject* pyDDSurface_getPF_FourCC(pyDDSurface* self, void*) {
-    return PyInt_FromLong(self->fThis->fPixelFormat.fFourCC);
-}
-
-static PyObject* pyDDSurface_getPF_BitDepth(pyDDSurface* self, void*) {
-    return PyInt_FromLong(self->fThis->fPixelFormat.fBitDepth);
-}
-
-static PyObject* pyDDSurface_getPF_RBitMask(pyDDSurface* self, void*) {
-    return PyInt_FromLong(self->fThis->fPixelFormat.fRBitMask);
-}
-
-static PyObject* pyDDSurface_getPF_GBitMask(pyDDSurface* self, void*) {
-    return PyInt_FromLong(self->fThis->fPixelFormat.fGBitMask);
-}
-
-static PyObject* pyDDSurface_getPF_MSCaps(pyDDSurface* self, void*) {
-    return Py_BuildValue("ii", self->fThis->fPixelFormat.fMultiSampleCaps.fFlipMSTypes,
-                               self->fThis->fPixelFormat.fMultiSampleCaps.fBltMSTypes);
-}
-
-static PyObject* pyDDSurface_getPF_BBitMask(pyDDSurface* self, void*) {
-    return PyInt_FromLong(self->fThis->fPixelFormat.fBBitMask);
-}
-
-static PyObject* pyDDSurface_getPF_ABitMask(pyDDSurface* self, void*) {
-    return PyInt_FromLong(self->fThis->fPixelFormat.fAlphaBitMask);
-}
-
-static PyObject* pyDDSurface_getData(pyDDSurface* self, void*) {
-    PyObject* data = PyBytes_FromStringAndSize((const char*)self->fThis->getData(),
-                                               self->fThis->getDataSize());
-    return data;
-}
-
-static int pyDDSurface_setFlags(pyDDSurface* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "flags must be an int");
-        return -1;
-    }
-    self->fThis->fFlags = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyDDSurface_setHeight(pyDDSurface* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "height must be an int");
-        return -1;
-    }
-    self->fThis->fHeight = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyDDSurface_setWidth(pyDDSurface* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "width must be an int");
-        return -1;
-    }
-    self->fThis->fWidth = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyDDSurface_setPitch(pyDDSurface* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "value must be an int");
-        return -1;
-    }
-    self->fThis->fWidth = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyDDSurface_setDepth(pyDDSurface* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "value must be an int");
-        return -1;
-    }
-    self->fThis->fDepth = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyDDSurface_setMipCount(pyDDSurface* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "value must be an int");
-        return -1;
-    }
-    self->fThis->fMipmapCount = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyDDSurface_setAlphaDepth(pyDDSurface* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "alphaDepth must be an int");
-        return -1;
-    }
-    self->fThis->fAlphaDepth = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyDDSurface_setCKDestOverlay(pyDDSurface* self, PyObject* value, void*) {
-    if (value == NULL || !PyTuple_Check(value) || PyTuple_GET_SIZE(value) != 2) {
-        PyErr_SetString(PyExc_TypeError, "ckDestOverlay should be a tuple (int, int)");
-        return -1;
-    }
-    PyObject* low = PyTuple_GET_ITEM(value, 0);
-    PyObject* hi = PyTuple_GET_ITEM(value, 1);
-    if (!PyInt_Check(low) || !PyInt_Check(hi)) {
-        PyErr_SetString(PyExc_TypeError, "ckDestOverlay should be a tuple (int, int)");
-        return -1;
-    }
-    self->fThis->fCKDestOverlay.fColorSpaceLow = PyInt_AsLong(low);
-    self->fThis->fCKDestOverlay.fColorSpaceHigh = PyInt_AsLong(hi);
-    return 0;
-}
-
-static int pyDDSurface_setCKDestBlt(pyDDSurface* self, PyObject* value, void*) {
-    if (value == NULL || !PyTuple_Check(value) || PyTuple_GET_SIZE(value) != 2) {
-        PyErr_SetString(PyExc_TypeError, "ckDestBlt should be a tuple (int, int)");
-        return -1;
-    }
-    PyObject* low = PyTuple_GET_ITEM(value, 0);
-    PyObject* hi = PyTuple_GET_ITEM(value, 1);
-    if (!PyInt_Check(low) || !PyInt_Check(hi)) {
-        PyErr_SetString(PyExc_TypeError, "ckDestBlt should be a tuple (int, int)");
-        return -1;
-    }
-    self->fThis->fCKDestBlt.fColorSpaceLow = PyInt_AsLong(low);
-    self->fThis->fCKDestBlt.fColorSpaceHigh = PyInt_AsLong(hi);
-    return 0;
-}
-
-static int pyDDSurface_setCKSrcOverlay(pyDDSurface* self, PyObject* value, void*) {
-    if (value == NULL || !PyTuple_Check(value) || PyTuple_GET_SIZE(value) != 2) {
-        PyErr_SetString(PyExc_TypeError, "ckSrcOverlay should be a tuple (int, int)");
-        return -1;
-    }
-    PyObject* low = PyTuple_GET_ITEM(value, 0);
-    PyObject* hi = PyTuple_GET_ITEM(value, 1);
-    if (!PyInt_Check(low) || !PyInt_Check(hi)) {
-        PyErr_SetString(PyExc_TypeError, "ckSrcOverlay should be a tuple (int, int)");
-        return -1;
-    }
-    self->fThis->fCKSrcOverlay.fColorSpaceLow = PyInt_AsLong(low);
-    self->fThis->fCKSrcOverlay.fColorSpaceHigh = PyInt_AsLong(hi);
-    return 0;
-}
-
-static int pyDDSurface_setCKSrcBlt(pyDDSurface* self, PyObject* value, void*) {
-    if (value == NULL || !PyTuple_Check(value) || PyTuple_GET_SIZE(value) != 2) {
-        PyErr_SetString(PyExc_TypeError, "ckSrcBlt should be a tuple (int, int)");
-        return -1;
-    }
-    PyObject* low = PyTuple_GET_ITEM(value, 0);
-    PyObject* hi = PyTuple_GET_ITEM(value, 1);
-    if (!PyInt_Check(low) || !PyInt_Check(hi)) {
-        PyErr_SetString(PyExc_TypeError, "ckSrcBlt should be a tuple (int, int)");
-        return -1;
-    }
-    self->fThis->fCKSrcBlt.fColorSpaceLow = PyInt_AsLong(low);
-    self->fThis->fCKSrcBlt.fColorSpaceHigh = PyInt_AsLong(hi);
-    return 0;
-}
-
-static int pyDDSurface_setFVF(pyDDSurface* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "fvf must be an int");
-        return -1;
-    }
-    self->fThis->fFVF = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyDDSurface_setCaps(pyDDSurface* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "caps must be an int");
-        return -1;
-    }
-    self->fThis->fCaps = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyDDSurface_setCaps2(pyDDSurface* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "caps2 must be an int");
-        return -1;
-    }
-    self->fThis->fCaps2 = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyDDSurface_setCaps3(pyDDSurface* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "caps3 must be an int");
-        return -1;
-    }
-    self->fThis->fCaps3 = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyDDSurface_setCaps4(pyDDSurface* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "caps4 must be an int");
-        return -1;
-    }
-    self->fThis->fCaps4 = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyDDSurface_setTextureStage(pyDDSurface* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "textureStage must be an int");
-        return -1;
-    }
-    self->fThis->fTextureStage = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyDDSurface_setPF_Flags(pyDDSurface* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "pf_flags must be an int");
-        return -1;
-    }
-    self->fThis->fPixelFormat.fFlags = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyDDSurface_setPF_FourCC(pyDDSurface* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "pf_fourCC must be an int");
-        return -1;
-    }
-    self->fThis->fPixelFormat.fFourCC = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyDDSurface_setPF_BitDepth(pyDDSurface* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "value must be an int");
-        return -1;
-    }
-    self->fThis->fPixelFormat.fBitDepth = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyDDSurface_setPF_RBitMask(pyDDSurface* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "value must be an int");
-        return -1;
-    }
-    self->fThis->fPixelFormat.fRBitMask = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyDDSurface_setPF_GBitMask(pyDDSurface* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "value must be an int");
-        return -1;
-    }
-    self->fThis->fPixelFormat.fGBitMask = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyDDSurface_setPF_MSCaps(pyDDSurface* self, PyObject* value, void*) {
-    if (value == NULL || !PyTuple_Check(value) || PyTuple_GET_SIZE(value) != 2) {
-        PyErr_SetString(PyExc_TypeError, "pf_multisampleCaps should be a tuple (int, int)");
-        return -1;
-    }
-    PyObject* flip = PyTuple_GET_ITEM(value, 0);
-    PyObject* blt = PyTuple_GET_ITEM(value, 1);
-    if (!PyInt_Check(flip) || !PyInt_Check(blt)) {
-        PyErr_SetString(PyExc_TypeError, "pf_multisampleCaps should be a tuple (int, int)");
-        return -1;
-    }
-    self->fThis->fPixelFormat.fMultiSampleCaps.fFlipMSTypes = PyInt_AsLong(flip);
-    self->fThis->fPixelFormat.fMultiSampleCaps.fBltMSTypes = PyInt_AsLong(blt);
-    return 0;
-}
-
-static int pyDDSurface_setPF_BBitMask(pyDDSurface* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "value must be an int");
-        return -1;
-    }
-    self->fThis->fPixelFormat.fBBitMask = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyDDSurface_setPF_ABitMask(pyDDSurface* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "value must be an int");
-        return -1;
-    }
-    self->fThis->fPixelFormat.fAlphaBitMask = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyDDSurface_setData(pyDDSurface* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setData(0, NULL);
-    } else if (PyBytes_Check(value)) {
-        char* data;
-        Py_ssize_t size;
-        PyBytes_AsStringAndSize(value, &data, &size);
-        self->fThis->setData(size, (const unsigned char*)data);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "data must be a binary string");
-        return -1;
-    }
-    return 0;
-}
-
 static PyMethodDef pyDDSurface_Methods[] = {
     { "read", (PyCFunction)pyDDSurface_read, METH_VARARGS,
       "Params: stream\n"
@@ -525,96 +138,177 @@ static PyMethodDef pyDDSurface_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, flags, fFlags)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, height, fHeight)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, width, fWidth)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, pitch, fPitch)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, linearSize, fLinearSize)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, depth, fDepth)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, backBufferCount, fBackBufferCount)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, mipmapCount, fMipmapCount)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, zbufferBitDepth, fZBufferBitDepth)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, refreshRate, fRefreshRate)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, srcVBHandle, fSrcVBHandle)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, alphaDepth, fAlphaDepth)
+
+#define DDCK_PROPERTY(name, member)                                     \
+    PY_GETSET_GETTER_DECL(DDSurface, name) {                            \
+        return Py_BuildValue("ii", self->fThis->member.fColorSpaceLow,  \
+                                   self->fThis->member.fColorSpaceHigh); \
+    }                                                                   \
+    PY_GETSET_SETTER_DECL(DDSurface, name) {                            \
+        if (value == NULL) {                                            \
+            PyErr_SetString(PyExc_RuntimeError, #name " cannot be deleted"); \
+            return -1;                                                  \
+        }                                                               \
+        if (!PyTuple_Check(value) || PyTuple_GET_SIZE(value) != 2) {    \
+            PyErr_SetString(PyExc_TypeError, #name " should be a tuple (int, int)"); \
+            return -1;                                                  \
+        }                                                               \
+        PyObject* low = PyTuple_GET_ITEM(value, 0);                     \
+        PyObject* hi = PyTuple_GET_ITEM(value, 1);                      \
+        if (!pyPlasma_check<unsigned int>(low) || !pyPlasma_check<unsigned int>(hi)) { \
+            PyErr_SetString(PyExc_TypeError, #name " should be a tuple (int, int)"); \
+            return -1;                                                  \
+        }                                                               \
+        self->fThis->member.fColorSpaceLow = pyPlasma_get<unsigned int>(low); \
+        self->fThis->member.fColorSpaceHigh = pyPlasma_get<unsigned int>(hi); \
+        return 0;                                                       \
+    }                                                                   \
+    PY_PROPERTY_GETSET_DECL(DDSurface, name)
+
+DDCK_PROPERTY(ckDestOverlay, fCKDestOverlay)
+DDCK_PROPERTY(ckDestBlt, fCKDestBlt)
+DDCK_PROPERTY(ckSrcOverlay, fCKSrcOverlay)
+DDCK_PROPERTY(ckSrcBlt, fCKSrcBlt)
+
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, fvf, fFVF)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, caps, fCaps)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, caps2, fCaps2)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, caps3, fCaps3)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, caps4, fCaps4)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, textureStage, fTextureStage)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, pf_flags, fPixelFormat.fFlags)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, pf_fourCC, fPixelFormat.fFourCC)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, pf_bitDepth, fPixelFormat.fBitDepth)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, pf_bitCount, fPixelFormat.fBitCount)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, pf_RBitMask, fPixelFormat.fRBitMask)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, pf_YBitMask, fPixelFormat.fYBitMask)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, pf_stencilBitDepth, fPixelFormat.fStencilBitDepth)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, pf_luminanceBitMask, fPixelFormat.fLuminanceBitMask)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, pf_bumpDuBitMask, fPixelFormat.fBumpDuBitMask)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, pf_operations, fPixelFormat.fOperations)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, pf_GBitMask, fPixelFormat.fGBitMask)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, pf_UBitMask, fPixelFormat.fUBitMask)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, pf_ZBitMask, fPixelFormat.fZBitMask)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, pf_bumpDvBitMask, fPixelFormat.fBumpDvBitMask)
+
+PY_GETSET_GETTER_DECL(DDSurface, pf_multiSampleCaps) {
+    return Py_BuildValue("ii", self->fThis->fPixelFormat.fMultiSampleCaps.fFlipMSTypes,
+                               self->fThis->fPixelFormat.fMultiSampleCaps.fBltMSTypes);
+}
+
+PY_GETSET_SETTER_DECL(DDSurface, pf_multiSampleCaps) {
+    if (value == NULL) {
+        PyErr_SetString(PyExc_RuntimeError, "pf_multiSampleCaps cannot be deleted");
+        return -1;
+    }
+    if (!PyTuple_Check(value) || PyTuple_GET_SIZE(value) != 2) {
+        PyErr_SetString(PyExc_TypeError, "pf_multiSampleCaps should be a tuple (int, int)");
+        return -1;
+    }
+    PyObject* flip = PyTuple_GET_ITEM(value, 0);
+    PyObject* blt = PyTuple_GET_ITEM(value, 1);
+    if (!pyPlasma_check<unsigned short>(flip) || !pyPlasma_check<unsigned short>(blt)) {
+        PyErr_SetString(PyExc_TypeError, "pf_multiSampleCaps should be a tuple (int, int)");
+        return -1;
+    }
+    self->fThis->fPixelFormat.fMultiSampleCaps.fFlipMSTypes = pyPlasma_get<unsigned short>(flip);
+    self->fThis->fPixelFormat.fMultiSampleCaps.fBltMSTypes = pyPlasma_get<unsigned short>(blt);
+    return 0;
+}
+
+PY_PROPERTY_GETSET_DECL(DDSurface, pf_multiSampleCaps)
+
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, pf_BBitMask, fPixelFormat.fBBitMask)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, pf_VBitMask, fPixelFormat.fVBitMask)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, pf_stencilBitMask, fPixelFormat.fStencilBitMask)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, pf_bumpLuminanceBitMask, fPixelFormat.fBumpLuminanceBitMask)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, pf_alphaBitMask, fPixelFormat.fAlphaBitMask)
+PY_PROPERTY_MEMBER(unsigned int, DDSurface, pf_colorZBitMask, fPixelFormat.fColorZBitMask)
+
+PY_GETSET_GETTER_DECL(DDSurface, data) {
+    return PyBytes_FromStringAndSize((const char*)self->fThis->getData(),
+                                     self->fThis->getDataSize());
+}
+
+PY_GETSET_SETTER_DECL(DDSurface, data) {
+    if (value == NULL) {
+        PyErr_SetString(PyExc_RuntimeError, "data cannot be deleted");
+        return -1;
+    } else if (value == Py_None) {
+        self->fThis->setData(0, NULL);
+    } else if (PyBytes_Check(value)) {
+        char* data;
+        Py_ssize_t size;
+        PyBytes_AsStringAndSize(value, &data, &size);
+        self->fThis->setData(size, (const unsigned char*)data);
+        return 0;
+    } else {
+        PyErr_SetString(PyExc_TypeError, "data must be a binary string");
+        return -1;
+    }
+    return 0;
+}
+
+PY_PROPERTY_GETSET_DECL(DDSurface, data)
+
 static PyGetSetDef pyDDSurface_GetSet[] = {
-    { _pycs("flags"), (getter)pyDDSurface_getFlags,
-        (setter)pyDDSurface_setFlags, NULL, NULL },
-    { _pycs("height"), (getter)pyDDSurface_getHeight,
-        (setter)pyDDSurface_setHeight, NULL, NULL },
-    { _pycs("width"), (getter)pyDDSurface_getWidth, (setter)pyDDSurface_setWidth,
-        NULL, NULL },
-    { _pycs("pitch"), (getter)pyDDSurface_getPitch, (setter)pyDDSurface_setPitch,
-        NULL, NULL },
-    { _pycs("linearSize"), (getter)pyDDSurface_getPitch,
-        (setter)pyDDSurface_setPitch, NULL, NULL },
-    { _pycs("backBufferCount"), (getter)pyDDSurface_getDepth,
-        (setter)pyDDSurface_setDepth, NULL, NULL },
-    { _pycs("depth"), (getter)pyDDSurface_getDepth, (setter)pyDDSurface_setDepth,
-        NULL, NULL },
-    { _pycs("mipmapCount"), (getter)pyDDSurface_getMipCount,
-        (setter)pyDDSurface_setMipCount, NULL, NULL },
-    { _pycs("zbufferBitDepth"), (getter)pyDDSurface_getMipCount,
-        (setter)pyDDSurface_setMipCount, NULL, NULL },
-    { _pycs("refreshRate"), (getter)pyDDSurface_getMipCount,
-        (setter)pyDDSurface_setMipCount, NULL, NULL },
-    { _pycs("srcVBHandle"), (getter)pyDDSurface_getMipCount,
-        (setter)pyDDSurface_setMipCount, NULL, NULL },
-    { _pycs("alphaDepth"), (getter)pyDDSurface_getAlphaDepth,
-        (setter)pyDDSurface_setAlphaDepth, NULL, NULL },
-    { _pycs("ckDestOverlay"), (getter)pyDDSurface_getCKDestOverlay,
-        (setter)pyDDSurface_setCKDestOverlay, NULL, NULL },
-    { _pycs("ckDestBlt"), (getter)pyDDSurface_getCKDestBlt,
-        (setter)pyDDSurface_setCKDestBlt, NULL, NULL },
-    { _pycs("ckSrcOverlay"), (getter)pyDDSurface_getCKSrcOverlay,
-        (setter)pyDDSurface_setCKSrcOverlay, NULL, NULL },
-    { _pycs("ckSrcBlt"), (getter)pyDDSurface_getCKSrcBlt,
-        (setter)pyDDSurface_setCKSrcBlt, NULL, NULL },
-    { _pycs("fvf"), (getter)pyDDSurface_getFVF, (setter)pyDDSurface_setFVF,
-        NULL, NULL },
-    { _pycs("caps"), (getter)pyDDSurface_getCaps, (setter)pyDDSurface_setCaps,
-        NULL, NULL },
-    { _pycs("caps2"), (getter)pyDDSurface_getCaps2, (setter)pyDDSurface_setCaps2,
-        NULL, NULL },
-    { _pycs("caps3"), (getter)pyDDSurface_getCaps3, (setter)pyDDSurface_setCaps3,
-        NULL, NULL },
-    { _pycs("caps4"), (getter)pyDDSurface_getCaps4, (setter)pyDDSurface_setCaps4,
-        NULL, NULL },
-    { _pycs("textureStage"), (getter)pyDDSurface_getTextureStage,
-        (setter)pyDDSurface_setTextureStage, NULL, NULL },
-    { _pycs("pf_flags"), (getter)pyDDSurface_getPF_Flags,
-        (setter)pyDDSurface_setPF_Flags, NULL, NULL },
-    { _pycs("pf_fourCC"), (getter)pyDDSurface_getPF_FourCC,
-        (setter)pyDDSurface_setPF_FourCC, NULL, NULL },
-    { _pycs("pf_bitDepth"), (getter)pyDDSurface_getPF_BitDepth,
-        (setter)pyDDSurface_setPF_BitDepth, NULL, NULL },
-    { _pycs("pf_bitCount"), (getter)pyDDSurface_getPF_BitDepth,
-        (setter)pyDDSurface_setPF_BitDepth, NULL, NULL },
-    { _pycs("pf_RBitMask"), (getter)pyDDSurface_getPF_RBitMask,
-        (setter)pyDDSurface_setPF_RBitMask, NULL, NULL },
-    { _pycs("pf_YBitMask"), (getter)pyDDSurface_getPF_RBitMask,
-        (setter)pyDDSurface_setPF_RBitMask, NULL, NULL },
-    { _pycs("pf_stencilBitDepth"), (getter)pyDDSurface_getPF_RBitMask,
-        (setter)pyDDSurface_setPF_RBitMask, NULL, NULL },
-    { _pycs("pf_luminanceBitMask"), (getter)pyDDSurface_getPF_RBitMask,
-        (setter)pyDDSurface_setPF_RBitMask, NULL, NULL },
-    { _pycs("pf_bumpDu"), (getter)pyDDSurface_getPF_RBitMask,
-        (setter)pyDDSurface_setPF_RBitMask, NULL, NULL },
-    { _pycs("pf_operations"), (getter)pyDDSurface_getPF_RBitMask,
-        (setter)pyDDSurface_setPF_RBitMask, NULL, NULL },
-    { _pycs("pf_GBitMask"), (getter)pyDDSurface_getPF_GBitMask,
-        (setter)pyDDSurface_setPF_GBitMask, NULL, NULL },
-    { _pycs("pf_UBitMask"), (getter)pyDDSurface_getPF_GBitMask,
-        (setter)pyDDSurface_setPF_GBitMask, NULL, NULL },
-    { _pycs("pf_ZBitMask"), (getter)pyDDSurface_getPF_GBitMask,
-        (setter)pyDDSurface_setPF_GBitMask, NULL, NULL },
-    { _pycs("pf_bumpDvBitMask"), (getter)pyDDSurface_getPF_GBitMask,
-        (setter)pyDDSurface_setPF_GBitMask, NULL, NULL },
-    { _pycs("pf_multiSampleCaps"), (getter)pyDDSurface_getPF_MSCaps,
-        (setter)pyDDSurface_setPF_MSCaps, NULL, NULL },
-    { _pycs("pf_BBitMask"), (getter)pyDDSurface_getPF_BBitMask,
-        (setter)pyDDSurface_setPF_BBitMask, NULL, NULL },
-    { _pycs("pf_VBitMask"), (getter)pyDDSurface_getPF_BBitMask,
-        (setter)pyDDSurface_setPF_BBitMask, NULL, NULL },
-    { _pycs("pf_stencilBitMask"), (getter)pyDDSurface_getPF_BBitMask,
-        (setter)pyDDSurface_setPF_BBitMask, NULL, NULL },
-    { _pycs("pf_bumpLuminanceBitMask"), (getter)pyDDSurface_getPF_BBitMask,
-        (setter)pyDDSurface_setPF_BBitMask, NULL, NULL },
-    { _pycs("pf_alphaBitMask"), (getter)pyDDSurface_getPF_ABitMask,
-        (setter)pyDDSurface_setPF_ABitMask, NULL, NULL },
-    { _pycs("pf_colorZBitMask"), (getter)pyDDSurface_getPF_ABitMask,
-        (setter)pyDDSurface_setPF_ABitMask, NULL, NULL },
-    { _pycs("data"), (getter)pyDDSurface_getData, (setter)pyDDSurface_setData,
-        NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyDDSurface_flags_getset,
+    pyDDSurface_height_getset,
+    pyDDSurface_width_getset,
+    pyDDSurface_pitch_getset,
+    pyDDSurface_linearSize_getset,
+    pyDDSurface_backBufferCount_getset,
+    pyDDSurface_depth_getset,
+    pyDDSurface_mipmapCount_getset,
+    pyDDSurface_zbufferBitDepth_getset,
+    pyDDSurface_refreshRate_getset,
+    pyDDSurface_srcVBHandle_getset,
+    pyDDSurface_alphaDepth_getset,
+    pyDDSurface_ckDestOverlay_getset,
+    pyDDSurface_ckDestBlt_getset,
+    pyDDSurface_ckSrcOverlay_getset,
+    pyDDSurface_ckSrcBlt_getset,
+    pyDDSurface_fvf_getset,
+    pyDDSurface_caps_getset,
+    pyDDSurface_caps2_getset,
+    pyDDSurface_caps3_getset,
+    pyDDSurface_caps4_getset,
+    pyDDSurface_textureStage_getset,
+    pyDDSurface_pf_flags_getset,
+    pyDDSurface_pf_fourCC_getset,
+    pyDDSurface_pf_bitDepth_getset,
+    pyDDSurface_pf_bitCount_getset,
+    pyDDSurface_pf_RBitMask_getset,
+    pyDDSurface_pf_YBitMask_getset,
+    pyDDSurface_pf_stencilBitDepth_getset,
+    pyDDSurface_pf_luminanceBitMask_getset,
+    pyDDSurface_pf_bumpDuBitMask_getset,
+    pyDDSurface_pf_operations_getset,
+    pyDDSurface_pf_GBitMask_getset,
+    pyDDSurface_pf_UBitMask_getset,
+    pyDDSurface_pf_ZBitMask_getset,
+    pyDDSurface_pf_bumpDvBitMask_getset,
+    pyDDSurface_pf_multiSampleCaps_getset,
+    pyDDSurface_pf_BBitMask_getset,
+    pyDDSurface_pf_VBitMask_getset,
+    pyDDSurface_pf_stencilBitMask_getset,
+    pyDDSurface_pf_bumpLuminanceBitMask_getset,
+    pyDDSurface_pf_alphaBitMask_getset,
+    pyDDSurface_pf_colorZBitMask_getset,
+    pyDDSurface_data_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyDDSurface_Type = {

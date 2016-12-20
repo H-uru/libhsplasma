@@ -23,113 +23,23 @@ static PyObject* pyFadeParams_new(PyTypeObject* type, PyObject* args, PyObject* 
     return NULL;
 }
 
-static PyObject* pyFadeParams_getLengthInSecs(pyFadeParams* self, void*) {
-    return PyFloat_FromDouble(self->fThis->fLengthInSecs);
-}
-
-static PyObject* pyFadeParams_getVolStart(pyFadeParams* self, void*) {
-    return PyFloat_FromDouble(self->fThis->fVolStart);
-}
-
-static PyObject* pyFadeParams_getVolEnd(pyFadeParams* self, void*) {
-    return PyFloat_FromDouble(self->fThis->fVolEnd);
-}
-
-static PyObject* pyFadeParams_getType(pyFadeParams* self, void*) {
-    return PyInt_FromLong(self->fThis->fType);
-}
-
-static PyObject* pyFadeParams_getStopWhenDone(pyFadeParams* self, void*) {
-    return PyBool_FromLong(self->fThis->fStopWhenDone ? 1 : 0);
-}
-
-static PyObject* pyFadeParams_getFadeSoftVol(pyFadeParams* self, void*) {
-    return PyBool_FromLong(self->fThis->fFadeSoftVol ? 1 : 0);
-}
-
-static PyObject* pyFadeParams_getCurrTime(pyFadeParams* self, void*) {
-    return PyFloat_FromDouble(self->fThis->fCurrTime);
-}
-
-static int pyFadeParams_setLengthInSecs(pyFadeParams* self, PyObject* value, void*) {
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "lengthInSecs should be a float");
-        return -1;
-    }
-    self->fThis->fLengthInSecs = (float)PyFloat_AsDouble(value);
-    return 0;
-}
-
-static int pyFadeParams_setVolStart(pyFadeParams* self, PyObject* value, void*) {
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "volStart should be a float");
-        return -1;
-    }
-    self->fThis->fVolStart = (float)PyFloat_AsDouble(value);
-    return 0;
-}
-
-static int pyFadeParams_setVolEnd(pyFadeParams* self, PyObject* value, void*) {
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "volEnd should be a float");
-        return -1;
-    }
-    self->fThis->fVolEnd = (float)PyFloat_AsDouble(value);
-    return 0;
-}
-
-static int pyFadeParams_setType(pyFadeParams* self, PyObject* value, void*) {
-    if (!PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "type should be an int");
-        return -1;
-    }
-    self->fThis->fType = (unsigned char)PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyFadeParams_setStopWhenDone(pyFadeParams* self, PyObject* value, void*) {
-    if (!PyBool_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "stopWhenDone should be a boolean");
-        return -1;
-    }
-    self->fThis->fStopWhenDone = PyInt_AsLong(value) != 0;
-    return 0;
-}
-
-static int pyFadeParams_setFadeSoftVol(pyFadeParams* self, PyObject* value, void*) {
-    if (!PyBool_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "fadeSoftVol should be a boolean");
-        return -1;
-    }
-    self->fThis->fFadeSoftVol = PyInt_AsLong(value) != 0;
-    return 0;
-}
-
-static int pyFadeParams_setCurrTime(pyFadeParams* self, PyObject* value, void*) {
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "currTime should be a float");
-        return -1;
-    }
-    self->fThis->fCurrTime = (float)PyFloat_AsDouble(value);
-    return 0;
-}
+PY_PROPERTY_MEMBER(float, FadeParams, lengthInSecs, fLengthInSecs)
+PY_PROPERTY_MEMBER(float, FadeParams, volStart, fVolStart)
+PY_PROPERTY_MEMBER(float, FadeParams, volEnd, fVolEnd)
+PY_PROPERTY_MEMBER(unsigned char, FadeParams, type, fType)
+PY_PROPERTY_MEMBER(bool, FadeParams, stopWhenDone, fStopWhenDone)
+PY_PROPERTY_MEMBER(bool, FadeParams, fadeSoftVol, fFadeSoftVol)
+PY_PROPERTY_MEMBER(float, FadeParams, currTime, fCurrTime)
 
 static PyGetSetDef pyFadeParams_GetSet[] = {
-    { _pycs("lengthInSecs"), (getter)pyFadeParams_getLengthInSecs,
-      (setter)pyFadeParams_setLengthInSecs, NULL, NULL },
-    { _pycs("volStart"), (getter)pyFadeParams_getVolStart,
-      (setter)pyFadeParams_setVolStart, NULL, NULL },
-    { _pycs("volEnd"), (getter)pyFadeParams_getVolEnd,
-      (setter)pyFadeParams_setVolEnd, NULL, NULL },
-    { _pycs("type"), (getter)pyFadeParams_getType,
-      (setter)pyFadeParams_setType, NULL, NULL },
-    { _pycs("stopWhenDone"), (getter)pyFadeParams_getStopWhenDone,
-      (setter)pyFadeParams_setStopWhenDone, NULL, NULL },
-    { _pycs("fadeSoftVol"), (getter)pyFadeParams_getFadeSoftVol,
-      (setter)pyFadeParams_setFadeSoftVol, NULL, NULL },
-    { _pycs("currTime"), (getter)pyFadeParams_getCurrTime,
-      (setter)pyFadeParams_setCurrTime, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyFadeParams_lengthInSecs_getset,
+    pyFadeParams_volStart_getset,
+    pyFadeParams_volEnd_getset,
+    pyFadeParams_type_getset,
+    pyFadeParams_stopWhenDone_getset,
+    pyFadeParams_fadeSoftVol_getset,
+    pyFadeParams_currTime_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyFadeParams_Type = {

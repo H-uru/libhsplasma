@@ -27,19 +27,11 @@ static PyObject* pyPosController_new(PyTypeObject* type, PyObject* args, PyObjec
     return NULL;
 }
 
-static PyObject* pyPosController_getType(pyPosController* self, void*) {
-    return PyInt_FromLong(self->fThis->getType());
-}
-
-static int pyPosController_setType(pyPosController* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "type is read-only");
-    return -1;
-}
+PY_PROPERTY_RO(PosController, type, getType)
 
 static PyGetSetDef pyPosController_GetSet[] = {
-    { _pycs("type"), (getter)pyPosController_getType,
-        (setter)pyPosController_setType, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyPosController_type_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyPosController_Type = {

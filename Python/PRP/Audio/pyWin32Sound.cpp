@@ -27,23 +27,11 @@ static PyObject* pyWin32Sound_new(PyTypeObject* type, PyObject* args, PyObject* 
     return NULL;
 }
 
-static PyObject* pyWin32Sound_getChannel(pyWin32Sound* self, void*) {
-    return PyInt_FromLong(self->fThis->getChannel());
-}
-
-static int pyWin32Sound_setChannel(pyWin32Sound* self, PyObject* value, void*) {
-    if (!PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "channel should be an int");
-        return -1;
-    }
-    self->fThis->setChannel((unsigned char)PyInt_AsLong(value));
-    return 0;
-}
+PY_PROPERTY(unsigned char, Win32Sound, channel, getChannel, setChannel)
 
 static PyGetSetDef pyWin32Sound_GetSet[] = {
-    { _pycs("channel"), (getter)pyWin32Sound_getChannel,
-      (setter)pyWin32Sound_setChannel, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyWin32Sound_channel_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyWin32Sound_Type = {

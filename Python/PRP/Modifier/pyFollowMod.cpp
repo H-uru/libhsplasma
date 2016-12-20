@@ -31,53 +31,16 @@ static PyObject* pyFollowMod_new(PyTypeObject* type, PyObject* args, PyObject* k
     return (PyObject*) self;
 }
 
-static PyObject* pyFollowMod_getLeaderType(pyFollowMod* self, void*) {
-    return PyInt_FromLong(self->fThis->getLeaderType());
-}
-
-static PyObject* pyFollowMod_getMode(pyFollowMod* self, void*) {
-    return PyInt_FromLong(self->fThis->getMode());
-}
-
-static PyObject* pyFollowMod_getLeader(pyFollowMod* self, void*) {
-    return pyKey_FromKey(self->fThis->getLeader());
-}
-
-static int pyFollowMod_setLeaderType(pyFollowMod* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "leaderType should be an int");
-        return -1;
-    }
-    self->fThis->setLeaderType(static_cast<plFollowMod::FollowLeaderType>(PyInt_AsLong(value)));
-    return 0;
-}
-
-static int pyFollowMod_setMode(pyFollowMod* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "mode should be an int");
-        return -1;
-    }
-    self->fThis->setMode(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyFollowMod_setLeader(pyFollowMod* self, PyObject* value, void*) {
-    if (value == NULL || !pyKey_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "leader should be a plKey");
-        return -1;
-    }
-    self->fThis->setLeader(*((pyKey*) value)->fThis);
-    return 0;
-}
+PY_PROPERTY(plFollowMod::FollowLeaderType, FollowMod, leaderType, getLeaderType,
+            setLeaderType)
+PY_PROPERTY(uint8_t, FollowMod, mode, getMode, setMode)
+PY_PROPERTY(plKey, FollowMod, leader, getLeader, setLeader)
 
 static PyGetSetDef pyFollowMod_GetSet [] = {
-    { _pycs("leaderType"), (getter) pyFollowMod_getLeaderType,
-        (setter) pyFollowMod_setLeaderType, NULL, NULL },
-    { _pycs("mode"), (getter) pyFollowMod_getMode,
-        (setter) pyFollowMod_setMode, NULL, NULL },
-    { _pycs("leader"), (getter) pyFollowMod_getLeader,
-        (setter) pyFollowMod_setLeader, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyFollowMod_leaderType_getset,
+    pyFollowMod_mode_getset,
+    pyFollowMod_leader_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyFollowMod_Type = {

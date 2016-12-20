@@ -30,38 +30,13 @@ static PyObject* pyFacingConditionalObject_new(PyTypeObject* type, PyObject* arg
     return (PyObject*)self;
 }
 
-static PyObject* pyFacingConditionalObject_getTolerance(pyFacingConditionalObject* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getTolerance());
-}
-
-static PyObject* pyFacingConditionalObject_getDirectional(pyFacingConditionalObject* self, void*) {
-    return PyBool_FromLong(self->fThis->getDirectional() ? 1 : 0);
-}
-
-static int pyFacingConditionalObject_setTolerance(pyFacingConditionalObject* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "tolerance should be a float");
-        return -1;
-    }
-    self->fThis->setTolerance((float)PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyFacingConditionalObject_setDirectional(pyFacingConditionalObject* self, PyObject* value, void*) {
-    if (value == NULL || !PyBool_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "directional should be a boolean");
-        return -1;
-    }
-    self->fThis->setDirectional(PyInt_AsLong(value) != 0);
-    return 0;
-}
+PY_PROPERTY(float, FacingConditionalObject, tolerance, getTolerance, setTolerance)
+PY_PROPERTY(bool, FacingConditionalObject, directional, getDirectional, setDirectional)
 
 static PyGetSetDef pyFacingConditionalObject_GetSet[] = {
-    { _pycs("tolerance"), (getter)pyFacingConditionalObject_getTolerance,
-       (setter)pyFacingConditionalObject_setTolerance, NULL, NULL },
-    { _pycs("directional"), (getter)pyFacingConditionalObject_getDirectional,
-       (setter)pyFacingConditionalObject_setDirectional, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyFacingConditionalObject_tolerance_getset,
+    pyFacingConditionalObject_directional_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyFacingConditionalObject_Type = {

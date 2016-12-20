@@ -121,10 +121,6 @@ static PyObject* pySpan_addPermaProj(pySpan* self, PyObject* args) {
     return Py_None;
 }
 
-static PyObject* pySpan_getFog(pySpan* self, void*) {
-    return pyKey_FromKey(self->fThis->getFogEnvironment());
-}
-
 static PyObject* pySpan_getLights(pySpan* self, void*) {
     PyObject* list = PyList_New(self->fThis->getPermaLights().size());
     for (size_t i=0; i<self->fThis->getPermaLights().size(); i++)
@@ -139,213 +135,9 @@ static PyObject* pySpan_getProjs(pySpan* self, void*) {
     return list;
 }
 
-static PyObject* pySpan_getL2W(pySpan* self, void*) {
-    return pyMatrix44_FromMatrix44(self->fThis->getLocalToWorld());
-}
-
-static PyObject* pySpan_getW2L(pySpan* self, void*) {
-    return pyMatrix44_FromMatrix44(self->fThis->getWorldToLocal());
-}
-
-static PyObject* pySpan_getSubType(pySpan* self, void*) {
-    return PyInt_FromLong(self->fThis->getSubType());
-}
-
-static PyObject* pySpan_getMaterial(pySpan* self, void*) {
-    return PyInt_FromLong(self->fThis->getMaterialIdx());
-}
-
-static PyObject* pySpan_getNumMatrices(pySpan* self, void*) {
-    return PyInt_FromLong(self->fThis->getNumMatrices());
-}
-
-static PyObject* pySpan_getProps(pySpan* self, void*) {
-    return PyInt_FromLong(self->fThis->getProps());
-}
-
-static PyObject* pySpan_getBaseMatrix(pySpan* self, void*) {
-    return PyInt_FromLong(self->fThis->getBaseMatrix());
-}
-
-static PyObject* pySpan_getMaxBoneIdx(pySpan* self, void*) {
-    return PyInt_FromLong(self->fThis->getMaxBoneIdx());
-}
-
-static PyObject* pySpan_getPenBoneIdx(pySpan* self, void*) {
-    return PyInt_FromLong(self->fThis->getPenBoneIdx());
-}
-
-static PyObject* pySpan_getLocalUVWChans(pySpan* self, void*) {
-    return PyInt_FromLong(self->fThis->getLocalUVWChans());
-}
-
-static PyObject* pySpan_getMinDist(pySpan* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getMinDist());
-}
-
-static PyObject* pySpan_getMaxDist(pySpan* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getMaxDist());
-}
-
-static PyObject* pySpan_getWaterHeight(pySpan* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getWaterHeight());
-}
-
-static PyObject* pySpan_getLocalBounds(pySpan* self, void*) {
-    return ICreateBounds(self->fThis->getLocalBounds());
-}
-
-static PyObject* pySpan_getWorldBounds(pySpan* self, void*) {
-    return ICreateBounds(self->fThis->getWorldBounds());
-}
-
-static int pySpan_setFog(pySpan* self, PyObject* value, void*) {
-    if (value == NULL || !pyKey_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "fog should be a plKey");
-        return -1;
-    }
-    self->fThis->setFogEnvironment(*((pyKey*)value)->fThis);
-    return 0;
-}
-
 static int pySpan_setLights(pySpan* self, PyObject* value, void*) {
     PyErr_SetString(PyExc_RuntimeError, "To add Lights, use addPermaLight and addPermaProj");
     return -1;
-}
-
-static int pySpan_setL2W(pySpan* self, PyObject* value, void*) {
-    if (value == NULL || !pyMatrix44_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "localToWorld should be an hsMatrix44");
-        return -1;
-    }
-    self->fThis->setLocalToWorld(*((pyMatrix44*)value)->fThis);
-    return 0;
-}
-
-static int pySpan_setW2L(pySpan* self, PyObject* value, void*) {
-    if (value == NULL || !pyMatrix44_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "worldToLocal should be an hsMatrix44");
-        return -1;
-    }
-    self->fThis->setWorldToLocal(*((pyMatrix44*)value)->fThis);
-    return 0;
-}
-
-static int pySpan_setSubType(pySpan* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "subType should be an int");
-        return -1;
-    }
-    self->fThis->setSubType(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pySpan_setMaterial(pySpan* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "materialIdx should be an int");
-        return -1;
-    }
-    self->fThis->setMaterialIdx(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pySpan_setNumMatrices(pySpan* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "numMatrices should be an int");
-        return -1;
-    }
-    self->fThis->setNumMatrices(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pySpan_setProps(pySpan* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "props should be an int");
-        return -1;
-    }
-    self->fThis->setProps(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pySpan_setBaseMatrix(pySpan* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "baseMatrix should be an int");
-        return -1;
-    }
-    self->fThis->setBaseMatrix(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pySpan_setMaxBoneIdx(pySpan* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "maxBoneIdx should be an int");
-        return -1;
-    }
-    self->fThis->setMaxBoneIdx(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pySpan_setPenBoneIdx(pySpan* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "penBoneIdx should be an int");
-        return -1;
-    }
-    self->fThis->setPenBoneIdx(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pySpan_setLocalUVWChans(pySpan* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "localUVWChans should be an int");
-        return -1;
-    }
-    self->fThis->setLocalUVWChans(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pySpan_setMinDist(pySpan* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "minDist should be an int");
-        return -1;
-    }
-    self->fThis->setMinDist(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pySpan_setMaxDist(pySpan* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "maxDist should be an int");
-        return -1;
-    }
-    self->fThis->setMaxDist(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pySpan_setWaterHeight(pySpan* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "waterHeight should be an int");
-        return -1;
-    }
-    self->fThis->setWaterHeight(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pySpan_setLocalBounds(pySpan* self, PyObject* value, void*) {
-    if (value == NULL || !pyBounds3Ext_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "localBounds should be an hsBounds3Ext");
-        return -1;
-    }
-    self->fThis->setLocalBounds(*((pyBounds3Ext*)value)->fThis);
-    return 0;
-}
-
-static int pySpan_setWorldBounds(pySpan* self, PyObject* value, void*) {
-    if (value == NULL || !pyBounds3Ext_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "worldBounds should be an hsBounds3Ext");
-        return -1;
-    }
-    self->fThis->setWorldBounds(*((pyBounds3Ext*)value)->fThis);
-    return 0;
 }
 
 static PyMethodDef pySpan_Methods[] = {
@@ -370,43 +162,47 @@ static PyMethodDef pySpan_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(plKey, Span, fog, getFogEnvironment, setFogEnvironment) // Backwards compatibility
+PY_PROPERTY(plKey, Span, fogEnvironment, getFogEnvironment, setFogEnvironment)
+PY_PROPERTY(hsMatrix44, Span, localToWorld, getLocalToWorld, setLocalToWorld)
+PY_PROPERTY(hsMatrix44, Span, worldToLocal, getWorldToLocal, setLocalToWorld)
+PY_PROPERTY(unsigned short, Span, subType, getSubType, setSubType)
+PY_PROPERTY(unsigned int, Span, materialIdx, getMaterialIdx, setMaterialIdx)
+PY_PROPERTY(unsigned char, Span, numMatrices, getNumMatrices, setNumMatrices)
+PY_PROPERTY(unsigned int, Span, props, getProps, setProps)
+PY_PROPERTY(unsigned int, Span, baseMatrix, getBaseMatrix, setBaseMatrix)
+PY_PROPERTY(unsigned short, Span, maxBoneIdx, getMaxBoneIdx, setMaxBoneIdx)
+PY_PROPERTY(unsigned short, Span, penBoneIdx, getPenBoneIdx, setPenBoneIdx)
+PY_PROPERTY(unsigned short, Span, localUVWChans, getLocalUVWChans, setLocalUVWChans)
+PY_PROPERTY(float, Span, minDist, getMinDist, setMinDist)
+PY_PROPERTY(float, Span, maxDist, getMaxDist, setMaxDist)
+PY_PROPERTY(float, Span, waterHeight, getWaterHeight, setWaterHeight)
+PY_PROPERTY_BOUNDS(Bounds3Ext, Span, localBounds, getLocalBounds, setLocalBounds)
+PY_PROPERTY_BOUNDS(Bounds3Ext, Span, worldBounds, getWorldBounds, setWorldBounds)
+
 static PyGetSetDef pySpan_GetSet[] = {
-    { _pycs("fog"), (getter)pySpan_getFog, (setter)pySpan_setFog,
-        _pycs("Fog Environment key"), NULL },
+    pySpan_fogEnvironment_getset,
+    pySpan_fog_getset,
     { _pycs("permaLights"), (getter)pySpan_getLights,
         (setter)pySpan_setLights, NULL, NULL },
     { _pycs("permaProjs"), (getter)pySpan_getProjs,
         (setter)pySpan_setLights, NULL, NULL },
-    { _pycs("localToWorld"), (getter)pySpan_getL2W,
-        (setter)pySpan_setL2W, NULL, NULL },
-    { _pycs("worldToLocal"), (getter)pySpan_getW2L,
-        (setter)pySpan_setW2L, NULL, NULL },
-    { _pycs("subType"), (getter)pySpan_getSubType,
-        (setter)pySpan_setSubType, NULL, NULL },
-    { _pycs("materialIdx"), (getter)pySpan_getMaterial, (setter)pySpan_setMaterial,
-        _pycs("Index of the material from the DrawableSpans to use"), NULL },
-    { _pycs("numMatrices"), (getter)pySpan_getNumMatrices,
-        (setter)pySpan_setNumMatrices, NULL, NULL },
-    { _pycs("props"), (getter)pySpan_getProps, (setter)pySpan_setProps, NULL, NULL },
-    { _pycs("baseMatrix"), (getter)pySpan_getBaseMatrix,
-        (setter)pySpan_setBaseMatrix, NULL, NULL },
-    { _pycs("maxBoneIdx"), (getter)pySpan_getMaxBoneIdx,
-        (setter)pySpan_setMaxBoneIdx, NULL, NULL },
-    { _pycs("penBoneIdx"), (getter)pySpan_getPenBoneIdx,
-        (setter)pySpan_setPenBoneIdx, NULL, NULL },
-    { _pycs("localUVWChans"), (getter)pySpan_getLocalUVWChans,
-        (setter)pySpan_setLocalUVWChans, NULL, NULL },
-    { _pycs("minDist"), (getter)pySpan_getMinDist, (setter)pySpan_setMinDist,
-        NULL, NULL },
-    { _pycs("maxDist"), (getter)pySpan_getMaxDist, (setter)pySpan_setMaxDist,
-        NULL, NULL },
-    { _pycs("waterHeight"), (getter)pySpan_getWaterHeight,
-        (setter)pySpan_setWaterHeight, NULL, NULL },
-    { _pycs("localBounds"), (getter)pySpan_getLocalBounds,
-        (setter)pySpan_setLocalBounds, NULL, NULL },
-    { _pycs("worldBounds"), (getter)pySpan_getWorldBounds,
-        (setter)pySpan_setWorldBounds, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pySpan_localToWorld_getset,
+    pySpan_worldToLocal_getset,
+    pySpan_subType_getset,
+    pySpan_materialIdx_getset,
+    pySpan_numMatrices_getset,
+    pySpan_props_getset,
+    pySpan_baseMatrix_getset,
+    pySpan_maxBoneIdx_getset,
+    pySpan_penBoneIdx_getset,
+    pySpan_localUVWChans_getset,
+    pySpan_minDist_getset,
+    pySpan_maxDist_getset,
+    pySpan_waterHeight_getset,
+    pySpan_localBounds_getset,
+    pySpan_worldBounds_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pySpan_Type = {

@@ -18,6 +18,7 @@
 #define _PYPHYSICAL_H
 
 #include "PyPlasma.h"
+#include <PRP/Physics/plPhysical.h>
 
 PY_WRAP_PLASMA(Physical, class plPhysical);
 PY_WRAP_PLASMA(GenericPhysical, class plGenericPhysical);
@@ -27,6 +28,21 @@ extern "C" {
 extern PyTypeObject pySimDefs_Type;
 PyObject* Init_pySimDefs_Type();
 
+}
+
+/* Python property helpers */
+inline PyObject* pyPlasma_convert(plSimDefs::Bounds value) {
+    return PyInt_FromLong((long)value);
+}
+
+template <>
+inline int pyPlasma_check<plSimDefs::Bounds>(PyObject* value) {
+    return PyInt_Check(value);
+}
+
+template <>
+inline plSimDefs::Bounds pyPlasma_get(PyObject* value) {
+    return (plSimDefs::Bounds)PyInt_AsLong(value);
 }
 
 #endif

@@ -30,53 +30,15 @@ static PyObject* pySpotLightInfo_new(PyTypeObject* type, PyObject* args, PyObjec
     return (PyObject*)self;
 }
 
-static PyObject* pySpotLightInfo_getFalloff(pySpotLightInfo* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getFalloff());
-}
-
-static PyObject* pySpotLightInfo_getSpotInner(pySpotLightInfo* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getSpotInner());
-}
-
-static PyObject* pySpotLightInfo_getSpotOuter(pySpotLightInfo* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getSpotOuter());
-}
-
-static int pySpotLightInfo_setFalloff(pySpotLightInfo* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "falloff should be a float");
-        return -1;
-    }
-    self->fThis->setFalloff(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pySpotLightInfo_setSpotInner(pySpotLightInfo* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "spotInner should be a float");
-        return -1;
-    }
-    self->fThis->setSpotInner(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pySpotLightInfo_setSpotOuter(pySpotLightInfo* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "spotOuter should be a float");
-        return -1;
-    }
-    self->fThis->setSpotOuter(PyFloat_AsDouble(value));
-    return 0;
-}
+PY_PROPERTY(float, SpotLightInfo, falloff, getFalloff, setFalloff)
+PY_PROPERTY(float, SpotLightInfo, spotInner, getSpotInner, setSpotInner)
+PY_PROPERTY(float, SpotLightInfo, spotOuter, getSpotOuter, setSpotOuter)
 
 static PyGetSetDef pySpotLightInfo_GetSet[] = {
-    { _pycs("falloff"), (getter)pySpotLightInfo_getFalloff,
-        (setter)pySpotLightInfo_setFalloff, NULL, NULL },
-    { _pycs("spotInner"), (getter)pySpotLightInfo_getSpotInner,
-        (setter)pySpotLightInfo_setSpotInner, NULL, NULL },
-    { _pycs("spotOuter"), (getter)pySpotLightInfo_getSpotOuter,
-        (setter)pySpotLightInfo_setSpotOuter, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pySpotLightInfo_falloff_getset,
+    pySpotLightInfo_spotInner_getset,
+    pySpotLightInfo_spotOuter_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pySpotLightInfo_Type = {

@@ -37,28 +37,12 @@ static PyObject* pySimpleRotController_new(PyTypeObject* type, PyObject* args, P
     return (PyObject*)self;
 }
 
-static PyObject* pySimpleRotController_getRot(pySimpleRotController* self, void*) {
-    return ICreate(self->fThis->getRot());
-}
-
-static int pySimpleRotController_setRot(pySimpleRotController* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setRot(NULL);
-        return 0;
-    }
-    if (!pyQuatController_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "rot should be a plQuatController");
-        return -1;
-    }
-    self->fThis->setRot(((pyQuatController*)value)->fThis);
-    ((pyQuatController*)value)->fPyOwned = false;
-    return 0;
-}
+PY_PROPERTY_CREATABLE(plQuatController, QuatController, SimpleRotController,
+                      rot, getRot, setRot)
 
 static PyGetSetDef pySimpleRotController_GetSet[] = {
-    { _pycs("rot"), (getter)pySimpleRotController_getRot,
-        (setter)pySimpleRotController_setRot, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pySimpleRotController_rot_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pySimpleRotController_Type = {

@@ -30,36 +30,13 @@ static PyObject* pyCursorChangeMsg_new(PyTypeObject* type, PyObject* args, PyObj
     return (PyObject*)self;
 }
 
-static PyObject* pyCursorChangeMsg_getType(pyCursorChangeMsg* self, void*) {
-    return PyInt_FromLong(self->fThis->getType());
-}
-
-static PyObject* pyCursorChangeMsg_getPriority(pyCursorChangeMsg* self, void*) {
-    return PyInt_FromLong(self->fThis->getPriority());
-}
-
-static int pyCursorChangeMsg_setType(pyCursorChangeMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "type should be an int");
-        return -1;
-    }
-    self->fThis->setType(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyCursorChangeMsg_setPriority(pyCursorChangeMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "priority should be an int");
-        return -1;
-    }
-    self->fThis->setPriority(PyInt_AsLong(value));
-    return 0;
-}
+PY_PROPERTY(int, CursorChangeMsg, type, getType, setType)
+PY_PROPERTY(int, CursorChangeMsg, priority, getPriority, setPriority)
 
 static PyGetSetDef pyCursorChangeMsg_GetSet[] = {
-    { _pycs("type"), (getter)pyCursorChangeMsg_getType, (setter)pyCursorChangeMsg_setType, NULL, NULL },
-    { _pycs("priority"), (getter)pyCursorChangeMsg_getPriority, (setter)pyCursorChangeMsg_setPriority, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyCursorChangeMsg_type_getset,
+    pyCursorChangeMsg_priority_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyCursorChangeMsg_Type = {

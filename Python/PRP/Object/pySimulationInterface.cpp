@@ -31,27 +31,11 @@ static PyObject* pySimulationInterface_new(PyTypeObject* type, PyObject* args, P
     return (PyObject*)self;
 }
 
-static PyObject* pySimulationInterface_getPhysical(pySimulationInterface* self, void*) {
-    return pyKey_FromKey(self->fThis->getPhysical());
-}
-
-static int pySimulationInterface_setPhysical(pySimulationInterface* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setPhysical(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setPhysical(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "physical should be a plKey");
-        return -1;
-    }
-}
+PY_PROPERTY(plKey, SimulationInterface, physical, getPhysical, setPhysical)
 
 PyGetSetDef pySimulationInterface_GetSet[] = {
-    { _pycs("physical"), (getter)pySimulationInterface_getPhysical,
-        (setter)pySimulationInterface_setPhysical, _pycs("The Physical key"), NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pySimulationInterface_physical_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pySimulationInterface_Type = {

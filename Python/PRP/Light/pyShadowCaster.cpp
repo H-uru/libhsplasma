@@ -30,83 +30,19 @@ static PyObject* pyShadowCaster_new(PyTypeObject* type, PyObject* args, PyObject
     return (PyObject*)self;
 }
 
-static PyObject* pyShadowCaster_getCastFlags(pyShadowCaster* self, void*) {
-    return PyInt_FromLong(self->fThis->getCastFlags());
-}
-
-static PyObject* pyShadowCaster_getBoost(pyShadowCaster* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getBoost());
-}
-
-static PyObject* pyShadowCaster_getAttenScale(pyShadowCaster* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getAttenScale());
-}
-
-static PyObject* pyShadowCaster_getBlurScale(pyShadowCaster* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getBlurScale());
-}
-
-static PyObject* pyShadowCaster_getMaxOpacity(pyShadowCaster* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getMaxOpacity());
-}
-
-static int pyShadowCaster_setCastFlags(pyShadowCaster* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "castFlags should be an int");
-        return -1;
-    }
-    self->fThis->setCastFlags((unsigned char)PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyShadowCaster_setBoost(pyShadowCaster* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "boost should be a float");
-        return -1;
-    }
-    self->fThis->setBoost((float)PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyShadowCaster_setAttenScale(pyShadowCaster* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "attenScale should be a float");
-        return -1;
-    }
-    self->fThis->setAttenScale((float)PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyShadowCaster_setBlurScale(pyShadowCaster* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "blurScale should be a float");
-        return -1;
-    }
-    self->fThis->setBlurScale((float)PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyShadowCaster_setMaxOpacity(pyShadowCaster* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "maxOpacity should be a float");
-        return -1;
-    }
-    self->fThis->setMaxOpacity((float)PyFloat_AsDouble(value));
-    return 0;
-}
+PY_PROPERTY(unsigned char, ShadowCaster, castFlags, getCastFlags, setCastFlags)
+PY_PROPERTY(float, ShadowCaster, boost, getBoost, setBoost)
+PY_PROPERTY(float, ShadowCaster, attenScale, getAttenScale, setAttenScale)
+PY_PROPERTY(float, ShadowCaster, blurScale, getBlurScale, setBlurScale)
+PY_PROPERTY(float, ShadowCaster, maxOpacity, getMaxOpacity, setMaxOpacity)
 
 static PyGetSetDef pyShadowCaster_GetSet[] = {
-    { _pycs("castFlags"), (getter)pyShadowCaster_getCastFlags,
-      (setter)pyShadowCaster_setCastFlags, NULL, NULL },
-    { _pycs("boost"), (getter)pyShadowCaster_getBoost,
-      (setter)pyShadowCaster_setBoost, NULL, NULL },
-    { _pycs("attenScale"), (getter)pyShadowCaster_getAttenScale,
-      (setter)pyShadowCaster_setAttenScale, NULL, NULL },
-    { _pycs("blurScale"), (getter)pyShadowCaster_getBlurScale,
-      (setter)pyShadowCaster_setBlurScale , NULL, NULL },
-    { _pycs("maxOpacity"), (getter)pyShadowCaster_getMaxOpacity,
-      (setter)pyShadowCaster_setMaxOpacity, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyShadowCaster_castFlags_getset,
+    pyShadowCaster_boost_getset,
+    pyShadowCaster_attenScale_getset,
+    pyShadowCaster_blurScale_getset,
+    pyShadowCaster_maxOpacity_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyShadowCaster_Type = {

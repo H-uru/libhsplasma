@@ -39,60 +39,6 @@ static PyObject* pyTMController_new(PyTypeObject* type, PyObject* args, PyObject
     return (PyObject*)self;
 }
 
-static PyObject* pyTMController_getPos(pyTMController* self, void*) {
-    return ICreate(self->fThis->getPosController());
-}
-
-static PyObject* pyTMController_getRot(pyTMController* self, void*) {
-    return ICreate(self->fThis->getRotController());
-}
-
-static PyObject* pyTMController_getScale(pyTMController* self, void*) {
-    return ICreate(self->fThis->getScaleController());
-}
-
-static int pyTMController_setPos(pyTMController* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setPosController(NULL);
-        return 0;
-    }
-    if (!pyPosController_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "pos should be a plPosController");
-        return -1;
-    }
-    self->fThis->setPosController(((pyPosController*)value)->fThis);
-    ((pyPosController*)value)->fPyOwned = false;
-    return 0;
-}
-
-static int pyTMController_setRot(pyTMController* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setRotController(NULL);
-        return 0;
-    }
-    if (!pyRotController_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "rot should be a plRotController");
-        return -1;
-    }
-    self->fThis->setRotController(((pyRotController*)value)->fThis);
-    ((pyRotController*)value)->fPyOwned = false;
-    return 0;
-}
-
-static int pyTMController_setScale(pyTMController* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setScaleController(NULL);
-        return 0;
-    }
-    if (!pyScaleController_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "scale should be a plSclaeController");
-        return -1;
-    }
-    self->fThis->setScaleController(((pyScaleController*)value)->fThis);
-    ((pyScaleController*)value)->fPyOwned = false;
-    return 0;
-}
-
 static PyObject* pyTMController_convertToCompoundController(pyTMController* self) {
     return ICreate(self->fThis->convertToCompoundController());
 }
@@ -103,11 +49,18 @@ static PyMethodDef pyTMController_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY_CREATABLE(plPosController, PosController, TMController, pos,
+                      getPosController, setPosController)
+PY_PROPERTY_CREATABLE(plRotController, RotController, TMController, rot,
+                      getRotController, setRotController)
+PY_PROPERTY_CREATABLE(plScaleController, ScaleController, TMController, scale,
+                      getScaleController, setScaleController)
+
 static PyGetSetDef pyTMController_GetSet[] = {
-    { _pycs("pos"), (getter)pyTMController_getPos, (setter)pyTMController_setPos, NULL, NULL },
-    { _pycs("rot"), (getter)pyTMController_getRot, (setter)pyTMController_setRot, NULL, NULL },
-    { _pycs("scale"), (getter)pyTMController_getScale, (setter)pyTMController_setScale, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyTMController_pos_getset,
+    pyTMController_rot_getset,
+    pyTMController_scale_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyTMController_Type = {

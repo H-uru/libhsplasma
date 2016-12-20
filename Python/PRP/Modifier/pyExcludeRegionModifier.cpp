@@ -83,42 +83,19 @@ static PyObject* pyExcludeRegionModifier_getSafePoints(pyExcludeRegionModifier* 
     return tup;
 }
 
-static PyObject* pyExcludeRegionModifier_getSeek(pyExcludeRegionModifier* self, void*) {
-    return PyBool_FromLong(self->fThis->getSeek() ? 1 : 0);
-}
-
-static PyObject* pyExcludeRegionModifier_getSeekTime(pyExcludeRegionModifier* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getSeekTime());
-}
-
 static int pyExcludeRegionModifier_setSafePoints(pyExcludeRegionModifier* self, PyObject*, void*) {
     PyErr_SetString(PyExc_RuntimeError, "To add safePoints, use addSafePoint()");
     return -1;
 }
 
-static int pyExcludeRegionModifier_setSeek(pyExcludeRegionModifier* self, PyObject* value, void*) {
-    if (value == NULL || !PyBool_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "seek should be a boolean");
-        return -1;
-    }
-    self->fThis->setSeek(PyInt_AsLong(value) != 0);
-    return 0;
-}
-
-static int pyExcludeRegionModifier_setSeekTime(pyExcludeRegionModifier* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "seek should be a float");
-        return -1;
-    }
-    self->fThis->setSeekTime((float)PyFloat_AsDouble(value));
-    return 0;
-}
+PY_PROPERTY(bool, ExcludeRegionModifier, seek, getSeek, setSeek)
+PY_PROPERTY(float, ExcludeRegionModifier, seekTime, getSeekTime, setSeekTime)
 
 static PyGetSetDef pyExcludeRegionModifier_GetSet[] = {
     { _pycs("safePoints"), (getter)pyExcludeRegionModifier_getSafePoints, (setter)pyExcludeRegionModifier_setSafePoints, NULL, NULL },
-    { _pycs("seek"), (getter)pyExcludeRegionModifier_getSeek, (setter)pyExcludeRegionModifier_setSeek, NULL, NULL },
-    { _pycs("seekTime"), (getter)pyExcludeRegionModifier_getSeekTime, (setter)pyExcludeRegionModifier_setSeekTime, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyExcludeRegionModifier_seek_getset,
+    pyExcludeRegionModifier_seekTime_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyExcludeRegionModifier_Type = {

@@ -64,63 +64,11 @@ static PyObject* pyCoordinateInterface_delChild(pyCoordinateInterface* self, PyO
     return Py_None;
 }
 
-static PyObject* pyCoordinateInterface_getL2W(pyCoordinateInterface* self, void*) {
-    return pyMatrix44_FromMatrix44(self->fThis->getLocalToWorld());
-}
-
-static PyObject* pyCoordinateInterface_getW2L(pyCoordinateInterface* self, void*) {
-    return pyMatrix44_FromMatrix44(self->fThis->getWorldToLocal());
-}
-
-static PyObject* pyCoordinateInterface_getL2P(pyCoordinateInterface* self, void*) {
-    return pyMatrix44_FromMatrix44(self->fThis->getLocalToParent());
-}
-
-static PyObject* pyCoordinateInterface_getP2L(pyCoordinateInterface* self, void*) {
-    return pyMatrix44_FromMatrix44(self->fThis->getParentToLocal());
-}
-
 static PyObject* pyCoordinateInterface_getChildren(pyCoordinateInterface* self, void*) {
     PyObject* list = PyList_New(self->fThis->getChildren().size());
     for (size_t i=0; i<self->fThis->getChildren().size(); i++)
         PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getChildren()[i]));
     return list;
-}
-
-static int pyCoordinateInterface_setL2W(pyCoordinateInterface* self, PyObject* value, void*) {
-    if (value == NULL || (!pyMatrix44_Check(value))) {
-        PyErr_SetString(PyExc_TypeError, "localToWorld should be an hsMatrix44");
-        return -1;
-    }
-    self->fThis->setLocalToWorld(*((pyMatrix44*)value)->fThis);
-    return 0;
-}
-
-static int pyCoordinateInterface_setW2L(pyCoordinateInterface* self, PyObject* value, void*) {
-    if (value == NULL || (!pyMatrix44_Check(value))) {
-        PyErr_SetString(PyExc_TypeError, "worldToLocal should be an hsMatrix44");
-        return -1;
-    }
-    self->fThis->setWorldToLocal(*((pyMatrix44*)value)->fThis);
-    return 0;
-}
-
-static int pyCoordinateInterface_setL2P(pyCoordinateInterface* self, PyObject* value, void*) {
-    if (value == NULL || (!pyMatrix44_Check(value))) {
-        PyErr_SetString(PyExc_TypeError, "local2Parent should be an hsMatrix44");
-        return -1;
-    }
-    self->fThis->setLocalToParent(*((pyMatrix44*)value)->fThis);
-    return 0;
-}
-
-static int pyCoordinateInterface_setP2L(pyCoordinateInterface* self, PyObject* value, void*) {
-    if (value == NULL || (!pyMatrix44_Check(value))) {
-        PyErr_SetString(PyExc_TypeError, "parentToLocal should be an hsMatrix44");
-        return -1;
-    }
-    self->fThis->setParentToLocal(*((pyMatrix44*)value)->fThis);
-    return 0;
 }
 
 static int pyCoordinateInterface_setChildren(pyCoordinateInterface* self, PyObject* value, void*) {
@@ -140,23 +88,20 @@ PyMethodDef pyCoordinateInterface_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(hsMatrix44, CoordinateInterface, localToWorld, getLocalToWorld, setLocalToWorld)
+PY_PROPERTY(hsMatrix44, CoordinateInterface, worldToLocal, getWorldToLocal, setWorldToLocal)
+PY_PROPERTY(hsMatrix44, CoordinateInterface, localToParent, getLocalToParent, setLocalToParent)
+PY_PROPERTY(hsMatrix44, CoordinateInterface, parentToLocal, getParentToLocal, setParentToLocal)
+
 PyGetSetDef pyCoordinateInterface_GetSet[] = {
-    { _pycs("localToWorld"), (getter)pyCoordinateInterface_getL2W,
-        (setter)pyCoordinateInterface_setL2W,
-        _pycs("Local -> World transform matrix"), NULL },
-    { _pycs("worldToLocal"), (getter)pyCoordinateInterface_getW2L,
-        (setter)pyCoordinateInterface_setW2L,
-        _pycs("World -> Local transform matrix"), NULL },
-    { _pycs("localToParent"), (getter)pyCoordinateInterface_getL2P,
-        (setter)pyCoordinateInterface_setL2P,
-        _pycs("Local -> Parent transform matrix"), NULL },
-    { _pycs("parentToLocal"), (getter)pyCoordinateInterface_getP2L,
-        (setter)pyCoordinateInterface_setP2L,
-        _pycs("Parent -> Local transform matrix"), NULL },
+    pyCoordinateInterface_localToWorld_getset,
+    pyCoordinateInterface_worldToLocal_getset,
+    pyCoordinateInterface_localToParent_getset,
+    pyCoordinateInterface_parentToLocal_getset,
     { _pycs("children"), (getter)pyCoordinateInterface_getChildren,
         (setter)pyCoordinateInterface_setChildren,
         _pycs("Child Objects"), NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyCoordinateInterface_Type = {

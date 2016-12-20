@@ -30,76 +30,17 @@ static PyObject* pyFacingEventData_new(PyTypeObject* type, PyObject* args, PyObj
     return (PyObject*)self;
 }
 
-static PyObject* pyFacingEventData_getFacer(pyFacingEventData* self, void*) {
-    return pyKey_FromKey(self->fThis->getFacer());
-}
-
-static PyObject* pyFacingEventData_getFacee(pyFacingEventData* self, void*) {
-    return pyKey_FromKey(self->fThis->getFacee());
-}
-
-static PyObject* pyFacingEventData_getDot(pyFacingEventData* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getDot());
-}
-
-static PyObject* pyFacingEventData_getEnabled(pyFacingEventData* self, void*) {
-    return PyBool_FromLong(self->fThis->isEnabled());
-}
-
-static int pyFacingEventData_setFacer(pyFacingEventData* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setFacer(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setFacer(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "facer should be a plKey");
-        return -1;
-    }
-}
-
-static int pyFacingEventData_setFacee(pyFacingEventData* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setFacee(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setFacee(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "facee should be a plKey");
-        return -1;
-    }
-}
-
-static int pyFacingEventData_setDot(pyFacingEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "dot should be a float");
-        return -1;
-    }
-    self->fThis->setDot(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyFacingEventData_setEnabled(pyFacingEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "enabled should be a bool");
-        return -1;
-    }
-    self->fThis->setEnabled(PyInt_AsLong(value) != 0);
-    return 0;
-}
+PY_PROPERTY(plKey, FacingEventData, facer, getFacer, setFacer)
+PY_PROPERTY(plKey, FacingEventData, facee, getFacee, setFacee)
+PY_PROPERTY(float, FacingEventData, dot, getDot, setDot)
+PY_PROPERTY(bool, FacingEventData, enabled, isEnabled, setEnabled)
 
 static PyGetSetDef pyFacingEventData_GetSet[] = {
-    { _pycs("facer"), (getter)pyFacingEventData_getFacer,
-        (setter)pyFacingEventData_setFacer, NULL, NULL },
-    { _pycs("facee"), (getter)pyFacingEventData_getFacee,
-        (setter)pyFacingEventData_setFacee, NULL, NULL },
-    { _pycs("dot"), (getter)pyFacingEventData_getDot,
-        (setter)pyFacingEventData_setDot, NULL, NULL },
-    { _pycs("enabled"), (getter)pyFacingEventData_getEnabled,
-        (setter)pyFacingEventData_setEnabled, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyFacingEventData_facer_getset,
+    pyFacingEventData_facee_getset,
+    pyFacingEventData_dot_getset,
+    pyFacingEventData_enabled_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyFacingEventData_Type = {

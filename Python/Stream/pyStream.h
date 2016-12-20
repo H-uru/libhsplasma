@@ -18,10 +18,26 @@
 #define _PYSTREAM_H
 
 #include "PyPlasma.h"
+#include <Util/PlasmaVersions.h>
 
 PY_WRAP_PLASMA(Stream, class hsStream);
 PY_WRAP_PLASMA(FileStream, class hsFileStream);
 PY_WRAP_PLASMA(EncryptedStream, class plEncryptedStream);
 PY_WRAP_PLASMA(RAMStream, class hsRAMStream);
+
+/* Python property helpers */
+inline PyObject* pyPlasma_convert(const PlasmaVer& value) {
+    return PyInt_FromLong((long)(int)value);
+}
+
+template <>
+inline int pyPlasma_check<PlasmaVer>(PyObject* value) {
+    return PyInt_Check(value);
+}
+
+template <>
+inline PlasmaVer pyPlasma_get(PyObject* value) {
+    return PlasmaVer((int)PyInt_AsLong(value));
+}
 
 #endif

@@ -30,46 +30,13 @@ static PyObject* pySpawnedEventData_new(PyTypeObject* type, PyObject* args, PyOb
     return (PyObject*)self;
 }
 
-static PyObject* pySpawnedEventData_getSpawner(pySpawnedEventData* self, void*) {
-    return pyKey_FromKey(self->fThis->getSpawner());
-}
-
-static PyObject* pySpawnedEventData_getSpawnee(pySpawnedEventData* self, void*) {
-    return pyKey_FromKey(self->fThis->getSpawnee());
-}
-
-static int pySpawnedEventData_setSpawner(pySpawnedEventData* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setSpawner(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setSpawner(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "spawner should be a plKey");
-        return -1;
-    }
-}
-
-static int pySpawnedEventData_setSpawnee(pySpawnedEventData* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setSpawnee(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setSpawnee(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "spawnee should be a plKey");
-        return -1;
-    }
-}
+PY_PROPERTY(plKey, SpawnedEventData, spawner, getSpawner, setSpawner)
+PY_PROPERTY(plKey, SpawnedEventData, spawnee, getSpawnee, setSpawnee)
 
 static PyGetSetDef pySpawnedEventData_GetSet[] = {
-    { _pycs("spawner"), (getter)pySpawnedEventData_getSpawner,
-        (setter)pySpawnedEventData_setSpawner, NULL, NULL },
-    { _pycs("spawnee"), (getter)pySpawnedEventData_getSpawnee,
-        (setter)pySpawnedEventData_setSpawnee, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pySpawnedEventData_spawner_getset,
+    pySpawnedEventData_spawnee_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pySpawnedEventData_Type = {

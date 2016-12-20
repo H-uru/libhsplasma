@@ -31,43 +31,13 @@ static PyObject* pyLayerLinkAnimation_new(PyTypeObject* type, PyObject* args, Py
     return (PyObject*)self;
 }
 
-static PyObject* pyLayerLinkAnimation_getLinkKey(pyLayerLinkAnimation* self, void*) {
-    return pyKey_FromKey(self->fThis->getLinkKey());
-}
-
-static PyObject* pyLayerLinkAnimation_getLeavingAge(pyLayerLinkAnimation* self, void*) {
-    return PyBool_FromLong(self->fThis->getLeavingAge() ? 1 : 0);
-}
-
-static int pyLayerLinkAnimation_setLinkKey(pyLayerLinkAnimation* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        Py_XDECREF(value);
-        self->fThis->setLinkKey(plKey());
-        return 0;
-    }
-    if (!pyKey_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "linkKey should be a plKey");
-        return -1;
-    }
-    self->fThis->setLinkKey(*((pyKey*)value)->fThis);
-    return 0;
-}
-
-static int pyLayerLinkAnimation_setLeavingAge(pyLayerLinkAnimation* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "leavingAge should be a bool");
-        return -1;
-    }
-    self->fThis->setLeavingAge(PyInt_AsLong(value) != 0);
-    return 0;
-}
+PY_PROPERTY(plKey, LayerLinkAnimation, linkKey, getLinkKey, setLinkKey)
+PY_PROPERTY(bool, LayerLinkAnimation, leavingAge, getLeavingAge, setLeavingAge)
 
 static PyGetSetDef pyLayerLinkAnimation_GetSet[] = {
-    { _pycs("linkKey"), (getter)pyLayerLinkAnimation_getLinkKey,
-        (setter)pyLayerLinkAnimation_setLinkKey, NULL, NULL },
-    { _pycs("leavingAge"), (getter)pyLayerLinkAnimation_getLeavingAge,
-        (setter)pyLayerLinkAnimation_setLeavingAge, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyLayerLinkAnimation_linkKey_getset,
+    pyLayerLinkAnimation_leavingAge_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyLayerLinkAnimation_Type = {

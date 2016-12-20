@@ -31,28 +31,12 @@ static PyObject* pyScalarControllerChannel_new(PyTypeObject* type, PyObject* arg
     return (PyObject*)self;
 }
 
-static PyObject* pyScalarControllerChannel_getController(pyScalarControllerChannel* self, void*) {
-    return ICreate(self->fThis->getController());
-}
-
-static int pyScalarControllerChannel_setController(pyScalarControllerChannel* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setController(NULL);
-        return 0;
-    }
-    if (!pyController_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "controller should be a plController");
-        return -1;
-    }
-    self->fThis->setController(((pyController*)value)->fThis);
-    ((pyController*)value)->fPyOwned = false;
-    return 0;
-}
+PY_PROPERTY_CREATABLE(plController, Controller, ScalarControllerChannel,
+                      controller, getController, setController)
 
 static PyGetSetDef pyScalarControllerChannel_GetSet[] = {
-    { _pycs("controller"), (getter)pyScalarControllerChannel_getController,
-        (setter)pyScalarControllerChannel_setController, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyScalarControllerChannel_controller_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyScalarControllerChannel_Type = {

@@ -92,10 +92,6 @@ static PyObject* pySpanInstance_getColors(pySpanInstance* self, void*) {
     return list;
 }
 
-static PyObject* pySpanInstance_getL2W(pySpanInstance* self, void*) {
-    return pyMatrix44_FromMatrix44(self->fThis->getLocalToWorld());
-}
-
 static int pySpanInstance_setPosDeltas(pySpanInstance* self, PyObject* value, void*) {
     std::vector<hsVector3> deltas;
     if (value == NULL) {
@@ -142,15 +138,6 @@ static int pySpanInstance_setColors(pySpanInstance* self, PyObject* value, void*
     return 0;
 }
 
-static int pySpanInstance_setL2W(pySpanInstance* self, PyObject* value, void*) {
-    if (value == NULL || !pyMatrix44_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "localToWorld should be an hsMatrix44");
-        return -1;
-    }
-    self->fThis->setLocalToWorld(*((pyMatrix44*)value)->fThis);
-    return 0;
-}
-
 static PyMethodDef pySpanInstance_Methods[] = {
     { "read", (PyCFunction)pySpanInstance_read, METH_VARARGS,
       "Params: stream, encoding, numVerts\n"
@@ -161,14 +148,15 @@ static PyMethodDef pySpanInstance_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(hsMatrix44, SpanInstance, localToWorld, getLocalToWorld, setLocalToWorld)
+
 static PyGetSetDef pySpanInstance_GetSet[] = {
     { _pycs("posDeltas"), (getter)pySpanInstance_getPosDeltas,
         (setter)pySpanInstance_setPosDeltas, NULL, NULL },
     { _pycs("colors"), (getter)pySpanInstance_getColors,
         (setter)pySpanInstance_setColors, NULL, NULL },
-    { _pycs("localToWorld"), (getter)pySpanInstance_getL2W,
-        (setter)pySpanInstance_setL2W, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pySpanInstance_localToWorld_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pySpanInstance_Type = {

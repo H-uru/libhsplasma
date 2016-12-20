@@ -36,60 +36,6 @@ static PyObject* pyCompoundController_new(PyTypeObject* type, PyObject* args, Py
     return (PyObject*)self;
 }
 
-static PyObject* pyCompoundController_getX(pyCompoundController* self, void*) {
-    return ICreate(self->fThis->getXController());
-}
-
-static PyObject* pyCompoundController_getY(pyCompoundController* self, void*) {
-    return ICreate(self->fThis->getYController());
-}
-
-static PyObject* pyCompoundController_getZ(pyCompoundController* self, void*) {
-    return ICreate(self->fThis->getZController());
-}
-
-static int pyCompoundController_setX(pyCompoundController* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setXController(NULL);
-        return 0;
-    }
-    if (!pyController_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "X should be a plController");
-        return -1;
-    }
-    self->fThis->setXController(((pyController*)value)->fThis);
-    ((pyController*)value)->fPyOwned = false;
-    return 0;
-}
-
-static int pyCompoundController_setY(pyCompoundController* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setYController(NULL);
-        return 0;
-    }
-    if (!pyController_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "Y should be a plController");
-        return -1;
-    }
-    self->fThis->setYController(((pyController*)value)->fThis);
-    ((pyController*)value)->fPyOwned = false;
-    return 0;
-}
-
-static int pyCompoundController_setZ(pyCompoundController* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setZController(NULL);
-        return 0;
-    }
-    if (!pyController_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "Z should be a plController");
-        return -1;
-    }
-    self->fThis->setZController(((pyController*)value)->fThis);
-    ((pyController*)value)->fPyOwned = false;
-    return 0;
-}
-
 static PyObject* pyCompoundController_convertToTMController(pyCompoundController* self) {
     return ICreate(self->fThis->convertToTMController());
 }
@@ -100,14 +46,18 @@ static PyMethodDef pyCompoundController_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY_CREATABLE(plController, Controller, CompoundController, X,
+                      getXController, setXController)
+PY_PROPERTY_CREATABLE(plController, Controller, CompoundController, Y,
+                      getYController, setYController)
+PY_PROPERTY_CREATABLE(plController, Controller, CompoundController, Z,
+                      getZController, setZController)
+
 static PyGetSetDef pyCompoundController_GetSet[] = {
-    { _pycs("X"), (getter)pyCompoundController_getX,
-        (setter)pyCompoundController_setX, NULL, NULL },
-    { _pycs("Y"), (getter)pyCompoundController_getY,
-        (setter)pyCompoundController_setY, NULL, NULL },
-    { _pycs("Z"), (getter)pyCompoundController_getZ,
-        (setter)pyCompoundController_setZ, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyCompoundController_X_getset,
+    pyCompoundController_Y_getset,
+    pyCompoundController_Z_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyCompoundController_Type = {

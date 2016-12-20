@@ -22,4 +22,9 @@
 PY_WRAP_PLASMA(SpanEncoding, class plSpanEncoding);
 PY_WRAP_PLASMA(SpanInstance, class plSpanInstance);
 
+/* Python property helpers */
+inline PyObject* pyPlasma_convert(class plSpanEncoding* value) {
+    return pySpanEncoding_FromSpanEncoding(value);
+}
+
 #endif

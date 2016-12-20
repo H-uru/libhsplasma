@@ -66,84 +66,6 @@ static PyObject* pyWAVHeader_write(pyWAVHeader* self, PyObject* args) {
     return Py_None;
 }
 
-static PyObject* pyWAVHeader_getFormat(pyWAVHeader* self, void*) {
-    return PyInt_FromLong(self->fThis->getFormatTag());
-}
-
-static PyObject* pyWAVHeader_getNumChans(pyWAVHeader* self, void*) {
-    return PyInt_FromLong(self->fThis->getNumChannels());
-}
-
-static PyObject* pyWAVHeader_getSamples(pyWAVHeader* self, void*) {
-    return PyInt_FromLong(self->fThis->getNumSamplesPerSec());
-}
-
-static PyObject* pyWAVHeader_getBPS(pyWAVHeader* self, void*) {
-    return PyInt_FromLong(self->fThis->getAvgBytesPerSec());
-}
-
-static PyObject* pyWAVHeader_getAlign(pyWAVHeader* self, void*) {
-    return PyInt_FromLong(self->fThis->getBlockAlign());
-}
-
-static PyObject* pyWAVHeader_getBits(pyWAVHeader* self, void*) {
-    return PyInt_FromLong(self->fThis->getBitsPerSample());
-}
-
-static int pyWAVHeader_setFormat(pyWAVHeader* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "formatTag should be an int");
-        return -1;
-    }
-    self->fThis->setFormatTag(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyWAVHeader_setNumChans(pyWAVHeader* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "numChannels should be an int");
-        return -1;
-    }
-    self->fThis->setNumChannels(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyWAVHeader_setSamples(pyWAVHeader* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "samplesPerSec should be an int");
-        return -1;
-    }
-    self->fThis->setNumSamplesPerSec(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyWAVHeader_setBPS(pyWAVHeader* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "avgBytesPerSec should be an int");
-        return -1;
-    }
-    self->fThis->setAvgBytesPerSec(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyWAVHeader_setAlign(pyWAVHeader* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "blockAlign should be an int");
-        return -1;
-    }
-    self->fThis->setBlockAlign(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyWAVHeader_setBits(pyWAVHeader* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "bitsPerSample should be an int");
-        return -1;
-    }
-    self->fThis->setBitsPerSample(PyInt_AsLong(value));
-    return 0;
-}
-
 static PyMethodDef pyWAVHeader_Methods[] = {
     { "read", (PyCFunction)pyWAVHeader_read, METH_VARARGS,
       "Params: stream\n"
@@ -154,20 +76,21 @@ static PyMethodDef pyWAVHeader_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(unsigned short, WAVHeader, formatTag, getFormatTag, setFormatTag)
+PY_PROPERTY(unsigned short, WAVHeader, numChannels, getNumChannels, setNumChannels)
+PY_PROPERTY(unsigned int, WAVHeader, samplesPerSec, getNumSamplesPerSec, setNumSamplesPerSec)
+PY_PROPERTY(unsigned int, WAVHeader, avgBytesPerSec, getAvgBytesPerSec, setAvgBytesPerSec)
+PY_PROPERTY(unsigned short, WAVHeader, blockAlign, getBlockAlign, setBlockAlign)
+PY_PROPERTY(unsigned short, WAVHeader, bitsPerSample, getBitsPerSample, setBitsPerSample)
+
 static PyGetSetDef pyWAVHeader_GetSet[] = {
-    { _pycs("formatTag"), (getter)pyWAVHeader_getFormat,
-        (setter)pyWAVHeader_setFormat, NULL, NULL },
-    { _pycs("numChannels"), (getter)pyWAVHeader_getNumChans,
-        (setter)pyWAVHeader_setNumChans, NULL, NULL },
-    { _pycs("samplesPerSec"), (getter)pyWAVHeader_getSamples,
-        (setter)pyWAVHeader_setSamples, NULL, NULL },
-    { _pycs("avgBytesPerSec"), (getter)pyWAVHeader_getBPS,
-        (setter)pyWAVHeader_setBPS, NULL, NULL },
-    { _pycs("blockAlign"), (getter)pyWAVHeader_getAlign,
-        (setter)pyWAVHeader_setAlign, NULL, NULL },
-    { _pycs("bitsPerSample"), (getter)pyWAVHeader_getBits,
-        (setter)pyWAVHeader_setBits, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyWAVHeader_formatTag_getset,
+    pyWAVHeader_numChannels_getset,
+    pyWAVHeader_samplesPerSec_getset,
+    pyWAVHeader_avgBytesPerSec_getset,
+    pyWAVHeader_blockAlign_getset,
+    pyWAVHeader_bitsPerSample_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyWAVHeader_Type = {

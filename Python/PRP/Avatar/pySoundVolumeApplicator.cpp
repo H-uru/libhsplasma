@@ -30,23 +30,11 @@ static PyObject* pySoundVolumeApplicator_new(PyTypeObject* type, PyObject* args,
     return (PyObject*)self;
 }
 
-static PyObject* pySoundVolumeApplicator_getIndex(pySoundVolumeApplicator* self, void*) {
-    return PyInt_FromLong(self->fThis->getIndex());
-}
-
-static int pySoundVolumeApplicator_setIndex(pySoundVolumeApplicator* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "index should be an int");
-        return -1;
-    }
-    self->fThis->setIndex(PyInt_AsLong(value));
-    return 0;
-}
+PY_PROPERTY(unsigned int, SoundVolumeApplicator, index, getIndex, setIndex)
 
 static PyGetSetDef pySoundVolumeApplicator_GetSet[] = {
-    { _pycs("index"), (getter)pySoundVolumeApplicator_getIndex,
-        (setter)pySoundVolumeApplicator_setIndex, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pySoundVolumeApplicator_index_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pySoundVolumeApplicator_Type = {

@@ -36,22 +36,11 @@ static PyObject* pyQuatKey_new(PyTypeObject* type, PyObject* args, PyObject* kwd
     return (PyObject*)self;
 }
 
-static PyObject* pyQuatKey_getValue(pyQuatKey* self, void*) {
-    return pyQuat_FromQuat(self->fThis->fValue);
-}
-
-static int pyQuatKey_setValue(pyQuatKey* self, PyObject* value, void*) {
-    if (value == NULL || !pyQuat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "value should be an hsQuat");
-        return -1;
-    }
-    self->fThis->fValue = *((pyQuat*)value)->fThis;
-    return 0;
-}
+PY_PROPERTY_MEMBER(hsQuat, QuatKey, value, fValue)
 
 static PyGetSetDef pyQuatKey_GetSet[] = {
-    { _pycs("value"), (getter)pyQuatKey_getValue, (setter)pyQuatKey_setValue, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyQuatKey_value_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyQuatKey_Type = {

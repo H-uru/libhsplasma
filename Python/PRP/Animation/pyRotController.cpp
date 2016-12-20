@@ -27,18 +27,11 @@ static PyObject* pyRotController_new(PyTypeObject* type, PyObject* args, PyObjec
     return NULL;
 }
 
-static PyObject* pyRotController_getType(pyRotController* self, void*) {
-    return PyInt_FromLong(self->fThis->getType());
-}
-
-static int pyRotController_setType(pyRotController* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "type is read-only");
-    return -1;
-}
+PY_PROPERTY_RO(RotController, type, getType)
 
 static PyGetSetDef pyRotController_GetSet[] = {
-    { _pycs("type"), (getter)pyRotController_getType, (setter)pyRotController_setType, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyRotController_type_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyRotController_Type = {

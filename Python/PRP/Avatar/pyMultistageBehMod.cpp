@@ -111,18 +111,6 @@ static PyObject* pyMultistageBehMod_getReceivers(pyMultistageBehMod* self, void*
     return list;
 }
 
-static PyObject* pyMultistageBehMod_getFreeze(pyMultistageBehMod* self, void*) {
-    return PyBool_FromLong(self->fThis->getFreezePhys() ? 1 : 0);
-}
-
-static PyObject* pyMultistageBehMod_getSSeek(pyMultistageBehMod* self, void*) {
-    return PyBool_FromLong(self->fThis->getSmartSeek() ? 1 : 0);
-}
-
-static PyObject* pyMultistageBehMod_getReverse(pyMultistageBehMod* self, void*) {
-    return PyBool_FromLong(self->fThis->getReverseFBControlsOnRelease() ? 1 : 0);
-}
-
 static int pyMultistageBehMod_setStages(pyMultistageBehMod* self, PyObject* value, void*) {
     PyErr_SetString(PyExc_RuntimeError, "To add stages, use addStage()");
     return -1;
@@ -131,33 +119,6 @@ static int pyMultistageBehMod_setStages(pyMultistageBehMod* self, PyObject* valu
 static int pyMultistageBehMod_setReceivers(pyMultistageBehMod* self, PyObject* value, void*) {
     PyErr_SetString(PyExc_RuntimeError, "To add receivers, use addReceiver()");
     return -1;
-}
-
-static int pyMultistageBehMod_setFreeze(pyMultistageBehMod* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "freezePhys should be a bool");
-        return -1;
-    }
-    self->fThis->setFreezePhys(PyInt_AsLong(value) != 0);
-    return 0;
-}
-
-static int pyMultistageBehMod_setSSeek(pyMultistageBehMod* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "smartSeek should be a bool");
-        return -1;
-    }
-    self->fThis->setSmartSeek(PyInt_AsLong(value) != 0);
-    return 0;
-}
-
-static int pyMultistageBehMod_setReverse(pyMultistageBehMod* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "reverseFBControlsOnRelease should be a bool");
-        return -1;
-    }
-    self->fThis->setReverseFBControlsOnRelease(PyInt_AsLong(value) != 0);
-    return 0;
 }
 
 static PyMethodDef pyMultistageBehMod_Methods[] = {
@@ -180,18 +141,20 @@ static PyMethodDef pyMultistageBehMod_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(bool, MultistageBehMod, freezePhys, getFreezePhys, setFreezePhys)
+PY_PROPERTY(bool, MultistageBehMod, smartSeek, getSmartSeek, setSmartSeek)
+PY_PROPERTY(bool, MultistageBehMod, reverseFBControlsOnRelease,
+            getReverseFBControlsOnRelease, setReverseFBControlsOnRelease)
+
 static PyGetSetDef pyMultistageBehMod_GetSet[] = {
     { _pycs("stages"), (getter)pyMultistageBehMod_getStages,
         (setter)pyMultistageBehMod_setStages, NULL, NULL },
     { _pycs("receivers"), (getter)pyMultistageBehMod_getReceivers,
         (setter)pyMultistageBehMod_setReceivers, NULL, NULL },
-    { _pycs("freezePhys"), (getter)pyMultistageBehMod_getFreeze,
-        (setter)pyMultistageBehMod_setFreeze, NULL, NULL },
-    { _pycs("smartSeek"), (getter)pyMultistageBehMod_getSSeek,
-        (setter)pyMultistageBehMod_setSSeek, NULL, NULL },
-    { _pycs("reverseFBControlsOnRelease"), (getter)pyMultistageBehMod_getReverse,
-        (setter)pyMultistageBehMod_setReverse, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyMultistageBehMod_freezePhys_getset,
+    pyMultistageBehMod_smartSeek_getset,
+    pyMultistageBehMod_reverseFBControlsOnRelease_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyMultistageBehMod_Type = {

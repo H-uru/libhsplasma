@@ -90,7 +90,7 @@ static PyObject* pyOneShotMsg_getCallbacks(pyOneShotMsg* self, void*) {
 
 static PyGetSetDef pyOneShotMsg_GetSet[] = {
     { _pycs("callbacks"), (getter)pyOneShotMsg_getCallbacks, NULL, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyOneShotMsg_Type = {

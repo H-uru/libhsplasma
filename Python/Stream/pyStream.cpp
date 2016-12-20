@@ -384,41 +384,6 @@ static PyObject* pyStream_writeLine(pyStream* self, PyObject* args) {
     }
 }
 
-static PyObject* pyStream_getVer(pyStream* self, void* closure) {
-    return PyInt_FromLong(self->fThis->getVer());
-}
-
-static int pyStream_setVer(pyStream* self, PyObject* value, void* closure) {
-    if (value == NULL) {
-        PyErr_SetString(PyExc_TypeError, "Cannot delete the version");
-        return -1;
-    }
-    if (!PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "version must be an int");
-        return -1;
-    }
-    self->fThis->setVer((PlasmaVer)PyInt_AsLong(value));
-    return 0;
-}
-
-static PyObject* pyStream_getSize(pyStream* self, void* closure) {
-    return PyLong_FromLong(self->fThis->size());
-}
-
-static int pyStream_setSize(pyStream* self, PyObject* value, void* closure) {
-    PyErr_SetString(PyExc_RuntimeError, "size is read-only");
-    return -1;
-}
-
-static PyObject* pyStream_getPos(pyStream* self, void* closure) {
-    return PyLong_FromLong(self->fThis->pos());
-}
-
-static int pyStream_setPos(pyStream* self, PyObject* value, void* closure) {
-    PyErr_SetString(PyExc_RuntimeError, "pos is read-only");
-    return -1;
-}
-
 static PyMethodDef pyStream_Methods[] = {
     { "close", (PyCFunction)pyStream_close, METH_NOARGS,
       "Closes the stream, if it is open" },
@@ -466,14 +431,15 @@ static PyMethodDef pyStream_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(PlasmaVer, Stream, version, getVer, setVer)
+PY_PROPERTY_RO(Stream, size, size)
+PY_PROPERTY_RO(Stream, pos, pos)
+
 static PyGetSetDef pyStream_GetSet[] = {
-    { _pycs("version"), (getter)pyStream_getVer, (setter)pyStream_setVer,
-        _pycs("Stream version, to be used by other classes"), NULL },
-    { _pycs("size"), (getter)pyStream_getSize, (setter)pyStream_setSize,
-        _pycs("Total stream size"), NULL },
-    { _pycs("pos"), (getter)pyStream_getPos, (setter)pyStream_setPos,
-        _pycs("Current position within the stream"), NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyStream_version_getset,
+    pyStream_size_getset,
+    pyStream_pos_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyStream_Type = {

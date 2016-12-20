@@ -28,50 +28,15 @@ static PyObject* pyBounds3_new(PyTypeObject* type, PyObject* args, PyObject* kwd
     return (PyObject*)self;
 }
 
-static PyObject* pyBounds3_getMins(pyBounds3* self, void*) {
-    return pyVector3_FromVector3(self->fThis->getMins());
-}
-
-static PyObject* pyBounds3_getMaxs(pyBounds3* self, void*) {
-    return pyVector3_FromVector3(self->fThis->getMaxs());
-}
-
-static PyObject* pyBounds3_getCenter(pyBounds3* self, void*) {
-    return pyVector3_FromVector3(self->fThis->getCenter());
-}
-
-static int pyBounds3_setMins(pyBounds3* self, PyObject* value, void*) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "mins should be an hsVector3");
-        return -1;
-    }
-    self->fThis->setMins(*((pyVector3*)value)->fThis);
-    return 0;
-}
-
-static int pyBounds3_setMaxs(pyBounds3* self, PyObject* value, void*) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "maxs should be an hsVector3");
-        return -1;
-    }
-    self->fThis->setMaxs(*((pyVector3*)value)->fThis);
-    return 0;
-}
-
-static int pyBounds3_setCenter(pyBounds3* self, PyObject* value, void*) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "center should be an hsVector3");
-        return -1;
-    }
-    self->fThis->setCenter(*((pyVector3*)value)->fThis);
-    return 0;
-}
+PY_PROPERTY(hsVector3, Bounds3, mins, getMins, setMins)
+PY_PROPERTY(hsVector3, Bounds3, maxs, getMaxs, setMaxs)
+PY_PROPERTY(hsVector3, Bounds3, center, getCenter, setCenter)
 
 static PyGetSetDef pyBounds3_GetSet[] = {
-    { _pycs("mins"), (getter)pyBounds3_getMins, (setter)pyBounds3_setMins, NULL, NULL },
-    { _pycs("maxs"), (getter)pyBounds3_getMaxs, (setter)pyBounds3_setMaxs, NULL, NULL },
-    { _pycs("center"), (getter)pyBounds3_getCenter, (setter)pyBounds3_setCenter, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyBounds3_mins_getset,
+    pyBounds3_maxs_getset,
+    pyBounds3_center_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyBounds3_Type = {

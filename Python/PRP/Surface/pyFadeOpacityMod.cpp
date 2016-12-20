@@ -30,34 +30,11 @@ static PyObject* pyFadeOpacityMod_new(PyTypeObject* type, PyObject* args, PyObje
     return (PyObject*) self;
 }
 
-static PyObject* pyFadeOpacityMod_getFadeUp(pyFadeOpacityMod* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getFadeUp());
-}
-
-static PyObject* pyFadeOpacityMod_getFadeDown(pyFadeOpacityMod* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getFadeDown());
-}
+PY_PROPERTY(float, FadeOpacityMod, fadeUp, getFadeUp, setFadeUp)
+PY_PROPERTY(float, FadeOpacityMod, fadeDown, getFadeDown, setFadeDown)
 
 static PyObject* pyFadeOpacityMod_getBoundsCenter(pyFadeOpacityMod* self, void*) {
     return PyBool_FromLong(self->fThis->getFlag(plFadeOpacityMod::kBoundsCenter) ? 1 : 0);
-}
-
-static int pyFadeOpacityMod_setFadeUp(pyFadeOpacityMod* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "fadeUp should be a float");
-        return -1;
-    }
-    self->fThis->setFadeUp((float)PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyFadeOpacityMod_setFadeDown(pyFadeOpacityMod* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "fadeDown should be a float");
-        return -1;
-    }
-    self->fThis->setFadeDown((float)PyFloat_AsDouble(value));
-    return 0;
 }
 
 static int pyFadeOpacityMod_setBoundsCenter(pyFadeOpacityMod* self, PyObject* value, void*) {
@@ -70,10 +47,10 @@ static int pyFadeOpacityMod_setBoundsCenter(pyFadeOpacityMod* self, PyObject* va
 }
 
 static PyGetSetDef pyFadeOpacityMod_GetSet [] = {
-    { _pycs("fadeUp"), (getter) pyFadeOpacityMod_getFadeUp, (setter) pyFadeOpacityMod_setFadeUp, NULL, NULL },
-    { _pycs("fadeDown"), (getter) pyFadeOpacityMod_getFadeDown, (setter) pyFadeOpacityMod_setFadeDown, NULL, NULL },
+    pyFadeOpacityMod_fadeUp_getset,
+    pyFadeOpacityMod_fadeDown_getset,
     { _pycs("boundsCenter"), (getter) pyFadeOpacityMod_getBoundsCenter, (setter) pyFadeOpacityMod_setBoundsCenter, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyFadeOpacityMod_Type = {

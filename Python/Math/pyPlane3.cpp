@@ -62,7 +62,7 @@ static PyObject* pyPlane3_new(PyTypeObject* type, PyObject* args, PyObject* kwds
 static PyObject* pyPlane3_Repr(pyPlane3* self) {
     plString repr = plString::Format("hsPlane3(%f, %f, %f, %f)",
              self->fThis->N.X, self->fThis->N.Y, self->fThis->N.Z, self->fThis->W);
-    return PlStr_To_PyStr(repr);
+    return pyPlasma_convert(repr);
 }
 
 static PyObject* pyPlane3_read(pyPlane3* self, PyObject* args) {
@@ -95,58 +95,6 @@ static PyObject* pyPlane3_write(pyPlane3* self, PyObject* args) {
     return Py_None;
 }
 
-static PyObject* pyPlane3_getX(pyPlane3* self, void*) {
-    return PyFloat_FromDouble(self->fThis->N.X);
-}
-
-static PyObject* pyPlane3_getY(pyPlane3* self, void*) {
-    return PyFloat_FromDouble(self->fThis->N.Y);
-}
-
-static PyObject* pyPlane3_getZ(pyPlane3* self, void*) {
-    return PyFloat_FromDouble(self->fThis->N.Z);
-}
-
-static PyObject* pyPlane3_getW(pyPlane3* self, void*) {
-    return PyFloat_FromDouble(self->fThis->W);
-}
-
-static int pyPlane3_setX(pyPlane3* self, PyObject* value, void*) {
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "X needs to be a float");
-        return -1;
-    }
-    self->fThis->N.X = PyFloat_AsDouble(value);
-    return 0;
-}
-
-static int pyPlane3_setY(pyPlane3* self, PyObject* value, void*) {
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "Y needs to be a float");
-        return -1;
-    }
-    self->fThis->N.Y = PyFloat_AsDouble(value);
-    return 0;
-}
-
-static int pyPlane3_setZ(pyPlane3* self, PyObject* value, void*) {
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "Z needs to be a float");
-        return -1;
-    }
-    self->fThis->N.Z = PyFloat_AsDouble(value);
-    return 0;
-}
-
-static int pyPlane3_setW(pyPlane3* self, PyObject* value, void*) {
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "W needs to be a float");
-        return -1;
-    }
-    self->fThis->W = PyFloat_AsDouble(value);
-    return 0;
-}
-
 PyMethodDef pyPlane3_Methods[] = {
     { "read", (PyCFunction)pyPlane3_read, METH_VARARGS,
       "Params: stream\n"
@@ -157,12 +105,17 @@ PyMethodDef pyPlane3_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY_MEMBER(float, Plane3, X, N.X)
+PY_PROPERTY_MEMBER(float, Plane3, Y, N.Y)
+PY_PROPERTY_MEMBER(float, Plane3, Z, N.Z)
+PY_PROPERTY_MEMBER(float, Plane3, W, W)
+
 PyGetSetDef pyPlane3_GetSet[] = {
-    { _pycs("X"), (getter)pyPlane3_getX, (setter)pyPlane3_setX, NULL, NULL },
-    { _pycs("Y"), (getter)pyPlane3_getY, (setter)pyPlane3_setY, NULL, NULL },
-    { _pycs("Z"), (getter)pyPlane3_getZ, (setter)pyPlane3_setZ, NULL, NULL },
-    { _pycs("W"), (getter)pyPlane3_getW, (setter)pyPlane3_setW, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyPlane3_X_getset,
+    pyPlane3_Y_getset,
+    pyPlane3_Z_getset,
+    pyPlane3_W_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyPlane3_Type = {

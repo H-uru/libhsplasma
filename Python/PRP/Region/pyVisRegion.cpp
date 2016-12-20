@@ -31,42 +31,13 @@ static PyObject* pyVisRegion_new(PyTypeObject* type, PyObject* args, PyObject* k
     return (PyObject*)self;
 }
 
-static PyObject* pyVisRegion_getRegion(pyVisRegion* self, void*) {
-    return pyKey_FromKey(self->fThis->getRegion());
-}
-
-static PyObject* pyVisRegion_getVisMgr(pyVisRegion* self, void*) {
-    return pyKey_FromKey(self->fThis->getVisMgr());
-}
-
-static int pyVisRegion_setRegion(pyVisRegion* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setRegion(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setRegion(*((pyKey*)value)->fThis);
-        return 0;
-    }
-    PyErr_SetString(PyExc_TypeError, "region should be a plKey");
-    return -1;
-}
-
-static int pyVisRegion_setVisMgr(pyVisRegion* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setVisMgr(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setVisMgr(*((pyKey*)value)->fThis);
-        return 0;
-    }
-    PyErr_SetString(PyExc_TypeError, "visMgr should be a plKey");
-    return -1;
-}
+PY_PROPERTY(plKey, VisRegion, region, getRegion, setRegion)
+PY_PROPERTY(plKey, VisRegion, visMgr, getVisMgr, setVisMgr)
 
 PyGetSetDef pyVisRegion_GetSet[] = {
-    { _pycs("region"), (getter)pyVisRegion_getRegion, (setter)pyVisRegion_setRegion, NULL, NULL },
-    { _pycs("visMgr"), (getter)pyVisRegion_getVisMgr, (setter)pyVisRegion_setVisMgr, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyVisRegion_region_getset,
+    pyVisRegion_visMgr_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyVisRegion_Type = {

@@ -78,53 +78,20 @@ static PyObject* pyDetectorModifier_getReceivers(pyDetectorModifier* self, void*
     return sequence;
 }
 
-static PyObject* pyDetectorModifier_getRemoteMod(pyDetectorModifier* self, void*) {
-    return pyKey_FromKey(self->fThis->getRemoteMod());
-}
-
-static PyObject* pyDetectorModifier_getProxy(pyDetectorModifier* self, void*) {
-    return pyKey_FromKey(self->fThis->getProxy());
-}
-
 static int pyDetectorModifier_setReceivers(pyDetectorModifier* self, PyObject* value, void*) {
     PyErr_SetString(PyExc_RuntimeError, "To add receivers, use addReceiver");
     return -1;
 }
 
-static int pyDetectorModifier_setRemoteMod(pyDetectorModifier* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setRemoteMod(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setRemoteMod(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "remoteMod should be a plKey");
-        return -1;
-    }
-}
-
-static int pyDetectorModifier_setProxy(pyDetectorModifier* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setProxy(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setProxy(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "proxy should be a plKey");
-        return -1;
-    }
-}
+PY_PROPERTY(plKey, DetectorModifier, remoteMod, getRemoteMod, setRemoteMod)
+PY_PROPERTY(plKey, DetectorModifier, proxy, getProxy, setProxy)
 
 static PyGetSetDef pyDetectorModifier_GetSet[] = {
     { _pycs("receivers"), (getter)pyDetectorModifier_getReceivers,
         (setter)pyDetectorModifier_setReceivers, NULL, NULL },
-    { _pycs("remoteMod"), (getter)pyDetectorModifier_getRemoteMod,
-        (setter)pyDetectorModifier_setRemoteMod, NULL, NULL },
-    { _pycs("proxy"), (getter)pyDetectorModifier_getProxy,
-        (setter)pyDetectorModifier_setProxy, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyDetectorModifier_remoteMod_getset,
+    pyDetectorModifier_proxy_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyDetectorModifier_Type = {

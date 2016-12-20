@@ -40,25 +40,11 @@ static PyObject* pyKeyedObjectStub_new(PyTypeObject* type, PyObject* args, PyObj
     return (PyObject*)self;
 }
 
-static PyObject* pyKeyedObjectStub_getStub(pyKeyedObjectStub* self, void*) {
-    if (self->fThis->getStub() != NULL) {
-        return pyCreatableStub_FromCreatableStub(self->fThis->getStub());
-    } else {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-}
-
-static int pyKeyedObjectStub_setStub(pyKeyedObjectStub* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "stub is read-only");
-    return -1;
-}
+PY_PROPERTY_CREATABLE_RO(KeyedObjectStub, stub, getStub)
 
 static PyGetSetDef pyKeyedObjectStub_GetSet[] = {
-    { _pycs("stub"), (getter)pyKeyedObjectStub_getStub,
-        (setter)pyKeyedObjectStub_setStub,
-        _pycs("The plCreatableStub for this object"), NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyKeyedObjectStub_stub_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyKeyedObjectStub_Type = {

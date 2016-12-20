@@ -30,61 +30,15 @@ static PyObject* pyContainedEventData_new(PyTypeObject* type, PyObject* args, Py
     return (PyObject*)self;
 }
 
-static PyObject* pyContainedEventData_getContained(pyContainedEventData* self, void*) {
-    return pyKey_FromKey(self->fThis->getContained());
-}
-
-static PyObject* pyContainedEventData_getContainer(pyContainedEventData* self, void*) {
-    return pyKey_FromKey(self->fThis->getContainer());
-}
-
-static PyObject* pyContainedEventData_getEntering(pyContainedEventData* self, void*) {
-    return PyBool_FromLong(self->fThis->isEntering());
-}
-
-static int pyContainedEventData_setContained(pyContainedEventData* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setContained(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setContained(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "contained should be a plKey");
-        return -1;
-    }
-}
-
-static int pyContainedEventData_setContainer(pyContainedEventData* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setContainer(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setContainer(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "container should be a plKey");
-        return -1;
-    }
-}
-
-static int pyContainedEventData_setEntering(pyContainedEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "entering should be a bool");
-        return -1;
-    }
-    self->fThis->setEntering(PyInt_AsLong(value) != 0);
-    return 0;
-}
+PY_PROPERTY(plKey, ContainedEventData, contained, getContained, setContained)
+PY_PROPERTY(plKey, ContainedEventData, container, getContainer, setContainer)
+PY_PROPERTY(bool, ContainedEventData, entering, isEntering, setEntering)
 
 static PyGetSetDef pyContainedEventData_GetSet[] = {
-    { _pycs("contained"), (getter)pyContainedEventData_getContained,
-        (setter)pyContainedEventData_setContained, NULL, NULL },
-    { _pycs("container"), (getter)pyContainedEventData_getContainer,
-        (setter)pyContainedEventData_setContainer, NULL, NULL },
-    { _pycs("entering"), (getter)pyContainedEventData_getEntering,
-        (setter)pyContainedEventData_setEntering, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyContainedEventData_contained_getset,
+    pyContainedEventData_container_getset,
+    pyContainedEventData_entering_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyContainedEventData_Type = {

@@ -30,27 +30,11 @@ static PyObject* pyClimbingBlockerHitEventData_new(PyTypeObject* type, PyObject*
     return (PyObject*)self;
 }
 
-static PyObject* pyClimbingBlockerHitEventData_getBlocker(pyClimbingBlockerHitEventData* self, void*) {
-    return pyKey_FromKey(self->fThis->getBlocker());
-}
-
-static int pyClimbingBlockerHitEventData_setBlocker(pyClimbingBlockerHitEventData* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setBlocker(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setBlocker(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "blocker should be a plKey");
-        return -1;
-    }
-}
+PY_PROPERTY(plKey, ClimbingBlockerHitEventData, blocker, getBlocker, setBlocker)
 
 static PyGetSetDef pyClimbingBlockerHitEventData_GetSet[] = {
-    { _pycs("blocker"), (getter)pyClimbingBlockerHitEventData_getBlocker,
-        (setter)pyClimbingBlockerHitEventData_setBlocker, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyClimbingBlockerHitEventData_blocker_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyClimbingBlockerHitEventData_Type = {

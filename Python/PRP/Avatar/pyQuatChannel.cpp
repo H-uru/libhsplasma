@@ -31,23 +31,11 @@ static PyObject* pyQuatChannel_new(PyTypeObject* type, PyObject* args, PyObject*
     return (PyObject*)self;
 }
 
-static PyObject* pyQuatChannel_getResult(pyQuatChannel* self, void*) {
-    return pyQuat_FromQuat(self->fThis->getResult());
-}
-
-static int pyQuatChannel_setResult(pyQuatChannel* self, PyObject* value, void*) {
-    if (value == NULL || !pyQuat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "result should be an hsQuat");
-        return -1;
-    }
-    self->fThis->setResult(*((pyQuat*)value)->fThis);
-    return 0;
-}
+PY_PROPERTY(hsQuat, QuatChannel, result, getResult, setResult)
 
 static PyGetSetDef pyQuatChannel_GetSet[] = {
-    { _pycs("result"), (getter)pyQuatChannel_getResult,
-        (setter)pyQuatChannel_setResult, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyQuatChannel_result_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyQuatChannel_Type = {

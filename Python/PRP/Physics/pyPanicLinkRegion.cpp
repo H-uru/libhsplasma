@@ -30,23 +30,11 @@ static PyObject* pyPanicLinkRegion_new(PyTypeObject* type, PyObject* args, PyObj
     return (PyObject*)self;
 }
 
-static PyObject* pyPanicLinkRegion_getPlayLinkOutAnim(pyPanicLinkRegion* self, void*) {
-    return PyBool_FromLong(self->fThis->getPlayLinkOutAnim() ? 1 : 0);
-}
-
-static int pyPanicLinkRegion_setPlayLinkOutAnim(pyPanicLinkRegion* self, PyObject* value, void*) {
-    if (value == NULL || !PyBool_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "playLinkOutAnim should be a boolean");
-        return -1;
-    }
-    self->fThis->setPlayLinkOutAnim(PyInt_AsLong(value) != 0);
-    return 0;
-}
+PY_PROPERTY(bool, PanicLinkRegion, playLinkOutAnim, getPlayLinkOutAnim, setPlayLinkOutAnim)
 
 static PyGetSetDef pyPanicLinkRegion_GetSet[] = {
-    { _pycs("playLinkOutAnim"), (getter)pyPanicLinkRegion_getPlayLinkOutAnim,
-       (setter)pyPanicLinkRegion_setPlayLinkOutAnim, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyPanicLinkRegion_playLinkOutAnim_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyPanicLinkRegion_Type = {

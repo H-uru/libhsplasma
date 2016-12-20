@@ -31,25 +31,17 @@ static PyObject* pyAgeLinkStruct_new(PyTypeObject* type, PyObject*, PyObject*) {
     return (PyObject*)self;
 }
 
-static PyObject* pyAgeLinkStruct_getAgeInfo(pyAgeLinkStruct* self, void*) {
-    return ICreate(&self->fThis->getAgeInfo());
+PY_GETSET_GETTER_DECL(AgeLinkStruct, ageInfo) {
+    // This cannot be a subclass, since it's an inline member
+    return pyAgeInfoStruct_FromAgeInfoStruct(&self->fThis->getAgeInfo());
 }
 
-static PyObject* pyAgeLinkStruct_getSpawnPoint(pyAgeLinkStruct* self, void*) {
-    return pySpawnPointInfo_FromSpawnPointInfo(&self->fThis->getSpawnPoint());
-}
-
-static PyObject* pyAgeLinkStruct_getLinkingRules(pyAgeLinkStruct* self, void*) {
-    return PyInt_FromLong(self->fThis->getLinkingRules());
-}
-
-static PyObject* pyAgeLinkStruct_getParentAgeFilename(pyAgeLinkStruct* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getParentAgeFilename());
-}
-
-static int pyAgeLinkStruct_setAgeInfo(pyAgeLinkStruct* self, PyObject* value, void*) {
+PY_GETSET_SETTER_DECL(AgeLinkStruct, ageInfo) {
     plAgeInfoStruct& ais = self->fThis->getAgeInfo();
-    if (value == NULL || value == Py_None) {
+    if (value == NULL) {
+        PyErr_SetString(PyExc_RuntimeError, "ageInfo cannot be deleted");
+        return -1;
+    } else if (value == Py_None) {
         self->fThis->setHasAgeInfo(false);
         ais = plAgeInfoStruct();
         return 0;
@@ -63,9 +55,18 @@ static int pyAgeLinkStruct_setAgeInfo(pyAgeLinkStruct* self, PyObject* value, vo
     }
 }
 
-static int pyAgeLinkStruct_setSpawnPoint(pyAgeLinkStruct* self, PyObject* value, void*) {
+PY_PROPERTY_GETSET_DECL(AgeLinkStruct, ageInfo)
+
+PY_GETSET_GETTER_DECL(AgeLinkStruct, spawnPoint) {
+    return pySpawnPointInfo_FromSpawnPointInfo(&self->fThis->getSpawnPoint());
+}
+
+PY_GETSET_SETTER_DECL(AgeLinkStruct, spawnPoint) {
     plSpawnPointInfo& spi = self->fThis->getSpawnPoint();
-    if (value == NULL || value == Py_None) {
+    if (value == NULL) {
+        PyErr_SetString(PyExc_RuntimeError, "spawnPoint cannot be deleted");
+        return -1;
+    } else if (value == Py_None) {
         self->fThis->setHasSpawnPoint(false);
         spi = plSpawnPointInfo();
         return 0;
@@ -79,21 +80,21 @@ static int pyAgeLinkStruct_setSpawnPoint(pyAgeLinkStruct* self, PyObject* value,
     }
 }
 
-static int pyAgeLinkStruct_setLinkingRules(pyAgeLinkStruct* self, PyObject* value, void*) {
-    if (!PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "linkingRules must be an int");
-        return -1;
-    }
-    self->fThis->setLinkingRules(PyInt_AsLong(value));
-    return 0;
-}
+PY_PROPERTY_GETSET_DECL(AgeLinkStruct, spawnPoint)
 
-static int pyAgeLinkStruct_setParentAgeFilename(pyAgeLinkStruct* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
+PY_PROPERTY(signed char, AgeLinkStruct, linkingRules, getLinkingRules, setLinkingRules)
+
+PY_PROPERTY_READ(AgeLinkStruct, parentAgeFilename, getParentAgeFilename)
+
+PY_GETSET_SETTER_DECL(AgeLinkStruct, parentAgeFilename) {
+    if (value == NULL) {
+        PyErr_SetString(PyExc_RuntimeError, "Cannot delete parentAgeFilename");
+        return -1;
+    } else if (value == Py_None) {
         self->fThis->clearParentAgeFilename();
         return 0;
-    } else if (PyAnyStr_Check(value)) {
-        self->fThis->setParentAgeFilename(PyStr_To_PlStr(value));
+    } else if (pyPlasma_check<plString>(value)) {
+        self->fThis->setParentAgeFilename(pyPlasma_get<plString>(value));
         return 0;
     } else {
         PyErr_SetString(PyExc_TypeError, "parentAgeFilename must be a string");
@@ -101,16 +102,14 @@ static int pyAgeLinkStruct_setParentAgeFilename(pyAgeLinkStruct* self, PyObject*
     }
 }
 
+PY_PROPERTY_GETSET_DECL(AgeLinkStruct, parentAgeFilename)
+
 PyGetSetDef pyAgeLinkStruct_GetSet[] = {
-    { _pycs("ageInfo"), (getter)pyAgeLinkStruct_getAgeInfo,
-      (setter)pyAgeLinkStruct_setAgeInfo, NULL, NULL },
-    { _pycs("spawnPoint"), (getter)pyAgeLinkStruct_getSpawnPoint,
-     (setter)pyAgeLinkStruct_setSpawnPoint, NULL, NULL },
-    { _pycs("linkingRules"), (getter)pyAgeLinkStruct_getLinkingRules,
-      (setter)pyAgeLinkStruct_setLinkingRules, NULL, NULL },
-    { _pycs("parentAgeFilename"), (getter)pyAgeLinkStruct_getParentAgeFilename,
-     (setter)pyAgeLinkStruct_setParentAgeFilename, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyAgeLinkStruct_ageInfo_getset,
+    pyAgeLinkStruct_spawnPoint_getset,
+    pyAgeLinkStruct_linkingRules_getset,
+    pyAgeLinkStruct_parentAgeFilename_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyAgeLinkStruct_Type = {

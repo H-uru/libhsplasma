@@ -28,14 +28,6 @@ static PyObject* pyBounds3Ext_new(PyTypeObject* type, PyObject* args, PyObject* 
     return (PyObject*)self;
 }
 
-static PyObject* pyBounds3Ext_getFlags(pyBounds3Ext* self, void*) {
-    return PyInt_FromLong(self->fThis->getFlags());
-}
-
-static PyObject* pyBounds3Ext_getCorner(pyBounds3Ext* self, void*) {
-    return pyVector3_FromVector3(self->fThis->getCorner());
-}
-
 static PyObject* pyBounds3Ext_getAxis(pyBounds3Ext* self, void* idx) {
     return pyVector3_FromVector3(self->fThis->getAxis((long)idx));
 }
@@ -43,28 +35,6 @@ static PyObject* pyBounds3Ext_getAxis(pyBounds3Ext* self, void* idx) {
 static PyObject* pyBounds3Ext_getDist(pyBounds3Ext* self, void* idx) {
     hsFloatPoint2 dist = self->fThis->getDist((long)idx);
     return Py_BuildValue("ff", dist.X, dist.Y);
-}
-
-static PyObject* pyBounds3Ext_getRadius(pyBounds3Ext* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getRadius());
-}
-
-static int pyBounds3Ext_setFlags(pyBounds3Ext* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "flags should be an int");
-        return -1;
-    }
-    self->fThis->setFlags(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyBounds3Ext_setCorner(pyBounds3Ext* self, PyObject* value, void*) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "corner should be an hsVector3");
-        return -1;
-    }
-    self->fThis->setCorner(*((pyVector3*)value)->fThis);
-    return 0;
 }
 
 static int pyBounds3Ext_setAxis(pyBounds3Ext* self, PyObject* value, void* idx) {
@@ -94,20 +64,13 @@ static int pyBounds3Ext_setDist(pyBounds3Ext* self, PyObject* value, void* idx) 
     return 0;
 }
 
-static int pyBounds3Ext_setRadius(pyBounds3Ext* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "radius should be a float");
-        return -1;
-    }
-    self->fThis->setRadius(PyFloat_AsDouble(value));
-    return 0;
-}
+PY_PROPERTY(unsigned int, Bounds3Ext, flags, getFlags, setFlags)
+PY_PROPERTY(hsVector3, Bounds3Ext, corner, getCorner, setCorner)
+PY_PROPERTY(float, Bounds3Ext, radius, getRadius, setRadius)
 
 static PyGetSetDef pyBounds3Ext_GetSet[] = {
-    { _pycs("flags"), (getter)pyBounds3Ext_getFlags,
-        (setter)pyBounds3Ext_setFlags, NULL, NULL },
-    { _pycs("corner"), (getter)pyBounds3Ext_getCorner,
-        (setter)pyBounds3Ext_setCorner, NULL, NULL },
+    pyBounds3Ext_flags_getset,
+    pyBounds3Ext_corner_getset,
     { _pycs("axis0"), (getter)pyBounds3Ext_getAxis,
         (setter)pyBounds3Ext_setAxis, NULL, (void*)0 },
     { _pycs("axis1"), (getter)pyBounds3Ext_getAxis,
@@ -120,9 +83,8 @@ static PyGetSetDef pyBounds3Ext_GetSet[] = {
         (setter)pyBounds3Ext_setDist, NULL, (void*)1 },
     { _pycs("dist2"), (getter)pyBounds3Ext_getDist,
         (setter)pyBounds3Ext_setDist, NULL, (void*)2 },
-    { _pycs("radius"), (getter)pyBounds3Ext_getRadius,
-        (setter)pyBounds3Ext_setRadius, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyBounds3Ext_radius_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyBounds3Ext_Type = {

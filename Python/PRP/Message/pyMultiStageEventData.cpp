@@ -30,57 +30,15 @@ static PyObject* pyMultiStageEventData_new(PyTypeObject* type, PyObject* args, P
     return (PyObject*)self;
 }
 
-static PyObject* pyMultiStageEventData_getStage(pyMultiStageEventData* self, void*) {
-    return PyInt_FromLong(self->fThis->getStage());
-}
-
-static PyObject* pyMultiStageEventData_getEvent(pyMultiStageEventData* self, void*) {
-    return PyInt_FromLong(self->fThis->getEvent());
-}
-
-static PyObject* pyMultiStageEventData_getAvatar(pyMultiStageEventData* self, void*) {
-    return pyKey_FromKey(self->fThis->getAvatar());
-}
-
-static int pyMultiStageEventData_setStage(pyMultiStageEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "stage should be an int");
-        return -1;
-    }
-    self->fThis->setStage(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyMultiStageEventData_setEvent(pyMultiStageEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "event should be an int");
-        return -1;
-    }
-    self->fThis->setEvent(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyMultiStageEventData_setAvatar(pyMultiStageEventData* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setAvatar(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setAvatar(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "avatar should be a plKey");
-        return -1;
-    }
-}
+PY_PROPERTY(int, MultiStageEventData, stage, getStage, setStage)
+PY_PROPERTY(int, MultiStageEventData, event, getEvent, setEvent)
+PY_PROPERTY(plKey, MultiStageEventData, avatar, getAvatar, setAvatar)
 
 static PyGetSetDef pyMultiStageEventData_GetSet[] = {
-    { _pycs("stage"), (getter)pyMultiStageEventData_getStage,
-        (setter)pyMultiStageEventData_setStage, NULL, NULL },
-    { _pycs("event"), (getter)pyMultiStageEventData_getEvent,
-        (setter)pyMultiStageEventData_setEvent, NULL, NULL },
-    { _pycs("avatar"), (getter)pyMultiStageEventData_getAvatar,
-        (setter)pyMultiStageEventData_setAvatar, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyMultiStageEventData_stage_getset,
+    pyMultiStageEventData_event_getset,
+    pyMultiStageEventData_avatar_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyMultiStageEventData_Type = {

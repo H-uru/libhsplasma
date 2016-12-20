@@ -32,57 +32,15 @@ static PyObject* pyMobileOccluder_new(PyTypeObject* type, PyObject* args, PyObje
     return (PyObject*)self;
 }
 
-static PyObject* pyMobileOccluder_getLocalToWorld(pyMobileOccluder* self, void*) {
-    return pyMatrix44_FromMatrix44(self->fThis->getLocalToWorld());
-}
-
-static PyObject* pyMobileOccluder_getWorldToLocal(pyMobileOccluder* self, void*) {
-    return pyMatrix44_FromMatrix44(self->fThis->getWorldToLocal());
-}
-
-static PyObject* pyMobileOccluder_getLocalBounds(pyMobileOccluder* self, void*) {
-    return ICreateBounds(self->fThis->getLocalBounds());
-}
-
-static int pyMobileOccluder_setLocalToWorld(pyMobileOccluder* self, PyObject* value, void*) {
-    if (value == NULL || !pyMatrix44_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "localToWorld should be an hsMatrix44");
-        return -1;
-    }
-    self->fThis->setLocalToWorld(*((pyMatrix44*)value)->fThis);
-    return 0;
-}
-
-static int pyMobileOccluder_setWorldToLocal(pyMobileOccluder* self, PyObject* value, void*) {
-    if (value == NULL || !pyMatrix44_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "worldToLocal should be an hsMatrix44");
-        return -1;
-    }
-    self->fThis->setWorldToLocal(*((pyMatrix44*)value)->fThis);
-    return 0;
-}
-
-static int pyMobileOccluder_setLocalBounds(pyMobileOccluder* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setLocalBounds(hsBounds3Ext());
-        return 0;
-    }
-    if (!pyBounds3Ext_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "localBounds should be an hsBounds3Ext");
-        return -1;
-    }
-    self->fThis->setLocalBounds(*((pyBounds3Ext*)value)->fThis);
-    return 0;
-}
+PY_PROPERTY(hsMatrix44, MobileOccluder, localToWorld, getLocalToWorld, setLocalToWorld)
+PY_PROPERTY(hsMatrix44, MobileOccluder, worldToLocal, getWorldToLocal, setWorldToLocal)
+PY_PROPERTY_BOUNDS(Bounds3Ext, MobileOccluder, localBounds, getLocalBounds, setLocalBounds)
 
 static PyGetSetDef pyMobileOccluder_GetSet[] = {
-    { _pycs("localToWorld"), (getter)pyMobileOccluder_getLocalToWorld,
-        (setter)pyMobileOccluder_setLocalToWorld, NULL, NULL },
-    { _pycs("worldToLocal"), (getter)pyMobileOccluder_getWorldToLocal,
-        (setter)pyMobileOccluder_setWorldToLocal, NULL, NULL },
-    { _pycs("localBounds"), (getter)pyMobileOccluder_getLocalBounds,
-        (setter)pyMobileOccluder_setLocalBounds, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyMobileOccluder_localToWorld_getset,
+    pyMobileOccluder_worldToLocal_getset,
+    pyMobileOccluder_localBounds_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyMobileOccluder_Type = {

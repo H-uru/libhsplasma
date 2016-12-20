@@ -169,7 +169,7 @@ PyGetSetDef pySceneNode_GetSet[] = {
         (setter)pySceneNode_setSceneObjects, NULL, NULL },
     { _pycs("poolObjects"), (getter)pySceneNode_getPoolObjects,
         (setter)pySceneNode_setPoolObjects, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pySceneNode_Type = {

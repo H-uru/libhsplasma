@@ -36,23 +36,11 @@ static PyObject* pyMatrix44Key_new(PyTypeObject* type, PyObject* args, PyObject*
     return (PyObject*)self;
 }
 
-static PyObject* pyMatrix44Key_getValue(pyMatrix44Key* self, void*) {
-    return pyMatrix44_FromMatrix44(self->fThis->fValue);
-}
-
-static int pyMatrix44Key_setValue(pyMatrix44Key* self, PyObject* value, void*) {
-    if (value == NULL || !pyMatrix44_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "value should be an hsMatrix44");
-        return -1;
-    }
-    self->fThis->fValue = *((pyMatrix44*)value)->fThis;
-    return 0;
-}
+PY_PROPERTY_MEMBER(hsMatrix44, Matrix44Key, value, fValue)
 
 static PyGetSetDef pyMatrix44Key_GetSet[] = {
-    { _pycs("value"), (getter)pyMatrix44Key_getValue,
-        (setter)pyMatrix44Key_setValue, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyMatrix44Key_value_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyMatrix44Key_Type = {

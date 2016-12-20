@@ -110,37 +110,11 @@ static PyObject* pyCluster_delInstance(pyCluster* self, PyObject* args) {
     return Py_None;
 }
 
-static PyObject* pyCluster_getEncoding(pyCluster* self, void*) {
-    return pySpanEncoding_FromSpanEncoding(&self->fThis->getEncoding());
-}
-
-static PyObject* pyCluster_getGroup(pyCluster* self, void*) {
-    return ICreate(self->fThis->getGroup());
-}
-
 static PyObject* pyCluster_getInstances(pyCluster* self, void*) {
     PyObject* list = PyList_New(self->fThis->getInstances().size());
     for (size_t i=0; i<self->fThis->getInstances().size(); i++)
         PyList_SET_ITEM(list, i, pySpanInstance_FromSpanInstance(self->fThis->getInstances()[i]));
     return list;
-}
-
-static int pyCluster_setEncoding(pyCluster* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "encoding cannot be assigned");
-    return -1;
-}
-
-static int pyCluster_setGroup(pyCluster* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setGroup(NULL);
-        return 0;
-    }
-    if (!pyClusterGroup_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "group should be a plClusterGroup");
-        return -1;
-    }
-    self->fThis->setGroup(((pyClusterGroup*)value)->fThis);
-    return 0;
 }
 
 static int pyCluster_setInstances(pyCluster* self, PyObject* value, void*) {
@@ -166,14 +140,15 @@ static PyMethodDef pyCluster_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY_PROXY_RO(plSpanEncoding, Cluster, encoding, getEncoding)
+PY_PROPERTY_CREATABLE(plClusterGroup, ClusterGroup, Cluster, group, getGroup, setGroup)
+
 static PyGetSetDef pyCluster_GetSet[] = {
-    { _pycs("encoding"), (getter)pyCluster_getEncoding,
-        (setter)pyCluster_setEncoding, NULL, NULL },
-    { _pycs("group"), (getter)pyCluster_getGroup,
-        (setter)pyCluster_setGroup, NULL, NULL },
+    pyCluster_encoding_getset,
+    pyCluster_group_getset,
     { _pycs("instances"), (getter)pyCluster_getInstances,
         (setter)pyCluster_setInstances, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyCluster_Type = {

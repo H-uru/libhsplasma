@@ -31,43 +31,23 @@ static PyObject* pyAgeInfoStruct_new(PyTypeObject* type, PyObject*, PyObject*) {
     return (PyObject*)self;
 }
 
-static PyObject* pyAgeInfoStruct_getAgeFilename(pyAgeInfoStruct* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getAgeFilename());
+PY_PROPERTY(plString, AgeInfoStruct, ageFilename, getAgeFilename, setAgeFilename)
+PY_PROPERTY(plString, AgeInfoStruct, ageInstanceName, getAgeInstanceName, setAgeInstanceName)
+
+PY_GETSET_GETTER_DECL(AgeInfoStruct, ageInstanceGuid) {
+    return pyPlasma_convert(self->fThis->getAgeInstanceGuid().toString());
 }
 
-static PyObject* pyAgeInfoStruct_getAgeInstanceName(pyAgeInfoStruct* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getAgeInstanceName());
-}
-
-static PyObject* pyAgeInfoStruct_getAgeInstanceGuid(pyAgeInfoStruct* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getAgeInstanceGuid().toString());
-}
-
-static int pyAgeInfoStruct_setAgeFilename(pyAgeInfoStruct* self, PyObject* value, void*) {
-    if (value == NULL || !PyAnyStr_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "filename should be a string");
+PY_GETSET_SETTER_DECL(AgeInfoStruct, ageInstanceGuid) {
+    if (value == NULL) {
+        PyErr_SetString(PyExc_RuntimeError, "ageInstanceGuid cannot be deleted");
         return -1;
-    }
-    self->fThis->setAgeFilename(PyStr_To_PlStr(value));
-    return 0;
-}
-
-static int pyAgeInfoStruct_setAgeInstanceName(pyAgeInfoStruct* self, PyObject* value, void*) {
-    if (value == NULL || !PyAnyStr_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "ageInstanceName should be a string");
-        return -1;
-    }
-    self->fThis->setAgeInstanceName(PyStr_To_PlStr(value));
-    return 0;
-}
-
-static int pyAgeInfoStruct_setAgeInstanceGuid(pyAgeInfoStruct* self, PyObject* value, void*) {
-    if (value == NULL || !PyAnyStr_Check(value)) {
+    } else if (!pyPlasma_check<plString>(value)) {
         PyErr_SetString(PyExc_TypeError, "ageInstanceGuid should be a string");
         return -1;
     }
     try {
-        plUuid uuid(PyStr_To_PlStr(value));
+        plUuid uuid(pyPlasma_get<plString>(value));
         self->fThis->setAgeInstanceGuid(uuid);
     } catch (const hsBadParamException&) {
         PyErr_SetString(PyExc_ValueError, "ageInstanceGuid must be a valid UUID string");
@@ -76,14 +56,13 @@ static int pyAgeInfoStruct_setAgeInstanceGuid(pyAgeInfoStruct* self, PyObject* v
     return 0;
 }
 
+PY_PROPERTY_GETSET_DECL(AgeInfoStruct, ageInstanceGuid)
+
 PyGetSetDef pyAgeInfoStruct_GetSet[] = {
-    { _pycs("ageFilename"), (getter)pyAgeInfoStruct_getAgeFilename,
-     (setter)pyAgeInfoStruct_setAgeFilename, NULL, NULL },
-    { _pycs("ageInstanceName"), (getter)pyAgeInfoStruct_getAgeInstanceName,
-     (setter)pyAgeInfoStruct_setAgeInstanceName, NULL, NULL },
-    { _pycs("ageInstanceGuid"), (getter)pyAgeInfoStruct_getAgeInstanceGuid,
-     (setter)pyAgeInfoStruct_setAgeInstanceGuid, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyAgeInfoStruct_ageFilename_getset,
+    pyAgeInfoStruct_ageInstanceName_getset,
+    pyAgeInfoStruct_ageInstanceGuid_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyAgeInfoStruct_Type = {

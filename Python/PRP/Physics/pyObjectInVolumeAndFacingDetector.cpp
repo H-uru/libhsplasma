@@ -29,38 +29,15 @@ static PyObject* pyObjectInVolumeAndFacingDetector_new(PyTypeObject* type, PyObj
     return (PyObject*)self;
 }
 
-static PyObject* pyObjectInVolumeAndFacingDetector_getFacingTolerance(pyObjectInVolumeAndFacingDetector* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getFacingTolerance());
-}
-
-static PyObject* pyObjectInVolumeAndFacingDetector_getNeedWalkingForward(pyObjectInVolumeAndFacingDetector* self, void*) {
-    return PyBool_FromLong(self->fThis->getNeedWalkingForward() ? 1 : 0);
-}
-
-static int pyObjectInVolumeAndFacingDetector_setFacingTolerance(pyObjectInVolumeAndFacingDetector* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "facingTolerance should be a float");
-        return -1;
-    }
-    self->fThis->setFacingTolerance((float)PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyObjectInVolumeAndFacingDetector_setNeedWalkingForward(pyObjectInVolumeAndFacingDetector* self, PyObject* value, void*) {
-    if (value == NULL || !PyBool_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "needWalkingForward should be a boolean");
-        return -1;
-    }
-    self->fThis->setNeedWalkingForward(PyInt_AsLong(value) != 0);
-    return 0;
-}
+PY_PROPERTY(float, ObjectInVolumeAndFacingDetector, facingTolerance,
+            getFacingTolerance, setFacingTolerance)
+PY_PROPERTY(bool, ObjectInVolumeAndFacingDetector, needWalkingForward,
+            getNeedWalkingForward, setNeedWalkingForward)
 
 static PyGetSetDef pyObjectInVolumeAndFacingDetector_GetSet[] = {
-    { _pycs("facingTolerance"), (getter)pyObjectInVolumeAndFacingDetector_getFacingTolerance,
-       (setter)pyObjectInVolumeAndFacingDetector_setFacingTolerance, NULL, NULL },
-    { _pycs("needWalkingForward"), (getter)pyObjectInVolumeAndFacingDetector_getNeedWalkingForward,
-       (setter)pyObjectInVolumeAndFacingDetector_setNeedWalkingForward, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyObjectInVolumeAndFacingDetector_facingTolerance_getset,
+    pyObjectInVolumeAndFacingDetector_needWalkingForward_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyObjectInVolumeAndFacingDetector_Type = {

@@ -115,10 +115,6 @@ static PyMethodDef pyWaveSet7_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
-static PyObject* pyWaveSet7_getState(pyWaveSet7* self, void*) {
-    return pyFixedWaterState7_FromFixedWaterState7(&self->fThis->getState());
-}
-
 static PyObject* pyWaveSet7_getShores(pyWaveSet7* self, void*) {
     const std::vector<plKey>& shores = self->fThis->getShores();
     PyObject* tuple = PyTuple_New(shores.size());
@@ -135,27 +131,6 @@ static PyObject* pyWaveSet7_getDecals(pyWaveSet7* self, void*) {
     return tuple;
 }
 
-static PyObject* pyWaveSet7_getMaxLen(pyWaveSet7* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getMaxLen());
-}
-
-static PyObject* pyWaveSet7_getEnvMap(pyWaveSet7* self, void*) {
-    return pyKey_FromKey(self->fThis->getEnvMap());
-}
-
-static PyObject* pyWaveSet7_getRefObj(pyWaveSet7* self, void*) {
-    return pyKey_FromKey(self->fThis->getRefObj());
-}
-
-static int pyWaveSet7_setState(pyWaveSet7* self, PyObject* value, void*) {
-    if (value == NULL || !pyFixedWaterState7_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "state should be a plFixedWaterState7");
-        return -1;
-    }
-    self->fThis->setState(*((pyFixedWaterState7*)value)->fThis);
-    return 0;
-}
-
 static int pyWaveSet7_setShores(pyWaveSet7* self, PyObject* value, void*) {
     PyErr_SetString(PyExc_RuntimeError, "to add shores, use addShore");
     return -1;
@@ -166,49 +141,19 @@ static int pyWaveSet7_setDecals(pyWaveSet7* self, PyObject* value, void*) {
     return -1;
 }
 
-static int pyWaveSet7_setMaxLen(pyWaveSet7* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "maxLen expects a float");
-        return -1;
-    }
-    self->fThis->setMaxLen((float)PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyWaveSet7_setEnvMap(pyWaveSet7* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setEnvMap(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setEnvMap(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "envMap expects a plKey");
-        return -1;
-    }
-}
-
-static int pyWaveSet7_setRefObj(pyWaveSet7* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setRefObj(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setRefObj(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "refObj expects a plKey");
-        return -1;
-    }
-}
+PY_PROPERTY_PROXY(plFixedWaterState7, WaveSet7, state, getState)
+PY_PROPERTY(float, WaveSet7, maxLen, getMaxLen, setMaxLen)
+PY_PROPERTY(plKey, WaveSet7, envMap, getEnvMap, setEnvMap)
+PY_PROPERTY(plKey, WaveSet7, refObj, getRefObj, setRefObj)
 
 static PyGetSetDef pyWaveSet7_GetSet[] = {
-    { _pycs("state"), (getter)pyWaveSet7_getState, (setter)pyWaveSet7_setState, NULL, NULL },
+    pyWaveSet7_state_getset,
     { _pycs("shores"), (getter)pyWaveSet7_getShores, (setter)pyWaveSet7_setShores, NULL, NULL },
     { _pycs("decals"), (getter)pyWaveSet7_getDecals, (setter)pyWaveSet7_setDecals, NULL, NULL },
-    { _pycs("maxLen"), (getter)pyWaveSet7_getMaxLen, (setter)pyWaveSet7_setMaxLen, NULL, NULL },
-    { _pycs("envMap"), (getter)pyWaveSet7_getEnvMap, (setter)pyWaveSet7_setEnvMap, NULL, NULL },
-    { _pycs("refObj"), (getter)pyWaveSet7_getRefObj, (setter)pyWaveSet7_setRefObj, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyWaveSet7_maxLen_getset,
+    pyWaveSet7_envMap_getset,
+    pyWaveSet7_refObj_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyWaveSet7_Type = {

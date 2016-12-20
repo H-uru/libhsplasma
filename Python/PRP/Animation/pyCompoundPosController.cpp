@@ -37,68 +37,18 @@ static PyObject* pyCompoundPosController_new(PyTypeObject* type, PyObject* args,
     return (PyObject*)self;
 }
 
-static PyObject* pyCompoundPosController_getX(pyCompoundPosController* self, void*) {
-    return ICreate(self->fThis->getX());
-}
-
-static PyObject* pyCompoundPosController_getY(pyCompoundPosController* self, void*) {
-    return ICreate(self->fThis->getY());
-}
-
-static PyObject* pyCompoundPosController_getZ(pyCompoundPosController* self, void*) {
-    return ICreate(self->fThis->getZ());
-}
-
-static int pyCompoundPosController_setX(pyCompoundPosController* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setX(NULL);
-        return 0;
-    }
-    if (!pyScalarController_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "X should be a plScalarController");
-        return -1;
-    }
-    self->fThis->setX(((pyScalarController*)value)->fThis);
-    ((pyScalarController*)value)->fPyOwned = false;
-    return 0;
-}
-
-static int pyCompoundPosController_setY(pyCompoundPosController* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setY(NULL);
-        return 0;
-    }
-    if (!pyScalarController_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "Y should be a plScalarController");
-        return -1;
-    }
-    self->fThis->setY(((pyScalarController*)value)->fThis);
-    ((pyScalarController*)value)->fPyOwned = false;
-    return 0;
-}
-
-static int pyCompoundPosController_setZ(pyCompoundPosController* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setZ(NULL);
-        return 0;
-    }
-    if (!pyScalarController_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "Z should be a plScalarController");
-        return -1;
-    }
-    self->fThis->setZ(((pyScalarController*)value)->fThis);
-    ((pyScalarController*)value)->fPyOwned = false;
-    return 0;
-}
+PY_PROPERTY_CREATABLE(plScalarController, ScalarController,
+                      CompoundPosController, X, getX, setX)
+PY_PROPERTY_CREATABLE(plScalarController, ScalarController,
+                      CompoundPosController, Y, getY, setY)
+PY_PROPERTY_CREATABLE(plScalarController, ScalarController,
+                      CompoundPosController, Z, getZ, setZ)
 
 static PyGetSetDef pyCompoundPosController_GetSet[] = {
-    { _pycs("X"), (getter)pyCompoundPosController_getX,
-        (setter)pyCompoundPosController_setX, NULL, NULL },
-    { _pycs("Y"), (getter)pyCompoundPosController_getY,
-        (setter)pyCompoundPosController_setY, NULL, NULL },
-    { _pycs("Z"), (getter)pyCompoundPosController_getZ,
-        (setter)pyCompoundPosController_setZ, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyCompoundPosController_X_getset,
+    pyCompoundPosController_Y_getset,
+    pyCompoundPosController_Z_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyCompoundPosController_Type = {

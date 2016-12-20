@@ -77,7 +77,7 @@ void hsKeyFrame::setFrame(unsigned int frame) {
     fFrameTime = fFrame / 30.0f;
 }
 
-void hsKeyFrame::setFrame(float frame) {
+void hsKeyFrame::setFrameTime(float frame) {
     fFrameTime = frame;
     fFrame = (unsigned int)floor((fFrameTime * 30.0f) + 0.5f);
 }

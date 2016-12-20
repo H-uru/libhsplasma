@@ -30,18 +30,6 @@ static PyObject* pyIcicle_new(PyTypeObject* type, PyObject* args, PyObject* kwds
     return (PyObject*)self;
 }
 
-static PyObject* pyIcicle_getIBufferIdx(pyIcicle* self, void*) {
-    return PyInt_FromLong(self->fThis->getIBufferIdx());
-}
-
-static PyObject* pyIcicle_getIStartIdx(pyIcicle* self, void*) {
-    return PyInt_FromLong(self->fThis->getIStartIdx());
-}
-
-static PyObject* pyIcicle_getILength(pyIcicle* self, void*) {
-    return PyInt_FromLong(self->fThis->getILength());
-}
-
 static PyObject* pyIcicle_getSortData(pyIcicle* self, void*) {
     int size = self->fThis->getILength() / 3;
     const plGBufferTriangle* sortData = self->fThis->getSortData();
@@ -54,33 +42,6 @@ static PyObject* pyIcicle_getSortData(pyIcicle* self, void*) {
             PyList_SET_ITEM(list, i, pyGBufferTriangle_FromGBufferTriangle(sortData[i]));
         return list;
     }
-}
-
-static int pyIcicle_setIBufferIdx(pyIcicle* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "IBufferIdx should be an int");
-        return -1;
-    }
-    self->fThis->setIBufferIdx(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyIcicle_setIStartIdx(pyIcicle* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "IStartIdx should be an int");
-        return -1;
-    }
-    self->fThis->setIStartIdx(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyIcicle_setILength(pyIcicle* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "ILength should be an int");
-        return -1;
-    }
-    self->fThis->setILength(PyInt_AsLong(value));
-    return 0;
 }
 
 static int pyIcicle_setSortData(pyIcicle* self, PyObject* value, void*) {
@@ -107,16 +68,17 @@ static int pyIcicle_setSortData(pyIcicle* self, PyObject* value, void*) {
     }
 }
 
+PY_PROPERTY(unsigned int, Icicle, IBufferIdx, getIBufferIdx, setIBufferIdx)
+PY_PROPERTY(unsigned int, Icicle, IStartIdx, getIStartIdx, setIStartIdx)
+PY_PROPERTY(unsigned int, Icicle, ILength, getILength, setILength)
+
 static PyGetSetDef pyIcicle_GetSet[] = {
-    { _pycs("IBufferIdx"), (getter)pyIcicle_getIBufferIdx, (setter)pyIcicle_setIBufferIdx,
-      _pycs("The Face Index Buffer index"), NULL },
-    { _pycs("IStartIdx"), (getter)pyIcicle_getIStartIdx, (setter)pyIcicle_setIStartIdx,
-      _pycs("The first face index in this Span"), NULL },
-    { _pycs("ILength"), (getter)pyIcicle_getILength, (setter)pyIcicle_setILength,
-      _pycs("The number of face indices in this Span (faces * 3)"), NULL },
+    pyIcicle_IBufferIdx_getset,
+    pyIcicle_IStartIdx_getset,
+    pyIcicle_ILength_getset,
     { _pycs("sortData"), (getter)pyIcicle_getSortData, (setter)pyIcicle_setSortData,
       _pycs("Optional face sort data"), NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyIcicle_Type = {

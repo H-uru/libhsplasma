@@ -297,67 +297,6 @@ static PyObject* pyGBufferGroup_getIdxBufferCount(pyGBufferGroup* self, PyObject
     return PyInt_FromLong(self->fThis->getIdxBufferCount(idx));
 }
 
-static PyObject* pyGBufferGroup_getFormat(pyGBufferGroup* self, void*) {
-    return PyInt_FromLong(self->fThis->getFormat());
-}
-
-static PyObject* pyGBufferGroup_getSkinWeights(pyGBufferGroup* self, void*) {
-    return PyInt_FromLong(self->fThis->getSkinWeights());
-}
-
-static PyObject* pyGBufferGroup_getNumUVs(pyGBufferGroup* self, void*) {
-    return PyInt_FromLong(self->fThis->getNumUVs());
-}
-
-static PyObject* pyGBufferGroup_getHasSIs(pyGBufferGroup* self, void*) {
-    return PyBool_FromLong(self->fThis->getHasSkinIndices());
-}
-
-static PyObject* pyGBufferGroup_getStride(pyGBufferGroup* self, void*) {
-    return PyInt_FromLong(self->fThis->getStride());
-}
-
-static int pyGBufferGroup_setFormat(pyGBufferGroup* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "format should be an int");
-        return -1;
-    }
-    self->fThis->setFormat(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyGBufferGroup_setSkinWeights(pyGBufferGroup* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "skinWeights should be an int");
-        return -1;
-    }
-    self->fThis->setSkinWeights(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyGBufferGroup_setNumUVs(pyGBufferGroup* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "numUVs should be an int");
-        return -1;
-    }
-    self->fThis->setNumUVs(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyGBufferGroup_setHasSIs(pyGBufferGroup* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "hasSkinIndices should be a bool");
-        return -1;
-    }
-    self->fThis->setHasSkinIndices(PyInt_AsLong(value) != 0);
-    return 0;
-}
-
-static int pyGBufferGroup_setStride(pyGBufferGroup* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "stride is read-only");
-    return -1;
-}
-
 static PyMethodDef pyGBufferGroup_Methods[] = {
     { "read", (PyCFunction)pyGBufferGroup_read, METH_VARARGS,
       "Params: stream\n"
@@ -417,18 +356,19 @@ static PyMethodDef pyGBufferGroup_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(unsigned int, GBufferGroup, format, getFormat, setFormat)
+PY_PROPERTY(size_t, GBufferGroup, skinWeights, getSkinWeights, setSkinWeights)
+PY_PROPERTY(size_t, GBufferGroup, numUVs, getNumUVs, setNumUVs)
+PY_PROPERTY(bool, GBufferGroup, hasSkinIndices, getHasSkinIndices, setHasSkinIndices)
+PY_PROPERTY_RO(GBufferGroup, stride, getStride)
+
 static PyGetSetDef pyGBufferGroup_GetSet[] = {
-    { _pycs("format"), (getter)pyGBufferGroup_getFormat,
-        (setter)pyGBufferGroup_setFormat, NULL, NULL },
-    { _pycs("skinWeights"), (getter)pyGBufferGroup_getSkinWeights,
-        (setter)pyGBufferGroup_setSkinWeights, NULL, NULL },
-    { _pycs("numUVs"), (getter)pyGBufferGroup_getNumUVs,
-        (setter)pyGBufferGroup_setNumUVs, NULL, NULL },
-    { _pycs("hasSkinIndices"), (getter)pyGBufferGroup_getHasSIs,
-        (setter)pyGBufferGroup_setHasSIs, NULL, NULL },
-    { _pycs("stride"), (getter)pyGBufferGroup_getStride,
-        (setter)pyGBufferGroup_setStride, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyGBufferGroup_format_getset,
+    pyGBufferGroup_skinWeights_getset,
+    pyGBufferGroup_numUVs_getset,
+    pyGBufferGroup_hasSkinIndices_getset,
+    pyGBufferGroup_stride_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyGBufferGroup_Type = {

@@ -70,26 +70,9 @@ static PyObject* pyWinAudible_getSounds(pyWinAudible* self, void*) {
     return list;
 }
 
-static PyObject* pyWinAudible_getNode(pyWinAudible* self, void*) {
-    return pyKey_FromKey(self->fThis->getSceneNode());
-}
-
 static int pyWinAudible_setSounds(pyWinAudible* self, PyObject* value, void*) {
     PyErr_SetString(PyExc_RuntimeError, "to add sounds, use addSound()");
     return -1;
-}
-
-static int pyWinAudible_setNode(pyWinAudible* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setSceneNode(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setSceneNode(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "sceneNode should be a plKey");
-        return -1;
-    }
 }
 
 static PyMethodDef pyWinAudible_Methods[] = {
@@ -104,10 +87,12 @@ static PyMethodDef pyWinAudible_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(plKey, WinAudible, sceneNode, getSceneNode, setSceneNode)
+
 static PyGetSetDef pyWinAudible_GetSet[] = {
     { _pycs("sounds"), (getter)pyWinAudible_getSounds, (setter)pyWinAudible_setSounds, NULL, NULL },
-    { _pycs("sceneNode"), (getter)pyWinAudible_getNode, (setter)pyWinAudible_setNode, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyWinAudible_sceneNode_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyWinAudible_Type = {

@@ -26,22 +26,11 @@ static PyObject* pyAGChannel_new(PyTypeObject* type, PyObject* args, PyObject* k
     return NULL;
 }
 
-static PyObject* pyAGChannel_getName(pyAGChannel* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getName());
-}
-
-static int pyAGChannel_setName(pyAGChannel* self, PyObject* value, void*) {
-    if (value == NULL || !PyAnyStr_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "name should be a string");
-        return -1;
-    }
-    self->fThis->setName(PyStr_To_PlStr(value));
-    return 0;
-}
+PY_PROPERTY(plString, AGChannel, name, getName, setName)
 
 static PyGetSetDef pyAGChannel_GetSet[] = {
-    { _pycs("name"), (getter)pyAGChannel_getName, (setter)pyAGChannel_setName, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyAGChannel_name_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyAGChannel_Type = {

@@ -30,36 +30,13 @@ static PyObject* pyTimerCallbackMsg_new(PyTypeObject* type, PyObject* args, PyOb
     return (PyObject*)self;
 }
 
-static PyObject* pyTimerCallbackMsg_getID(pyTimerCallbackMsg* self, void*) {
-    return PyInt_FromLong(self->fThis->getID());
-}
-
-static PyObject* pyTimerCallbackMsg_getTime(pyTimerCallbackMsg* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getTime());
-}
-
-static int pyTimerCallbackMsg_setID(pyTimerCallbackMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "ID expects an int");
-        return -1;
-    }
-    self->fThis->setID(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyTimerCallbackMsg_setTime(pyTimerCallbackMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "time expects a float");
-        return -1;
-    }
-    self->fThis->setTime((float)PyFloat_AsDouble(value));
-    return 0;
-}
+PY_PROPERTY(unsigned int, TimerCallbackMsg, ID, getID, setID)
+PY_PROPERTY(float, TimerCallbackMsg, time, getTime, setTime)
 
 static PyGetSetDef pyTimerCallbackMsg_GetSet[] = {
-    { _pycs("ID"), (getter)pyTimerCallbackMsg_getID, (setter)pyTimerCallbackMsg_setID, NULL, NULL },
-    { _pycs("time"), (getter)pyTimerCallbackMsg_getTime, (setter)pyTimerCallbackMsg_setTime, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyTimerCallbackMsg_ID_getset,
+    pyTimerCallbackMsg_time_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyTimerCallbackMsg_Type = {

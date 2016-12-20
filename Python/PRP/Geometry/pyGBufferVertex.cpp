@@ -39,22 +39,6 @@ static PyObject* pyGBufferVertex_new(PyTypeObject* type, PyObject* args, PyObjec
     return (PyObject*)self;
 }
 
-static PyObject* pyGBufferVertex_getPos(pyGBufferVertex* self, void*) {
-    return pyVector3_FromVector3(self->fThis->fPos);
-}
-
-static PyObject* pyGBufferVertex_getNormal(pyGBufferVertex* self, void*) {
-    return pyVector3_FromVector3(self->fThis->fNormal);
-}
-
-static PyObject* pyGBufferVertex_getSkin(pyGBufferVertex* self, void*) {
-    return PyInt_FromLong(self->fThis->fSkinIdx);
-}
-
-static PyObject* pyGBufferVertex_getColor(pyGBufferVertex* self, void*) {
-    return PyInt_FromLong(self->fThis->fColor);
-}
-
 static PyObject* pyGBufferVertex_getWeights(pyGBufferVertex* self, void*) {
     PyObject* list = PyList_New(3);
     PyList_SET_ITEM(list, 0, PyFloat_FromDouble(self->fThis->fSkinWeights[0]));
@@ -68,42 +52,6 @@ static PyObject* pyGBufferVertex_getUVWs(pyGBufferVertex* self, void*) {
     for (size_t i=0; i<10; i++)
         PyList_SET_ITEM(list, i, pyVector3_FromVector3(self->fThis->fUVWs[i]));
     return list;
-}
-
-static int pyGBufferVertex_setPos(pyGBufferVertex* self, PyObject* value, void*) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "pos should be an hsVector3");
-        return -1;
-    }
-    self->fThis->fPos = *((pyVector3*)value)->fThis;
-    return 0;
-}
-
-static int pyGBufferVertex_setNormal(pyGBufferVertex* self, PyObject* value, void*) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "normal should be an hsVector3");
-        return -1;
-    }
-    self->fThis->fNormal = *((pyVector3*)value)->fThis;
-    return 0;
-}
-
-static int pyGBufferVertex_setSkin(pyGBufferVertex* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "skinIdx should be an int");
-        return -1;
-    }
-    self->fThis->fSkinIdx = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyGBufferVertex_setColor(pyGBufferVertex* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "color should be an int");
-        return -1;
-    }
-    self->fThis->fColor = PyInt_AsLong(value);
-    return 0;
 }
 
 static int pyGBufferVertex_setWeights(pyGBufferVertex* self, PyObject* value, void*) {
@@ -150,20 +98,21 @@ static int pyGBufferVertex_setUVWs(pyGBufferVertex* self, PyObject* value, void*
     return 0;
 }
 
+PY_PROPERTY_MEMBER(hsVector3, GBufferVertex, pos, fPos)
+PY_PROPERTY_MEMBER(hsVector3, GBufferVertex, normal, fNormal)
+PY_PROPERTY_MEMBER(int, GBufferVertex, skinIdx, fSkinIdx)
+PY_PROPERTY_MEMBER(unsigned int, GBufferVertex, color, fColor)
+
 static PyGetSetDef pyGBufferVertex_GetSet[] = {
-    { _pycs("pos"), (getter)pyGBufferVertex_getPos,
-        (setter)pyGBufferVertex_setPos, NULL, NULL },
-    { _pycs("normal"), (getter)pyGBufferVertex_getNormal,
-        (setter)pyGBufferVertex_setNormal, NULL, NULL },
-    { _pycs("skinIdx"), (getter)pyGBufferVertex_getSkin,
-        (setter)pyGBufferVertex_setSkin, NULL, NULL },
-    { _pycs("color"), (getter)pyGBufferVertex_getColor,
-        (setter)pyGBufferVertex_setColor, NULL, NULL },
+    pyGBufferVertex_pos_getset,
+    pyGBufferVertex_normal_getset,
+    pyGBufferVertex_skinIdx_getset,
+    pyGBufferVertex_color_getset,
     { _pycs("skinWeights"), (getter)pyGBufferVertex_getWeights,
         (setter)pyGBufferVertex_setWeights, NULL, NULL },
     { _pycs("UVWs"), (getter)pyGBufferVertex_getUVWs,
         (setter)pyGBufferVertex_setUVWs, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyGBufferVertex_Type = {

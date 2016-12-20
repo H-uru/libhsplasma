@@ -30,53 +30,15 @@ static PyObject* pyAGAnimBink_new(PyTypeObject* type, PyObject* args, PyObject* 
     return (PyObject*)self;
 }
 
-static PyObject* pyAGAnimBink_getBinkFilename(pyAGAnimBink* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getBinkFilename());
-}
-
-static PyObject* pyAGAnimBink_getSgtFilename(pyAGAnimBink* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getSgtFilename());
-}
-
-static PyObject* pyAGAnimBink_getSubtitleId(pyAGAnimBink* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getSubtitleId());
-}
-
-static int pyAGAnimBink_setBinkFilename(pyAGAnimBink* self, PyObject* value, void*) {
-    if (value == NULL || !PyAnyStr_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "binkFilename should be a string");
-        return -1;
-    }
-    self->fThis->setBinkFilename(PyStr_To_PlStr(value));
-    return 0;
-}
-
-static int pyAGAnimBink_setSgtFilename(pyAGAnimBink* self, PyObject* value, void*) {
-    if (value == NULL || !PyAnyStr_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "sgtFilename should be a string");
-        return -1;
-    }
-    self->fThis->setSgtFilename(PyStr_To_PlStr(value));
-    return 0;
-}
-
-static int pyAGAnimBink_setSubtitleId(pyAGAnimBink* self, PyObject* value, void*) {
-    if (value == NULL || !PyAnyStr_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "subtitleId should be a string");
-        return -1;
-    }
-    self->fThis->setSubtitleId(PyStr_To_PlStr(value));
-    return 0;
-}
+PY_PROPERTY(plString, AGAnimBink, binkFilename, getBinkFilename, setBinkFilename)
+PY_PROPERTY(plString, AGAnimBink,sgtFilename, getSgtFilename, setSgtFilename)
+PY_PROPERTY(plString, AGAnimBink,subtitleId, getSubtitleId, setSubtitleId)
 
 static PyGetSetDef pyAGAnimBink_GetSet[] = {
-    { _pycs("binkFilename"), (getter)pyAGAnimBink_getBinkFilename,
-        (setter)pyAGAnimBink_setBinkFilename, NULL, NULL },
-    { _pycs("sgtFilename"), (getter)pyAGAnimBink_getSgtFilename,
-        (setter)pyAGAnimBink_setSgtFilename, NULL, NULL },
-    { _pycs("subtitleId"), (getter)pyAGAnimBink_getSubtitleId,
-        (setter)pyAGAnimBink_setSubtitleId, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyAGAnimBink_binkFilename_getset,
+    pyAGAnimBink_sgtFilename_getset,
+    pyAGAnimBink_subtitleId_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyAGAnimBink_Type = {

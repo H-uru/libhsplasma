@@ -27,19 +27,11 @@ static PyObject* pyScaleController_new(PyTypeObject* type, PyObject* args, PyObj
     return NULL;
 }
 
-static PyObject* pyScaleController_getType(pyScaleController* self, void*) {
-    return PyInt_FromLong(self->fThis->getType());
-}
-
-static int pyScaleController_setType(pyScaleController* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "type is read-only");
-    return -1;
-}
+PY_PROPERTY_RO(ScaleController, type, getType)
 
 static PyGetSetDef pyScaleController_GetSet[] = {
-    { _pycs("type"), (getter)pyScaleController_getType,
-        (setter)pyScaleController_setType, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyScaleController_type_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyScaleController_Type = {

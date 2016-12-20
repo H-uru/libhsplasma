@@ -57,7 +57,7 @@ static PyObject* pyMatrix33_Subscript(pyMatrix33* self, PyObject* key) {
         PyErr_SetString(PyExc_TypeError, "Matrix subscript expects int, int");
         return NULL;
     }
-    return PyFloat_FromDouble((*self->fThis)(i, j));
+    return pyPlasma_convert((*self->fThis)(i, j));
 }
 
 static int pyMatrix33_AssSubscript(pyMatrix33* self, PyObject* key, PyObject* value) {
@@ -74,31 +74,28 @@ static int pyMatrix33_AssSubscript(pyMatrix33* self, PyObject* key, PyObject* va
     return 0;
 }
 
-static PyObject* pyMatrix33_getMat(pyMatrix33* self, void*) {
-    PyObject* l1 = PyList_New(3);
-    PyObject* l2 = PyList_New(3);
-    PyObject* l3 = PyList_New(3);
-    PyList_SET_ITEM(l1, 0, PyFloat_FromDouble((*self->fThis)(0, 0)));
-    PyList_SET_ITEM(l1, 1, PyFloat_FromDouble((*self->fThis)(0, 1)));
-    PyList_SET_ITEM(l1, 2, PyFloat_FromDouble((*self->fThis)(0, 2)));
-    PyList_SET_ITEM(l2, 0, PyFloat_FromDouble((*self->fThis)(1, 0)));
-    PyList_SET_ITEM(l2, 1, PyFloat_FromDouble((*self->fThis)(1, 1)));
-    PyList_SET_ITEM(l2, 2, PyFloat_FromDouble((*self->fThis)(1, 2)));
-    PyList_SET_ITEM(l3, 0, PyFloat_FromDouble((*self->fThis)(2, 0)));
-    PyList_SET_ITEM(l3, 1, PyFloat_FromDouble((*self->fThis)(2, 1)));
-    PyList_SET_ITEM(l3, 2, PyFloat_FromDouble((*self->fThis)(2, 2)));
+PY_GETSET_GETTER_DECL(Matrix33, mat) {
+    PyObject* t1 = PyTuple_New(3);
+    PyObject* t2 = PyTuple_New(3);
+    PyObject* t3 = PyTuple_New(3);
+    PyTuple_SET_ITEM(t1, 0, pyPlasma_convert((*self->fThis)(0, 0)));
+    PyTuple_SET_ITEM(t1, 1, pyPlasma_convert((*self->fThis)(0, 1)));
+    PyTuple_SET_ITEM(t1, 2, pyPlasma_convert((*self->fThis)(0, 2)));
+    PyTuple_SET_ITEM(t2, 0, pyPlasma_convert((*self->fThis)(1, 0)));
+    PyTuple_SET_ITEM(t2, 1, pyPlasma_convert((*self->fThis)(1, 1)));
+    PyTuple_SET_ITEM(t2, 2, pyPlasma_convert((*self->fThis)(1, 2)));
+    PyTuple_SET_ITEM(t3, 0, pyPlasma_convert((*self->fThis)(2, 0)));
+    PyTuple_SET_ITEM(t3, 1, pyPlasma_convert((*self->fThis)(2, 1)));
+    PyTuple_SET_ITEM(t3, 2, pyPlasma_convert((*self->fThis)(2, 2)));
 
-    PyObject* list = PyList_New(3);
-    PyList_SET_ITEM(list, 0, l1);
-    PyList_SET_ITEM(list, 1, l2);
-    PyList_SET_ITEM(list, 2, l3);
-    return list;
+    PyObject* mat = PyTuple_New(3);
+    PyTuple_SET_ITEM(mat, 0, t1);
+    PyTuple_SET_ITEM(mat, 1, t2);
+    PyTuple_SET_ITEM(mat, 2, t3);
+    return mat;
 }
 
-static int pyMatrix33_setMat(pyMatrix33* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "mat is read-only");
-    return -1;
-}
+PY_PROPERTY_GETSET_RO_DECL(Matrix33, mat)
 
 static PyObject* pyMatrix33_read(pyMatrix33* self, PyObject* args) {
     pyStream* stream;
@@ -137,8 +134,8 @@ static PyMappingMethods pyMatrix33_As_Mapping = {
 };
 
 PyGetSetDef pyMatrix33_GetSet[] = {
-    { _pycs("mat"), (getter)pyMatrix33_getMat, (setter)pyMatrix33_setMat, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyMatrix33_mat_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyMethodDef pyMatrix33_Methods[] = {

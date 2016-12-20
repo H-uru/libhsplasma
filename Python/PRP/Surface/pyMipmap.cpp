@@ -256,44 +256,6 @@ static PyObject* pyMipmap_CompressImage(pyMipmap* self, PyObject* args) {
     return Py_None;
 }
 
-static PyObject* pyMipmap_getWidth(pyMipmap* self, void*) {
-    return PyInt_FromLong(self->fThis->getWidth());
-}
-
-static PyObject* pyMipmap_getHeight(pyMipmap* self, void*) {
-    return PyInt_FromLong(self->fThis->getHeight());
-}
-
-static PyObject* pyMipmap_getImageData(pyMipmap* self, void*) {
-    PyObject* data = PyBytes_FromStringAndSize((const char*)self->fThis->getImageData(),
-                                               self->fThis->getTotalSize());
-    return data;
-}
-
-static PyObject* pyMipmap_getNumLevels(pyMipmap* self, void*) {
-    return PyInt_FromLong(self->fThis->getNumLevels());
-}
-
-static int pyMipmap_setWidth(pyMipmap* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To set the width, you must re-create the mipmap object");
-    return -1;
-}
-
-static int pyMipmap_setHeight(pyMipmap* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To set the height, you must re-create the mipmap object");
-    return -1;
-}
-
-static int pyMipmap_setImageData(pyMipmap* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To set the image data, use the mipmap set methods");
-    return -1;
-}
-
-static int pyMipmap_setNumLevels(pyMipmap* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To set the number of mip levels, you must re-create the mipmap object");
-    return -1;
-}
-
 static PyMethodDef pyMipmap_Methods[] = {
     { "readData", (PyCFunction)pyMipmap_readData, METH_VARARGS,
       "Params: stream\n"
@@ -345,14 +307,32 @@ static PyMethodDef pyMipmap_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY_READ(Mipmap, width, getWidth)
+PY_PROPERTY_SETTER_MSG(Mipmap, width, "To set the width, you must re-create the mipmap object")
+PY_PROPERTY_GETSET_DECL(Mipmap, width)
+
+PY_PROPERTY_READ(Mipmap, height, getHeight)
+PY_PROPERTY_SETTER_MSG(Mipmap, height, "To set the height, you must re-create the mipmap object")
+PY_PROPERTY_GETSET_DECL(Mipmap, height)
+
+PY_GETSET_GETTER_DECL(Mipmap, imageData) {
+    return PyBytes_FromStringAndSize((const char*)self->fThis->getImageData(),
+                                     self->fThis->getTotalSize());
+}
+
+PY_PROPERTY_SETTER_MSG(Mipmap, imageData, "To set the image data, use the mipmap set methods")
+PY_PROPERTY_GETSET_DECL(Mipmap, imageData)
+
+PY_PROPERTY_READ(Mipmap, numLevels, getNumLevels)
+PY_PROPERTY_SETTER_MSG(Mipmap, numLevels, "To set the number of mip levels, you must re-create the mipmap object")
+PY_PROPERTY_GETSET_DECL(Mipmap, numLevels)
+
 static PyGetSetDef pyMipmap_GetSet[] = {
-    { _pycs("width"), (getter)pyMipmap_getWidth, (setter)pyMipmap_setWidth, NULL, NULL },
-    { _pycs("height"), (getter)pyMipmap_getHeight, (setter)pyMipmap_setHeight, NULL, NULL },
-    { _pycs("imageData"), (getter)pyMipmap_getImageData,
-        (setter)pyMipmap_setImageData, NULL, NULL },
-    { _pycs("numLevels"), (getter)pyMipmap_getNumLevels,
-        (setter)pyMipmap_setNumLevels, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyMipmap_width_getset,
+    pyMipmap_height_getset,
+    pyMipmap_imageData_getset,
+    pyMipmap_numLevels_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyMipmap_Type = {

@@ -56,32 +56,6 @@ static PyObject* pyLODDist_write(pyLODDist* self, PyObject* args) {
     return Py_None;
 }
 
-static PyObject* pyLODDist_getMin(pyLODDist* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getMin());
-}
-
-static PyObject* pyLODDist_getMax(pyLODDist* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getMax());
-}
-
-static int pyLODDist_setMin(pyLODDist* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "min should be a float");
-        return -1;
-    }
-    self->fThis->setMin(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyLODDist_setMax(pyLODDist* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "max should be a float");
-        return -1;
-    }
-    self->fThis->setMax(PyFloat_AsDouble(value));
-    return 0;
-}
-
 static PyMethodDef pyLODDist_Methods[] = {
     { "read", (PyCFunction)pyLODDist_read, METH_VARARGS,
       "Params: stream\n"
@@ -92,10 +66,13 @@ static PyMethodDef pyLODDist_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(float, LODDist, min, getMin, setMin)
+PY_PROPERTY(float, LODDist, max, getMax, setMax)
+
 static PyGetSetDef pyLODDist_GetSet[] = {
-    { _pycs("min"), (getter)pyLODDist_getMin, (setter)pyLODDist_setMin, NULL, NULL },
-    { _pycs("max"), (getter)pyLODDist_getMax, (setter)pyLODDist_setMax, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyLODDist_min_getset,
+    pyLODDist_max_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyLODDist_Type = {

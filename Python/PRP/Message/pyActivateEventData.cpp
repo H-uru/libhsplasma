@@ -29,38 +29,13 @@ static PyObject* pyActivateEventData_new(PyTypeObject* type, PyObject* args, PyO
     return (PyObject*)self;
 }
 
-static PyObject* pyActivateEventData_getActive(pyActivateEventData* self, void*) {
-    return PyBool_FromLong(self->fThis->isActive());
-}
-
-static PyObject* pyActivateEventData_getActivate(pyActivateEventData* self, void*) {
-    return PyBool_FromLong(self->fThis->isActivate());
-}
-
-static int pyActivateEventData_setActive(pyActivateEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "active should be a bool");
-        return -1;
-    }
-    self->fThis->setActive(PyInt_AsLong(value) != 0);
-    return 0;
-}
-
-static int pyActivateEventData_setActivate(pyActivateEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "activate should be a bool");
-        return -1;
-    }
-    self->fThis->setActivate(PyInt_AsLong(value) != 0);
-    return 0;
-}
+PY_PROPERTY(bool, ActivateEventData, active, isActive, setActive)
+PY_PROPERTY(bool, ActivateEventData, activate, isActivate, setActivate)
 
 static PyGetSetDef pyActivateEventData_GetSet[] = {
-    { _pycs("active"), (getter)pyActivateEventData_getActive,
-        (setter)pyActivateEventData_setActive, NULL, NULL },
-    { _pycs("activate"), (getter)pyActivateEventData_getActivate,
-        (setter)pyActivateEventData_setActivate, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyActivateEventData_active_getset,
+    pyActivateEventData_activate_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyActivateEventData_Type = {

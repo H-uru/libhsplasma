@@ -29,38 +29,13 @@ static PyObject* pyCoopEventData_new(PyTypeObject* type, PyObject* args, PyObjec
     return (PyObject*)self;
 }
 
-static PyObject* pyCoopEventData_getID(pyCoopEventData* self, void*) {
-    return PyInt_FromLong(self->fThis->getID());
-}
-
-static PyObject* pyCoopEventData_getSerial(pyCoopEventData* self, void*) {
-    return PyInt_FromLong(self->fThis->getSerial());
-}
-
-static int pyCoopEventData_setID(pyCoopEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "id should be an int");
-        return -1;
-    }
-    self->fThis->setID(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyCoopEventData_setSerial(pyCoopEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "serial should be an int");
-        return -1;
-    }
-    self->fThis->setSerial(PyInt_AsLong(value));
-    return 0;
-}
+PY_PROPERTY(unsigned int, CoopEventData, id, getID, setID)
+PY_PROPERTY(unsigned short, CoopEventData, serial, getSerial, setSerial)
 
 static PyGetSetDef pyCoopEventData_GetSet[] = {
-    { _pycs("id"), (getter)pyCoopEventData_getID,
-        (setter)pyCoopEventData_setID, NULL, NULL },
-    { _pycs("serial"), (getter)pyCoopEventData_getSerial,
-        (setter)pyCoopEventData_setSerial, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyCoopEventData_id_getset,
+    pyCoopEventData_serial_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyCoopEventData_Type = {

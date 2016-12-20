@@ -101,100 +101,6 @@ static PyObject* pyPageInfo_getFilename(pyPageInfo* self, PyObject* args) {
     return PlStr_To_PyStr(self->fThis->getFilename((PlasmaVer)version));
 }
 
-static PyObject* pyPageInfo_getAge(pyPageInfo* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getAge());
-}
-
-static PyObject* pyPageInfo_getChapter(pyPageInfo* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getChapter());
-}
-
-static PyObject* pyPageInfo_getPage(pyPageInfo* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getPage());
-}
-
-static PyObject* pyPageInfo_getRelease(pyPageInfo* self, void*) {
-    return PyInt_FromLong(self->fThis->getReleaseVersion());
-}
-
-static PyObject* pyPageInfo_getFlags(pyPageInfo* self, void*) {
-    return PyInt_FromLong(self->fThis->getFlags());
-}
-
-static PyObject* pyPageInfo_getLocation(pyPageInfo* self, void*) {
-    return pyLocation_FromLocation(self->fThis->getLocation());
-}
-
-static int pyPageInfo_setAge(pyPageInfo* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setAge("");
-    } else {
-        if (!PyAnyStr_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "age must be a string");
-            return -1;
-        }
-        self->fThis->setAge(PyStr_To_PlStr(value));
-    }
-    return 0;
-}
-
-static int pyPageInfo_setChapter(pyPageInfo* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "chapter is read-only");
-    return -1;
-}
-
-static int pyPageInfo_setPage(pyPageInfo* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setPage("");
-    } else {
-        if (!PyAnyStr_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "page must be a string");
-            return -1;
-        }
-        self->fThis->setPage(PyStr_To_PlStr(value));
-    }
-    return 0;
-}
-
-static int pyPageInfo_setRelease(pyPageInfo* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setReleaseVersion(0);
-    } else {
-        if (!PyInt_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "releaseVersion must be an int");
-            return -1;
-        }
-        self->fThis->setReleaseVersion(PyInt_AsLong(value));
-    }
-    return 0;
-}
-
-static int pyPageInfo_setFlags(pyPageInfo* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setFlags(0);
-    } else {
-        if (!PyInt_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "flags must be an int");
-            return -1;
-        }
-        self->fThis->setFlags(PyInt_AsLong(value));
-    }
-    return 0;
-}
-
-static int pyPageInfo_setLocation(pyPageInfo* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setLocation(plLocation());
-    } else {
-        if (!pyLocation_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "location must be a plLocation");
-            return -1;
-        }
-        self->fThis->setLocation(*((pyLocation*)value)->fThis);
-    }
-    return 0;
-}
-
 static PyMethodDef pyPageInfo_Methods[] = {
     { "isValid", (PyCFunction)pyPageInfo_isValid, METH_NOARGS,
       "Returns True if the PageInfo is valid" },
@@ -213,20 +119,21 @@ static PyMethodDef pyPageInfo_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(plString, PageInfo, age, getAge, setAge)
+PY_PROPERTY_RO(PageInfo, chapter, getChapter)
+PY_PROPERTY(plString, PageInfo, page, getPage, setPage)
+PY_PROPERTY(unsigned int, PageInfo, releaseVersion, getReleaseVersion, setReleaseVersion)
+PY_PROPERTY(unsigned int, PageInfo, flags, getFlags, setFlags)
+PY_PROPERTY(plLocation, PageInfo, location, getLocation, setLocation)
+
 static PyGetSetDef pyPageInfo_GetSet[] = {
-    { _pycs("age"), (getter)pyPageInfo_getAge, (setter)pyPageInfo_setAge,
-        _pycs("The Age name"), NULL },
-    { _pycs("chapter"), (getter)pyPageInfo_getChapter, (setter)pyPageInfo_setChapter,
-        _pycs("The Chapter name (District)"), NULL },
-    { _pycs("page"), (getter)pyPageInfo_getPage, (setter)pyPageInfo_setPage,
-        _pycs("The Page name"), NULL },
-    { _pycs("releaseVersion"), (getter)pyPageInfo_getRelease,
-        (setter)pyPageInfo_setRelease, _pycs("The Release Version"), NULL },
-    { _pycs("flags"), (getter)pyPageInfo_getFlags, (setter)pyPageInfo_setFlags,
-        _pycs("Page Flags"), NULL },
-    { _pycs("location"), (getter)pyPageInfo_getLocation,
-        (setter)pyPageInfo_setLocation, _pycs("Page Location"), NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyPageInfo_age_getset,
+    pyPageInfo_chapter_getset,
+    pyPageInfo_page_getset,
+    pyPageInfo_releaseVersion_getset,
+    pyPageInfo_flags_getset,
+    pyPageInfo_location_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyPageInfo_Type = {

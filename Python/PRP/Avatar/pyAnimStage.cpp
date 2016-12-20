@@ -36,121 +36,32 @@ static PyObject* pyAnimStage_new(PyTypeObject* type, PyObject* args, PyObject* k
     return (PyObject*)self;
 }
 
-static PyObject* pyAnimStage_getForwardType(pyAnimStage* self, void*) {
-    return PyInt_FromLong(self->fThis->getForwardType());
-}
+PY_PROPERTY(plAnimStage::PlayType, AnimStage, forwardType, getForwardType, setForwardType)
+PY_PROPERTY(plAnimStage::PlayType, AnimStage, backType, getBackType, setBackType)
+PY_PROPERTY(plAnimStage::AdvanceType, AnimStage, advanceType, getAdvanceType, setAdvanceType)
+PY_PROPERTY(plAnimStage::AdvanceType, AnimStage, regressType, getRegressType, setRegressType)
+PY_PROPERTY(plString, AnimStage, animName, getAnimName, setAnimName)
+PY_PROPERTY(unsigned char, AnimStage, notify, getNotify, setNotify)
+PY_PROPERTY(int, AnimStage, loops, getLoops, setLoops)
 
-static PyObject* pyAnimStage_getBackType(pyAnimStage* self, void*) {
-    return PyInt_FromLong(self->fThis->getBackType());
-}
-
-static PyObject* pyAnimStage_getAdvanceType(pyAnimStage* self, void*) {
-    return PyInt_FromLong(self->fThis->getAdvanceType());
-}
-
-static PyObject* pyAnimStage_getRegressType(pyAnimStage* self, void*) {
-    return PyInt_FromLong(self->fThis->getRegressType());
-}
-
-static PyObject* pyAnimStage_getAnimName(pyAnimStage* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getAnimName());
-}
-
-static PyObject* pyAnimStage_getNotify(pyAnimStage* self, void*) {
-    return PyInt_FromLong(self->fThis->getNotify());
-}
-
-static PyObject* pyAnimStage_getLoops(pyAnimStage* self, void*) {
-    return PyInt_FromLong(self->fThis->getLoops());
-}
-
-static PyObject* pyAnimStage_getAdvanceTo(pyAnimStage* self, void*) {
+PY_GETSET_GETTER_DECL(AnimStage, advanceTo) {
     if (self->fThis->doAdvanceTo()) {
-        return PyInt_FromLong(self->fThis->getAdvanceTo());
+        return pyPlasma_convert(self->fThis->getAdvanceTo());
     } else {
         Py_INCREF(Py_None);
         return Py_None;
     }
 }
 
-static PyObject* pyAnimStage_getRegressTo(pyAnimStage* self, void*) {
-    if (self->fThis->doRegressTo()) {
-        return PyInt_FromLong(self->fThis->getRegressTo());
-    } else {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-}
-
-static int pyAnimStage_setForwardType(pyAnimStage* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "forwardType should be an int");
+PY_GETSET_SETTER_DECL(AnimStage, advanceTo) {
+    if (value == NULL) {
+        PyErr_SetString(PyExc_RuntimeError, "advanceTo cannot be deleted");
         return -1;
-    }
-    self->fThis->setForwardType((plAnimStage::PlayType)PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyAnimStage_setBackType(pyAnimStage* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "backType should be an int");
-        return -1;
-    }
-    self->fThis->setBackType((plAnimStage::PlayType)PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyAnimStage_setAdvanceType(pyAnimStage* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "advanceType should be an int");
-        return -1;
-    }
-    self->fThis->setAdvanceType((plAnimStage::AdvanceType)PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyAnimStage_setRegressType(pyAnimStage* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "regressType should be an int");
-        return -1;
-    }
-    self->fThis->setRegressType((plAnimStage::AdvanceType)PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyAnimStage_setAnimName(pyAnimStage* self, PyObject* value, void*) {
-    if (value == NULL || !PyAnyStr_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "animName should be a string");
-        return -1;
-    }
-    self->fThis->setAnimName(PyStr_To_PlStr(value));
-    return 0;
-}
-
-static int pyAnimStage_setNotify(pyAnimStage* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "notify should be an int");
-        return -1;
-    }
-    self->fThis->setNotify(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyAnimStage_setLoops(pyAnimStage* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "loops should be an int");
-        return -1;
-    }
-    self->fThis->setLoops(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyAnimStage_setAdvanceTo(pyAnimStage* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
+    } else if (value == Py_None) {
         self->fThis->setAdvanceTo(false);
         return 0;
-    } else if (PyInt_Check(value)) {
-        self->fThis->setAdvanceTo(true, PyInt_AsLong(value));
+    } else if (pyPlasma_check<unsigned int>(value)) {
+        self->fThis->setAdvanceTo(true, pyPlasma_get<unsigned int>(value));
         return 0;
     } else {
         PyErr_SetString(PyExc_TypeError, "advanceTo should be an int or None");
@@ -158,12 +69,26 @@ static int pyAnimStage_setAdvanceTo(pyAnimStage* self, PyObject* value, void*) {
     }
 }
 
-static int pyAnimStage_setRegressTo(pyAnimStage* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
+PY_PROPERTY_GETSET_DECL(AnimStage, advanceTo)
+
+PY_GETSET_GETTER_DECL(AnimStage, regressTo) {
+    if (self->fThis->doRegressTo()) {
+        return pyPlasma_convert(self->fThis->getRegressTo());
+    } else {
+        Py_INCREF(Py_None);
+        return Py_None;
+    }
+}
+
+PY_GETSET_SETTER_DECL(AnimStage, regressTo) {
+    if (value == NULL) {
+        PyErr_SetString(PyExc_RuntimeError, "regressTo cannot be deleted");
+        return -1;
+    } else if (value == Py_None) {
         self->fThis->setRegressTo(false);
         return 0;
-    } else if (PyInt_Check(value)) {
-        self->fThis->setRegressTo(true, PyInt_AsLong(value));
+    } else if (pyPlasma_check<unsigned int>(value)) {
+        self->fThis->setRegressTo(true, pyPlasma_get<unsigned int>(value));
         return 0;
     } else {
         PyErr_SetString(PyExc_TypeError, "regressTo should be an int or None");
@@ -171,18 +96,19 @@ static int pyAnimStage_setRegressTo(pyAnimStage* self, PyObject* value, void*) {
     }
 }
 
+PY_PROPERTY_GETSET_DECL(AnimStage, regressTo)
 
 static PyGetSetDef pyAnimStage_GetSet[] = {
-    { _pycs("forwardType"), (getter)pyAnimStage_getForwardType, (setter)pyAnimStage_setForwardType, NULL, NULL },
-    { _pycs("backType"), (getter)pyAnimStage_getBackType, (setter)pyAnimStage_setBackType, NULL, NULL },
-    { _pycs("advanceType"), (getter)pyAnimStage_getAdvanceType, (setter)pyAnimStage_setAdvanceType, NULL, NULL },
-    { _pycs("regressType"), (getter)pyAnimStage_getRegressType, (setter)pyAnimStage_setRegressType, NULL, NULL },
-    { _pycs("animName"), (getter)pyAnimStage_getAnimName, (setter)pyAnimStage_setAnimName, NULL, NULL },
-    { _pycs("notify"), (getter)pyAnimStage_getNotify, (setter)pyAnimStage_setNotify, NULL, NULL },
-    { _pycs("loops"), (getter)pyAnimStage_getLoops, (setter)pyAnimStage_setLoops, NULL, NULL },
-    { _pycs("advanceTo"), (getter)pyAnimStage_getAdvanceTo, (setter)pyAnimStage_setAdvanceTo, NULL, NULL },
-    { _pycs("regressTo"), (getter)pyAnimStage_getRegressTo, (setter)pyAnimStage_setRegressTo, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyAnimStage_forwardType_getset,
+    pyAnimStage_backType_getset,
+    pyAnimStage_advanceType_getset,
+    pyAnimStage_regressType_getset,
+    pyAnimStage_animName_getset,
+    pyAnimStage_notify_getset,
+    pyAnimStage_loops_getset,
+    pyAnimStage_advanceTo_getset,
+    pyAnimStage_regressTo_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyAnimStage_Type = {

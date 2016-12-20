@@ -30,15 +30,18 @@ static PyObject* pySplineEaseCurve_new(PyTypeObject* type, PyObject* args, PyObj
     return (PyObject*)self;
 }
 
-static PyObject* pySplineEaseCurve_getSplineCoef(pySplineEaseCurve* self, void*) {
-    return Py_BuildValue("ffff", PyFloat_FromDouble(self->fThis->getSplineCoef(0)),
-                                 PyFloat_FromDouble(self->fThis->getSplineCoef(1)),
-                                 PyFloat_FromDouble(self->fThis->getSplineCoef(2)),
-                                 PyFloat_FromDouble(self->fThis->getSplineCoef(3)));
+PY_GETSET_GETTER_DECL(SplineEaseCurve, splineCoef) {
+    return Py_BuildValue("ffff", pyPlasma_convert(self->fThis->getSplineCoef(0)),
+                                 pyPlasma_convert(self->fThis->getSplineCoef(1)),
+                                 pyPlasma_convert(self->fThis->getSplineCoef(2)),
+                                 pyPlasma_convert(self->fThis->getSplineCoef(3)));
 }
 
-static int pySplineEaseCurve_setSplineCoef(pySplineEaseCurve* self, PyObject* value, void*) {
-    if (value == NULL || !PyTuple_Check(value) || PyTuple_Size(value) != 4) {
+PY_GETSET_SETTER_DECL(SplineEaseCurve, splineCoef) {
+    if (value == NULL) {
+        PyErr_SetString(PyExc_RuntimeError, "splineCoef cannot be deleted");
+        return -1;
+    } else if (!PyTuple_Check(value) || PyTuple_Size(value) != 4) {
         PyErr_SetString(PyExc_TypeError, "splineCoef should be a tuple of 4 floats");
         return -1;
     }
@@ -53,11 +56,11 @@ static int pySplineEaseCurve_setSplineCoef(pySplineEaseCurve* self, PyObject* va
     return 0;
 }
 
+PY_PROPERTY_GETSET_DECL(SplineEaseCurve, splineCoef)
 
 static PyGetSetDef pySplineEaseCurve_GetSet[] = {
-    { _pycs("splineCoef"), (getter)pySplineEaseCurve_getSplineCoef,
-        (setter)pySplineEaseCurve_setSplineCoef, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pySplineEaseCurve_splineCoef_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pySplineEaseCurve_Type = {

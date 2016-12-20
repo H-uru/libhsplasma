@@ -31,102 +31,21 @@ static PyObject* pyOneShotMod_new(PyTypeObject* type, PyObject* args, PyObject* 
     return (PyObject*)self;
 }
 
-static PyObject* pyOneShotMod_getAnimName(pyOneShotMod* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getAnimName());
-}
-
-static PyObject* pyOneShotMod_getDrivable(pyOneShotMod* self, void*) {
-    return PyBool_FromLong(self->fThis->isDrivable() ? 1 : 0);
-}
-
-static PyObject* pyOneShotMod_getReversable(pyOneShotMod* self, void*) {
-    return PyBool_FromLong(self->fThis->isReversable() ? 1 : 0);
-}
-
-static PyObject* pyOneShotMod_getSmartSeek(pyOneShotMod* self, void*) {
-    return PyBool_FromLong(self->fThis->getSmartSeek() ? 1 : 0);
-}
-
-static PyObject* pyOneShotMod_getNoSeek(pyOneShotMod* self, void*) {
-    return PyBool_FromLong(self->fThis->getNoSeek() ? 1 : 0);
-}
-
-static PyObject* pyOneShotMod_getSeekDuration(pyOneShotMod* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getSeekDuration());
-}
-
-static int pyOneShotMod_setAnimName(pyOneShotMod* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setAnimName("");
-        return 0;
-    }
-    if (!PyAnyStr_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "animName should be a string");
-        return -1;
-    }
-    self->fThis->setAnimName(PyStr_To_PlStr(value));
-    return 0;
-}
-
-static int pyOneShotMod_setDrivable(pyOneShotMod* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "drivable should be a bool");
-        return -1;
-    }
-    self->fThis->setDrivable(PyInt_AsLong(value) != 0);
-    return 0;
-}
-
-static int pyOneShotMod_setReversable(pyOneShotMod* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "reversable should be a bool");
-        return -1;
-    }
-    self->fThis->setReversable(PyInt_AsLong(value) != 0);
-    return 0;
-}
-
-static int pyOneShotMod_setSmartSeek(pyOneShotMod* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "smartSeek should be a bool");
-        return -1;
-    }
-    self->fThis->setSmartSeek(PyInt_AsLong(value) != 0);
-    return 0;
-}
-
-static int pyOneShotMod_setNoSeek(pyOneShotMod* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "noSeek should be a bool");
-        return -1;
-    }
-    self->fThis->setNoSeek(PyInt_AsLong(value) != 0);
-    return 0;
-}
-
-static int pyOneShotMod_setSeekDuration(pyOneShotMod* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "seekDuration should be a bool");
-        return -1;
-    }
-    self->fThis->setSeekDuration(PyFloat_AsDouble(value));
-    return 0;
-}
+PY_PROPERTY(plString, OneShotMod, animName, getAnimName, setAnimName)
+PY_PROPERTY(bool, OneShotMod, drivable, isDrivable, setDrivable)
+PY_PROPERTY(bool, OneShotMod, reversable, isReversable, setReversable)
+PY_PROPERTY(bool, OneShotMod, smartSeek, getSmartSeek, setSmartSeek)
+PY_PROPERTY(bool, OneShotMod, noSeek, getNoSeek, setNoSeek)
+PY_PROPERTY(float, OneShotMod, seekDuration, getSeekDuration, setSeekDuration)
 
 static PyGetSetDef pyOneShotMod_GetSet[] = {
-    { _pycs("animName"), (getter)pyOneShotMod_getAnimName,
-        (setter)pyOneShotMod_setAnimName, NULL, NULL },
-    { _pycs("drivable"), (getter)pyOneShotMod_getDrivable,
-        (setter)pyOneShotMod_setDrivable, NULL, NULL },
-    { _pycs("reversable"), (getter)pyOneShotMod_getReversable,
-        (setter)pyOneShotMod_setReversable, NULL, NULL },
-    { _pycs("smartSeek"), (getter)pyOneShotMod_getSmartSeek,
-        (setter)pyOneShotMod_setSmartSeek, NULL, NULL },
-    { _pycs("noSeek"), (getter)pyOneShotMod_getNoSeek,
-        (setter)pyOneShotMod_setNoSeek, NULL, NULL },
-    { _pycs("seekDuration"), (getter)pyOneShotMod_getSeekDuration,
-        (setter)pyOneShotMod_setSeekDuration, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyOneShotMod_animName_getset,
+    pyOneShotMod_drivable_getset,
+    pyOneShotMod_reversable_getset,
+    pyOneShotMod_smartSeek_getset,
+    pyOneShotMod_noSeek_getset,
+    pyOneShotMod_seekDuration_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyOneShotMod_Type = {

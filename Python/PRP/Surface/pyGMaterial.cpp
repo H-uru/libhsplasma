@@ -110,14 +110,6 @@ static PyObject* pyGMaterial_getPBs(pyGMaterial* self, void*) {
     return list;
 }
 
-static PyObject* pyGMaterial_getCompFlags(pyGMaterial* self, void*) {
-    return PyInt_FromLong(self->fThis->getCompFlags());
-}
-
-static PyObject* pyGMaterial_getLoadFlags(pyGMaterial* self, void*) {
-    return PyInt_FromLong(self->fThis->getLoadFlags());
-}
-
 static int pyGMaterial_setLayers(pyGMaterial* self, PyObject* value, void*) {
     PyErr_SetString(PyExc_RuntimeError, "To add layers, use addLayer()");
     return -1;
@@ -126,24 +118,6 @@ static int pyGMaterial_setLayers(pyGMaterial* self, PyObject* value, void*) {
 static int pyGMaterial_setPBs(pyGMaterial* self, PyObject* value, void*) {
     PyErr_SetString(PyExc_RuntimeError, "To add piggy-backs, use addPiggyBack()");
     return -1;
-}
-
-static int pyGMaterial_setCompFlags(pyGMaterial* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "compFlags should be an int");
-        return -1;
-    }
-    self->fThis->setCompFlags(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyGMaterial_setLoadFlags(pyGMaterial* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "loadFlags should be an int");
-        return -1;
-    }
-    self->fThis->setLoadFlags(PyInt_AsLong(value));
-    return 0;
 }
 
 static PyMethodDef pyGMaterial_Methods[] = {
@@ -166,16 +140,17 @@ static PyMethodDef pyGMaterial_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(unsigned int, GMaterial, compFlags, getCompFlags, setCompFlags)
+PY_PROPERTY(unsigned int, GMaterial, loadFlags, getLoadFlags, setLoadFlags)
+
 static PyGetSetDef pyGMaterial_GetSet[] = {
     { _pycs("layers"), (getter)pyGMaterial_getLayers,
         (setter)pyGMaterial_setLayers, NULL, NULL },
     { _pycs("piggyBacks"), (getter)pyGMaterial_getPBs,
         (setter)pyGMaterial_setPBs, NULL, NULL },
-    { _pycs("compFlags"), (getter)pyGMaterial_getCompFlags,
-        (setter)pyGMaterial_setCompFlags, NULL, NULL },
-    { _pycs("loadFlags"), (getter)pyGMaterial_getLoadFlags,
-        (setter)pyGMaterial_setLoadFlags, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyGMaterial_compFlags_getset,
+    pyGMaterial_loadFlags_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyGMaterial_Type = {

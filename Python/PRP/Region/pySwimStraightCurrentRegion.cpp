@@ -30,86 +30,19 @@ static PyObject* pySwimStraightCurrentRegion_new(PyTypeObject* type, PyObject* a
     return (PyObject*)self;
 }
 
-static PyObject* pySwimStraightCurrentRegion_getNearDist(pySwimStraightCurrentRegion* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getNearDist());
-}
-
-static PyObject* pySwimStraightCurrentRegion_getFarDist(pySwimStraightCurrentRegion* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getFarDist());
-}
-
-static PyObject* pySwimStraightCurrentRegion_getNearVel(pySwimStraightCurrentRegion* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getNearVel());
-}
-
-static PyObject* pySwimStraightCurrentRegion_getFarVel(pySwimStraightCurrentRegion* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getFarVel());
-}
-
-static PyObject* pySwimStraightCurrentRegion_getCurrentObj(pySwimStraightCurrentRegion* self, void*) {
-    return pyKey_FromKey(self->fThis->getCurrentObj());
-}
-
-static int pySwimStraightCurrentRegion_setNearDist(pySwimStraightCurrentRegion* self, PyObject* value, void*) {
-    if (PyFloat_Check(value)) {
-        self->fThis->setNearDist((float)PyFloat_AsDouble(value));
-        return 0;
-    }
-    PyErr_SetString(PyExc_TypeError, "nearDist should be a float");
-    return -1;
-}
-
-static int pySwimStraightCurrentRegion_setFarDist(pySwimStraightCurrentRegion* self, PyObject* value, void*) {
-    if (PyFloat_Check(value)) {
-        self->fThis->setFarDist((float)PyFloat_AsDouble(value));
-        return 0;
-    }
-    PyErr_SetString(PyExc_TypeError, "farDist should be a float");
-    return -1;
-}
-
-static int pySwimStraightCurrentRegion_setNearVel(pySwimStraightCurrentRegion* self, PyObject* value, void*) {
-    if (PyFloat_Check(value)) {
-        self->fThis->setNearVel((float)PyFloat_AsDouble(value));
-        return 0;
-    }
-    PyErr_SetString(PyExc_TypeError, "nearVel should be a float");
-    return -1;
-}
-
-static int pySwimStraightCurrentRegion_setFarVel(pySwimStraightCurrentRegion* self, PyObject* value, void*) {
-    if (PyFloat_Check(value)) {
-        self->fThis->setFarVel((float)PyFloat_AsDouble(value));
-        return 0;
-    }
-    PyErr_SetString(PyExc_TypeError, "farVel should be a float");
-    return -1;
-}
-
-static int pySwimStraightCurrentRegion_setCurrentObj(pySwimStraightCurrentRegion* self, PyObject* value, void*) {
-    if (value == Py_None || value == NULL) {
-        self->fThis->setCurrentObj(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setCurrentObj(*((pyKey*)value)->fThis);
-        return 0;
-    }
-    PyErr_SetString(PyExc_TypeError, "currentObj should be a plKey");
-    return -1;
-}
+PY_PROPERTY(float, SwimStraightCurrentRegion, nearDist, getNearDist, setNearDist)
+PY_PROPERTY(float, SwimStraightCurrentRegion, farDist, getFarDist, setFarDist)
+PY_PROPERTY(float, SwimStraightCurrentRegion, nearVel, getNearVel, setNearVel)
+PY_PROPERTY(float, SwimStraightCurrentRegion, farVel, getFarVel, setFarVel)
+PY_PROPERTY(plKey, SwimStraightCurrentRegion, currentObj, getCurrentObj, setCurrentObj)
 
 PyGetSetDef pySwimStraightCurrentRegion_GetSet[] = {
-    { _pycs("nearDist"), (getter)pySwimStraightCurrentRegion_getNearDist,
-     (setter)pySwimStraightCurrentRegion_setNearDist, NULL, NULL },
-    { _pycs("farDist"), (getter)pySwimStraightCurrentRegion_getFarDist,
-     (setter)pySwimStraightCurrentRegion_setFarDist, NULL, NULL },
-    { _pycs("nearVel"), (getter)pySwimStraightCurrentRegion_getNearVel,
-     (setter)pySwimStraightCurrentRegion_setNearVel, NULL, NULL },
-    { _pycs("farVel"), (getter)pySwimStraightCurrentRegion_getFarVel,
-     (setter)pySwimStraightCurrentRegion_setFarVel, NULL, NULL },
-    { _pycs("currentObj"), (getter)pySwimStraightCurrentRegion_getCurrentObj,
-     (setter)pySwimStraightCurrentRegion_setCurrentObj, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pySwimStraightCurrentRegion_nearDist_getset,
+    pySwimStraightCurrentRegion_farDist_getset,
+    pySwimStraightCurrentRegion_nearVel_getset,
+    pySwimStraightCurrentRegion_farVel_getset,
+    pySwimStraightCurrentRegion_currentObj_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pySwimStraightCurrentRegion_Type = {

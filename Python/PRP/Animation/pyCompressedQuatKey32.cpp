@@ -52,15 +52,6 @@ static PyObject* pyCompressedQuatKey32_setValue(pyCompressedQuatKey32* self, PyO
     return Py_None;
 }
 
-static PyObject* pyCompressedQuatKey32_getValue(pyCompressedQuatKey32* self, void*) {
-    return pyQuat_FromQuat(self->fThis->getQuat());
-}
-
-static int pyCompressedQuatKey32_setValueErr(pyCompressedQuatKey32* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To set the compressed quat, use setValue()");
-    return -1;
-}
-
 static PyMethodDef pyCompressedQuatKey32_Methods[] = {
     { "setValue", (PyCFunction)pyCompressedQuatKey32_setValue, METH_VARARGS,
       "Params: quat, type\n"
@@ -68,10 +59,14 @@ static PyMethodDef pyCompressedQuatKey32_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY_READ(CompressedQuatKey32, value, getQuat)
+PY_PROPERTY_SETTER_MSG(CompressedQuatKey32, value,
+                       "To set the compressed quat, use setValue()")
+PY_PROPERTY_GETSET_DECL(CompressedQuatKey32, value)
+
 static PyGetSetDef pyCompressedQuatKey32_GetSet[] = {
-    { _pycs("value"), (getter)pyCompressedQuatKey32_getValue,
-        (setter)pyCompressedQuatKey32_setValueErr, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyCompressedQuatKey32_value_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyCompressedQuatKey32_Type = {

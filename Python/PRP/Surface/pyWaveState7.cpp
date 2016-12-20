@@ -29,78 +29,19 @@ static PyObject* pyWaveState7_new(PyTypeObject* type, PyObject* args, PyObject* 
     return (PyObject*)self;
 }
 
-static PyObject* pyWaveState7_getMaxLength(pyWaveState7* self, void*) {
-    return PyFloat_FromDouble(self->fThis->fMaxLength);
-}
-
-static PyObject* pyWaveState7_getMinLength(pyWaveState7* self, void*) {
-    return PyFloat_FromDouble(self->fThis->fMinLength);
-}
-
-static PyObject* pyWaveState7_getAmpOverLen(pyWaveState7* self, void*) {
-    return PyFloat_FromDouble(self->fThis->fAmpOverLen);
-}
-
-static PyObject* pyWaveState7_getChop(pyWaveState7* self, void*) {
-    return PyFloat_FromDouble(self->fThis->fChop);
-}
-
-static PyObject* pyWaveState7_getAngleDev(pyWaveState7* self, void*) {
-    return PyFloat_FromDouble(self->fThis->fAngleDev);
-}
-
-static int pyWaveState7_setMaxLength(pyWaveState7* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "maxLength should be a float");
-        return -1;
-    }
-    self->fThis->fMaxLength = (float)PyFloat_AsDouble(value);
-    return 0;
-}
-
-static int pyWaveState7_setMinLength(pyWaveState7* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "minLength should be a float");
-        return -1;
-    }
-    self->fThis->fMinLength = (float)PyFloat_AsDouble(value);
-    return 0;
-}
-
-static int pyWaveState7_setAmpOverLen(pyWaveState7* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "ampOverLen should be a float");
-        return -1;
-    }
-    self->fThis->fAmpOverLen = (float)PyFloat_AsDouble(value);
-    return 0;
-}
-
-static int pyWaveState7_setChop(pyWaveState7* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "chop should be a float");
-        return -1;
-    }
-    self->fThis->fChop = (float)PyFloat_AsDouble(value);
-    return 0;
-}
-
-static int pyWaveState7_setAngleDev(pyWaveState7* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "angleDev should be a float");
-        return -1;
-    }
-    self->fThis->fAngleDev = (float)PyFloat_AsDouble(value);
-    return 0;
-}
+PY_PROPERTY_MEMBER(float, WaveState7, maxLength, fMaxLength)
+PY_PROPERTY_MEMBER(float, WaveState7, minLength, fMinLength)
+PY_PROPERTY_MEMBER(float, WaveState7, ampOverLen, fAmpOverLen)
+PY_PROPERTY_MEMBER(float, WaveState7, chop, fChop)
+PY_PROPERTY_MEMBER(float, WaveState7, angleDev, fAngleDev)
 
 static PyGetSetDef pyWaveState7_GetSet[] = {
-    { _pycs("maxLength"), (getter)pyWaveState7_getMaxLength, (setter)pyWaveState7_setMaxLength, NULL, NULL },
-    { _pycs("minLength"), (getter)pyWaveState7_getMinLength, (setter)pyWaveState7_setMinLength, NULL, NULL },
-    { _pycs("ampOverLen"), (getter)pyWaveState7_getAmpOverLen, (setter)pyWaveState7_setAmpOverLen, NULL, NULL },
-    { _pycs("chop"), (getter)pyWaveState7_getChop, (setter)pyWaveState7_setChop, NULL, NULL },
-    { _pycs("angleDev"), (getter)pyWaveState7_getAngleDev, (setter)pyWaveState7_setAngleDev, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyWaveState7_maxLength_getset,
+    pyWaveState7_minLength_getset,
+    pyWaveState7_ampOverLen_getset,
+    pyWaveState7_chop_getset,
+    pyWaveState7_angleDev_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyWaveState7_Type = {

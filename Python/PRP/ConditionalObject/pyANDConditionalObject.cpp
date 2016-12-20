@@ -86,7 +86,7 @@ static int pyANDConditionalObject_setANDs(pyANDConditionalObject* self, PyObject
 static PyGetSetDef pyANDConditionalObject_GetSet[] = {
     { _pycs("children"), (getter)pyANDConditionalObject_getANDs,
        (setter)pyANDConditionalObject_setANDs, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyANDConditionalObject_Type = {

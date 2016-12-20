@@ -31,28 +31,12 @@ static PyObject* pyMatrixControllerChannel_new(PyTypeObject* type, PyObject* arg
     return (PyObject*)self;
 }
 
-static PyObject* pyMatrixControllerChannel_getController(pyMatrixControllerChannel* self, void*) {
-    return ICreate(self->fThis->getController());
-}
-
-static int pyMatrixControllerChannel_setController(pyMatrixControllerChannel* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setController(NULL);
-        return 0;
-    }
-    if (!pyController_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "controller should be a plController");
-        return -1;
-    }
-    self->fThis->setController(((pyController*)value)->fThis);
-    ((pyController*)value)->fPyOwned = false;
-    return 0;
-}
+PY_PROPERTY_CREATABLE(plController, Controller, MatrixControllerChannel,
+                      controller, getController, setController)
 
 static PyGetSetDef pyMatrixControllerChannel_GetSet[] = {
-    { _pycs("controller"), (getter)pyMatrixControllerChannel_getController,
-        (setter)pyMatrixControllerChannel_setController, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyMatrixControllerChannel_controller_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyMatrixControllerChannel_Type = {

@@ -131,30 +131,6 @@ static PyObject* pyClusterGroup_clearLights(pyClusterGroup* self) {
     return Py_None;
 }
 
-static PyObject* pyClusterGroup_getLOD(pyClusterGroup* self, void*) {
-    return pyLODDist_FromLODDist(&self->fThis->getLOD());
-}
-
-static PyObject* pyClusterGroup_getTemplate(pyClusterGroup* self, void*) {
-    return pySpanTemplate_FromSpanTemplate(&self->fThis->getTemplate());
-}
-
-static PyObject* pyClusterGroup_getMaterial(pyClusterGroup* self, void*) {
-    return pyKey_FromKey(self->fThis->getMaterial());
-}
-
-static PyObject* pyClusterGroup_getSceneNode(pyClusterGroup* self, void*) {
-    return pyKey_FromKey(self->fThis->getSceneNode());
-}
-
-static PyObject* pyClusterGroup_getDrawable(pyClusterGroup* self, void*) {
-    return pyKey_FromKey(self->fThis->getDrawable());
-}
-
-static PyObject* pyClusterGroup_getRenderLevel(pyClusterGroup* self, void*) {
-    return PyInt_FromLong(self->fThis->getRenderLevel());
-}
-
 static PyObject* pyClusterGroup_getClusters(pyClusterGroup* self, void*) {
     PyObject* list = PyList_New(self->fThis->getClusters().size());
     for (size_t i=0; i<self->fThis->getClusters().size(); i++)
@@ -174,64 +150,6 @@ static PyObject* pyClusterGroup_getLights(pyClusterGroup* self, void*) {
     for (size_t i=0; i<self->fThis->getLights().size(); i++)
         PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getLights()[i]));
     return list;
-}
-
-static int pyClusterGroup_setLOD(pyClusterGroup* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "LOD cannot be assigned to");
-    return -1;
-}
-
-static int pyClusterGroup_setTemplate(pyClusterGroup* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "template cannot be assigned to");
-    return -1;
-}
-
-static int pyClusterGroup_setMaterial(pyClusterGroup* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setMaterial(plKey());
-        return 0;
-    }
-    if (!pyKey_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "material should be a plKey");
-        return -1;
-    }
-    self->fThis->setMaterial(*((pyKey*)value)->fThis);
-    return 0;
-}
-
-static int pyClusterGroup_setSceneNode(pyClusterGroup* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setSceneNode(plKey());
-        return 0;
-    }
-    if (!pyKey_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "sceneNode should be a plKey");
-        return -1;
-    }
-    self->fThis->setSceneNode(*((pyKey*)value)->fThis);
-    return 0;
-}
-
-static int pyClusterGroup_setDrawable(pyClusterGroup* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setDrawable(plKey());
-        return 0;
-    }
-    if (!pyKey_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "drawable should be a plKey");
-        return -1;
-    }
-    self->fThis->setDrawable(*((pyKey*)value)->fThis);
-    return 0;
-}
-
-static int pyClusterGroup_setRenderLevel(pyClusterGroup* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "renderLevel should be an int");
-        return -1;
-    }
-    self->fThis->setRenderLevel(PyInt_AsLong(value));
-    return 0;
 }
 
 static int pyClusterGroup_setClusters(pyClusterGroup* self, PyObject* value, void*) {
@@ -277,26 +195,27 @@ static PyMethodDef pyClusterGroup_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY_PROXY_RO(plLODDist, ClusterGroup, LOD, getLOD)
+PY_PROPERTY_PROXY_RO(plSpanTemplate, ClusterGroup, template, getTemplate)
+PY_PROPERTY(plKey, ClusterGroup, material, getMaterial, setMaterial)
+PY_PROPERTY(plKey, ClusterGroup, sceneNode, getSceneNode, setSceneNode)
+PY_PROPERTY(plKey, ClusterGroup, drawable, getDrawable, setDrawable)
+PY_PROPERTY(unsigned int, ClusterGroup, renderLevel, getRenderLevel, setRenderLevel)
+
 static PyGetSetDef pyClusterGroup_GetSet[] = {
-    { _pycs("LOD"), (getter)pyClusterGroup_getLOD,
-        (setter)pyClusterGroup_setLOD, NULL, NULL },
-    { _pycs("template"), (getter)pyClusterGroup_getTemplate,
-        (setter)pyClusterGroup_setTemplate, NULL, NULL },
-    { _pycs("material"), (getter)pyClusterGroup_getMaterial,
-        (setter)pyClusterGroup_setMaterial, NULL, NULL },
-    { _pycs("sceneNode"), (getter)pyClusterGroup_getSceneNode,
-        (setter)pyClusterGroup_setSceneNode, NULL, NULL },
-    { _pycs("drawable"), (getter)pyClusterGroup_getDrawable,
-        (setter)pyClusterGroup_setDrawable, NULL, NULL },
-    { _pycs("renderLevel"), (getter)pyClusterGroup_getRenderLevel,
-        (setter)pyClusterGroup_setRenderLevel, NULL, NULL },
+    pyClusterGroup_LOD_getset,
+    pyClusterGroup_template_getset,
+    pyClusterGroup_material_getset,
+    pyClusterGroup_sceneNode_getset,
+    pyClusterGroup_drawable_getset,
+    pyClusterGroup_renderLevel_getset,
     { _pycs("clusters"), (getter)pyClusterGroup_getClusters,
         (setter)pyClusterGroup_setClusters, NULL, NULL },
     { _pycs("regions"), (getter)pyClusterGroup_getRegions,
         (setter)pyClusterGroup_setRegions, NULL, NULL },
     { _pycs("lights"), (getter)pyClusterGroup_getLights,
         (setter)pyClusterGroup_setLights, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyClusterGroup_Type = {

@@ -31,23 +31,11 @@ static PyObject* pyResponderEnableMsg_new(PyTypeObject* type, PyObject* args, Py
     return (PyObject*)self;
 }
 
-static PyObject* pyResponderEnableMsg_getEnable(pyResponderEnableMsg* self, void*) {
-    return PyBool_FromLong(self->fThis->getEnable() ? 1 : 0);
-}
-
-static int pyResponderEnableMsg_setEnable(pyResponderEnableMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "enable should be a bool");
-        return -1;
-    }
-    self->fThis->setEnable(PyInt_AsLong(value) != 0);
-    return 0;
-}
+PY_PROPERTY(bool, ResponderEnableMsg, enable, getEnable, setEnable)
 
 static PyGetSetDef pyResponderEnableMsg_GetSet[] = {
-    { _pycs("enable"), (getter)pyResponderEnableMsg_getEnable,
-        (setter)pyResponderEnableMsg_setEnable, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyResponderEnableMsg_enable_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyResponderEnableMsg_Type = {

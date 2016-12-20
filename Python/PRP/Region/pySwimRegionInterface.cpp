@@ -30,53 +30,15 @@ static PyObject* pySwimRegionInterface_new(PyTypeObject* type, PyObject* args, P
     return (PyObject*)self;
 }
 
-static PyObject* pySwimRegionInterface_getDownBuoyancy(pySwimRegionInterface* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getDownBuoyancy());
-}
-
-static PyObject* pySwimRegionInterface_getUpBuoyancy(pySwimRegionInterface* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getUpBuoyancy());
-}
-
-static PyObject* pySwimRegionInterface_getMaxUpwardVel(pySwimRegionInterface* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getMaxUpwardVel());
-}
-
-static int pySwimRegionInterface_setDownBuoyancy(pySwimRegionInterface* self, PyObject* value, void*) {
-    if (PyFloat_Check(value)) {
-        self->fThis->setDownBuoyancy((float)PyFloat_AsDouble(value));
-        return 0;
-    }
-    PyErr_SetString(PyExc_TypeError, "downBuoyancy should be a float");
-    return -1;
-}
-
-static int pySwimRegionInterface_setUpBuoyancy(pySwimRegionInterface* self, PyObject* value, void*) {
-    if (PyFloat_Check(value)) {
-        self->fThis->setUpBuoyancy((float)PyFloat_AsDouble(value));
-        return 0;
-    }
-    PyErr_SetString(PyExc_TypeError, "upBuoyancy should be a float");
-    return -1;
-}
-
-static int pySwimRegionInterface_setMaxUpwardVel(pySwimRegionInterface* self, PyObject* value, void*) {
-    if (PyFloat_Check(value)) {
-        self->fThis->setMaxUpwardVel((float)PyFloat_AsDouble(value));
-        return 0;
-    }
-    PyErr_SetString(PyExc_TypeError, "maxUpwardVel should be a float");
-    return -1;
-}
+PY_PROPERTY(float, SwimRegionInterface, downBuoyancy, getDownBuoyancy, setDownBuoyancy)
+PY_PROPERTY(float, SwimRegionInterface, upBuoyancy, getUpBuoyancy, setUpBuoyancy)
+PY_PROPERTY(float, SwimRegionInterface, maxUpwardVel, getMaxUpwardVel, setMaxUpwardVel)
 
 PyGetSetDef pySwimRegionInterface_GetSet[] = {
-    { _pycs("downBuoyancy"), (getter)pySwimRegionInterface_getDownBuoyancy,
-     (setter)pySwimRegionInterface_setDownBuoyancy, NULL, NULL },
-    { _pycs("upBuoyancy"), (getter)pySwimRegionInterface_getUpBuoyancy,
-     (setter)pySwimRegionInterface_setUpBuoyancy, NULL, NULL },
-    { _pycs("maxUpwardVel"), (getter)pySwimRegionInterface_getMaxUpwardVel,
-      (setter)pySwimRegionInterface_setMaxUpwardVel, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pySwimRegionInterface_downBuoyancy_getset,
+    pySwimRegionInterface_upBuoyancy_getset,
+    pySwimRegionInterface_maxUpwardVel_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pySwimRegionInterface_Type = {

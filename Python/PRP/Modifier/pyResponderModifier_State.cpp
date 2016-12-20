@@ -83,14 +83,6 @@ static PyObject* pyResponderModifier_State_getCommands(pyResponderModifier_State
     return list;
 }
 
-static PyObject* pyResponderModifier_State_getNumCallbacks(pyResponderModifier_State* self, void*) {
-    return PyInt_FromLong(self->fThis->fNumCallbacks);
-}
-
-static PyObject* pyResponderModifier_State_getSwitch(pyResponderModifier_State* self, void*) {
-    return PyInt_FromLong(self->fThis->fSwitchToState);
-}
-
 static PyObject* pyResponderModifier_State_getWaits(pyResponderModifier_State* self, void*) {
     PyObject* dict = PyDict_New();
     std::map<int8_t, int8_t>::iterator wp = self->fThis->fWaitToCmd.begin();
@@ -102,24 +94,6 @@ static PyObject* pyResponderModifier_State_getWaits(pyResponderModifier_State* s
 static int pyResponderModifier_State_setCommands(pyResponderModifier_State* self, PyObject* value, void*) {
     PyErr_SetString(PyExc_TypeError, "To add commands, use addCommand");
     return -1;
-}
-
-static int pyResponderModifier_State_setNumCallbacks(pyResponderModifier_State* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "numCallbacks should be an int");
-        return -1;
-    }
-    self->fThis->fNumCallbacks = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyResponderModifier_State_setSwitch(pyResponderModifier_State* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "switchToState should be an int");
-        return -1;
-    }
-    self->fThis->fSwitchToState = PyInt_AsLong(value);
-    return 0;
 }
 
 static int pyResponderModifier_State_setWaits(pyResponderModifier_State* self, PyObject* value, void*) {
@@ -158,16 +132,17 @@ static PyMethodDef pyResponderModifier_State_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY_MEMBER(int8_t, ResponderModifier_State, numCallbacks, fNumCallbacks)
+PY_PROPERTY_MEMBER(int8_t, ResponderModifier_State, switchToState, fSwitchToState)
+
 static PyGetSetDef pyResponderModifier_State_GetSet[] = {
     { _pycs("commands"), (getter)pyResponderModifier_State_getCommands,
         (setter)pyResponderModifier_State_setCommands, NULL, NULL },
-    { _pycs("numCallbacks"), (getter)pyResponderModifier_State_getNumCallbacks,
-        (setter)pyResponderModifier_State_setNumCallbacks, NULL, NULL },
-    { _pycs("switchToState"), (getter)pyResponderModifier_State_getSwitch,
-        (setter)pyResponderModifier_State_setSwitch, NULL, NULL },
+    pyResponderModifier_State_numCallbacks_getset,
+    pyResponderModifier_State_switchToState_getset,
     { _pycs("waitToCmd"), (getter)pyResponderModifier_State_getWaits,
         (setter)pyResponderModifier_State_setWaits, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyResponderModifier_State_Type = {

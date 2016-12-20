@@ -30,23 +30,11 @@ static PyObject* pyLayerSDLAnimation_new(PyTypeObject* type, PyObject* args, PyO
     return (PyObject*)self;
 }
 
-static PyObject* pyLayerSDLAnimation_getVarName(pyLayerSDLAnimation* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getVarName());
-}
-
-static int pyLayerSDLAnimation_setVarName(pyLayerSDLAnimation* self, PyObject* value, void*) {
-    if (value == NULL || !PyAnyStr_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "varName should be a string");
-        return -1;
-    }
-    self->fThis->setVarName(PyStr_To_PlStr(value));
-    return 0;
-}
+PY_PROPERTY(plString, LayerSDLAnimation, varName, getVarName, setVarName)
 
 static PyGetSetDef pyLayerSDLAnimation_GetSet[] = {
-    { _pycs("varName"), (getter)pyLayerSDLAnimation_getVarName,
-        (setter)pyLayerSDLAnimation_setVarName, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyLayerSDLAnimation_varName_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyLayerSDLAnimation_Type = {

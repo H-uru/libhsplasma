@@ -31,50 +31,11 @@ static PyObject* pyDynamicTextMap_new(PyTypeObject* type, PyObject* args, PyObje
     return (PyObject*)self;
 }
 
-static PyObject* pyDynamicTextMap_getWidth(pyDynamicTextMap* self, void*) {
-    return PyInt_FromLong(self->fThis->getVisWidth());
-}
-
-static PyObject* pyDynamicTextMap_getHeight(pyDynamicTextMap* self, void*) {
-    return PyInt_FromLong(self->fThis->getVisHeight());
-}
-
-static PyObject* pyDynamicTextMap_getHasAlpha(pyDynamicTextMap* self, void*) {
-    return PyBool_FromLong(self->fThis->hasAlpha() ? 1 : 0);
-}
-
 static PyObject* pyDynamicTextMap_getInitBuffer(pyDynamicTextMap* self, void*) {
     PyObject* data = PyList_New(self->fThis->getInitBufferSize());
     for (size_t i=0; i<self->fThis->getInitBufferSize(); i++)
         PyList_SET_ITEM(data, i, PyInt_FromLong(self->fThis->getInitBuffer()[i]));
     return data;
-}
-
-static int pyDynamicTextMap_setWidth(pyDynamicTextMap* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "visWidth should be an int");
-        return -1;
-    }
-    self->fThis->setVisWidth(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyDynamicTextMap_setHeight(pyDynamicTextMap* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "visHeight should be an int");
-        return -1;
-    }
-    self->fThis->setVisHeight(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyDynamicTextMap_setHasAlpha(pyDynamicTextMap* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "hasAlpha should be a bool");
-        return -1;
-    }
-    self->fThis->setHasAlpha(PyInt_AsLong(value) != 0);
-    return 0;
 }
 
 static int pyDynamicTextMap_setInitBuffer(pyDynamicTextMap* self, PyObject* value, void*) {
@@ -102,16 +63,17 @@ static int pyDynamicTextMap_setInitBuffer(pyDynamicTextMap* self, PyObject* valu
     return 0;
 }
 
+PY_PROPERTY(unsigned int, DynamicTextMap, visWidth, getVisWidth, setVisWidth)
+PY_PROPERTY(unsigned int, DynamicTextMap, visHeight, getVisHeight, setVisHeight)
+PY_PROPERTY(bool, DynamicTextMap, hasAlpha, hasAlpha, setHasAlpha)
+
 static PyGetSetDef pyDynamicTextMap_GetSet[] = {
-    { _pycs("visWidth"), (getter)pyDynamicTextMap_getWidth,
-        (setter)pyDynamicTextMap_setWidth, NULL, NULL },
-    { _pycs("visHeight"), (getter)pyDynamicTextMap_getHeight,
-        (setter)pyDynamicTextMap_setHeight, NULL, NULL },
-    { _pycs("hasAlpha"), (getter)pyDynamicTextMap_getHasAlpha,
-        (setter)pyDynamicTextMap_setHasAlpha, NULL, NULL },
+    pyDynamicTextMap_visWidth_getset,
+    pyDynamicTextMap_visHeight_getset,
+    pyDynamicTextMap_hasAlpha_getset,
     { _pycs("initBuffer"), (getter)pyDynamicTextMap_getInitBuffer,
         (setter)pyDynamicTextMap_setInitBuffer, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyDynamicTextMap_Type = {

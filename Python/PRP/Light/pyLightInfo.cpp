@@ -47,149 +47,11 @@ static PyObject* pyLightInfo_addVisRegion(pyLightInfo* self, PyObject* args) {
     return Py_None;
 }
 
-static PyObject* pyLightInfo_getAmbient(pyLightInfo* self, void*) {
-    return pyColorRGBA_FromColorRGBA(self->fThis->getAmbient());
-}
-
-static PyObject* pyLightInfo_getDiffuse(pyLightInfo* self, void*) {
-    return pyColorRGBA_FromColorRGBA(self->fThis->getDiffuse());
-}
-
-static PyObject* pyLightInfo_getSpecular(pyLightInfo* self, void*) {
-    return pyColorRGBA_FromColorRGBA(self->fThis->getSpecular());
-}
-
-static PyObject* pyLightInfo_getLight2Loc(pyLightInfo* self, void*) {
-    return pyMatrix44_FromMatrix44(self->fThis->getLightToLocal());
-}
-
-static PyObject* pyLightInfo_getLoc2Light(pyLightInfo* self, void*) {
-    return pyMatrix44_FromMatrix44(self->fThis->getLocalToLight());
-}
-
-static PyObject* pyLightInfo_getL2W(pyLightInfo* self, void*) {
-    return pyMatrix44_FromMatrix44(self->fThis->getLightToWorld());
-}
-
-static PyObject* pyLightInfo_getW2L(pyLightInfo* self, void*) {
-    return pyMatrix44_FromMatrix44(self->fThis->getWorldToLight());
-}
-
-static PyObject* pyLightInfo_getProj(pyLightInfo* self, void*) {
-    return pyKey_FromKey(self->fThis->getProjection());
-}
-
-static PyObject* pyLightInfo_getSVol(pyLightInfo* self, void*) {
-    return pyKey_FromKey(self->fThis->getSoftVolume());
-}
-
-static PyObject* pyLightInfo_getNode(pyLightInfo* self, void*) {
-    return pyKey_FromKey(self->fThis->getSceneNode());
-}
-
 static PyObject* pyLightInfo_getVisRegions(pyLightInfo* self, void*) {
     PyObject* list = PyList_New(self->fThis->getVisRegions().size());
     for (size_t i=0; i<self->fThis->getVisRegions().size(); i++)
         PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getVisRegions()[i]));
     return list;
-}
-
-static int pyLightInfo_setAmbient(pyLightInfo* self, PyObject* value, void*) {
-    if (value == NULL || !pyColorRGBA_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "ambient should be an hsColorRGBA");
-        return -1;
-    }
-    self->fThis->setAmbient(*((pyColorRGBA*)value)->fThis);
-    return 0;
-}
-
-static int pyLightInfo_setDiffuse(pyLightInfo* self, PyObject* value, void*) {
-    if (value == NULL || !pyColorRGBA_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "diffuse should be an hsColorRGBA");
-        return -1;
-    }
-    self->fThis->setDiffuse(*((pyColorRGBA*)value)->fThis);
-    return 0;
-}
-
-static int pyLightInfo_setSpecular(pyLightInfo* self, PyObject* value, void*) {
-    if (value == NULL || !pyColorRGBA_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "specular should be an hsColorRGBA");
-        return -1;
-    }
-    self->fThis->setSpecular(*((pyColorRGBA*)value)->fThis);
-    return 0;
-}
-
-static int pyLightInfo_setLight2Loc(pyLightInfo* self, PyObject* value, void*) {
-    if (value == NULL || !pyMatrix44_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "lightToLocal should be an hsMatrix44");
-        return -1;
-    }
-    self->fThis->setLightToLocal(*((pyMatrix44*)value)->fThis);
-    return 0;
-}
-
-static int pyLightInfo_setLoc2Light(pyLightInfo* self, PyObject* value, void*) {
-    if (value == NULL || !pyMatrix44_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "localToLight should be an hsMatrix44");
-        return -1;
-    }
-    self->fThis->setLocalToLight(*((pyMatrix44*)value)->fThis);
-    return 0;
-}
-
-static int pyLightInfo_setL2W(pyLightInfo* self, PyObject* value, void*) {
-    if (value == NULL || !pyMatrix44_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "lightToWorld should be an hsMatrix44");
-        return -1;
-    }
-    self->fThis->setLightToWorld(*((pyMatrix44*)value)->fThis);
-    return 0;
-}
-
-static int pyLightInfo_setW2L(pyLightInfo* self, PyObject* value, void*) {
-    if (value == NULL || !pyMatrix44_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "worldToLight should be an hsMatrix44");
-        return -1;
-    }
-    self->fThis->setWorldToLight(*((pyMatrix44*)value)->fThis);
-    return 0;
-}
-
-static int pyLightInfo_setProj(pyLightInfo* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setProjection(plKey());
-        return 0;
-    }
-    if (!pyKey_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "projection should be a plKey");
-        return -1;
-    }
-    self->fThis->setProjection(*((pyKey*)value)->fThis);
-    return 0;
-}
-
-static int pyLightInfo_setSVol(pyLightInfo* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setSoftVolume(plKey());
-        return 0;
-    }
-    if (!pyKey_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "softVolume should be a plKey");
-        return -1;
-    }
-    self->fThis->setSoftVolume(*((pyKey*)value)->fThis);
-    return 0;
-}
-
-static int pyLightInfo_setNode(pyLightInfo* self, PyObject* value, void*) {
-    if (value == NULL || !pyKey_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "sceneNode should be a plKey");
-        return -1;
-    }
-    self->fThis->setSceneNode(*((pyKey*)value)->fThis);
-    return 0;
 }
 
 static int pyLightInfo_setVisRegions(pyLightInfo* self, PyObject* value, void*) {
@@ -206,30 +68,31 @@ static PyMethodDef pyLightInfo_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(hsColorRGBA, LightInfo, ambient, getAmbient, setAmbient)
+PY_PROPERTY(hsColorRGBA, LightInfo, diffuse, getDiffuse, setDiffuse)
+PY_PROPERTY(hsColorRGBA, LightInfo, specular, getSpecular, setSpecular)
+PY_PROPERTY(hsMatrix44, LightInfo, lightToLocal, getLightToLocal, setLightToLocal)
+PY_PROPERTY(hsMatrix44, LightInfo, localToLight, getLocalToLight, setLocalToLight)
+PY_PROPERTY(hsMatrix44, LightInfo, lightToWorld, getLightToWorld, setLightToWorld)
+PY_PROPERTY(hsMatrix44, LightInfo, worldToLight, getWorldToLight, setWorldToLight)
+PY_PROPERTY(plKey, LightInfo, projection, getProjection, setProjection)
+PY_PROPERTY(plKey, LightInfo, softVolume, getSoftVolume, setSoftVolume)
+PY_PROPERTY(plKey, LightInfo, sceneNode, getSceneNode, setSceneNode)
+
 static PyGetSetDef pyLightInfo_GetSet[] = {
-    { _pycs("ambient"), (getter)pyLightInfo_getAmbient,
-        (setter)pyLightInfo_setAmbient, NULL, NULL },
-    { _pycs("diffuse"), (getter)pyLightInfo_getDiffuse,
-        (setter)pyLightInfo_setDiffuse, NULL, NULL },
-    { _pycs("specular"), (getter)pyLightInfo_getSpecular,
-        (setter)pyLightInfo_setSpecular, NULL, NULL },
-    { _pycs("lightToLocal"), (getter)pyLightInfo_getLight2Loc,
-        (setter)pyLightInfo_setLight2Loc, NULL, NULL },
-    { _pycs("localToLight"), (getter)pyLightInfo_getLoc2Light,
-        (setter)pyLightInfo_setLoc2Light, NULL, NULL },
-    { _pycs("lightToWorld"), (getter)pyLightInfo_getL2W,
-        (setter)pyLightInfo_setL2W, NULL, NULL },
-    { _pycs("worldToLight"), (getter)pyLightInfo_getW2L,
-        (setter)pyLightInfo_setW2L, NULL, NULL },
-    { _pycs("projection"), (getter)pyLightInfo_getProj,
-        (setter)pyLightInfo_setProj, NULL, NULL },
-    { _pycs("softVolume"), (getter)pyLightInfo_getSVol,
-        (setter)pyLightInfo_setSVol, NULL, NULL },
-    { _pycs("sceneNode"), (getter)pyLightInfo_getNode,
-        (setter)pyLightInfo_setNode, NULL, NULL },
+    pyLightInfo_ambient_getset,
+    pyLightInfo_diffuse_getset,
+    pyLightInfo_specular_getset,
+    pyLightInfo_lightToLocal_getset,
+    pyLightInfo_localToLight_getset,
+    pyLightInfo_lightToWorld_getset,
+    pyLightInfo_worldToLight_getset,
+    pyLightInfo_projection_getset,
+    pyLightInfo_softVolume_getset,
+    pyLightInfo_sceneNode_getset,
     { _pycs("visRegions"), (getter)pyLightInfo_getVisRegions,
         (setter)pyLightInfo_setVisRegions, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyLightInfo_Type = {

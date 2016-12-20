@@ -36,50 +36,15 @@ static PyObject* pyPoint3Key_new(PyTypeObject* type, PyObject* args, PyObject* k
     return (PyObject*)self;
 }
 
-static PyObject* pyPoint3Key_getInTan(pyPoint3Key* self, void*) {
-    return pyVector3_FromVector3(self->fThis->fInTan);
-}
-
-static PyObject* pyPoint3Key_getOutTan(pyPoint3Key* self, void*) {
-    return pyVector3_FromVector3(self->fThis->fOutTan);
-}
-
-static PyObject* pyPoint3Key_getValue(pyPoint3Key* self, void*) {
-    return pyVector3_FromVector3(self->fThis->fValue);
-}
-
-static int pyPoint3Key_setInTan(pyPoint3Key* self, PyObject* value, void*) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "inTan should be an hsVector3");
-        return -1;
-    }
-    self->fThis->fInTan = *((pyVector3*)value)->fThis;
-    return 0;
-}
-
-static int pyPoint3Key_setOutTan(pyPoint3Key* self, PyObject* value, void*) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "outTan should be an hsVector3");
-        return -1;
-    }
-    self->fThis->fOutTan = *((pyVector3*)value)->fThis;
-    return 0;
-}
-
-static int pyPoint3Key_setValue(pyPoint3Key* self, PyObject* value, void*) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "value should be an hsVector3");
-        return -1;
-    }
-    self->fThis->fValue = *((pyVector3*)value)->fThis;
-    return 0;
-}
+PY_PROPERTY_MEMBER(hsVector3, Point3Key, inTan, fInTan)
+PY_PROPERTY_MEMBER(hsVector3, Point3Key, outTan, fOutTan)
+PY_PROPERTY_MEMBER(hsVector3, Point3Key, value, fValue)
 
 static PyGetSetDef pyPoint3Key_GetSet[] = {
-    { _pycs("inTan"), (getter)pyPoint3Key_getInTan, (setter)pyPoint3Key_setInTan, NULL, NULL },
-    { _pycs("outTan"), (getter)pyPoint3Key_getOutTan, (setter)pyPoint3Key_setOutTan, NULL, NULL },
-    { _pycs("value"), (getter)pyPoint3Key_getValue, (setter)pyPoint3Key_setValue, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyPoint3Key_inTan_getset,
+    pyPoint3Key_outTan_getset,
+    pyPoint3Key_value_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyPoint3Key_Type = {

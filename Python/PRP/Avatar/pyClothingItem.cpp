@@ -32,14 +32,6 @@ static PyObject* pyClothingItem_new(PyTypeObject* type, PyObject* args, PyObject
     return (PyObject*)self;
 }
 
-static PyObject* pyClothingItem_getDescription(pyClothingItem* self, void* closure) {
-    return PlStr_To_PyStr(self->fThis->getDescription());
-}
-
-static PyObject* pyClothingItem_getItemName(pyClothingItem* self, void* closure) {
-    return PlStr_To_PyStr(self->fThis->getItemName());
-}
-
 static PyObject* pyClothingItem_getMesh(pyClothingItem* self, PyObject* args) {
     int lod = plClothingItem::kLODHigh;
     if (!PyArg_ParseTuple(args, "i", &lod)) {
@@ -48,32 +40,6 @@ static PyObject* pyClothingItem_getMesh(pyClothingItem* self, PyObject* args) {
     }
 
     return pyKey_FromKey(self->fThis->getMesh(lod));
-}
-
-static int pyClothingItem_setDescription(pyClothingItem* self, PyObject* value, void* closure) {
-    if (value == NULL) {
-        self->fThis->setDescription("");
-    } else {
-        if (!PyAnyStr_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "description must be a string");
-            return -1;
-        }
-        self->fThis->setDescription(PyStr_To_PlStr(value));
-    }
-    return 0;
-}
-
-static int pyClothingItem_setItemName(pyClothingItem* self, PyObject* value, void* closure) {
-    if (value == NULL) {
-        self->fThis->setItemName("");
-    } else {
-        if (!PyAnyStr_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "itemName must be a string");
-            return -1;
-        }
-        self->fThis->setItemName(PyStr_To_PlStr(value));
-    }
-    return 0;
 }
 
 static PyObject* pyClothingItem_setMesh(pyClothingItem* self, PyObject* args) {
@@ -104,12 +70,13 @@ PyMethodDef pyClothingItem_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(plString, ClothingItem, description, getDescription, setDescription)
+PY_PROPERTY(plString, ClothingItem, itemName, getItemName, setItemName)
+
 PyGetSetDef pyClothingItem_GetSet[] = {
-    { _pycs("description"), (getter)pyClothingItem_getDescription,
-        (setter)pyClothingItem_setDescription, NULL, NULL },
-    { _pycs("itemName"), (getter)pyClothingItem_getItemName,
-        (setter)pyClothingItem_setItemName, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyClothingItem_description_getset,
+    pyClothingItem_itemName_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyClothingItem_Type = {

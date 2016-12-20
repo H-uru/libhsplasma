@@ -38,53 +38,15 @@ static PyObject* pyGBufferCell_new(PyTypeObject* type, PyObject* args, PyObject*
     return (PyObject*)self;
 }
 
-static PyObject* pyGBufferCell_getVtxStart(pyGBufferCell* self, void*) {
-    return PyInt_FromLong(self->fThis->fVtxStart);
-}
-
-static PyObject* pyGBufferCell_getColorStart(pyGBufferCell* self, void*) {
-    return PyInt_FromLong(self->fThis->fColorStart);
-}
-
-static PyObject* pyGBufferCell_getLength(pyGBufferCell* self, void*) {
-    return PyInt_FromLong(self->fThis->fLength);
-}
-
-static int pyGBufferCell_setVtxStart(pyGBufferCell* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "vtxStart should be an int");
-        return -1;
-    }
-    self->fThis->fVtxStart = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyGBufferCell_setColorStart(pyGBufferCell* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "colorStart should be an int");
-        return -1;
-    }
-    self->fThis->fColorStart = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyGBufferCell_setLength(pyGBufferCell* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "length should be an int");
-        return -1;
-    }
-    self->fThis->fLength = PyInt_AsLong(value);
-    return 0;
-}
+PY_PROPERTY_MEMBER(unsigned int, GBufferCell, vtxStart, fVtxStart)
+PY_PROPERTY_MEMBER(unsigned int, GBufferCell, colorStart, fColorStart)
+PY_PROPERTY_MEMBER(unsigned int, GBufferCell, length, fLength)
 
 static PyGetSetDef pyGBufferCell_GetSet[] = {
-    { _pycs("vtxStart"), (getter)pyGBufferCell_getVtxStart,
-        (setter)pyGBufferCell_setVtxStart, NULL, NULL },
-    { _pycs("colorStart"), (getter)pyGBufferCell_getColorStart,
-        (setter)pyGBufferCell_setColorStart, NULL, NULL },
-    { _pycs("length"), (getter)pyGBufferCell_getLength,
-        (setter)pyGBufferCell_setLength, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyGBufferCell_vtxStart_getset,
+    pyGBufferCell_colorStart_getset,
+    pyGBufferCell_length_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyGBufferCell_Type = {

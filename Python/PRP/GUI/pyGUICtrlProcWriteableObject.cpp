@@ -73,15 +73,6 @@ static PyObject* pyGUICtrlProcWriteableObject_Write(PyObject*, PyObject* args) {
     return Py_None;
 }
 
-static PyObject* pyGUICtrlProcWriteableObject_getType(pyGUICtrlProcWriteableObject* self, void*) {
-    return PyInt_FromLong(self->fThis->getType());
-}
-
-static int pyGUICtrlProcWriteableObject_setType(pyGUICtrlProcWriteableObject* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "type is read-only");
-    return -1;
-}
-
 static PyMethodDef pyGUICtrlProcWriteableObject_Methods[] = {
     { "Read", (PyCFunction)pyGUICtrlProcWriteableObject_Read, METH_VARARGS | METH_STATIC,
       "Params: stream\n"
@@ -92,10 +83,11 @@ static PyMethodDef pyGUICtrlProcWriteableObject_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY_RO(GUICtrlProcWriteableObject, type, getType)
+
 static PyGetSetDef pyGUICtrlProcWriteableObject_GetSet[] = {
-    { _pycs("type"), (getter)pyGUICtrlProcWriteableObject_getType,
-        (setter)pyGUICtrlProcWriteableObject_setType, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyGUICtrlProcWriteableObject_type_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyGUICtrlProcWriteableObject_Type = {

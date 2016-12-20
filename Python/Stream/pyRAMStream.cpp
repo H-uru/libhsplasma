@@ -44,7 +44,16 @@ static PyObject* pyRAMStream_resize(pyRAMStream* self, PyObject* args) {
     return Py_None;
 }
 
-static PyObject* pyRAMStream_getBuffer(pyRAMStream* self, void* closure) {
+static PyMethodDef pyRAMStream_Methods[] = {
+    { "resize", (PyCFunction)pyRAMStream_resize, METH_VARARGS,
+      "Params: newsize\n"
+      "Allocates newsize bytes in the internal buffer.  This will truncate "
+      "data if it's shorter than the current buffer, or zero-fill the extra "
+      "space if it's larger than the current buffer." },
+    { NULL, NULL, 0, NULL }
+};
+
+PY_GETSET_GETTER_DECL(RAMStream, buffer) {
     char* buf = new char[self->fThis->size()];
     self->fThis->copyTo(buf, self->fThis->size());
     PyObject* bufObj = PyBytes_FromStringAndSize(buf, self->fThis->size());
@@ -52,7 +61,7 @@ static PyObject* pyRAMStream_getBuffer(pyRAMStream* self, void* closure) {
     return bufObj;
 }
 
-static int pyRAMStream_setBuffer(pyRAMStream* self, PyObject* value, void* closure) {
+PY_GETSET_SETTER_DECL(RAMStream, buffer) {
     if (!PyBytes_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "buffer should be a binary string");
         return -1;
@@ -64,19 +73,11 @@ static int pyRAMStream_setBuffer(pyRAMStream* self, PyObject* value, void* closu
     return 0;
 }
 
-static PyMethodDef pyRAMStream_Methods[] = {
-    { "resize", (PyCFunction)pyRAMStream_resize, METH_VARARGS,
-      "Params: newsize\n"
-      "Allocates newsize bytes in the internal buffer.  This will truncate "
-      "data if it's shorter than the current buffer, or zero-fill the extra "
-      "space if it's larger than the current buffer." },
-    { NULL, NULL, 0, NULL }
-};
+PY_PROPERTY_GETSET_DECL(RAMStream, buffer)
 
 static PyGetSetDef pyRAMStream_GetSet[] = {
-    { _pycs("buffer"), (getter)pyRAMStream_getBuffer, (setter)pyRAMStream_setBuffer,
-        _pycs("The internal RAM buffer of this stream"), NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyRAMStream_buffer_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyRAMStream_Type = {

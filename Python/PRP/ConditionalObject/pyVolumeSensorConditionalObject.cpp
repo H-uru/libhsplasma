@@ -31,53 +31,15 @@ static PyObject* pyVolumeSensorConditionalObject_new(PyTypeObject* type, PyObjec
     return (PyObject*)self;
 }
 
-static PyObject* pyVolumeSensorConditionalObject_getTrigNum(pyVolumeSensorConditionalObject* self, void*) {
-    return PyInt_FromLong(self->fThis->getTrigNum());
-}
-
-static PyObject* pyVolumeSensorConditionalObject_getType(pyVolumeSensorConditionalObject* self, void*) {
-    return PyInt_FromLong(self->fThis->getType());
-}
-
-static PyObject* pyVolumeSensorConditionalObject_getFirst(pyVolumeSensorConditionalObject* self, void*) {
-    return PyBool_FromLong(self->fThis->getFirst() ? 1 : 0);
-}
-
-static int pyVolumeSensorConditionalObject_setTrigNum(pyVolumeSensorConditionalObject* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "trigNum should be an int");
-        return -1;
-    }
-    self->fThis->setTrigNum(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyVolumeSensorConditionalObject_setType(pyVolumeSensorConditionalObject* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "type should be an int");
-        return -1;
-    }
-    self->fThis->setType(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyVolumeSensorConditionalObject_setFirst(pyVolumeSensorConditionalObject* self, PyObject* value, void*) {
-    if (value == NULL || !PyBool_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "first should be a boolean");
-        return -1;
-    }
-    self->fThis->setFirst(PyInt_AsLong(value) != 0);
-    return 0;
-}
+PY_PROPERTY(int, VolumeSensorConditionalObject, trigNum, getTrigNum, setTrigNum)
+PY_PROPERTY(int, VolumeSensorConditionalObject, type, getType, setType)
+PY_PROPERTY(bool, VolumeSensorConditionalObject, first, getFirst, setFirst)
 
 static PyGetSetDef pyVolumeSensorConditionalObject_GetSet[] = {
-    { _pycs("trigNum"), (getter)pyVolumeSensorConditionalObject_getTrigNum,
-       (setter)pyVolumeSensorConditionalObject_setTrigNum, NULL, NULL },
-    { _pycs("type"), (getter)pyVolumeSensorConditionalObject_getType,
-       (setter)pyVolumeSensorConditionalObject_setType, NULL, NULL },
-    { _pycs("first"), (getter)pyVolumeSensorConditionalObject_getFirst,
-       (setter)pyVolumeSensorConditionalObject_setFirst, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyVolumeSensorConditionalObject_trigNum_getset,
+    pyVolumeSensorConditionalObject_type_getset,
+    pyVolumeSensorConditionalObject_first_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyVolumeSensorConditionalObject_Type = {

@@ -63,45 +63,6 @@ static PyObject* pyKeyFrame_write(pyKeyFrame* self, PyObject* args) {
     return Py_None;
 }
 
-static PyObject* pyKeyFrame_getType(pyKeyFrame* self, void*) {
-    return PyInt_FromLong(self->fThis->getType());
-}
-
-static PyObject* pyKeyFrame_getFrame(pyKeyFrame* self, void*) {
-    return PyInt_FromLong(self->fThis->getFrame());
-}
-
-static PyObject* pyKeyFrame_getFrameTime(pyKeyFrame* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getFrameTime());
-}
-
-static int pyKeyFrame_setType(pyKeyFrame* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "type should be an int");
-        return -1;
-    }
-    self->fThis->setType(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyKeyFrame_setFrame(pyKeyFrame* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "frame should be an int");
-        return -1;
-    }
-    self->fThis->setFrame((unsigned int)PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyKeyFrame_setFrameTime(pyKeyFrame* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "frameTime should be a float");
-        return -1;
-    }
-    self->fThis->setFrame((float)PyFloat_AsDouble(value));
-    return 0;
-}
-
 static PyMethodDef pyKeyFrame_Methods[] = {
     { "read", (PyCFunction)pyKeyFrame_read, METH_VARARGS,
       "Params: stream, type\n"
@@ -112,12 +73,15 @@ static PyMethodDef pyKeyFrame_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(unsigned int, KeyFrame, type, getType, setType)
+PY_PROPERTY(unsigned int, KeyFrame, frame, getFrame, setFrame)
+PY_PROPERTY(float, KeyFrame, frameTime, getFrameTime, setFrameTime)
+
 static PyGetSetDef pyKeyFrame_GetSet[] = {
-    { _pycs("type"), (getter)pyKeyFrame_getType, (setter)pyKeyFrame_setType, NULL, NULL },
-    { _pycs("frame"), (getter)pyKeyFrame_getFrame, (setter)pyKeyFrame_setFrame, NULL, NULL },
-    { _pycs("frameTime"), (getter)pyKeyFrame_getFrameTime,
-        (setter)pyKeyFrame_setFrameTime, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyKeyFrame_type_getset,
+    pyKeyFrame_frame_getset,
+    pyKeyFrame_frameTime_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyKeyFrame_Type = {

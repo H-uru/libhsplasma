@@ -55,7 +55,7 @@ static PyObject* pyMatrix44_new(PyTypeObject* type, PyObject* args, PyObject* kw
 static PyObject* pyMatrix44_multiply(PyObject* left, PyObject* right) {
     if (pyMatrix44_Check(left)) {
         if (pyMatrix44_Check(right)) {
-            return pyMatrix44_FromMatrix44(*((pyMatrix44*)left)->fThis * *((pyMatrix44*)right)->fThis);
+            return pyPlasma_convert(*((pyMatrix44*)left)->fThis * *((pyMatrix44*)right)->fThis);
         } else {
             PyErr_SetString(PyExc_TypeError, "Multiplication operand is not another matrix");
             return NULL;
@@ -91,70 +91,64 @@ static int pyMatrix44_AssSubscript(pyMatrix44* self, PyObject* key, PyObject* va
     return 0;
 }
 
-static PyObject* pyMatrix44_getMat(pyMatrix44* self, void*) {
-    PyObject* l1 = PyList_New(4);
-    PyObject* l2 = PyList_New(4);
-    PyObject* l3 = PyList_New(4);
-    PyObject* l4 = PyList_New(4);
-    PyList_SET_ITEM(l1, 0, PyFloat_FromDouble((*self->fThis)(0, 0)));
-    PyList_SET_ITEM(l1, 1, PyFloat_FromDouble((*self->fThis)(0, 1)));
-    PyList_SET_ITEM(l1, 2, PyFloat_FromDouble((*self->fThis)(0, 2)));
-    PyList_SET_ITEM(l1, 3, PyFloat_FromDouble((*self->fThis)(0, 3)));
-    PyList_SET_ITEM(l2, 0, PyFloat_FromDouble((*self->fThis)(1, 0)));
-    PyList_SET_ITEM(l2, 1, PyFloat_FromDouble((*self->fThis)(1, 1)));
-    PyList_SET_ITEM(l2, 2, PyFloat_FromDouble((*self->fThis)(1, 2)));
-    PyList_SET_ITEM(l2, 3, PyFloat_FromDouble((*self->fThis)(1, 3)));
-    PyList_SET_ITEM(l3, 0, PyFloat_FromDouble((*self->fThis)(2, 0)));
-    PyList_SET_ITEM(l3, 1, PyFloat_FromDouble((*self->fThis)(2, 1)));
-    PyList_SET_ITEM(l3, 2, PyFloat_FromDouble((*self->fThis)(2, 2)));
-    PyList_SET_ITEM(l3, 3, PyFloat_FromDouble((*self->fThis)(2, 3)));
-    PyList_SET_ITEM(l4, 0, PyFloat_FromDouble((*self->fThis)(3, 0)));
-    PyList_SET_ITEM(l4, 1, PyFloat_FromDouble((*self->fThis)(3, 1)));
-    PyList_SET_ITEM(l4, 2, PyFloat_FromDouble((*self->fThis)(3, 2)));
-    PyList_SET_ITEM(l4, 3, PyFloat_FromDouble((*self->fThis)(3, 3)));
+PY_GETSET_GETTER_DECL(Matrix44, mat) {
+    PyObject* t1 = PyTuple_New(4);
+    PyObject* t2 = PyTuple_New(4);
+    PyObject* t3 = PyTuple_New(4);
+    PyObject* t4 = PyTuple_New(4);
+    PyTuple_SET_ITEM(t1, 0, pyPlasma_convert((*self->fThis)(0, 0)));
+    PyTuple_SET_ITEM(t1, 1, pyPlasma_convert((*self->fThis)(0, 1)));
+    PyTuple_SET_ITEM(t1, 2, pyPlasma_convert((*self->fThis)(0, 2)));
+    PyTuple_SET_ITEM(t1, 3, pyPlasma_convert((*self->fThis)(0, 3)));
+    PyTuple_SET_ITEM(t2, 0, pyPlasma_convert((*self->fThis)(1, 0)));
+    PyTuple_SET_ITEM(t2, 1, pyPlasma_convert((*self->fThis)(1, 1)));
+    PyTuple_SET_ITEM(t2, 2, pyPlasma_convert((*self->fThis)(1, 2)));
+    PyTuple_SET_ITEM(t2, 3, pyPlasma_convert((*self->fThis)(1, 3)));
+    PyTuple_SET_ITEM(t3, 0, pyPlasma_convert((*self->fThis)(2, 0)));
+    PyTuple_SET_ITEM(t3, 1, pyPlasma_convert((*self->fThis)(2, 1)));
+    PyTuple_SET_ITEM(t3, 2, pyPlasma_convert((*self->fThis)(2, 2)));
+    PyTuple_SET_ITEM(t3, 3, pyPlasma_convert((*self->fThis)(2, 3)));
+    PyTuple_SET_ITEM(t4, 0, pyPlasma_convert((*self->fThis)(3, 0)));
+    PyTuple_SET_ITEM(t4, 1, pyPlasma_convert((*self->fThis)(3, 1)));
+    PyTuple_SET_ITEM(t4, 2, pyPlasma_convert((*self->fThis)(3, 2)));
+    PyTuple_SET_ITEM(t4, 3, pyPlasma_convert((*self->fThis)(3, 3)));
 
-    PyObject* list = PyList_New(4);
-    PyList_SET_ITEM(list, 0, l1);
-    PyList_SET_ITEM(list, 1, l2);
-    PyList_SET_ITEM(list, 2, l3);
-    PyList_SET_ITEM(list, 3, l4);
-    return list;
+    PyObject* mat = PyTuple_New(4);
+    PyTuple_SET_ITEM(mat, 0, t1);
+    PyTuple_SET_ITEM(mat, 1, t2);
+    PyTuple_SET_ITEM(mat, 2, t3);
+    PyTuple_SET_ITEM(mat, 3, t4);
+    return mat;
 }
 
-static PyObject* pyMatrix44_getGlMat(pyMatrix44* self, void*) {
-    PyObject* list = PyList_New(16);
+PY_PROPERTY_GETSET_RO_DECL(Matrix44, mat)
+
+PY_GETSET_GETTER_DECL(Matrix44, glMat) {
+    PyObject* mat = PyTuple_New(16);
     const float* glmat = self->fThis->glMatrix();
-    PyList_SET_ITEM(list, 0, PyFloat_FromDouble(glmat[0]));
-    PyList_SET_ITEM(list, 1, PyFloat_FromDouble(glmat[1]));
-    PyList_SET_ITEM(list, 2, PyFloat_FromDouble(glmat[2]));
-    PyList_SET_ITEM(list, 3, PyFloat_FromDouble(glmat[3]));
-    PyList_SET_ITEM(list, 4, PyFloat_FromDouble(glmat[4]));
-    PyList_SET_ITEM(list, 5, PyFloat_FromDouble(glmat[5]));
-    PyList_SET_ITEM(list, 6, PyFloat_FromDouble(glmat[6]));
-    PyList_SET_ITEM(list, 7, PyFloat_FromDouble(glmat[7]));
-    PyList_SET_ITEM(list, 8, PyFloat_FromDouble(glmat[8]));
-    PyList_SET_ITEM(list, 9, PyFloat_FromDouble(glmat[9]));
-    PyList_SET_ITEM(list, 10, PyFloat_FromDouble(glmat[10]));
-    PyList_SET_ITEM(list, 11, PyFloat_FromDouble(glmat[11]));
-    PyList_SET_ITEM(list, 12, PyFloat_FromDouble(glmat[12]));
-    PyList_SET_ITEM(list, 13, PyFloat_FromDouble(glmat[13]));
-    PyList_SET_ITEM(list, 14, PyFloat_FromDouble(glmat[14]));
-    PyList_SET_ITEM(list, 15, PyFloat_FromDouble(glmat[15]));
-    return list;
+    PyTuple_SET_ITEM(mat, 0, pyPlasma_convert(glmat[0]));
+    PyTuple_SET_ITEM(mat, 1, pyPlasma_convert(glmat[1]));
+    PyTuple_SET_ITEM(mat, 2, pyPlasma_convert(glmat[2]));
+    PyTuple_SET_ITEM(mat, 3, pyPlasma_convert(glmat[3]));
+    PyTuple_SET_ITEM(mat, 4, pyPlasma_convert(glmat[4]));
+    PyTuple_SET_ITEM(mat, 5, pyPlasma_convert(glmat[5]));
+    PyTuple_SET_ITEM(mat, 6, pyPlasma_convert(glmat[6]));
+    PyTuple_SET_ITEM(mat, 7, pyPlasma_convert(glmat[7]));
+    PyTuple_SET_ITEM(mat, 8, pyPlasma_convert(glmat[8]));
+    PyTuple_SET_ITEM(mat, 9, pyPlasma_convert(glmat[9]));
+    PyTuple_SET_ITEM(mat, 10, pyPlasma_convert(glmat[10]));
+    PyTuple_SET_ITEM(mat, 11, pyPlasma_convert(glmat[11]));
+    PyTuple_SET_ITEM(mat, 12, pyPlasma_convert(glmat[12]));
+    PyTuple_SET_ITEM(mat, 13, pyPlasma_convert(glmat[13]));
+    PyTuple_SET_ITEM(mat, 14, pyPlasma_convert(glmat[14]));
+    PyTuple_SET_ITEM(mat, 15, pyPlasma_convert(glmat[15]));
+    return mat;
 }
 
-static int pyMatrix44_setMat(pyMatrix44* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "mat is read-only");
-    return -1;
-}
-
-static int pyMatrix44_setGlMat(pyMatrix44* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "glMat is read-only");
-    return -1;
-}
+PY_PROPERTY_GETSET_RO_DECL(Matrix44, glMat)
 
 static PyObject* pyMatrix44_Identity(PyObject*) {
-    return pyMatrix44_FromMatrix44(hsMatrix44::Identity());
+    return pyPlasma_convert(hsMatrix44::Identity());
 }
 
 static PyObject* pyMatrix44_TranslateMat(PyObject*, PyObject* args) {
@@ -167,7 +161,7 @@ static PyObject* pyMatrix44_TranslateMat(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "TranslateMat expects an hsVector3");
         return NULL;
     }
-    return pyMatrix44_FromMatrix44(hsMatrix44::TranslateMat(*vec->fThis));
+    return pyPlasma_convert(hsMatrix44::TranslateMat(*vec->fThis));
 }
 
 static PyObject* pyMatrix44_RotateMat(PyObject*, PyObject* args) {
@@ -177,7 +171,7 @@ static PyObject* pyMatrix44_RotateMat(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "RotateMat expects int, float");
         return NULL;
     }
-    return pyMatrix44_FromMatrix44(hsMatrix44::RotateMat(axis, angle));
+    return pyPlasma_convert(hsMatrix44::RotateMat(axis, angle));
 }
 
 static PyObject* pyMatrix44_ScaleMat(PyObject*, PyObject* args) {
@@ -190,15 +184,15 @@ static PyObject* pyMatrix44_ScaleMat(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "ScaleMat expects an hsVector3");
         return NULL;
     }
-    return pyMatrix44_FromMatrix44(hsMatrix44::ScaleMat(*vec->fThis));
+    return pyPlasma_convert(hsMatrix44::ScaleMat(*vec->fThis));
 }
 
 static PyObject* pyMatrix44_inverse(pyMatrix44* self) {
-    return pyMatrix44_FromMatrix44(self->fThis->inverse());
+    return pyPlasma_convert(self->fThis->inverse());
 }
 
 static PyObject* pyMatrix44_isIdentity(pyMatrix44* self) {
-    return PyBool_FromLong(self->fThis->IsIdentity() ? 1 : 0);
+    return pyPlasma_convert(self->fThis->IsIdentity());
 }
 
 static PyObject* pyMatrix44_translate(pyMatrix44* self, PyObject* args) {
@@ -296,7 +290,7 @@ static PyObject* pyMatrix44_multPoint(pyMatrix44* self, PyObject* args) {
         return NULL;
     }
     hsVector3 result = self->fThis->multPoint(*vec->fThis);
-    return pyVector3_FromVector3(result);
+    return pyPlasma_convert(result);
 }
 
 static PyObject* pyMatrix44_multVector(pyMatrix44* self, PyObject* args) {
@@ -310,7 +304,7 @@ static PyObject* pyMatrix44_multVector(pyMatrix44* self, PyObject* args) {
         return NULL;
     }
     hsVector3 result = self->fThis->multVector(*vec->fThis);
-    return pyVector3_FromVector3(result);
+    return pyPlasma_convert(result);
 }
 
 static PyObject* pyMatrix44_read(pyMatrix44* self, PyObject* args) {
@@ -406,9 +400,9 @@ static PyMappingMethods pyMatrix44_As_Mapping = {
 };
 
 PyGetSetDef pyMatrix44_GetSet[] = {
-    { _pycs("mat"), (getter)pyMatrix44_getMat, (setter)pyMatrix44_setMat, NULL, NULL },
-    { _pycs("glMat"), (getter)pyMatrix44_getGlMat, (setter)pyMatrix44_setGlMat, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyMatrix44_mat_getset,
+    pyMatrix44_glMat_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyMethodDef pyMatrix44_Methods[] = {

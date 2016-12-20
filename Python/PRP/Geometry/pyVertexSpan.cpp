@@ -29,100 +29,21 @@ static PyObject* pyVertexSpan_new(PyTypeObject* type, PyObject* args, PyObject* 
     return (PyObject*)self;
 }
 
-static PyObject* pyVertexSpan_getGroupIdx(pyVertexSpan* self, void*) {
-    return PyInt_FromLong(self->fThis->getGroupIdx());
-}
-
-static PyObject* pyVertexSpan_getVBufferIdx(pyVertexSpan* self, void*) {
-    return PyInt_FromLong(self->fThis->getVBufferIdx());
-}
-
-static PyObject* pyVertexSpan_getCellIdx(pyVertexSpan* self, void*) {
-    return PyInt_FromLong(self->fThis->getCellIdx());
-}
-
-static PyObject* pyVertexSpan_getCellOffset(pyVertexSpan* self, void*) {
-    return PyInt_FromLong(self->fThis->getCellOffset());
-}
-
-static PyObject* pyVertexSpan_getVStartIdx(pyVertexSpan* self, void*) {
-    return PyInt_FromLong(self->fThis->getVStartIdx());
-}
-
-static PyObject* pyVertexSpan_getVLength(pyVertexSpan* self, void*) {
-    return PyInt_FromLong(self->fThis->getVLength());
-}
-
-static int pyVertexSpan_setGroupIdx(pyVertexSpan* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "groupIdx should be an int");
-        return -1;
-    }
-    self->fThis->setGroupIdx(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyVertexSpan_setVBufferIdx(pyVertexSpan* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "VBufferIdx should be an int");
-        return -1;
-    }
-    self->fThis->setVBufferIdx(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyVertexSpan_setCellIdx(pyVertexSpan* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "cellIdx should be an int");
-        return -1;
-    }
-    self->fThis->setCellIdx(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyVertexSpan_setCellOffset(pyVertexSpan* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "cellOffset should be an int");
-        return -1;
-    }
-    self->fThis->setCellOffset(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyVertexSpan_setVStartIdx(pyVertexSpan* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "VStartIdx should be an int");
-        return -1;
-    }
-    self->fThis->setVStartIdx(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyVertexSpan_setVLength(pyVertexSpan* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "VLength should be an int");
-        return -1;
-    }
-    self->fThis->setVLength(PyInt_AsLong(value));
-    return 0;
-}
+PY_PROPERTY(unsigned int, VertexSpan, groupIdx, getGroupIdx, setGroupIdx)
+PY_PROPERTY(unsigned int, VertexSpan, VBufferIdx, getVBufferIdx, setVBufferIdx)
+PY_PROPERTY(unsigned int, VertexSpan, cellIdx, getCellIdx, setCellIdx)
+PY_PROPERTY(unsigned int, VertexSpan, cellOffset, getCellOffset, setCellOffset)
+PY_PROPERTY(unsigned int, VertexSpan, VStartIdx, getVStartIdx, setVStartIdx)
+PY_PROPERTY(unsigned int, VertexSpan, VLength, getVLength, setVLength)
 
 static PyGetSetDef pyVertexSpan_GetSet[] = {
-    { _pycs("groupIdx"), (getter)pyVertexSpan_getGroupIdx,
-        (setter)pyVertexSpan_setGroupIdx, _pycs("The Buffer Group index"), NULL },
-    { _pycs("VBufferIdx"), (getter)pyVertexSpan_getVBufferIdx,
-        (setter)pyVertexSpan_setVBufferIdx, _pycs("The Vertex Buffer index"), NULL },
-    { _pycs("cellIdx"), (getter)pyVertexSpan_getCellIdx,
-        (setter)pyVertexSpan_setCellIdx, _pycs("The Cell Buffer index"), NULL },
-    { _pycs("cellOffset"), (getter)pyVertexSpan_getCellOffset,
-        (setter)pyVertexSpan_setCellOffset, _pycs("The Cell offset"), NULL },
-    { _pycs("VStartIdx"), (getter)pyVertexSpan_getVStartIdx,
-        (setter)pyVertexSpan_setVStartIdx,
-        _pycs("The first vertex in this Span"), NULL },
-    { _pycs("VLength"), (getter)pyVertexSpan_getVLength,
-        (setter)pyVertexSpan_setVLength,
-        _pycs("The number of vertices in this Span"), NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyVertexSpan_groupIdx_getset,
+    pyVertexSpan_VBufferIdx_getset,
+    pyVertexSpan_cellIdx_getset,
+    pyVertexSpan_cellOffset_getset,
+    pyVertexSpan_VStartIdx_getset,
+    pyVertexSpan_VLength_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyVertexSpan_Type = {

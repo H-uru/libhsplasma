@@ -29,23 +29,12 @@ static PyObject* pyCallbackEventData_new(PyTypeObject* type, PyObject* args, PyO
     return (PyObject*)self;
 }
 
-static PyObject* pyCallbackEventData_getType(pyCallbackEventData* self, void*) {
-    return PyInt_FromLong(self->fThis->getCallbackEventType());
-}
-
-static int pyCallbackEventData_setType(pyCallbackEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "callbackEventType should be an int");
-        return -1;
-    }
-    self->fThis->setCallbackEventType(PyInt_AsLong(value));
-    return 0;
-}
+PY_PROPERTY(int, CallbackEventData, callbackEventType, getCallbackEventType,
+            setCallbackEventType)
 
 static PyGetSetDef pyCallbackEventData_GetSet[] = {
-    { _pycs("callbackEventType"), (getter)pyCallbackEventData_getType,
-        (setter)pyCallbackEventData_setType, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyCallbackEventData_callbackEventType_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyCallbackEventData_Type = {

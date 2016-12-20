@@ -40,41 +40,12 @@ static PyObject* pyCullPoly_new(PyTypeObject* type, PyObject* args, PyObject* kw
     return (PyObject*)self;
 }
 
-static PyObject* pyCullPoly_getFlags(pyCullPoly* self, void*) {
-    return PyInt_FromLong(self->fThis->getFlags());
-}
-
 static PyObject* pyCullPoly_getVerts(pyCullPoly* self, void*) {
     std::vector<hsVector3> verts = self->fThis->getVerts();
     PyObject* list = PyList_New(verts.size());
     for (size_t i=0; i<verts.size(); i++)
         PyList_SET_ITEM(list, i, pyVector3_FromVector3(verts[i]));
     return list;
-}
-
-static PyObject* pyCullPoly_getNorm(pyCullPoly* self, void*) {
-    return pyVector3_FromVector3(self->fThis->getNorm());
-}
-
-static PyObject* pyCullPoly_getCenter(pyCullPoly* self, void*) {
-    return pyVector3_FromVector3(self->fThis->getCenter());
-}
-
-static PyObject* pyCullPoly_getDist(pyCullPoly* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getDist());
-}
-
-static PyObject* pyCullPoly_getRadius(pyCullPoly* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getRadius());
-}
-
-static int pyCullPoly_setFlags(pyCullPoly* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "flags should be an int");
-        return -1;
-    }
-    self->fThis->setFlags(PyInt_AsLong(value));
-    return 0;
 }
 
 static int pyCullPoly_setVerts(pyCullPoly* self, PyObject* value, void*) {
@@ -99,50 +70,20 @@ static int pyCullPoly_setVerts(pyCullPoly* self, PyObject* value, void*) {
     return 0;
 }
 
-static int pyCullPoly_setNorm(pyCullPoly* self, PyObject* value, void*) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "norm should be an hsVector3");
-        return -1;
-    }
-    self->fThis->setNorm(*((pyVector3*)value)->fThis);
-    return 0;
-}
-
-static int pyCullPoly_setCenter(pyCullPoly* self, PyObject* value, void*) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "center should be an hsVector3");
-        return -1;
-    }
-    self->fThis->setCenter(*((pyVector3*)value)->fThis);
-    return 0;
-}
-
-static int pyCullPoly_setDist(pyCullPoly* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "dist should be a float");
-        return -1;
-    }
-    self->fThis->setDist(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyCullPoly_setRadius(pyCullPoly* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "radius should be a float");
-        return -1;
-    }
-    self->fThis->setRadius(PyFloat_AsDouble(value));
-    return 0;
-}
+PY_PROPERTY(unsigned int, CullPoly, flags, getFlags, setFlags)
+PY_PROPERTY(hsVector3, CullPoly, norm, getNorm, setNorm)
+PY_PROPERTY(hsVector3, CullPoly, center, getCenter, setCenter)
+PY_PROPERTY(float, CullPoly, dist, getDist, setDist)
+PY_PROPERTY(float, CullPoly, radius, getRadius, setRadius)
 
 static PyGetSetDef pyCullPoly_GetSet[] = {
-    { _pycs("flags"), (getter)pyCullPoly_getFlags, (setter)pyCullPoly_setFlags, NULL, NULL },
+    pyCullPoly_flags_getset,
     { _pycs("verts"), (getter)pyCullPoly_getVerts, (setter)pyCullPoly_setVerts, NULL, NULL },
-    { _pycs("norm"), (getter)pyCullPoly_getNorm, (setter)pyCullPoly_setNorm, NULL, NULL },
-    { _pycs("center"), (getter)pyCullPoly_getCenter, (setter)pyCullPoly_setCenter, NULL, NULL },
-    { _pycs("dist"), (getter)pyCullPoly_getDist, (setter)pyCullPoly_setDist, NULL, NULL },
-    { _pycs("radius"), (getter)pyCullPoly_getRadius, (setter)pyCullPoly_setRadius, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyCullPoly_norm_getset,
+    pyCullPoly_center_getset,
+    pyCullPoly_dist_getset,
+    pyCullPoly_radius_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyCullPoly_Type = {

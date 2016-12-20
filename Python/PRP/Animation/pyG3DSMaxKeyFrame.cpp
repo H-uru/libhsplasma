@@ -36,23 +36,11 @@ static PyObject* pyG3DSMaxKeyFrame_new(PyTypeObject* type, PyObject* args, PyObj
     return (PyObject*)self;
 }
 
-static PyObject* pyG3DSMaxKeyFrame_getValue(pyG3DSMaxKeyFrame* self, void*) {
-    return pyAffineParts_FromAffineParts(self->fThis->fValue);
-}
-
-static int pyG3DSMaxKeyFrame_setValue(pyG3DSMaxKeyFrame* self, PyObject* value, void*) {
-    if (value == NULL || !pyAffineParts_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "value should be an hsAffineParts");
-        return -1;
-    }
-    self->fThis->fValue = *((pyAffineParts*)value)->fThis;
-    return 0;
-}
+PY_PROPERTY_MEMBER(hsAffineParts, G3DSMaxKeyFrame, value, fValue)
 
 static PyGetSetDef pyG3DSMaxKeyFrame_GetSet[] = {
-    { _pycs("value"), (getter)pyG3DSMaxKeyFrame_getValue,
-        (setter)pyG3DSMaxKeyFrame_setValue, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyG3DSMaxKeyFrame_value_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyG3DSMaxKeyFrame_Type = {

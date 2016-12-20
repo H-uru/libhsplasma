@@ -75,84 +75,6 @@ static PyObject* pyAffineParts_reset(pyAffineParts* self) {
     return Py_None;
 }
 
-static PyObject* pyAffineParts_getI(pyAffineParts* self, void*) {
-    return PyInt_FromLong(self->fThis->fI);
-}
-
-static PyObject* pyAffineParts_getT(pyAffineParts* self, void*) {
-    return pyVector3_FromVector3(self->fThis->fT);
-}
-
-static PyObject* pyAffineParts_getQ(pyAffineParts* self, void*) {
-    return pyQuat_FromQuat(self->fThis->fQ);
-}
-
-static PyObject* pyAffineParts_getU(pyAffineParts* self, void*) {
-    return pyQuat_FromQuat(self->fThis->fU);
-}
-
-static PyObject* pyAffineParts_getK(pyAffineParts* self, void*) {
-    return pyVector3_FromVector3(self->fThis->fK);
-}
-
-static PyObject* pyAffineParts_getF(pyAffineParts* self, void*) {
-    return PyFloat_FromDouble(self->fThis->fF);
-}
-
-static int pyAffineParts_setI(pyAffineParts* self, PyObject* value, void*) {
-    if (!PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "I should be be an int");
-        return -1;
-    }
-    self->fThis->fI = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyAffineParts_setT(pyAffineParts* self, PyObject* value, void*) {
-    if (!pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "T should be an hsVector3");
-        return -1;
-    }
-    self->fThis->fT = *((pyVector3*)value)->fThis;
-    return 0;
-}
-
-static int pyAffineParts_setQ(pyAffineParts* self, PyObject* value, void*) {
-    if (!pyQuat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "Q should be an hsQuat");
-        return -1;
-    }
-    self->fThis->fQ = *((pyQuat*)value)->fThis;
-    return 0;
-}
-
-static int pyAffineParts_setU(pyAffineParts* self, PyObject* value, void*) {
-    if (!pyQuat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "U should be an hsUuat");
-        return -1;
-    }
-    self->fThis->fU = *((pyQuat*)value)->fThis;
-    return 0;
-}
-
-static int pyAffineParts_setK(pyAffineParts* self, PyObject* value, void*) {
-    if (!pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "K should be an hsVector3");
-        return -1;
-    }
-    self->fThis->fK = *((pyVector3*)value)->fThis;
-    return 0;
-}
-
-static int pyAffineParts_setF(pyAffineParts* self, PyObject* value, void*) {
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "F should be a float");
-        return -1;
-    }
-    self->fThis->fF = PyFloat_AsDouble(value);
-    return 0;
-}
-
 PyMethodDef pyAffineParts_Methods[] = {
     { "read", (PyCFunction)pyAffineParts_read, METH_VARARGS,
       "Params: stream\n"
@@ -165,14 +87,21 @@ PyMethodDef pyAffineParts_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY_MEMBER(int, AffineParts, I, fI)
+PY_PROPERTY_MEMBER(hsVector3, AffineParts, T, fT)
+PY_PROPERTY_MEMBER(hsQuat, AffineParts, Q, fQ)
+PY_PROPERTY_MEMBER(hsQuat, AffineParts, U, fU)
+PY_PROPERTY_MEMBER(hsVector3, AffineParts, K, fK)
+PY_PROPERTY_MEMBER(float, AffineParts, F, fF)
+
 PyGetSetDef pyAffineParts_GetSet[] = {
-    { _pycs("I"), (getter)pyAffineParts_getI, (setter)pyAffineParts_setI, NULL, NULL },
-    { _pycs("T"), (getter)pyAffineParts_getT, (setter)pyAffineParts_setT, NULL, NULL },
-    { _pycs("Q"), (getter)pyAffineParts_getQ, (setter)pyAffineParts_setQ, NULL, NULL },
-    { _pycs("U"), (getter)pyAffineParts_getU, (setter)pyAffineParts_setU, NULL, NULL },
-    { _pycs("K"), (getter)pyAffineParts_getK, (setter)pyAffineParts_setK, NULL, NULL },
-    { _pycs("F"), (getter)pyAffineParts_getF, (setter)pyAffineParts_setF, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyAffineParts_I_getset,
+    pyAffineParts_T_getset,
+    pyAffineParts_Q_getset,
+    pyAffineParts_U_getset,
+    pyAffineParts_K_getset,
+    pyAffineParts_F_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyAffineParts_Type = {

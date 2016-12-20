@@ -30,38 +30,13 @@ static PyObject* pySubworldRegionDetector_new(PyTypeObject* type, PyObject* args
     return (PyObject*)self;
 }
 
-static PyObject* pySubworldRegionDetector_getSubworld(pySubworldRegionDetector* self, void*) {
-    return pyKey_FromKey(self->fThis->getSubworld());
-}
-
-static PyObject* pySubworldRegionDetector_getOnExit(pySubworldRegionDetector* self, void*) {
-    return PyBool_FromLong(self->fThis->getOnExit() ? 1 : 0);
-}
-
-static int pySubworldRegionDetector_setSubworld(pySubworldRegionDetector* self, PyObject* value, void*) {
-    if (value == NULL || !pyKey_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "subworld should be a plKey");
-        return -1;
-    }
-    self->fThis->setSubworld(*((pyKey*)value)->fThis);
-    return 0;
-}
-
-static int pySubworldRegionDetector_setOnExit(pySubworldRegionDetector* self, PyObject* value, void*) {
-    if (value == NULL || !PyBool_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "onExit should be a boolean");
-        return -1;
-    }
-    self->fThis->setOnExit(PyInt_AsLong(value) != 0);
-    return 0;
-}
+PY_PROPERTY(plKey, SubworldRegionDetector, subworld, getSubworld, setSubworld)
+PY_PROPERTY(bool, SubworldRegionDetector, onExit, getOnExit, setOnExit)
 
 static PyGetSetDef pySubworldRegionDetector_GetSet[] = {
-    { _pycs("subworld"), (getter)pySubworldRegionDetector_getSubworld,
-       (setter)pySubworldRegionDetector_setSubworld, NULL, NULL },
-    { _pycs("onExit"), (getter)pySubworldRegionDetector_getOnExit,
-       (setter)pySubworldRegionDetector_setOnExit, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pySubworldRegionDetector_subworld_getset,
+    pySubworldRegionDetector_onExit_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pySubworldRegionDetector_Type = {

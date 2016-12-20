@@ -123,22 +123,6 @@ static PyObject* pyAGMasterMod_getEoaKeys(pyAGMasterMod* self, void*) {
     return tup;
 }
 
-static PyObject* pyAGMasterMod_getGroupName(pyAGMasterMod* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getGroupName());
-}
-
-static PyObject* pyAGMasterMod_getIsGrouped(pyAGMasterMod* self, void*) {
-    return PyBool_FromLong(self->fThis->getIsGrouped() ? 1 : 0);
-}
-
-static PyObject* pyAGMasterMod_getIsGroupMaster(pyAGMasterMod* self, void*) {
-    return PyBool_FromLong(self->fThis->getIsGroupMaster() ? 1 : 0);
-}
-
-static PyObject* pyAGMasterMod_getMsgForwarder(pyAGMasterMod* self, void*) {
-    return pyKey_FromKey(self->fThis->getMsgForwarder());
-}
-
 static int pyAGMasterMod_setPrivateAnims(pyAGMasterMod* self, PyObject* value, void*) {
     PyErr_SetString(PyExc_RuntimeError, "To add privateAnims, use addPrivateAnim()");
     return -1;
@@ -149,54 +133,19 @@ static int pyAGMasterMod_setEoaKeys(pyAGMasterMod* self, PyObject* value, void*)
     return -1;
 }
 
-static int pyAGMasterMod_setGroupName(pyAGMasterMod* self, PyObject* value, void*) {
-    if (value == NULL || !PyAnyStr_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "groupName should be a string");
-        return -1;
-    }
-    self->fThis->setGroupName(PyStr_To_PlStr(value));
-    return 0;
-}
-
-static int pyAGMasterMod_setIsGrouped(pyAGMasterMod* self, PyObject* value, void*) {
-    if (value == NULL || !PyBool_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "isGrouped should be a boolean");
-        return -1;
-    }
-    self->fThis->setIsGrouped(PyInt_AsLong(value) != 0);
-    return 0;
-}
-
-static int pyAGMasterMod_setIsGroupMaster(pyAGMasterMod* self, PyObject* value, void*) {
-    if (value == NULL || !PyBool_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "isGroupMaster should be a boolean");
-        return -1;
-    }
-    self->fThis->setIsGroupMaster(PyInt_AsLong(value) != 0);
-    return 0;
-}
-
-static int pyAGMasterMod_setMsgForwarder(pyAGMasterMod* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setMsgForwarder(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setMsgForwarder(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "msgForwarder should be a plKey");
-        return -1;
-    }
-}
+PY_PROPERTY(plString, AGMasterMod, groupName, getGroupName, setGroupName)
+PY_PROPERTY(bool, AGMasterMod, isGrouped, getIsGrouped, setIsGrouped)
+PY_PROPERTY(bool, AGMasterMod, isGroupMaster, getIsGroupMaster, setIsGroupMaster)
+PY_PROPERTY(plKey, AGMasterMod, msgForwarder, getMsgForwarder, setMsgForwarder)
 
 static PyGetSetDef pyAGMasterMod_GetSet[] = {
     { _pycs("privateAnims"), (getter)pyAGMasterMod_getPrivateAnims, (setter)pyAGMasterMod_setPrivateAnims, NULL, NULL },
     { _pycs("eoaKeys"), (getter)pyAGMasterMod_getEoaKeys, (setter)pyAGMasterMod_setEoaKeys, NULL, NULL },
-    { _pycs("groupName"), (getter)pyAGMasterMod_getGroupName, (setter)pyAGMasterMod_setGroupName, NULL, NULL },
-    { _pycs("isGrouped"), (getter)pyAGMasterMod_getIsGrouped, (setter)pyAGMasterMod_setIsGrouped, NULL, NULL },
-    { _pycs("isGroupMaster"), (getter)pyAGMasterMod_getIsGroupMaster, (setter)pyAGMasterMod_setIsGroupMaster, NULL, NULL },
-    { _pycs("msgForwarder"), (getter)pyAGMasterMod_getMsgForwarder, (setter)pyAGMasterMod_setMsgForwarder, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyAGMasterMod_groupName_getset,
+    pyAGMasterMod_isGrouped_getset,
+    pyAGMasterMod_isGroupMaster_getset,
+    pyAGMasterMod_msgForwarder_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyAGMasterMod_Type = {

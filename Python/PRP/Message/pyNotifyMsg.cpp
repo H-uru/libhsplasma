@@ -72,48 +72,9 @@ static PyObject* pyNotifyMsg_getEvents(pyNotifyMsg* self, void*) {
     return list;
 }
 
-static PyObject* pyNotifyMsg_getType(pyNotifyMsg* self, void*) {
-    return PyInt_FromLong(self->fThis->getType());
-}
-
-static PyObject* pyNotifyMsg_getState(pyNotifyMsg* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getState());
-}
-
-static PyObject* pyNotifyMsg_getID(pyNotifyMsg* self, void*) {
-    return PyInt_FromLong(self->fThis->getID());
-}
-
 static int pyNotifyMsg_setEvents(pyNotifyMsg* self, PyObject* value, void*) {
     PyErr_SetString(PyExc_RuntimeError, "to add events, use addEvent");
     return -1;
-}
-
-static int pyNotifyMsg_setType(pyNotifyMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "type should be an int");
-        return -1;
-    }
-    self->fThis->setType(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyNotifyMsg_setState(pyNotifyMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "state should be an int");
-        return -1;
-    }
-    self->fThis->setState(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyNotifyMsg_setID(pyNotifyMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "id should be an int");
-        return -1;
-    }
-    self->fThis->setID(PyInt_AsLong(value));
-    return 0;
 }
 
 static PyMethodDef pyNotifyMsg_Methods[] = {
@@ -128,15 +89,17 @@ static PyMethodDef pyNotifyMsg_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(int, NotifyMsg, type, getType, setType)
+PY_PROPERTY(float, NotifyMsg, state, getState, setState)
+PY_PROPERTY(int, NotifyMsg, id, getID, setID)
+
 static PyGetSetDef pyNotifyMsg_GetSet[] = {
     { _pycs("events"), (getter)pyNotifyMsg_getEvents,
         (setter)pyNotifyMsg_setEvents, NULL, NULL },
-    { _pycs("type"), (getter)pyNotifyMsg_getType,
-        (setter)pyNotifyMsg_setType, NULL, NULL },
-    { _pycs("state"), (getter)pyNotifyMsg_getState,
-        (setter)pyNotifyMsg_setState, NULL, NULL },
-    { _pycs("id"), (getter)pyNotifyMsg_getID, (setter)pyNotifyMsg_setID, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyNotifyMsg_type_getset,
+    pyNotifyMsg_state_getset,
+    pyNotifyMsg_id_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyNotifyMsg_Type = {

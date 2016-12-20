@@ -29,23 +29,11 @@ static PyObject* pyResponderStateEventData_new(PyTypeObject* type, PyObject* arg
     return (PyObject*)self;
 }
 
-static PyObject* pyResponderStateEventData_getState(pyResponderStateEventData* self, void*) {
-    return PyInt_FromLong(self->fThis->getState());
-}
-
-static int pyResponderStateEventData_setState(pyResponderStateEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "state should be an int");
-        return -1;
-    }
-    self->fThis->setState(PyInt_AsLong(value));
-    return 0;
-}
+PY_PROPERTY(int, ResponderStateEventData, state, getState, setState)
 
 static PyGetSetDef pyResponderStateEventData_GetSet[] = {
-    { _pycs("state"), (getter)pyResponderStateEventData_getState,
-        (setter)pyResponderStateEventData_setState, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyResponderStateEventData_state_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyResponderStateEventData_Type = {

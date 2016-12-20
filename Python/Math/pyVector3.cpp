@@ -62,7 +62,7 @@ static PyObject* pyVector3_new(PyTypeObject* type, PyObject* args, PyObject* kwd
 static PyObject* pyVector3_Repr(pyVector3* self) {
     plString repr = plString::Format("hsVector3(%f, %f, %f)",
              self->fThis->X, self->fThis->Y, self->fThis->Z);
-    return PlStr_To_PyStr(repr);
+    return pyPlasma_convert(repr);
 }
 
 static PyObject* pyVector3_add(PyObject* left, PyObject* right) {
@@ -70,7 +70,7 @@ static PyObject* pyVector3_add(PyObject* left, PyObject* right) {
         PyErr_SetString(PyExc_TypeError, "Incompatible Types");
         return NULL;
     }
-    return pyVector3_FromVector3(*((pyVector3*)left)->fThis + *((pyVector3*)right)->fThis);
+    return pyPlasma_convert(*((pyVector3*)left)->fThis + *((pyVector3*)right)->fThis);
 }
 
 static PyObject* pyVector3_subtract(PyObject* left, PyObject* right) {
@@ -78,7 +78,7 @@ static PyObject* pyVector3_subtract(PyObject* left, PyObject* right) {
         PyErr_SetString(PyExc_TypeError, "Incompatible Types");
         return NULL;
     }
-    return pyVector3_FromVector3(*((pyVector3*)left)->fThis - *((pyVector3*)right)->fThis);
+    return pyPlasma_convert(*((pyVector3*)left)->fThis - *((pyVector3*)right)->fThis);
 }
 
 static PyObject* pyVector3_multiply(PyObject* left, PyObject* right) {
@@ -87,14 +87,14 @@ static PyObject* pyVector3_multiply(PyObject* left, PyObject* right) {
             PyErr_SetString(PyExc_TypeError, "Vector Multiplication should use dotP and crossP");
             return NULL;
         } else if (PyFloat_Check(right)) {
-            return pyVector3_FromVector3(*((pyVector3*)left)->fThis * PyFloat_AsDouble(right));
+            return pyPlasma_convert(*((pyVector3*)left)->fThis * PyFloat_AsDouble(right));
         } else {
             PyErr_SetString(PyExc_TypeError, "Incompatible Types");
             return NULL;
         }
     } else if (pyVector3_Check(right)) {
         if (PyFloat_Check(left)) {
-            return pyVector3_FromVector3(*((pyVector3*)right)->fThis * PyFloat_AsDouble(left));
+            return pyPlasma_convert(*((pyVector3*)right)->fThis * PyFloat_AsDouble(left));
         } else {
             PyErr_SetString(PyExc_TypeError, "Incompatible Types");
             return NULL;
@@ -106,19 +106,19 @@ static PyObject* pyVector3_multiply(PyObject* left, PyObject* right) {
 }
 
 static PyObject* pyVector3_negative(pyVector3* self) {
-    return pyVector3_FromVector3(hsVector3(-(self->fThis->X), -(self->fThis->Y),
-                                           -(self->fThis->Z)));
+    return pyPlasma_convert(hsVector3(-(self->fThis->X), -(self->fThis->Y),
+                                      -(self->fThis->Z)));
 }
 
 static PyObject* pyVector3_positive(pyVector3* self) {
-    return pyVector3_FromVector3(hsVector3(+(self->fThis->X), +(self->fThis->Y),
-                                           +(self->fThis->Z)));
+    return pyPlasma_convert(hsVector3(+(self->fThis->X), +(self->fThis->Y),
+                                      +(self->fThis->Z)));
 }
 
 static PyObject* pyVector3_absolute(pyVector3* self) {
-    return pyVector3_FromVector3(hsVector3(fabs(self->fThis->X),
-                                           fabs(self->fThis->Y),
-                                           fabs(self->fThis->Z)));
+    return pyPlasma_convert(hsVector3(fabs(self->fThis->X),
+                                      fabs(self->fThis->Y),
+                                      fabs(self->fThis->Z)));
 }
 
 static int pyVector3_nonzero(pyVector3* self) {
@@ -127,7 +127,7 @@ static int pyVector3_nonzero(pyVector3* self) {
 }
 
 static PyObject* pyVector3_magnitude(pyVector3* self) {
-    return PyFloat_FromDouble(self->fThis->magnitude());
+    return pyPlasma_convert(self->fThis->magnitude());
 }
 
 static PyObject* pyVector3_normalize(pyVector3* self) {
@@ -146,7 +146,7 @@ static PyObject* pyVector3_dotP(pyVector3* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "dotP expects an hsVector3");
         return NULL;
     }
-    return PyFloat_FromDouble(self->fThis->dotP(*vec->fThis));
+    return pyPlasma_convert(self->fThis->dotP(*vec->fThis));
 }
 
 static PyObject* pyVector3_crossP(pyVector3* self, PyObject* args) {
@@ -159,7 +159,7 @@ static PyObject* pyVector3_crossP(pyVector3* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "crossP expects an hsVector3");
         return NULL;
     }
-    return pyVector3_FromVector3(self->fThis->crossP(*vec->fThis));
+    return pyPlasma_convert(self->fThis->crossP(*vec->fThis));
 }
 
 static PyObject* pyVector3_read(pyVector3* self, PyObject* args) {
@@ -190,45 +190,6 @@ static PyObject* pyVector3_write(pyVector3* self, PyObject* args) {
     self->fThis->write(stream->fThis);
     Py_INCREF(Py_None);
     return Py_None;
-}
-
-static PyObject* pyVector3_getX(pyVector3* self, void*) {
-    return PyFloat_FromDouble(self->fThis->X);
-}
-
-static PyObject* pyVector3_getY(pyVector3* self, void*) {
-    return PyFloat_FromDouble(self->fThis->Y);
-}
-
-static PyObject* pyVector3_getZ(pyVector3* self, void*) {
-    return PyFloat_FromDouble(self->fThis->Z);
-}
-
-static int pyVector3_setX(pyVector3* self, PyObject* value, void*) {
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "X needs to be a float");
-        return -1;
-    }
-    self->fThis->X = PyFloat_AsDouble(value);
-    return 0;
-}
-
-static int pyVector3_setY(pyVector3* self, PyObject* value, void*) {
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "Y needs to be a float");
-        return -1;
-    }
-    self->fThis->Y = PyFloat_AsDouble(value);
-    return 0;
-}
-
-static int pyVector3_setZ(pyVector3* self, PyObject* value, void*) {
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "Z needs to be a float");
-        return -1;
-    }
-    self->fThis->Z = PyFloat_AsDouble(value);
-    return 0;
 }
 
 PyNumberMethods pyVector3_As_Number = {
@@ -307,11 +268,15 @@ PyMethodDef pyVector3_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY_MEMBER(float, Vector3, X, X)
+PY_PROPERTY_MEMBER(float, Vector3, Y, Y)
+PY_PROPERTY_MEMBER(float, Vector3, Z, Z)
+
 PyGetSetDef pyVector3_GetSet[] = {
-    { _pycs("X"), (getter)pyVector3_getX, (setter)pyVector3_setX, NULL, NULL },
-    { _pycs("Y"), (getter)pyVector3_getY, (setter)pyVector3_setY, NULL, NULL },
-    { _pycs("Z"), (getter)pyVector3_getZ, (setter)pyVector3_setZ, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyVector3_X_getset,
+    pyVector3_Y_getset,
+    pyVector3_Z_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyVector3_Type = {

@@ -30,23 +30,12 @@ static PyObject* pyControlEventConditionalObject_new(PyTypeObject* type, PyObjec
     return (PyObject*)self;
 }
 
-static PyObject* pyControlEventConditionalObject_getControlEvent(pyControlEventConditionalObject* self, void*) {
-    return PyInt_FromLong(self->fThis->getControlEvent());
-}
-
-static int pyControlEventConditionalObject_setControlEvent(pyControlEventConditionalObject* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "controlEvent should be an int");
-        return -1;
-    }
-    self->fThis->setControlEvent((ControlEventCode)PyInt_AsLong(value));
-    return 0;
-}
+PY_PROPERTY(ControlEventCode, ControlEventConditionalObject, controlEvent,
+            getControlEvent, setControlEvent)
 
 static PyGetSetDef pyControlEventConditionalObject_GetSet[] = {
-    { _pycs("controlEvent"), (getter)pyControlEventConditionalObject_getControlEvent,
-       (setter)pyControlEventConditionalObject_setControlEvent, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyControlEventConditionalObject_controlEvent_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyControlEventConditionalObject_Type = {

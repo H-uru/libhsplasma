@@ -31,23 +31,12 @@ static PyObject* pySoundBuffer_new(PyTypeObject* type, PyObject* args, PyObject*
     return (PyObject*)self;
 }
 
-static PyObject* pySoundBuffer_getHeader(pySoundBuffer* self, void*) {
-    return pyWAVHeader_FromWAVHeader(&self->fThis->getHeader());
-}
+PY_PROPERTY_PROXY(plWAVHeader, SoundBuffer, header, getHeader)
+PY_PROPERTY(plString, SoundBuffer, fileName, getFileName, setFileName)
+PY_PROPERTY(unsigned int, SoundBuffer, flags, getFlags, setFlags)
+PY_PROPERTY(size_t, SoundBuffer, dataLength, getDataLength, setDataLength)
 
-static PyObject* pySoundBuffer_getFileName(pySoundBuffer* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getFileName());
-}
-
-static PyObject* pySoundBuffer_getFlags(pySoundBuffer* self, void*) {
-    return PyInt_FromLong(self->fThis->getFlags());
-}
-
-static PyObject* pySoundBuffer_getDataLength(pySoundBuffer* self, void*) {
-    return PyInt_FromLong(self->fThis->getFlags());
-}
-
-static PyObject* pySoundBuffer_getData(pySoundBuffer* self, void*) {
+PY_GETSET_GETTER_DECL(SoundBuffer, data) {
     if (self->fThis->getData() == NULL) {
         Py_INCREF(Py_None);
         return Py_None;
@@ -57,48 +46,14 @@ static PyObject* pySoundBuffer_getData(pySoundBuffer* self, void*) {
     }
 }
 
-static int pySoundBuffer_setHeader(pySoundBuffer* self, PyObject* value, void*) {
-    if (value == NULL || !pyWAVHeader_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "header should be a plWAVHeader");
-        return -1;
-    }
-    self->fThis->getHeader() = *((pyWAVHeader*)value)->fThis;
-    return 0;
-}
-
-static int pySoundBuffer_setFileName(pySoundBuffer* self, PyObject* value, void*) {
-    if (value == NULL || !PyAnyStr_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "fileName should be a string");
-        return -1;
-    }
-    self->fThis->setFileName(PyStr_To_PlStr(value));
-    return 0;
-}
-
-static int pySoundBuffer_setFlags(pySoundBuffer* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "flags should be an int");
-        return -1;
-    }
-    self->fThis->setFlags(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pySoundBuffer_setDataLength(pySoundBuffer* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "dataLength should be an int");
-        return -1;
-    }
-    self->fThis->setData(PyInt_AsLong(value), NULL);
-    return 0;
-}
-
-static int pySoundBuffer_setData(pySoundBuffer* self, PyObject* value, void*) {
+PY_GETSET_SETTER_DECL(SoundBuffer, data) {
     if (value == NULL) {
+        PyErr_SetString(PyExc_RuntimeError, "data cannot be deleted");
+        return -1;
+    } else if (value == Py_None) {
         self->fThis->setData(0, NULL);
         return 0;
-    }
-    if (!PyBytes_Check(value)) {
+    } else if (!PyBytes_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "data should be a binary string");
         return -1;
     }
@@ -109,19 +64,15 @@ static int pySoundBuffer_setData(pySoundBuffer* self, PyObject* value, void*) {
     return 0;
 }
 
+PY_PROPERTY_GETSET_DECL(SoundBuffer, data)
 
 static PyGetSetDef pySoundBuffer_GetSet[] = {
-    { _pycs("header"), (getter)pySoundBuffer_getHeader,
-        (setter)pySoundBuffer_setHeader, NULL, NULL },
-    { _pycs("fileName"), (getter)pySoundBuffer_getFileName,
-        (setter)pySoundBuffer_setFileName, NULL, NULL },
-    { _pycs("flags"), (getter)pySoundBuffer_getFlags,
-        (setter)pySoundBuffer_setFlags, NULL, NULL },
-    { _pycs("data"), (getter)pySoundBuffer_getData,
-        (setter)pySoundBuffer_setData, NULL, NULL },
-    { _pycs("dataLength"), (getter)pySoundBuffer_getDataLength,
-        (setter)pySoundBuffer_setDataLength, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pySoundBuffer_header_getset,
+    pySoundBuffer_fileName_getset,
+    pySoundBuffer_flags_getset,
+    pySoundBuffer_data_getset,
+    pySoundBuffer_dataLength_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pySoundBuffer_Type = {

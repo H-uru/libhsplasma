@@ -73,10 +73,6 @@ static PyObject* pySpanTemplate_getIndices(pySpanTemplate* self, void*) {
     return list;
 }
 
-static PyObject* pySpanTemplate_getFormat(pySpanTemplate* self, void*) {
-    return PyInt_FromLong(self->fThis->getFormat());
-}
-
 static int pySpanTemplate_setVerts(pySpanTemplate* self, PyObject* value, void*) {
     std::vector<plSpanTemplate::Vertex> verts;
     if (value == NULL) {
@@ -124,15 +120,6 @@ static int pySpanTemplate_setIndices(pySpanTemplate* self, PyObject* value, void
     return 0;
 }
 
-static int pySpanTemplate_setFormat(pySpanTemplate* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "format should be an int");
-        return -1;
-    }
-    self->fThis->setFormat(PyInt_AsLong(value));
-    return 0;
-}
-
 static PyMethodDef pySpanTemplate_Methods[] = {
     { "read", (PyCFunction)pySpanTemplate_read, METH_VARARGS,
       "Params: stream\n"
@@ -143,14 +130,15 @@ static PyMethodDef pySpanTemplate_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(unsigned short, SpanTemplate, format, getFormat, setFormat)
+
 static PyGetSetDef pySpanTemplate_GetSet[] = {
     { _pycs("vertices"), (getter)pySpanTemplate_getVerts,
         (setter)pySpanTemplate_setVerts, NULL, NULL },
     { _pycs("indices"), (getter)pySpanTemplate_getIndices,
         (setter)pySpanTemplate_setIndices, NULL, NULL },
-    { _pycs("format"), (getter)pySpanTemplate_getFormat,
-        (setter)pySpanTemplate_setFormat, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pySpanTemplate_format_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pySpanTemplate_Type = {

@@ -96,26 +96,6 @@ static PyObject* pySceneObject_delModifier(pySceneObject* self, PyObject* args) 
     return Py_None;
 }
 
-static PyObject* pySceneObject_getDraw(pySceneObject* self, void*) {
-    return pyKey_FromKey(self->fThis->getDrawInterface());
-}
-
-static PyObject* pySceneObject_getSim(pySceneObject* self, void*) {
-    return pyKey_FromKey(self->fThis->getSimInterface());
-}
-
-static PyObject* pySceneObject_getCoord(pySceneObject* self, void*) {
-    return pyKey_FromKey(self->fThis->getCoordInterface());
-}
-
-static PyObject* pySceneObject_getAudio(pySceneObject* self, void*) {
-    return pyKey_FromKey(self->fThis->getAudioInterface());
-}
-
-static PyObject* pySceneObject_getNode(pySceneObject* self, void*) {
-    return pyKey_FromKey(self->fThis->getSceneNode());
-}
-
 static PyObject* pySceneObject_getIntfs(pySceneObject* self, void*) {
     PyObject* list = PyList_New(self->fThis->getInterfaces().size());
     for (size_t i=0; i<self->fThis->getInterfaces().size(); i++)
@@ -128,71 +108,6 @@ static PyObject* pySceneObject_getMods(pySceneObject* self, void*) {
     for (size_t i=0; i<self->fThis->getModifiers().size(); i++)
         PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getModifiers()[i]));
     return list;
-}
-
-static int pySceneObject_setDraw(pySceneObject* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setDrawInterface(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setDrawInterface(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "draw should be a plKey");
-        return -1;
-    }
-}
-
-static int pySceneObject_setSim(pySceneObject* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setSimInterface(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setSimInterface(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "sim should be a plKey");
-        return -1;
-    }
-}
-
-static int pySceneObject_setCoord(pySceneObject* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setCoordInterface(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setCoordInterface(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "coord should be a plKey");
-        return -1;
-    }
-}
-
-static int pySceneObject_setAudio(pySceneObject* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setAudioInterface(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setAudioInterface(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "audio should be a plKey");
-        return -1;
-    }
-}
-
-static int pySceneObject_setNode(pySceneObject* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setSceneNode(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setSceneNode(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "sceneNode should be a plKey");
-        return -1;
-    }
 }
 
 static int pySceneObject_setIntfs(pySceneObject* self, PyObject* value, void*) {
@@ -225,22 +140,23 @@ PyMethodDef pySceneObject_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(plKey, SceneObject, draw, getDrawInterface, setDrawInterface)
+PY_PROPERTY(plKey, SceneObject, sim, getSimInterface, setSimInterface)
+PY_PROPERTY(plKey, SceneObject, coord, getCoordInterface, setCoordInterface)
+PY_PROPERTY(plKey, SceneObject, audio, getAudioInterface, setAudioInterface)
+PY_PROPERTY(plKey, SceneObject, sceneNode, getSceneNode, setSceneNode)
+
 PyGetSetDef pySceneObject_GetSet[] = {
-    { _pycs("draw"), (getter)pySceneObject_getDraw, (setter)pySceneObject_setDraw,
-        _pycs("DrawInterface"), NULL },
-    { _pycs("sim"), (getter)pySceneObject_getSim, (setter)pySceneObject_setSim,
-        _pycs("SimulationInterface"), NULL },
-    { _pycs("coord"), (getter)pySceneObject_getCoord, (setter)pySceneObject_setCoord,
-        _pycs("CoordinateInterface"), NULL },
-    { _pycs("audio"), (getter)pySceneObject_getAudio, (setter)pySceneObject_setAudio,
-        _pycs("AudioInterface"), NULL },
-    { _pycs("sceneNode"), (getter)pySceneObject_getNode, (setter)pySceneObject_setNode,
-        _pycs("The SceneNode this object belongs to"), NULL },
+    pySceneObject_draw_getset,
+    pySceneObject_sim_getset,
+    pySceneObject_coord_getset,
+    pySceneObject_audio_getset,
+    pySceneObject_sceneNode_getset,
     { _pycs("interfaces"), (getter)pySceneObject_getIntfs, (setter)pySceneObject_setIntfs,
         _pycs("Extra SceneObject Interfaces"), NULL },
     { _pycs("modifiers"), (getter)pySceneObject_getMods, (setter)pySceneObject_setMods,
         _pycs("SceneObject Modifiers"), NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pySceneObject_Type = {

@@ -31,19 +31,11 @@ static PyObject* pyLayerAnimation_new(PyTypeObject* type, PyObject* args, PyObje
     return (PyObject*)self;
 }
 
-static PyObject* pyLayerAnimation_getTimeConvert(pyLayerAnimation* self, void*) {
-    return pyAnimTimeConvert_FromAnimTimeConvert(&self->fThis->getTimeConvert());
-}
-
-static int pyLayerAnimation_setTimeConvert(pyLayerAnimation* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "timeConvert cannot be assigned");
-    return -1;
-}
+PY_PROPERTY_PROXY_RO(plAnimTimeConvert, LayerAnimation, timeConvert, getTimeConvert)
 
 static PyGetSetDef pyLayerAnimation_GetSet[] = {
-    { _pycs("timeConvert"), (getter)pyLayerAnimation_getTimeConvert,
-        (setter)pyLayerAnimation_setTimeConvert, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyLayerAnimation_timeConvert_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyLayerAnimation_Type = {

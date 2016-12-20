@@ -121,7 +121,7 @@ public:
     std::vector<unsigned short> getIndices(size_t idx, size_t start = 0, size_t count = (size_t)-1, size_t offset = 0) const;
     std::vector<plGBufferCell> getCells(size_t idx) const { return fCells[idx]; }
 
-    unsigned char getFormat() const { return fFormat; }
+    unsigned int getFormat() const { return fFormat; }
     size_t getSkinWeights() const { return (fFormat & kSkinWeightMask) >> 4; }
     size_t getNumUVs() const { return (fFormat & kUVCountMask); }
     bool getHasSkinIndices() const { return (fFormat & kSkinIndices) != 0; }
@@ -129,7 +129,7 @@ public:
     void addVertices(const std::vector<plGBufferVertex>& verts);
     void addIndices(const std::vector<unsigned short>& indices);
     void addCells(const std::vector<plGBufferCell>& cells) { fCells.push_back(cells); }
-    void setFormat(unsigned char format);
+    void setFormat(unsigned int format);
     void setSkinWeights(size_t skinWeights);
     void setNumUVs(size_t numUVs);
     void setHasSkinIndices(bool hasSI);

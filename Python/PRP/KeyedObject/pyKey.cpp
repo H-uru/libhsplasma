@@ -16,7 +16,6 @@
 
 #include "pyKey.h"
 
-#include <PRP/KeyedObject/plKey.h>
 #include <PRP/KeyedObject/hsKeyedObject.h>
 #include "PRP/pyCreatable.h"
 #include "pyKeyedObject.h"
@@ -154,99 +153,11 @@ static PyObject* pyKey_writeUoid(pyKey* self, PyObject* args) {
 }
 
 static PyObject* pyKey_exists(pyKey* self) {
-    return PyBool_FromLong(self->fThis->Exists() ? 1 : 0);
+    return PyBool_FromBool(self->fThis->Exists());
 }
 
 static PyObject* pyKey_isLoaded(pyKey* self) {
-    return PyBool_FromLong(self->fThis->isLoaded() ? 1 : 0);
-}
-
-static PyObject* pyKey_getType(pyKey* self, void* closure) {
-    return PyInt_FromLong((*self->fThis)->getType());
-}
-
-static PyObject* pyKey_getName(pyKey* self, void* closure) {
-    return PlStr_To_PyStr((*self->fThis)->getName());
-}
-
-static PyObject* pyKey_getLocation(pyKey* self, void* closure) {
-    return pyLocation_FromLocation((*self->fThis)->getLocation());
-}
-
-static PyObject* pyKey_getLoadMask(pyKey* self, void* closure) {
-    return PyInt_FromLong((*self->fThis)->getLoadMask().getMask());
-}
-
-static PyObject* pyKey_getID(pyKey* self, void* closure) {
-    return PyInt_FromLong((*self->fThis)->getID());
-}
-
-static PyObject* pyKey_getObj(pyKey* self, void* closure) {
-    return ICreate((*self->fThis)->getObj());
-}
-
-static int pyKey_setType(pyKey* self, PyObject* value, void* closure) {
-    PyErr_SetString(PyExc_RuntimeError, "Cannot change a plKey's type");
-    return -1;
-}
-
-static int pyKey_setName(pyKey* self, PyObject* value, void* closure) {
-    if (value == NULL) {
-        (*self->fThis)->setName("");
-    } else {
-        if (!PyAnyStr_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "name must be a string");
-            return -1;
-        }
-        (*self->fThis)->setName(PyStr_To_PlStr(value));
-    }
-    return 0;
-}
-
-static int pyKey_setLocation(pyKey* self, PyObject* value, void* closure) {
-    if (value == NULL) {
-        (*self->fThis)->setLocation(plLocation());
-    } else {
-        if (!pyLocation_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "location must be a plLocation");
-            return -1;
-        }
-        (*self->fThis)->setLocation(*((pyLocation*)value)->fThis);
-    }
-    return 0;
-}
-
-static int pyKey_setLoadMask(pyKey* self, PyObject* value, void* closure) {
-    if (value == NULL) {
-        (*self->fThis)->setLoadMask(plLoadMask());
-    } else {
-        if (!PyInt_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "mask must be an int");
-            return -1;
-        }
-        plLoadMask mask;
-        mask.setMask(PyInt_AsLong(value));
-        (*self->fThis)->setLoadMask(mask);
-    }
-    return 0;
-}
-
-static int pyKey_setID(pyKey* self, PyObject* value, void* closure) {
-    if (value == NULL) {
-        (*self->fThis)->setID(0);
-    } else {
-        if (!PyInt_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "id must be an int");
-            return -1;
-        }
-        (*self->fThis)->setID(PyInt_AsLong(value));
-    }
-    return 0;
-}
-
-static int pyKey_setObj(pyKey* self, PyObject* value, void* closure) {
-    PyErr_SetString(PyExc_RuntimeError, "object is read-only");
-    return -1;
+    return PyBool_FromBool(self->fThis->isLoaded());
 }
 
 static PyMethodDef pyKey_Methods[] = {
@@ -269,20 +180,106 @@ static PyMethodDef pyKey_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+/* NOTE: Not using standard PY_PROPERTY() wrappers, since the plKey needs to
+ * be dereferenced in all the getters/setters below */
+
+PY_GETSET_GETTER_DECL(Key, type) {
+    return pyPlasma_convert((*self->fThis)->getType());
+}
+
+PY_PROPERTY_GETSET_RO_DECL(Key, type)
+
+PY_GETSET_GETTER_DECL(Key, name) {
+    return pyPlasma_convert((*self->fThis)->getName());
+}
+
+PY_GETSET_SETTER_DECL(Key, name) {
+    if (value == NULL) {
+        PyErr_SetString(PyExc_RuntimeError, "name cannot be deleted");
+        return -1;
+    } else if (!pyPlasma_check<plString>(value)) {
+        PyErr_SetString(PyExc_TypeError, "name expected type plString");
+        return -1;
+    }
+    (*self->fThis)->setName(pyPlasma_get<plString>(value));
+    return 0;
+}
+
+PY_PROPERTY_GETSET_DECL(Key, name)
+
+PY_GETSET_GETTER_DECL(Key, location) {
+    return pyLocation_FromLocation((*self->fThis)->getLocation());
+}
+
+PY_GETSET_SETTER_DECL(Key, location) {
+    if (value == NULL) {
+        PyErr_SetString(PyExc_RuntimeError, "location cannot be deleted");
+        return -1;
+    } else if (value == Py_None) {
+        (*self->fThis)->setLocation(plLocation());
+        return 0;
+    } else if (!pyLocation_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "location expected type plLocation");
+        return -1;
+    }
+    (*self->fThis)->setLocation(*((pyLocation*)value)->fThis);
+    return 0;
+}
+
+PY_PROPERTY_GETSET_DECL(Key, location)
+
+PY_GETSET_GETTER_DECL(Key, mask) {
+    return pyPlasma_convert((*self->fThis)->getLoadMask().getMask());
+}
+
+PY_GETSET_SETTER_DECL(Key, mask) {
+    if (value == NULL) {
+        PyErr_SetString(PyExc_RuntimeError, "mask cannot be deleted");
+        return -1;
+    } else if (!pyPlasma_check<unsigned short>(value)) {
+        PyErr_SetString(PyExc_TypeError, "mask expected type unsigned short");
+        return -1;
+    }
+    plLoadMask mask;
+    mask.setMask(pyPlasma_get<unsigned short>(value));
+    (*self->fThis)->setLoadMask(mask);
+    return 0;
+}
+
+PY_PROPERTY_GETSET_DECL(Key, mask)
+
+PY_GETSET_GETTER_DECL(Key, id) {
+    return pyPlasma_convert((*self->fThis)->getID());
+}
+
+PY_GETSET_SETTER_DECL(Key, id) {
+    if (value == NULL) {
+        PyErr_SetString(PyExc_RuntimeError, "id cannot be deleted");
+        return -1;
+    } else if (!pyPlasma_check<uint32_t>(value)) {
+        PyErr_SetString(PyExc_TypeError, "id expected type uint32_t");
+        return -1;
+    }
+    (*self->fThis)->setID(pyPlasma_get<uint32_t>(value));
+    return 0;
+}
+
+PY_PROPERTY_GETSET_DECL(Key, id)
+
+PY_GETSET_GETTER_DECL(Key, object) {
+    return ICreate((*self->fThis)->getObj());
+}
+
+PY_PROPERTY_GETSET_RO_DECL(Key, object)
+
 static PyGetSetDef pyKey_GetSet[] = {
-    { _pycs("type"), (getter)pyKey_getType, (setter)pyKey_setType,
-        _pycs("The Class Index of this plKey"), NULL },
-    { _pycs("name"), (getter)pyKey_getName, (setter)pyKey_setName,
-        _pycs("The name of this plKey"), NULL },
-    { _pycs("location"), (getter)pyKey_getLocation, (setter)pyKey_setLocation,
-        _pycs("The plLocation of this plKey"), NULL },
-    { _pycs("mask"), (getter)pyKey_getLoadMask, (setter)pyKey_setLoadMask,
-        _pycs("The Load Mask for this plKey"), NULL },
-    { _pycs("id"), (getter)pyKey_getID, (setter)pyKey_setID,
-        _pycs("The file index of this plKey (usually set automatically)"), NULL },
-    { _pycs("object"), (getter)pyKey_getObj, (setter)pyKey_setObj,
-        _pycs("The hsKeyedObject class this key points to"), NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyKey_type_getset,
+    pyKey_name_getset,
+    pyKey_location_getset,
+    pyKey_mask_getset,
+    pyKey_id_getset,
+    pyKey_object_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyKey_Type = {

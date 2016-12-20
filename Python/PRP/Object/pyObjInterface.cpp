@@ -49,23 +49,6 @@ static PyObject* pyObjInterface_setProp(pyObjInterface* self, PyObject* args) {
     return Py_None;
 }
 
-static PyObject* pyObjInterface_getOwner(pyObjInterface* self, void*) {
-    return pyKey_FromKey(self->fThis->getOwner());
-}
-
-static int pyObjInterface_setOwner(pyObjInterface* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setOwner(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setOwner(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "owner should be a plKey");
-        return -1;
-    }
-}
-
 PyMethodDef pyObjInterface_Methods[] = {
     { "getProperty", (PyCFunction)pyObjInterface_getProp, METH_VARARGS,
       "Params: flag\n"
@@ -76,10 +59,11 @@ PyMethodDef pyObjInterface_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(plKey, ObjInterface, owner, getOwner, setOwner)
+
 PyGetSetDef pyObjInterface_GetSet[] = {
-    { _pycs("owner"), (getter)pyObjInterface_getOwner, (setter)pyObjInterface_setOwner,
-        _pycs("The SceneObject that owns this interface"), NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyObjInterface_owner_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyObjInterface_Type = {

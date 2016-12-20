@@ -34,22 +34,6 @@ static PyObject* pyTempVertex_new(PyTypeObject* type, PyObject* args, PyObject* 
     return (PyObject*)self;
 }
 
-static PyObject* pyTempVertex_getColor(pyTempVertex* self, void*) {
-    return pyColor32_FromColor32(hsColor32(self->fThis->fColor));
-}
-
-static PyObject* pyTempVertex_getIndices(pyTempVertex* self, void*) {
-    return PyInt_FromLong(self->fThis->fIndices);
-}
-
-static PyObject* pyTempVertex_getNormal(pyTempVertex* self, void*) {
-    return pyVector3_FromVector3(self->fThis->fNormal);
-}
-
-static PyObject* pyTempVertex_getPosition(pyTempVertex* self, void*) {
-    return pyVector3_FromVector3(self->fThis->fPosition);
-}
-
 static PyObject* pyTempVertex_getUVs(pyTempVertex* self, void*) {
     PyObject* list = PyList_New(8);
     for (size_t i = 0; i < 8; ++i)
@@ -62,49 +46,6 @@ static PyObject* pyTempVertex_getWeights(pyTempVertex* self, void*) {
     for (size_t i = 0; i < 3; ++i)
         PyList_SET_ITEM(list, i, PyFloat_FromDouble(self->fThis->fWeights[i]));
     return list;
-}
-
-static int pyTempVertex_setColor(pyTempVertex* self, PyObject* value, void*) {
-    if (value == NULL) {
-        PyErr_SetString(PyExc_TypeError, "color must be an int or an hsColor32");
-        return -1;
-    } else if (pyColor32_Check(value)) {
-        self->fThis->fColor = ((pyColor32*)value)->fThis->color;
-        return 0;
-    } else if (PyInt_Check(value)) {
-        self->fThis->fColor = PyInt_AsLong(value);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "color must be an int or an hsColor32");
-        return -1;
-    }
-}
-
-static int pyTempVertex_setIndices(pyTempVertex* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "indices must be an int");
-        return -1;
-    }
-    self->fThis->fIndices = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyTempVertex_setNormal(pyTempVertex* self, PyObject* value, void*) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "normal must be an hsVector3");
-        return -1;
-    }
-    self->fThis->fNormal = *((pyVector3*)value)->fThis;
-    return 0;
-}
-
-static int pyTempVertex_setPosition(pyTempVertex* self, PyObject* value, void*) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "position must be an hsVector3");
-        return -1;
-    }
-    self->fThis->fPosition = *((pyVector3*)value)->fThis;
-    return 0;
 }
 
 static int pyTempVertex_setUVs(pyTempVertex* self, PyObject* value, void*) {
@@ -143,14 +84,40 @@ static int pyTempVertex_setWeights(pyTempVertex* self, PyObject* value, void*) {
     return 0;
 }
 
+PY_GETSET_GETTER_DECL(TempVertex, color) {
+    return pyColor32_FromColor32(hsColor32(self->fThis->fColor));
+}
+
+PY_GETSET_SETTER_DECL(TempVertex, color) {
+    if (value == NULL) {
+        PyErr_SetString(PyExc_RuntimeError, "color cannot be deleted");
+        return -1;
+    } else if (pyColor32_Check(value)) {
+        self->fThis->fColor = ((pyColor32*)value)->fThis->color;
+        return 0;
+    } else if (PyInt_Check(value)) {
+        self->fThis->fColor = PyInt_AsLong(value);
+        return 0;
+    } else {
+        PyErr_SetString(PyExc_TypeError, "color must be an int or an hsColor32");
+        return -1;
+    }
+}
+
+PY_PROPERTY_GETSET_DECL(TempVertex, color)
+
+PY_PROPERTY_MEMBER(unsigned int, TempVertex, indices, fIndices)
+PY_PROPERTY_MEMBER(hsVector3, TempVertex, normal, fNormal)
+PY_PROPERTY_MEMBER(hsVector3, TempVertex, position, fPosition)
+
 PyGetSetDef pyTempVertex_GetSet[] = {
-    { _pycs("color"), (getter)pyTempVertex_getColor, (setter)pyTempVertex_setColor, NULL, NULL },
-    { _pycs("indices"), (getter)pyTempVertex_getIndices, (setter)pyTempVertex_setIndices, NULL, NULL },
-    { _pycs("normal"), (getter)pyTempVertex_getNormal, (setter)pyTempVertex_setNormal, NULL, NULL },
-    { _pycs("position"), (getter)pyTempVertex_getPosition, (setter)pyTempVertex_setPosition, NULL, NULL },
+    pyTempVertex_color_getset,
+    pyTempVertex_indices_getset,
+    pyTempVertex_normal_getset,
+    pyTempVertex_position_getset,
     { _pycs("uvs"), (getter)pyTempVertex_getUVs, (setter)pyTempVertex_setUVs, NULL, NULL },
     { _pycs("weights"), (getter)pyTempVertex_getWeights, (setter)pyTempVertex_setWeights, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyTempVertex_Type = {

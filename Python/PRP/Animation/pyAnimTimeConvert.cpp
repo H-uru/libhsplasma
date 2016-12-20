@@ -65,50 +65,6 @@ static PyObject* pyAnimTimeConvert_clearCallbacks(pyAnimTimeConvert* self) {
     return Py_None;
 }
 
-static PyObject* pyAnimTimeConvert_getFlags(pyAnimTimeConvert* self, void*) {
-    return PyInt_FromLong(self->fThis->getFlags());
-}
-
-static PyObject* pyAnimTimeConvert_getBegin(pyAnimTimeConvert* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getBegin());
-}
-
-static PyObject* pyAnimTimeConvert_getEnd(pyAnimTimeConvert* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getEnd());
-}
-
-static PyObject* pyAnimTimeConvert_getLoopBegin(pyAnimTimeConvert* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getLoopBegin());
-}
-
-static PyObject* pyAnimTimeConvert_getLoopEnd(pyAnimTimeConvert* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getLoopEnd());
-}
-
-static PyObject* pyAnimTimeConvert_getSpeed(pyAnimTimeConvert* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getSpeed());
-}
-
-static PyObject* pyAnimTimeConvert_getCurTime(pyAnimTimeConvert* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getCurrentAnimTime());
-}
-
-static PyObject* pyAnimTimeConvert_getEvalTime(pyAnimTimeConvert* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getLastEvalWorldTime());
-}
-
-static PyObject* pyAnimTimeConvert_getEaseIn(pyAnimTimeConvert* self, void*) {
-    return ICreate(self->fThis->getEaseInCurve());
-}
-
-static PyObject* pyAnimTimeConvert_getEaseOut(pyAnimTimeConvert* self, void*) {
-    return ICreate(self->fThis->getEaseOutCurve());
-}
-
-static PyObject* pyAnimTimeConvert_getSpeedCurve(pyAnimTimeConvert* self, void*) {
-    return ICreate(self->fThis->getSpeedEaseCurve());
-}
-
 static PyObject* pyAnimTimeConvert_getStops(pyAnimTimeConvert* self, void*) {
     PyObject* list = PyList_New(self->fThis->getStopPoints().size());
     for (size_t i=0; i<self->fThis->getStopPoints().size(); i++)
@@ -121,123 +77,6 @@ static PyObject* pyAnimTimeConvert_getCallbacks(pyAnimTimeConvert* self, void*) 
     for (size_t i=0; i<self->fThis->getCallbacks().size(); i++)
         PyList_SET_ITEM(list, i, ICreate(self->fThis->getCallbacks()[i]));
     return list;
-}
-
-static int pyAnimTimeConvert_setFlags(pyAnimTimeConvert* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "flags should be an int");
-        return -1;
-    }
-    self->fThis->setFlags(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyAnimTimeConvert_setBegin(pyAnimTimeConvert* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "begin should be a float");
-        return -1;
-    }
-    self->fThis->setRange(PyFloat_AsDouble(value), self->fThis->getEnd());
-    return 0;
-}
-
-static int pyAnimTimeConvert_setEnd(pyAnimTimeConvert* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "end should be a float");
-        return -1;
-    }
-    self->fThis->setRange(self->fThis->getBegin(), PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyAnimTimeConvert_setLoopBegin(pyAnimTimeConvert* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "loopBegin should be a float");
-        return -1;
-    }
-    self->fThis->setLoop(PyFloat_AsDouble(value), self->fThis->getLoopEnd());
-    return 0;
-}
-
-static int pyAnimTimeConvert_setLoopEnd(pyAnimTimeConvert* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "loopEnd should be a float");
-        return -1;
-    }
-    self->fThis->setLoop(self->fThis->getLoopBegin(), PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyAnimTimeConvert_setSpeed(pyAnimTimeConvert* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "speed should be a float");
-        return -1;
-    }
-    self->fThis->setSpeed(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyAnimTimeConvert_setCurTime(pyAnimTimeConvert* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "currentAnimTime should be a float");
-        return -1;
-    }
-    self->fThis->setCurrentAnimTime(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyAnimTimeConvert_setEvalTime(pyAnimTimeConvert* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "lastEvalWorldTime should be a float");
-        return -1;
-    }
-    self->fThis->setLastEvalWorldTime(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyAnimTimeConvert_setEaseIn(pyAnimTimeConvert* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        Py_XDECREF(value);
-        self->fThis->setEaseInCurve(NULL);
-        return 0;
-    }
-    if (!pyATCEaseCurve_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "easeInCurve should be a float");
-        return -1;
-    }
-    self->fThis->setEaseInCurve(((pyATCEaseCurve*)value)->fThis);
-    ((pyATCEaseCurve*)value)->fPyOwned = false;
-    return 0;
-}
-
-static int pyAnimTimeConvert_setEaseOut(pyAnimTimeConvert* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        Py_XDECREF(value);
-        self->fThis->setEaseOutCurve(NULL);
-        return 0;
-    }
-    if (!pyATCEaseCurve_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "easeOutCurve should be a float");
-        return -1;
-    }
-    self->fThis->setEaseOutCurve(((pyATCEaseCurve*)value)->fThis);
-    ((pyATCEaseCurve*)value)->fPyOwned = false;
-    return 0;
-}
-
-static int pyAnimTimeConvert_setSpeedCurve(pyAnimTimeConvert* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        Py_XDECREF(value);
-        self->fThis->setSpeedEaseCurve(NULL);
-        return 0;
-    }
-    if (!pyATCEaseCurve_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "speedEaseCurve should be a float");
-        return -1;
-    }
-    self->fThis->setSpeedEaseCurve(((pyATCEaseCurve*)value)->fThis);
-    ((pyATCEaseCurve*)value)->fPyOwned = false;
-    return 0;
 }
 
 static int pyAnimTimeConvert_setStops(pyAnimTimeConvert* self, PyObject* value, void*) {
@@ -253,11 +92,11 @@ static int pyAnimTimeConvert_setStops(pyAnimTimeConvert* self, PyObject* value, 
     std::vector<float> stops(PyList_Size(value));
     for (size_t i=0; i<stops.size(); i++) {
         PyObject* itm = PyList_GetItem(value, i);
-        if (!PyFloat_Check(itm)) {
+        if (!pyPlasma_check<float>(itm)) {
             PyErr_SetString(PyExc_TypeError, "stopPoints should be a list of floats");
             return -1;
         }
-        stops[i] = PyFloat_AsDouble(itm);
+        stops[i] = pyPlasma_get<float>(itm);
     }
     self->fThis->setStopPoints(stops);
     return 0;
@@ -280,34 +119,41 @@ static PyMethodDef pyAnimTimeConvert_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(unsigned int, AnimTimeConvert, flags, getFlags, setFlags)
+PY_PROPERTY(float, AnimTimeConvert, begin, getBegin, setBegin)
+PY_PROPERTY(float, AnimTimeConvert, end, getEnd, setEnd)
+PY_PROPERTY(float, AnimTimeConvert, loopBegin, getLoopBegin, setLoopBegin)
+PY_PROPERTY(float, AnimTimeConvert, loopEnd, getLoopEnd, setLoopEnd)
+PY_PROPERTY(float, AnimTimeConvert, speed, getSpeed, setSpeed)
+PY_PROPERTY(float, AnimTimeConvert, currentAnimTime, getCurrentAnimTime,
+            setCurrentAnimTime)
+PY_PROPERTY(double, AnimTimeConvert, lastEvalWorldTime, getLastEvalWorldTime,
+            setLastEvalWorldTime)
+
+PY_PROPERTY_CREATABLE(plATCEaseCurve, ATCEaseCurve, AnimTimeConvert,
+                      easeInCurve, getEaseInCurve, setEaseInCurve)
+PY_PROPERTY_CREATABLE(plATCEaseCurve, ATCEaseCurve, AnimTimeConvert,
+                      easeOutCurve, getEaseOutCurve, setEaseOutCurve)
+PY_PROPERTY_CREATABLE(plATCEaseCurve, ATCEaseCurve, AnimTimeConvert,
+                      speedEaseCurve, getSpeedEaseCurve, setSpeedEaseCurve)
+
 static PyGetSetDef pyAnimTimeConvert_GetSet[] = {
-    { _pycs("flags"), (getter)pyAnimTimeConvert_getFlags,
-        (setter)pyAnimTimeConvert_setFlags, NULL, NULL },
-    { _pycs("begin"), (getter)pyAnimTimeConvert_getBegin,
-        (setter)pyAnimTimeConvert_setBegin, NULL, NULL },
-    { _pycs("end"), (getter)pyAnimTimeConvert_getEnd,
-        (setter)pyAnimTimeConvert_setEnd, NULL, NULL },
-    { _pycs("loopBegin"), (getter)pyAnimTimeConvert_getLoopBegin,
-        (setter)pyAnimTimeConvert_setLoopBegin, NULL, NULL },
-    { _pycs("loopEnd"), (getter)pyAnimTimeConvert_getLoopEnd,
-        (setter)pyAnimTimeConvert_setLoopEnd, NULL, NULL },
-    { _pycs("speed"), (getter)pyAnimTimeConvert_getSpeed,
-        (setter)pyAnimTimeConvert_setSpeed, NULL, NULL },
-    { _pycs("currentAnimTime"), (getter)pyAnimTimeConvert_getCurTime,
-        (setter)pyAnimTimeConvert_setCurTime, NULL, NULL },
-    { _pycs("lastEvalWorldTime"), (getter)pyAnimTimeConvert_getEvalTime,
-        (setter)pyAnimTimeConvert_setEvalTime, NULL, NULL },
-    { _pycs("easeInCurve"), (getter)pyAnimTimeConvert_getEaseIn,
-        (setter)pyAnimTimeConvert_setEaseIn, NULL, NULL },
-    { _pycs("easeOutCurve"), (getter)pyAnimTimeConvert_getEaseOut,
-        (setter)pyAnimTimeConvert_setEaseOut, NULL, NULL },
-    { _pycs("speedEaseCurve"), (getter)pyAnimTimeConvert_getSpeedCurve,
-        (setter)pyAnimTimeConvert_setSpeedCurve, NULL, NULL },
+    pyAnimTimeConvert_flags_getset,
+    pyAnimTimeConvert_begin_getset,
+    pyAnimTimeConvert_end_getset,
+    pyAnimTimeConvert_loopBegin_getset,
+    pyAnimTimeConvert_loopEnd_getset,
+    pyAnimTimeConvert_speed_getset,
+    pyAnimTimeConvert_currentAnimTime_getset,
+    pyAnimTimeConvert_lastEvalWorldTime_getset,
+    pyAnimTimeConvert_easeInCurve_getset,
+    pyAnimTimeConvert_easeOutCurve_getset,
+    pyAnimTimeConvert_speedEaseCurve_getset,
     { _pycs("stopPoints"), (getter)pyAnimTimeConvert_getStops,
         (setter)pyAnimTimeConvert_setStops, NULL, NULL },
     { _pycs("callbacks"), (getter)pyAnimTimeConvert_getCallbacks,
         (setter)pyAnimTimeConvert_setCallbacks, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyAnimTimeConvert_Type = {

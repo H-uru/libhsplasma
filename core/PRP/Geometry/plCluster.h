@@ -19,11 +19,13 @@
 
 #include "plSpanInstance.h"
 
+class plClusterGroup;
+
 class PLASMA_DLL plCluster {
 protected:
     std::vector<plSpanInstance*> fInstances;
     plSpanEncoding fEncoding;
-    class plClusterGroup* fGroup;   // Not owned by the cluster
+    plClusterGroup* fGroup;   // Not owned by the cluster
 
 public:
     plCluster() { }

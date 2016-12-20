@@ -31,23 +31,11 @@ static PyObject* pyMatrixChannel_new(PyTypeObject* type, PyObject* args, PyObjec
     return (PyObject*)self;
 }
 
-static PyObject* pyMatrixChannel_getAffine(pyMatrixChannel* self, void*) {
-    return pyAffineParts_FromAffineParts(self->fThis->getAffine());
-}
-
-static int pyMatrixChannel_setAffine(pyMatrixChannel* self, PyObject* value, void*) {
-    if (value == NULL || !pyAffineParts_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "result should be an hsAffineParts");
-        return -1;
-    }
-    self->fThis->setAffine(*((pyAffineParts*)value)->fThis);
-    return 0;
-}
+PY_PROPERTY(hsAffineParts, MatrixChannel, affine, getAffine, setAffine)
 
 static PyGetSetDef pyMatrixChannel_GetSet[] = {
-    { _pycs("affine"), (getter)pyMatrixChannel_getAffine,
-        (setter)pyMatrixChannel_setAffine, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyMatrixChannel_affine_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyMatrixChannel_Type = {

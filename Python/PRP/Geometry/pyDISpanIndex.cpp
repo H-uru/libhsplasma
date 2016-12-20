@@ -38,24 +38,11 @@ static PyObject* pyDISpanIndex_new(PyTypeObject* type, PyObject* args, PyObject*
     return (PyObject*)self;
 }
 
-static PyObject* pyDISpanIndex_getFlags(pyDISpanIndex* self, void*) {
-    return  PyInt_FromLong(self->fThis->fFlags);
-}
-
 static PyObject* pyDISpanIndex_getIndices(pyDISpanIndex* self, void*) {
     PyObject* list = PyList_New(self->fThis->fIndices.size());
     for (size_t i=0; i<self->fThis->fIndices.size(); i++)
         PyList_SET_ITEM(list, i, PyInt_FromLong(self->fThis->fIndices[i]));
     return list;
-}
-
-static int pyDISpanIndex_setFlags(pyDISpanIndex* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "flags should be an int");
-        return -1;
-    }
-    self->fThis->fFlags = PyInt_AsLong(value);
-    return 0;
 }
 
 static int pyDISpanIndex_setIndices(pyDISpanIndex* self, PyObject* value, void*) {
@@ -78,13 +65,14 @@ static int pyDISpanIndex_setIndices(pyDISpanIndex* self, PyObject* value, void*)
     }
 }
 
+PY_PROPERTY_MEMBER(uint8_t, DISpanIndex, flags, fFlags)
+
 static PyGetSetDef pyDISpanIndex_GetSet[] = {
-    { _pycs("flags"), (getter)pyDISpanIndex_getFlags,
-        (setter)pyDISpanIndex_setFlags, NULL, NULL },
+    pyDISpanIndex_flags_getset,
     { _pycs("indices"), (getter)pyDISpanIndex_getIndices,
         (setter)pyDISpanIndex_setIndices,
         _pycs("Collection of span index groups for the spans"), NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyDISpanIndex_Type = {

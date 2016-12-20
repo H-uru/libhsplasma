@@ -29,38 +29,13 @@ static PyObject* pyBookEventData_new(PyTypeObject* type, PyObject* args, PyObjec
     return (PyObject*)self;
 }
 
-static PyObject* pyBookEventData_getEvent(pyBookEventData* self, void*) {
-    return PyInt_FromLong(self->fThis->getEvent());
-}
-
-static PyObject* pyBookEventData_getLinkID(pyBookEventData* self, void*) {
-    return PyInt_FromLong(self->fThis->getLinkID());
-}
-
-static int pyBookEventData_setEvent(pyBookEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "event should be an int");
-        return -1;
-    }
-    self->fThis->setEvent(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyBookEventData_setLinkID(pyBookEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "linkID should be an int");
-        return -1;
-    }
-    self->fThis->setLinkID(PyInt_AsLong(value));
-    return 0;
-}
+PY_PROPERTY(unsigned int, BookEventData, event, getEvent, setEvent)
+PY_PROPERTY(unsigned int, BookEventData, linkID, getLinkID, setLinkID)
 
 static PyGetSetDef pyBookEventData_GetSet[] = {
-    { _pycs("event"), (getter)pyBookEventData_getEvent,
-        (setter)pyBookEventData_setEvent, NULL, NULL },
-    { _pycs("linkID"), (getter)pyBookEventData_getLinkID,
-        (setter)pyBookEventData_setLinkID, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyBookEventData_event_getset,
+    pyBookEventData_linkID_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyBookEventData_Type = {

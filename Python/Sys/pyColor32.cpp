@@ -162,71 +162,6 @@ static PyObject* pyColor32_writeRGB8(pyColor32* self, PyObject* args) {
     return Py_None;
 }
 
-static PyObject* pyColor32_getRed(pyColor32* self, void* closure) {
-    return PyInt_FromLong(self->fThis->r);
-}
-
-static PyObject* pyColor32_getGreen(pyColor32* self, void* closure) {
-    return PyInt_FromLong(self->fThis->g);
-}
-
-static PyObject* pyColor32_getBlue(pyColor32* self, void* closure) {
-    return PyInt_FromLong(self->fThis->b);
-}
-
-static PyObject* pyColor32_getAlpha(pyColor32* self, void* closure) {
-    return PyInt_FromLong(self->fThis->a);
-}
-
-static PyObject* pyColor32_getColor(pyColor32* self, void* closure) {
-    return PyInt_FromLong(self->fThis->color);
-}
-
-static int pyColor32_setRed(pyColor32* self, PyObject* value, void* closure) {
-    if (!PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "red should be an int");
-        return -1;
-    }
-    self->fThis->r = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyColor32_setGreen(pyColor32* self, PyObject* value, void* closure) {
-    if (!PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "green should be an int");
-        return -1;
-    }
-    self->fThis->g = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyColor32_setBlue(pyColor32* self, PyObject* value, void* closure) {
-    if (!PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "blue should be an int");
-        return -1;
-    }
-    self->fThis->b = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyColor32_setAlpha(pyColor32* self, PyObject* value, void* closure) {
-    if (!PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "alpha should be an int");
-        return -1;
-    }
-    self->fThis->a = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyColor32_setColor(pyColor32* self, PyObject* value, void* closure) {
-    if (!PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "color should be an int");
-        return -1;
-    }
-    self->fThis->color = PyInt_AsLong(value);
-    return 0;
-}
-
 static PyMethodDef pyColor32_Methods[] = {
     { "set", (PyCFunction)pyColor32_set, METH_VARARGS | METH_KEYWORDS,
       "Params: red, green, blue, alpha (all optional)\n"
@@ -253,13 +188,19 @@ static PyMethodDef pyColor32_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY_MEMBER(unsigned char, Color32, red, r)
+PY_PROPERTY_MEMBER(unsigned char, Color32, green, g)
+PY_PROPERTY_MEMBER(unsigned char, Color32, blue, b)
+PY_PROPERTY_MEMBER(unsigned char, Color32, alpha, a)
+PY_PROPERTY_MEMBER(unsigned int, Color32, color, color)
+
 static PyGetSetDef pyColor32_GetSet[] = {
-    { _pycs("red"), (getter)pyColor32_getRed, (setter)pyColor32_setRed, NULL, NULL },
-    { _pycs("green"), (getter)pyColor32_getGreen, (setter)pyColor32_setGreen, NULL, NULL },
-    { _pycs("blue"), (getter)pyColor32_getBlue, (setter)pyColor32_setBlue, NULL, NULL },
-    { _pycs("alpha"), (getter)pyColor32_getAlpha, (setter)pyColor32_setAlpha, NULL, NULL },
-    { _pycs("color"), (getter)pyColor32_getColor, (setter)pyColor32_setColor, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyColor32_red_getset,
+    pyColor32_green_getset,
+    pyColor32_blue_getset,
+    pyColor32_alpha_getset,
+    pyColor32_color_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyColor32_Type = {

@@ -87,7 +87,7 @@ static PyGetSetDef pyDistOpacityMod_GetSet [] = {
     { _pycs("nearOpaq"), (getter) pyDistOpacityMod_getNearOpaq, (setter) pyDistOpacityMod_setNearOpaq, NULL, NULL },
     { _pycs("farOpaq"), (getter) pyDistOpacityMod_getFarOpaq, (setter) pyDistOpacityMod_setFarOpaq, NULL, NULL },
     { _pycs("farTrans"), (getter) pyDistOpacityMod_getFarTrans, (setter) pyDistOpacityMod_setFarTrans, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyDistOpacityMod_Type = {

@@ -71,48 +71,9 @@ static PyObject* pyResponderModifier_getStates(pyResponderModifier* self, void*)
     return list;
 }
 
-static PyObject* pyResponderModifier_getCurState(pyResponderModifier* self, void*) {
-    return PyInt_FromLong(self->fThis->getCurState());
-}
-
-static PyObject* pyResponderModifier_getEnabled(pyResponderModifier* self, void*) {
-    return PyBool_FromLong(self->fThis->isEnabled() ? 1 : 0);
-}
-
-static PyObject* pyResponderModifier_getFlags(pyResponderModifier* self, void*) {
-    return PyInt_FromLong(self->fThis->getFlags());
-}
-
 static int pyResponderModifier_setStates(pyResponderModifier* self, PyObject* value, void*) {
     PyErr_SetString(PyExc_RuntimeError, "to add states, use addState");
     return -1;
-}
-
-static int pyResponderModifier_setCurState(pyResponderModifier* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "curState should be an int");
-        return -1;
-    }
-    self->fThis->setCurState(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyResponderModifier_setEnabled(pyResponderModifier* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "enabled should be a bool");
-        return -1;
-    }
-    self->fThis->setEnabled(PyInt_AsLong(value) != 0);
-    return 0;
-}
-
-static int pyResponderModifier_setFlags(pyResponderModifier* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "flags should be an int");
-        return -1;
-    }
-    self->fThis->setFlags(PyInt_AsLong(value));
-    return 0;
 }
 
 static PyMethodDef pyResponderModifier_Methods[] = {
@@ -127,16 +88,17 @@ static PyMethodDef pyResponderModifier_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(signed char, ResponderModifier, curState, getCurState, setCurState)
+PY_PROPERTY(bool, ResponderModifier, enabled, isEnabled, setEnabled)
+PY_PROPERTY(unsigned char, ResponderModifier, flags, getFlags, setFlags)
+
 static PyGetSetDef pyResponderModifier_GetSet[] = {
     { _pycs("states"), (getter)pyResponderModifier_getStates,
         (setter)pyResponderModifier_setStates, NULL, NULL },
-    { _pycs("curState"), (getter)pyResponderModifier_getCurState,
-        (setter)pyResponderModifier_setCurState, NULL, NULL },
-    { _pycs("enabled"), (getter)pyResponderModifier_getEnabled,
-        (setter)pyResponderModifier_setEnabled, NULL, NULL },
-    { _pycs("flags"), (getter)pyResponderModifier_getFlags,
-        (setter)pyResponderModifier_setFlags, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyResponderModifier_curState_getset,
+    pyResponderModifier_enabled_getset,
+    pyResponderModifier_flags_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyResponderModifier_Type = {

@@ -38,7 +38,7 @@ static PyObject* pyKeyedObject_new(PyTypeObject* type, PyObject* args, PyObject*
     return NULL;
 }
 
-static PyObject* pyKeyedObject_getKey(pyKeyedObject* self, void*) {
+PY_GETSET_GETTER_DECL(KeyedObject, key) {
     if (self->fThis->getKey().Exists()) {
         return pyKey_FromKey(self->fThis->getKey());
     } else {
@@ -47,15 +47,11 @@ static PyObject* pyKeyedObject_getKey(pyKeyedObject* self, void*) {
     }
 }
 
-static int pyKeyedObject_setKey(pyKeyedObject* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "key is read-only");
-    return -1;
-}
+PY_PROPERTY_GETSET_RO_DECL(KeyedObject, key)
 
 static PyGetSetDef pyKeyedObject_GetSet[] = {
-    { _pycs("key"), (getter)pyKeyedObject_getKey, (setter)pyKeyedObject_setKey,
-        _pycs("The plKey for this object"), NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyKeyedObject_key_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyKeyedObject_Type = {

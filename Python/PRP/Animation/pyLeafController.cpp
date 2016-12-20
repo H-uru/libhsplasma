@@ -40,11 +40,11 @@ static PyObject* pyLeafController_new(PyTypeObject* type, PyObject* args, PyObje
 }
 
 static PyObject* pyLeafController_hasKeys(pyLeafController* self) {
-    return PyBool_FromLong(self->fThis->hasKeys() ? 1 : 0);
+    return PyBool_FromBool(self->fThis->hasKeys());
 }
 
 static PyObject* pyLeafController_hasEaseControllers(pyLeafController* self) {
-    return PyBool_FromLong(self->fThis->hasEaseControllers() ? 1 : 0);
+    return PyBool_FromBool(self->fThis->hasEaseControllers());
 }
 
 static PyObject* pyLeafController_ExpandToKeyController(pyLeafController* self) {
@@ -53,10 +53,6 @@ static PyObject* pyLeafController_ExpandToKeyController(pyLeafController* self) 
 
 static PyObject* pyLeafController_CompactToLeafController(pyLeafController* self) {
     return ICreate(self->fThis->CompactToLeafController());
-}
-
-static PyObject* pyLeafController_getType(pyLeafController* self, void*) {
-    return PyInt_FromLong(self->fThis->getType());
 }
 
 static PyObject* pyLeafController_getKeys(pyLeafController* self, void*) {
@@ -76,11 +72,6 @@ static PyObject* pyLeafController_getEaseControllers(pyLeafController* self, voi
     for (size_t i=0; i<controllers.size(); i++)
         PyList_SET_ITEM(list, i, ICreate(controllers[i]));
     return list;
-}
-
-static int pyLeafController_setType(pyLeafController* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To set the key type, use the keys setter");
-    return -1;
 }
 
 static int pyLeafController_setKeys(pyLeafController* self, PyObject* value, void*) {
@@ -149,14 +140,17 @@ static PyMethodDef pyLeafController_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY_READ(LeafController, type, getType)
+PY_PROPERTY_SETTER_MSG(LeafController, type, "To set the key type, use the keys setter")
+PY_PROPERTY_GETSET_DECL(LeafController, type)
+
 static PyGetSetDef pyLeafController_GetSet[] = {
-    { _pycs("type"), (getter)pyLeafController_getType,
-        (setter)pyLeafController_setType, NULL, NULL },
+    pyLeafController_type_getset,
     { _pycs("keys"), (getter)pyLeafController_getKeys,
         (setter)pyLeafController_setKeys, NULL, NULL },
     { _pycs("easeControllers"), (getter)pyLeafController_getEaseControllers,
         (setter)pyLeafController_setEaseControllers, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyLeafController_Type = {

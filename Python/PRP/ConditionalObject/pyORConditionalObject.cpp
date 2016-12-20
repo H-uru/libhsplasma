@@ -86,7 +86,7 @@ static int pyORConditionalObject_setORs(pyORConditionalObject* self, PyObject*, 
 static PyGetSetDef pyORConditionalObject_GetSet[] = {
     { _pycs("children"), (getter)pyORConditionalObject_getORs,
        (setter)pyORConditionalObject_setORs, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyORConditionalObject_Type = {

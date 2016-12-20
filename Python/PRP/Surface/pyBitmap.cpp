@@ -38,118 +38,6 @@ static PyObject* pyBitmap_setConfig(pyBitmap* self, PyObject* args) {
     return Py_None;
 }
 
-static PyObject* pyBitmap_getBPP(pyBitmap* self, void*) {
-    return PyInt_FromLong(self->fThis->getBPP());
-}
-
-static PyObject* pyBitmap_getSpace(pyBitmap* self, void*) {
-    return PyInt_FromLong(self->fThis->getSpace());
-}
-
-static PyObject* pyBitmap_getFlags(pyBitmap* self, void*) {
-    return PyInt_FromLong(self->fThis->getFlags());
-}
-
-static PyObject* pyBitmap_getCType(pyBitmap* self, void*) {
-    return PyInt_FromLong(self->fThis->getCompressionType());
-}
-
-static PyObject* pyBitmap_getDXComp(pyBitmap* self, void*) {
-    return PyInt_FromLong(self->fThis->getDXCompression());
-}
-
-static PyObject* pyBitmap_getDXBlock(pyBitmap* self, void*) {
-    return PyInt_FromLong(self->fThis->getDXBlockSize());
-}
-
-static PyObject* pyBitmap_getARGBType(pyBitmap* self, void*) {
-    return PyInt_FromLong(self->fThis->getARGBType());
-}
-
-static PyObject* pyBitmap_getModTime(pyBitmap* self, void*) {
-    return Py_BuildValue("ii", PyInt_FromLong(self->fThis->getLowModTime()),
-                               PyInt_FromLong(self->fThis->getHighModTime()));
-}
-
-static int pyBitmap_setBPP(pyBitmap* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "BPP should be an int");
-        return -1;
-    }
-    self->fThis->setBPP(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyBitmap_setSpace(pyBitmap* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "space should be an int");
-        return -1;
-    }
-    self->fThis->setSpace(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyBitmap_setFlags(pyBitmap* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "flags should be an int");
-        return -1;
-    }
-    self->fThis->setFlags(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyBitmap_setCType(pyBitmap* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "compressionType should be an int");
-        return -1;
-    }
-    self->fThis->setCompressionType(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyBitmap_setDXComp(pyBitmap* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "DXCompression should be an int");
-        return -1;
-    }
-    self->fThis->setDXCompression(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyBitmap_setDXBlock(pyBitmap* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "DXBlockSize should be an int");
-        return -1;
-    }
-    self->fThis->setDXBlockSize(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyBitmap_setARGBType(pyBitmap* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "ARGBType should be an int");
-        return -1;
-    }
-    self->fThis->setARGBType(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyBitmap_setModTime(pyBitmap* self, PyObject* value, void*) {
-    if (value == NULL || !PyTuple_Check(value) || (PyTuple_Size(value) != 2)) {
-        PyErr_SetString(PyExc_TypeError, "modTime should be a tuple (int, int)");
-        return -1;
-    }
-    PyObject* time[2];
-    time[0] = PyTuple_GetItem(value, 0);
-    time[1] = PyTuple_GetItem(value, 1);
-    if (!PyInt_Check(time[0]) || !PyInt_Check(time[1])) {
-        PyErr_SetString(PyExc_TypeError, "modTime should be a tuple (int, int)");
-        return -1;
-    }
-    self->fThis->setModTime(PyInt_AsLong(time[0]), PyInt_AsLong(time[1]));
-    return 0;
-}
-
 static PyMethodDef pyBitmap_Methods[] = {
     { "setConfig", (PyCFunction)pyBitmap_setConfig, METH_VARARGS,
       "Params: format\n"
@@ -157,16 +45,51 @@ static PyMethodDef pyBitmap_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(unsigned char, Bitmap, BPP, getBPP, setBPP)
+PY_PROPERTY(unsigned char, Bitmap, space, getSpace, setSpace)
+PY_PROPERTY(unsigned short, Bitmap, flags, getFlags, setFlags)
+PY_PROPERTY(unsigned char, Bitmap, compressionType, getCompressionType, setCompressionType)
+PY_PROPERTY(unsigned char, Bitmap, DXCompression, getDXCompression, setDXCompression)
+PY_PROPERTY(unsigned char, Bitmap, DXBlockSize, getDXBlockSize, setDXBlockSize)
+PY_PROPERTY(unsigned char, Bitmap, ARGBType, getARGBType, setARGBType)
+
+PY_GETSET_GETTER_DECL(Bitmap, modTime) {
+    return Py_BuildValue("ii", pyPlasma_convert(self->fThis->getLowModTime()),
+                               pyPlasma_convert(self->fThis->getHighModTime()));
+}
+
+PY_GETSET_SETTER_DECL(Bitmap, modTime) {
+    if (value == NULL) {
+        PyErr_SetString(PyExc_RuntimeError, "modTime cannot be deleted");
+        return -1;
+    } else if (!PyTuple_Check(value) || (PyTuple_Size(value) != 2)) {
+        PyErr_SetString(PyExc_TypeError, "modTime should be a tuple (int, int)");
+        return -1;
+    }
+    PyObject* time[2];
+    time[0] = PyTuple_GetItem(value, 0);
+    time[1] = PyTuple_GetItem(value, 1);
+    if (!pyPlasma_check<unsigned int>(time[0]) || !pyPlasma_check<unsigned int>(time[1])) {
+        PyErr_SetString(PyExc_TypeError, "modTime should be a tuple (int, int)");
+        return -1;
+    }
+    self->fThis->setModTime(pyPlasma_get<unsigned int>(time[0]),
+                            pyPlasma_get<unsigned int>(time[1]));
+    return 0;
+}
+
+PY_PROPERTY_GETSET_DECL(Bitmap, modTime)
+
 static PyGetSetDef pyBitmap_GetSet[] = {
-    { _pycs("BPP"), (getter)pyBitmap_getBPP, (setter)pyBitmap_setBPP, NULL, NULL },
-    { _pycs("space"), (getter)pyBitmap_getSpace, (setter)pyBitmap_setSpace, NULL, NULL },
-    { _pycs("flags"), (getter)pyBitmap_getFlags, (setter)pyBitmap_setFlags, NULL, NULL },
-    { _pycs("compressionType"), (getter)pyBitmap_getCType, (setter)pyBitmap_setCType, NULL, NULL },
-    { _pycs("DXCompression"), (getter)pyBitmap_getDXComp, (setter)pyBitmap_setDXComp, NULL, NULL },
-    { _pycs("DXBlockSize"), (getter)pyBitmap_getDXBlock, (setter)pyBitmap_setDXBlock, NULL, NULL },
-    { _pycs("ARGBType"), (getter)pyBitmap_getARGBType, (setter)pyBitmap_setARGBType, NULL, NULL },
-    { _pycs("modTime"), (getter)pyBitmap_getModTime, (setter)pyBitmap_setModTime, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyBitmap_BPP_getset,
+    pyBitmap_space_getset,
+    pyBitmap_flags_getset,
+    pyBitmap_compressionType_getset,
+    pyBitmap_DXCompression_getset,
+    pyBitmap_DXBlockSize_getset,
+    pyBitmap_ARGBType_getset,
+    pyBitmap_modTime_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyBitmap_Type = {

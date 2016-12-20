@@ -30,68 +30,17 @@ static PyObject* pyOmniLightInfo_new(PyTypeObject* type, PyObject* args, PyObjec
     return (PyObject*)self;
 }
 
-static PyObject* pyOmniLightInfo_getAttenConst(pyOmniLightInfo* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getAttenConst());
-}
-
-static PyObject* pyOmniLightInfo_getAttenLinear(pyOmniLightInfo* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getAttenLinear());
-}
-
-static PyObject* pyOmniLightInfo_getAttenQuadratic(pyOmniLightInfo* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getAttenQuadratic());
-}
-
-static PyObject* pyOmniLightInfo_getAttenCutoff(pyOmniLightInfo* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getAttenCutoff());
-}
-
-static int pyOmniLightInfo_setAttenConst(pyOmniLightInfo* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "attenConst should be a float");
-        return -1;
-    }
-    self->fThis->setAttenConst(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyOmniLightInfo_setAttenLinear(pyOmniLightInfo* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "attenLinear should be a float");
-        return -1;
-    }
-    self->fThis->setAttenLinear(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyOmniLightInfo_setAttenQuadratic(pyOmniLightInfo* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "attenQuadratic should be a float");
-        return -1;
-    }
-    self->fThis->setAttenQuadratic(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyOmniLightInfo_setAttenCutoff(pyOmniLightInfo* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "attenCutoff should be a float");
-        return -1;
-    }
-    self->fThis->setAttenCutoff(PyFloat_AsDouble(value));
-    return 0;
-}
+PY_PROPERTY(float, OmniLightInfo, attenConst, getAttenConst, setAttenConst)
+PY_PROPERTY(float, OmniLightInfo, attenLinear, getAttenLinear, setAttenLinear)
+PY_PROPERTY(float, OmniLightInfo, attenQuadratic, getAttenQuadratic, setAttenQuadratic)
+PY_PROPERTY(float, OmniLightInfo, attenCutoff, getAttenCutoff, setAttenCutoff)
 
 static PyGetSetDef pyOmniLightInfo_GetSet[] = {
-    { _pycs("attenConst"), (getter)pyOmniLightInfo_getAttenConst,
-        (setter)pyOmniLightInfo_setAttenConst, NULL, NULL },
-    { _pycs("attenLinear"), (getter)pyOmniLightInfo_getAttenLinear,
-        (setter)pyOmniLightInfo_setAttenLinear, NULL, NULL },
-    { _pycs("attenQuadratic"), (getter)pyOmniLightInfo_getAttenQuadratic,
-        (setter)pyOmniLightInfo_setAttenQuadratic, NULL, NULL },
-    { _pycs("attenCutoff"), (getter)pyOmniLightInfo_getAttenCutoff,
-        (setter)pyOmniLightInfo_setAttenCutoff, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyOmniLightInfo_attenConst_getset,
+    pyOmniLightInfo_attenLinear_getset,
+    pyOmniLightInfo_attenQuadratic_getset,
+    pyOmniLightInfo_attenCutoff_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyOmniLightInfo_Type = {

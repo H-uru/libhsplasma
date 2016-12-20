@@ -37,68 +37,18 @@ static PyObject* pyCompoundRotController_new(PyTypeObject* type, PyObject* args,
     return (PyObject*)self;
 }
 
-static PyObject* pyCompoundRotController_getX(pyCompoundRotController* self, void*) {
-    return ICreate(self->fThis->getX());
-}
-
-static PyObject* pyCompoundRotController_getY(pyCompoundRotController* self, void*) {
-    return  ICreate(self->fThis->getY());
-}
-
-static PyObject* pyCompoundRotController_getZ(pyCompoundRotController* self, void*) {
-    return  ICreate(self->fThis->getZ());
-}
-
-static int pyCompoundRotController_setX(pyCompoundRotController* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setX(NULL);
-        return 0;
-    }
-    if (!pyScalarController_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "X should be a plScalarController");
-        return -1;
-    }
-    self->fThis->setX(((pyScalarController*)value)->fThis);
-    ((pyScalarController*)value)->fPyOwned = false;
-    return 0;
-}
-
-static int pyCompoundRotController_setY(pyCompoundRotController* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setY(NULL);
-        return 0;
-    }
-    if (!pyScalarController_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "Y should be a plScalarController");
-        return -1;
-    }
-    self->fThis->setY(((pyScalarController*)value)->fThis);
-    ((pyScalarController*)value)->fPyOwned = false;
-    return 0;
-}
-
-static int pyCompoundRotController_setZ(pyCompoundRotController* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setZ(NULL);
-        return 0;
-    }
-    if (!pyScalarController_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "Z should be a plScalarController");
-        return -1;
-    }
-    self->fThis->setZ(((pyScalarController*)value)->fThis);
-    ((pyScalarController*)value)->fPyOwned = false;
-    return 0;
-}
+PY_PROPERTY_CREATABLE(plScalarController, ScalarController,
+                      CompoundRotController, X, getX, setX)
+PY_PROPERTY_CREATABLE(plScalarController, ScalarController,
+                      CompoundRotController, Y, getY, setY)
+PY_PROPERTY_CREATABLE(plScalarController, ScalarController,
+                      CompoundRotController, Z, getZ, setZ)
 
 static PyGetSetDef pyCompoundRotController_GetSet[] = {
-    { _pycs("X"), (getter)pyCompoundRotController_getX,
-        (setter)pyCompoundRotController_setX, NULL, NULL },
-    { _pycs("Y"), (getter)pyCompoundRotController_getY,
-        (setter)pyCompoundRotController_setY, NULL, NULL },
-    { _pycs("Z"), (getter)pyCompoundRotController_getZ,
-        (setter)pyCompoundRotController_setZ, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyCompoundRotController_X_getset,
+    pyCompoundRotController_Y_getset,
+    pyCompoundRotController_Z_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyCompoundRotController_Type = {

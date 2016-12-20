@@ -33,28 +33,30 @@ static PyObject* pyLinkToAgeMsg_new(PyTypeObject* type, PyObject* , PyObject* ) 
     return (PyObject*)self;
 }
 
-static PyObject* pyLinkToAgeMsg_getAgeLink(pyLinkToAgeMsg* self, void*) {
-    return ICreate(&self->fThis->getAgeLink());
+PY_GETSET_GETTER_DECL(LinkToAgeMsg, ageLink) {
+    // This cannot be a subclass, since it's an inline member
+    return pyAgeLinkStruct_FromAgeLinkStruct(&self->fThis->getAgeLink());
 }
 
-static int pyLinkToAgeMsg_setAgeLink(pyLinkToAgeMsg* self, PyObject* value, void*) {
+PY_GETSET_SETTER_DECL(LinkToAgeMsg, ageLink) {
     plAgeLinkStruct& als = self->fThis->getAgeLink();
-    if (value == Py_None || value == NULL) {
-        als = plAgeLinkStruct();
-        return 0;
+    if (value == NULL) {
+        PyErr_SetString(PyExc_RuntimeError, "ageLink cannot be deleted");
+        return -1;
     } else if (pyAgeLinkStruct_Check(value)) {
         als = *((pyAgeLinkStruct*)value)->fThis;
         return 0;
     } else {
-        PyErr_SetString(PyExc_TypeError, "ageLink must be a plAgeLinkStruct");
+        PyErr_SetString(PyExc_TypeError, "ageLink expected type plAgeLinkStruct");
         return -1;
     }
 }
 
+PY_PROPERTY_GETSET_DECL(LinkToAgeMsg, ageLink)
+
 static PyGetSetDef pyLinkToAgeMsg_GetSet[] = {
-    { _pycs("ageLink"), (getter)pyLinkToAgeMsg_getAgeLink,
-        (setter)pyLinkToAgeMsg_setAgeLink, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyLinkToAgeMsg_ageLink_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyLinkToAgeMsg_Type = {

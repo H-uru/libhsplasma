@@ -55,8 +55,12 @@ public:
     unsigned int getMinSize() const { return fMinSize; }
 
     void setAttenDist(float dist) { fAttenDist = dist; }
+    void setMaxDist(float dist) { fMaxDist = dist; }
+    void setMinDist(float dist) { fMinDist = dist; }
     void setDist(float min, float max) { fMinDist = min; fMaxDist = max; }
     void setPower(float power) { fPower = power; }
+    void setMinSize(unsigned int min) { fMinSize = min; }
+    void setMaxSize(unsigned int max) { fMaxSize = max; }
     void setSize(unsigned int min, unsigned int max) { fMinSize = min; fMaxSize = max; }
 };
 

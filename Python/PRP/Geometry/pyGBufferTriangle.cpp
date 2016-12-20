@@ -70,71 +70,6 @@ static PyObject* pyGBufferTriangle_write(pyGBufferTriangle* self, PyObject* args
     return Py_None;
 }
 
-static PyObject* pyGBufferTriangle_getIndex1(pyGBufferTriangle* self, void*) {
-    return PyInt_FromLong(self->fThis->fIndex1);
-}
-
-static PyObject* pyGBufferTriangle_getIndex2(pyGBufferTriangle* self, void*) {
-    return PyInt_FromLong(self->fThis->fIndex2);
-}
-
-static PyObject* pyGBufferTriangle_getIndex3(pyGBufferTriangle* self, void*) {
-    return PyInt_FromLong(self->fThis->fIndex3);
-}
-
-static PyObject* pyGBufferTriangle_getSpanIndex(pyGBufferTriangle* self, void*) {
-    return PyInt_FromLong(self->fThis->fSpanIndex);
-}
-
-static PyObject* pyGBufferTriangle_getCenter(pyGBufferTriangle* self, void*) {
-    return pyVector3_FromVector3(self->fThis->fCenter);
-}
-
-static int pyGBufferTriangle_setIndex1(pyGBufferTriangle* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "index1 should be an int");
-        return -1;
-    }
-    self->fThis->fIndex1 = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyGBufferTriangle_setIndex2(pyGBufferTriangle* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "index2 should be an int");
-        return -1;
-    }
-    self->fThis->fIndex2 = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyGBufferTriangle_setIndex3(pyGBufferTriangle* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "index3 should be an int");
-        return -1;
-    }
-    self->fThis->fIndex3 = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyGBufferTriangle_setSpanIndex(pyGBufferTriangle* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "spanIndex should be an int");
-        return -1;
-    }
-    self->fThis->fSpanIndex = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyGBufferTriangle_setCenter(pyGBufferTriangle* self, PyObject* value, void*) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "center should be an hsVector3");
-        return -1;
-    }
-    self->fThis->fCenter = *((pyVector3*)value)->fThis;
-    return 0;
-}
-
 static PyMethodDef pyGBufferTriangle_Methods[] = {
     { "read", (PyCFunction)pyGBufferTriangle_read, METH_VARARGS,
       "Params: stream\n"
@@ -145,18 +80,19 @@ static PyMethodDef pyGBufferTriangle_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY_MEMBER(unsigned short, GBufferTriangle, index1, fIndex1)
+PY_PROPERTY_MEMBER(unsigned short, GBufferTriangle, index2, fIndex2)
+PY_PROPERTY_MEMBER(unsigned short, GBufferTriangle, index3, fIndex3)
+PY_PROPERTY_MEMBER(unsigned short, GBufferTriangle, spanIndex, fSpanIndex)
+PY_PROPERTY_MEMBER(hsVector3, GBufferTriangle, center, fCenter)
+
 static PyGetSetDef pyGBufferTriangle_GetSet[] = {
-    { _pycs("index1"), (getter)pyGBufferTriangle_getIndex1,
-        (setter)pyGBufferTriangle_setIndex1, NULL, NULL },
-    { _pycs("index2"), (getter)pyGBufferTriangle_getIndex2,
-        (setter)pyGBufferTriangle_setIndex2, NULL, NULL },
-    { _pycs("index3"), (getter)pyGBufferTriangle_getIndex3,
-        (setter)pyGBufferTriangle_setIndex3, NULL, NULL },
-    { _pycs("spanIndex"), (getter)pyGBufferTriangle_getSpanIndex,
-        (setter)pyGBufferTriangle_setSpanIndex, NULL, NULL },
-    { _pycs("center"), (getter)pyGBufferTriangle_getCenter,
-        (setter)pyGBufferTriangle_setCenter, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyGBufferTriangle_index1_getset,
+    pyGBufferTriangle_index2_getset,
+    pyGBufferTriangle_index3_getset,
+    pyGBufferTriangle_spanIndex_getset,
+    pyGBufferTriangle_center_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyGBufferTriangle_Type = {

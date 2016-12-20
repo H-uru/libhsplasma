@@ -85,8 +85,9 @@ static int pySoftVolumeComplex_setSubVolumes(pySoftVolumeComplex*, PyObject*, vo
 }
 
 PyGetSetDef pySoftVolumeComplex_GetSet[] = {
-    { _pycs("subVolumes"), (getter)pySoftVolumeComplex_getSubVolumes, (setter)pySoftVolumeComplex_setSubVolumes, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    { _pycs("subVolumes"), (getter)pySoftVolumeComplex_getSubVolumes,
+      (setter)pySoftVolumeComplex_setSubVolumes, NULL, NULL },
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pySoftVolumeComplex_Type = {

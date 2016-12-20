@@ -16,7 +16,6 @@
 
 #include "pyGeometry3.h"
 
-#include <Math/hsGeometry3.h>
 #include <Math/hsQuat.h>
 #include "Stream/pyStream.h"
 
@@ -72,7 +71,7 @@ static PyObject* pyQuat_new(PyTypeObject* type, PyObject* args, PyObject* kwds) 
 static PyObject* pyQuat_Repr(pyQuat* self) {
     plString repr = plString::Format("hsQuat(%f, %f, %f, %f)",
              self->fThis->X, self->fThis->Y, self->fThis->Z, self->fThis->W);
-    return PlStr_To_PyStr(repr);
+    return pyPlasma_convert(repr);
 }
 
 static PyObject* pyQuat_add(PyObject* left, PyObject* right) {
@@ -80,7 +79,7 @@ static PyObject* pyQuat_add(PyObject* left, PyObject* right) {
         PyErr_SetString(PyExc_TypeError, "Incompatible Types");
         return NULL;
     }
-    return pyQuat_FromQuat(*((pyQuat*)left)->fThis + *((pyQuat*)right)->fThis);
+    return pyPlasma_convert(*((pyQuat*)left)->fThis + *((pyQuat*)right)->fThis);
 }
 
 static PyObject* pyQuat_subtract(PyObject* left, PyObject* right) {
@@ -88,22 +87,22 @@ static PyObject* pyQuat_subtract(PyObject* left, PyObject* right) {
         PyErr_SetString(PyExc_TypeError, "Incompatible Types");
         return NULL;
     }
-    return pyQuat_FromQuat(*((pyQuat*)left)->fThis - *((pyQuat*)right)->fThis);
+    return pyPlasma_convert(*((pyQuat*)left)->fThis - *((pyQuat*)right)->fThis);
 }
 
 static PyObject* pyQuat_multiply(PyObject* left, PyObject* right) {
     if (pyQuat_Check(left)) {
         if (pyQuat_Check(right)) {
-            return pyQuat_FromQuat(*((pyQuat*)left)->fThis * *((pyQuat*)right)->fThis);
+            return pyPlasma_convert(*((pyQuat*)left)->fThis * *((pyQuat*)right)->fThis);
         } else if (PyFloat_Check(right)) {
-            return pyQuat_FromQuat(*((pyQuat*)left)->fThis * PyFloat_AsDouble(right));
+            return pyPlasma_convert(*((pyQuat*)left)->fThis * PyFloat_AsDouble(right));
         } else {
             PyErr_SetString(PyExc_TypeError, "Incompatible Types");
             return NULL;
         }
     } else if (pyQuat_Check(right)) {
         if (PyFloat_Check(left)) {
-            return pyQuat_FromQuat(*((pyQuat*)right)->fThis * PyFloat_AsDouble(left));
+            return pyPlasma_convert(*((pyQuat*)right)->fThis * PyFloat_AsDouble(left));
         } else {
             PyErr_SetString(PyExc_TypeError, "Incompatible Types");
             return NULL;
@@ -115,20 +114,20 @@ static PyObject* pyQuat_multiply(PyObject* left, PyObject* right) {
 }
 
 static PyObject* pyQuat_negative(pyQuat* self) {
-    return pyQuat_FromQuat(hsQuat(-(self->fThis->X), -(self->fThis->Y),
-                                  -(self->fThis->Z), -(self->fThis->W)));
+    return pyPlasma_convert(hsQuat(-(self->fThis->X), -(self->fThis->Y),
+                                   -(self->fThis->Z), -(self->fThis->W)));
 }
 
 static PyObject* pyQuat_positive(pyQuat* self) {
-    return pyQuat_FromQuat(hsQuat(+(self->fThis->X), +(self->fThis->Y),
-                                  +(self->fThis->Z), +(self->fThis->W)));
+    return pyPlasma_convert(hsQuat(+(self->fThis->X), +(self->fThis->Y),
+                                   +(self->fThis->Z), +(self->fThis->W)));
 }
 
 static PyObject* pyQuat_absolute(pyQuat* self) {
-    return pyQuat_FromQuat(hsQuat(fabs(self->fThis->X),
-                                  fabs(self->fThis->Y),
-                                  fabs(self->fThis->Z),
-                                  fabs(self->fThis->W)));
+    return pyPlasma_convert(hsQuat(fabs(self->fThis->X),
+                                   fabs(self->fThis->Y),
+                                   fabs(self->fThis->Z),
+                                   fabs(self->fThis->W)));
 }
 
 static int pyQuat_nonzero(pyQuat* self) {
@@ -137,11 +136,11 @@ static int pyQuat_nonzero(pyQuat* self) {
 }
 
 static PyObject* pyQuat_Identity(PyObject*) {
-    return pyQuat_FromQuat(hsQuat::Identity());
+    return pyPlasma_convert(hsQuat::Identity());
 }
 
 static PyObject* pyQuat_conjugate(pyQuat* self) {
-    return pyQuat_FromQuat(self->fThis->conjugate());
+    return pyPlasma_convert(self->fThis->conjugate());
 }
 
 static PyObject* pyQuat_read(pyQuat* self, PyObject* args) {
@@ -172,58 +171,6 @@ static PyObject* pyQuat_write(pyQuat* self, PyObject* args) {
     self->fThis->write(stream->fThis);
     Py_INCREF(Py_None);
     return Py_None;
-}
-
-static PyObject* pyQuat_getX(pyQuat* self, void*) {
-    return PyFloat_FromDouble(self->fThis->X);
-}
-
-static PyObject* pyQuat_getY(pyQuat* self, void*) {
-    return PyFloat_FromDouble(self->fThis->Y);
-}
-
-static PyObject* pyQuat_getZ(pyQuat* self, void*) {
-    return PyFloat_FromDouble(self->fThis->Z);
-}
-
-static PyObject* pyQuat_getW(pyQuat* self, void*) {
-    return PyFloat_FromDouble(self->fThis->W);
-}
-
-static int pyQuat_setX(pyQuat* self, PyObject* value, void*) {
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "X needs to be a float");
-        return -1;
-    }
-    self->fThis->X = PyFloat_AsDouble(value);
-    return 0;
-}
-
-static int pyQuat_setY(pyQuat* self, PyObject* value, void*) {
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "Y needs to be a float");
-        return -1;
-    }
-    self->fThis->Y = PyFloat_AsDouble(value);
-    return 0;
-}
-
-static int pyQuat_setZ(pyQuat* self, PyObject* value, void*) {
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "Z needs to be a float");
-        return -1;
-    }
-    self->fThis->Z = PyFloat_AsDouble(value);
-    return 0;
-}
-
-static int pyQuat_setW(pyQuat* self, PyObject* value, void*) {
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "W needs to be a float");
-        return -1;
-    }
-    self->fThis->W = PyFloat_AsDouble(value);
-    return 0;
 }
 
 PyNumberMethods pyQuat_As_Number = {
@@ -296,12 +243,17 @@ PyMethodDef pyQuat_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY_MEMBER(float, Quat, X, X)
+PY_PROPERTY_MEMBER(float, Quat, Y, Y)
+PY_PROPERTY_MEMBER(float, Quat, Z, Z)
+PY_PROPERTY_MEMBER(float, Quat, W, W)
+
 PyGetSetDef pyQuat_GetSet[] = {
-    { _pycs("X"), (getter)pyQuat_getX, (setter)pyQuat_setX, NULL, NULL },
-    { _pycs("Y"), (getter)pyQuat_getY, (setter)pyQuat_setY, NULL, NULL },
-    { _pycs("Z"), (getter)pyQuat_getZ, (setter)pyQuat_setZ, NULL, NULL },
-    { _pycs("W"), (getter)pyQuat_getW, (setter)pyQuat_setW, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyQuat_X_getset,
+    pyQuat_Y_getset,
+    pyQuat_Z_getset,
+    pyQuat_W_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyQuat_Type = {

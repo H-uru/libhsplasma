@@ -32,46 +32,15 @@ static PyObject* pySimpleRegionSensor_new(PyTypeObject* type, PyObject* args, Py
     return (PyObject*)self;
 }
 
-static PyObject* pySimpleRegionSensor_getEnterMsg(pySimpleRegionSensor* self, void*) {
-    return ICreate(self->fThis->getEnterMsg());
-}
-
-static PyObject* pySimpleRegionSensor_getExitMsg(pySimpleRegionSensor* self, void*) {
-    return ICreate(self->fThis->getExitMsg());
-}
-
-static int pySimpleRegionSensor_setEnterMsg(pySimpleRegionSensor* self, PyObject* value, void*) {
-    if (value == Py_None || value == NULL) {
-        self->fThis->setEnterMsg(NULL);
-        return 0;
-    } else if (pyMessage_Check(value)) {
-        self->fThis->setEnterMsg(((pyMessage*)value)->fThis);
-        ((pyMessage*)value)->fPyOwned = false;
-        return 0;
-    }
-    PyErr_SetString(PyExc_TypeError, "enterMsg should be a plMessage");
-    return -1;
-}
-
-static int pySimpleRegionSensor_setExitMsg(pySimpleRegionSensor* self, PyObject* value, void*) {
-    if (value == Py_None || value == NULL) {
-        self->fThis->setExitMsg(NULL);
-        return 0;
-    } else if (pyMessage_Check(value)) {
-        self->fThis->setExitMsg(((pyMessage*)value)->fThis);
-        ((pyMessage*)value)->fPyOwned = false;
-        return 0;
-    }
-    PyErr_SetString(PyExc_TypeError, "exitMsg should be a plMessage");
-    return -1;
-}
+PY_PROPERTY_CREATABLE(plMessage, Message, SimpleRegionSensor, enterMsg,
+                      getEnterMsg, setEnterMsg)
+PY_PROPERTY_CREATABLE(plMessage, Message, SimpleRegionSensor, exitMsg,
+                      getExitMsg, setExitMsg)
 
 PyGetSetDef pySimpleRegionSensor_GetSet[] = {
-    { _pycs("enterMsg"), (getter)pySimpleRegionSensor_getEnterMsg,
-     (setter)pySimpleRegionSensor_setEnterMsg, NULL, NULL },
-    { _pycs("exitMsg"), (getter)pySimpleRegionSensor_getExitMsg,
-     (setter)pySimpleRegionSensor_setExitMsg, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pySimpleRegionSensor_enterMsg_getset,
+    pySimpleRegionSensor_exitMsg_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pySimpleRegionSensor_Type = {

@@ -384,43 +384,11 @@ static PyObject* pyDrawableSpans_getB2Ls(pyDrawableSpans* self, void*) {
     return list;
 }
 
-static PyObject* pyDrawableSpans_getLocalBounds(pyDrawableSpans* self, void*) {
-    return ICreateBounds(self->fThis->getLocalBounds());
-}
-
-static PyObject* pyDrawableSpans_getWorldBounds(pyDrawableSpans* self, void*) {
-    return ICreateBounds(self->fThis->getWorldBounds());
-}
-
-static PyObject* pyDrawableSpans_getMaxBounds(pyDrawableSpans* self, void*) {
-    return ICreateBounds(self->fThis->getMaxWorldBounds());
-}
-
 static PyObject* pyDrawableSpans_getMaterials(pyDrawableSpans* self, void*) {
     PyObject* list = PyList_New(self->fThis->getMaterials().size());
     for (size_t i=0; i<self->fThis->getMaterials().size(); i++)
         PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getMaterials()[i]));
     return list;
-}
-
-static PyObject* pyDrawableSpans_getSpaceTree(pyDrawableSpans* self, void*) {
-    return ICreate(self->fThis->getSpaceTree());
-}
-
-static PyObject* pyDrawableSpans_getProps(pyDrawableSpans* self, void*) {
-    return PyInt_FromLong(self->fThis->getProps());
-}
-
-static PyObject* pyDrawableSpans_getCriteria(pyDrawableSpans* self, void*) {
-    return PyInt_FromLong(self->fThis->getCriteria());
-}
-
-static PyObject* pyDrawableSpans_getRenderLevel(pyDrawableSpans* self, void*) {
-    return PyInt_FromLong(self->fThis->getRenderLevel());
-}
-
-static PyObject* pyDrawableSpans_getSceneNode(pyDrawableSpans* self, void*) {
-    return pyKey_FromKey(self->fThis->getSceneNode());
 }
 
 static PyObject* pyDrawableSpans_getSourceSpans(pyDrawableSpans* self, void*) {
@@ -450,83 +418,9 @@ static int pyDrawableSpans_setTransforms(pyDrawableSpans* self, PyObject* value,
     return -1;
 }
 
-static int pyDrawableSpans_setLocalBounds(pyDrawableSpans* self, PyObject* value, void*) {
-    if (value == NULL || !pyBounds3Ext_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "localBounds should be an hsBounds3Ext");
-        return -1;
-    }
-    self->fThis->setLocalBounds(*((pyBounds3Ext*)value)->fThis);
-    return 0;
-}
-
-static int pyDrawableSpans_setWorldBounds(pyDrawableSpans* self, PyObject* value, void*) {
-    if (value == NULL || !pyBounds3Ext_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "worldBounds should be an hsBounds3Ext");
-        return -1;
-    }
-    self->fThis->setWorldBounds(*((pyBounds3Ext*)value)->fThis);
-    return 0;
-}
-
-static int pyDrawableSpans_setMaxBounds(pyDrawableSpans* self, PyObject* value, void*) {
-    if (value == NULL || !pyBounds3Ext_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "maxWorldBounds should be an hsBounds3Ext");
-        return -1;
-    }
-    self->fThis->setMaxWorldBounds(*((pyBounds3Ext*)value)->fThis);
-    return 0;
-}
-
 static int pyDrawableSpans_setMaterials(pyDrawableSpans* self, PyObject* value, void*) {
     PyErr_SetString(PyExc_RuntimeError, "To add materials, use addMaterial()");
     return -1;
-}
-
-static int pyDrawableSpans_setSpaceTree(pyDrawableSpans* self, PyObject* value, void*) {
-    if (value == NULL || !pySpaceTree_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "spaceTree should be a plSpaceTree");
-        return -1;
-    }
-    ((pySpaceTree*)value)->fPyOwned = false;
-    self->fThis->setSpaceTree(((pySpaceTree*)value)->fThis);
-    return 0;
-}
-
-static int pyDrawableSpans_setProps(pyDrawableSpans* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "props should be an int");
-        return -1;
-    }
-    self->fThis->setProps(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyDrawableSpans_setCriteria(pyDrawableSpans* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "criteria should be an int");
-        return -1;
-    }
-    self->fThis->setCriteria(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyDrawableSpans_setRenderLevel(pyDrawableSpans* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "renderLevel should be an int");
-        return -1;
-    }
-    unsigned int rlevel = PyInt_AsLong(value);
-    self->fThis->setRenderLevel(rlevel);
-    return 0;
-}
-
-static int pyDrawableSpans_setSceneNode(pyDrawableSpans* self, PyObject* value, void*) {
-    if (value == NULL || !pyKey_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "sceneNode should be a plKey");
-        return -1;
-    }
-    self->fThis->setSceneNode(*((pyKey*)value)->fThis);
-    return 0;
 }
 
 static int pyDrawableSpans_setSourceSpans(pyDrawableSpans* self, PyObject* value, void*) {
@@ -599,6 +493,15 @@ static PyMethodDef pyDrawableSpans_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY_BOUNDS(Bounds3Ext, DrawableSpans, localBounds, getLocalBounds, setLocalBounds)
+PY_PROPERTY_BOUNDS(Bounds3Ext, DrawableSpans, worldBounds, getWorldBounds, setWorldBounds)
+PY_PROPERTY_BOUNDS(Bounds3Ext, DrawableSpans, maxWorldBounds, getMaxWorldBounds, setMaxWorldBounds)
+PY_PROPERTY_CREATABLE(plSpaceTree, SpaceTree, DrawableSpans, spaceTree, getSpaceTree, setSpaceTree)
+PY_PROPERTY(unsigned int, DrawableSpans, props, getProps, setProps)
+PY_PROPERTY(unsigned int, DrawableSpans, criteria, getCriteria, setCriteria)
+PY_PROPERTY(unsigned int, DrawableSpans, renderLevel, getRenderLevel, setRenderLevel)
+PY_PROPERTY(plKey, DrawableSpans, sceneNode, getSceneNode, setSceneNode)
+
 static PyGetSetDef pyDrawableSpans_GetSet[] = {
     { _pycs("spans"), (getter)pyDrawableSpans_getSpans,
         (setter)pyDrawableSpans_setSpans, NULL, NULL },
@@ -614,27 +517,19 @@ static PyGetSetDef pyDrawableSpans_GetSet[] = {
         (setter)pyDrawableSpans_setTransforms, NULL, NULL },
     { _pycs("boneToLocals"), (getter)pyDrawableSpans_getB2Ls,
         (setter)pyDrawableSpans_setTransforms, NULL, NULL },
-    { _pycs("localBounds"), (getter)pyDrawableSpans_getLocalBounds,
-        (setter)pyDrawableSpans_setLocalBounds, NULL, NULL },
-    { _pycs("worldBounds"), (getter)pyDrawableSpans_getWorldBounds,
-        (setter)pyDrawableSpans_setWorldBounds, NULL, NULL },
-    { _pycs("maxWorldBounds"), (getter)pyDrawableSpans_getMaxBounds,
-        (setter)pyDrawableSpans_setMaxBounds, NULL, NULL },
+    pyDrawableSpans_localBounds_getset,
+    pyDrawableSpans_worldBounds_getset,
+    pyDrawableSpans_maxWorldBounds_getset,
     { _pycs("materials"), (getter)pyDrawableSpans_getMaterials,
         (setter)pyDrawableSpans_setMaterials, NULL, NULL },
-    { _pycs("spaceTree"), (getter)pyDrawableSpans_getSpaceTree,
-        (setter)pyDrawableSpans_setSpaceTree, NULL, NULL },
-    { _pycs("props"), (getter)pyDrawableSpans_getProps,
-        (setter)pyDrawableSpans_setProps, NULL, NULL },
-    { _pycs("criteria"), (getter)pyDrawableSpans_getCriteria,
-        (setter)pyDrawableSpans_setCriteria, NULL, NULL },
-    { _pycs("renderLevel"), (getter)pyDrawableSpans_getRenderLevel,
-        (setter)pyDrawableSpans_setRenderLevel, NULL, NULL },
-    { _pycs("sceneNode"), (getter)pyDrawableSpans_getSceneNode,
-        (setter)pyDrawableSpans_setSceneNode, NULL, NULL },
+    pyDrawableSpans_spaceTree_getset,
+    pyDrawableSpans_props_getset,
+    pyDrawableSpans_criteria_getset,
+    pyDrawableSpans_renderLevel_getset,
+    pyDrawableSpans_sceneNode_getset,
     { _pycs("sourceSpans"), (getter)pyDrawableSpans_getSourceSpans,
         (setter)pyDrawableSpans_setSourceSpans, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyDrawableSpans_Type = {

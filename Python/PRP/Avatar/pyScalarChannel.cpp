@@ -30,23 +30,11 @@ static PyObject* pyScalarChannel_new(PyTypeObject* type, PyObject* args, PyObjec
     return (PyObject*)self;
 }
 
-static PyObject* pyScalarChannel_getResult(pyScalarChannel* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getResult());
-}
-
-static int pyScalarChannel_setResult(pyScalarChannel* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "result should be a float");
-        return -1;
-    }
-    self->fThis->setResult(PyFloat_AsDouble(value));
-    return 0;
-}
+PY_PROPERTY(float, ScalarChannel, result, getResult, setResult)
 
 static PyGetSetDef pyScalarChannel_GetSet[] = {
-    { _pycs("result"), (getter)pyScalarChannel_getResult,
-        (setter)pyScalarChannel_setResult, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyScalarChannel_result_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyScalarChannel_Type = {

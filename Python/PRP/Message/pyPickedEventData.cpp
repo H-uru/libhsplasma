@@ -31,76 +31,17 @@ static PyObject* pyPickedEventData_new(PyTypeObject* type, PyObject* args, PyObj
     return (PyObject*)self;
 }
 
-static PyObject* pyPickedEventData_getPicker(pyPickedEventData* self, void*) {
-    return pyKey_FromKey(self->fThis->getPicker());
-}
-
-static PyObject* pyPickedEventData_getPicked(pyPickedEventData* self, void*) {
-    return pyKey_FromKey(self->fThis->getPicked());
-}
-
-static PyObject* pyPickedEventData_getEnabled(pyPickedEventData* self, void*) {
-    return PyBool_FromLong(self->fThis->isEnabled());
-}
-
-static PyObject* pyPickedEventData_getHitPoint(pyPickedEventData* self, void*) {
-    return pyVector3_FromVector3(self->fThis->getHitPoint());
-}
-
-static int pyPickedEventData_setPicker(pyPickedEventData* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setPicker(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setPicker(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "picker should be a plKey");
-        return -1;
-    }
-}
-
-static int pyPickedEventData_setPicked(pyPickedEventData* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setPicked(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setPicked(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "picked should be a plKey");
-        return -1;
-    }
-}
-
-static int pyPickedEventData_setEnabled(pyPickedEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "enabled should be a bool");
-        return -1;
-    }
-    self->fThis->setEnabled(PyInt_AsLong(value) != 0);
-    return 0;
-}
-
-static int pyPickedEventData_setHitPoint(pyPickedEventData* self, PyObject* value, void*) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "hitPoint should be an hsVector3");
-        return -1;
-    }
-    self->fThis->setHitPoint(*((pyVector3*)value)->fThis);
-    return 0;
-}
+PY_PROPERTY(plKey, PickedEventData, picker, getPicker, setPicker)
+PY_PROPERTY(plKey, PickedEventData, picked, getPicked, setPicked)
+PY_PROPERTY(bool, PickedEventData, enabled, isEnabled, setEnabled)
+PY_PROPERTY(hsVector3, PickedEventData, hitPoint, getHitPoint, setHitPoint)
 
 static PyGetSetDef pyPickedEventData_GetSet[] = {
-    { _pycs("picker"), (getter)pyPickedEventData_getPicker,
-        (setter)pyPickedEventData_setPicker, NULL, NULL },
-    { _pycs("picked"), (getter)pyPickedEventData_getPicked,
-        (setter)pyPickedEventData_setPicked, NULL, NULL },
-    { _pycs("enabled"), (getter)pyPickedEventData_getEnabled,
-        (setter)pyPickedEventData_setEnabled, NULL, NULL },
-    { _pycs("hitPoint"), (getter)pyPickedEventData_getHitPoint,
-        (setter)pyPickedEventData_setHitPoint, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyPickedEventData_picker_getset,
+    pyPickedEventData_picked_getset,
+    pyPickedEventData_enabled_getset,
+    pyPickedEventData_hitPoint_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyPickedEventData_Type = {

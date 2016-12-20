@@ -145,26 +145,6 @@ static PyObject* pyDynamicCamMap_delVisRegionName(pyDynamicCamMap* self, PyObjec
     return Py_None;
 }
 
-static PyObject* pyDynamicCamMap_getHither(pyDynamicCamMap* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getHither());
-}
-
-static PyObject* pyDynamicCamMap_getYon(pyDynamicCamMap* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getYon());
-}
-
-static PyObject* pyDynamicCamMap_getFogStart(pyDynamicCamMap* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getFogStart());
-}
-
-static PyObject* pyDynamicCamMap_getColor(pyDynamicCamMap* self, void*) {
-    return pyColorRGBA_FromColorRGBA(self->fThis->getColor());
-}
-
-static PyObject* pyDynamicCamMap_getRefreshRate(pyDynamicCamMap* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getRefreshRate());
-}
-
 static PyObject* pyDynamicCamMap_getVisRegions(pyDynamicCamMap* self, void*) {
     const std::vector<plKey>& keys = self->fThis->getVisRegions();
     PyObject* regionList = PyList_New(keys.size());
@@ -195,67 +175,6 @@ static PyObject* pyDynamicCamMap_getVisRegionNames(pyDynamicCamMap* self, void*)
     for (size_t i=0; i<names.size(); i++)
         PyList_SET_ITEM(regionNameList, i, PlasmaString_To_PyString(names[i]));
     return regionNameList;
-}
-
-static PyObject* pyDynamicCamMap_getIncCharacters(pyDynamicCamMap* self, void*) {
-    return PyBool_FromLong(self->fThis->getIncludeCharacters() ? 1 : 0);
-}
-
-static PyObject* pyDynamicCamMap_getCamera(pyDynamicCamMap* self, void*) {
-    return pyKey_FromKey(self->fThis->getCamera());
-}
-
-static PyObject* pyDynamicCamMap_getRootNode(pyDynamicCamMap* self, void*) {
-    return pyKey_FromKey(self->fThis->getRootNode());
-}
-
-static PyObject* pyDynamicCamMap_getDisableTexture(pyDynamicCamMap* self, void*) {
-    return pyKey_FromKey(self->fThis->getDisableTexture());
-}
-
-static int pyDynamicCamMap_setHither(pyDynamicCamMap* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "hither should be a float");
-        return -1;
-    }
-    self->fThis->setHither(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyDynamicCamMap_setYon(pyDynamicCamMap* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "yon should be a float");
-        return -1;
-    }
-    self->fThis->setYon(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyDynamicCamMap_setFogStart(pyDynamicCamMap* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "fogStart should be a float");
-        return -1;
-    }
-    self->fThis->setFogStart(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyDynamicCamMap_setColor(pyDynamicCamMap* self, PyObject* value, void*) {
-    if (value == NULL || !pyColorRGBA_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "color should be an hsColorRGBA");
-        return -1;
-    }
-    self->fThis->setColor(*((pyColorRGBA*)value)->fThis);
-    return 0;
-}
-
-static int pyDynamicCamMap_setRefreshRate(pyDynamicCamMap* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "refreshRate should be a float");
-        return -1;
-    }
-    self->fThis->setRefreshRate(PyFloat_AsDouble(value));
-    return 0;
 }
 
 static int pyDynamicCamMap_setVisRegions(pyDynamicCamMap* self, PyObject* value, void*) {
@@ -338,54 +257,6 @@ static int pyDynamicCamMap_setVisRegionNames(pyDynamicCamMap* self, PyObject* va
     return 0;
 }
 
-static int pyDynamicCamMap_setIncCharacters(pyDynamicCamMap* self, PyObject* value, void*) {
-    if (value == NULL || !PyBool_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "incCharacters should be a boolean");
-        return -1;
-    }
-    self->fThis->setIncludeCharacters(PyInt_AsLong(value) ? 1 : 0);
-    return 0;
-}
-
-static int pyDynamicCamMap_setCamera(pyDynamicCamMap* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setCamera(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setCamera(*reinterpret_cast<pyKey *>(value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "camera should be a plKey");
-        return -1;
-    }
-}
-
-static int pyDynamicCamMap_setRootNode(pyDynamicCamMap* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setRootNode(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setRootNode(*reinterpret_cast<pyKey *>(value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "rootNode should be a plKey");
-        return -1;
-    }
-}
-
-static int pyDynamicCamMap_setDisableTexture(pyDynamicCamMap* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setDisableTexture(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setDisableTexture(*reinterpret_cast<pyKey *>(value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "disableTexture should be a plKey");
-        return -1;
-    }
-}
-
 static PyMethodDef pyDynamicCamMap_Methods[] = {
     { "addMatLayer", (PyCFunction)pyDynamicCamMap_addMatLayer, METH_VARARGS,
       "Params: key\n"
@@ -422,21 +293,32 @@ static PyMethodDef pyDynamicCamMap_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(float, DynamicCamMap, hither, getHither, setHither)
+PY_PROPERTY(float, DynamicCamMap, yon, getYon, setYon)
+PY_PROPERTY(float, DynamicCamMap, fogStart, getFogStart, setFogStart)
+PY_PROPERTY(hsColorRGBA, DynamicCamMap, color, getColor, setColor)
+PY_PROPERTY(float, DynamicCamMap, refreshRate, getRefreshRate, setRefreshRate)
+PY_PROPERTY(bool, DynamicCamMap, incCharacters, getIncludeCharacters,
+            setIncludeCharacters)
+PY_PROPERTY(plKey, DynamicCamMap, camera, getCamera, setCamera)
+PY_PROPERTY(plKey, DynamicCamMap, rootNode, getRootNode, setRootNode)
+PY_PROPERTY(plKey, DynamicCamMap, disableTexture, getDisableTexture, setDisableTexture)
+
 static PyGetSetDef pyDynamicCamMap_GetSet[] = {
-    { _pycs("hither"), (getter)pyDynamicCamMap_getHither, (setter)pyDynamicCamMap_setHither, NULL, NULL },
-    { _pycs("yon"), (getter)pyDynamicCamMap_getYon, (setter)pyDynamicCamMap_setYon, NULL, NULL },
-    { _pycs("fogStart"), (getter)pyDynamicCamMap_getFogStart, (setter)pyDynamicCamMap_setFogStart, NULL, NULL },
-    { _pycs("color"), (getter)pyDynamicCamMap_getColor, (setter)pyDynamicCamMap_setColor, NULL, NULL },
-    { _pycs("refreshRate"), (getter)pyDynamicCamMap_getRefreshRate, (setter)pyDynamicCamMap_setRefreshRate, NULL, NULL },
+    pyDynamicCamMap_hither_getset,
+    pyDynamicCamMap_yon_getset,
+    pyDynamicCamMap_fogStart_getset,
+    pyDynamicCamMap_color_getset,
+    pyDynamicCamMap_refreshRate_getset,
     { _pycs("visRegions"), (getter)pyDynamicCamMap_getVisRegions, (setter)pyDynamicCamMap_setVisRegions, NULL, NULL },
     { _pycs("targetNodes"), (getter)pyDynamicCamMap_getTargetNodes, (setter)pyDynamicCamMap_setTargetNodes, NULL, NULL },
     { _pycs("matLayers"), (getter)pyDynamicCamMap_getMatLayers, (setter)pyDynamicCamMap_setMatLayers, NULL, NULL },
     { _pycs("visRegionNames"), (getter)pyDynamicCamMap_getVisRegionNames, (setter)pyDynamicCamMap_setVisRegionNames, NULL, NULL },
-    { _pycs("incCharacters"), (getter)pyDynamicCamMap_getIncCharacters, (setter)pyDynamicCamMap_setIncCharacters, NULL, NULL },
-    { _pycs("camera"), (getter)pyDynamicCamMap_getCamera, (setter)pyDynamicCamMap_setCamera, NULL, NULL },
-    { _pycs("rootNode"), (getter)pyDynamicCamMap_getRootNode, (setter)pyDynamicCamMap_setRootNode, NULL, NULL },
-    { _pycs("disableTexture"), (getter)pyDynamicCamMap_getDisableTexture, (setter)pyDynamicCamMap_setDisableTexture, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyDynamicCamMap_incCharacters_getset,
+    pyDynamicCamMap_camera_getset,
+    pyDynamicCamMap_rootNode_getset,
+    pyDynamicCamMap_disableTexture_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyDynamicCamMap_Type = {

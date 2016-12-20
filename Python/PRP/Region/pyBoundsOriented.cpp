@@ -28,37 +28,11 @@ static PyObject* pyBoundsOriented_new(PyTypeObject* type, PyObject* args, PyObje
     return (PyObject*)self;
 }
 
-static PyObject* pyBoundsOriented_getCenter(pyBoundsOriented* self, void*) {
-    return pyVector3_FromVector3(self->fThis->getCenter());
-}
-
-static PyObject* pyBoundsOriented_getCenterValid(pyBoundsOriented* self, void*) {
-    return PyInt_FromLong(self->fThis->getCenterValid());
-}
-
 static PyObject* pyBoundsOriented_getPlanes(pyBoundsOriented* self, void*) {
     PyObject* list = PyList_New(self->fThis->getNumPlanes());
     for (size_t i=0; i<self->fThis->getNumPlanes(); i++)
         PyList_SET_ITEM(list, i, pyPlane3_FromPlane3(self->fThis->getPlanes()[i]));
     return list;
-}
-
-static int pyBoundsOriented_setCenter(pyBoundsOriented* self, PyObject* value, void*) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "center should be an hsVector3");
-        return -1;
-    }
-    self->fThis->setCenter(*((pyVector3*)value)->fThis);
-    return 0;
-}
-
-static int pyBoundsOriented_setCenterValid(pyBoundsOriented* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "centerValid should be an int");
-        return -1;
-    }
-    self->fThis->setCenterValid(PyInt_AsLong(value));
-    return 0;
 }
 
 static int pyBoundsOriented_setPlanes(pyBoundsOriented* self, PyObject* value, void*) {
@@ -85,14 +59,15 @@ static int pyBoundsOriented_setPlanes(pyBoundsOriented* self, PyObject* value, v
     }
 }
 
+PY_PROPERTY(hsVector3, BoundsOriented, center, getCenter, setCenter)
+PY_PROPERTY(unsigned int, BoundsOriented, centerValid, getCenterValid, setCenterValid)
+
 static PyGetSetDef pyBoundsOriented_GetSet[] = {
-    { _pycs("center"), (getter)pyBoundsOriented_getCenter,
-        (setter)pyBoundsOriented_setCenter, NULL, NULL },
-    { _pycs("centerValid"), (getter)pyBoundsOriented_getCenterValid,
-        (setter)pyBoundsOriented_setCenterValid, NULL, NULL },
+    pyBoundsOriented_center_getset,
+    pyBoundsOriented_centerValid_getset,
     { _pycs("planes"), (getter)pyBoundsOriented_getPlanes,
         (setter)pyBoundsOriented_setPlanes, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyBoundsOriented_Type = {

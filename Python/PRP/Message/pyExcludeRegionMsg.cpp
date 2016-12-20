@@ -30,36 +30,13 @@ static PyObject* pyExcludeRegionMsg_new(PyTypeObject* type, PyObject* args, PyOb
     return (PyObject*)self;
 }
 
-static PyObject* pyExcludeRegionMsg_getCmd(pyExcludeRegionMsg* self, void*) {
-    return PyInt_FromLong(self->fThis->getCmd());
-}
-
-static PyObject* pyExcludeRegionMsg_getSynchFlags(pyExcludeRegionMsg* self, void*) {
-    return PyInt_FromLong(self->fThis->getSynchFlags());
-}
-
-static int pyExcludeRegionMsg_setCmd(pyExcludeRegionMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "cmd should be an int");
-        return -1;
-    }
-    self->fThis->setCmd((unsigned char)PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyExcludeRegionMsg_setSynchFlags(pyExcludeRegionMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "synchFlags should be an int");
-        return -1;
-    }
-    self->fThis->setSynchFlags(PyInt_AsLong(value));
-    return 0;
-}
+PY_PROPERTY(unsigned char, ExcludeRegionMsg, cmd, getCmd, setCmd)
+PY_PROPERTY(unsigned int, ExcludeRegionMsg, synchFlags, getSynchFlags, setSynchFlags)
 
 static PyGetSetDef pyExcludeRegionMsg_GetSet[] = {
-    { _pycs("cmd"), (getter)pyExcludeRegionMsg_getCmd, (setter)pyExcludeRegionMsg_setCmd, NULL, NULL },
-    { _pycs("synchFlags"), (getter)pyExcludeRegionMsg_getSynchFlags, (setter)pyExcludeRegionMsg_setSynchFlags, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyExcludeRegionMsg_cmd_getset,
+    pyExcludeRegionMsg_synchFlags_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyExcludeRegionMsg_Type = {

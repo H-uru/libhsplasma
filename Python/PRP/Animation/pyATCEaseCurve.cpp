@@ -30,98 +30,21 @@ static PyObject* pyATCEaseCurve_new(PyTypeObject* type, PyObject* args, PyObject
     return (PyObject*)self;
 }
 
-static PyObject* pyATCEaseCurve_getStartSpeed(pyATCEaseCurve* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getStartSpeed());
-}
-
-static PyObject* pyATCEaseCurve_getSpeed(pyATCEaseCurve* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getSpeed());
-}
-
-static PyObject* pyATCEaseCurve_getMinLength(pyATCEaseCurve* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getMinLength());
-}
-
-static PyObject* pyATCEaseCurve_getMaxLength(pyATCEaseCurve* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getMaxLength());
-}
-
-static PyObject* pyATCEaseCurve_getLength(pyATCEaseCurve* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getLength());
-}
-
-static PyObject* pyATCEaseCurve_getBegin(pyATCEaseCurve* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getBeginWorldTime());
-}
-
-static int pyATCEaseCurve_setStartSpeed(pyATCEaseCurve* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "startSpeed should be a float");
-        return -1;
-    }
-    self->fThis->setStartSpeed(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyATCEaseCurve_setSpeed(pyATCEaseCurve* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "speed should be a float");
-        return -1;
-    }
-    self->fThis->setSpeed(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyATCEaseCurve_setMinLength(pyATCEaseCurve* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "minLength should be a float");
-        return -1;
-    }
-    self->fThis->setLengthBounds(PyFloat_AsDouble(value), self->fThis->getMaxLength());
-    return 0;
-}
-
-static int pyATCEaseCurve_setMaxLength(pyATCEaseCurve* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "maxLength should be a float");
-        return -1;
-    }
-    self->fThis->setLengthBounds(self->fThis->getMinLength(), PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyATCEaseCurve_setLength(pyATCEaseCurve* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "length should be a float");
-        return -1;
-    }
-    self->fThis->setLength(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyATCEaseCurve_setBegin(pyATCEaseCurve* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "beginWorldTime should be a float");
-        return -1;
-    }
-    self->fThis->setBeginWorldTime(PyFloat_AsDouble(value));
-    return 0;
-}
+PY_PROPERTY(float, ATCEaseCurve, startSpeed, getStartSpeed, setStartSpeed)
+PY_PROPERTY(float, ATCEaseCurve, speed, getSpeed, setSpeed)
+PY_PROPERTY(float, ATCEaseCurve, minLength, getMinLength, setMinLength)
+PY_PROPERTY(float, ATCEaseCurve, maxLength, getMaxLength, setMaxLength)
+PY_PROPERTY(float, ATCEaseCurve, length, getLength, setLength)
+PY_PROPERTY(double, ATCEaseCurve, beginWorldTime, getBeginWorldTime, setBeginWorldTime)
 
 static PyGetSetDef pyATCEaseCurve_GetSet[] = {
-    { _pycs("startSpeed"), (getter)pyATCEaseCurve_getStartSpeed,
-        (setter)pyATCEaseCurve_setStartSpeed, NULL, NULL },
-    { _pycs("speed"), (getter)pyATCEaseCurve_getSpeed,
-        (setter)pyATCEaseCurve_setSpeed, NULL, NULL },
-    { _pycs("minLength"), (getter)pyATCEaseCurve_getMinLength,
-        (setter)pyATCEaseCurve_setMinLength, NULL, NULL },
-    { _pycs("maxLength"), (getter)pyATCEaseCurve_getMaxLength,
-        (setter)pyATCEaseCurve_setMaxLength, NULL, NULL },
-    { _pycs("length"), (getter)pyATCEaseCurve_getLength,
-        (setter)pyATCEaseCurve_setLength, NULL, NULL },
-    { _pycs("beginWorldTime"), (getter)pyATCEaseCurve_getBegin,
-        (setter)pyATCEaseCurve_setBegin, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyATCEaseCurve_startSpeed_getset,
+    pyATCEaseCurve_speed_getset,
+    pyATCEaseCurve_minLength_getset,
+    pyATCEaseCurve_maxLength_getset,
+    pyATCEaseCurve_length_getset,
+    pyATCEaseCurve_beginWorldTime_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyATCEaseCurve_Type = {

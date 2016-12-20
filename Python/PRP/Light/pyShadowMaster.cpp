@@ -31,98 +31,21 @@ static PyObject* pyShadowMaster_new(PyTypeObject* type, PyObject* args, PyObject
     return (PyObject*)self;
 }
 
-static PyObject* pyShadowMaster_getAttenDist(pyShadowMaster* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getAttenDist());
-}
-
-static PyObject* pyShadowMaster_getMaxDist(pyShadowMaster* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getMaxDist());
-}
-
-static PyObject* pyShadowMaster_getMinDist(pyShadowMaster* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getMinDist());
-}
-
-static PyObject* pyShadowMaster_getPower(pyShadowMaster* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getPower());
-}
-
-static PyObject* pyShadowMaster_getMaxSize(pyShadowMaster* self, void*) {
-    return PyInt_FromLong(self->fThis->getMaxSize());
-}
-
-static PyObject* pyShadowMaster_getMinSize(pyShadowMaster* self, void*) {
-    return PyInt_FromLong(self->fThis->getMinSize());
-}
-
-static int pyShadowMaster_setAttenDist(pyShadowMaster* self, PyObject* value, void*) {
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "attenDist should be a float");
-        return -1;
-    }
-    self->fThis->setAttenDist(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyShadowMaster_setMaxDist(pyShadowMaster* self, PyObject* value, void*) {
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "maxDist should be a float");
-        return -1;
-    }
-    self->fThis->setDist(self->fThis->getMinDist(), PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyShadowMaster_setMinDist(pyShadowMaster* self, PyObject* value, void*) {
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "minDist should be a float");
-        return -1;
-    }
-    self->fThis->setDist(PyFloat_AsDouble(value), self->fThis->getMaxDist());
-    return 0;
-}
-
-static int pyShadowMaster_setPower(pyShadowMaster* self, PyObject* value, void*) {
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "power should be a float");
-        return -1;
-    }
-    self->fThis->setPower(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyShadowMaster_setMaxSize(pyShadowMaster* self, PyObject* value, void*) {
-    if (!PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "maxSize should be an int");
-        return -1;
-    }
-    self->fThis->setSize(self->fThis->getMinSize(), PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyShadowMaster_setMinSize(pyShadowMaster* self, PyObject* value, void*) {
-    if (!PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "minSize should be an int");
-        return -1;
-    }
-    self->fThis->setSize(PyInt_AsLong(value), self->fThis->getMaxSize());
-    return 0;
-}
+PY_PROPERTY(float, ShadowMaster, attenDist, getAttenDist, setAttenDist)
+PY_PROPERTY(float, ShadowMaster, maxDist, getMaxDist, setMaxDist)
+PY_PROPERTY(float, ShadowMaster, minDist, getMinDist, setMinDist)
+PY_PROPERTY(float, ShadowMaster, power, getPower, setPower)
+PY_PROPERTY(unsigned int, ShadowMaster, maxSize, getMaxSize, setMaxSize)
+PY_PROPERTY(unsigned int, ShadowMaster, minSize, getMinSize, setMinSize)
 
 static PyGetSetDef pyShadowMaster_GetSet[] = {
-    { _pycs("attenDist"), (getter)pyShadowMaster_getAttenDist,
-        (setter)pyShadowMaster_setAttenDist, NULL, NULL },
-    { _pycs("maxDist"), (getter)pyShadowMaster_getMaxDist,
-        (setter)pyShadowMaster_setMaxDist, NULL, NULL },
-    { _pycs("minDist"), (getter)pyShadowMaster_getMinDist,
-        (setter)pyShadowMaster_setMinDist, NULL, NULL },
-    { _pycs("power"), (getter)pyShadowMaster_getPower,
-        (setter)pyShadowMaster_setPower, NULL, NULL },
-    { _pycs("maxSize"), (getter)pyShadowMaster_getMaxSize,
-        (setter)pyShadowMaster_setMaxSize, NULL, NULL },
-    { _pycs("minSize"), (getter)pyShadowMaster_getMinSize,
-        (setter)pyShadowMaster_setMinSize, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyShadowMaster_attenDist_getset,
+    pyShadowMaster_maxDist_getset,
+    pyShadowMaster_minDist_getset,
+    pyShadowMaster_power_getset,
+    pyShadowMaster_maxSize_getset,
+    pyShadowMaster_minSize_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyShadowMaster_Type = {

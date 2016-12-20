@@ -30,61 +30,15 @@ static PyObject* pyCollisionEventData_new(PyTypeObject* type, PyObject* args, Py
     return (PyObject*)self;
 }
 
-static PyObject* pyCollisionEventData_getEnter(pyCollisionEventData* self, void*) {
-    return PyBool_FromLong(self->fThis->isEnter());
-}
-
-static PyObject* pyCollisionEventData_getHitter(pyCollisionEventData* self, void*) {
-    return pyKey_FromKey(self->fThis->getHitter());
-}
-
-static PyObject* pyCollisionEventData_getHittee(pyCollisionEventData* self, void*) {
-    return pyKey_FromKey(self->fThis->getHittee());
-}
-
-static int pyCollisionEventData_setEnter(pyCollisionEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "enter should be a bool");
-        return -1;
-    }
-    self->fThis->setEnter(PyInt_AsLong(value) != 0);
-    return 0;
-}
-
-static int pyCollisionEventData_setHitter(pyCollisionEventData* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setHitter(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setHitter(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "hitter should be a plKey");
-        return -1;
-    }
-}
-
-static int pyCollisionEventData_setHittee(pyCollisionEventData* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setHittee(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setHittee(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "hittee should be a plKey");
-        return -1;
-    }
-}
+PY_PROPERTY(bool, CollisionEventData, enter, isEnter, setEnter)
+PY_PROPERTY(plKey, CollisionEventData, hitter, getHitter, setHitter)
+PY_PROPERTY(plKey, CollisionEventData, hittee, getHittee, setHittee)
 
 static PyGetSetDef pyCollisionEventData_GetSet[] = {
-    { _pycs("enter"), (getter)pyCollisionEventData_getEnter,
-        (setter)pyCollisionEventData_setEnter, NULL, NULL },
-    { _pycs("hitter"), (getter)pyCollisionEventData_getHitter,
-        (setter)pyCollisionEventData_setHitter, NULL, NULL },
-    { _pycs("hittee"), (getter)pyCollisionEventData_getHittee,
-        (setter)pyCollisionEventData_setHittee, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyCollisionEventData_enter_getset,
+    pyCollisionEventData_hitter_getset,
+    pyCollisionEventData_hittee_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyCollisionEventData_Type = {

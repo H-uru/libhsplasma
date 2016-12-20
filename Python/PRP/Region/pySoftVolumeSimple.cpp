@@ -31,40 +31,14 @@ static PyObject* pySoftVolumeSimple_new(PyTypeObject* type, PyObject* args, PyOb
     return (PyObject*)self;
 }
 
-static PyObject* pySoftVolumeSimple_getVolume(pySoftVolumeSimple* self, void*) {
-    return ICreate(self->fThis->getVolume());
-}
-
-static PyObject* pySoftVolumeSimple_getSoftDist(pySoftVolumeSimple* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getSoftDist());
-}
-
-static int pySoftVolumeSimple_setVolume(pySoftVolumeSimple* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setVolume(NULL);
-        return 0;
-    } else if (pyVolumeIsect_Check(value)) {
-        self->fThis->setVolume(((pyVolumeIsect*)value)->fThis);
-        ((pyVolumeIsect*)value)->fPyOwned = false;
-        return 0;
-    }
-    PyErr_SetString(PyExc_TypeError, "volume should be a plVolumeIsect");
-    return -1;
-}
-
-static int pySoftVolumeSimple_setSoftDist(pySoftVolumeSimple* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "softDist should be a float");
-        return -1;
-    }
-    self->fThis->setSoftDist((float)PyFloat_AsDouble(value));
-    return 0;
-}
+PY_PROPERTY_CREATABLE(plVolumeIsect, VolumeIsect, SoftVolumeSimple, volume,
+                      getVolume, setVolume)
+PY_PROPERTY(float, SoftVolumeSimple, softDist, getSoftDist, setSoftDist)
 
 PyGetSetDef pySoftVolumeSimple_GetSet[] = {
-    { _pycs("volume"), (getter)pySoftVolumeSimple_getVolume, (setter)pySoftVolumeSimple_setVolume, NULL, NULL },
-    { _pycs("softDist"), (getter)pySoftVolumeSimple_getSoftDist, (setter)pySoftVolumeSimple_setSoftDist, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pySoftVolumeSimple_volume_getset,
+    pySoftVolumeSimple_softDist_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pySoftVolumeSimple_Type = {

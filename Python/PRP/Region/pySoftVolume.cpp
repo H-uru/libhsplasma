@@ -27,50 +27,15 @@ static PyObject* pySoftVolume_new(PyTypeObject* type, PyObject* args, PyObject* 
     return NULL;
 }
 
-static PyObject* pySoftVolume_getListenState(pySoftVolume* self, void*) {
-    return PyInt_FromLong(self->fThis->getListenState());
-}
-
-static PyObject* pySoftVolume_getInsideStrength(pySoftVolume* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getInsideStrength());
-}
-
-static PyObject* pySoftVolume_getOutsideStrength(pySoftVolume* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getOutsideStrength());
-}
-
-static int pySoftVolume_setListenState(pySoftVolume* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "listenState should be an int");
-        return -1;
-    }
-    self->fThis->setListenState(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pySoftVolume_setInsideStrength(pySoftVolume* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "insideStrength should be a float");
-        return -1;
-    }
-    self->fThis->setInsideStrength((float)PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pySoftVolume_setOutsideStrength(pySoftVolume* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "outsideStrength should be a float");
-        return -1;
-    }
-    self->fThis->setOutsideStrength((float)PyFloat_AsDouble(value));
-    return 0;
-}
+PY_PROPERTY(unsigned int, SoftVolume, listenState, getListenState, setListenState)
+PY_PROPERTY(float, SoftVolume, insideStrength, getInsideStrength, setInsideStrength)
+PY_PROPERTY(float, SoftVolume, outsideStrength, getOutsideStrength, setOutsideStrength)
 
 PyGetSetDef pySoftVolume_GetSet[] = {
-    { _pycs("listenState"), (getter)pySoftVolume_getListenState, (setter)pySoftVolume_setListenState, NULL, NULL },
-    { _pycs("insideStrength"), (getter)pySoftVolume_getInsideStrength, (setter)pySoftVolume_setInsideStrength, NULL, NULL },
-    { _pycs("outsideStrength"), (getter)pySoftVolume_getOutsideStrength, (setter)pySoftVolume_setOutsideStrength, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pySoftVolume_listenState_getset,
+    pySoftVolume_insideStrength_getset,
+    pySoftVolume_outsideStrength_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pySoftVolume_Type = {

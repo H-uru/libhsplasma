@@ -72,45 +72,6 @@ static PyObject* pySpaceTreeNode_setLeafIndex(pySpaceTreeNode* self, PyObject* a
     return Py_None;
 }
 
-static PyObject* pySpaceTreeNode_getBounds(pySpaceTreeNode* self, void*) {
-    return ICreateBounds(self->fThis->getBounds());
-}
-
-static PyObject* pySpaceTreeNode_getFlags(pySpaceTreeNode* self, void*) {
-    return PyInt_FromLong(self->fThis->getFlags());
-}
-
-static PyObject* pySpaceTreeNode_getParent(pySpaceTreeNode* self, void*) {
-    return PyInt_FromLong(self->fThis->getParent());
-}
-
-static int pySpaceTreeNode_setBounds(pySpaceTreeNode* self, PyObject* value, void*) {
-    if (value == NULL || !pyBounds3Ext_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "bounds should be an hsBounds3Ext");
-        return -1;
-    }
-    self->fThis->setBounds(*((pyBounds3Ext*)value)->fThis);
-    return 0;
-}
-
-static int pySpaceTreeNode_setFlags(pySpaceTreeNode* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "flags should be an int");
-        return -1;
-    }
-    self->fThis->setFlags(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pySpaceTreeNode_setParent(pySpaceTreeNode* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "parent should be an int");
-        return -1;
-    }
-    self->fThis->setParent(PyInt_AsLong(value));
-    return 0;
-}
-
 static PyMethodDef pySpaceTreeNode_Methods[] = {
     { "getChildren", (PyCFunction)pySpaceTreeNode_getChildren, METH_NOARGS,
       "Returns a tuple with the indices of the child nodes" },
@@ -125,14 +86,15 @@ static PyMethodDef pySpaceTreeNode_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY_BOUNDS(Bounds3Ext, SpaceTreeNode, bounds, getBounds, setBounds)
+PY_PROPERTY(unsigned short, SpaceTreeNode, flags, getFlags, setFlags)
+PY_PROPERTY(short, SpaceTreeNode, parent, getParent, setParent)
+
 static PyGetSetDef pySpaceTreeNode_GetSet[] = {
-    { _pycs("bounds"), (getter)pySpaceTreeNode_getBounds,
-        (setter)pySpaceTreeNode_setBounds, NULL, NULL },
-    { _pycs("flags"), (getter)pySpaceTreeNode_getFlags,
-        (setter)pySpaceTreeNode_setFlags, NULL, NULL },
-    { _pycs("parent"), (getter)pySpaceTreeNode_getParent,
-        (setter)pySpaceTreeNode_setParent, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pySpaceTreeNode_bounds_getset,
+    pySpaceTreeNode_flags_getset,
+    pySpaceTreeNode_parent_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pySpaceTreeNode_Type = {

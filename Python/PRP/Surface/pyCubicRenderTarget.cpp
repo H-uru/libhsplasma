@@ -71,7 +71,7 @@ static PyGetSetDef pyCubicRenderTarget_GetSet[] = {
     { _pycs("topFace"), (getter)pyCubicRenderTarget_getTopFace, NULL, NULL, NULL },
     { _pycs("bottomFace"), (getter)pyCubicRenderTarget_getBottomFace, NULL, NULL, NULL },
     { _pycs("faces"), (getter)pyCubicRenderTarget_getFaces, NULL, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyCubicRenderTarget_Type = {

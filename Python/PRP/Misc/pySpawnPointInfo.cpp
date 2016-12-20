@@ -29,53 +29,15 @@ static PyObject* pySpawnPointInfo_new(PyTypeObject* type, PyObject*, PyObject*) 
     return (PyObject*)self;
 }
 
-static PyObject* pySpawnPointInfo_getTitle(pySpawnPointInfo* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getTitle());
-}
-
-static PyObject* pySpawnPointInfo_getSpawnPt(pySpawnPointInfo* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getSpawnPt());
-}
-
-static PyObject* pySpawnPointInfo_getCameraStack(pySpawnPointInfo* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getCameraStack());
-}
-
-static int pySpawnPointInfo_setTitle(pySpawnPointInfo* self, PyObject* value, void*) {
-    if (value == NULL || !PyAnyStr_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "title should be a string");
-        return -1;
-    }
-    self->fThis->setTitle(PyStr_To_PlStr(value));
-    return 0;
-}
-
-static int pySpawnPointInfo_setSpawnPt(pySpawnPointInfo* self, PyObject* value, void*) {
-    if (value == NULL || !PyAnyStr_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "spawnPt should be a string");
-        return -1;
-    }
-    self->fThis->setSpawnPt(PyStr_To_PlStr(value));
-    return 0;
-}
-
-static int pySpawnPointInfo_setCameraStack(pySpawnPointInfo* self, PyObject* value, void*) {
-    if (value == NULL || !PyAnyStr_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "cameraStack should be a string");
-        return -1;
-    }
-    self->fThis->setCameraStack(PyStr_To_PlStr(value));
-    return 0;
-}
+PY_PROPERTY(plString, SpawnPointInfo, title, getTitle, setTitle)
+PY_PROPERTY(plString, SpawnPointInfo, spawnPt, getSpawnPt, setSpawnPt)
+PY_PROPERTY(plString, SpawnPointInfo, cameraStack, getCameraStack, setCameraStack)
 
 PyGetSetDef pySpawnPointInfo_GetSet[] = {
-    { _pycs("title"), (getter)pySpawnPointInfo_getTitle,
-      (setter)pySpawnPointInfo_setTitle, NULL, NULL },
-    { _pycs("spawnPt"), (getter)pySpawnPointInfo_getSpawnPt,
-      (setter)pySpawnPointInfo_setSpawnPt, NULL, NULL },
-    { _pycs("cameraStack"), (getter)pySpawnPointInfo_getCameraStack,
-     (setter)pySpawnPointInfo_setCameraStack, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pySpawnPointInfo_title_getset,
+    pySpawnPointInfo_spawnPt_getset,
+    pySpawnPointInfo_cameraStack_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pySpawnPointInfo_Type = {

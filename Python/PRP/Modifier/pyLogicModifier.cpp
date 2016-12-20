@@ -70,39 +70,9 @@ static PyObject* pyLogicModifier_getConditions(pyLogicModifier* self, void*) {
     return list;
 }
 
-static PyObject* pyLogicModifier_getCursor(pyLogicModifier* self, void*) {
-    return PyInt_FromLong(self->fThis->getCursor());
-}
-
-static PyObject* pyLogicModifier_getParent(pyLogicModifier* self, void*) {
-    return pyKey_FromKey(self->fThis->getParent());
-}
-
 static int pyLogicModifier_setConditions(pyLogicModifier* self, PyObject* value, void*) {
     PyErr_SetString(PyExc_RuntimeError, "to add conditions, use addCondition");
     return -1;
-}
-
-static int pyLogicModifier_setCursor(pyLogicModifier* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "cursor should be an int");
-        return -1;
-    }
-    self->fThis->setCursor(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyLogicModifier_setParent(pyLogicModifier* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setParent(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setParent(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "parent should be a plKey");
-        return -1;
-    }
 }
 
 static PyMethodDef pyLogicModifier_Methods[] = {
@@ -117,14 +87,15 @@ static PyMethodDef pyLogicModifier_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(unsigned int, LogicModifier, cursor, getCursor, setCursor)
+PY_PROPERTY(plKey, LogicModifier, parent, getParent, setParent)
+
 static PyGetSetDef pyLogicModifier_GetSet[] = {
     { _pycs("conditions"), (getter)pyLogicModifier_getConditions,
         (setter)pyLogicModifier_setConditions, NULL, NULL },
-    { _pycs("cursor"), (getter)pyLogicModifier_getCursor,
-        (setter)pyLogicModifier_setCursor, NULL, NULL },
-    { _pycs("parent"), (getter)pyLogicModifier_getParent,
-        (setter)pyLogicModifier_setParent, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyLogicModifier_cursor_getset,
+    pyLogicModifier_parent_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyLogicModifier_Type = {

@@ -192,125 +192,6 @@ static PyObject* pyAgeInfo_getCommonPageLoc(pyAgeInfo* self, PyObject* args) {
     }
 }
 
-static PyObject* pyAgeInfo_getName(pyAgeInfo* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getAgeName());
-}
-
-static PyObject* pyAgeInfo_getStartDateTime(pyAgeInfo* self, void*) {
-    return PyInt_FromLong(self->fThis->getStartDateTime());
-}
-
-static PyObject* pyAgeInfo_getDayLength(pyAgeInfo* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getDayLength());
-}
-
-static PyObject* pyAgeInfo_getMaxCapacity(pyAgeInfo* self, void*) {
-    return PyInt_FromLong(self->fThis->getMaxCapacity());
-}
-
-static PyObject* pyAgeInfo_getLingerTime(pyAgeInfo* self, void*) {
-    return PyInt_FromLong(self->fThis->getLingerTime());
-}
-
-static PyObject* pyAgeInfo_getSeqPrefix(pyAgeInfo* self, void*) {
-    return PyInt_FromLong(self->fThis->getSeqPrefix());
-}
-
-static PyObject* pyAgeInfo_getReleaseVersion(pyAgeInfo* self, void*) {
-    return PyInt_FromLong(self->fThis->getReleaseVersion());
-}
-
-static int pyAgeInfo_setName(pyAgeInfo* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setAgeName("");
-    } else {
-        if (!PyAnyStr_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "name must be a string");
-            return -1;
-        }
-        self->fThis->setAgeName(PyStr_To_PlStr(value));
-    }
-    return 0;
-}
-
-static int pyAgeInfo_setStartDateTime(pyAgeInfo* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setStartDateTime(0);
-    } else {
-        if (!PyInt_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "startDateTime must be an int");
-            return -1;
-        }
-        self->fThis->setStartDateTime(PyInt_AsLong(value));
-    }
-    return 0;
-}
-
-static int pyAgeInfo_setDayLength(pyAgeInfo* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setDayLength(0.0f);
-    } else {
-        if (!PyFloat_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "dayLength must be a float");
-            return -1;
-        }
-        self->fThis->setDayLength(PyFloat_AsDouble(value));
-    }
-    return 0;
-}
-
-static int pyAgeInfo_setMaxCapacity(pyAgeInfo* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setMaxCapacity(0);
-    } else {
-        if (!PyInt_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "maxCapacity must be an int");
-            return -1;
-        }
-        self->fThis->setMaxCapacity(PyInt_AsLong(value));
-    }
-    return 0;
-}
-
-static int pyAgeInfo_setLingerTime(pyAgeInfo* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setLingerTime(0);
-    } else {
-        if (!PyInt_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "lingerTime must be an int");
-            return -1;
-        }
-        self->fThis->setLingerTime(PyInt_AsLong(value));
-    }
-    return 0;
-}
-
-static int pyAgeInfo_setSeqPrefix(pyAgeInfo* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setSeqPrefix(-1);
-    } else {
-        if (!PyInt_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "seqPrefix must be an int");
-            return -1;
-        }
-        self->fThis->setSeqPrefix(PyInt_AsLong(value));
-    }
-    return 0;
-}
-
-static int pyAgeInfo_setReleaseVersion(pyAgeInfo* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setReleaseVersion(0);
-    } else {
-        if (!PyInt_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "releaseVersion must be an int");
-            return -1;
-        }
-        self->fThis->setReleaseVersion(PyInt_AsLong(value));
-    }
-    return 0;
-}
-
 static PyMethodDef pyAgeInfo_Methods[] = {
     { "readFromFile", (PyCFunction)pyAgeInfo_readFromFile, METH_VARARGS,
       "Params: filename\n"
@@ -350,22 +231,23 @@ static PyMethodDef pyAgeInfo_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(plString, AgeInfo, name, getAgeName, setAgeName)
+PY_PROPERTY(unsigned int, AgeInfo, startDateTime, getStartDateTime, setStartDateTime)
+PY_PROPERTY(float, AgeInfo, dayLength, getDayLength, setDayLength)
+PY_PROPERTY(short, AgeInfo, maxCapacity, getMaxCapacity, setMaxCapacity)
+PY_PROPERTY(short, AgeInfo, lingerTime, getLingerTime, setLingerTime)
+PY_PROPERTY(int, AgeInfo, seqPrefix, getSeqPrefix, setSeqPrefix)
+PY_PROPERTY(unsigned int, AgeInfo, releaseVersion, getReleaseVersion, setReleaseVersion)
+
 static PyGetSetDef pyAgeInfo_GetSet[] = {
-    { _pycs("name"), (getter)pyAgeInfo_getName, (setter)pyAgeInfo_setName,
-        _pycs("The Name of the age"), NULL },
-    { _pycs("startDateTime"), (getter)pyAgeInfo_getStartDateTime,
-        (setter)pyAgeInfo_setStartDateTime, NULL, NULL },
-    { _pycs("dayLength"), (getter)pyAgeInfo_getDayLength,
-        (setter)pyAgeInfo_setDayLength, NULL, NULL },
-    { _pycs("maxCapacity"), (getter)pyAgeInfo_getMaxCapacity,
-        (setter)pyAgeInfo_setMaxCapacity, NULL, NULL },
-    { _pycs("lingerTime"), (getter)pyAgeInfo_getLingerTime,
-        (setter)pyAgeInfo_setLingerTime, NULL, NULL },
-    { _pycs("seqPrefix"), (getter)pyAgeInfo_getSeqPrefix,
-        (setter)pyAgeInfo_setSeqPrefix, NULL, NULL },
-    { _pycs("releaseVersion"), (getter)pyAgeInfo_getReleaseVersion,
-        (setter)pyAgeInfo_setReleaseVersion, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyAgeInfo_name_getset,
+    pyAgeInfo_startDateTime_getset,
+    pyAgeInfo_dayLength_getset,
+    pyAgeInfo_maxCapacity_getset,
+    pyAgeInfo_lingerTime_getset,
+    pyAgeInfo_seqPrefix_getset,
+    pyAgeInfo_releaseVersion_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyAgeInfo_Type = {

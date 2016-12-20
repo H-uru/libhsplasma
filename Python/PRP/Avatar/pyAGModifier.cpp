@@ -30,50 +30,15 @@ static PyObject* pyAGModifier_new(PyTypeObject* type, PyObject* args, PyObject* 
     return (PyObject*)self;
 }
 
-static PyObject* pyAGModifier_getChannelName(pyAGModifier* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getChannelName());
-}
-
-static PyObject* pyAGModifier_getAutoApply(pyAGModifier* self, void*) {
-    return PyBool_FromLong(self->fThis->getAutoApply() ? 1 : 0);
-}
-
-static PyObject* pyAGModifier_getEnabled(pyAGModifier* self, void*) {
-    return PyBool_FromLong(self->fThis->getEnabled() ? 1 : 0);
-}
-
-static int pyAGModifier_setChannelName(pyAGModifier* self, PyObject* value, void*) {
-    if (value == NULL || !PyAnyStr_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "channelName should be a string");
-        return -1;
-    }
-    self->fThis->setChannelName(PyStr_To_PlStr(value));
-    return 0;
-}
-
-static int pyAGModifier_setAutoApply(pyAGModifier* self, PyObject* value, void*) {
-    if (value == NULL || !PyBool_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "autoApply should be a boolean");
-        return -1;
-    }
-    self->fThis->setAutoApply(PyInt_AsLong(value) != 0);
-    return 0;
-}
-
-static int pyAGModifier_setEnabled(pyAGModifier* self, PyObject* value, void*) {
-    if (value == NULL || !PyBool_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "enabled should be a boolean");
-        return -1;
-    }
-    self->fThis->setEnabled(PyInt_AsLong(value) != 0);
-    return 0;
-}
+PY_PROPERTY(plString, AGModifier, channelName, getChannelName, setChannelName)
+PY_PROPERTY(bool, AGModifier, autoApply, getAutoApply, setAutoApply)
+PY_PROPERTY(bool, AGModifier, enabled, getEnabled, setEnabled)
 
 static PyGetSetDef pyAGModifier_GetSet[] = {
-    { _pycs("channelName"), (getter)pyAGModifier_getChannelName, (setter)pyAGModifier_setChannelName, NULL, NULL },
-    { _pycs("autoApply"), (getter)pyAGModifier_getAutoApply, (setter)pyAGModifier_setAutoApply, NULL, NULL },
-    { _pycs("enabled"), (getter)pyAGModifier_getEnabled, (setter)pyAGModifier_setEnabled, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyAGModifier_channelName_getset,
+    pyAGModifier_autoApply_getset,
+    pyAGModifier_enabled_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyAGModifier_Type = {

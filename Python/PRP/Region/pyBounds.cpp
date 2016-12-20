@@ -73,19 +73,6 @@ static PyObject* pyBounds_write(pyBounds* self, PyObject* args) {
     return Py_None;
 }
 
-static PyObject* pyBounds_getType(pyBounds* self, void*) {
-    return PyInt_FromLong(self->fThis->getType());
-}
-
-static int pyBounds_setType(pyBounds* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "type should be an int");
-        return -1;
-    }
-    self->fThis->setType(PyInt_AsLong(value));
-    return 0;
-}
-
 static PyMethodDef pyBounds_Methods[] = {
     { "ClassName", (PyCFunction)pyBounds_ClassName, METH_NOARGS,
       "Returns the RTTI Class name of this Bounds object" },
@@ -98,9 +85,11 @@ static PyMethodDef pyBounds_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(int, Bounds, type, getType, setType)
+
 static PyGetSetDef pyBounds_GetSet[] = {
-    { _pycs("type"), (getter)pyBounds_getType, (setter)pyBounds_setType, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyBounds_type_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyBounds_Type = {

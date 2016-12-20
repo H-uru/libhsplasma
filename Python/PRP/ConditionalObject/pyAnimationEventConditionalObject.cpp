@@ -31,42 +31,13 @@ static PyObject* pyAnimationEventConditionalObject_new(PyTypeObject* type, PyObj
     return (PyObject*)self;
 }
 
-static PyObject* pyAnimationEventConditionalObject_getAction(pyAnimationEventConditionalObject* self, void*) {
-    return PyInt_FromLong(self->fThis->getAction());
-}
-
-static PyObject* pyAnimationEventConditionalObject_getTarget(pyAnimationEventConditionalObject* self, void*) {
-    return pyKey_FromKey(self->fThis->getTarget());
-}
-
-static int pyAnimationEventConditionalObject_setAction(pyAnimationEventConditionalObject* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "action should be an int");
-        return -1;
-    }
-    self->fThis->setAction((CallbackEvent)PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyAnimationEventConditionalObject_setTarget(pyAnimationEventConditionalObject* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setTarget(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setTarget(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "target expects a plKey");
-        return -1;
-    }
-}
+PY_PROPERTY(CallbackEvent, AnimationEventConditionalObject, action, getAction, setAction)
+PY_PROPERTY(plKey, AnimationEventConditionalObject, target, getTarget, setTarget)
 
 static PyGetSetDef pyAnimationEventConditionalObject_GetSet[] = {
-    { _pycs("action"), (getter)pyAnimationEventConditionalObject_getAction,
-       (setter)pyAnimationEventConditionalObject_setAction, NULL, NULL },
-    { _pycs("target"), (getter)pyAnimationEventConditionalObject_getTarget,
-       (setter)pyAnimationEventConditionalObject_setTarget, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyAnimationEventConditionalObject_action_getset,
+    pyAnimationEventConditionalObject_target_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyAnimationEventConditionalObject_Type = {

@@ -30,23 +30,11 @@ static PyObject* pyAgeGlobalAnim_new(PyTypeObject* type, PyObject* args, PyObjec
     return (PyObject*)self;
 }
 
-static PyObject* pyAgeGlobalAnim_getGlobalVarName(pyAgeGlobalAnim* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getVarName());
-}
-
-static int pyAgeGlobalAnim_setGlobalVarName(pyAgeGlobalAnim* self, PyObject* value, void*) {
-    if (value == NULL || !PyAnyStr_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "globalVarName should be a string");
-        return -1;
-    }
-    self->fThis->setVarName(PyStr_To_PlStr(value));
-    return 0;
-}
+PY_PROPERTY(plString, AgeGlobalAnim, globalVarName, getGlobalVarName, setGlobalVarName)
 
 static PyGetSetDef pyAgeGlobalAnim_GetSet[] = {
-    { _pycs("globalVarName"), (getter)pyAgeGlobalAnim_getGlobalVarName,
-        (setter)pyAgeGlobalAnim_setGlobalVarName, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyAgeGlobalAnim_globalVarName_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyAgeGlobalAnim_Type = {

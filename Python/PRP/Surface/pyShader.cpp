@@ -38,18 +38,6 @@ static PyObject* pyShader_getConsts(pyShader* self, void*) {
     return list;
 }
 
-static PyObject* pyShader_getID(pyShader* self, void*) {
-    return PyInt_FromLong(self->fThis->getID());
-}
-
-static PyObject* pyShader_getInput(pyShader* self, void*) {
-    return PyInt_FromLong(self->fThis->getInput());
-}
-
-static PyObject* pyShader_getOutput(pyShader* self, void*) {
-    return PyInt_FromLong(self->fThis->getOutput());
-}
-
 static int pyShader_setConsts(pyShader* self, PyObject* value, void*) {
     if (value == NULL || value == Py_None) {
         self->fThis->setConsts(std::vector<plShaderConst>());
@@ -72,39 +60,16 @@ static int pyShader_setConsts(pyShader* self, PyObject* value, void*) {
     }
 }
 
-static int pyShader_setID(pyShader* self, PyObject* value, void*) {
-    if (!PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "id should be an int");
-        return -1;
-    }
-    self->fThis->setID((plShader::plShaderID)PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyShader_setInput(pyShader* self, PyObject* value, void*) {
-    if (!PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "input should be an int");
-        return -1;
-    }
-    self->fThis->setInput(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyShader_setOutput(pyShader* self, PyObject* value, void*) {
-    if (!PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "output should be an int");
-        return -1;
-    }
-    self->fThis->setOutput(PyInt_AsLong(value));
-    return 0;
-}
+PY_PROPERTY(plShader::plShaderID, Shader, id, getID, setID)
+PY_PROPERTY(unsigned char, Shader, input, getInput, setInput)
+PY_PROPERTY(unsigned char, Shader, output, getOutput, setOutput)
 
 static PyGetSetDef pyShader_GetSet[] = {
     { _pycs("constants"), (getter)pyShader_getConsts, (setter)pyShader_setConsts, NULL, NULL },
-    { _pycs("id"), (getter)pyShader_getID, (setter)pyShader_setID, NULL, NULL },
-    { _pycs("input"), (getter)pyShader_getInput, (setter)pyShader_setInput, NULL, NULL },
-    { _pycs("output"), (getter)pyShader_getOutput, (setter)pyShader_setOutput, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyShader_id_getset,
+    pyShader_input_getset,
+    pyShader_output_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyShader_Type = {

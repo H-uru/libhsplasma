@@ -125,78 +125,6 @@ static PyMethodDef pyGenericPhysical_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
-static PyObject* pyGenericPhysical_getMass(pyGenericPhysical* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getMass());
-}
-
-static PyObject* pyGenericPhysical_getFriction(pyGenericPhysical* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getFriction());
-}
-
-static PyObject* pyGenericPhysical_getRestitution(pyGenericPhysical* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getRestitution());
-}
-
-static PyObject* pyGenericPhysical_getBounds(pyGenericPhysical* self, void*) {
-    return PyInt_FromLong(self->fThis->getBoundsType());
-}
-
-static PyObject* pyGenericPhysical_getMemberGroup(pyGenericPhysical* self, void*) {
-    return PyInt_FromLong(self->fThis->getMemberGroup());
-}
-
-static PyObject* pyGenericPhysical_getReportGroup(pyGenericPhysical* self, void*) {
-    return PyInt_FromLong(self->fThis->getReportGroup());
-}
-
-static PyObject* pyGenericPhysical_getCollideGroup(pyGenericPhysical* self, void*) {
-    return PyInt_FromLong(self->fThis->getCollideGroup());
-}
-
-static PyObject* pyGenericPhysical_getLOSDBs(pyGenericPhysical* self, void*) {
-    return PyInt_FromLong(self->fThis->getLOSDBs());
-}
-
-static PyObject* pyGenericPhysical_getObject(pyGenericPhysical* self, void*) {
-    return pyKey_FromKey(self->fThis->getObject());
-}
-
-static PyObject* pyGenericPhysical_getSceneNode(pyGenericPhysical* self, void*) {
-    return pyKey_FromKey(self->fThis->getSceneNode());
-}
-
-static PyObject* pyGenericPhysical_getSubWorld(pyGenericPhysical* self, void*) {
-    return pyKey_FromKey(self->fThis->getSubWorld());
-}
-
-static PyObject* pyGenericPhysical_getSoundGroup(pyGenericPhysical* self, void*) {
-    return pyKey_FromKey(self->fThis->getSoundGroup());
-}
-
-static PyObject* pyGenericPhysical_getPos(pyGenericPhysical* self, void*) {
-    return pyVector3_FromVector3(self->fThis->getPos());
-}
-
-static PyObject* pyGenericPhysical_getRot(pyGenericPhysical* self, void*) {
-    return pyQuat_FromQuat(self->fThis->getRot());
-}
-
-static PyObject* pyGenericPhysical_getDims(pyGenericPhysical* self, void*) {
-    return pyVector3_FromVector3(self->fThis->getDimensions());
-}
-
-static PyObject* pyGenericPhysical_getOffset(pyGenericPhysical* self, void*) {
-    return pyVector3_FromVector3(self->fThis->getOffset());
-}
-
-static PyObject* pyGenericPhysical_getRadius(pyGenericPhysical* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getRadius());
-}
-
-static PyObject* pyGenericPhysical_getLength(pyGenericPhysical* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getLength());
-}
-
 static PyObject* pyGenericPhysical_getVerts(pyGenericPhysical* self, void*) {
     PyObject* list = PyList_New(self->fThis->getVerts().size());
     for (size_t i=0; i<self->fThis->getVerts().size(); i++)
@@ -209,185 +137,6 @@ static PyObject* pyGenericPhysical_getIndices(pyGenericPhysical* self, void*) {
     for (size_t i=0; i<self->fThis->getIndices().size(); i++)
         PyList_SET_ITEM(list, i, PyInt_FromLong(self->fThis->getIndices()[i]));
     return list;
-}
-
-static PyObject* pyGenericPhysical_getTMDBuffer(pyGenericPhysical* self, void*) {
-    return PyBytes_FromStringAndSize((const char*)self->fThis->getTMDBuffer(),
-                                     self->fThis->getTMDSize());
-}
-
-static int pyGenericPhysical_setMass(pyGenericPhysical* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "mass should be a float");
-        return -1;
-    }
-    self->fThis->setMass(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyGenericPhysical_setFriction(pyGenericPhysical* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "friction should be a float");
-        return -1;
-    }
-    self->fThis->setFriction(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyGenericPhysical_setRestitution(pyGenericPhysical* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "restitution should be a float");
-        return -1;
-    }
-    self->fThis->setRestitution(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyGenericPhysical_setBounds(pyGenericPhysical* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "boundsType should be an int");
-        return -1;
-    }
-    self->fThis->setBoundsType((plSimDefs::Bounds)PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyGenericPhysical_setMemberGroup(pyGenericPhysical* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "memberGroup should be an int");
-        return -1;
-    }
-    self->fThis->setMemberGroup(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyGenericPhysical_setReportGroup(pyGenericPhysical* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "reportGroup should be an int");
-        return -1;
-    }
-    self->fThis->setReportGroup(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyGenericPhysical_setCollideGroup(pyGenericPhysical* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "collideGroup should be an int");
-        return -1;
-    }
-    self->fThis->setCollideGroup(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyGenericPhysical_setLOSDBs(pyGenericPhysical* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "LOSDBs should be an int");
-        return -1;
-    }
-    self->fThis->setLOSDBs(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyGenericPhysical_setObject(pyGenericPhysical* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setObject(plKey());
-        return 0;
-    } else if (!pyKey_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "object should be a plKey");
-        return -1;
-    }
-    self->fThis->setObject(*((pyKey*)value)->fThis);
-    return 0;
-}
-
-static int pyGenericPhysical_setSceneNode(pyGenericPhysical* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setSceneNode(plKey());
-        return 0;
-    } else if (!pyKey_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "sceneNode should be a plKey");
-        return -1;
-    }
-    self->fThis->setSceneNode(*((pyKey*)value)->fThis);
-    return 0;
-}
-
-static int pyGenericPhysical_setSubWorld(pyGenericPhysical* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setSubWorld(plKey());
-        return 0;
-    } else if (!pyKey_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "subWorld should be a plKey");
-        return -1;
-    }
-    self->fThis->setSubWorld(*((pyKey*)value)->fThis);
-    return 0;
-}
-
-static int pyGenericPhysical_setSoundGroup(pyGenericPhysical* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setSoundGroup(plKey());
-        return 0;
-    } else if (!pyKey_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "soundGroup should be a plKey");
-        return -1;
-    }
-    self->fThis->setSoundGroup(*((pyKey*)value)->fThis);
-    return 0;
-}
-
-static int pyGenericPhysical_setPos(pyGenericPhysical* self, PyObject* value, void*) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "pos should be an hsVector3");
-        return -1;
-    }
-    self->fThis->setPos(*((pyVector3*)value)->fThis);
-    return 0;
-}
-
-static int pyGenericPhysical_setRot(pyGenericPhysical* self, PyObject* value, void*) {
-    if (value == NULL || !pyQuat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "rot should be an hsQuat");
-        return -1;
-    }
-    self->fThis->setRot(*((pyQuat*)value)->fThis);
-    return 0;
-}
-
-static int pyGenericPhysical_setDims(pyGenericPhysical* self, PyObject* value, void*) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "dimensions should be an hsVector3");
-        return -1;
-    }
-    self->fThis->setDimensions(*((pyVector3*)value)->fThis);
-    return 0;
-}
-
-static int pyGenericPhysical_setOffset(pyGenericPhysical* self, PyObject* value, void*) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "offset should be an hsVector3");
-        return -1;
-    }
-    self->fThis->setOffset(*((pyVector3*)value)->fThis);
-    return 0;
-}
-
-static int pyGenericPhysical_setRadius(pyGenericPhysical* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "radius should be a float");
-        return -1;
-    }
-    self->fThis->setRadius(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyGenericPhysical_setLength(pyGenericPhysical* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "length should be a float");
-        return -1;
-    }
-    self->fThis->setLength(PyFloat_AsDouble(value));
-    return 0;
 }
 
 static int pyGenericPhysical_setVerts(pyGenericPhysical* self, PyObject* value, void*) {
@@ -446,8 +195,39 @@ static int pyGenericPhysical_setIndices(pyGenericPhysical* self, PyObject* value
     return 0;
 }
 
-static int pyGenericPhysical_setTMDBuffer(pyGenericPhysical* self, PyObject* value, void*) {
+PY_PROPERTY(float, GenericPhysical, mass, getMass, setMass)
+PY_PROPERTY(float, GenericPhysical, friction, getFriction, setFriction)
+PY_PROPERTY(float, GenericPhysical, restitution, getRestitution, setRestitution)
+PY_PROPERTY(plSimDefs::Bounds, GenericPhysical, boundsType, getBoundsType,
+            setBoundsType)
+PY_PROPERTY(unsigned int, GenericPhysical, memberGroup, getMemberGroup,
+            setMemberGroup)
+PY_PROPERTY(unsigned int, GenericPhysical, reportGroup, getReportGroup,
+            setReportGroup)
+PY_PROPERTY(unsigned int, GenericPhysical, collideGroup, getCollideGroup,
+            setCollideGroup)
+PY_PROPERTY(unsigned short, GenericPhysical, LOSDBs, getLOSDBs, setLOSDBs)
+PY_PROPERTY(plKey, GenericPhysical, object, getObject, setObject)
+PY_PROPERTY(plKey, GenericPhysical, sceneNode, getSceneNode, setSceneNode)
+PY_PROPERTY(plKey, GenericPhysical, subWorld, getSubWorld, setSubWorld)
+PY_PROPERTY(plKey, GenericPhysical, soundGroup, getSoundGroup, setSoundGroup)
+PY_PROPERTY(hsVector3, GenericPhysical, pos, getPos, setPos)
+PY_PROPERTY(hsQuat, GenericPhysical, rot, getRot, setRot)
+PY_PROPERTY(hsVector3, GenericPhysical, dimensions, getDimensions, setDimensions)
+PY_PROPERTY(hsVector3, GenericPhysical, offset, getOffset, setOffset)
+PY_PROPERTY(float, GenericPhysical, radius, getRadius, setRadius)
+PY_PROPERTY(float, GenericPhysical, length, getLength, setLength)
+
+PY_GETSET_GETTER_DECL(GenericPhysical, TMDBuffer) {
+    return PyBytes_FromStringAndSize((const char*)self->fThis->getTMDBuffer(),
+                                     self->fThis->getTMDSize());
+}
+
+PY_GETSET_SETTER_DECL(GenericPhysical, TMDBuffer) {
     if (value == NULL) {
+        PyErr_SetString(PyExc_RuntimeError, "TMDBuffer cannot be deleted");
+        return -1;
+    } else if (value == Py_None) {
         self->fThis->setTMDBuffer(0, NULL);
         return 0;
     } else if (!PyBytes_Check(value)) {
@@ -461,50 +241,33 @@ static int pyGenericPhysical_setTMDBuffer(pyGenericPhysical* self, PyObject* val
     return 0;
 }
 
+PY_PROPERTY_GETSET_DECL(GenericPhysical, TMDBuffer)
+
 static PyGetSetDef pyGenericPhysical_GetSet[] = {
-    { _pycs("mass"), (getter)pyGenericPhysical_getMass,
-        (setter)pyGenericPhysical_setMass, NULL, NULL },
-    { _pycs("friction"), (getter)pyGenericPhysical_getFriction,
-        (setter)pyGenericPhysical_setFriction, NULL, NULL },
-    { _pycs("restitution"), (getter)pyGenericPhysical_getRestitution,
-        (setter)pyGenericPhysical_setRestitution, NULL, NULL },
-    { _pycs("boundsType"), (getter)pyGenericPhysical_getBounds,
-        (setter)pyGenericPhysical_setBounds, NULL, NULL },
-    { _pycs("memberGroup"), (getter)pyGenericPhysical_getMemberGroup,
-        (setter)pyGenericPhysical_setMemberGroup, NULL, NULL },
-    { _pycs("reportGroup"), (getter)pyGenericPhysical_getReportGroup,
-        (setter)pyGenericPhysical_setReportGroup, NULL, NULL },
-    { _pycs("collideGroup"), (getter)pyGenericPhysical_getCollideGroup,
-        (setter)pyGenericPhysical_setCollideGroup, NULL, NULL },
-    { _pycs("LOSDBs"), (getter)pyGenericPhysical_getLOSDBs,
-        (setter)pyGenericPhysical_setLOSDBs, NULL, NULL },
-    { _pycs("object"), (getter)pyGenericPhysical_getObject,
-        (setter)pyGenericPhysical_setObject, NULL, NULL },
-    { _pycs("sceneNode"), (getter)pyGenericPhysical_getSceneNode,
-        (setter)pyGenericPhysical_setSceneNode, NULL, NULL },
-    { _pycs("subWorld"), (getter)pyGenericPhysical_getSubWorld,
-        (setter)pyGenericPhysical_setSubWorld, NULL, NULL },
-    { _pycs("soundGroup"), (getter)pyGenericPhysical_getSoundGroup,
-        (setter)pyGenericPhysical_setSoundGroup, NULL, NULL },
-    { _pycs("pos"), (getter)pyGenericPhysical_getPos,
-        (setter)pyGenericPhysical_setPos, NULL, NULL },
-    { _pycs("rot"), (getter)pyGenericPhysical_getRot,
-        (setter)pyGenericPhysical_setRot, NULL, NULL },
-    { _pycs("dimensions"), (getter)pyGenericPhysical_getDims,
-        (setter)pyGenericPhysical_setDims, NULL, NULL },
-    { _pycs("offset"), (getter)pyGenericPhysical_getOffset,
-        (setter)pyGenericPhysical_setOffset, NULL, NULL },
-    { _pycs("radius"), (getter)pyGenericPhysical_getRadius,
-        (setter)pyGenericPhysical_setRadius, NULL, NULL },
-    { _pycs("length"), (getter)pyGenericPhysical_getLength,
-        (setter)pyGenericPhysical_setLength, NULL, NULL },
+    pyGenericPhysical_mass_getset,
+    pyGenericPhysical_friction_getset,
+    pyGenericPhysical_restitution_getset,
+    pyGenericPhysical_boundsType_getset,
+    pyGenericPhysical_memberGroup_getset,
+    pyGenericPhysical_reportGroup_getset,
+    pyGenericPhysical_collideGroup_getset,
+    pyGenericPhysical_LOSDBs_getset,
+    pyGenericPhysical_object_getset,
+    pyGenericPhysical_sceneNode_getset,
+    pyGenericPhysical_subWorld_getset,
+    pyGenericPhysical_soundGroup_getset,
+    pyGenericPhysical_pos_getset,
+    pyGenericPhysical_rot_getset,
+    pyGenericPhysical_dimensions_getset,
+    pyGenericPhysical_offset_getset,
+    pyGenericPhysical_radius_getset,
+    pyGenericPhysical_length_getset,
     { _pycs("verts"), (getter)pyGenericPhysical_getVerts,
         (setter)pyGenericPhysical_setVerts, NULL, NULL },
     { _pycs("indices"), (getter)pyGenericPhysical_getIndices,
         (setter)pyGenericPhysical_setIndices, NULL, NULL },
-    { _pycs("TMDBuffer"), (getter)pyGenericPhysical_getTMDBuffer,
-        (setter)pyGenericPhysical_setTMDBuffer, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyGenericPhysical_TMDBuffer_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyGenericPhysical_Type = {

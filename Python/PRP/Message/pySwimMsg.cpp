@@ -31,39 +31,13 @@ static PyObject* pySwimMsg_new(PyTypeObject* type, PyObject* args, PyObject* kwd
     return (PyObject*)self;
 }
 
-static PyObject* pySwimMsg_getIsEntering(pySwimMsg* self, void*) {
-    return PyBool_FromLong(self->fThis->getIsEntering());
-}
-
-static PyObject* pySwimMsg_getSwimRegion(pySwimMsg* self, void*) {
-    return pyKey_FromKey(self->fThis->getSwimRegion());
-}
-
-static int pySwimMsg_setIsEntering(pySwimMsg* self, PyObject* value, void*) {
-    if (PyBool_Check(value)) {
-        self->fThis->setIsEntering(PyInt_AsLong(value));
-        return 0;
-    }
-    PyErr_SetString(PyExc_TypeError, "isEntering should be a boolean");
-    return -1;
-}
-
-static int pySwimMsg_setSwimRegion(pySwimMsg* self, PyObject* value, void*) {
-    if (value == Py_None || value == NULL) {
-        self->fThis->setSwimRegion(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setSwimRegion(*((pyKey*)value)->fThis);
-        return 0;
-    }
-    PyErr_SetString(PyExc_TypeError, "swimRegion should be a plKey");
-    return -1;
-}
+PY_PROPERTY(bool, SwimMsg, isEntering, getIsEntering, setIsEntering)
+PY_PROPERTY(plKey, SwimMsg, swimRegion, getSwimRegion, setSwimRegion)
 
 static PyGetSetDef pySwimMsg_GetSet[] = {
-    { _pycs("isEntering"), (getter)pySwimMsg_getIsEntering, (setter)pySwimMsg_setIsEntering, NULL, NULL },
-    { _pycs("swimRegion"), (getter)pySwimMsg_getSwimRegion, (setter)pySwimMsg_setSwimRegion, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pySwimMsg_isEntering_getset,
+    pySwimMsg_swimRegion_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pySwimMsg_Type = {

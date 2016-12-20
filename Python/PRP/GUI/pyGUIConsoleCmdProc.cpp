@@ -29,27 +29,11 @@ static PyObject* pyGUIConsoleCmdProc_new(PyTypeObject* type, PyObject* args, PyO
     return (PyObject*)self;
 }
 
-static PyObject* pyGUIConsoleCmdProc_getCmd(pyGUIConsoleCmdProc* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getCommand());
-}
-
-static int pyGUIConsoleCmdProc_setCmd(pyGUIConsoleCmdProc* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setCommand("");
-    } else {
-        if (!PyAnyStr_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "command should be a string");
-            return -1;
-        }
-        self->fThis->setCommand(PyStr_To_PlStr(value));
-    }
-    return 0;
-}
+PY_PROPERTY(plString, GUIConsoleCmdProc, command, getCommand, setCommand)
 
 static PyGetSetDef pyGUIConsoleCmdProc_GetSet[] = {
-    { _pycs("command"), (getter)pyGUIConsoleCmdProc_getCmd,
-        (setter)pyGUIConsoleCmdProc_setCmd, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyGUIConsoleCmdProc_command_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyGUIConsoleCmdProc_Type = {

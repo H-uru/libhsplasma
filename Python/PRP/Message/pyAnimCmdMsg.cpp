@@ -30,134 +30,27 @@ static PyObject* pyAnimCmdMsg_new(PyTypeObject* type, PyObject* args, PyObject* 
     return (PyObject*)self;
 }
 
-static PyObject* pyAnimCmdMsg_getAnimName(pyAnimCmdMsg* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getAnimName());
-}
-
-static PyObject* pyAnimCmdMsg_getLoopName(pyAnimCmdMsg* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getLoopName());
-}
-
-static PyObject* pyAnimCmdMsg_getBegin(pyAnimCmdMsg* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getBegin());
-}
-
-static PyObject* pyAnimCmdMsg_getEnd(pyAnimCmdMsg* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getEnd());
-}
-
-static PyObject* pyAnimCmdMsg_getLoopBegin(pyAnimCmdMsg* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getLoopBegin());
-}
-
-static PyObject* pyAnimCmdMsg_getLoopEnd(pyAnimCmdMsg* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getLoopEnd());
-}
-
-static PyObject* pyAnimCmdMsg_getSpeed(pyAnimCmdMsg* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getSpeed());
-}
-
-static PyObject* pyAnimCmdMsg_getSpeedChangeRate(pyAnimCmdMsg* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getSpeedChangeRate());
-}
-
-static PyObject* pyAnimCmdMsg_getTime(pyAnimCmdMsg* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getTime());
-}
-
-static int pyAnimCmdMsg_setAnimName(pyAnimCmdMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyAnyStr_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "animName expects a string");
-        return -1;
-    }
-    self->fThis->setAnimName(PyStr_To_PlStr(value));
-    return 0;
-}
-
-static int pyAnimCmdMsg_setLoopName(pyAnimCmdMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyAnyStr_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "loopName expects a string");
-        return -1;
-    }
-    self->fThis->setLoopName(PyStr_To_PlStr(value));
-    return 0;
-}
-
-static int pyAnimCmdMsg_setBegin(pyAnimCmdMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "begin should be a float");
-        return -1;
-    }
-    self->fThis->setBegin((float)PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyAnimCmdMsg_setEnd(pyAnimCmdMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "end should be a float");
-        return -1;
-    }
-    self->fThis->setEnd((float)PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyAnimCmdMsg_setLoopBegin(pyAnimCmdMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "loopBegin should be a float");
-        return -1;
-    }
-    self->fThis->setLoopBegin((float)PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyAnimCmdMsg_setLoopEnd(pyAnimCmdMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "loopEnd should be a float");
-        return -1;
-    }
-    self->fThis->setLoopEnd((float)PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyAnimCmdMsg_setSpeed(pyAnimCmdMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "speed should be a float");
-        return -1;
-    }
-    self->fThis->setSpeed((float)PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyAnimCmdMsg_setSpeedChangeRate(pyAnimCmdMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "speedChangeRate should be a float");
-        return -1;
-    }
-    self->fThis->setSpeedChangeRate((float)PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyAnimCmdMsg_setTime(pyAnimCmdMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "time should be a float");
-        return -1;
-    }
-    self->fThis->setTime((float)PyFloat_AsDouble(value));
-    return 0;
-}
+PY_PROPERTY(plString, AnimCmdMsg, animName, getAnimName, setAnimName)
+PY_PROPERTY(plString, AnimCmdMsg, loopName, getLoopName, setLoopName)
+PY_PROPERTY(float, AnimCmdMsg, begin, getBegin, setBegin)
+PY_PROPERTY(float, AnimCmdMsg, end, getEnd, setEnd)
+PY_PROPERTY(float, AnimCmdMsg, loopBegin, getLoopBegin, setLoopBegin)
+PY_PROPERTY(float, AnimCmdMsg, loopEnd, getLoopEnd, setLoopEnd)
+PY_PROPERTY(float, AnimCmdMsg, speed, getSpeed, setSpeed)
+PY_PROPERTY(float, AnimCmdMsg, speedChangeRate, getSpeedChangeRate, setSpeedChangeRate)
+PY_PROPERTY(float, AnimCmdMsg, time, getTime, setTime)
 
 static PyGetSetDef pyAnimCmdMsg_GetSet[] = {
-    { _pycs("animName"), (getter)pyAnimCmdMsg_getAnimName, (setter)pyAnimCmdMsg_setAnimName, NULL, NULL },
-    { _pycs("loopName"), (getter)pyAnimCmdMsg_getLoopName, (setter)pyAnimCmdMsg_setLoopName, NULL, NULL },
-    { _pycs("begin"), (getter)pyAnimCmdMsg_getBegin, (setter)pyAnimCmdMsg_setBegin, NULL, NULL },
-    { _pycs("end"), (getter)pyAnimCmdMsg_getEnd, (setter)pyAnimCmdMsg_setEnd, NULL, NULL },
-    { _pycs("loopBegin"), (getter)pyAnimCmdMsg_getLoopBegin, (setter)pyAnimCmdMsg_setLoopBegin, NULL, NULL },
-    { _pycs("loopEnd"), (getter)pyAnimCmdMsg_getLoopEnd, (setter)pyAnimCmdMsg_setLoopEnd, NULL, NULL },
-    { _pycs("speed"), (getter)pyAnimCmdMsg_getSpeed, (setter)pyAnimCmdMsg_setSpeed, NULL, NULL },
-    { _pycs("speedChangeRate"), (getter)pyAnimCmdMsg_getSpeedChangeRate, (setter)pyAnimCmdMsg_setSpeedChangeRate, NULL, NULL },
-    { _pycs("time"), (getter)pyAnimCmdMsg_getTime, (setter)pyAnimCmdMsg_setTime, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyAnimCmdMsg_animName_getset,
+    pyAnimCmdMsg_loopName_getset,
+    pyAnimCmdMsg_begin_getset,
+    pyAnimCmdMsg_end_getset,
+    pyAnimCmdMsg_loopBegin_getset,
+    pyAnimCmdMsg_loopEnd_getset,
+    pyAnimCmdMsg_speed_getset,
+    pyAnimCmdMsg_speedChangeRate_getset,
+    pyAnimCmdMsg_time_getset,
+    PY_GETSET_TERMINATOR
 };
 
 static PyObject* pyAnimCmdMsg_getCmd(pyAnimCmdMsg* self, PyObject* args) {

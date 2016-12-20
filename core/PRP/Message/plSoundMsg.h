@@ -69,7 +69,7 @@ public:
     int getRepeats() const { return fRepeats; }
     unsigned int getNameStr() const { return fNameStr; }
     float getVolume() const { return fVolume; }
-    unsigned char getFadeType() const { return fFadeType; }
+    FadeType getFadeType() const { return fFadeType; }
 
     void setBegin(double value) { fBegin = value; }
     void setEnd(double value) { fEnd = value; }

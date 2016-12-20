@@ -163,7 +163,7 @@ static PyGetSetDef pyShaderConst_GetSet[] = {
         (setter)pyShaderConst_setItem, NULL, (void*)2 },
     { _pycs("alpha"), (getter)pyShaderConst_getItem,
         (setter)pyShaderConst_setItem, NULL, (void*)3 },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyShaderConst_Type = {

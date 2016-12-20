@@ -61,148 +61,29 @@ static PyMethodDef pySoundMsg_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
-static PyObject* pySoundMsg_getBegin(pySoundMsg* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getBegin());
-}
-
-static PyObject* pySoundMsg_getEnd(pySoundMsg* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getEnd());
-}
-
-static PyObject* pySoundMsg_getLoop(pySoundMsg* self, void*) {
-    return PyBool_FromLong(self->fThis->getLoop() ? 1 : 0);
-}
-
-static PyObject* pySoundMsg_getPlaying(pySoundMsg* self, void*) {
-    return PyBool_FromLong(self->fThis->getPlaying() ? 1 : 0);
-}
-
-static PyObject* pySoundMsg_getSpeed(pySoundMsg* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getSpeed());
-}
-
-static PyObject* pySoundMsg_getTime(pySoundMsg* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getTime());
-}
-
-static PyObject* pySoundMsg_getIndex(pySoundMsg* self, void*) {
-    return PyInt_FromLong(self->fThis->getIndex());
-}
-
-static PyObject* pySoundMsg_getRepeats(pySoundMsg* self, void*) {
-    return PyInt_FromLong(self->fThis->getRepeats());
-}
-
-static PyObject* pySoundMsg_getVolume(pySoundMsg* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getVolume());
-}
-
-static PyObject* pySoundMsg_getFadeType(pySoundMsg* self, void*) {
-    return PyInt_FromLong((long)self->fThis->getFadeType());
-}
-
-static int pySoundMsg_setBegin(pySoundMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "begin should be a float");
-        return -1;
-    }
-    self->fThis->setBegin(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pySoundMsg_setEnd(pySoundMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "end should be a float");
-        return -1;
-    }
-    self->fThis->setEnd(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pySoundMsg_setLoop(pySoundMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyBool_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "loop should be a boolean");
-        return -1;
-    }
-    self->fThis->setLoop(PyInt_AsLong(value) != 0);
-    return 0;
-}
-
-static int pySoundMsg_setPlaying(pySoundMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyBool_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "playing should be a boolean");
-        return -1;
-    }
-    self->fThis->setPlaying(PyInt_AsLong(value) != 0);
-    return 0;
-}
-
-static int pySoundMsg_setSpeed(pySoundMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "speed should be a float");
-        return -1;
-    }
-    self->fThis->setSpeed((float)PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pySoundMsg_setTime(pySoundMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "time should be a float");
-        return -1;
-    }
-    self->fThis->setTime(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pySoundMsg_setIndex(pySoundMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "index should be an int");
-        return -1;
-    }
-    self->fThis->setIndex(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pySoundMsg_setRepeats(pySoundMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "repeats should be an int");
-        return -1;
-    }
-    self->fThis->setRepeats(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pySoundMsg_setVolume(pySoundMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "volume should be a float");
-        return -1;
-    }
-    self->fThis->setVolume((float)PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pySoundMsg_setFadeType(pySoundMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "fadeType should be an int");
-        return -1;
-    }
-    self->fThis->setFadeType((plSoundMsg::FadeType)PyInt_AsLong(value));
-    return 0;
-}
+PY_PROPERTY(double, SoundMsg, begin, getBegin, setBegin)
+PY_PROPERTY(double, SoundMsg, end, getEnd, setEnd)
+PY_PROPERTY(bool, SoundMsg, loop, getLoop, setLoop)
+PY_PROPERTY(bool, SoundMsg, playing, getPlaying, setPlaying)
+PY_PROPERTY(float, SoundMsg, speed, getSpeed, setSpeed)
+PY_PROPERTY(double, SoundMsg, time, getTime, setTime)
+PY_PROPERTY(int, SoundMsg, index, getIndex, setIndex)
+PY_PROPERTY(int, SoundMsg, repeats, getRepeats, setRepeats)
+PY_PROPERTY(float, SoundMsg, volume, getVolume, setVolume)
+PY_PROPERTY(plSoundMsg::FadeType, SoundMsg, fadeType, getFadeType, setFadeType)
 
 static PyGetSetDef pySoundMsg_GetSet[] = {
-    { _pycs("begin"), (getter)pySoundMsg_getBegin, (setter)pySoundMsg_setBegin, NULL, NULL },
-    { _pycs("end"), (getter)pySoundMsg_getEnd, (setter)pySoundMsg_setEnd, NULL, NULL },
-    { _pycs("loop"), (getter)pySoundMsg_getLoop, (setter)pySoundMsg_setLoop, NULL, NULL },
-    { _pycs("playing"), (getter)pySoundMsg_getPlaying, (setter)pySoundMsg_setPlaying, NULL, NULL },
-    { _pycs("speed"), (getter)pySoundMsg_getSpeed, (setter)pySoundMsg_setSpeed, NULL, NULL },
-    { _pycs("time"), (getter)pySoundMsg_getTime, (setter)pySoundMsg_setTime, NULL, NULL },
-    { _pycs("index"), (getter)pySoundMsg_getIndex, (setter)pySoundMsg_setIndex, NULL, NULL },
-    { _pycs("repeats"), (getter)pySoundMsg_getRepeats, (setter)pySoundMsg_setRepeats, NULL, NULL },
-    { _pycs("volume"), (getter)pySoundMsg_getVolume, (setter)pySoundMsg_setVolume, NULL, NULL },
-    { _pycs("fadeType"), (getter)pySoundMsg_getFadeType, (setter)pySoundMsg_setFadeType, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pySoundMsg_begin_getset,
+    pySoundMsg_end_getset,
+    pySoundMsg_loop_getset,
+    pySoundMsg_playing_getset,
+    pySoundMsg_speed_getset,
+    pySoundMsg_time_getset,
+    pySoundMsg_index_getset,
+    pySoundMsg_repeats_getset,
+    pySoundMsg_volume_getset,
+    pySoundMsg_fadeType_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pySoundMsg_Type = {

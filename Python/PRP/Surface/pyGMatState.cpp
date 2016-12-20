@@ -25,83 +25,19 @@ static PyObject* pyGMatState_new(PyTypeObject* type, PyObject* args, PyObject* k
     return NULL;
 }
 
-static PyObject* pyGMatState_getBlendFlags(pyGMatState* self, void*) {
-    return PyInt_FromLong(self->fThis->fBlendFlags);
-}
-
-static PyObject* pyGMatState_getClampFlags(pyGMatState* self, void*) {
-    return PyInt_FromLong(self->fThis->fClampFlags);
-}
-
-static PyObject* pyGMatState_getShadeFlags(pyGMatState* self, void*) {
-    return PyInt_FromLong(self->fThis->fShadeFlags);
-}
-
-static PyObject* pyGMatState_getZFlags(pyGMatState* self, void*) {
-    return PyInt_FromLong(self->fThis->fZFlags);
-}
-
-static PyObject* pyGMatState_getMiscFlags(pyGMatState* self, void*) {
-    return PyInt_FromLong(self->fThis->fMiscFlags);
-}
-
-static int pyGMatState_setBlendFlags(pyGMatState* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "blendFlags should be an int");
-        return -1;
-    }
-    self->fThis->fBlendFlags = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyGMatState_setClampFlags(pyGMatState* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "clampFlags should be an int");
-        return -1;
-    }
-    self->fThis->fClampFlags = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyGMatState_setShadeFlags(pyGMatState* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "shadeFlags should be an int");
-        return -1;
-    }
-    self->fThis->fShadeFlags = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyGMatState_setZFlags(pyGMatState* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "ZFlags should be an int");
-        return -1;
-    }
-    self->fThis->fZFlags = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyGMatState_setMiscFlags(pyGMatState* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "miscFlags should be an int");
-        return -1;
-    }
-    self->fThis->fMiscFlags = PyInt_AsLong(value);
-    return 0;
-}
+PY_PROPERTY_MEMBER(unsigned int, GMatState, blendFlags, fBlendFlags)
+PY_PROPERTY_MEMBER(unsigned int, GMatState, clampFlags, fClampFlags)
+PY_PROPERTY_MEMBER(unsigned int, GMatState, shadeFlags, fShadeFlags)
+PY_PROPERTY_MEMBER(unsigned int, GMatState, ZFlags, fZFlags)
+PY_PROPERTY_MEMBER(unsigned int, GMatState, miscFlags, fMiscFlags)
 
 static PyGetSetDef pyGMatState_GetSet[] = {
-    { _pycs("blendFlags"), (getter)pyGMatState_getBlendFlags,
-        (setter)pyGMatState_setBlendFlags, NULL, NULL },
-    { _pycs("clampFlags"), (getter)pyGMatState_getClampFlags,
-        (setter)pyGMatState_setClampFlags, NULL, NULL },
-    { _pycs("shadeFlags"), (getter)pyGMatState_getShadeFlags,
-        (setter)pyGMatState_setShadeFlags, NULL, NULL },
-    { _pycs("ZFlags"), (getter)pyGMatState_getZFlags,
-        (setter)pyGMatState_setZFlags, NULL, NULL },
-    { _pycs("miscFlags"), (getter)pyGMatState_getMiscFlags,
-        (setter)pyGMatState_setMiscFlags, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyGMatState_blendFlags_getset,
+    pyGMatState_clampFlags_getset,
+    pyGMatState_shadeFlags_getset,
+    pyGMatState_ZFlags_getset,
+    pyGMatState_miscFlags_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyGMatState_Type = {

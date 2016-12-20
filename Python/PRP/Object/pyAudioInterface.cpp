@@ -31,27 +31,11 @@ static PyObject* pyAudioInterface_new(PyTypeObject* type, PyObject* args, PyObje
     return (PyObject*)self;
 }
 
-static PyObject* pyAudioInterface_getAudible(pyAudioInterface* self, void*) {
-    return pyKey_FromKey(self->fThis->getAudible());
-}
-
-static int pyAudioInterface_setAudible(pyAudioInterface* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setAudible(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setAudible(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "audible should be a plKey");
-        return -1;
-    }
-}
+PY_PROPERTY(plKey, AudioInterface, audible, getAudible, setAudible)
 
 PyGetSetDef pyAudioInterface_GetSet[] = {
-    { _pycs("audible"), (getter)pyAudioInterface_getAudible,
-        (setter)pyAudioInterface_setAudible, _pycs("The Audible key"), NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyAudioInterface_audible_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyAudioInterface_Type = {

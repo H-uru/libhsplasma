@@ -72,32 +72,6 @@ static PyObject* pySpanEncoding_write(pySpanEncoding* self, PyObject* args) {
     return Py_None;
 }
 
-static PyObject* pySpanEncoding_getCode(pySpanEncoding* self, void*) {
-    return PyInt_FromLong(self->fThis->getCode());
-}
-
-static PyObject* pySpanEncoding_getPosScale(pySpanEncoding* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getPosScale());
-}
-
-static int pySpanEncoding_setCode(pySpanEncoding* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "code should be an int");
-        return -1;
-    }
-    self->fThis->setCode(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pySpanEncoding_setPosScale(pySpanEncoding* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "posScale should be a float");
-        return -1;
-    }
-    self->fThis->setPosScale(PyFloat_AsDouble(value));
-    return 0;
-}
-
 static PyMethodDef pySpanEncoding_Methods[] = {
     { "read", (PyCFunction)pySpanEncoding_read, METH_VARARGS,
       "Params: stream\n"
@@ -108,12 +82,13 @@ static PyMethodDef pySpanEncoding_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(unsigned int, SpanEncoding, code, getCode, setCode)
+PY_PROPERTY(float, SpanEncoding, posScale, getPosScale, setPosScale)
+
 static PyGetSetDef pySpanEncoding_GetSet[] = {
-    { _pycs("code"), (getter)pySpanEncoding_getCode,
-        (setter)pySpanEncoding_setCode, NULL, NULL },
-    { _pycs("posScale"), (getter)pySpanEncoding_getPosScale,
-        (setter)pySpanEncoding_setPosScale, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pySpanEncoding_code_getset,
+    pySpanEncoding_posScale_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pySpanEncoding_Type = {

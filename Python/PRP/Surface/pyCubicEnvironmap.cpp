@@ -116,7 +116,7 @@ static PyGetSetDef pyCubicEnvironmap_GetSet[] = {
     { _pycs("backFace"), (getter)pyCubicEnvironmap_getBackFace, (setter)pyCubicEnvironmap_setBackFace, NULL, NULL },
     { _pycs("topFace"), (getter)pyCubicEnvironmap_getTopFace, (setter)pyCubicEnvironmap_setTopFace, NULL, NULL },
     { _pycs("bottomFace"), (getter)pyCubicEnvironmap_getBottomFace, (setter)pyCubicEnvironmap_setBottomFace, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyCubicEnvironmap_Type = {

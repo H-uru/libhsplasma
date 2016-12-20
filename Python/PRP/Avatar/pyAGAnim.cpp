@@ -65,64 +65,12 @@ static PyObject* pyAGAnim_delApplicator(pyAGAnim* self, PyObject* args) {
     return Py_None;
 }
 
-static PyObject* pyAGAnim_getBlend(pyAGAnim* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getBlend());
-}
-
-static PyObject* pyAGAnim_getStart(pyAGAnim* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getStart());
-}
-
-static PyObject* pyAGAnim_getEnd(pyAGAnim* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getEnd());
-}
-
-static PyObject* pyAGAnim_getName(pyAGAnim* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getName());
-}
-
 static PyObject* pyAGAnim_getApps(pyAGAnim* self, void*) {
     plAGAnim* anim = self->fThis;
     PyObject* list = PyList_New(anim->getApplicators().size());
     for (size_t i=0; i < anim->getApplicators().size(); i++)
         PyList_SET_ITEM(list, i, ICreate(anim->getApplicators()[i]));
     return list;
-}
-
-static int pyAGAnim_setBlend(pyAGAnim* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "blend should be a float");
-        return -1;
-    }
-    self->fThis->setBlend(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyAGAnim_setStart(pyAGAnim* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "start should be a float");
-        return -1;
-    }
-    self->fThis->setStart(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyAGAnim_setEnd(pyAGAnim* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "end should be a float");
-        return -1;
-    }
-    self->fThis->setEnd(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyAGAnim_setName(pyAGAnim* self, PyObject* value, void*) {
-    if (value == NULL || !PyAnyStr_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "name should be a string");
-        return -1;
-    }
-    self->fThis->setName(PyStr_To_PlStr(value));
-    return 0;
 }
 
 static int pyAGAnim_setApps(pyAGAnim* self, PyObject* value, void*) {
@@ -142,13 +90,18 @@ static PyMethodDef pyAGAnim_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(float, AGAnim, blend, getBlend, setBlend)
+PY_PROPERTY(float, AGAnim, start, getStart, setStart)
+PY_PROPERTY(float, AGAnim, end, getEnd, setEnd)
+PY_PROPERTY(plString, AGAnim, name, getName, setName)
+
 static PyGetSetDef pyAGAnim_GetSet[] = {
-    { _pycs("blend"), (getter)pyAGAnim_getBlend, (setter)pyAGAnim_setBlend, NULL, NULL },
-    { _pycs("start"), (getter)pyAGAnim_getStart, (setter)pyAGAnim_setStart, NULL, NULL },
-    { _pycs("end"), (getter)pyAGAnim_getEnd, (setter)pyAGAnim_setEnd, NULL, NULL },
-    { _pycs("name"), (getter)pyAGAnim_getName, (setter)pyAGAnim_setName, NULL, NULL },
+    pyAGAnim_blend_getset,
+    pyAGAnim_start_getset,
+    pyAGAnim_end_getset,
+    pyAGAnim_name_getset,
     { _pycs("applicators"), (getter)pyAGAnim_getApps, (setter)pyAGAnim_setApps, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyAGAnim_Type = {

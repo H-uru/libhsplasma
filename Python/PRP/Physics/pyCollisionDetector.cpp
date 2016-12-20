@@ -27,23 +27,11 @@ static PyObject* pyCollisionDetector_new(PyTypeObject* type, PyObject* args, PyO
     return NULL;
 }
 
-static PyObject* pyCollisionDetector_getType(pyCollisionDetector* self, void*) {
-    return PyInt_FromLong(self->fThis->getType());
-}
-
-static int pyCollisionDetector_setType(pyCollisionDetector* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "type should be an int");
-        return -1;
-    }
-    self->fThis->setType(PyInt_AsLong(value));
-    return 0;
-}
+PY_PROPERTY(unsigned char, CollisionDetector, type, getType, setType)
 
 static PyGetSetDef pyCollisionDetector_GetSet[] = {
-    { _pycs("type"), (getter)pyCollisionDetector_getType,
-       (setter)pyCollisionDetector_setType, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyCollisionDetector_type_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyCollisionDetector_Type = {

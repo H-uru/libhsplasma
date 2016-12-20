@@ -71,10 +71,6 @@ static PyMethodDef pySittingModifier_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
-static PyObject* pySittingModifier_getMiscFlags(pySittingModifier* self, void*) {
-    return PyInt_FromLong(self->fThis->getMiscFlags());
-}
-
 static PyObject* pySittingModifier_getNotifyKeys(pySittingModifier* self, void*) {
     PyObject* keys = PyTuple_New(self->fThis->getNotifyKeys().size());
     for (size_t i = 0; i < self->fThis->getNotifyKeys().size(); ++i)
@@ -82,24 +78,17 @@ static PyObject* pySittingModifier_getNotifyKeys(pySittingModifier* self, void*)
     return keys;
 }
 
-static int pySittingModifier_setMiscFlags(pySittingModifier* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "miscFlags should be an int");
-        return -1;
-    }
-    self->fThis->setMiscFlags((uint8_t)PyInt_AsLong(value));
-    return 0;
-}
-
 static int pySittingModifier_setNotifyKeys(pySittingModifier* self, PyObject* value, void*) {
     PyErr_SetString(PyExc_RuntimeError, "To add notifyKeys, use addNotifyKey()");
     return -1;
 }
 
+PY_PROPERTY(uint8_t, SittingModifier, miscFlags, getMiscFlags, setMiscFlags)
+
 static PyGetSetDef pySittingModifier_GetSet[] = {
-    { _pycs("miscFlags"), (getter)pySittingModifier_getMiscFlags, (setter)pySittingModifier_setMiscFlags, NULL, NULL },
+    pySittingModifier_miscFlags_getset,
     { _pycs("notifyKeys"), (getter)pySittingModifier_getNotifyKeys, (setter)pySittingModifier_setNotifyKeys, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pySittingModifier_Type = {

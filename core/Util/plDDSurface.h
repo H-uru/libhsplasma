@@ -168,7 +168,7 @@ public:
         union {
             unsigned int fRBitMask;
             unsigned int fYBitMask;
-            unsigned int fStencilBitDetph;
+            unsigned int fStencilBitDepth;
             unsigned int fLuminanceBitMask;
             unsigned int fBumpDuBitMask;
             unsigned int fOperations;

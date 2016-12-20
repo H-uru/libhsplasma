@@ -30,38 +30,13 @@ static PyObject* pyArmatureEffectStateMsg_new(PyTypeObject* type, PyObject* args
     return (PyObject*)self;
 }
 
-static PyObject* pyArmatureEffectStateMsg_getSurface(pyArmatureEffectStateMsg* self, void*) {
-    return PyInt_FromLong(self->fThis->getSurface());
-}
-
-static PyObject* pyArmatureEffectStateMsg_getAddSurface(pyArmatureEffectStateMsg* self, void*) {
-    return PyBool_FromLong(self->fThis->getAddSurface() ? 1 : 0);
-}
-
-static int pyArmatureEffectStateMsg_setSurface(pyArmatureEffectStateMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "surface should be an int");
-        return -1;
-    }
-    self->fThis->setSurface((int8_t)PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyArmatureEffectStateMsg_setAddSurface(pyArmatureEffectStateMsg* self, PyObject* value, void*) {
-    if (value == NULL || !PyBool_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "addSurface should be a boolean");
-        return -1;
-    }
-    self->fThis->setAddSurface(PyInt_AsLong(value) != 0);
-    return 0;
-}
+PY_PROPERTY(int8_t, ArmatureEffectStateMsg, surface, getSurface, setSurface)
+PY_PROPERTY(bool, ArmatureEffectStateMsg, addSurface, getAddSurface, setAddSurface)
 
 static PyGetSetDef pyArmatureEffectStateMsg_GetSet[] = {
-    { _pycs("surface"), (getter)pyArmatureEffectStateMsg_getSurface,
-        (setter)pyArmatureEffectStateMsg_setSurface, NULL, NULL },
-    { _pycs("addSurface"), (getter)pyArmatureEffectStateMsg_getAddSurface,
-        (setter)pyArmatureEffectStateMsg_setAddSurface, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyArmatureEffectStateMsg_surface_getset,
+    pyArmatureEffectStateMsg_addSurface_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyArmatureEffectStateMsg_Type = {

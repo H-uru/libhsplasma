@@ -30,23 +30,11 @@ static PyObject* pyKeyPressConditionalObject_new(PyTypeObject* type, PyObject* a
     return (PyObject*)self;
 }
 
-static PyObject* pyKeyPressConditionalObject_getKeyEvent(pyKeyPressConditionalObject* self, void*) {
-    return PyInt_FromLong(self->fThis->getKeyEvent());
-}
-
-static int pyKeyPressConditionalObject_setKeyEvent(pyKeyPressConditionalObject* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "keyEvent should be an int");
-        return -1;
-    }
-    self->fThis->setKeyEvent((plKeyDef)PyInt_AsLong(value));
-    return 0;
-}
+PY_PROPERTY(plKeyDef, KeyPressConditionalObject, keyEvent, getKeyEvent, setKeyEvent)
 
 static PyGetSetDef pyKeyPressConditionalObject_GetSet[] = {
-    { _pycs("keyEvent"), (getter)pyKeyPressConditionalObject_getKeyEvent,
-       (setter)pyKeyPressConditionalObject_setKeyEvent, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyKeyPressConditionalObject_keyEvent_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyKeyPressConditionalObject_Type = {

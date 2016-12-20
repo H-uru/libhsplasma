@@ -35,50 +35,15 @@ static PyObject* pyScalarKey_new(PyTypeObject* type, PyObject* args, PyObject* k
     return (PyObject*)self;
 }
 
-static PyObject* pyScalarKey_getInTan(pyScalarKey* self, void*) {
-    return PyFloat_FromDouble(self->fThis->fInTan);
-}
-
-static PyObject* pyScalarKey_getOutTan(pyScalarKey* self, void*) {
-    return PyFloat_FromDouble(self->fThis->fOutTan);
-}
-
-static PyObject* pyScalarKey_getValue(pyScalarKey* self, void*) {
-    return PyFloat_FromDouble(self->fThis->fValue);
-}
-
-static int pyScalarKey_setInTan(pyScalarKey* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "inTan should be a float");
-        return -1;
-    }
-    self->fThis->fInTan = PyFloat_AsDouble(value);
-    return 0;
-}
-
-static int pyScalarKey_setOutTan(pyScalarKey* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "outTan should be a float");
-        return -1;
-    }
-    self->fThis->fOutTan = PyFloat_AsDouble(value);
-    return 0;
-}
-
-static int pyScalarKey_setValue(pyScalarKey* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "value should be a float");
-        return -1;
-    }
-    self->fThis->fValue = PyFloat_AsDouble(value);
-    return 0;
-}
+PY_PROPERTY_MEMBER(float, ScalarKey, inTan, fInTan)
+PY_PROPERTY_MEMBER(float, ScalarKey, outTan, fOutTan)
+PY_PROPERTY_MEMBER(float, ScalarKey, value, fValue)
 
 static PyGetSetDef pyScalarKey_GetSet[] = {
-    { _pycs("inTan"), (getter)pyScalarKey_getInTan, (setter)pyScalarKey_setInTan, NULL, NULL },
-    { _pycs("outTan"), (getter)pyScalarKey_getOutTan, (setter)pyScalarKey_setOutTan, NULL, NULL },
-    { _pycs("value"), (getter)pyScalarKey_getValue, (setter)pyScalarKey_setValue, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyScalarKey_inTan_getset,
+    pyScalarKey_outTan_getset,
+    pyScalarKey_value_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyScalarKey_Type = {

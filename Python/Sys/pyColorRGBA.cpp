@@ -154,58 +154,6 @@ static PyObject* pyColorRGBA_writeRGB(pyColorRGBA* self, PyObject* args) {
     return Py_None;
 }
 
-static PyObject* pyColorRGBA_getRed(pyColorRGBA* self, void* closure) {
-    return PyFloat_FromDouble(self->fThis->r);
-}
-
-static PyObject* pyColorRGBA_getGreen(pyColorRGBA* self, void* closure) {
-    return PyFloat_FromDouble(self->fThis->g);
-}
-
-static PyObject* pyColorRGBA_getBlue(pyColorRGBA* self, void* closure) {
-    return PyFloat_FromDouble(self->fThis->b);
-}
-
-static PyObject* pyColorRGBA_getAlpha(pyColorRGBA* self, void* closure) {
-    return PyFloat_FromDouble(self->fThis->a);
-}
-
-static int pyColorRGBA_setRed(pyColorRGBA* self, PyObject* value, void* closure) {
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "red should be a float");
-        return -1;
-    }
-    self->fThis->r = PyFloat_AsDouble(value);
-    return 0;
-}
-
-static int pyColorRGBA_setGreen(pyColorRGBA* self, PyObject* value, void* closure) {
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "green should be a float");
-        return -1;
-    }
-    self->fThis->g = PyFloat_AsDouble(value);
-    return 0;
-}
-
-static int pyColorRGBA_setBlue(pyColorRGBA* self, PyObject* value, void* closure) {
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "blue should be a float");
-        return -1;
-    }
-    self->fThis->b = PyFloat_AsDouble(value);
-    return 0;
-}
-
-static int pyColorRGBA_setAlpha(pyColorRGBA* self, PyObject* value, void* closure) {
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "alpha should be a float");
-        return -1;
-    }
-    self->fThis->a = PyFloat_AsDouble(value);
-    return 0;
-}
-
 static PyMethodDef pyColorRGBA_Methods[] = {
     { "set", (PyCFunction)pyColorRGBA_set, METH_VARARGS | METH_KEYWORDS,
       "Params: red, green, blue, alpha (all optional)\n"
@@ -228,12 +176,17 @@ static PyMethodDef pyColorRGBA_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY_MEMBER(float, ColorRGBA, red, r)
+PY_PROPERTY_MEMBER(float, ColorRGBA, green, g)
+PY_PROPERTY_MEMBER(float, ColorRGBA, blue, b)
+PY_PROPERTY_MEMBER(float, ColorRGBA, alpha, a)
+
 static PyGetSetDef pyColorRGBA_GetSet[] = {
-    { _pycs("red"), (getter)pyColorRGBA_getRed, (setter)pyColorRGBA_setRed, NULL, NULL },
-    { _pycs("green"), (getter)pyColorRGBA_getGreen, (setter)pyColorRGBA_setGreen, NULL, NULL },
-    { _pycs("blue"), (getter)pyColorRGBA_getBlue, (setter)pyColorRGBA_setBlue, NULL, NULL },
-    { _pycs("alpha"), (getter)pyColorRGBA_getAlpha, (setter)pyColorRGBA_setAlpha, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyColorRGBA_red_getset,
+    pyColorRGBA_green_getset,
+    pyColorRGBA_blue_getset,
+    pyColorRGBA_alpha_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyColorRGBA_Type = {

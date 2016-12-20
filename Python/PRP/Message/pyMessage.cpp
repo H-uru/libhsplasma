@@ -63,54 +63,11 @@ static PyObject* pyMessage_clearReceivers(pyMessage* self) {
     return Py_None;
 }
 
-static PyObject* pyMessage_getSender(pyMessage* self, void*) {
-    return pyKey_FromKey(self->fThis->getSender());
-}
-
-static PyObject* pyMessage_getTS(pyMessage* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getTimeStamp());
-}
-
-static PyObject* pyMessage_getFlags(pyMessage* self, void*) {
-    return PyInt_FromLong(self->fThis->getBCastFlags());
-}
-
 static PyObject* pyMessage_getReceivers(pyMessage* self, void*) {
     PyObject* list = PyList_New(self->fThis->getReceivers().size());
     for (size_t i=0; i<self->fThis->getReceivers().size(); i++)
         PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getReceivers()[i]));
     return list;
-}
-
-static int pyMessage_setSender(pyMessage* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        Py_XDECREF(value);
-        self->fThis->setSender(plKey());
-        return 0;
-    }
-    if (!pyKey_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "sender should be a plKey");
-        return -1;
-    }
-    self->fThis->setSender(*((pyKey*)value)->fThis);
-    return 0;
-}
-
-static int pyMessage_setTS(pyMessage* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "timeStamp should be a float");
-        return -1;
-    }
-    self->fThis->setTimeStamp(PyFloat_AsDouble(value));
-    return 0;
-}
-static int pyMessage_setFlags(pyMessage* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "BCastFlags should be an int");
-        return -1;
-    }
-    self->fThis->setBCastFlags(PyInt_AsLong(value));
-    return 0;
 }
 
 static int pyMessage_setReceivers(pyMessage* self, PyObject* value, void*) {
@@ -130,16 +87,17 @@ static PyMethodDef pyMessage_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+PY_PROPERTY(plKey, Message, sender, getSender, setSender)
+PY_PROPERTY(double, Message, timeStamp, getTimeStamp, setTimeStamp)
+PY_PROPERTY(unsigned int, Message, BCastFlags, getBCastFlags, setBCastFlags)
+
 static PyGetSetDef pyMessage_GetSet[] = {
-    { _pycs("sender"), (getter)pyMessage_getSender,
-        (setter)pyMessage_setSender, NULL, NULL },
-    { _pycs("timeStamp"), (getter)pyMessage_getTS,
-        (setter)pyMessage_setTS, NULL, NULL },
-    { _pycs("BCastFlags"), (getter)pyMessage_getFlags,
-        (setter)pyMessage_setFlags, NULL, NULL },
+    pyMessage_sender_getset,
+    pyMessage_timeStamp_getset,
+    pyMessage_BCastFlags_getset,
     { _pycs("receivers"), (getter)pyMessage_getReceivers,
         (setter)pyMessage_setReceivers, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyMessage_Type = {

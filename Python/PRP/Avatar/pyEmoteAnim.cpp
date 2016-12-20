@@ -18,6 +18,7 @@
 
 #include <PRP/Avatar/plATCAnim.h>
 #include "PRP/pyCreatable.h"
+#include "PRP/Avatar/pyAGAnim.h"
 
 extern "C" {
 
@@ -30,53 +31,15 @@ static PyObject* pyEmoteAnim_new(PyTypeObject* type, PyObject* args, PyObject* k
     return (PyObject*)self;
 }
 
-static PyObject* pyEmoteAnim_getBodyUsage(pyEmoteAnim* self, void*) {
-    return PyInt_FromLong(self->fThis->getBodyUsage());
-}
-
-static PyObject* pyEmoteAnim_getFadeIn(pyEmoteAnim* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getFadeIn());
-}
-
-static PyObject* pyEmoteAnim_getFadeOut(pyEmoteAnim* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getFadeOut());
-}
-
-static int pyEmoteAnim_setBodyUsage(pyEmoteAnim* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "bodyUsage should be an int");
-        return -1;
-    }
-    self->fThis->setBodyUsage((plAGAnim::BodyUsage)PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyEmoteAnim_setFadeIn(pyEmoteAnim* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "fadeIn should be a float");
-        return -1;
-    }
-    self->fThis->setFadeIn(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyEmoteAnim_setFadeOut(pyEmoteAnim* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "fadeOut should be a float");
-        return -1;
-    }
-    self->fThis->setFadeOut(PyFloat_AsDouble(value));
-    return 0;
-}
+PY_PROPERTY(plAGAnim::BodyUsage, EmoteAnim, bodyUsage, getBodyUsage, setBodyUsage)
+PY_PROPERTY(float, EmoteAnim, fadeIn, getFadeIn, setFadeIn)
+PY_PROPERTY(float, EmoteAnim, fadeOut, getFadeOut, setFadeOut)
 
 static PyGetSetDef pyEmoteAnim_GetSet[] = {
-    { _pycs("bodyUsage"), (getter)pyEmoteAnim_getBodyUsage,
-        (setter)pyEmoteAnim_setBodyUsage, NULL, NULL },
-    { _pycs("fadeIn"), (getter)pyEmoteAnim_getFadeIn,
-        (setter)pyEmoteAnim_setFadeIn, NULL, NULL },
-    { _pycs("fadeOut"), (getter)pyEmoteAnim_getFadeOut,
-        (setter)pyEmoteAnim_setFadeOut, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyEmoteAnim_bodyUsage_getset,
+    pyEmoteAnim_fadeIn_getset,
+    pyEmoteAnim_fadeOut_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyEmoteAnim_Type = {

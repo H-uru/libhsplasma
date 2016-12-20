@@ -36,40 +36,20 @@ static PyObject* pyScaleKey_new(PyTypeObject* type, PyObject* args, PyObject* kw
     return (PyObject*)self;
 }
 
-static PyObject* pyScaleKey_getInTan(pyScaleKey* self, void*) {
-    return pyVector3_FromVector3(self->fThis->fInTan);
-}
+PY_PROPERTY_MEMBER(hsVector3, ScaleKey, inTan, fInTan)
+PY_PROPERTY_MEMBER(hsVector3, ScaleKey, outTan, fOutTan)
 
-static PyObject* pyScaleKey_getOutTan(pyScaleKey* self, void*) {
-    return pyVector3_FromVector3(self->fThis->fOutTan);
-}
-
-static PyObject* pyScaleKey_getValue(pyScaleKey* self, void*) {
+PY_GETSET_GETTER_DECL(ScaleKey, value) {
     return Py_BuildValue("OO",
-                         pyVector3_FromVector3(self->fThis->fS),
-                         pyQuat_FromQuat(self->fThis->fQ));
+                         pyPlasma_convert(self->fThis->fS),
+                         pyPlasma_convert(self->fThis->fQ));
 }
 
-static int pyScaleKey_setInTan(pyScaleKey* self, PyObject* value, void*) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "inTan should be an hsVector3");
+PY_GETSET_SETTER_DECL(ScaleKey, value) {
+    if (value == NULL) {
+        PyErr_SetString(PyExc_RuntimeError, "value cannot be deleted");
         return -1;
-    }
-    self->fThis->fInTan = *((pyVector3*)value)->fThis;
-    return 0;
-}
-
-static int pyScaleKey_setOutTan(pyScaleKey* self, PyObject* value, void*) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "outTan should be an hsVector3");
-        return -1;
-    }
-    self->fThis->fOutTan = *((pyVector3*)value)->fThis;
-    return 0;
-}
-
-static int pyScaleKey_setValue(pyScaleKey* self, PyObject* value, void*) {
-    if (value == NULL || !PyTuple_Check(value) || PyTuple_Size(value) != 2) {
+    } else if (!PyTuple_Check(value) || PyTuple_Size(value) != 2) {
         PyErr_SetString(PyExc_TypeError, "value should be a tuple (hsVector3, hsQuat)");
         return -1;
     }
@@ -79,16 +59,18 @@ static int pyScaleKey_setValue(pyScaleKey* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "value should be a tuple (hsVector3, hsQuat)");
         return -1;
     }
-    self->fThis->fS = *((pyVector3*)s)->fThis;
-    self->fThis->fQ = *((pyQuat*)q)->fThis;
+    self->fThis->fS = pyPlasma_get<hsVector3>(s);
+    self->fThis->fQ = pyPlasma_get<hsQuat>(q);
     return 0;
 }
 
+PY_PROPERTY_GETSET_DECL(ScaleKey, value)
+
 static PyGetSetDef pyScaleKey_GetSet[] = {
-    { _pycs("inTan"), (getter)pyScaleKey_getInTan, (setter)pyScaleKey_setInTan, NULL, NULL },
-    { _pycs("outTan"), (getter)pyScaleKey_getOutTan, (setter)pyScaleKey_setOutTan, NULL, NULL },
-    { _pycs("value"), (getter)pyScaleKey_getValue, (setter)pyScaleKey_setValue, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyScaleKey_inTan_getset,
+    pyScaleKey_outTan_getset,
+    pyScaleKey_value_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyScaleKey_Type = {

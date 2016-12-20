@@ -88,7 +88,7 @@ static int pyActivatorConditionalObject_setActivators(pyActivatorConditionalObje
 static PyGetSetDef pyActivatorConditionalObject_GetSet[] = {
     { _pycs("activators"), (getter)pyActivatorConditionalObject_getActivators,
        (setter)pyActivatorConditionalObject_setActivators, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyActivatorConditionalObject_Type = {

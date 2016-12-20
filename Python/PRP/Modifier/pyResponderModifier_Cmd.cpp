@@ -58,39 +58,13 @@ static PyObject* pyResponderModifier_Cmd_new(PyTypeObject* type, PyObject* /*arg
     return (PyObject*)self;
 }
 
-static PyObject* pyResponderModifier_Cmd_getMsg(pyResponderModifier_Cmd* self, void*) {
-    return ICreate(self->fThis->fMsg);
-}
-
-static PyObject* pyResponderModifier_Cmd_getWaitOn(pyResponderModifier_Cmd* self, void*) {
-    return PyInt_FromLong(self->fThis->fWaitOn);
-}
-
-static int pyResponderModifier_Cmd_setMsg(pyResponderModifier_Cmd* self, PyObject* value, void*) {
-    if (value == NULL || !pyMessage_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "msg should be a plMessage");
-        return -1;
-    }
-    self->fThis->fMsg = ((pyMessage*)value)->fThis;
-    ((pyMessage*)value)->fPyOwned = false;
-    return 0;
-}
-
-static int pyResponderModifier_Cmd_setWaitOn(pyResponderModifier_Cmd* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "waitOn should be an int");
-        return -1;
-    }
-    self->fThis->fWaitOn = PyInt_AsLong(value);
-    return 0;
-}
+PY_PROPERTY_CREATABLE_MEMBER(plMessage, Message, ResponderModifier_Cmd, msg, fMsg)
+PY_PROPERTY_MEMBER(int8_t, ResponderModifier_Cmd, waitOn, fWaitOn)
 
 static PyGetSetDef pyResponderModifier_Cmd_GetSet[] = {
-    { _pycs("msg"), (getter)pyResponderModifier_Cmd_getMsg,
-        (setter)pyResponderModifier_Cmd_setMsg, NULL, NULL },
-    { _pycs("waitOn"), (getter)pyResponderModifier_Cmd_getWaitOn,
-        (setter)pyResponderModifier_Cmd_setWaitOn, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyResponderModifier_Cmd_msg_getset,
+    pyResponderModifier_Cmd_waitOn_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyResponderModifier_Cmd_Type = {

@@ -31,25 +31,12 @@ static PyObject* pyMaintainersMarkerModifier_new(PyTypeObject* type, PyObject* a
     return (PyObject*)self;
 }
 
-static PyObject* pyMaintainersMarkerModifier_getCalibration(
-        pyMaintainersMarkerModifier* self, void*) {
-    return PyInt_FromLong(self->fThis->getCalibration());
-}
-
-static int pyMaintainersMarkerModifier_setCalibration(
-        pyMaintainersMarkerModifier* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "calibrated should be an int");
-        return -1;
-    }
-    self->fThis->setCalibration(PyInt_AsLong(value));
-    return 0;
-}
+PY_PROPERTY(unsigned int, MaintainersMarkerModifier, calibration,
+            getCalibration, setCalibration)
 
 static PyGetSetDef pyMaintainersMarkerModifier_GetSet[] = {
-    { _pycs("calibration"), (getter)pyMaintainersMarkerModifier_getCalibration,
-        (setter)pyMaintainersMarkerModifier_setCalibration, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyMaintainersMarkerModifier_calibration_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyMaintainersMarkerModifier_Type = {

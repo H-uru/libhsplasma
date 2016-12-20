@@ -27,38 +27,13 @@ static PyObject* pyConditionalObject_new(PyTypeObject* type, PyObject* args, PyO
     return NULL;
 }
 
-static PyObject* pyConditionalObject_getSatisfied(pyConditionalObject* self, void*) {
-    return PyBool_FromLong(self->fThis->getSatisfied() ? 1 : 0);
-}
-
-static PyObject* pyConditionalObject_getToggle(pyConditionalObject* self, void*) {
-    return PyBool_FromLong(self->fThis->getToggle() ? 1 : 0);
-}
-
-static int pyConditionalObject_setSatisfied(pyConditionalObject* self, PyObject* value, void*) {
-    if (value == NULL || !PyBool_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "satisfied should be a boolean");
-        return -1;
-    }
-    self->fThis->setSatisfied(PyInt_AsLong(value) != 0);
-    return 0;
-}
-
-static int pyConditionalObject_setToggle(pyConditionalObject* self, PyObject* value, void*) {
-    if (value == NULL || !PyBool_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "toggle should be a boolean");
-        return -1;
-    }
-    self->fThis->setToggle(PyInt_AsLong(value) != 0);
-    return 0;
-}
+PY_PROPERTY(bool, ConditionalObject, satisfied, getSatisfied, setSatisfied)
+PY_PROPERTY(bool, ConditionalObject, toggle, getToggle, setToggle)
 
 static PyGetSetDef pyConditionalObject_GetSet[] = {
-    { _pycs("satisfied"), (getter)pyConditionalObject_getSatisfied,
-       (setter)pyConditionalObject_setSatisfied, NULL, NULL },
-    { _pycs("toggle"), (getter)pyConditionalObject_getToggle,
-       (setter)pyConditionalObject_setToggle, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyConditionalObject_satisfied_getset,
+    pyConditionalObject_toggle_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyConditionalObject_Type = {

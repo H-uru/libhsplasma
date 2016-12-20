@@ -30,53 +30,15 @@ static PyObject* pyLimitedDirLightInfo_new(PyTypeObject* type, PyObject* args, P
     return (PyObject*)self;
 }
 
-static PyObject* pyLimitedDirLightInfo_getWidth(pyLimitedDirLightInfo* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getWidth());
-}
-
-static PyObject* pyLimitedDirLightInfo_getHeight(pyLimitedDirLightInfo* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getHeight());
-}
-
-static PyObject* pyLimitedDirLightInfo_getDepth(pyLimitedDirLightInfo* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getDepth());
-}
-
-static int pyLimitedDirLightInfo_setWidth(pyLimitedDirLightInfo* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "width should be a float");
-        return -1;
-    }
-    self->fThis->setWidth(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyLimitedDirLightInfo_setHeight(pyLimitedDirLightInfo* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "height should be a float");
-        return -1;
-    }
-    self->fThis->setHeight(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyLimitedDirLightInfo_setDepth(pyLimitedDirLightInfo* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "depth should be a float");
-        return -1;
-    }
-    self->fThis->setDepth(PyFloat_AsDouble(value));
-    return 0;
-}
+PY_PROPERTY(float, LimitedDirLightInfo, width, getWidth, setWidth)
+PY_PROPERTY(float, LimitedDirLightInfo, height, getHeight, setHeight)
+PY_PROPERTY(float, LimitedDirLightInfo, depth, getDepth, setDepth)
 
 static PyGetSetDef pyLimitedDirLightInfo_GetSet[] = {
-    { _pycs("width"), (getter)pyLimitedDirLightInfo_getWidth,
-        (setter)pyLimitedDirLightInfo_setWidth, NULL, NULL },
-    { _pycs("height"), (getter)pyLimitedDirLightInfo_getHeight,
-        (setter)pyLimitedDirLightInfo_setHeight, NULL, NULL },
-    { _pycs("depth"), (getter)pyLimitedDirLightInfo_getDepth,
-        (setter)pyLimitedDirLightInfo_setDepth, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyLimitedDirLightInfo_width_getset,
+    pyLimitedDirLightInfo_height_getset,
+    pyLimitedDirLightInfo_depth_getset,
+    PY_GETSET_TERMINATOR
 };
 
 PyTypeObject pyLimitedDirLightInfo_Type = {
