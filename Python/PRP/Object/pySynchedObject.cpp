@@ -49,8 +49,8 @@ static PyObject* pySynchedObject_setVolatile(pySynchedObject* self, PyObject* ar
     return Py_None;
 }
 
-static PyObject* pySynchedObject_getSyncFlags(pySynchedObject* self, void*) {
-    return PyInt_FromLong(self->fThis->getSyncFlags());
+static PyObject* pySynchedObject_getSynchFlags(pySynchedObject* self, void*) {
+    return PyInt_FromLong(self->fThis->getSynchFlags());
 }
 
 static PyObject* pySynchedObject_getExcludes(pySynchedObject* self, void*) {
@@ -69,7 +69,7 @@ static PyObject* pySynchedObject_getVolatiles(pySynchedObject* self, void*) {
     return list;
 }
 
-static int pySynchedObject_setSyncFlags(pySynchedObject* self, PyObject* value, void*) {
+static int pySynchedObject_setSynchFlags(pySynchedObject* self, PyObject* value, void*) {
     int flags;
     if (value == NULL) {
         flags = 0;
@@ -79,7 +79,7 @@ static int pySynchedObject_setSyncFlags(pySynchedObject* self, PyObject* value, 
         PyErr_SetString(PyExc_TypeError, "synchFlags must be an int");
         return -1;
     }
-    self->fThis->setSyncFlags(flags);
+    self->fThis->setSynchFlags(flags);
     return 0;
 }
 
@@ -134,10 +134,8 @@ static PyMethodDef pySynchedObject_Methods[] = {
 };
 
 static PyGetSetDef pySynchedObject_GetSet[] = {
-    { _pycs("syncFlags"), (getter)pySynchedObject_getSyncFlags,
-        (setter)pySynchedObject_setSyncFlags, _pycs("Synched Object Flags"), NULL },
-    { _pycs("synchFlags"), (getter)pySynchedObject_getSyncFlags,    // Backwards compatibility synonym
-        (setter)pySynchedObject_setSyncFlags, _pycs("Synched Object Flags"), NULL },
+    { _pycs("synchFlags"), (getter)pySynchedObject_getSynchFlags,
+        (setter)pySynchedObject_setSynchFlags, _pycs("Synched Object Flags"), NULL },
     { _pycs("excludes"), (getter)pySynchedObject_getExcludes,
         (setter)pySynchedObject_setExcludes, _pycs("SDL Exclude States"), NULL },
     { _pycs("volatiles"), (getter)pySynchedObject_getVolatiles,

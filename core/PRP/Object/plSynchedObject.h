@@ -47,12 +47,12 @@ public:
     };
 
 protected:
-    unsigned int fSyncFlags;
+    unsigned int fSynchFlags;
     std::vector<plString> fSDLExcludeList;
     std::vector<plString> fSDLVolatileList;
 
 public:
-    plSynchedObject() : fSyncFlags() { }
+    plSynchedObject() : fSynchFlags() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -62,8 +62,8 @@ protected:
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
-    int getSyncFlags() const { return fSyncFlags; }
-    void setSyncFlags(unsigned int flags) { fSyncFlags = flags; }
+    int getSynchFlags() const { return fSynchFlags; }
+    void setSynchFlags(unsigned int flags) { fSynchFlags = flags; }
 
     const std::vector<plString>& getExcludes() const { return fSDLExcludeList; }
     const std::vector<plString>& getVolatiles() const { return fSDLVolatileList; }
