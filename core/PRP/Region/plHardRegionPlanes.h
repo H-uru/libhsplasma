@@ -19,7 +19,7 @@
 
 #include "plHardRegion.h"
 
-class PLASMA_DLL plHardRegionPlanes : public virtual plHardRegion {
+class PLASMA_DLL plHardRegionPlanes : public plHardRegion {
     CREATABLE(plHardRegionPlanes, kHardRegionPlanes, plHardRegion)
 
 public:

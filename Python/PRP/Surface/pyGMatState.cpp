@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Surface/hsGMatState.h>
 #include "pyGMatState.h"
+
+#include <PRP/Surface/hsGMatState.h>
 
 extern "C" {
 
@@ -342,10 +342,6 @@ PyObject* Init_pyGMatState_Type() {
     return (PyObject*)&pyGMatState_Type;
 }
 
-PyObject* pyGMatState_FromGMatState(hsGMatState& state) {
-    pyGMatState* pystate = PyObject_New(pyGMatState, &pyGMatState_Type);
-    pystate->fThis = &state;
-    return (PyObject*)pystate;
-}
+PY_PLASMA_IFC_METHODS(GMatState, hsGMatState)
 
 }

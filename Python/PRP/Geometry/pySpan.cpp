@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Geometry/plSpan.h>
 #include "pySpan.h"
+
+#include <PRP/Geometry/plSpan.h>
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/Region/pyBounds.h"
 #include "Stream/pyStream.h"
@@ -192,11 +192,11 @@ static PyObject* pySpan_getWaterHeight(pySpan* self, void*) {
 }
 
 static PyObject* pySpan_getLocalBounds(pySpan* self, void*) {
-    return pyBounds3Ext_FromBounds3Ext(self->fThis->getLocalBounds());
+    return ICreateBounds(self->fThis->getLocalBounds());
 }
 
 static PyObject* pySpan_getWorldBounds(pySpan* self, void*) {
-    return pyBounds3Ext_FromBounds3Ext(self->fThis->getWorldBounds());
+    return ICreateBounds(self->fThis->getWorldBounds());
 }
 
 static int pySpan_setFog(pySpan* self, PyObject* value, void*) {
@@ -538,22 +538,6 @@ PyObject* Init_pySpan_Type() {
     return (PyObject*)&pySpan_Type;
 }
 
-int pySpan_Check(PyObject* obj) {
-    if (obj->ob_type == &pySpan_Type
-        || PyType_IsSubtype(obj->ob_type, &pySpan_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySpan_FromSpan(plSpan* span) {
-    if (span == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySpan* obj = PyObject_New(pySpan, &pySpan_Type);
-    obj->fThis = span;
-    obj->fPyOwned = false;
-    return (PyObject*)obj;
-}
+PY_PLASMA_IFC_METHODS(Span, plSpan)
 
 }

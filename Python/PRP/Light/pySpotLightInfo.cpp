@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Light/plOmniLightInfo.h>
 #include "pyLightInfo.h"
+
+#include <PRP/Light/plOmniLightInfo.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -69,10 +69,6 @@ static int pySpotLightInfo_setSpotOuter(pySpotLightInfo* self, PyObject* value, 
     return 0;
 }
 
-static PyMethodDef pySpotLightInfo_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pySpotLightInfo_GetSet[] = {
     { _pycs("falloff"), (getter)pySpotLightInfo_getFalloff,
         (setter)pySpotLightInfo_setFalloff, NULL, NULL },
@@ -115,7 +111,7 @@ PyTypeObject pySpotLightInfo_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pySpotLightInfo_Methods,            /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pySpotLightInfo_GetSet,             /* tp_getset */
     NULL,                               /* tp_base */
@@ -150,22 +146,6 @@ PyObject* Init_pySpotLightInfo_Type() {
     return (PyObject*)&pySpotLightInfo_Type;
 }
 
-int pySpotLightInfo_Check(PyObject* obj) {
-    if (obj->ob_type == &pySpotLightInfo_Type
-        || PyType_IsSubtype(obj->ob_type, &pySpotLightInfo_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySpotLightInfo_FromSpotLightInfo(class plSpotLightInfo* light) {
-    if (light == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySpotLightInfo* pyLight = PyObject_New(pySpotLightInfo, &pySpotLightInfo_Type);
-    pyLight->fThis = light;
-    pyLight->fPyOwned = false;
-    return (PyObject*)pyLight;
-}
+PY_PLASMA_IFC_METHODS(SpotLightInfo, plSpotLightInfo)
 
 }

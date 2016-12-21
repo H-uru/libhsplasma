@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Light/plDirectionalLightInfo.h>
 #include "pyLightInfo.h"
+
+#include <PRP/Light/plDirectionalLightInfo.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -69,10 +69,6 @@ static int pyLimitedDirLightInfo_setDepth(pyLimitedDirLightInfo* self, PyObject*
     return 0;
 }
 
-static PyMethodDef pyLimitedDirLightInfo_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyLimitedDirLightInfo_GetSet[] = {
     { _pycs("width"), (getter)pyLimitedDirLightInfo_getWidth,
         (setter)pyLimitedDirLightInfo_setWidth, NULL, NULL },
@@ -115,7 +111,7 @@ PyTypeObject pyLimitedDirLightInfo_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyLimitedDirLightInfo_Methods,      /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyLimitedDirLightInfo_GetSet,       /* tp_getset */
     NULL,                               /* tp_base */
@@ -150,22 +146,6 @@ PyObject* Init_pyLimitedDirLightInfo_Type() {
     return (PyObject*)&pyLimitedDirLightInfo_Type;
 }
 
-int pyLimitedDirLightInfo_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLimitedDirLightInfo_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLimitedDirLightInfo_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyLimitedDirLightInfo_FromLimitedDirLightInfo(class plLimitedDirLightInfo* light) {
-    if (light == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyLimitedDirLightInfo* pyLight = PyObject_New(pyLimitedDirLightInfo, &pyLimitedDirLightInfo_Type);
-    pyLight->fThis = light;
-    pyLight->fPyOwned = false;
-    return (PyObject*)pyLight;
-}
+PY_PLASMA_IFC_METHODS(LimitedDirLightInfo, plLimitedDirLightInfo)
 
 }

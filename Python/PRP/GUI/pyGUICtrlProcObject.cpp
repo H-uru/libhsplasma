@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/GUI/pfGUIControlHandlers.h>
 #include "pyGUIControlHandlers.h"
+
+#include <PRP/GUI/pfGUIControlHandlers.h>
 
 extern "C" {
 
@@ -103,22 +103,6 @@ PyObject* Init_pyGUICtrlProcObject_Type() {
     return (PyObject*)&pyGUICtrlProcObject_Type;
 }
 
-int pyGUICtrlProcObject_Check(PyObject* obj) {
-    if (obj->ob_type == &pyGUICtrlProcObject_Type
-        || PyType_IsSubtype(obj->ob_type, &pyGUICtrlProcObject_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyGUICtrlProcObject_FromGUICtrlProcObject(pfGUICtrlProcObject* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyGUICtrlProcObject* pyobj = PyObject_New(pyGUICtrlProcObject, &pyGUICtrlProcObject_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(GUICtrlProcObject, pfGUICtrlProcObject)
 
 }

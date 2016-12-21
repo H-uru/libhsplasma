@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Surface/plLayerMovie.h>
 #include "pyLayerMovie.h"
+
+#include <PRP/Surface/plLayerMovie.h>
 #include "pyLayerAnimation.h"
 #include "PRP/pyCreatable.h"
 
@@ -43,10 +43,6 @@ static int pyLayerMovie_setMovieName(pyLayerMovie* self, PyObject* value, void*)
     self->fThis->setMovieName(PyStr_To_PlStr(value));
     return 0;
 }
-
-static PyMethodDef pyLayerMovie_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyLayerMovie_GetSet[] = {
     { _pycs("movieName"), (getter)pyLayerMovie_getMovieName,
@@ -86,7 +82,7 @@ PyTypeObject pyLayerMovie_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyLayerMovie_Methods,               /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyLayerMovie_GetSet,                /* tp_getset */
     NULL,                               /* tp_base */
@@ -121,22 +117,6 @@ PyObject* Init_pyLayerMovie_Type() {
     return (PyObject*)&pyLayerMovie_Type;
 }
 
-int pyLayerMovie_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLayerMovie_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLayerMovie_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyLayerMovie_FromLayerMovie(class plLayerMovie* layer) {
-    if (layer == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyLayerMovie* pyobj = PyObject_New(pyLayerMovie, &pyLayerMovie_Type);
-    pyobj->fThis = layer;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(LayerMovie, plLayerMovie)
 
 }

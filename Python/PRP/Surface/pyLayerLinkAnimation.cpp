@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Surface/plLayerAnimation.h>
 #include "pyLayerAnimation.h"
+
+#include <PRP/Surface/plLayerAnimation.h>
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/pyCreatable.h"
 
@@ -62,10 +62,6 @@ static int pyLayerLinkAnimation_setLeavingAge(pyLayerLinkAnimation* self, PyObje
     return 0;
 }
 
-static PyMethodDef pyLayerLinkAnimation_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyLayerLinkAnimation_GetSet[] = {
     { _pycs("linkKey"), (getter)pyLayerLinkAnimation_getLinkKey,
         (setter)pyLayerLinkAnimation_setLinkKey, NULL, NULL },
@@ -106,7 +102,7 @@ PyTypeObject pyLayerLinkAnimation_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyLayerLinkAnimation_Methods,       /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyLayerLinkAnimation_GetSet,        /* tp_getset */
     NULL,                               /* tp_base */
@@ -141,22 +137,6 @@ PyObject* Init_pyLayerLinkAnimation_Type() {
     return (PyObject*)&pyLayerLinkAnimation_Type;
 }
 
-int pyLayerLinkAnimation_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLayerLinkAnimation_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLayerLinkAnimation_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyLayerLinkAnimation_FromLayerLinkAnimation(class plLayerLinkAnimation* layer) {
-    if (layer == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyLayerLinkAnimation* pyobj = PyObject_New(pyLayerLinkAnimation, &pyLayerLinkAnimation_Type);
-    pyobj->fThis = layer;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(LayerLinkAnimation, plLayerLinkAnimation)
 
 }

@@ -17,19 +17,8 @@
 #ifndef _PYENABLEMSG_H
 #define _PYENABLEMSG_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plEnableMsg* fThis;
-    bool fPyOwned;
-} pyEnableMsg;
-
-extern PyTypeObject pyEnableMsg_Type;
-PyObject* Init_pyEnableMsg_Type();
-int pyEnableMsg_Check(PyObject* obj);
-PyObject* pyEnableMsg_FromEnableMsg(class plEnableMsg* msg);
-
-}
+PY_WRAP_PLASMA(EnableMsg, class plEnableMsg);
 
 #endif

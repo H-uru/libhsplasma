@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Region/hsBounds.h>
 #include "pyBounds.h"
+
+#include <PRP/Region/hsBounds.h>
 #include "Math/pyGeometry3.h"
 
 extern "C" {
@@ -146,17 +146,6 @@ PyObject* Init_pyBounds3_Type() {
     return (PyObject*)&pyBounds3_Type;
 }
 
-int pyBounds3_Check(PyObject* obj) {
-    if (obj->ob_type == &pyBounds3_Type
-        || PyType_IsSubtype(obj->ob_type, &pyBounds3_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyBounds3_FromBounds3(const hsBounds3& bounds) {
-    pyBounds3* obj = PyObject_New(pyBounds3, &pyBounds3_Type);
-    obj->fThis = new hsBounds3(bounds);
-    return (PyObject*)obj;
-}
+PY_PLASMA_VALUE_IFC_METHODS(Bounds3, hsBounds3)
 
 }

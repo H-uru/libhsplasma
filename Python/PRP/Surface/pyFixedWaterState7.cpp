@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Surface/plFixedWaterState7.h>
 #include "pyFixedWaterState7.h"
+
+#include <PRP/Surface/plFixedWaterState7.h>
 #include "Math/pyGeometry3.h"
 #include "Sys/pyColor.h"
 
@@ -425,22 +425,6 @@ PyObject* Init_pyFixedWaterState7_Type() {
     return (PyObject*)&pyFixedWaterState7_Type;
 }
 
-int pyFixedWaterState7_Check(PyObject* obj) {
-    if (obj->ob_type == &pyFixedWaterState7_Type
-        || PyType_IsSubtype(obj->ob_type, &pyFixedWaterState7_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyFixedWaterState7_FromFixedWaterState7(plFixedWaterState7* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyFixedWaterState7* pyobj = PyObject_New(pyFixedWaterState7, &pyFixedWaterState7_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(FixedWaterState7, plFixedWaterState7)
 
 }

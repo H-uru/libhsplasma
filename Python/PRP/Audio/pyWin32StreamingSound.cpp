@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Audio/plWin32Sound.h>
 #include "pyWin32Sound.h"
+
+#include <PRP/Audio/plWin32Sound.h>
 
 extern "C" {
 
@@ -96,22 +96,6 @@ PyObject* Init_pyWin32StreamingSound_Type() {
     return (PyObject*)&pyWin32StreamingSound_Type;
 }
 
-int pyWin32StreamingSound_Check(PyObject* obj) {
-    if (obj->ob_type == &pyWin32StreamingSound_Type
-        || PyType_IsSubtype(obj->ob_type, &pyWin32StreamingSound_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyWin32StreamingSound_FromWin32StreamingSound(plWin32StreamingSound* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyWin32StreamingSound* pyobj = PyObject_New(pyWin32StreamingSound, &pyWin32StreamingSound_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(Win32StreamingSound, plWin32StreamingSound)
 
 }

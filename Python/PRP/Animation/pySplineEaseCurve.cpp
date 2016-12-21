@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Animation/plATCEaseCurves.h>
 #include "pyATCEaseCurves.h"
+
+#include <PRP/Animation/plATCEaseCurves.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -53,9 +53,6 @@ static int pySplineEaseCurve_setSplineCoef(pySplineEaseCurve* self, PyObject* va
     return 0;
 }
 
-static PyMethodDef pySplineEaseCurve_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pySplineEaseCurve_GetSet[] = {
     { _pycs("splineCoef"), (getter)pySplineEaseCurve_getSplineCoef,
@@ -95,7 +92,7 @@ PyTypeObject pySplineEaseCurve_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pySplineEaseCurve_Methods,          /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pySplineEaseCurve_GetSet,           /* tp_getset */
     NULL,                               /* tp_base */
@@ -130,22 +127,6 @@ PyObject* Init_pySplineEaseCurve_Type() {
     return (PyObject*)&pySplineEaseCurve_Type;
 }
 
-int pySplineEaseCurve_Check(PyObject* obj) {
-    if (obj->ob_type == &pySplineEaseCurve_Type
-        || PyType_IsSubtype(obj->ob_type, &pySplineEaseCurve_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySplineEaseCurve_FromSplineEaseCurve(class plSplineEaseCurve* curve) {
-    if (curve == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySplineEaseCurve* pyobj = PyObject_New(pySplineEaseCurve, &pySplineEaseCurve_Type);
-    pyobj->fThis = curve;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(SplineEaseCurve, plSplineEaseCurve)
 
 }

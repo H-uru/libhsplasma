@@ -14,11 +14,11 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
+#include "pyResManager.h"
+
 #include <ResManager/plResManager.h>
 #include <PRP/KeyedObject/hsKeyedObject.h>
 #include <PRP/plCreatable.h>
-#include "pyResManager.h"
 #include "Stream/pyStream.h"
 #include "PRP/pyCreatable.h"
 #include "PRP/pySceneNode.h"
@@ -131,7 +131,7 @@ static PyObject* pyResManager_getObject(pyResManager* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "getObject expects a plKey");
         return NULL;
     }
-    return ICreate(dynamic_cast<plCreatable*>(self->fThis->getObject(*(key->fThis))));
+    return ICreate(self->fThis->getObject(*(key->fThis)));
 }
 
 static PyObject* pyResManager_countKeys(pyResManager* self, PyObject* args) {
@@ -335,7 +335,7 @@ static PyObject* pyResManager_WriteCreatable(pyResManager* self, PyObject* args)
         PyErr_SetString(PyExc_TypeError, "WriteCreatable expects hsStream, plCreatable");
         return NULL;
     }
-    self->fThis->WriteCreatable(stream->fThis, IConvert((pyCreatable*)cre));
+    self->fThis->WriteCreatable(stream->fThis, cre->fThis);
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -412,7 +412,7 @@ static PyObject* pyResManager_AddObject(pyResManager* self, PyObject* args) {
         return NULL;
     }
 
-    self->fThis->AddObject(*loc->fThis, hsKeyedObject::Convert(IConvert((pyCreatable*)obj)));
+    self->fThis->AddObject(*loc->fThis, obj->fThis);
     obj->fPyOwned = false;
     Py_INCREF(Py_None);
     return Py_None;
@@ -677,11 +677,6 @@ PyObject* Init_pyResManager_Type() {
     return (PyObject*)&pyResManager_Type;
 }
 
-int pyResManager_Check(PyObject* obj) {
-    if (obj->ob_type == &pyResManager_Type
-        || PyType_IsSubtype(obj->ob_type, &pyResManager_Type))
-        return 1;
-    return 0;
-}
+PY_PLASMA_IFC_METHODS(ResManager, plResManager)
 
 }

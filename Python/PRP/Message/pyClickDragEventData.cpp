@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/proEventData.h>
 #include "pyEventData.h"
+
+#include <PRP/Message/proEventData.h>
 
 extern "C" {
 
@@ -28,10 +28,6 @@ static PyObject* pyClickDragEventData_new(PyTypeObject* type, PyObject* args, Py
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyClickDragEventData_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyClickDragEventData_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -65,7 +61,7 @@ PyTypeObject pyClickDragEventData_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyClickDragEventData_Methods,       /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -100,22 +96,6 @@ PyObject* Init_pyClickDragEventData_Type() {
     return (PyObject*)&pyClickDragEventData_Type;
 }
 
-int pyClickDragEventData_Check(PyObject* obj) {
-    if (obj->ob_type == &pyClickDragEventData_Type
-        || PyType_IsSubtype(obj->ob_type, &pyClickDragEventData_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyClickDragEventData_FromClickDragEventData(proClickDragEventData* evt) {
-    if (evt == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyClickDragEventData* pyobj = PyObject_New(pyClickDragEventData, &pyClickDragEventData_Type);
-    pyobj->fThis = evt;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ClickDragEventData, proClickDragEventData)
 
 }

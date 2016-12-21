@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Surface/plDynamicEnvMap.h>
 #include "pyDynamicEnvMap.h"
+
+#include <PRP/Surface/plDynamicEnvMap.h>
 #include "pyRenderTarget.h"
 #include "PRP/KeyedObject/pyKey.h"
 #include "Math/pyGeometry3.h"
@@ -506,22 +506,6 @@ PyObject* Init_pyDynamicCamMap_Type() {
     return (PyObject*)&pyDynamicCamMap_Type;
 }
 
-int pyDynamicCamMap_Check(PyObject* obj) {
-    if (obj->ob_type == &pyDynamicCamMap_Type
-        || PyType_IsSubtype(obj->ob_type, &pyDynamicCamMap_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyDynamicCamMap_FromDynamicCamMap(class plDynamicCamMap* dcm) {
-    if (dcm == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyDynamicCamMap* pydcm = PyObject_New(pyDynamicCamMap, &pyDynamicCamMap_Type);
-    pydcm->fThis = dcm;
-    pydcm->fPyOwned = false;
-    return (PyObject*)pydcm;
-}
+PY_PLASMA_IFC_METHODS(DynamicCamMap, plDynamicCamMap)
 
 }

@@ -19,7 +19,7 @@
 
 #include "plModifier.h"
 
-class PLASMA_DLL plAliasModifier : public virtual plSingleModifier {
+class PLASMA_DLL plAliasModifier : public plSingleModifier {
     CREATABLE(plAliasModifier, kAliasModifier, plSingleModifier)
 
 protected:

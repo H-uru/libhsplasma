@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/proEventData.h>
 #include "pyEventData.h"
+
+#include <PRP/Message/proEventData.h>
 #include "PRP/KeyedObject/pyKey.h"
 
 extern "C" {
@@ -72,9 +72,6 @@ static int pyMultiStageEventData_setAvatar(pyMultiStageEventData* self, PyObject
         return -1;
     }
 }
-static PyMethodDef pyMultiStageEventData_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyMultiStageEventData_GetSet[] = {
     { _pycs("stage"), (getter)pyMultiStageEventData_getStage,
@@ -118,7 +115,7 @@ PyTypeObject pyMultiStageEventData_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyMultiStageEventData_Methods,      /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyMultiStageEventData_GetSet,       /* tp_getset */
     NULL,                               /* tp_base */
@@ -153,22 +150,6 @@ PyObject* Init_pyMultiStageEventData_Type() {
     return (PyObject*)&pyMultiStageEventData_Type;
 }
 
-int pyMultiStageEventData_Check(PyObject* obj) {
-    if (obj->ob_type == &pyMultiStageEventData_Type
-        || PyType_IsSubtype(obj->ob_type, &pyMultiStageEventData_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyMultiStageEventData_FromMultiStageEventData(proMultiStageEventData* evt) {
-    if (evt == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyMultiStageEventData* pyobj = PyObject_New(pyMultiStageEventData, &pyMultiStageEventData_Type);
-    pyobj->fThis = evt;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(MultiStageEventData, proMultiStageEventData)
 
 }

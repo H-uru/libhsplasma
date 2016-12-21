@@ -14,9 +14,10 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Surface/plCubicEnvironmap.h>
 #include "pyCubicEnvironmap.h"
+
+#include <PRP/Surface/plCubicEnvironmap.h>
+#include "PRP/pyCreatable.h"
 #include "pyBitmap.h"
 
 extern "C" {
@@ -31,27 +32,27 @@ static PyObject* pyCubicEnvironmap_new(PyTypeObject* type, PyObject* args, PyObj
 }
 
 static PyObject* pyCubicEnvironmap_getLeftFace(pyCubicEnvironmap* self, void*) {
-    return pyMipmap_FromMipmap(self->fThis->getFace(plCubicEnvironmap::Faces::kLeftFace));
+    return ICreate(self->fThis->getFace(plCubicEnvironmap::Faces::kLeftFace));
 }
 
 static PyObject* pyCubicEnvironmap_getRightFace(pyCubicEnvironmap* self, void*) {
-    return pyMipmap_FromMipmap(self->fThis->getFace(plCubicEnvironmap::Faces::kRightFace));
+    return ICreate(self->fThis->getFace(plCubicEnvironmap::Faces::kRightFace));
 }
 
 static PyObject* pyCubicEnvironmap_getFrontFace(pyCubicEnvironmap* self, void*) {
-    return pyMipmap_FromMipmap(self->fThis->getFace(plCubicEnvironmap::Faces::kFrontFace));
+    return ICreate(self->fThis->getFace(plCubicEnvironmap::Faces::kFrontFace));
 }
 
 static PyObject* pyCubicEnvironmap_getBackFace(pyCubicEnvironmap* self, void*) {
-    return pyMipmap_FromMipmap(self->fThis->getFace(plCubicEnvironmap::Faces::kBackFace));
+    return ICreate(self->fThis->getFace(plCubicEnvironmap::Faces::kBackFace));
 }
 
 static PyObject* pyCubicEnvironmap_getTopFace(pyCubicEnvironmap* self, void*) {
-    return pyMipmap_FromMipmap(self->fThis->getFace(plCubicEnvironmap::Faces::kTopFace));
+    return ICreate(self->fThis->getFace(plCubicEnvironmap::Faces::kTopFace));
 }
 
 static PyObject* pyCubicEnvironmap_getBottomFace(pyCubicEnvironmap* self, void*) {
-    return pyMipmap_FromMipmap(self->fThis->getFace(plCubicEnvironmap::Faces::kBottomFace));
+    return ICreate(self->fThis->getFace(plCubicEnvironmap::Faces::kBottomFace));
 }
 
 static int pyCubicEnvironmap_setLeftFace(pyCubicEnvironmap* self, PyObject* value, void*) {
@@ -185,22 +186,6 @@ PyObject* Init_pyCubicEnvironmap_Type() {
     return (PyObject*)&pyCubicEnvironmap_Type;
 }
 
-int pyCubicEnvironmap_Check(PyObject* obj) {
-    if (obj->ob_type == &pyCubicEnvironmap_Type
-        || PyType_IsSubtype(obj->ob_type, &pyCubicEnvironmap_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyCubicEnvironmap_FromCubicEnvironmap(class plCubicEnvironmap* cem) {
-    if (cem == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyCubicEnvironmap* pycem = PyObject_New(pyCubicEnvironmap, &pyCubicEnvironmap_Type);
-    pycem->fThis = cem;
-    pycem->fPyOwned = false;
-    return (PyObject*)pycem;
-}
+PY_PLASMA_IFC_METHODS(CubicEnvironmap, plCubicEnvironmap)
 
 }

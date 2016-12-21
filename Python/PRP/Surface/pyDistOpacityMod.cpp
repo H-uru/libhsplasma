@@ -14,9 +14,9 @@
 * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <PyPlasma.h>
-#include <PRP/Surface/plDistOpacityMod.h>
 #include "PRP/Modifier/pyModifier.h"
+
+#include <PRP/Surface/plDistOpacityMod.h>
 #include "pyDistOpacityMod.h"
 
 extern "C" {
@@ -157,22 +157,6 @@ PyObject* Init_pyDistOpacityMod_Type() {
     return (PyObject*) &pyDistOpacityMod_Type;
 }
 
-int pyDistOpacityMod_Check(PyObject* obj) {
-    if (obj->ob_type == &pyDistOpacityMod_Type
-        || PyType_IsSubtype(obj->ob_type, &pyDistOpacityMod_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyDistOpacityMod_FromDistOpacityMod(class plDistOpacityMod* dom) {
-    if (dom == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyDistOpacityMod* pydom = PyObject_New(pyDistOpacityMod, &pyDistOpacityMod_Type);
-    pydom->fThis = dom;
-    pydom->fPyOwned = false;
-    return (PyObject*) pydom;
-}
+PY_PLASMA_IFC_METHODS(DistOpacityMod, plDistOpacityMod)
 
 }

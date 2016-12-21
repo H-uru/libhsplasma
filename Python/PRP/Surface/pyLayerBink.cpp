@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Surface/plLayerMovie.h>
 #include "pyLayerMovie.h"
+
+#include <PRP/Surface/plLayerMovie.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -29,10 +29,6 @@ static PyObject* pyLayerBink_new(PyTypeObject* type, PyObject* args, PyObject* k
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyLayerBink_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyLayerBink_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -66,7 +62,7 @@ PyTypeObject pyLayerBink_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyLayerBink_Methods,                /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -101,22 +97,6 @@ PyObject* Init_pyLayerBink_Type() {
     return (PyObject*)&pyLayerBink_Type;
 }
 
-int pyLayerBink_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLayerBink_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLayerBink_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyLayerBink_FromLayerBink(class plLayerBink* layer) {
-    if (layer == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyLayerBink* pyobj = PyObject_New(pyLayerBink, &pyLayerBink_Type);
-    pyobj->fThis = layer;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(LayerBink, plLayerBink)
 
 }

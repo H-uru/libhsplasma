@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plAnimStage.h>
 #include "pyMultistageBehMod.h"
+
+#include <PRP/Avatar/plAnimStage.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -171,9 +171,6 @@ static int pyAnimStage_setRegressTo(pyAnimStage* self, PyObject* value, void*) {
     }
 }
 
-static PyMethodDef pyAnimStage_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyAnimStage_GetSet[] = {
     { _pycs("forwardType"), (getter)pyAnimStage_getForwardType, (setter)pyAnimStage_setForwardType, NULL, NULL },
@@ -220,7 +217,7 @@ PyTypeObject pyAnimStage_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyAnimStage_Methods,                /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyAnimStage_GetSet,                 /* tp_getset */
     NULL,                               /* tp_base */
@@ -284,22 +281,6 @@ PyObject* Init_pyAnimStage_Type() {
     return (PyObject*)&pyAnimStage_Type;
 }
 
-int pyAnimStage_Check(PyObject* obj) {
-    if (obj->ob_type == &pyAnimStage_Type
-        || PyType_IsSubtype(obj->ob_type, &pyAnimStage_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyAnimStage_FromAnimStage(plAnimStage* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyAnimStage* pyobj = PyObject_New(pyAnimStage, &pyAnimStage_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(AnimStage, plAnimStage)
 
 }

@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Region/hsBounds.h>
 #include "pyBounds.h"
+
+#include <PRP/Region/hsBounds.h>
 #include "Math/pyGeometry3.h"
 
 extern "C" {
@@ -162,17 +162,6 @@ PyObject* Init_pyBoundsOriented_Type() {
     return (PyObject*)&pyBoundsOriented_Type;
 }
 
-int pyBoundsOriented_Check(PyObject* obj) {
-    if (obj->ob_type == &pyBoundsOriented_Type
-        || PyType_IsSubtype(obj->ob_type, &pyBoundsOriented_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyBoundsOriented_FromBoundsOriented(const hsBoundsOriented& bounds) {
-    pyBoundsOriented* obj = PyObject_New(pyBoundsOriented, &pyBoundsOriented_Type);
-    obj->fThis = new hsBoundsOriented(bounds);
-    return (PyObject*)obj;
-}
+PY_PLASMA_VALUE_IFC_METHODS(BoundsOriented, hsBoundsOriented)
 
 }

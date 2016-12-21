@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/plCursorChangeMsg.h>
 #include "pyCursorChangeMsg.h"
+
+#include <PRP/Message/plCursorChangeMsg.h>
 #include "pyMessage.h"
 
 extern "C" {
@@ -156,22 +156,6 @@ PyObject* Init_pyCursorChangeMsg_Type() {
     return (PyObject*)&pyCursorChangeMsg_Type;
 }
 
-int pyCursorChangeMsg_Check(PyObject* obj) {
-    if (obj->ob_type == &pyCursorChangeMsg_Type
-        || PyType_IsSubtype(obj->ob_type, &pyCursorChangeMsg_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyCursorChangeMsg_FromCursorChangeMsg(class plCursorChangeMsg* atc) {
-    if (atc == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyCursorChangeMsg* pyobj = PyObject_New(pyCursorChangeMsg, &pyCursorChangeMsg_Type);
-    pyobj->fThis = atc;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(CursorChangeMsg, plCursorChangeMsg)
 
 }

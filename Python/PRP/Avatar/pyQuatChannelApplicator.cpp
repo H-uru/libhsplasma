@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plQuatChannel.h>
 #include "pyAGApplicator.h"
+
+#include <PRP/Avatar/plQuatChannel.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -29,10 +29,6 @@ static PyObject* pyQuatChannelApplicator_new(PyTypeObject* type, PyObject* args,
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyQuatChannelApplicator_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyQuatChannelApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -66,7 +62,7 @@ PyTypeObject pyQuatChannelApplicator_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyQuatChannelApplicator_Methods,    /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -101,22 +97,6 @@ PyObject* Init_pyQuatChannelApplicator_Type() {
     return (PyObject*)&pyQuatChannelApplicator_Type;
 }
 
-int pyQuatChannelApplicator_Check(PyObject* obj) {
-    if (obj->ob_type == &pyQuatChannelApplicator_Type
-        || PyType_IsSubtype(obj->ob_type, &pyQuatChannelApplicator_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyQuatChannelApplicator_FromQuatChannelApplicator(class plQuatChannelApplicator* app) {
-    if (app == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyQuatChannelApplicator* pyobj = PyObject_New(pyQuatChannelApplicator, &pyQuatChannelApplicator_Type);
-    pyobj->fThis = app;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(QuatChannelApplicator, plQuatChannelApplicator)
 
 }

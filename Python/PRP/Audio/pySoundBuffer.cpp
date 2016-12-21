@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Audio/plSoundBuffer.h>
 #include "pySoundBuffer.h"
+
+#include <PRP/Audio/plSoundBuffer.h>
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/pyCreatable.h"
 
@@ -32,7 +32,7 @@ static PyObject* pySoundBuffer_new(PyTypeObject* type, PyObject* args, PyObject*
 }
 
 static PyObject* pySoundBuffer_getHeader(pySoundBuffer* self, void*) {
-    return pyWAVHeader_FromWAVHeader(self->fThis->getHeader());
+    return pyWAVHeader_FromWAVHeader(&self->fThis->getHeader());
 }
 
 static PyObject* pySoundBuffer_getFileName(pySoundBuffer* self, void*) {
@@ -109,9 +109,6 @@ static int pySoundBuffer_setData(pySoundBuffer* self, PyObject* value, void*) {
     return 0;
 }
 
-static PyMethodDef pySoundBuffer_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pySoundBuffer_GetSet[] = {
     { _pycs("header"), (getter)pySoundBuffer_getHeader,
@@ -159,7 +156,7 @@ PyTypeObject pySoundBuffer_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pySoundBuffer_Methods,              /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pySoundBuffer_GetSet,               /* tp_getset */
     NULL,                               /* tp_base */
@@ -205,22 +202,6 @@ PyObject* Init_pySoundBuffer_Type() {
     return (PyObject*)&pySoundBuffer_Type;
 }
 
-int pySoundBuffer_Check(PyObject* obj) {
-    if (obj->ob_type == &pySoundBuffer_Type
-        || PyType_IsSubtype(obj->ob_type, &pySoundBuffer_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySoundBuffer_FromSoundBuffer(class plSoundBuffer* buf) {
-    if (buf == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySoundBuffer* pysb = PyObject_New(pySoundBuffer, &pySoundBuffer_Type);
-    pysb->fThis = buf;
-    pysb->fPyOwned = false;
-    return (PyObject*)pysb;
-}
+PY_PLASMA_IFC_METHODS(SoundBuffer, plSoundBuffer)
 
 }

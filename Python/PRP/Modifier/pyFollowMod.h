@@ -17,19 +17,8 @@
 #ifndef _PYFOLLOWMOD_H
 #define _PYFOLLOWMOD_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plFollowMod* fThis;
-    bool fPyOwned;
-} pyFollowMod;
-
-extern PyTypeObject pyFollowMod_Type;
-PyObject* Init_pyFollowMod_Type();
-int pyFollowMod_Check(PyObject* obj);
-PyObject* pyFollowMod_FromFollowMod(class plFollowMod* mod);
-
-}
+PY_WRAP_PLASMA(FollowMod, class plFollowMod);
 
 #endif

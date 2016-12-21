@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plMatrixChannel.h>
 #include "pyAGChannel.h"
+
+#include <PRP/Avatar/plMatrixChannel.h>
 #include "PRP/pyCreatable.h"
 #include "Math/pyGeometry3.h"
 
@@ -32,7 +32,7 @@ static PyObject* pyMatrixChannel_new(PyTypeObject* type, PyObject* args, PyObjec
 }
 
 static PyObject* pyMatrixChannel_getAffine(pyMatrixChannel* self, void*) {
-    return pyAffineParts_FromAffineParts(plMatrixChannel::Convert(IConvert((pyCreatable*)self))->getAffine());
+    return pyAffineParts_FromAffineParts(self->fThis->getAffine());
 }
 
 static int pyMatrixChannel_setAffine(pyMatrixChannel* self, PyObject* value, void*) {
@@ -40,13 +40,9 @@ static int pyMatrixChannel_setAffine(pyMatrixChannel* self, PyObject* value, voi
         PyErr_SetString(PyExc_TypeError, "result should be an hsAffineParts");
         return -1;
     }
-    plMatrixChannel::Convert(IConvert((pyCreatable*)self))->setAffine(*((pyAffineParts*)value)->fThis);
+    self->fThis->setAffine(*((pyAffineParts*)value)->fThis);
     return 0;
 }
-
-static PyMethodDef pyMatrixChannel_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyMatrixChannel_GetSet[] = {
     { _pycs("affine"), (getter)pyMatrixChannel_getAffine,
@@ -86,7 +82,7 @@ PyTypeObject pyMatrixChannel_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyMatrixChannel_Methods,            /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyMatrixChannel_GetSet,             /* tp_getset */
     NULL,                               /* tp_base */
@@ -121,22 +117,6 @@ PyObject* Init_pyMatrixChannel_Type() {
     return (PyObject*)&pyMatrixChannel_Type;
 }
 
-int pyMatrixChannel_Check(PyObject* obj) {
-    if (obj->ob_type == &pyMatrixChannel_Type
-        || PyType_IsSubtype(obj->ob_type, &pyMatrixChannel_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyMatrixChannel_FromMatrixChannel(class plMatrixChannel* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyMatrixChannel* pyobj = PyObject_New(pyMatrixChannel, &pyMatrixChannel_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(MatrixChannel, plMatrixChannel)
 
 }

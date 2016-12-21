@@ -48,7 +48,7 @@ public:
 };
 
 
-class PLASMA_DLL plDrawable : public virtual hsKeyedObject {
+class PLASMA_DLL plDrawable : public hsKeyedObject {
     CREATABLE(plDrawable, kDrawable, hsKeyedObject)
 
 public:
@@ -103,7 +103,7 @@ public:
 };
 
 
-class PLASMA_DLL plDrawableSpans : public virtual plDrawable {
+class PLASMA_DLL plDrawableSpans : public plDrawable {
     CREATABLE(plDrawableSpans, kDrawableSpans, plDrawable)
 
 protected:

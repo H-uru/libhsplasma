@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Surface/plDynamicTextMap.h>
 #include "pyDynamicTextMap.h"
+
+#include <PRP/Surface/plDynamicTextMap.h>
 #include "pyBitmap.h"
 #include "PRP/pyCreatable.h"
 
@@ -102,10 +102,6 @@ static int pyDynamicTextMap_setInitBuffer(pyDynamicTextMap* self, PyObject* valu
     return 0;
 }
 
-static PyMethodDef pyDynamicTextMap_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyDynamicTextMap_GetSet[] = {
     { _pycs("visWidth"), (getter)pyDynamicTextMap_getWidth,
         (setter)pyDynamicTextMap_setWidth, NULL, NULL },
@@ -150,7 +146,7 @@ PyTypeObject pyDynamicTextMap_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyDynamicTextMap_Methods,           /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyDynamicTextMap_GetSet,            /* tp_getset */
     NULL,                               /* tp_base */
@@ -185,22 +181,6 @@ PyObject* Init_pyDynamicTextMap_Type() {
     return (PyObject*)&pyDynamicTextMap_Type;
 }
 
-int pyDynamicTextMap_Check(PyObject* obj) {
-    if (obj->ob_type == &pyDynamicTextMap_Type
-        || PyType_IsSubtype(obj->ob_type, &pyDynamicTextMap_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyDynamicTextMap_FromDynamicTextMap(class plDynamicTextMap* img) {
-    if (img == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyDynamicTextMap* pybmp = PyObject_New(pyDynamicTextMap, &pyDynamicTextMap_Type);
-    pybmp->fThis = img;
-    pybmp->fPyOwned = false;
-    return (PyObject*)pybmp;
-}
+PY_PLASMA_IFC_METHODS(DynamicTextMap, plDynamicTextMap)
 
 }

@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plAGApplicator.h>
 #include "pyAGApplicator.h"
+
+#include <PRP/Avatar/plAGApplicator.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -29,10 +29,6 @@ static PyObject* pyOmniApplicator_new(PyTypeObject* type, PyObject* args, PyObje
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyOmniApplicator_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyOmniApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -66,7 +62,7 @@ PyTypeObject pyOmniApplicator_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyOmniApplicator_Methods,           /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -101,22 +97,6 @@ PyObject* Init_pyOmniApplicator_Type() {
     return (PyObject*)&pyOmniApplicator_Type;
 }
 
-int pyOmniApplicator_Check(PyObject* obj) {
-    if (obj->ob_type == &pyOmniApplicator_Type
-        || PyType_IsSubtype(obj->ob_type, &pyOmniApplicator_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyOmniApplicator_FromOmniApplicator(class plOmniApplicator* app) {
-    if (app == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyOmniApplicator* pyobj = PyObject_New(pyOmniApplicator, &pyOmniApplicator_Type);
-    pyobj->fThis = app;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(OmniApplicator, plOmniApplicator)
 
 }

@@ -17,19 +17,8 @@
 #ifndef _PYCURSORCHANGEMSG_H
 #define _PYCURSORCHANGEMSG_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plCursorChangeMsg* fThis;
-    bool fPyOwned;
-} pyCursorChangeMsg;
-
-extern PyTypeObject pyCursorChangeMsg_Type;
-PyObject* Init_pyCursorChangeMsg_Type();
-int pyCursorChangeMsg_Check(PyObject* obj);
-PyObject* pyCursorChangeMsg_FromCursorChangeMsg(class plCursorChangeMsg* msg);
-
-}
+PY_WRAP_PLASMA(CursorChangeMsg, class plCursorChangeMsg);
 
 #endif

@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plMatrixChannel.h>
 #include "pyAGApplicator.h"
+
+#include <PRP/Avatar/plMatrixChannel.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -29,10 +29,6 @@ static PyObject* pyRelativeMatrixChannelApplicator_new(PyTypeObject* type, PyObj
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyRelativeMatrixChannelApplicator_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyRelativeMatrixChannelApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -66,7 +62,7 @@ PyTypeObject pyRelativeMatrixChannelApplicator_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyRelativeMatrixChannelApplicator_Methods,   /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -101,22 +97,6 @@ PyObject* Init_pyRelativeMatrixChannelApplicator_Type() {
     return (PyObject*)&pyRelativeMatrixChannelApplicator_Type;
 }
 
-int pyRelativeMatrixChannelApplicator_Check(PyObject* obj) {
-    if (obj->ob_type == &pyRelativeMatrixChannelApplicator_Type
-        || PyType_IsSubtype(obj->ob_type, &pyRelativeMatrixChannelApplicator_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyRelativeMatrixChannelApplicator_FromRelativeMatrixChannelApplicator(class plRelativeMatrixChannelApplicator* app) {
-    if (app == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyRelativeMatrixChannelApplicator* pyobj = PyObject_New(pyRelativeMatrixChannelApplicator, &pyRelativeMatrixChannelApplicator_Type);
-    pyobj->fThis = app;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(RelativeMatrixChannelApplicator, plRelativeMatrixChannelApplicator)
 
 }

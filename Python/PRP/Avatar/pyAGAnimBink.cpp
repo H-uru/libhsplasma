@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plATCAnim.h>
 #include "pyATCAnim.h"
+
+#include <PRP/Avatar/plATCAnim.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -69,10 +69,6 @@ static int pyAGAnimBink_setSubtitleId(pyAGAnimBink* self, PyObject* value, void*
     return 0;
 }
 
-static PyMethodDef pyAGAnimBink_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyAGAnimBink_GetSet[] = {
     { _pycs("binkFilename"), (getter)pyAGAnimBink_getBinkFilename,
         (setter)pyAGAnimBink_setBinkFilename, NULL, NULL },
@@ -115,7 +111,7 @@ PyTypeObject pyAGAnimBink_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyAGAnimBink_Methods,               /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyAGAnimBink_GetSet,                /* tp_getset */
     NULL,                               /* tp_base */
@@ -150,22 +146,6 @@ PyObject* Init_pyAGAnimBink_Type() {
     return (PyObject*)&pyAGAnimBink_Type;
 }
 
-int pyAGAnimBink_Check(PyObject* obj) {
-    if (obj->ob_type == &pyAGAnimBink_Type
-        || PyType_IsSubtype(obj->ob_type, &pyAGAnimBink_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyAGAnimBink_FromAGAnimBink(class plAGAnimBink* anim) {
-    if (anim == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyAGAnimBink* pyobj = PyObject_New(pyAGAnimBink, &pyAGAnimBink_Type);
-    pyobj->fThis = anim;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(AGAnimBink, plAGAnimBink)
 
 }

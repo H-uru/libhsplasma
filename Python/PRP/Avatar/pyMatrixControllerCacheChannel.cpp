@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plMatrixChannel.h>
 #include "pyAGChannel.h"
+
+#include <PRP/Avatar/plMatrixChannel.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -29,10 +29,6 @@ static PyObject* pyMatrixControllerCacheChannel_new(PyTypeObject* type, PyObject
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyMatrixControllerCacheChannel_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyMatrixControllerCacheChannel_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -66,7 +62,7 @@ PyTypeObject pyMatrixControllerCacheChannel_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyMatrixControllerCacheChannel_Methods,              /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -101,22 +97,6 @@ PyObject* Init_pyMatrixControllerCacheChannel_Type() {
     return (PyObject*)&pyMatrixControllerCacheChannel_Type;
 }
 
-int pyMatrixControllerCacheChannel_Check(PyObject* obj) {
-    if (obj->ob_type == &pyMatrixControllerCacheChannel_Type
-        || PyType_IsSubtype(obj->ob_type, &pyMatrixControllerCacheChannel_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyMatrixControllerCacheChannel_FromMatrixControllerCacheChannel(class plMatrixControllerCacheChannel* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyMatrixControllerCacheChannel* pyobj = PyObject_New(pyMatrixControllerCacheChannel, &pyMatrixControllerCacheChannel_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(MatrixControllerCacheChannel, plMatrixControllerCacheChannel)
 
 }

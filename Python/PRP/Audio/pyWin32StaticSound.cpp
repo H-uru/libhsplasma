@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Audio/plWin32StaticSound.h>
 #include "pyWin32StaticSound.h"
+
+#include <PRP/Audio/plWin32StaticSound.h>
 #include "pyWin32Sound.h"
 
 extern "C" {
@@ -97,22 +97,6 @@ PyObject* Init_pyWin32StaticSound_Type() {
     return (PyObject*)&pyWin32StaticSound_Type;
 }
 
-int pyWin32StaticSound_Check(PyObject* obj) {
-    if (obj->ob_type == &pyWin32StaticSound_Type
-        || PyType_IsSubtype(obj->ob_type, &pyWin32StaticSound_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyWin32StaticSound_FromWin32StaticSound(plWin32StaticSound* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyWin32StaticSound* pyobj = PyObject_New(pyWin32StaticSound, &pyWin32StaticSound_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(Win32StaticSound, plWin32StaticSound)
 
 }

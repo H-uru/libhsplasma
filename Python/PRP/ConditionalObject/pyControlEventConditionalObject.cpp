@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/ConditionalObject/plControlEventConditionalObject.h>
 #include "pyControlEventConditionalObject.h"
+
+#include <PRP/ConditionalObject/plControlEventConditionalObject.h>
 #include "pyConditionalObject.h"
 
 extern "C" {
@@ -116,22 +116,6 @@ PyObject* Init_pyControlEventConditionalObject_Type() {
     return (PyObject*)&pyControlEventConditionalObject_Type;
 }
 
-int pyControlEventConditionalObject_Check(PyObject* obj) {
-    if (obj->ob_type == &pyControlEventConditionalObject_Type
-        || PyType_IsSubtype(obj->ob_type, &pyControlEventConditionalObject_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyControlEventConditionalObject_FromControlEventConditionalObject(class plControlEventConditionalObject* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyControlEventConditionalObject* py = PyObject_New(pyControlEventConditionalObject, &pyControlEventConditionalObject_Type);
-    py->fThis = obj;
-    py->fPyOwned = false;
-    return (PyObject*)py;
-}
+PY_PLASMA_IFC_METHODS(ControlEventConditionalObject, plControlEventConditionalObject)
 
 };

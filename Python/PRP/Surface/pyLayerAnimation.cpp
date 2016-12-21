@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Surface/plLayerAnimation.h>
 #include "pyLayerAnimation.h"
+
+#include <PRP/Surface/plLayerAnimation.h>
 #include "PRP/Animation/pyAnimTimeConvert.h"
 #include "PRP/pyCreatable.h"
 
@@ -32,18 +32,13 @@ static PyObject* pyLayerAnimation_new(PyTypeObject* type, PyObject* args, PyObje
 }
 
 static PyObject* pyLayerAnimation_getTimeConvert(pyLayerAnimation* self, void*) {
-    plLayerAnimation* anim = plLayerAnimation::Convert(IConvert((pyCreatable*)self));
-    return pyAnimTimeConvert_FromAnimTimeConvert(&anim->getTimeConvert());
+    return pyAnimTimeConvert_FromAnimTimeConvert(&self->fThis->getTimeConvert());
 }
 
 static int pyLayerAnimation_setTimeConvert(pyLayerAnimation* self, PyObject* value, void*) {
     PyErr_SetString(PyExc_RuntimeError, "timeConvert cannot be assigned");
     return -1;
 }
-
-static PyMethodDef pyLayerAnimation_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyLayerAnimation_GetSet[] = {
     { _pycs("timeConvert"), (getter)pyLayerAnimation_getTimeConvert,
@@ -83,7 +78,7 @@ PyTypeObject pyLayerAnimation_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyLayerAnimation_Methods,           /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyLayerAnimation_GetSet,            /* tp_getset */
     NULL,                               /* tp_base */
@@ -118,22 +113,6 @@ PyObject* Init_pyLayerAnimation_Type() {
     return (PyObject*)&pyLayerAnimation_Type;
 }
 
-int pyLayerAnimation_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLayerAnimation_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLayerAnimation_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyLayerAnimation_FromLayerAnimation(class plLayerAnimation* layer) {
-    if (layer == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyLayerAnimation* pylay = PyObject_New(pyLayerAnimation, &pyLayerAnimation_Type);
-    pylay->fThis = layer;
-    pylay->fPyOwned = false;
-    return (PyObject*)pylay;
-}
+PY_PLASMA_IFC_METHODS(LayerAnimation, plLayerAnimation)
 
 }

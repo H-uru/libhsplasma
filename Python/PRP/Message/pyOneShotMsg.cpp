@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/plResponderMsg.h>
 #include "pyResponderMsg.h"
+
+#include <PRP/Message/plResponderMsg.h>
 #include "PRP/KeyedObject/pyKey.h"
 
 extern "C" {
@@ -160,22 +160,6 @@ PyObject* Init_pyOneShotMsg_Type() {
     return (PyObject*)&pyOneShotMsg_Type;
 }
 
-int pyOneShotMsg_Check(PyObject* obj) {
-    if (obj->ob_type == &pyOneShotMsg_Type
-        || PyType_IsSubtype(obj->ob_type, &pyOneShotMsg_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyOneShotMsg_FromOneShotMsg(class plOneShotMsg* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyOneShotMsg* pyobj = PyObject_New(pyOneShotMsg, &pyOneShotMsg_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(OneShotMsg, plOneShotMsg)
 
 }

@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Geometry/plClusterGroup.h>
 #include "pyClusterGroup.h"
+
+#include <PRP/Geometry/plClusterGroup.h>
 #include "Stream/pyStream.h"
 
 extern "C" {
@@ -164,10 +164,6 @@ PyObject* Init_pyLODDist_Type() {
     return (PyObject*)&pyLODDist_Type;
 }
 
-PyObject* pyLODDist_FromLODDist(plLODDist& dist) {
-    pyLODDist* obj = PyObject_New(pyLODDist, &pyLODDist_Type);
-    obj->fThis = &dist;
-    return (PyObject*)obj;
-}
+PY_PLASMA_IFC_METHODS(LODDist, plLODDist)
 
 }

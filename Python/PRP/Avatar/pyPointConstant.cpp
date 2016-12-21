@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plPointChannel.h>
 #include "pyAGChannel.h"
+
+#include <PRP/Avatar/plPointChannel.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -29,10 +29,6 @@ static PyObject* pyPointConstant_new(PyTypeObject* type, PyObject* args, PyObjec
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyPointConstant_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyPointConstant_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -66,7 +62,7 @@ PyTypeObject pyPointConstant_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyPointConstant_Methods,            /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -101,22 +97,6 @@ PyObject* Init_pyPointConstant_Type() {
     return (PyObject*)&pyPointConstant_Type;
 }
 
-int pyPointConstant_Check(PyObject* obj) {
-    if (obj->ob_type == &pyPointConstant_Type
-        || PyType_IsSubtype(obj->ob_type, &pyPointConstant_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyPointConstant_FromPointConstant(class plPointConstant* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyPointConstant* pyobj = PyObject_New(pyPointConstant, &pyPointConstant_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(PointConstant, plPointConstant)
 
 }

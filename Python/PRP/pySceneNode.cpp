@@ -14,12 +14,11 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/plSceneNode.h>
 #include "pySceneNode.h"
+
+#include <PRP/plSceneNode.h>
 #include "KeyedObject/pyKey.h"
 #include "KeyedObject/pyKeyedObject.h"
-#include "pyCreatable.h"
 
 extern "C" {
 
@@ -240,22 +239,6 @@ PyObject* Init_pySceneNode_Type() {
     return (PyObject*)&pySceneNode_Type;
 }
 
-int pySceneNode_Check(PyObject* obj) {
-    if (obj->ob_type == &pySceneNode_Type
-        || PyType_IsSubtype(obj->ob_type, &pySceneNode_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySceneNode_FromSceneNode(class plSceneNode* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySceneNode* node = PyObject_New(pySceneNode, &pySceneNode_Type);
-    node->fThis = obj;
-    node->fPyOwned = false;
-    return (PyObject*)node;
-}
+PY_PLASMA_IFC_METHODS(SceneNode, plSceneNode)
 
 }

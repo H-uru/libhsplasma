@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/proEventData.h>
 #include "pyEventData.h"
+
+#include <PRP/Message/proEventData.h>
 
 extern "C" {
 
@@ -54,10 +54,6 @@ static int pyBookEventData_setLinkID(pyBookEventData* self, PyObject* value, voi
     self->fThis->setLinkID(PyInt_AsLong(value));
     return 0;
 }
-
-static PyMethodDef pyBookEventData_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyBookEventData_GetSet[] = {
     { _pycs("event"), (getter)pyBookEventData_getEvent,
@@ -99,7 +95,7 @@ PyTypeObject pyBookEventData_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyBookEventData_Methods,            /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyBookEventData_GetSet,             /* tp_getset */
     NULL,                               /* tp_base */
@@ -134,22 +130,6 @@ PyObject* Init_pyBookEventData_Type() {
     return (PyObject*)&pyBookEventData_Type;
 }
 
-int pyBookEventData_Check(PyObject* obj) {
-    if (obj->ob_type == &pyBookEventData_Type
-        || PyType_IsSubtype(obj->ob_type, &pyBookEventData_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyBookEventData_FromBookEventData(proBookEventData* evt) {
-    if (evt == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyBookEventData* pyobj = PyObject_New(pyBookEventData, &pyBookEventData_Type);
-    pyobj->fThis = evt;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(BookEventData, proBookEventData)
 
 }

@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plPointChannel.h>
 #include "pyAGChannel.h"
+
+#include <PRP/Avatar/plPointChannel.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -29,10 +29,6 @@ static PyObject* pyPointTimeScale_new(PyTypeObject* type, PyObject* args, PyObje
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyPointTimeScale_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyPointTimeScale_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -66,7 +62,7 @@ PyTypeObject pyPointTimeScale_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyPointTimeScale_Methods,           /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -101,22 +97,6 @@ PyObject* Init_pyPointTimeScale_Type() {
     return (PyObject*)&pyPointTimeScale_Type;
 }
 
-int pyPointTimeScale_Check(PyObject* obj) {
-    if (obj->ob_type == &pyPointTimeScale_Type
-        || PyType_IsSubtype(obj->ob_type, &pyPointTimeScale_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyPointTimeScale_FromPointTimeScale(class plPointTimeScale* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyPointTimeScale* pyobj = PyObject_New(pyPointTimeScale, &pyPointTimeScale_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(PointTimeScale, plPointTimeScale)
 
 }

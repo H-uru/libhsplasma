@@ -14,15 +14,11 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plAGApplicator.h>
 #include "pyAGApplicator.h"
+
+#include <PRP/Avatar/plAGApplicator.h>
 #include "pyAGChannel.h"
 #include "PRP/pyCreatable.h"
-
-static plAGApplicator* IConvertApplicator(pyAGApplicator* self) {
-    return plAGApplicator::Convert(IConvert((pyCreatable*)self));
-}
 
 extern "C" {
 
@@ -32,27 +28,27 @@ static PyObject* pyAGApplicator_new(PyTypeObject* type, PyObject* args, PyObject
 }
 
 static PyObject* pyAGApplicator_getChannel(pyAGApplicator* self, void*) {
-    return ICreate(IConvertApplicator(self)->getChannel());
+    return ICreate(self->fThis->getChannel());
 }
 
 static PyObject* pyAGApplicator_getEnabled(pyAGApplicator* self, void*) {
-    return PyBool_FromLong(IConvertApplicator(self)->isEnabled() ? 1 : 0);
+    return PyBool_FromLong(self->fThis->isEnabled() ? 1 : 0);
 }
 
 static PyObject* pyAGApplicator_getChannelName(pyAGApplicator* self, void*) {
-    return PlStr_To_PyStr(IConvertApplicator(self)->getChannelName());
+    return PlStr_To_PyStr(self->fThis->getChannelName());
 }
 
 static int pyAGApplicator_setChannel(pyAGApplicator* self, PyObject* value, void*) {
     if (value == NULL) {
-        IConvertApplicator(self)->setChannel(NULL);
+        self->fThis->setChannel(NULL);
         return 0;
     }
     if (!pyAGChannel_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "channel should be a plAGChannel");
         return -1;
     }
-    IConvertApplicator(self)->setChannel(((pyAGChannel*)value)->fThis);
+    self->fThis->setChannel(((pyAGChannel*)value)->fThis);
     ((pyAGChannel*)value)->fPyOwned = false;
     return 0;
 }
@@ -62,7 +58,7 @@ static int pyAGApplicator_setEnabled(pyAGApplicator* self, PyObject* value, void
         PyErr_SetString(PyExc_TypeError, "enabled should be a bool");
         return -1;
     }
-    IConvertApplicator(self)->setEnabled(PyInt_AsLong(value) != 0);
+    self->fThis->setEnabled(PyInt_AsLong(value) != 0);
     return 0;
 }
 
@@ -71,13 +67,9 @@ static int pyAGApplicator_setChannelName(pyAGApplicator* self, PyObject* value, 
         PyErr_SetString(PyExc_TypeError, "channelName should be a string");
         return -1;
     }
-    IConvertApplicator(self)->setChannelName(PyStr_To_PlStr(value));
+    self->fThis->setChannelName(PyStr_To_PlStr(value));
     return 0;
 }
-
-static PyMethodDef pyAGApplicator_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyAGApplicator_GetSet[] = {
     { _pycs("channel"), (getter)pyAGApplicator_getChannel,
@@ -121,7 +113,7 @@ PyTypeObject pyAGApplicator_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyAGApplicator_Methods,             /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyAGApplicator_GetSet,              /* tp_getset */
     NULL,                               /* tp_base */
@@ -156,22 +148,6 @@ PyObject* Init_pyAGApplicator_Type() {
     return (PyObject*)&pyAGApplicator_Type;
 }
 
-int pyAGApplicator_Check(PyObject* obj) {
-    if (obj->ob_type == &pyAGApplicator_Type
-        || PyType_IsSubtype(obj->ob_type, &pyAGApplicator_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyAGApplicator_FromAGApplicator(class plAGApplicator* app) {
-    if (app == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyAGApplicator* pyobj = PyObject_New(pyAGApplicator, &pyAGApplicator_Type);
-    pyobj->fThis = app;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(AGApplicator, plAGApplicator)
 
 }

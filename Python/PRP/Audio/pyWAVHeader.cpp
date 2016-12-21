@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Audio/plSoundBuffer.h>
 #include "pySoundBuffer.h"
+
+#include <PRP/Audio/plSoundBuffer.h>
 #include "Stream/pyStream.h"
 
 extern "C" {
@@ -239,18 +239,6 @@ PyObject* Init_pyWAVHeader_Type() {
     return (PyObject*)&pyWAVHeader_Type;
 }
 
-int pyWAVHeader_Check(PyObject* obj) {
-    if (obj->ob_type == &pyWAVHeader_Type
-        || PyType_IsSubtype(obj->ob_type, &pyWAVHeader_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyWAVHeader_FromWAVHeader(plWAVHeader& header) {
-    pyWAVHeader* pyObj = PyObject_New(pyWAVHeader, &pyWAVHeader_Type);
-    pyObj->fThis = &header;
-    pyObj->fPyOwned = false;
-    return (PyObject*)pyObj;
-}
+PY_PLASMA_IFC_METHODS(WAVHeader, plWAVHeader)
 
 }

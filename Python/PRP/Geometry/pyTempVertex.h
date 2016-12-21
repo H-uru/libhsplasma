@@ -17,22 +17,11 @@
 #ifndef _PYTEMPVERTEX_H
 #define _PYTEMPVERTEX_H
 
+#include "PyPlasma.h"
+
 // Nested struct :(
 #include <PRP/Geometry/plGeometrySpan.h>
 
-extern "C" {
-
-typedef struct {
-    PyObject_HEAD
-    plGeometrySpan::TempVertex* fThis;
-    bool fPyOwned;
-} pyTempVertex;
-
-extern PyTypeObject pyTempVertex_Type;
-PyObject* Init_pyTempVertex_Type();
-int pyTempVertex_Check(PyObject* obj);
-PyObject* pyTempVertex_FromTempVertex(const plGeometrySpan::TempVertex& vtx);
-
-};
+PY_WRAP_PLASMA_VALUE(TempVertex, plGeometrySpan::TempVertex);
 
 #endif

@@ -31,7 +31,7 @@
  * provide fully working physical objects for all 3 engines.
  **************/
 
-class PLASMA_DLL plGenericPhysical : public virtual plPhysical {
+class PLASMA_DLL plGenericPhysical : public plPhysical {
     CREATABLE(plGenericPhysical, kGenericPhysical, plPhysical)
 
 public:

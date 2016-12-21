@@ -20,12 +20,12 @@
 #include "PRP/KeyedObject/hsKeyedObject.h"
 #include "plBoundInterface.h"
 
-class PLASMA_DLL plParticleEffect : public virtual hsKeyedObject {
+class PLASMA_DLL plParticleEffect : public hsKeyedObject {
     CREATABLE(plParticleEffect, kParticleEffect, hsKeyedObject)
 };
 
 
-class PLASMA_DLL plParticleCollisionEffect : public virtual plParticleEffect {
+class PLASMA_DLL plParticleCollisionEffect : public plParticleEffect {
     CREATABLE(plParticleCollisionEffect, kParticleCollisionEffect,
               plParticleEffect)
 
@@ -48,7 +48,7 @@ class PLASMA_DLL plParticleCollisionEffectBeat : public plParticleCollisionEffec
 };
 
 
-class PLASMA_DLL plParticleCollisionEffectBounce : public virtual plParticleCollisionEffect {
+class PLASMA_DLL plParticleCollisionEffectBounce : public plParticleCollisionEffect {
     CREATABLE(plParticleCollisionEffectBounce, kParticleCollisionEffectBounce,
               plParticleCollisionEffect)
 
@@ -67,13 +67,13 @@ protected:
 };
 
 
-class PLASMA_DLL plParticleCollisionEffectDie : public virtual plParticleCollisionEffect {
+class PLASMA_DLL plParticleCollisionEffectDie : public plParticleCollisionEffect {
     CREATABLE(plParticleCollisionEffectDie, kParticleCollisionEffectDie,
               plParticleCollisionEffect)
 };
 
 
-class PLASMA_DLL plParticleFadeOutEffect : public virtual plParticleEffect {
+class PLASMA_DLL plParticleFadeOutEffect : public plParticleEffect {
     CREATABLE(plParticleFadeOutEffect, kParticleFadeOutEffect,
               plParticleEffect)
 
@@ -92,7 +92,7 @@ protected:
 };
 
 
-class PLASMA_DLL plParticleFadeVolumeEffect : public virtual plParticleEffect {
+class PLASMA_DLL plParticleFadeVolumeEffect : public plParticleEffect {
     CREATABLE(plParticleFadeVolumeEffect, kParticleFadeVolumeEffect,
               plParticleEffect)
 
@@ -111,7 +111,7 @@ protected:
 };
 
 
-class PLASMA_DLL plParticleFlockEffect : public virtual plParticleEffect {
+class PLASMA_DLL plParticleFlockEffect : public plParticleEffect {
     CREATABLE(plParticleFlockEffect, kParticleFlockEffect, plParticleEffect)
 
 protected:
@@ -137,13 +137,13 @@ protected:
 };
 
 
-class PLASMA_DLL plParticleFollowSystemEffect : public virtual plParticleEffect {
+class PLASMA_DLL plParticleFollowSystemEffect : public plParticleEffect {
     CREATABLE(plParticleFollowSystemEffect, kParticleFollowSystemEffect,
               plParticleEffect)
 };
 
 
-class PLASMA_DLL plParticleWindEffect : public virtual plParticleEffect {
+class PLASMA_DLL plParticleWindEffect : public plParticleEffect {
     CREATABLE(plParticleWindEffect, kParticleWindEffect, plParticleEffect)
 
 protected:
@@ -164,7 +164,7 @@ protected:
 };
 
 
-class PLASMA_DLL plParticleLocalWind : public virtual plParticleWindEffect {
+class PLASMA_DLL plParticleLocalWind : public plParticleWindEffect {
     CREATABLE(plParticleLocalWind, kParticleLocalWind, plParticleWindEffect)
 
 protected:
@@ -183,7 +183,7 @@ protected:
 };
 
 
-class PLASMA_DLL plParticleUniformWind : public virtual plParticleWindEffect {
+class PLASMA_DLL plParticleUniformWind : public plParticleWindEffect {
     CREATABLE(plParticleUniformWind, kParticleUniformWind, plParticleWindEffect)
 
 protected:

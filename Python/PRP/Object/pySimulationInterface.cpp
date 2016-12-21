@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Object/plSimulationInterface.h>
 #include "pyObjInterface.h"
+
+#include <PRP/Object/plSimulationInterface.h>
 #include "PRP/pyCreatable.h"
 #include "PRP/KeyedObject/pyKey.h"
 
@@ -47,10 +47,6 @@ static int pySimulationInterface_setPhysical(pySimulationInterface* self, PyObje
         return -1;
     }
 }
-
-PyMethodDef pySimulationInterface_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyGetSetDef pySimulationInterface_GetSet[] = {
     { _pycs("physical"), (getter)pySimulationInterface_getPhysical,
@@ -90,7 +86,7 @@ PyTypeObject pySimulationInterface_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pySimulationInterface_Methods,      /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pySimulationInterface_GetSet,       /* tp_getset */
     NULL,                               /* tp_base */
@@ -152,22 +148,6 @@ PyObject* Init_pySimulationInterface_Type() {
     return (PyObject*)&pySimulationInterface_Type;
 }
 
-int pySimulationInterface_Check(PyObject* obj) {
-    if (obj->ob_type == &pySimulationInterface_Type
-        || PyType_IsSubtype(obj->ob_type, &pySimulationInterface_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySimulationInterface_FromSimulationInterface(class plSimulationInterface* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySimulationInterface* intf = PyObject_New(pySimulationInterface, &pySimulationInterface_Type);
-    intf->fThis = obj;
-    intf->fPyOwned = false;
-    return (PyObject*)intf;
-}
+PY_PLASMA_IFC_METHODS(SimulationInterface, plSimulationInterface)
 
 }

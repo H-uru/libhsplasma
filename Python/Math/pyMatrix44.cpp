@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <Math/hsMatrix44.h>
 #include "pyMatrix.h"
+
+#include <Math/hsMatrix44.h>
 #include "pyGeometry3.h"
 #include "Stream/pyStream.h"
 
@@ -533,17 +533,6 @@ PyObject* Init_pyMatrix44_Type() {
     return (PyObject*)&pyMatrix44_Type;
 }
 
-int pyMatrix44_Check(PyObject* obj) {
-    if (obj->ob_type == &pyMatrix44_Type
-        || PyType_IsSubtype(obj->ob_type, &pyMatrix44_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyMatrix44_FromMatrix44(const hsMatrix44& mat) {
-    pyMatrix44* pmat = PyObject_New(pyMatrix44, &pyMatrix44_Type);
-    pmat->fThis = new hsMatrix44(mat);
-    return (PyObject*)pmat;
-}
+PY_PLASMA_VALUE_IFC_METHODS(Matrix44, hsMatrix44)
 
 }

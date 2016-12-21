@@ -17,19 +17,8 @@
 #ifndef _PY_KEYPRESSCONDITIONALOBJECT_H
 #define _PY_KEYPRESSCONDITIONALOBJECT_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plKeyPressConditionalObject* fThis;
-    bool fPyOwned;
-} pyKeyPressConditionalObject;
-
-extern PyTypeObject pyKeyPressConditionalObject_Type;
-PyObject* Init_pyKeyPressConditionalObject_Type();
-int pyKeyPressConditionalObject_Check(PyObject* obj);
-PyObject* pyKeyPressConditionalObject_FromKeyPressConditionalObject(class plKeyPressConditionalObject* obj);
-
-}
+PY_WRAP_PLASMA(KeyPressConditionalObject, class plKeyPressConditionalObject);
 
 #endif

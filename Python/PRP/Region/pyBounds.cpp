@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Region/hsBounds.h>
 #include "pyBounds.h"
+
+#include <PRP/Region/hsBounds.h>
 #include "Stream/pyStream.h"
 
 extern "C" {
@@ -169,17 +169,6 @@ PyObject* Init_pyBounds_Type() {
     return (PyObject*)&pyBounds_Type;
 }
 
-int pyBounds_Check(PyObject* obj) {
-    if (obj->ob_type == &pyBounds_Type
-        || PyType_IsSubtype(obj->ob_type, &pyBounds_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyBounds_FromBounds(const hsBounds& bounds) {
-    pyBounds* obj = PyObject_New(pyBounds, &pyBounds_Type);
-    obj->fThis = new hsBounds(bounds);
-    return (PyObject*)obj;
-}
+PY_PLASMA_VALUE_IFC_METHODS(Bounds, hsBounds)
 
 }

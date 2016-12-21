@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plAGMasterMod.h>
 #include "pyAGMasterMod.h"
+
+#include <PRP/Avatar/plAGMasterMod.h>
 #include "PRP/Modifier/pyModifier.h"
 #include "PRP/KeyedObject/pyKey.h"
 
@@ -266,22 +266,6 @@ PyObject* Init_pyAGMasterMod_Type() {
     return (PyObject*)&pyAGMasterMod_Type;
 }
 
-int pyAGMasterMod_Check(PyObject* obj) {
-    if (obj->ob_type == &pyAGMasterMod_Type
-        || PyType_IsSubtype(obj->ob_type, &pyAGMasterMod_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyAGMasterMod_FromAGMasterMod(class plAGMasterMod* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyAGMasterMod* py = PyObject_New(pyAGMasterMod, &pyAGMasterMod_Type);
-    py->fThis = obj;
-    py->fPyOwned = false;
-    return (PyObject*)py;
-}
+PY_PLASMA_IFC_METHODS(AGMasterMod, plAGMasterMod)
 
 };

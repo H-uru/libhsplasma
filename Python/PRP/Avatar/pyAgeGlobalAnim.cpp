@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plAGAnim.h>
 #include "pyAGAnim.h"
+
+#include <PRP/Avatar/plAGAnim.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -42,10 +42,6 @@ static int pyAgeGlobalAnim_setGlobalVarName(pyAgeGlobalAnim* self, PyObject* val
     self->fThis->setVarName(PyStr_To_PlStr(value));
     return 0;
 }
-
-static PyMethodDef pyAgeGlobalAnim_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyAgeGlobalAnim_GetSet[] = {
     { _pycs("globalVarName"), (getter)pyAgeGlobalAnim_getGlobalVarName,
@@ -85,7 +81,7 @@ PyTypeObject pyAgeGlobalAnim_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyAgeGlobalAnim_Methods,            /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyAgeGlobalAnim_GetSet,             /* tp_getset */
     NULL,                               /* tp_base */
@@ -120,22 +116,6 @@ PyObject* Init_pyAgeGlobalAnim_Type() {
     return (PyObject*)&pyAgeGlobalAnim_Type;
 }
 
-int pyAgeGlobalAnim_Check(PyObject* obj) {
-    if (obj->ob_type == &pyAgeGlobalAnim_Type
-        || PyType_IsSubtype(obj->ob_type, &pyAgeGlobalAnim_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyAgeGlobalAnim_FromAgeGlobalAnim(class plAgeGlobalAnim* anim) {
-    if (anim == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyAgeGlobalAnim* pyobj = PyObject_New(pyAgeGlobalAnim, &pyAgeGlobalAnim_Type);
-    pyobj->fThis = anim;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(AgeGlobalAnim, plAgeGlobalAnim)
 
 }

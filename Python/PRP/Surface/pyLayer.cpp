@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Surface/plLayer.h>
 #include "pyLayer.h"
+
+#include <PRP/Surface/plLayer.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -29,10 +29,6 @@ static PyObject* pyLayer_new(PyTypeObject* type, PyObject* args, PyObject* kwds)
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyLayer_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyLayer_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -66,7 +62,7 @@ PyTypeObject pyLayer_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyLayer_Methods,                    /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -101,22 +97,6 @@ PyObject* Init_pyLayer_Type() {
     return (PyObject*)&pyLayer_Type;
 }
 
-int pyLayer_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLayer_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLayer_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyLayer_FromLayer(class plLayer* layer) {
-    if (layer == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyLayer* pylay = PyObject_New(pyLayer, &pyLayer_Type);
-    pylay->fThis = layer;
-    pylay->fPyOwned = false;
-    return (PyObject*)pylay;
-}
+PY_PLASMA_IFC_METHODS(Layer, plLayer)
 
 }

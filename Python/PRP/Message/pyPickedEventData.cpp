@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/proEventData.h>
 #include "pyEventData.h"
+
+#include <PRP/Message/proEventData.h>
 #include "PRP/KeyedObject/pyKey.h"
 #include "Math/pyGeometry3.h"
 
@@ -91,10 +91,6 @@ static int pyPickedEventData_setHitPoint(pyPickedEventData* self, PyObject* valu
     return 0;
 }
 
-static PyMethodDef pyPickedEventData_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyPickedEventData_GetSet[] = {
     { _pycs("picker"), (getter)pyPickedEventData_getPicker,
         (setter)pyPickedEventData_setPicker, NULL, NULL },
@@ -139,7 +135,7 @@ PyTypeObject pyPickedEventData_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyPickedEventData_Methods,          /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyPickedEventData_GetSet,           /* tp_getset */
     NULL,                               /* tp_base */
@@ -174,22 +170,6 @@ PyObject* Init_pyPickedEventData_Type() {
     return (PyObject*)&pyPickedEventData_Type;
 }
 
-int pyPickedEventData_Check(PyObject* obj) {
-    if (obj->ob_type == &pyPickedEventData_Type
-        || PyType_IsSubtype(obj->ob_type, &pyPickedEventData_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyPickedEventData_FromPickedEventData(proPickedEventData* evt) {
-    if (evt == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyPickedEventData* pyobj = PyObject_New(pyPickedEventData, &pyPickedEventData_Type);
-    pyobj->fThis = evt;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(PickedEventData, proPickedEventData)
 
 }

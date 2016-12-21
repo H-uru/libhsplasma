@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Audio/plAudible.h>
 #include "pyAudible.h"
+
+#include <PRP/Audio/plAudible.h>
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/pyCreatable.h"
 
@@ -177,22 +177,6 @@ PyObject* Init_pyWinAudible_Type() {
     return (PyObject*)&pyWinAudible_Type;
 }
 
-int pyWinAudible_Check(PyObject* obj) {
-    if (obj->ob_type == &pyWinAudible_Type
-        || PyType_IsSubtype(obj->ob_type, &pyWinAudible_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyWinAudible_FromWinAudible(plWinAudible* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyWinAudible* pyobj = PyObject_New(pyWinAudible, &pyWinAudible_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(WinAudible, plWinAudible)
 
 }

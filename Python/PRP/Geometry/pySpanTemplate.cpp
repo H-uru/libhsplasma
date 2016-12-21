@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Geometry/plSpanTemplate.h>
 #include "pySpanTemplate.h"
+
+#include <PRP/Geometry/plSpanTemplate.h>
 #include "Stream/pyStream.h"
 
 extern "C" {
@@ -60,7 +60,7 @@ static PyObject* pySpanTemplate_getVerts(pySpanTemplate* self, void*) {
     std::vector<plSpanTemplate::Vertex> verts = self->fThis->getVertices();
     PyObject* list = PyList_New(verts.size());
     for (size_t i=0; i<verts.size(); i++)
-        PyList_SET_ITEM(list, i, pySpanTemplateVertex_FromVertex(verts[i]));
+        PyList_SET_ITEM(list, i, pySpanTemplateVertex_FromSpanTemplateVertex(&verts[i]));
     return list;
 }
 
@@ -101,7 +101,7 @@ static int pySpanTemplate_setVerts(pySpanTemplate* self, PyObject* value, void*)
 }
 
 static int pySpanTemplate_setIndices(pySpanTemplate* self, PyObject* value, void*) {
-    unsigned short* indices;
+    std::vector<unsigned short> indices;
     if (value == NULL) {
         self->fThis->setIndices(0, NULL);
         return 0;
@@ -111,18 +111,16 @@ static int pySpanTemplate_setIndices(pySpanTemplate* self, PyObject* value, void
         return -1;
     }
     size_t numIndices = PyList_Size(value);
-    indices = new unsigned short[numIndices];
+    indices.resize(numIndices);
     for (size_t i=0; i<numIndices; i++) {
         PyObject* itm = PyList_GetItem(value, i);
         if (!PyInt_Check(itm)) {
             PyErr_SetString(PyExc_TypeError, "indices should be a list of ints");
-            delete[] indices;
             return -1;
         }
         indices[i] = PyInt_AsLong(itm);
     }
-    self->fThis->setIndices(numIndices, indices);
-    delete[] indices;
+    self->fThis->setIndices(numIndices, indices.data());
     return 0;
 }
 
@@ -221,10 +219,6 @@ PyObject* Init_pySpanTemplate_Type() {
     return (PyObject*)&pySpanTemplate_Type;
 }
 
-PyObject* pySpanTemplate_FromSpanTemplate(plSpanTemplate& dist) {
-    pySpanTemplate* obj = PyObject_New(pySpanTemplate, &pySpanTemplate_Type);
-    obj->fThis = &dist;
-    return (PyObject*)obj;
-}
+PY_PLASMA_IFC_METHODS(SpanTemplate, plSpanTemplate)
 
 }

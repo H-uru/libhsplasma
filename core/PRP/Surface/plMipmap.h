@@ -19,7 +19,7 @@
 
 #include "plBitmap.h"
 
-class PLASMA_DLL plMipmap : public virtual plBitmap {
+class PLASMA_DLL plMipmap : public plBitmap {
     CREATABLE(plMipmap, kMipmap, plBitmap)
 
 public:
@@ -106,7 +106,7 @@ public:
 };
 
 
-class PLASMA_DLL plLODMipmap : public virtual plMipmap {
+class PLASMA_DLL plLODMipmap : public plMipmap {
     CREATABLE(plLODMipmap, kLODMipmap, plMipmap)
 
 private:

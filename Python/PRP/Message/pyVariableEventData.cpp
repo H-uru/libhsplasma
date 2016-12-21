@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/proEventData.h>
 #include "pyEventData.h"
+
+#include <PRP/Message/proEventData.h>
 #include "PRP/KeyedObject/pyKey.h"
 
 extern "C" {
@@ -85,9 +85,6 @@ static int pyVariableEventData_setKey(pyVariableEventData* self, PyObject* value
         return -1;
     }
 }
-static PyMethodDef pyVariableEventData_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyVariableEventData_GetSet[] = {
     { _pycs("name"), (getter)pyVariableEventData_getName,
@@ -133,7 +130,7 @@ PyTypeObject pyVariableEventData_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyVariableEventData_Methods,        /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyVariableEventData_GetSet,         /* tp_getset */
     NULL,                               /* tp_base */
@@ -168,22 +165,6 @@ PyObject* Init_pyVariableEventData_Type() {
     return (PyObject*)&pyVariableEventData_Type;
 }
 
-int pyVariableEventData_Check(PyObject* obj) {
-    if (obj->ob_type == &pyVariableEventData_Type
-        || PyType_IsSubtype(obj->ob_type, &pyVariableEventData_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyVariableEventData_FromVariableEventData(proVariableEventData* evt) {
-    if (evt == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyVariableEventData* pyobj = PyObject_New(pyVariableEventData, &pyVariableEventData_Type);
-    pyobj->fThis = evt;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(VariableEventData, proVariableEventData)
 
 }

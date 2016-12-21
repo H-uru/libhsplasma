@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/ConditionalObject/plDetectConditionalObjects.hpp>
 #include "pyDetectConditionalObjects.h"
+
+#include <PRP/ConditionalObject/plDetectConditionalObjects.hpp>
 #include "pyConditionalObject.h"
 
 extern "C" {
@@ -97,22 +97,7 @@ PyObject* Init_pyLocalPlayerIntersectPlaneConditionalObject_Type() {
     return (PyObject*)&pyLocalPlayerIntersectPlaneConditionalObject_Type;
 }
 
-int pyLocalPlayerIntersectPlaneConditionalObject_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLocalPlayerIntersectPlaneConditionalObject_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLocalPlayerIntersectPlaneConditionalObject_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyLocalPlayerIntersectPlaneConditionalObject_FromLocalPlayerIntersectPlaneConditionalObject(class plLocalPlayerIntersectPlaneConditionalObject* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyLocalPlayerIntersectPlaneConditionalObject* py = PyObject_New(pyLocalPlayerIntersectPlaneConditionalObject, &pyLocalPlayerIntersectPlaneConditionalObject_Type);
-    py->fThis = obj;
-    py->fPyOwned = false;
-    return (PyObject*)py;
-}
+PY_PLASMA_IFC_METHODS(LocalPlayerIntersectPlaneConditionalObject,
+                      plLocalPlayerIntersectPlaneConditionalObject)
 
 };

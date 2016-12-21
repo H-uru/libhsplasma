@@ -17,30 +17,9 @@
 #ifndef _PYRESPONDERMSG_H
 #define _PYRESPONDERMSG_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plResponderMsg* fThis;
-    bool fPyOwned;
-} pyResponderMsg;
-
-extern PyTypeObject pyResponderMsg_Type;
-PyObject* Init_pyResponderMsg_Type();
-int pyResponderMsg_Check(PyObject* obj);
-PyObject* pyResponderMsg_FromResponderMsg(class plResponderMsg* msg);
-
-typedef struct {
-    PyObject_HEAD
-    class plOneShotMsg* fThis;
-    bool fPyOwned;
-} pyOneShotMsg;
-
-extern PyTypeObject pyOneShotMsg_Type;
-PyObject* Init_pyOneShotMsg_Type();
-int pyOneShotMsg_Check(PyObject* obj);
-PyObject* pyOneShotMsg_FromOneShotMsg(class plOneShotMsg* msg);
-
-}
+PY_WRAP_PLASMA(ResponderMsg, class plResponderMsg);
+PY_WRAP_PLASMA(OneShotMsg, class plOneShotMsg);
 
 #endif

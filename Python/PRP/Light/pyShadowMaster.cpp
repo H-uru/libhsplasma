@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Light/plShadowMaster.h>
 #include "pyShadowMaster.h"
+
+#include <PRP/Light/plShadowMaster.h>
 #include "PRP/Object/pyObjInterface.h"
 #include "PRP/pyCreatable.h"
 
@@ -32,27 +32,27 @@ static PyObject* pyShadowMaster_new(PyTypeObject* type, PyObject* args, PyObject
 }
 
 static PyObject* pyShadowMaster_getAttenDist(pyShadowMaster* self, void*) {
-    return PyFloat_FromDouble(plShadowMaster::Convert(IConvert((pyCreatable*)self))->getAttenDist());
+    return PyFloat_FromDouble(self->fThis->getAttenDist());
 }
 
 static PyObject* pyShadowMaster_getMaxDist(pyShadowMaster* self, void*) {
-    return PyFloat_FromDouble(plShadowMaster::Convert(IConvert((pyCreatable*)self))->getMaxDist());
+    return PyFloat_FromDouble(self->fThis->getMaxDist());
 }
 
 static PyObject* pyShadowMaster_getMinDist(pyShadowMaster* self, void*) {
-    return PyFloat_FromDouble(plShadowMaster::Convert(IConvert((pyCreatable*)self))->getMinDist());
+    return PyFloat_FromDouble(self->fThis->getMinDist());
 }
 
 static PyObject* pyShadowMaster_getPower(pyShadowMaster* self, void*) {
-    return PyFloat_FromDouble(plShadowMaster::Convert(IConvert((pyCreatable*)self))->getPower());
+    return PyFloat_FromDouble(self->fThis->getPower());
 }
 
 static PyObject* pyShadowMaster_getMaxSize(pyShadowMaster* self, void*) {
-    return PyInt_FromLong(plShadowMaster::Convert(IConvert((pyCreatable*)self))->getMaxSize());
+    return PyInt_FromLong(self->fThis->getMaxSize());
 }
 
 static PyObject* pyShadowMaster_getMinSize(pyShadowMaster* self, void*) {
-    return PyInt_FromLong(plShadowMaster::Convert(IConvert((pyCreatable*)self))->getMinSize());
+    return PyInt_FromLong(self->fThis->getMinSize());
 }
 
 static int pyShadowMaster_setAttenDist(pyShadowMaster* self, PyObject* value, void*) {
@@ -60,7 +60,7 @@ static int pyShadowMaster_setAttenDist(pyShadowMaster* self, PyObject* value, vo
         PyErr_SetString(PyExc_TypeError, "attenDist should be a float");
         return -1;
     }
-    plShadowMaster::Convert(IConvert((pyCreatable*)self))->setAttenDist(PyFloat_AsDouble(value));
+    self->fThis->setAttenDist(PyFloat_AsDouble(value));
     return 0;
 }
 
@@ -69,7 +69,7 @@ static int pyShadowMaster_setMaxDist(pyShadowMaster* self, PyObject* value, void
         PyErr_SetString(PyExc_TypeError, "maxDist should be a float");
         return -1;
     }
-    plShadowMaster::Convert(IConvert((pyCreatable*)self))->setDist(plShadowMaster::Convert(IConvert((pyCreatable*)self))->getMinDist(), PyFloat_AsDouble(value));
+    self->fThis->setDist(self->fThis->getMinDist(), PyFloat_AsDouble(value));
     return 0;
 }
 
@@ -78,7 +78,7 @@ static int pyShadowMaster_setMinDist(pyShadowMaster* self, PyObject* value, void
         PyErr_SetString(PyExc_TypeError, "minDist should be a float");
         return -1;
     }
-    plShadowMaster::Convert(IConvert((pyCreatable*)self))->setDist(PyFloat_AsDouble(value), plShadowMaster::Convert(IConvert((pyCreatable*)self))->getMaxDist());
+    self->fThis->setDist(PyFloat_AsDouble(value), self->fThis->getMaxDist());
     return 0;
 }
 
@@ -87,7 +87,7 @@ static int pyShadowMaster_setPower(pyShadowMaster* self, PyObject* value, void*)
         PyErr_SetString(PyExc_TypeError, "power should be a float");
         return -1;
     }
-    plShadowMaster::Convert(IConvert((pyCreatable*)self))->setPower(PyFloat_AsDouble(value));
+    self->fThis->setPower(PyFloat_AsDouble(value));
     return 0;
 }
 
@@ -96,7 +96,7 @@ static int pyShadowMaster_setMaxSize(pyShadowMaster* self, PyObject* value, void
         PyErr_SetString(PyExc_TypeError, "maxSize should be an int");
         return -1;
     }
-    plShadowMaster::Convert(IConvert((pyCreatable*)self))->setSize(plShadowMaster::Convert(IConvert((pyCreatable*)self))->getMinSize(), PyInt_AsLong(value));
+    self->fThis->setSize(self->fThis->getMinSize(), PyInt_AsLong(value));
     return 0;
 }
 
@@ -105,13 +105,9 @@ static int pyShadowMaster_setMinSize(pyShadowMaster* self, PyObject* value, void
         PyErr_SetString(PyExc_TypeError, "minSize should be an int");
         return -1;
     }
-    plShadowMaster::Convert(IConvert((pyCreatable*)self))->setSize(PyInt_AsLong(value), plShadowMaster::Convert(IConvert((pyCreatable*)self))->getMaxSize());
+    self->fThis->setSize(PyInt_AsLong(value), self->fThis->getMaxSize());
     return 0;
 }
-
-static PyMethodDef pyShadowMaster_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyShadowMaster_GetSet[] = {
     { _pycs("attenDist"), (getter)pyShadowMaster_getAttenDist,
@@ -161,7 +157,7 @@ PyTypeObject pyShadowMaster_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyShadowMaster_Methods,             /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyShadowMaster_GetSet,              /* tp_getset */
     NULL,                               /* tp_base */
@@ -203,22 +199,6 @@ PyObject* Init_pyShadowMaster_Type() {
     return (PyObject*)&pyShadowMaster_Type;
 }
 
-int pyShadowMaster_Check(PyObject* obj) {
-    if (obj->ob_type == &pyShadowMaster_Type
-        || PyType_IsSubtype(obj->ob_type, &pyShadowMaster_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyShadowMaster_FromShadowMaster(plShadowMaster* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyShadowMaster* pyobj = PyObject_New(pyShadowMaster, &pyShadowMaster_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ShadowMaster, plShadowMaster)
 
 }

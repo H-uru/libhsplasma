@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Animation/plATCEaseCurves.h>
 #include "pyATCEaseCurves.h"
+
+#include <PRP/Animation/plATCEaseCurves.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -29,10 +29,6 @@ static PyObject* pyConstAccelEaseCurve_new(PyTypeObject* type, PyObject* args, P
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyConstAccelEaseCurve_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyConstAccelEaseCurve_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -66,7 +62,7 @@ PyTypeObject pyConstAccelEaseCurve_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyConstAccelEaseCurve_Methods,      /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -101,22 +97,6 @@ PyObject* Init_pyConstAccelEaseCurve_Type() {
     return (PyObject*)&pyConstAccelEaseCurve_Type;
 }
 
-int pyConstAccelEaseCurve_Check(PyObject* obj) {
-    if (obj->ob_type == &pyConstAccelEaseCurve_Type
-        || PyType_IsSubtype(obj->ob_type, &pyConstAccelEaseCurve_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyConstAccelEaseCurve_FromConstAccelEaseCurve(class plConstAccelEaseCurve* curve) {
-    if (curve == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyConstAccelEaseCurve* pyobj = PyObject_New(pyConstAccelEaseCurve, &pyConstAccelEaseCurve_Type);
-    pyobj->fThis = curve;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ConstAccelEaseCurve, plConstAccelEaseCurve)
 
 }

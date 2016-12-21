@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Modifier/plMaintainersMarkerModifier.h>
 #include "pyMaintainersMarkerModifier.h"
+
+#include <PRP/Modifier/plMaintainersMarkerModifier.h>
 #include "pyModifier.h"
 #include "PRP/pyCreatable.h"
 
@@ -45,10 +45,6 @@ static int pyMaintainersMarkerModifier_setCalibration(
     self->fThis->setCalibration(PyInt_AsLong(value));
     return 0;
 }
-
-static PyMethodDef pyMaintainersMarkerModifier_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyMaintainersMarkerModifier_GetSet[] = {
     { _pycs("calibration"), (getter)pyMaintainersMarkerModifier_getCalibration,
@@ -88,7 +84,7 @@ PyTypeObject pyMaintainersMarkerModifier_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyMaintainersMarkerModifier_Methods, /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyMaintainersMarkerModifier_GetSet, /* tp_getset */
     NULL,                               /* tp_base */
@@ -133,22 +129,6 @@ PyObject* Init_pyMaintainersMarkerModifier_Type() {
     return (PyObject*)&pyMaintainersMarkerModifier_Type;
 }
 
-int pyMaintainersMarkerModifier_Check(PyObject* obj) {
-    if (obj->ob_type == &pyMaintainersMarkerModifier_Type
-        || PyType_IsSubtype(obj->ob_type, &pyMaintainersMarkerModifier_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyMaintainersMarkerModifier_FromMaintainersMarkerModifier(class plMaintainersMarkerModifier* mod) {
-    if (mod == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyMaintainersMarkerModifier* pymod = PyObject_New(pyMaintainersMarkerModifier, &pyMaintainersMarkerModifier_Type);
-    pymod->fThis = mod;
-    pymod->fPyOwned = false;
-    return (PyObject*)pymod;
-}
+PY_PLASMA_IFC_METHODS(MaintainersMarkerModifier, plMaintainersMarkerModifier)
 
 }

@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <Stream/hsRAMStream.h>
 #include "pyStream.h"
+
+#include <Stream/hsRAMStream.h>
 
 extern "C" {
 
@@ -145,5 +145,7 @@ PyObject* Init_pyRAMStream_Type() {
     Py_INCREF(&pyRAMStream_Type);
     return (PyObject*)&pyRAMStream_Type;
 }
+
+PY_PLASMA_IFC_METHODS(RAMStream, hsRAMStream)
 
 }

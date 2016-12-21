@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/plEventCallbackMsg.h>
 #include "pyEventCallbackMsg.h"
+
+#include <PRP/Message/plEventCallbackMsg.h>
 #include "pyMessage.h"
 #include "PRP/pyCreatable.h"
 
@@ -96,10 +96,6 @@ static int pyEventCallbackMsg_setUser(pyEventCallbackMsg* self, PyObject* value,
     return 0;
 }
 
-static PyMethodDef pyEventCallbackMsg_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyEventCallbackMsg_GetSet[] = {
     { _pycs("eventTime"), (getter)pyEventCallbackMsg_getEventTime,
         (setter)pyEventCallbackMsg_setEventTime, NULL, NULL },
@@ -146,7 +142,7 @@ PyTypeObject pyEventCallbackMsg_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyEventCallbackMsg_Methods,         /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyEventCallbackMsg_GetSet,          /* tp_getset */
     NULL,                               /* tp_base */
@@ -181,22 +177,6 @@ PyObject* Init_pyEventCallbackMsg_Type() {
     return (PyObject*)&pyEventCallbackMsg_Type;
 }
 
-int pyEventCallbackMsg_Check(PyObject* obj) {
-    if (obj->ob_type == &pyEventCallbackMsg_Type
-        || PyType_IsSubtype(obj->ob_type, &pyEventCallbackMsg_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyEventCallbackMsg_FromEventCallbackMsg(class plEventCallbackMsg* msg) {
-    if (msg == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyEventCallbackMsg* pyobj = PyObject_New(pyEventCallbackMsg, &pyEventCallbackMsg_Type);
-    pyobj->fThis = msg;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(EventCallbackMsg, plEventCallbackMsg)
 
 }

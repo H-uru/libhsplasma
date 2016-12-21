@@ -20,7 +20,7 @@
 #include "PRP/Object/plSynchedObject.h"
 #include "Math/hsGeometry3.h"
 
-class PLASMA_DLL plDynaDecalMgr : public virtual plSynchedObject {
+class PLASMA_DLL plDynaDecalMgr : public plSynchedObject {
     CREATABLE(plDynaDecalMgr, kDynaDecalMgr, plSynchedObject)
 
 protected:
@@ -50,12 +50,12 @@ protected:
 };
 
 
-class PLASMA_DLL plDynaBulletMgr : public virtual plDynaDecalMgr {
+class PLASMA_DLL plDynaBulletMgr : public plDynaDecalMgr {
     CREATABLE(plDynaBulletMgr, kDynaBulletMgr, plDynaDecalMgr)
 };
 
 
-class PLASMA_DLL plDynaFootMgr : public virtual plDynaDecalMgr {
+class PLASMA_DLL plDynaFootMgr : public plDynaDecalMgr {
     CREATABLE(plDynaFootMgr, kDynaFootMgr, plDynaDecalMgr)
 };
 

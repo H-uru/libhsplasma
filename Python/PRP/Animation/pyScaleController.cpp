@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Animation/plScaleController.h>
 #include "pyScaleController.h"
+
+#include <PRP/Animation/plScaleController.h>
 #include "pyController.h"
 #include "PRP/pyCreatable.h"
 
@@ -35,10 +35,6 @@ static int pyScaleController_setType(pyScaleController* self, PyObject* value, v
     PyErr_SetString(PyExc_RuntimeError, "type is read-only");
     return -1;
 }
-
-static PyMethodDef pyScaleController_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyScaleController_GetSet[] = {
     { _pycs("type"), (getter)pyScaleController_getType,
@@ -78,7 +74,7 @@ PyTypeObject pyScaleController_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyScaleController_Methods,          /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyScaleController_GetSet,           /* tp_getset */
     NULL,                               /* tp_base */
@@ -116,22 +112,6 @@ PyObject* Init_pyScaleController_Type() {
     return (PyObject*)&pyScaleController_Type;
 }
 
-int pyScaleController_Check(PyObject* obj) {
-    if (obj->ob_type == &pyScaleController_Type
-        || PyType_IsSubtype(obj->ob_type, &pyScaleController_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyScaleController_FromScaleController(class plScaleController* controller) {
-    if (controller == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyScaleController* pyobj = PyObject_New(pyScaleController, &pyScaleController_Type);
-    pyobj->fThis = controller;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ScaleController, plScaleController)
 
 }

@@ -17,30 +17,9 @@
 #ifndef _PY_DETECTORMODIFIER_H
 #define _PY_DETECTORMODIFIER_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plDetectorModifier* fThis;
-    bool fPyOwned;
-} pyDetectorModifier;
-
-extern PyTypeObject pyDetectorModifier_Type;
-PyObject* Init_pyDetectorModifier_Type();
-int pyDetectorModifier_Check(PyObject* obj);
-PyObject* pyDetectorModifier_FromDetectorModifier(class plDetectorModifier* obj);
-
-typedef struct {
-    PyObject_HEAD
-    class plPickingDetector* fThis;
-    bool fPyOwned;
-} pyPickingDetector;
-
-extern PyTypeObject pyPickingDetector_Type;
-PyObject* Init_pyPickingDetector_Type();
-int pyPickingDetector_Check(PyObject* obj);
-PyObject* pyPickingDetector_FromPickingDetector(class plPickingDetector* obj);
-
-}
+PY_WRAP_PLASMA(DetectorModifier, class plDetectorModifier);
+PY_WRAP_PLASMA(PickingDetector, class plPickingDetector);
 
 #endif

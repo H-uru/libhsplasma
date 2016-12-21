@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Physics/plPhysical.h>
 #include "pyPhysical.h"
+
+#include <PRP/Physics/plPhysical.h>
 #include "PRP/Object/pySynchedObject.h"
 #include "PRP/pyCreatable.h"
 
@@ -26,10 +26,6 @@ static PyObject* pyPhysical_new(PyTypeObject* type, PyObject* args, PyObject* kw
     PyErr_SetString(PyExc_RuntimeError, "plPhysical is abstract");
     return NULL;
 }
-
-static PyMethodDef pyPhysical_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyPhysical_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -63,7 +59,7 @@ PyTypeObject pyPhysical_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyPhysical_Methods,                 /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -98,22 +94,6 @@ PyObject* Init_pyPhysical_Type() {
     return (PyObject*)&pyPhysical_Type;
 }
 
-int pyPhysical_Check(PyObject* obj) {
-    if (obj->ob_type == &pyPhysical_Type
-        || PyType_IsSubtype(obj->ob_type, &pyPhysical_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyPhysical_FromPhysical(class plPhysical* phys) {
-    if (phys == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyPhysical* pyphys = PyObject_New(pyPhysical, &pyPhysical_Type);
-    pyphys->fThis = phys;
-    pyphys->fPyOwned = false;
-    return (PyObject*)pyphys;
-}
+PY_PLASMA_IFC_METHODS(Physical, plPhysical)
 
 }

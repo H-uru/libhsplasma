@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Animation/hsKeys.h>
 #include "pyKeys.h"
+
+#include <PRP/Animation/hsKeys.h>
 
 extern "C" {
 
@@ -148,22 +148,6 @@ PyObject* Init_pyScalarKey_Type() {
     return (PyObject*)&pyScalarKey_Type;
 }
 
-int pyScalarKey_Check(PyObject* obj) {
-    if (obj->ob_type == &pyScalarKey_Type
-        || PyType_IsSubtype(obj->ob_type, &pyScalarKey_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyScalarKey_FromScalarKey(hsScalarKey* frame) {
-    if (frame == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyScalarKey* pyobj = PyObject_New(pyScalarKey, &pyScalarKey_Type);
-    pyobj->fThis = frame;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ScalarKey, hsScalarKey)
 
 }

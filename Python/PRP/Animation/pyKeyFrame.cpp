@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Animation/hsKeys.h>
 #include "pyKeys.h"
+
+#include <PRP/Animation/hsKeys.h>
 #include "Stream/pyStream.h"
 
 extern "C" {
@@ -213,22 +213,6 @@ PyObject* Init_pyKeyFrame_Type() {
     return (PyObject*)&pyKeyFrame_Type;
 }
 
-int pyKeyFrame_Check(PyObject* obj) {
-    if (obj->ob_type == &pyKeyFrame_Type
-        || PyType_IsSubtype(obj->ob_type, &pyKeyFrame_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyKeyFrame_FromKeyFrame(hsKeyFrame* frame) {
-    if (frame == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyKeyFrame* pyobj = PyObject_New(pyKeyFrame, &pyKeyFrame_Type);
-    pyobj->fThis = frame;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(KeyFrame, hsKeyFrame)
 
 }

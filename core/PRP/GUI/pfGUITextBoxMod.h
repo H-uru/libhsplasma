@@ -19,7 +19,7 @@
 
 #include "pfGUIControlMod.h"
 
-class PLASMA_DLL pfGUITextBoxMod : public virtual pfGUIControlMod {
+class PLASMA_DLL pfGUITextBoxMod : public pfGUIControlMod {
     CREATABLE(pfGUITextBoxMod, kGUITextBoxMod, pfGUIControlMod)
 
 public:

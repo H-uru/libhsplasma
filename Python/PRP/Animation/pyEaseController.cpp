@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Animation/plKeyControllers.hpp>
 #include "pyLeafController.h"
+
+#include <PRP/Animation/plKeyControllers.hpp>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -35,10 +35,6 @@ static PyObject* pyEaseController_new(PyTypeObject* type, PyObject* args, PyObje
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyEaseController_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyEaseController_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -72,7 +68,7 @@ PyTypeObject pyEaseController_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyEaseController_Methods,           /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -107,22 +103,6 @@ PyObject* Init_pyEaseController_Type() {
     return (PyObject*)&pyEaseController_Type;
 }
 
-int pyEaseController_Check(PyObject* obj) {
-    if (obj->ob_type == &pyEaseController_Type
-        || PyType_IsSubtype(obj->ob_type, &pyEaseController_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyEaseController_FromEaseController(class plEaseController* controller) {
-    if (controller == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyEaseController* pyobj = PyObject_New(pyEaseController, &pyEaseController_Type);
-    pyobj->fThis = controller;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(EaseController, plEaseController)
 
 }

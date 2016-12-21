@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Physics/plDetectorModifier.h>
 #include "pyDetectorModifier.h"
+
+#include <PRP/Physics/plDetectorModifier.h>
 
 extern "C" {
 
@@ -96,22 +96,6 @@ PyObject* Init_pyPickingDetector_Type() {
     return (PyObject*)&pyPickingDetector_Type;
 }
 
-int pyPickingDetector_Check(PyObject* obj) {
-    if (obj->ob_type == &pyPickingDetector_Type
-        || PyType_IsSubtype(obj->ob_type, &pyPickingDetector_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyPickingDetector_FromPickingDetector(class plPickingDetector* pick) {
-    if (pick == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyPickingDetector* pypick = PyObject_New(pyPickingDetector, &pyPickingDetector_Type);
-    pypick->fThis = pick;
-    pypick->fPyOwned = false;
-    return (PyObject*)pypick;
-}
+PY_PLASMA_IFC_METHODS(PickingDetector, plPickingDetector)
 
 };

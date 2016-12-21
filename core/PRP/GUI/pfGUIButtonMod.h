@@ -19,7 +19,7 @@
 
 #include "pfGUIControlMod.h"
 
-class PLASMA_DLL pfGUIButtonMod : public virtual pfGUIControlMod {
+class PLASMA_DLL pfGUIButtonMod : public pfGUIControlMod {
     CREATABLE(pfGUIButtonMod, kGUIButtonMod, pfGUIControlMod)
 
 public:
@@ -66,7 +66,7 @@ public:
 };
 
 
-class PLASMA_DLL pfGUIMenuItem : public virtual pfGUIButtonMod {
+class PLASMA_DLL pfGUIMenuItem : public pfGUIButtonMod {
     CREATABLE(pfGUIMenuItem, kGUIMenuItem, pfGUIButtonMod)
 
 public:

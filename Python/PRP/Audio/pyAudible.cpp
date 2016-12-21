@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Audio/plAudible.h>
 #include "pyAudible.h"
+
+#include <PRP/Audio/plAudible.h>
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/pyCreatable.h"
 
@@ -30,10 +30,6 @@ static PyObject* pyAudible_new(PyTypeObject* type, PyObject* args, PyObject* kwd
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyAudible_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyAudible_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -67,7 +63,7 @@ PyTypeObject pyAudible_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyAudible_Methods,                  /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -102,22 +98,6 @@ PyObject* Init_pyAudible_Type() {
     return (PyObject*)&pyAudible_Type;
 }
 
-int pyAudible_Check(PyObject* obj) {
-    if (obj->ob_type == &pyAudible_Type
-        || PyType_IsSubtype(obj->ob_type, &pyAudible_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyAudible_FromAudible(plAudible* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyAudible* pyobj = PyObject_New(pyAudible, &pyAudible_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(Audible, plAudible)
 
 }

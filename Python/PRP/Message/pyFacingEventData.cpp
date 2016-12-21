@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/proEventData.h>
 #include "pyEventData.h"
+
+#include <PRP/Message/proEventData.h>
 #include "PRP/KeyedObject/pyKey.h"
 
 extern "C" {
@@ -90,10 +90,6 @@ static int pyFacingEventData_setEnabled(pyFacingEventData* self, PyObject* value
     return 0;
 }
 
-static PyMethodDef pyFacingEventData_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyFacingEventData_GetSet[] = {
     { _pycs("facer"), (getter)pyFacingEventData_getFacer,
         (setter)pyFacingEventData_setFacer, NULL, NULL },
@@ -138,7 +134,7 @@ PyTypeObject pyFacingEventData_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyFacingEventData_Methods,          /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyFacingEventData_GetSet,           /* tp_getset */
     NULL,                               /* tp_base */
@@ -173,22 +169,6 @@ PyObject* Init_pyFacingEventData_Type() {
     return (PyObject*)&pyFacingEventData_Type;
 }
 
-int pyFacingEventData_Check(PyObject* obj) {
-    if (obj->ob_type == &pyFacingEventData_Type
-        || PyType_IsSubtype(obj->ob_type, &pyFacingEventData_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyFacingEventData_FromFacingEventData(proFacingEventData* evt) {
-    if (evt == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyFacingEventData* pyobj = PyObject_New(pyFacingEventData, &pyFacingEventData_Type);
-    pyobj->fThis = evt;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(FacingEventData, proFacingEventData)
 
 }

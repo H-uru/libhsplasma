@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Light/plShadowMaster.h>
 #include "pyShadowMaster.h"
+
+#include <PRP/Light/plShadowMaster.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -29,10 +29,6 @@ static PyObject* pyDirectShadowMaster_new(PyTypeObject* type, PyObject* args, Py
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyDirectShadowMaster_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyDirectShadowMaster_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -66,7 +62,7 @@ PyTypeObject pyDirectShadowMaster_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyDirectShadowMaster_Methods,       /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -101,22 +97,6 @@ PyObject* Init_pyDirectShadowMaster_Type() {
     return (PyObject*)&pyDirectShadowMaster_Type;
 }
 
-int pyDirectShadowMaster_Check(PyObject* obj) {
-    if (obj->ob_type == &pyDirectShadowMaster_Type
-        || PyType_IsSubtype(obj->ob_type, &pyDirectShadowMaster_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyDirectShadowMaster_FromDirectShadowMaster(plDirectShadowMaster* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyDirectShadowMaster* pyobj = PyObject_New(pyDirectShadowMaster, &pyDirectShadowMaster_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(DirectShadowMaster, plDirectShadowMaster)
 
 }

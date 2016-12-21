@@ -34,7 +34,7 @@ public:
 };
 
 
-class PLASMA_DLL plRandomSoundMod : public virtual plRandomCommandMod {
+class PLASMA_DLL plRandomSoundMod : public plRandomCommandMod {
     CREATABLE(plRandomSoundMod, kRandomSoundMod, plRandomCommandMod)
 
 protected:

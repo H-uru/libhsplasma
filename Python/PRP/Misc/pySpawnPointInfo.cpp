@@ -14,9 +14,9 @@
 * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <PyPlasma.h>
-#include <PRP/Misc/plSpawnPointInfo.h>
 #include "pySpawnPointInfo.h"
+
+#include <PRP/Misc/plSpawnPointInfo.h>
 
 extern "C" {
 
@@ -144,22 +144,6 @@ PyObject* Init_pySpawnPointInfo_Type() {
     return (PyObject*)&pySpawnPointInfo_Type;
 }
 
-int pySpawnPointInfo_Check(PyObject* obj) {
-    if (obj->ob_type == &pySpawnPointInfo_Type
-        || PyType_IsSubtype(obj->ob_type, &pySpawnPointInfo_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySpawnPointInfo_FromSpawnPointInfo(plSpawnPointInfo* als) {
-    if (als == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySpawnPointInfo* pyobj = PyObject_New(pySpawnPointInfo, &pySpawnPointInfo_Type);
-    pyobj->fThis = als;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(SpawnPointInfo, plSpawnPointInfo)
 
 }

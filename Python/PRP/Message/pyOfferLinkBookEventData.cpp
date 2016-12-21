@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/proEventData.h>
 #include "pyEventData.h"
+
+#include <PRP/Message/proEventData.h>
 #include "PRP/KeyedObject/pyKey.h"
 
 extern "C" {
@@ -73,10 +73,6 @@ static int pyOfferLinkBookEventData_setOfferee(pyOfferLinkBookEventData* self, P
     return 0;
 }
 
-static PyMethodDef pyOfferLinkBookEventData_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyOfferLinkBookEventData_GetSet[] = {
     { _pycs("offerer"), (getter)pyOfferLinkBookEventData_getOfferer,
         (setter)pyOfferLinkBookEventData_setOfferer, NULL, NULL },
@@ -119,7 +115,7 @@ PyTypeObject pyOfferLinkBookEventData_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyOfferLinkBookEventData_Methods,   /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyOfferLinkBookEventData_GetSet,    /* tp_getset */
     NULL,                               /* tp_base */
@@ -154,22 +150,6 @@ PyObject* Init_pyOfferLinkBookEventData_Type() {
     return (PyObject*)&pyOfferLinkBookEventData_Type;
 }
 
-int pyOfferLinkBookEventData_Check(PyObject* obj) {
-    if (obj->ob_type == &pyOfferLinkBookEventData_Type
-        || PyType_IsSubtype(obj->ob_type, &pyOfferLinkBookEventData_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyOfferLinkBookEventData_FromOfferLinkBookEventData(proOfferLinkBookEventData* evt) {
-    if (evt == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyOfferLinkBookEventData* pyobj = PyObject_New(pyOfferLinkBookEventData, &pyOfferLinkBookEventData_Type);
-    pyobj->fThis = evt;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(OfferLinkBookEventData, proOfferLinkBookEventData)
 
 }

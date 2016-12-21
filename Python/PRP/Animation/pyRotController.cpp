@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Animation/plRotController.h>
 #include "pyRotController.h"
+
+#include <PRP/Animation/plRotController.h>
 #include "pyController.h"
 #include "PRP/pyCreatable.h"
 
@@ -35,10 +35,6 @@ static int pyRotController_setType(pyRotController* self, PyObject* value, void*
     PyErr_SetString(PyExc_RuntimeError, "type is read-only");
     return -1;
 }
-
-static PyMethodDef pyRotController_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyRotController_GetSet[] = {
     { _pycs("type"), (getter)pyRotController_getType, (setter)pyRotController_setType, NULL, NULL },
@@ -77,7 +73,7 @@ PyTypeObject pyRotController_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyRotController_Methods,            /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyRotController_GetSet,             /* tp_getset */
     NULL,                               /* tp_base */
@@ -117,22 +113,6 @@ PyObject* Init_pyRotController_Type() {
     return (PyObject*)&pyRotController_Type;
 }
 
-int pyRotController_Check(PyObject* obj) {
-    if (obj->ob_type == &pyRotController_Type
-        || PyType_IsSubtype(obj->ob_type, &pyRotController_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyRotController_FromRotController(class plRotController* controller) {
-    if (controller == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyRotController* pyobj = PyObject_New(pyRotController, &pyRotController_Type);
-    pyobj->fThis = controller;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(RotController, plRotController)
 
 }

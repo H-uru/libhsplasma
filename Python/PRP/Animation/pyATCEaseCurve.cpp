@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Animation/plATCEaseCurves.h>
 #include "pyATCEaseCurves.h"
+
+#include <PRP/Animation/plATCEaseCurves.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -108,10 +108,6 @@ static int pyATCEaseCurve_setBegin(pyATCEaseCurve* self, PyObject* value, void*)
     return 0;
 }
 
-static PyMethodDef pyATCEaseCurve_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyATCEaseCurve_GetSet[] = {
     { _pycs("startSpeed"), (getter)pyATCEaseCurve_getStartSpeed,
         (setter)pyATCEaseCurve_setStartSpeed, NULL, NULL },
@@ -160,7 +156,7 @@ PyTypeObject pyATCEaseCurve_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyATCEaseCurve_Methods,             /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyATCEaseCurve_GetSet,              /* tp_getset */
     NULL,                               /* tp_base */
@@ -195,22 +191,6 @@ PyObject* Init_pyATCEaseCurve_Type() {
     return (PyObject*)&pyATCEaseCurve_Type;
 }
 
-int pyATCEaseCurve_Check(PyObject* obj) {
-    if (obj->ob_type == &pyATCEaseCurve_Type
-        || PyType_IsSubtype(obj->ob_type, &pyATCEaseCurve_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyATCEaseCurve_FromATCEaseCurve(class plATCEaseCurve* curve) {
-    if (curve == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyATCEaseCurve* pyobj = PyObject_New(pyATCEaseCurve, &pyATCEaseCurve_Type);
-    pyobj->fThis = curve;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ATCEaseCurve, plATCEaseCurve)
 
 }

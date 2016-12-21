@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <Math/hsAffineParts.h>
 #include "pyGeometry3.h"
+
+#include <Math/hsAffineParts.h>
 #include "Stream/pyStream.h"
 
 extern "C" {
@@ -241,17 +241,6 @@ PyObject* Init_pyAffineParts_Type() {
     return (PyObject*)&pyAffineParts_Type;
 }
 
-int pyAffineParts_Check(PyObject* obj) {
-    if (obj->ob_type == &pyAffineParts_Type
-        || PyType_IsSubtype(obj->ob_type, &pyAffineParts_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyAffineParts_FromAffineParts(const hsAffineParts& quat) {
-    pyAffineParts* pq = PyObject_New(pyAffineParts, &pyAffineParts_Type);
-    pq->fThis = new hsAffineParts(quat);
-    return (PyObject*)pq;
-}
+PY_PLASMA_VALUE_IFC_METHODS(AffineParts, hsAffineParts)
 
 }

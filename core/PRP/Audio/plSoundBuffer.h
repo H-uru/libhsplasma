@@ -54,7 +54,7 @@ public:
 };
 
 
-class PLASMA_DLL plSoundBuffer : public virtual hsKeyedObject {
+class PLASMA_DLL plSoundBuffer : public hsKeyedObject {
     CREATABLE(plSoundBuffer, kSoundBuffer, hsKeyedObject)
 
 public:

@@ -20,7 +20,7 @@
 #include "PRP/Modifier/plModifier.h"
 #include "PRP/Message/plCameraMsg.h"
 
-class PLASMA_DLL plCameraModifier : public virtual plSingleModifier {
+class PLASMA_DLL plCameraModifier : public plSingleModifier {
     CREATABLE(plCameraModifier, kCameraModifier, plSingleModifier)
 
 public:

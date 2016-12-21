@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/proEventData.h>
 #include "pyEventData.h"
+
+#include <PRP/Message/proEventData.h>
 #include "PRP/KeyedObject/pyKey.h"
 
 extern "C" {
@@ -77,10 +77,6 @@ static int pyContainedEventData_setEntering(pyContainedEventData* self, PyObject
     return 0;
 }
 
-static PyMethodDef pyContainedEventData_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyContainedEventData_GetSet[] = {
     { _pycs("contained"), (getter)pyContainedEventData_getContained,
         (setter)pyContainedEventData_setContained, NULL, NULL },
@@ -123,7 +119,7 @@ PyTypeObject pyContainedEventData_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyContainedEventData_Methods,       /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyContainedEventData_GetSet,        /* tp_getset */
     NULL,                               /* tp_base */
@@ -158,22 +154,6 @@ PyObject* Init_pyContainedEventData_Type() {
     return (PyObject*)&pyContainedEventData_Type;
 }
 
-int pyContainedEventData_Check(PyObject* obj) {
-    if (obj->ob_type == &pyContainedEventData_Type
-        || PyType_IsSubtype(obj->ob_type, &pyContainedEventData_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyContainedEventData_FromContainedEventData(proContainedEventData* evt) {
-    if (evt == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyContainedEventData* pyobj = PyObject_New(pyContainedEventData, &pyContainedEventData_Type);
-    pyobj->fThis = evt;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ContainedEventData, proContainedEventData)
 
 }

@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Audio/plAudible.h>
 #include "pyAudible.h"
+
+#include <PRP/Audio/plAudible.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -29,10 +29,6 @@ static PyObject* pyAudibleNull_new(PyTypeObject* type, PyObject* args, PyObject*
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyAudibleNull_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyAudibleNull_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -66,7 +62,7 @@ PyTypeObject pyAudibleNull_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyAudibleNull_Methods,              /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -101,22 +97,6 @@ PyObject* Init_pyAudibleNull_Type() {
     return (PyObject*)&pyAudibleNull_Type;
 }
 
-int pyAudibleNull_Check(PyObject* obj) {
-    if (obj->ob_type == &pyAudibleNull_Type
-        || PyType_IsSubtype(obj->ob_type, &pyAudibleNull_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyAudibleNull_FromAudibleNull(plAudibleNull* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyAudibleNull* pyobj = PyObject_New(pyAudibleNull, &pyAudibleNull_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(AudibleNull, plAudibleNull)
 
 }

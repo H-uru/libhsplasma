@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plQuatChannel.h>
 #include "pyAGChannel.h"
+
+#include <PRP/Avatar/plQuatChannel.h>
 #include "PRP/pyCreatable.h"
 #include "Math/pyGeometry3.h"
 
@@ -43,10 +43,6 @@ static int pyQuatChannel_setResult(pyQuatChannel* self, PyObject* value, void*) 
     self->fThis->setResult(*((pyQuat*)value)->fThis);
     return 0;
 }
-
-static PyMethodDef pyQuatChannel_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyQuatChannel_GetSet[] = {
     { _pycs("result"), (getter)pyQuatChannel_getResult,
@@ -86,7 +82,7 @@ PyTypeObject pyQuatChannel_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyQuatChannel_Methods,              /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyQuatChannel_GetSet,               /* tp_getset */
     NULL,                               /* tp_base */
@@ -121,22 +117,6 @@ PyObject* Init_pyQuatChannel_Type() {
     return (PyObject*)&pyQuatChannel_Type;
 }
 
-int pyQuatChannel_Check(PyObject* obj) {
-    if (obj->ob_type == &pyQuatChannel_Type
-        || PyType_IsSubtype(obj->ob_type, &pyQuatChannel_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyQuatChannel_FromQuatChannel(class plQuatChannel* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyQuatChannel* pyobj = PyObject_New(pyQuatChannel, &pyQuatChannel_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(QuatChannel, plQuatChannel)
 
 }

@@ -19,7 +19,7 @@
 
 #include "plSound.h"
 
-class PLASMA_DLL plDirectMusicSound : public virtual plSound {
+class PLASMA_DLL plDirectMusicSound : public plSound {
     CREATABLE(plDirectMusicSound, kDirectMusicSound, plSound)
 
 protected:

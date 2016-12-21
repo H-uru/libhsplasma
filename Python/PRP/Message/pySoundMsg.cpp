@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/plSoundMsg.h>
 #include "pySoundMsg.h"
+
+#include <PRP/Message/plSoundMsg.h>
 #include "pyMessageWithCallbacks.h"
 
 extern "C" {
@@ -324,22 +324,6 @@ PyObject* Init_pySoundMsg_Type() {
     return (PyObject*)&pySoundMsg_Type;
 }
 
-int pySoundMsg_Check(PyObject* obj) {
-    if (obj->ob_type == &pySoundMsg_Type
-        || PyType_IsSubtype(obj->ob_type, &pySoundMsg_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySoundMsg_FromSoundMsg(class plSoundMsg* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySoundMsg* py = PyObject_New(pySoundMsg, &pySoundMsg_Type);
-    py->fThis = obj;
-    py->fPyOwned = false;
-    return (PyObject*)py;
-}
+PY_PLASMA_IFC_METHODS(SoundMsg, plSoundMsg)
 
 };

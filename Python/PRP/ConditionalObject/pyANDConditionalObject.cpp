@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/ConditionalObject/plBooleanConditionalObject.h>
 #include "pyBooleanConditionalObject.h"
+
+#include <PRP/ConditionalObject/plBooleanConditionalObject.h>
 #include "pyConditionalObject.h"
 #include "PRP/KeyedObject/pyKey.h"
 
@@ -156,22 +156,6 @@ PyObject* Init_pyANDConditionalObject_Type() {
     return (PyObject*)&pyANDConditionalObject_Type;
 }
 
-int pyANDConditionalObject_Check(PyObject* obj) {
-    if (obj->ob_type == &pyANDConditionalObject_Type
-        || PyType_IsSubtype(obj->ob_type, &pyANDConditionalObject_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyANDConditionalObject_FromANDConditionalObject(class plANDConditionalObject* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyANDConditionalObject* py = PyObject_New(pyANDConditionalObject, &pyANDConditionalObject_Type);
-    py->fThis = obj;
-    py->fPyOwned = false;
-    return (PyObject*)py;
-}
+PY_PLASMA_IFC_METHODS(ANDConditionalObject, plANDConditionalObject)
 
 };

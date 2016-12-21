@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Surface/plMipmap.h>
 #include "pyBitmap.h"
+
+#include <PRP/Surface/plMipmap.h>
 #include "PRP/pyCreatable.h"
 #include "Stream/pyStream.h"
 
@@ -422,22 +422,6 @@ PyObject* Init_pyMipmap_Type() {
     return (PyObject*)&pyMipmap_Type;
 }
 
-int pyMipmap_Check(PyObject* obj) {
-    if (obj->ob_type == &pyMipmap_Type
-        || PyType_IsSubtype(obj->ob_type, &pyMipmap_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyMipmap_FromMipmap(class plMipmap* img) {
-    if (img == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyMipmap* pybmp = PyObject_New(pyMipmap, &pyMipmap_Type);
-    pybmp->fThis = img;
-    pybmp->fPyOwned = false;
-    return (PyObject*)pybmp;
-}
+PY_PLASMA_IFC_METHODS(Mipmap, plMipmap)
 
 }

@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Modifier/plOneShotMod.h>
 #include "pyOneShotMod.h"
+
+#include <PRP/Modifier/plOneShotMod.h>
 #include "pyModifier.h"
 #include "PRP/pyCreatable.h"
 
@@ -113,10 +113,6 @@ static int pyOneShotMod_setSeekDuration(pyOneShotMod* self, PyObject* value, voi
     return 0;
 }
 
-static PyMethodDef pyOneShotMod_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyOneShotMod_GetSet[] = {
     { _pycs("animName"), (getter)pyOneShotMod_getAnimName,
         (setter)pyOneShotMod_setAnimName, NULL, NULL },
@@ -165,7 +161,7 @@ PyTypeObject pyOneShotMod_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyOneShotMod_Methods,               /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyOneShotMod_GetSet,                /* tp_getset */
     NULL,                               /* tp_base */
@@ -200,22 +196,6 @@ PyObject* Init_pyOneShotMod_Type() {
     return (PyObject*)&pyOneShotMod_Type;
 }
 
-int pyOneShotMod_Check(PyObject* obj) {
-    if (obj->ob_type == &pyOneShotMod_Type
-        || PyType_IsSubtype(obj->ob_type, &pyOneShotMod_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyOneShotMod_FromOneShotMod(class plOneShotMod* mod) {
-    if (mod == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyOneShotMod* pymod = PyObject_New(pyOneShotMod, &pyOneShotMod_Type);
-    pymod->fThis = mod;
-    pymod->fPyOwned = false;
-    return (PyObject*)pymod;
-}
+PY_PLASMA_IFC_METHODS(OneShotMod, plOneShotMod)
 
 }

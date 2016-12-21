@@ -20,7 +20,7 @@
 #include "PRP/Modifier/plModifier.h"
 #include "PRP/Geometry/plDrawableSpans.h"
 
-class PLASMA_DLL plShadowCaster : public virtual plMultiModifier {
+class PLASMA_DLL plShadowCaster : public plMultiModifier {
     CREATABLE(plShadowCaster, kShadowCaster, plMultiModifier)
 
 public:

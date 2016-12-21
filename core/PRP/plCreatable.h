@@ -31,19 +31,17 @@ public: \
     static classname* Convert(plCreatable* pCre, bool requireValid = true) { \
         if (pCre == NULL) \
             return NULL; \
-        if (requireValid) { \
-            classname* result = dynamic_cast<classname*>(pCre); \
-            if (result) { \
-                return result; \
-            } else { \
-                short otherClassId = pCre->ClassIndex(); \
-                throw hsBadParamException(__FILE__, __LINE__, \
-                    plString::Format("Required conversion failed for %s -> %s", \
-                                     pdUnifiedTypeMap::ClassName(otherClassId), \
-                                     pdUnifiedTypeMap::ClassName(classid))); \
-            } \
+        bool result = pCre->ClassInstance(classid); \
+        if (result) { \
+            return static_cast<classname*>(pCre); \
+        } else if (requireValid) { \
+            short otherClassId = pCre->ClassIndex(); \
+            throw hsBadParamException(__FILE__, __LINE__, \
+                plString::Format("Required conversion failed for %s -> %s", \
+                                 pdUnifiedTypeMap::ClassName(otherClassId), \
+                                 pdUnifiedTypeMap::ClassName(classid))); \
         } else { \
-            return dynamic_cast<classname*>(pCre); \
+            return NULL; \
         } \
     }
 
@@ -183,5 +181,13 @@ public:
     size_t getLength() const { return fDataLen; }
 };
 
+/**
+ * Cast any plCreatable to another creatable subclass.  Alternate syntax
+ * for plCastedType::Convert(pCre).
+ */
+template <class Creatable_T>
+Creatable_T *creatable_cast(plCreatable *pCre, bool requireValid = true) {
+    return Creatable_T::Convert(pCre, requireValid);
+}
 
 #endif

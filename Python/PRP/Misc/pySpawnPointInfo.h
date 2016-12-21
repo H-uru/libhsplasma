@@ -17,18 +17,8 @@
 #ifndef _PYSPAWNPOINTINFO_H
 #define _PYSPAWNPOINTINFO_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plSpawnPointInfo* fThis;
-    bool fPyOwned;
-} pySpawnPointInfo;
-
-PyObject* Init_pySpawnPointInfo_Type();
-int pySpawnPointInfo_Check(PyObject* obj);
-PyObject* pySpawnPointInfo_FromSpawnPointInfo(plSpawnPointInfo* sp);
-
-}
+PY_WRAP_PLASMA(SpawnPointInfo, class plSpawnPointInfo);
 
 #endif

@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plQuatChannel.h>
 #include "pyAGChannel.h"
+
+#include <PRP/Avatar/plQuatChannel.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -29,10 +29,6 @@ static PyObject* pyQuatConstant_new(PyTypeObject* type, PyObject* args, PyObject
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyQuatConstant_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyQuatConstant_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -66,7 +62,7 @@ PyTypeObject pyQuatConstant_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyQuatConstant_Methods,             /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -101,22 +97,6 @@ PyObject* Init_pyQuatConstant_Type() {
     return (PyObject*)&pyQuatConstant_Type;
 }
 
-int pyQuatConstant_Check(PyObject* obj) {
-    if (obj->ob_type == &pyQuatConstant_Type
-        || PyType_IsSubtype(obj->ob_type, &pyQuatConstant_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyQuatConstant_FromQuatConstant(class plQuatConstant* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyQuatConstant* pyobj = PyObject_New(pyQuatConstant, &pyQuatConstant_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(QuatConstant, plQuatConstant)
 
 }

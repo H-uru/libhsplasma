@@ -20,7 +20,7 @@
 #include "plModifier.h"
 #include "PRP/Message/plMessage.h"
 
-class PLASMA_DLL plAnimEventModifier : public virtual plSingleModifier {
+class PLASMA_DLL plAnimEventModifier : public plSingleModifier {
     CREATABLE(plAnimEventModifier, kAnimEventModifier, plSingleModifier)
 
 protected:

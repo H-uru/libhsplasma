@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Animation/plKeyControllers.hpp>
 #include "pyLeafController.h"
+
+#include <PRP/Animation/plKeyControllers.hpp>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -35,10 +35,6 @@ static PyObject* pyQuatController_new(PyTypeObject* type, PyObject* args, PyObje
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyQuatController_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyQuatController_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -72,7 +68,7 @@ PyTypeObject pyQuatController_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyQuatController_Methods,           /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -107,22 +103,6 @@ PyObject* Init_pyQuatController_Type() {
     return (PyObject*)&pyQuatController_Type;
 }
 
-int pyQuatController_Check(PyObject* obj) {
-    if (obj->ob_type == &pyQuatController_Type
-        || PyType_IsSubtype(obj->ob_type, &pyQuatController_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyQuatController_FromQuatController(class plQuatController* controller) {
-    if (controller == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyQuatController* pyobj = PyObject_New(pyQuatController, &pyQuatController_Type);
-    pyobj->fThis = controller;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(QuatController, plQuatController)
 
 }

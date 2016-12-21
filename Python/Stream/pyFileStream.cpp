@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <Stream/hsStream.h>
 #include "pyStream.h"
+
+#include <Stream/hsStream.h>
 
 extern "C" {
 
@@ -140,5 +140,7 @@ PyObject* Init_pyFileStream_Type() {
     Py_INCREF(&pyFileStream_Type);
     return (PyObject*)&pyFileStream_Type;
 }
+
+PY_PLASMA_IFC_METHODS(FileStream, hsFileStream)
 
 }

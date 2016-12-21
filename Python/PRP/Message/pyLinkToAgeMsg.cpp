@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/plLinkToAgeMsg.h>
 #include "pyLinkToAgeMsg.h"
+
+#include <PRP/Message/plLinkToAgeMsg.h>
 #include "pyMessage.h"
 #include "PRP/pyCreatable.h"
 #include "PRP/Misc/pyAgeLinkInfo.h"
@@ -34,7 +34,7 @@ static PyObject* pyLinkToAgeMsg_new(PyTypeObject* type, PyObject* , PyObject* ) 
 }
 
 static PyObject* pyLinkToAgeMsg_getAgeLink(pyLinkToAgeMsg* self, void*) {
-    return pyAgeLinkStruct_FromAgeLinkStruct(&self->fThis->getAgeLink());
+    return ICreate(&self->fThis->getAgeLink());
 }
 
 static int pyLinkToAgeMsg_setAgeLink(pyLinkToAgeMsg* self, PyObject* value, void*) {
@@ -124,22 +124,6 @@ PyObject* Init_pyLinkToAgeMsg_Type() {
     return (PyObject*)&pyLinkToAgeMsg_Type;
 }
 
-int pyLinkToAgeMsg_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLinkToAgeMsg_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLinkToAgeMsg_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyLinkToAgeMsg_FromLinkToAgeMsg(plLinkToAgeMsg* msg) {
-    if (msg == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyLinkToAgeMsg* pyobj = PyObject_New(pyLinkToAgeMsg, &pyLinkToAgeMsg_Type);
-    pyobj->fThis = msg;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(LinkToAgeMsg, plLinkToAgeMsg)
 
 }

@@ -19,7 +19,7 @@
 
 #include "PRP/KeyedObject/hsKeyedObject.h"
 
-class PLASMA_DLL plPhysicalSndGroup : public virtual hsKeyedObject {
+class PLASMA_DLL plPhysicalSndGroup : public hsKeyedObject {
     CREATABLE(plPhysicalSndGroup, kPhysicalSndGroup, hsKeyedObject)
 
 public:

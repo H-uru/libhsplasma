@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Modifier/plModifier.h>
 #include "pyModifier.h"
+
+#include <PRP/Modifier/plModifier.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -32,7 +32,7 @@ static PyObject* pySingleModifier_getFlag(pySingleModifier* self, PyObject* args
         PyErr_SetString(PyExc_TypeError, "getFlag expects an int");
         return NULL;
     }
-    return PyBool_FromLong(plSingleModifier::Convert(IConvert((pyCreatable*)self))->getFlag(flag) ? 1 : 0);
+    return PyBool_FromLong(self->fThis->getFlag(flag) ? 1 : 0);
 }
 
 static PyObject* pySingleModifier_setFlag(pyMultiModifier* self, PyObject* args) {
@@ -41,7 +41,7 @@ static PyObject* pySingleModifier_setFlag(pyMultiModifier* self, PyObject* args)
         PyErr_SetString(PyExc_TypeError, "setFlag expects int, bool");
         return NULL;
     }
-    plSingleModifier::Convert(IConvert((pyCreatable*)self))->setFlag(flag, value != 0);
+    self->fThis->setFlag(flag, value != 0);
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -123,22 +123,6 @@ PyObject* Init_pySingleModifier_Type() {
     return (PyObject*)&pySingleModifier_Type;
 }
 
-int pySingleModifier_Check(PyObject* obj) {
-    if (obj->ob_type == &pySingleModifier_Type
-        || PyType_IsSubtype(obj->ob_type, &pySingleModifier_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySingleModifier_FromSingleModifier(class plSingleModifier* mod) {
-    if (mod == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySingleModifier* pymod = PyObject_New(pySingleModifier, &pySingleModifier_Type);
-    pymod->fThis = mod;
-    pymod->fPyOwned = false;
-    return (PyObject*)pymod;
-}
+PY_PLASMA_IFC_METHODS(SingleModifier, plSingleModifier)
 
 }

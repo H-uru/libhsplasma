@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plScalarChannel.h>
 #include "pyAGChannel.h"
+
+#include <PRP/Avatar/plScalarChannel.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -29,10 +29,6 @@ static PyObject* pyATCChannel_new(PyTypeObject* type, PyObject* args, PyObject* 
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyATCChannel_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyATCChannel_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -66,7 +62,7 @@ PyTypeObject pyATCChannel_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyATCChannel_Methods,               /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -101,22 +97,6 @@ PyObject* Init_pyATCChannel_Type() {
     return (PyObject*)&pyATCChannel_Type;
 }
 
-int pyATCChannel_Check(PyObject* obj) {
-    if (obj->ob_type == &pyATCChannel_Type
-        || PyType_IsSubtype(obj->ob_type, &pyATCChannel_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyATCChannel_FromATCChannel(class plATCChannel* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyATCChannel* pyobj = PyObject_New(pyATCChannel, &pyATCChannel_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ATCChannel, plATCChannel)
 
 }

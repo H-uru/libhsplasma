@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Modifier/plResponderModifier.h>
 #include "pyResponderModifier.h"
+
+#include <PRP/Modifier/plResponderModifier.h>
 #include "PRP/Message/pyMessage.h"
 #include "PRP/pyCreatable.h"
 
@@ -43,10 +43,6 @@ static int pyResponderEnableMsg_setEnable(pyResponderEnableMsg* self, PyObject* 
     self->fThis->setEnable(PyInt_AsLong(value) != 0);
     return 0;
 }
-
-static PyMethodDef pyResponderEnableMsg_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyResponderEnableMsg_GetSet[] = {
     { _pycs("enable"), (getter)pyResponderEnableMsg_getEnable,
@@ -86,7 +82,7 @@ PyTypeObject pyResponderEnableMsg_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyResponderEnableMsg_Methods,       /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyResponderEnableMsg_GetSet,        /* tp_getset */
     NULL,                               /* tp_base */
@@ -121,22 +117,6 @@ PyObject* Init_pyResponderEnableMsg_Type() {
     return (PyObject*)&pyResponderEnableMsg_Type;
 }
 
-int pyResponderEnableMsg_Check(PyObject* obj) {
-    if (obj->ob_type == &pyResponderEnableMsg_Type
-        || PyType_IsSubtype(obj->ob_type, &pyResponderEnableMsg_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyResponderEnableMsg_FromResponderEnableMsg(class plResponderEnableMsg* msg) {
-    if (msg == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyResponderEnableMsg* pyobj = PyObject_New(pyResponderEnableMsg, &pyResponderEnableMsg_Type);
-    pyobj->fThis = msg;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ResponderEnableMsg, plResponderEnableMsg)
 
 }

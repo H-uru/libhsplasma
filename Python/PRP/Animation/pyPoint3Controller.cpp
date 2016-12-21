@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Animation/plKeyControllers.hpp>
 #include "pyLeafController.h"
+
+#include <PRP/Animation/plKeyControllers.hpp>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -35,10 +35,6 @@ static PyObject* pyPoint3Controller_new(PyTypeObject* type, PyObject* args, PyOb
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyPoint3Controller_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyPoint3Controller_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -72,7 +68,7 @@ PyTypeObject pyPoint3Controller_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyPoint3Controller_Methods,         /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -107,22 +103,6 @@ PyObject* Init_pyPoint3Controller_Type() {
     return (PyObject*)&pyPoint3Controller_Type;
 }
 
-int pyPoint3Controller_Check(PyObject* obj) {
-    if (obj->ob_type == &pyPoint3Controller_Type
-        || PyType_IsSubtype(obj->ob_type, &pyPoint3Controller_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyPoint3Controller_FromPoint3Controller(class plPoint3Controller* controller) {
-    if (controller == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyPoint3Controller* pyobj = PyObject_New(pyPoint3Controller, &pyPoint3Controller_Type);
-    pyobj->fThis = controller;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(Point3Controller, plPoint3Controller)
 
 }

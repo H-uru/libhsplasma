@@ -14,15 +14,11 @@
 * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <PyPlasma.h>
-#include <PRP/Audio/plWin32Sound.h>
 #include "pyWin32Sound.h"
+
+#include <PRP/Audio/plWin32Sound.h>
 #include "pySound.h"
 #include "PRP/pyCreatable.h"
-
-static inline plWin32Sound* IConvertSound(pyWin32Sound* sound) {
-    return plWin32Sound::Convert(IConvert((pyCreatable*)sound));
-}
 
 extern "C" {
 
@@ -32,7 +28,7 @@ static PyObject* pyWin32Sound_new(PyTypeObject* type, PyObject* args, PyObject* 
 }
 
 static PyObject* pyWin32Sound_getChannel(pyWin32Sound* self, void*) {
-    return PyInt_FromLong(IConvertSound(self)->getChannel());
+    return PyInt_FromLong(self->fThis->getChannel());
 }
 
 static int pyWin32Sound_setChannel(pyWin32Sound* self, PyObject* value, void*) {
@@ -40,7 +36,7 @@ static int pyWin32Sound_setChannel(pyWin32Sound* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "channel should be an int");
         return -1;
     }
-    IConvertSound(self)->setChannel((unsigned char)PyInt_AsLong(value));
+    self->fThis->setChannel((unsigned char)PyInt_AsLong(value));
     return 0;
 }
 
@@ -122,22 +118,6 @@ PyObject* Init_pyWin32Sound_Type() {
     return (PyObject*)&pyWin32Sound_Type;
 }
 
-int pyWin32Sound_Check(PyObject* obj) {
-    if (obj->ob_type == &pyWin32Sound_Type
-        || PyType_IsSubtype(obj->ob_type, &pyWin32Sound_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyWin32Sound_FromWin32Sound(class plWin32Sound* sound) {
-    if (sound == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyWin32Sound* intf = PyObject_New(pyWin32Sound, &pyWin32Sound_Type);
-    intf->fThis = sound;
-    intf->fPyOwned = false;
-    return (PyObject*)intf;
-}
+PY_PLASMA_IFC_METHODS(Win32Sound, plWin32Sound)
 
 }

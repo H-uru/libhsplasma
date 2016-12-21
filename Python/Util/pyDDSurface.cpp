@@ -14,10 +14,12 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <Util/plDDSurface.h>
 #include "pyDDSurface.h"
+
+#include <Util/plDDSurface.h>
+#include <PRP/Surface/plMipmap.h>
 #include "Stream/pyStream.h"
+#include "PRP/pyCreatable.h"
 #include "PRP/Surface/pyBitmap.h"
 
 extern "C" {
@@ -91,7 +93,7 @@ static PyObject* pyDDSurface_setFromMipmap(pyDDSurface* self, PyObject* args) {
 
 static PyObject* pyDDSurface_createMipmap(pyDDSurface* self) {
     plMipmap* tex = self->fThis->createMipmap();
-    return pyMipmap_FromMipmap(tex);
+    return ICreate(tex);
 }
 
 static PyObject* pyDDSurface_calcBufferSize(pyDDSurface* self, PyObject* args) {
@@ -915,22 +917,6 @@ PyObject* Init_pyDDSurface_Type() {
     return (PyObject*)&pyDDSurface_Type;
 }
 
-int pyDDSurface_Check(PyObject* obj) {
-    if (obj->ob_type == &pyDDSurface_Type
-        || PyType_IsSubtype(obj->ob_type, &pyDDSurface_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyDDSurface_FromDDSurface(class plDDSurface* dds) {
-    if (dds == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyDDSurface* obj = PyObject_New(pyDDSurface, &pyDDSurface_Type);
-    obj->fThis = dds;
-    obj->fPyOwned = false;
-    return (PyObject*)obj;
-}
+PY_PLASMA_IFC_METHODS(DDSurface, plDDSurface)
 
 }

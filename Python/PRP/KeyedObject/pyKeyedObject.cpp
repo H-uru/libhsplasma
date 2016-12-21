@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/KeyedObject/hsKeyedObject.h>
 #include "pyKeyedObject.h"
+
+#include <PRP/KeyedObject/hsKeyedObject.h>
 #include "pyKey.h"
 #include "PRP/pyCreatable.h"
 
@@ -29,7 +29,7 @@ static int pyKeyedObject___init__(pyKeyedObject* self, PyObject* args, PyObject*
         return -1;
     }
 
-    hsKeyedObject::Convert(IConvert((pyCreatable*)self))->init(name);
+    self->fThis->init(name);
     return 0;
 }
 
@@ -39,8 +39,8 @@ static PyObject* pyKeyedObject_new(PyTypeObject* type, PyObject* args, PyObject*
 }
 
 static PyObject* pyKeyedObject_getKey(pyKeyedObject* self, void*) {
-    if (hsKeyedObject::Convert(IConvert((pyCreatable*)self))->getKey().Exists()) {
-        return pyKey_FromKey(hsKeyedObject::Convert(IConvert((pyCreatable*)self))->getKey());
+    if (self->fThis->getKey().Exists()) {
+        return pyKey_FromKey(self->fThis->getKey());
     } else {
         Py_INCREF(Py_None);
         return Py_None;
@@ -51,10 +51,6 @@ static int pyKeyedObject_setKey(pyKeyedObject* self, PyObject* value, void*) {
     PyErr_SetString(PyExc_RuntimeError, "key is read-only");
     return -1;
 }
-
-static PyMethodDef pyKeyedObject_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyKeyedObject_GetSet[] = {
     { _pycs("key"), (getter)pyKeyedObject_getKey, (setter)pyKeyedObject_setKey,
@@ -94,7 +90,7 @@ PyTypeObject pyKeyedObject_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyKeyedObject_Methods,              /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyKeyedObject_GetSet,               /* tp_getset */
     NULL,                               /* tp_base */
@@ -129,22 +125,6 @@ PyObject* Init_pyKeyedObject_Type() {
     return (PyObject*)&pyKeyedObject_Type;
 }
 
-int pyKeyedObject_Check(PyObject* obj) {
-    if (obj->ob_type == &pyKeyedObject_Type
-        || PyType_IsSubtype(obj->ob_type, &pyKeyedObject_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyKeyedObject_FromKeyedObject(class hsKeyedObject* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyKeyedObject* ko = PyObject_New(pyKeyedObject, &pyKeyedObject_Type);
-    ko->fThis = obj;
-    ko->fPyOwned = false;
-    return (PyObject*)ko;
-}
+PY_PLASMA_IFC_METHODS(KeyedObject, hsKeyedObject)
 
 }

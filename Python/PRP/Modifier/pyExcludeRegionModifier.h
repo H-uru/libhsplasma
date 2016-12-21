@@ -17,19 +17,8 @@
 #ifndef _PYEXCLUDEREGIONMODIFIER_H
 #define _PYEXCLUDEREGIONMODIFIER_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plExcludeRegionModifier* fThis;
-    bool fPyOwned;
-} pyExcludeRegionModifier;
-
-extern PyTypeObject pyExcludeRegionModifier_Type;
-PyObject* Init_pyExcludeRegionModifier_Type();
-int pyExcludeRegionModifier_Check(PyObject* obj);
-PyObject* pyExcludeRegionModifier_FromExcludeRegionModifier(class plExcludeRegionModifier* obj);
-
-}
+PY_WRAP_PLASMA(ExcludeRegionModifier, class plExcludeRegionModifier);
 
 #endif

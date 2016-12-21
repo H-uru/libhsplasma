@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/GUI/pfGUIControlHandlers.h>
 #include "pyGUIControlHandlers.h"
+
+#include <PRP/GUI/pfGUIControlHandlers.h>
 
 extern "C" {
 
@@ -96,22 +96,6 @@ PyObject* Init_pyGUIDialogProc_Type() {
     return (PyObject*)&pyGUIDialogProc_Type;
 }
 
-int pyGUIDialogProc_Check(PyObject* obj) {
-    if (obj->ob_type == &pyGUIDialogProc_Type
-        || PyType_IsSubtype(obj->ob_type, &pyGUIDialogProc_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyGUIDialogProc_FromGUIDialogProc(pfGUIDialogProc* proc) {
-    if (proc == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyGUIDialogProc* pyobj = PyObject_New(pyGUIDialogProc, &pyGUIDialogProc_Type);
-    pyobj->fThis = proc;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(GUIDialogProc, pfGUIDialogProc)
 
 }

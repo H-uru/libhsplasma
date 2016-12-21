@@ -19,7 +19,7 @@
 
 #include "plMipmap.h"
 
-class PLASMA_DLL plCubicEnvironmap : public virtual plBitmap {
+class PLASMA_DLL plCubicEnvironmap : public plBitmap {
     CREATABLE(plCubicEnvironmap, kCubicEnvironmap, plBitmap)
 
 public:

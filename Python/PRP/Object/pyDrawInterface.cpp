@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Object/plDrawInterface.h>
 #include "pyObjInterface.h"
+
+#include <PRP/Object/plDrawInterface.h>
 #include "PRP/pyCreatable.h"
 #include "PRP/KeyedObject/pyKey.h"
 
@@ -222,22 +222,6 @@ PyObject* Init_pyDrawInterface_Type() {
     return (PyObject*)&pyDrawInterface_Type;
 }
 
-int pyDrawInterface_Check(PyObject* obj) {
-    if (obj->ob_type == &pyDrawInterface_Type
-        || PyType_IsSubtype(obj->ob_type, &pyDrawInterface_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyDrawInterface_FromDrawInterface(class plDrawInterface* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyDrawInterface* intf = PyObject_New(pyDrawInterface, &pyDrawInterface_Type);
-    intf->fThis = obj;
-    intf->fPyOwned = false;
-    return (PyObject*)intf;
-}
+PY_PLASMA_IFC_METHODS(DrawInterface, plDrawInterface)
 
 }

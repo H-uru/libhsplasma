@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plPointChannel.h>
 #include "pyAGChannel.h"
+
+#include <PRP/Avatar/plPointChannel.h>
 #include "PRP/pyCreatable.h"
 #include "PRP/Animation/pyController.h"
 
@@ -32,7 +32,7 @@ static PyObject* pyPointControllerChannel_new(PyTypeObject* type, PyObject* args
 }
 
 static PyObject* pyPointControllerChannel_getController(pyPointControllerChannel* self, void*) {
-    return pyController_FromController(self->fThis->getController());
+    return ICreate(self->fThis->getController());
 }
 
 static int pyPointControllerChannel_setController(pyPointControllerChannel* self, PyObject* value, void*) {
@@ -48,10 +48,6 @@ static int pyPointControllerChannel_setController(pyPointControllerChannel* self
     ((pyController*)value)->fPyOwned = false;
     return 0;
 }
-
-static PyMethodDef pyPointControllerChannel_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyPointControllerChannel_GetSet[] = {
     { _pycs("controller"), (getter)pyPointControllerChannel_getController,
@@ -91,7 +87,7 @@ PyTypeObject pyPointControllerChannel_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyPointControllerChannel_Methods,   /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyPointControllerChannel_GetSet,    /* tp_getset */
     NULL,                               /* tp_base */
@@ -126,22 +122,6 @@ PyObject* Init_pyPointControllerChannel_Type() {
     return (PyObject*)&pyPointControllerChannel_Type;
 }
 
-int pyPointControllerChannel_Check(PyObject* obj) {
-    if (obj->ob_type == &pyPointControllerChannel_Type
-        || PyType_IsSubtype(obj->ob_type, &pyPointControllerChannel_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyPointControllerChannel_FromPointControllerChannel(class plPointControllerChannel* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyPointControllerChannel* pyobj = PyObject_New(pyPointControllerChannel, &pyPointControllerChannel_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(PointControllerChannel, plPointControllerChannel)
 
 }

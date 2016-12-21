@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plPointChannel.h>
 #include "pyAGApplicator.h"
+
+#include <PRP/Avatar/plPointChannel.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -29,10 +29,6 @@ static PyObject* pyPointChannelApplicator_new(PyTypeObject* type, PyObject* args
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyPointChannelApplicator_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyPointChannelApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -66,7 +62,7 @@ PyTypeObject pyPointChannelApplicator_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyPointChannelApplicator_Methods,   /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -101,22 +97,6 @@ PyObject* Init_pyPointChannelApplicator_Type() {
     return (PyObject*)&pyPointChannelApplicator_Type;
 }
 
-int pyPointChannelApplicator_Check(PyObject* obj) {
-    if (obj->ob_type == &pyPointChannelApplicator_Type
-        || PyType_IsSubtype(obj->ob_type, &pyPointChannelApplicator_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyPointChannelApplicator_FromPointChannelApplicator(class plPointChannelApplicator* app) {
-    if (app == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyPointChannelApplicator* pyobj = PyObject_New(pyPointChannelApplicator, &pyPointChannelApplicator_Type);
-    pyobj->fThis = app;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(PointChannelApplicator, plPointChannelApplicator)
 
 }

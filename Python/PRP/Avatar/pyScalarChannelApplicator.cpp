@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plScalarChannel.h>
 #include "pyAGApplicator.h"
+
+#include <PRP/Avatar/plScalarChannel.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -29,10 +29,6 @@ static PyObject* pyScalarChannelApplicator_new(PyTypeObject* type, PyObject* arg
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyScalarChannelApplicator_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyScalarChannelApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -66,7 +62,7 @@ PyTypeObject pyScalarChannelApplicator_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyScalarChannelApplicator_Methods,  /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -101,22 +97,6 @@ PyObject* Init_pyScalarChannelApplicator_Type() {
     return (PyObject*)&pyScalarChannelApplicator_Type;
 }
 
-int pyScalarChannelApplicator_Check(PyObject* obj) {
-    if (obj->ob_type == &pyScalarChannelApplicator_Type
-        || PyType_IsSubtype(obj->ob_type, &pyScalarChannelApplicator_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyScalarChannelApplicator_FromScalarChannelApplicator(class plScalarChannelApplicator* app) {
-    if (app == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyScalarChannelApplicator* pyobj = PyObject_New(pyScalarChannelApplicator, &pyScalarChannelApplicator_Type);
-    pyobj->fThis = app;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ScalarChannelApplicator, plScalarChannelApplicator)
 
 }

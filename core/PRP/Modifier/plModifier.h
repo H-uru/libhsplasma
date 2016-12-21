@@ -21,7 +21,7 @@
 #include "PRP/Object/plSceneObject.h"
 #include "Util/hsBitVector.h"
 
-class PLASMA_DLL plModifier : public virtual plSynchedObject {
+class PLASMA_DLL plModifier : public plSynchedObject {
     CREATABLE(plModifier, kModifier, plSynchedObject)
 
 public:
@@ -39,7 +39,7 @@ public:
 };
 
 
-class PLASMA_DLL plSingleModifier : public virtual plModifier {
+class PLASMA_DLL plSingleModifier : public plModifier {
     CREATABLE(plSingleModifier, kSingleModifier, plModifier)
 
 protected:
@@ -65,7 +65,7 @@ public:
 };
 
 
-class PLASMA_DLL plMultiModifier : public virtual plModifier {
+class PLASMA_DLL plMultiModifier : public plModifier {
     CREATABLE(plMultiModifier, kMultiModifier, plModifier)
 
 protected:
@@ -92,7 +92,7 @@ public:
 
 
 /* Misc empty modifiers that don't make sense to put elsewhere */
-class PLASMA_DLL plElevatorModifier : public virtual plSingleModifier {
+class PLASMA_DLL plElevatorModifier : public plSingleModifier {
     CREATABLE(plElevatorModifier, kElevatorModifier, plSingleModifier)
 };
 

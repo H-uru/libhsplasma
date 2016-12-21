@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plScalarChannel.h>
 #include "pyAGChannel.h"
+
+#include <PRP/Avatar/plScalarChannel.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -29,10 +29,6 @@ static PyObject* pyScalarTimeScale_new(PyTypeObject* type, PyObject* args, PyObj
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyScalarTimeScale_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyScalarTimeScale_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -66,7 +62,7 @@ PyTypeObject pyScalarTimeScale_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyScalarTimeScale_Methods,          /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -101,22 +97,6 @@ PyObject* Init_pyScalarTimeScale_Type() {
     return (PyObject*)&pyScalarTimeScale_Type;
 }
 
-int pyScalarTimeScale_Check(PyObject* obj) {
-    if (obj->ob_type == &pyScalarTimeScale_Type
-        || PyType_IsSubtype(obj->ob_type, &pyScalarTimeScale_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyScalarTimeScale_FromScalarTimeScale(class plScalarTimeScale* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyScalarTimeScale* pyobj = PyObject_New(pyScalarTimeScale, &pyScalarTimeScale_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ScalarTimeScale, plScalarTimeScale)
 
 }

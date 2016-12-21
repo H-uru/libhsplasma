@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Geometry/plDrawableSpans.h>
 #include "pyDrawableSpans.h"
+
+#include <PRP/Geometry/plDrawableSpans.h>
 #include "PRP/KeyedObject/pyKeyedObject.h"
 
 extern "C" {
@@ -173,22 +173,6 @@ PyObject* Init_pyDrawable_Type() {
     return (PyObject*)&pyDrawable_Type;
 }
 
-int pyDrawable_Check(PyObject* obj) {
-    if (obj->ob_type == &pyDrawable_Type
-        || PyType_IsSubtype(obj->ob_type, &pyDrawable_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyDrawable_FromDrawable(class plDrawable* draw) {
-    if (draw == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyDrawable* pdraw = PyObject_New(pyDrawable, &pyDrawable_Type);
-    pdraw->fThis = draw;
-    pdraw->fPyOwned = false;
-    return (PyObject*)pdraw;
-}
+PY_PLASMA_IFC_METHODS(Drawable, plDrawable)
 
 }

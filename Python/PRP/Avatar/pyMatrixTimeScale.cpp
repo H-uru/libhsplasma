@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plMatrixChannel.h>
 #include "pyAGChannel.h"
+
+#include <PRP/Avatar/plMatrixChannel.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -29,10 +29,6 @@ static PyObject* pyMatrixTimeScale_new(PyTypeObject* type, PyObject* args, PyObj
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyMatrixTimeScale_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyMatrixTimeScale_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -66,7 +62,7 @@ PyTypeObject pyMatrixTimeScale_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyMatrixTimeScale_Methods,          /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -101,22 +97,6 @@ PyObject* Init_pyMatrixTimeScale_Type() {
     return (PyObject*)&pyMatrixTimeScale_Type;
 }
 
-int pyMatrixTimeScale_Check(PyObject* obj) {
-    if (obj->ob_type == &pyMatrixTimeScale_Type
-        || PyType_IsSubtype(obj->ob_type, &pyMatrixTimeScale_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyMatrixTimeScale_FromMatrixTimeScale(class plMatrixTimeScale* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyMatrixTimeScale* pyobj = PyObject_New(pyMatrixTimeScale, &pyMatrixTimeScale_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(MatrixTimeScale, plMatrixTimeScale)
 
 }

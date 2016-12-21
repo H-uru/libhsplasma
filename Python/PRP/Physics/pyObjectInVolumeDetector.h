@@ -17,30 +17,9 @@
 #ifndef _PY_OBJECTINVOLUMEDETECTOR_H
 #define _PY_OBJECTINVOLUMEDETECTOR_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plObjectInVolumeDetector* fThis;
-    bool fPyOwned;
-} pyObjectInVolumeDetector;
-
-extern PyTypeObject pyObjectInVolumeDetector_Type;
-PyObject* Init_pyObjectInVolumeDetector_Type();
-int pyObjectInVolumeDetector_Check(PyObject* obj);
-PyObject* pyObjectInVolumeDetector_FromObjectInVolumeDetector(class plObjectInVolumeDetector* obj);
-
-typedef struct {
-    PyObject_HEAD
-    class plObjectInVolumeAndFacingDetector* fThis;
-    bool fPyOwned;
-} pyObjectInVolumeAndFacingDetector;
-
-extern PyTypeObject pyObjectInVolumeAndFacingDetector_Type;
-PyObject* Init_pyObjectInVolumeAndFacingDetector_Type();
-int pyObjectInVolumeAndFacingDetector_Check(PyObject* obj);
-PyObject* pyObjectInVolumeAndFacingDetector_FromObjectInVolumeAndFacingDetector(class plObjectInVolumeAndFacingDetector* obj);
-
-};
+PY_WRAP_PLASMA(ObjectInVolumeDetector, class plObjectInVolumeDetector);
+PY_WRAP_PLASMA(ObjectInVolumeAndFacingDetector, class plObjectInVolumeAndFacingDetector);
 
 #endif

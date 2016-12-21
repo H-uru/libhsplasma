@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Animation/hsKeys.h>
 #include "pyKeys.h"
+
+#include <PRP/Animation/hsKeys.h>
 #include "Math/pyMatrix.h"
 
 extern "C" {
@@ -122,22 +122,6 @@ PyObject* Init_pyMatrix44Key_Type() {
     return (PyObject*)&pyMatrix44Key_Type;
 }
 
-int pyMatrix44Key_Check(PyObject* obj) {
-    if (obj->ob_type == &pyMatrix44Key_Type
-        || PyType_IsSubtype(obj->ob_type, &pyMatrix44Key_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyMatrix44Key_FromMatrix44Key(hsMatrix44Key* frame) {
-    if (frame == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyMatrix44Key* pyobj = PyObject_New(pyMatrix44Key, &pyMatrix44Key_Type);
-    pyobj->fThis = frame;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(Matrix44Key, hsMatrix44Key)
 
 }

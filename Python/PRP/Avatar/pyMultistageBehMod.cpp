@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plMultistageBehMod.h>
 #include "pyMultistageBehMod.h"
+
+#include <PRP/Avatar/plMultistageBehMod.h>
 #include "PRP/Modifier/pyModifier.h"
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/pyCreatable.h"
@@ -100,7 +100,7 @@ static PyObject* pyMultistageBehMod_clearReceivers(pyMultistageBehMod* self) {
 static PyObject* pyMultistageBehMod_getStages(pyMultistageBehMod* self, void*) {
     PyObject* list = PyList_New(self->fThis->getStages().size());
     for (size_t i=0; i<self->fThis->getStages().size(); i++)
-        PyList_SET_ITEM(list, i, pyAnimStage_FromAnimStage(self->fThis->getStages()[i]));
+        PyList_SET_ITEM(list, i, ICreate(self->fThis->getStages()[i]));
     return list;
 }
 
@@ -261,22 +261,6 @@ PyObject* Init_pyMultistageBehMod_Type() {
     return (PyObject*)&pyMultistageBehMod_Type;
 }
 
-int pyMultistageBehMod_Check(PyObject* obj) {
-    if (obj->ob_type == &pyMultistageBehMod_Type
-        || PyType_IsSubtype(obj->ob_type, &pyMultistageBehMod_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyMultistageBehMod_FromMultistageBehMod(plMultistageBehMod* mod) {
-    if (mod == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyMultistageBehMod* pyobj = PyObject_New(pyMultistageBehMod, &pyMultistageBehMod_Type);
-    pyobj->fThis = mod;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(MultistageBehMod, plMultistageBehMod)
 
 }

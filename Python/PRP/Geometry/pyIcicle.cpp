@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Geometry/plIcicle.h>
 #include "pySpan.h"
+
+#include <PRP/Geometry/plIcicle.h>
 #include "pyGBufferGroup.h"
 
 extern "C" {
@@ -186,22 +186,6 @@ PyObject* Init_pyIcicle_Type() {
     return (PyObject*)&pyIcicle_Type;
 }
 
-int pyIcicle_Check(PyObject* obj) {
-    if (obj->ob_type == &pyIcicle_Type
-        || PyType_IsSubtype(obj->ob_type, &pyIcicle_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyIcicle_FromIcicle(plIcicle* span) {
-    if (span == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyIcicle* obj = PyObject_New(pyIcicle, &pyIcicle_Type);
-    obj->fThis = span;
-    obj->fPyOwned = false;
-    return (PyObject*)obj;
-}
+PY_PLASMA_IFC_METHODS(Icicle, plIcicle)
 
 }

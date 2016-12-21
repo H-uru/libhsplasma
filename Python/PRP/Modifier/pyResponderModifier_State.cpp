@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Modifier/plResponderModifier.h>
 #include "pyResponderModifier.h"
+
+#include <PRP/Modifier/plResponderModifier.h>
 #include "PRP/Message/pyMessage.h"
 
 extern "C" {
@@ -79,7 +79,7 @@ static PyObject* pyResponderModifier_State_clearCommands(pyResponderModifier_Sta
 static PyObject* pyResponderModifier_State_getCommands(pyResponderModifier_State* self, void*) {
     PyObject* list = PyList_New(self->fThis->fCmds.size());
     for (size_t i=0; i<self->fThis->fCmds.size(); i++)
-        PyList_SET_ITEM(list, i, pyResponderModifier_Cmd_FromResponderCmd(self->fThis->fCmds[i]));
+        PyList_SET_ITEM(list, i, pyResponderModifier_Cmd_FromResponderModifier_Cmd(self->fThis->fCmds[i]));
     return list;
 }
 
@@ -236,22 +236,6 @@ PyObject* Init_pyResponderModifier_State_Type() {
     return (PyObject*)&pyResponderModifier_State_Type;
 }
 
-int pyResponderModifier_State_Check(PyObject* obj) {
-    if (obj->ob_type == &pyResponderModifier_State_Type
-        || PyType_IsSubtype(obj->ob_type, &pyResponderModifier_State_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyResponderModifier_State_FromResponderState(plResponderModifier::plResponderState* state) {
-    if (state == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyResponderModifier_State* pyobj = PyObject_New(pyResponderModifier_State, &pyResponderModifier_State_Type);
-    pyobj->fThis = state;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ResponderModifier_State, plResponderModifier::plResponderState)
 
 }

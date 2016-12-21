@@ -17,19 +17,8 @@
 #ifndef _PY_ANIMCMDMSG_H
 #define _PY_ANIMCMDMSG_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plAnimCmdMsg* fThis;
-    bool fPyOwned;
-} pyAnimCmdMsg;
-
-extern PyTypeObject pyAnimCmdMsg_Type;
-PyObject* Init_pyAnimCmdMsg_Type();
-int pyAnimCmdMsg_Check(PyObject* obj);
-PyObject* pyAnimCmdMsg_FromAnimCmdMsg(class plAnimCmdMsg* obj);
-
-}
+PY_WRAP_PLASMA(AnimCmdMsg, class plAnimCmdMsg);
 
 #endif

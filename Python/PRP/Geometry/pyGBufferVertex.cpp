@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Geometry/plGBufferGroup.h>
 #include "pyGBufferGroup.h"
+
+#include <PRP/Geometry/plGBufferGroup.h>
 #include "Math/pyGeometry3.h"
 
 extern "C" {
@@ -232,17 +232,6 @@ PyObject* Init_pyGBufferVertex_Type() {
     return (PyObject*)&pyGBufferVertex_Type;
 }
 
-int pyGBufferVertex_Check(PyObject* obj) {
-    if (obj->ob_type == &pyGBufferVertex_Type
-        || PyType_IsSubtype(obj->ob_type, &pyGBufferVertex_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyGBufferVertex_FromGBufferVertex(const plGBufferVertex& vert) {
-    pyGBufferVertex* pyvert = PyObject_New(pyGBufferVertex, &pyGBufferVertex_Type);
-    pyvert->fThis = new plGBufferVertex(vert);
-    return (PyObject*)pyvert;
-}
+PY_PLASMA_VALUE_IFC_METHODS(GBufferVertex, plGBufferVertex)
 
 }

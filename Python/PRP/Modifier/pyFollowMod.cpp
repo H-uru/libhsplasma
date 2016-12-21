@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Modifier/plFollowMod.h>
 #include "pyFollowMod.h"
+
+#include <PRP/Modifier/plFollowMod.h>
 #include "PRP/Modifier/pyModifier.h"
 #include "PRP/KeyedObject/pyKey.h"
 
@@ -169,22 +169,6 @@ PyObject* Init_pyFollowMod_Type() {
     return (PyObject*) &pyFollowMod_Type;
 }
 
-int pyFollowMod_Check(PyObject* obj) {
-    if (obj->ob_type == &pyFollowMod_Type
-        || PyType_IsSubtype(obj->ob_type, &pyFollowMod_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyFollowMod_FromFollowMod(class plFollowMod* mod) {
-    if (mod == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyFollowMod* pymod = PyObject_New(pyFollowMod, &pyFollowMod_Type);
-    pymod->fThis = mod;
-    pymod->fPyOwned = false;
-    return (PyObject*) pymod;
-}
+PY_PLASMA_IFC_METHODS(FollowMod, plFollowMod)
 
 }

@@ -17,19 +17,8 @@
 #ifndef _PY_CONDITIONALOBJECT_H
 #define _PY_CONDITIONALOBJECT_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plConditionalObject* fThis;
-    bool fPyOwned;
-} pyConditionalObject;
-
-extern PyTypeObject pyConditionalObject_Type;
-PyObject* Init_pyConditionalObject_Type();
-int pyConditionalObject_Check(PyObject* obj);
-PyObject* pyConditionalObject_FromConditionalObject(class plConditionalObject* obj);
-
-};
+PY_WRAP_PLASMA(ConditionalObject, class plConditionalObject);
 
 #endif

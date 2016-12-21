@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/proEventData.h>
 #include "pyEventData.h"
+
+#include <PRP/Message/proEventData.h>
 
 extern "C" {
 
@@ -54,10 +54,6 @@ static int pyActivateEventData_setActivate(pyActivateEventData* self, PyObject* 
     self->fThis->setActivate(PyInt_AsLong(value) != 0);
     return 0;
 }
-
-static PyMethodDef pyActivateEventData_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyActivateEventData_GetSet[] = {
     { _pycs("active"), (getter)pyActivateEventData_getActive,
@@ -99,7 +95,7 @@ PyTypeObject pyActivateEventData_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyActivateEventData_Methods,        /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyActivateEventData_GetSet,         /* tp_getset */
     NULL,                               /* tp_base */
@@ -134,22 +130,6 @@ PyObject* Init_pyActivateEventData_Type() {
     return (PyObject*)&pyActivateEventData_Type;
 }
 
-int pyActivateEventData_Check(PyObject* obj) {
-    if (obj->ob_type == &pyActivateEventData_Type
-        || PyType_IsSubtype(obj->ob_type, &pyActivateEventData_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyActivateEventData_FromActivateEventData(proActivateEventData* evt) {
-    if (evt == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyActivateEventData* pyobj = PyObject_New(pyActivateEventData, &pyActivateEventData_Type);
-    pyobj->fThis = evt;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ActivateEventData, proActivateEventData)
 
 }

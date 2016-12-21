@@ -14,15 +14,11 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/ConditionalObject/plVolumeSensorConditionalObject.h>
 #include "pyVolumeSensorConditionalObject.h"
+
+#include <PRP/ConditionalObject/plVolumeSensorConditionalObject.h>
 #include "pyConditionalObject.h"
 #include "PRP/pyCreatable.h"
-
-static inline plVolumeSensorConditionalObject* IConvertCond(pyVolumeSensorConditionalObject* self) {
-    return plVolumeSensorConditionalObject::Convert(IConvert((pyCreatable*)self));
-}
 
 extern "C" {
 
@@ -36,15 +32,15 @@ static PyObject* pyVolumeSensorConditionalObject_new(PyTypeObject* type, PyObjec
 }
 
 static PyObject* pyVolumeSensorConditionalObject_getTrigNum(pyVolumeSensorConditionalObject* self, void*) {
-    return PyInt_FromLong(IConvertCond(self)->getTrigNum());
+    return PyInt_FromLong(self->fThis->getTrigNum());
 }
 
 static PyObject* pyVolumeSensorConditionalObject_getType(pyVolumeSensorConditionalObject* self, void*) {
-    return PyInt_FromLong(IConvertCond(self)->getType());
+    return PyInt_FromLong(self->fThis->getType());
 }
 
 static PyObject* pyVolumeSensorConditionalObject_getFirst(pyVolumeSensorConditionalObject* self, void*) {
-    return PyBool_FromLong(IConvertCond(self)->getFirst() ? 1 : 0);
+    return PyBool_FromLong(self->fThis->getFirst() ? 1 : 0);
 }
 
 static int pyVolumeSensorConditionalObject_setTrigNum(pyVolumeSensorConditionalObject* self, PyObject* value, void*) {
@@ -52,7 +48,7 @@ static int pyVolumeSensorConditionalObject_setTrigNum(pyVolumeSensorConditionalO
         PyErr_SetString(PyExc_TypeError, "trigNum should be an int");
         return -1;
     }
-    IConvertCond(self)->setTrigNum(PyInt_AsLong(value));
+    self->fThis->setTrigNum(PyInt_AsLong(value));
     return 0;
 }
 
@@ -61,7 +57,7 @@ static int pyVolumeSensorConditionalObject_setType(pyVolumeSensorConditionalObje
         PyErr_SetString(PyExc_TypeError, "type should be an int");
         return -1;
     }
-    IConvertCond(self)->setType(PyInt_AsLong(value));
+    self->fThis->setType(PyInt_AsLong(value));
     return 0;
 }
 
@@ -70,7 +66,7 @@ static int pyVolumeSensorConditionalObject_setFirst(pyVolumeSensorConditionalObj
         PyErr_SetString(PyExc_TypeError, "first should be a boolean");
         return -1;
     }
-    IConvertCond(self)->setFirst(PyInt_AsLong(value) != 0);
+    self->fThis->setFirst(PyInt_AsLong(value) != 0);
     return 0;
 }
 
@@ -156,22 +152,6 @@ PyObject* Init_pyVolumeSensorConditionalObject_Type() {
     return (PyObject*)&pyVolumeSensorConditionalObject_Type;
 }
 
-int pyVolumeSensorConditionalObject_Check(PyObject* obj) {
-    if (obj->ob_type == &pyVolumeSensorConditionalObject_Type
-        || PyType_IsSubtype(obj->ob_type, &pyVolumeSensorConditionalObject_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyVolumeSensorConditionalObject_FromVolumeSensorConditionalObject(class plVolumeSensorConditionalObject* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyVolumeSensorConditionalObject* py = PyObject_New(pyVolumeSensorConditionalObject, &pyVolumeSensorConditionalObject_Type);
-    py->fThis = obj;
-    py->fPyOwned = false;
-    return (PyObject*)py;
-}
+PY_PLASMA_IFC_METHODS(VolumeSensorConditionalObject, plVolumeSensorConditionalObject)
 
 };

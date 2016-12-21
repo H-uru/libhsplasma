@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Geometry/plOccluder.h>
 #include "pyOccluder.h"
+
+#include <PRP/Geometry/plOccluder.h>
 #include "PRP/Region/pyBounds.h"
 #include "PRP/pyCreatable.h"
 #include "Math/pyMatrix.h"
@@ -41,7 +41,7 @@ static PyObject* pyMobileOccluder_getWorldToLocal(pyMobileOccluder* self, void*)
 }
 
 static PyObject* pyMobileOccluder_getLocalBounds(pyMobileOccluder* self, void*) {
-    return pyBounds3Ext_FromBounds3Ext(self->fThis->getLocalBounds());
+    return ICreateBounds(self->fThis->getLocalBounds());
 }
 
 static int pyMobileOccluder_setLocalToWorld(pyMobileOccluder* self, PyObject* value, void*) {
@@ -74,10 +74,6 @@ static int pyMobileOccluder_setLocalBounds(pyMobileOccluder* self, PyObject* val
     self->fThis->setLocalBounds(*((pyBounds3Ext*)value)->fThis);
     return 0;
 }
-
-static PyMethodDef pyMobileOccluder_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyMobileOccluder_GetSet[] = {
     { _pycs("localToWorld"), (getter)pyMobileOccluder_getLocalToWorld,
@@ -121,7 +117,7 @@ PyTypeObject pyMobileOccluder_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyMobileOccluder_Methods,           /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyMobileOccluder_GetSet,            /* tp_getset */
     NULL,                               /* tp_base */
@@ -156,22 +152,6 @@ PyObject* Init_pyMobileOccluder_Type() {
     return (PyObject*)&pyMobileOccluder_Type;
 }
 
-int pyMobileOccluder_Check(PyObject* obj) {
-    if (obj->ob_type == &pyMobileOccluder_Type
-        || PyType_IsSubtype(obj->ob_type, &pyMobileOccluder_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyMobileOccluder_FromMobileOccluder(class plMobileOccluder* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyMobileOccluder* pobj = PyObject_New(pyMobileOccluder, &pyMobileOccluder_Type);
-    pobj->fThis = obj;
-    pobj->fPyOwned = false;
-    return (PyObject*)pobj;
-}
+PY_PLASMA_IFC_METHODS(MobileOccluder, plMobileOccluder)
 
 }

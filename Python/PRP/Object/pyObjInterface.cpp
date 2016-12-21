@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Object/plObjInterface.h>
 #include "pyObjInterface.h"
+
+#include <PRP/Object/plObjInterface.h>
 #include "pySynchedObject.h"
 #include "PRP/pyCreatable.h"
 #include "PRP/KeyedObject/pyKey.h"
@@ -35,7 +35,7 @@ static PyObject* pyObjInterface_getProp(pyObjInterface* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "getProperty expects an int");
         return NULL;
     }
-    return PyBool_FromLong(plObjInterface::Convert(IConvert((pyCreatable*)self))->getProperty(prop) ? 1 : 0);
+    return PyBool_FromLong(self->fThis->getProperty(prop) ? 1 : 0);
 }
 
 static PyObject* pyObjInterface_setProp(pyObjInterface* self, PyObject* args) {
@@ -44,21 +44,21 @@ static PyObject* pyObjInterface_setProp(pyObjInterface* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "setProperty expects int, bool");
         return NULL;
     }
-    plObjInterface::Convert(IConvert((pyCreatable*)self))->setProperty(prop, value != 0);
+    self->fThis->setProperty(prop, value != 0);
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 static PyObject* pyObjInterface_getOwner(pyObjInterface* self, void*) {
-    return pyKey_FromKey(plObjInterface::Convert(IConvert((pyCreatable*)self))->getOwner());
+    return pyKey_FromKey(self->fThis->getOwner());
 }
 
 static int pyObjInterface_setOwner(pyObjInterface* self, PyObject* value, void*) {
     if (value == NULL || value == Py_None) {
-        plObjInterface::Convert(IConvert((pyCreatable*)self))->setOwner(plKey());
+        self->fThis->setOwner(plKey());
         return 0;
     } else if (pyKey_Check(value)) {
-        plObjInterface::Convert(IConvert((pyCreatable*)self))->setOwner(*((pyKey*)value)->fThis);
+        self->fThis->setOwner(*((pyKey*)value)->fThis);
         return 0;
     } else {
         PyErr_SetString(PyExc_TypeError, "owner should be a plKey");
@@ -152,22 +152,6 @@ PyObject* Init_pyObjInterface_Type() {
     return (PyObject*)&pyObjInterface_Type;
 }
 
-int pyObjInterface_Check(PyObject* obj) {
-    if (obj->ob_type == &pyObjInterface_Type
-        || PyType_IsSubtype(obj->ob_type, &pyObjInterface_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyObjInterface_FromObjInterface(class plObjInterface* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyObjInterface* intf = PyObject_New(pyObjInterface, &pyObjInterface_Type);
-    intf->fThis = obj;
-    intf->fPyOwned = false;
-    return (PyObject*)intf;
-}
+PY_PLASMA_IFC_METHODS(ObjInterface, plObjInterface)
 
 }

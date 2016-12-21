@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/proEventData.h>
 #include "pyEventData.h"
+
+#include <PRP/Message/proEventData.h>
 #include "PRP/KeyedObject/pyKey.h"
 
 extern "C" {
@@ -46,10 +46,6 @@ static int pyClimbingBlockerHitEventData_setBlocker(pyClimbingBlockerHitEventDat
         return -1;
     }
 }
-
-static PyMethodDef pyClimbingBlockerHitEventData_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyClimbingBlockerHitEventData_GetSet[] = {
     { _pycs("blocker"), (getter)pyClimbingBlockerHitEventData_getBlocker,
@@ -89,7 +85,7 @@ PyTypeObject pyClimbingBlockerHitEventData_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyClimbingBlockerHitEventData_Methods, /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyClimbingBlockerHitEventData_GetSet, /* tp_getset */
     NULL,                               /* tp_base */
@@ -124,22 +120,6 @@ PyObject* Init_pyClimbingBlockerHitEventData_Type() {
     return (PyObject*)&pyClimbingBlockerHitEventData_Type;
 }
 
-int pyClimbingBlockerHitEventData_Check(PyObject* obj) {
-    if (obj->ob_type == &pyClimbingBlockerHitEventData_Type
-        || PyType_IsSubtype(obj->ob_type, &pyClimbingBlockerHitEventData_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyClimbingBlockerHitEventData_FromClimbingBlockerHitEventData(proClimbingBlockerHitEventData* evt) {
-    if (evt == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyClimbingBlockerHitEventData* pyobj = PyObject_New(pyClimbingBlockerHitEventData, &pyClimbingBlockerHitEventData_Type);
-    pyobj->fThis = evt;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ClimbingBlockerHitEventData, proClimbingBlockerHitEventData)
 
 }

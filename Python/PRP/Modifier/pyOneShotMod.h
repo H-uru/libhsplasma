@@ -17,19 +17,8 @@
 #ifndef _PYONESHOTMOD_H
 #define _PYONESHOTMOD_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plOneShotMod* fThis;
-    bool fPyOwned;
-} pyOneShotMod;
-
-extern PyTypeObject pyOneShotMod_Type;
-PyObject* Init_pyOneShotMod_Type();
-int pyOneShotMod_Check(PyObject* obj);
-PyObject* pyOneShotMod_FromOneShotMod(class plOneShotMod* mod);
-
-}
+PY_WRAP_PLASMA(OneShotMod, class plOneShotMod);
 
 #endif

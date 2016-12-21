@@ -14,6 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef _PYPLASMA_H
+#define _PYPLASMA_H
+
 #include <Python.h>
 #include <Util/plString.h>
 
@@ -23,7 +26,8 @@ plString PyString_To_PlasmaString(PyObject* str);
 
 // The Python API insists that character constants are "char *" without the
 // const. Sane compilers complain about this (with good reason). Therefore:
-#define _pycs(x) const_cast<char*>(x)
+template <size_t size>
+inline char* _pycs(const char (&str)[size]) { return const_cast<char*>(str); }
 
 // Python 3.x does things differently...  This should help to keep things
 // under control with both 2.x and 3.0 somewhat seamlessly.
@@ -70,3 +74,60 @@ plString PyString_To_PlasmaString(PyObject* str);
 
 // This should work the same for all versions
 #define PyStr_To_PlStr PyString_To_PlasmaString
+
+/* Use this macro to ensure the layouts of subclass types are consistent */
+#define PY_WRAP_PLASMA(pyType, plType)                          \
+    extern "C" {                                                \
+    struct py##pyType {                                         \
+        PyObject_HEAD                                           \
+        plType* fThis;                                          \
+        bool fPyOwned;                                          \
+    };                                                          \
+    extern PyTypeObject py##pyType##_Type;                      \
+    PyObject* Init_py##pyType##_Type();                         \
+    int py##pyType##_Check(PyObject* obj);                      \
+    PyObject* py##pyType##_From##pyType(plType*);               \
+    }
+
+#define PY_WRAP_PLASMA_VALUE(pyType, plType)                    \
+    extern "C" {                                                \
+    struct py##pyType {                                         \
+        PyObject_HEAD                                           \
+        plType* fThis;                                          \
+    };                                                          \
+    extern PyTypeObject py##pyType##_Type;                      \
+    PyObject* Init_py##pyType##_Type();                         \
+    int py##pyType##_Check(PyObject* obj);                      \
+    PyObject* py##pyType##_From##pyType(const plType&);         \
+    }
+
+#define PY_PLASMA_CHECK_TYPE(pyType)                                    \
+    int py##pyType##_Check(PyObject* obj) {                             \
+        if (obj->ob_type == &py##pyType##_Type                          \
+            || PyType_IsSubtype(obj->ob_type, &py##pyType##_Type))      \
+            return 1;                                                   \
+        return 0;                                                       \
+    }
+
+#define PY_PLASMA_IFC_METHODS(pyType, plType)                           \
+    PY_PLASMA_CHECK_TYPE(pyType)                                        \
+    PyObject* py##pyType##_From##pyType(plType* obj) {                  \
+        if (!obj) {                                                     \
+            Py_INCREF(Py_None);                                         \
+            return Py_None;                                             \
+        }                                                               \
+        py##pyType* pyobj = PyObject_New(py##pyType, &py##pyType##_Type); \
+        pyobj->fThis = obj;                                             \
+        pyobj->fPyOwned = false;                                        \
+        return (PyObject*)pyobj;                                        \
+    }
+
+#define PY_PLASMA_VALUE_IFC_METHODS(pyType, plType)                     \
+    PY_PLASMA_CHECK_TYPE(pyType)                                        \
+    PyObject* py##pyType##_From##pyType(const plType& obj) {            \
+        py##pyType* pyobj = PyObject_New(py##pyType, &py##pyType##_Type); \
+        pyobj->fThis = new plType(obj);                                 \
+        return (PyObject*)pyobj;                                        \
+    }
+
+#endif

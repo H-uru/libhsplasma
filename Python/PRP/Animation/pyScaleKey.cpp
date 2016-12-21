@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Animation/hsKeys.h>
 #include "pyKeys.h"
+
+#include <PRP/Animation/hsKeys.h>
 #include "Math/pyGeometry3.h"
 
 extern "C" {
@@ -158,22 +158,6 @@ PyObject* Init_pyScaleKey_Type() {
     return (PyObject*)&pyScaleKey_Type;
 }
 
-int pyScaleKey_Check(PyObject* obj) {
-    if (obj->ob_type == &pyScaleKey_Type
-        || PyType_IsSubtype(obj->ob_type, &pyScaleKey_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyScaleKey_FromScaleKey(hsScaleKey* frame) {
-    if (frame == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyScaleKey* pyobj = PyObject_New(pyScaleKey, &pyScaleKey_Type);
-    pyobj->fThis = frame;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ScaleKey, hsScaleKey)
 
 }

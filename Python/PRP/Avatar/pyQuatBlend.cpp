@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plQuatChannel.h>
 #include "pyAGChannel.h"
+
+#include <PRP/Avatar/plQuatChannel.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -29,10 +29,6 @@ static PyObject* pyQuatBlend_new(PyTypeObject* type, PyObject* args, PyObject* k
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyQuatBlend_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyQuatBlend_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -66,7 +62,7 @@ PyTypeObject pyQuatBlend_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyQuatBlend_Methods,                /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -101,22 +97,6 @@ PyObject* Init_pyQuatBlend_Type() {
     return (PyObject*)&pyQuatBlend_Type;
 }
 
-int pyQuatBlend_Check(PyObject* obj) {
-    if (obj->ob_type == &pyQuatBlend_Type
-        || PyType_IsSubtype(obj->ob_type, &pyQuatBlend_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyQuatBlend_FromQuatBlend(class plQuatBlend* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyQuatBlend* pyobj = PyObject_New(pyQuatBlend, &pyQuatBlend_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(QuatBlend, plQuatBlend)
 
 }

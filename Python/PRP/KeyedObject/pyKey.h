@@ -17,28 +17,9 @@
 #ifndef _PYKEY_H
 #define _PYKEY_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plKey* fThis;
-} pyKey;
-
-typedef struct {
-    PyObject_HEAD
-    class plLocation* fThis;
-} pyLocation;
-
-extern PyTypeObject pyKey_Type;
-PyObject* Init_pyKey_Type();
-int pyKey_Check(PyObject* obj);
-PyObject* pyKey_FromKey(class plKey key);
-
-extern PyTypeObject pyLocation_Type;
-PyObject* Init_pyLocation_Type();
-int pyLocation_Check(PyObject* obj);
-PyObject* pyLocation_FromLocation(const class plLocation& loc);
-
-};
+PY_WRAP_PLASMA_VALUE(Key, class plKey);
+PY_WRAP_PLASMA_VALUE(Location, class plLocation);
 
 #endif

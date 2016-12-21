@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Animation/plPosController.h>
 #include "pyPosController.h"
+
+#include <PRP/Animation/plPosController.h>
 #include "pyLeafController.h"
 #include "PRP/pyCreatable.h"
 
@@ -91,10 +91,6 @@ static int pyCompoundPosController_setZ(pyCompoundPosController* self, PyObject*
     return 0;
 }
 
-static PyMethodDef pyCompoundPosController_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyCompoundPosController_GetSet[] = {
     { _pycs("X"), (getter)pyCompoundPosController_getX,
         (setter)pyCompoundPosController_setX, NULL, NULL },
@@ -137,7 +133,7 @@ PyTypeObject pyCompoundPosController_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyCompoundPosController_Methods,    /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyCompoundPosController_GetSet,     /* tp_getset */
     NULL,                               /* tp_base */
@@ -172,22 +168,6 @@ PyObject* Init_pyCompoundPosController_Type() {
     return (PyObject*)&pyCompoundPosController_Type;
 }
 
-int pyCompoundPosController_Check(PyObject* obj) {
-    if (obj->ob_type == &pyCompoundPosController_Type
-        || PyType_IsSubtype(obj->ob_type, &pyCompoundPosController_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyCompoundPosController_FromCompoundPosController(class plCompoundPosController* controller) {
-    if (controller == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyCompoundPosController* pyobj = PyObject_New(pyCompoundPosController, &pyCompoundPosController_Type);
-    pyobj->fThis = controller;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(CompoundPosController, plCompoundPosController)
 
 }

@@ -19,12 +19,12 @@
 
 #include "plLightInfo.h"
 
-class PLASMA_DLL plDirectionalLightInfo : public virtual plLightInfo {
+class PLASMA_DLL plDirectionalLightInfo : public plLightInfo {
     CREATABLE(plDirectionalLightInfo, kDirectionalLightInfo, plLightInfo)
 };
 
 
-class PLASMA_DLL plLimitedDirLightInfo : public virtual plDirectionalLightInfo {
+class PLASMA_DLL plLimitedDirLightInfo : public plDirectionalLightInfo {
     CREATABLE(plLimitedDirLightInfo, kLimitedDirLightInfo,
               plDirectionalLightInfo)
 

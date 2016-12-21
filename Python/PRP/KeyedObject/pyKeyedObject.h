@@ -17,30 +17,9 @@
 #ifndef _PYKEYEDOBJECT_H
 #define _PYKEYEDOBJECT_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class hsKeyedObject* fThis;
-    bool fPyOwned;
-} pyKeyedObject;
-
-typedef struct {
-    PyObject_HEAD
-    class hsKeyedObjectStub* fThis;
-    bool fPyOwned;
-} pyKeyedObjectStub;
-
-extern PyTypeObject pyKeyedObject_Type;
-PyObject* Init_pyKeyedObject_Type();
-int pyKeyedObject_Check(PyObject* obj);
-PyObject* pyKeyedObject_FromKeyedObject(class hsKeyedObject* obj);
-
-extern PyTypeObject pyKeyedObjectStub_Type;
-PyObject* Init_pyKeyedObjectStub_Type();
-int pyKeyedObjectStub_Check(PyObject* obj);
-PyObject* pyKeyedObjectStub_FromKeyedObjectStub(class hsKeyedObjectStub* obj);
-
-}
+PY_WRAP_PLASMA(KeyedObject, class hsKeyedObject);
+PY_WRAP_PLASMA(KeyedObjectStub, class hsKeyedObjectStub);
 
 #endif

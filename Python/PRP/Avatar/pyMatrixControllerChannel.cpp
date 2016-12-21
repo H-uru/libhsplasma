@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plMatrixChannel.h>
 #include "pyAGChannel.h"
+
+#include <PRP/Avatar/plMatrixChannel.h>
 #include "PRP/pyCreatable.h"
 #include "PRP/Animation/pyController.h"
 
@@ -48,10 +48,6 @@ static int pyMatrixControllerChannel_setController(pyMatrixControllerChannel* se
     ((pyController*)value)->fPyOwned = false;
     return 0;
 }
-
-static PyMethodDef pyMatrixControllerChannel_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyMatrixControllerChannel_GetSet[] = {
     { _pycs("controller"), (getter)pyMatrixControllerChannel_getController,
@@ -91,7 +87,7 @@ PyTypeObject pyMatrixControllerChannel_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyMatrixControllerChannel_Methods,  /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyMatrixControllerChannel_GetSet,   /* tp_getset */
     NULL,                               /* tp_base */
@@ -126,22 +122,6 @@ PyObject* Init_pyMatrixControllerChannel_Type() {
     return (PyObject*)&pyMatrixControllerChannel_Type;
 }
 
-int pyMatrixControllerChannel_Check(PyObject* obj) {
-    if (obj->ob_type == &pyMatrixControllerChannel_Type
-        || PyType_IsSubtype(obj->ob_type, &pyMatrixControllerChannel_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyMatrixControllerChannel_FromMatrixControllerChannel(class plMatrixControllerChannel* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyMatrixControllerChannel* pyobj = PyObject_New(pyMatrixControllerChannel, &pyMatrixControllerChannel_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(MatrixControllerChannel, plMatrixControllerChannel)
 
 }

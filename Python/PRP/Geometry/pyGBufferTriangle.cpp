@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Geometry/plGBufferGroup.h>
 #include "pyGBufferGroup.h"
+
+#include <PRP/Geometry/plGBufferGroup.h>
 #include "Math/pyGeometry3.h"
 #include "Stream/pyStream.h"
 
@@ -225,17 +225,6 @@ PyObject* Init_pyGBufferTriangle_Type() {
     return (PyObject*)&pyGBufferTriangle_Type;
 }
 
-int pyGBufferTriangle_Check(PyObject* obj) {
-    if (obj->ob_type == &pyGBufferTriangle_Type
-        || PyType_IsSubtype(obj->ob_type, &pyGBufferTriangle_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyGBufferTriangle_FromGBufferTriangle(const plGBufferTriangle& tri) {
-    pyGBufferTriangle* pytri = PyObject_New(pyGBufferTriangle, &pyGBufferTriangle_Type);
-    pytri->fThis = new plGBufferTriangle(tri);
-    return (PyObject*)pytri;
-}
+PY_PLASMA_VALUE_IFC_METHODS(GBufferTriangle, plGBufferTriangle)
 
 }

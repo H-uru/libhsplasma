@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Modifier/plSpawnModifier.h>
 #include "pySpawnModifier.h"
+
+#include <PRP/Modifier/plSpawnModifier.h>
 #include "pyModifier.h"
 #include "PRP/pyCreatable.h"
 
@@ -30,10 +30,6 @@ static PyObject* pySpawnModifier_new(PyTypeObject* type, PyObject* args, PyObjec
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pySpawnModifier_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pySpawnModifier_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -67,7 +63,7 @@ PyTypeObject pySpawnModifier_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pySpawnModifier_Methods,            /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -102,22 +98,6 @@ PyObject* Init_pySpawnModifier_Type() {
     return (PyObject*)&pySpawnModifier_Type;
 }
 
-int pySpawnModifier_Check(PyObject* obj) {
-    if (obj->ob_type == &pySpawnModifier_Type
-        || PyType_IsSubtype(obj->ob_type, &pySpawnModifier_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySpawnModifier_FromSpawnModifier(class plSpawnModifier* mod) {
-    if (mod == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySpawnModifier* pymod = PyObject_New(pySpawnModifier, &pySpawnModifier_Type);
-    pymod->fThis = mod;
-    pymod->fPyOwned = false;
-    return (PyObject*)pymod;
-}
+PY_PLASMA_IFC_METHODS(SpawnModifier, plSpawnModifier)
 
 }

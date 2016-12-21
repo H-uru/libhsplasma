@@ -20,7 +20,7 @@
 #include "PRP/Modifier/plModifier.h"
 #include "PRP/Message/plMessage.h"
 
-class PLASMA_DLL plSimpleRegionSensor : public virtual plSingleModifier {
+class PLASMA_DLL plSimpleRegionSensor : public plSingleModifier {
     CREATABLE(plSimpleRegionSensor, kSimpleRegionSensor, plSingleModifier)
 
 protected:
@@ -44,7 +44,7 @@ public:
 };
 
 
-class PLASMA_DLL plSwimDetector : public virtual plSimpleRegionSensor {
+class PLASMA_DLL plSwimDetector : public plSimpleRegionSensor {
     CREATABLE(plSwimDetector, kSwimDetector, plSimpleRegionSensor)
 
 public:
@@ -53,7 +53,7 @@ public:
 };
 
 
-class PLASMA_DLL plAutoWalkRegion : public virtual plSimpleRegionSensor {
+class PLASMA_DLL plAutoWalkRegion : public plSimpleRegionSensor {
     CREATABLE(plAutoWalkRegion, kAutoWalkRegion, plSimpleRegionSensor)
 
 protected:
@@ -71,7 +71,7 @@ protected:
 };
 
 
-class PLASMA_DLL plRidingAnimatedPhysicalDetector : public virtual plSimpleRegionSensor {
+class PLASMA_DLL plRidingAnimatedPhysicalDetector : public plSimpleRegionSensor {
     CREATABLE(plRidingAnimatedPhysicalDetector,
               kRidingAnimatedPhysicalDetector,
               plSimpleRegionSensor)

@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Light/plOmniLightInfo.h>
 #include "pyLightInfo.h"
+
+#include <PRP/Light/plOmniLightInfo.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -31,19 +31,19 @@ static PyObject* pyOmniLightInfo_new(PyTypeObject* type, PyObject* args, PyObjec
 }
 
 static PyObject* pyOmniLightInfo_getAttenConst(pyOmniLightInfo* self, void*) {
-    return PyFloat_FromDouble(plOmniLightInfo::Convert(IConvert((pyCreatable*)self))->getAttenConst());
+    return PyFloat_FromDouble(self->fThis->getAttenConst());
 }
 
 static PyObject* pyOmniLightInfo_getAttenLinear(pyOmniLightInfo* self, void*) {
-    return PyFloat_FromDouble(plOmniLightInfo::Convert(IConvert((pyCreatable*)self))->getAttenLinear());
+    return PyFloat_FromDouble(self->fThis->getAttenLinear());
 }
 
 static PyObject* pyOmniLightInfo_getAttenQuadratic(pyOmniLightInfo* self, void*) {
-    return PyFloat_FromDouble(plOmniLightInfo::Convert(IConvert((pyCreatable*)self))->getAttenQuadratic());
+    return PyFloat_FromDouble(self->fThis->getAttenQuadratic());
 }
 
 static PyObject* pyOmniLightInfo_getAttenCutoff(pyOmniLightInfo* self, void*) {
-    return PyFloat_FromDouble(plOmniLightInfo::Convert(IConvert((pyCreatable*)self))->getAttenCutoff());
+    return PyFloat_FromDouble(self->fThis->getAttenCutoff());
 }
 
 static int pyOmniLightInfo_setAttenConst(pyOmniLightInfo* self, PyObject* value, void*) {
@@ -51,7 +51,7 @@ static int pyOmniLightInfo_setAttenConst(pyOmniLightInfo* self, PyObject* value,
         PyErr_SetString(PyExc_TypeError, "attenConst should be a float");
         return -1;
     }
-    plOmniLightInfo::Convert(IConvert((pyCreatable*)self))->setAttenConst(PyFloat_AsDouble(value));
+    self->fThis->setAttenConst(PyFloat_AsDouble(value));
     return 0;
 }
 
@@ -60,7 +60,7 @@ static int pyOmniLightInfo_setAttenLinear(pyOmniLightInfo* self, PyObject* value
         PyErr_SetString(PyExc_TypeError, "attenLinear should be a float");
         return -1;
     }
-    plOmniLightInfo::Convert(IConvert((pyCreatable*)self))->setAttenLinear(PyFloat_AsDouble(value));
+    self->fThis->setAttenLinear(PyFloat_AsDouble(value));
     return 0;
 }
 
@@ -69,7 +69,7 @@ static int pyOmniLightInfo_setAttenQuadratic(pyOmniLightInfo* self, PyObject* va
         PyErr_SetString(PyExc_TypeError, "attenQuadratic should be a float");
         return -1;
     }
-    plOmniLightInfo::Convert(IConvert((pyCreatable*)self))->setAttenQuadratic(PyFloat_AsDouble(value));
+    self->fThis->setAttenQuadratic(PyFloat_AsDouble(value));
     return 0;
 }
 
@@ -78,13 +78,9 @@ static int pyOmniLightInfo_setAttenCutoff(pyOmniLightInfo* self, PyObject* value
         PyErr_SetString(PyExc_TypeError, "attenCutoff should be a float");
         return -1;
     }
-    plOmniLightInfo::Convert(IConvert((pyCreatable*)self))->setAttenCutoff(PyFloat_AsDouble(value));
+    self->fThis->setAttenCutoff(PyFloat_AsDouble(value));
     return 0;
 }
-
-static PyMethodDef pyOmniLightInfo_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyOmniLightInfo_GetSet[] = {
     { _pycs("attenConst"), (getter)pyOmniLightInfo_getAttenConst,
@@ -130,7 +126,7 @@ PyTypeObject pyOmniLightInfo_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyOmniLightInfo_Methods,            /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyOmniLightInfo_GetSet,             /* tp_getset */
     NULL,                               /* tp_base */
@@ -165,22 +161,6 @@ PyObject* Init_pyOmniLightInfo_Type() {
     return (PyObject*)&pyOmniLightInfo_Type;
 }
 
-int pyOmniLightInfo_Check(PyObject* obj) {
-    if (obj->ob_type == &pyOmniLightInfo_Type
-        || PyType_IsSubtype(obj->ob_type, &pyOmniLightInfo_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyOmniLightInfo_FromOmniLightInfo(class plOmniLightInfo* light) {
-    if (light == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyOmniLightInfo* pyLight = PyObject_New(pyOmniLightInfo, &pyOmniLightInfo_Type);
-    pyLight->fThis = light;
-    pyLight->fPyOwned = false;
-    return (PyObject*)pyLight;
-}
+PY_PLASMA_IFC_METHODS(OmniLightInfo, plOmniLightInfo)
 
 }

@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Region/plSoftVolume.h>
 #include "pySoftVolume.h"
+
+#include <PRP/Region/plSoftVolume.h>
 
 extern "C" {
 
@@ -96,22 +96,6 @@ PyObject* Init_pySoftVolumeInvert_Type() {
     return (PyObject*)&pySoftVolumeInvert_Type;
 }
 
-int pySoftVolumeInvert_Check(PyObject* obj) {
-    if (obj->ob_type == &pySoftVolumeInvert_Type
-        || PyType_IsSubtype(obj->ob_type, &pySoftVolumeInvert_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySoftVolumeInvert_FromSoftVolumeInvert(class plSoftVolumeInvert* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySoftVolumeInvert* pyobj = PyObject_New(pySoftVolumeInvert, &pySoftVolumeInvert_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(SoftVolumeInvert, plSoftVolumeInvert)
 
 }

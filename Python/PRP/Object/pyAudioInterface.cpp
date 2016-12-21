@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Object/plAudioInterface.h>
 #include "pyObjInterface.h"
+
+#include <PRP/Object/plAudioInterface.h>
 #include "PRP/pyCreatable.h"
 #include "PRP/KeyedObject/pyKey.h"
 
@@ -47,10 +47,6 @@ static int pyAudioInterface_setAudible(pyAudioInterface* self, PyObject* value, 
         return -1;
     }
 }
-
-PyMethodDef pyAudioInterface_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyGetSetDef pyAudioInterface_GetSet[] = {
     { _pycs("audible"), (getter)pyAudioInterface_getAudible,
@@ -90,7 +86,7 @@ PyTypeObject pyAudioInterface_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyAudioInterface_Methods,           /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyAudioInterface_GetSet,            /* tp_getset */
     NULL,                               /* tp_base */
@@ -125,22 +121,6 @@ PyObject* Init_pyAudioInterface_Type() {
     return (PyObject*)&pyAudioInterface_Type;
 }
 
-int pyAudioInterface_Check(PyObject* obj) {
-    if (obj->ob_type == &pyAudioInterface_Type
-        || PyType_IsSubtype(obj->ob_type, &pyAudioInterface_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyAudioInterface_FromAudioInterface(class plAudioInterface* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyAudioInterface* intf = PyObject_New(pyAudioInterface, &pyAudioInterface_Type);
-    intf->fThis = obj;
-    intf->fPyOwned = false;
-    return (PyObject*)intf;
-}
+PY_PLASMA_IFC_METHODS(AudioInterface, plAudioInterface)
 
 }

@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plAGApplicator.h>
 #include "pyAGApplicator.h"
+
+#include <PRP/Avatar/plAGApplicator.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -29,10 +29,6 @@ static PyObject* pyLightSpecularApplicator_new(PyTypeObject* type, PyObject* arg
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyLightSpecularApplicator_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyLightSpecularApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -66,7 +62,7 @@ PyTypeObject pyLightSpecularApplicator_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyLightSpecularApplicator_Methods,  /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -101,22 +97,6 @@ PyObject* Init_pyLightSpecularApplicator_Type() {
     return (PyObject*)&pyLightSpecularApplicator_Type;
 }
 
-int pyLightSpecularApplicator_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLightSpecularApplicator_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLightSpecularApplicator_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyLightSpecularApplicator_FromLightSpecularApplicator(class plLightSpecularApplicator* app) {
-    if (app == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyLightSpecularApplicator* pyobj = PyObject_New(pyLightSpecularApplicator, &pyLightSpecularApplicator_Type);
-    pyobj->fThis = app;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(LightSpecularApplicator, plLightSpecularApplicator)
 
 }

@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/KeyedObject/hsKeyedObject.h>
 #include "pyKeyedObject.h"
+
+#include <PRP/KeyedObject/hsKeyedObject.h>
 #include "pyKey.h"
 #include "PRP/pyCreatable.h"
 
@@ -53,10 +53,6 @@ static int pyKeyedObjectStub_setStub(pyKeyedObjectStub* self, PyObject* value, v
     PyErr_SetString(PyExc_RuntimeError, "stub is read-only");
     return -1;
 }
-
-static PyMethodDef pyKeyedObjectStub_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyKeyedObjectStub_GetSet[] = {
     { _pycs("stub"), (getter)pyKeyedObjectStub_getStub,
@@ -97,7 +93,7 @@ PyTypeObject pyKeyedObjectStub_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyKeyedObjectStub_Methods,          /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyKeyedObjectStub_GetSet,           /* tp_getset */
     NULL,                               /* tp_base */
@@ -132,22 +128,6 @@ PyObject* Init_pyKeyedObjectStub_Type() {
     return (PyObject*)&pyKeyedObjectStub_Type;
 }
 
-int pyKeyedObjectStub_Check(PyObject* obj) {
-    if (obj->ob_type == &pyKeyedObjectStub_Type
-        || PyType_IsSubtype(obj->ob_type, &pyKeyedObjectStub_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyKeyedObjectStub_FromKeyedObjectStub(class hsKeyedObjectStub* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyKeyedObjectStub* ko = PyObject_New(pyKeyedObjectStub, &pyKeyedObjectStub_Type);
-    ko->fThis = obj;
-    ko->fPyOwned = false;
-    return (PyObject*)ko;
-}
+PY_PLASMA_IFC_METHODS(KeyedObjectStub, hsKeyedObjectStub)
 
 }

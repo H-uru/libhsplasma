@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Geometry/plIcicle.h>
 #include "pySpan.h"
+
+#include <PRP/Geometry/plIcicle.h>
 
 extern "C" {
 
@@ -96,22 +96,6 @@ PyObject* Init_pyParticleSpan_Type() {
     return (PyObject*)&pyParticleSpan_Type;
 }
 
-int pyParticleSpan_Check(PyObject* obj) {
-    if (obj->ob_type == &pyParticleSpan_Type
-        || PyType_IsSubtype(obj->ob_type, &pyParticleSpan_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyParticleSpan_FromParticleSpan(plParticleSpan* span) {
-    if (span == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyParticleSpan* obj = PyObject_New(pyParticleSpan, &pyParticleSpan_Type);
-    obj->fThis = span;
-    obj->fPyOwned = false;
-    return (PyObject*)obj;
-}
+PY_PLASMA_IFC_METHODS(ParticleSpan, plParticleSpan)
 
 }

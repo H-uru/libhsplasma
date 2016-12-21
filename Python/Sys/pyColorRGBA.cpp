@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <Sys/hsColor.h>
 #include "pyColor.h"
+
+#include <Sys/hsColor.h>
 #include "Stream/pyStream.h"
 
 extern "C" {
@@ -323,17 +323,6 @@ PyObject* Init_pyColorRGBA_Type() {
     return (PyObject*)&pyColorRGBA_Type;
 }
 
-int pyColorRGBA_Check(PyObject* obj) {
-    if (obj->ob_type == &pyColorRGBA_Type
-        || PyType_IsSubtype(obj->ob_type, &pyColorRGBA_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyColorRGBA_FromColorRGBA(const hsColorRGBA& color) {
-    pyColorRGBA* pc = PyObject_New(pyColorRGBA, &pyColorRGBA_Type);
-    pc->fThis = new hsColorRGBA(color);
-    return (PyObject*)pc;
-}
+PY_PLASMA_VALUE_IFC_METHODS(ColorRGBA, hsColorRGBA)
 
 }

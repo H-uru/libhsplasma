@@ -19,7 +19,7 @@
 
 #include "PRP/Object/plSynchedObject.h"
 
-class PLASMA_DLL plClothingOutfit : public virtual plSynchedObject {
+class PLASMA_DLL plClothingOutfit : public plSynchedObject {
     CREATABLE(plClothingOutfit, kClothingOutfit, plSynchedObject)
 
 public:
@@ -53,7 +53,7 @@ protected:
 };
 
 
-class PLASMA_DLL plClothingBase : public virtual hsKeyedObject {
+class PLASMA_DLL plClothingBase : public hsKeyedObject {
     CREATABLE(plClothingBase, kClothingBase, hsKeyedObject)
 
 protected:

@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Region/plSoftVolume.h>
 #include "pySoftVolume.h"
+
+#include <PRP/Region/plSoftVolume.h>
 #include "pyVolumeIsect.h"
 #include "PRP/pyCreatable.h"
 
@@ -60,7 +60,6 @@ static int pySoftVolumeSimple_setSoftDist(pySoftVolumeSimple* self, PyObject* va
     self->fThis->setSoftDist((float)PyFloat_AsDouble(value));
     return 0;
 }
-
 
 PyGetSetDef pySoftVolumeSimple_GetSet[] = {
     { _pycs("volume"), (getter)pySoftVolumeSimple_getVolume, (setter)pySoftVolumeSimple_setVolume, NULL, NULL },
@@ -135,22 +134,6 @@ PyObject* Init_pySoftVolumeSimple_Type() {
     return (PyObject*)&pySoftVolumeSimple_Type;
 }
 
-int pySoftVolumeSimple_Check(PyObject* obj) {
-    if (obj->ob_type == &pySoftVolumeSimple_Type
-        || PyType_IsSubtype(obj->ob_type, &pySoftVolumeSimple_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySoftVolumeSimple_FromSoftVolumeSimple(class plSoftVolumeSimple* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySoftVolumeSimple* pyobj = PyObject_New(pySoftVolumeSimple, &pySoftVolumeSimple_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(SoftVolumeSimple, plSoftVolumeSimple)
 
 }

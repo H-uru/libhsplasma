@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Physics/plObjectInVolumeDetector.h>
 #include "pyObjectInVolumeDetector.h"
+
+#include <PRP/Physics/plObjectInVolumeDetector.h>
 
 extern "C" {
 
@@ -130,22 +130,6 @@ PyObject* Init_pyObjectInVolumeAndFacingDetector_Type() {
     return (PyObject*)&pyObjectInVolumeAndFacingDetector_Type;
 }
 
-int pyObjectInVolumeAndFacingDetector_Check(PyObject* obj) {
-    if (obj->ob_type == &pyObjectInVolumeAndFacingDetector_Type
-        || PyType_IsSubtype(obj->ob_type, &pyObjectInVolumeAndFacingDetector_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyObjectInVolumeAndFacingDetector_FromObjectInVolumeAndFacingDetector(class plObjectInVolumeAndFacingDetector* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyObjectInVolumeAndFacingDetector* py = PyObject_New(pyObjectInVolumeAndFacingDetector, &pyObjectInVolumeAndFacingDetector_Type);
-    py->fThis = obj;
-    py->fPyOwned = false;
-    return (PyObject*)py;
-}
+PY_PLASMA_IFC_METHODS(ObjectInVolumeAndFacingDetector, plObjectInVolumeAndFacingDetector)
 
 };

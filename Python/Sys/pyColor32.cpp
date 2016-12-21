@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <Sys/hsColor.h>
 #include "pyColor.h"
+
+#include <Sys/hsColor.h>
 #include "Stream/pyStream.h"
 
 extern "C" {
@@ -328,17 +328,6 @@ PyObject* Init_pyColor32_Type() {
     return (PyObject*)&pyColor32_Type;
 }
 
-int pyColor32_Check(PyObject* obj) {
-    if (obj->ob_type == &pyColor32_Type
-        || PyType_IsSubtype(obj->ob_type, &pyColor32_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyColor32_FromColor32(const hsColor32& color) {
-    pyColor32* pc = PyObject_New(pyColor32, &pyColor32_Type);
-    pc->fThis = new hsColor32(color);
-    return (PyObject*)pc;
-}
+PY_PLASMA_VALUE_IFC_METHODS(Color32, hsColor32)
 
 }

@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/plMsgForwarder.h>
 #include "pyMsgForwarder.h"
+
+#include <PRP/Message/plMsgForwarder.h>
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/pyCreatable.h"
@@ -161,22 +161,6 @@ PyObject* Init_pyMsgForwarder_Type() {
     return (PyObject*)&pyMsgForwarder_Type;
 }
 
-int pyMsgForwarder_Check(PyObject* obj) {
-    if (obj->ob_type == &pyMsgForwarder_Type
-        || PyType_IsSubtype(obj->ob_type, &pyMsgForwarder_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyMsgForwarder_FromMsgForwarder(class plMsgForwarder* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyMsgForwarder* pyobj = PyObject_New(pyMsgForwarder, &pyMsgForwarder_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(MsgForwarder, plMsgForwarder)
 
 }

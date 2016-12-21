@@ -17,33 +17,11 @@
 #ifndef _PYCREATABLE_H
 #define _PYCREATABLE_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plCreatable* fThis;
-    bool fPyOwned;
-} pyCreatable;
+PY_WRAP_PLASMA(Creatable, class plCreatable);
+PY_WRAP_PLASMA(CreatableStub, const class plCreatableStub);
 
-typedef struct {
-    PyObject_HEAD
-    const class plCreatableStub* fThis;
-    bool fPyOwned;
-} pyCreatableStub;
-
-extern PyTypeObject pyCreatable_Type;
-PyObject* Init_pyCreatable_Type();
-int pyCreatable_Check(PyObject* obj);
-PyObject* pyCreatable_FromCreatable(class plCreatable* pCre);
-
-extern PyTypeObject pyCreatableStub_Type;
-PyObject* Init_pyCreatableStub_Type();
-int pyCreatableStub_Check(PyObject* obj);
-PyObject* pyCreatableStub_FromCreatableStub(const class plCreatableStub* obj);
-
-};
-
-class plCreatable* IConvert(pyCreatable* pCre);
-PyObject* ICreate(plCreatable* pCre);
+PyObject* ICreate(class plCreatable* pCre);
 
 #endif

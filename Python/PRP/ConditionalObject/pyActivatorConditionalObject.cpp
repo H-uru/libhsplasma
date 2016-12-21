@@ -14,16 +14,12 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/ConditionalObject/plActivatorConditionalObject.h>
 #include "pyActivatorConditionalObject.h"
+
+#include <PRP/ConditionalObject/plActivatorConditionalObject.h>
 #include "pyConditionalObject.h"
 #include "PRP/pyCreatable.h"
 #include "PRP/KeyedObject/pyKey.h"
-
-static inline plActivatorConditionalObject* IConvertCond(pyActivatorConditionalObject* self) {
-    return plActivatorConditionalObject::Convert(IConvert((pyCreatable*)self));
-}
 
 extern "C" {
 
@@ -42,13 +38,13 @@ static PyObject* pyActivatorConditionalObject_addActivator(pyActivatorConditiona
         PyErr_SetString(PyExc_TypeError, "addActivator expects a plKey");
         return NULL;
     }
-    IConvertCond(self)->addActivator(*((pyKey*)key)->fThis);
+    self->fThis->addActivator(*((pyKey*)key)->fThis);
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 static PyObject* pyActivatorConditionalObject_clearActivators(pyActivatorConditionalObject* self) {
-    IConvertCond(self)->clearActivators();
+    self->fThis->clearActivators();
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -59,7 +55,7 @@ static PyObject* pyActivatorConditionalObject_delActivator(pyActivatorConditiona
         PyErr_SetString(PyExc_TypeError, "delActivator expects an int");
         return NULL;
     }
-    IConvertCond(self)->delActivator((size_t)idx);
+    self->fThis->delActivator((size_t)idx);
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -77,7 +73,7 @@ static PyMethodDef pyActivatorConditionalObject_Methods[] = {
 };
 
 static PyObject* pyActivatorConditionalObject_getActivators(pyActivatorConditionalObject* self, void*) {
-    plActivatorConditionalObject* act = IConvertCond(self);
+    plActivatorConditionalObject* act = self->fThis;
     PyObject* activators = PyTuple_New(act->getActivators().size());
     for (size_t i = 0; i < act->getActivators().size(); ++i)
         PyTuple_SET_ITEM(activators, i, pyKey_FromKey(act->getActivators()[i]));
@@ -162,22 +158,6 @@ PyObject* Init_pyActivatorConditionalObject_Type() {
     return (PyObject*)&pyActivatorConditionalObject_Type;
 }
 
-int pyActivatorConditionalObject_Check(PyObject* obj) {
-    if (obj->ob_type == &pyActivatorConditionalObject_Type
-        || PyType_IsSubtype(obj->ob_type, &pyActivatorConditionalObject_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyActivatorConditionalObject_FromActivatorConditionalObject(class plActivatorConditionalObject* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyActivatorConditionalObject* py = PyObject_New(pyActivatorConditionalObject, &pyActivatorConditionalObject_Type);
-    py->fThis = obj;
-    py->fPyOwned = false;
-    return (PyObject*)py;
-}
+PY_PLASMA_IFC_METHODS(ActivatorConditionalObject, plActivatorConditionalObject)
 
 };

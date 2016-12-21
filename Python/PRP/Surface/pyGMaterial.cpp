@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Surface/hsGMaterial.h>
 #include "pyGMaterial.h"
+
+#include <PRP/Surface/hsGMaterial.h>
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/Object/pySynchedObject.h"
 #include "PRP/pyCreatable.h"
@@ -274,22 +274,6 @@ PyObject* Init_pyGMaterial_Type() {
     return (PyObject*)&pyGMaterial_Type;
 }
 
-int pyGMaterial_Check(PyObject* obj) {
-    if (obj->ob_type == &pyGMaterial_Type
-        || PyType_IsSubtype(obj->ob_type, &pyGMaterial_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyGMaterial_FromGMaterial(class hsGMaterial* matl) {
-    if (matl == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyGMaterial* pymat = PyObject_New(pyGMaterial, &pyGMaterial_Type);
-    pymat->fThis = matl;
-    pymat->fPyOwned = false;
-    return (PyObject*)pymat;
-}
+PY_PLASMA_IFC_METHODS(GMaterial, hsGMaterial)
 
 }

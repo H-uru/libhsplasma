@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plSittingModifier.h>
 #include "pySittingModifier.h"
+
+#include <PRP/Avatar/plSittingModifier.h>
 #include "PRP/Modifier/pyModifier.h"
 #include "PRP/KeyedObject/pyKey.h"
 
@@ -182,22 +182,6 @@ PyObject* Init_pySittingModifier_Type() {
     return (PyObject*)&pySittingModifier_Type;
 }
 
-int pySittingModifier_Check(PyObject* obj) {
-    if (obj->ob_type == &pySittingModifier_Type
-        || PyType_IsSubtype(obj->ob_type, &pySittingModifier_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySittingModifier_FromSittingModifier(class plSittingModifier* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySittingModifier* py = PyObject_New(pySittingModifier, &pySittingModifier_Type);
-    py->fThis = obj;
-    py->fPyOwned = false;
-    return (PyObject*)py;
-}
+PY_PLASMA_IFC_METHODS(SittingModifier, plSittingModifier)
 
 };

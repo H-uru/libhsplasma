@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Light/plShadowMaster.h>
 #include "pyShadowMaster.h"
+
+#include <PRP/Light/plShadowMaster.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -29,10 +29,6 @@ static PyObject* pyPointShadowMaster_new(PyTypeObject* type, PyObject* args, PyO
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyPointShadowMaster_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyPointShadowMaster_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -66,7 +62,7 @@ PyTypeObject pyPointShadowMaster_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyPointShadowMaster_Methods,        /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -101,22 +97,6 @@ PyObject* Init_pyPointShadowMaster_Type() {
     return (PyObject*)&pyPointShadowMaster_Type;
 }
 
-int pyPointShadowMaster_Check(PyObject* obj) {
-    if (obj->ob_type == &pyPointShadowMaster_Type
-        || PyType_IsSubtype(obj->ob_type, &pyPointShadowMaster_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyPointShadowMaster_FromPointShadowMaster(plPointShadowMaster* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyPointShadowMaster* pyobj = PyObject_New(pyPointShadowMaster, &pyPointShadowMaster_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(PointShadowMaster, plPointShadowMaster)
 
 }

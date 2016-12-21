@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Animation/plKeyControllers.hpp>
 #include "pyLeafController.h"
+
+#include <PRP/Animation/plKeyControllers.hpp>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -35,10 +35,6 @@ static PyObject* pyScaleValueController_new(PyTypeObject* type, PyObject* args, 
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyScaleValueController_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyScaleValueController_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -72,7 +68,7 @@ PyTypeObject pyScaleValueController_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyScaleValueController_Methods,     /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -107,22 +103,6 @@ PyObject* Init_pyScaleValueController_Type() {
     return (PyObject*)&pyScaleValueController_Type;
 }
 
-int pyScaleValueController_Check(PyObject* obj) {
-    if (obj->ob_type == &pyScaleValueController_Type
-        || PyType_IsSubtype(obj->ob_type, &pyScaleValueController_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyScaleValueController_FromScaleValueController(class plScaleValueController* controller) {
-    if (controller == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyScaleValueController* pyobj = PyObject_New(pyScaleValueController, &pyScaleValueController_Type);
-    pyobj->fThis = controller;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ScaleValueController, plScaleValueController)
 
 }

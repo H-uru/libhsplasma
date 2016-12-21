@@ -14,8 +14,8 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
 #include "pyWaveSet.h"
+
 #include "PRP/Modifier/pyModifier.h"
 
 extern "C" {
@@ -92,22 +92,6 @@ PyObject* Init_pyWaveSetBase_Type() {
     return (PyObject*)&pyWaveSetBase_Type;
 }
 
-int pyWaveSetBase_Check(PyObject* obj) {
-    if (obj->ob_type == &pyWaveSetBase_Type
-        || PyType_IsSubtype(obj->ob_type, &pyWaveSetBase_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyWaveSetBase_FromWaveSetBase(class plWaveSetBase* waveset) {
-    if (waveset == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyWaveSetBase* pywave = PyObject_New(pyWaveSetBase, &pyWaveSetBase_Type);
-    pywave->fThis = waveset;
-    pywave->fPyOwned = false;
-    return (PyObject*)pywave;
-}
+PY_PLASMA_IFC_METHODS(WaveSetBase, plWaveSetBase)
 
 }

@@ -14,12 +14,12 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plClothingItem.h>
 #include "pyClothingItem.h"
-#include "../KeyedObject/pyKey.h"
-#include "../KeyedObject/pyKeyedObject.h"
-#include "../pyCreatable.h"
+
+#include <PRP/Avatar/plClothingItem.h>
+#include "PRP/KeyedObject/pyKey.h"
+#include "PRP/KeyedObject/pyKeyedObject.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -186,22 +186,6 @@ PyObject* Init_pyClothingItem_Type() {
     return (PyObject*)&pyClothingItem_Type;
 }
 
-int pyClothingItem_Check(PyObject* obj) {
-    if (obj->ob_type == &pyClothingItem_Type
-        || PyType_IsSubtype(obj->ob_type, &pyClothingItem_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyClothingItem_FromClothingItem(class plClothingItem* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyClothingItem* node = PyObject_New(pyClothingItem, &pyClothingItem_Type);
-    node->fThis = obj;
-    node->fPyOwned = false;
-    return (PyObject*)node;
-}
+PY_PLASMA_IFC_METHODS(ClothingItem, plClothingItem)
 
 }

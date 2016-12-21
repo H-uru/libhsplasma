@@ -17,29 +17,9 @@
 #ifndef _PYPYTHONFILEMOD_H
 #define _PYPYTHONFILEMOD_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    struct plPythonParameter* fThis;
-} pyPythonParameter;
-
-typedef struct {
-    PyObject_HEAD
-    class plPythonFileMod* fThis;
-    bool fPyOwned;
-} pyPythonFileMod;
-
-extern PyTypeObject pyPythonParameter_Type;
-PyObject* Init_pyPythonParameter_Type();
-int pyPythonParameter_Check(PyObject* obj);
-PyObject* pyPythonParameter_FromPythonParameter(const struct plPythonParameter& param);
-
-extern PyTypeObject pyPythonFileMod_Type;
-PyObject* Init_pyPythonFileMod_Type();
-int pyPythonFileMod_Check(PyObject* obj);
-PyObject* pyPythonFileMod_FromPythonFileMod(class plPythonFileMod* mod);
-
-}
+PY_WRAP_PLASMA_VALUE(PythonParameter, struct plPythonParameter);
+PY_WRAP_PLASMA(PythonFileMod, class plPythonFileMod);
 
 #endif

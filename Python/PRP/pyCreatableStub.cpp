@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/plCreatable.h>
 #include "pyCreatable.h"
+
+#include <PRP/plCreatable.h>
 
 extern "C" {
 
@@ -128,15 +128,6 @@ PyObject* Init_pyCreatableStub_Type() {
     return (PyObject*)&pyCreatableStub_Type;
 }
 
-PyObject* pyCreatableStub_FromCreatableStub(const class plCreatableStub* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyCreatableStub* st = PyObject_New(pyCreatableStub, &pyCreatableStub_Type);
-    st->fThis = obj;
-    st->fPyOwned = false;
-    return (PyObject*)st;
-}
+PY_PLASMA_IFC_METHODS(CreatableStub, const plCreatableStub)
 
 }

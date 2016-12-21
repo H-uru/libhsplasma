@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Animation/plTMController.h>
 #include "pyController.h"
+
+#include <PRP/Animation/plTMController.h>
 #include "pyPosController.h"
 #include "pyRotController.h"
 #include "pyScaleController.h"
@@ -94,7 +94,7 @@ static int pyTMController_setScale(pyTMController* self, PyObject* value, void*)
 }
 
 static PyObject* pyTMController_convertToCompoundController(pyTMController* self) {
-    return pyCompoundController_FromCompoundController(self->fThis->convertToCompoundController());
+    return ICreate(self->fThis->convertToCompoundController());
 }
 
 static PyMethodDef pyTMController_Methods[] = {
@@ -177,22 +177,6 @@ PyObject* Init_pyTMController_Type() {
     return (PyObject*)&pyTMController_Type;
 }
 
-int pyTMController_Check(PyObject* obj) {
-    if (obj->ob_type == &pyTMController_Type
-        || PyType_IsSubtype(obj->ob_type, &pyTMController_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyTMController_FromTMController(class plTMController* controller) {
-    if (controller == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyTMController* pyobj = PyObject_New(pyTMController, &pyTMController_Type);
-    pyobj->fThis = controller;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(TMController, plTMController)
 
 }

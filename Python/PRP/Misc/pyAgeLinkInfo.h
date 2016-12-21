@@ -17,28 +17,9 @@
 #ifndef _PYAGELINKINFO_H
 #define _PYAGELINKINFO_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plAgeInfoStruct* fThis;
-    bool fPyOwned;
-} pyAgeInfoStruct;
-
-PyObject* Init_pyAgeInfoStruct_Type();
-int pyAgeInfoStruct_Check(PyObject* obj);
-PyObject* pyAgeInfoStruct_FromAgeInfoStruct(plAgeInfoStruct* als);
-
-typedef struct {
-    PyObject_HEAD
-    class plAgeLinkStruct* fThis;
-    bool fPyOwned;
-} pyAgeLinkStruct;
-
-PyObject* Init_pyAgeLinkStruct_Type();
-int pyAgeLinkStruct_Check(PyObject* obj);
-PyObject* pyAgeLinkStruct_FromAgeLinkStruct(plAgeLinkStruct* als);
-
-}
+PY_WRAP_PLASMA(AgeInfoStruct, class plAgeInfoStruct);
+PY_WRAP_PLASMA(AgeLinkStruct, class plAgeLinkStruct);
 
 #endif

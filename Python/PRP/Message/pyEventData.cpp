@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/proEventData.h>
 #include "pyEventData.h"
+
+#include <PRP/Message/proEventData.h>
 #include "Stream/pyStream.h"
 #include "ResManager/pyResManager.h"
 
@@ -207,22 +207,6 @@ PyObject* Init_pyEventData_Type() {
     return (PyObject*)&pyEventData_Type;
 }
 
-int pyEventData_Check(PyObject* obj) {
-    if (obj->ob_type == &pyEventData_Type
-        || PyType_IsSubtype(obj->ob_type, &pyEventData_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyEventData_FromEventData(class proEventData* evt) {
-    if (evt == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyEventData* pyobj = PyObject_New(pyEventData, &pyEventData_Type);
-    pyobj->fThis = evt;
-    pyobj->fPyOwned = false;
-    return (PyObject*)evt;
-}
+PY_PLASMA_IFC_METHODS(EventData, proEventData)
 
 }

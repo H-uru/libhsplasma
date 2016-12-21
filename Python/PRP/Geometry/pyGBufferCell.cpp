@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Geometry/plGBufferGroup.h>
 #include "pyGBufferGroup.h"
+
+#include <PRP/Geometry/plGBufferGroup.h>
 
 extern "C" {
 
@@ -153,17 +153,6 @@ PyObject* Init_pyGBufferCell_Type() {
     return (PyObject*)&pyGBufferCell_Type;
 }
 
-int pyGBufferCell_Check(PyObject* obj) {
-    if (obj->ob_type == &pyGBufferCell_Type
-        || PyType_IsSubtype(obj->ob_type, &pyGBufferCell_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyGBufferCell_FromGBufferCell(const plGBufferCell& cell) {
-    pyGBufferCell* pycell = PyObject_New(pyGBufferCell, &pyGBufferCell_Type);
-    pycell->fThis = new plGBufferCell(cell);
-    return (PyObject*)pycell;
-}
+PY_PLASMA_VALUE_IFC_METHODS(GBufferCell, plGBufferCell)
 
 }

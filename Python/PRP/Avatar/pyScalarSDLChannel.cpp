@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plScalarChannel.h>
 #include "pyAGChannel.h"
+
+#include <PRP/Avatar/plScalarChannel.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -29,10 +29,6 @@ static PyObject* pyScalarSDLChannel_new(PyTypeObject* type, PyObject* args, PyOb
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyScalarSDLChannel_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyScalarSDLChannel_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -66,7 +62,7 @@ PyTypeObject pyScalarSDLChannel_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyScalarSDLChannel_Methods,         /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -101,22 +97,6 @@ PyObject* Init_pyScalarSDLChannel_Type() {
     return (PyObject*)&pyScalarSDLChannel_Type;
 }
 
-int pyScalarSDLChannel_Check(PyObject* obj) {
-    if (obj->ob_type == &pyScalarSDLChannel_Type
-        || PyType_IsSubtype(obj->ob_type, &pyScalarSDLChannel_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyScalarSDLChannel_FromScalarSDLChannel(class plScalarSDLChannel* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyScalarSDLChannel* pyobj = PyObject_New(pyScalarSDLChannel, &pyScalarSDLChannel_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ScalarSDLChannel, plScalarSDLChannel)
 
 }

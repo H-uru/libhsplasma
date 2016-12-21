@@ -14,19 +14,17 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/plCreatable.h>
 #include "pyCreatable.h"
+
+#include <PRP/plCreatable.h>
 #include "Stream/pyStream.h"
 #include "ResManager/pyResManager.h"
-
-#define ConvertPcre(pCre) dynamic_cast<plCreatable*>(IConvert((pyCreatable*)pCre))
 
 extern "C" {
 
 static void pyCreatable_dealloc(pyCreatable* self) {
     if (self->fPyOwned) {
-        plCreatable* obj = IConvert(self);
+        plCreatable* obj = self->fThis;
         delete obj;
         self->fThis = NULL;
     }
@@ -45,7 +43,7 @@ static PyObject* pyCreatable_new(PyTypeObject* type, PyObject* args, PyObject* k
 }
 
 static PyObject* pyCreatable_ClassIndex(pyCreatable* self) {
-    return PyInt_FromLong(ConvertPcre(self)->ClassIndex());
+    return PyInt_FromLong(self->fThis->ClassIndex());
 }
 
 static PyObject* pyCreatable_ClassIndexVer(pyCreatable* self, PyObject* args) {
@@ -54,11 +52,11 @@ static PyObject* pyCreatable_ClassIndexVer(pyCreatable* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "ClassIndexVer expects an int");
         return NULL;
     }
-    return PyInt_FromLong(ConvertPcre(self)->ClassIndex((PlasmaVer)ver));
+    return PyInt_FromLong(self->fThis->ClassIndex((PlasmaVer)ver));
 }
 
 static PyObject* pyCreatable_ClassName(pyCreatable* self) {
-    return PyString_FromString(ConvertPcre(self)->ClassName());
+    return PyString_FromString(self->fThis->ClassName());
 }
 
 static PyObject* pyCreatable_ClassInstance(pyCreatable* self, PyObject* args) {
@@ -67,12 +65,12 @@ static PyObject* pyCreatable_ClassInstance(pyCreatable* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "ClassInstance expects an int");
         return NULL;
     }
-    bool yes = ConvertPcre(self)->ClassInstance(classId);
+    bool yes = self->fThis->ClassInstance(classId);
     return PyBool_FromLong(yes ? 1 : 0);
 }
 
 static PyObject* pyCreatable_isStub(pyCreatable* self) {
-    bool yes = ConvertPcre(self)->isStub();
+    bool yes = self->fThis->isStub();
     return PyBool_FromLong(yes ? 1 : 0);
 }
 
@@ -87,7 +85,7 @@ static PyObject* pyCreatable_read(pyCreatable* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "read expects hsStream, plResManager");
         return NULL;
     }
-    ConvertPcre(self)->read(stream->fThis, mgr->fThis);
+    self->fThis->read(stream->fThis, mgr->fThis);
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -103,7 +101,7 @@ static PyObject* pyCreatable_write(pyCreatable* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "write expects hsStream, plResManager");
         return NULL;
     }
-    ConvertPcre(self)->write(stream->fThis, mgr->fThis);
+    self->fThis->write(stream->fThis, mgr->fThis);
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -198,22 +196,6 @@ PyObject* Init_pyCreatable_Type() {
     return (PyObject*)&pyCreatable_Type;
 }
 
-int pyCreatable_Check(PyObject* obj) {
-    if (obj->ob_type == &pyCreatable_Type
-        || PyType_IsSubtype(obj->ob_type, &pyCreatable_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyCreatable_FromCreatable(class plCreatable* pCre) {
-    if (pCre == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyCreatable* obj = PyObject_New(pyCreatable, &pyCreatable_Type);
-    obj->fThis = pCre;
-    obj->fPyOwned = false;
-    return (PyObject*)obj;
-}
+PY_PLASMA_IFC_METHODS(Creatable, plCreatable)
 
 }

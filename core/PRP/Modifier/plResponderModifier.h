@@ -20,7 +20,7 @@
 #include "plModifier.h"
 #include "PRP/Message/plMessage.h"
 
-class PLASMA_DLL plResponderModifier : public virtual plSingleModifier {
+class PLASMA_DLL plResponderModifier : public plSingleModifier {
     CREATABLE(plResponderModifier, kResponderModifier, plSingleModifier)
 
 public:

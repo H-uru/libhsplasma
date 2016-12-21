@@ -14,11 +14,11 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
+#include "pyKey.h"
+
 #include <PRP/KeyedObject/plKey.h>
 #include <PRP/KeyedObject/hsKeyedObject.h>
 #include "PRP/pyCreatable.h"
-#include "pyKey.h"
 #include "pyKeyedObject.h"
 #include "Stream/pyStream.h"
 
@@ -182,7 +182,7 @@ static PyObject* pyKey_getID(pyKey* self, void* closure) {
 }
 
 static PyObject* pyKey_getObj(pyKey* self, void* closure) {
-    return ICreate(dynamic_cast<plCreatable *>((*self->fThis)->getObj()));
+    return ICreate((*self->fThis)->getObj());
 }
 
 static int pyKey_setType(pyKey* self, PyObject* value, void* closure) {
@@ -351,14 +351,9 @@ PyObject* Init_pyKey_Type() {
     return (PyObject*)&pyKey_Type;
 }
 
-int pyKey_Check(PyObject* obj) {
-    if (obj->ob_type == &pyKey_Type
-        || PyType_IsSubtype(obj->ob_type, &pyKey_Type))
-        return 1;
-    return 0;
-}
+PY_PLASMA_CHECK_TYPE(Key)
 
-PyObject* pyKey_FromKey(plKey key) {
+PyObject* pyKey_FromKey(const plKey& key) {
     if (!key.Exists()) {
         Py_INCREF(Py_None);
         return Py_None;

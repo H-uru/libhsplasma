@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Surface/plShader.h>
 #include "pyShader.h"
+
+#include <PRP/Surface/plShader.h>
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/pyCreatable.h"
 
@@ -99,10 +99,6 @@ static int pyShader_setOutput(pyShader* self, PyObject* value, void*) {
     return 0;
 }
 
-static PyMethodDef pyShader_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyShader_GetSet[] = {
     { _pycs("constants"), (getter)pyShader_getConsts, (setter)pyShader_setConsts, NULL, NULL },
     { _pycs("id"), (getter)pyShader_getID, (setter)pyShader_setID, NULL, NULL },
@@ -143,7 +139,7 @@ PyTypeObject pyShader_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyShader_Methods,                   /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyShader_GetSet,                    /* tp_getset */
     NULL,                               /* tp_base */
@@ -261,22 +257,6 @@ PyObject* Init_pyShader_Type() {
     return (PyObject*)&pyShader_Type;
 }
 
-int pyShader_Check(PyObject* obj) {
-    if (obj->ob_type == &pyShader_Type
-        || PyType_IsSubtype(obj->ob_type, &pyShader_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyShader_FromShader(class plShader* shader) {
-    if (shader == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyShader* ps = PyObject_New(pyShader, &pyShader_Type);
-    ps->fThis = shader;
-    ps->fPyOwned = false;
-    return (PyObject*)ps;
-}
+PY_PLASMA_IFC_METHODS(Shader, plShader)
 
 }

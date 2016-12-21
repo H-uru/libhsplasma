@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/proEventData.h>
 #include "pyEventData.h"
+
+#include <PRP/Message/proEventData.h>
 
 extern "C" {
 
@@ -54,10 +54,6 @@ static int pyCoopEventData_setSerial(pyCoopEventData* self, PyObject* value, voi
     self->fThis->setSerial(PyInt_AsLong(value));
     return 0;
 }
-
-static PyMethodDef pyCoopEventData_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyCoopEventData_GetSet[] = {
     { _pycs("id"), (getter)pyCoopEventData_getID,
@@ -99,7 +95,7 @@ PyTypeObject pyCoopEventData_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyCoopEventData_Methods,            /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyCoopEventData_GetSet,             /* tp_getset */
     NULL,                               /* tp_base */
@@ -134,22 +130,6 @@ PyObject* Init_pyCoopEventData_Type() {
     return (PyObject*)&pyCoopEventData_Type;
 }
 
-int pyCoopEventData_Check(PyObject* obj) {
-    if (obj->ob_type == &pyCoopEventData_Type
-        || PyType_IsSubtype(obj->ob_type, &pyCoopEventData_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyCoopEventData_FromCoopEventData(proCoopEventData* evt) {
-    if (evt == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyCoopEventData* pyobj = PyObject_New(pyCoopEventData, &pyCoopEventData_Type);
-    pyobj->fThis = evt;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(CoopEventData, proCoopEventData)
 
 }

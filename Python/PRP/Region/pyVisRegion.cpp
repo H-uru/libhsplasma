@@ -14,9 +14,9 @@
 * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <PyPlasma.h>
-#include <PRP/Region/plVisRegion.h>
 #include "pyVisRegion.h"
+
+#include <PRP/Region/plVisRegion.h>
 #include "PRP/Object/pyObjInterface.h"
 #include "PRP/KeyedObject/pyKey.h"
 
@@ -145,22 +145,6 @@ PyObject* Init_pyVisRegion_Type() {
     return (PyObject*)&pyVisRegion_Type;
 }
 
-int pyVisRegion_Check(PyObject* obj) {
-    if (obj->ob_type == &pyVisRegion_Type
-        || PyType_IsSubtype(obj->ob_type, &pyVisRegion_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyVisRegion_FromVisRegion(class plVisRegion* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyVisRegion* pyobj = PyObject_New(pyVisRegion, &pyVisRegion_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(VisRegion, plVisRegion)
 
 }

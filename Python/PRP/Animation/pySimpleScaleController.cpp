@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Animation/plScaleController.h>
 #include "pyScaleController.h"
+
+#include <PRP/Animation/plScaleController.h>
 #include "pyLeafController.h"
 #include "PRP/pyCreatable.h"
 
@@ -38,7 +38,7 @@ static PyObject* pySimpleScaleController_new(PyTypeObject* type, PyObject* args,
 }
 
 static PyObject* pySimpleScaleController_getValue(pySimpleScaleController* self, void*) {
-    return pyScaleValueController_FromScaleValueController(self->fThis->getValue());
+    return ICreate(self->fThis->getValue());
 }
 
 static int pySimpleScaleController_setValue(pySimpleScaleController* self, PyObject* value, void*) {
@@ -54,10 +54,6 @@ static int pySimpleScaleController_setValue(pySimpleScaleController* self, PyObj
     ((pyScaleValueController*)value)->fPyOwned = false;
     return 0;
 }
-
-static PyMethodDef pySimpleScaleController_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pySimpleScaleController_GetSet[] = {
     { _pycs("value"), (getter)pySimpleScaleController_getValue,
@@ -97,7 +93,7 @@ PyTypeObject pySimpleScaleController_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pySimpleScaleController_Methods,    /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pySimpleScaleController_GetSet,     /* tp_getset */
     NULL,                               /* tp_base */
@@ -132,22 +128,6 @@ PyObject* Init_pySimpleScaleController_Type() {
     return (PyObject*)&pySimpleScaleController_Type;
 }
 
-int pySimpleScaleController_Check(PyObject* obj) {
-    if (obj->ob_type == &pySimpleScaleController_Type
-        || PyType_IsSubtype(obj->ob_type, &pySimpleScaleController_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySimpleScaleController_FromSimpleScaleController(class plSimpleScaleController* controller) {
-    if (controller == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySimpleScaleController* pyobj = PyObject_New(pySimpleScaleController, &pySimpleScaleController_Type);
-    pyobj->fThis = controller;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(SimpleScaleController, plSimpleScaleController)
 
 }

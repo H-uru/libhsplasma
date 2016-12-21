@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Geometry/plSpanInstance.h>
 #include "pySpanInstance.h"
+
+#include <PRP/Geometry/plSpanInstance.h>
 #include "Stream/pyStream.h"
 #include "Math/pyMatrix.h"
 #include "Math/pyGeometry3.h"
@@ -237,22 +237,6 @@ PyObject* Init_pySpanInstance_Type() {
     return (PyObject*)&pySpanInstance_Type;
 }
 
-int pySpanInstance_Check(PyObject* obj) {
-    if (obj->ob_type == &pySpanInstance_Type
-        || PyType_IsSubtype(obj->ob_type, &pySpanInstance_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySpanInstance_FromSpanInstance(plSpanInstance* span) {
-    if (span == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySpanInstance* obj = PyObject_New(pySpanInstance, &pySpanInstance_Type);
-    obj->fThis = span;
-    obj->fPyOwned = false;
-    return (PyObject*)obj;
-}
+PY_PLASMA_IFC_METHODS(SpanInstance, plSpanInstance)
 
 }

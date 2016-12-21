@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Animation/plRotController.h>
 #include "pyRotController.h"
+
+#include <PRP/Animation/plRotController.h>
 #include "pyLeafController.h"
 #include "PRP/pyCreatable.h"
 
@@ -91,10 +91,6 @@ static int pyCompoundRotController_setZ(pyCompoundRotController* self, PyObject*
     return 0;
 }
 
-static PyMethodDef pyCompoundRotController_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pyCompoundRotController_GetSet[] = {
     { _pycs("X"), (getter)pyCompoundRotController_getX,
         (setter)pyCompoundRotController_setX, NULL, NULL },
@@ -137,7 +133,7 @@ PyTypeObject pyCompoundRotController_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyCompoundRotController_Methods,    /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyCompoundRotController_GetSet,     /* tp_getset */
     NULL,                               /* tp_base */
@@ -172,22 +168,6 @@ PyObject* Init_pyCompoundRotController_Type() {
     return (PyObject*)&pyCompoundRotController_Type;
 }
 
-int pyCompoundRotController_Check(PyObject* obj) {
-    if (obj->ob_type == &pyCompoundRotController_Type
-        || PyType_IsSubtype(obj->ob_type, &pyCompoundRotController_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyCompoundRotController_FromCompoundRotController(class plCompoundRotController* controller) {
-    if (controller == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyCompoundRotController* pyobj = PyObject_New(pyCompoundRotController, &pyCompoundRotController_Type);
-    pyobj->fThis = controller;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(CompoundRotController, plCompoundRotController)
 
 }

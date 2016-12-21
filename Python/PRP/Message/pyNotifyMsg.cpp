@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/plNotifyMsg.h>
 #include "pyNotifyMsg.h"
+
+#include <PRP/Message/plNotifyMsg.h>
 #include "pyMessage.h"
 #include "pyEventData.h"
 #include "PRP/pyCreatable.h"
@@ -68,7 +68,7 @@ static PyObject* pyNotifyMsg_delEvent(pyNotifyMsg* self, PyObject* args) {
 static PyObject* pyNotifyMsg_getEvents(pyNotifyMsg* self, void*) {
     PyObject* list = PyList_New(self->fThis->getEvents().size());
     for (size_t i=0; i<self->fThis->getEvents().size(); i++)
-        PyList_SET_ITEM(list, i, pyEventData_FromEventData(self->fThis->getEvents()[i]));
+        PyList_SET_ITEM(list, i, ICreateEventData(self->fThis->getEvents()[i]));
     return list;
 }
 
@@ -217,22 +217,6 @@ PyObject* Init_pyNotifyMsg_Type() {
     return (PyObject*)&pyNotifyMsg_Type;
 }
 
-int pyNotifyMsg_Check(PyObject* obj) {
-    if (obj->ob_type == &pyNotifyMsg_Type
-        || PyType_IsSubtype(obj->ob_type, &pyNotifyMsg_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyNotifyMsg_FromNotifyMsg(plNotifyMsg* msg) {
-    if (msg == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyNotifyMsg* pyobj = PyObject_New(pyNotifyMsg, &pyNotifyMsg_Type);
-    pyobj->fThis = msg;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(NotifyMsg, plNotifyMsg)
 
 }

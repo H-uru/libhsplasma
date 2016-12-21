@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Animation/plRotController.h>
 #include "pyRotController.h"
+
+#include <PRP/Animation/plRotController.h>
 #include "pyLeafController.h"
 #include "PRP/pyCreatable.h"
 
@@ -38,7 +38,7 @@ static PyObject* pySimpleRotController_new(PyTypeObject* type, PyObject* args, P
 }
 
 static PyObject* pySimpleRotController_getRot(pySimpleRotController* self, void*) {
-    return pyQuatController_FromQuatController(self->fThis->getRot());
+    return ICreate(self->fThis->getRot());
 }
 
 static int pySimpleRotController_setRot(pySimpleRotController* self, PyObject* value, void*) {
@@ -54,10 +54,6 @@ static int pySimpleRotController_setRot(pySimpleRotController* self, PyObject* v
     ((pyQuatController*)value)->fPyOwned = false;
     return 0;
 }
-
-static PyMethodDef pySimpleRotController_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pySimpleRotController_GetSet[] = {
     { _pycs("rot"), (getter)pySimpleRotController_getRot,
@@ -97,7 +93,7 @@ PyTypeObject pySimpleRotController_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pySimpleRotController_Methods,      /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pySimpleRotController_GetSet,       /* tp_getset */
     NULL,                               /* tp_base */
@@ -132,22 +128,6 @@ PyObject* Init_pySimpleRotController_Type() {
     return (PyObject*)&pySimpleRotController_Type;
 }
 
-int pySimpleRotController_Check(PyObject* obj) {
-    if (obj->ob_type == &pySimpleRotController_Type
-        || PyType_IsSubtype(obj->ob_type, &pySimpleRotController_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySimpleRotController_FromSimpleRotController(class plSimpleRotController* controller) {
-    if (controller == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySimpleRotController* pyobj = PyObject_New(pySimpleRotController, &pySimpleRotController_Type);
-    pyobj->fThis = controller;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(SimpleRotController, plSimpleRotController)
 
 }

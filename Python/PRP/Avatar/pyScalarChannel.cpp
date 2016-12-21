@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plScalarChannel.h>
 #include "pyAGChannel.h"
+
+#include <PRP/Avatar/plScalarChannel.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -42,10 +42,6 @@ static int pyScalarChannel_setResult(pyScalarChannel* self, PyObject* value, voi
     self->fThis->setResult(PyFloat_AsDouble(value));
     return 0;
 }
-
-static PyMethodDef pyScalarChannel_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyScalarChannel_GetSet[] = {
     { _pycs("result"), (getter)pyScalarChannel_getResult,
@@ -85,7 +81,7 @@ PyTypeObject pyScalarChannel_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyScalarChannel_Methods,            /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyScalarChannel_GetSet,             /* tp_getset */
     NULL,                               /* tp_base */
@@ -120,22 +116,6 @@ PyObject* Init_pyScalarChannel_Type() {
     return (PyObject*)&pyScalarChannel_Type;
 }
 
-int pyScalarChannel_Check(PyObject* obj) {
-    if (obj->ob_type == &pyScalarChannel_Type
-        || PyType_IsSubtype(obj->ob_type, &pyScalarChannel_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyScalarChannel_FromScalarChannel(class plScalarChannel* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyScalarChannel* pyobj = PyObject_New(pyScalarChannel, &pyScalarChannel_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ScalarChannel, plScalarChannel)
 
 }

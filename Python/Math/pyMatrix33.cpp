@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <Math/hsMatrix33.h>
 #include "pyMatrix.h"
+
+#include <Math/hsMatrix33.h>
 #include "Stream/pyStream.h"
 
 extern "C" {
@@ -217,17 +217,6 @@ PyObject* Init_pyMatrix33_Type() {
     return (PyObject*)&pyMatrix33_Type;
 }
 
-int pyMatrix33_Check(PyObject* obj) {
-    if (obj->ob_type == &pyMatrix33_Type
-        || PyType_IsSubtype(obj->ob_type, &pyMatrix33_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyMatrix33_FromMatrix33(const hsMatrix33& mat) {
-    pyMatrix33* pmat = PyObject_New(pyMatrix33, &pyMatrix33_Type);
-    pmat->fThis = new hsMatrix33(mat);
-    return (PyObject*)pmat;
-}
+PY_PLASMA_VALUE_IFC_METHODS(Matrix33, hsMatrix33)
 
 }

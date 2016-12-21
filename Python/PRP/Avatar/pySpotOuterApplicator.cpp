@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plAGApplicator.h>
 #include "pyAGApplicator.h"
+
+#include <PRP/Avatar/plAGApplicator.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -29,10 +29,6 @@ static PyObject* pySpotOuterApplicator_new(PyTypeObject* type, PyObject* args, P
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pySpotOuterApplicator_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pySpotOuterApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -66,7 +62,7 @@ PyTypeObject pySpotOuterApplicator_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pySpotOuterApplicator_Methods,      /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -101,22 +97,6 @@ PyObject* Init_pySpotOuterApplicator_Type() {
     return (PyObject*)&pySpotOuterApplicator_Type;
 }
 
-int pySpotOuterApplicator_Check(PyObject* obj) {
-    if (obj->ob_type == &pySpotOuterApplicator_Type
-        || PyType_IsSubtype(obj->ob_type, &pySpotOuterApplicator_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySpotOuterApplicator_FromSpotOuterApplicator(class plSpotOuterApplicator* app) {
-    if (app == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySpotOuterApplicator* pyobj = PyObject_New(pySpotOuterApplicator, &pySpotOuterApplicator_Type);
-    pyobj->fThis = app;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(SpotOuterApplicator, plSpotOuterApplicator)
 
 }

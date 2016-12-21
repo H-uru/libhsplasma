@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plMatrixChannel.h>
 #include "pyAGApplicator.h"
+
+#include <PRP/Avatar/plMatrixChannel.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -29,10 +29,6 @@ static PyObject* pyMatrixDifferenceApp_new(PyTypeObject* type, PyObject* args, P
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyMatrixDifferenceApp_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyMatrixDifferenceApp_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -66,7 +62,7 @@ PyTypeObject pyMatrixDifferenceApp_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyMatrixDifferenceApp_Methods,      /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -101,22 +97,6 @@ PyObject* Init_pyMatrixDifferenceApp_Type() {
     return (PyObject*)&pyMatrixDifferenceApp_Type;
 }
 
-int pyMatrixDifferenceApp_Check(PyObject* obj) {
-    if (obj->ob_type == &pyMatrixDifferenceApp_Type
-        || PyType_IsSubtype(obj->ob_type, &pyMatrixDifferenceApp_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyMatrixDifferenceApp_FromMatrixDifferenceApp(class plMatrixDifferenceApp* app) {
-    if (app == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyMatrixDifferenceApp* pyobj = PyObject_New(pyMatrixDifferenceApp, &pyMatrixDifferenceApp_Type);
-    pyobj->fThis = app;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(MatrixDifferenceApp, plMatrixDifferenceApp)
 
 }

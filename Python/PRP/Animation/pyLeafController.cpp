@@ -14,16 +14,13 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Animation/plLeafController.h>
 #include "pyLeafController.h"
+
+#include <PRP/Animation/plLeafController.h>
+#include <PRP/Animation/plKeyControllers.hpp>
 #include "pyController.h"
 #include "pyKeys.h"
 #include "PRP/pyCreatable.h"
-
-static plLeafController* IConvertController(pyLeafController* self) {
-    return plLeafController::Convert(IConvert((pyCreatable*)self));
-}
 
 extern "C" {
 
@@ -43,41 +40,41 @@ static PyObject* pyLeafController_new(PyTypeObject* type, PyObject* args, PyObje
 }
 
 static PyObject* pyLeafController_hasKeys(pyLeafController* self) {
-    return PyBool_FromLong(IConvertController(self)->hasKeys() ? 1 : 0);
+    return PyBool_FromLong(self->fThis->hasKeys() ? 1 : 0);
 }
 
 static PyObject* pyLeafController_hasEaseControllers(pyLeafController* self) {
-    return PyBool_FromLong(IConvertController(self)->hasEaseControllers() ? 1 : 0);
+    return PyBool_FromLong(self->fThis->hasEaseControllers() ? 1 : 0);
 }
 
 static PyObject* pyLeafController_ExpandToKeyController(pyLeafController* self) {
-    return ICreate(IConvertController(self)->ExpandToKeyController());
+    return ICreate(self->fThis->ExpandToKeyController());
 }
 
 static PyObject* pyLeafController_CompactToLeafController(pyLeafController* self) {
-    return pyLeafController_FromLeafController(IConvertController(self)->CompactToLeafController());
+    return ICreate(self->fThis->CompactToLeafController());
 }
 
 static PyObject* pyLeafController_getType(pyLeafController* self, void*) {
-    return PyInt_FromLong(IConvertController(self)->getType());
+    return PyInt_FromLong(self->fThis->getType());
 }
 
 static PyObject* pyLeafController_getKeys(pyLeafController* self, void*) {
-    const std::vector<hsKeyFrame*>& keys = IConvertController(self)->getKeys();
+    const std::vector<hsKeyFrame*>& keys = self->fThis->getKeys();
     PyObject* keyTup = PyTuple_New(keys.size());
     for (size_t i=0; i<keys.size(); i++)
         PyTuple_SET_ITEM(keyTup, i, pyKeyFrame_FromKeyFrame(keys[i]));
     PyObject* tup = PyTuple_New(2);
     PyTuple_SET_ITEM(tup, 0, keyTup);
-    PyTuple_SET_ITEM(tup, 1, PyInt_FromLong(IConvertController(self)->getType()));
+    PyTuple_SET_ITEM(tup, 1, PyInt_FromLong(self->fThis->getType()));
     return tup;
 }
 
 static PyObject* pyLeafController_getEaseControllers(pyLeafController* self, void*) {
-    const std::vector<plEaseController*>& controllers = IConvertController(self)->getEaseControllers();
+    const std::vector<plEaseController*>& controllers = self->fThis->getEaseControllers();
     PyObject* list = PyList_New(controllers.size());
     for (size_t i=0; i<controllers.size(); i++)
-        PyList_SET_ITEM(list, i, pyEaseController_FromEaseController(controllers[i]));
+        PyList_SET_ITEM(list, i, ICreate(controllers[i]));
     return list;
 }
 
@@ -118,7 +115,7 @@ static int pyLeafController_setKeys(pyLeafController* self, PyObject* value, voi
         }
         keyframes.push_back(keyframe);
     }
-    IConvertController(self)->setKeys(keyframes, keyType);
+    self->fThis->setKeys(keyframes, keyType);
     return 0;
 }
 
@@ -140,7 +137,7 @@ static int pyLeafController_setEaseControllers(pyLeafController* self, PyObject*
         }
         controllers[i] = ((pyEaseController*)itm)->fThis;
     }
-    IConvertController(self)->setEaseControllers(controllers);
+    self->fThis->setEaseControllers(controllers);
     return 0;
 }
 
@@ -229,22 +226,6 @@ PyObject* Init_pyLeafController_Type() {
     return (PyObject*)&pyLeafController_Type;
 }
 
-int pyLeafController_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLeafController_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLeafController_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyLeafController_FromLeafController(class plLeafController* controller) {
-    if (controller == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyLeafController* pyobj = PyObject_New(pyLeafController, &pyLeafController_Type);
-    pyobj->fThis = controller;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(LeafController, plLeafController)
 
 }

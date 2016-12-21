@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Animation/plKeyControllers.hpp>
 #include "pyLeafController.h"
+
+#include <PRP/Animation/plKeyControllers.hpp>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -35,10 +35,6 @@ static PyObject* pyMatrix44Controller_new(PyTypeObject* type, PyObject* args, Py
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyMatrix44Controller_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyMatrix44Controller_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -72,7 +68,7 @@ PyTypeObject pyMatrix44Controller_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyMatrix44Controller_Methods,       /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -107,22 +103,6 @@ PyObject* Init_pyMatrix44Controller_Type() {
     return (PyObject*)&pyMatrix44Controller_Type;
 }
 
-int pyMatrix44Controller_Check(PyObject* obj) {
-    if (obj->ob_type == &pyMatrix44Controller_Type
-        || PyType_IsSubtype(obj->ob_type, &pyMatrix44Controller_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyMatrix44Controller_FromMatrix44Controller(class plMatrix44Controller* controller) {
-    if (controller == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyMatrix44Controller* pyobj = PyObject_New(pyMatrix44Controller, &pyMatrix44Controller_Type);
-    pyobj->fThis = controller;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(Matrix44Controller, plMatrix44Controller)
 
 }

@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plAGApplicator.h>
 #include "pyAGApplicator.h"
+
+#include <PRP/Avatar/plAGApplicator.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -29,10 +29,6 @@ static PyObject* pyOmniCutoffApplicator_new(PyTypeObject* type, PyObject* args, 
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyOmniCutoffApplicator_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyOmniCutoffApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -66,7 +62,7 @@ PyTypeObject pyOmniCutoffApplicator_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyOmniCutoffApplicator_Methods,     /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -101,22 +97,6 @@ PyObject* Init_pyOmniCutoffApplicator_Type() {
     return (PyObject*)&pyOmniCutoffApplicator_Type;
 }
 
-int pyOmniCutoffApplicator_Check(PyObject* obj) {
-    if (obj->ob_type == &pyOmniCutoffApplicator_Type
-        || PyType_IsSubtype(obj->ob_type, &pyOmniCutoffApplicator_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyOmniCutoffApplicator_FromOmniCutoffApplicator(class plOmniCutoffApplicator* app) {
-    if (app == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyOmniCutoffApplicator* pyobj = PyObject_New(pyOmniCutoffApplicator, &pyOmniCutoffApplicator_Type);
-    pyobj->fThis = app;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(OmniCutoffApplicator, plOmniCutoffApplicator)
 
 }

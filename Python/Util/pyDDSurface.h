@@ -17,20 +17,8 @@
 #ifndef _PYDDSURFACE_H
 #define _PYDDSURFACE_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plDDSurface* fThis;
-    bool fPyOwned;
-} pyDDSurface;
-
-
-extern PyTypeObject pyDDSurface_Type;
-PyObject* Init_pyDDSurface_Type();
-int pyDDSurface_Check(PyObject* obj);
-PyObject* pyDDSurface_FromDDSurface(class plDDSurface* dds);
-
-}
+PY_WRAP_PLASMA(DDSurface, class plDDSurface);
 
 #endif

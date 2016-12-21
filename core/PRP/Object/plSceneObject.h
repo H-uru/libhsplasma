@@ -19,7 +19,7 @@
 
 #include "plSynchedObject.h"
 
-class PLASMA_DLL plSceneObject : public virtual plSynchedObject {
+class PLASMA_DLL plSceneObject : public plSynchedObject {
     CREATABLE(plSceneObject, kSceneObject, plSynchedObject)
 
 public:

@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plAGChannel.h>
 #include "pyAGChannel.h"
+
+#include <PRP/Avatar/plAGChannel.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -27,7 +27,7 @@ static PyObject* pyAGChannel_new(PyTypeObject* type, PyObject* args, PyObject* k
 }
 
 static PyObject* pyAGChannel_getName(pyAGChannel* self, void*) {
-    return PlStr_To_PyStr(plAGChannel::Convert(IConvert((pyCreatable*)self))->getName());
+    return PlStr_To_PyStr(self->fThis->getName());
 }
 
 static int pyAGChannel_setName(pyAGChannel* self, PyObject* value, void*) {
@@ -35,13 +35,9 @@ static int pyAGChannel_setName(pyAGChannel* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "name should be a string");
         return -1;
     }
-    plAGChannel::Convert(IConvert((pyCreatable*)self))->setName(PyStr_To_PlStr(value));
+    self->fThis->setName(PyStr_To_PlStr(value));
     return 0;
 }
-
-static PyMethodDef pyAGChannel_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyAGChannel_GetSet[] = {
     { _pycs("name"), (getter)pyAGChannel_getName, (setter)pyAGChannel_setName, NULL, NULL },
@@ -80,7 +76,7 @@ PyTypeObject pyAGChannel_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyAGChannel_Methods,                /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyAGChannel_GetSet,                 /* tp_getset */
     NULL,                               /* tp_base */
@@ -115,22 +111,6 @@ PyObject* Init_pyAGChannel_Type() {
     return (PyObject*)&pyAGChannel_Type;
 }
 
-int pyAGChannel_Check(PyObject* obj) {
-    if (obj->ob_type == &pyAGChannel_Type
-        || PyType_IsSubtype(obj->ob_type, &pyAGChannel_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyAGChannel_FromAGChannel(class plAGChannel* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyAGChannel* pyobj = PyObject_New(pyAGChannel, &pyAGChannel_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(AGChannel, plAGChannel)
 
 }

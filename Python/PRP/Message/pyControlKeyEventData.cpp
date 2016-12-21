@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/proEventData.h>
 #include "pyEventData.h"
+
+#include <PRP/Message/proEventData.h>
 #include "PRP/KeyedObject/pyKey.h"
 
 extern "C" {
@@ -55,10 +55,6 @@ static int pyControlKeyEventData_setDown(pyControlKeyEventData* self, PyObject* 
     self->fThis->setDown(PyInt_AsLong(value) != 0);
     return 0;
 }
-
-static PyMethodDef pyControlKeyEventData_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyControlKeyEventData_GetSet[] = {
     { _pycs("controlKey"), (getter)pyControlKeyEventData_getControlKey,
@@ -100,7 +96,7 @@ PyTypeObject pyControlKeyEventData_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyControlKeyEventData_Methods,      /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyControlKeyEventData_GetSet,       /* tp_getset */
     NULL,                               /* tp_base */
@@ -135,22 +131,6 @@ PyObject* Init_pyControlKeyEventData_Type() {
     return (PyObject*)&pyControlKeyEventData_Type;
 }
 
-int pyControlKeyEventData_Check(PyObject* obj) {
-    if (obj->ob_type == &pyControlKeyEventData_Type
-        || PyType_IsSubtype(obj->ob_type, &pyControlKeyEventData_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyControlKeyEventData_FromControlKeyEventData(proControlKeyEventData* evt) {
-    if (evt == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyControlKeyEventData* pyobj = PyObject_New(pyControlKeyEventData, &pyControlKeyEventData_Type);
-    pyobj->fThis = evt;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ControlKeyEventData, proControlKeyEventData)
 
 }

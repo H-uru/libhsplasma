@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <Math/hsGeometry3.h>
 #include "pyGeometry3.h"
+
+#include <Math/hsGeometry3.h>
 #include "Stream/pyStream.h"
 
 extern "C" {
@@ -231,17 +231,6 @@ PyObject* Init_pyPlane3_Type() {
     return (PyObject*)&pyPlane3_Type;
 }
 
-int pyPlane3_Check(PyObject* obj) {
-    if (obj->ob_type == &pyPlane3_Type
-        || PyType_IsSubtype(obj->ob_type, &pyPlane3_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyPlane3_FromPlane3(const hsPlane3& plane) {
-    pyPlane3* pp = PyObject_New(pyPlane3, &pyPlane3_Type);
-    pp->fThis = new hsPlane3(plane);
-    return (PyObject*)pp;
-}
+PY_PLASMA_VALUE_IFC_METHODS(Plane3, hsPlane3)
 
 }

@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/proEventData.h>
 #include "pyEventData.h"
+
+#include <PRP/Message/proEventData.h>
 #include "PRP/KeyedObject/pyKey.h"
 
 extern "C" {
@@ -64,10 +64,6 @@ static int pySpawnedEventData_setSpawnee(pySpawnedEventData* self, PyObject* val
     }
 }
 
-static PyMethodDef pySpawnedEventData_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
-
 static PyGetSetDef pySpawnedEventData_GetSet[] = {
     { _pycs("spawner"), (getter)pySpawnedEventData_getSpawner,
         (setter)pySpawnedEventData_setSpawner, NULL, NULL },
@@ -108,7 +104,7 @@ PyTypeObject pySpawnedEventData_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pySpawnedEventData_Methods,         /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pySpawnedEventData_GetSet,          /* tp_getset */
     NULL,                               /* tp_base */
@@ -143,22 +139,6 @@ PyObject* Init_pySpawnedEventData_Type() {
     return (PyObject*)&pySpawnedEventData_Type;
 }
 
-int pySpawnedEventData_Check(PyObject* obj) {
-    if (obj->ob_type == &pySpawnedEventData_Type
-        || PyType_IsSubtype(obj->ob_type, &pySpawnedEventData_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySpawnedEventData_FromSpawnedEventData(proSpawnedEventData* evt) {
-    if (evt == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySpawnedEventData* pyobj = PyObject_New(pySpawnedEventData, &pySpawnedEventData_Type);
-    pyobj->fThis = evt;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(SpawnedEventData, proSpawnedEventData)
 
 }

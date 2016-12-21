@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Light/plLightInfo.h>
 #include "pyLightInfo.h"
+
+#include <PRP/Light/plLightInfo.h>
 #include "PRP/Object/pyObjInterface.h"
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/pyCreatable.h"
@@ -31,7 +31,7 @@ static PyObject* pyLightInfo_new(PyTypeObject* type, PyObject* args, PyObject* k
 }
 
 static PyObject* pyLightInfo_clearVisRegions(pyLightInfo* self) {
-    plLightInfo::Convert(IConvert((pyCreatable*)self))->clearVisRegions();
+    self->fThis->clearVisRegions();
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -42,55 +42,55 @@ static PyObject* pyLightInfo_addVisRegion(pyLightInfo* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "addVisRegion expects a plKey");
         return NULL;
     }
-    plLightInfo::Convert(IConvert((pyCreatable*)self))->addVisRegion(*key->fThis);
+    self->fThis->addVisRegion(*key->fThis);
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 static PyObject* pyLightInfo_getAmbient(pyLightInfo* self, void*) {
-    return pyColorRGBA_FromColorRGBA(plLightInfo::Convert(IConvert((pyCreatable*)self))->getAmbient());
+    return pyColorRGBA_FromColorRGBA(self->fThis->getAmbient());
 }
 
 static PyObject* pyLightInfo_getDiffuse(pyLightInfo* self, void*) {
-    return pyColorRGBA_FromColorRGBA(plLightInfo::Convert(IConvert((pyCreatable*)self))->getDiffuse());
+    return pyColorRGBA_FromColorRGBA(self->fThis->getDiffuse());
 }
 
 static PyObject* pyLightInfo_getSpecular(pyLightInfo* self, void*) {
-    return pyColorRGBA_FromColorRGBA(plLightInfo::Convert(IConvert((pyCreatable*)self))->getSpecular());
+    return pyColorRGBA_FromColorRGBA(self->fThis->getSpecular());
 }
 
 static PyObject* pyLightInfo_getLight2Loc(pyLightInfo* self, void*) {
-    return pyMatrix44_FromMatrix44(plLightInfo::Convert(IConvert((pyCreatable*)self))->getLightToLocal());
+    return pyMatrix44_FromMatrix44(self->fThis->getLightToLocal());
 }
 
 static PyObject* pyLightInfo_getLoc2Light(pyLightInfo* self, void*) {
-    return pyMatrix44_FromMatrix44(plLightInfo::Convert(IConvert((pyCreatable*)self))->getLocalToLight());
+    return pyMatrix44_FromMatrix44(self->fThis->getLocalToLight());
 }
 
 static PyObject* pyLightInfo_getL2W(pyLightInfo* self, void*) {
-    return pyMatrix44_FromMatrix44(plLightInfo::Convert(IConvert((pyCreatable*)self))->getLightToWorld());
+    return pyMatrix44_FromMatrix44(self->fThis->getLightToWorld());
 }
 
 static PyObject* pyLightInfo_getW2L(pyLightInfo* self, void*) {
-    return pyMatrix44_FromMatrix44(plLightInfo::Convert(IConvert((pyCreatable*)self))->getWorldToLight());
+    return pyMatrix44_FromMatrix44(self->fThis->getWorldToLight());
 }
 
 static PyObject* pyLightInfo_getProj(pyLightInfo* self, void*) {
-    return pyKey_FromKey(plLightInfo::Convert(IConvert((pyCreatable*)self))->getProjection());
+    return pyKey_FromKey(self->fThis->getProjection());
 }
 
 static PyObject* pyLightInfo_getSVol(pyLightInfo* self, void*) {
-    return pyKey_FromKey(plLightInfo::Convert(IConvert((pyCreatable*)self))->getSoftVolume());
+    return pyKey_FromKey(self->fThis->getSoftVolume());
 }
 
 static PyObject* pyLightInfo_getNode(pyLightInfo* self, void*) {
-    return pyKey_FromKey(plLightInfo::Convert(IConvert((pyCreatable*)self))->getSceneNode());
+    return pyKey_FromKey(self->fThis->getSceneNode());
 }
 
 static PyObject* pyLightInfo_getVisRegions(pyLightInfo* self, void*) {
-    PyObject* list = PyList_New(plLightInfo::Convert(IConvert((pyCreatable*)self))->getVisRegions().size());
-    for (size_t i=0; i<plLightInfo::Convert(IConvert((pyCreatable*)self))->getVisRegions().size(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(plLightInfo::Convert(IConvert((pyCreatable*)self))->getVisRegions()[i]));
+    PyObject* list = PyList_New(self->fThis->getVisRegions().size());
+    for (size_t i=0; i<self->fThis->getVisRegions().size(); i++)
+        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getVisRegions()[i]));
     return list;
 }
 
@@ -99,7 +99,7 @@ static int pyLightInfo_setAmbient(pyLightInfo* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "ambient should be an hsColorRGBA");
         return -1;
     }
-    plLightInfo::Convert(IConvert((pyCreatable*)self))->setAmbient(*((pyColorRGBA*)value)->fThis);
+    self->fThis->setAmbient(*((pyColorRGBA*)value)->fThis);
     return 0;
 }
 
@@ -108,7 +108,7 @@ static int pyLightInfo_setDiffuse(pyLightInfo* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "diffuse should be an hsColorRGBA");
         return -1;
     }
-    plLightInfo::Convert(IConvert((pyCreatable*)self))->setDiffuse(*((pyColorRGBA*)value)->fThis);
+    self->fThis->setDiffuse(*((pyColorRGBA*)value)->fThis);
     return 0;
 }
 
@@ -117,7 +117,7 @@ static int pyLightInfo_setSpecular(pyLightInfo* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "specular should be an hsColorRGBA");
         return -1;
     }
-    plLightInfo::Convert(IConvert((pyCreatable*)self))->setSpecular(*((pyColorRGBA*)value)->fThis);
+    self->fThis->setSpecular(*((pyColorRGBA*)value)->fThis);
     return 0;
 }
 
@@ -126,7 +126,7 @@ static int pyLightInfo_setLight2Loc(pyLightInfo* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "lightToLocal should be an hsMatrix44");
         return -1;
     }
-    plLightInfo::Convert(IConvert((pyCreatable*)self))->setLightToLocal(*((pyMatrix44*)value)->fThis);
+    self->fThis->setLightToLocal(*((pyMatrix44*)value)->fThis);
     return 0;
 }
 
@@ -135,7 +135,7 @@ static int pyLightInfo_setLoc2Light(pyLightInfo* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "localToLight should be an hsMatrix44");
         return -1;
     }
-    plLightInfo::Convert(IConvert((pyCreatable*)self))->setLocalToLight(*((pyMatrix44*)value)->fThis);
+    self->fThis->setLocalToLight(*((pyMatrix44*)value)->fThis);
     return 0;
 }
 
@@ -144,7 +144,7 @@ static int pyLightInfo_setL2W(pyLightInfo* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "lightToWorld should be an hsMatrix44");
         return -1;
     }
-    plLightInfo::Convert(IConvert((pyCreatable*)self))->setLightToWorld(*((pyMatrix44*)value)->fThis);
+    self->fThis->setLightToWorld(*((pyMatrix44*)value)->fThis);
     return 0;
 }
 
@@ -153,33 +153,33 @@ static int pyLightInfo_setW2L(pyLightInfo* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "worldToLight should be an hsMatrix44");
         return -1;
     }
-    plLightInfo::Convert(IConvert((pyCreatable*)self))->setWorldToLight(*((pyMatrix44*)value)->fThis);
+    self->fThis->setWorldToLight(*((pyMatrix44*)value)->fThis);
     return 0;
 }
 
 static int pyLightInfo_setProj(pyLightInfo* self, PyObject* value, void*) {
     if (value == NULL) {
-        plLightInfo::Convert(IConvert((pyCreatable*)self))->setProjection(plKey());
+        self->fThis->setProjection(plKey());
         return 0;
     }
     if (!pyKey_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "projection should be a plKey");
         return -1;
     }
-    plLightInfo::Convert(IConvert((pyCreatable*)self))->setProjection(*((pyKey*)value)->fThis);
+    self->fThis->setProjection(*((pyKey*)value)->fThis);
     return 0;
 }
 
 static int pyLightInfo_setSVol(pyLightInfo* self, PyObject* value, void*) {
     if (value == NULL || value == Py_None) {
-        plLightInfo::Convert(IConvert((pyCreatable*)self))->setSoftVolume(plKey());
+        self->fThis->setSoftVolume(plKey());
         return 0;
     }
     if (!pyKey_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "softVolume should be a plKey");
         return -1;
     }
-    plLightInfo::Convert(IConvert((pyCreatable*)self))->setSoftVolume(*((pyKey*)value)->fThis);
+    self->fThis->setSoftVolume(*((pyKey*)value)->fThis);
     return 0;
 }
 
@@ -188,7 +188,7 @@ static int pyLightInfo_setNode(pyLightInfo* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "sceneNode should be a plKey");
         return -1;
     }
-    plLightInfo::Convert(IConvert((pyCreatable*)self))->setSceneNode(*((pyKey*)value)->fThis);
+    self->fThis->setSceneNode(*((pyKey*)value)->fThis);
     return 0;
 }
 
@@ -320,22 +320,6 @@ PyObject* Init_pyLightInfo_Type() {
     return (PyObject*)&pyLightInfo_Type;
 }
 
-int pyLightInfo_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLightInfo_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLightInfo_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyLightInfo_FromLightInfo(class plLightInfo* light) {
-    if (light == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyLightInfo* pyLight = PyObject_New(pyLightInfo, &pyLightInfo_Type);
-    pyLight->fThis = light;
-    pyLight->fPyOwned = false;
-    return (PyObject*)pyLight;
-}
+PY_PLASMA_IFC_METHODS(LightInfo, plLightInfo)
 
 }

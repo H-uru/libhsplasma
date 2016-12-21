@@ -19,7 +19,7 @@
 
 #include "PRP/KeyedObject/hsKeyedObject.h"
 
-class PLASMA_DLL pfGUISkin : public virtual hsKeyedObject {
+class PLASMA_DLL pfGUISkin : public hsKeyedObject {
     CREATABLE(pfGUISkin, kGUISkin, hsKeyedObject)
 
 public:

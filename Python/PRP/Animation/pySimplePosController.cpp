@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Animation/plPosController.h>
 #include "pyPosController.h"
+
+#include <PRP/Animation/plPosController.h>
 #include "pyLeafController.h"
 #include "PRP/pyCreatable.h"
 
@@ -38,7 +38,7 @@ static PyObject* pySimplePosController_new(PyTypeObject* type, PyObject* args, P
 }
 
 static PyObject* pySimplePosController_getPosition(pySimplePosController* self, void*) {
-    return pyPoint3Controller_FromPoint3Controller(self->fThis->getPosition());
+    return ICreate(self->fThis->getPosition());
 }
 
 static int pySimplePosController_setPosition(pySimplePosController* self, PyObject* value, void*) {
@@ -132,22 +132,6 @@ PyObject* Init_pySimplePosController_Type() {
     return (PyObject*)&pySimplePosController_Type;
 }
 
-int pySimplePosController_Check(PyObject* obj) {
-    if (obj->ob_type == &pySimplePosController_Type
-        || PyType_IsSubtype(obj->ob_type, &pySimplePosController_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySimplePosController_FromSimplePosController(class plSimplePosController* controller) {
-    if (controller == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySimplePosController* pyobj = PyObject_New(pySimplePosController, &pySimplePosController_Type);
-    pyobj->fThis = controller;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(SimplePosController, plSimplePosController)
 
 }

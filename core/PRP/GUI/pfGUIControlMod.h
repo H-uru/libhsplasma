@@ -70,7 +70,7 @@ public:
 };
 
 
-class PLASMA_DLL pfGUIControlMod : public virtual plSingleModifier {
+class PLASMA_DLL pfGUIControlMod : public plSingleModifier {
     CREATABLE(pfGUIControlMod, kGUIControlMod, plSingleModifier)
 
 public:

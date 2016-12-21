@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Surface/plLayerMovie.h>
 #include "pyLayerMovie.h"
+
+#include <PRP/Surface/plLayerMovie.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -29,10 +29,6 @@ static PyObject* pyLayerAVI_new(PyTypeObject* type, PyObject* args, PyObject* kw
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef pyLayerAVI_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject pyLayerAVI_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -66,7 +62,7 @@ PyTypeObject pyLayerAVI_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyLayerAVI_Methods,                 /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -101,22 +97,6 @@ PyObject* Init_pyLayerAVI_Type() {
     return (PyObject*)&pyLayerAVI_Type;
 }
 
-int pyLayerAVI_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLayerAVI_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLayerAVI_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyLayerAVI_FromLayerAVI(class plLayerAVI* layer) {
-    if (layer == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyLayerAVI* pyobj = PyObject_New(pyLayerAVI, &pyLayerAVI_Type);
-    pyobj->fThis = layer;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(LayerAVI, plLayerAVI)
 
 }

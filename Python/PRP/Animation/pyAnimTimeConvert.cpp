@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Animation/plAnimTimeConvert.h>
 #include "pyAnimTimeConvert.h"
+
+#include <PRP/Animation/plAnimTimeConvert.h>
 #include "pyATCEaseCurves.h"
 #include "PRP/Message/pyEventCallbackMsg.h"
 #include "PRP/pyCreatable.h"
@@ -98,15 +98,15 @@ static PyObject* pyAnimTimeConvert_getEvalTime(pyAnimTimeConvert* self, void*) {
 }
 
 static PyObject* pyAnimTimeConvert_getEaseIn(pyAnimTimeConvert* self, void*) {
-    return pyATCEaseCurve_FromATCEaseCurve(self->fThis->getEaseInCurve());
+    return ICreate(self->fThis->getEaseInCurve());
 }
 
 static PyObject* pyAnimTimeConvert_getEaseOut(pyAnimTimeConvert* self, void*) {
-    return pyATCEaseCurve_FromATCEaseCurve(self->fThis->getEaseOutCurve());
+    return ICreate(self->fThis->getEaseOutCurve());
 }
 
 static PyObject* pyAnimTimeConvert_getSpeedCurve(pyAnimTimeConvert* self, void*) {
-    return pyATCEaseCurve_FromATCEaseCurve(self->fThis->getSpeedEaseCurve());
+    return ICreate(self->fThis->getSpeedEaseCurve());
 }
 
 static PyObject* pyAnimTimeConvert_getStops(pyAnimTimeConvert* self, void*) {
@@ -119,7 +119,7 @@ static PyObject* pyAnimTimeConvert_getStops(pyAnimTimeConvert* self, void*) {
 static PyObject* pyAnimTimeConvert_getCallbacks(pyAnimTimeConvert* self, void*) {
     PyObject* list = PyList_New(self->fThis->getCallbacks().size());
     for (size_t i=0; i<self->fThis->getCallbacks().size(); i++)
-        PyList_SET_ITEM(list, i, pyEventCallbackMsg_FromEventCallbackMsg(self->fThis->getCallbacks()[i]));
+        PyList_SET_ITEM(list, i, ICreate(self->fThis->getCallbacks()[i]));
     return list;
 }
 
@@ -398,22 +398,6 @@ PyObject* Init_pyAnimTimeConvert_Type() {
     return (PyObject*)&pyAnimTimeConvert_Type;
 }
 
-int pyAnimTimeConvert_Check(PyObject* obj) {
-    if (obj->ob_type == &pyAnimTimeConvert_Type
-        || PyType_IsSubtype(obj->ob_type, &pyAnimTimeConvert_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyAnimTimeConvert_FromAnimTimeConvert(class plAnimTimeConvert* atc) {
-    if (atc == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyAnimTimeConvert* pyobj = PyObject_New(pyAnimTimeConvert, &pyAnimTimeConvert_Type);
-    pyobj->fThis = atc;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(AnimTimeConvert, plAnimTimeConvert)
 
 }

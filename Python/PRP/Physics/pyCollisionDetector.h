@@ -17,41 +17,10 @@
 #ifndef _PY_COLLISIONDETECTOR_H
 #define _PY_COLLISIONDETECTOR_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plCollisionDetector* fThis;
-    bool fPyOwned;
-} pyCollisionDetector;
-
-extern PyTypeObject pyCollisionDetector_Type;
-PyObject* Init_pyCollisionDetector_Type();
-int pyCollisionDetector_Check(PyObject* obj);
-PyObject* pyCollisionDetector_FromCollisionDetector(class plCollisionDetector* obj);
-
-typedef struct {
-    PyObject_HEAD
-    class plSubworldRegionDetector* fThis;
-    bool fPyOwned;
-} pySubworldRegionDetector;
-
-extern PyTypeObject pySubworldRegionDetector_Type;
-PyObject* Init_pySubworldRegionDetector_Type();
-int pySubworldRegionDetector_Check(PyObject* obj);
-PyObject* pySubworldRegionDetector_FromSubworldRegionDetector(class plSubworldRegionDetector* obj);
-
-typedef struct {
-    PyObject_HEAD
-    class plPanicLinkRegion* fThis;
-    bool fPyOwned;
-} pyPanicLinkRegion;
-
-extern PyTypeObject pyPanicLinkRegion_Type;
-PyObject* Init_pyPanicLinkRegion_Type();
-int pyPanicLinkRegion_Check(PyObject* obj);
-PyObject* pyPanicLinkRegion_FromPanicLinkRegion(class plPanicLinkRegion* obj);
-
-};
+PY_WRAP_PLASMA(CollisionDetector, class plCollisionDetector);
+PY_WRAP_PLASMA(SubworldRegionDetector, class plSubworldRegionDetector);
+PY_WRAP_PLASMA(PanicLinkRegion, class plPanicLinkRegion);
 
 #endif

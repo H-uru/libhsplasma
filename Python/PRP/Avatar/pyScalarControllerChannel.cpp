@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plScalarChannel.h>
 #include "pyAGChannel.h"
+
+#include <PRP/Avatar/plScalarChannel.h>
 #include "PRP/pyCreatable.h"
 #include "PRP/Animation/pyController.h"
 
@@ -32,7 +32,7 @@ static PyObject* pyScalarControllerChannel_new(PyTypeObject* type, PyObject* arg
 }
 
 static PyObject* pyScalarControllerChannel_getController(pyScalarControllerChannel* self, void*) {
-    return pyController_FromController(self->fThis->getController());
+    return ICreate(self->fThis->getController());
 }
 
 static int pyScalarControllerChannel_setController(pyScalarControllerChannel* self, PyObject* value, void*) {
@@ -48,10 +48,6 @@ static int pyScalarControllerChannel_setController(pyScalarControllerChannel* se
     ((pyController*)value)->fPyOwned = false;
     return 0;
 }
-
-static PyMethodDef pyScalarControllerChannel_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 static PyGetSetDef pyScalarControllerChannel_GetSet[] = {
     { _pycs("controller"), (getter)pyScalarControllerChannel_getController,
@@ -91,7 +87,7 @@ PyTypeObject pyScalarControllerChannel_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyScalarControllerChannel_Methods,  /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     pyScalarControllerChannel_GetSet,   /* tp_getset */
     NULL,                               /* tp_base */
@@ -126,22 +122,6 @@ PyObject* Init_pyScalarControllerChannel_Type() {
     return (PyObject*)&pyScalarControllerChannel_Type;
 }
 
-int pyScalarControllerChannel_Check(PyObject* obj) {
-    if (obj->ob_type == &pyScalarControllerChannel_Type
-        || PyType_IsSubtype(obj->ob_type, &pyScalarControllerChannel_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyScalarControllerChannel_FromScalarControllerChannel(class plScalarControllerChannel* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyScalarControllerChannel* pyobj = PyObject_New(pyScalarControllerChannel, &pyScalarControllerChannel_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ScalarControllerChannel, plScalarControllerChannel)
 
 }

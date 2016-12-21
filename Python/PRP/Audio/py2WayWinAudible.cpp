@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Audio/plAudible.h>
 #include "pyAudible.h"
+
+#include <PRP/Audio/plAudible.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -29,10 +29,6 @@ static PyObject* py2WayWinAudible_new(PyTypeObject* type, PyObject* args, PyObje
     }
     return (PyObject*)self;
 }
-
-static PyMethodDef py2WayWinAudible_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
 
 PyTypeObject py2WayWinAudible_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -66,7 +62,7 @@ PyTypeObject py2WayWinAudible_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    py2WayWinAudible_Methods,           /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -101,22 +97,6 @@ PyObject* Init_py2WayWinAudible_Type() {
     return (PyObject*)&py2WayWinAudible_Type;
 }
 
-int py2WayWinAudible_Check(PyObject* obj) {
-    if (obj->ob_type == &py2WayWinAudible_Type
-        || PyType_IsSubtype(obj->ob_type, &py2WayWinAudible_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* py2WayWinAudible_From2WayWinAudible(pl2WayWinAudible* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    py2WayWinAudible* pyobj = PyObject_New(py2WayWinAudible, &py2WayWinAudible_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(2WayWinAudible, pl2WayWinAudible)
 
 }
