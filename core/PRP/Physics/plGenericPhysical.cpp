@@ -124,6 +124,9 @@ void plGenericPhysical::read(hsStream* S, plResManager* mgr) {
 void plGenericPhysical::write(hsStream* S, plResManager* mgr) {
     plSynchedObject::write(S, mgr);
 
+    if (fIndices.size() % 3 != 0)
+        throw hsBadParamException(__FILE__, __LINE__, "Indices must be triangles");
+
     PhysType wtype;
     if (S->getVer().isUniversal()) {
         wtype = fInternalType;
