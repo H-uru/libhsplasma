@@ -130,6 +130,12 @@ static PyObject* pyVector3_magnitude(pyVector3* self) {
     return PyFloat_FromDouble(self->fThis->magnitude());
 }
 
+static PyObject* pyVector3_normalize(pyVector3* self) {
+    self->fThis->normalize();
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
 static PyObject* pyVector3_dotP(pyVector3* self, PyObject* args) {
     pyVector3* vec;
     if (!PyArg_ParseTuple(args, "O", &vec)) {
@@ -284,6 +290,8 @@ PyNumberMethods pyVector3_As_Number = {
 PyMethodDef pyVector3_Methods[] = {
     { "magnitude", (PyCFunction)pyVector3_magnitude, METH_NOARGS,
       "Returns the magnitude of the vector" },
+    { "normalize", (PyCFunction)pyVector3_normalize, METH_NOARGS,
+      "Normalizes the vector" },
     { "dotP", (PyCFunction)pyVector3_dotP, METH_VARARGS,
       "Params: vec\n"
       "Returns the dot product of this vector and `vec`" },
