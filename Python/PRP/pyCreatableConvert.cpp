@@ -243,6 +243,7 @@
 #include "PRP/Physics/pyPhysical.h"
 #include "PRP/Region/pyBounds.h"
 #include "PRP/Region/pySoftVolume.h"
+#include "PRP/Region/pySwimRegion.h"
 #include "PRP/Region/pyVisRegion.h"
 #include "PRP/Region/pyVolumeIsect.h"
 #include "PRP/Surface/pyBitmap.h"
@@ -381,6 +382,9 @@ PyObject* ICreate(plCreatable* pCre)
         case kSoftVolumeIntersect: return pySoftVolumeIntersect_FromSoftVolumeIntersect(plSoftVolumeIntersect::Convert(pCre));
         case kSoftVolumeInvert: return pySoftVolumeInvert_FromSoftVolumeInvert(plSoftVolumeInvert::Convert(pCre));
         case kVisRegion: return pyVisRegion_FromVisRegion(plVisRegion::Convert(pCre));
+        case kSwimRegionInterface: return pySwimRegionInterface_FromSwimRegionInterface(plSwimRegionInterface::Convert(pCre));
+        case kSwimCircularCurrentRegion: return pySwimCircularCurrentRegion_FromSwimCircularCurrentRegion(plSwimCircularCurrentRegion::Convert(pCre));
+        case kSwimStraightCurrentRegion: return pySwimStraightCurrentRegion_FromSwimStraightCurrentRegion(plSwimStraightCurrentRegion::Convert(pCre));
         case kSpaceTree: return pySpaceTree_FromSpaceTree(plSpaceTree::Convert(pCre));
         case kController: return pyController_FromController(plController::Convert(pCre));
         case kCompoundController: return pyCompoundController_FromCompoundController(plCompoundController::Convert(pCre));

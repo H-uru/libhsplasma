@@ -22,6 +22,9 @@
 class PLASMA_DLL plSwimRegionInterface : public plObjInterface {
     CREATABLE(plSwimRegionInterface, kSwimRegionInterface, plObjInterface)
 
+public:
+    enum { kDisable };
+
 protected:
     float fDownBuoyancy, fUpBuoyancy, fMaxUpwardVel;
 
@@ -35,6 +38,15 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    float getDownBuoyancy() const { return fDownBuoyancy; }
+    float getUpBuoyancy() const { return fUpBuoyancy; }
+    float getMaxUpwardVel() const { return fMaxUpwardVel; }
+
+    void setDownBuoyancy(float buoyancy) { fDownBuoyancy = buoyancy; }
+    void setUpBuoyancy(float buoyancy) { fUpBuoyancy = buoyancy; }
+    void setMaxUpwardVel(float vel) { fMaxUpwardVel = vel; }
 };
 
 
@@ -59,6 +71,21 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    float getRotation() const { return fRotation; }
+    float getPullNearDistSq() const { return fPullNearDistSq; }
+    float getPullFarDistSq() const { return fPullNearDistSq; }
+    float getPullNearVel() const { return fPullNearVel; }
+    float getPullFarVel() const { return fPullFarVel; }
+    plKey getCurrentObj() const { return fCurrentObj; }
+
+    void setRotation(float rotation) { fRotation = rotation; }
+    void setPullNearDistSq(float distSq) { fPullNearDistSq = distSq; }
+    void setPullFarDistSq(float distSq) { fPullFarDistSq = distSq; }
+    void setPullNearVel(float vel) { fPullNearVel = vel; }
+    void setPullFarVel(float vel) { fPullFarVel = vel; }
+    void setCurrentObj(const plKey& currentObj) { fCurrentObj = currentObj; }
 };
 
 
@@ -81,6 +108,19 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    float getNearDist() const { return fNearDist; }
+    float getFarDist() const { return fFarDist; }
+    float getNearVel() const { return fNearVel; }
+    float getFarVel() const { return fFarVel; }
+    plKey getCurrentObj() const { return fCurrentObj; }
+
+    void setNearDist(float dist) { fNearDist = dist; }
+    void setFarDist(float dist) { fFarDist = dist; }
+    void setNearVel(float vel) { fNearVel = vel; }
+    void setFarVel(float vel) { fFarVel = vel; }
+    void setCurrentObj(const plKey& currentObj) { fCurrentObj = currentObj; }
 };
 
 #endif
