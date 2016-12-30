@@ -124,6 +124,9 @@ void plGenericPhysical::read(hsStream* S, plResManager* mgr) {
 void plGenericPhysical::write(hsStream* S, plResManager* mgr) {
     plSynchedObject::write(S, mgr);
 
+    if (fIndices.size() % 3 != 0)
+        throw hsBadParamException(__FILE__, __LINE__, "Indices must be triangles");
+
     PhysType wtype;
     if (S->getVer().isUniversal()) {
         wtype = fInternalType;
@@ -547,10 +550,31 @@ void plGenericPhysical::IReadPXPhysical(hsStream* S, plResManager* mgr) {
     } else if (fBounds == plSimDefs::kBoxBounds) {
         fDimensions.read(S);
         fOffset.read(S);
-    } else if (fBounds == plSimDefs::kHullBounds) {
-        PXCookedData::readConvexMesh(S, this);
-    } else {    // Proxy or Explicit
-        PXCookedData::readTriangleMesh(S, this);
+    } else {
+        char tag[4];
+        S->read(4, tag);
+
+        if (memcmp(tag, "NXS\x01", 4) == 0) {
+            // Cooked PhysX stream
+            if (fBounds == plSimDefs::kHullBounds)
+                PXCookedData::readConvexMesh(S, this);
+            else
+                PXCookedData::readTriangleMesh(S, this);
+        } else if (memcmp(tag, "HSP\x01", 4) == 0) {
+            // Hacked generic physical data
+            size_t numVerts = S->readInt();
+            fVerts.resize(numVerts);
+            for (size_t i = 0; i < numVerts; ++i)
+                fVerts[i].read(S);
+            if (fBounds != plSimDefs::kHullBounds) {
+                size_t numIndices = S->readInt() * 3;
+                fIndices.reserve(numIndices);
+                for (size_t i = 0; i < numIndices; ++i)
+                    fIndices.push_back(S->readInt());
+            }
+        } else {
+            throw hsBadParamException(__FILE__, __LINE__, "Invalid PhysX header");
+        }
     }
 
 #ifdef DEBUG
@@ -696,7 +720,10 @@ void plGenericPhysical::IWritePXPhysical(hsStream* S, plResManager* mgr) {
         if (!NxCookConvexMesh(convexDesc, buf))
             throw hsBadParamException(__FILE__, __LINE__, "Incorrect data for PhysX Hull Bake");
 #else
-        throw hsNotImplementedException(__FILE__, __LINE__, "PhysX HullBounds");
+        S->write(4, "HSP\x01");
+        S->writeInt(fVerts.size());
+        for (size_t i = 0; i < fVerts.size(); ++i)
+            fVerts[i].write(S);
 #endif
     } else {    // Proxy or Explicit
 #ifdef HAVE_PX_SDK
@@ -717,7 +744,13 @@ void plGenericPhysical::IWritePXPhysical(hsStream* S, plResManager* mgr) {
         if (!NxCookTriangleMesh(triDesc, buf))
             throw hsBadParamException(__FILE__, __LINE__, "Incorrect data for a PhysX Trimesh Bake");
 #else
-        throw hsNotImplementedException(__FILE__, __LINE__, "PhysX TriangleMesh");
+        S->write(4, "HSP\x01");
+        S->writeInt(fVerts.size());
+        for (size_t i = 0; i < fVerts.size(); ++i)
+            fVerts[i].write(S);
+        S->writeInt(fIndices.size() / 3);
+        for (size_t i = 0; i < fIndices.size(); ++i)
+            S->writeInt(fIndices[i]);
 #endif
     }
 }

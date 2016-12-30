@@ -146,9 +146,8 @@ void PXCookedData::readConvexMesh(hsStream* S, plGenericPhysical* physical)
 {
     char tag[4];
     unsigned int unk1, unk2, unk3, unk4, unk5;
-    S->read(4, tag);
-    if (memcmp(tag, "NXS\x01", 4) != 0)
-        throw hsBadParamException(__FILE__, __LINE__, "Invalid PhysX header");
+    // NOTE: PhysX Cooked data always begins with "NXS\x01". This is read in plGenericPhysical
+    // to determine if the buffer is cooked or hax'd
     S->read(4, tag);
     if (memcmp(tag, "CVXM", 4) != 0)
         throw hsBadParamException(__FILE__, __LINE__, "Invalid CVXM header");
@@ -287,9 +286,8 @@ void PXCookedData::readConvexMesh(hsStream* S, plGenericPhysical* physical)
 
 void PXCookedData::readTriangleMesh(hsStream* S, plGenericPhysical* physical) {
     char tag[4];
-    S->read(4, tag);
-    if (memcmp(tag, "NXS\x01", 4) != 0)
-        throw hsBadParamException(__FILE__, __LINE__, "Invalid PhysX header");
+    // NOTE: PhysX Cooked data always begins with "NXS\x01". This is read in plGenericPhysical
+    // to determine if the buffer is cooked or hax'd
     S->read(4, tag);
     if (memcmp(tag, "MESH", 4) != 0)
         throw hsBadParamException(__FILE__, __LINE__, "Invalid Mesh header");
