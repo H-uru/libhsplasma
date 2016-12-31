@@ -21,10 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyVolumeIsect_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plVolumeIsect is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(VolumeIsect, "plVolumeIsect is abstract")
 
 PyTypeObject pyVolumeIsect_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

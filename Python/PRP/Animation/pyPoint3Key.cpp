@@ -21,20 +21,8 @@
 
 extern "C" {
 
-static int pyPoint3Key___init__(pyPoint3Key* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyPoint3Key_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyPoint3Key* self = (pyPoint3Key*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new hsPoint3Key();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_EMPTY_INIT(Point3Key)
+PY_PLASMA_NEW(Point3Key, hsPoint3Key)
 
 PY_PROPERTY_MEMBER(hsVector3, Point3Key, inTan, fInTan)
 PY_PROPERTY_MEMBER(hsVector3, Point3Key, outTan, fOutTan)
@@ -88,7 +76,7 @@ PyTypeObject pyPoint3Key_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyPoint3Key___init__,     /* tp_init */
+    pyPoint3Key___init__,               /* tp_init */
     NULL,                               /* tp_alloc */
     pyPoint3Key_new,                    /* tp_new */
     NULL,                               /* tp_free */

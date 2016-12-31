@@ -21,20 +21,8 @@
 
 extern "C" {
 
-static void pyWAVHeader_dealloc(pyWAVHeader* self) {
-    if (self->fPyOwned)
-        delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
-
-static PyObject* pyWAVHeader_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyWAVHeader* self = (pyWAVHeader*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plWAVHeader();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_DEALLOC(WAVHeader)
+PY_PLASMA_NEW(WAVHeader, plWAVHeader)
 
 static PyObject* pyWAVHeader_read(pyWAVHeader* self, PyObject* args) {
     pyStream* stream;
@@ -99,7 +87,7 @@ PyTypeObject pyWAVHeader_Type = {
     sizeof(pyWAVHeader),                /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyWAVHeader_dealloc,    /* tp_dealloc */
+    pyWAVHeader_dealloc,                /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */

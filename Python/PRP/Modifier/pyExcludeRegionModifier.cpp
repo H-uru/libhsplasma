@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyExcludeRegionModifier_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyExcludeRegionModifier* self = (pyExcludeRegionModifier*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plExcludeRegionModifier();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ExcludeRegionModifier, plExcludeRegionModifier)
 
 static PyObject* pyExcludeRegionModifier_addSafePoint(pyExcludeRegionModifier* self, PyObject* args) {
     PyObject* key;

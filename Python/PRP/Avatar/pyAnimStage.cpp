@@ -21,20 +21,8 @@
 
 extern "C" {
 
-static int pyAnimStage___init__(pyAnimStage* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyAnimStage_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyAnimStage* self = (pyAnimStage*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plAnimStage();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_EMPTY_INIT(AnimStage)
+PY_PLASMA_NEW(AnimStage, plAnimStage)
 
 PY_PROPERTY(plAnimStage::PlayType, AnimStage, forwardType, getForwardType, setForwardType)
 PY_PROPERTY(plAnimStage::PlayType, AnimStage, backType, getBackType, setBackType)
@@ -152,7 +140,7 @@ PyTypeObject pyAnimStage_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyAnimStage___init__,     /* tp_init */
+    pyAnimStage___init__,               /* tp_init */
     NULL,                               /* tp_alloc */
     pyAnimStage_new,                    /* tp_new */
     NULL,                               /* tp_free */

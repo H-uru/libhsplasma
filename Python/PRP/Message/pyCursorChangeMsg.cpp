@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyCursorChangeMsg_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyCursorChangeMsg* self = (pyCursorChangeMsg*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plCursorChangeMsg();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(CursorChangeMsg, plCursorChangeMsg)
 
 PY_PROPERTY(int, CursorChangeMsg, type, getType, setType)
 PY_PROPERTY(int, CursorChangeMsg, priority, getPriority, setPriority)

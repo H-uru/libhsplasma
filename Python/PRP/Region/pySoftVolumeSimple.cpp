@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pySoftVolumeSimple_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySoftVolumeSimple* self = (pySoftVolumeSimple*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSoftVolumeSimple();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(SoftVolumeSimple, plSoftVolumeSimple)
 
 PY_PROPERTY_CREATABLE(plVolumeIsect, VolumeIsect, SoftVolumeSimple, volume,
                       getVolume, setVolume)

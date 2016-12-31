@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyQuatPointCombine_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyQuatPointCombine* self = (pyQuatPointCombine*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plQuatPointCombine();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(QuatPointCombine, plQuatPointCombine)
 
 PyTypeObject pyQuatPointCombine_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

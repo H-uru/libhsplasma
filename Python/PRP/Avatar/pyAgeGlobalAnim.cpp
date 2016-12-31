@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyAgeGlobalAnim_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyAgeGlobalAnim* self = (pyAgeGlobalAnim*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plAgeGlobalAnim();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(AgeGlobalAnim, plAgeGlobalAnim)
 
 PY_PROPERTY(plString, AgeGlobalAnim, globalVarName, getGlobalVarName, setGlobalVarName)
 

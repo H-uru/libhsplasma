@@ -22,7 +22,7 @@
 
 extern "C" {
 
-static int pyKeyedObject___init__(pyKeyedObject* self, PyObject* args, PyObject* kwds) {
+PY_PLASMA_INIT_DECL(KeyedObject) {
     const char* name = "";
     if (!PyArg_ParseTuple(args, "|s", &name)) {
         PyErr_SetString(PyExc_TypeError, "__init__ expects an optional string");
@@ -33,10 +33,7 @@ static int pyKeyedObject___init__(pyKeyedObject* self, PyObject* args, PyObject*
     return 0;
 }
 
-static PyObject* pyKeyedObject_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "hsKeyedObject is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(KeyedObject, "hsKeyedObject is abstract")
 
 PY_GETSET_GETTER_DECL(KeyedObject, key) {
     if (self->fThis->getKey().Exists()) {
@@ -95,7 +92,7 @@ PyTypeObject pyKeyedObject_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyKeyedObject___init__,   /* tp_init */
+    pyKeyedObject___init__,             /* tp_init */
     NULL,                               /* tp_alloc */
     pyKeyedObject_new,                  /* tp_new */
     NULL,                               /* tp_free */

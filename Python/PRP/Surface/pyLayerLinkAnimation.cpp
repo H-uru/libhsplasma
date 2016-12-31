@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyLayerLinkAnimation_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyLayerLinkAnimation* self = (pyLayerLinkAnimation*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plLayerLinkAnimation();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(LayerLinkAnimation, plLayerLinkAnimation)
 
 PY_PROPERTY(plKey, LayerLinkAnimation, linkKey, getLinkKey, setLinkKey)
 PY_PROPERTY(bool, LayerLinkAnimation, leavingAge, getLeavingAge, setLeavingAge)

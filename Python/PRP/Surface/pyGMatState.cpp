@@ -20,10 +20,7 @@
 
 extern "C" {
 
-static PyObject* pyGMatState_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "Cannot construct hsGMatState objects");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(GMatState, "Cannot construct hsGMatState objects")
 
 PY_PROPERTY_MEMBER(unsigned int, GMatState, blendFlags, fBlendFlags)
 PY_PROPERTY_MEMBER(unsigned int, GMatState, clampFlags, fClampFlags)

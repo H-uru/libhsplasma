@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyContainedEventData_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyContainedEventData* self = (pyContainedEventData*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new proContainedEventData();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ContainedEventData, proContainedEventData)
 
 PY_PROPERTY(plKey, ContainedEventData, contained, getContained, setContained)
 PY_PROPERTY(plKey, ContainedEventData, container, getContainer, setContainer)

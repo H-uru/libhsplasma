@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyAudioInterface_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyAudioInterface* self = (pyAudioInterface*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plAudioInterface();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(AudioInterface, plAudioInterface)
 
 PY_PROPERTY(plKey, AudioInterface, audible, getAudible, setAudible)
 

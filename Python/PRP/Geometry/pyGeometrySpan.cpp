@@ -23,11 +23,11 @@
 
 extern "C" {
 
-static void pyGeometrySpan_dealloc(pyGeometrySpan* self) {
-    Py_TYPE(self)->tp_free((PyObject*)self);
+PY_PLASMA_DEALLOC_DECL(GeometrySpan) {
+    Py_TYPE(self)->tp_free(self);
 }
 
-static PyObject* pyGeometrySpan_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+PY_PLASMA_NEW_DECL(GeometrySpan) {
     pyGeometrySpan* self = (pyGeometrySpan*)type->tp_alloc(type, 0);
     if (self != NULL)
         self->fThis.reset(new plGeometrySpan);
@@ -246,7 +246,7 @@ PyTypeObject pyGeometrySpan_Type = {
     sizeof(pyGeometrySpan),             /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyGeometrySpan_dealloc, /* tp_dealloc */
+    pyGeometrySpan_dealloc,             /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */

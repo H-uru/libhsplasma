@@ -21,26 +21,9 @@
 
 extern "C" {
 
-static void pySpanTemplateVertex_dealloc(pySpanTemplateVertex* self) {
-    if (self->fPyOwned)
-        delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
-
-static int pySpanTemplateVertex___init__(pySpanTemplateVertex* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pySpanTemplateVertex_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySpanTemplateVertex* self = (pySpanTemplateVertex*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSpanTemplate::Vertex();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_DEALLOC(SpanTemplateVertex)
+PY_PLASMA_EMPTY_INIT(SpanTemplateVertex)
+PY_PLASMA_NEW(SpanTemplateVertex, plSpanTemplate::Vertex)
 
 static PyObject* pySpanTemplateVertex_getUVWs(pySpanTemplateVertex* self, void*) {
     PyObject* list = PyList_New(10);
@@ -133,7 +116,7 @@ PyTypeObject pySpanTemplateVertex_Type = {
     sizeof(pySpanTemplateVertex),       /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pySpanTemplateVertex_dealloc, /* tp_dealloc */
+    pySpanTemplateVertex_dealloc,       /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -168,7 +151,7 @@ PyTypeObject pySpanTemplateVertex_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pySpanTemplateVertex___init__,  /* tp_init */
+    pySpanTemplateVertex___init__,      /* tp_init */
     NULL,                               /* tp_alloc */
     pySpanTemplateVertex_new,           /* tp_new */
     NULL,                               /* tp_free */

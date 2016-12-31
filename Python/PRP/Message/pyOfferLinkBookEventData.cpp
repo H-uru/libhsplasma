@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyOfferLinkBookEventData_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyOfferLinkBookEventData* self = (pyOfferLinkBookEventData*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new proOfferLinkBookEventData();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(OfferLinkBookEventData, proOfferLinkBookEventData)
 
 PY_PROPERTY(plKey, OfferLinkBookEventData, offerer, getOfferer, setOfferer)
 PY_PROPERTY(int, OfferLinkBookEventData, targetAge, getTargetAge, setTargetAge)

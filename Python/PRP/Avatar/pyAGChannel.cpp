@@ -21,10 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyAGChannel_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plAGApplicator is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(AGChannel, "plAGChannel is abstract")
 
 PY_PROPERTY(plString, AGChannel, name, getName, setName)
 

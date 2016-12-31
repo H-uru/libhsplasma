@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyANDConditionalObject_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyANDConditionalObject* self = (pyANDConditionalObject*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plANDConditionalObject();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ANDConditionalObject, plANDConditionalObject)
 
 static PyObject* pyANDConditionalObject_addChild(pyANDConditionalObject* self, PyObject* args) {
     PyObject* key;

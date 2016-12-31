@@ -20,14 +20,7 @@
 
 extern "C" {
 
-static PyObject* pyResponderStateEventData_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyResponderStateEventData* self = (pyResponderStateEventData*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new proResponderStateEventData();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ResponderStateEventData, proResponderStateEventData)
 
 PY_PROPERTY(int, ResponderStateEventData, state, getState, setState)
 

@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyResponderEnableMsg_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyResponderEnableMsg* self = (pyResponderEnableMsg*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plResponderEnableMsg();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ResponderEnableMsg, plResponderEnableMsg)
 
 PY_PROPERTY(bool, ResponderEnableMsg, enable, getEnable, setEnable)
 

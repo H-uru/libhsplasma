@@ -21,20 +21,8 @@
 
 extern "C" {
 
-static int pyScaleValueController___init__(pyScaleValueController* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyScaleValueController_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyScaleValueController* self = (pyScaleValueController*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plScaleValueController();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_EMPTY_INIT(ScaleValueController)
+PY_PLASMA_NEW(ScaleValueController, plScaleValueController)
 
 PyTypeObject pyScaleValueController_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -77,7 +65,7 @@ PyTypeObject pyScaleValueController_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyScaleValueController___init__, /* tp_init */
+    pyScaleValueController___init__,    /* tp_init */
     NULL,                               /* tp_alloc */
     pyScaleValueController_new,         /* tp_new */
     NULL,                               /* tp_free */

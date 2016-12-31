@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyMessage_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyMessage* self = (pyMessage*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plMessage();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(Message, plMessage)
 
 static PyObject* pyMessage_addReceiver(pyMessage* self, PyObject* args) {
     pyKey* key;

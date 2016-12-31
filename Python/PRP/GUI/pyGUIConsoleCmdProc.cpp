@@ -20,14 +20,7 @@
 
 extern "C" {
 
-static PyObject* pyGUIConsoleCmdProc_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyGUIConsoleCmdProc* self = (pyGUIConsoleCmdProc*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new pfGUIConsoleCmdProc();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(GUIConsoleCmdProc, pfGUIConsoleCmdProc)
 
 PY_PROPERTY(plString, GUIConsoleCmdProc, command, getCommand, setCommand)
 

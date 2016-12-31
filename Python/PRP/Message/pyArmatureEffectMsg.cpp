@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyArmatureEffectStateMsg_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyArmatureEffectStateMsg* self = (pyArmatureEffectStateMsg*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plArmatureEffectStateMsg();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ArmatureEffectStateMsg, plArmatureEffectStateMsg)
 
 PY_PROPERTY(int8_t, ArmatureEffectStateMsg, surface, getSurface, setSurface)
 PY_PROPERTY(bool, ArmatureEffectStateMsg, addSurface, getAddSurface, setAddSurface)

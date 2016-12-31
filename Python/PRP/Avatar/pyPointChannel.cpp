@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyPointChannel_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyPointChannel* self = (pyPointChannel*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plPointChannel();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(PointChannel, plPointChannel)
 
 PyTypeObject pyPointChannel_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

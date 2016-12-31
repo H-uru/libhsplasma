@@ -20,22 +20,9 @@
 
 extern "C" {
 
-static void pyGUICtrlProcObject_dealloc(pyGUICtrlProcObject* self) {
-    if (self->fPyOwned)
-        delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
-
-static int pyGUICtrlProcObject___init__(pyGUICtrlProcObject* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyGUICtrlProcObject_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "pfGUICtrlProcObject is abstract");
-    return NULL;
-}
+PY_PLASMA_DEALLOC(GUICtrlProcObject)
+PY_PLASMA_EMPTY_INIT(GUICtrlProcObject)
+PY_PLASMA_NEW_MSG(GUICtrlProcObject, "pfGUICtrlProcObject is abstract")
 
 PyTypeObject pyGUICtrlProcObject_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -43,7 +30,7 @@ PyTypeObject pyGUICtrlProcObject_Type = {
     sizeof(pyGUICtrlProcObject),        /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyGUICtrlProcObject_dealloc, /* tp_dealloc */
+    pyGUICtrlProcObject_dealloc,        /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -78,7 +65,7 @@ PyTypeObject pyGUICtrlProcObject_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyGUICtrlProcObject___init__, /* tp_init */
+    pyGUICtrlProcObject___init__,       /* tp_init */
     NULL,                               /* tp_alloc */
     pyGUICtrlProcObject_new,            /* tp_new */
     NULL,                               /* tp_free */

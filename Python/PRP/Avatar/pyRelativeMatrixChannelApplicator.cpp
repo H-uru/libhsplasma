@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyRelativeMatrixChannelApplicator_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyRelativeMatrixChannelApplicator* self = (pyRelativeMatrixChannelApplicator*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plRelativeMatrixChannelApplicator();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(RelativeMatrixChannelApplicator, plRelativeMatrixChannelApplicator)
 
 PyTypeObject pyRelativeMatrixChannelApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

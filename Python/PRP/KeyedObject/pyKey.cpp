@@ -23,15 +23,8 @@
 
 extern "C" {
 
-static void pyKey_dealloc(pyKey* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
-
-static PyObject* pyKey_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "Cannot construct Keys directly");
-    return NULL;
-}
+PY_PLASMA_VALUE_DEALLOC(Key)
+PY_PLASMA_NEW_MSG(Key, "Cannot construct Keys directly")
 
 static PyObject* pyKey_Repr(pyKey* self) {
     plString repr = plString::Format("<plKey \"%s\">", self->fThis->toString().cstr());
@@ -288,7 +281,7 @@ PyTypeObject pyKey_Type = {
     sizeof(pyKey),                      /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyKey_dealloc,          /* tp_dealloc */
+    pyKey_dealloc,                      /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */

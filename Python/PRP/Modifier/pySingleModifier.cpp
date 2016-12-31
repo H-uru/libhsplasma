@@ -21,10 +21,7 @@
 
 extern "C" {
 
-static PyObject* pySingleModifier_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plSingleModifier is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(SingleModifier, "plSingleModifier is abstract")
 
 static PyObject* pySingleModifier_getFlag(pySingleModifier* self, PyObject* args) {
     int flag;

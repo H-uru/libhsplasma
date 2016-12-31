@@ -23,10 +23,7 @@
 
 extern "C" {
 
-static PyObject* pyLayerAnimationBase_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plLayerAnimationBase is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(LayerAnimationBase, "plLayerAnimationBase is abstract")
 
 PY_PROPERTY_CREATABLE(plController, Controller, LayerAnimationBase,
                       preshadeCtl, getPreshadeCtl, setPreshadeCtl)

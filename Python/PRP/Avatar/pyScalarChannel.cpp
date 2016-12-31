@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyScalarChannel_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyScalarChannel* self = (pyScalarChannel*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plScalarChannel();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ScalarChannel, plScalarChannel)
 
 PY_PROPERTY(float, ScalarChannel, result, getResult, setResult)
 

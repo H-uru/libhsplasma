@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyORConditionalObject_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyORConditionalObject* self = (pyORConditionalObject*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plORConditionalObject();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ORConditionalObject, plORConditionalObject)
 
 static PyObject* pyORConditionalObject_addChild(pyORConditionalObject* self, PyObject* args) {
     PyObject* key;

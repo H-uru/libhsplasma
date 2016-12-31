@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pySoundVolumeApplicator_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySoundVolumeApplicator* self = (pySoundVolumeApplicator*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSoundVolumeApplicator();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(SoundVolumeApplicator, plSoundVolumeApplicator)
 
 PY_PROPERTY(unsigned int, SoundVolumeApplicator, index, getIndex, setIndex)
 

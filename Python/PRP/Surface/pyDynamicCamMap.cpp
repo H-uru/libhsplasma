@@ -24,14 +24,7 @@
 
 extern "C" {
 
-static PyObject* pyDynamicCamMap_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyDynamicCamMap* self = (pyDynamicCamMap*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plDynamicCamMap();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(DynamicCamMap, plDynamicCamMap)
 
 static PyObject* pyDynamicCamMap_addMatLayer(pyDynamicCamMap* self, PyObject* args) {
     PyObject* key;

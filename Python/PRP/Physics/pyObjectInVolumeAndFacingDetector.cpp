@@ -20,14 +20,7 @@
 
 extern "C" {
 
-static PyObject* pyObjectInVolumeAndFacingDetector_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyObjectInVolumeAndFacingDetector* self = (pyObjectInVolumeAndFacingDetector*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plObjectInVolumeAndFacingDetector();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ObjectInVolumeAndFacingDetector, plObjectInVolumeAndFacingDetector)
 
 PY_PROPERTY(float, ObjectInVolumeAndFacingDetector, facingTolerance,
             getFacingTolerance, setFacingTolerance)

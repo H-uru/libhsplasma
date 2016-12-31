@@ -21,26 +21,9 @@
 
 extern "C" {
 
-static void pySpanEncoding_dealloc(pySpanEncoding* self) {
-    if (self->fPyOwned)
-        delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
-
-static int pySpanEncoding___init__(pySpanEncoding* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pySpanEncoding_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySpanEncoding* self = (pySpanEncoding*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSpanEncoding();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_DEALLOC(SpanEncoding)
+PY_PLASMA_EMPTY_INIT(SpanEncoding)
+PY_PLASMA_NEW(SpanEncoding, plSpanEncoding)
 
 static PyObject* pySpanEncoding_read(pySpanEncoding* self, PyObject* args) {
     pyStream* stream;
@@ -97,7 +80,7 @@ PyTypeObject pySpanEncoding_Type = {
     sizeof(pySpanEncoding),             /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pySpanEncoding_dealloc, /* tp_dealloc */
+    pySpanEncoding_dealloc,             /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -132,7 +115,7 @@ PyTypeObject pySpanEncoding_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pySpanEncoding___init__,  /* tp_init */
+    pySpanEncoding___init__,            /* tp_init */
     NULL,                               /* tp_alloc */
     pySpanEncoding_new,                 /* tp_new */
     NULL,                               /* tp_free */

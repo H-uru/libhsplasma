@@ -20,10 +20,7 @@
 
 extern "C" {
 
-static PyObject* pySimDefs_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "Cannot construct plSimDefs objects");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(SimDefs, "Cannot construct plSimDefs objects")
 
 PyTypeObject pySimDefs_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

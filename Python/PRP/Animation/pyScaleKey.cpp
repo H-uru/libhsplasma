@@ -21,20 +21,8 @@
 
 extern "C" {
 
-static int pyScaleKey___init__(pyScaleKey* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyScaleKey_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyScaleKey* self = (pyScaleKey*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new hsScaleKey();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_EMPTY_INIT(ScaleKey)
+PY_PLASMA_NEW(ScaleKey, hsScaleKey)
 
 PY_PROPERTY_MEMBER(hsVector3, ScaleKey, inTan, fInTan)
 PY_PROPERTY_MEMBER(hsVector3, ScaleKey, outTan, fOutTan)
@@ -114,7 +102,7 @@ PyTypeObject pyScaleKey_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyScaleKey___init__,      /* tp_init */
+    pyScaleKey___init__,                /* tp_init */
     NULL,                               /* tp_alloc */
     pyScaleKey_new,                     /* tp_new */
     NULL,                               /* tp_free */

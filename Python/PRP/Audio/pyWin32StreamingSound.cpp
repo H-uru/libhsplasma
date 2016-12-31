@@ -20,14 +20,7 @@
 
 extern "C" {
 
-static PyObject* pyWin32StreamingSound_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyWin32StreamingSound* self = (pyWin32StreamingSound*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plWin32StreamingSound();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(Win32StreamingSound, plWin32StreamingSound)
 
 PyTypeObject pyWin32StreamingSound_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

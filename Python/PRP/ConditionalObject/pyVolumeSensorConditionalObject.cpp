@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyVolumeSensorConditionalObject_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyVolumeSensorConditionalObject* self = (pyVolumeSensorConditionalObject*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plVolumeSensorConditionalObject();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(VolumeSensorConditionalObject, plVolumeSensorConditionalObject)
 
 PY_PROPERTY(int, VolumeSensorConditionalObject, trigNum, getTrigNum, setTrigNum)
 PY_PROPERTY(int, VolumeSensorConditionalObject, type, getType, setType)

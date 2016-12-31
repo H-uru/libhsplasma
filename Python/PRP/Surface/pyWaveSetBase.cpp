@@ -20,10 +20,7 @@
 
 extern "C" {
 
-static PyObject* pyWaveSetBase_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plWaveSetBase is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(WaveSetBase, "plWaveSetBase is abstract")
 
 PyTypeObject pyWaveSetBase_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

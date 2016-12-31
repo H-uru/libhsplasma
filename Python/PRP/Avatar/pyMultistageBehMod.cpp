@@ -23,14 +23,7 @@
 
 extern "C" {
 
-static PyObject* pyMultistageBehMod_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyMultistageBehMod* self = (pyMultistageBehMod*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plMultistageBehMod();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(MultistageBehMod, plMultistageBehMod)
 
 static PyObject* pyMultistageBehMod_addStage(pyMultistageBehMod* self, PyObject* args) {
     pyAnimStage* anim;

@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyLayerSDLAnimation_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyLayerSDLAnimation* self = (pyLayerSDLAnimation*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plLayerSDLAnimation();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(LayerSDLAnimation, plLayerSDLAnimation)
 
 PY_PROPERTY(plString, LayerSDLAnimation, varName, getVarName, setVarName)
 

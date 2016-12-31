@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyMessageWithCallbacks_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyMessageWithCallbacks* self = (pyMessageWithCallbacks*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plMessageWithCallbacks();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(MessageWithCallbacks, plMessageWithCallbacks)
 
 static PyObject* pyMessageWithCallbacks_addCallback(pyMessageWithCallbacks* self, PyObject* args) {
     PyObject* msg;

@@ -22,10 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyConditionalObject_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plConditionalObject is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(ConditionalObject, "plConditionalObject is abstract")
 
 PY_PROPERTY(bool, ConditionalObject, satisfied, getSatisfied, setSatisfied)
 PY_PROPERTY(bool, ConditionalObject, toggle, getToggle, setToggle)

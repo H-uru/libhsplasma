@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyAGAnimBink_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyAGAnimBink* self = (pyAGAnimBink*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plAGAnimBink();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(AGAnimBink, plAGAnimBink)
 
 PY_PROPERTY(plString, AGAnimBink, binkFilename, getBinkFilename, setBinkFilename)
 PY_PROPERTY(plString, AGAnimBink,sgtFilename, getSgtFilename, setSgtFilename)

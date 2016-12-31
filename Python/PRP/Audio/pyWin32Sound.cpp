@@ -22,10 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyWin32Sound_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plWin32Sound is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(Win32Sound, "plWin32Sound is abstract")
 
 PY_PROPERTY(unsigned char, Win32Sound, channel, getChannel, setChannel)
 

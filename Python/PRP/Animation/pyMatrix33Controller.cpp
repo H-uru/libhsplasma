@@ -21,20 +21,8 @@
 
 extern "C" {
 
-static int pyMatrix33Controller___init__(pyMatrix33Controller* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyMatrix33Controller_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyMatrix33Controller* self = (pyMatrix33Controller*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plMatrix33Controller();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_EMPTY_INIT(Matrix33Controller)
+PY_PLASMA_NEW(Matrix33Controller, plMatrix33Controller)
 
 PyTypeObject pyMatrix33Controller_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -77,7 +65,7 @@ PyTypeObject pyMatrix33Controller_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyMatrix33Controller___init__, /* tp_init */
+    pyMatrix33Controller___init__,      /* tp_init */
     NULL,                               /* tp_alloc */
     pyMatrix33Controller_new,           /* tp_new */
     NULL,                               /* tp_free */

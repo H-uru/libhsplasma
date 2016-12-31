@@ -22,10 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyBitmap_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plBitmap is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(Bitmap, "plBitmap is abstract")
 
 static PyObject* pyBitmap_setConfig(pyBitmap* self, PyObject* args) {
     int format;

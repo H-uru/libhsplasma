@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyScalarTimeScale_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyScalarTimeScale* self = (pyScalarTimeScale*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plScalarTimeScale();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ScalarTimeScale, plScalarTimeScale)
 
 PyTypeObject pyScalarTimeScale_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyOmniLightInfo_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyOmniLightInfo* self = (pyOmniLightInfo*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plOmniLightInfo();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(OmniLightInfo, plOmniLightInfo)
 
 PY_PROPERTY(float, OmniLightInfo, attenConst, getAttenConst, setAttenConst)
 PY_PROPERTY(float, OmniLightInfo, attenLinear, getAttenLinear, setAttenLinear)

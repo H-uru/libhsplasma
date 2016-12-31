@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyLimitedDirLightInfo_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyLimitedDirLightInfo* self = (pyLimitedDirLightInfo*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plLimitedDirLightInfo();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(LimitedDirLightInfo, plLimitedDirLightInfo)
 
 PY_PROPERTY(float, LimitedDirLightInfo, width, getWidth, setWidth)
 PY_PROPERTY(float, LimitedDirLightInfo, height, getHeight, setHeight)

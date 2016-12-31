@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyLayerAnimation_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyLayerAnimation* self = (pyLayerAnimation*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plLayerAnimation();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(LayerAnimation, plLayerAnimation)
 
 PY_PROPERTY_PROXY_RO(plAnimTimeConvert, LayerAnimation, timeConvert, getTimeConvert)
 

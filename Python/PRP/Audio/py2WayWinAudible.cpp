@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* py2WayWinAudible_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    py2WayWinAudible* self = (py2WayWinAudible*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new pl2WayWinAudible();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(2WayWinAudible, pl2WayWinAudible)
 
 PyTypeObject py2WayWinAudible_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

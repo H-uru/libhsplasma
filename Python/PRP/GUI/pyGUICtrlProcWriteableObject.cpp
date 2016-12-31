@@ -21,10 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyGUICtrlProcWriteableObject_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "pfGUICtrlProcWriteableObject is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(GUICtrlProcWriteableObject, "pfGUICtrlProcWriteableObject is abstract")
 
 static PyObject* pyGUICtrlProcWriteableObject_Read(PyObject*, PyObject* args) {
     pyStream* stream;

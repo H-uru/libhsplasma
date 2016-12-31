@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pySubworldRegionDetector_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySubworldRegionDetector* self = (pySubworldRegionDetector*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSubworldRegionDetector();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(SubworldRegionDetector, plSubworldRegionDetector)
 
 PY_PROPERTY(plKey, SubworldRegionDetector, subworld, getSubworld, setSubworld)
 PY_PROPERTY(bool, SubworldRegionDetector, onExit, getOnExit, setOnExit)

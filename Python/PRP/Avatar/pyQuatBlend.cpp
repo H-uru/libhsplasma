@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyQuatBlend_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyQuatBlend* self = (pyQuatBlend*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plQuatBlend();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(QuatBlend, plQuatBlend)
 
 PyTypeObject pyQuatBlend_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

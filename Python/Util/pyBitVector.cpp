@@ -21,27 +21,9 @@
 
 extern "C" {
 
-static void pyBitVector_dealloc(pyBitVector* self) {
-    if (self->fPyOwned)
-        delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
-
-static int pyBitVector___init__(pyBitVector* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-
-    return 0;
-}
-
-static PyObject* pyBitVector_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyBitVector* self = (pyBitVector*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new hsBitVector();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_DEALLOC(BitVector)
+PY_PLASMA_EMPTY_INIT(BitVector)
+PY_PLASMA_NEW(BitVector, hsBitVector)
 
 static PyObject* pyBitVector_Subscript(pyBitVector* self, PyObject* key) {
     if (PyAnyStr_Check(key)) {
@@ -199,7 +181,7 @@ PyTypeObject pyBitVector_Type = {
     sizeof(pyBitVector),                /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyBitVector_dealloc,    /* tp_dealloc */
+    pyBitVector_dealloc,                /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -234,7 +216,7 @@ PyTypeObject pyBitVector_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyBitVector___init__,     /* tp_init */
+    pyBitVector___init__,               /* tp_init */
     NULL,                               /* tp_alloc */
     pyBitVector_new,                    /* tp_new */
     NULL,                               /* tp_free */

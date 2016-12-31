@@ -21,12 +21,9 @@
 
 extern "C" {
 
-static void pyShaderConst_dealloc(pyShaderConst* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+PY_PLASMA_VALUE_DEALLOC(ShaderConst)
 
-static int pyShaderConst___init__(pyShaderConst* self, PyObject* args, PyObject* kwds) {
+PY_PLASMA_INIT_DECL(ShaderConst) {
     float sc[4];
     PyObject* init = NULL;
 
@@ -53,12 +50,7 @@ static int pyShaderConst___init__(pyShaderConst* self, PyObject* args, PyObject*
     return 0;
 }
 
-static PyObject* pyShaderConst_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyShaderConst* self = (pyShaderConst*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new plShaderConst();
-    return (PyObject*)self;
-}
+PY_PLASMA_VALUE_NEW(ShaderConst, plShaderConst)
 
 static PyObject* pyShaderConst_Subscript(pyShaderConst* self, PyObject* key) {
     if (!PyInt_Check(key)) {
@@ -172,7 +164,7 @@ PyTypeObject pyShaderConst_Type = {
     sizeof(pyShaderConst),              /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyShaderConst_dealloc,  /* tp_dealloc */
+    pyShaderConst_dealloc,              /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -207,7 +199,7 @@ PyTypeObject pyShaderConst_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyShaderConst___init__,   /* tp_init */
+    pyShaderConst___init__,             /* tp_init */
     NULL,                               /* tp_alloc */
     pyShaderConst_new,                  /* tp_new */
     NULL,                               /* tp_free */

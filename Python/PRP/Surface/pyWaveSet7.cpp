@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyWaveSet7_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyWaveSet7* self = (pyWaveSet7*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plWaveSet7();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(WaveSet7, plWaveSet7)
 
 static PyObject* pyWaveSet7_addShore(pyWaveSet7* self, PyObject* args) {
     pyKey* key;

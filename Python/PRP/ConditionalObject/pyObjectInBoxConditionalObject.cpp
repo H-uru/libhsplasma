@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyObjectInBoxConditionalObject_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyObjectInBoxConditionalObject* self = (pyObjectInBoxConditionalObject*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plObjectInBoxConditionalObject();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ObjectInBoxConditionalObject, plObjectInBoxConditionalObject)
 
 PyTypeObject pyObjectInBoxConditionalObject_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

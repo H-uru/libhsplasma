@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyMatrixTimeScale_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyMatrixTimeScale* self = (pyMatrixTimeScale*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plMatrixTimeScale();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(MatrixTimeScale, plMatrixTimeScale)
 
 PyTypeObject pyMatrixTimeScale_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

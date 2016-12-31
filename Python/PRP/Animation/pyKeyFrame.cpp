@@ -21,16 +21,8 @@
 
 extern "C" {
 
-static void pyKeyFrame_dealloc(pyKeyFrame* self) {
-    if (self->fPyOwned)
-        delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
-
-static PyObject* pyKeyFrame_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "hsKeyFrame is abstract");
-    return NULL;
-}
+PY_PLASMA_DEALLOC(KeyFrame)
+PY_PLASMA_NEW_MSG(KeyFrame, "hsKeyFrame is abstract")
 
 static PyObject* pyKeyFrame_read(pyKeyFrame* self, PyObject* args) {
     pyStream* stream;
@@ -90,7 +82,7 @@ PyTypeObject pyKeyFrame_Type = {
     sizeof(pyKeyFrame),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyKeyFrame_dealloc,     /* tp_dealloc */
+    pyKeyFrame_dealloc,                 /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */

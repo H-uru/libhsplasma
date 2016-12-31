@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyMatrixDifferenceApp_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyMatrixDifferenceApp* self = (pyMatrixDifferenceApp*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plMatrixDifferenceApp();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(MatrixDifferenceApp, plMatrixDifferenceApp)
 
 PyTypeObject pyMatrixDifferenceApp_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

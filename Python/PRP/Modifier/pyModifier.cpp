@@ -22,10 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyModifier_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plModifier is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(Modifier, "plModifier is abstract")
 
 PyTypeObject pyModifier_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

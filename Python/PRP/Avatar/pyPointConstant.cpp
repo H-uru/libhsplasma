@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyPointConstant_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyPointConstant* self = (pyPointConstant*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plPointConstant();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(PointConstant, plPointConstant)
 
 PyTypeObject pyPointConstant_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

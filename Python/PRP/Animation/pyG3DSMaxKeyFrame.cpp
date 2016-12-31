@@ -21,20 +21,8 @@
 
 extern "C" {
 
-static int pyG3DSMaxKeyFrame___init__(pyG3DSMaxKeyFrame* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyG3DSMaxKeyFrame_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyG3DSMaxKeyFrame* self = (pyG3DSMaxKeyFrame*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new hsG3DSMaxKeyFrame();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_EMPTY_INIT(G3DSMaxKeyFrame)
+PY_PLASMA_NEW(G3DSMaxKeyFrame, hsG3DSMaxKeyFrame)
 
 PY_PROPERTY_MEMBER(hsAffineParts, G3DSMaxKeyFrame, value, fValue)
 
@@ -84,7 +72,7 @@ PyTypeObject pyG3DSMaxKeyFrame_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyG3DSMaxKeyFrame___init__, /* tp_init */
+    pyG3DSMaxKeyFrame___init__,         /* tp_init */
     NULL,                               /* tp_alloc */
     pyG3DSMaxKeyFrame_new,              /* tp_new */
     NULL,                               /* tp_free */

@@ -21,23 +21,9 @@
 
 extern "C" {
 
-static void pyAffineParts_dealloc(pyAffineParts* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
-
-static int pyAffineParts___init__(pyAffineParts* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyAffineParts_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyAffineParts* self = (pyAffineParts*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new hsAffineParts();
-    return (PyObject*)self;
-}
+PY_PLASMA_VALUE_DEALLOC(AffineParts)
+PY_PLASMA_EMPTY_INIT(AffineParts)
+PY_PLASMA_VALUE_NEW(AffineParts, hsAffineParts)
 
 static PyObject* pyAffineParts_read(pyAffineParts* self, PyObject* args) {
     pyStream* stream;
@@ -110,7 +96,7 @@ PyTypeObject pyAffineParts_Type = {
     sizeof(pyAffineParts),              /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyAffineParts_dealloc,  /* tp_dealloc */
+    pyAffineParts_dealloc,              /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -145,7 +131,7 @@ PyTypeObject pyAffineParts_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyAffineParts___init__,   /* tp_init */
+    pyAffineParts___init__,             /* tp_init */
     NULL,                               /* tp_alloc */
     pyAffineParts_new,                  /* tp_new */
     NULL,                               /* tp_free */

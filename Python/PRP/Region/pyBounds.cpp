@@ -21,23 +21,9 @@
 
 extern "C" {
 
-static void pyBounds_dealloc(pyBounds* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
-
-static int pyBounds___init__(pyBounds* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyBounds_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyBounds* self = (pyBounds*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new hsBounds();
-    return (PyObject*)self;
-}
+PY_PLASMA_VALUE_DEALLOC(Bounds)
+PY_PLASMA_EMPTY_INIT(Bounds)
+PY_PLASMA_VALUE_NEW(Bounds, hsBounds)
 
 static PyObject* pyBounds_ClassName(pyBounds* self) {
     return PyString_FromString(self->fThis->ClassName());
@@ -98,7 +84,7 @@ PyTypeObject pyBounds_Type = {
     sizeof(pyBounds),                   /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyBounds_dealloc,       /* tp_dealloc */
+    pyBounds_dealloc,                   /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -133,7 +119,7 @@ PyTypeObject pyBounds_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyBounds___init__,        /* tp_init */
+    pyBounds___init__,                  /* tp_init */
     NULL,                               /* tp_alloc */
     pyBounds_new,                       /* tp_new */
     NULL,                               /* tp_free */

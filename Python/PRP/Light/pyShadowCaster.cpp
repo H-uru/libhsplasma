@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyShadowCaster_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyShadowCaster* self = (pyShadowCaster*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plShadowCaster();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ShadowCaster, plShadowCaster)
 
 PY_PROPERTY(unsigned char, ShadowCaster, castFlags, getCastFlags, setCastFlags)
 PY_PROPERTY(float, ShadowCaster, boost, getBoost, setBoost)

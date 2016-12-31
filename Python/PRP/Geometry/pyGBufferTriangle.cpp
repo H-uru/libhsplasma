@@ -22,23 +22,9 @@
 
 extern "C" {
 
-static void pyGBufferTriangle_dealloc(pyGBufferTriangle* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
-
-static int pyGBufferTriangle___init__(pyGBufferTriangle* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyGBufferTriangle_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyGBufferTriangle* self = (pyGBufferTriangle*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new plGBufferTriangle();
-    return (PyObject*)self;
-}
+PY_PLASMA_VALUE_DEALLOC(GBufferTriangle)
+PY_PLASMA_EMPTY_INIT(GBufferTriangle)
+PY_PLASMA_VALUE_NEW(GBufferTriangle, plGBufferTriangle)
 
 static PyObject* pyGBufferTriangle_read(pyGBufferTriangle* self, PyObject* args) {
     pyStream* stream;
@@ -101,7 +87,7 @@ PyTypeObject pyGBufferTriangle_Type = {
     sizeof(pyGBufferTriangle),          /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyGBufferTriangle_dealloc, /* tp_dealloc */
+    pyGBufferTriangle_dealloc,          /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -136,7 +122,7 @@ PyTypeObject pyGBufferTriangle_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyGBufferTriangle___init__, /* tp_init */
+    pyGBufferTriangle___init__,         /* tp_init */
     NULL,                               /* tp_alloc */
     pyGBufferTriangle_new,              /* tp_new */
     NULL,                               /* tp_free */

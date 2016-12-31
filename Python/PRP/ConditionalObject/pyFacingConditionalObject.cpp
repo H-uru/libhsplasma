@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyFacingConditionalObject_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyFacingConditionalObject* self = (pyFacingConditionalObject*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plFacingConditionalObject();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(FacingConditionalObject, plFacingConditionalObject)
 
 PY_PROPERTY(float, FacingConditionalObject, tolerance, getTolerance, setTolerance)
 PY_PROPERTY(bool, FacingConditionalObject, directional, getDirectional, setDirectional)

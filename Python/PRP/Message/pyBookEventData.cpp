@@ -20,14 +20,7 @@
 
 extern "C" {
 
-static PyObject* pyBookEventData_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyBookEventData* self = (pyBookEventData*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new proBookEventData();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(BookEventData, proBookEventData)
 
 PY_PROPERTY(unsigned int, BookEventData, event, getEvent, setEvent)
 PY_PROPERTY(unsigned int, BookEventData, linkID, getLinkID, setLinkID)

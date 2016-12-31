@@ -22,10 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyRotController_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plRotController is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(RotController, "plRotController is abstract")
 
 PY_PROPERTY_RO(RotController, type, getType)
 

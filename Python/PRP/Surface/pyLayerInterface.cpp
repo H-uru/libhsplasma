@@ -26,10 +26,7 @@
 
 extern "C" {
 
-static PyObject* pyLayerInterface_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plLayerInterface is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(LayerInterface, "plLayerInterface is abstract")
 
 PY_PROPERTY(plKey, LayerInterface, underLay, getUnderLay, setUnderLay)
 PY_PROPERTY(plKey, LayerInterface, texture, getTexture, setTexture)

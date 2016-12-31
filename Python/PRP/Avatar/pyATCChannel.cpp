@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyATCChannel_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyATCChannel* self = (pyATCChannel*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plATCChannel();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ATCChannel, plATCChannel)
 
 PyTypeObject pyATCChannel_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

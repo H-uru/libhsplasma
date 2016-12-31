@@ -24,20 +24,8 @@
 
 extern "C" {
 
-static int pyLeafController___init__(pyLeafController* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyLeafController_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyLeafController* self = (pyLeafController*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plLeafController();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_EMPTY_INIT(LeafController)
+PY_PLASMA_NEW(LeafController, plLeafController)
 
 static PyObject* pyLeafController_hasKeys(pyLeafController* self) {
     return PyBool_FromBool(self->fThis->hasKeys());
@@ -194,7 +182,7 @@ PyTypeObject pyLeafController_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyLeafController___init__, /* tp_init */
+    pyLeafController___init__,          /* tp_init */
     NULL,                               /* tp_alloc */
     pyLeafController_new,               /* tp_new */
     NULL,                               /* tp_free */

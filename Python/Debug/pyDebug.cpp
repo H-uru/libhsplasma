@@ -21,10 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyDebug_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plDebug is static");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(Debug, "plDebug is static")
 
 static PyObject* pyDebug_Init(PyObject*, PyObject* args) {
     int level = plDebug::kDLWarning;

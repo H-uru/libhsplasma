@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyQuatChannelApplicator_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyQuatChannelApplicator* self = (pyQuatChannelApplicator*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plQuatChannelApplicator();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(QuatChannelApplicator, plQuatChannelApplicator)
 
 PyTypeObject pyQuatChannelApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

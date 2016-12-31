@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyDrawInterface_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyDrawInterface* self = (pyDrawInterface*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plDrawInterface();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(DrawInterface, plDrawInterface)
 
 static PyObject* pyDrawInterface_clearDrawables(pyDrawInterface* self) {
     self->fThis->clearDrawables();

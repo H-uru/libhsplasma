@@ -22,7 +22,7 @@
 
 extern "C" {
 
-static int pyKeyedObjectStub___init__(pyKeyedObjectStub* self, PyObject* args, PyObject* kwds) {
+PY_PLASMA_INIT_DECL(KeyedObjectStub) {
     const char* name = "";
     if (!PyArg_ParseTuple(args, "|s", &name)) {
         PyErr_SetString(PyExc_TypeError, "__init__ expects an optional string");
@@ -33,12 +33,7 @@ static int pyKeyedObjectStub___init__(pyKeyedObjectStub* self, PyObject* args, P
     return 0;
 }
 
-static PyObject* pyKeyedObjectStub_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyKeyedObjectStub* self = (pyKeyedObjectStub*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new hsKeyedObjectStub();
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(KeyedObjectStub, hsKeyedObjectStub)
 
 PY_PROPERTY_CREATABLE_RO(KeyedObjectStub, stub, getStub)
 
@@ -88,7 +83,7 @@ PyTypeObject pyKeyedObjectStub_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyKeyedObjectStub___init__,   /* tp_init */
+    pyKeyedObjectStub___init__,         /* tp_init */
     NULL,                               /* tp_alloc */
     pyKeyedObjectStub_new,              /* tp_new */
     NULL,                               /* tp_free */

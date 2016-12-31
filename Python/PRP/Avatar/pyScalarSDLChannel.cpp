@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyScalarSDLChannel_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyScalarSDLChannel* self = (pyScalarSDLChannel*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plScalarSDLChannel();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ScalarSDLChannel, plScalarSDLChannel)
 
 PyTypeObject pyScalarSDLChannel_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

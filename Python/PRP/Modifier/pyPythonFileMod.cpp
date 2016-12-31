@@ -23,14 +23,7 @@
 
 extern "C" {
 
-static PyObject* pyPythonFileMod_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyPythonFileMod* self = (pyPythonFileMod*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plPythonFileMod();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(PythonFileMod, plPythonFileMod)
 
 static PyObject* pyPythonFileMod_clearReceivers(pyPythonFileMod* self) {
     self->fThis->clearReceivers();

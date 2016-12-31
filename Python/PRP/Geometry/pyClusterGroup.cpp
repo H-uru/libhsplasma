@@ -25,14 +25,7 @@
 
 extern "C" {
 
-static PyObject* pyClusterGroup_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyClusterGroup* self = (pyClusterGroup*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plClusterGroup();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ClusterGroup, plClusterGroup)
 
 static PyObject* pyClusterGroup_addCluster(pyClusterGroup* self, PyObject* args) {
     pyCluster* cluster;

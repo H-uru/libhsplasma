@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyObjectInVolumeDetector_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyObjectInVolumeDetector* self = (pyObjectInVolumeDetector*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plObjectInVolumeDetector();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ObjectInVolumeDetector, plObjectInVolumeDetector)
 
 PyTypeObject pyObjectInVolumeDetector_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

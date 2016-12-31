@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyDistOpacityMod_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyDistOpacityMod* self = (pyDistOpacityMod*) type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plDistOpacityMod();
-        self->fPyOwned = true;
-    }
-    return (PyObject*) self;
-}
+PY_PLASMA_NEW(DistOpacityMod, plDistOpacityMod)
 
 static PyObject* pyDistOpacityMod_getNearTrans(pyDistOpacityMod* self, void*) {
     return PyFloat_FromDouble(self->fThis->getDistance(plDistOpacityMod::kNearTrans));

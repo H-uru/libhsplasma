@@ -21,12 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyBounds3_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyBounds3* self = (pyBounds3*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new hsBounds3();
-    return (PyObject*)self;
-}
+PY_PLASMA_VALUE_NEW(Bounds3, hsBounds3)
 
 PY_PROPERTY(hsVector3, Bounds3, mins, getMins, setMins)
 PY_PROPERTY(hsVector3, Bounds3, maxs, getMaxs, setMaxs)

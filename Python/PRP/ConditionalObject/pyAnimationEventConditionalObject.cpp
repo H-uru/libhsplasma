@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyAnimationEventConditionalObject_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyAnimationEventConditionalObject* self = (pyAnimationEventConditionalObject*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plAnimationEventConditionalObject();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(AnimationEventConditionalObject, plAnimationEventConditionalObject)
 
 PY_PROPERTY(CallbackEvent, AnimationEventConditionalObject, action, getAction, setAction)
 PY_PROPERTY(plKey, AnimationEventConditionalObject, target, getTarget, setTarget)

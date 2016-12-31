@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pySpawnedEventData_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySpawnedEventData* self = (pySpawnedEventData*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new proSpawnedEventData();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(SpawnedEventData, proSpawnedEventData)
 
 PY_PROPERTY(plKey, SpawnedEventData, spawner, getSpawner, setSpawner)
 PY_PROPERTY(plKey, SpawnedEventData, spawnee, getSpawnee, setSpawnee)

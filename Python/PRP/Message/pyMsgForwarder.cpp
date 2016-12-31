@@ -23,14 +23,7 @@
 
 extern "C" {
 
-static PyObject* pyMsgForwarder_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyMsgForwarder* self = (pyMsgForwarder*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plMsgForwarder();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(MsgForwarder, plMsgForwarder)
 
 static PyObject* pyMsgForwarder_clearKeys(pyMsgForwarder* self) {
     self->fThis->clearForwardKeys();

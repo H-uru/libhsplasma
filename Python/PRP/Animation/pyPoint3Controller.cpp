@@ -21,20 +21,8 @@
 
 extern "C" {
 
-static int pyPoint3Controller___init__(pyPoint3Controller* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyPoint3Controller_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyPoint3Controller* self = (pyPoint3Controller*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plPoint3Controller();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_EMPTY_INIT(Point3Controller)
+PY_PLASMA_NEW(Point3Controller, plPoint3Controller)
 
 PyTypeObject pyPoint3Controller_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -77,7 +65,7 @@ PyTypeObject pyPoint3Controller_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyPoint3Controller___init__, /* tp_init */
+    pyPoint3Controller___init__,        /* tp_init */
     NULL,                               /* tp_alloc */
     pyPoint3Controller_new,             /* tp_new */
     NULL,                               /* tp_free */

@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyAGMasterMod_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyAGMasterMod* self = (pyAGMasterMod*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plAGMasterMod();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(AGMasterMod, plAGMasterMod)
 
 static PyObject* pyAGMasterMod_addPrivateAnim(pyAGMasterMod* self, PyObject* args) {
     PyObject* key;

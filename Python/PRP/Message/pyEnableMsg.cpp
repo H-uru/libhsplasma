@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyEnableMsg_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyEnableMsg* self = (pyEnableMsg*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plEnableMsg();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(EnableMsg, plEnableMsg)
 
 static PyObject* pyEnableMsg_getCmd(pyEnableMsg* self, PyObject* args) {
     Py_ssize_t idx;

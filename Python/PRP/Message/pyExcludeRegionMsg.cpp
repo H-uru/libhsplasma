@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyExcludeRegionMsg_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyExcludeRegionMsg* self = (pyExcludeRegionMsg*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plExcludeRegionMsg();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ExcludeRegionMsg, plExcludeRegionMsg)
 
 PY_PROPERTY(unsigned char, ExcludeRegionMsg, cmd, getCmd, setCmd)
 PY_PROPERTY(unsigned int, ExcludeRegionMsg, synchFlags, getSynchFlags, setSynchFlags)

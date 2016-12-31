@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pySpawnModifier_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySpawnModifier* self = (pySpawnModifier*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSpawnModifier();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(SpawnModifier, plSpawnModifier)
 
 PyTypeObject pySpawnModifier_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

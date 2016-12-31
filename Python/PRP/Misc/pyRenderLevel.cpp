@@ -20,10 +20,7 @@
 
 extern "C" {
 
-static PyObject* pyRenderLevel_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "Cannot construct plRenderLevel objects");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(RenderLevel, "Cannot construct plRenderLevel objects")
 
 PyTypeObject pyRenderLevel_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

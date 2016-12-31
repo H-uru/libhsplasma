@@ -23,23 +23,20 @@
 
 extern "C" {
 
-static void pyPythonParameter_dealloc(pyPythonParameter* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+PY_PLASMA_VALUE_DEALLOC(PythonParameter)
 
-static int pyPythonParameter___init__(pyPythonParameter* self, PyObject* args, PyObject* kwds) {
+PY_PLASMA_INIT_DECL(PythonParameter) {
     pyPythonParameter* init = NULL;
 
+    delete self->fThis;
+    self->fThis = NULL;
     if (PyErr_Clear(), PyArg_ParseTuple(args, "|O", &init)) {
         if (init == NULL)
             return 0;
-        if (pyPythonParameter_Check((PyObject*)init)) {
-            delete self->fThis;
+        else  if (pyPythonParameter_Check((PyObject*)init))
             self->fThis = new plPythonParameter(*init->fThis);
-        } else {
+        else
             return -1;
-        }
     } else {
         return -1;
     }
@@ -47,12 +44,7 @@ static int pyPythonParameter___init__(pyPythonParameter* self, PyObject* args, P
     return 0;
 }
 
-static PyObject* pyPythonParameter_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyPythonParameter* self = (pyPythonParameter*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new plPythonParameter();
-    return (PyObject*)self;
-}
+PY_PLASMA_VALUE_NEW(PythonParameter, plPythonParameter)
 
 static PyObject* pyPythonParameter_read(pyPythonParameter* self, PyObject* args) {
     pyStream* stream;
@@ -186,7 +178,7 @@ PyTypeObject pyPythonParameter_Type = {
     sizeof(pyPythonParameter),          /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyPythonParameter_dealloc,  /* tp_dealloc */
+    pyPythonParameter_dealloc,          /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -221,7 +213,7 @@ PyTypeObject pyPythonParameter_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyPythonParameter___init__, /* tp_init */
+    pyPythonParameter___init__,         /* tp_init */
     NULL,                               /* tp_alloc */
     pyPythonParameter_new,              /* tp_new */
     NULL,                               /* tp_free */

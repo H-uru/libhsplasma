@@ -20,14 +20,8 @@
 
 extern "C" {
 
-static PyObject* pyVolumeSensorConditionalObjectNoArbitration_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyVolumeSensorConditionalObjectNoArbitration* self = (pyVolumeSensorConditionalObjectNoArbitration*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plVolumeSensorConditionalObjectNoArbitration();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(VolumeSensorConditionalObjectNoArbitration,
+              plVolumeSensorConditionalObjectNoArbitration)
 
 PyTypeObject pyVolumeSensorConditionalObjectNoArbitration_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

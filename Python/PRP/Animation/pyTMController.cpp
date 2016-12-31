@@ -24,20 +24,8 @@
 
 extern "C" {
 
-static int pyTMController___init__(pyTMController* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyTMController_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyTMController* self = (pyTMController*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plTMController();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_EMPTY_INIT(TMController)
+PY_PLASMA_NEW(TMController, plTMController)
 
 static PyObject* pyTMController_convertToCompoundController(pyTMController* self) {
     return ICreate(self->fThis->convertToCompoundController());
@@ -104,7 +92,7 @@ PyTypeObject pyTMController_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyTMController___init__,  /* tp_init */
+    pyTMController___init__,            /* tp_init */
     NULL,                               /* tp_alloc */
     pyTMController_new,                 /* tp_new */
     NULL,                               /* tp_free */

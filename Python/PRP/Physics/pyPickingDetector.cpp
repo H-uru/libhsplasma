@@ -20,14 +20,7 @@
 
 extern "C" {
 
-static PyObject* pyPickingDetector_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyPickingDetector* self = (pyPickingDetector*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plPickingDetector();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(PickingDetector, plPickingDetector)
 
 PyTypeObject pyPickingDetector_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

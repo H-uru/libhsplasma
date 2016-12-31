@@ -20,14 +20,7 @@
 
 extern "C" {
 
-static PyObject* pySoftVolumeUnion_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySoftVolumeUnion* self = (pySoftVolumeUnion*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSoftVolumeUnion();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(SoftVolumeUnion, plSoftVolumeUnion)
 
 PyTypeObject pySoftVolumeUnion_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pySplineEaseCurve_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySplineEaseCurve* self = (pySplineEaseCurve*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSplineEaseCurve();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(SplineEaseCurve, plSplineEaseCurve)
 
 PY_GETSET_GETTER_DECL(SplineEaseCurve, splineCoef) {
     return Py_BuildValue("ffff", pyPlasma_convert(self->fThis->getSplineCoef(0)),

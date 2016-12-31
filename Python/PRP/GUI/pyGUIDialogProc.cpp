@@ -20,14 +20,7 @@
 
 extern "C" {
 
-static PyObject* pyGUIDialogProc_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyGUIDialogProc* self = (pyGUIDialogProc*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new pfGUIDialogProc();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(GUIDialogProc, pfGUIDialogProc)
 
 PyTypeObject pyGUIDialogProc_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

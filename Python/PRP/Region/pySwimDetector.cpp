@@ -19,14 +19,7 @@
 
 extern "C" {
 
-static PyObject* pySwimDetector_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySwimDetector* self = (pySwimDetector*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSwimDetector();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(SwimDetector, plSwimDetector)
 
 PyTypeObject pySwimDetector_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

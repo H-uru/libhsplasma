@@ -22,13 +22,9 @@
 
 extern "C" {
 
-static void pyResponderModifier_Cmd_dealloc(pyResponderModifier_Cmd* self) {
-    if (self->fPyOwned)
-        delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+PY_PLASMA_DEALLOC(ResponderModifier_Cmd)
 
-static int pyResponderModifier_Cmd___init__(pyResponderModifier_Cmd* self, PyObject* args, PyObject* /*kwds*/) {
+PY_PLASMA_INIT_DECL(ResponderModifier_Cmd) {
     pyMessage* msg = NULL;
     int waitOn = -1;
     if (!PyArg_ParseTuple(args, "|Oi", &msg, &waitOn)) {
@@ -49,14 +45,7 @@ static int pyResponderModifier_Cmd___init__(pyResponderModifier_Cmd* self, PyObj
     return 0;
 }
 
-static PyObject* pyResponderModifier_Cmd_new(PyTypeObject* type, PyObject* /*args*/, PyObject* /*kwds*/) {
-    pyResponderModifier_Cmd* self = (pyResponderModifier_Cmd*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plResponderModifier::plResponderCmd();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ResponderModifier_Cmd, plResponderModifier::plResponderCmd)
 
 PY_PROPERTY_CREATABLE_MEMBER(plMessage, Message, ResponderModifier_Cmd, msg, fMsg)
 PY_PROPERTY_MEMBER(int8_t, ResponderModifier_Cmd, waitOn, fWaitOn)
@@ -73,7 +62,7 @@ PyTypeObject pyResponderModifier_Cmd_Type = {
     sizeof(pyResponderModifier_Cmd),    /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyResponderModifier_Cmd_dealloc, /* tp_dealloc */
+    pyResponderModifier_Cmd_dealloc,    /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -108,7 +97,7 @@ PyTypeObject pyResponderModifier_Cmd_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyResponderModifier_Cmd___init__, /* tp_init */
+    pyResponderModifier_Cmd___init__,   /* tp_init */
     NULL,                               /* tp_alloc */
     pyResponderModifier_Cmd_new,        /* tp_new */
     NULL,                               /* tp_free */

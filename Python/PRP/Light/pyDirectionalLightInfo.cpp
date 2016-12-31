@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyDirectionalLightInfo_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyDirectionalLightInfo* self = (pyDirectionalLightInfo*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plDirectionalLightInfo();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(DirectionalLightInfo, plDirectionalLightInfo)
 
 PyTypeObject pyDirectionalLightInfo_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

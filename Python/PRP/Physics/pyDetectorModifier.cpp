@@ -23,10 +23,7 @@
 
 extern "C" {
 
-static PyObject* pyDetectorModifier_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plDetectorModifier is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(DetectorModifier, "plDetectorModifier is abstract")
 
 static PyObject* pyDetectorModifier_addReceiver(pyDetectorModifier* self, PyObject* args) {
     PyObject* receiver;

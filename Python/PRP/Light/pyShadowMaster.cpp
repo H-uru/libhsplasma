@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyShadowMaster_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyShadowMaster* self = (pyShadowMaster*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plShadowMaster();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ShadowMaster, plShadowMaster)
 
 PY_PROPERTY(float, ShadowMaster, attenDist, getAttenDist, setAttenDist)
 PY_PROPERTY(float, ShadowMaster, maxDist, getMaxDist, setMaxDist)

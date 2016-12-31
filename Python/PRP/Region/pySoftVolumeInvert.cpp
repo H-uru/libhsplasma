@@ -20,14 +20,7 @@
 
 extern "C" {
 
-static PyObject* pySoftVolumeInvert_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySoftVolumeInvert* self = (pySoftVolumeInvert*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSoftVolumeInvert();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(SoftVolumeInvert, plSoftVolumeInvert)
 
 PyTypeObject pySoftVolumeInvert_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

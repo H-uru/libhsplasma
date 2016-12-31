@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyCubicEnvironmap_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyCubicEnvironmap* self = (pyCubicEnvironmap*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plCubicEnvironmap();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(CubicEnvironmap, plCubicEnvironmap)
 
 static PyObject* pyCubicEnvironmap_getLeftFace(pyCubicEnvironmap* self, void*) {
     return ICreate(self->fThis->getFace(plCubicEnvironmap::Faces::kLeftFace));

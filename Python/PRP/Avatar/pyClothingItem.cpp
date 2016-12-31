@@ -23,14 +23,7 @@
 
 extern "C" {
 
-static PyObject* pyClothingItem_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyClothingItem* self = (pyClothingItem*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plClothingItem();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ClothingItem, plClothingItem)
 
 static PyObject* pyClothingItem_getMesh(pyClothingItem* self, PyObject* args) {
     int lod = plClothingItem::kLODHigh;

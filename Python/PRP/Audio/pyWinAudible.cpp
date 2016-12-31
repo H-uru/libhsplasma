@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyWinAudible_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyWinAudible* self = (pyWinAudible*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plWinAudible();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(WinAudible, plWinAudible)
 
 static PyObject* pyWinAudible_addSound(pyWinAudible* self, PyObject* args) {
     pyKey* key;

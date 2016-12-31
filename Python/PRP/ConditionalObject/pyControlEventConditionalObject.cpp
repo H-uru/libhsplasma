@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyControlEventConditionalObject_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyControlEventConditionalObject* self = (pyControlEventConditionalObject*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plControlEventConditionalObject();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ControlEventConditionalObject, plControlEventConditionalObject)
 
 PY_PROPERTY(ControlEventCode, ControlEventConditionalObject, controlEvent,
             getControlEvent, setControlEvent)

@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyLayerAVI_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyLayerAVI* self = (pyLayerAVI*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plLayerAVI();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(LayerAVI, plLayerAVI)
 
 PyTypeObject pyLayerAVI_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

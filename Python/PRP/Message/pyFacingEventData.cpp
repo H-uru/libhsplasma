@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyFacingEventData_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyFacingEventData* self = (pyFacingEventData*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new proFacingEventData();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(FacingEventData, proFacingEventData)
 
 PY_PROPERTY(plKey, FacingEventData, facer, getFacer, setFacer)
 PY_PROPERTY(plKey, FacingEventData, facee, getFacee, setFacee)

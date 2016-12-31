@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyOmniSqApplicator_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyOmniSqApplicator* self = (pyOmniSqApplicator*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plOmniSqApplicator();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(OmniSqApplicator, plOmniSqApplicator)
 
 PyTypeObject pyOmniSqApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

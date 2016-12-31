@@ -21,14 +21,8 @@
 
 extern "C" {
 
-static PyObject* pyLocalPlayerIntersectPlaneConditionalObject_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyLocalPlayerIntersectPlaneConditionalObject* self = (pyLocalPlayerIntersectPlaneConditionalObject*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plLocalPlayerIntersectPlaneConditionalObject();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(LocalPlayerIntersectPlaneConditionalObject,
+              plLocalPlayerIntersectPlaneConditionalObject)
 
 PyTypeObject pyLocalPlayerIntersectPlaneConditionalObject_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

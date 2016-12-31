@@ -23,14 +23,7 @@
 
 extern "C" {
 
-static PyObject* pySceneObject_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySceneObject* self = (pySceneObject*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSceneObject();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(SceneObject, plSceneObject)
 
 static PyObject* pySceneObject_clearInterfaces(pySceneObject* self) {
     self->fThis->clearInterfaces();

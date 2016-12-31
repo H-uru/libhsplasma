@@ -21,20 +21,8 @@
 
 extern "C" {
 
-static int pyEaseController___init__(pyEaseController* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyEaseController_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyEaseController* self = (pyEaseController*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plEaseController();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_EMPTY_INIT(EaseController)
+PY_PLASMA_NEW(EaseController, plEaseController)
 
 PyTypeObject pyEaseController_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -77,7 +65,7 @@ PyTypeObject pyEaseController_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyEaseController___init__, /* tp_init */
+    pyEaseController___init__,          /* tp_init */
     NULL,                               /* tp_alloc */
     pyEaseController_new,               /* tp_new */
     NULL,                               /* tp_free */

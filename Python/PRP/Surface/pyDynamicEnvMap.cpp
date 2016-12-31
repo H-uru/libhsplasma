@@ -29,14 +29,7 @@ extern "C" {
 
 // DynamicEnvMap
 
-static PyObject* pyDynamicEnvMap_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyDynamicEnvMap* self = (pyDynamicEnvMap*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plDynamicEnvMap();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(DynamicEnvMap, plDynamicEnvMap)
 
 static PyObject* pyDynamicEnvMap_getVisRegions(pyDynamicEnvMap* self, void*) {
     const std::vector<plKey>& keys = self->fThis->getVisRegions();

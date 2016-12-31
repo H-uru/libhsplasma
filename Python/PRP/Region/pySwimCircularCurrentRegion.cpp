@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pySwimCircularCurrentRegion_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySwimCircularCurrentRegion* self = (pySwimCircularCurrentRegion*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSwimCircularCurrentRegion();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(SwimCircularCurrentRegion, plSwimCircularCurrentRegion)
 
 PY_PROPERTY(float, SwimCircularCurrentRegion, rotation, getRotation, setRotation)
 PY_PROPERTY(float, SwimCircularCurrentRegion, pullNearDistSq, getPullNearDistSq, setPullNearDistSq)

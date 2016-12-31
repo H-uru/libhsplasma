@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyFollowMod_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyFollowMod* self = (pyFollowMod*) type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plFollowMod();
-        self->fPyOwned = true;
-    }
-    return (PyObject*) self;
-}
+PY_PLASMA_NEW(FollowMod, plFollowMod)
 
 PY_PROPERTY(plFollowMod::FollowLeaderType, FollowMod, leaderType, getLeaderType,
             setLeaderType)

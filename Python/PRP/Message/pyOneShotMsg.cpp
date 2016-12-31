@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyOneShotMsg_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyOneShotMsg* self = (pyOneShotMsg*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plOneShotMsg();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(OneShotMsg, plOneShotMsg)
 
 static PyObject* pyOneShotMsg_clearCallbacks(pyOneShotMsg* self) {
     self->fThis->getCallbacks().clearCallbacks();

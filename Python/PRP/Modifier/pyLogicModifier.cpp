@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyLogicModifier_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyLogicModifier* self = (pyLogicModifier*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plLogicModifier();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(LogicModifier, plLogicModifier)
 
 static PyObject* pyLogicModifier_clearConditions(pyLogicModifier* self) {
     self->fThis->clearConditions();

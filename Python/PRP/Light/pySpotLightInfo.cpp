@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pySpotLightInfo_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySpotLightInfo* self = (pySpotLightInfo*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSpotLightInfo();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(SpotLightInfo, plSpotLightInfo)
 
 PY_PROPERTY(float, SpotLightInfo, falloff, getFalloff, setFalloff)
 PY_PROPERTY(float, SpotLightInfo, spotInner, getSpotInner, setSpotInner)

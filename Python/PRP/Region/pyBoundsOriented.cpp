@@ -21,12 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyBoundsOriented_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyBoundsOriented* self = (pyBoundsOriented*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new hsBoundsOriented();
-    return (PyObject*)self;
-}
+PY_PLASMA_VALUE_NEW(BoundsOriented, hsBoundsOriented)
 
 static PyObject* pyBoundsOriented_getPlanes(pyBoundsOriented* self, void*) {
     PyObject* list = PyList_New(self->fThis->getNumPlanes());

@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pySoundBuffer_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySoundBuffer* self = (pySoundBuffer*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSoundBuffer();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(SoundBuffer, plSoundBuffer)
 
 PY_PROPERTY_PROXY(plWAVHeader, SoundBuffer, header, getHeader)
 PY_PROPERTY(plString, SoundBuffer, fileName, getFileName, setFileName)

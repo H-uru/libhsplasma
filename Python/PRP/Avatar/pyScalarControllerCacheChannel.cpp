@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyScalarControllerCacheChannel_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyScalarControllerCacheChannel* self = (pyScalarControllerCacheChannel*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plScalarControllerCacheChannel();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ScalarControllerCacheChannel, plScalarControllerCacheChannel)
 
 PyTypeObject pyScalarControllerCacheChannel_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

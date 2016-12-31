@@ -20,14 +20,7 @@
 
 extern "C" {
 
-static PyObject* pyCoopEventData_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyCoopEventData* self = (pyCoopEventData*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new proCoopEventData();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(CoopEventData, proCoopEventData)
 
 PY_PROPERTY(unsigned int, CoopEventData, id, getID, setID)
 PY_PROPERTY(unsigned short, CoopEventData, serial, getSerial, setSerial)

@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pySoundMsg_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySoundMsg* self = (pySoundMsg*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSoundMsg();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(SoundMsg, plSoundMsg)
 
 static PyObject* pySoundMsg_getCmd(pySoundMsg* self, PyObject* args) {
     int cmd;

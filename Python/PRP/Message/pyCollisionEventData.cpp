@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyCollisionEventData_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyCollisionEventData* self = (pyCollisionEventData*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new proCollisionEventData();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(CollisionEventData, proCollisionEventData)
 
 PY_PROPERTY(bool, CollisionEventData, enter, isEnter, setEnter)
 PY_PROPERTY(plKey, CollisionEventData, hitter, getHitter, setHitter)

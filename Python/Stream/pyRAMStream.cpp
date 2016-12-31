@@ -20,17 +20,7 @@
 
 extern "C" {
 
-static void pyRAMStream_dealloc(pyRAMStream* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
-
-static PyObject* pyRAMStream_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyRAMStream* self = (pyRAMStream*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new hsRAMStream();
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(RAMStream, hsRAMStream)
 
 static PyObject* pyRAMStream_resize(pyRAMStream* self, PyObject* args) {
     int newSize;
@@ -86,7 +76,7 @@ PyTypeObject pyRAMStream_Type = {
     sizeof(pyRAMStream),                /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyRAMStream_dealloc,    /* tp_dealloc */
+    NULL,                               /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */

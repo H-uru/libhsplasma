@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyFadeOpacityMod_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyFadeOpacityMod* self = (pyFadeOpacityMod*) type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plFadeOpacityMod();
-        self->fPyOwned = true;
-    }
-    return (PyObject*) self;
-}
+PY_PLASMA_NEW(FadeOpacityMod, plFadeOpacityMod)
 
 PY_PROPERTY(float, FadeOpacityMod, fadeUp, getFadeUp, setFadeUp)
 PY_PROPERTY(float, FadeOpacityMod, fadeDown, getFadeDown, setFadeDown)

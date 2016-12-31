@@ -23,14 +23,7 @@
 
 extern "C" {
 
-static PyObject* pyAGAnim_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyAGAnim* self = (pyAGAnim*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plAGAnim();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(AGAnim, plAGAnim)
 
 static PyObject* pyAGAnim_clearApps(pyAGAnim* self) {
     self->fThis->clearApplicators();

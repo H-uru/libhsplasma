@@ -25,10 +25,7 @@
 
 extern "C" {
 
-static PyObject* pyLightInfo_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plLightInfo is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(LightInfo, "plLightInfo is abstract")
 
 static PyObject* pyLightInfo_clearVisRegions(pyLightInfo* self) {
     self->fThis->clearVisRegions();

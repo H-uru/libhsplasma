@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyMatrixConstant_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyMatrixConstant* self = (pyMatrixConstant*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plMatrixConstant();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(MatrixConstant, plMatrixConstant)
 
 PyTypeObject pyMatrixConstant_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

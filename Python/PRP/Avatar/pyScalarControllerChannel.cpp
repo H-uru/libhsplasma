@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyScalarControllerChannel_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyScalarControllerChannel* self = (pyScalarControllerChannel*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plScalarControllerChannel();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ScalarControllerChannel, plScalarControllerChannel)
 
 PY_PROPERTY_CREATABLE(plController, Controller, ScalarControllerChannel,
                       controller, getController, setController)

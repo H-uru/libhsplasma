@@ -21,10 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyDrawable_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plDrawable is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(Drawable, "plDrawable is abstract")
 
 PyTypeObject pyDrawable_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

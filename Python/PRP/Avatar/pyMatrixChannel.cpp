@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyMatrixChannel_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyMatrixChannel* self = (pyMatrixChannel*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plMatrixChannel();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(MatrixChannel, plMatrixChannel)
 
 PY_PROPERTY(hsAffineParts, MatrixChannel, affine, getAffine, setAffine)
 

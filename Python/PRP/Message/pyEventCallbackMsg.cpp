@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyEventCallbackMsg_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyEventCallbackMsg* self = (pyEventCallbackMsg*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plEventCallbackMsg();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(EventCallbackMsg, plEventCallbackMsg)
 
 PY_PROPERTY(float, EventCallbackMsg, eventTime, getEventTime, setEventTime)
 PY_PROPERTY(CallbackEvent, EventCallbackMsg, event, getEvent, setEvent)

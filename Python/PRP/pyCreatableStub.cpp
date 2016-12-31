@@ -20,13 +20,9 @@
 
 extern "C" {
 
-static void pyCreatableStub_dealloc(pyCreatable* self) {
-    if (self->fPyOwned)
-        delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+PY_PLASMA_DEALLOC(CreatableStub)
 
-static int pyCreatableStub___init__(pyCreatableStub* self, PyObject* args, PyObject* kwds) {
+PY_PLASMA_INIT_DECL(CreatableStub) {
     int classId, length;
     if (!PyArg_ParseTuple(args, "ii", &classId, &length)) {
         PyErr_SetString(PyExc_TypeError, "__init__ expects int, int");
@@ -38,8 +34,9 @@ static int pyCreatableStub___init__(pyCreatableStub* self, PyObject* args, PyObj
     return 0;
 }
 
-static PyObject* pyCreatableStub_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+PY_PLASMA_NEW_DECL(CreatableStub) {
     pyCreatableStub* self = (pyCreatableStub*)type->tp_alloc(type, 0);
+    // This will get populated in __init__(classID, size)
     self->fThis = NULL;
     return (PyObject*)self;
 }
@@ -67,7 +64,7 @@ PyTypeObject pyCreatableStub_Type = {
     sizeof(pyCreatableStub),            /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyCreatableStub_dealloc, /* tp_dealloc */
+    pyCreatableStub_dealloc,            /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -102,7 +99,7 @@ PyTypeObject pyCreatableStub_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyCreatableStub___init__, /* tp_init */
+    pyCreatableStub___init__,           /* tp_init */
     NULL,                               /* tp_alloc */
     pyCreatableStub_new,                /* tp_new */
     NULL,                               /* tp_free */

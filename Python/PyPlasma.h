@@ -135,6 +135,84 @@ inline char* _pycs(const char (&str)[size]) { return const_cast<char*>(str); }
         return (PyObject*)pyobj;                                        \
     }
 
+template <class pyType, class plType, typename... ArgsT>
+PyObject* PyPlasma_new(PyTypeObject* type, ArgsT&&... args) {
+    pyType* self = (pyType*)type->tp_alloc(type, 0);
+    if (self != NULL) {
+        self->fThis = new plType(std::forward<ArgsT&&>(args)...);
+        self->fPyOwned = true;
+    }
+    return (PyObject*)self;
+}
+
+template <class pyType, class plType, typename... ArgsT>
+PyObject* PyPlasmaValue_new(PyTypeObject* type, ArgsT&&... args) {
+    pyType* self = (pyType*)type->tp_alloc(type, 0);
+    if (self != NULL)
+        self->fThis = new plType(std::forward<ArgsT&&>(args)...);
+    return (PyObject*)self;
+}
+
+#define PY_PLASMA_NEW_DECL(pyType)                                      \
+    static PyObject* py##pyType##_new(PyTypeObject* type, PyObject* args, PyObject* kwargs)
+
+#define PY_PLASMA_NEW(pyType, plType)                                   \
+    PY_PLASMA_NEW_DECL(pyType) {                                        \
+        (void)args;                                                     \
+        (void)kwargs;                                                   \
+        return PyPlasma_new<py##pyType, plType>(type);                  \
+    }
+
+#define PY_PLASMA_NEW_VA(pyType, plType, ...)                           \
+    PY_PLASMA_NEW_DECL(pyType) {                                        \
+        (void)args;                                                     \
+        (void)kwargs;                                                   \
+        return PyPlasma_new<py##pyType, plType>(type, __VA_ARGS__);     \
+    }
+
+#define PY_PLASMA_VALUE_NEW(pyType, plType)                             \
+    PY_PLASMA_NEW_DECL(pyType) {                                        \
+        (void)args;                                                     \
+        (void)kwargs;                                                   \
+        return PyPlasmaValue_new<py##pyType, plType>(type);             \
+    }
+
+#define PY_PLASMA_NEW_MSG(pyType, message)                              \
+    PY_PLASMA_NEW_DECL(pyType) {                                        \
+        (void)args;                                                     \
+        (void)kwargs;                                                   \
+        PyErr_SetString(PyExc_RuntimeError, message);                   \
+        return NULL;                                                    \
+    }
+
+#define PY_PLASMA_INIT_DECL(pyType)                                     \
+    static int py##pyType##___init__impl(py##pyType*, PyObject*, PyObject*); \
+    static int (*py##pyType##___init__)(PyObject*, PyObject*, PyObject*) = (initproc)&py##pyType##___init__impl; \
+    int py##pyType##___init__impl(py##pyType* self, PyObject* args, PyObject* kwds) \
+
+#define PY_PLASMA_EMPTY_INIT(pyType)                                    \
+    PY_PLASMA_INIT_DECL(pyType) {                                       \
+        if (!PyArg_ParseTuple(args, ""))                                \
+            return -1;                                                  \
+        return 0;                                                       \
+    }
+
+#define PY_PLASMA_DEALLOC_DECL(pyType)                                  \
+    static void py##pyType##_dealloc(PyObject* self)
+
+#define PY_PLASMA_DEALLOC(pyType)                                       \
+    PY_PLASMA_DEALLOC_DECL(pyType) {                                    \
+        if (((py##pyType*)self)->fPyOwned)                              \
+            delete ((py##pyType*)self)->fThis;                          \
+        Py_TYPE(self)->tp_free(self);                                   \
+    }
+
+#define PY_PLASMA_VALUE_DEALLOC(pyType)                                 \
+    PY_PLASMA_DEALLOC_DECL(pyType) {                                    \
+        delete ((py##pyType*)self)->fThis;                              \
+        Py_TYPE(self)->tp_free(self);                                   \
+    }
+
 /* Helpers for getters and setters */
 inline PyObject* pyPlasma_convert(uint8_t value) { return PyInt_FromLong((long)(unsigned long)value); }
 inline PyObject* pyPlasma_convert(uint16_t value) { return PyInt_FromLong((long)(unsigned long)value); }

@@ -22,20 +22,8 @@
 
 extern "C" {
 
-static int pyCompoundPosController___init__(pyCompoundPosController* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyCompoundPosController_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyCompoundPosController* self = (pyCompoundPosController*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plCompoundPosController();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_EMPTY_INIT(CompoundPosController)
+PY_PLASMA_NEW(CompoundPosController, plCompoundPosController)
 
 PY_PROPERTY_CREATABLE(plScalarController, ScalarController,
                       CompoundPosController, X, getX, setX)
@@ -92,7 +80,7 @@ PyTypeObject pyCompoundPosController_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyCompoundPosController___init__, /* tp_init */
+    pyCompoundPosController___init__,   /* tp_init */
     NULL,                               /* tp_alloc */
     pyCompoundPosController_new,        /* tp_new */
     NULL,                               /* tp_free */

@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pySpotOuterApplicator_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySpotOuterApplicator* self = (pySpotOuterApplicator*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSpotOuterApplicator();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(SpotOuterApplicator, plSpotOuterApplicator)
 
 PyTypeObject pySpotOuterApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

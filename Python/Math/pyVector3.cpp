@@ -21,12 +21,9 @@
 
 extern "C" {
 
-static void pyVector3_dealloc(pyVector3* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+PY_PLASMA_VALUE_DEALLOC(Vector3)
 
-static int pyVector3___init__(pyVector3* self, PyObject* args, PyObject* kwds) {
+PY_PLASMA_INIT_DECL(Vector3) {
     float x = 0.0f, y = 0.0f, z = 0.0f;
     PyObject* init = NULL;
     static char* kwlist[] = { _pycs("X"), _pycs("Y"), _pycs("Z"), NULL };
@@ -40,7 +37,7 @@ static int pyVector3___init__(pyVector3* self, PyObject* args, PyObject* kwds) {
             return 0;
         }
         if (pyVector3_Check(init)) {
-            (*self->fThis) = (*((pyVector3*)init)->fThis);
+            (*self->fThis) = pyPlasma_get<hsVector3>(init);
         } else {
             PyErr_SetString(PyExc_TypeError, "__init__ expects a vector");
             return -1;
@@ -52,12 +49,7 @@ static int pyVector3___init__(pyVector3* self, PyObject* args, PyObject* kwds) {
     return 0;
 }
 
-static PyObject* pyVector3_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyVector3* self = (pyVector3*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new hsVector3();
-    return (PyObject*)self;
-}
+PY_PLASMA_VALUE_NEW(Vector3, hsVector3)
 
 static PyObject* pyVector3_Repr(pyVector3* self) {
     plString repr = plString::Format("hsVector3(%f, %f, %f)",
@@ -285,7 +277,7 @@ PyTypeObject pyVector3_Type = {
     sizeof(pyVector3),                  /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyVector3_dealloc,      /* tp_dealloc */
+    pyVector3_dealloc,                  /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -320,7 +312,7 @@ PyTypeObject pyVector3_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyVector3___init__,       /* tp_init */
+    pyVector3___init__,                 /* tp_init */
     NULL,                               /* tp_alloc */
     pyVector3_new,                      /* tp_new */
     NULL,                               /* tp_free */

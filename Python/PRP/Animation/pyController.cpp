@@ -21,10 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyController_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plController is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(Controller, "plController is abstract")
 
 PyTypeObject pyController_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

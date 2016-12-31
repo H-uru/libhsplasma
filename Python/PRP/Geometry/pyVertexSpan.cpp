@@ -20,14 +20,7 @@
 
 extern "C" {
 
-static PyObject* pyVertexSpan_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyVertexSpan* self = (pyVertexSpan*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plVertexSpan();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(VertexSpan, plVertexSpan)
 
 PY_PROPERTY(unsigned int, VertexSpan, groupIdx, getGroupIdx, setGroupIdx)
 PY_PROPERTY(unsigned int, VertexSpan, VBufferIdx, getVBufferIdx, setVBufferIdx)

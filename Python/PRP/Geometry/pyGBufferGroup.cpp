@@ -21,28 +21,17 @@
 
 extern "C" {
 
-static void pyGBufferGroup_dealloc(pyGBufferGroup* self) {
-    if (self->fPyOwned)
-        delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+PY_PLASMA_DEALLOC(GBufferGroup)
 
-static int pyGBufferGroup___init__(pyGBufferGroup* self, PyObject* args, PyObject* kwds) {
+PY_PLASMA_INIT_DECL(GBufferGroup) {
     int fmt;
     if (!PyArg_ParseTuple(args, "i", &fmt))
         return -1;
-    self->fThis->setFormat(fmt);
+    self->fThis->setFormat((unsigned int)fmt);
     return 0;
 }
 
-static PyObject* pyGBufferGroup_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyGBufferGroup* self = (pyGBufferGroup*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plGBufferGroup(0);
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW_VA(GBufferGroup, plGBufferGroup, 0)
 
 static PyObject* pyGBufferGroup_read(pyGBufferGroup* self, PyObject* args) {
     pyStream* stream;
@@ -377,7 +366,7 @@ PyTypeObject pyGBufferGroup_Type = {
     sizeof(pyGBufferGroup),             /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyGBufferGroup_dealloc, /* tp_dealloc */
+    pyGBufferGroup_dealloc,             /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -412,7 +401,7 @@ PyTypeObject pyGBufferGroup_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyGBufferGroup___init__,  /* tp_init */
+    pyGBufferGroup___init__,            /* tp_init */
     NULL,                               /* tp_alloc */
     pyGBufferGroup_new,                 /* tp_new */
     NULL,                               /* tp_free */

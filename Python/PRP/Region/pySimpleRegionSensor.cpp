@@ -23,14 +23,7 @@
 
 extern "C" {
 
-static PyObject* pySimpleRegionSensor_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySimpleRegionSensor* self = (pySimpleRegionSensor*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSimpleRegionSensor();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(SimpleRegionSensor, plSimpleRegionSensor)
 
 PY_PROPERTY_CREATABLE(plMessage, Message, SimpleRegionSensor, enterMsg,
                       getEnterMsg, setEnterMsg)

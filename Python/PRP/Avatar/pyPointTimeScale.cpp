@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyPointTimeScale_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyPointTimeScale* self = (pyPointTimeScale*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plPointTimeScale();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(PointTimeScale, plPointTimeScale)
 
 PyTypeObject pyPointTimeScale_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

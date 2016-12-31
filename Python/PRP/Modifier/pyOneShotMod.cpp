@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyOneShotMod_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyOneShotMod* self = (pyOneShotMod*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plOneShotMod();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(OneShotMod, plOneShotMod)
 
 PY_PROPERTY(plString, OneShotMod, animName, getAnimName, setAnimName)
 PY_PROPERTY(bool, OneShotMod, drivable, isDrivable, setDrivable)

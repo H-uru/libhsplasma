@@ -23,14 +23,7 @@
 
 extern "C" {
 
-static PyObject* pyNotifyMsg_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyNotifyMsg* self = (pyNotifyMsg*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plNotifyMsg();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(NotifyMsg, plNotifyMsg)
 
 static PyObject* pyNotifyMsg_clearEvents(pyNotifyMsg* self) {
     self->fThis->clearEvents();

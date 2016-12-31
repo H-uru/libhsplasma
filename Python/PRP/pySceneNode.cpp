@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pySceneNode_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySceneNode* self = (pySceneNode*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSceneNode();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(SceneNode, plSceneNode)
 
 static PyObject* pySceneNode_clear(pySceneNode* self) {
     self->fThis->clearSceneObjects();

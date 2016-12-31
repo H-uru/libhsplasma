@@ -20,14 +20,7 @@
 
 extern "C" {
 
-static PyObject* pyCallbackEventData_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyCallbackEventData* self = (pyCallbackEventData*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new proCallbackEventData();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(CallbackEventData, proCallbackEventData)
 
 PY_PROPERTY(int, CallbackEventData, callbackEventType, getCallbackEventType,
             setCallbackEventType)

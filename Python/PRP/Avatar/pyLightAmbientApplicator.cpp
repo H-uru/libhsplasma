@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyLightAmbientApplicator_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyLightAmbientApplicator* self = (pyLightAmbientApplicator*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plLightAmbientApplicator();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(LightAmbientApplicator, plLightAmbientApplicator)
 
 PyTypeObject pyLightAmbientApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

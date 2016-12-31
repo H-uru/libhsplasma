@@ -21,12 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyBounds3Ext_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyBounds3Ext* self = (pyBounds3Ext*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new hsBounds3Ext();
-    return (PyObject*)self;
-}
+PY_PLASMA_VALUE_NEW(Bounds3Ext, hsBounds3Ext)
 
 static PyObject* pyBounds3Ext_getAxis(pyBounds3Ext* self, void* idx) {
     return pyVector3_FromVector3(self->fThis->getAxis((long)idx));

@@ -21,20 +21,8 @@
 
 extern "C" {
 
-static int pyCompoundController___init__(pyCompoundController* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyCompoundController_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyCompoundController* self = (pyCompoundController*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plCompoundController();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_EMPTY_INIT(CompoundController)
+PY_PLASMA_NEW(CompoundController, plCompoundController)
 
 static PyObject* pyCompoundController_convertToTMController(pyCompoundController* self) {
     return ICreate(self->fThis->convertToTMController());
@@ -101,7 +89,7 @@ PyTypeObject pyCompoundController_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyCompoundController___init__, /* tp_init */
+    pyCompoundController___init__,      /* tp_init */
     NULL,                               /* tp_alloc */
     pyCompoundController_new,           /* tp_new */
     NULL,                               /* tp_free */

@@ -23,26 +23,9 @@
 
 extern "C" {
 
-static void pySpanInstance_dealloc(pySpanInstance* self) {
-    if (self->fPyOwned)
-        delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
-
-static int pySpanInstance___init__(pySpanInstance* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pySpanInstance_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySpanInstance* self = (pySpanInstance*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSpanInstance();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_DEALLOC(SpanInstance)
+PY_PLASMA_EMPTY_INIT(SpanInstance)
+PY_PLASMA_NEW(SpanInstance, plSpanInstance)
 
 static PyObject* pySpanInstance_read(pySpanInstance* self, PyObject* args) {
     pyStream* stream;
@@ -165,7 +148,7 @@ PyTypeObject pySpanInstance_Type = {
     sizeof(pySpanInstance),             /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pySpanInstance_dealloc, /* tp_dealloc */
+    pySpanInstance_dealloc,             /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -200,7 +183,7 @@ PyTypeObject pySpanInstance_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pySpanInstance___init__,  /* tp_init */
+    pySpanInstance___init__,            /* tp_init */
     NULL,                               /* tp_alloc */
     pySpanInstance_new,                 /* tp_new */
     NULL,                               /* tp_free */

@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pySimulationInterface_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySimulationInterface* self = (pySimulationInterface*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSimulationInterface();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(SimulationInterface, plSimulationInterface)
 
 PY_PROPERTY(plKey, SimulationInterface, physical, getPhysical, setPhysical)
 

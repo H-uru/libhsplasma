@@ -21,20 +21,8 @@
 
 extern "C" {
 
-static int pyMatrix44Controller___init__(pyMatrix44Controller* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyMatrix44Controller_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyMatrix44Controller* self = (pyMatrix44Controller*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plMatrix44Controller();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_EMPTY_INIT(Matrix44Controller)
+PY_PLASMA_NEW(Matrix44Controller, plMatrix44Controller)
 
 PyTypeObject pyMatrix44Controller_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -77,7 +65,7 @@ PyTypeObject pyMatrix44Controller_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyMatrix44Controller___init__, /* tp_init */
+    pyMatrix44Controller___init__,      /* tp_init */
     NULL,                               /* tp_alloc */
     pyMatrix44Controller_new,           /* tp_new */
     NULL,                               /* tp_free */

@@ -23,14 +23,7 @@
 
 extern "C" {
 
-static PyObject* pyAnimTimeConvert_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyAnimTimeConvert* self = (pyAnimTimeConvert*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plAnimTimeConvert();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(AnimTimeConvert, plAnimTimeConvert)
 
 static PyObject* pyAnimTimeConvert_addCallback(pyAnimTimeConvert* self, PyObject* args) {
     pyEventCallbackMsg* msg;

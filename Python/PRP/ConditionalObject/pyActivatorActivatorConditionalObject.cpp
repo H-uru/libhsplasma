@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyActivatorActivatorConditionalObject_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyActivatorActivatorConditionalObject* self = (pyActivatorActivatorConditionalObject*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plActivatorActivatorConditionalObject();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ActivatorActivatorConditionalObject, plActivatorActivatorConditionalObject)
 
 PyTypeObject pyActivatorActivatorConditionalObject_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

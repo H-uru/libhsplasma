@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyMatrixChannelApplicator_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyMatrixChannelApplicator* self = (pyMatrixChannelApplicator*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plMatrixChannelApplicator();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(MatrixChannelApplicator, plMatrixChannelApplicator)
 
 PyTypeObject pyMatrixChannelApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

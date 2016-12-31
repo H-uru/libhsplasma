@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyShader_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyShader* self = (pyShader*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plShader();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(Shader, plShader)
 
 static PyObject* pyShader_getConsts(pyShader* self, void*) {
     PyObject* list = PyList_New(self->fThis->getConsts().size());

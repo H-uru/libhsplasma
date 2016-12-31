@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyIcicle_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyIcicle* self = (pyIcicle*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plIcicle();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(Icicle, plIcicle)
 
 static PyObject* pyIcicle_getSortData(pyIcicle* self, void*) {
     int size = self->fThis->getILength() / 3;

@@ -22,10 +22,7 @@
 
 extern "C" {
 
-static PyObject* pySoftVolume_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_TypeError, "plSoftVolume is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(SoftVolume, "plSoftVolume is abstract")
 
 PY_PROPERTY(unsigned int, SoftVolume, listenState, getListenState, setListenState)
 PY_PROPERTY(float, SoftVolume, insideStrength, getInsideStrength, setInsideStrength)

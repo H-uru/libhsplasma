@@ -21,19 +21,16 @@
 
 extern "C" {
 
-static void pyMatrix33_dealloc(pyMatrix33* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+PY_PLASMA_VALUE_DEALLOC(Matrix33)
 
-static int pyMatrix33___init__(pyMatrix33* self, PyObject* args, PyObject* kwds) {
+PY_PLASMA_INIT_DECL(Matrix33) {
     PyObject* init = NULL;
     if (!PyArg_ParseTuple(args, "|O", &init))
         return -1;
 
     if (init != NULL) {
         if (pyMatrix33_Check(init)) {
-            (*self->fThis) = (*((pyMatrix33*)init)->fThis);
+            (*self->fThis) = pyPlasma_get<hsMatrix33>(init);
         } else {
             PyErr_SetString(PyExc_TypeError, "__init__ expects a matrix");
             return -1;
@@ -44,12 +41,7 @@ static int pyMatrix33___init__(pyMatrix33* self, PyObject* args, PyObject* kwds)
     return 0;
 }
 
-static PyObject* pyMatrix33_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyMatrix33* self = (pyMatrix33*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new hsMatrix33();
-    return (PyObject*)self;
-}
+PY_PLASMA_VALUE_NEW(Matrix33, hsMatrix33)
 
 static PyObject* pyMatrix33_Subscript(pyMatrix33* self, PyObject* key) {
     int i, j;
@@ -154,7 +146,7 @@ PyTypeObject pyMatrix33_Type = {
     sizeof(pyMatrix33),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyMatrix33_dealloc,     /* tp_dealloc */
+    pyMatrix33_dealloc,                 /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -189,7 +181,7 @@ PyTypeObject pyMatrix33_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyMatrix33___init__,      /* tp_init */
+    pyMatrix33___init__,                /* tp_init */
     NULL,                               /* tp_alloc */
     pyMatrix33_new,                     /* tp_new */
     NULL,                               /* tp_free */

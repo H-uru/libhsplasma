@@ -22,22 +22,9 @@
 
 extern "C" {
 
-static void pyEventData_dealloc(pyEventData* self) {
-    if (self->fPyOwned)
-        delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
-
-static int pyEventData___init__(pyEventData* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyEventData_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "proEventData is abstract");
-    return NULL;
-}
+PY_PLASMA_DEALLOC(EventData)
+PY_PLASMA_EMPTY_INIT(EventData)
+PY_PLASMA_NEW_MSG(EventData, "proEventData is abstract")
 
 static PyObject* pyEventData_EventType(pyEventData* self) {
     return PyInt_FromLong(self->fThis->EventType());
@@ -94,7 +81,7 @@ PyTypeObject pyEventData_Type = {
     sizeof(pyEventData),                /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyEventData_dealloc,    /* tp_dealloc */
+    pyEventData_dealloc,                /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -129,7 +116,7 @@ PyTypeObject pyEventData_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyEventData___init__,     /* tp_init */
+    pyEventData___init__,               /* tp_init */
     NULL,                               /* tp_alloc */
     pyEventData_new,                    /* tp_new */
     NULL,                               /* tp_free */

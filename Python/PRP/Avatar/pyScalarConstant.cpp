@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyScalarConstant_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyScalarConstant* self = (pyScalarConstant*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plScalarConstant();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ScalarConstant, plScalarConstant)
 
 PyTypeObject pyScalarConstant_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

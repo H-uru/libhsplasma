@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyRenderTarget_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyRenderTarget* self = (pyRenderTarget*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plRenderTarget();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(RenderTarget, plRenderTarget)
 
 PY_PROPERTY(unsigned short, RenderTarget, width, getWidth, setWidth)
 PY_PROPERTY(unsigned short, RenderTarget, height, getHeight, setHeight)

@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyResponderModifier_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyResponderModifier* self = (pyResponderModifier*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plResponderModifier();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ResponderModifier, plResponderModifier)
 
 static PyObject* pyResponderModifier_addState(pyResponderModifier* self, PyObject* args) {
     pyResponderModifier_State* state;

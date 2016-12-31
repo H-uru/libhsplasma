@@ -22,26 +22,9 @@
 
 extern "C" {
 
-static void pyPageInfo_dealloc(pyPageInfo* self) {
-    if (self->fPyOwned)
-        delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
-
-static int pyPageInfo___init__(pyPageInfo* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyPageInfo_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyPageInfo* self = (pyPageInfo*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plPageInfo();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_DEALLOC(PageInfo)
+PY_PLASMA_EMPTY_INIT(PageInfo)
+PY_PLASMA_NEW(PageInfo, plPageInfo)
 
 static PyObject* pyPageInfo_isValid(pyPageInfo* self) {
     return PyBool_FromLong(self->fThis->isValid() ? 1 : 0);
@@ -142,7 +125,7 @@ PyTypeObject pyPageInfo_Type = {
     sizeof(pyPageInfo),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyPageInfo_dealloc,     /* tp_dealloc */
+    pyPageInfo_dealloc,                 /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -177,7 +160,7 @@ PyTypeObject pyPageInfo_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyPageInfo___init__,      /* tp_init */
+    pyPageInfo___init__,                /* tp_init */
     NULL,                               /* tp_alloc */
     pyPageInfo_new,                     /* tp_new */
     NULL,                               /* tp_free */

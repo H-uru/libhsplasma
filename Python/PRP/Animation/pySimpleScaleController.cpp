@@ -22,20 +22,8 @@
 
 extern "C" {
 
-static int pySimpleScaleController___init__(pySimpleScaleController* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pySimpleScaleController_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySimpleScaleController* self = (pySimpleScaleController*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSimpleScaleController();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_EMPTY_INIT(SimpleScaleController)
+PY_PLASMA_NEW(SimpleScaleController, plSimpleScaleController)
 
 PY_PROPERTY_CREATABLE(plScaleValueController, ScaleValueController,
                       SimpleScaleController, value, getValue, setValue)
@@ -86,7 +74,7 @@ PyTypeObject pySimpleScaleController_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pySimpleScaleController___init__, /* tp_init */
+    pySimpleScaleController___init__,   /* tp_init */
     NULL,                               /* tp_alloc */
     pySimpleScaleController_new,        /* tp_new */
     NULL,                               /* tp_free */

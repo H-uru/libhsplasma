@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyAnimCmdMsg_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyAnimCmdMsg* self = (pyAnimCmdMsg*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plAnimCmdMsg();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(AnimCmdMsg, plAnimCmdMsg)
 
 PY_PROPERTY(plString, AnimCmdMsg, animName, getAnimName, setAnimName)
 PY_PROPERTY(plString, AnimCmdMsg, loopName, getLoopName, setLoopName)

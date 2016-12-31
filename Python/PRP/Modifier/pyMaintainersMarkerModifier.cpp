@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyMaintainersMarkerModifier_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyMaintainersMarkerModifier* self = (pyMaintainersMarkerModifier*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plMaintainersMarkerModifier();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(MaintainersMarkerModifier, plMaintainersMarkerModifier)
 
 PY_PROPERTY(unsigned int, MaintainersMarkerModifier, calibration,
             getCalibration, setCalibration)

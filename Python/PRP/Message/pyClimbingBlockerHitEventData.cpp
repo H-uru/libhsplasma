@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyClimbingBlockerHitEventData_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyClimbingBlockerHitEventData* self = (pyClimbingBlockerHitEventData*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new proClimbingBlockerHitEventData();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ClimbingBlockerHitEventData, proClimbingBlockerHitEventData)
 
 PY_PROPERTY(plKey, ClimbingBlockerHitEventData, blocker, getBlocker, setBlocker)
 

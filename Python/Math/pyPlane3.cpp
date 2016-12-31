@@ -21,12 +21,9 @@
 
 extern "C" {
 
-static void pyPlane3_dealloc(pyPlane3* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+PY_PLASMA_VALUE_DEALLOC(Plane3)
 
-static int pyPlane3___init__(pyPlane3* self, PyObject* args, PyObject* kwds) {
+PY_PLASMA_INIT_DECL(Plane3) {
     float x = 0.0f, y = 0.0f, z = 0.0f, w = 0.0f;
     PyObject* init = NULL;
     static char* kwlist[] = { _pycs("X"), _pycs("Y"), _pycs("Z"), _pycs("W"), NULL };
@@ -40,7 +37,7 @@ static int pyPlane3___init__(pyPlane3* self, PyObject* args, PyObject* kwds) {
             return 0;
         }
         if (pyPlane3_Check(init)) {
-            (*self->fThis) = (*((pyPlane3*)init)->fThis);
+            (*self->fThis) = pyPlasma_get<hsPlane3>(init);
         } else {
             PyErr_SetString(PyExc_TypeError, "__init__ expects a Plane");
             return -1;
@@ -52,12 +49,7 @@ static int pyPlane3___init__(pyPlane3* self, PyObject* args, PyObject* kwds) {
     return 0;
 }
 
-static PyObject* pyPlane3_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyPlane3* self = (pyPlane3*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new hsPlane3();
-    return (PyObject*)self;
-}
+PY_PLASMA_VALUE_NEW(Plane3, hsPlane3)
 
 static PyObject* pyPlane3_Repr(pyPlane3* self) {
     plString repr = plString::Format("hsPlane3(%f, %f, %f, %f)",
@@ -124,7 +116,7 @@ PyTypeObject pyPlane3_Type = {
     sizeof(pyPlane3),                   /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyPlane3_dealloc,       /* tp_dealloc */
+    pyPlane3_dealloc,                   /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -159,7 +151,7 @@ PyTypeObject pyPlane3_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyPlane3___init__,        /* tp_init */
+    pyPlane3___init__,                  /* tp_init */
     NULL,                               /* tp_alloc */
     pyPlane3_new,                       /* tp_new */
     NULL,                               /* tp_free */

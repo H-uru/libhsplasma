@@ -21,12 +21,9 @@
 
 extern "C" {
 
-static void pyColorRGBA_dealloc(pyColorRGBA* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+PY_PLASMA_VALUE_DEALLOC(ColorRGBA)
 
-static int pyColorRGBA___init__(pyColorRGBA* self, PyObject* args, PyObject* kwds) {
+PY_PLASMA_INIT_DECL(ColorRGBA) {
     float red = 0.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f;
     PyObject* init = NULL;
     static char* kwlist[] = { _pycs("red"), _pycs("green"), _pycs("blue"),
@@ -50,12 +47,7 @@ static int pyColorRGBA___init__(pyColorRGBA* self, PyObject* args, PyObject* kwd
     return 0;
 }
 
-static PyObject* pyColorRGBA_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyColorRGBA* self = (pyColorRGBA*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new hsColorRGBA();
-    return (PyObject*)self;
-}
+PY_PLASMA_VALUE_NEW(ColorRGBA, hsColorRGBA)
 
 static PyObject* pyColorRGBA_Repr(pyColorRGBA* self) {
     plString repr = plString::Format("hsColorRGBA(%f, %f, %f, %f)",
@@ -195,7 +187,7 @@ PyTypeObject pyColorRGBA_Type = {
     sizeof(pyColorRGBA),                /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyColorRGBA_dealloc,    /* tp_dealloc */
+    pyColorRGBA_dealloc,                /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -230,7 +222,7 @@ PyTypeObject pyColorRGBA_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyColorRGBA___init__,     /* tp_init */
+    pyColorRGBA___init__,               /* tp_init */
     NULL,                               /* tp_alloc */
     pyColorRGBA_new,                    /* tp_new */
     NULL,                               /* tp_free */

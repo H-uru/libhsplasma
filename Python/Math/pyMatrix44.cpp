@@ -22,19 +22,16 @@
 
 extern "C" {
 
-static void pyMatrix44_dealloc(pyMatrix44* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+PY_PLASMA_VALUE_DEALLOC(Matrix44)
 
-static int pyMatrix44___init__(pyMatrix44* self, PyObject* args, PyObject* kwds) {
+PY_PLASMA_INIT_DECL(Matrix44) {
     PyObject* init = NULL;
     if (!PyArg_ParseTuple(args, "|O", &init))
         return -1;
 
     if (init != NULL) {
         if (pyMatrix44_Check(init)) {
-            (*self->fThis) = (*((pyMatrix44*)init)->fThis);
+            (*self->fThis) = pyPlasma_get<hsMatrix44>(init);
         } else {
             PyErr_SetString(PyExc_TypeError, "__init__ expects a matrix");
             return -1;
@@ -45,12 +42,7 @@ static int pyMatrix44___init__(pyMatrix44* self, PyObject* args, PyObject* kwds)
     return 0;
 }
 
-static PyObject* pyMatrix44_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyMatrix44* self = (pyMatrix44*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new hsMatrix44();
-    return (PyObject*)self;
-}
+PY_PLASMA_VALUE_NEW(Matrix44, hsMatrix44)
 
 static PyObject* pyMatrix44_multiply(PyObject* left, PyObject* right) {
     if (pyMatrix44_Check(left)) {
@@ -460,7 +452,7 @@ PyTypeObject pyMatrix44_Type = {
     sizeof(pyMatrix44),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyMatrix44_dealloc,     /* tp_dealloc */
+    pyMatrix44_dealloc,                 /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -495,7 +487,7 @@ PyTypeObject pyMatrix44_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyMatrix44___init__,      /* tp_init */
+    pyMatrix44___init__,                /* tp_init */
     NULL,                               /* tp_alloc */
     pyMatrix44_new,                     /* tp_new */
     NULL,                               /* tp_free */

@@ -22,10 +22,7 @@
 
 extern "C" {
 
-static PyObject* pySynchedObject_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plSynchedObject is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(SynchedObject, "plSynchedObject is abstract")
 
 static PyObject* pySynchedObject_setExclude(pySynchedObject* self, PyObject* args) {
     const char* str;

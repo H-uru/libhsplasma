@@ -25,10 +25,7 @@
 
 extern "C" {
 
-static PyObject* pyLogicModBase_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plLogicModBase is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(LogicModBase, "plLogicModBase is abstract")
 
 static PyObject* pyLogicModBase_clearCommands(pyLogicModBase* self) {
     self->fThis->clearCommands();

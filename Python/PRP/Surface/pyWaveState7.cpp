@@ -20,14 +20,7 @@
 
 extern "C" {
 
-static PyObject* pyWaveState7_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyWaveState7* self = (pyWaveState7*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plFixedWaterState7::WaveState();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(WaveState7, plFixedWaterState7::WaveState)
 
 PY_PROPERTY_MEMBER(float, WaveState7, maxLength, fMaxLength)
 PY_PROPERTY_MEMBER(float, WaveState7, minLength, fMinLength)

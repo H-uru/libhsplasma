@@ -21,23 +21,9 @@
 
 extern "C" {
 
-static void pySpaceTreeNode_dealloc(pySpaceTreeNode* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
-
-static int pySpaceTreeNode___init__(pySpaceTreeNode* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pySpaceTreeNode_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySpaceTreeNode* self = (pySpaceTreeNode*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new plSpaceTreeNode();
-    return (PyObject*)self;
-}
+PY_PLASMA_VALUE_DEALLOC(SpaceTreeNode)
+PY_PLASMA_EMPTY_INIT(SpaceTreeNode)
+PY_PLASMA_VALUE_NEW(SpaceTreeNode, plSpaceTreeNode)
 
 static PyObject* pySpaceTreeNode_getChildren(pySpaceTreeNode* self) {
     PyObject* children = PyTuple_New(2);
@@ -103,7 +89,7 @@ PyTypeObject pySpaceTreeNode_Type = {
     sizeof(pySpaceTreeNode),            /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pySpaceTreeNode_dealloc, /* tp_dealloc */
+    pySpaceTreeNode_dealloc,            /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -138,7 +124,7 @@ PyTypeObject pySpaceTreeNode_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pySpaceTreeNode___init__, /* tp_init */
+    pySpaceTreeNode___init__,           /* tp_init */
     NULL,                               /* tp_alloc */
     pySpaceTreeNode_new,                /* tp_new */
     NULL,                               /* tp_free */

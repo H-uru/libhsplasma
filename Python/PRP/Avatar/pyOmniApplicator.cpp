@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyOmniApplicator_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyOmniApplicator* self = (pyOmniApplicator*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plOmniApplicator();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(OmniApplicator, plOmniApplicator)
 
 PyTypeObject pyOmniApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

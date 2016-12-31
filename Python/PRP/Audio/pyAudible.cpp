@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyAudible_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyAudible* self = (pyAudible*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plAudible();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(Audible, plAudible)
 
 PyTypeObject pyAudible_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

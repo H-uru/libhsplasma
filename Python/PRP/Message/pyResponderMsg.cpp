@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyResponderMsg_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyResponderMsg* self = (pyResponderMsg*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plResponderMsg();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ResponderMsg, plResponderMsg)
 
 PyTypeObject pyResponderMsg_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

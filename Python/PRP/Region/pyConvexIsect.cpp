@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyConvexIsect_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyConvexIsect* self = (pyConvexIsect*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plConvexIsect();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ConvexIsect, plConvexIsect)
 
 static PyObject* pyConvexIsect_addPlane(pyConvexIsect* self, PyObject* args) {
     PyObject* normal;

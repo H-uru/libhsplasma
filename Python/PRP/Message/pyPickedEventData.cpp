@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyPickedEventData_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyPickedEventData* self = (pyPickedEventData*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new proPickedEventData();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(PickedEventData, proPickedEventData)
 
 PY_PROPERTY(plKey, PickedEventData, picker, getPicker, setPicker)
 PY_PROPERTY(plKey, PickedEventData, picked, getPicked, setPicked)

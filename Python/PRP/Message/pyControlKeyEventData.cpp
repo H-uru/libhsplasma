@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyControlKeyEventData_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyControlKeyEventData* self = (pyControlKeyEventData*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new proControlKeyEventData();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ControlKeyEventData, proControlKeyEventData)
 
 PY_PROPERTY(int, ControlKeyEventData, controlKey, getControlKey, setControlKey)
 PY_PROPERTY(bool, ControlKeyEventData, down, isDown, setDown)

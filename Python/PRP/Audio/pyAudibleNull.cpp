@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyAudibleNull_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyAudibleNull* self = (pyAudibleNull*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plAudibleNull();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(AudibleNull, plAudibleNull)
 
 PyTypeObject pyAudibleNull_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

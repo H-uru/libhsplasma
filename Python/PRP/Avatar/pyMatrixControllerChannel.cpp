@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyMatrixControllerChannel_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyMatrixControllerChannel* self = (pyMatrixControllerChannel*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plMatrixControllerChannel();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(MatrixControllerChannel, plMatrixControllerChannel)
 
 PY_PROPERTY_CREATABLE(plController, Controller, MatrixControllerChannel,
                       controller, getController, setController)

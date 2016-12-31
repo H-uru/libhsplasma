@@ -21,20 +21,8 @@
 
 extern "C" {
 
-static int pyQuatController___init__(pyQuatController* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyQuatController_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyQuatController* self = (pyQuatController*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plQuatController();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_EMPTY_INIT(QuatController)
+PY_PLASMA_NEW(QuatController, plQuatController)
 
 PyTypeObject pyQuatController_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -77,7 +65,7 @@ PyTypeObject pyQuatController_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyQuatController___init__, /* tp_init */
+    pyQuatController___init__,          /* tp_init */
     NULL,                               /* tp_alloc */
     pyQuatController_new,               /* tp_new */
     NULL,                               /* tp_free */

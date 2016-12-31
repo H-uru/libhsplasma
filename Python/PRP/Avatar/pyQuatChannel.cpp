@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyQuatChannel_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyQuatChannel* self = (pyQuatChannel*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plQuatChannel();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(QuatChannel, plQuatChannel)
 
 PY_PROPERTY(hsQuat, QuatChannel, result, getResult, setResult)
 

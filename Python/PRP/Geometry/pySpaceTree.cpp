@@ -22,20 +22,8 @@
 
 extern "C" {
 
-static int pySpaceTree___init__(pySpaceTree* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pySpaceTree_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySpaceTree* self = (pySpaceTree*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSpaceTree();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_EMPTY_INIT(SpaceTree)
+PY_PLASMA_NEW(SpaceTree, plSpaceTree)
 
 static PyObject* pySpaceTree_clear(pySpaceTree* self) {
     self->fThis->clear();
@@ -141,7 +129,7 @@ PyTypeObject pySpaceTree_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pySpaceTree___init__,     /* tp_init */
+    pySpaceTree___init__,               /* tp_init */
     NULL,                               /* tp_alloc */
     pySpaceTree_new,                    /* tp_new */
     NULL,                               /* tp_free */

@@ -21,20 +21,8 @@
 
 extern "C" {
 
-static int pyMatrix44Key___init__(pyMatrix44Key* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyMatrix44Key_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyMatrix44Key* self = (pyMatrix44Key*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new hsMatrix44Key();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_EMPTY_INIT(Matrix44Key)
+PY_PLASMA_NEW(Matrix44Key, hsMatrix44Key)
 
 PY_PROPERTY_MEMBER(hsMatrix44, Matrix44Key, value, fValue)
 
@@ -84,7 +72,7 @@ PyTypeObject pyMatrix44Key_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyMatrix44Key___init__,   /* tp_init */
+    pyMatrix44Key___init__,             /* tp_init */
     NULL,                               /* tp_alloc */
     pyMatrix44Key_new,                  /* tp_new */
     NULL,                               /* tp_free */

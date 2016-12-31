@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyKeyPressConditionalObject_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyKeyPressConditionalObject* self = (pyKeyPressConditionalObject*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plKeyPressConditionalObject();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(KeyPressConditionalObject, plKeyPressConditionalObject)
 
 PY_PROPERTY(plKeyDef, KeyPressConditionalObject, keyEvent, getKeyEvent, setKeyEvent)
 

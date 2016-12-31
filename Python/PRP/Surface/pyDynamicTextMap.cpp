@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyDynamicTextMap_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyDynamicTextMap* self = (pyDynamicTextMap*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plDynamicTextMap();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(DynamicTextMap, plDynamicTextMap)
 
 static PyObject* pyDynamicTextMap_getInitBuffer(pyDynamicTextMap* self, void*) {
     PyObject* data = PyList_New(self->fThis->getInitBufferSize());

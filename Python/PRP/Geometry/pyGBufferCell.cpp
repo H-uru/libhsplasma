@@ -20,23 +20,9 @@
 
 extern "C" {
 
-static void pyGBufferCell_dealloc(pyGBufferCell* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
-
-static int pyGBufferCell___init__(pyGBufferCell* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyGBufferCell_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyGBufferCell* self = (pyGBufferCell*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new plGBufferCell();
-    return (PyObject*)self;
-}
+PY_PLASMA_VALUE_DEALLOC(GBufferCell)
+PY_PLASMA_EMPTY_INIT(GBufferCell)
+PY_PLASMA_VALUE_NEW(GBufferCell, plGBufferCell)
 
 PY_PROPERTY_MEMBER(unsigned int, GBufferCell, vtxStart, fVtxStart)
 PY_PROPERTY_MEMBER(unsigned int, GBufferCell, colorStart, fColorStart)
@@ -55,7 +41,7 @@ PyTypeObject pyGBufferCell_Type = {
     sizeof(pyGBufferCell),              /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyGBufferCell_dealloc,  /* tp_dealloc */
+    pyGBufferCell_dealloc,              /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -90,7 +76,7 @@ PyTypeObject pyGBufferCell_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyGBufferCell___init__,   /* tp_init */
+    pyGBufferCell___init__,             /* tp_init */
     NULL,                               /* tp_alloc */
     pyGBufferCell_new,                  /* tp_new */
     NULL,                               /* tp_free */

@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyPointControllerChannel_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyPointControllerChannel* self = (pyPointControllerChannel*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plPointControllerChannel();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(PointControllerChannel, plPointControllerChannel)
 
 PY_PROPERTY_CREATABLE(plController, Controller, PointControllerChannel,
                       controller, getController, setController)

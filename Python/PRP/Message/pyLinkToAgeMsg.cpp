@@ -24,14 +24,7 @@
 
 extern "C" {
 
-static PyObject* pyLinkToAgeMsg_new(PyTypeObject* type, PyObject* , PyObject* ) {
-    pyLinkToAgeMsg* self = (pyLinkToAgeMsg*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plLinkToAgeMsg();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(LinkToAgeMsg, plLinkToAgeMsg)
 
 PY_GETSET_GETTER_DECL(LinkToAgeMsg, ageLink) {
     // This cannot be a subclass, since it's an inline member

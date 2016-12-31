@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyLightSpecularApplicator_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyLightSpecularApplicator* self = (pyLightSpecularApplicator*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plLightSpecularApplicator();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(LightSpecularApplicator, plLightSpecularApplicator)
 
 PyTypeObject pyLightSpecularApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

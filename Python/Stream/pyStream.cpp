@@ -20,12 +20,9 @@
 
 extern "C" {
 
-static void pyStream_dealloc(pyStream* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+PY_PLASMA_DEALLOC(Stream)
 
-static int pyStream___init__(pyStream* self, PyObject* args, PyObject* kwds) {
+PY_PLASMA_INIT_DECL(Stream) {
     static char* kwlist[] = { _pycs("ver"), NULL };
 
     int ver = PlasmaVer::pvUnknown;
@@ -36,10 +33,7 @@ static int pyStream___init__(pyStream* self, PyObject* args, PyObject* kwds) {
     return 0;
 }
 
-static PyObject* pyStream_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "hsStream is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(Stream, "hsStream is abstract")
 
 static PyObject* pyStream_close(pyStream* self) {
     self->fThis->close();
@@ -448,7 +442,7 @@ PyTypeObject pyStream_Type = {
     sizeof(pyStream),                   /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyStream_dealloc,       /* tp_dealloc */
+    pyStream_dealloc,                   /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -483,7 +477,7 @@ PyTypeObject pyStream_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyStream___init__,        /* tp_init */
+    pyStream___init__,                  /* tp_init */
     NULL,                               /* tp_alloc */
     pyStream_new,                       /* tp_new */
     NULL,                               /* tp_free */

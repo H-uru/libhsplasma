@@ -24,14 +24,7 @@
 
 extern "C" {
 
-static PyObject* pyOccluder_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyOccluder* self = (pyOccluder*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plOccluder();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(Occluder, plOccluder)
 
 static PyObject* pyOccluder_clearPolys(pyOccluder* self) {
     self->fThis->clearPolys();

@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyMultiStageEventData_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyMultiStageEventData* self = (pyMultiStageEventData*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new proMultiStageEventData();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(MultiStageEventData, proMultiStageEventData)
 
 PY_PROPERTY(int, MultiStageEventData, stage, getStage, setStage)
 PY_PROPERTY(int, MultiStageEventData, event, getEvent, setEvent)

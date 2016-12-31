@@ -23,14 +23,7 @@
 
 extern "C" {
 
-static PyObject* pyMobileOccluder_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyMobileOccluder* self = (pyMobileOccluder*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plMobileOccluder();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(MobileOccluder, plMobileOccluder)
 
 PY_PROPERTY(hsMatrix44, MobileOccluder, localToWorld, getLocalToWorld, setLocalToWorld)
 PY_PROPERTY(hsMatrix44, MobileOccluder, worldToLocal, getWorldToLocal, setWorldToLocal)

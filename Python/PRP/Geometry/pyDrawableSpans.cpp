@@ -28,14 +28,7 @@
 
 extern "C" {
 
-static PyObject* pyDrawableSpans_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyDrawableSpans* self = (pyDrawableSpans*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plDrawableSpans();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(DrawableSpans, plDrawableSpans)
 
 static PyObject* pyDrawableSpans_clearSpans(pyDrawableSpans* self) {
     self->fThis->clearSpans();

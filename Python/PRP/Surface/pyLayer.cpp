@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyLayer_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyLayer* self = (pyLayer*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plLayer();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(Layer, plLayer)
 
 PyTypeObject pyLayer_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

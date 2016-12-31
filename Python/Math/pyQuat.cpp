@@ -21,12 +21,9 @@
 
 extern "C" {
 
-static void pyQuat_dealloc(pyQuat* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+PY_PLASMA_VALUE_DEALLOC(Quat)
 
-static int pyQuat___init__(pyQuat* self, PyObject* args, PyObject* kwds) {
+PY_PLASMA_INIT_DECL(Quat) {
     float x = 0.0f, y = 0.0f, z = 0.0f, w = 0.0f;
     PyObject* init = NULL;
     static char* kwlist[] = { _pycs("X"), _pycs("Y"), _pycs("Z"), _pycs("W"), NULL };
@@ -36,8 +33,8 @@ static int pyQuat___init__(pyQuat* self, PyObject* args, PyObject* kwds) {
     if (PyArg_ParseTupleAndKeywords(args, kwds, "ffff", kwlist, &x, &y, &z, &w)) {
         (*self->fThis) = hsQuat(x, y, z, w);
     } else if (PyErr_Clear(), PyArg_ParseTupleAndKeywords(args, kwds, "fO", kwlist3, &w, &init)) {
-        if (pyVector3_Check(init)) {
-            (*self->fThis) = hsQuat(w, *((pyVector3*)init)->fThis);
+        if (pyPlasma_check<hsVector3>(init)) {
+            (*self->fThis) = hsQuat(w, pyPlasma_get<hsVector3>(init));
             return 0;
         } else {
             PyErr_SetString(PyExc_TypeError, "__init__ expects a quaternion or an angle and axis");
@@ -49,7 +46,7 @@ static int pyQuat___init__(pyQuat* self, PyObject* args, PyObject* kwds) {
             return 0;
         }
         if (pyQuat_Check(init)) {
-            (*self->fThis) = (*((pyQuat*)init)->fThis);
+            (*self->fThis) = pyPlasma_get<hsQuat>(init);
         } else {
             PyErr_SetString(PyExc_TypeError, "__init__ expects a quaternion or an angle and axis");
             return -1;
@@ -61,12 +58,7 @@ static int pyQuat___init__(pyQuat* self, PyObject* args, PyObject* kwds) {
     return 0;
 }
 
-static PyObject* pyQuat_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyQuat* self = (pyQuat*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new hsQuat();
-    return (PyObject*)self;
-}
+PY_PLASMA_VALUE_NEW(Quat, hsQuat)
 
 static PyObject* pyQuat_Repr(pyQuat* self) {
     plString repr = plString::Format("hsQuat(%f, %f, %f, %f)",
@@ -262,7 +254,7 @@ PyTypeObject pyQuat_Type = {
     sizeof(pyQuat),                     /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyQuat_dealloc,         /* tp_dealloc */
+    pyQuat_dealloc,                     /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -297,7 +289,7 @@ PyTypeObject pyQuat_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyQuat___init__,          /* tp_init */
+    pyQuat___init__,                    /* tp_init */
     NULL,                               /* tp_alloc */
     pyQuat_new,                         /* tp_new */
     NULL,                               /* tp_free */

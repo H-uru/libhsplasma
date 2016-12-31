@@ -21,10 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyFactory_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plFactory cannot be constructed");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(Factory, "plFactory cannot be constructed")
 
 static PyObject* pyFactory_ClassName(PyObject*, PyObject* args) {
     int classIdx, version = PlasmaVer::pvUnknown;

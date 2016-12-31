@@ -22,20 +22,8 @@
 
 extern "C" {
 
-static int pySimpleRotController___init__(pySimpleRotController* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pySimpleRotController_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySimpleRotController* self = (pySimpleRotController*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSimpleRotController();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_EMPTY_INIT(SimpleRotController)
+PY_PLASMA_NEW(SimpleRotController, plSimpleRotController)
 
 PY_PROPERTY_CREATABLE(plQuatController, QuatController, SimpleRotController,
                       rot, getRot, setRot)
@@ -86,7 +74,7 @@ PyTypeObject pySimpleRotController_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pySimpleRotController___init__, /* tp_init */
+    pySimpleRotController___init__,     /* tp_init */
     NULL,                               /* tp_alloc */
     pySimpleRotController_new,          /* tp_new */
     NULL,                               /* tp_free */

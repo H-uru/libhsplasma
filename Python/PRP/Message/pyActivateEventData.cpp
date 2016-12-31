@@ -20,14 +20,7 @@
 
 extern "C" {
 
-static PyObject* pyActivateEventData_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyActivateEventData* self = (pyActivateEventData*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new proActivateEventData();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ActivateEventData, proActivateEventData)
 
 PY_PROPERTY(bool, ActivateEventData, active, isActive, setActive)
 PY_PROPERTY(bool, ActivateEventData, activate, isActivate, setActivate)

@@ -21,20 +21,8 @@
 
 extern "C" {
 
-static int pyCompressedQuatKey32___init__(pyCompressedQuatKey32* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyCompressedQuatKey32_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyCompressedQuatKey32* self = (pyCompressedQuatKey32*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new hsCompressedQuatKey32();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_EMPTY_INIT(CompressedQuatKey32)
+PY_PLASMA_NEW(CompressedQuatKey32, hsCompressedQuatKey32)
 
 static PyObject* pyCompressedQuatKey32_setValue(pyCompressedQuatKey32* self, PyObject* args) {
     pyQuat* value;
@@ -110,7 +98,7 @@ PyTypeObject pyCompressedQuatKey32_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyCompressedQuatKey32___init__, /* tp_init */
+    pyCompressedQuatKey32___init__,     /* tp_init */
     NULL,                               /* tp_alloc */
     pyCompressedQuatKey32_new,          /* tp_new */
     NULL,                               /* tp_free */

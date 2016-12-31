@@ -24,14 +24,7 @@
 
 extern "C" {
 
-static PyObject* pyGenericPhysical_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyGenericPhysical* self = (pyGenericPhysical*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plGenericPhysical();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(GenericPhysical, plGenericPhysical)
 
 static PyObject* pyGenericPhysical_getProp(pyGenericPhysical* self, PyObject* args) {
     int prop;

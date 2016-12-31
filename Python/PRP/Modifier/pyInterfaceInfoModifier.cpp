@@ -23,14 +23,7 @@
 
 extern "C" {
 
-static PyObject* pyInterfaceInfoModifier_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyInterfaceInfoModifier* self = (pyInterfaceInfoModifier*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plInterfaceInfoModifier();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(InterfaceInfoModifier, plInterfaceInfoModifier)
 
 static PyObject* pyInterfaceInfoModifier_clearKeys(pyInterfaceInfoModifier* self) {
     self->fThis->clearIntfKeys();

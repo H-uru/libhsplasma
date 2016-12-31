@@ -21,26 +21,9 @@
 
 extern "C" {
 
-static void pyResponderModifier_State_dealloc(pyResponderModifier_State* self) {
-    if (self->fPyOwned)
-        delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
-
-static int pyResponderModifier_State___init__(pyResponderModifier_State* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyResponderModifier_State_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyResponderModifier_State* self = (pyResponderModifier_State*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plResponderModifier::plResponderState();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_DEALLOC(ResponderModifier_State)
+PY_PLASMA_EMPTY_INIT(ResponderModifier_State)
+PY_PLASMA_NEW(ResponderModifier_State, plResponderModifier::plResponderState)
 
 static PyObject* pyResponderModifier_State_addCommand(pyResponderModifier_State* self, PyObject* args) {
     pyMessage* msg;
@@ -151,7 +134,7 @@ PyTypeObject pyResponderModifier_State_Type = {
     sizeof(pyResponderModifier_State),  /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyResponderModifier_State_dealloc, /* tp_dealloc */
+    pyResponderModifier_State_dealloc,  /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -186,7 +169,7 @@ PyTypeObject pyResponderModifier_State_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyResponderModifier_State___init__, /* tp_init */
+    pyResponderModifier_State___init__, /* tp_init */
     NULL,                               /* tp_alloc */
     pyResponderModifier_State_new,      /* tp_new */
     NULL,                               /* tp_free */

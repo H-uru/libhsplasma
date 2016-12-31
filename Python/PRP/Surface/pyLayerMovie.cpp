@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyLayerMovie_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyLayerMovie* self = (pyLayerMovie*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plLayerMovie();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(LayerMovie, plLayerMovie)
 
 PY_PROPERTY(plString, LayerMovie, movieName, getMovieName, setMovieName)
 

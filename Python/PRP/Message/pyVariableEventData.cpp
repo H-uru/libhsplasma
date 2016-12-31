@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyVariableEventData_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyVariableEventData* self = (pyVariableEventData*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new proVariableEventData();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(VariableEventData, proVariableEventData)
 
 PY_PROPERTY(plString, VariableEventData, name, getName, setName)
 PY_PROPERTY(int, VariableEventData, dataType, getDataType, setDataType)

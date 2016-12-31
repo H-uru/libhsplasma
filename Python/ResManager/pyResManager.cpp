@@ -27,12 +27,9 @@
 
 extern "C" {
 
-static void pyResManager_dealloc(pyResManager* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+PY_PLASMA_DEALLOC(ResManager)
 
-static int pyResManager___init__(pyResManager* self, PyObject* args, PyObject* kwds) {
+PY_PLASMA_INIT_DECL(ResManager) {
     int version = PlasmaVer::pvUnknown;
     if (!PyArg_ParseTuple(args, "|i", &version))
         return -1;
@@ -41,12 +38,7 @@ static int pyResManager___init__(pyResManager* self, PyObject* args, PyObject* k
     return 0;
 }
 
-static PyObject* pyResManager_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyResManager* self = (pyResManager*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new plResManager();
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ResManager, plResManager)
 
 static PyObject* pyResManager_setVer(pyResManager* self, PyObject* args) {
     int ver, force = 0;
@@ -617,7 +609,7 @@ PyTypeObject pyResManager_Type = {
     sizeof(pyResManager),               /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyResManager_dealloc,   /* tp_dealloc */
+    pyResManager_dealloc,               /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -652,7 +644,7 @@ PyTypeObject pyResManager_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyResManager___init__,    /* tp_init */
+    pyResManager___init__,              /* tp_init */
     NULL,                               /* tp_alloc */
     pyResManager_new,                   /* tp_new */
     NULL,                               /* tp_free */

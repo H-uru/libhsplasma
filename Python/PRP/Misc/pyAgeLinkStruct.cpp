@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyAgeLinkStruct_new(PyTypeObject* type, PyObject*, PyObject*) {
-    pyAgeLinkStruct* self = (pyAgeLinkStruct*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plAgeLinkStruct();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(AgeLinkStruct, plAgeLinkStruct)
 
 PY_GETSET_GETTER_DECL(AgeLinkStruct, ageInfo) {
     // This cannot be a subclass, since it's an inline member

@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pySwimRegionInterface_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySwimRegionInterface* self = (pySwimRegionInterface*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSwimRegionInterface();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(SwimRegionInterface, plSwimRegionInterface)
 
 PY_PROPERTY(float, SwimRegionInterface, downBuoyancy, getDownBuoyancy, setDownBuoyancy)
 PY_PROPERTY(float, SwimRegionInterface, upBuoyancy, getUpBuoyancy, setUpBuoyancy)

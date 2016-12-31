@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyTimerCallbackMsg_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyTimerCallbackMsg* self = (pyTimerCallbackMsg*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plTimerCallbackMsg();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(TimerCallbackMsg, plTimerCallbackMsg)
 
 PY_PROPERTY(unsigned int, TimerCallbackMsg, ID, getID, setID)
 PY_PROPERTY(float, TimerCallbackMsg, time, getTime, setTime)

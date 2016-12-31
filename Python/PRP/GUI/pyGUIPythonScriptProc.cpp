@@ -20,14 +20,7 @@
 
 extern "C" {
 
-static PyObject* pyGUIPythonScriptProc_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyGUIPythonScriptProc* self = (pyGUIPythonScriptProc*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new pfGUIPythonScriptProc();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(GUIPythonScriptProc, pfGUIPythonScriptProc)
 
 PyTypeObject pyGUIPythonScriptProc_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

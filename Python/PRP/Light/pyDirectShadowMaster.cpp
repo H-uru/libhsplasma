@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyDirectShadowMaster_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyDirectShadowMaster* self = (pyDirectShadowMaster*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plDirectShadowMaster();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(DirectShadowMaster, plDirectShadowMaster)
 
 PyTypeObject pyDirectShadowMaster_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

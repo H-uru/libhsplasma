@@ -21,10 +21,7 @@
 
 extern "C" {
 
-static PyObject* pySpanTemplate_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "Cannot create plSpanTemplate objects from Python");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(SpanTemplate, "Cannot create plSpanTemplate objects from Python")
 
 static PyObject* pySpanTemplate_read(pySpanTemplate* self, PyObject* args) {
     pyStream* stream;

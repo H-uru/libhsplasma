@@ -20,17 +20,7 @@
 
 extern "C" {
 
-static void pyFileStream_dealloc(pyFileStream* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
-
-static PyObject* pyFileStream_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyFileStream* self = (pyFileStream*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new hsFileStream();
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(FileStream, hsFileStream)
 
 static PyObject* pyFileStream_open(pyFileStream* self, PyObject* args) {
     const char* filename;
@@ -80,7 +70,7 @@ PyTypeObject pyFileStream_Type = {
     sizeof(pyFileStream),               /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyFileStream_dealloc,   /* tp_dealloc */
+    NULL,                               /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */

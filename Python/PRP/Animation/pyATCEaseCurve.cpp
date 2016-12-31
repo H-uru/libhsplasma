@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyATCEaseCurve_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyATCEaseCurve* self = (pyATCEaseCurve*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plATCEaseCurve();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ATCEaseCurve, plATCEaseCurve)
 
 PY_PROPERTY(float, ATCEaseCurve, startSpeed, getStartSpeed, setStartSpeed)
 PY_PROPERTY(float, ATCEaseCurve, speed, getSpeed, setSpeed)

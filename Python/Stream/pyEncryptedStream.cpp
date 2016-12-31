@@ -20,19 +20,7 @@
 
 extern "C" {
 
-static void pyEncryptedStream_dealloc(pyEncryptedStream* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
-
-static PyObject* pyEncryptedStream_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyEncryptedStream* self = (pyEncryptedStream*)type->tp_alloc(type, 0);
-    int version = PlasmaVer::pvUnknown;
-    PyArg_ParseTuple(args, "|i", &version);
-    if (self != NULL)
-        self->fThis = new plEncryptedStream((PlasmaVer)version);
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(EncryptedStream, plEncryptedStream)
 
 static PyObject* pyEncryptedStream_open(pyEncryptedStream* self, PyObject* args) {
     const char* filename;
@@ -139,7 +127,7 @@ PyTypeObject pyEncryptedStream_Type = {
     sizeof(pyEncryptedStream),          /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyEncryptedStream_dealloc, /* tp_dealloc */
+    NULL,                               /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */

@@ -18,10 +18,7 @@
 
 extern "C" {
 
-static PyObject* pyFadeParams_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "Cannot construct plFadeParams objects in Python");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(FadeParams, "Cannot construct plFadeParams objects in Python")
 
 PY_PROPERTY_MEMBER(float, FadeParams, lengthInSecs, fLengthInSecs)
 PY_PROPERTY_MEMBER(float, FadeParams, volStart, fVolStart)

@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyAgeInfoStruct_new(PyTypeObject* type, PyObject*, PyObject*) {
-    pyAgeInfoStruct* self = (pyAgeInfoStruct*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plAgeInfoStruct();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(AgeInfoStruct, plAgeInfoStruct)
 
 PY_PROPERTY(plString, AgeInfoStruct, ageFilename, getAgeFilename, setAgeFilename)
 PY_PROPERTY(plString, AgeInfoStruct, ageInstanceName, getAgeInstanceName, setAgeInstanceName)

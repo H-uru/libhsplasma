@@ -22,23 +22,9 @@
 
 extern "C" {
 
-static void pyCullPoly_dealloc(pyCullPoly* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
-
-static int pyCullPoly___init__(pyCullPoly* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyCullPoly_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyCullPoly* self = (pyCullPoly*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new plCullPoly();
-    return (PyObject*)self;
-}
+PY_PLASMA_VALUE_DEALLOC(CullPoly)
+PY_PLASMA_EMPTY_INIT(CullPoly)
+PY_PLASMA_VALUE_NEW(CullPoly, plCullPoly)
 
 static PyObject* pyCullPoly_getVerts(pyCullPoly* self, void*) {
     std::vector<hsVector3> verts = self->fThis->getVerts();
@@ -92,7 +78,7 @@ PyTypeObject pyCullPoly_Type = {
     sizeof(pyCullPoly),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyCullPoly_dealloc,     /* tp_dealloc */
+    pyCullPoly_dealloc,                 /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -127,7 +113,7 @@ PyTypeObject pyCullPoly_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyCullPoly___init__,      /* tp_init */
+    pyCullPoly___init__,                /* tp_init */
     NULL,                               /* tp_alloc */
     pyCullPoly_new,                     /* tp_new */
     NULL,                               /* tp_free */

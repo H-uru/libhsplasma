@@ -22,10 +22,7 @@
 
 extern "C" {
 
-static PyObject* pySoftVolumeComplex_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_TypeError, "plSoftVolumeComplex is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(SoftVolumeComplex, "plSoftVolumeComplex is abstract")
 
 static PyObject* pySoftVolumeComplex_addSubVolume(pySoftVolumeComplex* self, PyObject* args) {
     PyObject* key;

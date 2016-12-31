@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pySwimStraightCurrentRegion_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySwimStraightCurrentRegion* self = (pySwimStraightCurrentRegion*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSwimStraightCurrentRegion();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(SwimStraightCurrentRegion, plSwimStraightCurrentRegion)
 
 PY_PROPERTY(float, SwimStraightCurrentRegion, nearDist, getNearDist, setNearDist)
 PY_PROPERTY(float, SwimStraightCurrentRegion, farDist, getFarDist, setFarDist)

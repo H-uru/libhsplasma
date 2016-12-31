@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyScalarChannelApplicator_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyScalarChannelApplicator* self = (pyScalarChannelApplicator*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plScalarChannelApplicator();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ScalarChannelApplicator, plScalarChannelApplicator)
 
 PyTypeObject pyScalarChannelApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

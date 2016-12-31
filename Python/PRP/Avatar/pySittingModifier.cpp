@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pySittingModifier_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySittingModifier* self = (pySittingModifier*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSittingModifier();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(SittingModifier, plSittingModifier)
 
 static PyObject* pySittingModifier_addNotifyKey(pySittingModifier* self, PyObject* args) {
     PyObject* key;

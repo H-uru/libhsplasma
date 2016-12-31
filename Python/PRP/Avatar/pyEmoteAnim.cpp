@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyEmoteAnim_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyEmoteAnim* self = (pyEmoteAnim*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plEmoteAnim();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(EmoteAnim, plEmoteAnim)
 
 PY_PROPERTY(plAGAnim::BodyUsage, EmoteAnim, bodyUsage, getBodyUsage, setBodyUsage)
 PY_PROPERTY(float, EmoteAnim, fadeIn, getFadeIn, setFadeIn)

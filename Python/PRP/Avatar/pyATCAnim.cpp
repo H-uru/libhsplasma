@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyATCAnim_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyATCAnim* self = (pyATCAnim*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plATCAnim();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ATCAnim, plATCAnim)
 
 static PyObject* pyATCAnim_clearMarkers(pyATCAnim* self) {
     self->fThis->getMarkers().clear();

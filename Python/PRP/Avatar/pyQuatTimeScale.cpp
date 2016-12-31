@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyQuatTimeScale_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyQuatTimeScale* self = (pyQuatTimeScale*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plQuatTimeScale();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(QuatTimeScale, plQuatTimeScale)
 
 PyTypeObject pyQuatTimeScale_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

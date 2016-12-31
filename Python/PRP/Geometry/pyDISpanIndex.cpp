@@ -20,23 +20,9 @@
 
 extern "C" {
 
-static void pyDISpanIndex_dealloc(pyDISpanIndex* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
-
-static int pyDISpanIndex___init__(pyDISpanIndex* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyDISpanIndex_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyDISpanIndex* self = (pyDISpanIndex*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new plDISpanIndex();
-    return (PyObject*)self;
-}
+PY_PLASMA_VALUE_DEALLOC(DISpanIndex)
+PY_PLASMA_EMPTY_INIT(DISpanIndex)
+PY_PLASMA_VALUE_NEW(DISpanIndex, plDISpanIndex)
 
 static PyObject* pyDISpanIndex_getIndices(pyDISpanIndex* self, void*) {
     PyObject* list = PyList_New(self->fThis->fIndices.size());
@@ -81,7 +67,7 @@ PyTypeObject pyDISpanIndex_Type = {
     sizeof(pyDISpanIndex),              /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyDISpanIndex_dealloc,  /* tp_dealloc */
+    pyDISpanIndex_dealloc,              /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -116,7 +102,7 @@ PyTypeObject pyDISpanIndex_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyDISpanIndex___init__,   /* tp_init */
+    pyDISpanIndex___init__,             /* tp_init */
     NULL,                               /* tp_alloc */
     pyDISpanIndex_new,                  /* tp_new */
     NULL,                               /* tp_free */

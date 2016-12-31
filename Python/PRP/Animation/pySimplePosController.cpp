@@ -22,20 +22,8 @@
 
 extern "C" {
 
-static int pySimplePosController___init__(pySimplePosController* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pySimplePosController_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySimplePosController* self = (pySimplePosController*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSimplePosController();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_EMPTY_INIT(SimplePosController)
+PY_PLASMA_NEW(SimplePosController, plSimplePosController)
 
 PY_PROPERTY_CREATABLE(plPoint3Controller, Point3Controller, SimplePosController,
                       position, getPosition, setPosition)
@@ -86,7 +74,7 @@ PyTypeObject pySimplePosController_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pySimplePosController___init__, /* tp_init */
+    pySimplePosController___init__,     /* tp_init */
     NULL,                               /* tp_alloc */
     pySimplePosController_new,          /* tp_new */
     NULL,                               /* tp_free */

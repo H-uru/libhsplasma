@@ -26,14 +26,7 @@
 
 extern "C" {
 
-static PyObject* pyViewFaceModifier_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyViewFaceModifier* self = (pyViewFaceModifier*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plViewFaceModifier();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ViewFaceModifier, plViewFaceModifier)
 
 PY_PROPERTY(hsVector3, ViewFaceModifier, scale, getScale, setScale)
 PY_PROPERTY(hsVector3, ViewFaceModifier, offset, getOffset, setOffset)

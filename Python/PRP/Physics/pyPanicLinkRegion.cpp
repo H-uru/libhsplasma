@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyPanicLinkRegion_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyPanicLinkRegion* self = (pyPanicLinkRegion*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plPanicLinkRegion();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(PanicLinkRegion, plPanicLinkRegion)
 
 PY_PROPERTY(bool, PanicLinkRegion, playLinkOutAnim, getPlayLinkOutAnim, setPlayLinkOutAnim)
 

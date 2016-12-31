@@ -21,10 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyMultiModifier_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plMultiModifier is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(MultiModifier, "plMultiModifier is abstract")
 
 static PyObject* pyMultiModifier_getFlag(pyMultiModifier* self, PyObject* args) {
     int flag;

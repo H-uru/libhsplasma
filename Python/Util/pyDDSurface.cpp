@@ -24,27 +24,9 @@
 
 extern "C" {
 
-static void pyDDSurface_dealloc(pyDDSurface* self) {
-    if (self->fPyOwned)
-        delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
-
-static int pyDDSurface___init__(pyDDSurface* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-
-static PyObject* pyDDSurface_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyDDSurface* self = (pyDDSurface*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plDDSurface();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_DEALLOC(DDSurface)
+PY_PLASMA_EMPTY_INIT(DDSurface)
+PY_PLASMA_NEW(DDSurface, plDDSurface)
 
 static PyObject* pyDDSurface_read(pyDDSurface* self, PyObject* args) {
     pyStream* stream;
@@ -317,7 +299,7 @@ PyTypeObject pyDDSurface_Type = {
     sizeof(pyDDSurface),                /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyDDSurface_dealloc,    /* tp_dealloc */
+    pyDDSurface_dealloc,                /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -352,7 +334,7 @@ PyTypeObject pyDDSurface_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyDDSurface___init__,     /* tp_init */
+    pyDDSurface___init__,               /* tp_init */
     NULL,                               /* tp_alloc */
     pyDDSurface_new,                    /* tp_new */
     NULL,                               /* tp_free */

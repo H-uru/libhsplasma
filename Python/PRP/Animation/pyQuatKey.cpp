@@ -21,20 +21,8 @@
 
 extern "C" {
 
-static int pyQuatKey___init__(pyQuatKey* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyQuatKey_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyQuatKey* self = (pyQuatKey*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new hsQuatKey();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_EMPTY_INIT(QuatKey)
+PY_PLASMA_NEW(QuatKey, hsQuatKey)
 
 PY_PROPERTY_MEMBER(hsQuat, QuatKey, value, fValue)
 
@@ -84,7 +72,7 @@ PyTypeObject pyQuatKey_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyQuatKey___init__,       /* tp_init */
+    pyQuatKey___init__,                 /* tp_init */
     NULL,                               /* tp_alloc */
     pyQuatKey_new,                      /* tp_new */
     NULL,                               /* tp_free */

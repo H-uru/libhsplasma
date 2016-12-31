@@ -22,25 +22,9 @@
 
 extern "C" {
 
-static void pyCreatable_dealloc(pyCreatable* self) {
-    if (self->fPyOwned) {
-        plCreatable* obj = self->fThis;
-        delete obj;
-        self->fThis = NULL;
-    }
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
-
-static int pyCreatable___init__(pyCreatable* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyCreatable_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plCreatable is abstract");
-    return NULL;
-}
+PY_PLASMA_DEALLOC(Creatable)
+PY_PLASMA_EMPTY_INIT(Creatable)
+PY_PLASMA_NEW_MSG(Creatable, "plCreatable is abstract")
 
 static PyObject* pyCreatable_ClassIndex(pyCreatable* self) {
     return PyInt_FromLong(self->fThis->ClassIndex());
@@ -136,7 +120,7 @@ PyTypeObject pyCreatable_Type = {
     sizeof(pyCreatable),                /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyCreatable_dealloc,    /* tp_dealloc */
+    pyCreatable_dealloc,                /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -171,7 +155,7 @@ PyTypeObject pyCreatable_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyCreatable___init__,     /* tp_init */
+    pyCreatable___init__,               /* tp_init */
     NULL,                               /* tp_alloc */
     pyCreatable_new,                    /* tp_new */
     NULL,                               /* tp_free */

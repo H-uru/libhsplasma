@@ -21,23 +21,9 @@
 
 extern "C" {
 
-static void pyGBufferVertex_dealloc(pyGBufferVertex* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
-
-static int pyGBufferVertex___init__(pyGBufferVertex* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyGBufferVertex_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyGBufferVertex* self = (pyGBufferVertex*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new plGBufferVertex();
-    return (PyObject*)self;
-}
+PY_PLASMA_VALUE_DEALLOC(GBufferVertex)
+PY_PLASMA_EMPTY_INIT(GBufferVertex)
+PY_PLASMA_VALUE_NEW(GBufferVertex, plGBufferVertex)
 
 static PyObject* pyGBufferVertex_getWeights(pyGBufferVertex* self, void*) {
     PyObject* list = PyList_New(3);
@@ -121,7 +107,7 @@ PyTypeObject pyGBufferVertex_Type = {
     sizeof(pyGBufferVertex),            /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyGBufferVertex_dealloc, /* tp_dealloc */
+    pyGBufferVertex_dealloc,            /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -156,7 +142,7 @@ PyTypeObject pyGBufferVertex_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyGBufferVertex___init__, /* tp_init */
+    pyGBufferVertex___init__,           /* tp_init */
     NULL,                               /* tp_alloc */
     pyGBufferVertex_new,                /* tp_new */
     NULL,                               /* tp_free */

@@ -22,26 +22,9 @@
 
 extern "C" {
 
-static void pyAgeInfo_dealloc(pyAgeInfo* self) {
-    if (self->fPyOwned)
-        delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
-
-static int pyAgeInfo___init__(pyAgeInfo* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyAgeInfo_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyAgeInfo* self = (pyAgeInfo*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plAgeInfo();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_DEALLOC(AgeInfo)
+PY_PLASMA_EMPTY_INIT(AgeInfo)
+PY_PLASMA_NEW(AgeInfo, plAgeInfo)
 
 static PyObject* pyAgeInfo_readFromFile(pyAgeInfo* self, PyObject* args) {
     const char* filename;
@@ -256,7 +239,7 @@ PyTypeObject pyAgeInfo_Type = {
     sizeof(pyAgeInfo),                  /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyAgeInfo_dealloc,      /* tp_dealloc */
+    pyAgeInfo_dealloc,                  /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -291,7 +274,7 @@ PyTypeObject pyAgeInfo_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyAgeInfo___init__,       /* tp_init */
+    pyAgeInfo___init__,                 /* tp_init */
     NULL,                               /* tp_alloc */
     pyAgeInfo_new,                      /* tp_new */
     NULL,                               /* tp_free */

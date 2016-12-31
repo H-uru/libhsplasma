@@ -23,14 +23,7 @@
 
 extern "C" {
 
-static PyObject* pyGMaterial_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyGMaterial* self = (pyGMaterial*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new hsGMaterial();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(GMaterial, hsGMaterial)
 
 static PyObject* pyGMaterial_clearLayers(pyGMaterial* self) {
     self->fThis->clearLayers();

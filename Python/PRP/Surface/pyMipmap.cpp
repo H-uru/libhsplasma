@@ -22,7 +22,7 @@
 
 extern "C" {
 
-static int pyMipmap___init__(pyMipmap* self, PyObject* args, PyObject* kwds) {
+PY_PLASMA_INIT_DECL(Mipmap) {
     const char* name = "";
     int width, height, numLevels, compType, format;
     int dxtLevel = plBitmap::kDXTError;
@@ -46,14 +46,7 @@ static int pyMipmap___init__(pyMipmap* self, PyObject* args, PyObject* kwds) {
     return -1;
 }
 
-static PyObject* pyMipmap_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyMipmap* self = (pyMipmap*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plMipmap();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(Mipmap, plMipmap)
 
 static PyObject* pyMipmap_readData(pyMipmap* self, PyObject* args) {
     pyStream* stream;
@@ -376,7 +369,7 @@ PyTypeObject pyMipmap_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyMipmap___init__,        /* tp_init */
+    pyMipmap___init__,                  /* tp_init */
     NULL,                               /* tp_alloc */
     pyMipmap_new,                       /* tp_new */
     NULL,                               /* tp_free */

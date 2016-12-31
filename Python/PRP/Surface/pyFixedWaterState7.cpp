@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyFixedWaterState7_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyFixedWaterState7* self = (pyFixedWaterState7*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plFixedWaterState7();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(FixedWaterState7, plFixedWaterState7)
 
 PY_PROPERTY_PROXY(plFixedWaterState7::WaveState, FixedWaterState7, geoState, getGeoState)
 PY_PROPERTY_PROXY(plFixedWaterState7::WaveState, FixedWaterState7, texState, getTexState)

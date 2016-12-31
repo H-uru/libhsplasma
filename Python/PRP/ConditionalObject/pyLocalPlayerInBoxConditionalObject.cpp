@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyLocalPlayerInBoxConditionalObject_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyLocalPlayerInBoxConditionalObject* self = (pyLocalPlayerInBoxConditionalObject*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plLocalPlayerInBoxConditionalObject();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(LocalPlayerInBoxConditionalObject, plLocalPlayerInBoxConditionalObject)
 
 PyTypeObject pyLocalPlayerInBoxConditionalObject_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

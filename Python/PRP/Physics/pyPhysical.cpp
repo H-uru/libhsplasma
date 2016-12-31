@@ -22,10 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyPhysical_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plPhysical is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(Physical, "plPhysical is abstract")
 
 PyTypeObject pyPhysical_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

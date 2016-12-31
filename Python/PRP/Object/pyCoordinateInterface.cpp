@@ -23,14 +23,7 @@
 
 extern "C" {
 
-static PyObject* pyCoordinateInterface_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyCoordinateInterface* self = (pyCoordinateInterface*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plCoordinateInterface();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(CoordinateInterface, plCoordinateInterface)
 
 static PyObject* pyCoordinateInterface_clearChildren(pyCoordinateInterface* self) {
     self->fThis->clearChildren();

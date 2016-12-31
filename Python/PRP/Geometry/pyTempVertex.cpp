@@ -21,18 +21,8 @@
 
 extern "C" {
 
-static void pyTempVertex_dealloc(pyTempVertex* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
-
-static PyObject* pyTempVertex_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyTempVertex* self = (pyTempVertex*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plGeometrySpan::TempVertex();
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_VALUE_DEALLOC(TempVertex)
+PY_PLASMA_VALUE_NEW(TempVertex, plGeometrySpan::TempVertex)
 
 static PyObject* pyTempVertex_getUVs(pyTempVertex* self, void*) {
     PyObject* list = PyList_New(8);
@@ -126,7 +116,7 @@ PyTypeObject pyTempVertex_Type = {
     sizeof(pyTempVertex),               /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyTempVertex_dealloc,   /* tp_dealloc */
+    pyTempVertex_dealloc,               /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */

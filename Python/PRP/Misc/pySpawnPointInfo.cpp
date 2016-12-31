@@ -20,14 +20,7 @@
 
 extern "C" {
 
-static PyObject* pySpawnPointInfo_new(PyTypeObject* type, PyObject*, PyObject*) {
-    pySpawnPointInfo* self = (pySpawnPointInfo*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSpawnPointInfo();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(SpawnPointInfo, plSpawnPointInfo)
 
 PY_PROPERTY(plString, SpawnPointInfo, title, getTitle, setTitle)
 PY_PROPERTY(plString, SpawnPointInfo, spawnPt, getSpawnPt, setSpawnPt)

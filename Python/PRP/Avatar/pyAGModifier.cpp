@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyAGModifier_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyAGModifier* self = (pyAGModifier*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plAGModifier();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(AGModifier, plAGModifier)
 
 PY_PROPERTY(plString, AGModifier, channelName, getChannelName, setChannelName)
 PY_PROPERTY(bool, AGModifier, autoApply, getAutoApply, setAutoApply)

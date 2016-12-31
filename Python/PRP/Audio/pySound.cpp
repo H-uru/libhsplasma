@@ -22,10 +22,7 @@
 
 extern "C" {
 
-static PyObject* pySound_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plSound is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(Sound, "plSound is abstract")
 
 PY_PROPERTY(unsigned char, Sound, type, getType, setType)
 PY_PROPERTY(unsigned char, Sound, priority, getPriority, setPriority)

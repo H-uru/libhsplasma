@@ -21,10 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyLODDist_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "Cannot create plLODDist objects from Python");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(LODDist, "Cannot create plLODDist objects from Python")
 
 static PyObject* pyLODDist_read(pyLODDist* self, PyObject* args) {
     pyStream* stream;

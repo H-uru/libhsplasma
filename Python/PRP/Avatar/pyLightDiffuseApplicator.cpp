@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyLightDiffuseApplicator_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyLightDiffuseApplicator* self = (pyLightDiffuseApplicator*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plLightDiffuseApplicator();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(LightDiffuseApplicator, plLightDiffuseApplicator)
 
 PyTypeObject pyLightDiffuseApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

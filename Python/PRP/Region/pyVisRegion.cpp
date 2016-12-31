@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyVisRegion_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyVisRegion* self = (pyVisRegion*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plVisRegion();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(VisRegion, plVisRegion)
 
 PY_PROPERTY(plKey, VisRegion, region, getRegion, setRegion)
 PY_PROPERTY(plKey, VisRegion, visMgr, getVisMgr, setVisMgr)

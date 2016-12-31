@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyLayerBink_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyLayerBink* self = (pyLayerBink*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plLayerBink();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(LayerBink, plLayerBink)
 
 PyTypeObject pyLayerBink_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

@@ -22,14 +22,7 @@
 
 extern "C" {
 
-static PyObject* pySwimMsg_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySwimMsg* self = (pySwimMsg*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSwimMsg();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(SwimMsg, plSwimMsg)
 
 PY_PROPERTY(bool, SwimMsg, isEntering, getIsEntering, setIsEntering)
 PY_PROPERTY(plKey, SwimMsg, swimRegion, getSwimRegion, setSwimRegion)

@@ -24,10 +24,7 @@
 
 extern "C" {
 
-static PyObject* pyObjInterface_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plObjInterface is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(ObjInterface, "plObjInterface is abstract")
 
 static PyObject* pyObjInterface_getProp(pyObjInterface* self, PyObject* args) {
     int prop;

@@ -22,10 +22,7 @@
 
 extern "C" {
 
-static PyObject* pyCollisionDetector_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plCollisionDetector is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(CollisionDetector, "plCollisionDetector is abstract")
 
 PY_PROPERTY(unsigned char, CollisionDetector, type, getType, setType)
 

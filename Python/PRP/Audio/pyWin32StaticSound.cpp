@@ -21,14 +21,7 @@
 
 extern "C" {
 
-static PyObject* pyWin32StaticSound_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyWin32StaticSound* self = (pyWin32StaticSound*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plWin32StaticSound();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(Win32StaticSound, plWin32StaticSound)
 
 PyTypeObject pyWin32StaticSound_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)

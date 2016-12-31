@@ -21,10 +21,7 @@
 
 extern "C" {
 
-static void pyColor32_dealloc(pyColor32* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+PY_PLASMA_VALUE_DEALLOC(Color32)
 
 static PyObject* pyColor32_set(pyColor32* self, PyObject* args, PyObject* kwds) {
     int red = 0, green = 0, blue = 0, alpha = 255, color = 0xFF000000;
@@ -35,9 +32,8 @@ static PyObject* pyColor32_set(pyColor32* self, PyObject* args, PyObject* kwds) 
 
     if (PyArg_ParseTupleAndKeywords(args, kwds, "I", kwlist2, &color)) {
         self->fThis->color = color;
-    } else if (PyArg_ParseTupleAndKeywords(args, kwds, "|iiii", kwlist1,
-                                           &red, &green, &blue, &alpha)) {
-        PyErr_Clear();
+    } else if (PyErr_Clear(), PyArg_ParseTupleAndKeywords(args, kwds, "|iiii", kwlist1,
+                                                          &red, &green, &blue, &alpha)) {
         self->fThis->r = red;
         self->fThis->g = green;
         self->fThis->b = blue;
@@ -47,11 +43,10 @@ static PyObject* pyColor32_set(pyColor32* self, PyObject* args, PyObject* kwds) 
         return NULL;
     }
 
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static int pyColor32___init__(pyColor32* self, PyObject* args, PyObject* kwds) {
+PY_PLASMA_INIT_DECL(Color32) {
     PyObject* retn = pyColor32_set(self, args, kwds);
     if (retn == NULL)
         return -1;
@@ -59,12 +54,7 @@ static int pyColor32___init__(pyColor32* self, PyObject* args, PyObject* kwds) {
     return 0;
 }
 
-static PyObject* pyColor32_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyColor32* self = (pyColor32*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new hsColor32();
-    return (PyObject*)self;
-}
+PY_PLASMA_VALUE_NEW(Color32, hsColor32)
 
 static PyObject* pyColor32_Repr(pyColor32* self) {
     plString repr = plString::Format("hsColor32(%u, %u, %u, %u)",
@@ -209,7 +199,7 @@ PyTypeObject pyColor32_Type = {
     sizeof(pyColor32),                  /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyColor32_dealloc,      /* tp_dealloc */
+    pyColor32_dealloc,                  /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -244,7 +234,7 @@ PyTypeObject pyColor32_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyColor32___init__,       /* tp_init */
+    pyColor32___init__,                 /* tp_init */
     NULL,                               /* tp_alloc */
     pyColor32_new,                      /* tp_new */
     NULL,                               /* tp_free */
