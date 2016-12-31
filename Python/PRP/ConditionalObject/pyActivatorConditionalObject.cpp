@@ -32,14 +32,12 @@ static PyObject* pyActivatorConditionalObject_addActivator(pyActivatorConditiona
         return NULL;
     }
     self->fThis->addActivator(*((pyKey*)key)->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyActivatorConditionalObject_clearActivators(pyActivatorConditionalObject* self) {
     self->fThis->clearActivators();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyActivatorConditionalObject_delActivator(pyActivatorConditionalObject* self, PyObject* args) {
@@ -49,8 +47,7 @@ static PyObject* pyActivatorConditionalObject_delActivator(pyActivatorConditiona
         return NULL;
     }
     self->fThis->delActivator((size_t)idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyActivatorConditionalObject_Methods[] = {

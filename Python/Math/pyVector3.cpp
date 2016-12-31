@@ -124,8 +124,7 @@ static PyObject* pyVector3_magnitude(pyVector3* self) {
 
 static PyObject* pyVector3_normalize(pyVector3* self) {
     self->fThis->normalize();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyVector3_dotP(pyVector3* self, PyObject* args) {
@@ -165,8 +164,7 @@ static PyObject* pyVector3_read(pyVector3* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyVector3_write(pyVector3* self, PyObject* args) {
@@ -180,8 +178,7 @@ static PyObject* pyVector3_write(pyVector3* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 PyNumberMethods pyVector3_As_Number = {

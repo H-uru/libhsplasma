@@ -31,8 +31,7 @@ static PyObject* pyBitmap_setConfig(pyBitmap* self, PyObject* args) {
         return NULL;
     }
     self->fThis->setConfig((plBitmap::ColorFormat)format);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyBitmap_Methods[] = {

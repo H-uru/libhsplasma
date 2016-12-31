@@ -27,8 +27,7 @@ PY_PLASMA_NEW(AGAnim, plAGAnim)
 
 static PyObject* pyAGAnim_clearApps(pyAGAnim* self) {
     self->fThis->clearApplicators();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyAGAnim_addApplicator(pyAGAnim* self, PyObject* args) {
@@ -43,8 +42,7 @@ static PyObject* pyAGAnim_addApplicator(pyAGAnim* self, PyObject* args) {
     }
     self->fThis->addApplicator(app->fThis);
     app->fPyOwned = false;
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyAGAnim_delApplicator(pyAGAnim* self, PyObject* args) {
@@ -54,8 +52,7 @@ static PyObject* pyAGAnim_delApplicator(pyAGAnim* self, PyObject* args) {
         return NULL;
     }
     self->fThis->delApplicator(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyAGAnim_getApps(pyAGAnim* self, void*) {

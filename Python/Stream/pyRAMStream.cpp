@@ -30,8 +30,7 @@ static PyObject* pyRAMStream_resize(pyRAMStream* self, PyObject* args) {
         return NULL;
     }
     self->fThis->resize(newSize);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyRAMStream_Methods[] = {

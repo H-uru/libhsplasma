@@ -33,12 +33,10 @@ PY_PROPERTY(unsigned char, AnimStage, notify, getNotify, setNotify)
 PY_PROPERTY(int, AnimStage, loops, getLoops, setLoops)
 
 PY_GETSET_GETTER_DECL(AnimStage, advanceTo) {
-    if (self->fThis->doAdvanceTo()) {
+    if (self->fThis->doAdvanceTo())
         return pyPlasma_convert(self->fThis->getAdvanceTo());
-    } else {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
+    else
+        Py_RETURN_NONE;
 }
 
 PY_GETSET_SETTER_DECL(AnimStage, advanceTo) {
@@ -60,12 +58,10 @@ PY_GETSET_SETTER_DECL(AnimStage, advanceTo) {
 PY_PROPERTY_GETSET_DECL(AnimStage, advanceTo)
 
 PY_GETSET_GETTER_DECL(AnimStage, regressTo) {
-    if (self->fThis->doRegressTo()) {
+    if (self->fThis->doRegressTo())
         return pyPlasma_convert(self->fThis->getRegressTo());
-    } else {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
+    else
+        Py_RETURN_NONE;
 }
 
 PY_GETSET_SETTER_DECL(AnimStage, regressTo) {

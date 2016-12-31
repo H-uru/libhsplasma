@@ -36,8 +36,7 @@ static PyObject* pyCompressedQuatKey64_setValue(pyCompressedQuatKey64* self, PyO
         return NULL;
     }
     self->fThis->setQuat(*value->fThis, type);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyCompressedQuatKey64_Methods[] = {

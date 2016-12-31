@@ -31,8 +31,7 @@ static PyObject* pySynchedObject_setExclude(pySynchedObject* self, PyObject* arg
         return NULL;
     }
     self->fThis->setExclude(str);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySynchedObject_setVolatile(pySynchedObject* self, PyObject* args) {
@@ -42,15 +41,14 @@ static PyObject* pySynchedObject_setVolatile(pySynchedObject* self, PyObject* ar
         return NULL;
     }
     self->fThis->setVolatile(str);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySynchedObject_getExcludes(pySynchedObject* self, void*) {
     plSynchedObject* so = self->fThis;
     PyObject* list = PyList_New(so->getExcludes().size());
     for (size_t i=0; i<so->getExcludes().size(); i++)
-        PyList_SET_ITEM(list, i, PlStr_To_PyStr(so->getExcludes()[i]));
+        PyList_SET_ITEM(list, i, pyPlasma_convert(so->getExcludes()[i]));
     return list;
 }
 
@@ -58,7 +56,7 @@ static PyObject* pySynchedObject_getVolatiles(pySynchedObject* self, void*) {
     plSynchedObject* so = self->fThis;
     PyObject* list = PyList_New(so->getVolatiles().size());
     for (size_t i=0; i<so->getVolatiles().size(); i++)
-        PyList_SET_ITEM(list, i, PlStr_To_PyStr(so->getVolatiles()[i]));
+        PyList_SET_ITEM(list, i, pyPlasma_convert(so->getVolatiles()[i]));
     return list;
 }
 

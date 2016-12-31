@@ -35,8 +35,7 @@ static PyObject* pyDebug_Init(PyObject*, PyObject* args) {
         return NULL;
     }
     plDebug::Init(level, (stream == NULL) ? NULL : stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDebug_InitFile(PyObject*, PyObject* args) {
@@ -47,8 +46,7 @@ static PyObject* pyDebug_InitFile(PyObject*, PyObject* args) {
         return NULL;
     }
     plDebug::InitFile(level, filename);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDebug_Error(PyObject*, PyObject* args) {
@@ -58,8 +56,7 @@ static PyObject* pyDebug_Error(PyObject*, PyObject* args) {
         return NULL;
     }
     plDebug::Error(msg);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDebug_Warning(PyObject*, PyObject* args) {
@@ -69,8 +66,7 @@ static PyObject* pyDebug_Warning(PyObject*, PyObject* args) {
         return NULL;
     }
     plDebug::Warning(msg);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDebug_Debug(PyObject*, PyObject* args) {
@@ -80,8 +76,7 @@ static PyObject* pyDebug_Debug(PyObject*, PyObject* args) {
         return NULL;
     }
     plDebug::Debug(msg);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyDebug_Methods[] = {

@@ -27,8 +27,7 @@ PY_PLASMA_NEW(InterfaceInfoModifier, plInterfaceInfoModifier)
 
 static PyObject* pyInterfaceInfoModifier_clearKeys(pyInterfaceInfoModifier* self) {
     self->fThis->clearIntfKeys();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyInterfaceInfoModifier_addKey(pyInterfaceInfoModifier* self, PyObject* args) {
@@ -42,8 +41,7 @@ static PyObject* pyInterfaceInfoModifier_addKey(pyInterfaceInfoModifier* self, P
         return NULL;
     }
     self->fThis->addIntfKey(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyInterfaceInfoModifier_delKey(pyInterfaceInfoModifier* self, PyObject* args) {
@@ -53,8 +51,7 @@ static PyObject* pyInterfaceInfoModifier_delKey(pyInterfaceInfoModifier* self, P
         return NULL;
     }
     self->fThis->delIntfKey(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyInterfaceInfoModifier_getIntfKeys(pyInterfaceInfoModifier* self, void*) {

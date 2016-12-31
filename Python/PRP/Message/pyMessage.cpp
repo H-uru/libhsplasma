@@ -35,8 +35,7 @@ static PyObject* pyMessage_addReceiver(pyMessage* self, PyObject* args) {
         return NULL;
     }
     self->fThis->addReceiver(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMessage_delReceiver(pyMessage* self, PyObject* args) {
@@ -46,14 +45,12 @@ static PyObject* pyMessage_delReceiver(pyMessage* self, PyObject* args) {
         return NULL;
     }
     self->fThis->delReceiver(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMessage_clearReceivers(pyMessage* self) {
     self->fThis->clearReceivers();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMessage_getReceivers(pyMessage* self, void*) {

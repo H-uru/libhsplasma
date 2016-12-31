@@ -35,8 +35,7 @@ static PyObject* pyWAVHeader_read(pyWAVHeader* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyWAVHeader_write(pyWAVHeader* self, PyObject* args) {
@@ -50,8 +49,7 @@ static PyObject* pyWAVHeader_write(pyWAVHeader* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyWAVHeader_Methods[] = {

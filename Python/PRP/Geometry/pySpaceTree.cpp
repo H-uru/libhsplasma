@@ -27,8 +27,7 @@ PY_PLASMA_NEW(SpaceTree, plSpaceTree)
 
 static PyObject* pySpaceTree_clear(pySpaceTree* self) {
     self->fThis->clear();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySpaceTree_getNode(pySpaceTree* self, PyObject* args) {
@@ -54,7 +53,7 @@ static PyObject* pySpaceTree_addLeaf(pySpaceTree* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "addLeaf expects an hsBounds3Ext");
         return NULL;
     }
-    return PyInt_FromLong(self->fThis->addLeaf(*bounds->fThis));
+    return pyPlasma_convert(self->fThis->addLeaf(*bounds->fThis));
 }
 
 static PyObject* pySpaceTree_addParent(pySpaceTree* self, PyObject* args) {
@@ -68,7 +67,7 @@ static PyObject* pySpaceTree_addParent(pySpaceTree* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "addParent expects hsBounds3Ext, int, int");
         return NULL;
     }
-    return PyInt_FromLong(self->fThis->addParent(*bounds->fThis, left, right));
+    return pyPlasma_convert(self->fThis->addParent(*bounds->fThis, left, right));
 }
 
 static PyMethodDef pySpaceTree_Methods[] = {

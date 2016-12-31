@@ -37,8 +37,7 @@ static PyObject* pyMultistageBehMod_addStage(pyMultistageBehMod* self, PyObject*
     }
     self->fThis->addStage(anim->fThis);
     anim->fPyOwned = false;
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMultistageBehMod_delStage(pyMultistageBehMod* self, PyObject* args) {
@@ -48,14 +47,12 @@ static PyObject* pyMultistageBehMod_delStage(pyMultistageBehMod* self, PyObject*
         return NULL;
     }
     self->fThis->delStage(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMultistageBehMod_clearStages(pyMultistageBehMod* self) {
     self->fThis->clearStages();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMultistageBehMod_addReceiver(pyMultistageBehMod* self, PyObject* args) {
@@ -69,8 +66,7 @@ static PyObject* pyMultistageBehMod_addReceiver(pyMultistageBehMod* self, PyObje
         return NULL;
     }
     self->fThis->addReceiver(*rcvr->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMultistageBehMod_delReceiver(pyMultistageBehMod* self, PyObject* args) {
@@ -80,14 +76,12 @@ static PyObject* pyMultistageBehMod_delReceiver(pyMultistageBehMod* self, PyObje
         return NULL;
     }
     self->fThis->delReceiver(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMultistageBehMod_clearReceivers(pyMultistageBehMod* self) {
     self->fThis->clearReceivers();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMultistageBehMod_getStages(pyMultistageBehMod* self, void*) {

@@ -66,7 +66,7 @@ static PyObject* pyMatrix44_Subscript(pyMatrix44* self, PyObject* key) {
         PyErr_SetString(PyExc_TypeError, "Matrix subscript expects int, int");
         return NULL;
     }
-    return PyFloat_FromDouble((*self->fThis)(i, j));
+    return pyPlasma_convert((*self->fThis)(i, j));
 }
 
 static int pyMatrix44_AssSubscript(pyMatrix44* self, PyObject* key, PyObject* value) {
@@ -198,8 +198,7 @@ static PyObject* pyMatrix44_translate(pyMatrix44* self, PyObject* args) {
         return NULL;
     }
     self->fThis->translate(*vec->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMatrix44_rotate(pyMatrix44* self, PyObject* args) {
@@ -210,8 +209,7 @@ static PyObject* pyMatrix44_rotate(pyMatrix44* self, PyObject* args) {
         return NULL;
     }
     self->fThis->rotate(axis, angle);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMatrix44_scale(pyMatrix44* self, PyObject* args) {
@@ -225,8 +223,7 @@ static PyObject* pyMatrix44_scale(pyMatrix44* self, PyObject* args) {
         return NULL;
     }
     self->fThis->scale(*vec->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMatrix44_setTranslate(pyMatrix44* self, PyObject* args) {
@@ -240,8 +237,7 @@ static PyObject* pyMatrix44_setTranslate(pyMatrix44* self, PyObject* args) {
         return NULL;
     }
     self->fThis->setTranslate(*vec->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMatrix44_setRotate(pyMatrix44* self, PyObject* args) {
@@ -252,8 +248,7 @@ static PyObject* pyMatrix44_setRotate(pyMatrix44* self, PyObject* args) {
         return NULL;
     }
     self->fThis->setRotate(axis, angle);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMatrix44_setScale(pyMatrix44* self, PyObject* args) {
@@ -267,8 +262,7 @@ static PyObject* pyMatrix44_setScale(pyMatrix44* self, PyObject* args) {
         return NULL;
     }
     self->fThis->setScale(*vec->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMatrix44_multPoint(pyMatrix44* self, PyObject* args) {
@@ -310,8 +304,7 @@ static PyObject* pyMatrix44_read(pyMatrix44* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMatrix44_write(pyMatrix44* self, PyObject* args) {
@@ -325,8 +318,7 @@ static PyObject* pyMatrix44_write(pyMatrix44* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 PyNumberMethods pyMatrix44_As_Number = {

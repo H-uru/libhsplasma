@@ -31,14 +31,12 @@ static PyObject* pyORConditionalObject_addChild(pyORConditionalObject* self, PyO
         return NULL;
     }
     self->fThis->addChild(*((pyKey*)key)->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyORConditionalObject_clearChildren(pyORConditionalObject* self) {
     self->fThis->clearChildren();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyORConditionalObject_delChild(pyORConditionalObject* self, PyObject* args) {
@@ -48,8 +46,7 @@ static PyObject* pyORConditionalObject_delChild(pyORConditionalObject* self, PyO
         return NULL;
     }
     self->fThis->delChild((size_t)idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyORConditionalObject_Methods[] = {

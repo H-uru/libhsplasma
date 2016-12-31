@@ -44,8 +44,7 @@ static PyObject* pyGBufferGroup_read(pyGBufferGroup* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyGBufferGroup_write(pyGBufferGroup* self, PyObject* args) {
@@ -59,8 +58,7 @@ static PyObject* pyGBufferGroup_write(pyGBufferGroup* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyGBufferGroup_getVerts(pyGBufferGroup* self, PyObject* args) {
@@ -95,7 +93,7 @@ static PyObject* pyGBufferGroup_getIndices(pyGBufferGroup* self, PyObject* args)
         indices = self->fThis->getIndices(idx, start, len);
     PyObject* list = PyList_New(indices.size());
     for (size_t i=0; i<indices.size(); i++)
-        PyList_SET_ITEM(list, i, PyInt_FromLong(indices[i]));
+        PyList_SET_ITEM(list, i, pyPlasma_convert(indices[i]));
     return list;
 }
 
@@ -133,8 +131,7 @@ static PyObject* pyGBufferGroup_addVerts(pyGBufferGroup* self, PyObject* args) {
         verts[i] = *((pyGBufferVertex*)PyList_GetItem(list, i))->fThis;
     }
     self->fThis->addVertices(verts);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyGBufferGroup_addIndices(pyGBufferGroup* self, PyObject* args) {
@@ -157,8 +154,7 @@ static PyObject* pyGBufferGroup_addIndices(pyGBufferGroup* self, PyObject* args)
         indices[i] = PyInt_AsLong(PyList_GetItem(list, i));
     }
     self->fThis->addIndices(indices);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyGBufferGroup_addCells(pyGBufferGroup* self, PyObject* args) {
@@ -181,8 +177,7 @@ static PyObject* pyGBufferGroup_addCells(pyGBufferGroup* self, PyObject* args) {
         cells[i] = *((pyGBufferCell*)PyList_GetItem(list, i))->fThis;
     }
     self->fThis->addCells(cells);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyGBufferGroup_delVerts(pyGBufferGroup* self, PyObject* args) {
@@ -192,8 +187,7 @@ static PyObject* pyGBufferGroup_delVerts(pyGBufferGroup* self, PyObject* args) {
         return NULL;
     }
     self->fThis->delVertices(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyGBufferGroup_delIndices(pyGBufferGroup* self, PyObject* args) {
@@ -203,8 +197,7 @@ static PyObject* pyGBufferGroup_delIndices(pyGBufferGroup* self, PyObject* args)
         return NULL;
     }
     self->fThis->delIndices(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyGBufferGroup_delCells(pyGBufferGroup* self, PyObject* args) {
@@ -214,34 +207,30 @@ static PyObject* pyGBufferGroup_delCells(pyGBufferGroup* self, PyObject* args) {
         return NULL;
     }
     self->fThis->delCells(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyGBufferGroup_clearVerts(pyGBufferGroup* self) {
     self->fThis->clearVertices();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyGBufferGroup_clearIndices(pyGBufferGroup* self) {
     self->fThis->clearIndices();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyGBufferGroup_clearCells(pyGBufferGroup* self) {
     self->fThis->clearCells();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyGBufferGroup_getNumVertBuffers(pyGBufferGroup* self) {
-    return PyInt_FromLong(self->fThis->getNumVertBuffers());
+    return pyPlasma_convert(self->fThis->getNumVertBuffers());
 }
 
 static PyObject* pyGBufferGroup_getNumIdxBuffers(pyGBufferGroup* self) {
-    return PyInt_FromLong(self->fThis->getNumIdxBuffers());
+    return pyPlasma_convert(self->fThis->getNumIdxBuffers());
 }
 
 static PyObject* pyGBufferGroup_getVertBufferStorage(pyGBufferGroup* self, PyObject* args) {
@@ -264,7 +253,7 @@ static PyObject* pyGBufferGroup_getIdxBufferStorage(pyGBufferGroup* self, PyObje
     const unsigned short* indices = self->fThis->getIdxBufferStorage(idx);
     PyObject* idxList = PyList_New(count);
     for (size_t i=0; i<count; i++)
-        PyList_SET_ITEM(idxList, i, PyInt_FromLong(indices[i]));
+        PyList_SET_ITEM(idxList, i, pyPlasma_convert(indices[i]));
     return idxList;
 }
 
@@ -274,7 +263,7 @@ static PyObject* pyGBufferGroup_getVertBufferSize(pyGBufferGroup* self, PyObject
         PyErr_SetString(PyExc_TypeError, "getVertBufferSize expects an int");
         return NULL;
     }
-    return PyInt_FromLong(self->fThis->getVertBufferSize(idx));
+    return pyPlasma_convert(self->fThis->getVertBufferSize(idx));
 }
 
 static PyObject* pyGBufferGroup_getIdxBufferCount(pyGBufferGroup* self, PyObject* args) {
@@ -283,7 +272,7 @@ static PyObject* pyGBufferGroup_getIdxBufferCount(pyGBufferGroup* self, PyObject
         PyErr_SetString(PyExc_TypeError, "getIdxBufferCount expects an int");
         return NULL;
     }
-    return PyInt_FromLong(self->fThis->getIdxBufferCount(idx));
+    return pyPlasma_convert(self->fThis->getIdxBufferCount(idx));
 }
 
 static PyMethodDef pyGBufferGroup_Methods[] = {

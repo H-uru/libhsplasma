@@ -49,8 +49,7 @@ static PyObject* pyClothingItem_setMesh(pyClothingItem* self, PyObject* args) {
     }
 
     self->fThis->setMesh(lod, *(key->fThis));
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 PyMethodDef pyClothingItem_Methods[] = {

@@ -27,14 +27,12 @@ PY_PLASMA_NEW(PythonFileMod, plPythonFileMod)
 
 static PyObject* pyPythonFileMod_clearReceivers(pyPythonFileMod* self) {
     self->fThis->clearReceivers();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyPythonFileMod_clearParameters(pyPythonFileMod* self) {
     self->fThis->clearParameters();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyPythonFileMod_addReceiver(pyPythonFileMod* self, PyObject* args) {
@@ -48,8 +46,7 @@ static PyObject* pyPythonFileMod_addReceiver(pyPythonFileMod* self, PyObject* ar
         return NULL;
     }
     self->fThis->addReceiver(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyPythonFileMod_addParameter(pyPythonFileMod* self, PyObject* args) {
@@ -63,8 +60,7 @@ static PyObject* pyPythonFileMod_addParameter(pyPythonFileMod* self, PyObject* a
         return NULL;
     }
     self->fThis->addParameter(*param->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyPythonFileMod_getReceivers(pyPythonFileMod* self, void*) {

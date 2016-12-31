@@ -32,7 +32,7 @@ static PyObject* pyGenericPhysical_getProp(pyGenericPhysical* self, PyObject* ar
         PyErr_SetString(PyExc_TypeError, "getProperty expects an int");
         return NULL;
     }
-    return PyBool_FromLong(self->fThis->getProperty(prop) ? 1 : 0);
+    return pyPlasma_convert(self->fThis->getProperty(prop));
 }
 
 static PyObject* pyGenericPhysical_setProp(pyGenericPhysical* self, PyObject* args) {
@@ -42,8 +42,7 @@ static PyObject* pyGenericPhysical_setProp(pyGenericPhysical* self, PyObject* ar
         return NULL;
     }
     self->fThis->setProperty(prop, value != 0);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyGenericPhysical_calcSphereBounds(pyGenericPhysical* self, PyObject* args) {
@@ -70,8 +69,7 @@ static PyObject* pyGenericPhysical_calcSphereBounds(pyGenericPhysical* self, PyO
     self->fThis->calcSphereBounds(PySequence_Length(points), myPoints);
     delete[] myPoints;
 
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyGenericPhysical_calcBoxBounds(pyGenericPhysical* self, PyObject* args) {
@@ -98,8 +96,7 @@ static PyObject* pyGenericPhysical_calcBoxBounds(pyGenericPhysical* self, PyObje
     self->fThis->calcBoxBounds(PySequence_Length(points), myPoints);
     delete[] myPoints;
 
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyGenericPhysical_Methods[] = {
@@ -121,14 +118,14 @@ static PyMethodDef pyGenericPhysical_Methods[] = {
 static PyObject* pyGenericPhysical_getVerts(pyGenericPhysical* self, void*) {
     PyObject* list = PyList_New(self->fThis->getVerts().size());
     for (size_t i=0; i<self->fThis->getVerts().size(); i++)
-        PyList_SET_ITEM(list, i, pyVector3_FromVector3(self->fThis->getVerts()[i]));
+        PyList_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getVerts()[i]));
     return list;
 }
 
 static PyObject* pyGenericPhysical_getIndices(pyGenericPhysical* self, void*) {
     PyObject* list = PyList_New(self->fThis->getIndices().size());
     for (size_t i=0; i<self->fThis->getIndices().size(); i++)
-        PyList_SET_ITEM(list, i, PyInt_FromLong(self->fThis->getIndices()[i]));
+        PyList_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getIndices()[i]));
     return list;
 }
 

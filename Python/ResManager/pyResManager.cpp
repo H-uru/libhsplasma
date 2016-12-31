@@ -17,8 +17,7 @@
 #include "pyResManager.h"
 
 #include <ResManager/plResManager.h>
-#include <PRP/KeyedObject/hsKeyedObject.h>
-#include <PRP/plCreatable.h>
+#include <PRP/plSceneNode.h>
 #include "Stream/pyStream.h"
 #include "PRP/pyCreatable.h"
 #include "PRP/pySceneNode.h"
@@ -47,12 +46,11 @@ static PyObject* pyResManager_setVer(pyResManager* self, PyObject* args) {
         return NULL;
     }
     self->fThis->setVer((PlasmaVer)ver, (force != 0));
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyResManager_getVer(pyResManager* self) {
-    return PyInt_FromLong(self->fThis->getVer());
+    return pyPlasma_convert(self->fThis->getVer());
 }
 
 static PyObject* pyResManager_readKey(pyResManager* self, PyObject* args) {
@@ -93,8 +91,7 @@ static PyObject* pyResManager_writeKey(pyResManager* self, PyObject* args) {
         return NULL;
     }
     self->fThis->writeKey(stream->fThis, *(key->fThis));
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyResManager_writeUoid(pyResManager* self, PyObject* args) {
@@ -109,8 +106,7 @@ static PyObject* pyResManager_writeUoid(pyResManager* self, PyObject* args) {
         return NULL;
     }
     self->fThis->writeUoid(stream->fThis, *(key->fThis));
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyResManager_getObject(pyResManager* self, PyObject* args) {
@@ -136,7 +132,7 @@ static PyObject* pyResManager_countKeys(pyResManager* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "countKeys expects a plLocation");
         return NULL;
     }
-    return PyInt_FromLong(self->fThis->countKeys(*(loc->fThis)));
+    return pyPlasma_convert(self->fThis->countKeys(*(loc->fThis)));
 }
 
 static PyObject* pyResManager_ReadPage(pyResManager* self, PyObject* args) {
@@ -154,8 +150,7 @@ static PyObject* pyResManager_ReadPage(pyResManager* self, PyObject* args) {
         return NULL;
     }
     if (page == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } else {
         return pyPageInfo_FromPageInfo(page);
     }
@@ -178,8 +173,7 @@ static PyObject* pyResManager_WritePage(pyResManager* self, PyObject* args) {
         PyErr_SetString(PyExc_IOError, "Error writing page");
         return NULL;
     }
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyResManager_FindPage(pyResManager* self, PyObject* args) {
@@ -194,8 +188,7 @@ static PyObject* pyResManager_FindPage(pyResManager* self, PyObject* args) {
     }
     plPageInfo* page = self->fThis->FindPage(*loc->fThis);
     if (page == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } else {
         return pyPageInfo_FromPageInfo(page);
     }
@@ -212,8 +205,7 @@ static PyObject* pyResManager_UnloadPage(pyResManager* self, PyObject* args) {
         return NULL;
     }
     self->fThis->UnloadPage(*loc->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyResManager_ReadAge(pyResManager* self, PyObject* args) {
@@ -235,8 +227,7 @@ static PyObject* pyResManager_ReadAge(pyResManager* self, PyObject* args) {
         return NULL;
     }
     if (age == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } else {
         return pyAgeInfo_FromAgeInfo(age);
     }
@@ -259,8 +250,7 @@ static PyObject* pyResManager_WriteAge(pyResManager* self, PyObject* args) {
         PyErr_SetString(PyExc_IOError, "Error writing age");
         return NULL;
     }
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyResManager_FindAge(pyResManager* self, PyObject* args) {
@@ -271,8 +261,7 @@ static PyObject* pyResManager_FindAge(pyResManager* self, PyObject* args) {
     }
     plAgeInfo* age = self->fThis->FindAge(ageName);
     if (age == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } else {
         return pyAgeInfo_FromAgeInfo(age);
     }
@@ -285,8 +274,7 @@ static PyObject* pyResManager_UnloadAge(pyResManager* self, PyObject* args) {
         return NULL;
     }
     self->fThis->UnloadAge(ageName);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyResManager_ReadCreatable(pyResManager* self, PyObject* args) {
@@ -328,8 +316,7 @@ static PyObject* pyResManager_WriteCreatable(pyResManager* self, PyObject* args)
         return NULL;
     }
     self->fThis->WriteCreatable(stream->fThis, cre->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyResManager_getSceneNode(pyResManager* self, PyObject* args) {
@@ -342,7 +329,7 @@ static PyObject* pyResManager_getSceneNode(pyResManager* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "getSceneNode expects a plLocation");
         return NULL;
     }
-    return pySceneNode_FromSceneNode(self->fThis->getSceneNode(*loc->fThis));
+    return ICreate(self->fThis->getSceneNode(*loc->fThis));
 }
 
 static PyObject* pyResManager_getLocations(pyResManager* self) {
@@ -368,7 +355,7 @@ static PyObject* pyResManager_getTypes(pyResManager* self, PyObject* args) {
     std::vector<short> types = self->fThis->getTypes(*loc->fThis, (checkKeys != 0));
     PyObject* list = PyList_New(types.size());
     for (size_t i=0; i<types.size(); i++)
-        PyList_SET_ITEM(list, i, PyInt_FromLong(types[i]));
+        PyList_SET_ITEM(list, i, pyPlasma_convert(types[i]));
     return list;
 }
 
@@ -406,8 +393,7 @@ static PyObject* pyResManager_AddObject(pyResManager* self, PyObject* args) {
 
     self->fThis->AddObject(*loc->fThis, obj->fThis);
     obj->fPyOwned = false;
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyResManager_AddPage(pyResManager* self, PyObject* args) {
@@ -423,8 +409,7 @@ static PyObject* pyResManager_AddPage(pyResManager* self, PyObject* args) {
 
     self->fThis->AddPage(page->fThis);
     page->fPyOwned = false;
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyResManager_AddAge(pyResManager* self, PyObject* args) {
@@ -440,8 +425,7 @@ static PyObject* pyResManager_AddAge(pyResManager* self, PyObject* args) {
 
     self->fThis->AddAge(age->fThis);
     age->fPyOwned = false;
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyResManager_DelObject(pyResManager* self, PyObject* args) {
@@ -456,8 +440,7 @@ static PyObject* pyResManager_DelObject(pyResManager* self, PyObject* args) {
     }
 
     self->fThis->DelObject(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyResManager_DelPage(pyResManager* self, PyObject* args) {
@@ -472,8 +455,7 @@ static PyObject* pyResManager_DelPage(pyResManager* self, PyObject* args) {
     }
 
     self->fThis->DelPage(*loc->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyResManager_DelAge(pyResManager* self, PyObject* args) {
@@ -484,8 +466,7 @@ static PyObject* pyResManager_DelAge(pyResManager* self, PyObject* args) {
     }
 
     self->fThis->DelAge(age);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyResManager_ChangeLocation(pyResManager* self, PyObject* args) {
@@ -501,8 +482,7 @@ static PyObject* pyResManager_ChangeLocation(pyResManager* self, PyObject* args)
     }
 
     self->fThis->ChangeLocation(*locFrom->fThis, *locTo->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyResManager_Methods[] = {

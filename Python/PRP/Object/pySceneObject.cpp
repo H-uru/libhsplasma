@@ -27,14 +27,12 @@ PY_PLASMA_NEW(SceneObject, plSceneObject)
 
 static PyObject* pySceneObject_clearInterfaces(pySceneObject* self) {
     self->fThis->clearInterfaces();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySceneObject_clearModifiers(pySceneObject* self) {
     self->fThis->clearModifiers();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySceneObject_addInterface(pySceneObject* self, PyObject* args) {
@@ -48,8 +46,7 @@ static PyObject* pySceneObject_addInterface(pySceneObject* self, PyObject* args)
         return NULL;
     }
     self->fThis->addInterface(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySceneObject_addModifier(pySceneObject* self, PyObject* args) {
@@ -63,8 +60,7 @@ static PyObject* pySceneObject_addModifier(pySceneObject* self, PyObject* args) 
         return NULL;
     }
     self->fThis->addModifier(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySceneObject_delInterface(pySceneObject* self, PyObject* args) {
@@ -74,8 +70,7 @@ static PyObject* pySceneObject_delInterface(pySceneObject* self, PyObject* args)
         return NULL;
     }
     self->fThis->delInterface(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySceneObject_delModifier(pySceneObject* self, PyObject* args) {
@@ -85,8 +80,7 @@ static PyObject* pySceneObject_delModifier(pySceneObject* self, PyObject* args) 
         return NULL;
     }
     self->fThis->delModifier(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySceneObject_getIntfs(pySceneObject* self, void*) {

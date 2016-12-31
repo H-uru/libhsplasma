@@ -29,8 +29,7 @@ PY_PLASMA_NEW_MSG(LightInfo, "plLightInfo is abstract")
 
 static PyObject* pyLightInfo_clearVisRegions(pyLightInfo* self) {
     self->fThis->clearVisRegions();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyLightInfo_addVisRegion(pyLightInfo* self, PyObject* args) {
@@ -40,8 +39,7 @@ static PyObject* pyLightInfo_addVisRegion(pyLightInfo* self, PyObject* args) {
         return NULL;
     }
     self->fThis->addVisRegion(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyLightInfo_getVisRegions(pyLightInfo* self, void*) {

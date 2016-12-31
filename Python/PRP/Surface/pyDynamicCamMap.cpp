@@ -33,14 +33,12 @@ static PyObject* pyDynamicCamMap_addMatLayer(pyDynamicCamMap* self, PyObject* ar
         return NULL;
     }
     self->fThis->addMatLayer(*((pyKey*)key)->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDynamicCamMap_clearMatLayers(pyDynamicCamMap* self) {
     self->fThis->clearMatLayers();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDynamicCamMap_delMatLayer(pyDynamicCamMap* self, PyObject* args) {
@@ -50,8 +48,7 @@ static PyObject* pyDynamicCamMap_delMatLayer(pyDynamicCamMap* self, PyObject* ar
         return NULL;
     }
     self->fThis->delMatLayer((size_t)idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDynamicCamMap_addTargetNode(pyDynamicCamMap* self, PyObject* args) {
@@ -61,14 +58,12 @@ static PyObject* pyDynamicCamMap_addTargetNode(pyDynamicCamMap* self, PyObject* 
         return NULL;
     }
     self->fThis->addTargetNode(*((pyKey*)key)->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDynamicCamMap_clearTargetNodes(pyDynamicCamMap* self) {
     self->fThis->clearTargetNodes();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDynamicCamMap_delTargetNode(pyDynamicCamMap* self, PyObject* args) {
@@ -78,8 +73,7 @@ static PyObject* pyDynamicCamMap_delTargetNode(pyDynamicCamMap* self, PyObject* 
         return NULL;
     }
     self->fThis->delTargetNode((size_t)idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDynamicCamMap_addVisRegion(pyDynamicCamMap* self, PyObject* args) {
@@ -89,14 +83,12 @@ static PyObject* pyDynamicCamMap_addVisRegion(pyDynamicCamMap* self, PyObject* a
         return NULL;
     }
     self->fThis->addVisRegion(*((pyKey*)key)->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDynamicCamMap_clearVisRegions(pyDynamicCamMap* self) {
     self->fThis->clearVisRegions();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDynamicCamMap_delVisRegion(pyDynamicCamMap* self, PyObject* args) {
@@ -106,8 +98,7 @@ static PyObject* pyDynamicCamMap_delVisRegion(pyDynamicCamMap* self, PyObject* a
         return NULL;
     }
     self->fThis->delVisRegion((size_t)idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDynamicCamMap_addVisRegionName(pyDynamicCamMap* self, PyObject* args) {
@@ -117,14 +108,12 @@ static PyObject* pyDynamicCamMap_addVisRegionName(pyDynamicCamMap* self, PyObjec
         return NULL;
     }
     self->fThis->addVisRegionName(PyStr_To_PlStr(name));
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDynamicCamMap_clearVisRegionNames(pyDynamicCamMap* self) {
     self->fThis->clearVisRegionNames();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDynamicCamMap_delVisRegionName(pyDynamicCamMap* self, PyObject* args) {
@@ -134,8 +123,7 @@ static PyObject* pyDynamicCamMap_delVisRegionName(pyDynamicCamMap* self, PyObjec
         return NULL;
     }
     self->fThis->delVisRegionName((size_t)idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDynamicCamMap_getVisRegions(pyDynamicCamMap* self, void*) {

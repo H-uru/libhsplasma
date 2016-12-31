@@ -27,8 +27,7 @@ PY_PLASMA_NEW(NotifyMsg, plNotifyMsg)
 
 static PyObject* pyNotifyMsg_clearEvents(pyNotifyMsg* self) {
     self->fThis->clearEvents();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyNotifyMsg_addEvent(pyNotifyMsg* self, PyObject* args) {
@@ -43,8 +42,7 @@ static PyObject* pyNotifyMsg_addEvent(pyNotifyMsg* self, PyObject* args) {
     }
     self->fThis->addEvent(evt->fThis);
     evt->fPyOwned = false;
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyNotifyMsg_delEvent(pyNotifyMsg* self, PyObject* args) {
@@ -54,8 +52,7 @@ static PyObject* pyNotifyMsg_delEvent(pyNotifyMsg* self, PyObject* args) {
         return NULL;
     }
     self->fThis->delEvent(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyNotifyMsg_getEvents(pyNotifyMsg* self, void*) {

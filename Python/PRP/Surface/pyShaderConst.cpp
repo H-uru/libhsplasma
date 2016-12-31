@@ -57,7 +57,7 @@ static PyObject* pyShaderConst_Subscript(pyShaderConst* self, PyObject* key) {
         PyErr_SetString(PyExc_IndexError, "subscript should be an int");
         return NULL;
     }
-    return PyFloat_FromDouble(self->fThis->fArray[PyInt_AsLong(key)]);
+    return pyPlasma_convert(self->fThis->fArray[PyInt_AsLong(key)]);
 }
 
 static int pyShaderConst_AssSubscript(pyShaderConst* self, PyObject* key, PyObject* value) {
@@ -76,7 +76,7 @@ static int pyShaderConst_AssSubscript(pyShaderConst* self, PyObject* key, PyObje
 static PyObject* pyShaderConst_Repr(pyShaderConst* self) {
     plString repr = plString::Format("plShaderConst(%f, %f, %f, %f)",
         self->fThis->fX, self->fThis->fY, self->fThis->fZ, self->fThis->fW);
-    return PlStr_To_PyStr(repr);
+    return pyPlasma_convert(repr);
 }
 
 static PyObject* pyShaderConst_read(pyShaderConst* self, PyObject* args) {
@@ -90,8 +90,7 @@ static PyObject* pyShaderConst_read(pyShaderConst* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyShaderConst_write(pyShaderConst* self, PyObject* args) {
@@ -105,12 +104,11 @@ static PyObject* pyShaderConst_write(pyShaderConst* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyShaderConst_getItem(pyShaderConst* self, void* which) {
-    return PyFloat_FromDouble(self->fThis->fArray[(size_t)which]);
+    return pyPlasma_convert(self->fThis->fArray[(size_t)which]);
 }
 
 static int pyShaderConst_setItem(pyShaderConst* self, PyObject* value, void* which) {

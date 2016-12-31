@@ -26,14 +26,12 @@ PY_PLASMA_NEW(ATCAnim, plATCAnim)
 
 static PyObject* pyATCAnim_clearMarkers(pyATCAnim* self) {
     self->fThis->getMarkers().clear();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyATCAnim_clearLoops(pyATCAnim* self) {
     self->fThis->getLoops().clear();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyATCAnim_setMarker(pyATCAnim* self, PyObject* args) {
@@ -44,8 +42,7 @@ static PyObject* pyATCAnim_setMarker(pyATCAnim* self, PyObject* args) {
         return NULL;
     }
     self->fThis->setMarker(key, pos);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyATCAnim_setLoop(pyATCAnim* self, PyObject* args) {
@@ -56,8 +53,7 @@ static PyObject* pyATCAnim_setLoop(pyATCAnim* self, PyObject* args) {
         return NULL;
     }
     self->fThis->setLoop(key, begin, end);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyATCAnim_getMarkers(pyATCAnim* self, void*) {
@@ -65,7 +61,7 @@ static PyObject* pyATCAnim_getMarkers(pyATCAnim* self, void*) {
     PyObject* dict = PyDict_New();
     for (plATCAnim::marker_t::iterator it = anim->getMarkers().begin();
          it != anim->getMarkers().end(); it++) {
-        PyDict_SetItemString(dict, it->first, PyFloat_FromDouble(it->second));
+        PyDict_SetItemString(dict, it->first, pyPlasma_convert(it->second));
     }
     return dict;
 }
@@ -85,7 +81,7 @@ static PyObject* pyATCAnim_getStops(pyATCAnim* self, void*) {
     plATCAnim* anim = self->fThis;
     PyObject* list = PyList_New(anim->getStops().size());
     for (size_t i = 0; i < anim->getStops().size(); i++)
-        PyList_SET_ITEM(list, i, PyFloat_FromDouble(anim->getStops()[i]));
+        PyList_SET_ITEM(list, i, pyPlasma_convert(anim->getStops()[i]));
     return list;
 }
 

@@ -27,7 +27,7 @@ PY_PLASMA_EMPTY_INIT(PageInfo)
 PY_PLASMA_NEW(PageInfo, plPageInfo)
 
 static PyObject* pyPageInfo_isValid(pyPageInfo* self) {
-    return PyBool_FromLong(self->fThis->isValid() ? 1 : 0);
+    return pyPlasma_convert(self->fThis->isValid());
 }
 
 static PyObject* pyPageInfo_read(pyPageInfo* self, PyObject* args) {
@@ -41,8 +41,7 @@ static PyObject* pyPageInfo_read(pyPageInfo* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyPageInfo_write(pyPageInfo* self, PyObject* args) {
@@ -56,8 +55,7 @@ static PyObject* pyPageInfo_write(pyPageInfo* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyPageInfo_writeSums(pyPageInfo* self, PyObject* args) {
@@ -71,8 +69,7 @@ static PyObject* pyPageInfo_writeSums(pyPageInfo* self, PyObject* args) {
         return NULL;
     }
     self->fThis->writeSums(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyPageInfo_getFilename(pyPageInfo* self, PyObject* args) {
@@ -81,7 +78,7 @@ static PyObject* pyPageInfo_getFilename(pyPageInfo* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "getFilename expects an int");
         return NULL;
     }
-    return PlStr_To_PyStr(self->fThis->getFilename((PlasmaVer)version));
+    return pyPlasma_convert(self->fThis->getFilename((PlasmaVer)version));
 }
 
 static PyMethodDef pyPageInfo_Methods[] = {

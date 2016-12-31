@@ -24,19 +24,19 @@ extern "C" {
 PY_PLASMA_NEW(DistOpacityMod, plDistOpacityMod)
 
 static PyObject* pyDistOpacityMod_getNearTrans(pyDistOpacityMod* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getDistance(plDistOpacityMod::kNearTrans));
+    return pyPlasma_convert(self->fThis->getDistance(plDistOpacityMod::kNearTrans));
 }
 
 static PyObject* pyDistOpacityMod_getNearOpaq(pyDistOpacityMod* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getDistance(plDistOpacityMod::kNearOpaq));
+    return pyPlasma_convert(self->fThis->getDistance(plDistOpacityMod::kNearOpaq));
 }
 
 static PyObject* pyDistOpacityMod_getFarOpaq(pyDistOpacityMod* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getDistance(plDistOpacityMod::kFarOpaq));
+    return pyPlasma_convert(self->fThis->getDistance(plDistOpacityMod::kFarOpaq));
 }
 
 static PyObject* pyDistOpacityMod_getFarTrans(pyDistOpacityMod* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getDistance(plDistOpacityMod::kFarTrans));
+    return pyPlasma_convert(self->fThis->getDistance(plDistOpacityMod::kFarTrans));
 }
 
 static int pyDistOpacityMod_setNearTrans(pyDistOpacityMod* self, PyObject* value, void*) {

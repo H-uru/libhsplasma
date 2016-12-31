@@ -28,7 +28,7 @@ PY_PLASMA_NEW_MSG(Key, "Cannot construct Keys directly")
 
 static PyObject* pyKey_Repr(pyKey* self) {
     plString repr = plString::Format("<plKey \"%s\">", self->fThis->toString().cstr());
-    return PlStr_To_PyStr(repr);
+    return pyPlasma_convert(repr);
 }
 
 static long pyKey_Hash(pyKey* self) {
@@ -76,13 +76,7 @@ static PyObject* pyKey_RichCompare(pyKey* left, pyKey* right, int op) {
         }
     }
 
-    if (result) {
-        Py_INCREF(Py_True);
-        return Py_True;
-    } else {
-        Py_INCREF(Py_False);
-        return Py_False;
-    }
+    return pyPlasma_convert(result);
 }
 
 static PyObject* pyKey_read(pyKey* self, PyObject* args) {
@@ -96,8 +90,7 @@ static PyObject* pyKey_read(pyKey* self, PyObject* args) {
         return NULL;
     }
     (*self->fThis)->read(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyKey_write(pyKey* self, PyObject* args) {
@@ -111,8 +104,7 @@ static PyObject* pyKey_write(pyKey* self, PyObject* args) {
         return NULL;
     }
     (*self->fThis)->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyKey_readUoid(pyKey* self, PyObject* args) {
@@ -126,8 +118,7 @@ static PyObject* pyKey_readUoid(pyKey* self, PyObject* args) {
         return NULL;
     }
     (*self->fThis)->readUoid(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyKey_writeUoid(pyKey* self, PyObject* args) {
@@ -141,16 +132,15 @@ static PyObject* pyKey_writeUoid(pyKey* self, PyObject* args) {
         return NULL;
     }
     (*self->fThis)->writeUoid(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyKey_exists(pyKey* self) {
-    return PyBool_FromBool(self->fThis->Exists());
+    return pyPlasma_convert(self->fThis->Exists());
 }
 
 static PyObject* pyKey_isLoaded(pyKey* self) {
-    return PyBool_FromBool(self->fThis->isLoaded());
+    return pyPlasma_convert(self->fThis->isLoaded());
 }
 
 static PyMethodDef pyKey_Methods[] = {
@@ -344,10 +334,8 @@ PyObject* Init_pyKey_Type() {
 PY_PLASMA_CHECK_TYPE(Key)
 
 PyObject* pyKey_FromKey(const plKey& key) {
-    if (!key.Exists()) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
+    if (!key.Exists())
+        Py_RETURN_NONE;
     pyKey* obj = PyObject_New(pyKey, &pyKey_Type);
     obj->fThis = new plKey(key);
     return (PyObject*)obj;

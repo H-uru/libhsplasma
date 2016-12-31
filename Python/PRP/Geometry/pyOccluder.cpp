@@ -28,8 +28,7 @@ PY_PLASMA_NEW(Occluder, plOccluder)
 
 static PyObject* pyOccluder_clearPolys(pyOccluder* self) {
     self->fThis->clearPolys();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyOccluder_addPoly(pyOccluder* self, PyObject* args) {
@@ -43,8 +42,7 @@ static PyObject* pyOccluder_addPoly(pyOccluder* self, PyObject* args) {
         return NULL;
     }
     self->fThis->addPoly(*poly->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyOccluder_delPoly(pyOccluder* self, PyObject* args) {
@@ -54,14 +52,12 @@ static PyObject* pyOccluder_delPoly(pyOccluder* self, PyObject* args) {
         return NULL;
     }
     self->fThis->delPoly(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyOccluder_clearVisRegions(pyOccluder* self) {
     self->fThis->clearVisRegions();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyOccluder_addVisRegion(pyOccluder* self, PyObject* args) {
@@ -75,8 +71,7 @@ static PyObject* pyOccluder_addVisRegion(pyOccluder* self, PyObject* args) {
         return NULL;
     }
     self->fThis->addVisRegion(*region->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyOccluder_delVisRegion(pyOccluder* self, PyObject* args) {
@@ -86,8 +81,7 @@ static PyObject* pyOccluder_delVisRegion(pyOccluder* self, PyObject* args) {
         return NULL;
     }
     self->fThis->delVisRegion(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyOccluder_getPolys(pyOccluder* self, void*) {

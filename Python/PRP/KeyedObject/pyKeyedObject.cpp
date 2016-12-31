@@ -39,8 +39,7 @@ PY_GETSET_GETTER_DECL(KeyedObject, key) {
     if (self->fThis->getKey().Exists()) {
         return pyKey_FromKey(self->fThis->getKey());
     } else {
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     }
 }
 

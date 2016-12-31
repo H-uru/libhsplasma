@@ -33,8 +33,7 @@ static PyObject* pyConvexIsect_addPlane(pyConvexIsect* self, PyObject* args) {
         return NULL;
     }
     self->fThis->addPlane(*((pyVector3*)normal)->fThis, *((pyVector3*)position)->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyConvexIsect_transform(pyConvexIsect* self, PyObject* args) {
@@ -45,8 +44,7 @@ static PyObject* pyConvexIsect_transform(pyConvexIsect* self, PyObject* args) {
         return NULL;
     }
     self->fThis->transform(*((pyMatrix44*)l2w)->fThis, *((pyMatrix44*)w2l)->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 PyMethodDef pyConvexIsect_Methods[] = {

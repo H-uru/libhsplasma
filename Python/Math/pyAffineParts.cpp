@@ -36,8 +36,7 @@ static PyObject* pyAffineParts_read(pyAffineParts* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyAffineParts_write(pyAffineParts* self, PyObject* args) {
@@ -51,14 +50,12 @@ static PyObject* pyAffineParts_write(pyAffineParts* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyAffineParts_reset(pyAffineParts* self) {
     self->fThis->reset();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 PyMethodDef pyAffineParts_Methods[] = {

@@ -27,7 +27,7 @@ PY_PLASMA_VALUE_NEW(DISpanIndex, plDISpanIndex)
 static PyObject* pyDISpanIndex_getIndices(pyDISpanIndex* self, void*) {
     PyObject* list = PyList_New(self->fThis->fIndices.size());
     for (size_t i=0; i<self->fThis->fIndices.size(); i++)
-        PyList_SET_ITEM(list, i, PyInt_FromLong(self->fThis->fIndices[i]));
+        PyList_SET_ITEM(list, i, pyPlasma_convert(self->fThis->fIndices[i]));
     return list;
 }
 

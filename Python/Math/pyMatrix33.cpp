@@ -100,8 +100,7 @@ static PyObject* pyMatrix33_read(pyMatrix33* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMatrix33_write(pyMatrix33* self, PyObject* args) {
@@ -115,8 +114,7 @@ static PyObject* pyMatrix33_write(pyMatrix33* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMappingMethods pyMatrix33_As_Mapping = {

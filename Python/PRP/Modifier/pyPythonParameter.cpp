@@ -58,8 +58,7 @@ static PyObject* pyPythonParameter_read(pyPythonParameter* self, PyObject* args)
         return NULL;
     }
     self->fThis->read(stream->fThis, mgr->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyPythonParameter_write(pyPythonParameter* self, PyObject* args) {
@@ -74,8 +73,7 @@ static PyObject* pyPythonParameter_write(pyPythonParameter* self, PyObject* args
         return NULL;
     }
     self->fThis->write(stream->fThis, mgr->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyPythonParameter_Methods[] = {
@@ -105,8 +103,7 @@ PY_GETSET_GETTER_DECL(PythonParameter, value) {
     case plPythonParameter::kSubtitle:
         return pyPlasma_convert(self->fThis->fStrValue);
     case plPythonParameter::kNone:
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     default:
         return pyPlasma_convert(self->fThis->fObjKey);
     }

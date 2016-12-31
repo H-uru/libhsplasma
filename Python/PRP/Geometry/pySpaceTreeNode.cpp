@@ -27,13 +27,13 @@ PY_PLASMA_VALUE_NEW(SpaceTreeNode, plSpaceTreeNode)
 
 static PyObject* pySpaceTreeNode_getChildren(pySpaceTreeNode* self) {
     PyObject* children = PyTuple_New(2);
-    PyTuple_SET_ITEM(children, 0, PyInt_FromLong(self->fThis->getLChild()));
-    PyTuple_SET_ITEM(children, 1, PyInt_FromLong(self->fThis->getRChild()));
+    PyTuple_SET_ITEM(children, 0, pyPlasma_convert(self->fThis->getLChild()));
+    PyTuple_SET_ITEM(children, 1, pyPlasma_convert(self->fThis->getRChild()));
     return children;
 }
 
 static PyObject* pySpaceTreeNode_getLeafIndex(pySpaceTreeNode* self) {
-    return PyInt_FromLong(self->fThis->getLeafIndex());
+    return pyPlasma_convert(self->fThis->getLeafIndex());
 }
 
 static PyObject* pySpaceTreeNode_setChildren(pySpaceTreeNode* self, PyObject* args) {
@@ -43,8 +43,7 @@ static PyObject* pySpaceTreeNode_setChildren(pySpaceTreeNode* self, PyObject* ar
         return NULL;
     }
     self->fThis->setChildren(left, right);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySpaceTreeNode_setLeafIndex(pySpaceTreeNode* self, PyObject* args) {
@@ -54,8 +53,7 @@ static PyObject* pySpaceTreeNode_setLeafIndex(pySpaceTreeNode* self, PyObject* a
         return NULL;
     }
     self->fThis->setLeafIndex(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pySpaceTreeNode_Methods[] = {

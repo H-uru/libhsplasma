@@ -40,8 +40,7 @@ static PyObject* pySpanInstance_read(pySpanInstance* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis, *encoding->fThis, numVerts);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySpanInstance_write(pySpanInstance* self, PyObject* args) {
@@ -55,15 +54,14 @@ static PyObject* pySpanInstance_write(pySpanInstance* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySpanInstance_getPosDeltas(pySpanInstance* self, void*) {
     std::vector<hsVector3> deltas = self->fThis->getPosDeltas();
     PyObject* list = PyList_New(deltas.size());
     for (size_t i=0; i<deltas.size(); i++)
-        PyList_SET_ITEM(list, i, pyVector3_FromVector3(deltas[i]));
+        PyList_SET_ITEM(list, i, pyPlasma_convert(deltas[i]));
     return list;
 }
 
@@ -71,7 +69,7 @@ static PyObject* pySpanInstance_getColors(pySpanInstance* self, void*) {
     std::vector<unsigned int> colors = self->fThis->getColors();
     PyObject* list = PyList_New(colors.size());
     for (size_t i=0; i<colors.size(); i++)
-        PyList_SET_ITEM(list, i, PyInt_FromLong(colors[i]));
+        PyList_SET_ITEM(list, i, pyPlasma_convert(colors[i]));
     return list;
 }
 

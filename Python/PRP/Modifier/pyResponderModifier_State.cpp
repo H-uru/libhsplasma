@@ -38,8 +38,7 @@ static PyObject* pyResponderModifier_State_addCommand(pyResponderModifier_State*
     }
     self->fThis->addCommand(msg->fThis, waitOn);
     msg->fPyOwned = false;
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyResponderModifier_State_delCommand(pyResponderModifier_State* self, PyObject* args) {
@@ -49,14 +48,12 @@ static PyObject* pyResponderModifier_State_delCommand(pyResponderModifier_State*
         return NULL;
     }
     self->fThis->delCommand(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyResponderModifier_State_clearCommands(pyResponderModifier_State* self) {
     self->fThis->clearCommands();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyResponderModifier_State_getCommands(pyResponderModifier_State* self, void*) {
@@ -70,7 +67,7 @@ static PyObject* pyResponderModifier_State_getWaits(pyResponderModifier_State* s
     PyObject* dict = PyDict_New();
     std::map<int8_t, int8_t>::iterator wp = self->fThis->fWaitToCmd.begin();
     for ( ; wp != self->fThis->fWaitToCmd.end(); wp++)
-        PyDict_SetItem(dict, PyInt_FromLong(wp->first), PyInt_FromLong(wp->second));
+        PyDict_SetItem(dict, pyPlasma_convert(wp->first), pyPlasma_convert(wp->second));
     return dict;
 }
 

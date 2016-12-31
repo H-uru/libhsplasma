@@ -32,7 +32,7 @@ static PyObject* pyObjInterface_getProp(pyObjInterface* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "getProperty expects an int");
         return NULL;
     }
-    return PyBool_FromLong(self->fThis->getProperty(prop) ? 1 : 0);
+    return pyPlasma_convert(self->fThis->getProperty(prop));
 }
 
 static PyObject* pyObjInterface_setProp(pyObjInterface* self, PyObject* args) {
@@ -42,8 +42,7 @@ static PyObject* pyObjInterface_setProp(pyObjInterface* self, PyObject* args) {
         return NULL;
     }
     self->fThis->setProperty(prop, value != 0);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 PyMethodDef pyObjInterface_Methods[] = {

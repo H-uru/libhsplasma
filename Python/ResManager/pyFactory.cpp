@@ -31,9 +31,9 @@ static PyObject* pyFactory_ClassName(PyObject*, PyObject* args) {
         return NULL;
     }
     if (version == PlasmaVer::pvUnknown)
-        return PyString_FromString(plFactory::ClassName(classIdx));
+        return pyPlasma_convert(plFactory::ClassName(classIdx));
     else
-        return PyString_FromString(plFactory::ClassName(classIdx, (PlasmaVer)version));
+        return pyPlasma_convert(plFactory::ClassName(classIdx, (PlasmaVer)version));
 }
 
 static PyObject* pyFactory_ClassIndex(PyObject*, PyObject* args) {
@@ -43,7 +43,7 @@ static PyObject* pyFactory_ClassIndex(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "ClassIndex expects a string");
         return NULL;
     }
-    return PyInt_FromLong(plFactory::ClassIndex(className));
+    return pyPlasma_convert(plFactory::ClassIndex(className));
 }
 
 static PyObject* pyFactory_ClassVersion(PyObject*, PyObject* args) {
@@ -53,7 +53,7 @@ static PyObject* pyFactory_ClassVersion(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "ClassVersion expects int, int");
         return NULL;
     }
-    return PyInt_FromLong(plFactory::ClassVersion(classIdx, (PlasmaVer)version));
+    return pyPlasma_convert(plFactory::ClassVersion(classIdx, (PlasmaVer)version));
 }
 
 static PyMethodDef pyFactory_Methods[] = {

@@ -33,14 +33,12 @@ static PyObject* pyDetectorModifier_addReceiver(pyDetectorModifier* self, PyObje
     }
 
     self->fThis->addReceiver(*((pyKey*)receiver)->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDetectorModifier_clearReceivers(pyDetectorModifier* self) {
     self->fThis->clearReceivers();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDetectorModifier_delReceiver(pyDetectorModifier* self, PyObject* args) {
@@ -51,8 +49,7 @@ static PyObject* pyDetectorModifier_delReceiver(pyDetectorModifier* self, PyObje
     }
 
     self->fThis->delReceiver((size_t)idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyDetectorModifier_Methods[] = {

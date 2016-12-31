@@ -32,8 +32,7 @@ PY_PLASMA_NEW(DrawableSpans, plDrawableSpans)
 
 static PyObject* pyDrawableSpans_clearSpans(pyDrawableSpans* self) {
     self->fThis->clearSpans();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDrawableSpans_addIcicle(pyDrawableSpans* self, PyObject* args) {
@@ -46,7 +45,7 @@ static PyObject* pyDrawableSpans_addIcicle(pyDrawableSpans* self, PyObject* args
         PyErr_SetString(PyExc_TypeError, "addIcicle expects a plIcicle");
         return NULL;
     }
-    return PyInt_FromLong(self->fThis->addIcicle(*ice->fThis));
+    return pyPlasma_convert(self->fThis->addIcicle(*ice->fThis));
 }
 
 static PyObject* pyDrawableSpans_createBGroup(pyDrawableSpans* self, PyObject* args) {
@@ -55,7 +54,7 @@ static PyObject* pyDrawableSpans_createBGroup(pyDrawableSpans* self, PyObject* a
         PyErr_SetString(PyExc_TypeError, "createBufferGroup expects an int");
         return NULL;
     }
-    return PyInt_FromLong(self->fThis->createBufferGroup(fmt));
+    return pyPlasma_convert(self->fThis->createBufferGroup(fmt));
 }
 
 static PyObject* pyDrawableSpans_deleteBGroup(pyDrawableSpans* self, PyObject* args) {
@@ -65,8 +64,7 @@ static PyObject* pyDrawableSpans_deleteBGroup(pyDrawableSpans* self, PyObject* a
         return NULL;
     }
     self->fThis->deleteBufferGroup(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDrawableSpans_getVerts(pyDrawableSpans* self, PyObject* args) {
@@ -99,7 +97,7 @@ static PyObject* pyDrawableSpans_getIndices(pyDrawableSpans* self, PyObject* arg
     std::vector<unsigned short> indices = self->fThis->getIndices(ice->fThis);
     PyObject* list = PyList_New(indices.size());
     for (size_t i=0; i<indices.size(); i++)
-        PyList_SET_ITEM(list, i, PyInt_FromLong(indices[i]));
+        PyList_SET_ITEM(list, i, pyPlasma_convert(indices[i]));
     return list;
 }
 
@@ -137,8 +135,7 @@ static PyObject* pyDrawableSpans_addVerts(pyDrawableSpans* self, PyObject* args)
         verts[i] = *((pyGBufferVertex*)vert)->fThis;
     }
     self->fThis->addVerts(buf, verts);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDrawableSpans_addIndices(pyDrawableSpans* self, PyObject* args) {
@@ -162,8 +159,7 @@ static PyObject* pyDrawableSpans_addIndices(pyDrawableSpans* self, PyObject* arg
         indices[i] = PyInt_AsLong(index);
     }
     self->fThis->addIndices(buf, indices);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDrawableSpans_addCells(pyDrawableSpans* self, PyObject* args) {
@@ -187,14 +183,12 @@ static PyObject* pyDrawableSpans_addCells(pyDrawableSpans* self, PyObject* args)
         cells[i] = *((pyGBufferCell*)cell)->fThis;
     }
     self->fThis->addCells(buf, cells);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDrawableSpans_clearDIIndices(pyDrawableSpans* self) {
     self->fThis->clearDIIndices();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDrawableSpans_addDIIndex(pyDrawableSpans* self, PyObject* args) {
@@ -207,13 +201,12 @@ static PyObject* pyDrawableSpans_addDIIndex(pyDrawableSpans* self, PyObject* arg
         PyErr_SetString(PyExc_TypeError, "addDIIndex expects a plDISpanIndex");
         return NULL;
     }
-    return PyInt_FromLong(self->fThis->addDIIndex(*idx->fThis));
+    return pyPlasma_convert(self->fThis->addDIIndex(*idx->fThis));
 }
 
 static PyObject* pyDrawableSpans_clearTransforms(pyDrawableSpans* self) {
     self->fThis->clearTransforms();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDrawableSpans_addTransform(pyDrawableSpans* self, PyObject* args) {
@@ -231,14 +224,12 @@ static PyObject* pyDrawableSpans_addTransform(pyDrawableSpans* self, PyObject* a
         return NULL;
     }
     self->fThis->addTransform(*l2w->fThis, *w2l->fThis, *l2b->fThis, *b2l->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDrawableSpans_clearMaterials(pyDrawableSpans* self) {
     self->fThis->clearMaterials();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDrawableSpans_addMaterial(pyDrawableSpans* self, PyObject* args) {
@@ -252,20 +243,17 @@ static PyObject* pyDrawableSpans_addMaterial(pyDrawableSpans* self, PyObject* ar
         return NULL;
     }
     self->fThis->addMaterial(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDrawableSpans_calcBounds(pyDrawableSpans* self) {
     self->fThis->calcBounds();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDrawableSpans_BuildSpaceTree(pyDrawableSpans* self) {
     self->fThis->BuildSpaceTree();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDrawableSpans_composeGeometry(pyDrawableSpans* self, PyObject* args) {
@@ -276,8 +264,7 @@ static PyObject* pyDrawableSpans_composeGeometry(pyDrawableSpans* self, PyObject
         return NULL;
     }
     self->fThis->composeGeometry(clearSpans, calcBounds);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDrawableSpans_decomposeGeometry(pyDrawableSpans* self, PyObject* args) {
@@ -287,8 +274,7 @@ static PyObject* pyDrawableSpans_decomposeGeometry(pyDrawableSpans* self, PyObje
         return NULL;
     }
     self->fThis->decomposeGeometry(clearColors);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDrawableSpans_buildDIIndex(pyDrawableSpans* self, PyObject* args) {
@@ -312,7 +298,7 @@ static PyObject* pyDrawableSpans_buildDIIndex(pyDrawableSpans* self, PyObject* a
             return NULL;
         }
     }
-    return PyInt_FromLong(self->fThis->buildDIIndex(spans));
+    return pyPlasma_convert(self->fThis->buildDIIndex(spans));
 }
 
 static PyObject* pyDrawableSpans_addSourceSpan(pyDrawableSpans* self, PyObject* args) {
@@ -325,7 +311,7 @@ static PyObject* pyDrawableSpans_addSourceSpan(pyDrawableSpans* self, PyObject* 
         PyErr_SetString(PyExc_TypeError, "addSourceSpan expects a plGeometrySpan");
         return NULL;
     }
-    return PyInt_FromLong(self->fThis->addSourceSpan(span->fThis));
+    return pyPlasma_convert(self->fThis->addSourceSpan(span->fThis));
 }
 
 static PyObject* pyDrawableSpans_getSpans(pyDrawableSpans* self, void*) {
@@ -352,28 +338,28 @@ static PyObject* pyDrawableSpans_getDIIndices(pyDrawableSpans* self, void*) {
 static PyObject* pyDrawableSpans_getL2Ws(pyDrawableSpans* self, void*) {
     PyObject* list = PyList_New(self->fThis->getNumTransforms());
     for (size_t i=0; i<self->fThis->getNumTransforms(); i++)
-        PyList_SET_ITEM(list, i, pyMatrix44_FromMatrix44(self->fThis->getLocalToWorld(i)));
+        PyList_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getLocalToWorld(i)));
     return list;
 }
 
 static PyObject* pyDrawableSpans_getW2Ls(pyDrawableSpans* self, void*) {
     PyObject* list = PyList_New(self->fThis->getNumTransforms());
     for (size_t i=0; i<self->fThis->getNumTransforms(); i++)
-        PyList_SET_ITEM(list, i, pyMatrix44_FromMatrix44(self->fThis->getWorldToLocal(i)));
+        PyList_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getWorldToLocal(i)));
     return list;
 }
 
 static PyObject* pyDrawableSpans_getL2Bs(pyDrawableSpans* self, void*) {
     PyObject* list = PyList_New(self->fThis->getNumTransforms());
     for (size_t i=0; i<self->fThis->getNumTransforms(); i++)
-        PyList_SET_ITEM(list, i, pyMatrix44_FromMatrix44(self->fThis->getLocalToBone(i)));
+        PyList_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getLocalToBone(i)));
     return list;
 }
 
 static PyObject* pyDrawableSpans_getB2Ls(pyDrawableSpans* self, void*) {
     PyObject* list = PyList_New(self->fThis->getNumTransforms());
     for (size_t i=0; i<self->fThis->getNumTransforms(); i++)
-        PyList_SET_ITEM(list, i, pyMatrix44_FromMatrix44(self->fThis->getBoneToLocal(i)));
+        PyList_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getBoneToLocal(i)));
     return list;
 }
 

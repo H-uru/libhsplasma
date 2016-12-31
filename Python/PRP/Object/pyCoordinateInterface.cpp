@@ -27,8 +27,7 @@ PY_PLASMA_NEW(CoordinateInterface, plCoordinateInterface)
 
 static PyObject* pyCoordinateInterface_clearChildren(pyCoordinateInterface* self) {
     self->fThis->clearChildren();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyCoordinateInterface_addChild(pyCoordinateInterface* self, PyObject* args) {
@@ -42,8 +41,7 @@ static PyObject* pyCoordinateInterface_addChild(pyCoordinateInterface* self, PyO
         return NULL;
     }
     self->fThis->addChild(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyCoordinateInterface_delChild(pyCoordinateInterface* self, PyObject* args) {
@@ -53,8 +51,7 @@ static PyObject* pyCoordinateInterface_delChild(pyCoordinateInterface* self, PyO
         return NULL;
     }
     self->fThis->delChild(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyCoordinateInterface_getChildren(pyCoordinateInterface* self, void*) {

@@ -29,7 +29,7 @@ PY_PLASMA_EMPTY_INIT(Span)
 PY_PLASMA_NEW(Span, plSpan)
 
 static PyObject* pySpan_ClassName(pySpan* self) {
-    return PyString_FromString(self->fThis->ClassName());
+    return pyPlasma_convert(self->fThis->ClassName());
 }
 
 static PyObject* pySpan_read(pySpan* self, PyObject* args) {
@@ -43,8 +43,7 @@ static PyObject* pySpan_read(pySpan* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySpan_write(pySpan* self, PyObject* args) {
@@ -58,20 +57,17 @@ static PyObject* pySpan_write(pySpan* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySpan_clearPermaLights(pySpan* self, PyObject* args) {
     self->fThis->clearPermaLights();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySpan_clearPermaProjs(pySpan* self, PyObject* args) {
     self->fThis->clearPermaProjs();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySpan_addPermaLight(pySpan* self, PyObject* args) {
@@ -85,8 +81,7 @@ static PyObject* pySpan_addPermaLight(pySpan* self, PyObject* args) {
         return NULL;
     }
     self->fThis->addPermaLight(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySpan_addPermaProj(pySpan* self, PyObject* args) {
@@ -100,8 +95,7 @@ static PyObject* pySpan_addPermaProj(pySpan* self, PyObject* args) {
         return NULL;
     }
     self->fThis->addPermaProj(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySpan_getLights(pySpan* self, void*) {

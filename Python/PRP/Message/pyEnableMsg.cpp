@@ -29,7 +29,7 @@ static PyObject* pyEnableMsg_getCmd(pyEnableMsg* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "getCmd expects an int");
         return NULL;
     }
-    return PyBool_FromLong(self->fThis->getCmd().get((size_t)idx) ? 1 : 0);
+    return pyPlasma_convert(self->fThis->getCmd().get((size_t)idx));
 }
 
 static PyObject* pyEnableMsg_getType(pyEnableMsg* self, PyObject* args) {
@@ -38,7 +38,7 @@ static PyObject* pyEnableMsg_getType(pyEnableMsg* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "getType expects an int");
         return NULL;
     }
-    return PyBool_FromLong(self->fThis->getTypes().get((size_t)idx) ? 1 : 0);
+    return pyPlasma_convert(self->fThis->getTypes().get((size_t)idx));
 }
 
 static PyObject* pyEnableMsg_setCmd(pyEnableMsg* self, PyObject* args) {
@@ -48,8 +48,7 @@ static PyObject* pyEnableMsg_setCmd(pyEnableMsg* self, PyObject* args) {
         return NULL;
     }
     self->fThis->getCmd().set(idx, value != 0);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyEnableMsg_setType(pyEnableMsg* self, PyObject* args) {
@@ -59,8 +58,7 @@ static PyObject* pyEnableMsg_setType(pyEnableMsg* self, PyObject* args) {
         return NULL;
     }
     self->fThis->getTypes().set(idx, value != 0);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyEnableMsg_Methods[] = {

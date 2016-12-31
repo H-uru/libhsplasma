@@ -27,9 +27,9 @@ PY_PLASMA_VALUE_NEW(GBufferVertex, plGBufferVertex)
 
 static PyObject* pyGBufferVertex_getWeights(pyGBufferVertex* self, void*) {
     PyObject* list = PyList_New(3);
-    PyList_SET_ITEM(list, 0, PyFloat_FromDouble(self->fThis->fSkinWeights[0]));
-    PyList_SET_ITEM(list, 1, PyFloat_FromDouble(self->fThis->fSkinWeights[1]));
-    PyList_SET_ITEM(list, 2, PyFloat_FromDouble(self->fThis->fSkinWeights[2]));
+    PyList_SET_ITEM(list, 0, pyPlasma_convert(self->fThis->fSkinWeights[0]));
+    PyList_SET_ITEM(list, 1, pyPlasma_convert(self->fThis->fSkinWeights[1]));
+    PyList_SET_ITEM(list, 2, pyPlasma_convert(self->fThis->fSkinWeights[2]));
     return list;
 }
 

@@ -27,7 +27,7 @@ PY_PLASMA_NEW(DynamicTextMap, plDynamicTextMap)
 static PyObject* pyDynamicTextMap_getInitBuffer(pyDynamicTextMap* self, void*) {
     PyObject* data = PyList_New(self->fThis->getInitBufferSize());
     for (size_t i=0; i<self->fThis->getInitBufferSize(); i++)
-        PyList_SET_ITEM(data, i, PyInt_FromLong(self->fThis->getInitBuffer()[i]));
+        PyList_SET_ITEM(data, i, pyPlasma_convert(self->fThis->getInitBuffer()[i]));
     return data;
 }
 

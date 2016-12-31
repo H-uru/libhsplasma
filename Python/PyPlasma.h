@@ -117,10 +117,8 @@ inline char* _pycs(const char (&str)[size]) { return const_cast<char*>(str); }
 #define PY_PLASMA_IFC_METHODS(pyType, plType)                           \
     PY_PLASMA_CHECK_TYPE(pyType)                                        \
     PyObject* py##pyType##_From##pyType(plType* obj) {                  \
-        if (!obj) {                                                     \
-            Py_INCREF(Py_None);                                         \
-            return Py_None;                                             \
-        }                                                               \
+        if (!obj)                                                       \
+            Py_RETURN_NONE;                                             \
         py##pyType* pyobj = PyObject_New(py##pyType, &py##pyType##_Type); \
         pyobj->fThis = obj;                                             \
         pyobj->fPyOwned = false;                                        \
@@ -226,6 +224,7 @@ inline PyObject* pyPlasma_convert(float value) { return PyFloat_FromDouble((doub
 inline PyObject* pyPlasma_convert(double value) { return PyFloat_FromDouble(value); }
 inline PyObject* pyPlasma_convert(bool value) { return PyBool_FromBool(value); }
 inline PyObject* pyPlasma_convert(const plString& value) { return PlStr_To_PyStr(value); }
+inline PyObject* pyPlasma_convert(const char* value) { return PyString_FromString(value); }
 inline PyObject* pyPlasma_convert(CallbackEvent value) { return PyInt_FromLong((long)value); }
 inline PyObject* pyPlasma_convert(ControlEventCode value) { return PyInt_FromLong((long)value); }
 inline PyObject* pyPlasma_convert(plKeyDef value) { return PyInt_FromLong((long)value); }

@@ -37,19 +37,11 @@ PY_PLASMA_NEW_MSG(Stream, "hsStream is abstract")
 
 static PyObject* pyStream_close(pyStream* self) {
     self->fThis->close();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyStream_eof(pyStream* self) {
-    bool eof = self->fThis->eof();
-    if (eof) {
-        Py_INCREF(Py_True);
-        return Py_True;
-    } else {
-        Py_INCREF(Py_False);
-        return Py_False;
-    }
+    return pyPlasma_convert(self->fThis->eof());
 }
 
 static PyObject* pyStream_seek(pyStream* self, PyObject* args) {
@@ -59,8 +51,7 @@ static PyObject* pyStream_seek(pyStream* self, PyObject* args) {
         return NULL;
     }
     self->fThis->seek((uint32_t)pos);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyStream_skip(pyStream* self, PyObject* args) {
@@ -70,26 +61,22 @@ static PyObject* pyStream_skip(pyStream* self, PyObject* args) {
         return NULL;
     }
     self->fThis->skip(count);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyStream_fastForward(pyStream* self) {
     self->fThis->fastForward();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyStream_rewind(pyStream* self) {
     self->fThis->rewind();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyStream_flush(pyStream* self) {
     self->fThis->flush();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyStream_read(pyStream* self, PyObject* args) {
@@ -120,8 +107,7 @@ static PyObject* pyStream_write(pyStream* self, PyObject* args) {
     }
     try {
         self->fThis->write((size_t)dataSize, data);
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
         return NULL;
@@ -145,13 +131,12 @@ static PyObject* pyStream_writeFrom(pyStream* self, PyObject* args) {
         return NULL;
     }
 
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyStream_readByte(pyStream* self) {
     try {
-        return PyInt_FromLong(self->fThis->readByte());
+        return pyPlasma_convert(self->fThis->readByte());
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
         return NULL;
@@ -160,7 +145,7 @@ static PyObject* pyStream_readByte(pyStream* self) {
 
 static PyObject* pyStream_readShort(pyStream* self) {
     try {
-        return PyInt_FromLong(self->fThis->readShort());
+        return pyPlasma_convert(self->fThis->readShort());
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
         return NULL;
@@ -169,7 +154,7 @@ static PyObject* pyStream_readShort(pyStream* self) {
 
 static PyObject* pyStream_readInt(pyStream* self) {
     try {
-        return PyInt_FromLong(self->fThis->readInt());
+        return pyPlasma_convert(self->fThis->readInt());
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
         return NULL;
@@ -178,7 +163,7 @@ static PyObject* pyStream_readInt(pyStream* self) {
 
 static PyObject* pyStream_readFloat(pyStream* self) {
     try {
-        return PyFloat_FromDouble(self->fThis->readFloat());
+        return pyPlasma_convert(self->fThis->readFloat());
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
         return NULL;
@@ -187,7 +172,7 @@ static PyObject* pyStream_readFloat(pyStream* self) {
 
 static PyObject* pyStream_readDouble(pyStream* self) {
     try {
-        return PyFloat_FromDouble(self->fThis->readDouble());
+        return pyPlasma_convert(self->fThis->readDouble());
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
         return NULL;
@@ -196,8 +181,7 @@ static PyObject* pyStream_readDouble(pyStream* self) {
 
 static PyObject* pyStream_readBool(pyStream* self) {
     try {
-        bool b = self->fThis->readBool();
-        return PyBool_FromLong(b ? 1 : 0);
+        return pyPlasma_convert(self->fThis->readBool());
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
         return NULL;
@@ -206,8 +190,7 @@ static PyObject* pyStream_readBool(pyStream* self) {
 
 static PyObject* pyStream_readSafeStr(pyStream* self) {
     try {
-        plString str = self->fThis->readSafeStr();
-        return PlStr_To_PyStr(str);
+        return pyPlasma_convert(self->fThis->readSafeStr());
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
         return NULL;
@@ -216,8 +199,7 @@ static PyObject* pyStream_readSafeStr(pyStream* self) {
 
 static PyObject* pyStream_readSafeWStr(pyStream* self) {
     try {
-        plString str = self->fThis->readSafeWStr();
-        return PlStr_To_PyStr(str);
+        return pyPlasma_convert(self->fThis->readSafeWStr());
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
         return NULL;
@@ -226,8 +208,7 @@ static PyObject* pyStream_readSafeWStr(pyStream* self) {
 
 static PyObject* pyStream_readLine(pyStream* self) {
     try {
-        plString str = self->fThis->readLine();
-        return PlStr_To_PyStr(str);
+        return pyPlasma_convert(self->fThis->readLine());
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
         return NULL;
@@ -242,8 +223,7 @@ static PyObject* pyStream_writeByte(pyStream* self, PyObject* args) {
     }
     try {
         self->fThis->writeByte(b);
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
         return NULL;
@@ -258,8 +238,7 @@ static PyObject* pyStream_writeShort(pyStream* self, PyObject* args) {
     }
     try {
         self->fThis->writeShort(h);
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
         return NULL;
@@ -274,8 +253,7 @@ static PyObject* pyStream_writeInt(pyStream* self, PyObject* args) {
     }
     try {
         self->fThis->writeInt(i);
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
         return NULL;
@@ -290,8 +268,7 @@ static PyObject* pyStream_writeFloat(pyStream* self, PyObject* args) {
     }
     try {
         self->fThis->writeFloat(f);
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
         return NULL;
@@ -306,8 +283,7 @@ static PyObject* pyStream_writeDouble(pyStream* self, PyObject* args) {
     }
     try {
         self->fThis->writeDouble(d);
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
         return NULL;
@@ -322,8 +298,7 @@ static PyObject* pyStream_writeBool(pyStream* self, PyObject* args) {
     }
     try {
         self->fThis->writeBool(b);
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
         return NULL;
@@ -338,8 +313,7 @@ static PyObject* pyStream_writeSafeStr(pyStream* self, PyObject* args) {
     }
     try {
         self->fThis->writeSafeStr(str);
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
         return NULL;
@@ -354,8 +328,7 @@ static PyObject* pyStream_writeSafeWStr(pyStream* self, PyObject* args) {
     }
     try {
         self->fThis->writeSafeWStr(str);
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
         return NULL;
@@ -370,8 +343,7 @@ static PyObject* pyStream_writeLine(pyStream* self, PyObject* args) {
     }
     try {
         self->fThis->writeLine(str);
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
         return NULL;

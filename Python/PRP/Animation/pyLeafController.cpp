@@ -28,11 +28,11 @@ PY_PLASMA_EMPTY_INIT(LeafController)
 PY_PLASMA_NEW(LeafController, plLeafController)
 
 static PyObject* pyLeafController_hasKeys(pyLeafController* self) {
-    return PyBool_FromBool(self->fThis->hasKeys());
+    return pyPlasma_convert(self->fThis->hasKeys());
 }
 
 static PyObject* pyLeafController_hasEaseControllers(pyLeafController* self) {
-    return PyBool_FromBool(self->fThis->hasEaseControllers());
+    return pyPlasma_convert(self->fThis->hasEaseControllers());
 }
 
 static PyObject* pyLeafController_ExpandToKeyController(pyLeafController* self) {
@@ -50,7 +50,7 @@ static PyObject* pyLeafController_getKeys(pyLeafController* self, void*) {
         PyTuple_SET_ITEM(keyTup, i, pyKeyFrame_FromKeyFrame(keys[i]));
     PyObject* tup = PyTuple_New(2);
     PyTuple_SET_ITEM(tup, 0, keyTup);
-    PyTuple_SET_ITEM(tup, 1, PyInt_FromLong(self->fThis->getType()));
+    PyTuple_SET_ITEM(tup, 1, pyPlasma_convert(self->fThis->getType()));
     return tup;
 }
 

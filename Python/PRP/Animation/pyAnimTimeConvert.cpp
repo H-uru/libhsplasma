@@ -37,8 +37,7 @@ static PyObject* pyAnimTimeConvert_addCallback(pyAnimTimeConvert* self, PyObject
     }
     msg->fPyOwned = false;
     self->fThis->addCallback(msg->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyAnimTimeConvert_delCallback(pyAnimTimeConvert* self, PyObject* args) {
@@ -48,20 +47,18 @@ static PyObject* pyAnimTimeConvert_delCallback(pyAnimTimeConvert* self, PyObject
         return NULL;
     }
     self->fThis->delCallback(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyAnimTimeConvert_clearCallbacks(pyAnimTimeConvert* self) {
     self->fThis->clearCallbacks();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyAnimTimeConvert_getStops(pyAnimTimeConvert* self, void*) {
     PyObject* list = PyList_New(self->fThis->getStopPoints().size());
     for (size_t i=0; i<self->fThis->getStopPoints().size(); i++)
-        PyList_SET_ITEM(list, i, PyFloat_FromDouble(self->fThis->getStopPoints()[i]));
+        PyList_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getStopPoints()[i]));
     return list;
 }
 

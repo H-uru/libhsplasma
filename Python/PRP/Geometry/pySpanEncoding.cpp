@@ -36,8 +36,7 @@ static PyObject* pySpanEncoding_read(pySpanEncoding* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySpanEncoding_write(pySpanEncoding* self, PyObject* args) {
@@ -51,8 +50,7 @@ static PyObject* pySpanEncoding_write(pySpanEncoding* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pySpanEncoding_Methods[] = {

@@ -38,7 +38,7 @@ static PyObject* pyLocation_Repr(pyLocation* self) {
     plString repr = plString::Format("<plLocation \"%d|%d\">",
                                      self->fThis->getSeqPrefix(),
                                      self->fThis->getPageNum());
-    return PlStr_To_PyStr(repr);
+    return pyPlasma_convert(repr);
 }
 
 static long pyLocation_Hash(pyLocation* self) {
@@ -74,13 +74,7 @@ static PyObject* pyLocation_RichCompare(pyLocation* left, pyLocation* right, int
         return NULL;
     }
 
-    if (result) {
-        Py_INCREF(Py_True);
-        return Py_True;
-    } else {
-        Py_INCREF(Py_False);
-        return Py_False;
-    }
+    return pyPlasma_convert(result);
 }
 
 static PyObject* pyLocation_read(pyLocation* self, PyObject* args) {
@@ -94,8 +88,7 @@ static PyObject* pyLocation_read(pyLocation* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyLocation_write(pyLocation* self, PyObject* args) {
@@ -109,40 +102,37 @@ static PyObject* pyLocation_write(pyLocation* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyLocation_invalidate(pyLocation* self) {
     self->fThis->invalidate();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyLocation_isValid(pyLocation* self) {
-    return PyBool_FromLong(self->fThis->isValid() ? 1 : 0);
+    return pyPlasma_convert(self->fThis->isValid());
 }
 
 static PyObject* pyLocation_isReserved(pyLocation* self) {
-    return PyBool_FromLong(self->fThis->isReserved() ? 1 : 0);
+    return pyPlasma_convert(self->fThis->isReserved());
 }
 
 static PyObject* pyLocation_isItinerant(pyLocation* self) {
-    return PyBool_FromLong(self->fThis->isItinerant() ? 1 : 0);
+    return pyPlasma_convert(self->fThis->isItinerant());
 }
 
 static PyObject* pyLocation_isVirtual(pyLocation* self) {
-    return PyBool_FromLong(self->fThis->isVirtual() ? 1 : 0);
+    return pyPlasma_convert(self->fThis->isVirtual());
 }
 
 static PyObject* pyLocation_isGlobal(pyLocation* self) {
-    return PyBool_FromLong(self->fThis->isGlobal() ? 1 : 0);
+    return pyPlasma_convert(self->fThis->isGlobal());
 }
 
 static PyObject* pyLocation_setVirtual(pyLocation* self) {
     self->fThis->setVirtual();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyLocation_parse(pyLocation* self, PyObject* args) {
@@ -152,12 +142,11 @@ static PyObject* pyLocation_parse(pyLocation* self, PyObject* args) {
         return NULL;
     }
     self->fThis->parse(loc);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyLocation_unparse(pyLocation* self) {
-    return PyInt_FromLong(self->fThis->unparse());
+    return pyPlasma_convert(self->fThis->unparse());
 }
 
 static PyMethodDef pyLocation_Methods[] = {

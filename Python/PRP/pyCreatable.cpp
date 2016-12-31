@@ -27,7 +27,7 @@ PY_PLASMA_EMPTY_INIT(Creatable)
 PY_PLASMA_NEW_MSG(Creatable, "plCreatable is abstract")
 
 static PyObject* pyCreatable_ClassIndex(pyCreatable* self) {
-    return PyInt_FromLong(self->fThis->ClassIndex());
+    return pyPlasma_convert(self->fThis->ClassIndex());
 }
 
 static PyObject* pyCreatable_ClassIndexVer(pyCreatable* self, PyObject* args) {
@@ -36,11 +36,11 @@ static PyObject* pyCreatable_ClassIndexVer(pyCreatable* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "ClassIndexVer expects an int");
         return NULL;
     }
-    return PyInt_FromLong(self->fThis->ClassIndex((PlasmaVer)ver));
+    return pyPlasma_convert(self->fThis->ClassIndex((PlasmaVer)ver));
 }
 
 static PyObject* pyCreatable_ClassName(pyCreatable* self) {
-    return PyString_FromString(self->fThis->ClassName());
+    return pyPlasma_convert(self->fThis->ClassName());
 }
 
 static PyObject* pyCreatable_ClassInstance(pyCreatable* self, PyObject* args) {
@@ -49,13 +49,11 @@ static PyObject* pyCreatable_ClassInstance(pyCreatable* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "ClassInstance expects an int");
         return NULL;
     }
-    bool yes = self->fThis->ClassInstance(classId);
-    return PyBool_FromLong(yes ? 1 : 0);
+    return pyPlasma_convert(self->fThis->ClassInstance(classId));
 }
 
 static PyObject* pyCreatable_isStub(pyCreatable* self) {
-    bool yes = self->fThis->isStub();
-    return PyBool_FromLong(yes ? 1 : 0);
+    return pyPlasma_convert(self->fThis->isStub());
 }
 
 static PyObject* pyCreatable_read(pyCreatable* self, PyObject* args) {
@@ -70,8 +68,7 @@ static PyObject* pyCreatable_read(pyCreatable* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis, mgr->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyCreatable_write(pyCreatable* self, PyObject* args) {
@@ -86,8 +83,7 @@ static PyObject* pyCreatable_write(pyCreatable* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis, mgr->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyCreatable_Methods[] = {

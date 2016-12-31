@@ -71,12 +71,11 @@ static PyObject* pyEncryptedStream_setKey(pyEncryptedStream* self, PyObject* arg
     }
     Py_DECREF(keyList);
     self->fThis->setKey((unsigned int*)key);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyEncryptedStream_getEncType(pyEncryptedStream* self) {
-    return PyInt_FromLong(self->fThis->getEncType());
+    return pyPlasma_convert(self->fThis->getEncType());
 }
 
 static PyObject* pyEncryptedStream_IsFileEncrypted(PyObject*, PyObject* args) {
@@ -85,8 +84,7 @@ static PyObject* pyEncryptedStream_IsFileEncrypted(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "IsFileEncrypted expects a string");
         return NULL;
     }
-    bool result = plEncryptedStream::IsFileEncrypted(filename);
-    return PyBool_FromLong(result ? 1 : 0);
+    return pyPlasma_convert(plEncryptedStream::IsFileEncrypted(filename));
 }
 
 static PyObject* pyEncryptedStream__enter__(PyObject* self) {
@@ -96,8 +94,7 @@ static PyObject* pyEncryptedStream__enter__(PyObject* self) {
 
 static PyObject* pyEncryptedStream__exit__(pyEncryptedStream* self, PyObject* args) {
     self->fThis->close();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyEncryptedStream_Methods[] = {

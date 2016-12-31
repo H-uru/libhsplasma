@@ -31,12 +31,10 @@ static PyObject* pyBitVector_Subscript(pyBitVector* self, PyObject* key) {
         plString name = PyStr_To_PlStr(key);
         int idx = (int)self->fThis->getValue(name);
         Py_DECREF(key);
-        bool v = self->fThis->get(idx);
-        return PyBool_FromLong(v ? 1 : 0);
+        return pyPlasma_convert(self->fThis->get(idx));
     } else if (PyInt_Check(key)) {
         int idx = PyInt_AsLong(key);
-        bool v = self->fThis->get(idx);
-        return PyBool_FromLong(v ? 1 : 0);
+        return pyPlasma_convert(self->fThis->get(idx));
     } else {
         PyErr_SetString(PyExc_TypeError, "Invalid subscript");
         return NULL;
@@ -68,19 +66,17 @@ static int pyBitVector_AssSubscript(pyBitVector* self, PyObject* key, PyObject* 
 }
 
 static PyObject* pyBitVector_isEmpty(pyBitVector* self) {
-    return PyBool_FromLong(self->fThis->isEmpty() ? 1 : 0);
+    return pyPlasma_convert(self->fThis->isEmpty());
 }
 
 static PyObject* pyBitVector_clear(pyBitVector* self) {
     self->fThis->clear();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyBitVector_compact(pyBitVector* self) {
     self->fThis->compact();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyBitVector_getName(pyBitVector* self, PyObject* args) {
@@ -89,7 +85,7 @@ static PyObject* pyBitVector_getName(pyBitVector* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "getName expects an int");
         return NULL;
     }
-    return PlStr_To_PyStr(self->fThis->getName((size_t)index));
+    return pyPlasma_convert(self->fThis->getName((size_t)index));
 }
 
 static PyObject* pyBitVector_getValue(pyBitVector* self, PyObject* args) {
@@ -98,7 +94,7 @@ static PyObject* pyBitVector_getValue(pyBitVector* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "getValue expects a string");
         return NULL;
     }
-    return PyInt_FromLong(self->fThis->getValue(name));
+    return pyPlasma_convert(self->fThis->getValue(name));
 }
 
 static PyObject* pyBitVector_setName(pyBitVector* self, PyObject* args) {
@@ -109,8 +105,7 @@ static PyObject* pyBitVector_setName(pyBitVector* self, PyObject* args) {
         return NULL;
     }
     self->fThis->setName(index, name);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyBitVector_read(pyBitVector* self, PyObject* args) {
@@ -124,8 +119,7 @@ static PyObject* pyBitVector_read(pyBitVector* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyBitVector_write(pyBitVector* self, PyObject* args) {
@@ -139,8 +133,7 @@ static PyObject* pyBitVector_write(pyBitVector* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMappingMethods pyBitVector_AsMapping = {

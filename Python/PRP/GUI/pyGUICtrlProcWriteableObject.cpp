@@ -36,8 +36,7 @@ static PyObject* pyGUICtrlProcWriteableObject_Read(PyObject*, PyObject* args) {
     pfGUICtrlProcWriteableObject* proc = pfGUICtrlProcWriteableObject::Read(stream->fThis);
     PyObject* pyproc = NULL;
     if (proc == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } else if (proc->getType() == pfGUICtrlProcWriteableObject::kConsoleCmd) {
         pyproc = pyGUIConsoleCmdProc_FromGUIConsoleCmdProc((pfGUIConsoleCmdProc*)proc);
         ((pyGUIConsoleCmdProc*)pyproc)->fPyOwned = true;
@@ -66,8 +65,7 @@ static PyObject* pyGUICtrlProcWriteableObject_Write(PyObject*, PyObject* args) {
         return NULL;
     }
     pfGUICtrlProcWriteableObject::Write(stream->fThis, proc->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyGUICtrlProcWriteableObject_Methods[] = {

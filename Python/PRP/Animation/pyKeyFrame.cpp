@@ -36,8 +36,7 @@ static PyObject* pyKeyFrame_read(pyKeyFrame* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis, type);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyKeyFrame_write(pyKeyFrame* self, PyObject* args) {
@@ -51,8 +50,7 @@ static PyObject* pyKeyFrame_write(pyKeyFrame* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyKeyFrame_Methods[] = {

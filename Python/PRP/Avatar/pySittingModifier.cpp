@@ -31,14 +31,12 @@ static PyObject* pySittingModifier_addNotifyKey(pySittingModifier* self, PyObjec
         return NULL;
     }
     self->fThis->addNotifyKey(*((pyKey*)key)->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySittingModifier_clearNotifyKeys(pySittingModifier* self) {
     self->fThis->clearNotifyKeys();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySittingModifier_delNotifyKey(pySittingModifier* self, PyObject* args) {
@@ -48,8 +46,7 @@ static PyObject* pySittingModifier_delNotifyKey(pySittingModifier* self, PyObjec
         return NULL;
     }
     self->fThis->delNotifyKey((size_t)idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pySittingModifier_Methods[] = {

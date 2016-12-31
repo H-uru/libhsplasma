@@ -50,8 +50,7 @@ static PyObject* pyFileStream__enter__(PyObject* self) {
 
 static PyObject* pyFileStream__exit__(pyFileStream* self, PyObject* args) {
     self->fThis->close();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyFileStream_Methods[] = {

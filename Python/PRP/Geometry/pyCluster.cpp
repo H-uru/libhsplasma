@@ -41,8 +41,7 @@ static PyObject* pyCluster_read(pyCluster* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis, group->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyCluster_write(pyCluster* self, PyObject* args) {
@@ -56,14 +55,12 @@ static PyObject* pyCluster_write(pyCluster* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyCluster_clearInstances(pyCluster* self) {
     self->fThis->clearInstances();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyCluster_addInstance(pyCluster* self, PyObject* args) {
@@ -78,8 +75,7 @@ static PyObject* pyCluster_addInstance(pyCluster* self, PyObject* args) {
     }
     self->fThis->addInstance(instance->fThis);
     instance->fPyOwned = false;
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyCluster_delInstance(pyCluster* self, PyObject* args) {
@@ -89,8 +85,7 @@ static PyObject* pyCluster_delInstance(pyCluster* self, PyObject* args) {
         return NULL;
     }
     self->fThis->delInstance(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyCluster_getInstances(pyCluster* self, void*) {

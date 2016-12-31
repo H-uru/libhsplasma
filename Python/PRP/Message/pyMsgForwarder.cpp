@@ -27,8 +27,7 @@ PY_PLASMA_NEW(MsgForwarder, plMsgForwarder)
 
 static PyObject* pyMsgForwarder_clearKeys(pyMsgForwarder* self) {
     self->fThis->clearForwardKeys();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMsgForwarder_addKey(pyMsgForwarder* self, PyObject* args) {
@@ -42,8 +41,7 @@ static PyObject* pyMsgForwarder_addKey(pyMsgForwarder* self, PyObject* args) {
         return NULL;
     }
     self->fThis->addForwardKey(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMsgForwarder_delKey(pyMsgForwarder* self, PyObject* args) {
@@ -53,8 +51,7 @@ static PyObject* pyMsgForwarder_delKey(pyMsgForwarder* self, PyObject* args) {
         return NULL;
     }
     self->fThis->delForwardKey(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMsgForwarder_getForwardKeys(pyMsgForwarder* self, void*) {

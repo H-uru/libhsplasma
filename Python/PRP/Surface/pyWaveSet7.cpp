@@ -31,14 +31,12 @@ static PyObject* pyWaveSet7_addShore(pyWaveSet7* self, PyObject* args) {
         return NULL;
     }
     self->fThis->addShore(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyWaveSet7_clearShores(pyWaveSet7* self) {
     self->fThis->clearShores();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyWaveSet7_delShore(pyWaveSet7* self, PyObject* args) {
@@ -52,8 +50,7 @@ static PyObject* pyWaveSet7_delShore(pyWaveSet7* self, PyObject* args) {
         return NULL;
     }
     self->fThis->delShore(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyWaveSet7_addDecal(pyWaveSet7* self, PyObject* args) {
@@ -63,14 +60,12 @@ static PyObject* pyWaveSet7_addDecal(pyWaveSet7* self, PyObject* args) {
         return NULL;
     }
     self->fThis->addDecal(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyWaveSet7_clearDecals(pyWaveSet7* self) {
     self->fThis->clearDecals();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyWaveSet7_delDecal(pyWaveSet7* self, PyObject* args) {
@@ -84,8 +79,7 @@ static PyObject* pyWaveSet7_delDecal(pyWaveSet7* self, PyObject* args) {
         return NULL;
     }
     self->fThis->delDecal(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyWaveSet7_Methods[] = {

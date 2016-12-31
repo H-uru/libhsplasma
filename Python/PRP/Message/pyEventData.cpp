@@ -27,7 +27,7 @@ PY_PLASMA_EMPTY_INIT(EventData)
 PY_PLASMA_NEW_MSG(EventData, "proEventData is abstract")
 
 static PyObject* pyEventData_EventType(pyEventData* self) {
-    return PyInt_FromLong(self->fThis->EventType());
+    return pyPlasma_convert(self->fThis->EventType());
 }
 
 static PyObject* pyEventData_Read(PyObject*, PyObject* args) {
@@ -59,8 +59,7 @@ static PyObject* pyEventData_write(pyEventData* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis, mgr->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyEventData_Methods[] = {

@@ -42,8 +42,7 @@ static PyObject* pyGeometrySpan_addPermaLight(pyGeometrySpan* self, PyObject* ar
     }
 
     self->fThis->addPermaLight(*((pyKey*)light)->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyGeometrySpan_delPermaLight(pyGeometrySpan* self, PyObject* args) {
@@ -54,14 +53,12 @@ static PyObject* pyGeometrySpan_delPermaLight(pyGeometrySpan* self, PyObject* ar
     }
 
     self->fThis->delPermaLight((size_t)idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyGeometrySpan_clearPermaLights(pyGeometrySpan* self) {
     self->fThis->clearPermaLights();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyGeometrySpan_addPermaProj(pyGeometrySpan* self, PyObject* args) {
@@ -72,8 +69,7 @@ static PyObject* pyGeometrySpan_addPermaProj(pyGeometrySpan* self, PyObject* arg
     }
 
     self->fThis->addPermaProj(*((pyKey*)light)->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyGeometrySpan_delPermaProj(pyGeometrySpan* self, PyObject* args) {
@@ -84,20 +80,18 @@ static PyObject* pyGeometrySpan_delPermaProj(pyGeometrySpan* self, PyObject* arg
     }
 
     self->fThis->delPermaProj((size_t)idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyGeometrySpan_clearPermaProjs(pyGeometrySpan* self) {
     self->fThis->clearPermaProjs();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyGeometrySpan_getIndices(pyGeometrySpan* self, void*) {
     PyObject* list = PyList_New(self->fThis->getIndices().size());
     for (size_t i = 0; i < self->fThis->getIndices().size(); ++i)
-        PyList_SET_ITEM(list, i, PyInt_FromLong(self->fThis->getIndices()[i]));
+        PyList_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getIndices()[i]));
     return list;
 }
 
@@ -372,10 +366,8 @@ int pyGeometrySpan_Check(PyObject* obj) {
 }
 
 PyObject* pyGeometrySpan_FromGeometrySpan(const std::shared_ptr<plGeometrySpan>& span) {
-    if (span == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
+    if (span == NULL)
+        Py_RETURN_NONE;
     pyGeometrySpan* pspan = PyObject_New(pyGeometrySpan, &pyGeometrySpan_Type);
     pspan->fThis = span;
     return (PyObject*)pspan;

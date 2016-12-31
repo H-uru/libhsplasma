@@ -31,14 +31,12 @@ static PyObject* pySoftVolumeComplex_addSubVolume(pySoftVolumeComplex* self, PyO
         return NULL;
     }
     self->fThis->addSubVolume(*((pyKey*)key)->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySoftVolumeComplex_clearSubVolumes(pySoftVolumeComplex* self) {
     self->fThis->clearSubVolumes();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySoftVolumeComplex_delSubVolume(pySoftVolumeComplex* self, PyObject* args) {
@@ -52,8 +50,7 @@ static PyObject* pySoftVolumeComplex_delSubVolume(pySoftVolumeComplex* self, PyO
         return NULL;
     }
     self->fThis->delSubVolume((size_t)idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pySoftVolumeComplex_Methods[] = {

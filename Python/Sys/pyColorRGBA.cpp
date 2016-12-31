@@ -67,8 +67,7 @@ static PyObject* pyColorRGBA_set(pyColorRGBA* self, PyObject* args, PyObject* kw
     }
 
     self->fThis->set(red, green, blue, alpha);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyColorRGBA_setFrom(pyColorRGBA* self, PyObject* args) {
@@ -82,8 +81,7 @@ static PyObject* pyColorRGBA_setFrom(pyColorRGBA* self, PyObject* args) {
         return NULL;
     }
     self->fThis->set(*from->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyColorRGBA_read(pyColorRGBA* self, PyObject* args) {
@@ -97,8 +95,7 @@ static PyObject* pyColorRGBA_read(pyColorRGBA* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyColorRGBA_write(pyColorRGBA* self, PyObject* args) {
@@ -112,8 +109,7 @@ static PyObject* pyColorRGBA_write(pyColorRGBA* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyColorRGBA_readRGB(pyColorRGBA* self, PyObject* args) {
@@ -127,8 +123,7 @@ static PyObject* pyColorRGBA_readRGB(pyColorRGBA* self, PyObject* args) {
         return NULL;
     }
     self->fThis->readRGB(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyColorRGBA_writeRGB(pyColorRGBA* self, PyObject* args) {
@@ -142,8 +137,7 @@ static PyObject* pyColorRGBA_writeRGB(pyColorRGBA* self, PyObject* args) {
         return NULL;
     }
     self->fThis->writeRGB(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyColorRGBA_Methods[] = {

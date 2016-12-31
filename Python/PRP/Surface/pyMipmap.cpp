@@ -59,8 +59,7 @@ static PyObject* pyMipmap_readData(pyMipmap* self, PyObject* args) {
         return NULL;
     }
     self->fThis->readData(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMipmap_writeData(pyMipmap* self, PyObject* args) {
@@ -74,8 +73,7 @@ static PyObject* pyMipmap_writeData(pyMipmap* self, PyObject* args) {
         return NULL;
     }
     self->fThis->writeData(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMipmap_getLevelWidth(pyMipmap* self, PyObject* args) {
@@ -84,7 +82,7 @@ static PyObject* pyMipmap_getLevelWidth(pyMipmap* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "getLevelWidth expects an int");
         return NULL;
     }
-    return PyInt_FromLong(self->fThis->getLevelWidth(level));
+    return pyPlasma_convert(self->fThis->getLevelWidth(level));
 }
 
 static PyObject* pyMipmap_getLevelHeight(pyMipmap* self, PyObject* args) {
@@ -93,7 +91,7 @@ static PyObject* pyMipmap_getLevelHeight(pyMipmap* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "getLevelHeight expects an int");
         return NULL;
     }
-    return PyInt_FromLong(self->fThis->getLevelHeight(level));
+    return pyPlasma_convert(self->fThis->getLevelHeight(level));
 }
 
 static PyObject* pyMipmap_getLevel(pyMipmap* self, PyObject* args) {
@@ -115,8 +113,7 @@ static PyObject* pyMipmap_setRawImage(pyMipmap* self, PyObject* args) {
         return NULL;
     }
     self->fThis->setImageData((const void*)data, dataSize);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMipmap_setLevel(pyMipmap* self, PyObject* args) {
@@ -127,8 +124,7 @@ static PyObject* pyMipmap_setLevel(pyMipmap* self, PyObject* args) {
         return NULL;
     }
     self->fThis->setLevelData(level, (const void*)data, dataSize);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMipmap_setImageJPEG(pyMipmap* self, PyObject* args) {
@@ -139,8 +135,7 @@ static PyObject* pyMipmap_setImageJPEG(pyMipmap* self, PyObject* args) {
         return NULL;
     }
     self->fThis->setImageJPEG((const void*)data, dataSize);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMipmap_setAlphaJPEG(pyMipmap* self, PyObject* args) {
@@ -151,8 +146,7 @@ static PyObject* pyMipmap_setAlphaJPEG(pyMipmap* self, PyObject* args) {
         return NULL;
     }
     self->fThis->setAlphaJPEG((const void*)data, dataSize);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMipmap_setColorData(pyMipmap* self, PyObject* args) {
@@ -168,8 +162,7 @@ static PyObject* pyMipmap_setColorData(pyMipmap* self, PyObject* args) {
         PyErr_SetString(PyExc_RuntimeError, ex.what());
         return NULL;
     }
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMipmap_setAlphaData(pyMipmap* self, PyObject* args) {
@@ -185,8 +178,7 @@ static PyObject* pyMipmap_setAlphaData(pyMipmap* self, PyObject* args) {
         PyErr_SetString(PyExc_RuntimeError, ex.what());
         return NULL;
     }
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMipmap_extractColorData(pyMipmap* self) {
@@ -208,11 +200,11 @@ static PyObject* pyMipmap_extractAlphaData(pyMipmap* self) {
 }
 
 static PyObject* pyMipmap_isImageJPEG(pyMipmap* self) {
-    return PyBool_FromLong(self->fThis->isImageJPEG() ? 1 : 0);
+    return pyPlasma_convert(self->fThis->isImageJPEG());
 }
 
 static PyObject* pyMipmap_isAlphaJPEG(pyMipmap* self) {
-    return PyBool_FromLong(self->fThis->isAlphaJPEG() ? 1 : 0);
+    return pyPlasma_convert(self->fThis->isAlphaJPEG());
 }
 
 static PyObject* pyMipmap_DecompressImage(pyMipmap* self, PyObject* args) {
@@ -245,8 +237,7 @@ static PyObject* pyMipmap_CompressImage(pyMipmap* self, PyObject* args) {
         PyErr_SetString(PyExc_NotImplementedError, ex.what());
         return NULL;
     }
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyMipmap_Methods[] = {

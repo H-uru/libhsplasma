@@ -26,8 +26,7 @@ PY_PLASMA_NEW(DrawInterface, plDrawInterface)
 
 static PyObject* pyDrawInterface_clearDrawables(pyDrawInterface* self) {
     self->fThis->clearDrawables();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDrawInterface_addDrawable(pyDrawInterface* self, PyObject* args) {
@@ -42,8 +41,7 @@ static PyObject* pyDrawInterface_addDrawable(pyDrawInterface* self, PyObject* ar
         return NULL;
     }
     self->fThis->addDrawable(*draw->fThis, key);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDrawInterface_delDrawable(pyDrawInterface* self, PyObject* args) {
@@ -53,14 +51,12 @@ static PyObject* pyDrawInterface_delDrawable(pyDrawInterface* self, PyObject* ar
         return NULL;
     }
     self->fThis->delDrawable(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDrawInterface_clearRegions(pyDrawInterface* self) {
     self->fThis->clearRegions();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDrawInterface_addRegion(pyDrawInterface* self, PyObject* args) {
@@ -74,8 +70,7 @@ static PyObject* pyDrawInterface_addRegion(pyDrawInterface* self, PyObject* args
         return NULL;
     }
     self->fThis->addRegion(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDrawInterface_delRegion(pyDrawInterface* self, PyObject* args) {
@@ -85,8 +80,7 @@ static PyObject* pyDrawInterface_delRegion(pyDrawInterface* self, PyObject* args
         return NULL;
     }
     self->fThis->delRegion(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDrawInterface_getDrawables(pyDrawInterface* self, void*) {

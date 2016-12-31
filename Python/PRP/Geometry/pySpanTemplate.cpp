@@ -34,8 +34,7 @@ static PyObject* pySpanTemplate_read(pySpanTemplate* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySpanTemplate_write(pySpanTemplate* self, PyObject* args) {
@@ -49,8 +48,7 @@ static PyObject* pySpanTemplate_write(pySpanTemplate* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySpanTemplate_getVerts(pySpanTemplate* self, void*) {
@@ -66,7 +64,7 @@ static PyObject* pySpanTemplate_getIndices(pySpanTemplate* self, void*) {
     size_t numIndices = self->fThis->getNumTris() * 3;
     PyObject* list = PyList_New(numIndices);
     for (size_t i=0; i<numIndices; i++)
-        PyList_SET_ITEM(list, i, PyInt_FromLong(indices[i]));
+        PyList_SET_ITEM(list, i, pyPlasma_convert(indices[i]));
     return list;
 }
 

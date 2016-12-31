@@ -40,8 +40,7 @@ static PyObject* pyBounds_read(pyBounds* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyBounds_write(pyBounds* self, PyObject* args) {
@@ -55,8 +54,7 @@ static PyObject* pyBounds_write(pyBounds* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyBounds_Methods[] = {

@@ -39,8 +39,7 @@ static PyObject* pyClusterGroup_addCluster(pyClusterGroup* self, PyObject* args)
     }
     self->fThis->addCluster(cluster->fThis);
     cluster->fPyOwned = false;
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyClusterGroup_delCluster(pyClusterGroup* self, PyObject* args) {
@@ -50,14 +49,12 @@ static PyObject* pyClusterGroup_delCluster(pyClusterGroup* self, PyObject* args)
         return NULL;
     }
     self->fThis->delCluster(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyClusterGroup_clearClusters(pyClusterGroup* self) {
     self->fThis->clearClusters();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyClusterGroup_addRegion(pyClusterGroup* self, PyObject* args) {
@@ -71,8 +68,7 @@ static PyObject* pyClusterGroup_addRegion(pyClusterGroup* self, PyObject* args) 
         return NULL;
     }
     self->fThis->addRegion(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyClusterGroup_delRegion(pyClusterGroup* self, PyObject* args) {
@@ -82,14 +78,12 @@ static PyObject* pyClusterGroup_delRegion(pyClusterGroup* self, PyObject* args) 
         return NULL;
     }
     self->fThis->delRegion(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyClusterGroup_clearRegions(pyClusterGroup* self) {
     self->fThis->clearRegions();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyClusterGroup_addLight(pyClusterGroup* self, PyObject* args) {
@@ -103,8 +97,7 @@ static PyObject* pyClusterGroup_addLight(pyClusterGroup* self, PyObject* args) {
         return NULL;
     }
     self->fThis->addLight(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyClusterGroup_delLight(pyClusterGroup* self, PyObject* args) {
@@ -114,14 +107,12 @@ static PyObject* pyClusterGroup_delLight(pyClusterGroup* self, PyObject* args) {
         return NULL;
     }
     self->fThis->delLight(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyClusterGroup_clearLights(pyClusterGroup* self) {
     self->fThis->clearLights();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyClusterGroup_getClusters(pyClusterGroup* self, void*) {

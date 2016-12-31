@@ -146,8 +146,7 @@ static PyObject* pyQuat_read(pyQuat* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyQuat_write(pyQuat* self, PyObject* args) {
@@ -161,8 +160,7 @@ static PyObject* pyQuat_write(pyQuat* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 PyNumberMethods pyQuat_As_Number = {

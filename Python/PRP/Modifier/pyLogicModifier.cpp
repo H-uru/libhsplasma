@@ -26,8 +26,7 @@ PY_PLASMA_NEW(LogicModifier, plLogicModifier)
 
 static PyObject* pyLogicModifier_clearConditions(pyLogicModifier* self) {
     self->fThis->clearConditions();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyLogicModifier_addCondition(pyLogicModifier* self, PyObject* args) {
@@ -41,8 +40,7 @@ static PyObject* pyLogicModifier_addCondition(pyLogicModifier* self, PyObject* a
         return NULL;
     }
     self->fThis->addCondition(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyLogicModifier_delCondition(pyLogicModifier* self, PyObject* args) {
@@ -52,8 +50,7 @@ static PyObject* pyLogicModifier_delCondition(pyLogicModifier* self, PyObject* a
         return NULL;
     }
     self->fThis->delCondition(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyLogicModifier_getConditions(pyLogicModifier* self, void*) {

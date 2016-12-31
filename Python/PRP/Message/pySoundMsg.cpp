@@ -29,7 +29,7 @@ static PyObject* pySoundMsg_getCmd(pySoundMsg* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "getCmd expects an int");
         return NULL;
     }
-    return PyBool_FromLong(self->fThis->getCmd(cmd) ? 1 : 0);
+    return pyPlasma_convert(self->fThis->getCmd(cmd));
 }
 
 static PyObject* pySoundMsg_setCmd(pySoundMsg* self, PyObject* args) {
@@ -40,8 +40,7 @@ static PyObject* pySoundMsg_setCmd(pySoundMsg* self, PyObject* args) {
         return NULL;
     }
     self->fThis->setCmd(cmd, value != 0);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pySoundMsg_Methods[] = {

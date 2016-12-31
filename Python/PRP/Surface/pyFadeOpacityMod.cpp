@@ -27,7 +27,7 @@ PY_PROPERTY(float, FadeOpacityMod, fadeUp, getFadeUp, setFadeUp)
 PY_PROPERTY(float, FadeOpacityMod, fadeDown, getFadeDown, setFadeDown)
 
 static PyObject* pyFadeOpacityMod_getBoundsCenter(pyFadeOpacityMod* self, void*) {
-    return PyBool_FromLong(self->fThis->getFlag(plFadeOpacityMod::kBoundsCenter) ? 1 : 0);
+    return pyPlasma_convert(self->fThis->getFlag(plFadeOpacityMod::kBoundsCenter));
 }
 
 static int pyFadeOpacityMod_setBoundsCenter(pyFadeOpacityMod* self, PyObject* value, void*) {

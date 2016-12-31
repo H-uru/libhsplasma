@@ -31,14 +31,12 @@ static PyObject* pyExcludeRegionModifier_addSafePoint(pyExcludeRegionModifier* s
         return NULL;
     }
     self->fThis->addSafePoint(*((pyKey*)key)->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyExcludeRegionModifier_clearSafePoints(pyExcludeRegionModifier* self) {
     self->fThis->clearSafePoints();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyExcludeRegionModifier_delSafePoint(pyExcludeRegionModifier* self, PyObject* args) {
@@ -52,8 +50,7 @@ static PyObject* pyExcludeRegionModifier_delSafePoint(pyExcludeRegionModifier* s
         return NULL;
     }
     self->fThis->delSafePoint((size_t)idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyExcludeRegionModifier_Methods[] = {

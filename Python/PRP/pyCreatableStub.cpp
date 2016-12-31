@@ -47,7 +47,7 @@ static PyObject* pyCreatableStub_getData(pyCreatableStub* self) {
 }
 
 static PyObject* pyCreatableStub_getLength(pyCreatableStub* self) {
-    return PyInt_FromLong(self->fThis->getLength());
+    return pyPlasma_convert(self->fThis->getLength());
 }
 
 static PyMethodDef pyCreatableStub_Methods[] = {

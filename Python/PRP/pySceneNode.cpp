@@ -27,8 +27,7 @@ PY_PLASMA_NEW(SceneNode, plSceneNode)
 static PyObject* pySceneNode_clear(pySceneNode* self) {
     self->fThis->clearSceneObjects();
     self->fThis->clearPoolObjects();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySceneNode_addSceneObject(pySceneNode* self, PyObject* args) {
@@ -42,8 +41,7 @@ static PyObject* pySceneNode_addSceneObject(pySceneNode* self, PyObject* args) {
         return NULL;
     }
     self->fThis->addSceneObject(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySceneNode_addPoolObject(pySceneNode* self, PyObject* args) {
@@ -57,8 +55,7 @@ static PyObject* pySceneNode_addPoolObject(pySceneNode* self, PyObject* args) {
         return NULL;
     }
     self->fThis->addPoolObject(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySceneNode_addSceneObjects(pySceneNode* self, PyObject* args) {
@@ -84,8 +81,7 @@ static PyObject* pySceneNode_addSceneObjects(pySceneNode* self, PyObject* args) 
     }
     self->fThis->getSceneObjects().insert(self->fThis->getSceneObjects().end(),
                                           addend.begin(), addend.end());
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySceneNode_addPoolObjects(pySceneNode* self, PyObject* args) {
@@ -111,8 +107,7 @@ static PyObject* pySceneNode_addPoolObjects(pySceneNode* self, PyObject* args) {
     }
     self->fThis->getPoolObjects().insert(self->fThis->getPoolObjects().end(),
                                          addend.begin(), addend.end());
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySceneNode_getSceneObjects(pySceneNode* self, void*) {

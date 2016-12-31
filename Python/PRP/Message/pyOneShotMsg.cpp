@@ -25,8 +25,7 @@ PY_PLASMA_NEW(OneShotMsg, plOneShotMsg)
 
 static PyObject* pyOneShotMsg_clearCallbacks(pyOneShotMsg* self) {
     self->fThis->getCallbacks().clearCallbacks();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyOneShotMsg_addCallback(pyOneShotMsg* self, PyObject* args) {
@@ -38,8 +37,7 @@ static PyObject* pyOneShotMsg_addCallback(pyOneShotMsg* self, PyObject* args) {
         return NULL;
     }
     self->fThis->getCallbacks().addCallback(marker, *((pyKey*)key)->fThis, user);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyOneShotMsg_delCallback(pyOneShotMsg* self, PyObject* args) {
@@ -54,8 +52,7 @@ static PyObject* pyOneShotMsg_delCallback(pyOneShotMsg* self, PyObject* args) {
         return NULL;
     }
     cbs.delCallback(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyOneShotMsg_Methods[] = {

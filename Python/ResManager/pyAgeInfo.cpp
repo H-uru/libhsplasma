@@ -33,8 +33,7 @@ static PyObject* pyAgeInfo_readFromFile(pyAgeInfo* self, PyObject* args) {
         return NULL;
     }
     self->fThis->readFromFile(filename);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyAgeInfo_writeToFile(pyAgeInfo* self, PyObject* args) {
@@ -45,12 +44,11 @@ static PyObject* pyAgeInfo_writeToFile(pyAgeInfo* self, PyObject* args) {
         return NULL;
     }
     self->fThis->writeToFile(filename, (PlasmaVer)version);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyAgeInfo_getNumPages(pyAgeInfo* self) {
-    return PyInt_FromLong(self->fThis->getNumPages());
+    return pyPlasma_convert(self->fThis->getNumPages());
 }
 
 static PyObject* pyAgeInfo_getPage(pyAgeInfo* self, PyObject* args) {
@@ -74,7 +72,7 @@ static PyObject* pyAgeInfo_getNumCommonPages(pyAgeInfo* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "getNumCommonPages expects an int");
         return NULL;
     }
-    return PyInt_FromLong(self->fThis->getNumCommonPages((PlasmaVer)version));
+    return pyPlasma_convert(self->fThis->getNumCommonPages((PlasmaVer)version));
 }
 
 static PyObject* pyAgeInfo_getCommonPage(pyAgeInfo* self, PyObject* args) {
@@ -102,8 +100,7 @@ static PyObject* pyAgeInfo_setPage(pyAgeInfo* self, PyObject* args) {
         return NULL;
     }
     self->fThis->setPage(idx, plAgeInfo::PageEntry(name, seqSuffix, flags));
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyAgeInfo_addPage(pyAgeInfo* self, PyObject* args) {
@@ -115,8 +112,7 @@ static PyObject* pyAgeInfo_addPage(pyAgeInfo* self, PyObject* args) {
         return NULL;
     }
     self->fThis->addPage(plAgeInfo::PageEntry(name, seqSuffix, flags));
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyAgeInfo_getPageFilename(pyAgeInfo* self, PyObject* args) {
@@ -126,7 +122,7 @@ static PyObject* pyAgeInfo_getPageFilename(pyAgeInfo* self, PyObject* args) {
         return NULL;
     }
     try {
-        return PlStr_To_PyStr(self->fThis->getPageFilename((size_t)idx, (PlasmaVer)version));
+        return pyPlasma_convert(self->fThis->getPageFilename((size_t)idx, (PlasmaVer)version));
     } catch (hsOutOfBoundsException) {
         PyErr_SetString(PyExc_IndexError, "page index out of range");
         return NULL;
@@ -140,7 +136,7 @@ static PyObject* pyAgeInfo_getCommonPageFilename(pyAgeInfo* self, PyObject* args
         return NULL;
     }
     try {
-        return PlStr_To_PyStr(self->fThis->getCommonPageFilename((size_t)idx, (PlasmaVer)version));
+        return pyPlasma_convert(self->fThis->getCommonPageFilename((size_t)idx, (PlasmaVer)version));
     } catch (hsOutOfBoundsException) {
         PyErr_SetString(PyExc_IndexError, "common page index out of range");
         return NULL;

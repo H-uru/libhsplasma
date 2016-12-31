@@ -35,8 +35,7 @@ static PyObject* pyWinAudible_addSound(pyWinAudible* self, PyObject* args) {
         return NULL;
     }
     self->fThis->addSound(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyWinAudible_delSound(pyWinAudible* self, PyObject* args) {
@@ -46,14 +45,12 @@ static PyObject* pyWinAudible_delSound(pyWinAudible* self, PyObject* args) {
         return NULL;
     }
     self->fThis->delSound(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyWinAudible_clearSounds(pyWinAudible* self) {
     self->fThis->clearSounds();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyWinAudible_getSounds(pyWinAudible* self, void*) {

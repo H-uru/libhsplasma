@@ -31,8 +31,7 @@ PY_PROPERTY(size_t, SoundBuffer, dataLength, getDataLength, setDataLength)
 
 PY_GETSET_GETTER_DECL(SoundBuffer, data) {
     if (self->fThis->getData() == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } else {
         return PyBytes_FromStringAndSize((const char*)self->fThis->getData(),
                                          self->fThis->getDataLength());

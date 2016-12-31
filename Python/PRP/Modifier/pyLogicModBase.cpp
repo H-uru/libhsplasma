@@ -29,8 +29,7 @@ PY_PLASMA_NEW_MSG(LogicModBase, "plLogicModBase is abstract")
 
 static PyObject* pyLogicModBase_clearCommands(pyLogicModBase* self) {
     self->fThis->clearCommands();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyLogicModBase_addCommand(pyLogicModBase* self, PyObject* args) {
@@ -45,8 +44,7 @@ static PyObject* pyLogicModBase_addCommand(pyLogicModBase* self, PyObject* args)
     }
     self->fThis->addCommand(msg->fThis);
     msg->fPyOwned = false;
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyLogicModBase_delCommand(pyLogicModBase* self, PyObject* args) {
@@ -56,8 +54,7 @@ static PyObject* pyLogicModBase_delCommand(pyLogicModBase* self, PyObject* args)
         return NULL;
     }
     self->fThis->delCommand(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyLogicModBase_getLogicFlag(pyLogicModBase* self, PyObject* args) {
@@ -66,7 +63,7 @@ static PyObject* pyLogicModBase_getLogicFlag(pyLogicModBase* self, PyObject* arg
         PyErr_SetString(PyExc_TypeError, "getFlag expects an int");
         return NULL;
     }
-    return PyBool_FromLong(self->fThis->getLogicFlag(idx) ? 1 : 0);
+    return pyPlasma_convert(self->fThis->getLogicFlag(idx));
 }
 
 static PyObject* pyLogicModBase_setLogicFlag(pyLogicModBase* self, PyObject* args) {
@@ -76,8 +73,7 @@ static PyObject* pyLogicModBase_setLogicFlag(pyLogicModBase* self, PyObject* arg
         return NULL;
     }
     self->fThis->setLogicFlag(idx, value != 0);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyLogicModBase_getCommands(pyLogicModBase* self, void*) {

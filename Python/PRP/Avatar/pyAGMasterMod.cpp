@@ -31,14 +31,12 @@ static PyObject* pyAGMasterMod_addPrivateAnim(pyAGMasterMod* self, PyObject* arg
         return NULL;
     }
     self->fThis->addPrivateAnim(*((pyKey*)key)->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyAGMasterMod_clearPrivateAnims(pyAGMasterMod* self) {
     self->fThis->clearPrivateAnims();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyAGMasterMod_delPrivateAnim(pyAGMasterMod* self, PyObject* args) {
@@ -48,8 +46,7 @@ static PyObject* pyAGMasterMod_delPrivateAnim(pyAGMasterMod* self, PyObject* arg
         return NULL;
     }
     self->fThis->delPrivateAnim((size_t)idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyAGMasterMod_addEoaKey(pyAGMasterMod* self, PyObject* args) {
@@ -59,14 +56,12 @@ static PyObject* pyAGMasterMod_addEoaKey(pyAGMasterMod* self, PyObject* args) {
         return NULL;
     }
     self->fThis->addEoaKey(*((pyKey*)key)->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyAGMasterMod_clearEoaKeys(pyAGMasterMod* self) {
     self->fThis->clearEoaKeys();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyAGMasterMod_delEoaKey(pyAGMasterMod* self, PyObject* args) {
@@ -76,8 +71,7 @@ static PyObject* pyAGMasterMod_delEoaKey(pyAGMasterMod* self, PyObject* args) {
         return NULL;
     }
     self->fThis->delEoaKey((size_t)idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyAGMasterMod_Methods[] = {

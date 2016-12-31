@@ -73,8 +73,7 @@ static PyObject* pyColor32_read32(pyColor32* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read32(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyColor32_write32(pyColor32* self, PyObject* args) {
@@ -88,8 +87,7 @@ static PyObject* pyColor32_write32(pyColor32* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write32(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyColor32_readRGBA8(pyColor32* self, PyObject* args) {
@@ -103,8 +101,7 @@ static PyObject* pyColor32_readRGBA8(pyColor32* self, PyObject* args) {
         return NULL;
     }
     self->fThis->readRGBA8(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyColor32_writeRGBA8(pyColor32* self, PyObject* args) {
@@ -118,8 +115,7 @@ static PyObject* pyColor32_writeRGBA8(pyColor32* self, PyObject* args) {
         return NULL;
     }
     self->fThis->writeRGBA8(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyColor32_readRGB8(pyColor32* self, PyObject* args) {
@@ -133,8 +129,7 @@ static PyObject* pyColor32_readRGB8(pyColor32* self, PyObject* args) {
         return NULL;
     }
     self->fThis->readRGB8(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyColor32_writeRGB8(pyColor32* self, PyObject* args) {
@@ -148,8 +143,7 @@ static PyObject* pyColor32_writeRGB8(pyColor32* self, PyObject* args) {
         return NULL;
     }
     self->fThis->writeRGB8(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyColor32_Methods[] = {

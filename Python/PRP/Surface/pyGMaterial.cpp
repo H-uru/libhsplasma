@@ -27,8 +27,7 @@ PY_PLASMA_NEW(GMaterial, hsGMaterial)
 
 static PyObject* pyGMaterial_clearLayers(pyGMaterial* self) {
     self->fThis->clearLayers();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyGMaterial_addLayer(pyGMaterial* self, PyObject* args) {
@@ -42,8 +41,7 @@ static PyObject* pyGMaterial_addLayer(pyGMaterial* self, PyObject* args) {
         return NULL;
     }
     self->fThis->addLayer(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyGMaterial_delLayer(pyGMaterial* self, PyObject* args) {
@@ -53,14 +51,12 @@ static PyObject* pyGMaterial_delLayer(pyGMaterial* self, PyObject* args) {
         return NULL;
     }
     self->fThis->delLayer(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyGMaterial_clearPBs(pyGMaterial* self) {
     self->fThis->clearPiggyBacks();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyGMaterial_addPB(pyGMaterial* self, PyObject* args) {
@@ -74,8 +70,7 @@ static PyObject* pyGMaterial_addPB(pyGMaterial* self, PyObject* args) {
         return NULL;
     }
     self->fThis->addPiggyBack(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyGMaterial_delPB(pyGMaterial* self, PyObject* args) {
@@ -85,8 +80,7 @@ static PyObject* pyGMaterial_delPB(pyGMaterial* self, PyObject* args) {
         return NULL;
     }
     self->fThis->delPiggyBack(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyGMaterial_getLayers(pyGMaterial* self, void*) {

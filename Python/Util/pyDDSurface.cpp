@@ -39,8 +39,7 @@ static PyObject* pyDDSurface_read(pyDDSurface* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDDSurface_write(pyDDSurface* self, PyObject* args) {
@@ -54,8 +53,7 @@ static PyObject* pyDDSurface_write(pyDDSurface* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDDSurface_setFromMipmap(pyDDSurface* self, PyObject* args) {
@@ -69,8 +67,7 @@ static PyObject* pyDDSurface_setFromMipmap(pyDDSurface* self, PyObject* args) {
         return NULL;
     }
     self->fThis->setFromMipmap(tex->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDDSurface_createMipmap(pyDDSurface* self) {
@@ -85,17 +82,17 @@ static PyObject* pyDDSurface_calcBufferSize(pyDDSurface* self, PyObject* args) {
         return NULL;
     }
     size_t bufSize = self->fThis->calcBufferSize(width, height);
-    return PyInt_FromLong((long)bufSize);
+    return pyPlasma_convert(bufSize);
 }
 
 static PyObject* pyDDSurface_calcNumLevels(pyDDSurface* self) {
     size_t levels = self->fThis->calcNumLevels();
-    return PyInt_FromLong((long)levels);
+    return pyPlasma_convert(levels);
 }
 
 static PyObject* pyDDSurface_calcTotalSize(pyDDSurface* self) {
     size_t totSize = self->fThis->calcTotalBufferSize();
-    return PyInt_FromLong((long)totSize);
+    return pyPlasma_convert(totSize);
 }
 
 static PyMethodDef pyDDSurface_Methods[] = {

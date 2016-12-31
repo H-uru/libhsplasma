@@ -52,7 +52,7 @@ static PyObject* pyAnimCmdMsg_getCmd(pyAnimCmdMsg* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "getCmd expects an int");
         return NULL;
     }
-    return PyBool_FromLong(self->fThis->getCmd((size_t)idx) ? 1 : 0);
+    return pyPlasma_convert(self->fThis->getCmd((size_t)idx));
 }
 
 static PyObject* pyAnimCmdMsg_setCmd(pyAnimCmdMsg* self, PyObject* args) {
@@ -62,8 +62,7 @@ static PyObject* pyAnimCmdMsg_setCmd(pyAnimCmdMsg* self, PyObject* args) {
         return NULL;
     }
     self->fThis->setCmd(idx, value != 0);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyAnimCmdMsg_Methods[] = {

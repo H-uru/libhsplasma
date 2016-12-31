@@ -36,8 +36,7 @@ static PyObject* pyResponderModifier_addState(pyResponderModifier* self, PyObjec
     }
     self->fThis->addState(state->fThis);
     state->fPyOwned = false;
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyResponderModifier_delState(pyResponderModifier* self, PyObject* args) {
@@ -47,14 +46,12 @@ static PyObject* pyResponderModifier_delState(pyResponderModifier* self, PyObjec
         return NULL;
     }
     self->fThis->delState(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyResponderModifier_clearStates(pyResponderModifier* self) {
     self->fThis->clearStates();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyResponderModifier_getStates(pyResponderModifier* self, void*) {

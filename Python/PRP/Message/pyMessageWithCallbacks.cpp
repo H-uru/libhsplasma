@@ -32,14 +32,12 @@ static PyObject* pyMessageWithCallbacks_addCallback(pyMessageWithCallbacks* self
     }
     self->fThis->addCallback(((pyMessage*)msg)->fThis);
     ((pyMessage*)msg)->fPyOwned = false;
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMessageWithCallbacks_clearCallbacks(pyMessageWithCallbacks* self) {
     self->fThis->clearCallbacks();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMessageWithCallbacks_delCallback(pyMessageWithCallbacks* self, PyObject* args) {
@@ -53,8 +51,7 @@ static PyObject* pyMessageWithCallbacks_delCallback(pyMessageWithCallbacks* self
         return NULL;
     }
     self->fThis->delCallback((size_t)idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyMessageWithCallbacks_Methods[] = {

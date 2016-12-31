@@ -27,14 +27,14 @@ PY_PLASMA_VALUE_NEW(TempVertex, plGeometrySpan::TempVertex)
 static PyObject* pyTempVertex_getUVs(pyTempVertex* self, void*) {
     PyObject* list = PyList_New(8);
     for (size_t i = 0; i < 8; ++i)
-        PyList_SET_ITEM(list, i, pyVector3_FromVector3(self->fThis->fUVs[i]));
+        PyList_SET_ITEM(list, i, pyPlasma_convert(self->fThis->fUVs[i]));
     return list;
 }
 
 static PyObject* pyTempVertex_getWeights(pyTempVertex* self, void*) {
     PyObject* list = PyList_New(3);
     for (size_t i = 0; i < 3; ++i)
-        PyList_SET_ITEM(list, i, PyFloat_FromDouble(self->fThis->fWeights[i]));
+        PyList_SET_ITEM(list, i, pyPlasma_convert(self->fThis->fWeights[i]));
     return list;
 }
 
