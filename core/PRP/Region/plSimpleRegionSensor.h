@@ -39,6 +39,9 @@ protected:
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
+    plMessage* getEnterMsg() const { return fEnterMsg; }
+    plMessage* getExitMsg() const { return fExitMsg; }
+
     void setEnterMsg(plMessage* msg);
     void setExitMsg(plMessage* msg);
 };

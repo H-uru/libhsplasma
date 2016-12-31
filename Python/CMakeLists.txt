@@ -317,6 +317,7 @@ set(PRP_MSG_SRCS
     PRP/Message/pyResponderStateEventData.cpp
     PRP/Message/pySoundMsg.cpp
     PRP/Message/pySpawnedEventData.cpp
+    PRP/Message/pySwimMsg.cpp
     PRP/Message/pyTimerCallbackMsg.cpp
     PRP/Message/pyVariableEventData.cpp
 )
@@ -334,6 +335,7 @@ set(PRP_MSG_HDRS
     PRP/Message/pyMsgForwarder.h
     PRP/Message/pyNotifyMsg.h
     PRP/Message/pySoundMsg.h
+    PRP/Message/pySwimMsg.h
     PRP/Message/pyResponderMsg.h
     PRP/Message/pyTimerCallbackMsg.h
 )
@@ -423,18 +425,25 @@ set(PRP_RGN_SRCS
     PRP/Region/pyBoundsOriented.cpp
     PRP/Region/pyBoundsConvert.cpp
     PRP/Region/pyConvexIsect.cpp
+    PRP/Region/pySimpleRegionSensor.cpp
     PRP/Region/pySoftVolumeComplex.cpp
     PRP/Region/pySoftVolumeIntersect.cpp
     PRP/Region/pySoftVolumeInvert.cpp
     PRP/Region/pySoftVolumeSimple.cpp
     PRP/Region/pySoftVolumeUnion.cpp
     PRP/Region/pySoftVolume.cpp
+    PRP/Region/pySwimCircularCurrentRegion.cpp
+    PRP/Region/pySwimDetector.cpp
+    PRP/Region/pySwimRegionInterface.cpp
+    PRP/Region/pySwimStraightCurrentRegion.cpp
     PRP/Region/pyVisRegion.cpp
     PRP/Region/pyVolumeIsect.cpp
 )
 set(PRP_RGN_HDRS
     PRP/Region/pyBounds.h
+    PRP/Region/pySimpleRegionSensor.h
     PRP/Region/pySoftVolume.h
+    PRP/Region/pySwimRegion.h
     PRP/Region/pyVisRegion.h
     PRP/Region/pyVolumeIsect.h
 )

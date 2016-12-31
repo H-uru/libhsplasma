@@ -91,6 +91,7 @@
 #include "PRP/Message/pyNotifyMsg.h"
 #include "PRP/Message/pyResponderMsg.h"
 #include "PRP/Message/pySoundMsg.h"
+#include "PRP/Message/pySwimMsg.h"
 #include "PRP/Message/pyTimerCallbackMsg.h"
 #include "PRP/Misc/pyRenderLevel.h"
 #include "PRP/Misc/pyAgeLinkInfo.h"
@@ -113,7 +114,9 @@
 #include "PRP/Physics/pyObjectInVolumeDetector.h"
 #include "PRP/Physics/pyPhysical.h"
 #include "PRP/Region/pyBounds.h"
+#include "PRP/Region/pySimpleRegionSensor.h"
 #include "PRP/Region/pySoftVolume.h"
+#include "PRP/Region/pySwimRegion.h"
 #include "PRP/Region/pyVisRegion.h"
 #include "PRP/Region/pyVolumeIsect.h"
 #include "PRP/Surface/pyBitmap.h"
@@ -632,6 +635,11 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plWin32StreamingSound", Init_pyWin32StreamingSound_Type());
     PyModule_AddObject(module, "plWin32StaticSound", Init_pyWin32StaticSound_Type());
     PyModule_AddObject(module, "plShadowCaster", Init_pyShadowCaster_Type());
+    PyModule_AddObject(module, "plSwimRegionInterface", Init_pySwimRegionInterface_Type());
+    PyModule_AddObject(module, "plSwimCircularCurrentRegion", Init_pySwimCircularCurrentRegion_Type());
+    PyModule_AddObject(module, "plSwimStraightCurrentRegion", Init_pySwimStraightCurrentRegion_Type());
+    PyModule_AddObject(module, "plSimpleRegionSensor", Init_pySimpleRegionSensor_Type());
+    PyModule_AddObject(module, "plSwimDetector", Init_pySwimDetector_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());
@@ -718,6 +726,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plVolumeIsect", Init_pyVolumeIsect_Type());
     PyModule_AddObject(module, "plConvexIsect", Init_pyConvexIsect_Type());
     PyModule_AddObject(module, "plSoundMsg", Init_pySoundMsg_Type());
+    PyModule_AddObject(module, "plSwimMsg", Init_pySwimMsg_Type());
 
 #if PY_MAJOR_VERSION >= 3
     return module;

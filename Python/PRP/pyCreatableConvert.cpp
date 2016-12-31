@@ -221,6 +221,7 @@
 #include "PRP/Message/pyLinkToAgeMsg.h"
 #include "PRP/Message/pyResponderMsg.h"
 #include "PRP/Message/pySoundMsg.h"
+#include "PRP/Message/pySwimMsg.h"
 #include "PRP/Message/pyTimerCallbackMsg.h"
 #include "PRP/Misc/pyRenderLevel.h"
 #include "PRP/Misc/pyAgeLinkInfo.h"
@@ -242,7 +243,9 @@
 #include "PRP/Physics/pyObjectInVolumeDetector.h"
 #include "PRP/Physics/pyPhysical.h"
 #include "PRP/Region/pyBounds.h"
+#include "PRP/Region/pySimpleRegionSensor.h"
 #include "PRP/Region/pySoftVolume.h"
+#include "PRP/Region/pySwimRegion.h"
 #include "PRP/Region/pyVisRegion.h"
 #include "PRP/Region/pyVolumeIsect.h"
 #include "PRP/Surface/pyBitmap.h"
@@ -381,6 +384,11 @@ PyObject* ICreate(plCreatable* pCre)
         case kSoftVolumeIntersect: return pySoftVolumeIntersect_FromSoftVolumeIntersect(plSoftVolumeIntersect::Convert(pCre));
         case kSoftVolumeInvert: return pySoftVolumeInvert_FromSoftVolumeInvert(plSoftVolumeInvert::Convert(pCre));
         case kVisRegion: return pyVisRegion_FromVisRegion(plVisRegion::Convert(pCre));
+        case kSwimRegionInterface: return pySwimRegionInterface_FromSwimRegionInterface(plSwimRegionInterface::Convert(pCre));
+        case kSwimCircularCurrentRegion: return pySwimCircularCurrentRegion_FromSwimCircularCurrentRegion(plSwimCircularCurrentRegion::Convert(pCre));
+        case kSwimStraightCurrentRegion: return pySwimStraightCurrentRegion_FromSwimStraightCurrentRegion(plSwimStraightCurrentRegion::Convert(pCre));
+        case kSimpleRegionSensor: return pySimpleRegionSensor_FromSimpleRegionSensor(plSimpleRegionSensor::Convert(pCre));
+        case kSwimDetector: return pySwimDetector_FromSwimDetector(plSwimDetector::Convert(pCre));
         case kSpaceTree: return pySpaceTree_FromSpaceTree(plSpaceTree::Convert(pCre));
         case kController: return pyController_FromController(plController::Convert(pCre));
         case kCompoundController: return pyCompoundController_FromCompoundController(plCompoundController::Convert(pCre));
@@ -468,6 +476,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kVolumeIsect: pyVolumeIsect_FromVolumeIsect(plVolumeIsect::Convert(pCre));
         case kConvexIsect: pyConvexIsect_FromConvexIsect(plConvexIsect::Convert(pCre));
         case kSoundMsg: pySoundMsg_FromSoundMsg(plSoundMsg::Convert(pCre));
+        case kSwimMsg: pySwimMsg_FromSwimMsg(plSwimMsg::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (pCre->ClassInstance(kMessage))
