@@ -425,6 +425,7 @@ set(PRP_RGN_SRCS
     PRP/Region/pyBoundsOriented.cpp
     PRP/Region/pyBoundsConvert.cpp
     PRP/Region/pyConvexIsect.cpp
+    PRP/Region/pySimpleRegionSensor.cpp
     PRP/Region/pySoftVolumeComplex.cpp
     PRP/Region/pySoftVolumeIntersect.cpp
     PRP/Region/pySoftVolumeInvert.cpp
@@ -432,6 +433,7 @@ set(PRP_RGN_SRCS
     PRP/Region/pySoftVolumeUnion.cpp
     PRP/Region/pySoftVolume.cpp
     PRP/Region/pySwimCircularCurrentRegion.cpp
+    PRP/Region/pySwimDetector.cpp
     PRP/Region/pySwimRegionInterface.cpp
     PRP/Region/pySwimStraightCurrentRegion.cpp
     PRP/Region/pyVisRegion.cpp
@@ -439,6 +441,7 @@ set(PRP_RGN_SRCS
 )
 set(PRP_RGN_HDRS
     PRP/Region/pyBounds.h
+    PRP/Region/pySimpleRegionSensor.h
     PRP/Region/pySoftVolume.h
     PRP/Region/pySwimRegion.h
     PRP/Region/pyVisRegion.h
