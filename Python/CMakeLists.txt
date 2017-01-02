@@ -248,18 +248,31 @@ set(PRP_GEOM_HDRS
 
 set(PRP_GUI_SRCS
     PRP/GUI/pyGUIButtonMod.cpp
+    PRP/GUI/pyGUICheckBoxCtrl.cpp
     PRP/GUI/pyGUICloseDlgProc.cpp
     PRP/GUI/pyGUIConsoleCmdProc.cpp
+    PRP/GUI/pyGUIControlMod.cpp
+    PRP/GUI/pyGUICtrlProcConvert.cpp
     PRP/GUI/pyGUICtrlProcObject.cpp
     PRP/GUI/pyGUICtrlProcWriteableObject.cpp
     PRP/GUI/pyGUIDialogMod.cpp
     PRP/GUI/pyGUIDialogProc.cpp
+    PRP/GUI/pyGUIKnobCtrl.cpp
+    PRP/GUI/pyGUIMisc.cpp
     PRP/GUI/pyGUIPythonScriptProc.cpp
+    PRP/GUI/pyGUITextBoxMod.cpp
+    PRP/GUI/pyGUIValueCtrl.cpp
 )
 set(PRP_GUI_HDRS
     PRP/GUI/pyGUIButtonMod.h
     PRP/GUI/pyGUIControlHandlers.h
+    PRP/GUI/pyGUICheckBoxCtrl.h
+    PRP/GUI/pyGUIControlMod.h
     PRP/GUI/pyGUIDialogMod.h
+    PRP/GUI/pyGUIKnobCtrl.h
+    PRP/GUI/pyGUIMisc.h
+    PRP/GUI/pyGUITextBoxMod.h
+    PRP/GUI/pyGUIValueCtrl.h
 )
 
 set(PRP_KEY_SRCS
