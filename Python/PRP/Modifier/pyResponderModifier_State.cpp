@@ -25,7 +25,10 @@ PY_PLASMA_DEALLOC(ResponderModifier_State)
 PY_PLASMA_EMPTY_INIT(ResponderModifier_State)
 PY_PLASMA_NEW(ResponderModifier_State, plResponderModifier::plResponderState)
 
-static PyObject* pyResponderModifier_State_addCommand(pyResponderModifier_State* self, PyObject* args) {
+PY_METHOD_VA(ResponderModifier_State, addCommand,
+    "Params: msg, waitOn\n"
+    "Add a command to the Responder state")
+{
     pyMessage* msg;
     int waitOn;
     if (!PyArg_ParseTuple(args, "Oi", &msg, &waitOn)) {
@@ -41,7 +44,10 @@ static PyObject* pyResponderModifier_State_addCommand(pyResponderModifier_State*
     Py_RETURN_NONE;
 }
 
-static PyObject* pyResponderModifier_State_delCommand(pyResponderModifier_State* self, PyObject* args) {
+PY_METHOD_VA(ResponderModifier_State, delCommand,
+    "Params: idx\n"
+    "Delete a command from the Responder state")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delCommand expects an int");
@@ -51,7 +57,9 @@ static PyObject* pyResponderModifier_State_delCommand(pyResponderModifier_State*
     Py_RETURN_NONE;
 }
 
-static PyObject* pyResponderModifier_State_clearCommands(pyResponderModifier_State* self) {
+PY_METHOD_NOARGS(ResponderModifier_State, clearCommands,
+    "Delete all commands from the Responder state")
+{
     self->fThis->clearCommands();
     Py_RETURN_NONE;
 }
@@ -101,15 +109,10 @@ static int pyResponderModifier_State_setWaits(pyResponderModifier_State* self, P
 }
 
 static PyMethodDef pyResponderModifier_State_Methods[] = {
-    { "addCommand", (PyCFunction)pyResponderModifier_State_addCommand, METH_VARARGS,
-      "Params: msg, waitOn\n"
-      "Add a command to the Responder state" },
-    { "delCommand", (PyCFunction)pyResponderModifier_State_delCommand, METH_VARARGS,
-      "Params: idx\n"
-      "Delete a command from the Responder state" },
-    { "clearCommands", (PyCFunction)pyResponderModifier_State_clearCommands, METH_NOARGS,
-      "Delete all commands from the Responder state" },
-    { NULL, NULL, 0, NULL }
+    pyResponderModifier_State_addCommand_method,
+    pyResponderModifier_State_delCommand_method,
+    pyResponderModifier_State_clearCommands_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY_MEMBER(int8_t, ResponderModifier_State, numCallbacks, fNumCallbacks)

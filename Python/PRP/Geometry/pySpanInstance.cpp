@@ -27,7 +27,10 @@ PY_PLASMA_DEALLOC(SpanInstance)
 PY_PLASMA_EMPTY_INIT(SpanInstance)
 PY_PLASMA_NEW(SpanInstance, plSpanInstance)
 
-static PyObject* pySpanInstance_read(pySpanInstance* self, PyObject* args) {
+PY_METHOD_VA(SpanInstance, read,
+    "Params: stream, encoding, numVerts\n"
+    "Reads this object from the stream")
+{
     pyStream* stream;
     pySpanEncoding* encoding;
     int numVerts;
@@ -43,7 +46,10 @@ static PyObject* pySpanInstance_read(pySpanInstance* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pySpanInstance_write(pySpanInstance* self, PyObject* args) {
+PY_METHOD_VA(SpanInstance, write,
+    "Params: stream\n"
+    "Writes this object to the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
@@ -120,13 +126,9 @@ static int pySpanInstance_setColors(pySpanInstance* self, PyObject* value, void*
 }
 
 static PyMethodDef pySpanInstance_Methods[] = {
-    { "read", (PyCFunction)pySpanInstance_read, METH_VARARGS,
-      "Params: stream, encoding, numVerts\n"
-      "Reads this object from the stream" },
-    { "write", (PyCFunction)pySpanInstance_write, METH_VARARGS,
-      "Params: stream\n"
-      "Writes this object to the stream" },
-    { NULL, NULL, 0, NULL }
+    pySpanInstance_read_method,
+    pySpanInstance_write_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(hsMatrix44, SpanInstance, localToWorld, getLocalToWorld, setLocalToWorld)

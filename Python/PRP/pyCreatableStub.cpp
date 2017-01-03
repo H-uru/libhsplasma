@@ -41,21 +41,21 @@ PY_PLASMA_NEW_DECL(CreatableStub) {
     return (PyObject*)self;
 }
 
-static PyObject* pyCreatableStub_getData(pyCreatableStub* self) {
+PY_METHOD_NOARGS(CreatableStub, getData, "Returns the Creatable's raw data") {
     return PyBytes_FromStringAndSize((const char*)self->fThis->getData(),
                                      self->fThis->getLength());
 }
 
-static PyObject* pyCreatableStub_getLength(pyCreatableStub* self) {
+PY_METHOD_NOARGS(CreatableStub, getLength,
+    "Returns the length of the Creatable's raw data")
+{
     return pyPlasma_convert(self->fThis->getLength());
 }
 
 static PyMethodDef pyCreatableStub_Methods[] = {
-    { "getData", (PyCFunction)pyCreatableStub_getData, METH_NOARGS,
-      "Returns the Creatable's raw data" },
-    { "getLength", (PyCFunction)pyCreatableStub_getLength, METH_NOARGS,
-      "Returns the length of the Creatable's raw data" },
-    { NULL, NULL, 0, NULL }
+    pyCreatableStub_getData_method,
+    pyCreatableStub_getLength_method,
+    PY_METHOD_TERMINATOR
 };
 
 PyTypeObject pyCreatableStub_Type = {

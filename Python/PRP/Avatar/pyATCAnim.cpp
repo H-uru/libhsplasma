@@ -24,17 +24,20 @@ extern "C" {
 
 PY_PLASMA_NEW(ATCAnim, plATCAnim)
 
-static PyObject* pyATCAnim_clearMarkers(pyATCAnim* self) {
+PY_METHOD_NOARGS(ATCAnim, clearMarkers, "Remove all named markers from the anim") {
     self->fThis->getMarkers().clear();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyATCAnim_clearLoops(pyATCAnim* self) {
+PY_METHOD_NOARGS(ATCAnim, clearLoops, "Remove all named loops from the anim") {
     self->fThis->getLoops().clear();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyATCAnim_setMarker(pyATCAnim* self, PyObject* args) {
+PY_METHOD_VA(ATCAnim, setMarker,
+    "Params: key, position\n"
+    "Add a named marker at the specified position")
+{
     const char* key;
     float pos;
     if (!PyArg_ParseTuple(args, "sf", &key, &pos)) {
@@ -45,7 +48,10 @@ static PyObject* pyATCAnim_setMarker(pyATCAnim* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyATCAnim_setLoop(pyATCAnim* self, PyObject* args) {
+PY_METHOD_VA(ATCAnim, setLoop,
+    "Params: key, start, end\n"
+    "Add a named loop to the specified range")
+{
     const char* key;
     float begin, end;
     if (!PyArg_ParseTuple(args, "sff", &key, &begin, &end)) {
@@ -117,17 +123,11 @@ static int pyATCAnim_setStops(pyATCAnim* self, PyObject* value, void*) {
 }
 
 static PyMethodDef pyATCAnim_Methods[] = {
-    { "clearMarkers", (PyCFunction)pyATCAnim_clearMarkers, METH_NOARGS,
-      "Remove all named markers from the anim" },
-    { "clearLoops", (PyCFunction)pyATCAnim_clearLoops, METH_NOARGS,
-      "Remove all named loops from the anim" },
-    { "setMarker", (PyCFunction)pyATCAnim_setMarker, METH_VARARGS,
-      "Params: key, position\n"
-      "Add a named marker at the specified position" },
-    { "setLoop", (PyCFunction)pyATCAnim_setLoop, METH_VARARGS,
-      "Params: key, start, end\n"
-      "Add a named loop to the specified range" },
-    { NULL, NULL, 0, NULL }
+    pyATCAnim_clearMarkers_method,
+    pyATCAnim_clearLoops_method,
+    pyATCAnim_setMarker_method,
+    pyATCAnim_setLoop_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(float, ATCAnim, initial, getInitial, setInitial)

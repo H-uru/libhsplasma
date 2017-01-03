@@ -25,18 +25,23 @@ PY_PLASMA_VALUE_DEALLOC(SpaceTreeNode)
 PY_PLASMA_EMPTY_INIT(SpaceTreeNode)
 PY_PLASMA_VALUE_NEW(SpaceTreeNode, plSpaceTreeNode)
 
-static PyObject* pySpaceTreeNode_getChildren(pySpaceTreeNode* self) {
+PY_METHOD_NOARGS(SpaceTreeNode, getChildren,
+    "Returns a tuple with the indices of the child nodes")
+{
     PyObject* children = PyTuple_New(2);
     PyTuple_SET_ITEM(children, 0, pyPlasma_convert(self->fThis->getLChild()));
     PyTuple_SET_ITEM(children, 1, pyPlasma_convert(self->fThis->getRChild()));
     return children;
 }
 
-static PyObject* pySpaceTreeNode_getLeafIndex(pySpaceTreeNode* self) {
+PY_METHOD_NOARGS(SpaceTreeNode, getLeafIndex, "Returns the node's leaf index") {
     return pyPlasma_convert(self->fThis->getLeafIndex());
 }
 
-static PyObject* pySpaceTreeNode_setChildren(pySpaceTreeNode* self, PyObject* args) {
+PY_METHOD_VA(SpaceTreeNode, setChildren,
+    "Params: left, right\n"
+    "Sets the node to a parent node with the specified child indices")
+{
     int left, right;
     if (!PyArg_ParseTuple(args, "ii", &left, &right)) {
         PyErr_SetString(PyExc_TypeError, "setChildren expects int, int");
@@ -46,7 +51,10 @@ static PyObject* pySpaceTreeNode_setChildren(pySpaceTreeNode* self, PyObject* ar
     Py_RETURN_NONE;
 }
 
-static PyObject* pySpaceTreeNode_setLeafIndex(pySpaceTreeNode* self, PyObject* args) {
+PY_METHOD_VA(SpaceTreeNode, setLeafIndex,
+    "Params: idx\n"
+    "Sets the node to a leaf node with the specified leaf index")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "setLeafIndex expects an int");
@@ -57,17 +65,11 @@ static PyObject* pySpaceTreeNode_setLeafIndex(pySpaceTreeNode* self, PyObject* a
 }
 
 static PyMethodDef pySpaceTreeNode_Methods[] = {
-    { "getChildren", (PyCFunction)pySpaceTreeNode_getChildren, METH_NOARGS,
-      "Returns a tuple with the indices of the child nodes" },
-    { "getLeafIndex", (PyCFunction)pySpaceTreeNode_getLeafIndex, METH_NOARGS,
-      "Returns the node's leaf index" },
-    { "setChildren", (PyCFunction)pySpaceTreeNode_setChildren, METH_VARARGS,
-      "Params: left, right\n"
-      "Sets the node to a parent node with the specified child indices" },
-    { "setLeafIndex", (PyCFunction)pySpaceTreeNode_setLeafIndex, METH_VARARGS,
-      "Params: idx\n"
-      "Sets the node to a leaf node with the specified leaf index" },
-    { NULL, NULL, 0, NULL }
+    pySpaceTreeNode_getChildren_method,
+    pySpaceTreeNode_getLeafIndex_method,
+    pySpaceTreeNode_setChildren_method,
+    pySpaceTreeNode_setLeafIndex_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY_BOUNDS(Bounds3Ext, SpaceTreeNode, bounds, getBounds, setBounds)

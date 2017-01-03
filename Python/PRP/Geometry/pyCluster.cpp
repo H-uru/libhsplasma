@@ -29,7 +29,10 @@ PY_PLASMA_DEALLOC(Cluster)
 PY_PLASMA_EMPTY_INIT(Cluster)
 PY_PLASMA_NEW(Cluster, plCluster)
 
-static PyObject* pyCluster_read(pyCluster* self, PyObject* args) {
+PY_METHOD_VA(Cluster, read,
+    "Params: stream, group\n"
+    "Read this object from the stream")
+{
     pyStream* stream;
     pyClusterGroup* group;
     if (!PyArg_ParseTuple(args, "OO", &stream, &group)) {
@@ -44,7 +47,10 @@ static PyObject* pyCluster_read(pyCluster* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyCluster_write(pyCluster* self, PyObject* args) {
+PY_METHOD_VA(Cluster, write,
+    "Params: stream\n"
+    "Write this object to the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
@@ -58,12 +64,17 @@ static PyObject* pyCluster_write(pyCluster* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyCluster_clearInstances(pyCluster* self) {
+PY_METHOD_NOARGS(Cluster, clearInstances,
+    "Remove all plSpanInstance objects from the cluster")
+{
     self->fThis->clearInstances();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyCluster_addInstance(pyCluster* self, PyObject* args) {
+PY_METHOD_VA(Cluster, addInstance,
+    "Params: instance\n"
+    "Add a plSpanInstance to the cluster")
+{
     pySpanInstance* instance;
     if (!PyArg_ParseTuple(args, "O", &instance)) {
         PyErr_SetString(PyExc_TypeError, "addInstance expects a plSpanInstance");
@@ -78,7 +89,10 @@ static PyObject* pyCluster_addInstance(pyCluster* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyCluster_delInstance(pyCluster* self, PyObject* args) {
+PY_METHOD_VA(Cluster, delInstance,
+    "Params: idx\n"
+    "Remove a plSpanInstance from the cluster")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delInstance expects an int");
@@ -101,21 +115,12 @@ static int pyCluster_setInstances(pyCluster* self, PyObject* value, void*) {
 }
 
 static PyMethodDef pyCluster_Methods[] = {
-    { "read", (PyCFunction)pyCluster_read, METH_VARARGS,
-      "Params: stream, group\n"
-      "Read this object from the stream" },
-    { "write", (PyCFunction)pyCluster_write, METH_VARARGS,
-      "Params: stream\n"
-      "Write this object to the stream" },
-    { "clearInstances", (PyCFunction)pyCluster_clearInstances, METH_NOARGS,
-      "Remove all plSpanInstance objects from the cluster" },
-    { "addInstance", (PyCFunction)pyCluster_addInstance, METH_VARARGS,
-      "Params: instance\n"
-      "Add a plSpanInstance to the cluster" },
-    { "delInstance", (PyCFunction)pyCluster_delInstance, METH_VARARGS,
-      "Params: idx\n"
-      "Remove a plSpanInstance from the cluster" },
-    { NULL, NULL, 0, NULL }
+    pyCluster_read_method,
+    pyCluster_write_method,
+    pyCluster_clearInstances_method,
+    pyCluster_addInstance_method,
+    pyCluster_delInstance_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY_PROXY_RO(plSpanEncoding, Cluster, encoding, getEncoding)

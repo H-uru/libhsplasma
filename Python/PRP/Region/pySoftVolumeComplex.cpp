@@ -24,7 +24,10 @@ extern "C" {
 
 PY_PLASMA_NEW_MSG(SoftVolumeComplex, "plSoftVolumeComplex is abstract")
 
-static PyObject* pySoftVolumeComplex_addSubVolume(pySoftVolumeComplex* self, PyObject* args) {
+PY_METHOD_VA(SoftVolumeComplex, addSubVolume,
+    "Params: key\n"
+    "Adds a softvolume key")
+{
     PyObject* key;
     if (!(PyArg_ParseTuple(args, "O", &key) && pyKey_Check(key))) {
         PyErr_SetString(PyExc_TypeError, "addSubVolume expects a plKey");
@@ -34,12 +37,17 @@ static PyObject* pySoftVolumeComplex_addSubVolume(pySoftVolumeComplex* self, PyO
     Py_RETURN_NONE;
 }
 
-static PyObject* pySoftVolumeComplex_clearSubVolumes(pySoftVolumeComplex* self) {
+PY_METHOD_NOARGS(SoftVolumeComplex, clearSubVolumes,
+    "Removes all softvolume keys")
+{
     self->fThis->clearSubVolumes();
     Py_RETURN_NONE;
 }
 
-static PyObject* pySoftVolumeComplex_delSubVolume(pySoftVolumeComplex* self, PyObject* args) {
+PY_METHOD_VA(SoftVolumeComplex, delSubVolume,
+    "Params: idx\n"
+    "Removes a softvolume key")
+{
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delSubVolume expects an int");
@@ -54,15 +62,10 @@ static PyObject* pySoftVolumeComplex_delSubVolume(pySoftVolumeComplex* self, PyO
 }
 
 static PyMethodDef pySoftVolumeComplex_Methods[] = {
-    { "addSubVolume", (PyCFunction)pySoftVolumeComplex_addSubVolume, METH_VARARGS,
-      "Params: key\n"
-      "Adds a softvolume key" },
-    { "clearSubVolumes", (PyCFunction)pySoftVolumeComplex_clearSubVolumes, METH_NOARGS,
-      "Removes all softvolumet keys" },
-    { "delSubVolume", (PyCFunction)pySoftVolumeComplex_delSubVolume, METH_VARARGS,
-      "Params: idx\n"
-      "Removes a softvolume key" },
-    { NULL, NULL, 0, NULL }
+    pySoftVolumeComplex_addSubVolume_method,
+    pySoftVolumeComplex_clearSubVolumes_method,
+    pySoftVolumeComplex_delSubVolume_method,
+    PY_METHOD_TERMINATOR
 };
 
 static PyObject* pySoftVolumeComplex_getSubVolumes(pySoftVolumeComplex* self, void*) {

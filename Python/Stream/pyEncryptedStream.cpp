@@ -22,7 +22,12 @@ extern "C" {
 
 PY_PLASMA_NEW(EncryptedStream, plEncryptedStream)
 
-static PyObject* pyEncryptedStream_open(pyEncryptedStream* self, PyObject* args) {
+PY_METHOD_VA(EncryptedStream, open,
+    "Params: filename, mode, encryption\n"
+    "Opens the specified file.\n"
+    "Mode is: fmRead, fmWrite, fmReadWrite, fmCreate\n"
+    "Encryption is: kEncNone, kEncXtea, kEncAES, kEncDroid, kEncAuto")
+{
     const char* filename;
     int mode, encryption;
 
@@ -44,7 +49,10 @@ static PyObject* pyEncryptedStream_open(pyEncryptedStream* self, PyObject* args)
     }
 }
 
-static PyObject* pyEncryptedStream_setKey(pyEncryptedStream* self, PyObject* args) {
+PY_METHOD_VA(EncryptedStream, setKey,
+    "Params: key\n"
+    "Sets the encryption key. `key` should be an array of 4 ints")
+{
     PyObject* keyList;
     if (!PyArg_ParseTuple(args, "O", &keyList)) {
         PyErr_SetString(PyExc_TypeError, "setKey expects an array of 4 ints");
@@ -74,11 +82,15 @@ static PyObject* pyEncryptedStream_setKey(pyEncryptedStream* self, PyObject* arg
     Py_RETURN_NONE;
 }
 
-static PyObject* pyEncryptedStream_getEncType(pyEncryptedStream* self) {
+PY_METHOD_NOARGS(EncryptedStream, getEncType, "Returns the encryption type") {
     return pyPlasma_convert(self->fThis->getEncType());
 }
 
-static PyObject* pyEncryptedStream_IsFileEncrypted(PyObject*, PyObject* args) {
+PY_METHOD_STATIC_VA(EncryptedStream, IsFileEncrypted,
+    "(static)\n"
+    "Params: filename\n"
+    "Tests whether the specified file is encrypted")
+{
     const char* filename;
     if (!PyArg_ParseTuple(args, "s", &filename)) {
         PyErr_SetString(PyExc_TypeError, "IsFileEncrypted expects a string");
@@ -87,35 +99,24 @@ static PyObject* pyEncryptedStream_IsFileEncrypted(PyObject*, PyObject* args) {
     return pyPlasma_convert(plEncryptedStream::IsFileEncrypted(filename));
 }
 
-static PyObject* pyEncryptedStream__enter__(PyObject* self) {
+PY_METHOD_NOARGS(EncryptedStream, __enter__, NULL) {
     Py_INCREF(self);
-    return self;
+    return (PyObject*)self;
 }
 
-static PyObject* pyEncryptedStream__exit__(pyEncryptedStream* self, PyObject* args) {
+PY_METHOD_VA(EncryptedStream, __exit__, NULL) {
     self->fThis->close();
     Py_RETURN_NONE;
 }
 
 static PyMethodDef pyEncryptedStream_Methods[] = {
-    { "open", (PyCFunction)pyEncryptedStream_open, METH_VARARGS,
-      "Params: filename, mode, encryption\n"
-      "Opens the specified file.\n"
-      "Mode is: fmRead, fmWrite, fmReadWrite, fmCreate\n"
-      "Encryption is: kEncNone, kEncXtea, kEncAES, kEncDroid, kEncAuto" },
-    { "setKey", (PyCFunction)pyEncryptedStream_setKey, METH_VARARGS,
-      "Params: key\n"
-      "Sets the encryption key. `key` should be an array of 4 ints" },
-    { "getEncType", (PyCFunction)pyEncryptedStream_getEncType, METH_NOARGS,
-      "Returns the encryption type" },
-    { "IsFileEncrypted", (PyCFunction)pyEncryptedStream_IsFileEncrypted,
-      METH_VARARGS | METH_STATIC,
-      "(static)\n"
-      "Params: filename\n"
-      "Tests whether the specified file is encrypted" },
-    { "__enter__", (PyCFunction)pyEncryptedStream__enter__, METH_NOARGS, NULL },
-    { "__exit__", (PyCFunction)pyEncryptedStream__exit__, METH_VARARGS, NULL },
-    { NULL, NULL, 0, NULL }
+    pyEncryptedStream_open_method,
+    pyEncryptedStream_setKey_method,
+    pyEncryptedStream_getEncType_method,
+    pyEncryptedStream_IsFileEncrypted_method,
+    pyEncryptedStream___enter___method,
+    pyEncryptedStream___exit___method,
+    PY_METHOD_TERMINATOR
 };
 
 PyTypeObject pyEncryptedStream_Type = {

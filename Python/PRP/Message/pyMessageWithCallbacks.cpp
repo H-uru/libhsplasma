@@ -24,7 +24,10 @@ extern "C" {
 
 PY_PLASMA_NEW(MessageWithCallbacks, plMessageWithCallbacks)
 
-static PyObject* pyMessageWithCallbacks_addCallback(pyMessageWithCallbacks* self, PyObject* args) {
+PY_METHOD_VA(MessageWithCallbacks, addCallback,
+    "Params: key\n"
+    "Adds a callback message")
+{
     PyObject* msg;
     if (!(PyArg_ParseTuple(args, "O", &msg) && pyMessage_Check(msg))) {
         PyErr_SetString(PyExc_TypeError, "addCallback expects a plMessage");
@@ -35,12 +38,17 @@ static PyObject* pyMessageWithCallbacks_addCallback(pyMessageWithCallbacks* self
     Py_RETURN_NONE;
 }
 
-static PyObject* pyMessageWithCallbacks_clearCallbacks(pyMessageWithCallbacks* self) {
+PY_METHOD_NOARGS(MessageWithCallbacks, clearCallbacks,
+    "Removes all callback messages")
+{
     self->fThis->clearCallbacks();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyMessageWithCallbacks_delCallback(pyMessageWithCallbacks* self, PyObject* args) {
+PY_METHOD_VA(MessageWithCallbacks, delCallback,
+    "Params: idx\n"
+    "Removes a callback message")
+{
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delCallback expects an int");
@@ -55,15 +63,10 @@ static PyObject* pyMessageWithCallbacks_delCallback(pyMessageWithCallbacks* self
 }
 
 static PyMethodDef pyMessageWithCallbacks_Methods[] = {
-    { "addCallback", (PyCFunction)pyMessageWithCallbacks_addCallback, METH_VARARGS,
-      "Params: key\n"
-      "Adds a callback message" },
-    { "clearCallbacks", (PyCFunction)pyMessageWithCallbacks_clearCallbacks, METH_NOARGS,
-      "Removes all callback messages" },
-    { "delCallback", (PyCFunction)pyMessageWithCallbacks_delCallback, METH_VARARGS,
-      "Params: idx\n"
-      "Removes a callback message" },
-    { NULL, NULL, 0, NULL }
+    pyMessageWithCallbacks_addCallback_method,
+    pyMessageWithCallbacks_clearCallbacks_method,
+    pyMessageWithCallbacks_delCallback_method,
+    PY_METHOD_TERMINATOR
 };
 
 static PyObject* pyMessageWithCallbacks_getCallbacks(pyMessageWithCallbacks* self, void*) {

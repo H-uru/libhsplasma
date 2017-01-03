@@ -23,7 +23,10 @@ extern "C" {
 
 PY_PLASMA_NEW_MSG(SingleModifier, "plSingleModifier is abstract")
 
-static PyObject* pySingleModifier_getFlag(pySingleModifier* self, PyObject* args) {
+PY_METHOD_VA(SingleModifier, getFlag,
+    "Params: flag\n"
+    "Returns whether the specified modifier flag is set")
+{
     int flag;
     if (!PyArg_ParseTuple(args, "i", &flag)) {
         PyErr_SetString(PyExc_TypeError, "getFlag expects an int");
@@ -32,7 +35,10 @@ static PyObject* pySingleModifier_getFlag(pySingleModifier* self, PyObject* args
     return pyPlasma_convert(self->fThis->getFlag(flag));
 }
 
-static PyObject* pySingleModifier_setFlag(pyMultiModifier* self, PyObject* args) {
+PY_METHOD_VA(SingleModifier, setFlag,
+    "Params: flag, value\n"
+    "Sets the specified modifier flag")
+{
     int flag, value;
     if (!PyArg_ParseTuple(args, "ii", &flag, &value)) {
         PyErr_SetString(PyExc_TypeError, "setFlag expects int, bool");
@@ -43,13 +49,9 @@ static PyObject* pySingleModifier_setFlag(pyMultiModifier* self, PyObject* args)
 }
 
 static PyMethodDef pySingleModifier_Methods[] = {
-    { "getFlag", (PyCFunction)pySingleModifier_getFlag, METH_VARARGS,
-      "Params: flag\n"
-      "Returns whether the specified modifier flag is set" },
-    { "setFlag", (PyCFunction)pySingleModifier_setFlag, METH_VARARGS,
-      "Params: flag, value\n"
-      "Sets the specified modifier flag" },
-    { NULL, NULL, 0, NULL }
+    pySingleModifier_getFlag_method,
+    pySingleModifier_setFlag_method,
+    PY_METHOD_TERMINATOR
 };
 
 PyTypeObject pySingleModifier_Type = {

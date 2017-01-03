@@ -27,12 +27,15 @@ extern "C" {
 
 PY_PLASMA_NEW_MSG(LogicModBase, "plLogicModBase is abstract")
 
-static PyObject* pyLogicModBase_clearCommands(pyLogicModBase* self) {
+PY_METHOD_NOARGS(LogicModBase, clearCommands, "Remove all commands") {
     self->fThis->clearCommands();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyLogicModBase_addCommand(pyLogicModBase* self, PyObject* args) {
+PY_METHOD_VA(LogicModBase, addCommand,
+    "Params: key\n"
+    "Add a command")
+{
     pyMessage* msg;
     if (!PyArg_ParseTuple(args, "O", &msg)) {
         PyErr_SetString(PyExc_TypeError, "addCommand expects a plMessage");
@@ -47,7 +50,10 @@ static PyObject* pyLogicModBase_addCommand(pyLogicModBase* self, PyObject* args)
     Py_RETURN_NONE;
 }
 
-static PyObject* pyLogicModBase_delCommand(pyLogicModBase* self, PyObject* args) {
+PY_METHOD_VA(LogicModBase, delCommand,
+    "Params: idx\n"
+    "Remove a command")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delCommand expects an int");
@@ -57,19 +63,25 @@ static PyObject* pyLogicModBase_delCommand(pyLogicModBase* self, PyObject* args)
     Py_RETURN_NONE;
 }
 
-static PyObject* pyLogicModBase_getLogicFlag(pyLogicModBase* self, PyObject* args) {
+PY_METHOD_VA(LogicModBase, getLogicFlag,
+    "Params: flag\n"
+    "Returns True if the LogicMod flag is set")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
-        PyErr_SetString(PyExc_TypeError, "getFlag expects an int");
+        PyErr_SetString(PyExc_TypeError, "getLogicFlag expects an int");
         return NULL;
     }
     return pyPlasma_convert(self->fThis->getLogicFlag(idx));
 }
 
-static PyObject* pyLogicModBase_setLogicFlag(pyLogicModBase* self, PyObject* args) {
+PY_METHOD_VA(LogicModBase, setLogicFlag,
+    "Params: flag, value\n"
+    "Sets the specified LogicMod flag")
+{
     int idx, value;
     if (!PyArg_ParseTuple(args, "ii", &idx, &value)) {
-        PyErr_SetString(PyExc_TypeError, "setFlag expects int, bool");
+        PyErr_SetString(PyExc_TypeError, "setLogicFlag expects int, bool");
         return NULL;
     }
     self->fThis->setLogicFlag(idx, value != 0);
@@ -89,21 +101,12 @@ static int pyLogicModBase_setCommands(pyLogicModBase* self, PyObject* value, voi
 }
 
 static PyMethodDef pyLogicModBase_Methods[] = {
-    { "clearCommands", (PyCFunction)pyLogicModBase_clearCommands, METH_NOARGS,
-      "Remove all commands" },
-    { "addCommand", (PyCFunction)pyLogicModBase_addCommand, METH_VARARGS,
-      "Params: key\n"
-      "Add a command" },
-    { "delCommand", (PyCFunction)pyLogicModBase_delCommand, METH_NOARGS,
-      "Params: idx\n"
-      "Remove a command" },
-    { "getLogicFlag", (PyCFunction)pyLogicModBase_getLogicFlag, METH_VARARGS,
-      "Params: flag\n"
-      "Returns True if the LogicMod flag is set" },
-    { "setLogicFlag", (PyCFunction)pyLogicModBase_setLogicFlag, METH_VARARGS,
-      "Params: flag, value\n"
-      "Sets the specified LogicMod flag" },
-    { NULL, NULL, 0, NULL }
+    pyLogicModBase_clearCommands_method,
+    pyLogicModBase_addCommand_method,
+    pyLogicModBase_delCommand_method,
+    pyLogicModBase_getLogicFlag_method,
+    pyLogicModBase_setLogicFlag_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY_CREATABLE(plNotifyMsg, NotifyMsg, LogicModBase, notify,

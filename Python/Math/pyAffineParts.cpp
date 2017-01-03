@@ -25,7 +25,10 @@ PY_PLASMA_VALUE_DEALLOC(AffineParts)
 PY_PLASMA_EMPTY_INIT(AffineParts)
 PY_PLASMA_VALUE_NEW(AffineParts, hsAffineParts)
 
-static PyObject* pyAffineParts_read(pyAffineParts* self, PyObject* args) {
+PY_METHOD_VA(AffineParts, read,
+    "Params: stream\n"
+    "Reads this object from `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
@@ -39,7 +42,10 @@ static PyObject* pyAffineParts_read(pyAffineParts* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyAffineParts_write(pyAffineParts* self, PyObject* args) {
+PY_METHOD_VA(AffineParts, write,
+    "Params: stream\n"
+    "Writes this object to `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
@@ -53,21 +59,16 @@ static PyObject* pyAffineParts_write(pyAffineParts* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyAffineParts_reset(pyAffineParts* self) {
+PY_METHOD_NOARGS(AffineParts, reset, "Resets the transform to the identity") {
     self->fThis->reset();
     Py_RETURN_NONE;
 }
 
 PyMethodDef pyAffineParts_Methods[] = {
-    { "read", (PyCFunction)pyAffineParts_read, METH_VARARGS,
-      "Params: stream\n"
-      "Reads this object from `stream`" },
-    { "write", (PyCFunction)pyAffineParts_write, METH_VARARGS,
-      "Params: stream\n"
-      "Writes this object to `stream`" },
-    { "reset", (PyCFunction)pyAffineParts_reset, METH_NOARGS,
-      "Resets the transform to the identity" },
-    { NULL, NULL, 0, NULL }
+    pyAffineParts_read_method,
+    pyAffineParts_write_method,
+    pyAffineParts_reset_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY_MEMBER(int, AffineParts, I, fI)

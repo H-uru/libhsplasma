@@ -25,12 +25,15 @@ extern "C" {
 
 PY_PLASMA_NEW(NotifyMsg, plNotifyMsg)
 
-static PyObject* pyNotifyMsg_clearEvents(pyNotifyMsg* self) {
+PY_METHOD_NOARGS(NotifyMsg, clearEvents, "Remove all event objects") {
     self->fThis->clearEvents();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyNotifyMsg_addEvent(pyNotifyMsg* self, PyObject* args) {
+PY_METHOD_VA(NotifyMsg, addEvent,
+    "Params: event\n"
+    "Add an event")
+{
     pyEventData* evt;
     if (!PyArg_ParseTuple(args, "O", &evt)) {
         PyErr_SetString(PyExc_TypeError, "addEvent expects a proEventData");
@@ -45,7 +48,10 @@ static PyObject* pyNotifyMsg_addEvent(pyNotifyMsg* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyNotifyMsg_delEvent(pyNotifyMsg* self, PyObject* args) {
+PY_METHOD_VA(NotifyMsg, delEvent,
+    "Params: idx\n"
+    "Remove an event")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delEvent expects an int");
@@ -68,15 +74,10 @@ static int pyNotifyMsg_setEvents(pyNotifyMsg* self, PyObject* value, void*) {
 }
 
 static PyMethodDef pyNotifyMsg_Methods[] = {
-    { "clearEvents", (PyCFunction)pyNotifyMsg_clearEvents, METH_NOARGS,
-      "Remove all event objects" },
-    { "addEvent", (PyCFunction)pyNotifyMsg_addEvent, METH_VARARGS,
-      "Params: event\n"
-      "Add an event" },
-    { "delEvent", (PyCFunction)pyNotifyMsg_delEvent, METH_NOARGS,
-      "Params: idx\n"
-      "Remove an event" },
-    { NULL, NULL, 0, NULL }
+    pyNotifyMsg_clearEvents_method,
+    pyNotifyMsg_addEvent_method,
+    pyNotifyMsg_delEvent_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(int, NotifyMsg, type, getType, setType)

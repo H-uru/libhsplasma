@@ -27,14 +27,15 @@ extern "C" {
 PY_PLASMA_EMPTY_INIT(TMController)
 PY_PLASMA_NEW(TMController, plTMController)
 
-static PyObject* pyTMController_convertToCompoundController(pyTMController* self) {
+PY_METHOD_NOARGS(TMController, convertToCompoundController,
+    "Converts this controller to a plCompoundController")
+{
     return ICreate(self->fThis->convertToCompoundController());
 }
 
 static PyMethodDef pyTMController_Methods[] = {
-    { "convertToCompoundController", (PyCFunction)pyTMController_convertToCompoundController, METH_NOARGS,
-      "Converts this controller to a plCompoundController" },
-    { NULL, NULL, 0, NULL }
+    pyTMController_convertToCompoundController_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY_CREATABLE(plPosController, PosController, TMController, pos,

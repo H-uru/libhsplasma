@@ -57,7 +57,10 @@ static PyObject* pyPlane3_Repr(pyPlane3* self) {
     return pyPlasma_convert(repr);
 }
 
-static PyObject* pyPlane3_read(pyPlane3* self, PyObject* args) {
+PY_METHOD_VA(Plane3, read,
+    "Params: stream\n"
+    "Reads this Plane from `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
@@ -71,7 +74,10 @@ static PyObject* pyPlane3_read(pyPlane3* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyPlane3_write(pyPlane3* self, PyObject* args) {
+PY_METHOD_VA(Plane3, write,
+    "Params: stream\n"
+    "Writes this Plane to `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
@@ -86,13 +92,9 @@ static PyObject* pyPlane3_write(pyPlane3* self, PyObject* args) {
 }
 
 PyMethodDef pyPlane3_Methods[] = {
-    { "read", (PyCFunction)pyPlane3_read, METH_VARARGS,
-      "Params: stream\n"
-      "Reads this Plane from `stream`" },
-    { "write", (PyCFunction)pyPlane3_write, METH_VARARGS,
-      "Params: stream\n"
-      "Writes this Plane to `stream`" },
-    { NULL, NULL, 0, NULL }
+    pyPlane3_read_method,
+    pyPlane3_write_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY_MEMBER(float, Plane3, X, N.X)

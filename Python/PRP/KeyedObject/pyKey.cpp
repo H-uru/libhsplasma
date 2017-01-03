@@ -79,7 +79,10 @@ static PyObject* pyKey_RichCompare(pyKey* left, pyKey* right, int op) {
     return pyPlasma_convert(result);
 }
 
-static PyObject* pyKey_read(pyKey* self, PyObject* args) {
+PY_METHOD_VA(Key, read,
+    "Params: stream\n"
+    "Reads this key from the stream, including the size and offset")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects an hsStream");
@@ -93,7 +96,10 @@ static PyObject* pyKey_read(pyKey* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyKey_write(pyKey* self, PyObject* args) {
+PY_METHOD_VA(Key, write,
+    "Params: stream\n"
+    "Writes this key to the stream, including the size and offset")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
@@ -107,7 +113,10 @@ static PyObject* pyKey_write(pyKey* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyKey_readUoid(pyKey* self, PyObject* args) {
+PY_METHOD_VA(Key, readUoid,
+    "Params: stream\n"
+    "Reads this key from the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "readUoid expects an hsStream");
@@ -121,7 +130,10 @@ static PyObject* pyKey_readUoid(pyKey* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyKey_writeUoid(pyKey* self, PyObject* args) {
+PY_METHOD_VA(Key, writeUoid,
+    "Params: stream\n"
+    "Writes this key from the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "writeUoid expects an hsStream");
@@ -135,32 +147,22 @@ static PyObject* pyKey_writeUoid(pyKey* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyKey_exists(pyKey* self) {
+PY_METHOD_NOARGS(Key, exists, "Returns True if the key exists") {
     return pyPlasma_convert(self->fThis->Exists());
 }
 
-static PyObject* pyKey_isLoaded(pyKey* self) {
+PY_METHOD_NOARGS(Key, isLoaded, "Returns True if the key is loaded") {
     return pyPlasma_convert(self->fThis->isLoaded());
 }
 
 static PyMethodDef pyKey_Methods[] = {
-    { "read", (PyCFunction)pyKey_read, METH_VARARGS,
-      "Params: stream\n"
-      "Reads this key from the stream, including the size and offset" },
-    { "write", (PyCFunction)pyKey_write, METH_VARARGS,
-      "Params: stream\n"
-      "Writes this key to the stream, including the size and offset" },
-    { "readUoid", (PyCFunction)pyKey_readUoid, METH_VARARGS,
-      "Params: stream\n"
-      "Reads this key from the stream" },
-    { "writeUoid", (PyCFunction)pyKey_writeUoid, METH_VARARGS,
-      "Params: stream\n"
-      "Writes this key from the stream" },
-    { "exists", (PyCFunction)pyKey_exists, METH_NOARGS,
-      "Returns True if the key exists" },
-    { "isLoaded", (PyCFunction)pyKey_isLoaded, METH_NOARGS,
-      "Returns True if the key is loaded" },
-    { NULL, NULL, 0, NULL }
+    pyKey_read_method,
+    pyKey_write_method,
+    pyKey_readUoid_method,
+    pyKey_writeUoid_method,
+    pyKey_exists_method,
+    pyKey_isLoaded_method,
+    PY_METHOD_TERMINATOR
 };
 
 /* NOTE: Not using standard PY_PROPERTY() wrappers, since the plKey needs to

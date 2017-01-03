@@ -25,7 +25,10 @@ extern "C" {
 
 PY_PLASMA_NEW_MSG(DetectorModifier, "plDetectorModifier is abstract")
 
-static PyObject* pyDetectorModifier_addReceiver(pyDetectorModifier* self, PyObject* args) {
+PY_METHOD_VA(DetectorModifier, addReceiver,
+    "Params: key\n"
+    "Adds a notification receiver to this detector")
+{
     PyObject* receiver;
     if (!(PyArg_ParseTuple(args, "O", &receiver) && pyKey_Check(receiver))) {
         PyErr_SetString(PyExc_TypeError, "addReceiver expects a plKey");
@@ -36,12 +39,17 @@ static PyObject* pyDetectorModifier_addReceiver(pyDetectorModifier* self, PyObje
     Py_RETURN_NONE;
 }
 
-static PyObject* pyDetectorModifier_clearReceivers(pyDetectorModifier* self) {
+PY_METHOD_NOARGS(DetectorModifier, clearReceivers,
+    "Removes all receivers from this detector")
+{
     self->fThis->clearReceivers();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyDetectorModifier_delReceiver(pyDetectorModifier* self, PyObject* args) {
+PY_METHOD_VA(DetectorModifier, delReceiver,
+    "Params: idx\n"
+    "Removes a receiver from this detector")
+{
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delReceiver expects an int");
@@ -53,15 +61,10 @@ static PyObject* pyDetectorModifier_delReceiver(pyDetectorModifier* self, PyObje
 }
 
 static PyMethodDef pyDetectorModifier_Methods[] = {
-    { "addReceiver", (PyCFunction)pyDetectorModifier_addReceiver, METH_VARARGS,
-      "Params: key\n"
-      "Adds a notification receiver to this detector" },
-    { "clearReceivers", (PyCFunction)pyDetectorModifier_clearReceivers, METH_NOARGS,
-      "Removes all receivers from this detector" },
-    { "delReceiver", (PyCFunction)pyDetectorModifier_delReceiver, METH_VARARGS,
-      "Params: idx\n"
-      "Removes a receiver from this detector" },
-    { NULL, NULL, 0, NULL }
+    pyDetectorModifier_addReceiver_method,
+    pyDetectorModifier_clearReceivers_method,
+    pyDetectorModifier_delReceiver_method,
+    PY_METHOD_TERMINATOR
 };
 
 static PyObject* pyDetectorModifier_getReceivers(pyDetectorModifier* self, void*) {

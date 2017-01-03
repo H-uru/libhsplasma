@@ -33,7 +33,10 @@ PY_PLASMA_INIT_DECL(GBufferGroup) {
 
 PY_PLASMA_NEW_VA(GBufferGroup, plGBufferGroup, 0)
 
-static PyObject* pyGBufferGroup_read(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, read,
+    "Params: stream\n"
+    "Read this BufferGroup from a stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects an hsStream");
@@ -47,7 +50,10 @@ static PyObject* pyGBufferGroup_read(pyGBufferGroup* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGBufferGroup_write(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, write,
+    "Params: stream\n"
+    "Write this BufferGroup to a stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
@@ -61,7 +67,10 @@ static PyObject* pyGBufferGroup_write(pyGBufferGroup* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGBufferGroup_getVerts(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, getVertices,
+    "Params: idx\n"
+    "Get the specified vertex group as a list of plGBufferVertex objects")
+{
     int idx, start = 0, len = -1;
     if (!PyArg_ParseTuple(args, "i|ii", &idx, &start, &len)) {
         PyErr_SetString(PyExc_TypeError, "getVertices expects an int");
@@ -79,7 +88,10 @@ static PyObject* pyGBufferGroup_getVerts(pyGBufferGroup* self, PyObject* args) {
     return list;
 }
 
-static PyObject* pyGBufferGroup_getIndices(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, getIndices,
+    "Params: idx\n"
+    "Get the specified face index list as a list of indices")
+{
     int idx, start = 0, len = -1;
     if (!PyArg_ParseTuple(args, "i|ii", &idx, &start, &len)) {
         PyErr_SetString(PyExc_TypeError, "getIndices expects an int");
@@ -97,7 +109,10 @@ static PyObject* pyGBufferGroup_getIndices(pyGBufferGroup* self, PyObject* args)
     return list;
 }
 
-static PyObject* pyGBufferGroup_getCells(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, getCells,
+    "Params: idx\n"
+    "Get the specified cell list as a list of plGBufferCell objects")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "getCells expects an int");
@@ -111,7 +126,10 @@ static PyObject* pyGBufferGroup_getCells(pyGBufferGroup* self, PyObject* args) {
     return list;
 }
 
-static PyObject* pyGBufferGroup_addVerts(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, addVertices,
+    "Params: list\n"
+    "Add a Vertex Buffer with the contents of the supplied vertex list")
+{
     PyObject* list;
     if (!PyArg_ParseTuple(args, "O", &list)) {
         PyErr_SetString(PyExc_TypeError, "addVertices expects a list of plGBufferVertex objects");
@@ -134,7 +152,10 @@ static PyObject* pyGBufferGroup_addVerts(pyGBufferGroup* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGBufferGroup_addIndices(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, addIndices,
+    "Params: list\n"
+    "Add a Face Index Buffer with the contents of the supplied index list")
+{
     PyObject* list;
     if (!PyArg_ParseTuple(args, "O", &list)) {
         PyErr_SetString(PyExc_TypeError, "addIndices expects a list of ints");
@@ -157,7 +178,10 @@ static PyObject* pyGBufferGroup_addIndices(pyGBufferGroup* self, PyObject* args)
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGBufferGroup_addCells(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, addCells,
+    "Params: list\n"
+    "Add a Cell Buffer with the contents of the specified cell list" )
+{
     PyObject* list;
     if (!PyArg_ParseTuple(args, "O", &list)) {
         PyErr_SetString(PyExc_TypeError, "addCells expects a list of plGBufferCell objects");
@@ -180,7 +204,10 @@ static PyObject* pyGBufferGroup_addCells(pyGBufferGroup* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGBufferGroup_delVerts(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, delVertices,
+    "Params: idx\n"
+    "Remove the specified Vertex buffer")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delVertices expects an int");
@@ -190,7 +217,10 @@ static PyObject* pyGBufferGroup_delVerts(pyGBufferGroup* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGBufferGroup_delIndices(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, delIndices,
+    "Params: idx\n"
+    "Remove the specified Face Index buffer")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delIndices expects an int");
@@ -200,7 +230,10 @@ static PyObject* pyGBufferGroup_delIndices(pyGBufferGroup* self, PyObject* args)
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGBufferGroup_delCells(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, delCells,
+    "Params: idx\n"
+    "Remove the specified Cell buffer")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delCells expects an int");
@@ -210,30 +243,37 @@ static PyObject* pyGBufferGroup_delCells(pyGBufferGroup* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGBufferGroup_clearVerts(pyGBufferGroup* self) {
+PY_METHOD_NOARGS(GBufferGroup, clearVertices, "Remove all Vertex buffers") {
     self->fThis->clearVertices();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGBufferGroup_clearIndices(pyGBufferGroup* self) {
+PY_METHOD_NOARGS(GBufferGroup, clearIndices, "Remove all Face Index buffers") {
     self->fThis->clearIndices();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGBufferGroup_clearCells(pyGBufferGroup* self) {
+PY_METHOD_NOARGS(GBufferGroup, clearCells, "Remove all Cell buffers") {
     self->fThis->clearCells();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGBufferGroup_getNumVertBuffers(pyGBufferGroup* self) {
+PY_METHOD_NOARGS(GBufferGroup, getNumVertBuffers,
+    "Return the nubmer of stored Vertex buffers")
+{
     return pyPlasma_convert(self->fThis->getNumVertBuffers());
 }
 
-static PyObject* pyGBufferGroup_getNumIdxBuffers(pyGBufferGroup* self) {
+PY_METHOD_NOARGS(GBufferGroup, getNumIdxBuffers,
+    "Return the nubmer of stored Index buffers")
+{
     return pyPlasma_convert(self->fThis->getNumIdxBuffers());
 }
 
-static PyObject* pyGBufferGroup_getVertBufferStorage(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, getVertBufferStorage,
+    "Params: idx\n"
+    "Retrieve a raw Vertex buffer")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "getVertBufferStorage expects an int");
@@ -243,7 +283,10 @@ static PyObject* pyGBufferGroup_getVertBufferStorage(pyGBufferGroup* self, PyObj
                                      self->fThis->getVertBufferSize(idx));
 }
 
-static PyObject* pyGBufferGroup_getIdxBufferStorage(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, getIdxBufferStorage,
+    "Params: idx\n"
+    "Retrieve a raw Vertex buffer")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "getIdxBufferStorage expects an int");
@@ -257,7 +300,10 @@ static PyObject* pyGBufferGroup_getIdxBufferStorage(pyGBufferGroup* self, PyObje
     return idxList;
 }
 
-static PyObject* pyGBufferGroup_getVertBufferSize(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, getVertBufferSize,
+    "Params: idx\n"
+    "Return the size of the specified Vertex buffer")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "getVertBufferSize expects an int");
@@ -266,7 +312,10 @@ static PyObject* pyGBufferGroup_getVertBufferSize(pyGBufferGroup* self, PyObject
     return pyPlasma_convert(self->fThis->getVertBufferSize(idx));
 }
 
-static PyObject* pyGBufferGroup_getIdxBufferCount(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, getIdxBufferCount,
+    "Params: idx\n"
+    "Return the number of indices in the specified Index buffer")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "getIdxBufferCount expects an int");
@@ -276,62 +325,27 @@ static PyObject* pyGBufferGroup_getIdxBufferCount(pyGBufferGroup* self, PyObject
 }
 
 static PyMethodDef pyGBufferGroup_Methods[] = {
-    { "read", (PyCFunction)pyGBufferGroup_read, METH_VARARGS,
-      "Params: stream\n"
-      "Read this BufferGroup from a stream" },
-    { "write", (PyCFunction)pyGBufferGroup_write, METH_VARARGS,
-      "Params: stream\n"
-      "Write this BufferGroup to a stream" },
-    { "getVertices", (PyCFunction)pyGBufferGroup_getVerts, METH_VARARGS,
-      "Params: idx\n"
-      "Get the specified vertex group as a list of plGBufferVertex objects" },
-    { "getIndices", (PyCFunction)pyGBufferGroup_getIndices, METH_VARARGS,
-      "Params: idx\n"
-      "Get the specified face index list as a list of indices" },
-    { "getCells", (PyCFunction)pyGBufferGroup_getCells, METH_VARARGS,
-      "Params: idx\n"
-      "Get the specified cell list as a list of plGBufferCell objects" },
-    { "addVertices", (PyCFunction)pyGBufferGroup_addVerts, METH_VARARGS,
-      "Params: list\n"
-      "Add a Vertex Buffer with the contents of the supplied vertex list" },
-    { "addIndices", (PyCFunction)pyGBufferGroup_addIndices, METH_VARARGS,
-      "Params: list\n"
-      "Add a Face Index Buffer with the contents of the supplied index list" },
-    { "addCells", (PyCFunction)pyGBufferGroup_addCells, METH_VARARGS,
-      "Params: list\n"
-      "Add a Cell Buffer with the contents of the specified cell list" },
-    { "delVertices", (PyCFunction)pyGBufferGroup_delVerts, METH_VARARGS,
-      "Params: idx\n"
-      "Remove the specified Vertex buffer" },
-    { "delIndices", (PyCFunction)pyGBufferGroup_delIndices, METH_VARARGS,
-      "Params: idx\n"
-      "Remove the specified Face Index buffer" },
-    { "delCells", (PyCFunction)pyGBufferGroup_delCells, METH_VARARGS,
-      "Params: idx\n"
-      "Remove the specified Cell buffer" },
-    { "clearVertices", (PyCFunction)pyGBufferGroup_clearVerts, METH_NOARGS,
-      "Remove all Vertex buffers" },
-    { "clearIndices", (PyCFunction)pyGBufferGroup_clearIndices, METH_NOARGS,
-      "Remove all Face Index buffers" },
-    { "clearCells", (PyCFunction)pyGBufferGroup_clearCells, METH_NOARGS,
-      "Remove all Cell buffers" },
-    { "getNumVertBuffers", (PyCFunction)pyGBufferGroup_getNumVertBuffers, METH_NOARGS,
-      "Return the nubmer of stored Vertex buffers" },
-    { "getNumIdxBuffers", (PyCFunction)pyGBufferGroup_getNumIdxBuffers, METH_NOARGS,
-      "Return the nubmer of stored Index buffers" },
-    { "getVertBufferStorage", (PyCFunction)pyGBufferGroup_getVertBufferStorage, METH_VARARGS,
-      "Params: idx\n"
-      "Retrieve a raw Vertex buffer" },
-    { "getIdxBufferStorage", (PyCFunction)pyGBufferGroup_getIdxBufferStorage, METH_VARARGS,
-      "Params: idx\n"
-      "Retrieve a raw Vertex buffer" },
-    { "getVertBufferSize", (PyCFunction)pyGBufferGroup_getVertBufferSize, METH_VARARGS,
-      "Params: idx\n"
-      "Return the size of the specified Vertex buffer" },
-    { "getIdxBufferCount", (PyCFunction)pyGBufferGroup_getIdxBufferCount, METH_VARARGS,
-      "Params: idx\n"
-      "Return the number of indices in the specified Index buffer" },
-    { NULL, NULL, 0, NULL }
+    pyGBufferGroup_read_method,
+    pyGBufferGroup_write_method,
+    pyGBufferGroup_getVertices_method,
+    pyGBufferGroup_getIndices_method,
+    pyGBufferGroup_getCells_method,
+    pyGBufferGroup_addVertices_method,
+    pyGBufferGroup_addIndices_method,
+    pyGBufferGroup_addCells_method,
+    pyGBufferGroup_delVertices_method,
+    pyGBufferGroup_delIndices_method,
+    pyGBufferGroup_delCells_method,
+    pyGBufferGroup_clearVertices_method,
+    pyGBufferGroup_clearIndices_method,
+    pyGBufferGroup_clearCells_method,
+    pyGBufferGroup_getNumVertBuffers_method,
+    pyGBufferGroup_getNumIdxBuffers_method,
+    pyGBufferGroup_getVertBufferStorage_method,
+    pyGBufferGroup_getIdxBufferStorage_method,
+    pyGBufferGroup_getVertBufferSize_method,
+    pyGBufferGroup_getIdxBufferCount_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(unsigned int, GBufferGroup, format, getFormat, setFormat)

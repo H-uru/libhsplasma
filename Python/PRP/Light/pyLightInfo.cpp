@@ -27,12 +27,15 @@ extern "C" {
 
 PY_PLASMA_NEW_MSG(LightInfo, "plLightInfo is abstract")
 
-static PyObject* pyLightInfo_clearVisRegions(pyLightInfo* self) {
+PY_METHOD_NOARGS(LightInfo, clearVisRegions, "Remove all VisRegions from the light") {
     self->fThis->clearVisRegions();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyLightInfo_addVisRegion(pyLightInfo* self, PyObject* args) {
+PY_METHOD_VA(LightInfo, addVisRegion,
+    "Params: regionKey\n"
+    "Add a VisRegion to the light")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key) || !pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addVisRegion expects a plKey");
@@ -55,12 +58,9 @@ static int pyLightInfo_setVisRegions(pyLightInfo* self, PyObject* value, void*) 
 }
 
 static PyMethodDef pyLightInfo_Methods[] = {
-    { "clearVisRegions", (PyCFunction)pyLightInfo_clearVisRegions, METH_NOARGS,
-      "Remove all VisRegions from the light" },
-    { "addVisRegion", (PyCFunction)pyLightInfo_addVisRegion, METH_VARARGS,
-      "Params: regionKey\n"
-      "Add a VisRegion to the light" },
-    { NULL, NULL, 0, NULL }
+    pyLightInfo_clearVisRegions_method,
+    pyLightInfo_addVisRegion_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(hsColorRGBA, LightInfo, ambient, getAmbient, setAmbient)

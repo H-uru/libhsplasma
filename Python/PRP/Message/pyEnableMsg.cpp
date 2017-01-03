@@ -23,7 +23,7 @@ extern "C" {
 
 PY_PLASMA_NEW(EnableMsg, plEnableMsg)
 
-static PyObject* pyEnableMsg_getCmd(pyEnableMsg* self, PyObject* args) {
+PY_METHOD_VA(EnableMsg, getCmd, "Params: cmd") {
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "getCmd expects an int");
@@ -32,7 +32,7 @@ static PyObject* pyEnableMsg_getCmd(pyEnableMsg* self, PyObject* args) {
     return pyPlasma_convert(self->fThis->getCmd().get((size_t)idx));
 }
 
-static PyObject* pyEnableMsg_getType(pyEnableMsg* self, PyObject* args) {
+PY_METHOD_VA(EnableMsg, getType, "Params: type") {
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "getType expects an int");
@@ -41,7 +41,7 @@ static PyObject* pyEnableMsg_getType(pyEnableMsg* self, PyObject* args) {
     return pyPlasma_convert(self->fThis->getTypes().get((size_t)idx));
 }
 
-static PyObject* pyEnableMsg_setCmd(pyEnableMsg* self, PyObject* args) {
+PY_METHOD_VA(EnableMsg, setCmd, "Params: cmd, value") {
     Py_ssize_t idx, value;
     if (!PyArg_ParseTuple(args, "nn", &idx, &value)) {
         PyErr_SetString(PyExc_TypeError, "setCmd expects int, bool");
@@ -51,7 +51,7 @@ static PyObject* pyEnableMsg_setCmd(pyEnableMsg* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyEnableMsg_setType(pyEnableMsg* self, PyObject* args) {
+PY_METHOD_VA(EnableMsg, setType, "Params: type, value") {
     Py_ssize_t idx, value;
     if (!PyArg_ParseTuple(args, "nn", &idx, &value)) {
         PyErr_SetString(PyExc_TypeError, "setType expects int, bool");
@@ -62,15 +62,11 @@ static PyObject* pyEnableMsg_setType(pyEnableMsg* self, PyObject* args) {
 }
 
 static PyMethodDef pyEnableMsg_Methods[] = {
-    { "getCmd", (PyCFunction)pyEnableMsg_getCmd, METH_VARARGS,
-      "Params: cmd" },
-    { "getType", (PyCFunction)pyEnableMsg_getType, METH_VARARGS,
-      "Params: type" },
-    { "setCmd", (PyCFunction)pyEnableMsg_setCmd, METH_VARARGS,
-      "Params: cmd, value" },
-    { "setType", (PyCFunction)pyEnableMsg_setType, METH_VARARGS,
-      "Params: type, value" },
-    { NULL, NULL, 0, NULL }
+    pyEnableMsg_getCmd_method,
+    pyEnableMsg_getType_method,
+    pyEnableMsg_setCmd_method,
+    pyEnableMsg_setType_method,
+    PY_METHOD_TERMINATOR
 };
 
 PyTypeObject pyEnableMsg_Type = {

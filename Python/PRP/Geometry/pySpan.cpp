@@ -28,11 +28,14 @@ PY_PLASMA_DEALLOC(Span)
 PY_PLASMA_EMPTY_INIT(Span)
 PY_PLASMA_NEW(Span, plSpan)
 
-static PyObject* pySpan_ClassName(pySpan* self) {
+PY_METHOD_NOARGS(Span, ClassName, "Returns the RTTI Class name of this Span object") {
     return pyPlasma_convert(self->fThis->ClassName());
 }
 
-static PyObject* pySpan_read(pySpan* self, PyObject* args) {
+PY_METHOD_VA(Span, read,
+    "Params: stream\n"
+    "Read this Span object from the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects an hsStream");
@@ -46,7 +49,10 @@ static PyObject* pySpan_read(pySpan* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pySpan_write(pySpan* self, PyObject* args) {
+PY_METHOD_VA(Span, write,
+    "Params: stream\n"
+    "Write this Span object to the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
@@ -60,17 +66,20 @@ static PyObject* pySpan_write(pySpan* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pySpan_clearPermaLights(pySpan* self, PyObject* args) {
+PY_METHOD_NOARGS(Span, clearPermaLights, "Remove all Perma Lights from this Span") {
     self->fThis->clearPermaLights();
     Py_RETURN_NONE;
 }
 
-static PyObject* pySpan_clearPermaProjs(pySpan* self, PyObject* args) {
+PY_METHOD_NOARGS(Span, clearPermaProjs, "Remove all Perma Projs from this Span") {
     self->fThis->clearPermaProjs();
     Py_RETURN_NONE;
 }
 
-static PyObject* pySpan_addPermaLight(pySpan* self, PyObject* args) {
+PY_METHOD_VA(Span, addPermaLight,
+    "Params: key\n"
+    "Add a Perma Light to the span")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addPermaLight expects a plKey");
@@ -84,7 +93,10 @@ static PyObject* pySpan_addPermaLight(pySpan* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pySpan_addPermaProj(pySpan* self, PyObject* args) {
+PY_METHOD_VA(Span, addPermaProj,
+    "Params: key\n"
+    "Add a Perma Proj to the span")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addPermaProj expects a plKey");
@@ -118,25 +130,14 @@ static int pySpan_setLights(pySpan* self, PyObject* value, void*) {
 }
 
 static PyMethodDef pySpan_Methods[] = {
-    { "ClassName", (PyCFunction)pySpan_ClassName, METH_NOARGS,
-      "Returns the RTTI Class name of this Span object" },
-    { "read", (PyCFunction)pySpan_read, METH_VARARGS,
-      "Params: stream\n"
-      "Read this Span object from the stream" },
-    { "write", (PyCFunction)pySpan_write, METH_VARARGS,
-      "Params: stream\n"
-      "Write this Span object to the stream" },
-    { "clearPermaLights", (PyCFunction)pySpan_clearPermaLights, METH_NOARGS,
-      "Remove all Perma Lights from this Span" },
-    { "clearPermaProjs", (PyCFunction)pySpan_clearPermaProjs, METH_NOARGS,
-      "Remove all Perma Projs from this Span" },
-    { "addPermaLight", (PyCFunction)pySpan_addPermaLight, METH_VARARGS,
-      "Params: key\n"
-      "Add a Perma Light to the span" },
-    { "addPermaProj", (PyCFunction)pySpan_addPermaProj, METH_VARARGS,
-      "Params: key\n"
-      "Add a Perma Proj to the span" },
-    { NULL, NULL, 0, NULL }
+    pySpan_ClassName_method,
+    pySpan_read_method,
+    pySpan_write_method,
+    pySpan_clearPermaLights_method,
+    pySpan_clearPermaProjs_method,
+    pySpan_addPermaLight_method,
+    pySpan_addPermaProj_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(plKey, Span, fog, getFogEnvironment, setFogEnvironment) // Backwards compatibility

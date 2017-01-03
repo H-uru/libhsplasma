@@ -26,7 +26,10 @@ extern "C" {
 
 PY_PLASMA_NEW(GenericPhysical, plGenericPhysical)
 
-static PyObject* pyGenericPhysical_getProp(pyGenericPhysical* self, PyObject* args) {
+PY_METHOD_VA(GenericPhysical, getProperty,
+    "Params: flag\n"
+    "Returns whether the specified property is set")
+{
     int prop;
     if (!PyArg_ParseTuple(args, "i", &prop)) {
         PyErr_SetString(PyExc_TypeError, "getProperty expects an int");
@@ -35,7 +38,10 @@ static PyObject* pyGenericPhysical_getProp(pyGenericPhysical* self, PyObject* ar
     return pyPlasma_convert(self->fThis->getProperty(prop));
 }
 
-static PyObject* pyGenericPhysical_setProp(pyGenericPhysical* self, PyObject* args) {
+PY_METHOD_VA(GenericPhysical, setProperty,
+    "Params: flag, value\n"
+    "Sets the specified property")
+{
     int prop, value;
     if (!PyArg_ParseTuple(args, "ii", &prop, &value)) {
         PyErr_SetString(PyExc_TypeError, "setProperty expects int, bool");
@@ -45,7 +51,10 @@ static PyObject* pyGenericPhysical_setProp(pyGenericPhysical* self, PyObject* ar
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGenericPhysical_calcSphereBounds(pyGenericPhysical* self, PyObject* args) {
+PY_METHOD_VA(GenericPhysical, calcSphereBounds,
+    "Params: points\n"
+    "Calculates sphere bounds from a given point cloud")
+{
     PyObject* points;
     if (!(PyArg_ParseTuple(args, "O", &points) && PySequence_Check(points))) {
         PyErr_SetString(PyExc_TypeError, "calcSphereBounds expects a sequence of hsVector3");
@@ -72,7 +81,10 @@ static PyObject* pyGenericPhysical_calcSphereBounds(pyGenericPhysical* self, PyO
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGenericPhysical_calcBoxBounds(pyGenericPhysical* self, PyObject* args) {
+PY_METHOD_VA(GenericPhysical, calcBoxBounds,
+    "Params: points\n"
+    "Calculates box bounds from a given point cloud")
+{
     PyObject* points;
     if (!(PyArg_ParseTuple(args, "O", &points) && PySequence_Check(points))) {
         PyErr_SetString(PyExc_TypeError, "calcBoxBounds expects a sequence of hsVector3");
@@ -100,19 +112,11 @@ static PyObject* pyGenericPhysical_calcBoxBounds(pyGenericPhysical* self, PyObje
 }
 
 static PyMethodDef pyGenericPhysical_Methods[] = {
-    { "getProperty", (PyCFunction)pyGenericPhysical_getProp, METH_VARARGS,
-      "Params: flag\n"
-      "Returns whether the specified property is set" },
-    { "setProperty", (PyCFunction)pyGenericPhysical_setProp, METH_VARARGS,
-      "Params: flag, value\n"
-      "Sets the specified property" },
-    { "calcSphereBounds", (PyCFunction)pyGenericPhysical_calcSphereBounds, METH_VARARGS,
-      "Params: points\n"
-      "Calculates sphere bounds from a given point cloud" },
-    { "calcBoxBounds", (PyCFunction)pyGenericPhysical_calcBoxBounds, METH_VARARGS,
-      "Params: points\n"
-      "Calculates box bounds from a given point cloud" },
-    { NULL, NULL, 0, NULL }
+    pyGenericPhysical_getProperty_method,
+    pyGenericPhysical_setProperty_method,
+    pyGenericPhysical_calcSphereBounds_method,
+    pyGenericPhysical_calcBoxBounds_method,
+    PY_METHOD_TERMINATOR
 };
 
 static PyObject* pyGenericPhysical_getVerts(pyGenericPhysical* self, void*) {

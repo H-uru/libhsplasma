@@ -24,7 +24,10 @@ extern "C" {
 
 PY_PLASMA_NEW(WinAudible, plWinAudible)
 
-static PyObject* pyWinAudible_addSound(pyWinAudible* self, PyObject* args) {
+PY_METHOD_VA(WinAudible, addSound,
+    "Params: sound\n"
+    "Add a sound object to the Audible")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addSound expects a plKey");
@@ -38,7 +41,10 @@ static PyObject* pyWinAudible_addSound(pyWinAudible* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyWinAudible_delSound(pyWinAudible* self, PyObject* args) {
+PY_METHOD_VA(WinAudible, delSound,
+    "Params: idx\n"
+    "Remove a sound object from the Audible")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delSound expects an int");
@@ -48,7 +54,7 @@ static PyObject* pyWinAudible_delSound(pyWinAudible* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyWinAudible_clearSounds(pyWinAudible* self) {
+PY_METHOD_VA(WinAudible, clearSounds, "Remove all sound objects from the Audible") {
     self->fThis->clearSounds();
     Py_RETURN_NONE;
 }
@@ -66,15 +72,10 @@ static int pyWinAudible_setSounds(pyWinAudible* self, PyObject* value, void*) {
 }
 
 static PyMethodDef pyWinAudible_Methods[] = {
-    { "addSound", (PyCFunction)pyWinAudible_addSound, METH_VARARGS,
-      "Params: sound\n"
-      "Add a sound object to the Audible" },
-    { "delSound", (PyCFunction)pyWinAudible_delSound, METH_VARARGS,
-      "Params: idx\n"
-      "Remove a sound object from the Audible" },
-    { "clearSounds", (PyCFunction)pyWinAudible_clearSounds, METH_NOARGS,
-      "Remove all sound objects from the Audible" },
-    { NULL, NULL, 0, NULL }
+    pyWinAudible_addSound_method,
+    pyWinAudible_delSound_method,
+    pyWinAudible_clearSounds_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(plKey, WinAudible, sceneNode, getSceneNode, setSceneNode)

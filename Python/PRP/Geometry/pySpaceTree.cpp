@@ -25,12 +25,15 @@ extern "C" {
 PY_PLASMA_EMPTY_INIT(SpaceTree)
 PY_PLASMA_NEW(SpaceTree, plSpaceTree)
 
-static PyObject* pySpaceTree_clear(pySpaceTree* self) {
+PY_METHOD_NOARGS(SpaceTree, clear, "Clears the contents of this space tree") {
     self->fThis->clear();
     Py_RETURN_NONE;
 }
 
-static PyObject* pySpaceTree_getNode(pySpaceTree* self, PyObject* args) {
+PY_METHOD_VA(SpaceTree, getNode,
+    "Params: idx\n"
+    "Returns the specified node")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "getNode expects an int");
@@ -39,11 +42,14 @@ static PyObject* pySpaceTree_getNode(pySpaceTree* self, PyObject* args) {
     return pySpaceTreeNode_FromSpaceTreeNode(self->fThis->getNode(idx));
 }
 
-static PyObject* pySpaceTree_getRoot(pySpaceTree* self) {
+PY_METHOD_NOARGS(SpaceTree, getRoot, "Returns the root node") {
     return pySpaceTreeNode_FromSpaceTreeNode(self->fThis->getRoot());
 }
 
-static PyObject* pySpaceTree_addLeaf(pySpaceTree* self, PyObject* args) {
+PY_METHOD_VA(SpaceTree, addLeaf,
+    "Params: bounds\n"
+    "Creates a leaf node and returns its index")
+{
     pyBounds3Ext* bounds;
     if (!PyArg_ParseTuple(args, "O", &bounds)) {
         PyErr_SetString(PyExc_TypeError, "addLeaf expects an hsBounds3Ext");
@@ -56,7 +62,10 @@ static PyObject* pySpaceTree_addLeaf(pySpaceTree* self, PyObject* args) {
     return pyPlasma_convert(self->fThis->addLeaf(*bounds->fThis));
 }
 
-static PyObject* pySpaceTree_addParent(pySpaceTree* self, PyObject* args) {
+PY_METHOD_VA(SpaceTree, addParent,
+    "Params: bounds, leftChild, rightChild\n"
+    "Creates a normal node with the specified children, and returns its index")
+{
     pyBounds3Ext* bounds;
     int left, right;
     if (!PyArg_ParseTuple(args, "Oii", &bounds, &left, &right)) {
@@ -71,20 +80,12 @@ static PyObject* pySpaceTree_addParent(pySpaceTree* self, PyObject* args) {
 }
 
 static PyMethodDef pySpaceTree_Methods[] = {
-    { "clear", (PyCFunction)pySpaceTree_clear, METH_NOARGS,
-      "Clears the contents of this space tree" },
-    { "getNode", (PyCFunction)pySpaceTree_getNode, METH_VARARGS,
-      "Params: idx\n"
-      "Returns the specified node" },
-    { "getRoot", (PyCFunction)pySpaceTree_getRoot, METH_NOARGS,
-      "Returns the root node" },
-    { "addLeaf", (PyCFunction)pySpaceTree_addLeaf, METH_VARARGS,
-      "Params: bounds\n"
-      "Creates a leaf node and returns its index" },
-    { "addParent", (PyCFunction)pySpaceTree_addParent, METH_VARARGS,
-      "Params: bounds, leftChild, rightChild\n"
-      "Creates a normal node with the specified children, and returns its index" },
-    { NULL, NULL, 0, NULL }
+    pySpaceTree_clear_method,
+    pySpaceTree_getNode_method,
+    pySpaceTree_getRoot_method,
+    pySpaceTree_addLeaf_method,
+    pySpaceTree_addParent_method,
+    PY_METHOD_TERMINATOR
 };
 
 PyTypeObject pySpaceTree_Type = {

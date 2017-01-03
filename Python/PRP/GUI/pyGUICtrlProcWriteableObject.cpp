@@ -23,7 +23,10 @@ extern "C" {
 
 PY_PLASMA_NEW_MSG(GUICtrlProcWriteableObject, "pfGUICtrlProcWriteableObject is abstract")
 
-static PyObject* pyGUICtrlProcWriteableObject_Read(PyObject*, PyObject* args) {
+PY_METHOD_STATIC_VA(GUICtrlProcWriteableObject, Read,
+    "Params: stream\n"
+    "Read a writable GUI Proc object from `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "Read expects an hsStream");
@@ -53,7 +56,10 @@ static PyObject* pyGUICtrlProcWriteableObject_Read(PyObject*, PyObject* args) {
     return pyproc;
 }
 
-static PyObject* pyGUICtrlProcWriteableObject_Write(PyObject*, PyObject* args) {
+PY_METHOD_STATIC_VA(GUICtrlProcWriteableObject, Write,
+    "Params: stream, proc\n"
+    "Write a writable GUI Proc object to `stream`")
+{
     pyStream* stream;
     pyGUICtrlProcWriteableObject* proc;
     if (!PyArg_ParseTuple(args, "OO", &stream, &proc)) {
@@ -69,13 +75,9 @@ static PyObject* pyGUICtrlProcWriteableObject_Write(PyObject*, PyObject* args) {
 }
 
 static PyMethodDef pyGUICtrlProcWriteableObject_Methods[] = {
-    { "Read", (PyCFunction)pyGUICtrlProcWriteableObject_Read, METH_VARARGS | METH_STATIC,
-      "Params: stream\n"
-      "Read a writable GUI Proc object from `stream`" },
-    { "Write", (PyCFunction)pyGUICtrlProcWriteableObject_Write, METH_VARARGS | METH_STATIC,
-      "Params: stream, proc\n"
-      "Write a writable GUI Proc object to `stream`" },
-    { NULL, NULL, 0, NULL }
+    pyGUICtrlProcWriteableObject_Read_method,
+    pyGUICtrlProcWriteableObject_Write_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY_RO(GUICtrlProcWriteableObject, type, getType)

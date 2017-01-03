@@ -28,7 +28,10 @@ PY_PLASMA_DEALLOC(DDSurface)
 PY_PLASMA_EMPTY_INIT(DDSurface)
 PY_PLASMA_NEW(DDSurface, plDDSurface)
 
-static PyObject* pyDDSurface_read(pyDDSurface* self, PyObject* args) {
+PY_METHOD_VA(DDSurface, read,
+    "Params: stream\n"
+    "Reads a DDS file from a stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects an hsStream");
@@ -42,7 +45,10 @@ static PyObject* pyDDSurface_read(pyDDSurface* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyDDSurface_write(pyDDSurface* self, PyObject* args) {
+PY_METHOD_VA(DDSurface, write,
+    "Params: stream\n"
+    "Writes a DDS file to a stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
@@ -56,7 +62,10 @@ static PyObject* pyDDSurface_write(pyDDSurface* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyDDSurface_setFromMipmap(pyDDSurface* self, PyObject* args) {
+PY_METHOD_VA(DDSurface, setFromMipmap,
+    "Params: mipmap\n"
+    "Sets the fields of this plDDSurface from the supplied plMipmap")
+{
     pyMipmap* tex;
     if (!PyArg_ParseTuple(args, "O", &tex)) {
         PyErr_SetString(PyExc_TypeError, "setFromMipmap expects a plMipmap");
@@ -70,12 +79,17 @@ static PyObject* pyDDSurface_setFromMipmap(pyDDSurface* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyDDSurface_createMipmap(pyDDSurface* self) {
+PY_METHOD_NOARGS(DDSurface, createMipmap,
+    "Create a new plMipmap from this plDDSurface")
+{
     plMipmap* tex = self->fThis->createMipmap();
     return ICreate(tex);
 }
 
-static PyObject* pyDDSurface_calcBufferSize(pyDDSurface* self, PyObject* args) {
+PY_METHOD_VA(DDSurface, calcBufferSize,
+    "Params: width, height\n"
+    "Calculates the size of an buffer within the surface")
+{
     int width, height;
     if (!PyArg_ParseTuple(args, "ii", &width, &height)) {
         PyErr_SetString(PyExc_TypeError, "calcBufferSize expects int, int");
@@ -85,36 +99,29 @@ static PyObject* pyDDSurface_calcBufferSize(pyDDSurface* self, PyObject* args) {
     return pyPlasma_convert(bufSize);
 }
 
-static PyObject* pyDDSurface_calcNumLevels(pyDDSurface* self) {
+PY_METHOD_NOARGS(DDSurface, calcNumLevels,
+    "Calculates the total number of mipmap levels for one surface buffer")
+{
     size_t levels = self->fThis->calcNumLevels();
     return pyPlasma_convert(levels);
 }
 
-static PyObject* pyDDSurface_calcTotalSize(pyDDSurface* self) {
+PY_METHOD_NOARGS(DDSurface, calcTotalBufferSize,
+    "Calculates the total size needed to store all buffers in this surface")
+{
     size_t totSize = self->fThis->calcTotalBufferSize();
     return pyPlasma_convert(totSize);
 }
 
 static PyMethodDef pyDDSurface_Methods[] = {
-    { "read", (PyCFunction)pyDDSurface_read, METH_VARARGS,
-      "Params: stream\n"
-      "Reads a DDS file from a stream" },
-    { "write", (PyCFunction)pyDDSurface_write, METH_VARARGS,
-      "Params: stream\n"
-      "Writes a DDS file to a stream" },
-    { "setFromMipmap", (PyCFunction)pyDDSurface_setFromMipmap, METH_VARARGS,
-      "Params: mipmap\n"
-      "Sets the fields of this plDDSurface from the supplied plMipmap" },
-    { "createMipmap", (PyCFunction)pyDDSurface_createMipmap, METH_NOARGS,
-      "Create a new plMipmap from this plDDSurface" },
-    { "calcBufferSize", (PyCFunction)pyDDSurface_calcBufferSize, METH_VARARGS,
-      "Params: width, height\n"
-      "Calculates the size of an buffer within the surface" },
-    { "calcNumLevels", (PyCFunction)pyDDSurface_calcNumLevels, METH_NOARGS,
-      "Calculates the total number of mipmap levels for one surface buffer" },
-    { "calcTotalBufferSize", (PyCFunction)pyDDSurface_calcTotalSize, METH_NOARGS,
-      "Calculates the total size needed to store all buffers in this surface" },
-    { NULL, NULL, 0, NULL }
+    pyDDSurface_read_method,
+    pyDDSurface_write_method,
+    pyDDSurface_setFromMipmap_method,
+    pyDDSurface_createMipmap_method,
+    pyDDSurface_calcBufferSize_method,
+    pyDDSurface_calcNumLevels_method,
+    pyDDSurface_calcTotalBufferSize_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY_MEMBER(unsigned int, DDSurface, flags, fFlags)

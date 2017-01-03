@@ -23,7 +23,10 @@ extern "C" {
 
 PY_PLASMA_NEW_MSG(SpanTemplate, "Cannot create plSpanTemplate objects from Python")
 
-static PyObject* pySpanTemplate_read(pySpanTemplate* self, PyObject* args) {
+PY_METHOD_VA(SpanTemplate, read,
+    "Params: stream\n"
+    "Reads this object from the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
@@ -37,7 +40,10 @@ static PyObject* pySpanTemplate_read(pySpanTemplate* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pySpanTemplate_write(pySpanTemplate* self, PyObject* args) {
+PY_METHOD_VA(SpanTemplate, write,
+    "Params: stream\n"
+    "Writes this object to the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
@@ -116,13 +122,9 @@ static int pySpanTemplate_setIndices(pySpanTemplate* self, PyObject* value, void
 }
 
 static PyMethodDef pySpanTemplate_Methods[] = {
-    { "read", (PyCFunction)pySpanTemplate_read, METH_VARARGS,
-      "Params: stream\n"
-      "Reads this object from the stream" },
-    { "write", (PyCFunction)pySpanTemplate_write, METH_VARARGS,
-      "Params: stream\n"
-      "Writes this object to the stream" },
-    { NULL, NULL, 0, NULL }
+    pySpanTemplate_read_method,
+    pySpanTemplate_write_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(unsigned short, SpanTemplate, format, getFormat, setFormat)

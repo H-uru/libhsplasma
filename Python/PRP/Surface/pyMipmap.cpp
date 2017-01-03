@@ -48,7 +48,10 @@ PY_PLASMA_INIT_DECL(Mipmap) {
 
 PY_PLASMA_NEW(Mipmap, plMipmap)
 
-static PyObject* pyMipmap_readData(pyMipmap* self, PyObject* args) {
+PY_METHOD_VA(Mipmap, readData,
+    "Params: stream\n"
+    "Reads a plMipmap from a stream, exluding the plKey")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "readData expects an hsStream");
@@ -62,7 +65,10 @@ static PyObject* pyMipmap_readData(pyMipmap* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyMipmap_writeData(pyMipmap* self, PyObject* args) {
+PY_METHOD_VA(Mipmap, writeData,
+    "Params: stream\n"
+    "Writes a plMipmap to a stream, exluding the plKey")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "writeData expects an hsStream");
@@ -76,7 +82,10 @@ static PyObject* pyMipmap_writeData(pyMipmap* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyMipmap_getLevelWidth(pyMipmap* self, PyObject* args) {
+PY_METHOD_VA(Mipmap, getLevelWidth,
+    "Params: level\n"
+    "Get the width of a specified mip level")
+{
     int level;
     if (!PyArg_ParseTuple(args, "i", &level)) {
         PyErr_SetString(PyExc_TypeError, "getLevelWidth expects an int");
@@ -85,7 +94,10 @@ static PyObject* pyMipmap_getLevelWidth(pyMipmap* self, PyObject* args) {
     return pyPlasma_convert(self->fThis->getLevelWidth(level));
 }
 
-static PyObject* pyMipmap_getLevelHeight(pyMipmap* self, PyObject* args) {
+PY_METHOD_VA(Mipmap, getLevelHeight,
+    "Params: level\n"
+    "Get the height of a specified mip level")
+{
     int level;
     if (!PyArg_ParseTuple(args, "i", &level)) {
         PyErr_SetString(PyExc_TypeError, "getLevelHeight expects an int");
@@ -94,7 +106,10 @@ static PyObject* pyMipmap_getLevelHeight(pyMipmap* self, PyObject* args) {
     return pyPlasma_convert(self->fThis->getLevelHeight(level));
 }
 
-static PyObject* pyMipmap_getLevel(pyMipmap* self, PyObject* args) {
+PY_METHOD_VA(Mipmap, getLevel,
+    "Params: level\n"
+    "Get the image data buffer for a specified mip level")
+{
     int level;
     if (!PyArg_ParseTuple(args, "i", &level)) {
         PyErr_SetString(PyExc_TypeError, "getLevel expects an int");
@@ -105,7 +120,10 @@ static PyObject* pyMipmap_getLevel(pyMipmap* self, PyObject* args) {
     return data;
 }
 
-static PyObject* pyMipmap_setRawImage(pyMipmap* self, PyObject* args) {
+PY_METHOD_VA(Mipmap, setRawImage,
+    "Params: data\n"
+    "Set the raw full image data (not for JPEG or RLE encoding)")
+{
     const char* data;
     int dataSize;
     if (!PyArg_ParseTuple(args, "s#", &data, &dataSize)) {
@@ -116,7 +134,10 @@ static PyObject* pyMipmap_setRawImage(pyMipmap* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyMipmap_setLevel(pyMipmap* self, PyObject* args) {
+PY_METHOD_VA(Mipmap, setLevel,
+    "Params: level, data\n"
+    "Set the image data for a specified mip level")
+{
     const char* data;
     int dataSize, level;
     if (!PyArg_ParseTuple(args, "is#", &level, &data, &dataSize)) {
@@ -127,7 +148,10 @@ static PyObject* pyMipmap_setLevel(pyMipmap* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyMipmap_setImageJPEG(pyMipmap* self, PyObject* args) {
+PY_METHOD_VA(Mipmap, setImageJPEG,
+    "Params: jpegData\n"
+    "Set the image data as a JPEG stream")
+{
     const char* data;
     int dataSize;
     if (!PyArg_ParseTuple(args, "s#", &data, &dataSize)) {
@@ -138,7 +162,10 @@ static PyObject* pyMipmap_setImageJPEG(pyMipmap* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyMipmap_setAlphaJPEG(pyMipmap* self, PyObject* args) {
+PY_METHOD_VA(Mipmap, setAlphaJPEG,
+    "Params: jpegData\n"
+    "Set the alpha data as a JPEG stream")
+{
     const char* data;
     int dataSize;
     if (!PyArg_ParseTuple(args, "s#", &data, &dataSize)) {
@@ -149,7 +176,10 @@ static PyObject* pyMipmap_setAlphaJPEG(pyMipmap* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyMipmap_setColorData(pyMipmap* self, PyObject* args) {
+PY_METHOD_VA(Mipmap, setColorData,
+    "Params: buffer\n"
+    "Set the RGB color data for a JPEG mipmap")
+{
     const char* data;
     int dataSize;
     if (!PyArg_ParseTuple(args, "s#", &data, &dataSize)) {
@@ -165,7 +195,10 @@ static PyObject* pyMipmap_setColorData(pyMipmap* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyMipmap_setAlphaData(pyMipmap* self, PyObject* args) {
+PY_METHOD_VA(Mipmap, setAlphaData,
+    "Params: buffer\n"
+    "Set the alpha data for a JPEG mipmap")
+{
     const char* data;
     int dataSize;
     if (!PyArg_ParseTuple(args, "s#", &data, &dataSize)) {
@@ -181,7 +214,9 @@ static PyObject* pyMipmap_setAlphaData(pyMipmap* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyMipmap_extractColorData(pyMipmap* self) {
+PY_METHOD_NOARGS(Mipmap, extractColorData,
+    "Extract an RGB color buffer from a JPEG mipmap")
+{
     size_t dataSize = self->fThis->getWidth() * self->fThis->getHeight() * 3;
     char* data = new char[dataSize];
     self->fThis->extractColorData(data, dataSize);
@@ -190,7 +225,9 @@ static PyObject* pyMipmap_extractColorData(pyMipmap* self) {
     return buf;
 }
 
-static PyObject* pyMipmap_extractAlphaData(pyMipmap* self) {
+PY_METHOD_NOARGS(Mipmap, extractAlphaData,
+    "Extract an alpha intensity buffer from a JPEG mipmap")
+{
     size_t dataSize = self->fThis->getWidth() * self->fThis->getHeight() * 1;
     char* data = new char[dataSize];
     self->fThis->extractAlphaData(data, dataSize);
@@ -199,15 +236,22 @@ static PyObject* pyMipmap_extractAlphaData(pyMipmap* self) {
     return buf;
 }
 
-static PyObject* pyMipmap_isImageJPEG(pyMipmap* self) {
+PY_METHOD_NOARGS(Mipmap, isImageJPEG,
+    "Returns whether the imageData member is a JPEG stream")
+{
     return pyPlasma_convert(self->fThis->isImageJPEG());
 }
 
-static PyObject* pyMipmap_isAlphaJPEG(pyMipmap* self) {
+PY_METHOD_NOARGS(Mipmap, isAlphaJPEG,
+    "Returns whether the alphaData member is a JPEG stream")
+{
     return pyPlasma_convert(self->fThis->isAlphaJPEG());
 }
 
-static PyObject* pyMipmap_DecompressImage(pyMipmap* self, PyObject* args) {
+PY_METHOD_VA(Mipmap, DecompressImage,
+    "Params: level\n"
+    "Deompresses the specified mip level and returns the uncompressed RGBA buffer")
+{
     int level;
     if (!PyArg_ParseTuple(args, "i", &level)) {
         PyErr_SetString(PyExc_TypeError, "DecompressImage expects an int");
@@ -221,7 +265,10 @@ static PyObject* pyMipmap_DecompressImage(pyMipmap* self, PyObject* args) {
     return img;
 }
 
-static PyObject* pyMipmap_CompressImage(pyMipmap* self, PyObject* args) {
+PY_METHOD_VA(Mipmap, CompressImage,
+    "Params: level, data\n"
+    "Compresses the specified mip level")
+{
     int level, dataSize;
     char* data;
     if (!PyArg_ParseTuple(args, "is#", &level, &data, &dataSize)) {
@@ -241,54 +288,24 @@ static PyObject* pyMipmap_CompressImage(pyMipmap* self, PyObject* args) {
 }
 
 static PyMethodDef pyMipmap_Methods[] = {
-    { "readData", (PyCFunction)pyMipmap_readData, METH_VARARGS,
-      "Params: stream\n"
-      "Reads a plMipmap from a stream, exluding the plKey" },
-    { "writeData", (PyCFunction)pyMipmap_writeData, METH_VARARGS,
-      "Params: stream\n"
-      "Writes a plMipmap to a stream, exluding the plKey" },
-    { "getLevelWidth", (PyCFunction)pyMipmap_getLevelWidth, METH_VARARGS,
-      "Params: level\n"
-      "Get the width of a specified mip level" },
-    { "getLevelHeight", (PyCFunction)pyMipmap_getLevelHeight, METH_VARARGS,
-      "Params: level\n"
-      "Get the height of a specified mip level" },
-    { "getLevel", (PyCFunction)pyMipmap_getLevel, METH_VARARGS,
-      "Params: level\n"
-      "Get the image data buffer for a specified mip level" },
-    { "setRawImage", (PyCFunction)pyMipmap_setRawImage, METH_VARARGS,
-      "Params: data\n"
-      "Set the raw full image data (not for JPEG or RLE encoding)" },
-    { "setLevel", (PyCFunction)pyMipmap_setLevel, METH_VARARGS,
-      "Params: level, data\n"
-      "Set the image data for a specified mip level" },
-    { "setImageJPEG", (PyCFunction)pyMipmap_setImageJPEG, METH_VARARGS,
-      "Params: jpegData\n"
-      "Set the image data as a JPEG stream" },
-    { "setAlphaJPEG", (PyCFunction)pyMipmap_setAlphaJPEG, METH_VARARGS,
-      "Params: jpegData\n"
-      "Set the alpha data as a JPEG stream" },
-    { "setColorData", (PyCFunction)pyMipmap_setColorData, METH_VARARGS,
-      "Params: buffer\n"
-      "Set the RGB color data for a JPEG mipmap" },
-    { "setAlphaData", (PyCFunction)pyMipmap_setAlphaData, METH_VARARGS,
-      "Params: buffer\n"
-      "Set the alpha data for a JPEG mipmap" },
-    { "extractColorData", (PyCFunction)pyMipmap_extractColorData, METH_NOARGS,
-      "Extract an RGB color buffer from a JPEG mipmap" },
-    { "extractAlphaData", (PyCFunction)pyMipmap_extractAlphaData, METH_NOARGS,
-      "Extract an alpha intensity buffer from a JPEG mipmap" },
-    { "isImageJPEG", (PyCFunction)pyMipmap_isImageJPEG, METH_NOARGS,
-      "Returns whether the imageData member is a JPEG stream" },
-    { "isAlphaJPEG", (PyCFunction)pyMipmap_isAlphaJPEG, METH_NOARGS,
-      "Returns whether the alphaData member is a JPEG stream" },
-    { "DecompressImage", (PyCFunction)pyMipmap_DecompressImage, METH_VARARGS,
-      "Params: level\n"
-      "Deompresses the specified mip level and returns the uncompressed RGBA buffer" },
-    { "CompressImage", (PyCFunction)pyMipmap_CompressImage, METH_VARARGS,
-      "Params: level, data\n"
-      "Compresses the specified mip level" },
-    { NULL, NULL, 0, NULL }
+    pyMipmap_readData_method,
+    pyMipmap_writeData_method,
+    pyMipmap_getLevelWidth_method,
+    pyMipmap_getLevelHeight_method,
+    pyMipmap_getLevel_method,
+    pyMipmap_setRawImage_method,
+    pyMipmap_setLevel_method,
+    pyMipmap_setImageJPEG_method,
+    pyMipmap_setAlphaJPEG_method,
+    pyMipmap_setColorData_method,
+    pyMipmap_setAlphaData_method,
+    pyMipmap_extractColorData_method,
+    pyMipmap_extractAlphaData_method,
+    pyMipmap_isImageJPEG_method,
+    pyMipmap_isAlphaJPEG_method,
+    pyMipmap_DecompressImage_method,
+    pyMipmap_CompressImage_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY_READ(Mipmap, width, getWidth)

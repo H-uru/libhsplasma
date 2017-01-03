@@ -94,6 +94,8 @@ inline char* _pycs(const char (&str)[size]) { return const_cast<char*>(str); }
     PyObject* py##pyType##_From##pyType(plType*);               \
     }
 
+/* Defines a value-type wrapped class (i.e. those which are copied instead of
+ * sharing references) */
 #define PY_WRAP_PLASMA_VALUE(pyType, plType)                    \
     extern "C" {                                                \
     struct py##pyType {                                         \
@@ -154,6 +156,7 @@ PyObject* PyPlasmaValue_new(PyTypeObject* type, ArgsT&&... args) {
 #define PY_PLASMA_NEW_DECL(pyType)                                      \
     static PyObject* py##pyType##_new(PyTypeObject* type, PyObject* args, PyObject* kwargs)
 
+/* The default tp_new implementation */
 #define PY_PLASMA_NEW(pyType, plType)                                   \
     PY_PLASMA_NEW_DECL(pyType) {                                        \
         (void)args;                                                     \
@@ -161,6 +164,7 @@ PyObject* PyPlasmaValue_new(PyTypeObject* type, ArgsT&&... args) {
         return PyPlasma_new<py##pyType, plType>(type);                  \
     }
 
+/* The default tp_new implementation with one or more static arguments */
 #define PY_PLASMA_NEW_VA(pyType, plType, ...)                           \
     PY_PLASMA_NEW_DECL(pyType) {                                        \
         (void)args;                                                     \
@@ -168,6 +172,7 @@ PyObject* PyPlasmaValue_new(PyTypeObject* type, ArgsT&&... args) {
         return PyPlasma_new<py##pyType, plType>(type, __VA_ARGS__);     \
     }
 
+/* The default tp_new implementation for value-type objects */
 #define PY_PLASMA_VALUE_NEW(pyType, plType)                             \
     PY_PLASMA_NEW_DECL(pyType) {                                        \
         (void)args;                                                     \
@@ -175,6 +180,8 @@ PyObject* PyPlasmaValue_new(PyTypeObject* type, ArgsT&&... args) {
         return PyPlasmaValue_new<py##pyType, plType>(type);             \
     }
 
+/* A tp_new implementation that raises a RuntimeError instead of constructing
+ * an object */
 #define PY_PLASMA_NEW_MSG(pyType, message)                              \
     PY_PLASMA_NEW_DECL(pyType) {                                        \
         (void)args;                                                     \
@@ -188,6 +195,8 @@ PyObject* PyPlasmaValue_new(PyTypeObject* type, ArgsT&&... args) {
     static int (*py##pyType##___init__)(PyObject*, PyObject*, PyObject*) = (initproc)&py##pyType##___init__impl; \
     int py##pyType##___init__impl(py##pyType* self, PyObject* args, PyObject* kwds) \
 
+/* The default tp_init implementation for objects which have no need for
+ * custom __init__() behavior or additional arguments */
 #define PY_PLASMA_EMPTY_INIT(pyType)                                    \
     PY_PLASMA_INIT_DECL(pyType) {                                       \
         if (!PyArg_ParseTuple(args, ""))                                \
@@ -198,6 +207,7 @@ PyObject* PyPlasmaValue_new(PyTypeObject* type, ArgsT&&... args) {
 #define PY_PLASMA_DEALLOC_DECL(pyType)                                  \
     static void py##pyType##_dealloc(PyObject* self)
 
+/* The default tp_dealloc implementation */
 #define PY_PLASMA_DEALLOC(pyType)                                       \
     PY_PLASMA_DEALLOC_DECL(pyType) {                                    \
         if (((py##pyType*)self)->fPyOwned)                              \
@@ -205,6 +215,7 @@ PyObject* PyPlasmaValue_new(PyTypeObject* type, ArgsT&&... args) {
         Py_TYPE(self)->tp_free(self);                                   \
     }
 
+/* The default tp_dealloc implementation for value-type objects */
 #define PY_PLASMA_VALUE_DEALLOC(pyType)                                 \
     PY_PLASMA_DEALLOC_DECL(pyType) {                                    \
         delete ((py##pyType*)self)->fThis;                              \
@@ -276,6 +287,7 @@ template <> inline CallbackEvent pyPlasma_get(PyObject* value) { return (Callbac
 template <> inline ControlEventCode pyPlasma_get(PyObject* value) { return (ControlEventCode)PyInt_AsLong(value); }
 template <> inline plKeyDef pyPlasma_get(PyObject* value) { return (plKeyDef)PyInt_AsLong(value); }
 
+/* Helpers for properties (GetSet objects in the Python/C API) */
 #define PY_GETSET_GETTER_DECL(pyType, name)                             \
     static PyObject* py##pyType##_get_##name(py##pyType* self, void*)
 
@@ -331,7 +343,8 @@ template <> inline plKeyDef pyPlasma_get(PyObject* value) { return (plKeyDef)PyI
     PY_PROPERTY_READ(pyType, name, getter)                              \
     PY_PROPERTY_GETSET_RO_DECL(pyType, name)
 
-
+/* Helpers for properties that have direct-access to a member, rather than
+ * using getter/setter functions */
 #define PY_PROPERTY_MEMBER_READ(pyType, name, member)                   \
     PY_GETSET_GETTER_DECL(pyType, name) {                               \
         return pyPlasma_convert(self->fThis->member);                   \
@@ -355,6 +368,8 @@ template <> inline plKeyDef pyPlasma_get(PyObject* value) { return (plKeyDef)PyI
     PY_PROPERTY_MEMBER_WRITE(type, pyType, name, member)                \
     PY_PROPERTY_GETSET_DECL(pyType, name)
 
+/* Helpers for properties that proxy an object through a reference, rather
+ * than taking a pointer or value and constructing a new object */
 #define PY_PROPERTY_PROXY_READ(pyType, name, getter)                    \
     PY_GETSET_GETTER_DECL(pyType, name) {                               \
         return pyPlasma_convert(&self->fThis->getter());                \
@@ -381,5 +396,73 @@ template <> inline plKeyDef pyPlasma_get(PyObject* value) { return (plKeyDef)PyI
 #define PY_PROPERTY_PROXY_RO(type, pyType, name, getter)                \
     PY_PROPERTY_PROXY_READ(pyType, name, getter)                        \
     PY_PROPERTY_GETSET_RO_DECL(pyType, name)
+
+/* Helpers for setting up the structures and function declarations for
+ * bound methods */
+#define PY_METHOD_NOARGS(pyType, name, doctext)                         \
+    static PyObject* py##pyType##_##name(py##pyType*);                  \
+    static PyMethodDef py##pyType##_##name##_method = {                 \
+        #name, (PyCFunction)py##pyType##_##name,                        \
+        METH_NOARGS,                                                    \
+        doctext                                                         \
+    };                                                                  \
+    PyObject* py##pyType##_##name(py##pyType* self)
+
+#define PY_METHOD_VA(pyType, name, doctext)                             \
+    static PyObject* py##pyType##_##name(py##pyType*, PyObject*);       \
+    static PyMethodDef py##pyType##_##name##_method = {                 \
+        #name, (PyCFunction)py##pyType##_##name,                        \
+        METH_VARARGS,                                                   \
+        doctext                                                         \
+    };                                                                  \
+    PyObject* py##pyType##_##name(py##pyType* self, PyObject* args)
+
+#define PY_METHOD_KWARGS(pyType, name, doctext)                         \
+    static PyObject* py##pyType##_##name(py##pyType*, PyObject*, PyObject*); \
+    static PyMethodDef py##pyType##_##name##_method = {                 \
+        #name, (PyCFunction)py##pyType##_##name,                        \
+        METH_VARARGS | METH_KEYWORDS,                                   \
+        doctext                                                         \
+    };                                                                  \
+    PyObject* py##pyType##_##name(py##pyType* self, PyObject* args, PyObject* kwds)
+
+#define PY_METHOD_STATIC_NOARGS(pyType, name, doctext)                  \
+    static PyObject* py##pyType##_##name(PyObject*);                    \
+    static PyMethodDef py##pyType##_##name##_method = {                 \
+        #name, (PyCFunction)py##pyType##_##name,                        \
+        METH_STATIC | METH_NOARGS,                                      \
+        doctext                                                         \
+    };                                                                  \
+    PyObject* py##pyType##_##name(PyObject*)
+
+#define PY_METHOD_STATIC_VA(pyType, name, doctext)                      \
+    static PyObject* py##pyType##_##name(PyObject*, PyObject*);         \
+    static PyMethodDef py##pyType##_##name##_method = {                 \
+        #name, (PyCFunction)py##pyType##_##name,                        \
+        METH_STATIC | METH_VARARGS,                                     \
+        doctext                                                         \
+    };                                                                  \
+    PyObject* py##pyType##_##name(PyObject*, PyObject* args)
+
+
+#define PY_METHOD_GLOBAL_NOARGS(module, name, doctext)                  \
+    static PyObject* module##_##name(PyObject*);                        \
+    static PyMethodDef module##_##name##_method = {                     \
+        #name, (PyCFunction)module##_##name,                            \
+        METH_NOARGS,                                                    \
+        doctext                                                         \
+    };                                                                  \
+    PyObject* module##_##name(PyObject*)
+
+#define PY_METHOD_GLOBAL_VA(module, name, doctext)                      \
+    static PyObject* module##_##name(PyObject*, PyObject*);             \
+    static PyMethodDef module##_##name##_method = {                     \
+        #name, (PyCFunction)module##_##name,                            \
+        METH_VARARGS,                                                   \
+        doctext                                                         \
+    };                                                                  \
+    PyObject* module##_##name(PyObject*, PyObject* args)
+
+#define PY_METHOD_TERMINATOR { NULL, NULL, 0, NULL }
 
 #endif

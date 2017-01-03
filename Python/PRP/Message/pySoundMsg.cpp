@@ -23,7 +23,10 @@ extern "C" {
 
 PY_PLASMA_NEW(SoundMsg, plSoundMsg)
 
-static PyObject* pySoundMsg_getCmd(pySoundMsg* self, PyObject* args) {
+PY_METHOD_VA(SoundMsg, getCmd,
+    "Params: cmd\n"
+    "Returns whether or not the command is set")
+{
     int cmd;
     if (!PyArg_ParseTuple(args, "i", &cmd)) {
         PyErr_SetString(PyExc_TypeError, "getCmd expects an int");
@@ -32,7 +35,10 @@ static PyObject* pySoundMsg_getCmd(pySoundMsg* self, PyObject* args) {
     return pyPlasma_convert(self->fThis->getCmd(cmd));
 }
 
-static PyObject* pySoundMsg_setCmd(pySoundMsg* self, PyObject* args) {
+PY_METHOD_VA(SoundMsg, setCmd,
+    "Params: cmd, value\n"
+    "Sets the specified command")
+{
     int cmd;
     int value = 1;
     if (!PyArg_ParseTuple(args, "i|i", &cmd, &value)) {
@@ -44,13 +50,9 @@ static PyObject* pySoundMsg_setCmd(pySoundMsg* self, PyObject* args) {
 }
 
 static PyMethodDef pySoundMsg_Methods[] = {
-    { "getCmd", (PyCFunction)pySoundMsg_getCmd, METH_VARARGS,
-      "Params: cmd\n"
-      "Returns whether or not the command is set" },
-    { "setCmd", (PyCFunction)pySoundMsg_setCmd, METH_VARARGS,
-      "Params: cmd, value\n"
-      "Sets the specified command" },
-    { NULL, NULL, 0, NULL }
+    pySoundMsg_getCmd_method,
+    pySoundMsg_setCmd_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(double, SoundMsg, begin, getBegin, setBegin)

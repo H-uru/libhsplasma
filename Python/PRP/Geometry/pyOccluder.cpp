@@ -26,12 +26,15 @@ extern "C" {
 
 PY_PLASMA_NEW(Occluder, plOccluder)
 
-static PyObject* pyOccluder_clearPolys(pyOccluder* self) {
+PY_METHOD_NOARGS(Occluder, clearPolys, "Remove all plCullPolys from the occluder") {
     self->fThis->clearPolys();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyOccluder_addPoly(pyOccluder* self, PyObject* args) {
+PY_METHOD_VA(Occluder, addPoly,
+    "Params: poly\n"
+    "Add a plCullPoly to the occluder")
+{
     pyCullPoly* poly;
     if (!PyArg_ParseTuple(args, "O", &poly)) {
         PyErr_SetString(PyExc_TypeError, "addPoly expects a plCullPoly");
@@ -45,7 +48,10 @@ static PyObject* pyOccluder_addPoly(pyOccluder* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyOccluder_delPoly(pyOccluder* self, PyObject* args) {
+PY_METHOD_VA(Occluder, delPoly,
+    "Params: idx\n"
+    "Remove a plCullPoly from the occluder")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delPoly expects an int");
@@ -55,12 +61,17 @@ static PyObject* pyOccluder_delPoly(pyOccluder* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyOccluder_clearVisRegions(pyOccluder* self) {
+PY_METHOD_NOARGS(Occluder, clearVisRegions,
+    "Remove all Vis Regions from the occluder")
+{
     self->fThis->clearVisRegions();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyOccluder_addVisRegion(pyOccluder* self, PyObject* args) {
+PY_METHOD_VA(Occluder, addVisRegion,
+    "Params: region\n"
+    "Add a Vis Region to the occluder")
+{
     pyKey* region;
     if (!PyArg_ParseTuple(args, "O", &region)) {
         PyErr_SetString(PyExc_TypeError, "addVisRegion expects a plKey");
@@ -74,7 +85,10 @@ static PyObject* pyOccluder_addVisRegion(pyOccluder* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyOccluder_delVisRegion(pyOccluder* self, PyObject* args) {
+PY_METHOD_VA(Occluder, delVisRegion,
+    "Params: idx\n"
+    "Remove a Vis Region from the occluder")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delVisRegion expects an int");
@@ -109,23 +123,13 @@ static int pyOccluder_setVisRegions(pyOccluder* self, PyObject* value, void*) {
 }
 
 static PyMethodDef pyOccluder_Methods[] = {
-    { "clearPolys", (PyCFunction)pyOccluder_clearPolys, METH_NOARGS,
-      "Remove all plCullPolys from the occluder" },
-    { "addPoly", (PyCFunction)pyOccluder_addPoly, METH_VARARGS,
-      "Params: poly\n"
-      "Add a plCullPoly to the occluder" },
-    { "delPoly", (PyCFunction)pyOccluder_delPoly, METH_VARARGS,
-      "Params: idx\n"
-      "Remove a plCullPoly from the occluder" },
-    { "clearVisRegions", (PyCFunction)pyOccluder_clearVisRegions, METH_NOARGS,
-      "Remove all Vis Regions from the occluder" },
-    { "addVisRegion", (PyCFunction)pyOccluder_addVisRegion, METH_VARARGS,
-      "Params: region\n"
-      "Add a Vis Region to the occluder" },
-    { "delVisRegion", (PyCFunction)pyOccluder_delVisRegion, METH_VARARGS,
-      "Params: idx\n"
-      "Remove a Vis Region from the occluder" },
-    { NULL, NULL, 0, NULL }
+    pyOccluder_clearPolys_method,
+    pyOccluder_addPoly_method,
+    pyOccluder_delPoly_method,
+    pyOccluder_clearVisRegions_method,
+    pyOccluder_addVisRegion_method,
+    pyOccluder_delVisRegion_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(float, Occluder, priority, getPriority, setPriority)

@@ -24,7 +24,10 @@ extern "C" {
 PY_PLASMA_EMPTY_INIT(CompressedQuatKey32)
 PY_PLASMA_NEW(CompressedQuatKey32, hsCompressedQuatKey32)
 
-static PyObject* pyCompressedQuatKey32_setValue(pyCompressedQuatKey32* self, PyObject* args) {
+PY_METHOD_VA(CompressedQuatKey32, setValue,
+    "Params: quat, type\n"
+    "Set the hsQuat data.  Type is the compression nuking to use")
+{
     pyQuat* value;
     int type;
     if (!PyArg_ParseTuple(args, "Oi", &value, &type)) {
@@ -40,10 +43,8 @@ static PyObject* pyCompressedQuatKey32_setValue(pyCompressedQuatKey32* self, PyO
 }
 
 static PyMethodDef pyCompressedQuatKey32_Methods[] = {
-    { "setValue", (PyCFunction)pyCompressedQuatKey32_setValue, METH_VARARGS,
-      "Params: quat, type\n"
-      "Set the hsQuat data.  Type is the compression nuking to use" },
-    { NULL, NULL, 0, NULL }
+    pyCompressedQuatKey32_setValue_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY_READ(CompressedQuatKey32, value, getQuat)

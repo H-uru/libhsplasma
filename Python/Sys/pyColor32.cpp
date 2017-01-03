@@ -23,7 +23,11 @@ extern "C" {
 
 PY_PLASMA_VALUE_DEALLOC(Color32)
 
-static PyObject* pyColor32_set(pyColor32* self, PyObject* args, PyObject* kwds) {
+PY_METHOD_KWARGS(Color32, set,
+    "Params: red, green, blue, alpha (all optional)\n"
+    "Params: color (32-bit value)\n"
+    "Sets the color")
+{
     int red = 0, green = 0, blue = 0, alpha = 255, color = 0xFF000000;
 
     static char* kwlist1[] = { _pycs("red"), _pycs("green"), _pycs("blue"),
@@ -62,7 +66,10 @@ static PyObject* pyColor32_Repr(pyColor32* self) {
     return PlStr_To_PyStr(repr);
 }
 
-static PyObject* pyColor32_read32(pyColor32* self, PyObject* args) {
+PY_METHOD_VA(Color32, read32,
+    "Params: stream\n"
+    "Reads this object from `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read32 expects a hsStream");
@@ -76,7 +83,10 @@ static PyObject* pyColor32_read32(pyColor32* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyColor32_write32(pyColor32* self, PyObject* args) {
+PY_METHOD_VA(Color32, write32,
+    "Params: stream\n"
+    "Writes this object to `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write32 expects a hsStream");
@@ -90,7 +100,10 @@ static PyObject* pyColor32_write32(pyColor32* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyColor32_readRGBA8(pyColor32* self, PyObject* args) {
+PY_METHOD_VA(Color32, readRGBA8,
+    "Params: stream\n"
+    "Reads this object from `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "readRGBA8 expects a hsStream");
@@ -104,7 +117,10 @@ static PyObject* pyColor32_readRGBA8(pyColor32* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyColor32_writeRGBA8(pyColor32* self, PyObject* args) {
+PY_METHOD_VA(Color32, writeRGBA8,
+    "Params: stream\n"
+    "Writes this object to `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "writeRGBA8 expects a hsStream");
@@ -118,7 +134,10 @@ static PyObject* pyColor32_writeRGBA8(pyColor32* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyColor32_readRGB8(pyColor32* self, PyObject* args) {
+PY_METHOD_VA(Color32, readRGB8,
+    "Params: stream\n"
+    "Same as readRGBA8(), but does not read alpha")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "readRGB8 expects a hsStream");
@@ -132,7 +151,10 @@ static PyObject* pyColor32_readRGB8(pyColor32* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyColor32_writeRGB8(pyColor32* self, PyObject* args) {
+PY_METHOD_VA(Color32, writeRGB8,
+    "Params: stream\n"
+    "Same as writeRGBA8(), but does not write alpha")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "writeRGB8 expects a hsStream");
@@ -147,29 +169,14 @@ static PyObject* pyColor32_writeRGB8(pyColor32* self, PyObject* args) {
 }
 
 static PyMethodDef pyColor32_Methods[] = {
-    { "set", (PyCFunction)pyColor32_set, METH_VARARGS | METH_KEYWORDS,
-      "Params: red, green, blue, alpha (all optional)\n"
-      "Params: color (32-bit value)\n"
-      "Sets the color" },
-    { "read32", (PyCFunction)pyColor32_read32, METH_VARARGS,
-      "Params: stream\n"
-      "Reads this object from `stream`" },
-    { "write32", (PyCFunction)pyColor32_write32, METH_VARARGS,
-      "Params: stream\n"
-      "Writes this object to `stream`" },
-    { "readRGBA8", (PyCFunction)pyColor32_readRGBA8, METH_VARARGS,
-      "Params: stream\n"
-      "Reads this object from `stream`" },
-    { "writeRGBA8", (PyCFunction)pyColor32_writeRGBA8, METH_VARARGS,
-      "Params: stream\n"
-      "Writes this object to `stream`" },
-    { "readRGB8", (PyCFunction)pyColor32_readRGB8, METH_VARARGS,
-      "Params: stream\n"
-      "Same as readRGBA8(), but does not read alpha" },
-    { "writeRGB8", (PyCFunction)pyColor32_writeRGB8, METH_VARARGS,
-      "Params: stream\n"
-      "Same as writeRGBA8(), but does not write alpha" },
-    { NULL, NULL, 0, NULL }
+    pyColor32_set_method,
+    pyColor32_read32_method,
+    pyColor32_write32_method,
+    pyColor32_readRGBA8_method,
+    pyColor32_writeRGBA8_method,
+    pyColor32_readRGB8_method,
+    pyColor32_writeRGB8_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY_MEMBER(unsigned char, Color32, red, r)

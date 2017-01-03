@@ -137,7 +137,11 @@
 
 extern "C" {
 
-static PyObject* PyPlasma_CleanFileName(PyObject*, PyObject* args) {
+PY_METHOD_GLOBAL_VA(PyHSPlasma, CleanFileName,
+    "Params: string, allowPathChars=False\n"
+    "Strips illegal characters from a filename. If allowPathChars is True,\n"
+    "the characters '\\', '/' and ':' will not be removed")
+{
     const char* fname;
     unsigned char allowPathChars = 0;
     if (!PyArg_ParseTuple(args, "s|b", &fname, &allowPathChars)) {
@@ -149,12 +153,9 @@ static PyObject* PyPlasma_CleanFileName(PyObject*, PyObject* args) {
 
 }
 
-static PyMethodDef PyPlasma_Methods[] = {
-    { "CleanFileName", (PyCFunction)PyPlasma_CleanFileName, METH_VARARGS,
-      "Params: string, allowPathChars=False\n"
-      "Strips illegal characters from a filename. If allowPathChars is True,\n"
-      "the characters '\\', '/' and ':' will not be removed" },
-    { NULL, NULL, 0, NULL }
+static PyMethodDef PyHSPlasma_Methods[] = {
+    PyHSPlasma_CleanFileName_method,
+    PY_METHOD_TERMINATOR
 };
 
 #if PY_MAJOR_VERSION >= 3
@@ -163,7 +164,7 @@ static PyModuleDef PyPlasma_Module = {
     "PyHSPlasma",               /* m_name */
     "Python libHSPlasma interface module",  /* m_doc */
     0,                          /* m_size */
-    PyPlasma_Methods,           /* m_methods */
+    PyHSPlasma_Methods,         /* m_methods */
     NULL,                       /* m_reload */
     NULL,                       /* m_traverse */
     NULL,                       /* m_clear */

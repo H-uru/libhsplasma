@@ -26,7 +26,10 @@ PY_PLASMA_DEALLOC(AgeInfo)
 PY_PLASMA_EMPTY_INIT(AgeInfo)
 PY_PLASMA_NEW(AgeInfo, plAgeInfo)
 
-static PyObject* pyAgeInfo_readFromFile(pyAgeInfo* self, PyObject* args) {
+PY_METHOD_VA(AgeInfo, readFromFile,
+    "Params: filename\n"
+    "Reads the AgeInfo from a .age file")
+{
     const char* filename;
     if (!PyArg_ParseTuple(args, "s", &filename)) {
         PyErr_SetString(PyExc_TypeError, "readFromFile expects a string");
@@ -36,7 +39,10 @@ static PyObject* pyAgeInfo_readFromFile(pyAgeInfo* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyAgeInfo_writeToFile(pyAgeInfo* self, PyObject* args) {
+PY_METHOD_VA(AgeInfo, writeToFile,
+    "Params: filename, version\n"
+    "Write the AgeInfo to a .age file")
+{
     const char* filename;
     int version;
     if (!PyArg_ParseTuple(args, "si", &filename, &version)) {
@@ -47,11 +53,16 @@ static PyObject* pyAgeInfo_writeToFile(pyAgeInfo* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyAgeInfo_getNumPages(pyAgeInfo* self) {
+PY_METHOD_NOARGS(AgeInfo, getNumPages,
+    "Returns the number of pages described by this AgeInfo")
+{
     return pyPlasma_convert(self->fThis->getNumPages());
 }
 
-static PyObject* pyAgeInfo_getPage(pyAgeInfo* self, PyObject* args) {
+PY_METHOD_VA(AgeInfo, getPage,
+    "Params: idx\n"
+    "Returns a tuple (name, pageNum, loadFlags) for the specified page")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "getPage expects an int");
@@ -66,7 +77,10 @@ static PyObject* pyAgeInfo_getPage(pyAgeInfo* self, PyObject* args) {
     }
 }
 
-static PyObject* pyAgeInfo_getNumCommonPages(pyAgeInfo* self, PyObject* args) {
+PY_METHOD_VA(AgeInfo, getNumCommonPages,
+    "Params: version\n"
+    "Returns the number of common pages described by this AgeInfo")
+{
     int version;
     if (!PyArg_ParseTuple(args, "i", &version)) {
         PyErr_SetString(PyExc_TypeError, "getNumCommonPages expects an int");
@@ -75,7 +89,10 @@ static PyObject* pyAgeInfo_getNumCommonPages(pyAgeInfo* self, PyObject* args) {
     return pyPlasma_convert(self->fThis->getNumCommonPages((PlasmaVer)version));
 }
 
-static PyObject* pyAgeInfo_getCommonPage(pyAgeInfo* self, PyObject* args) {
+PY_METHOD_VA(AgeInfo, getCommonPage,
+    "Params: idx, version\n"
+    "Returns a tuple (name, pageNum, loadFlags) for the specified common page")
+{
     int idx, version;
     if (!PyArg_ParseTuple(args, "ii", &idx, &version)) {
         PyErr_SetString(PyExc_TypeError, "getCommonPage expects int, int");
@@ -90,7 +107,10 @@ static PyObject* pyAgeInfo_getCommonPage(pyAgeInfo* self, PyObject* args) {
     }
 }
 
-static PyObject* pyAgeInfo_setPage(pyAgeInfo* self, PyObject* args) {
+PY_METHOD_VA(AgeInfo, setPage,
+    "Params: idx, (name, pageNum, loadFlags)\n"
+    "Sets info for the specified page")
+{
     int idx;
     const char* name;
     int seqSuffix, flags;
@@ -103,7 +123,10 @@ static PyObject* pyAgeInfo_setPage(pyAgeInfo* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyAgeInfo_addPage(pyAgeInfo* self, PyObject* args) {
+PY_METHOD_VA(AgeInfo, addPage,
+    "Params: (name, pageNum, loadFlags)\n"
+    "Adds a page to the AgeInfo")
+{
     const char* name;
     int seqSuffix, flags;
 
@@ -115,7 +138,10 @@ static PyObject* pyAgeInfo_addPage(pyAgeInfo* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyAgeInfo_getPageFilename(pyAgeInfo* self, PyObject* args) {
+PY_METHOD_VA(AgeInfo, getPageFilename,
+    "Params: idx, version\n"
+    "Returns the standard Page Filename for the specified page")
+{
     int idx, version;
     if (!PyArg_ParseTuple(args, "ii", &idx, &version)) {
         PyErr_SetString(PyExc_TypeError, "getPageFilename expects int, int");
@@ -129,7 +155,10 @@ static PyObject* pyAgeInfo_getPageFilename(pyAgeInfo* self, PyObject* args) {
     }
 }
 
-static PyObject* pyAgeInfo_getCommonPageFilename(pyAgeInfo* self, PyObject* args) {
+PY_METHOD_VA(AgeInfo, getCommonPageFilename,
+    "Params: idx, version\n"
+    "Returns the standard Page Filename for the specified common page")
+{
     int idx, version;
     if (!PyArg_ParseTuple(args, "ii", &idx, &version)) {
         PyErr_SetString(PyExc_TypeError, "getCommonPageFilename expects int, int");
@@ -143,7 +172,10 @@ static PyObject* pyAgeInfo_getCommonPageFilename(pyAgeInfo* self, PyObject* args
     }
 }
 
-static PyObject* pyAgeInfo_getPageLoc(pyAgeInfo* self, PyObject* args) {
+PY_METHOD_VA(AgeInfo, getPageLoc,
+    "Params: idx\n"
+    "Returns a plLocation for the specified page")
+{
     int idx, ver;
     if (!PyArg_ParseTuple(args, "ii", &idx, &ver)) {
         PyErr_SetString(PyExc_TypeError, "getPageLoc expects int, int");
@@ -157,7 +189,10 @@ static PyObject* pyAgeInfo_getPageLoc(pyAgeInfo* self, PyObject* args) {
     }
 }
 
-static PyObject* pyAgeInfo_getCommonPageLoc(pyAgeInfo* self, PyObject* args) {
+PY_METHOD_VA(AgeInfo, getCommonPageLoc,
+    "Params: idx\n"
+    "Returns a plLocation for the specified common page")
+{
     int idx, ver;
     if (!PyArg_ParseTuple(args, "ii", &idx, &ver)) {
         PyErr_SetString(PyExc_TypeError, "getCommonPageLoc expects int, int");
@@ -172,42 +207,19 @@ static PyObject* pyAgeInfo_getCommonPageLoc(pyAgeInfo* self, PyObject* args) {
 }
 
 static PyMethodDef pyAgeInfo_Methods[] = {
-    { "readFromFile", (PyCFunction)pyAgeInfo_readFromFile, METH_VARARGS,
-      "Params: filename\n"
-      "Reads the AgeInfo from a .age file" },
-    { "writeToFile", (PyCFunction)pyAgeInfo_writeToFile, METH_VARARGS,
-      "Params: filename, version\n"
-      "Write the AgeInfo to a .age file" },
-    { "getNumPages", (PyCFunction)pyAgeInfo_getNumPages, METH_NOARGS,
-      "Returns the number of pages described by this AgeInfo" },
-    { "getPage", (PyCFunction)pyAgeInfo_getPage, METH_VARARGS,
-      "Params: idx\n"
-      "Returns a tuple (name, pageNum, loadFlags) for the specified page" },
-    { "getNumCommonPages", (PyCFunction)pyAgeInfo_getNumCommonPages, METH_VARARGS,
-      "Params: version\n"
-      "Returns the number of common pages described by this AgeInfo" },
-    { "getCommonPage", (PyCFunction)pyAgeInfo_getCommonPage, METH_VARARGS,
-      "Params: idx, version\n"
-      "Returns a tuple (name, pageNum, loadFlags) for the specified common page" },
-    { "setPage", (PyCFunction)pyAgeInfo_setPage, METH_VARARGS,
-      "Params: idx, (name, pageNum, loadFlags)\n"
-      "Sets info for the specified page" },
-    { "addPage", (PyCFunction)pyAgeInfo_addPage, METH_VARARGS,
-      "Params: (name, pageNum, loadFlags)\n"
-      "Adds a page to the AgeInfo" },
-    { "getPageFilename", (PyCFunction)pyAgeInfo_getPageFilename, METH_VARARGS,
-      "Params: idx, version\n"
-      "Returns the standard Page Filename for the specified page" },
-    { "getCommonPageFilename", (PyCFunction)pyAgeInfo_getCommonPageFilename, METH_VARARGS,
-      "Params: idx, version\n"
-      "Returns the standard Page Filename for the specified common page" },
-    { "getPageLoc", (PyCFunction)pyAgeInfo_getPageLoc, METH_VARARGS,
-      "Params: idx\n"
-      "Returns a plLocation for the specified page" },
-    { "getCommonPageLoc", (PyCFunction)pyAgeInfo_getCommonPageLoc, METH_VARARGS,
-      "Params: idx\n"
-      "Returns a plLocation for the specified common page" },
-    { NULL, NULL, 0, NULL }
+    pyAgeInfo_readFromFile_method,
+    pyAgeInfo_writeToFile_method,
+    pyAgeInfo_getNumPages_method,
+    pyAgeInfo_getPage_method,
+    pyAgeInfo_getNumCommonPages_method,
+    pyAgeInfo_getCommonPage_method,
+    pyAgeInfo_setPage_method,
+    pyAgeInfo_addPage_method,
+    pyAgeInfo_getPageFilename_method,
+    pyAgeInfo_getCommonPageFilename_method,
+    pyAgeInfo_getPageLoc_method,
+    pyAgeInfo_getCommonPageLoc_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(plString, AgeInfo, name, getAgeName, setAgeName)

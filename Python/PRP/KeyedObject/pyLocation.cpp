@@ -77,7 +77,10 @@ static PyObject* pyLocation_RichCompare(pyLocation* left, pyLocation* right, int
     return pyPlasma_convert(result);
 }
 
-static PyObject* pyLocation_read(pyLocation* self, PyObject* args) {
+PY_METHOD_VA(Location, read,
+    "Params: stream\n"
+    "Reads this Location from the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects an hsStream");
@@ -91,7 +94,10 @@ static PyObject* pyLocation_read(pyLocation* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyLocation_write(pyLocation* self, PyObject* args) {
+PY_METHOD_VA(Location, write,
+    "Params: stream\n"
+    "Writes this Location to the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
@@ -105,37 +111,46 @@ static PyObject* pyLocation_write(pyLocation* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyLocation_invalidate(pyLocation* self) {
+PY_METHOD_NOARGS(Location, invalidate, "Invalidates the location") {
     self->fThis->invalidate();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyLocation_isValid(pyLocation* self) {
+PY_METHOD_NOARGS(Location, isValid, "Returns True if the location is valid") {
     return pyPlasma_convert(self->fThis->isValid());
 }
 
-static PyObject* pyLocation_isReserved(pyLocation* self) {
+PY_METHOD_NOARGS(Location, isReserved,
+    "Returns True if the location is a Reserved page")
+{
     return pyPlasma_convert(self->fThis->isReserved());
 }
 
-static PyObject* pyLocation_isItinerant(pyLocation* self) {
+PY_METHOD_NOARGS(Location, isItinerant,
+    "Returns True if the location is an Itinerant page")
+{
     return pyPlasma_convert(self->fThis->isItinerant());
 }
 
-static PyObject* pyLocation_isVirtual(pyLocation* self) {
+PY_METHOD_NOARGS(Location, isVirtual, "Returns True if the location is virtual") {
     return pyPlasma_convert(self->fThis->isVirtual());
 }
 
-static PyObject* pyLocation_isGlobal(pyLocation* self) {
+PY_METHOD_NOARGS(Location, isGlobal,
+    "Returns True if the sequence prefix points to a global age")
+{
     return pyPlasma_convert(self->fThis->isGlobal());
 }
 
-static PyObject* pyLocation_setVirtual(pyLocation* self) {
+PY_METHOD_NOARGS(Location, setVirtual, "Makes the location virtual") {
     self->fThis->setVirtual();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyLocation_parse(pyLocation* self, PyObject* args) {
+PY_METHOD_VA(Location, parse,
+    "Params: locationId\n"
+    "Parses a raw location")
+{
     int loc;
     if (!PyArg_ParseTuple(args, "i", &loc)) {
         PyErr_SetString(PyExc_TypeError, "parse expects an int");
@@ -145,37 +160,25 @@ static PyObject* pyLocation_parse(pyLocation* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyLocation_unparse(pyLocation* self) {
+PY_METHOD_NOARGS(Location, unparse,
+    "Returns a raw location ID for the set Plasma version")
+{
     return pyPlasma_convert(self->fThis->unparse());
 }
 
 static PyMethodDef pyLocation_Methods[] = {
-    { "read", (PyCFunction)pyLocation_read, METH_VARARGS,
-      "Params: stream\n"
-      "Reads this Location from the stream, including the size and offset" },
-    { "write", (PyCFunction)pyLocation_write, METH_VARARGS,
-      "Params: stream\n"
-      "Writes this Location to the stream, including the size and offset" },
-    { "invalidate", (PyCFunction)pyLocation_invalidate, METH_NOARGS,
-      "Invalidates the location" },
-    { "isValid", (PyCFunction)pyLocation_isValid, METH_NOARGS,
-      "Returns True if the location is valid" },
-    { "isReserved", (PyCFunction)pyLocation_isReserved, METH_NOARGS,
-      "Returns True if the location is a Reserved page" },
-    { "isItinerant", (PyCFunction)pyLocation_isItinerant, METH_NOARGS,
-      "Returns True if the location is an Itinerant page" },
-    { "isVirtual", (PyCFunction)pyLocation_isVirtual, METH_NOARGS,
-      "Returns True if the location is virtual" },
-    { "isGlobal", (PyCFunction)pyLocation_isGlobal, METH_NOARGS,
-      "Returns True if the sequence prefix points to a global age" },
-    { "setVirtual", (PyCFunction)pyLocation_setVirtual, METH_NOARGS,
-      "Makes the location virtual" },
-    { "parse", (PyCFunction)pyLocation_parse, METH_VARARGS,
-      "Params: locationId\n"
-      "Parses a raw location" },
-    { "unparse", (PyCFunction)pyLocation_unparse, METH_NOARGS,
-      "Returns a raw location ID for the set Plasma version" },
-    { NULL, NULL, 0, NULL }
+    pyLocation_read_method,
+    pyLocation_write_method,
+    pyLocation_invalidate_method,
+    pyLocation_isValid_method,
+    pyLocation_isReserved_method,
+    pyLocation_isItinerant_method,
+    pyLocation_isVirtual_method,
+    pyLocation_isGlobal_method,
+    pyLocation_setVirtual_method,
+    pyLocation_parse_method,
+    pyLocation_unparse_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(int, Location, version, getVer, setVer)

@@ -24,7 +24,10 @@ extern "C" {
 
 PY_PLASMA_NEW_MSG(SynchedObject, "plSynchedObject is abstract")
 
-static PyObject* pySynchedObject_setExclude(pySynchedObject* self, PyObject* args) {
+PY_METHOD_VA(SynchedObject, setExclude,
+    "Params: state\n"
+    "Add an SDL state to the Exclude list")
+{
     const char* str;
     if (!PyArg_ParseTuple(args, "s", &str)) {
         PyErr_SetString(PyExc_TypeError, "setExclude expects a string");
@@ -34,7 +37,10 @@ static PyObject* pySynchedObject_setExclude(pySynchedObject* self, PyObject* arg
     Py_RETURN_NONE;
 }
 
-static PyObject* pySynchedObject_setVolatile(pySynchedObject* self, PyObject* args) {
+PY_METHOD_VA(SynchedObject, setVolatile,
+    "Params: state\n"
+    "Add an SDL state to the Volatile list")
+{
     const char* str;
     if (!PyArg_ParseTuple(args, "s", &str)) {
         PyErr_SetString(PyExc_TypeError, "setVolatile expects a string");
@@ -101,13 +107,9 @@ static int pySynchedObject_setVolatiles(pySynchedObject* self, PyObject* value, 
 }
 
 static PyMethodDef pySynchedObject_Methods[] = {
-    { "setExclude", (PyCFunction)pySynchedObject_setExclude, METH_VARARGS,
-      "Params: state\n"
-      "Add an SDL state to the Exclude list" },
-    { "setVolatile", (PyCFunction)pySynchedObject_setVolatile, METH_VARARGS,
-      "Params: state\n"
-      "Add an SDL state to the Volatile list" },
-    { NULL, NULL, 0, NULL }
+    pySynchedObject_setExclude_method,
+    pySynchedObject_setVolatile_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(int, SynchedObject, synchFlags, getSynchFlags, setSynchFlags)

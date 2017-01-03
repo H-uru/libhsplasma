@@ -26,11 +26,16 @@ PY_PLASMA_DEALLOC(EventData)
 PY_PLASMA_EMPTY_INIT(EventData)
 PY_PLASMA_NEW_MSG(EventData, "proEventData is abstract")
 
-static PyObject* pyEventData_EventType(pyEventData* self) {
+PY_METHOD_NOARGS(EventData, EventType,
+    "Returns the EventData Class Type of this proEventData object")
+{
     return pyPlasma_convert(self->fThis->EventType());
 }
 
-static PyObject* pyEventData_Read(PyObject*, PyObject* args) {
+PY_METHOD_STATIC_VA(EventData, Read,
+    "Params: stream, resManager\n"
+    "Read a proEventData object from `stream`")
+{
     pyStream* stream;
     pyResManager* mgr;
     if (!PyArg_ParseTuple(args, "OO", &stream, &mgr)) {
@@ -47,7 +52,10 @@ static PyObject* pyEventData_Read(PyObject*, PyObject* args) {
     return pyEvt;
 }
 
-static PyObject* pyEventData_write(pyEventData* self, PyObject* args) {
+PY_METHOD_VA(EventData, write,
+    "Params: stream, resManager\n"
+    "Write this proEventData object to `stream`")
+{
     pyStream* stream;
     pyResManager* mgr;
     if (!PyArg_ParseTuple(args, "OO", &stream, &mgr)) {
@@ -63,15 +71,10 @@ static PyObject* pyEventData_write(pyEventData* self, PyObject* args) {
 }
 
 static PyMethodDef pyEventData_Methods[] = {
-    { "EventType", (PyCFunction)pyEventData_EventType, METH_NOARGS,
-      "Returns the EventData Class Type of this proEventData object" },
-    { "Read", (PyCFunction)pyEventData_Read, METH_VARARGS | METH_STATIC,
-      "Params: stream, resManager\n"
-      "Read a proEventData object from `stream`" },
-    { "write", (PyCFunction)pyEventData_write, METH_VARARGS,
-      "Params: stream, resManager\n"
-      "Write this proEventData object to `stream`" },
-    { NULL, NULL, 0, NULL }
+    pyEventData_EventType_method,
+    pyEventData_Read_method,
+    pyEventData_write_method,
+    PY_METHOD_TERMINATOR
 };
 
 PyTypeObject pyEventData_Type = {

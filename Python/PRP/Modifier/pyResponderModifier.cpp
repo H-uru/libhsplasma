@@ -24,7 +24,10 @@ extern "C" {
 
 PY_PLASMA_NEW(ResponderModifier, plResponderModifier)
 
-static PyObject* pyResponderModifier_addState(pyResponderModifier* self, PyObject* args) {
+PY_METHOD_VA(ResponderModifier, addState,
+    "Params: state\n"
+    "Add a responder state to the Responder")
+{
     pyResponderModifier_State* state;
     if (!PyArg_ParseTuple(args, "O", &state)) {
         PyErr_SetString(PyExc_TypeError, "addState expects a plResponderModifier_State");
@@ -39,7 +42,10 @@ static PyObject* pyResponderModifier_addState(pyResponderModifier* self, PyObjec
     Py_RETURN_NONE;
 }
 
-static PyObject* pyResponderModifier_delState(pyResponderModifier* self, PyObject* args) {
+PY_METHOD_VA(ResponderModifier, delState,
+    "Params: idx\n"
+    "Delete a state from the Responder")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delState expects an int");
@@ -49,7 +55,7 @@ static PyObject* pyResponderModifier_delState(pyResponderModifier* self, PyObjec
     Py_RETURN_NONE;
 }
 
-static PyObject* pyResponderModifier_clearStates(pyResponderModifier* self) {
+PY_METHOD_NOARGS(ResponderModifier, clearStates, "Delete all states from the Responder") {
     self->fThis->clearStates();
     Py_RETURN_NONE;
 }
@@ -67,15 +73,10 @@ static int pyResponderModifier_setStates(pyResponderModifier* self, PyObject* va
 }
 
 static PyMethodDef pyResponderModifier_Methods[] = {
-    { "addState", (PyCFunction)pyResponderModifier_addState, METH_VARARGS,
-      "Params: state\n"
-      "Add a responder state to the Responder" },
-    { "delState", (PyCFunction)pyResponderModifier_delState, METH_VARARGS,
-      "Params: idx\n"
-      "Delete a state from the Responder" },
-    { "clearStates", (PyCFunction)pyResponderModifier_clearStates, METH_NOARGS,
-      "Delete all states from the Responder" },
-    { NULL, NULL, 0, NULL }
+    pyResponderModifier_addState_method,
+    pyResponderModifier_delState_method,
+    pyResponderModifier_clearStates_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(signed char, ResponderModifier, curState, getCurState, setCurState)

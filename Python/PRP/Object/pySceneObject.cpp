@@ -25,17 +25,24 @@ extern "C" {
 
 PY_PLASMA_NEW(SceneObject, plSceneObject)
 
-static PyObject* pySceneObject_clearInterfaces(pySceneObject* self) {
+PY_METHOD_NOARGS(SceneObject, clearInterfaces,
+    "Remove all Interfaces from the Scene Object")
+{
     self->fThis->clearInterfaces();
     Py_RETURN_NONE;
 }
 
-static PyObject* pySceneObject_clearModifiers(pySceneObject* self) {
+PY_METHOD_NOARGS(SceneObject, clearModifiers,
+    "Remove all Modifiers from the Scene Object")
+{
     self->fThis->clearModifiers();
     Py_RETURN_NONE;
 }
 
-static PyObject* pySceneObject_addInterface(pySceneObject* self, PyObject* args) {
+PY_METHOD_VA(SceneObject, addInterface,
+    "Params: key\n"
+    "Add an Interface to the Scene Object")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addInterface expects a plKey");
@@ -49,7 +56,10 @@ static PyObject* pySceneObject_addInterface(pySceneObject* self, PyObject* args)
     Py_RETURN_NONE;
 }
 
-static PyObject* pySceneObject_addModifier(pySceneObject* self, PyObject* args) {
+PY_METHOD_VA(SceneObject, addModifier,
+    "Params: key\n"
+    "Add a Modifier to the Scene Object")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addModifier expects a plKey");
@@ -63,7 +73,10 @@ static PyObject* pySceneObject_addModifier(pySceneObject* self, PyObject* args) 
     Py_RETURN_NONE;
 }
 
-static PyObject* pySceneObject_delInterface(pySceneObject* self, PyObject* args) {
+PY_METHOD_VA(SceneObject, delInterface,
+    "Params: idx\n"
+    "Removes an interface from the Scene Object")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delInterface expects an int");
@@ -73,7 +86,10 @@ static PyObject* pySceneObject_delInterface(pySceneObject* self, PyObject* args)
     Py_RETURN_NONE;
 }
 
-static PyObject* pySceneObject_delModifier(pySceneObject* self, PyObject* args) {
+PY_METHOD_VA(SceneObject, delModifier,
+    "Params: idx\n"
+    "Removes a modifier from the Scene Object")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delModifier expects an int");
@@ -108,23 +124,13 @@ static int pySceneObject_setMods(pySceneObject* self, PyObject* value, void*) {
 }
 
 PyMethodDef pySceneObject_Methods[] = {
-    { "clearInterfaces", (PyCFunction)pySceneObject_clearInterfaces, METH_NOARGS,
-      "Remove all Interfaces from the Scene Object" },
-    { "clearModifiers", (PyCFunction)pySceneObject_clearModifiers, METH_NOARGS,
-      "Remove all Modifiers from the Scene Object" },
-    { "addInterface", (PyCFunction)pySceneObject_addInterface, METH_VARARGS,
-      "Params: key\n"
-      "Add an Interface to the Scene Object" },
-    { "addModifier", (PyCFunction)pySceneObject_addModifier, METH_VARARGS,
-      "Params: key\n"
-      "Add a Modifier to the Scene Object" },
-    { "delInterface", (PyCFunction)pySceneObject_delInterface, METH_VARARGS,
-      "Params: idx\n"
-      "Removes an interface from the Scene Object" },
-    { "delModifier", (PyCFunction)pySceneObject_delModifier, METH_VARARGS,
-      "Params: idx\n"
-      "Removes a modifier from the Scene Object" },
-    { NULL, NULL, 0, NULL }
+    pySceneObject_clearInterfaces_method,
+    pySceneObject_clearModifiers_method,
+    pySceneObject_addInterface_method,
+    pySceneObject_addModifier_method,
+    pySceneObject_delInterface_method,
+    pySceneObject_delModifier_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(plKey, SceneObject, draw, getDrawInterface, setDrawInterface)

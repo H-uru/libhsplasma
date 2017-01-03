@@ -26,7 +26,10 @@ extern "C" {
 
 PY_PLASMA_NEW_MSG(ObjInterface, "plObjInterface is abstract")
 
-static PyObject* pyObjInterface_getProp(pyObjInterface* self, PyObject* args) {
+PY_METHOD_VA(ObjInterface, getProperty,
+    "Params: flag\n"
+    "Returns whether the specified property is set")
+{
     int prop;
     if (!PyArg_ParseTuple(args, "i", &prop)) {
         PyErr_SetString(PyExc_TypeError, "getProperty expects an int");
@@ -35,7 +38,10 @@ static PyObject* pyObjInterface_getProp(pyObjInterface* self, PyObject* args) {
     return pyPlasma_convert(self->fThis->getProperty(prop));
 }
 
-static PyObject* pyObjInterface_setProp(pyObjInterface* self, PyObject* args) {
+PY_METHOD_VA(ObjInterface, setProperty,
+    "Params: flag, value\n"
+    "Sets the specified property")
+{
     int prop, value;
     if (!PyArg_ParseTuple(args, "ii", &prop, &value)) {
         PyErr_SetString(PyExc_TypeError, "setProperty expects int, bool");
@@ -46,13 +52,9 @@ static PyObject* pyObjInterface_setProp(pyObjInterface* self, PyObject* args) {
 }
 
 PyMethodDef pyObjInterface_Methods[] = {
-    { "getProperty", (PyCFunction)pyObjInterface_getProp, METH_VARARGS,
-      "Params: flag\n"
-      "Returns whether the specified property is set" },
-    { "setProperty", (PyCFunction)pyObjInterface_setProp, METH_VARARGS,
-      "Params: flag, value\n"
-      "Sets the specified property" },
-    { NULL, NULL, 0, NULL }
+    pyObjInterface_getProperty_method,
+    pyObjInterface_setProperty_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(plKey, ObjInterface, owner, getOwner, setOwner)

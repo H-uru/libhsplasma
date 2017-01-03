@@ -24,12 +24,17 @@ extern "C" {
 
 PY_PLASMA_NEW(DrawInterface, plDrawInterface)
 
-static PyObject* pyDrawInterface_clearDrawables(pyDrawInterface* self) {
+PY_METHOD_NOARGS(DrawInterface, clearDrawables,
+    "Removes all drawables from the Draw Interface")
+{
     self->fThis->clearDrawables();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyDrawInterface_addDrawable(pyDrawInterface* self, PyObject* args) {
+PY_METHOD_VA(DrawInterface, addDrawable,
+    "Params: (key, idx,)\n"
+    "Adds a drawable reference and key index to the Draw Interface")
+{
     pyKey* draw;
     int key;
     if (!PyArg_ParseTuple(args, "Oi", &draw, &key)) {
@@ -44,7 +49,10 @@ static PyObject* pyDrawInterface_addDrawable(pyDrawInterface* self, PyObject* ar
     Py_RETURN_NONE;
 }
 
-static PyObject* pyDrawInterface_delDrawable(pyDrawInterface* self, PyObject* args) {
+PY_METHOD_VA(DrawInterface, delDrawable,
+    "Params: idx\n"
+    "Removes a drawable reference and key from the Draw Interface")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delDrawable expects an int");
@@ -54,12 +62,17 @@ static PyObject* pyDrawInterface_delDrawable(pyDrawInterface* self, PyObject* ar
     Py_RETURN_NONE;
 }
 
-static PyObject* pyDrawInterface_clearRegions(pyDrawInterface* self) {
+PY_METHOD_NOARGS(DrawInterface, clearRegions,
+    "Removes all regions from the Draw Interface")
+{
     self->fThis->clearRegions();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyDrawInterface_addRegion(pyDrawInterface* self, PyObject* args) {
+PY_METHOD_VA(DrawInterface, addRegion,
+    "Params: key\n"
+    "Adds a region to the Draw Interface")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addRegion expects a plKey");
@@ -73,7 +86,10 @@ static PyObject* pyDrawInterface_addRegion(pyDrawInterface* self, PyObject* args
     Py_RETURN_NONE;
 }
 
-static PyObject* pyDrawInterface_delRegion(pyDrawInterface* self, PyObject* args) {
+PY_METHOD_VA(DrawInterface, delRegion,
+    "Params: idx\n"
+    "Removes a region from the Draw Interface")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delRegion expects an int");
@@ -114,23 +130,13 @@ static int pyDrawInterface_setRegions(pyDrawInterface* self, PyObject* value, vo
 }
 
 PyMethodDef pyDrawInterface_Methods[] = {
-    { "clearDrawables", (PyCFunction)pyDrawInterface_clearDrawables, METH_NOARGS,
-      "Removes all drawables from the Draw Interface" },
-    { "addDrawable", (PyCFunction)pyDrawInterface_addDrawable, METH_VARARGS,
-      "Params: (key, idx,)\n"
-      "Adds a drawable reference and key index to the Draw Interface" },
-    { "delDrawable", (PyCFunction)pyDrawInterface_delDrawable, METH_VARARGS,
-      "Params: idx\n"
-      "Removes a drawable reference and key from the Draw Interface" },
-    { "clearRegions", (PyCFunction)pyDrawInterface_clearRegions, METH_NOARGS,
-      "Removes all regions from the Draw Interface" },
-    { "addRegion", (PyCFunction)pyDrawInterface_addRegion, METH_VARARGS,
-      "Params: key\n"
-      "Adds a region to the Draw Interface" },
-    { "delRegion", (PyCFunction)pyDrawInterface_delRegion, METH_VARARGS,
-      "Params: idx\n"
-      "Removes a region from the Draw Interface" },
-    { NULL, NULL, 0, NULL }
+    pyDrawInterface_clearDrawables_method,
+    pyDrawInterface_addDrawable_method,
+    pyDrawInterface_delDrawable_method,
+    pyDrawInterface_clearRegions_method,
+    pyDrawInterface_addRegion_method,
+    pyDrawInterface_delRegion_method,
+    PY_METHOD_TERMINATOR
 };
 
 PyGetSetDef pyDrawInterface_GetSet[] = {

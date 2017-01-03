@@ -30,12 +30,17 @@ extern "C" {
 
 PY_PLASMA_NEW(DrawableSpans, plDrawableSpans)
 
-static PyObject* pyDrawableSpans_clearSpans(pyDrawableSpans* self) {
+PY_METHOD_NOARGS(DrawableSpans, clearSpans,
+    "Remove all spans from this DrawableSpans object")
+{
     self->fThis->clearSpans();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyDrawableSpans_addIcicle(pyDrawableSpans* self, PyObject* args) {
+PY_METHOD_VA(DrawableSpans, addIcicle,
+    "Params: icicle\n"
+    "Add an Icicle span to this DrawableSpans object")
+{
     pyIcicle* ice;
     if (!PyArg_ParseTuple(args, "O", &ice)) {
         PyErr_SetString(PyExc_TypeError, "addIcicle expects a plIcicle");
@@ -48,7 +53,11 @@ static PyObject* pyDrawableSpans_addIcicle(pyDrawableSpans* self, PyObject* args
     return pyPlasma_convert(self->fThis->addIcicle(*ice->fThis));
 }
 
-static PyObject* pyDrawableSpans_createBGroup(pyDrawableSpans* self, PyObject* args) {
+PY_METHOD_VA(DrawableSpans, createBufferGroup,
+    "Params: format\n"
+    "Create a buffer group for storing mesh information.  You MUST\n"
+    "do this BEFORE adding verts, indices and cells to the DrawableSpans!")
+{
     int fmt;
     if (!PyArg_ParseTuple(args, "i", &fmt)) {
         PyErr_SetString(PyExc_TypeError, "createBufferGroup expects an int");
@@ -57,7 +66,10 @@ static PyObject* pyDrawableSpans_createBGroup(pyDrawableSpans* self, PyObject* a
     return pyPlasma_convert(self->fThis->createBufferGroup(fmt));
 }
 
-static PyObject* pyDrawableSpans_deleteBGroup(pyDrawableSpans* self, PyObject* args) {
+PY_METHOD_VA(DrawableSpans, deleteBufferGroup,
+    "Params: idx\n"
+    "Delete a buffer group and all of its contents from the DrawableSpans")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "deleteBufferGroup expects an int");
@@ -67,7 +79,10 @@ static PyObject* pyDrawableSpans_deleteBGroup(pyDrawableSpans* self, PyObject* a
     Py_RETURN_NONE;
 }
 
-static PyObject* pyDrawableSpans_getVerts(pyDrawableSpans* self, PyObject* args) {
+PY_METHOD_VA(DrawableSpans, getVerts,
+    "Params: buffer, idx\n"
+    "Retrieves a list of verts from the specified buffer and group")
+{
     pyIcicle* ice;
     if (!PyArg_ParseTuple(args, "O", &ice)) {
         PyErr_SetString(PyExc_TypeError, "getVerts expects a plIcicle");
@@ -84,7 +99,11 @@ static PyObject* pyDrawableSpans_getVerts(pyDrawableSpans* self, PyObject* args)
     return list;
 }
 
-static PyObject* pyDrawableSpans_getIndices(pyDrawableSpans* self, PyObject* args) {
+PY_METHOD_VA(DrawableSpans, getIndices,
+    "Params: buffer, idx\n"
+    "Retrieves a list of face-vertex indices (ungrouped) from the specified\n"
+    "buffer and group")
+{
     pyIcicle* ice;
     if (!PyArg_ParseTuple(args, "O", &ice)) {
         PyErr_SetString(PyExc_TypeError, "getIndices expects a plIcicle");
@@ -101,7 +120,10 @@ static PyObject* pyDrawableSpans_getIndices(pyDrawableSpans* self, PyObject* arg
     return list;
 }
 
-static PyObject* pyDrawableSpans_getCells(pyDrawableSpans* self, PyObject* args) {
+PY_METHOD_VA(DrawableSpans, getCells,
+    "Params: buffer, idx\n"
+    "Retrieves a list of cells from the specified buffer and group")
+{
     int buf, idx;
     if (!PyArg_ParseTuple(args, "ii", &buf, &idx)) {
         PyErr_SetString(PyExc_TypeError, "getCells expects int, int");
@@ -114,7 +136,10 @@ static PyObject* pyDrawableSpans_getCells(pyDrawableSpans* self, PyObject* args)
     return list;
 }
 
-static PyObject* pyDrawableSpans_addVerts(pyDrawableSpans* self, PyObject* args) {
+PY_METHOD_VA(DrawableSpans, addVerts,
+    "Params: buffer, vert-list\n"
+    "Adds a group of verts to the specified buffer")
+{
     int buf;
     PyObject* vlist;
     if (!PyArg_ParseTuple(args,  "iO", &buf, &vlist)) {
@@ -138,7 +163,10 @@ static PyObject* pyDrawableSpans_addVerts(pyDrawableSpans* self, PyObject* args)
     Py_RETURN_NONE;
 }
 
-static PyObject* pyDrawableSpans_addIndices(pyDrawableSpans* self, PyObject* args) {
+PY_METHOD_VA(DrawableSpans, addIndices,
+    "Params: buffer, index-list\n"
+    "Adds a group of indices (ungrouped) to the specified buffer")
+{
     int buf;
     PyObject* ilist;
     if (!PyArg_ParseTuple(args,  "iO", &buf, &ilist)) {
@@ -162,7 +190,10 @@ static PyObject* pyDrawableSpans_addIndices(pyDrawableSpans* self, PyObject* arg
     Py_RETURN_NONE;
 }
 
-static PyObject* pyDrawableSpans_addCells(pyDrawableSpans* self, PyObject* args) {
+PY_METHOD_VA(DrawableSpans, addCells,
+    "Params: buffer, cell-list\n"
+    "Adds a group of cells to the specified buffer")
+{
     int buf;
     PyObject* clist;
     if (!PyArg_ParseTuple(args,  "iO", &buf, &clist)) {
@@ -186,12 +217,16 @@ static PyObject* pyDrawableSpans_addCells(pyDrawableSpans* self, PyObject* args)
     Py_RETURN_NONE;
 }
 
-static PyObject* pyDrawableSpans_clearDIIndices(pyDrawableSpans* self) {
+PY_METHOD_NOARGS(DrawableSpans, clearDIIndices,
+    "Remove all DI Indices from the DrawableSpans object")
+{
     self->fThis->clearDIIndices();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyDrawableSpans_addDIIndex(pyDrawableSpans* self, PyObject* args) {
+PY_METHOD_VA(DrawableSpans, addDIIndex,
+    "Add a DI Index to the DrawableSpans object")
+{
     pyDISpanIndex* idx;
     if (!PyArg_ParseTuple(args, "O", &idx)) {
         PyErr_SetString(PyExc_TypeError, "addDIIndex expects a plDISpanIndex");
@@ -204,12 +239,17 @@ static PyObject* pyDrawableSpans_addDIIndex(pyDrawableSpans* self, PyObject* arg
     return pyPlasma_convert(self->fThis->addDIIndex(*idx->fThis));
 }
 
-static PyObject* pyDrawableSpans_clearTransforms(pyDrawableSpans* self) {
+PY_METHOD_NOARGS(DrawableSpans, clearTransforms,
+    "Remove all transform matrices from the DrawableSpans")
+{
     self->fThis->clearTransforms();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyDrawableSpans_addTransform(pyDrawableSpans* self, PyObject* args) {
+PY_METHOD_VA(DrawableSpans, addTransform,
+    "Params: localToWorld, worldToLocal, localToBone, boneToLocal\n"
+    "Adds a transform set to the DrawableSpans")
+{
     pyMatrix44* l2w;
     pyMatrix44* w2l;
     pyMatrix44* l2b;
@@ -227,12 +267,17 @@ static PyObject* pyDrawableSpans_addTransform(pyDrawableSpans* self, PyObject* a
     Py_RETURN_NONE;
 }
 
-static PyObject* pyDrawableSpans_clearMaterials(pyDrawableSpans* self) {
+PY_METHOD_NOARGS(DrawableSpans, clearMaterials,
+    "Remove all material refs from the DrawableSpans")
+{
     self->fThis->clearMaterials();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyDrawableSpans_addMaterial(pyDrawableSpans* self, PyObject* args) {
+PY_METHOD_VA(DrawableSpans, addMaterial,
+    "Params: key\n"
+    "Add a material ref to the DrawableSpans")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addMaterial expects a plKey");
@@ -246,17 +291,24 @@ static PyObject* pyDrawableSpans_addMaterial(pyDrawableSpans* self, PyObject* ar
     Py_RETURN_NONE;
 }
 
-static PyObject* pyDrawableSpans_calcBounds(pyDrawableSpans* self) {
+PY_METHOD_NOARGS(DrawableSpans, calcBounds,
+    "(Re-)Calculate the bounds for all icicles and the DrawableSpans")
+{
     self->fThis->calcBounds();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyDrawableSpans_BuildSpaceTree(pyDrawableSpans* self) {
+PY_METHOD_NOARGS(DrawableSpans, BuildSpaceTree,
+    "Build a plSpaceTree for this draw spans object")
+{
     self->fThis->BuildSpaceTree();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyDrawableSpans_composeGeometry(pyDrawableSpans* self, PyObject* args) {
+PY_METHOD_VA(DrawableSpans, composeGeometry,
+    "Params: clearSpans\n"
+    "Populates the DrawableSpans from its source spans")
+{
     bool clearSpans = true;
     bool calcBounds = false;
     if (!PyArg_ParseTuple(args, "|bb", &clearSpans, &calcBounds)) {
@@ -267,7 +319,10 @@ static PyObject* pyDrawableSpans_composeGeometry(pyDrawableSpans* self, PyObject
     Py_RETURN_NONE;
 }
 
-static PyObject* pyDrawableSpans_decomposeGeometry(pyDrawableSpans* self, PyObject* args) {
+PY_METHOD_VA(DrawableSpans, decomposeGeometry,
+    "Params: clearColors\n"
+    "Decompose the DrawableSpans into source spans")
+{
     bool clearColors = true;
     if (!PyArg_ParseTuple(args, "|b", &clearColors)) {
         PyErr_SetString(PyExc_TypeError, "decomposeGeometry expects an optional bool");
@@ -277,7 +332,10 @@ static PyObject* pyDrawableSpans_decomposeGeometry(pyDrawableSpans* self, PyObje
     Py_RETURN_NONE;
 }
 
-static PyObject* pyDrawableSpans_buildDIIndex(pyDrawableSpans* self, PyObject* args) {
+PY_METHOD_VA(DrawableSpans, buildDIIndex,
+    "Params: spans"
+    "Builds and returns the offset of the DISpanIndex created for a mesh composed of a set of source spans")
+{
     PyObject* list;
     if (!PyArg_ParseTuple(args, "O", &list)) {
         PyErr_SetString(PyExc_TypeError, "buildDIIndex expects a sequence of plGeometrySpan");
@@ -301,7 +359,10 @@ static PyObject* pyDrawableSpans_buildDIIndex(pyDrawableSpans* self, PyObject* a
     return pyPlasma_convert(self->fThis->buildDIIndex(spans));
 }
 
-static PyObject* pyDrawableSpans_addSourceSpan(pyDrawableSpans* self, PyObject* args) {
+PY_METHOD_VA(DrawableSpans, addSourceSpan,
+    "Params: span\n"
+    "Add a GeometrySpan to this DrawableSpans' sources")
+{
     pyGeometrySpan* span;
     if (!PyArg_ParseTuple(args, "O", &span)) {
         PyErr_SetString(PyExc_TypeError, "addSourceSpan expects a plGeometrySpan");
@@ -408,68 +469,29 @@ static int pyDrawableSpans_setSourceSpans(pyDrawableSpans* self, PyObject* value
 }
 
 static PyMethodDef pyDrawableSpans_Methods[] = {
-    { "clearSpans", (PyCFunction)pyDrawableSpans_clearSpans, METH_NOARGS,
-      "Remove all spans from this DrawableSpans object" },
-    { "addIcicle", (PyCFunction)pyDrawableSpans_addIcicle, METH_VARARGS,
-      "Params: icicle\n"
-      "Add an Icicle span to this DrawableSpans object" },
-    { "createBufferGroup", (PyCFunction)pyDrawableSpans_createBGroup, METH_VARARGS,
-      "Params: format\n"
-      "Create a buffer group for storing mesh information.  You MUST\n"
-      "do this BEFORE adding verts, indices and cells to the DrawableSpans!" },
-    { "deleteBufferGroup", (PyCFunction)pyDrawableSpans_deleteBGroup, METH_VARARGS,
-      "Params: idx\n"
-      "Delete a buffer group and all of its contents from the DrawableSpans" },
-    { "getVerts", (PyCFunction)pyDrawableSpans_getVerts, METH_VARARGS,
-      "Params: buffer, idx\n"
-      "Retrieves a list of verts from the specified buffer and group" },
-    { "getIndices", (PyCFunction)pyDrawableSpans_getIndices, METH_VARARGS,
-      "Params: buffer, idx\n"
-      "Retrieves a list of face-vertex indices (ungrouped) from the specified\n"
-      "buffer and group" },
-    { "getCells", (PyCFunction)pyDrawableSpans_getCells, METH_VARARGS,
-      "Params: buffer, idx\n"
-      "Retrieves a list of cells from the specified buffer and group" },
-    { "addVerts", (PyCFunction)pyDrawableSpans_addVerts, METH_VARARGS,
-      "Params: buffer, vert-list\n"
-      "Adds a group of verts to the specified buffer" },
-    { "addIndices", (PyCFunction)pyDrawableSpans_addIndices, METH_VARARGS,
-      "Params: buffer, index-list\n"
-      "Adds a group of indices (ungrouped) to the specified buffer" },
-    { "addCells", (PyCFunction)pyDrawableSpans_addCells, METH_VARARGS,
-      "Params: buffer, cell-list\n"
-      "Adds a group of cells to the specified buffer" },
-    { "clearDIIndices", (PyCFunction)pyDrawableSpans_clearDIIndices, METH_NOARGS,
-      "Remove all DI Indices from the DrawableSpans object" },
-    { "addDIIndex", (PyCFunction)pyDrawableSpans_addDIIndex, METH_VARARGS,
-      "Add a DI Index to the DrawableSpans object" },
-    { "clearTransforms", (PyCFunction)pyDrawableSpans_clearTransforms, METH_NOARGS,
-      "Remove all transform matrices from the DrawableSpans" },
-    { "addTransform", (PyCFunction)pyDrawableSpans_addTransform, METH_VARARGS,
-      "Params: localToWorld, worldToLocal, localToBone, boneToLocal\n"
-      "Adds a transform set to the DrawableSpans" },
-    { "clearMaterials", (PyCFunction)pyDrawableSpans_clearMaterials, METH_NOARGS,
-      "Remove all material refs from the DrawableSpans" },
-    { "addMaterial", (PyCFunction)pyDrawableSpans_addMaterial, METH_VARARGS,
-      "Params: key\n"
-      "Add a material ref to the DrawableSpans" },
-    { "calcBounds", (PyCFunction)pyDrawableSpans_calcBounds, METH_NOARGS,
-      "(Re-)Calculate the bounds for all icicles and the DrawableSpans"},
-    { "BuildSpaceTree", (PyCFunction)pyDrawableSpans_BuildSpaceTree, METH_NOARGS,
-      "Build a plSpaceTree for this draw spans object" },
-    { "composeGeometry", (PyCFunction)pyDrawableSpans_composeGeometry, METH_VARARGS,
-      "Params: clearSpans\n"
-      "Populates the DrawableSpans from its source spans" },
-    { "decomposeGeometry", (PyCFunction)pyDrawableSpans_decomposeGeometry, METH_VARARGS,
-      "Params: clearColors\n"
-      "Decompose the DrawableSpans into source spans" },
-    { "buildDIIndex", (PyCFunction)pyDrawableSpans_buildDIIndex, METH_VARARGS,
-      "Params: spans"
-      "Builds and returns the offset of the DISpanIndex created for a mesh composed of a set of source spans" },
-    { "addSourceSpan", (PyCFunction)pyDrawableSpans_addSourceSpan, METH_VARARGS,
-      "Params: span\n"
-      "Add a GeometrySpan to this DrawableSpans' sources" },
-    { NULL, NULL, 0, NULL }
+    pyDrawableSpans_clearSpans_method,
+    pyDrawableSpans_addIcicle_method,
+    pyDrawableSpans_createBufferGroup_method,
+    pyDrawableSpans_deleteBufferGroup_method,
+    pyDrawableSpans_getVerts_method,
+    pyDrawableSpans_getIndices_method,
+    pyDrawableSpans_getCells_method,
+    pyDrawableSpans_addVerts_method,
+    pyDrawableSpans_addIndices_method,
+    pyDrawableSpans_addCells_method,
+    pyDrawableSpans_clearDIIndices_method,
+    pyDrawableSpans_addDIIndex_method,
+    pyDrawableSpans_clearTransforms_method,
+    pyDrawableSpans_addTransform_method,
+    pyDrawableSpans_clearMaterials_method,
+    pyDrawableSpans_addMaterial_method,
+    pyDrawableSpans_calcBounds_method,
+    pyDrawableSpans_BuildSpaceTree_method,
+    pyDrawableSpans_composeGeometry_method,
+    pyDrawableSpans_decomposeGeometry_method,
+    pyDrawableSpans_buildDIIndex_method,
+    pyDrawableSpans_addSourceSpan_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY_BOUNDS(Bounds3Ext, DrawableSpans, localBounds, getLocalBounds, setLocalBounds)

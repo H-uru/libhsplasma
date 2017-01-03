@@ -25,7 +25,10 @@ PY_PLASMA_DEALLOC(SpanEncoding)
 PY_PLASMA_EMPTY_INIT(SpanEncoding)
 PY_PLASMA_NEW(SpanEncoding, plSpanEncoding)
 
-static PyObject* pySpanEncoding_read(pySpanEncoding* self, PyObject* args) {
+PY_METHOD_VA(SpanEncoding, read,
+    "Params: stream\n"
+    "Reads this object from the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
@@ -39,7 +42,10 @@ static PyObject* pySpanEncoding_read(pySpanEncoding* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pySpanEncoding_write(pySpanEncoding* self, PyObject* args) {
+PY_METHOD_VA(SpanEncoding, write,
+    "Params: stream\n"
+    "Writes this object to the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
@@ -54,13 +60,9 @@ static PyObject* pySpanEncoding_write(pySpanEncoding* self, PyObject* args) {
 }
 
 static PyMethodDef pySpanEncoding_Methods[] = {
-    { "read", (PyCFunction)pySpanEncoding_read, METH_VARARGS,
-      "Params: stream\n"
-      "Reads this object from the stream" },
-    { "write", (PyCFunction)pySpanEncoding_write, METH_VARARGS,
-      "Params: stream\n"
-      "Writes this object to the stream" },
-    { NULL, NULL, 0, NULL }
+    pySpanEncoding_read_method,
+    pySpanEncoding_write_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(unsigned int, SpanEncoding, code, getCode, setCode)

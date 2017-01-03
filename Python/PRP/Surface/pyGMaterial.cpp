@@ -25,12 +25,15 @@ extern "C" {
 
 PY_PLASMA_NEW(GMaterial, hsGMaterial)
 
-static PyObject* pyGMaterial_clearLayers(pyGMaterial* self) {
+PY_METHOD_NOARGS(GMaterial, clearLayers, "Remove all layer keys from the material") {
     self->fThis->clearLayers();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGMaterial_addLayer(pyGMaterial* self, PyObject* args) {
+PY_METHOD_VA(GMaterial, addLayer,
+    "Params: key\n"
+    "Add a layer to the material")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addLayer expects a plKey");
@@ -44,7 +47,10 @@ static PyObject* pyGMaterial_addLayer(pyGMaterial* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGMaterial_delLayer(pyGMaterial* self, PyObject* args) {
+PY_METHOD_VA(GMaterial, delLayer,
+    "Params: idx\n"
+    "Remove a layer from the material")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delLayer expects an int");
@@ -54,12 +60,17 @@ static PyObject* pyGMaterial_delLayer(pyGMaterial* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGMaterial_clearPBs(pyGMaterial* self) {
+PY_METHOD_NOARGS(GMaterial, clearPiggyBacks,
+    "Remove all piggy back keys from the material")
+{
     self->fThis->clearPiggyBacks();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGMaterial_addPB(pyGMaterial* self, PyObject* args) {
+PY_METHOD_VA(GMaterial, addPiggyBack,
+    "Params: key\n"
+    "Add a piggy back to the material")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addPiggyBack expects a plKey");
@@ -73,7 +84,10 @@ static PyObject* pyGMaterial_addPB(pyGMaterial* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGMaterial_delPB(pyGMaterial* self, PyObject* args) {
+PY_METHOD_VA(GMaterial, delPiggyBack,
+    "Params: idx\n"
+    "Remove a piggy back from the material")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delPiggyBack expects an int");
@@ -108,23 +122,13 @@ static int pyGMaterial_setPBs(pyGMaterial* self, PyObject* value, void*) {
 }
 
 static PyMethodDef pyGMaterial_Methods[] = {
-    { "clearLayers", (PyCFunction)pyGMaterial_clearLayers, METH_NOARGS,
-      "Remove all layer keys from the material" },
-    { "addLayer", (PyCFunction)pyGMaterial_addLayer, METH_VARARGS,
-      "Params: key\n"
-      "Add a layer to the material" },
-    { "delLayer", (PyCFunction)pyGMaterial_delLayer, METH_VARARGS,
-      "Params: idx\n"
-      "Remove a layer from the material" },
-    { "clearPiggyBacks", (PyCFunction)pyGMaterial_clearPBs, METH_NOARGS,
-      "Remove all piggy back keys from the material" },
-    { "addPiggyBack", (PyCFunction)pyGMaterial_addPB, METH_VARARGS,
-      "Params: key\n"
-      "Add a piggy back to the material" },
-    { "delPiggyBack", (PyCFunction)pyGMaterial_delPB, METH_VARARGS,
-      "Params: idx\n"
-      "Remove a piggy back from the material" },
-    { NULL, NULL, 0, NULL }
+    pyGMaterial_clearLayers_method,
+    pyGMaterial_addLayer_method,
+    pyGMaterial_delLayer_method,
+    pyGMaterial_clearPiggyBacks_method,
+    pyGMaterial_addPiggyBack_method,
+    pyGMaterial_delPiggyBack_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(unsigned int, GMaterial, compFlags, getCompFlags, setCompFlags)

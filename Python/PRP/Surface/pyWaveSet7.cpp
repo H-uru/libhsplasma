@@ -24,7 +24,10 @@ extern "C" {
 
 PY_PLASMA_NEW(WaveSet7, plWaveSet7)
 
-static PyObject* pyWaveSet7_addShore(pyWaveSet7* self, PyObject* args) {
+PY_METHOD_VA(WaveSet7, addShore,
+    "Params: key\n"
+    "Add a shore")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key) || !pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addShore expects a plKey");
@@ -34,12 +37,15 @@ static PyObject* pyWaveSet7_addShore(pyWaveSet7* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyWaveSet7_clearShores(pyWaveSet7* self) {
+PY_METHOD_NOARGS(WaveSet7, clearShores, "Remove all shores") {
     self->fThis->clearShores();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyWaveSet7_delShore(pyWaveSet7* self, PyObject* args) {
+PY_METHOD_VA(WaveSet7, delShore,
+    "Params: idx\n"
+    "Remove a shore")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delShore expects an int");
@@ -53,7 +59,10 @@ static PyObject* pyWaveSet7_delShore(pyWaveSet7* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyWaveSet7_addDecal(pyWaveSet7* self, PyObject* args) {
+PY_METHOD_VA(WaveSet7, addDecal,
+    "Params: key\n"
+    "Add a decal")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key) || !pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addDecal expects a plKey");
@@ -63,12 +72,15 @@ static PyObject* pyWaveSet7_addDecal(pyWaveSet7* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyWaveSet7_clearDecals(pyWaveSet7* self) {
+PY_METHOD_NOARGS(WaveSet7, clearDecals, "Remove all decals") {
     self->fThis->clearDecals();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyWaveSet7_delDecal(pyWaveSet7* self, PyObject* args) {
+PY_METHOD_VA(WaveSet7, delDecal,
+    "Params: idx\n"
+    "Remove a decal")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delDecal expects an int");
@@ -83,23 +95,13 @@ static PyObject* pyWaveSet7_delDecal(pyWaveSet7* self, PyObject* args) {
 }
 
 static PyMethodDef pyWaveSet7_Methods[] = {
-    { "addShore", (PyCFunction)pyWaveSet7_addShore, METH_VARARGS,
-      "Params: key\n"
-      "Add a shore" },
-    { "clearShores", (PyCFunction)pyWaveSet7_clearShores, METH_NOARGS,
-      "Remove all shores" },
-    { "delShore", (PyCFunction)pyWaveSet7_delShore, METH_VARARGS,
-      "Params: idx\n"
-      "Remove a shore" },
-    { "addDecal", (PyCFunction)pyWaveSet7_addDecal, METH_VARARGS,
-      "Params: key\n"
-      "Add a decal" },
-    { "clearDecals", (PyCFunction)pyWaveSet7_clearDecals, METH_NOARGS,
-      "Remove all decals" },
-    { "delDecal", (PyCFunction)pyWaveSet7_delDecal, METH_VARARGS,
-      "Params: idx\n"
-      "Remove a decal" },
-    { NULL, NULL, 0, NULL }
+    pyWaveSet7_addShore_method,
+    pyWaveSet7_clearShores_method,
+    pyWaveSet7_delShore_method,
+    pyWaveSet7_addDecal_method,
+    pyWaveSet7_clearDecals_method,
+    pyWaveSet7_delDecal_method,
+    PY_METHOD_TERMINATOR
 };
 
 static PyObject* pyWaveSet7_getShores(pyWaveSet7* self, void*) {

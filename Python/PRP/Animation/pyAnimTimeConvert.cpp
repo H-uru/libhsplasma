@@ -25,7 +25,10 @@ extern "C" {
 
 PY_PLASMA_NEW(AnimTimeConvert, plAnimTimeConvert)
 
-static PyObject* pyAnimTimeConvert_addCallback(pyAnimTimeConvert* self, PyObject* args) {
+PY_METHOD_VA(AnimTimeConvert, addCallback,
+    "Params: callback\n"
+    "Add a callback message to the object")
+{
     pyEventCallbackMsg* msg;
     if (!PyArg_ParseTuple(args, "O", &msg)) {
         PyErr_SetString(PyExc_TypeError, "addCallback expects a plEventCallbackMsg");
@@ -40,7 +43,10 @@ static PyObject* pyAnimTimeConvert_addCallback(pyAnimTimeConvert* self, PyObject
     Py_RETURN_NONE;
 }
 
-static PyObject* pyAnimTimeConvert_delCallback(pyAnimTimeConvert* self, PyObject* args) {
+PY_METHOD_VA(AnimTimeConvert, delCallback,
+    "Params: idx\n"
+    "Delete a callback message from the object")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delCallback expects an int");
@@ -50,7 +56,7 @@ static PyObject* pyAnimTimeConvert_delCallback(pyAnimTimeConvert* self, PyObject
     Py_RETURN_NONE;
 }
 
-static PyObject* pyAnimTimeConvert_clearCallbacks(pyAnimTimeConvert* self) {
+PY_METHOD_NOARGS(AnimTimeConvert, clearCallbacks, "Delete all callbacks from the object") {
     self->fThis->clearCallbacks();
     Py_RETURN_NONE;
 }
@@ -98,15 +104,10 @@ static int pyAnimTimeConvert_setCallbacks(pyAnimTimeConvert* self, PyObject* val
 }
 
 static PyMethodDef pyAnimTimeConvert_Methods[] = {
-    { "addCallback", (PyCFunction)pyAnimTimeConvert_addCallback, METH_VARARGS,
-      "Params: callback\n"
-      "Add a callback message to the object" },
-    { "delCallback", (PyCFunction)pyAnimTimeConvert_delCallback, METH_VARARGS,
-      "Params: idx\n"
-      "Delete a callback message from the object" },
-    { "clearCallbacks", (PyCFunction)pyAnimTimeConvert_clearCallbacks, METH_NOARGS,
-      "Delete all callbacks from the object" },
-    { NULL, NULL, 0, NULL }
+    pyAnimTimeConvert_addCallback_method,
+    pyAnimTimeConvert_delCallback_method,
+    pyAnimTimeConvert_clearCallbacks_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(unsigned int, AnimTimeConvert, flags, getFlags, setFlags)

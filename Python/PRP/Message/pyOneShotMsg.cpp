@@ -23,12 +23,15 @@ extern "C" {
 
 PY_PLASMA_NEW(OneShotMsg, plOneShotMsg)
 
-static PyObject* pyOneShotMsg_clearCallbacks(pyOneShotMsg* self) {
+PY_METHOD_NOARGS(OneShotMsg, clearCallbacks, "Remove all callbacks") {
     self->fThis->getCallbacks().clearCallbacks();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyOneShotMsg_addCallback(pyOneShotMsg* self, PyObject* args) {
+PY_METHOD_VA(OneShotMsg, addCallback,
+    "Params: marker, receiver, user\n"
+    "Add a callback")
+{
     char* marker;
     PyObject* key;
     short user;
@@ -36,11 +39,14 @@ static PyObject* pyOneShotMsg_addCallback(pyOneShotMsg* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "addCallback expects string, plKey, int");
         return NULL;
     }
-    self->fThis->getCallbacks().addCallback(marker, *((pyKey*)key)->fThis, user);
+    self->fThis->getCallbacks().addCallback(marker, pyPlasma_get<plKey>(key), user);
     Py_RETURN_NONE;
 }
 
-static PyObject* pyOneShotMsg_delCallback(pyOneShotMsg* self, PyObject* args) {
+PY_METHOD_VA(OneShotMsg, delCallback,
+    "Params: idx\n"
+    "Remove a callback")
+{
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delCallback expects an int");
@@ -56,15 +62,10 @@ static PyObject* pyOneShotMsg_delCallback(pyOneShotMsg* self, PyObject* args) {
 }
 
 static PyMethodDef pyOneShotMsg_Methods[] = {
-    { "clearCallbacks", (PyCFunction)pyOneShotMsg_clearCallbacks, METH_NOARGS,
-      "Remove all callbacks" },
-    { "addCallback", (PyCFunction)pyOneShotMsg_addCallback, METH_VARARGS,
-      "Params: marker, receiver, user\n"
-      "Add a callback" },
-    { "delCallback", (PyCFunction)pyOneShotMsg_delCallback, METH_VARARGS,
-      "Params: idx\n"
-      "Remove a callback" },
-    { NULL, NULL, 0, NULL }
+    pyOneShotMsg_clearCallbacks_method,
+    pyOneShotMsg_addCallback_method,
+    pyOneShotMsg_delCallback_method,
+    PY_METHOD_TERMINATOR
 };
 
 static PyObject* pyOneShotMsg_getCallbacks(pyOneShotMsg* self, void*) {

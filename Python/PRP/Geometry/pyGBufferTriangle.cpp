@@ -26,7 +26,10 @@ PY_PLASMA_VALUE_DEALLOC(GBufferTriangle)
 PY_PLASMA_EMPTY_INIT(GBufferTriangle)
 PY_PLASMA_VALUE_NEW(GBufferTriangle, plGBufferTriangle)
 
-static PyObject* pyGBufferTriangle_read(pyGBufferTriangle* self, PyObject* args) {
+PY_METHOD_VA(GBufferTriangle, read,
+    "Params: stream\n"
+    "Reads the triangle from a stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects an hsStream");
@@ -40,7 +43,10 @@ static PyObject* pyGBufferTriangle_read(pyGBufferTriangle* self, PyObject* args)
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGBufferTriangle_write(pyGBufferTriangle* self, PyObject* args) {
+PY_METHOD_VA(GBufferTriangle, write,
+    "Params: stream\n"
+    "Writes the triangle to a stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
@@ -55,13 +61,9 @@ static PyObject* pyGBufferTriangle_write(pyGBufferTriangle* self, PyObject* args
 }
 
 static PyMethodDef pyGBufferTriangle_Methods[] = {
-    { "read", (PyCFunction)pyGBufferTriangle_read, METH_VARARGS,
-      "Params: stream\n"
-      "Reads the triangle from a stream" },
-    { "write", (PyCFunction)pyGBufferTriangle_write, METH_VARARGS,
-      "Params: stream\n"
-      "Writes the triangle to a stream" },
-    { NULL, NULL, 0, NULL }
+    pyGBufferTriangle_read_method,
+    pyGBufferTriangle_write_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY_MEMBER(unsigned short, GBufferTriangle, index1, fIndex1)

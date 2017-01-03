@@ -44,22 +44,6 @@ PY_PLASMA_INIT_DECL(Matrix44) {
 
 PY_PLASMA_VALUE_NEW(Matrix44, hsMatrix44)
 
-static PyObject* pyMatrix44_multiply(PyObject* left, PyObject* right) {
-    if (pyMatrix44_Check(left)) {
-        if (pyMatrix44_Check(right)) {
-            return pyPlasma_convert(*((pyMatrix44*)left)->fThis * *((pyMatrix44*)right)->fThis);
-        } else {
-            PyErr_SetString(PyExc_TypeError, "Multiplication operand is not another matrix");
-            return NULL;
-        }
-    } else if (pyMatrix44_Check(right)) {
-        PyErr_SetString(PyExc_TypeError, "Multiplication operand is not another matrix");
-        return NULL;
-    }
-    // This should not happen...
-    return NULL;
-}
-
 static PyObject* pyMatrix44_Subscript(pyMatrix44* self, PyObject* key) {
     int i, j;
     if (!PyArg_ParseTuple(key, "ii", &i, &j)) {
@@ -82,6 +66,12 @@ static int pyMatrix44_AssSubscript(pyMatrix44* self, PyObject* key, PyObject* va
     (*self->fThis)(i, j) = PyFloat_AsDouble(value);
     return 0;
 }
+
+static PyMappingMethods pyMatrix44_As_Mapping = {
+    NULL,                                   /* mp_length */
+    (binaryfunc)pyMatrix44_Subscript,       /* mp_subscript */
+    (objobjargproc)pyMatrix44_AssSubscript  /* mp_ass_subscript */
+};
 
 PY_GETSET_GETTER_DECL(Matrix44, mat) {
     PyObject* t1 = PyTuple_New(4);
@@ -139,11 +129,20 @@ PY_GETSET_GETTER_DECL(Matrix44, glMat) {
 
 PY_PROPERTY_GETSET_RO_DECL(Matrix44, glMat)
 
-static PyObject* pyMatrix44_Identity(PyObject*) {
+PyGetSetDef pyMatrix44_GetSet[] = {
+    pyMatrix44_mat_getset,
+    pyMatrix44_glMat_getset,
+    PY_GETSET_TERMINATOR
+};
+
+PY_METHOD_STATIC_NOARGS(Matrix44, Identity, "Creates an identity matrix") {
     return pyPlasma_convert(hsMatrix44::Identity());
 }
 
-static PyObject* pyMatrix44_TranslateMat(PyObject*, PyObject* args) {
+PY_METHOD_STATIC_VA(Matrix44, TranslateMat,
+    "Params: vector\n"
+    "Creates a translation matrix")
+{
     pyVector3* vec;
     if (!PyArg_ParseTuple(args, "O", &vec)) {
         PyErr_SetString(PyExc_TypeError, "TranslateMat expects an hsVector3");
@@ -156,7 +155,10 @@ static PyObject* pyMatrix44_TranslateMat(PyObject*, PyObject* args) {
     return pyPlasma_convert(hsMatrix44::TranslateMat(*vec->fThis));
 }
 
-static PyObject* pyMatrix44_RotateMat(PyObject*, PyObject* args) {
+PY_METHOD_STATIC_VA(Matrix44, RotateMat,
+    "Params: axis, angle\n"
+    "Creates a rotation matrix")
+{
     int axis;
     float angle;
     if (!PyArg_ParseTuple(args, "if", &axis, &angle)) {
@@ -166,7 +168,10 @@ static PyObject* pyMatrix44_RotateMat(PyObject*, PyObject* args) {
     return pyPlasma_convert(hsMatrix44::RotateMat(axis, angle));
 }
 
-static PyObject* pyMatrix44_ScaleMat(PyObject*, PyObject* args) {
+PY_METHOD_STATIC_VA(Matrix44, ScaleMat,
+    "Params: vector\n"
+    "Creates a scaling matrix")
+{
     pyVector3* vec;
     if (!PyArg_ParseTuple(args, "O", &vec)) {
         PyErr_SetString(PyExc_TypeError, "ScaleMat expects an hsVector3");
@@ -179,15 +184,20 @@ static PyObject* pyMatrix44_ScaleMat(PyObject*, PyObject* args) {
     return pyPlasma_convert(hsMatrix44::ScaleMat(*vec->fThis));
 }
 
-static PyObject* pyMatrix44_inverse(pyMatrix44* self) {
+PY_METHOD_NOARGS(Matrix44, inverse, "Returns the inverse of the matrix") {
     return pyPlasma_convert(self->fThis->inverse());
 }
 
-static PyObject* pyMatrix44_isIdentity(pyMatrix44* self) {
+PY_METHOD_NOARGS(Matrix44, isIdentity,
+    "Returns True if the matrix is the identity matrix")
+{
     return pyPlasma_convert(self->fThis->IsIdentity());
 }
 
-static PyObject* pyMatrix44_translate(pyMatrix44* self, PyObject* args) {
+PY_METHOD_VA(Matrix44, translate,
+    "Params: vector\n"
+    "Translate the matrix by the specified vector")
+{
     pyVector3* vec;
     if (!PyArg_ParseTuple(args, "O", &vec)) {
         PyErr_SetString(PyExc_TypeError, "translate expects an hsVector3");
@@ -201,7 +211,10 @@ static PyObject* pyMatrix44_translate(pyMatrix44* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyMatrix44_rotate(pyMatrix44* self, PyObject* args) {
+PY_METHOD_VA(Matrix44, rotate,
+    "Params: axis, angle\n"
+    "Rotate the matrix around the specified axis by angle radians")
+{
     int axis;
     float angle;
     if (!PyArg_ParseTuple(args, "if", &axis, &angle)) {
@@ -212,7 +225,10 @@ static PyObject* pyMatrix44_rotate(pyMatrix44* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyMatrix44_scale(pyMatrix44* self, PyObject* args) {
+PY_METHOD_VA(Matrix44, scale,
+    "Params: vector\n"
+    "Scale the matrix by the specified vector")
+{
     pyVector3* vec;
     if (!PyArg_ParseTuple(args, "O", &vec)) {
         PyErr_SetString(PyExc_TypeError, "scale expects an hsVector3");
@@ -226,7 +242,10 @@ static PyObject* pyMatrix44_scale(pyMatrix44* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyMatrix44_setTranslate(pyMatrix44* self, PyObject* args) {
+PY_METHOD_VA(Matrix44, setTranslate,
+    "Params: vector\n"
+    "Set the absolute translation")
+{
     pyVector3* vec;
     if (!PyArg_ParseTuple(args, "O", &vec)) {
         PyErr_SetString(PyExc_TypeError, "setTranslate expects an hsVector3");
@@ -240,7 +259,10 @@ static PyObject* pyMatrix44_setTranslate(pyMatrix44* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyMatrix44_setRotate(pyMatrix44* self, PyObject* args) {
+PY_METHOD_VA(Matrix44, setRotate,
+    "Params: axis, angle\n"
+    "Set the absolute rotation to be along `axis` at `angle` radians")
+{
     int axis;
     float angle;
     if (!PyArg_ParseTuple(args, "if", &axis, &angle)) {
@@ -251,7 +273,10 @@ static PyObject* pyMatrix44_setRotate(pyMatrix44* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyMatrix44_setScale(pyMatrix44* self, PyObject* args) {
+PY_METHOD_VA(Matrix44, setScale,
+    "Params: vector\n"
+    "Set the absolute scale")
+{
     pyVector3* vec;
     if (!PyArg_ParseTuple(args, "O", &vec)) {
         PyErr_SetString(PyExc_TypeError, "setScale expects an hsVector3");
@@ -265,7 +290,10 @@ static PyObject* pyMatrix44_setScale(pyMatrix44* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyMatrix44_multPoint(pyMatrix44* self, PyObject* args) {
+PY_METHOD_VA(Matrix44, multPoint,
+    "Params: vector\n"
+    "Multiply a point by the matrix and add displacement")
+{
     pyVector3* vec;
     if (!PyArg_ParseTuple(args, "O", &vec)) {
         PyErr_SetString(PyExc_TypeError, "multPoint expects an hsVector3");
@@ -279,7 +307,10 @@ static PyObject* pyMatrix44_multPoint(pyMatrix44* self, PyObject* args) {
     return pyPlasma_convert(result);
 }
 
-static PyObject* pyMatrix44_multVector(pyMatrix44* self, PyObject* args) {
+PY_METHOD_VA(Matrix44, multVector,
+    "Params: vector\n"
+    "Multiply a vector by the matrix and do not add displacement")
+{
     pyVector3* vec;
     if (!PyArg_ParseTuple(args, "O", &vec)) {
         PyErr_SetString(PyExc_TypeError, "multVector expects an hsVector3");
@@ -293,7 +324,10 @@ static PyObject* pyMatrix44_multVector(pyMatrix44* self, PyObject* args) {
     return pyPlasma_convert(result);
 }
 
-static PyObject* pyMatrix44_read(pyMatrix44* self, PyObject* args) {
+PY_METHOD_VA(Matrix44, read,
+    "Params: stream\n"
+    "Reads this matrix from `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
@@ -307,7 +341,10 @@ static PyObject* pyMatrix44_read(pyMatrix44* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyMatrix44_write(pyMatrix44* self, PyObject* args) {
+PY_METHOD_VA(Matrix44, write,
+    "Params: stream\n"
+    "Writes this matrix to `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
@@ -319,6 +356,42 @@ static PyObject* pyMatrix44_write(pyMatrix44* self, PyObject* args) {
     }
     self->fThis->write(stream->fThis);
     Py_RETURN_NONE;
+}
+
+PyMethodDef pyMatrix44_Methods[] = {
+    pyMatrix44_Identity_method,
+    pyMatrix44_TranslateMat_method,
+    pyMatrix44_RotateMat_method,
+    pyMatrix44_ScaleMat_method,
+    pyMatrix44_inverse_method,
+    pyMatrix44_isIdentity_method,
+    pyMatrix44_translate_method,
+    pyMatrix44_rotate_method,
+    pyMatrix44_scale_method,
+    pyMatrix44_setTranslate_method,
+    pyMatrix44_setRotate_method,
+    pyMatrix44_setScale_method,
+    pyMatrix44_multPoint_method,
+    pyMatrix44_multVector_method,
+    pyMatrix44_read_method,
+    pyMatrix44_write_method,
+    PY_METHOD_TERMINATOR
+};
+
+static PyObject* pyMatrix44_multiply(PyObject* left, PyObject* right) {
+    if (pyMatrix44_Check(left)) {
+        if (pyMatrix44_Check(right)) {
+            return pyPlasma_convert(*((pyMatrix44*)left)->fThis * *((pyMatrix44*)right)->fThis);
+        } else {
+            PyErr_SetString(PyExc_TypeError, "Multiplication operand is not another matrix");
+            return NULL;
+        }
+    } else if (pyMatrix44_Check(right)) {
+        PyErr_SetString(PyExc_TypeError, "Multiplication operand is not another matrix");
+        return NULL;
+    }
+    // This should not happen...
+    return NULL;
 }
 
 PyNumberMethods pyMatrix44_As_Number = {
@@ -375,67 +448,6 @@ PyNumberMethods pyMatrix44_As_Number = {
     NULL,                               /* nb_matrix_multiply */
     NULL,                               /* nb_inplace_matrix_multiply */
 #endif
-};
-
-static PyMappingMethods pyMatrix44_As_Mapping = {
-    NULL,                                   /* mp_length */
-    (binaryfunc)pyMatrix44_Subscript,       /* mp_subscript */
-    (objobjargproc)pyMatrix44_AssSubscript  /* mp_ass_subscript */
-};
-
-PyGetSetDef pyMatrix44_GetSet[] = {
-    pyMatrix44_mat_getset,
-    pyMatrix44_glMat_getset,
-    PY_GETSET_TERMINATOR
-};
-
-PyMethodDef pyMatrix44_Methods[] = {
-    { "Identity", (PyCFunction)pyMatrix44_Identity, METH_NOARGS | METH_STATIC,
-      "Creates an identity matrix" },
-    { "TranslateMat", (PyCFunction)pyMatrix44_TranslateMat, METH_VARARGS | METH_STATIC,
-      "Params: vector\n"
-      "Creates a translation matrix" },
-    { "RotateMat", (PyCFunction)pyMatrix44_RotateMat, METH_VARARGS | METH_STATIC,
-      "Params: axis, angle\n"
-      "Creates a rotation matrix" },
-    { "ScaleMat", (PyCFunction)pyMatrix44_ScaleMat, METH_VARARGS | METH_STATIC,
-      "Params: vector\n"
-      "Creates a scaling matrix" },
-    { "inverse", (PyCFunction)pyMatrix44_inverse, METH_NOARGS,
-      "Returns the inverse of the matrix" },
-    { "isIdentity", (PyCFunction)pyMatrix44_isIdentity, METH_NOARGS,
-      "Returns True if the matrix is the identity matrix" },
-    { "translate", (PyCFunction)pyMatrix44_translate, METH_VARARGS,
-      "Params: vector\n"
-      "Translate the matrix by the specified vector" },
-    { "rotate", (PyCFunction)pyMatrix44_rotate, METH_VARARGS,
-      "Params: axis, angle\n"
-      "Rotate the matrix around the specified axis by angle radians" },
-    { "scale", (PyCFunction)pyMatrix44_scale, METH_VARARGS,
-      "Params: vector\n"
-      "Scale the matrix by the specified vector" },
-    { "setTranslate", (PyCFunction)pyMatrix44_setTranslate, METH_VARARGS,
-      "Params: vector\n"
-      "Set the absolute translation" },
-    { "setRotate", (PyCFunction)pyMatrix44_setRotate, METH_VARARGS,
-      "Params: axis, angle\n"
-      "Set the absolute rotation to be along `axis` at `angle` radians" },
-    { "setScale", (PyCFunction)pyMatrix44_setScale, METH_VARARGS,
-      "Params: vector\n"
-      "Set the absolute scale" },
-    { "multPoint", (PyCFunction)pyMatrix44_multPoint, METH_VARARGS,
-      "Params: vector\n"
-      "Multiply a point by the matrix and add displacement" },
-    { "multVector", (PyCFunction)pyMatrix44_multVector, METH_VARARGS,
-      "Params: vector\n"
-      "Multiply a vector by the matrix and do not add displacement" },
-    { "read", (PyCFunction)pyMatrix44_read, METH_VARARGS,
-      "Params: stream\n"
-      "Reads this matrix from `stream`" },
-    { "write", (PyCFunction)pyMatrix44_write, METH_VARARGS,
-      "Params: stream\n"
-      "Writes this matrix to `stream`" },
-    { NULL, NULL, 0, NULL }
 };
 
 PyTypeObject pyMatrix44_Type = {

@@ -55,7 +55,10 @@ static PyObject* pyColorRGBA_Repr(pyColorRGBA* self) {
     return PlStr_To_PyStr(repr);
 }
 
-static PyObject* pyColorRGBA_set(pyColorRGBA* self, PyObject* args, PyObject* kwds) {
+PY_METHOD_KWARGS(ColorRGBA, set,
+    "Params: red, green, blue, alpha (all optional)\n"
+    "Sets the color")
+{
     float red = 0.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f;
     static char* kwlist[] = { _pycs("red"), _pycs("green"), _pycs("blue"),
                               _pycs("alpha"), NULL };
@@ -70,7 +73,10 @@ static PyObject* pyColorRGBA_set(pyColorRGBA* self, PyObject* args, PyObject* kw
     Py_RETURN_NONE;
 }
 
-static PyObject* pyColorRGBA_setFrom(pyColorRGBA* self, PyObject* args) {
+PY_METHOD_VA(ColorRGBA, setFrom,
+    "Params: color\n"
+    "Sets the color")
+{
     pyColorRGBA* from;
     if (!PyArg_ParseTuple(args, "O", &from)) {
         PyErr_SetString(PyExc_TypeError, "setFrom expects an hsColorRGBA");
@@ -84,7 +90,10 @@ static PyObject* pyColorRGBA_setFrom(pyColorRGBA* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyColorRGBA_read(pyColorRGBA* self, PyObject* args) {
+PY_METHOD_VA(ColorRGBA, read,
+    "Params: stream\n"
+    "Reads this object from `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
@@ -98,7 +107,10 @@ static PyObject* pyColorRGBA_read(pyColorRGBA* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyColorRGBA_write(pyColorRGBA* self, PyObject* args) {
+PY_METHOD_VA(ColorRGBA, write,
+    "Params: stream\n"
+    "Writes this object to `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
@@ -112,7 +124,10 @@ static PyObject* pyColorRGBA_write(pyColorRGBA* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyColorRGBA_readRGB(pyColorRGBA* self, PyObject* args) {
+PY_METHOD_VA(ColorRGBA, readRGB,
+    "Params: stream\n"
+    "Same as read(), but does not read alpha")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "readRGB expects a hsStream");
@@ -126,7 +141,10 @@ static PyObject* pyColorRGBA_readRGB(pyColorRGBA* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyColorRGBA_writeRGB(pyColorRGBA* self, PyObject* args) {
+PY_METHOD_VA(ColorRGBA, writeRGB,
+    "Params: stream\n"
+    "Same as write(), but does not write alpha")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "writeRGB expects a hsStream");
@@ -141,25 +159,13 @@ static PyObject* pyColorRGBA_writeRGB(pyColorRGBA* self, PyObject* args) {
 }
 
 static PyMethodDef pyColorRGBA_Methods[] = {
-    { "set", (PyCFunction)pyColorRGBA_set, METH_VARARGS | METH_KEYWORDS,
-      "Params: red, green, blue, alpha (all optional)\n"
-      "Sets the color" },
-    { "setFrom", (PyCFunction)pyColorRGBA_setFrom, METH_VARARGS,
-      "Params: color\n"
-      "Sets the color" },
-    { "read", (PyCFunction)pyColorRGBA_read, METH_VARARGS,
-      "Params: stream\n"
-      "Reads this object from `stream`" },
-    { "write", (PyCFunction)pyColorRGBA_write, METH_VARARGS,
-      "Params: stream\n"
-      "Writes this object to `stream`" },
-    { "readRGB", (PyCFunction)pyColorRGBA_readRGB, METH_VARARGS,
-      "Params: stream\n"
-      "Same as read(), but does not read alpha" },
-    { "writeRGB", (PyCFunction)pyColorRGBA_writeRGB, METH_VARARGS,
-      "Params: stream\n"
-      "Same as write(), but does not write alpha" },
-    { NULL, NULL, 0, NULL }
+    pyColorRGBA_set_method,
+    pyColorRGBA_setFrom_method,
+    pyColorRGBA_read_method,
+    pyColorRGBA_write_method,
+    pyColorRGBA_readRGB_method,
+    pyColorRGBA_writeRGB_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY_MEMBER(float, ColorRGBA, red, r)

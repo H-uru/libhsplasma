@@ -25,12 +25,15 @@ extern "C" {
 
 PY_PLASMA_NEW(InterfaceInfoModifier, plInterfaceInfoModifier)
 
-static PyObject* pyInterfaceInfoModifier_clearKeys(pyInterfaceInfoModifier* self) {
+PY_METHOD_NOARGS(InterfaceInfoModifier, clearIntfKeys, "Remove all interface keys") {
     self->fThis->clearIntfKeys();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyInterfaceInfoModifier_addKey(pyInterfaceInfoModifier* self, PyObject* args) {
+PY_METHOD_VA(InterfaceInfoModifier, addIntfKey,
+    "Params: key\n"
+    "Add an interface key")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addIntfKey expects a plKey");
@@ -44,7 +47,10 @@ static PyObject* pyInterfaceInfoModifier_addKey(pyInterfaceInfoModifier* self, P
     Py_RETURN_NONE;
 }
 
-static PyObject* pyInterfaceInfoModifier_delKey(pyInterfaceInfoModifier* self, PyObject* args) {
+PY_METHOD_VA(InterfaceInfoModifier, delIntfKey,
+    "Params: idx\n"
+    "Remove an interface key" )
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delIntfKey expects an int");
@@ -67,15 +73,10 @@ static int pyInterfaceInfoModifier_setIntfKeys(pyInterfaceInfoModifier* self, Py
 }
 
 static PyMethodDef pyInterfaceInfoModifier_Methods[] = {
-    { "clearIntfKeys", (PyCFunction)pyInterfaceInfoModifier_clearKeys, METH_NOARGS,
-      "Remove all interface keys" },
-    { "addIntfKey", (PyCFunction)pyInterfaceInfoModifier_addKey, METH_VARARGS,
-      "Params: key\n"
-      "Add an interface key" },
-    { "delIntfKey", (PyCFunction)pyInterfaceInfoModifier_delKey, METH_NOARGS,
-      "Params: idx\n"
-      "Remove an interface key" },
-    { NULL, NULL, 0, NULL }
+    pyInterfaceInfoModifier_clearIntfKeys_method,
+    pyInterfaceInfoModifier_addIntfKey_method,
+    pyInterfaceInfoModifier_delIntfKey_method,
+    PY_METHOD_TERMINATOR
 };
 
 static PyGetSetDef pyInterfaceInfoModifier_GetSet[] = {

@@ -24,7 +24,10 @@ extern "C" {
 
 PY_PLASMA_NEW(ExcludeRegionModifier, plExcludeRegionModifier)
 
-static PyObject* pyExcludeRegionModifier_addSafePoint(pyExcludeRegionModifier* self, PyObject* args) {
+PY_METHOD_VA(ExcludeRegionModifier, addSafePoint,
+    "Params: key\n"
+    "Adds a safe point key")
+{
     PyObject* key;
     if (!(PyArg_ParseTuple(args, "O", &key) && pyKey_Check(key))) {
         PyErr_SetString(PyExc_TypeError, "addSafePoint expects a plKey");
@@ -34,12 +37,17 @@ static PyObject* pyExcludeRegionModifier_addSafePoint(pyExcludeRegionModifier* s
     Py_RETURN_NONE;
 }
 
-static PyObject* pyExcludeRegionModifier_clearSafePoints(pyExcludeRegionModifier* self) {
+PY_METHOD_NOARGS(ExcludeRegionModifier, clearSafePoints,
+    "Removes all safe point keys")
+{
     self->fThis->clearSafePoints();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyExcludeRegionModifier_delSafePoint(pyExcludeRegionModifier* self, PyObject* args) {
+PY_METHOD_VA(ExcludeRegionModifier, delSafePoint,
+    "Params: idx\n"
+    "Removes a safe point key")
+{
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delSafePoint expects an int");
@@ -54,15 +62,10 @@ static PyObject* pyExcludeRegionModifier_delSafePoint(pyExcludeRegionModifier* s
 }
 
 static PyMethodDef pyExcludeRegionModifier_Methods[] = {
-    { "addSafePoint", (PyCFunction)pyExcludeRegionModifier_addSafePoint, METH_VARARGS,
-      "Params: key\n"
-      "Adds a safe point key" },
-    { "clearSafePoints", (PyCFunction)pyExcludeRegionModifier_clearSafePoints, METH_NOARGS,
-      "Removes all safe point keys" },
-    { "delSafePoint", (PyCFunction)pyExcludeRegionModifier_delSafePoint, METH_VARARGS,
-      "Params: idx\n"
-      "Removes a safe point key" },
-    { NULL, NULL, 0, NULL }
+    pyExcludeRegionModifier_addSafePoint_method,
+    pyExcludeRegionModifier_clearSafePoints_method,
+    pyExcludeRegionModifier_delSafePoint_method,
+    PY_METHOD_TERMINATOR
 };
 
 static PyObject* pyExcludeRegionModifier_getSafePoints(pyExcludeRegionModifier* self, void*) {

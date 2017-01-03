@@ -25,12 +25,17 @@ extern "C" {
 
 PY_PLASMA_NEW(CoordinateInterface, plCoordinateInterface)
 
-static PyObject* pyCoordinateInterface_clearChildren(pyCoordinateInterface* self) {
+PY_METHOD_NOARGS(CoordinateInterface, clearChildren,
+    "Removes all children from the Coordinate Interface")
+{
     self->fThis->clearChildren();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyCoordinateInterface_addChild(pyCoordinateInterface* self, PyObject* args) {
+PY_METHOD_VA(CoordinateInterface, addChild,
+    "Params: key\n"
+    "Adds a child object to this Coordinate Interface")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addChild expects a plKey");
@@ -44,7 +49,10 @@ static PyObject* pyCoordinateInterface_addChild(pyCoordinateInterface* self, PyO
     Py_RETURN_NONE;
 }
 
-static PyObject* pyCoordinateInterface_delChild(pyCoordinateInterface* self, PyObject* args) {
+PY_METHOD_VA(CoordinateInterface, delChild,
+    "Params: idx\n"
+    "Removes a child object from this Coordinate Interface")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delChild expects an int");
@@ -67,15 +75,10 @@ static int pyCoordinateInterface_setChildren(pyCoordinateInterface* self, PyObje
 }
 
 PyMethodDef pyCoordinateInterface_Methods[] = {
-    { "clearChildren", (PyCFunction)pyCoordinateInterface_clearChildren, METH_NOARGS,
-      "Removes all children from the Coordinate Interface" },
-    { "addChild", (PyCFunction)pyCoordinateInterface_addChild, METH_VARARGS,
-      "Params: key\n"
-      "Adds a child object to this Coordinate Interface" },
-    { "delChild", (PyCFunction)pyCoordinateInterface_delChild, METH_VARARGS,
-      "Params: idx\n"
-      "Removes a child object from this Coordinate Interface" },
-    { NULL, NULL, 0, NULL }
+    pyCoordinateInterface_clearChildren_method,
+    pyCoordinateInterface_addChild_method,
+    pyCoordinateInterface_delChild_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(hsMatrix44, CoordinateInterface, localToWorld, getLocalToWorld, setLocalToWorld)

@@ -66,6 +66,12 @@ static int pyMatrix33_AssSubscript(pyMatrix33* self, PyObject* key, PyObject* va
     return 0;
 }
 
+static PyMappingMethods pyMatrix33_As_Mapping = {
+    NULL,                                   /* mp_length */
+    (binaryfunc)pyMatrix33_Subscript,       /* mp_subscript */
+    (objobjargproc)pyMatrix33_AssSubscript  /* mp_ass_subscript */
+};
+
 PY_GETSET_GETTER_DECL(Matrix33, mat) {
     PyObject* t1 = PyTuple_New(3);
     PyObject* t2 = PyTuple_New(3);
@@ -89,7 +95,15 @@ PY_GETSET_GETTER_DECL(Matrix33, mat) {
 
 PY_PROPERTY_GETSET_RO_DECL(Matrix33, mat)
 
-static PyObject* pyMatrix33_read(pyMatrix33* self, PyObject* args) {
+PyGetSetDef pyMatrix33_GetSet[] = {
+    pyMatrix33_mat_getset,
+    PY_GETSET_TERMINATOR
+};
+
+PY_METHOD_VA(Matrix33, read,
+    "Params: stream\n"
+    "Reads this matrix from `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
@@ -103,7 +117,10 @@ static PyObject* pyMatrix33_read(pyMatrix33* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyMatrix33_write(pyMatrix33* self, PyObject* args) {
+PY_METHOD_VA(Matrix33, write,
+    "Params: stream\n"
+    "Writes this matrix to `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
@@ -117,25 +134,10 @@ static PyObject* pyMatrix33_write(pyMatrix33* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyMappingMethods pyMatrix33_As_Mapping = {
-    NULL,                                   /* mp_length */
-    (binaryfunc)pyMatrix33_Subscript,       /* mp_subscript */
-    (objobjargproc)pyMatrix33_AssSubscript  /* mp_ass_subscript */
-};
-
-PyGetSetDef pyMatrix33_GetSet[] = {
-    pyMatrix33_mat_getset,
-    PY_GETSET_TERMINATOR
-};
-
 PyMethodDef pyMatrix33_Methods[] = {
-    { "read", (PyCFunction)pyMatrix33_read, METH_VARARGS,
-      "Params: stream\n"
-      "Reads this matrix from `stream`" },
-    { "write", (PyCFunction)pyMatrix33_write, METH_VARARGS,
-      "Params: stream\n"
-      "Writes this matrix to `stream`" },
-    { NULL, NULL, 0, NULL }
+    pyMatrix33_read_method,
+    pyMatrix33_write_method,
+    PY_METHOD_TERMINATOR
 };
 
 PyTypeObject pyMatrix33_Type = {

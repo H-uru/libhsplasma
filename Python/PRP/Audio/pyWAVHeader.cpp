@@ -24,7 +24,10 @@ extern "C" {
 PY_PLASMA_DEALLOC(WAVHeader)
 PY_PLASMA_NEW(WAVHeader, plWAVHeader)
 
-static PyObject* pyWAVHeader_read(pyWAVHeader* self, PyObject* args) {
+PY_METHOD_VA(WAVHeader, read,
+    "Params: stream\n"
+    "Reads this object from `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
@@ -38,7 +41,10 @@ static PyObject* pyWAVHeader_read(pyWAVHeader* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyWAVHeader_write(pyWAVHeader* self, PyObject* args) {
+PY_METHOD_VA(WAVHeader, write,
+    "Params: stream\n"
+    "Writes this object to `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
@@ -53,13 +59,9 @@ static PyObject* pyWAVHeader_write(pyWAVHeader* self, PyObject* args) {
 }
 
 static PyMethodDef pyWAVHeader_Methods[] = {
-    { "read", (PyCFunction)pyWAVHeader_read, METH_VARARGS,
-      "Params: stream\n"
-      "Reads this object from `stream`" },
-    { "write", (PyCFunction)pyWAVHeader_write, METH_VARARGS,
-      "Params: stream\n"
-      "Writes this object to `stream`" },
-    { NULL, NULL, 0, NULL }
+    pyWAVHeader_read_method,
+    pyWAVHeader_write_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(unsigned short, WAVHeader, formatTag, getFormatTag, setFormatTag)

@@ -25,12 +25,15 @@ extern "C" {
 
 PY_PLASMA_NEW(AGAnim, plAGAnim)
 
-static PyObject* pyAGAnim_clearApps(pyAGAnim* self) {
+PY_METHOD_NOARGS(AGAnim, clearApplicators, "Remove all plAGApplicators from the anim") {
     self->fThis->clearApplicators();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyAGAnim_addApplicator(pyAGAnim* self, PyObject* args) {
+PY_METHOD_VA(AGAnim, addApplicator,
+    "Params: applicator\n"
+    "Add a plAGApplicator to the anim")
+{
     pyAGApplicator* app;
     if (!PyArg_ParseTuple(args, "O", &app)) {
         PyErr_SetString(PyExc_TypeError, "addApplicator expects a plAGApplicator");
@@ -45,7 +48,10 @@ static PyObject* pyAGAnim_addApplicator(pyAGAnim* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyAGAnim_delApplicator(pyAGAnim* self, PyObject* args) {
+PY_METHOD_VA(AGAnim, delApplicator,
+    "Params: idx\n"
+    "Delete a plAGApplicator from the anim")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delApplicator expects an int");
@@ -69,15 +75,10 @@ static int pyAGAnim_setApps(pyAGAnim* self, PyObject* value, void*) {
 }
 
 static PyMethodDef pyAGAnim_Methods[] = {
-    { "clearApplicators", (PyCFunction)pyAGAnim_clearApps, METH_NOARGS,
-      "Remove all plAGApplicators from the anim" },
-    { "addApplicator", (PyCFunction)pyAGAnim_addApplicator, METH_VARARGS,
-      "Params: applicator\n"
-      "Add a plAGApplicator to the anim" },
-    { "delApplicator", (PyCFunction)pyAGAnim_delApplicator, METH_VARARGS,
-      "Params: idx\n"
-      "Delete a plAGApplicator from the anim" },
-    { NULL, NULL, 0, NULL }
+    pyAGAnim_clearApplicators_method,
+    pyAGAnim_addApplicator_method,
+    pyAGAnim_delApplicator_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(float, AGAnim, blend, getBlend, setBlend)

@@ -24,7 +24,10 @@ extern "C" {
 
 PY_PLASMA_NEW_MSG(Bitmap, "plBitmap is abstract")
 
-static PyObject* pyBitmap_setConfig(pyBitmap* self, PyObject* args) {
+PY_METHOD_VA(Bitmap, setConfig,
+    "Params: format\n"
+    "Set the config format of the image data")
+{
     int format;
     if (!PyArg_ParseTuple(args, "i", &format)) {
         PyErr_SetString(PyExc_TypeError, "setConfig expects an int");
@@ -35,10 +38,8 @@ static PyObject* pyBitmap_setConfig(pyBitmap* self, PyObject* args) {
 }
 
 static PyMethodDef pyBitmap_Methods[] = {
-    { "setConfig", (PyCFunction)pyBitmap_setConfig, METH_VARARGS,
-      "Params: format\n"
-      "Set the config format of the image data" },
-    { NULL, NULL, 0, NULL }
+    pyBitmap_setConfig_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(unsigned char, Bitmap, BPP, getBPP, setBPP)

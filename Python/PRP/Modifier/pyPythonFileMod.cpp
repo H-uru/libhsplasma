@@ -25,17 +25,24 @@ extern "C" {
 
 PY_PLASMA_NEW(PythonFileMod, plPythonFileMod)
 
-static PyObject* pyPythonFileMod_clearReceivers(pyPythonFileMod* self) {
+PY_METHOD_NOARGS(PythonFileMod, clearReceivers,
+    "Remove all receivers from the Python File Mod")
+{
     self->fThis->clearReceivers();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyPythonFileMod_clearParameters(pyPythonFileMod* self) {
+PY_METHOD_NOARGS(PythonFileMod, clearParameters,
+    "Remove all parameters from the Python File Mod")
+{
     self->fThis->clearParameters();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyPythonFileMod_addReceiver(pyPythonFileMod* self, PyObject* args) {
+PY_METHOD_VA(PythonFileMod, addReceiver,
+    "Params: key\n"
+    "Add a receiver to the Python File Mod")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addReceiver expects a plKey");
@@ -49,7 +56,10 @@ static PyObject* pyPythonFileMod_addReceiver(pyPythonFileMod* self, PyObject* ar
     Py_RETURN_NONE;
 }
 
-static PyObject* pyPythonFileMod_addParameter(pyPythonFileMod* self, PyObject* args) {
+PY_METHOD_VA(PythonFileMod, addParameter,
+    "Params: parameter\n"
+    "Add a parameter to the Python File Mod")
+{
     pyPythonParameter* param;
     if (!PyArg_ParseTuple(args, "O", &param)) {
         PyErr_SetString(PyExc_TypeError, "addParameter expects a plPythonParameter");
@@ -88,17 +98,11 @@ static int pyPythonFileMod_setParameters(pyPythonFileMod* self, PyObject* value,
 }
 
 static PyMethodDef pyPythonFileMod_Methods[] = {
-    { "clearReceivers", (PyCFunction)pyPythonFileMod_clearReceivers, METH_NOARGS,
-      "Remove all receivers from the Python File Mod" },
-    { "clearParameters", (PyCFunction)pyPythonFileMod_clearParameters, METH_NOARGS,
-      "Remove all parameters from the Python File Mod" },
-    { "addReceiver", (PyCFunction)pyPythonFileMod_addReceiver, METH_VARARGS,
-      "Params: key\n"
-      "Add a receiver to the Python File Mod" },
-    { "addParameter", (PyCFunction)pyPythonFileMod_addParameter, METH_VARARGS,
-      "Params: parameter\n"
-      "Add a parameter to the Python File Mod" },
-    { NULL, NULL, 0, NULL }
+    pyPythonFileMod_clearReceivers_method,
+    pyPythonFileMod_clearParameters_method,
+    pyPythonFileMod_addReceiver_method,
+    pyPythonFileMod_addParameter_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(plString, PythonFileMod, filename, getFilename, setFilename)

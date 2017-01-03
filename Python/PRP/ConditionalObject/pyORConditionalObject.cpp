@@ -24,7 +24,10 @@ extern "C" {
 
 PY_PLASMA_NEW(ORConditionalObject, plORConditionalObject)
 
-static PyObject* pyORConditionalObject_addChild(pyORConditionalObject* self, PyObject* args) {
+PY_METHOD_VA(ORConditionalObject, addChild,
+    "Params: key\n"
+    "Adds a child condition key")
+{
     PyObject* key;
     if (!(PyArg_ParseTuple(args, "O", &key) && pyKey_Check(key))) {
         PyErr_SetString(PyExc_TypeError, "addChild expects a plKey");
@@ -34,12 +37,17 @@ static PyObject* pyORConditionalObject_addChild(pyORConditionalObject* self, PyO
     Py_RETURN_NONE;
 }
 
-static PyObject* pyORConditionalObject_clearChildren(pyORConditionalObject* self) {
+PY_METHOD_NOARGS(ORConditionalObject, clearChildren,
+    "Removes all children condition keys")
+{
     self->fThis->clearChildren();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyORConditionalObject_delChild(pyORConditionalObject* self, PyObject* args) {
+PY_METHOD_VA(ORConditionalObject, delChild,
+    "Params: idx\n"
+    "Removes a child condition key")
+{
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delChild expects an int");
@@ -50,15 +58,10 @@ static PyObject* pyORConditionalObject_delChild(pyORConditionalObject* self, PyO
 }
 
 static PyMethodDef pyORConditionalObject_Methods[] = {
-    { "addChild", (PyCFunction)pyORConditionalObject_addChild, METH_VARARGS,
-      "Params: key\n"
-      "Adds a child condition key" },
-    { "clearChildren", (PyCFunction)pyORConditionalObject_clearChildren, METH_NOARGS,
-      "Removes all children condition keys" },
-    { "delChild", (PyCFunction)pyORConditionalObject_delChild, METH_VARARGS,
-      "Params: idx\n"
-      "Removes a child condition key" },
-    { NULL, NULL, 0, NULL }
+    pyORConditionalObject_addChild_method,
+    pyORConditionalObject_clearChildren_method,
+    pyORConditionalObject_delChild_method,
+    PY_METHOD_TERMINATOR
 };
 
 static PyObject* pyORConditionalObject_getORs(pyORConditionalObject* self, void*) {

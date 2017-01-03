@@ -27,7 +27,10 @@ extern "C" {
 
 PY_PLASMA_NEW(ClusterGroup, plClusterGroup)
 
-static PyObject* pyClusterGroup_addCluster(pyClusterGroup* self, PyObject* args) {
+PY_METHOD_VA(ClusterGroup, addCluster,
+    "Params: region\n"
+    "Add a plCluster object to the group")
+{
     pyCluster* cluster;
     if (!PyArg_ParseTuple(args, "O", &cluster)) {
         PyErr_SetString(PyExc_TypeError, "addCluster expects a plCluster");
@@ -42,7 +45,10 @@ static PyObject* pyClusterGroup_addCluster(pyClusterGroup* self, PyObject* args)
     Py_RETURN_NONE;
 }
 
-static PyObject* pyClusterGroup_delCluster(pyClusterGroup* self, PyObject* args) {
+PY_METHOD_VA(ClusterGroup, delCluster,
+    "Params: idx\n"
+    "Remove a plCluster object from the group")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delCluster expects an int");
@@ -52,12 +58,15 @@ static PyObject* pyClusterGroup_delCluster(pyClusterGroup* self, PyObject* args)
     Py_RETURN_NONE;
 }
 
-static PyObject* pyClusterGroup_clearClusters(pyClusterGroup* self) {
+PY_METHOD_NOARGS(ClusterGroup, clearClusters, "Remove all clusters from the group") {
     self->fThis->clearClusters();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyClusterGroup_addRegion(pyClusterGroup* self, PyObject* args) {
+PY_METHOD_VA(ClusterGroup, addRegion,
+    "Params: key\n"
+    "Add a region reference to the group")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addRegion expects a plKey");
@@ -71,7 +80,10 @@ static PyObject* pyClusterGroup_addRegion(pyClusterGroup* self, PyObject* args) 
     Py_RETURN_NONE;
 }
 
-static PyObject* pyClusterGroup_delRegion(pyClusterGroup* self, PyObject* args) {
+PY_METHOD_VA(ClusterGroup, delRegion,
+    "Params: idx\n"
+    "Remove a region reference from the group")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delRegion expects an int");
@@ -81,12 +93,15 @@ static PyObject* pyClusterGroup_delRegion(pyClusterGroup* self, PyObject* args) 
     Py_RETURN_NONE;
 }
 
-static PyObject* pyClusterGroup_clearRegions(pyClusterGroup* self) {
+PY_METHOD_NOARGS(ClusterGroup, clearRegions, "Remove all regions from the group") {
     self->fThis->clearRegions();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyClusterGroup_addLight(pyClusterGroup* self, PyObject* args) {
+PY_METHOD_VA(ClusterGroup, addLight,
+    "Params: key\n"
+    "Add a light reference to the group")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addLight expects a plKey");
@@ -100,7 +115,10 @@ static PyObject* pyClusterGroup_addLight(pyClusterGroup* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyClusterGroup_delLight(pyClusterGroup* self, PyObject* args) {
+PY_METHOD_VA(ClusterGroup, delLight,
+    "Params: idx\n"
+    "Remove a light reference from the group")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delLight expects an int");
@@ -110,7 +128,7 @@ static PyObject* pyClusterGroup_delLight(pyClusterGroup* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyClusterGroup_clearLights(pyClusterGroup* self) {
+PY_METHOD_NOARGS(ClusterGroup, clearLights, "Remove all lights from the group") {
     self->fThis->clearLights();
     Py_RETURN_NONE;
 }
@@ -152,31 +170,16 @@ static int pyClusterGroup_setLights(pyClusterGroup* self, PyObject* value, void*
 }
 
 static PyMethodDef pyClusterGroup_Methods[] = {
-    { "addCluster", (PyCFunction)pyClusterGroup_addCluster, METH_VARARGS,
-      "Params: region\n"
-      "Add a plCluster object to the group" },
-    { "delCluster", (PyCFunction)pyClusterGroup_delCluster, METH_VARARGS,
-      "Params: idx\n"
-      "Remove a plCluster object from the group" },
-    { "clearClusters", (PyCFunction)pyClusterGroup_clearClusters, METH_NOARGS,
-      "Remove all clusters from the group" },
-    { "addRegion", (PyCFunction)pyClusterGroup_addRegion, METH_VARARGS,
-      "Params: key\n"
-      "Add a region reference to the group" },
-    { "delRegion", (PyCFunction)pyClusterGroup_delRegion, METH_VARARGS,
-      "Params: idx\n"
-      "Remove a region reference from the group" },
-    { "clearRegions", (PyCFunction)pyClusterGroup_clearRegions, METH_NOARGS,
-      "Remove all regions from the group" },
-    { "addLight", (PyCFunction)pyClusterGroup_addLight, METH_VARARGS,
-      "Params: key\n"
-      "Add a light reference to the group" },
-    { "delLight", (PyCFunction)pyClusterGroup_delLight, METH_VARARGS,
-      "Params: idx\n"
-      "Remove a light reference from the group" },
-    { "clearLights", (PyCFunction)pyClusterGroup_clearLights, METH_NOARGS,
-      "Remove all lights from the group" },
-    { NULL, NULL, 0, NULL }
+    pyClusterGroup_addCluster_method,
+    pyClusterGroup_delCluster_method,
+    pyClusterGroup_clearClusters_method,
+    pyClusterGroup_addRegion_method,
+    pyClusterGroup_delRegion_method,
+    pyClusterGroup_clearRegions_method,
+    pyClusterGroup_addLight_method,
+    pyClusterGroup_delLight_method,
+    pyClusterGroup_clearLights_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY_PROXY_RO(plLODDist, ClusterGroup, LOD, getLOD)

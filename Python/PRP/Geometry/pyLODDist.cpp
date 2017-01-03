@@ -23,7 +23,10 @@ extern "C" {
 
 PY_PLASMA_NEW_MSG(LODDist, "Cannot create plLODDist objects from Python")
 
-static PyObject* pyLODDist_read(pyLODDist* self, PyObject* args) {
+PY_METHOD_VA(LODDist, read,
+    "Params: stream\n"
+    "Reads this object from the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
@@ -37,7 +40,10 @@ static PyObject* pyLODDist_read(pyLODDist* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyLODDist_write(pyLODDist* self, PyObject* args) {
+PY_METHOD_VA(LODDist, write,
+    "Params: stream\n"
+    "Writes this object to the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
@@ -52,13 +58,9 @@ static PyObject* pyLODDist_write(pyLODDist* self, PyObject* args) {
 }
 
 static PyMethodDef pyLODDist_Methods[] = {
-    { "read", (PyCFunction)pyLODDist_read, METH_VARARGS,
-      "Params: stream\n"
-      "Reads this object from the stream" },
-    { "write", (PyCFunction)pyLODDist_write, METH_VARARGS,
-      "Params: stream\n"
-      "Writes this object to the stream" },
-    { NULL, NULL, 0, NULL }
+    pyLODDist_read_method,
+    pyLODDist_write_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(float, LODDist, min, getMin, setMin)

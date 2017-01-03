@@ -24,7 +24,10 @@ extern "C" {
 PY_PLASMA_DEALLOC(KeyFrame)
 PY_PLASMA_NEW_MSG(KeyFrame, "hsKeyFrame is abstract")
 
-static PyObject* pyKeyFrame_read(pyKeyFrame* self, PyObject* args) {
+PY_METHOD_VA(KeyFrame, read,
+    "Params: stream, type\n"
+    "Reads this object from the stream")
+{
     pyStream* stream;
     int type;
     if (!PyArg_ParseTuple(args, "Oi", &stream, &type)) {
@@ -39,7 +42,10 @@ static PyObject* pyKeyFrame_read(pyKeyFrame* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyKeyFrame_write(pyKeyFrame* self, PyObject* args) {
+PY_METHOD_VA(KeyFrame, write,
+    "Params: stream\n"
+    "Writes this object to the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
@@ -54,13 +60,9 @@ static PyObject* pyKeyFrame_write(pyKeyFrame* self, PyObject* args) {
 }
 
 static PyMethodDef pyKeyFrame_Methods[] = {
-    { "read", (PyCFunction)pyKeyFrame_read, METH_VARARGS,
-      "Params: stream, type\n"
-      "Reads this object from the stream" },
-    { "write", (PyCFunction)pyKeyFrame_write, METH_VARARGS,
-      "Params: stream\n"
-      "Writes this object to the stream" },
-    { NULL, NULL, 0, NULL }
+    pyKeyFrame_read_method,
+    pyKeyFrame_write_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(unsigned int, KeyFrame, type, getType, setType)

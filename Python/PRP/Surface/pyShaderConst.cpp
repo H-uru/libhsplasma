@@ -79,7 +79,10 @@ static PyObject* pyShaderConst_Repr(pyShaderConst* self) {
     return pyPlasma_convert(repr);
 }
 
-static PyObject* pyShaderConst_read(pyShaderConst* self, PyObject* args) {
+PY_METHOD_VA(ShaderConst, read,
+    "Params: stream\n"
+    "Reads this object from `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
@@ -93,7 +96,10 @@ static PyObject* pyShaderConst_read(pyShaderConst* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyShaderConst_write(pyShaderConst* self, PyObject* args) {
+PY_METHOD_VA(ShaderConst, write,
+    "Params: stream\n"
+    "Writes this object to `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
@@ -127,13 +133,9 @@ static PyMappingMethods pyShaderConst_As_Mapping = {
 };
 
 static PyMethodDef pyShaderConst_Methods[] = {
-    { "read", (PyCFunction)pyShaderConst_read, METH_VARARGS,
-      "Params: stream\n"
-      "Reads this object from `stream`" },
-    { "write", (PyCFunction)pyShaderConst_write, METH_VARARGS,
-      "Params: stream\n"
-      "Writes this object to `stream`" },
-    { NULL, NULL, 0, NULL }
+    pyShaderConst_read_method,
+    pyShaderConst_write_method,
+    PY_METHOD_TERMINATOR
 };
 
 static PyGetSetDef pyShaderConst_GetSet[] = {

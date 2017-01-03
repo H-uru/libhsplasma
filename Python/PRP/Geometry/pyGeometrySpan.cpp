@@ -34,7 +34,10 @@ PY_PLASMA_NEW_DECL(GeometrySpan) {
     return (PyObject*)self;
 }
 
-static PyObject* pyGeometrySpan_addPermaLight(pyGeometrySpan* self, PyObject* args) {
+PY_METHOD_VA(GeometrySpan, addPermaLight,
+    "Params: light\n"
+    "Adds a permalight")
+{
     PyObject* light;
     if (!(PyArg_ParseTuple(args, "O", &light) && pyKey_Check(light))) {
         PyErr_SetString(PyExc_TypeError, "addPermaLight expects a plKey");
@@ -45,7 +48,10 @@ static PyObject* pyGeometrySpan_addPermaLight(pyGeometrySpan* self, PyObject* ar
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGeometrySpan_delPermaLight(pyGeometrySpan* self, PyObject* args) {
+PY_METHOD_VA(GeometrySpan, delPermaLight,
+    "Params: idx\n"
+    "Removes a permalight")
+{
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delPermaLight expects an int");
@@ -56,12 +62,15 @@ static PyObject* pyGeometrySpan_delPermaLight(pyGeometrySpan* self, PyObject* ar
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGeometrySpan_clearPermaLights(pyGeometrySpan* self) {
+PY_METHOD_NOARGS(GeometrySpan, clearPermaLight, "Clears all permalights") {
     self->fThis->clearPermaLights();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGeometrySpan_addPermaProj(pyGeometrySpan* self, PyObject* args) {
+PY_METHOD_VA(GeometrySpan, addPermaProj,
+    "Params: light\n"
+    "Adds a permaproj")
+{
     PyObject* light;
     if (!(PyArg_ParseTuple(args, "O", &light) && pyKey_Check(light))) {
         PyErr_SetString(PyExc_TypeError, "addPermaProj expects a plKey");
@@ -72,7 +81,10 @@ static PyObject* pyGeometrySpan_addPermaProj(pyGeometrySpan* self, PyObject* arg
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGeometrySpan_delPermaProj(pyGeometrySpan* self, PyObject* args) {
+PY_METHOD_VA(GeometrySpan, delPermaProj,
+    "Params: idx\n"
+    "Removes a permaproj")
+{
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delPermaProj expects an int");
@@ -83,7 +95,7 @@ static PyObject* pyGeometrySpan_delPermaProj(pyGeometrySpan* self, PyObject* arg
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGeometrySpan_clearPermaProjs(pyGeometrySpan* self) {
+PY_METHOD_VA(GeometrySpan, clearPermaProj, "Clears all permaprojs") {
     self->fThis->clearPermaProjs();
     Py_RETURN_NONE;
 }
@@ -170,23 +182,13 @@ static int pyGeometrySpan_setPermaProjs(pyGeometrySpan* self, PyObject* value, v
 }
 
 static PyMethodDef pyGeometrySpan_Methods[] = {
-    { "addPermaLight", (PyCFunction)pyGeometrySpan_addPermaLight, METH_VARARGS,
-      "Params: light\n"
-      "Adds a permalight" },
-    { "delPermaLight", (PyCFunction)pyGeometrySpan_delPermaLight, METH_VARARGS,
-      "Params: idx\n"
-      "Removes a permalight" },
-    { "clearPermaLight", (PyCFunction)pyGeometrySpan_clearPermaLights, METH_NOARGS,
-      "Clears all permalights" },
-    { "addPermaProj", (PyCFunction)pyGeometrySpan_addPermaProj, METH_VARARGS,
-      "Params: light\n"
-      "Adds a permaproj" },
-    { "delPermaProj", (PyCFunction)pyGeometrySpan_delPermaProj, METH_VARARGS,
-      "Params: idx\n"
-      "Removes a permaproj" },
-    { "clearPermaProj", (PyCFunction)pyGeometrySpan_clearPermaProjs, METH_NOARGS,
-      "Clears all permaprojs" },
-    { NULL, NULL, 0, NULL }
+    pyGeometrySpan_addPermaLight_method,
+    pyGeometrySpan_delPermaLight_method,
+    pyGeometrySpan_clearPermaLight_method,
+    pyGeometrySpan_addPermaProj_method,
+    pyGeometrySpan_delPermaProj_method,
+    pyGeometrySpan_clearPermaProj_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(unsigned int, GeometrySpan, baseMatrix, getBaseMatrix, setBaseMatrix)

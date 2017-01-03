@@ -26,11 +26,14 @@ PY_PLASMA_DEALLOC(PageInfo)
 PY_PLASMA_EMPTY_INIT(PageInfo)
 PY_PLASMA_NEW(PageInfo, plPageInfo)
 
-static PyObject* pyPageInfo_isValid(pyPageInfo* self) {
+PY_METHOD_NOARGS(PageInfo, isValid, "Returns True if the PageInfo is valid") {
     return pyPlasma_convert(self->fThis->isValid());
 }
 
-static PyObject* pyPageInfo_read(pyPageInfo* self, PyObject* args) {
+PY_METHOD_VA(PageInfo, read,
+    "Params: stream\n"
+    "Read the page info from the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects an hsStream");
@@ -44,7 +47,10 @@ static PyObject* pyPageInfo_read(pyPageInfo* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyPageInfo_write(pyPageInfo* self, PyObject* args) {
+PY_METHOD_VA(PageInfo, write,
+    "Params: stream\n"
+    "Write the page info to the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
@@ -58,7 +64,10 @@ static PyObject* pyPageInfo_write(pyPageInfo* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyPageInfo_writeSums(pyPageInfo* self, PyObject* args) {
+PY_METHOD_VA(PageInfo, writeSums,
+    "Params: stream\n"
+    "Write the page checksums to the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "writeSums expects an hsStream");
@@ -72,7 +81,10 @@ static PyObject* pyPageInfo_writeSums(pyPageInfo* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyPageInfo_getFilename(pyPageInfo* self, PyObject* args) {
+PY_METHOD_VA(PageInfo, getFilename,
+    "Params: version\n"
+    "Generate the standard filename for a PRP file")
+{
     int version;
     if (!PyArg_ParseTuple(args, "i", &version)) {
         PyErr_SetString(PyExc_TypeError, "getFilename expects an int");
@@ -82,21 +94,12 @@ static PyObject* pyPageInfo_getFilename(pyPageInfo* self, PyObject* args) {
 }
 
 static PyMethodDef pyPageInfo_Methods[] = {
-    { "isValid", (PyCFunction)pyPageInfo_isValid, METH_NOARGS,
-      "Returns True if the PageInfo is valid" },
-    { "read", (PyCFunction)pyPageInfo_read, METH_VARARGS,
-      "Params: stream\n"
-      "Read the page info from the stream" },
-    { "write", (PyCFunction)pyPageInfo_write, METH_VARARGS,
-      "Params: stream\n"
-      "Write the page info to the stream" },
-    { "writeSums", (PyCFunction)pyPageInfo_writeSums, METH_VARARGS,
-      "Params: stream\n"
-      "Write the page checksums to the stream" },
-    { "getFilename", (PyCFunction)pyPageInfo_getFilename, METH_VARARGS,
-      "Params: version\n"
-      "Generate the standard filename for a PRP file" },
-    { NULL, NULL, 0, NULL }
+    pyPageInfo_isValid_method,
+    pyPageInfo_read_method,
+    pyPageInfo_write_method,
+    pyPageInfo_writeSums_method,
+    pyPageInfo_getFilename_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(plString, PageInfo, age, getAge, setAge)

@@ -22,7 +22,12 @@ extern "C" {
 
 PY_PLASMA_NEW(RAMStream, hsRAMStream)
 
-static PyObject* pyRAMStream_resize(pyRAMStream* self, PyObject* args) {
+PY_METHOD_VA(RAMStream, resize,
+    "Params: newsize\n"
+    "Allocates newsize bytes in the internal buffer.  This will truncate "
+    "data if it's shorter than the current buffer, or zero-fill the extra "
+    "space if it's larger than the current buffer.")
+{
     int newSize;
 
     if (!PyArg_ParseTuple(args, "i", &newSize)) {
@@ -34,12 +39,8 @@ static PyObject* pyRAMStream_resize(pyRAMStream* self, PyObject* args) {
 }
 
 static PyMethodDef pyRAMStream_Methods[] = {
-    { "resize", (PyCFunction)pyRAMStream_resize, METH_VARARGS,
-      "Params: newsize\n"
-      "Allocates newsize bytes in the internal buffer.  This will truncate "
-      "data if it's shorter than the current buffer, or zero-fill the extra "
-      "space if it's larger than the current buffer." },
-    { NULL, NULL, 0, NULL }
+    pyRAMStream_resize_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_GETSET_GETTER_DECL(RAMStream, buffer) {

@@ -24,7 +24,10 @@ extern "C" {
 
 PY_PLASMA_NEW(ConvexIsect, plConvexIsect)
 
-static PyObject* pyConvexIsect_addPlane(pyConvexIsect* self, PyObject* args) {
+PY_METHOD_VA(ConvexIsect, addPlane,
+    "Adds or updates a given plane\n"
+    "Params: normal, position")
+{
     PyObject* normal;
     PyObject* position;
     if (!PyArg_ParseTuple(args, "OO", &normal, &position) || !pyVector3_Check(normal) ||
@@ -36,7 +39,10 @@ static PyObject* pyConvexIsect_addPlane(pyConvexIsect* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyConvexIsect_transform(pyConvexIsect* self, PyObject* args) {
+PY_METHOD_VA(ConvexIsect, transform,
+    "Calculates worldspace transformation for this volume\n"
+    "Params: localToWorld, worldToLocal")
+{
     PyObject* l2w;
     PyObject* w2l;
     if (!PyArg_ParseTuple(args, "OO", &l2w, &w2l) || !pyMatrix44_Check(l2w) || !pyMatrix44_Check(w2l)) {
@@ -48,13 +54,9 @@ static PyObject* pyConvexIsect_transform(pyConvexIsect* self, PyObject* args) {
 }
 
 PyMethodDef pyConvexIsect_Methods[] = {
-    { "addPlane", (PyCFunction)pyConvexIsect_addPlane, METH_VARARGS,
-      "Adds or updates a given plane\n"
-      "Params: normal, position" },
-    { "transform", (PyCFunction)pyConvexIsect_transform, METH_VARARGS,
-      "Calculates worldspace transformation for this volume\n"
-      "Params: localToWorld, worldToLocal" },
-    { NULL, NULL, 0, NULL }
+    pyConvexIsect_addPlane_method,
+    pyConvexIsect_transform_method,
+    PY_METHOD_TERMINATOR
 };
 
 PyTypeObject pyConvexIsect_Type = {

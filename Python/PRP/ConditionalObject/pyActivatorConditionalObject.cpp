@@ -25,7 +25,10 @@ extern "C" {
 
 PY_PLASMA_NEW(ActivatorConditionalObject, plActivatorConditionalObject)
 
-static PyObject* pyActivatorConditionalObject_addActivator(pyActivatorConditionalObject* self, PyObject* args) {
+PY_METHOD_VA(ActivatorConditionalObject, addActivator,
+    "Params: key\n"
+    "Adds an activator key")
+{
     PyObject* key;
     if (!(PyArg_ParseTuple(args, "O", &key) && pyKey_Check(key))) {
         PyErr_SetString(PyExc_TypeError, "addActivator expects a plKey");
@@ -35,12 +38,17 @@ static PyObject* pyActivatorConditionalObject_addActivator(pyActivatorConditiona
     Py_RETURN_NONE;
 }
 
-static PyObject* pyActivatorConditionalObject_clearActivators(pyActivatorConditionalObject* self) {
+PY_METHOD_NOARGS(ActivatorConditionalObject, clearActivators,
+    "Removes all activator keys")
+{
     self->fThis->clearActivators();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyActivatorConditionalObject_delActivator(pyActivatorConditionalObject* self, PyObject* args) {
+PY_METHOD_VA(ActivatorConditionalObject, delActivator,
+    "Params: idx\n"
+    "Removes an activator key")
+{
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delActivator expects an int");
@@ -51,15 +59,10 @@ static PyObject* pyActivatorConditionalObject_delActivator(pyActivatorConditiona
 }
 
 static PyMethodDef pyActivatorConditionalObject_Methods[] = {
-    { "addActivator", (PyCFunction)pyActivatorConditionalObject_addActivator, METH_VARARGS,
-      "Params: key\n"
-      "Adds an activator key" },
-    { "clearActivators", (PyCFunction)pyActivatorConditionalObject_clearActivators, METH_NOARGS,
-      "Removes all activator keys" },
-    { "delActivator", (PyCFunction)pyActivatorConditionalObject_delActivator, METH_VARARGS,
-      "Params: idx\n"
-      "Removes an activator key" },
-    { NULL, NULL, 0, NULL }
+    pyActivatorConditionalObject_addActivator_method,
+    pyActivatorConditionalObject_clearActivators_method,
+    pyActivatorConditionalObject_delActivator_method,
+    PY_METHOD_TERMINATOR
 };
 
 static PyObject* pyActivatorConditionalObject_getActivators(pyActivatorConditionalObject* self, void*) {

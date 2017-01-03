@@ -46,7 +46,7 @@ static PyGetSetDef pyAnimCmdMsg_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-static PyObject* pyAnimCmdMsg_getCmd(pyAnimCmdMsg* self, PyObject* args) {
+PY_METHOD_VA(AnimCmdMsg, getCmd, "Params: cmd") {
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "getCmd expects an int");
@@ -55,7 +55,7 @@ static PyObject* pyAnimCmdMsg_getCmd(pyAnimCmdMsg* self, PyObject* args) {
     return pyPlasma_convert(self->fThis->getCmd((size_t)idx));
 }
 
-static PyObject* pyAnimCmdMsg_setCmd(pyAnimCmdMsg* self, PyObject* args) {
+PY_METHOD_VA(AnimCmdMsg, setCmd, "Params: cmd, value") {
     Py_ssize_t idx, value;
     if (!PyArg_ParseTuple(args, "nn", &idx, &value)) {
         PyErr_SetString(PyExc_TypeError, "setCmd expects int, bool");
@@ -66,11 +66,9 @@ static PyObject* pyAnimCmdMsg_setCmd(pyAnimCmdMsg* self, PyObject* args) {
 }
 
 static PyMethodDef pyAnimCmdMsg_Methods[] = {
-    { "getCmd", (PyCFunction)pyAnimCmdMsg_getCmd, METH_VARARGS,
-      "Params: cmd" },
-    { "setCmd", (PyCFunction)pyAnimCmdMsg_setCmd, METH_VARARGS,
-      "Params: cmd, value" },
-    { NULL, NULL, 0, NULL }
+    pyAnimCmdMsg_getCmd_method,
+    pyAnimCmdMsg_setCmd_method,
+    PY_METHOD_TERMINATOR
 };
 
 PyTypeObject pyAnimCmdMsg_Type = {

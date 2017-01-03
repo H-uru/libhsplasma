@@ -118,16 +118,19 @@ static int pyVector3_nonzero(pyVector3* self) {
         || (self->fThis->Z != 0.0f);
 }
 
-static PyObject* pyVector3_magnitude(pyVector3* self) {
+PY_METHOD_NOARGS(Vector3, magnitude, "Returns the magnitude of the vector") {
     return pyPlasma_convert(self->fThis->magnitude());
 }
 
-static PyObject* pyVector3_normalize(pyVector3* self) {
+PY_METHOD_NOARGS(Vector3, normalize, "Normalizes the vector") {
     self->fThis->normalize();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyVector3_dotP(pyVector3* self, PyObject* args) {
+PY_METHOD_VA(Vector3, dotP,
+    "Params: vec\n"
+    "Returns the dot product of this vector and `vec`")
+{
     pyVector3* vec;
     if (!PyArg_ParseTuple(args, "O", &vec)) {
         PyErr_SetString(PyExc_TypeError, "dotP expects an hsVector3");
@@ -140,7 +143,10 @@ static PyObject* pyVector3_dotP(pyVector3* self, PyObject* args) {
     return pyPlasma_convert(self->fThis->dotP(*vec->fThis));
 }
 
-static PyObject* pyVector3_crossP(pyVector3* self, PyObject* args) {
+PY_METHOD_VA(Vector3, crossP,
+    "Params: vec\n"
+    "Returns the cross product of this vector and `vec`")
+{
     pyVector3* vec;
     if (!PyArg_ParseTuple(args, "O", &vec)) {
         PyErr_SetString(PyExc_TypeError, "crossP expects an hsVector3");
@@ -153,7 +159,10 @@ static PyObject* pyVector3_crossP(pyVector3* self, PyObject* args) {
     return pyPlasma_convert(self->fThis->crossP(*vec->fThis));
 }
 
-static PyObject* pyVector3_read(pyVector3* self, PyObject* args) {
+PY_METHOD_VA(Vector3, read,
+    "Params: stream\n"
+    "Reads this vector from `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
@@ -167,7 +176,10 @@ static PyObject* pyVector3_read(pyVector3* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyVector3_write(pyVector3* self, PyObject* args) {
+PY_METHOD_VA(Vector3, write,
+    "Params: stream\n"
+    "Writes this vector to `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
@@ -238,23 +250,13 @@ PyNumberMethods pyVector3_As_Number = {
 };
 
 PyMethodDef pyVector3_Methods[] = {
-    { "magnitude", (PyCFunction)pyVector3_magnitude, METH_NOARGS,
-      "Returns the magnitude of the vector" },
-    { "normalize", (PyCFunction)pyVector3_normalize, METH_NOARGS,
-      "Normalizes the vector" },
-    { "dotP", (PyCFunction)pyVector3_dotP, METH_VARARGS,
-      "Params: vec\n"
-      "Returns the dot product of this vector and `vec`" },
-    { "crossP", (PyCFunction)pyVector3_crossP, METH_VARARGS,
-      "Params: vec\n"
-      "Returns the cross product of this vector and `vec`" },
-    { "read", (PyCFunction)pyVector3_read, METH_VARARGS,
-      "Params: stream\n"
-      "Reads this vector from `stream`" },
-    { "write", (PyCFunction)pyVector3_write, METH_VARARGS,
-      "Params: stream\n"
-      "Writes this vector to `stream`" },
-    { NULL, NULL, 0, NULL }
+    pyVector3_magnitude_method,
+    pyVector3_normalize_method,
+    pyVector3_dotP_method,
+    pyVector3_crossP_method,
+    pyVector3_read_method,
+    pyVector3_write_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY_MEMBER(float, Vector3, X, X)

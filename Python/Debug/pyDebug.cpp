@@ -23,7 +23,10 @@ extern "C" {
 
 PY_PLASMA_NEW_MSG(Debug, "plDebug is static")
 
-static PyObject* pyDebug_Init(PyObject*, PyObject* args) {
+PY_METHOD_STATIC_VA(Debug, Init,
+    "Params: level=kDLWarning, stream=None\n"
+    "Initialize the debug logger")
+{
     int level = plDebug::kDLWarning;
     pyStream* stream = NULL;
     if (!PyArg_ParseTuple(args, "|iO", &level, &stream)) {
@@ -38,7 +41,10 @@ static PyObject* pyDebug_Init(PyObject*, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyDebug_InitFile(PyObject*, PyObject* args) {
+PY_METHOD_STATIC_VA(Debug, InitFile,
+    "Params: level=kDLWarning, filename=\"Plasma.log\"\n"
+    "Initialize the debug logger to a file output")
+{
     int level = plDebug::kDLWarning;
     const char* filename = "Plasma.log";
     if (!PyArg_ParseTuple(args, "|is", &level, &filename)) {
@@ -49,7 +55,10 @@ static PyObject* pyDebug_InitFile(PyObject*, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyDebug_Error(PyObject*, PyObject* args) {
+PY_METHOD_STATIC_VA(Debug, Error,
+    "Params: message\n"
+    "Write an error message")
+{
     const char* msg;
     if (!PyArg_ParseTuple(args, "s", &msg)) {
         PyErr_SetString(PyExc_TypeError, "Error expects a string");
@@ -59,7 +68,10 @@ static PyObject* pyDebug_Error(PyObject*, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyDebug_Warning(PyObject*, PyObject* args) {
+PY_METHOD_STATIC_VA(Debug, Warning,
+    "Params: message\n"
+    "Write a warning message")
+{
     const char* msg;
     if (!PyArg_ParseTuple(args, "s", &msg)) {
         PyErr_SetString(PyExc_TypeError, "Warning expects a string");
@@ -69,7 +81,10 @@ static PyObject* pyDebug_Warning(PyObject*, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyDebug_Debug(PyObject*, PyObject* args) {
+PY_METHOD_STATIC_VA(Debug, Debug,
+    "Params: message\n"
+    "Write a debug message")
+{
     const char* msg;
     if (!PyArg_ParseTuple(args, "s", &msg)) {
         PyErr_SetString(PyExc_TypeError, "Debug expects a string");
@@ -80,22 +95,12 @@ static PyObject* pyDebug_Debug(PyObject*, PyObject* args) {
 }
 
 static PyMethodDef pyDebug_Methods[] = {
-    { "Init", (PyCFunction)pyDebug_Init, METH_STATIC | METH_VARARGS,
-      "Params: level=kDLWarning, stream=None\n"
-      "Initialize the debug logger" },
-    { "InitFile", (PyCFunction)pyDebug_InitFile, METH_STATIC | METH_VARARGS,
-      "Params: level=kDLWarning, filename=\"Plasma.log\"\n"
-      "Initialize the debug logger to a file output" },
-    { "Error", (PyCFunction)pyDebug_Error, METH_STATIC | METH_VARARGS,
-      "Params: message\n"
-      "Write an error message" },
-    { "Warning", (PyCFunction)pyDebug_Warning, METH_STATIC | METH_VARARGS,
-      "Params: message\n"
-      "Write a warning message" },
-    { "Debug", (PyCFunction)pyDebug_Debug, METH_STATIC | METH_VARARGS,
-      "Params: message\n"
-      "Write a debug message" },
-    { NULL, NULL, 0, NULL }
+    pyDebug_Init_method,
+    pyDebug_InitFile_method,
+    pyDebug_Error_method,
+    pyDebug_Warning_method,
+    pyDebug_Debug_method,
+    PY_METHOD_TERMINATOR
 };
 
 PyTypeObject pyDebug_Type = {

@@ -22,7 +22,11 @@ extern "C" {
 
 PY_PLASMA_NEW(FileStream, hsFileStream)
 
-static PyObject* pyFileStream_open(pyFileStream* self, PyObject* args) {
+PY_METHOD_VA(FileStream, open,
+    "Params: filename, mode\n"
+    "Opens the specified file.\n"
+    "Mode is: fmRead, fmWrite, fmReadWrite, fmCreate")
+{
     const char* filename;
     int mode;
 
@@ -43,24 +47,21 @@ static PyObject* pyFileStream_open(pyFileStream* self, PyObject* args) {
     }
 }
 
-static PyObject* pyFileStream__enter__(PyObject* self) {
+PY_METHOD_NOARGS(FileStream, __enter__, NULL) {
     Py_INCREF(self);
-    return self;
+    return (PyObject*)self;
 }
 
-static PyObject* pyFileStream__exit__(pyFileStream* self, PyObject* args) {
+PY_METHOD_VA(FileStream, __exit__, NULL) {
     self->fThis->close();
     Py_RETURN_NONE;
 }
 
 static PyMethodDef pyFileStream_Methods[] = {
-    { "open", (PyCFunction)pyFileStream_open, METH_VARARGS,
-      "Params: filename, mode\n"
-      "Opens the specified file.\n"
-      "Mode is: fmRead, fmWrite, fmReadWrite, fmCreate" },
-    { "__enter__", (PyCFunction)pyFileStream__enter__, METH_NOARGS, NULL },
-    { "__exit__", (PyCFunction)pyFileStream__exit__, METH_VARARGS, NULL },
-    { NULL, NULL, 0, NULL }
+    pyFileStream_open_method,
+    pyFileStream___enter___method,
+    pyFileStream___exit___method,
+    PY_METHOD_TERMINATOR
 };
 
 PyTypeObject pyFileStream_Type = {

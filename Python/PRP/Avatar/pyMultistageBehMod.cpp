@@ -25,7 +25,10 @@ extern "C" {
 
 PY_PLASMA_NEW(MultistageBehMod, plMultistageBehMod)
 
-static PyObject* pyMultistageBehMod_addStage(pyMultistageBehMod* self, PyObject* args) {
+PY_METHOD_VA(MultistageBehMod, addStage,
+    "Params: stage\n"
+    "Add a plAnimStage to the behavior mod")
+{
     pyAnimStage* anim;
     if (!PyArg_ParseTuple(args, "O", &anim)) {
         PyErr_SetString(PyExc_TypeError, "addStage expects a plAnimStage");
@@ -40,7 +43,10 @@ static PyObject* pyMultistageBehMod_addStage(pyMultistageBehMod* self, PyObject*
     Py_RETURN_NONE;
 }
 
-static PyObject* pyMultistageBehMod_delStage(pyMultistageBehMod* self, PyObject* args) {
+PY_METHOD_VA(MultistageBehMod, delStage,
+    "Params: idx\n"
+    "Remove a stage from the behavior mod")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delStage expects an int");
@@ -50,12 +56,17 @@ static PyObject* pyMultistageBehMod_delStage(pyMultistageBehMod* self, PyObject*
     Py_RETURN_NONE;
 }
 
-static PyObject* pyMultistageBehMod_clearStages(pyMultistageBehMod* self) {
+PY_METHOD_NOARGS(MultistageBehMod, clearStages,
+    "Remove all stages from the behavior mod")
+{
     self->fThis->clearStages();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyMultistageBehMod_addReceiver(pyMultistageBehMod* self, PyObject* args) {
+PY_METHOD_VA(MultistageBehMod, addReceiver,
+    "Params: key\n"
+    "Add a receiver key to the behavior mod")
+{
     pyKey* rcvr;
     if (!PyArg_ParseTuple(args, "O", &rcvr)) {
         PyErr_SetString(PyExc_TypeError, "addReceiver expects a plKey");
@@ -69,7 +80,10 @@ static PyObject* pyMultistageBehMod_addReceiver(pyMultistageBehMod* self, PyObje
     Py_RETURN_NONE;
 }
 
-static PyObject* pyMultistageBehMod_delReceiver(pyMultistageBehMod* self, PyObject* args) {
+PY_METHOD_VA(MultistageBehMod, delReceiver,
+    "Params: idx\n"
+    "Remove a receiver from the behavior mod")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delReceiver expects an int");
@@ -79,7 +93,9 @@ static PyObject* pyMultistageBehMod_delReceiver(pyMultistageBehMod* self, PyObje
     Py_RETURN_NONE;
 }
 
-static PyObject* pyMultistageBehMod_clearReceivers(pyMultistageBehMod* self) {
+PY_METHOD_NOARGS(MultistageBehMod, clearReceivers,
+    "Remove all receivers from the behavior mod")
+{
     self->fThis->clearReceivers();
     Py_RETURN_NONE;
 }
@@ -109,23 +125,13 @@ static int pyMultistageBehMod_setReceivers(pyMultistageBehMod* self, PyObject* v
 }
 
 static PyMethodDef pyMultistageBehMod_Methods[] = {
-    { "addStage", (PyCFunction)pyMultistageBehMod_addStage, METH_VARARGS,
-      "Params: stage\n"
-      "Add a plAnimStage to the behavior mod" },
-    { "delStage", (PyCFunction)pyMultistageBehMod_delStage, METH_VARARGS,
-      "Params: idx\n"
-      "Remove a stage from the behavior mod" },
-    { "clearStages", (PyCFunction)pyMultistageBehMod_clearStages, METH_NOARGS,
-      "Remove all stages from the behavior mod" },
-    { "addReceiver", (PyCFunction)pyMultistageBehMod_addReceiver, METH_VARARGS,
-      "Params: key\n"
-      "Add a receiver key to the behavior mod" },
-    { "delReceiver", (PyCFunction)pyMultistageBehMod_delReceiver, METH_VARARGS,
-      "Params: idx\n"
-      "Remove a receiver from the behavior mod" },
-    { "clearReceivers", (PyCFunction)pyMultistageBehMod_clearReceivers, METH_NOARGS,
-      "Remove all receivers from the behavior mod" },
-    { NULL, NULL, 0, NULL }
+    pyMultistageBehMod_addStage_method,
+    pyMultistageBehMod_delStage_method,
+    pyMultistageBehMod_clearStages_method,
+    pyMultistageBehMod_addReceiver_method,
+    pyMultistageBehMod_delReceiver_method,
+    pyMultistageBehMod_clearReceivers_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(bool, MultistageBehMod, freezePhys, getFreezePhys, setFreezePhys)

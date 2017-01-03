@@ -24,7 +24,10 @@ extern "C" {
 
 PY_PLASMA_NEW(SittingModifier, plSittingModifier)
 
-static PyObject* pySittingModifier_addNotifyKey(pySittingModifier* self, PyObject* args) {
+PY_METHOD_VA(SittingModifier, addNotifyKey,
+    "Params: key\n"
+    "Adds a LogicMod notify key")
+{
     PyObject* key;
     if (!(PyArg_ParseTuple(args, "O", &key) && pyKey_Check(key))) {
         PyErr_SetString(PyExc_TypeError, "addNotifyKey expects a plKey");
@@ -34,12 +37,15 @@ static PyObject* pySittingModifier_addNotifyKey(pySittingModifier* self, PyObjec
     Py_RETURN_NONE;
 }
 
-static PyObject* pySittingModifier_clearNotifyKeys(pySittingModifier* self) {
+PY_METHOD_NOARGS(SittingModifier, clearNotifyKeys, "Removes all LogicMod notify keys") {
     self->fThis->clearNotifyKeys();
     Py_RETURN_NONE;
 }
 
-static PyObject* pySittingModifier_delNotifyKey(pySittingModifier* self, PyObject* args) {
+PY_METHOD_VA(SittingModifier, delNotifyKey,
+    "Params: idx\n"
+    "Removes a LogicMod notify key")
+{
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delNotifyKey expects an int");
@@ -50,15 +56,10 @@ static PyObject* pySittingModifier_delNotifyKey(pySittingModifier* self, PyObjec
 }
 
 static PyMethodDef pySittingModifier_Methods[] = {
-    { "addNotifyKey", (PyCFunction)pySittingModifier_addNotifyKey, METH_VARARGS,
-      "Params: key\n"
-      "Adds a LogicMod notify key" },
-    { "clearNotifyKeys", (PyCFunction)pySittingModifier_clearNotifyKeys, METH_NOARGS,
-      "Removes all LogicMod notify keys" },
-    { "delNotifyKey", (PyCFunction)pySittingModifier_delNotifyKey, METH_VARARGS,
-      "Params: idx\n"
-      "Removes a LogicMod notify key" },
-    { NULL, NULL, 0, NULL }
+    pySittingModifier_addNotifyKey_method,
+    pySittingModifier_clearNotifyKeys_method,
+    pySittingModifier_delNotifyKey_method,
+    PY_METHOD_TERMINATOR
 };
 
 static PyObject* pySittingModifier_getNotifyKeys(pySittingModifier* self, void*) {

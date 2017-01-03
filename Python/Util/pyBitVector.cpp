@@ -65,21 +65,27 @@ static int pyBitVector_AssSubscript(pyBitVector* self, PyObject* key, PyObject* 
     }
 }
 
-static PyObject* pyBitVector_isEmpty(pyBitVector* self) {
+PY_METHOD_NOARGS(BitVector, isEmpty, "Returns whether the vector is empty") {
     return pyPlasma_convert(self->fThis->isEmpty());
 }
 
-static PyObject* pyBitVector_clear(pyBitVector* self) {
+PY_METHOD_NOARGS(BitVector, clear, "Clears the vector of all bits") {
     self->fThis->clear();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyBitVector_compact(pyBitVector* self) {
+PY_METHOD_NOARGS(BitVector, compact,
+    "Compacts the vector to the smallest size necessary to\n"
+    "store all of the contained bits")
+{
     self->fThis->compact();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyBitVector_getName(pyBitVector* self, PyObject* args) {
+PY_METHOD_VA(BitVector, getName,
+    "Params: index\n"
+    "Returns the name of the bit at `index`")
+{
     int index;
     if (!PyArg_ParseTuple(args, "i", &index)) {
         PyErr_SetString(PyExc_TypeError, "getName expects an int");
@@ -88,7 +94,10 @@ static PyObject* pyBitVector_getName(pyBitVector* self, PyObject* args) {
     return pyPlasma_convert(self->fThis->getName((size_t)index));
 }
 
-static PyObject* pyBitVector_getValue(pyBitVector* self, PyObject* args) {
+PY_METHOD_VA(BitVector, getValue,
+    "Params: name\n"
+    "Returns the index of the bit named `name`")
+{
     const char* name;
     if (!PyArg_ParseTuple(args, "s", &name)) {
         PyErr_SetString(PyExc_TypeError, "getValue expects a string");
@@ -97,7 +106,10 @@ static PyObject* pyBitVector_getValue(pyBitVector* self, PyObject* args) {
     return pyPlasma_convert(self->fThis->getValue(name));
 }
 
-static PyObject* pyBitVector_setName(pyBitVector* self, PyObject* args) {
+PY_METHOD_VA(BitVector, setName,
+    "Params: index, name\n"
+    "Names the bit at `index` to `name`")
+{
     int index;
     const char* name;
     if (!PyArg_ParseTuple(args, "is", &index, &name)) {
@@ -108,7 +120,10 @@ static PyObject* pyBitVector_setName(pyBitVector* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyBitVector_read(pyBitVector* self, PyObject* args) {
+PY_METHOD_VA(BitVector, read,
+    "Params: stream\n"
+    "Read this BitVector from `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
@@ -122,7 +137,10 @@ static PyObject* pyBitVector_read(pyBitVector* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyBitVector_write(pyBitVector* self, PyObject* args) {
+PY_METHOD_VA(BitVector, write,
+    "Params: stream\n"
+    "Write this BitVector to `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
@@ -143,29 +161,15 @@ static PyMappingMethods pyBitVector_AsMapping = {
 };
 
 static PyMethodDef pyBitVector_Methods[] = {
-    { "isEmpty", (PyCFunction)pyBitVector_isEmpty, METH_NOARGS,
-      "Returns whether the vector is empty" },
-    { "clear", (PyCFunction)pyBitVector_clear, METH_NOARGS,
-      "Clears the vector of all bits" },
-    { "compact", (PyCFunction)pyBitVector_compact, METH_NOARGS,
-      "Compacts the vector to the smallest size necessary to\n"
-      "store all of the contained bits" },
-    { "getName", (PyCFunction)pyBitVector_getName, METH_VARARGS,
-      "Params: index\n"
-      "Returns the name of the bit at `index`" },
-    { "getValue", (PyCFunction)pyBitVector_getValue, METH_VARARGS,
-      "Params: name\n"
-      "Returns the index of the bit named `name`" },
-    { "setName", (PyCFunction)pyBitVector_setName, METH_VARARGS,
-      "Params: index, name\n"
-      "Names the bit at `index` to `name`" },
-    { "read", (PyCFunction)pyBitVector_read, METH_VARARGS,
-      "Params: stream\n"
-      "Read this BitVector from `stream`" },
-    { "write", (PyCFunction)pyBitVector_write, METH_VARARGS,
-      "Params: stream\n"
-      "Write this BitVector to `stream`" },
-    { NULL, NULL, 0, NULL }
+    pyBitVector_isEmpty_method,
+    pyBitVector_clear_method,
+    pyBitVector_compact_method,
+    pyBitVector_getName_method,
+    pyBitVector_getValue_method,
+    pyBitVector_setName_method,
+    pyBitVector_read_method,
+    pyBitVector_write_method,
+    PY_METHOD_TERMINATOR
 };
 
 PyTypeObject pyBitVector_Type = {

@@ -25,11 +25,16 @@ PY_PLASMA_VALUE_DEALLOC(Bounds)
 PY_PLASMA_EMPTY_INIT(Bounds)
 PY_PLASMA_VALUE_NEW(Bounds, hsBounds)
 
-static PyObject* pyBounds_ClassName(pyBounds* self) {
+PY_METHOD_NOARGS(Bounds, ClassName,
+    "Returns the RTTI Class name of this Bounds object")
+{
     return PyString_FromString(self->fThis->ClassName());
 }
 
-static PyObject* pyBounds_read(pyBounds* self, PyObject* args) {
+PY_METHOD_VA(Bounds, read,
+    "Params: stream\n"
+    "Read this Bounds object from the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects an hsStream");
@@ -43,7 +48,10 @@ static PyObject* pyBounds_read(pyBounds* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyBounds_write(pyBounds* self, PyObject* args) {
+PY_METHOD_VA(Bounds, write,
+    "Params: stream\n"
+    "Write this Bounds object to the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
@@ -58,15 +66,10 @@ static PyObject* pyBounds_write(pyBounds* self, PyObject* args) {
 }
 
 static PyMethodDef pyBounds_Methods[] = {
-    { "ClassName", (PyCFunction)pyBounds_ClassName, METH_NOARGS,
-      "Returns the RTTI Class name of this Bounds object" },
-    { "read", (PyCFunction)pyBounds_read, METH_VARARGS,
-      "Params: stream\n"
-      "Read this Bounds object from the stream" },
-    { "write", (PyCFunction)pyBounds_write, METH_VARARGS,
-      "Params: stream\n"
-      "Write this Bounds object to the stream" },
-    { NULL, NULL, 0, NULL }
+    pyBounds_ClassName_method,
+    pyBounds_read_method,
+    pyBounds_write_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(int, Bounds, type, getType, setType)

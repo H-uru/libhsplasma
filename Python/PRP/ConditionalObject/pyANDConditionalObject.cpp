@@ -24,7 +24,10 @@ extern "C" {
 
 PY_PLASMA_NEW(ANDConditionalObject, plANDConditionalObject)
 
-static PyObject* pyANDConditionalObject_addChild(pyANDConditionalObject* self, PyObject* args) {
+PY_METHOD_VA(ANDConditionalObject, addChild,
+    "Params: key\n"
+    "Adds a child condition key")
+{
     PyObject* key;
     if (!(PyArg_ParseTuple(args, "O", &key) && pyKey_Check(key))) {
         PyErr_SetString(PyExc_TypeError, "addChild expects a plKey");
@@ -34,12 +37,17 @@ static PyObject* pyANDConditionalObject_addChild(pyANDConditionalObject* self, P
     Py_RETURN_NONE;
 }
 
-static PyObject* pyANDConditionalObject_clearChildren(pyANDConditionalObject* self) {
+PY_METHOD_NOARGS(ANDConditionalObject, clearChildren,
+    "Removes all children condition keys")
+{
     self->fThis->clearChildren();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyANDConditionalObject_delChild(pyANDConditionalObject* self, PyObject* args) {
+PY_METHOD_VA(ANDConditionalObject, delChild,
+    "Params: idx\n"
+    "Removes a child condition key")
+{
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delChild expects an int");
@@ -50,15 +58,10 @@ static PyObject* pyANDConditionalObject_delChild(pyANDConditionalObject* self, P
 }
 
 static PyMethodDef pyANDConditionalObject_Methods[] = {
-    { "addChild", (PyCFunction)pyANDConditionalObject_addChild, METH_VARARGS,
-      "Params: key\n"
-      "Adds a child condition key" },
-    { "clearChildren", (PyCFunction)pyANDConditionalObject_clearChildren, METH_NOARGS,
-      "Removes all children condition keys" },
-    { "delChild", (PyCFunction)pyANDConditionalObject_delChild, METH_VARARGS,
-      "Params: idx\n"
-      "Removes a child condition key" },
-    { NULL, NULL, 0, NULL }
+    pyANDConditionalObject_addChild_method,
+    pyANDConditionalObject_clearChildren_method,
+    pyANDConditionalObject_delChild_method,
+    PY_METHOD_TERMINATOR
 };
 
 static PyObject* pyANDConditionalObject_getANDs(pyANDConditionalObject* self, void*) {

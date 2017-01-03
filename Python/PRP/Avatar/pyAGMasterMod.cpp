@@ -24,7 +24,10 @@ extern "C" {
 
 PY_PLASMA_NEW(AGMasterMod, plAGMasterMod)
 
-static PyObject* pyAGMasterMod_addPrivateAnim(pyAGMasterMod* self, PyObject* args) {
+PY_METHOD_VA(AGMasterMod, addPrivateAnim,
+    "Params: key\n"
+    "Adds an animation key")
+{
     PyObject* key;
     if (!(PyArg_ParseTuple(args, "O", &key) && pyKey_Check(key))) {
         PyErr_SetString(PyExc_TypeError, "addPrivateAnim expects a plKey");
@@ -34,12 +37,15 @@ static PyObject* pyAGMasterMod_addPrivateAnim(pyAGMasterMod* self, PyObject* arg
     Py_RETURN_NONE;
 }
 
-static PyObject* pyAGMasterMod_clearPrivateAnims(pyAGMasterMod* self) {
+PY_METHOD_NOARGS(AGMasterMod, clearPrivateAnims, "Removes all animation keys") {
     self->fThis->clearPrivateAnims();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyAGMasterMod_delPrivateAnim(pyAGMasterMod* self, PyObject* args) {
+PY_METHOD_VA(AGMasterMod, delPrivateAnim,
+    "Params: idx\n"
+    "Removes an animation key")
+{
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delPrivateAnim expects an int");
@@ -49,7 +55,10 @@ static PyObject* pyAGMasterMod_delPrivateAnim(pyAGMasterMod* self, PyObject* arg
     Py_RETURN_NONE;
 }
 
-static PyObject* pyAGMasterMod_addEoaKey(pyAGMasterMod* self, PyObject* args) {
+PY_METHOD_VA(AGMasterMod, addEoaKey,
+    "Params: key\n"
+    "Adds an EoA key")
+{
     PyObject* key;
     if (!(PyArg_ParseTuple(args, "O", &key) && pyKey_Check(key))) {
         PyErr_SetString(PyExc_TypeError, "addEoaKey expects a plKey");
@@ -59,12 +68,15 @@ static PyObject* pyAGMasterMod_addEoaKey(pyAGMasterMod* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyAGMasterMod_clearEoaKeys(pyAGMasterMod* self) {
+PY_METHOD_NOARGS(AGMasterMod, clearEoaKeys, "Removes all EoA keys") {
     self->fThis->clearEoaKeys();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyAGMasterMod_delEoaKey(pyAGMasterMod* self, PyObject* args) {
+PY_METHOD_VA(AGMasterMod, delEoaKey,
+    "Params: idx\n"
+    "Removes an EoA key")
+{
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delEoaKey expects an int");
@@ -75,23 +87,13 @@ static PyObject* pyAGMasterMod_delEoaKey(pyAGMasterMod* self, PyObject* args) {
 }
 
 static PyMethodDef pyAGMasterMod_Methods[] = {
-    { "addPrivateAnim", (PyCFunction)pyAGMasterMod_addPrivateAnim, METH_VARARGS,
-      "Params: key\n"
-      "Adds an animation key" },
-    { "clearPrivateAnims", (PyCFunction)pyAGMasterMod_clearPrivateAnims, METH_NOARGS,
-      "Removes all animation keys" },
-    { "delPrivateAnim", (PyCFunction)pyAGMasterMod_delPrivateAnim, METH_VARARGS,
-      "Params: idx\n"
-      "Removes an animation key" },
-    { "addEoaKey", (PyCFunction)pyAGMasterMod_addEoaKey, METH_VARARGS,
-      "Params: key\n"
-      "Adds an EoA key" },
-    { "clearEoaKeys", (PyCFunction)pyAGMasterMod_clearEoaKeys, METH_NOARGS,
-      "Removes all EoA keys" },
-    { "delEoaKey", (PyCFunction)pyAGMasterMod_delEoaKey, METH_VARARGS,
-      "Params: idx\n"
-      "Removes an EoA key" },
-    { NULL, NULL, 0, NULL }
+    pyAGMasterMod_addPrivateAnim_method,
+    pyAGMasterMod_clearPrivateAnims_method,
+    pyAGMasterMod_delPrivateAnim_method,
+    pyAGMasterMod_addEoaKey_method,
+    pyAGMasterMod_clearEoaKeys_method,
+    pyAGMasterMod_delEoaKey_method,
+    PY_METHOD_TERMINATOR
 };
 
 static PyObject* pyAGMasterMod_getPrivateAnims(pyAGMasterMod* self, void*) {

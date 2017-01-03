@@ -23,7 +23,12 @@ extern "C" {
 
 PY_PLASMA_NEW_MSG(Factory, "plFactory cannot be constructed")
 
-static PyObject* pyFactory_ClassName(PyObject*, PyObject* args) {
+PY_METHOD_STATIC_VA(Factory, ClassName,
+    "Params: classIdx, [version]\n"
+    "Get the name of the specified class\n"
+    "If `version` is specified, the classIdx is looked up for\n"
+    "that version (otherwise the global mapping is used)")
+{
     int classIdx, version = PlasmaVer::pvUnknown;
 
     if (!PyArg_ParseTuple(args, "i|i", &classIdx, &version)) {
@@ -36,7 +41,10 @@ static PyObject* pyFactory_ClassName(PyObject*, PyObject* args) {
         return pyPlasma_convert(plFactory::ClassName(classIdx, (PlasmaVer)version));
 }
 
-static PyObject* pyFactory_ClassIndex(PyObject*, PyObject* args) {
+PY_METHOD_STATIC_VA(Factory, ClassIndex,
+    "Params: className\n"
+    "Returns the global ClassIndex for the specified class")
+{
     const char* className;
 
     if (!PyArg_ParseTuple(args, "s", &className)) {
@@ -46,7 +54,10 @@ static PyObject* pyFactory_ClassIndex(PyObject*, PyObject* args) {
     return pyPlasma_convert(plFactory::ClassIndex(className));
 }
 
-static PyObject* pyFactory_ClassVersion(PyObject*, PyObject* args) {
+PY_METHOD_STATIC_VA(Factory, ClassVersion,
+    "Params: classIdx, version\n"
+    "Returns the Class Version of the specified class")
+{
     int classIdx, version;
 
     if (!PyArg_ParseTuple(args, "ii", &classIdx, &version)) {
@@ -57,18 +68,10 @@ static PyObject* pyFactory_ClassVersion(PyObject*, PyObject* args) {
 }
 
 static PyMethodDef pyFactory_Methods[] = {
-    { "ClassName", (PyCFunction)pyFactory_ClassName, METH_STATIC | METH_VARARGS,
-      "Params: classIdx, [version]\n"
-      "Get the name of the specified class\n"
-      "If `version` is specified, the classIdx is looked up for\n"
-      "that version (otherwise the global mapping is used)" },
-    { "ClassIndex", (PyCFunction)pyFactory_ClassIndex, METH_STATIC | METH_VARARGS,
-      "Params: className\n"
-      "Returns the global ClassIndex for the specified class" },
-    { "ClassVersion", (PyCFunction)pyFactory_ClassVersion, METH_STATIC | METH_VARARGS,
-      "Params: classIdx, version\n"
-      "Returns the Class Version of the specified class" },
-    { NULL, NULL, 0, NULL }
+    pyFactory_ClassName_method,
+    pyFactory_ClassIndex_method,
+    pyFactory_ClassVersion_method,
+    PY_METHOD_TERMINATOR
 };
 
 PyTypeObject pyFactory_Type = {

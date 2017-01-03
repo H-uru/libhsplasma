@@ -46,7 +46,10 @@ PY_PLASMA_INIT_DECL(PythonParameter) {
 
 PY_PLASMA_VALUE_NEW(PythonParameter, plPythonParameter)
 
-static PyObject* pyPythonParameter_read(pyPythonParameter* self, PyObject* args) {
+PY_METHOD_VA(PythonParameter, read,
+    "Params: stream, mgr\n"
+    "Reads this object from `stream`")
+{
     pyStream* stream;
     pyResManager* mgr;
     if (!PyArg_ParseTuple(args, "OO", &stream, &mgr)) {
@@ -61,7 +64,10 @@ static PyObject* pyPythonParameter_read(pyPythonParameter* self, PyObject* args)
     Py_RETURN_NONE;
 }
 
-static PyObject* pyPythonParameter_write(pyPythonParameter* self, PyObject* args) {
+PY_METHOD_VA(PythonParameter, write,
+    "Params: stream, mgr\n"
+    "Writes this object to `stream`")
+{
     pyStream* stream;
     pyResManager* mgr;
     if (!PyArg_ParseTuple(args, "OO", &stream, &mgr)) {
@@ -77,13 +83,9 @@ static PyObject* pyPythonParameter_write(pyPythonParameter* self, PyObject* args
 }
 
 static PyMethodDef pyPythonParameter_Methods[] = {
-    { "read", (PyCFunction)pyPythonParameter_read, METH_VARARGS,
-      "Params: stream, mgr\n"
-      "Reads this object from `stream`" },
-    { "write", (PyCFunction)pyPythonParameter_write, METH_VARARGS,
-      "Params: stream, mgr\n"
-      "Writes this object to `stream`" },
-    { NULL, NULL, 0, NULL }
+    pyPythonParameter_read_method,
+    pyPythonParameter_write_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY_MEMBER(unsigned int, PythonParameter, id, fID)

@@ -25,7 +25,10 @@ extern "C" {
 
 PY_PLASMA_NEW(ClothingItem, plClothingItem)
 
-static PyObject* pyClothingItem_getMesh(pyClothingItem* self, PyObject* args) {
+PY_METHOD_VA(ClothingItem, getMesh,
+    "Params: lod\n"
+    "Gets the Key of the mesh for the specified LOD")
+{
     int lod = plClothingItem::kLODHigh;
     if (!PyArg_ParseTuple(args, "i", &lod)) {
         PyErr_SetString(PyExc_TypeError, "getMesh expects int");
@@ -35,7 +38,10 @@ static PyObject* pyClothingItem_getMesh(pyClothingItem* self, PyObject* args) {
     return pyKey_FromKey(self->fThis->getMesh(lod));
 }
 
-static PyObject* pyClothingItem_setMesh(pyClothingItem* self, PyObject* args) {
+PY_METHOD_VA(ClothingItem, setMesh,
+    "Params: lod, mesh\n"
+    "Sets the Key of the mesh for the specified LOD")
+{
     int lod = plClothingItem::kLODHigh;
     pyKey* key;
 
@@ -53,13 +59,9 @@ static PyObject* pyClothingItem_setMesh(pyClothingItem* self, PyObject* args) {
 }
 
 PyMethodDef pyClothingItem_Methods[] = {
-    { "getMesh", (PyCFunction)pyClothingItem_getMesh, METH_VARARGS,
-      "Params: lod\n"
-      "Gets the Key of the mesh for the specified LOD" },
-    { "setMesh", (PyCFunction)pyClothingItem_setMesh, METH_VARARGS,
-      "Params: lod, mesh\n"
-      "Sets the Key of the mesh for the specified LOD" },
-    { NULL, NULL, 0, NULL }
+    pyClothingItem_getMesh_method,
+    pyClothingItem_setMesh_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(plString, ClothingItem, description, getDescription, setDescription)

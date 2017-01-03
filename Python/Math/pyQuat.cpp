@@ -127,15 +127,18 @@ static int pyQuat_nonzero(pyQuat* self) {
         || (self->fThis->Z != 0.0f) || (self->fThis->W != 0.0f);
 }
 
-static PyObject* pyQuat_Identity(PyObject*) {
+PY_METHOD_STATIC_NOARGS(Quat, Identity, "Returns an identity quaternion") {
     return pyPlasma_convert(hsQuat::Identity());
 }
 
-static PyObject* pyQuat_conjugate(pyQuat* self) {
+PY_METHOD_NOARGS(Quat, conjugate, "Returns the conjugate of the quaternion") {
     return pyPlasma_convert(self->fThis->conjugate());
 }
 
-static PyObject* pyQuat_read(pyQuat* self, PyObject* args) {
+PY_METHOD_VA(Quat, read,
+    "Params: stream\n"
+    "Reads this quat from `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
@@ -149,7 +152,10 @@ static PyObject* pyQuat_read(pyQuat* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyQuat_write(pyQuat* self, PyObject* args) {
+PY_METHOD_VA(Quat, write,
+    "Params: stream\n"
+    "Writes this quat to `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
@@ -220,17 +226,11 @@ PyNumberMethods pyQuat_As_Number = {
 };
 
 PyMethodDef pyQuat_Methods[] = {
-    { "Identity", (PyCFunction)pyQuat_Identity, METH_NOARGS | METH_STATIC,
-      "Returns an identity quaternion" },
-    { "conjugate", (PyCFunction)pyQuat_conjugate, METH_NOARGS,
-      "Returns the conjugate of the quaternion" },
-    { "read", (PyCFunction)pyQuat_read, METH_VARARGS,
-      "Params: stream\n"
-      "Reads this vector from `stream`" },
-    { "write", (PyCFunction)pyQuat_write, METH_VARARGS,
-      "Params: stream\n"
-      "Writes this vector to `stream`" },
-    { NULL, NULL, 0, NULL }
+    pyQuat_Identity_method,
+    pyQuat_conjugate_method,
+    pyQuat_read_method,
+    pyQuat_write_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY_MEMBER(float, Quat, X, X)

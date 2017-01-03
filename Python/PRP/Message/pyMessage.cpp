@@ -24,7 +24,10 @@ extern "C" {
 
 PY_PLASMA_NEW(Message, plMessage)
 
-static PyObject* pyMessage_addReceiver(pyMessage* self, PyObject* args) {
+PY_METHOD_VA(Message, addReceiver,
+    "Params: callback\n"
+    "Register a receiver key to the object")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addReceiver expects a plKey");
@@ -38,7 +41,10 @@ static PyObject* pyMessage_addReceiver(pyMessage* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyMessage_delReceiver(pyMessage* self, PyObject* args) {
+PY_METHOD_VA(Message, delReceiver,
+    "Params: idx\n"
+    "Unregister a receiver key from the object")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delReceiver expects an int");
@@ -48,7 +54,7 @@ static PyObject* pyMessage_delReceiver(pyMessage* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyMessage_clearReceivers(pyMessage* self) {
+PY_METHOD_NOARGS(Message, clearReceivers, "Remove all receivers from the object") {
     self->fThis->clearReceivers();
     Py_RETURN_NONE;
 }
@@ -66,15 +72,10 @@ static int pyMessage_setReceivers(pyMessage* self, PyObject* value, void*) {
 }
 
 static PyMethodDef pyMessage_Methods[] = {
-    { "addReceiver", (PyCFunction)pyMessage_addReceiver, METH_VARARGS,
-      "Params: callback\n"
-      "Register a receiver key to the object" },
-    { "delReceiver", (PyCFunction)pyMessage_delReceiver, METH_VARARGS,
-      "Params: idx\n"
-      "Unregister a receiver key from the object" },
-    { "clearReceivers", (PyCFunction)pyMessage_clearReceivers, METH_NOARGS,
-      "Remove all receivers from the object" },
-    { NULL, NULL, 0, NULL }
+    pyMessage_addReceiver_method,
+    pyMessage_delReceiver_method,
+    pyMessage_clearReceivers_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(plKey, Message, sender, getSender, setSender)

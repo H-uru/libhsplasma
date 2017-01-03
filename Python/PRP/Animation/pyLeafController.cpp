@@ -27,19 +27,19 @@ extern "C" {
 PY_PLASMA_EMPTY_INIT(LeafController)
 PY_PLASMA_NEW(LeafController, plLeafController)
 
-static PyObject* pyLeafController_hasKeys(pyLeafController* self) {
+PY_METHOD_NOARGS(LeafController, hasKeys, NULL) {
     return pyPlasma_convert(self->fThis->hasKeys());
 }
 
-static PyObject* pyLeafController_hasEaseControllers(pyLeafController* self) {
+PY_METHOD_NOARGS(LeafController, hasEaseControllers, NULL) {
     return pyPlasma_convert(self->fThis->hasEaseControllers());
 }
 
-static PyObject* pyLeafController_ExpandToKeyController(pyLeafController* self) {
+PY_METHOD_NOARGS(LeafController, ExpandToKeyController, NULL) {
     return ICreate(self->fThis->ExpandToKeyController());
 }
 
-static PyObject* pyLeafController_CompactToLeafController(pyLeafController* self) {
+PY_METHOD_NOARGS(LeafController, CompactToLeafController, NULL) {
     return ICreate(self->fThis->CompactToLeafController());
 }
 
@@ -121,11 +121,11 @@ static int pyLeafController_setEaseControllers(pyLeafController* self, PyObject*
 }
 
 static PyMethodDef pyLeafController_Methods[] = {
-    { "hasKeys", (PyCFunction)pyLeafController_hasKeys, METH_NOARGS, NULL },
-    { "hasEaseControllers", (PyCFunction)pyLeafController_hasEaseControllers, METH_NOARGS, NULL },
-    { "ExpandToKeyController", (PyCFunction)pyLeafController_ExpandToKeyController, METH_NOARGS, NULL },
-    { "CompactToLeafController", (PyCFunction)pyLeafController_CompactToLeafController, METH_NOARGS, NULL },
-    { NULL, NULL, 0, NULL }
+    pyLeafController_hasKeys_method,
+    pyLeafController_hasEaseControllers_method,
+    pyLeafController_ExpandToKeyController_method,
+    pyLeafController_CompactToLeafController_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY_READ(LeafController, type, getType)

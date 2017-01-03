@@ -24,13 +24,16 @@ extern "C" {
 
 PY_PLASMA_NEW(SceneNode, plSceneNode)
 
-static PyObject* pySceneNode_clear(pySceneNode* self) {
+PY_METHOD_NOARGS(SceneNode, clear, "Removes all objects from the Scene Node") {
     self->fThis->clearSceneObjects();
     self->fThis->clearPoolObjects();
     Py_RETURN_NONE;
 }
 
-static PyObject* pySceneNode_addSceneObject(pySceneNode* self, PyObject* args) {
+PY_METHOD_VA(SceneNode, addSceneObject,
+    "Params: key\n"
+    "Adds the Scene Object to the Scene Node")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addSceneObject expects a plKey");
@@ -44,7 +47,10 @@ static PyObject* pySceneNode_addSceneObject(pySceneNode* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pySceneNode_addPoolObject(pySceneNode* self, PyObject* args) {
+PY_METHOD_VA(SceneNode, addPoolObject,
+    "Params: key\n"
+    "Adds the Object to the Scene Node")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addPoolObject expects a plKey");
@@ -58,7 +64,10 @@ static PyObject* pySceneNode_addPoolObject(pySceneNode* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pySceneNode_addSceneObjects(pySceneNode* self, PyObject* args) {
+PY_METHOD_VA(SceneNode, addSceneObjects,
+    "Params: keyArray\n"
+    "Adds multiple Scene Objects to the Scene Node")
+{
     PyObject* list;
     if (!PyArg_ParseTuple(args, "O", &list)) {
         PyErr_SetString(PyExc_TypeError, "addSceneObjects expects a list of plKeys");
@@ -84,7 +93,10 @@ static PyObject* pySceneNode_addSceneObjects(pySceneNode* self, PyObject* args) 
     Py_RETURN_NONE;
 }
 
-static PyObject* pySceneNode_addPoolObjects(pySceneNode* self, PyObject* args) {
+PY_METHOD_VA(SceneNode, addPoolObjects,
+    "Params: keyArray\n"
+    "Adds multiple Object to the Scene Node")
+{
     PyObject* list;
     if (!PyArg_ParseTuple(args, "O", &list)) {
         PyErr_SetString(PyExc_TypeError, "addPoolObjects expects a list of plKeys");
@@ -135,21 +147,12 @@ static int pySceneNode_setPoolObjects(pySceneNode* self, PyObject* value, void*)
 }
 
 PyMethodDef pySceneNode_Methods[] = {
-    { "clear", (PyCFunction)pySceneNode_clear, METH_NOARGS,
-      "Removes all objects from the Scene Node" },
-    { "addSceneObject", (PyCFunction)pySceneNode_addSceneObject, METH_VARARGS,
-      "Params: key\n"
-      "Adds the Scene Object to the Scene Node" },
-    { "addPoolObject", (PyCFunction)pySceneNode_addPoolObject, METH_VARARGS,
-      "Params: key\n"
-      "Adds the Object to the Scene Node" },
-    { "addSceneObjects", (PyCFunction)pySceneNode_addSceneObjects, METH_VARARGS,
-      "Params: keyArray\n"
-      "Adds multiple Scene Objects to the Scene Node" },
-    { "addPoolObject", (PyCFunction)pySceneNode_addPoolObjects, METH_VARARGS,
-      "Params: keyArray\n"
-      "Adds multiple Object to the Scene Node" },
-    { NULL, NULL, 0, NULL }
+    pySceneNode_clear_method,
+    pySceneNode_addSceneObject_method,
+    pySceneNode_addPoolObject_method,
+    pySceneNode_addSceneObjects_method,
+    pySceneNode_addPoolObjects_method,
+    PY_METHOD_TERMINATOR
 };
 
 PyGetSetDef pySceneNode_GetSet[] = {

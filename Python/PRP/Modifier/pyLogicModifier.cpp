@@ -24,12 +24,15 @@ extern "C" {
 
 PY_PLASMA_NEW(LogicModifier, plLogicModifier)
 
-static PyObject* pyLogicModifier_clearConditions(pyLogicModifier* self) {
+PY_METHOD_NOARGS(LogicModifier, clearConditions, "Remove all condition keys") {
     self->fThis->clearConditions();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyLogicModifier_addCondition(pyLogicModifier* self, PyObject* args) {
+PY_METHOD_VA(LogicModifier, addCondition,
+    "Params: key\n"
+    "Add a condition key")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addCondition expects a plKey");
@@ -43,7 +46,10 @@ static PyObject* pyLogicModifier_addCondition(pyLogicModifier* self, PyObject* a
     Py_RETURN_NONE;
 }
 
-static PyObject* pyLogicModifier_delCondition(pyLogicModifier* self, PyObject* args) {
+PY_METHOD_VA(LogicModifier, delCondition,
+    "Params: idx\n"
+    "Remove a condition key")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delCondition expects an int");
@@ -66,15 +72,10 @@ static int pyLogicModifier_setConditions(pyLogicModifier* self, PyObject* value,
 }
 
 static PyMethodDef pyLogicModifier_Methods[] = {
-    { "clearConditions", (PyCFunction)pyLogicModifier_clearConditions, METH_NOARGS,
-      "Remove all condition keys" },
-    { "addCondition", (PyCFunction)pyLogicModifier_addCondition, METH_VARARGS,
-      "Params: key\n"
-      "Add a condition key" },
-    { "delCondition", (PyCFunction)pyLogicModifier_delCondition, METH_NOARGS,
-      "Params: idx\n"
-      "Remove a condition key" },
-    { NULL, NULL, 0, NULL }
+    pyLogicModifier_clearConditions_method,
+    pyLogicModifier_addCondition_method,
+    pyLogicModifier_delCondition_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(unsigned int, LogicModifier, cursor, getCursor, setCursor)
