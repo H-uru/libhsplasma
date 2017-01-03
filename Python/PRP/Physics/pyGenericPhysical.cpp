@@ -134,10 +134,8 @@ static PyObject* pyGenericPhysical_getIndices(pyGenericPhysical* self, void*) {
 }
 
 static int pyGenericPhysical_setVerts(pyGenericPhysical* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setVerts(0, NULL);
-        return 0;
-    } else if (!PyList_Check(value)) {
+    PY_PROPERTY_CHECK_NULL(verts)
+    if (!PyList_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "verts should be list of hsVector3s");
         return -1;
     }
@@ -162,10 +160,8 @@ static int pyGenericPhysical_setVerts(pyGenericPhysical* self, PyObject* value, 
 }
 
 static int pyGenericPhysical_setIndices(pyGenericPhysical* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setIndices(0, NULL);
-        return 0;
-    } else if (!PyList_Check(value)) {
+    PY_PROPERTY_CHECK_NULL(indices)
+    if (!PyList_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "indices should be list of ints");
         return -1;
     }
@@ -218,10 +214,8 @@ PY_GETSET_GETTER_DECL(GenericPhysical, TMDBuffer) {
 }
 
 PY_GETSET_SETTER_DECL(GenericPhysical, TMDBuffer) {
-    if (value == NULL) {
-        PyErr_SetString(PyExc_RuntimeError, "TMDBuffer cannot be deleted");
-        return -1;
-    } else if (value == Py_None) {
+    PY_PROPERTY_CHECK_NULL(TMDBuffer)
+    if (value == Py_None) {
         self->fThis->setTMDBuffer(0, NULL);
         return 0;
     } else if (!PyBytes_Check(value)) {

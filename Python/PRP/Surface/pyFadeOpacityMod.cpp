@@ -32,10 +32,8 @@ PY_GETSET_GETTER_DECL(FadeOpacityMod, boundsCenter) {
 }
 
 PY_GETSET_SETTER_DECL(FadeOpacityMod, boundsCenter) {
-    if (value == NULL) {
-        PyErr_SetString(PyExc_RuntimeError, "boundsCenter cannot be deleted");
-        return -1;
-    } else if (!pyPlasma_check<bool>(value)) {
+    PY_PROPERTY_CHECK_NULL(boundsCenter)
+    if (!pyPlasma_check<bool>(value)) {
         PyErr_SetString(PyExc_TypeError, "boundsCenter should be a bool");
         return -1;
     }

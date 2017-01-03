@@ -143,10 +143,7 @@ PY_PROPERTY_MEMBER(unsigned int, DDSurface, alphaDepth, fAlphaDepth)
                                    self->fThis->member.fColorSpaceHigh); \
     }                                                                   \
     PY_GETSET_SETTER_DECL(DDSurface, name) {                            \
-        if (value == NULL) {                                            \
-            PyErr_SetString(PyExc_RuntimeError, #name " cannot be deleted"); \
-            return -1;                                                  \
-        }                                                               \
+        PY_PROPERTY_CHECK_NULL(name)                                    \
         if (!PyTuple_Check(value) || PyTuple_GET_SIZE(value) != 2) {    \
             PyErr_SetString(PyExc_TypeError, #name " should be a tuple (int, int)"); \
             return -1;                                                  \
@@ -195,10 +192,7 @@ PY_GETSET_GETTER_DECL(DDSurface, pf_multiSampleCaps) {
 }
 
 PY_GETSET_SETTER_DECL(DDSurface, pf_multiSampleCaps) {
-    if (value == NULL) {
-        PyErr_SetString(PyExc_RuntimeError, "pf_multiSampleCaps cannot be deleted");
-        return -1;
-    }
+    PY_PROPERTY_CHECK_NULL(pf_multiSampleCaps)
     if (!PyTuple_Check(value) || PyTuple_GET_SIZE(value) != 2) {
         PyErr_SetString(PyExc_TypeError, "pf_multiSampleCaps should be a tuple (int, int)");
         return -1;
@@ -229,10 +223,8 @@ PY_GETSET_GETTER_DECL(DDSurface, data) {
 }
 
 PY_GETSET_SETTER_DECL(DDSurface, data) {
-    if (value == NULL) {
-        PyErr_SetString(PyExc_RuntimeError, "data cannot be deleted");
-        return -1;
-    } else if (value == Py_None) {
+    PY_PROPERTY_CHECK_NULL(data)
+    if (value == Py_None) {
         self->fThis->setData(0, NULL);
     } else if (PyBytes_Check(value)) {
         char* data;

@@ -38,11 +38,7 @@ PY_PROPERTY(bool, RenderTarget, proportionalViewport, getProportionalViewport,
             return pyPlasma_convert(rt->getAbsoluteViewport##direction()); \
     }                                                                   \
     PY_GETSET_SETTER_DECL(RenderTarget, viewport##direction) {          \
-        if (value == NULL) {                                            \
-            PyErr_SetString(PyExc_RuntimeError,                         \
-                            "viewport" #direction " cannot be deleted"); \
-            return -1;                                                  \
-        }                                                               \
+        PY_PROPERTY_CHECK_NULL(viewport##direction)                     \
         plRenderTarget* rt = self->fThis;                               \
         if (rt->getProportionalViewport()) {                            \
             if (!pyPlasma_check<float>(value)) {                        \

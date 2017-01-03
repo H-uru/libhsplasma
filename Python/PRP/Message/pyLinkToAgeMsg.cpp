@@ -32,11 +32,10 @@ PY_GETSET_GETTER_DECL(LinkToAgeMsg, ageLink) {
 }
 
 PY_GETSET_SETTER_DECL(LinkToAgeMsg, ageLink) {
+    PY_PROPERTY_CHECK_NULL(ageLink)
+
     plAgeLinkStruct& als = self->fThis->getAgeLink();
-    if (value == NULL) {
-        PyErr_SetString(PyExc_RuntimeError, "ageLink cannot be deleted");
-        return -1;
-    } else if (pyAgeLinkStruct_Check(value)) {
+    if (pyAgeLinkStruct_Check(value)) {
         als = *((pyAgeLinkStruct*)value)->fThis;
         return 0;
     } else {

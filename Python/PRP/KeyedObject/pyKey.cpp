@@ -179,10 +179,8 @@ PY_GETSET_GETTER_DECL(Key, name) {
 }
 
 PY_GETSET_SETTER_DECL(Key, name) {
-    if (value == NULL) {
-        PyErr_SetString(PyExc_RuntimeError, "name cannot be deleted");
-        return -1;
-    } else if (!pyPlasma_check<plString>(value)) {
+    PY_PROPERTY_CHECK_NULL(name)
+    if (!pyPlasma_check<plString>(value)) {
         PyErr_SetString(PyExc_TypeError, "name expected type plString");
         return -1;
     }
@@ -197,10 +195,8 @@ PY_GETSET_GETTER_DECL(Key, location) {
 }
 
 PY_GETSET_SETTER_DECL(Key, location) {
-    if (value == NULL) {
-        PyErr_SetString(PyExc_RuntimeError, "location cannot be deleted");
-        return -1;
-    } else if (value == Py_None) {
+    PY_PROPERTY_CHECK_NULL(location)
+    if (value == Py_None) {
         (*self->fThis)->setLocation(plLocation());
         return 0;
     } else if (!pyLocation_Check(value)) {
@@ -218,10 +214,8 @@ PY_GETSET_GETTER_DECL(Key, mask) {
 }
 
 PY_GETSET_SETTER_DECL(Key, mask) {
-    if (value == NULL) {
-        PyErr_SetString(PyExc_RuntimeError, "mask cannot be deleted");
-        return -1;
-    } else if (!pyPlasma_check<unsigned short>(value)) {
+    PY_PROPERTY_CHECK_NULL(mask)
+    if (!pyPlasma_check<unsigned short>(value)) {
         PyErr_SetString(PyExc_TypeError, "mask expected type unsigned short");
         return -1;
     }
@@ -238,10 +232,8 @@ PY_GETSET_GETTER_DECL(Key, id) {
 }
 
 PY_GETSET_SETTER_DECL(Key, id) {
-    if (value == NULL) {
-        PyErr_SetString(PyExc_RuntimeError, "id cannot be deleted");
-        return -1;
-    } else if (!pyPlasma_check<uint32_t>(value)) {
+    PY_PROPERTY_CHECK_NULL(id)
+    if (!pyPlasma_check<uint32_t>(value)) {
         PyErr_SetString(PyExc_TypeError, "id expected type uint32_t");
         return -1;
     }

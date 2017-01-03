@@ -31,10 +31,8 @@ PY_GETSET_GETTER_DECL(SplineEaseCurve, splineCoef) {
 }
 
 PY_GETSET_SETTER_DECL(SplineEaseCurve, splineCoef) {
-    if (value == NULL) {
-        PyErr_SetString(PyExc_RuntimeError, "splineCoef cannot be deleted");
-        return -1;
-    } else if (!PyTuple_Check(value) || PyTuple_Size(value) != 4) {
+    PY_PROPERTY_CHECK_NULL(splineCoef)
+    if (!PyTuple_Check(value) || PyTuple_Size(value) != 4) {
         PyErr_SetString(PyExc_TypeError, "splineCoef should be a tuple of 4 floats");
         return -1;
     }

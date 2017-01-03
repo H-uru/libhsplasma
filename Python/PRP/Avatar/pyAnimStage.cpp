@@ -40,10 +40,8 @@ PY_GETSET_GETTER_DECL(AnimStage, advanceTo) {
 }
 
 PY_GETSET_SETTER_DECL(AnimStage, advanceTo) {
-    if (value == NULL) {
-        PyErr_SetString(PyExc_RuntimeError, "advanceTo cannot be deleted");
-        return -1;
-    } else if (value == Py_None) {
+    PY_PROPERTY_CHECK_NULL(advanceTo)
+    if (value == Py_None) {
         self->fThis->setAdvanceTo(false);
         return 0;
     } else if (pyPlasma_check<unsigned int>(value)) {
@@ -65,10 +63,8 @@ PY_GETSET_GETTER_DECL(AnimStage, regressTo) {
 }
 
 PY_GETSET_SETTER_DECL(AnimStage, regressTo) {
-    if (value == NULL) {
-        PyErr_SetString(PyExc_RuntimeError, "regressTo cannot be deleted");
-        return -1;
-    } else if (value == Py_None) {
+    PY_PROPERTY_CHECK_NULL(regressTo)
+    if (value == Py_None) {
         self->fThis->setRegressTo(false);
         return 0;
     } else if (pyPlasma_check<unsigned int>(value)) {

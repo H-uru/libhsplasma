@@ -48,7 +48,8 @@ static PyObject* pyDynamicEnvMap_getVisRegionNames(pyDynamicEnvMap* self, void*)
 }
 
 static int pyDynamicEnvMap_setVisRegions(pyDynamicEnvMap* self, PyObject* value, void*) {
-    if (value == NULL || !PySequence_Check(value)) {
+    PY_PROPERTY_CHECK_NULL(visRegions)
+    if (!PySequence_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "visRegions should be a sequence of plKeys");
         return -1;
     }
@@ -57,7 +58,7 @@ static int pyDynamicEnvMap_setVisRegions(pyDynamicEnvMap* self, PyObject* value,
     for (Py_ssize_t i=0; i<PySequence_Size(value); i++) {
         PyObject* region = PySequence_GetItem(value, i);
         if (pyKey_Check(region)){
-            regions[i] = *(reinterpret_cast<pyKey *>(region)->fThis);
+            regions[i] = pyPlasma_get<plKey>(region);
         } else {
             PyErr_SetString(PyExc_TypeError, "visRegions should be a sequence of plKeys");
             return -1;
@@ -68,7 +69,8 @@ static int pyDynamicEnvMap_setVisRegions(pyDynamicEnvMap* self, PyObject* value,
 }
 
 static int pyDynamicEnvMap_setVisRegionNames(pyDynamicEnvMap* self, PyObject* value, void*) {
-    if (value == NULL || !PySequence_Check(value)) {
+    PY_PROPERTY_CHECK_NULL(visRegionNames)
+    if (!PySequence_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "visRegionNames should be a sequence of strings");
         return -1;
     }

@@ -350,12 +350,18 @@ template <> inline plKeyDef pyPlasma_get(PyObject* value) { return (plKeyDef)PyI
         return pyPlasma_convert(self->fThis->getter());                 \
     }
 
+/* Place this at the beginning of a property SETTER to ensure the value
+ * is not NULL (i.e. that the caller didn't try to delete the property) */
+#define PY_PROPERTY_CHECK_NULL(name)                                    \
+    if (value == NULL) {                                                \
+        PyErr_SetString(PyExc_RuntimeError, #name " cannot be deleted"); \
+        return -1;                                                      \
+    }
+
 #define PY_PROPERTY_WRITE(type, pyType, name, setter)                   \
     PY_GETSET_SETTER_DECL(pyType, name) {                               \
-        if (value == NULL) {                                            \
-            PyErr_SetString(PyExc_RuntimeError, #name " cannot be deleted"); \
-            return -1;                                                  \
-        } else if (!pyPlasma_check<type>(value)) {                      \
+        PY_PROPERTY_CHECK_NULL(name)                                    \
+        if (!pyPlasma_check<type>(value)) {                             \
             PyErr_SetString(PyExc_TypeError, #name " expected type " #type); \
             return -1;                                                  \
         }                                                               \
@@ -389,10 +395,8 @@ template <> inline plKeyDef pyPlasma_get(PyObject* value) { return (plKeyDef)PyI
 
 #define PY_PROPERTY_MEMBER_WRITE(type, pyType, name, member)            \
     PY_GETSET_SETTER_DECL(pyType, name) {                               \
-        if (value == NULL) {                                            \
-            PyErr_SetString(PyExc_RuntimeError, #name " cannot be deleted"); \
-            return -1;                                                  \
-        } else if (!pyPlasma_check<type>(value)) {                      \
+        PY_PROPERTY_CHECK_NULL(name)                                    \
+        if (!pyPlasma_check<type>(value)) {                             \
             PyErr_SetString(PyExc_TypeError, #name " expected type " #type); \
             return -1;                                                  \
         }                                                               \
@@ -414,10 +418,8 @@ template <> inline plKeyDef pyPlasma_get(PyObject* value) { return (plKeyDef)PyI
 
 #define PY_PROPERTY_PROXY_WRITE(type, pyType, name, getter)             \
     PY_GETSET_SETTER_DECL(pyType, name) {                               \
-        if (value == NULL) {                                            \
-            PyErr_SetString(PyExc_RuntimeError, #name " cannot be deleted"); \
-            return -1;                                                  \
-        } else if (!pyPlasma_check<type>(value)) {                      \
+        PY_PROPERTY_CHECK_NULL(name)                                    \
+        if (!pyPlasma_check<type>(value)) {                             \
             PyErr_SetString(PyExc_TypeError, #name " expected type " #type); \
             return -1;                                                  \
         }                                                               \

@@ -91,10 +91,7 @@ PY_GETSET_GETTER_DECL(ResponderModifier_State, waitToCmd) {
 }
 
 PY_GETSET_SETTER_DECL(ResponderModifier_State, waitToCmd) {
-    if (value == NULL) {
-        PyErr_SetString(PyExc_RuntimeError, "waitToCmd cannot be deleted");
-        return 0;
-    }
+    PY_PROPERTY_CHECK_NULL(waitToCmd)
     if (!PyDict_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "waitToCmd should be a dict { int => int }");
         return -1;

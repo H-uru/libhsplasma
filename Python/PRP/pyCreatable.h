@@ -32,10 +32,8 @@ PyObject* ICreate(class plCreatable* pCre);
 
 #define PY_PROPERTY_CREATABLE_WRITE(plType, pyType, myType, name, setter) \
     PY_GETSET_SETTER_DECL(myType, name) {                               \
-        if (value == NULL) {                                            \
-            PyErr_SetString(PyExc_RuntimeError, #name " cannot be deleted"); \
-            return -1;                                                  \
-        } else if (value == Py_None) {                                  \
+        PY_PROPERTY_CHECK_NULL(name)                                    \
+        if (value == Py_None) {                                         \
             self->fThis->setter(NULL);                                  \
             return 0;                                                   \
         } else if (!py##pyType##_Check(value)) {                        \
@@ -63,10 +61,8 @@ PyObject* ICreate(class plCreatable* pCre);
 
 #define PY_PROPERTY_CREATABLE_MEMBER_WRITE(plType, pyType, myType, name, member) \
     PY_GETSET_SETTER_DECL(myType, name) {                               \
-        if (value == NULL) {                                            \
-            PyErr_SetString(PyExc_RuntimeError, #name " cannot be deleted"); \
-            return -1;                                                  \
-        } else if (value == Py_None) {                                  \
+        PY_PROPERTY_CHECK_NULL(name)                                    \
+        if (value == Py_None) {                                         \
             self->fThis->member = NULL;                                 \
             return 0;                                                   \
         } else if (!py##pyType##_Check(value)) {                        \

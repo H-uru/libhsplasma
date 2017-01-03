@@ -94,10 +94,8 @@ PyMethodDef pyBounds3Ext_Methods[] = {
         return pyPlasma_convert(self->fThis->getAxis(id));              \
     }                                                                   \
     PY_GETSET_SETTER_DECL(Bounds3Ext, axis##id) {                       \
-        if (value == NULL) {                                            \
-            PyErr_SetString(PyExc_RuntimeError, "axis" #id " cannot be deleted"); \
-            return -1;                                                  \
-        } else if (!pyPlasma_check<hsVector3>(value)) {                 \
+        PY_PROPERTY_CHECK_NULL(axis##id)                                \
+        if (!pyPlasma_check<hsVector3>(value)) {                        \
             PyErr_SetString(PyExc_TypeError, "axis" #id " expected type hsVector3"); \
             return -1;                                                  \
         }                                                               \
@@ -116,10 +114,8 @@ BOUNDS_GETSET_AXIS(2)
         return Py_BuildValue("ff", dist.X, dist.Y);                     \
     }                                                                   \
     PY_GETSET_SETTER_DECL(Bounds3Ext, dist##id) {                       \
-        if (value == NULL) {                                            \
-            PyErr_SetString(PyExc_RuntimeError, "dist" #id " cannot be deleted"); \
-            return -1;                                                  \
-        } else if (!PyTuple_Check(value) || (PyTuple_Size(value) != 2)) { \
+        PY_PROPERTY_CHECK_NULL(dist##id)                                \
+        if (!PyTuple_Check(value) || (PyTuple_Size(value) != 2)) {      \
             PyErr_SetString(PyExc_TypeError, "dist" #id " expected type tuple(float, float)"); \
             return -1;                                                  \
         }                                                               \

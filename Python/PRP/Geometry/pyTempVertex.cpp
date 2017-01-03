@@ -79,14 +79,12 @@ PY_GETSET_GETTER_DECL(TempVertex, color) {
 }
 
 PY_GETSET_SETTER_DECL(TempVertex, color) {
-    if (value == NULL) {
-        PyErr_SetString(PyExc_RuntimeError, "color cannot be deleted");
-        return -1;
-    } else if (pyColor32_Check(value)) {
+    PY_PROPERTY_CHECK_NULL(color)
+    if (pyColor32_Check(value)) {
         self->fThis->fColor = ((pyColor32*)value)->fThis->color;
         return 0;
-    } else if (PyInt_Check(value)) {
-        self->fThis->fColor = PyInt_AsLong(value);
+    } else if (pyPlasma_check<unsigned int>(value)) {
+        self->fThis->fColor = pyPlasma_get<unsigned int>(value);
         return 0;
     } else {
         PyErr_SetString(PyExc_TypeError, "color must be an int or an hsColor32");
