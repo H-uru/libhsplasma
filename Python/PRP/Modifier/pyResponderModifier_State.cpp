@@ -71,22 +71,28 @@ static PyObject* pyResponderModifier_State_getCommands(pyResponderModifier_State
     return list;
 }
 
-static PyObject* pyResponderModifier_State_getWaits(pyResponderModifier_State* self, void*) {
-    PyObject* dict = PyDict_New();
-    std::map<int8_t, int8_t>::iterator wp = self->fThis->fWaitToCmd.begin();
-    for ( ; wp != self->fThis->fWaitToCmd.end(); wp++)
-        PyDict_SetItem(dict, pyPlasma_convert(wp->first), pyPlasma_convert(wp->second));
-    return dict;
-}
-
 static int pyResponderModifier_State_setCommands(pyResponderModifier_State* self, PyObject* value, void*) {
     PyErr_SetString(PyExc_TypeError, "To add commands, use addCommand");
     return -1;
 }
 
-static int pyResponderModifier_State_setWaits(pyResponderModifier_State* self, PyObject* value, void*) {
+static PyMethodDef pyResponderModifier_State_Methods[] = {
+    pyResponderModifier_State_addCommand_method,
+    pyResponderModifier_State_delCommand_method,
+    pyResponderModifier_State_clearCommands_method,
+    PY_METHOD_TERMINATOR
+};
+
+PY_GETSET_GETTER_DECL(ResponderModifier_State, waitToCmd) {
+    PyObject* dict = PyDict_New();
+    for (const auto& wp : self->fThis->fWaitToCmd)
+        PyDict_SetItem(dict, pyPlasma_convert(wp.first), pyPlasma_convert(wp.second));
+    return dict;
+}
+
+PY_GETSET_SETTER_DECL(ResponderModifier_State, waitToCmd) {
     if (value == NULL) {
-        self->fThis->fWaitToCmd.clear();
+        PyErr_SetString(PyExc_RuntimeError, "waitToCmd cannot be deleted");
         return 0;
     }
     if (!PyDict_Check(value)) {
@@ -99,21 +105,16 @@ static int pyResponderModifier_State_setWaits(pyResponderModifier_State* self, P
     self->fThis->fWaitToCmd.clear();
 
     while (PyDict_Next(value, &pos, &dkey, &dvalue)) {
-        if (!PyInt_Check(dkey) || !PyInt_Check(dvalue)) {
+        if (!pyPlasma_check<int8_t>(dkey) || !pyPlasma_check<int8_t>(dvalue)) {
             PyErr_SetString(PyExc_TypeError, "waitToCmd should be a dict { int => int }");
             return -1;
         }
-        self->fThis->fWaitToCmd[PyInt_AsLong(dkey)] = PyInt_AsLong(dvalue);
+        self->fThis->fWaitToCmd[pyPlasma_get<int8_t>(dkey)] = pyPlasma_get<int8_t>(dvalue);
     }
     return 0;
 }
 
-static PyMethodDef pyResponderModifier_State_Methods[] = {
-    pyResponderModifier_State_addCommand_method,
-    pyResponderModifier_State_delCommand_method,
-    pyResponderModifier_State_clearCommands_method,
-    PY_METHOD_TERMINATOR
-};
+PY_PROPERTY_GETSET_DECL(ResponderModifier_State, waitToCmd)
 
 PY_PROPERTY_MEMBER(int8_t, ResponderModifier_State, numCallbacks, fNumCallbacks)
 PY_PROPERTY_MEMBER(int8_t, ResponderModifier_State, switchToState, fSwitchToState)
@@ -123,8 +124,7 @@ static PyGetSetDef pyResponderModifier_State_GetSet[] = {
         (setter)pyResponderModifier_State_setCommands, NULL, NULL },
     pyResponderModifier_State_numCallbacks_getset,
     pyResponderModifier_State_switchToState_getset,
-    { _pycs("waitToCmd"), (getter)pyResponderModifier_State_getWaits,
-        (setter)pyResponderModifier_State_setWaits, NULL, NULL },
+    pyResponderModifier_State_waitToCmd_getset,
     PY_GETSET_TERMINATOR
 };
 

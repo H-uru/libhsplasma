@@ -26,23 +26,29 @@ PY_PLASMA_NEW(FadeOpacityMod, plFadeOpacityMod)
 PY_PROPERTY(float, FadeOpacityMod, fadeUp, getFadeUp, setFadeUp)
 PY_PROPERTY(float, FadeOpacityMod, fadeDown, getFadeDown, setFadeDown)
 
-static PyObject* pyFadeOpacityMod_getBoundsCenter(pyFadeOpacityMod* self, void*) {
+/* Shortcut for self.{get,set}Flag(plFadeOpacityMod.kBoundsCenter) */
+PY_GETSET_GETTER_DECL(FadeOpacityMod, boundsCenter) {
     return pyPlasma_convert(self->fThis->getFlag(plFadeOpacityMod::kBoundsCenter));
 }
 
-static int pyFadeOpacityMod_setBoundsCenter(pyFadeOpacityMod* self, PyObject* value, void*) {
-    if (value == NULL || !PyBool_Check(value)) {
+PY_GETSET_SETTER_DECL(FadeOpacityMod, boundsCenter) {
+    if (value == NULL) {
+        PyErr_SetString(PyExc_RuntimeError, "boundsCenter cannot be deleted");
+        return -1;
+    } else if (!pyPlasma_check<bool>(value)) {
         PyErr_SetString(PyExc_TypeError, "boundsCenter should be a bool");
         return -1;
     }
-    self->fThis->setFlag(plFadeOpacityMod::kBoundsCenter, PyInt_AsLong(value) != 0);
+    self->fThis->setFlag(plFadeOpacityMod::kBoundsCenter, pyPlasma_get<bool>(value));
     return 0;
 }
+
+PY_PROPERTY_GETSET_DECL(FadeOpacityMod, boundsCenter)
 
 static PyGetSetDef pyFadeOpacityMod_GetSet [] = {
     pyFadeOpacityMod_fadeUp_getset,
     pyFadeOpacityMod_fadeDown_getset,
-    { _pycs("boundsCenter"), (getter) pyFadeOpacityMod_getBoundsCenter, (setter) pyFadeOpacityMod_setBoundsCenter, NULL, NULL },
+    pyFadeOpacityMod_boundsCenter_getset,
     PY_GETSET_TERMINATOR
 };
 
