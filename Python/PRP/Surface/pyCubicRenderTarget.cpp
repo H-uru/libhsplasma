@@ -23,31 +23,21 @@ extern "C" {
 
 PY_PLASMA_NEW(CubicRenderTarget, plCubicRenderTarget)
 
-static PyObject* pyCubicRenderTarget_getLeftFace(pyCubicRenderTarget* self, void*) {
-    return ICreate(self->fThis->getFace(plCubicRenderTarget::kLeftFace));
-}
+/* These are proxies to render target objects in the CRT, so they cannot be set */
+#define CRT_FACE(propName, faceName)                                    \
+    PY_GETSET_GETTER_DECL(CubicRenderTarget, propName) {                \
+        return ICreate(self->fThis->getFace(plCubicRenderTarget::k##faceName##Face)); \
+    }                                                                   \
+    PY_PROPERTY_GETSET_RO_DECL(CubicRenderTarget, propName)
 
-static PyObject* pyCubicRenderTarget_getRightFace(pyCubicRenderTarget* self, void*) {
-    return ICreate(self->fThis->getFace(plCubicRenderTarget::kRightFace));
-}
+CRT_FACE(leftFace, Left)
+CRT_FACE(rightFace, Right)
+CRT_FACE(frontFace, Front)
+CRT_FACE(backFace, Back)
+CRT_FACE(topFace, Top)
+CRT_FACE(bottomFace, Bottom)
 
-static PyObject* pyCubicRenderTarget_getFrontFace(pyCubicRenderTarget* self, void*) {
-    return ICreate(self->fThis->getFace(plCubicRenderTarget::kFrontFace));
-}
-
-static PyObject* pyCubicRenderTarget_getBackFace(pyCubicRenderTarget* self, void*) {
-    return ICreate(self->fThis->getFace(plCubicRenderTarget::kBackFace));
-}
-
-static PyObject* pyCubicRenderTarget_getTopFace(pyCubicRenderTarget* self, void*) {
-    return ICreate(self->fThis->getFace(plCubicRenderTarget::kTopFace));
-}
-
-static PyObject* pyCubicRenderTarget_getBottomFace(pyCubicRenderTarget* self, void*) {
-    return ICreate(self->fThis->getFace(plCubicRenderTarget::kBottomFace));
-}
-
-static PyObject* pyCubicRenderTarget_getFaces(pyCubicRenderTarget* self, void*) {
+PY_GETSET_GETTER_DECL(CubicRenderTarget, faces) {
     PyObject* facesTuple = PyTuple_New(plCubicRenderTarget::kNumFaces);
     for (size_t i = 0; i < plCubicRenderTarget::kNumFaces; ++i) {
         plRenderTarget* rt = self->fThis->getFace(i);
@@ -56,14 +46,16 @@ static PyObject* pyCubicRenderTarget_getFaces(pyCubicRenderTarget* self, void*) 
     return facesTuple;
 }
 
+PY_PROPERTY_GETSET_RO_DECL(CubicRenderTarget, faces)
+
 static PyGetSetDef pyCubicRenderTarget_GetSet[] = {
-    { _pycs("leftFace"), (getter)pyCubicRenderTarget_getLeftFace, NULL, NULL, NULL },
-    { _pycs("rightFace"), (getter)pyCubicRenderTarget_getRightFace, NULL, NULL, NULL },
-    { _pycs("frontFace"), (getter)pyCubicRenderTarget_getFrontFace, NULL, NULL, NULL },
-    { _pycs("backFace"), (getter)pyCubicRenderTarget_getBackFace, NULL, NULL, NULL },
-    { _pycs("topFace"), (getter)pyCubicRenderTarget_getTopFace, NULL, NULL, NULL },
-    { _pycs("bottomFace"), (getter)pyCubicRenderTarget_getBottomFace, NULL, NULL, NULL },
-    { _pycs("faces"), (getter)pyCubicRenderTarget_getFaces, NULL, NULL, NULL },
+    pyCubicRenderTarget_leftFace_getset,
+    pyCubicRenderTarget_rightFace_getset,
+    pyCubicRenderTarget_frontFace_getset,
+    pyCubicRenderTarget_backFace_getset,
+    pyCubicRenderTarget_topFace_getset,
+    pyCubicRenderTarget_bottomFace_getset,
+    pyCubicRenderTarget_faces_getset,
     PY_GETSET_TERMINATOR
 };
 
