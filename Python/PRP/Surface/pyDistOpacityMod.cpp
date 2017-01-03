@@ -23,63 +23,33 @@ extern "C" {
 
 PY_PLASMA_NEW(DistOpacityMod, plDistOpacityMod)
 
-static PyObject* pyDistOpacityMod_getNearTrans(pyDistOpacityMod* self, void*) {
-    return pyPlasma_convert(self->fThis->getDistance(plDistOpacityMod::kNearTrans));
-}
+#define DOM_DISTANCE(propName, distEnum)                                \
+    PY_GETSET_GETTER_DECL(DistOpacityMod, propName) {                   \
+        return pyPlasma_convert(self->fThis->getDistance(plDistOpacityMod::distEnum)); \
+    }                                                                   \
+    PY_GETSET_SETTER_DECL(DistOpacityMod, propName) {                   \
+        if (value == NULL) {                                            \
+            PyErr_SetString(PyExc_RuntimeError, #propName " cannot be deleted"); \
+            return -1;                                                  \
+        } else if (!pyPlasma_check<float>(value)) {                     \
+            PyErr_SetString(PyExc_TypeError, #propName " expected type float"); \
+            return -1;                                                  \
+        }                                                               \
+        self->fThis->setDistance(plDistOpacityMod::distEnum, pyPlasma_get<float>(value)); \
+        return 0;                                                       \
+    }                                                                   \
+    PY_PROPERTY_GETSET_DECL(DistOpacityMod, propName)
 
-static PyObject* pyDistOpacityMod_getNearOpaq(pyDistOpacityMod* self, void*) {
-    return pyPlasma_convert(self->fThis->getDistance(plDistOpacityMod::kNearOpaq));
-}
-
-static PyObject* pyDistOpacityMod_getFarOpaq(pyDistOpacityMod* self, void*) {
-    return pyPlasma_convert(self->fThis->getDistance(plDistOpacityMod::kFarOpaq));
-}
-
-static PyObject* pyDistOpacityMod_getFarTrans(pyDistOpacityMod* self, void*) {
-    return pyPlasma_convert(self->fThis->getDistance(plDistOpacityMod::kFarTrans));
-}
-
-static int pyDistOpacityMod_setNearTrans(pyDistOpacityMod* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "NearTrans should be a float");
-        return -1;
-    }
-    self->fThis->setDistance(plDistOpacityMod::kNearTrans, PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyDistOpacityMod_setNearOpaq(pyDistOpacityMod* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "NearOpaq should be a float");
-        return -1;
-    }
-    self->fThis->setDistance(plDistOpacityMod::kNearOpaq, PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyDistOpacityMod_setFarOpaq(pyDistOpacityMod* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "FarOpaq should be a float");
-        return -1;
-    }
-    self->fThis->setDistance(plDistOpacityMod::kFarOpaq, PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyDistOpacityMod_setFarTrans(pyDistOpacityMod* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "FarTrans should be a float");
-        return -1;
-    }
-    self->fThis->setDistance(plDistOpacityMod::kFarTrans, PyFloat_AsDouble(value));
-    return 0;
-}
+DOM_DISTANCE(nearTrans, kNearTrans)
+DOM_DISTANCE(nearOpaq, kNearOpaq)
+DOM_DISTANCE(farOpaq, kFarOpaq)
+DOM_DISTANCE(farTrans, kFarTrans)
 
 static PyGetSetDef pyDistOpacityMod_GetSet [] = {
-    { _pycs("nearTrans"), (getter) pyDistOpacityMod_getNearTrans, (setter) pyDistOpacityMod_setNearTrans, NULL, NULL },
-    { _pycs("nearOpaq"), (getter) pyDistOpacityMod_getNearOpaq, (setter) pyDistOpacityMod_setNearOpaq, NULL, NULL },
-    { _pycs("farOpaq"), (getter) pyDistOpacityMod_getFarOpaq, (setter) pyDistOpacityMod_setFarOpaq, NULL, NULL },
-    { _pycs("farTrans"), (getter) pyDistOpacityMod_getFarTrans, (setter) pyDistOpacityMod_setFarTrans, NULL, NULL },
+    pyDistOpacityMod_nearTrans_getset,
+    pyDistOpacityMod_nearOpaq_getset,
+    pyDistOpacityMod_farOpaq_getset,
+    pyDistOpacityMod_farTrans_getset,
     PY_GETSET_TERMINATOR
 };
 

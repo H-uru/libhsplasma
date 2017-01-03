@@ -113,19 +113,6 @@ PY_METHOD_VA(ShaderConst, write,
     Py_RETURN_NONE;
 }
 
-static PyObject* pyShaderConst_getItem(pyShaderConst* self, void* which) {
-    return pyPlasma_convert(self->fThis->fArray[(size_t)which]);
-}
-
-static int pyShaderConst_setItem(pyShaderConst* self, PyObject* value, void* which) {
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "shader const values should be floats");
-        return -1;
-    }
-    self->fThis->fArray[(size_t)which] = PyFloat_AsDouble(value);
-    return 0;
-}
-
 static PyMappingMethods pyShaderConst_As_Mapping = {
     NULL,                                       /* mp_length */
     (binaryfunc)pyShaderConst_Subscript,        /* mp_subscript */
@@ -138,23 +125,24 @@ static PyMethodDef pyShaderConst_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
+PY_PROPERTY_MEMBER(float, ShaderConst, X, fX)
+PY_PROPERTY_MEMBER(float, ShaderConst, Y, fY)
+PY_PROPERTY_MEMBER(float, ShaderConst, Z, fZ)
+PY_PROPERTY_MEMBER(float, ShaderConst, W, fW)
+PY_PROPERTY_MEMBER(float, ShaderConst, red, fR)
+PY_PROPERTY_MEMBER(float, ShaderConst, green, fG)
+PY_PROPERTY_MEMBER(float, ShaderConst, blue, fB)
+PY_PROPERTY_MEMBER(float, ShaderConst, alpha, fA)
+
 static PyGetSetDef pyShaderConst_GetSet[] = {
-    { _pycs("X"), (getter)pyShaderConst_getItem,
-        (setter)pyShaderConst_setItem, NULL, (void*)0 },
-    { _pycs("Y"), (getter)pyShaderConst_getItem,
-        (setter)pyShaderConst_setItem, NULL, (void*)1 },
-    { _pycs("Z"), (getter)pyShaderConst_getItem,
-        (setter)pyShaderConst_setItem, NULL, (void*)2 },
-    { _pycs("W"), (getter)pyShaderConst_getItem,
-        (setter)pyShaderConst_setItem, NULL, (void*)3 },
-    { _pycs("red"), (getter)pyShaderConst_getItem,
-        (setter)pyShaderConst_setItem, NULL, (void*)0 },
-    { _pycs("green"), (getter)pyShaderConst_getItem,
-        (setter)pyShaderConst_setItem, NULL, (void*)1 },
-    { _pycs("blue"), (getter)pyShaderConst_getItem,
-        (setter)pyShaderConst_setItem, NULL, (void*)2 },
-    { _pycs("alpha"), (getter)pyShaderConst_getItem,
-        (setter)pyShaderConst_setItem, NULL, (void*)3 },
+    pyShaderConst_X_getset,
+    pyShaderConst_Y_getset,
+    pyShaderConst_Z_getset,
+    pyShaderConst_W_getset,
+    pyShaderConst_red_getset,
+    pyShaderConst_green_getset,
+    pyShaderConst_blue_getset,
+    pyShaderConst_alpha_getset,
     PY_GETSET_TERMINATOR
 };
 
