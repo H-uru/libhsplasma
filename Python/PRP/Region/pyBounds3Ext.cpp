@@ -23,41 +23,123 @@ extern "C" {
 
 PY_PLASMA_VALUE_NEW(Bounds3Ext, hsBounds3Ext)
 
-static PyObject* pyBounds3Ext_getAxis(pyBounds3Ext* self, void* idx) {
-    return pyVector3_FromVector3(self->fThis->getAxis((long)idx));
+PY_METHOD_VA(Bounds3Ext, getAxis,
+    "Params: axis"
+    "Get an axis vector")
+{
+    int axis;
+    if (!PyArg_ParseTuple(args, "i", &axis)) {
+        PyErr_SetString(PyExc_TypeError, "getAxis expects an int");
+        return NULL;
+    }
+    return pyPlasma_convert(self->fThis->getAxis((size_t)axis));
 }
 
-static PyObject* pyBounds3Ext_getDist(pyBounds3Ext* self, void* idx) {
-    hsFloatPoint2 dist = self->fThis->getDist((long)idx);
+PY_METHOD_VA(Bounds3Ext, setAxis,
+    "Params: axis, value"
+    "Set an axis vector")
+{
+    int axis;
+    PyObject* value;
+    if (!PyArg_ParseTuple(args, "iO", &axis, &value)) {
+        PyErr_SetString(PyExc_TypeError, "setAxis expects int, hsVector3");
+        return NULL;
+    }
+    if (!pyPlasma_check<hsVector3>(value)) {
+        PyErr_SetString(PyExc_TypeError, "setAxis expects int, hsVector3");
+        return NULL;
+    }
+    self->fThis->setAxis((size_t)axis, pyPlasma_get<hsVector3>(value));
+    Py_RETURN_NONE;
+}
+
+PY_METHOD_VA(Bounds3Ext, getDist,
+    "Params: axis"
+    "Get a distance tuple")
+{
+    int axis;
+    if (!PyArg_ParseTuple(args, "i", &axis)) {
+        PyErr_SetString(PyExc_TypeError, "getDist expects an int");
+        return NULL;
+    }
+    hsFloatPoint2 dist = self->fThis->getDist((size_t)axis);
     return Py_BuildValue("ff", dist.X, dist.Y);
 }
 
-static int pyBounds3Ext_setAxis(pyBounds3Ext* self, PyObject* value, void* idx) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "axes should be an hsVector3");
-        return -1;
+PY_METHOD_VA(Bounds3Ext, setDist,
+    "Params: axis, value"
+    "Set a distance tuple")
+{
+    int axis;
+    hsFloatPoint2 value;
+    if (!PyArg_ParseTuple(args, "iff", &axis, &value.X, &value.Y)) {
+        PyErr_SetString(PyExc_TypeError, "setAxis expects int, float, float");
+        return NULL;
     }
-    self->fThis->setAxis((long)idx, *((pyVector3*)value)->fThis);
-    return 0;
+    self->fThis->setDist((size_t)axis, value);
+    Py_RETURN_NONE;
 }
 
-static int pyBounds3Ext_setDist(pyBounds3Ext* self, PyObject* value, void* idx) {
-    if (value == NULL || !PyTuple_Check(value) || (PyTuple_Size(value) != 2)) {
-        PyErr_SetString(PyExc_TypeError, "dists should be a tuple (float, float)");
-        return -1;
-    }
-    hsFloatPoint2 dist;
-    PyObject* itmX = PyTuple_GET_ITEM(value, 0);
-    PyObject* itmY = PyTuple_GET_ITEM(value, 1);
-    if (!PyFloat_Check(itmX) || !PyFloat_Check(itmY)) {
-        PyErr_SetString(PyExc_TypeError, "dists should be a tuple (float, float)");
-        return -1;
-    }
-    dist.X = PyFloat_AsDouble(itmX);
-    dist.Y = PyFloat_AsDouble(itmY);
-    self->fThis->setDist((long)idx, dist);
-    return 0;
-}
+PyMethodDef pyBounds3Ext_Methods[] = {
+    pyBounds3Ext_getAxis_method,
+    pyBounds3Ext_setAxis_method,
+    pyBounds3Ext_getDist_method,
+    pyBounds3Ext_setDist_method,
+    PY_METHOD_TERMINATOR
+};
+
+/* Backwards compatibility */
+#define BOUNDS_GETSET_AXIS(id)                                          \
+    PY_GETSET_GETTER_DECL(Bounds3Ext, axis##id) {                       \
+        return pyPlasma_convert(self->fThis->getAxis(id));              \
+    }                                                                   \
+    PY_GETSET_SETTER_DECL(Bounds3Ext, axis##id) {                       \
+        if (value == NULL) {                                            \
+            PyErr_SetString(PyExc_RuntimeError, "axis" #id " cannot be deleted"); \
+            return -1;                                                  \
+        } else if (!pyPlasma_check<hsVector3>(value)) {                 \
+            PyErr_SetString(PyExc_TypeError, "axis" #id " expected type hsVector3"); \
+            return -1;                                                  \
+        }                                                               \
+        self->fThis->setAxis(id, pyPlasma_get<hsVector3>(value));       \
+        return 0;                                                       \
+    }                                                                   \
+    PY_PROPERTY_GETSET_DECL(Bounds3Ext, axis##id)
+
+BOUNDS_GETSET_AXIS(0)
+BOUNDS_GETSET_AXIS(1)
+BOUNDS_GETSET_AXIS(2)
+
+#define BOUNDS_GETSET_DIST(id)                                          \
+    PY_GETSET_GETTER_DECL(Bounds3Ext, dist##id) {                       \
+        hsFloatPoint2 dist = self->fThis->getDist(id);                  \
+        return Py_BuildValue("ff", dist.X, dist.Y);                     \
+    }                                                                   \
+    PY_GETSET_SETTER_DECL(Bounds3Ext, dist##id) {                       \
+        if (value == NULL) {                                            \
+            PyErr_SetString(PyExc_RuntimeError, "dist" #id " cannot be deleted"); \
+            return -1;                                                  \
+        } else if (!PyTuple_Check(value) || (PyTuple_Size(value) != 2)) { \
+            PyErr_SetString(PyExc_TypeError, "dist" #id " expected type tuple(float, float)"); \
+            return -1;                                                  \
+        }                                                               \
+        hsFloatPoint2 dist;                                             \
+        PyObject* itmX = PyTuple_GET_ITEM(value, 0);                    \
+        PyObject* itmY = PyTuple_GET_ITEM(value, 1);                    \
+        if (!pyPlasma_check<float>(itmX) || !pyPlasma_check<float>(itmY)) { \
+            PyErr_SetString(PyExc_TypeError, "dist" #id " expected type tuple (float, float)"); \
+            return -1;                                                  \
+        }                                                               \
+        dist.X = pyPlasma_get<float>(itmX);                             \
+        dist.Y = pyPlasma_get<float>(itmY);                             \
+        self->fThis->setDist(id, dist);                                 \
+        return 0;                                                       \
+    }                                                                   \
+    PY_PROPERTY_GETSET_DECL(Bounds3Ext, dist##id)
+
+BOUNDS_GETSET_DIST(0)
+BOUNDS_GETSET_DIST(1)
+BOUNDS_GETSET_DIST(2)
 
 PY_PROPERTY(unsigned int, Bounds3Ext, flags, getFlags, setFlags)
 PY_PROPERTY(hsVector3, Bounds3Ext, corner, getCorner, setCorner)
@@ -66,18 +148,12 @@ PY_PROPERTY(float, Bounds3Ext, radius, getRadius, setRadius)
 static PyGetSetDef pyBounds3Ext_GetSet[] = {
     pyBounds3Ext_flags_getset,
     pyBounds3Ext_corner_getset,
-    { _pycs("axis0"), (getter)pyBounds3Ext_getAxis,
-        (setter)pyBounds3Ext_setAxis, NULL, (void*)0 },
-    { _pycs("axis1"), (getter)pyBounds3Ext_getAxis,
-        (setter)pyBounds3Ext_setAxis, NULL, (void*)1 },
-    { _pycs("axis2"), (getter)pyBounds3Ext_getAxis,
-        (setter)pyBounds3Ext_setAxis, NULL, (void*)2 },
-    { _pycs("dist0"), (getter)pyBounds3Ext_getDist,
-        (setter)pyBounds3Ext_setDist, NULL, (void*)0 },
-    { _pycs("dist1"), (getter)pyBounds3Ext_getDist,
-        (setter)pyBounds3Ext_setDist, NULL, (void*)1 },
-    { _pycs("dist2"), (getter)pyBounds3Ext_getDist,
-        (setter)pyBounds3Ext_setDist, NULL, (void*)2 },
+    pyBounds3Ext_axis0_getset,
+    pyBounds3Ext_axis1_getset,
+    pyBounds3Ext_axis2_getset,
+    pyBounds3Ext_dist0_getset,
+    pyBounds3Ext_dist1_getset,
+    pyBounds3Ext_dist2_getset,
     pyBounds3Ext_radius_getset,
     PY_GETSET_TERMINATOR
 };
@@ -86,6 +162,7 @@ PY_PLASMA_TYPE(Bounds3Ext, hsBounds3Ext, "hsBounds3Ext wrapper")
 
 PY_PLASMA_TYPE_INIT(Bounds3Ext) {
     pyBounds3Ext_Type.tp_new = pyBounds3Ext_new;
+    pyBounds3Ext_Type.tp_methods = pyBounds3Ext_Methods;
     pyBounds3Ext_Type.tp_getset = pyBounds3Ext_GetSet;
     pyBounds3Ext_Type.tp_base = &pyBounds3_Type;
     if (PyType_CheckAndReady(&pyBounds3Ext_Type) < 0)
