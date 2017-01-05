@@ -65,7 +65,7 @@ static PyMethodDef pyActivatorConditionalObject_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-static PyObject* pyActivatorConditionalObject_getActivators(pyActivatorConditionalObject* self, void*) {
+PY_GETSET_GETTER_DECL(ActivatorConditionalObject, activators) {
     plActivatorConditionalObject* act = self->fThis;
     PyObject* activators = PyTuple_New(act->getActivators().size());
     for (size_t i = 0; i < act->getActivators().size(); ++i)
@@ -73,14 +73,12 @@ static PyObject* pyActivatorConditionalObject_getActivators(pyActivatorCondition
     return activators;
 }
 
-static int pyActivatorConditionalObject_setActivators(pyActivatorConditionalObject* self, PyObject*, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add activators, use addActivator()");
-    return -1;
-}
+PY_PROPERTY_SETTER_MSG(ActivatorConditionalObject, activators,
+                       "To add activators, use addActivator()")
+PY_PROPERTY_GETSET_DECL(ActivatorConditionalObject, activators)
 
 static PyGetSetDef pyActivatorConditionalObject_GetSet[] = {
-    { _pycs("activators"), (getter)pyActivatorConditionalObject_getActivators,
-       (setter)pyActivatorConditionalObject_setActivators, NULL, NULL },
+    pyActivatorConditionalObject_activators_getset,
     PY_GETSET_TERMINATOR
 };
 

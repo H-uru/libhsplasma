@@ -96,7 +96,7 @@ static PyMethodDef pyAGMasterMod_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-static PyObject* pyAGMasterMod_getPrivateAnims(pyAGMasterMod* self, void*) {
+PY_GETSET_GETTER_DECL(AGMasterMod, privateAnims) {
     const std::vector<plKey>& anims = self->fThis->getPrivateAnims();
     PyObject* tup = PyTuple_New(anims.size());
     for (size_t i = 0; i < anims.size(); ++i)
@@ -104,7 +104,11 @@ static PyObject* pyAGMasterMod_getPrivateAnims(pyAGMasterMod* self, void*) {
     return tup;
 }
 
-static PyObject* pyAGMasterMod_getEoaKeys(pyAGMasterMod* self, void*) {
+PY_PROPERTY_SETTER_MSG(AGMasterMod, privateAnims,
+                       "To add privateAnims, use addPrivateAnim()")
+PY_PROPERTY_GETSET_DECL(AGMasterMod, privateAnims)
+
+PY_GETSET_GETTER_DECL(AGMasterMod, eoaKeys) {
     const std::vector<plKey>& keys = self->fThis->getEoaKeys();
     PyObject* tup = PyTuple_New(keys.size());
     for (size_t i = 0; i < keys.size(); ++i)
@@ -112,15 +116,8 @@ static PyObject* pyAGMasterMod_getEoaKeys(pyAGMasterMod* self, void*) {
     return tup;
 }
 
-static int pyAGMasterMod_setPrivateAnims(pyAGMasterMod* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add privateAnims, use addPrivateAnim()");
-    return -1;
-}
-
-static int pyAGMasterMod_setEoaKeys(pyAGMasterMod* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add eoaKeys, use addEoaKey()");
-    return -1;
-}
+PY_PROPERTY_SETTER_MSG(AGMasterMod, eoaKeys, "To add eoaKeys, use addEoaKey()")
+PY_PROPERTY_GETSET_DECL(AGMasterMod, eoaKeys)
 
 PY_PROPERTY(plString, AGMasterMod, groupName, getGroupName, setGroupName)
 PY_PROPERTY(bool, AGMasterMod, isGrouped, getIsGrouped, setIsGrouped)
@@ -128,8 +125,8 @@ PY_PROPERTY(bool, AGMasterMod, isGroupMaster, getIsGroupMaster, setIsGroupMaster
 PY_PROPERTY(plKey, AGMasterMod, msgForwarder, getMsgForwarder, setMsgForwarder)
 
 static PyGetSetDef pyAGMasterMod_GetSet[] = {
-    { _pycs("privateAnims"), (getter)pyAGMasterMod_getPrivateAnims, (setter)pyAGMasterMod_setPrivateAnims, NULL, NULL },
-    { _pycs("eoaKeys"), (getter)pyAGMasterMod_getEoaKeys, (setter)pyAGMasterMod_setEoaKeys, NULL, NULL },
+    pyAGMasterMod_privateAnims_getset,
+    pyAGMasterMod_eoaKeys_getset,
     pyAGMasterMod_groupName_getset,
     pyAGMasterMod_isGrouped_getset,
     pyAGMasterMod_isGroupMaster_getset,

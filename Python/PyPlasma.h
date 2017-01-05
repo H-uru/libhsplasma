@@ -33,6 +33,24 @@ int PyType_CheckAndReady(PyTypeObject* type);
 template <size_t size>
 inline char* _pycs(const char (&str)[size]) { return const_cast<char*>(str); }
 
+/* Helper object for managing and accessing the reference that is returned by
+ * PySequence_Fast() to allow fast access to arbitrary sequence-type objects */
+struct pySequenceFastRef
+{
+    PyObject* fObj;
+
+    pySequenceFastRef(PyObject* o)
+        : fObj(PySequence_Fast(o, "Object is not a sequence")) { }
+    ~pySequenceFastRef() { Py_XDECREF(fObj); }
+
+    bool isSequence() const { return fObj != NULL; }
+
+    Py_ssize_t size() { return PySequence_Fast_GET_SIZE(fObj); }
+
+    /** Returns a borrowed reference within the sequence FAST storage */
+    PyObject* get(Py_ssize_t idx) { return PySequence_Fast_GET_ITEM(fObj, idx); }
+};
+
 // Python 3.x does things differently...  This should help to keep things
 // under control with both 2.x and 3.0 somewhat seamlessly.
 #if (PY_MAJOR_VERSION >= 3)

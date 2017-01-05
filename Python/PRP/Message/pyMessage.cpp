@@ -59,24 +59,22 @@ PY_METHOD_NOARGS(Message, clearReceivers, "Remove all receivers from the object"
     Py_RETURN_NONE;
 }
 
-static PyObject* pyMessage_getReceivers(pyMessage* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getReceivers().size());
-    for (size_t i=0; i<self->fThis->getReceivers().size(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getReceivers()[i]));
-    return list;
-}
-
-static int pyMessage_setReceivers(pyMessage* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add receivers, use addReceiver()");
-    return -1;
-}
-
 static PyMethodDef pyMessage_Methods[] = {
     pyMessage_addReceiver_method,
     pyMessage_delReceiver_method,
     pyMessage_clearReceivers_method,
     PY_METHOD_TERMINATOR
 };
+
+PY_GETSET_GETTER_DECL(Message, receivers) {
+    PyObject* list = PyTuple_New(self->fThis->getReceivers().size());
+    for (size_t i=0; i<self->fThis->getReceivers().size(); i++)
+        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getReceivers()[i]));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(Message, receivers, "To add receivers, use addReceiver()")
+PY_PROPERTY_GETSET_DECL(Message, receivers)
 
 PY_PROPERTY(plKey, Message, sender, getSender, setSender)
 PY_PROPERTY(double, Message, timeStamp, getTimeStamp, setTimeStamp)
@@ -86,8 +84,7 @@ static PyGetSetDef pyMessage_GetSet[] = {
     pyMessage_sender_getset,
     pyMessage_timeStamp_getset,
     pyMessage_BCastFlags_getset,
-    { _pycs("receivers"), (getter)pyMessage_getReceivers,
-        (setter)pyMessage_setReceivers, NULL, NULL },
+    pyMessage_receivers_getset,
     PY_GETSET_TERMINATOR
 };
 

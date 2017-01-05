@@ -82,8 +82,7 @@ PY_METHOD_VA(DDSurface, setFromMipmap,
 PY_METHOD_NOARGS(DDSurface, createMipmap,
     "Create a new plMipmap from this plDDSurface")
 {
-    plMipmap* tex = self->fThis->createMipmap();
-    return ICreate(tex);
+    return ICreate(self->fThis->createMipmap());
 }
 
 PY_METHOD_VA(DDSurface, calcBufferSize,
@@ -102,15 +101,13 @@ PY_METHOD_VA(DDSurface, calcBufferSize,
 PY_METHOD_NOARGS(DDSurface, calcNumLevels,
     "Calculates the total number of mipmap levels for one surface buffer")
 {
-    size_t levels = self->fThis->calcNumLevels();
-    return pyPlasma_convert(levels);
+    return pyPlasma_convert(self->fThis->calcNumLevels());
 }
 
 PY_METHOD_NOARGS(DDSurface, calcTotalBufferSize,
     "Calculates the total size needed to store all buffers in this surface")
 {
-    size_t totSize = self->fThis->calcTotalBufferSize();
-    return pyPlasma_convert(totSize);
+    return pyPlasma_convert(self->fThis->calcTotalBufferSize());
 }
 
 static PyMethodDef pyDDSurface_Methods[] = {

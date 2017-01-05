@@ -38,11 +38,11 @@ PY_GETSET_SETTER_DECL(SplineEaseCurve, splineCoef) {
     }
     for (size_t i=0; i<4; i++) {
         PyObject* itm = PyTuple_GetItem(value, i);
-        if (!PyFloat_Check(itm)) {
+        if (!pyPlasma_check<float>(itm)) {
             PyErr_SetString(PyExc_TypeError, "splineCoef should be a tuple of 4 floats");
             return -1;
         }
-        self->fThis->setSplineCoef(i, PyFloat_AsDouble(itm));
+        self->fThis->setSplineCoef(i, pyPlasma_get<float>(itm));
     }
     return 0;
 }

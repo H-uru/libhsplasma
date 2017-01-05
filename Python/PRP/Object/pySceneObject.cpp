@@ -99,30 +99,6 @@ PY_METHOD_VA(SceneObject, delModifier,
     Py_RETURN_NONE;
 }
 
-static PyObject* pySceneObject_getIntfs(pySceneObject* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getInterfaces().size());
-    for (size_t i=0; i<self->fThis->getInterfaces().size(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getInterfaces()[i]));
-    return list;
-}
-
-static PyObject* pySceneObject_getMods(pySceneObject* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getModifiers().size());
-    for (size_t i=0; i<self->fThis->getModifiers().size(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getModifiers()[i]));
-    return list;
-}
-
-static int pySceneObject_setIntfs(pySceneObject* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add Interfaces, use addInterface");
-    return -1;
-}
-
-static int pySceneObject_setMods(pySceneObject* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add Modifiers, use addModifier");
-    return -1;
-}
-
 PyMethodDef pySceneObject_Methods[] = {
     pySceneObject_clearInterfaces_method,
     pySceneObject_clearModifiers_method,
@@ -132,6 +108,26 @@ PyMethodDef pySceneObject_Methods[] = {
     pySceneObject_delModifier_method,
     PY_METHOD_TERMINATOR
 };
+
+PY_GETSET_GETTER_DECL(SceneObject, interfaces) {
+    PyObject* list = PyTuple_New(self->fThis->getInterfaces().size());
+    for (size_t i=0; i<self->fThis->getInterfaces().size(); i++)
+        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getInterfaces()[i]));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(SceneObject, interfaces, "To add Interfaces, use addInterface")
+PY_PROPERTY_GETSET_DECL(SceneObject, interfaces)
+
+PY_GETSET_GETTER_DECL(SceneObject, modifiers) {
+    PyObject* list = PyTuple_New(self->fThis->getModifiers().size());
+    for (size_t i=0; i<self->fThis->getModifiers().size(); i++)
+        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getModifiers()[i]));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(SceneObject, modifiers, "To add Modifiers, use addModifier")
+PY_PROPERTY_GETSET_DECL(SceneObject, modifiers)
 
 PY_PROPERTY(plKey, SceneObject, draw, getDrawInterface, setDrawInterface)
 PY_PROPERTY(plKey, SceneObject, sim, getSimInterface, setSimInterface)
@@ -145,10 +141,8 @@ PyGetSetDef pySceneObject_GetSet[] = {
     pySceneObject_coord_getset,
     pySceneObject_audio_getset,
     pySceneObject_sceneNode_getset,
-    { _pycs("interfaces"), (getter)pySceneObject_getIntfs, (setter)pySceneObject_setIntfs,
-        _pycs("Extra SceneObject Interfaces"), NULL },
-    { _pycs("modifiers"), (getter)pySceneObject_getMods, (setter)pySceneObject_setMods,
-        _pycs("SceneObject Modifiers"), NULL },
+    pySceneObject_interfaces_getset,
+    pySceneObject_modifiers_getset,
     PY_GETSET_TERMINATOR
 };
 

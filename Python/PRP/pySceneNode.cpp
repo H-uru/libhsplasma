@@ -68,25 +68,24 @@ PY_METHOD_VA(SceneNode, addSceneObjects,
     "Params: keyArray\n"
     "Adds multiple Scene Objects to the Scene Node")
 {
-    PyObject* list;
-    if (!PyArg_ParseTuple(args, "O", &list)) {
-        PyErr_SetString(PyExc_TypeError, "addSceneObjects expects a list of plKeys");
+    PyObject* seqObj;
+    if (!PyArg_ParseTuple(args, "O", &seqObj)) {
+        PyErr_SetString(PyExc_TypeError, "addSceneObjects expects a sequence of plKeys");
         return NULL;
     }
-    if (!PyList_Check(list)) {
-        PyErr_SetString(PyExc_TypeError, "addSceneObjects expects a list of plKeys");
+    pySequenceFastRef list(seqObj);
+    if (!list.isSequence()) {
+        PyErr_SetString(PyExc_TypeError, "addSceneObjects expects a sequence of plKeys");
         return NULL;
     }
-    std::vector<plKey> addend(PyList_Size(list));
+    std::vector<plKey> addend(list.size());
     for (size_t i=0; i<addend.size(); i++) {
-        pyKey* key = (pyKey*)PyList_GetItem(list, i);
-        if (key == NULL)
-            return NULL;
-        if (!pyKey_Check((PyObject*)key)) {
-            PyErr_SetString(PyExc_TypeError, "addSceneObjects expects a list of plKeys");
+        PyObject* key = list.get(i);
+        if (!pyKey_Check(key)) {
+            PyErr_SetString(PyExc_TypeError, "addSceneObjects expects a sequence of plKeys");
             return NULL;
         }
-        addend[i] = *key->fThis;
+        addend[i] = pyPlasma_get<plKey>(key);
     }
     self->fThis->getSceneObjects().insert(self->fThis->getSceneObjects().end(),
                                           addend.begin(), addend.end());
@@ -97,53 +96,28 @@ PY_METHOD_VA(SceneNode, addPoolObjects,
     "Params: keyArray\n"
     "Adds multiple Object to the Scene Node")
 {
-    PyObject* list;
-    if (!PyArg_ParseTuple(args, "O", &list)) {
-        PyErr_SetString(PyExc_TypeError, "addPoolObjects expects a list of plKeys");
+    PyObject* seqObj;
+    if (!PyArg_ParseTuple(args, "O", &seqObj)) {
+        PyErr_SetString(PyExc_TypeError, "addPoolObjects expects a sequence of plKeys");
         return NULL;
     }
-    if (!PyList_Check(list)) {
-        PyErr_SetString(PyExc_TypeError, "addPoolObjects expects a list of plKeys");
+    pySequenceFastRef list(seqObj);
+    if (!list.isSequence()) {
+        PyErr_SetString(PyExc_TypeError, "addPoolObjects expects a sequence of plKeys");
         return NULL;
     }
-    std::vector<plKey> addend(PyList_Size(list));
+    std::vector<plKey> addend(list.size());
     for (size_t i=0; i<addend.size(); i++) {
-        pyKey* key = (pyKey*)PyList_GetItem(list, i);
-        if (key == NULL)
-            return NULL;
-        if (!pyKey_Check((PyObject*)key)) {
-            PyErr_SetString(PyExc_TypeError, "addPoolObjects expects a list of plKeys");
+        PyObject* key = list.get(i);
+        if (!pyKey_Check(key)) {
+            PyErr_SetString(PyExc_TypeError, "addPoolObjects expects a sequence of plKeys");
             return NULL;
         }
-        addend[i] = *key->fThis;
+        addend[i] = pyPlasma_get<plKey>(key);
     }
     self->fThis->getPoolObjects().insert(self->fThis->getPoolObjects().end(),
                                          addend.begin(), addend.end());
     Py_RETURN_NONE;
-}
-
-static PyObject* pySceneNode_getSceneObjects(pySceneNode* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getSceneObjects().size());
-    for (size_t i=0; i<self->fThis->getSceneObjects().size(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getSceneObjects()[i]));
-    return list;
-}
-
-static PyObject* pySceneNode_getPoolObjects(pySceneNode* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getPoolObjects().size());
-    for (size_t i=0; i<self->fThis->getPoolObjects().size(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getPoolObjects()[i]));
-    return list;
-}
-
-static int pySceneNode_setSceneObjects(pySceneNode* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add Scene Objects, use addSceneObjects");
-    return -1;
-}
-
-static int pySceneNode_setPoolObjects(pySceneNode* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add Pool Objects, use addPoolObjects");
-    return -1;
 }
 
 PyMethodDef pySceneNode_Methods[] = {
@@ -155,11 +129,29 @@ PyMethodDef pySceneNode_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
+PY_GETSET_GETTER_DECL(SceneNode, sceneObjects) {
+    PyObject* list = PyTuple_New(self->fThis->getSceneObjects().size());
+    for (size_t i=0; i<self->fThis->getSceneObjects().size(); i++)
+        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getSceneObjects()[i]));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(SceneNode, sceneObjects, "To add Scene Objects, use addSceneObjects")
+PY_PROPERTY_GETSET_DECL(SceneNode, sceneObjects)
+
+PY_GETSET_GETTER_DECL(SceneNode, poolObjects) {
+    PyObject* list = PyTuple_New(self->fThis->getPoolObjects().size());
+    for (size_t i=0; i<self->fThis->getPoolObjects().size(); i++)
+        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getPoolObjects()[i]));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(SceneNode, poolObjects, "To add Pool Objects, use addPoolObjects")
+PY_PROPERTY_GETSET_DECL(SceneNode, poolObjects)
+
 PyGetSetDef pySceneNode_GetSet[] = {
-    { _pycs("sceneObjects"), (getter)pySceneNode_getSceneObjects,
-        (setter)pySceneNode_setSceneObjects, NULL, NULL },
-    { _pycs("poolObjects"), (getter)pySceneNode_getPoolObjects,
-        (setter)pySceneNode_setPoolObjects, NULL, NULL },
+    pySceneNode_sceneObjects_getset,
+    pySceneNode_poolObjects_getset,
     PY_GETSET_TERMINATOR
 };
 

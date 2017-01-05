@@ -62,24 +62,22 @@ PY_METHOD_VA(CoordinateInterface, delChild,
     Py_RETURN_NONE;
 }
 
-static PyObject* pyCoordinateInterface_getChildren(pyCoordinateInterface* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getChildren().size());
-    for (size_t i=0; i<self->fThis->getChildren().size(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getChildren()[i]));
-    return list;
-}
-
-static int pyCoordinateInterface_setChildren(pyCoordinateInterface* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add Children, use addChild");
-    return -1;
-}
-
 PyMethodDef pyCoordinateInterface_Methods[] = {
     pyCoordinateInterface_clearChildren_method,
     pyCoordinateInterface_addChild_method,
     pyCoordinateInterface_delChild_method,
     PY_METHOD_TERMINATOR
 };
+
+PY_GETSET_GETTER_DECL(CoordinateInterface, children) {
+    PyObject* list = PyTuple_New(self->fThis->getChildren().size());
+    for (size_t i=0; i<self->fThis->getChildren().size(); i++)
+        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getChildren()[i]));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(CoordinateInterface, children, "To add Children, use addChild")
+PY_PROPERTY_GETSET_DECL(CoordinateInterface, children)
 
 PY_PROPERTY(hsMatrix44, CoordinateInterface, localToWorld, getLocalToWorld, setLocalToWorld)
 PY_PROPERTY(hsMatrix44, CoordinateInterface, worldToLocal, getWorldToLocal, setWorldToLocal)
@@ -91,9 +89,7 @@ PyGetSetDef pyCoordinateInterface_GetSet[] = {
     pyCoordinateInterface_worldToLocal_getset,
     pyCoordinateInterface_localToParent_getset,
     pyCoordinateInterface_parentToLocal_getset,
-    { _pycs("children"), (getter)pyCoordinateInterface_getChildren,
-        (setter)pyCoordinateInterface_setChildren,
-        _pycs("Child Objects"), NULL },
+    pyCoordinateInterface_children_getset,
     PY_GETSET_TERMINATOR
 };
 

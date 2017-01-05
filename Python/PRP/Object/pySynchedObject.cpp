@@ -50,76 +50,76 @@ PY_METHOD_VA(SynchedObject, setVolatile,
     Py_RETURN_NONE;
 }
 
-static PyObject* pySynchedObject_getExcludes(pySynchedObject* self, void*) {
-    plSynchedObject* so = self->fThis;
-    PyObject* list = PyList_New(so->getExcludes().size());
-    for (size_t i=0; i<so->getExcludes().size(); i++)
-        PyList_SET_ITEM(list, i, pyPlasma_convert(so->getExcludes()[i]));
-    return list;
-}
-
-static PyObject* pySynchedObject_getVolatiles(pySynchedObject* self, void*) {
-    plSynchedObject* so = self->fThis;
-    PyObject* list = PyList_New(so->getVolatiles().size());
-    for (size_t i=0; i<so->getVolatiles().size(); i++)
-        PyList_SET_ITEM(list, i, pyPlasma_convert(so->getVolatiles()[i]));
-    return list;
-}
-
-static int pySynchedObject_setExcludes(pySynchedObject* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->clearExcludes();
-        return 0;
-    } else if (PyList_Check(value)) {
-        size_t count = PyList_Size(value);
-        for (size_t i=0; i<count; i++) {
-            if (!PyAnyStr_Check(PyList_GetItem(value, i))) {
-                PyErr_SetString(PyExc_TypeError, "excludes should be a list of strings");
-                return -1;
-            }
-            self->fThis->setExclude(PyStr_To_PlStr(PyList_GetItem(value, i)));
-        }
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "excludes should be a list of strings");
-        return -1;
-    }
-}
-
-static int pySynchedObject_setVolatiles(pySynchedObject* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->clearVolatiles();
-        return 0;
-    } else if (PyList_Check(value)) {
-        size_t count = PyList_Size(value);
-        for (size_t i=0; i<count; i++) {
-            if (!PyAnyStr_Check(PyList_GetItem(value, i))) {
-                PyErr_SetString(PyExc_TypeError, "volatiles should be a list of strings");
-                return -1;
-            }
-            self->fThis->setVolatile(PyStr_To_PlStr(PyList_GetItem(value, i)));
-        }
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "volatiles should be a list of strings");
-        return -1;
-    }
-}
-
 static PyMethodDef pySynchedObject_Methods[] = {
     pySynchedObject_setExclude_method,
     pySynchedObject_setVolatile_method,
     PY_METHOD_TERMINATOR
 };
 
+PY_GETSET_GETTER_DECL(SynchedObject, excludes) {
+    plSynchedObject* so = self->fThis;
+    PyObject* list = PyTuple_New(so->getExcludes().size());
+    for (size_t i=0; i<so->getExcludes().size(); i++)
+        PyTuple_SET_ITEM(list, i, pyPlasma_convert(so->getExcludes()[i]));
+    return list;
+}
+
+PY_GETSET_SETTER_DECL(SynchedObject, excludes) {
+    PY_PROPERTY_CHECK_NULL(excludes)
+    pySequenceFastRef seq(value);
+    if (!seq.isSequence()) {
+        PyErr_SetString(PyExc_TypeError, "excludes should be a sequence of strings");
+        return -1;
+    }
+    Py_ssize_t count = seq.size();
+    for (Py_ssize_t i=0; i<count; i++) {
+        PyObject* item = seq.get(i);
+        if (!pyPlasma_check<plString>(item)) {
+            PyErr_SetString(PyExc_TypeError, "excludes should be a list of strings");
+            return -1;
+        }
+        self->fThis->setExclude(pyPlasma_get<plString>(item));
+    }
+    return 0;
+}
+
+PY_PROPERTY_GETSET_DECL(SynchedObject, excludes)
+
+PY_GETSET_GETTER_DECL(SynchedObject, volatiles) {
+    plSynchedObject* so = self->fThis;
+    PyObject* list = PyTuple_New(so->getVolatiles().size());
+    for (size_t i=0; i<so->getVolatiles().size(); i++)
+        PyTuple_SET_ITEM(list, i, pyPlasma_convert(so->getVolatiles()[i]));
+    return list;
+}
+
+PY_GETSET_SETTER_DECL(SynchedObject, volatiles) {
+    PY_PROPERTY_CHECK_NULL(volatiles)
+    pySequenceFastRef seq(value);
+    if (!seq.isSequence()) {
+        PyErr_SetString(PyExc_TypeError, "volatiles should be a list of strings");
+        return -1;
+    }
+    Py_ssize_t count = seq.size();
+    for (Py_ssize_t i=0; i<count; i++) {
+        PyObject* item = seq.get(i);
+        if (!pyPlasma_check<plString>(item)) {
+            PyErr_SetString(PyExc_TypeError, "volatiles should be a list of strings");
+            return -1;
+        }
+        self->fThis->setVolatile(pyPlasma_get<plString>(item));
+    }
+    return 0;
+}
+
+PY_PROPERTY_GETSET_DECL(SynchedObject, volatiles)
+
 PY_PROPERTY(int, SynchedObject, synchFlags, getSynchFlags, setSynchFlags)
 
 static PyGetSetDef pySynchedObject_GetSet[] = {
     pySynchedObject_synchFlags_getset,
-    { _pycs("excludes"), (getter)pySynchedObject_getExcludes,
-        (setter)pySynchedObject_setExcludes, _pycs("SDL Exclude States"), NULL },
-    { _pycs("volatiles"), (getter)pySynchedObject_getVolatiles,
-        (setter)pySynchedObject_setVolatiles, _pycs("SDL Volatile States"), NULL },
+    pySynchedObject_excludes_getset,
+    pySynchedObject_volatiles_getset,
     PY_GETSET_TERMINATOR
 };
 

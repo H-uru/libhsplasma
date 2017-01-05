@@ -31,33 +31,26 @@ extern "C" {
 
 PY_PLASMA_NEW(DynamicEnvMap, plDynamicEnvMap)
 
-static PyObject* pyDynamicEnvMap_getVisRegions(pyDynamicEnvMap* self, void*) {
+PY_GETSET_GETTER_DECL(DynamicEnvMap, visRegions) {
     const std::vector<plKey>& keys = self->fThis->getVisRegions();
-    PyObject* regionList = PyList_New(keys.size());
+    PyObject* regionList = PyTuple_New(keys.size());
     for (size_t i=0; i<keys.size(); i++)
-        PyList_SET_ITEM(regionList, i, pyKey_FromKey(keys[i]));
+        PyTuple_SET_ITEM(regionList, i, pyPlasma_convert(keys[i]));
     return regionList;
 }
 
-static PyObject* pyDynamicEnvMap_getVisRegionNames(pyDynamicEnvMap* self, void*) {
-    const std::vector<plString>& names = self->fThis->getVisRegionNames();
-    PyObject* regionNameList = PyList_New(names.size());
-    for (size_t i=0; i<names.size(); i++)
-        PyList_SET_ITEM(regionNameList, i, PlasmaString_To_PyString(names[i]));
-    return regionNameList;
-}
-
-static int pyDynamicEnvMap_setVisRegions(pyDynamicEnvMap* self, PyObject* value, void*) {
+PY_GETSET_SETTER_DECL(DynamicEnvMap, visRegions) {
     PY_PROPERTY_CHECK_NULL(visRegions)
-    if (!PySequence_Check(value)) {
+    pySequenceFastRef seq(value);
+    if (!seq.isSequence()) {
         PyErr_SetString(PyExc_TypeError, "visRegions should be a sequence of plKeys");
         return -1;
     }
-    std::vector<plKey> regions;
-    regions.resize(PySequence_Size(value));
-    for (Py_ssize_t i=0; i<PySequence_Size(value); i++) {
-        PyObject* region = PySequence_GetItem(value, i);
-        if (pyKey_Check(region)){
+    Py_ssize_t count = seq.size();
+    std::vector<plKey> regions(count);
+    for (Py_ssize_t i=0; i<count; i++) {
+        PyObject* region = seq.get(i);
+        if (pyKey_Check(region)) {
             regions[i] = pyPlasma_get<plKey>(region);
         } else {
             PyErr_SetString(PyExc_TypeError, "visRegions should be a sequence of plKeys");
@@ -68,18 +61,27 @@ static int pyDynamicEnvMap_setVisRegions(pyDynamicEnvMap* self, PyObject* value,
     return 0;
 }
 
-static int pyDynamicEnvMap_setVisRegionNames(pyDynamicEnvMap* self, PyObject* value, void*) {
+PY_GETSET_GETTER_DECL(DynamicEnvMap, visRegionNames) {
+    const std::vector<plString>& names = self->fThis->getVisRegionNames();
+    PyObject* regionNameList = PyTuple_New(names.size());
+    for (size_t i=0; i<names.size(); i++)
+        PyTuple_SET_ITEM(regionNameList, i, pyPlasma_convert(names[i]));
+    return regionNameList;
+}
+
+PY_GETSET_SETTER_DECL(DynamicEnvMap, visRegionNames) {
     PY_PROPERTY_CHECK_NULL(visRegionNames)
-    if (!PySequence_Check(value)) {
+    pySequenceFastRef seq(value);
+    if (!seq.isSequence()) {
         PyErr_SetString(PyExc_TypeError, "visRegionNames should be a sequence of strings");
         return -1;
     }
-    std::vector<plString> names;
-    names.resize(PySequence_Size(value));
-    for (Py_ssize_t i=0; i<PySequence_Size(value); i++) {
-        PyObject* name = PySequence_GetItem(value, i);
-        if (PyAnyStr_Check(name)) {
-            names[i] = PyString_To_PlasmaString(name);
+    Py_ssize_t count = seq.size();
+    std::vector<plString> names(count);
+    for (Py_ssize_t i=0; i<count; i++) {
+        PyObject* name = seq.get(i);
+        if (pyPlasma_check<plString>(name)) {
+            names[i] = pyPlasma_get<plString>(name);
         } else {
             PyErr_SetString(PyExc_TypeError, "visRegionNames should be a sequence of strings");
             return -1;
@@ -96,6 +98,8 @@ PY_PROPERTY(float, DynamicEnvMap, yon, getYon, setYon)
 PY_PROPERTY(float, DynamicEnvMap, fogStart, getFogStart, setFogStart)
 PY_PROPERTY(hsColorRGBA, DynamicEnvMap, color, getColor, setColor)
 PY_PROPERTY(float, DynamicEnvMap, refreshRate, getRefreshRate, setRefreshRate)
+PY_PROPERTY_GETSET_DECL(DynamicEnvMap, visRegions)
+PY_PROPERTY_GETSET_DECL(DynamicEnvMap, visRegionNames)
 PY_PROPERTY(bool, DynamicEnvMap, incCharacters, getIncludeCharacters,
             setIncludeCharacters)
 
@@ -107,8 +111,8 @@ static PyGetSetDef pyDynamicEnvMap_GetSet[] = {
     pyDynamicEnvMap_fogStart_getset,
     pyDynamicEnvMap_color_getset,
     pyDynamicEnvMap_refreshRate_getset,
-    { _pycs("visRegions"), (getter)pyDynamicEnvMap_getVisRegions, (setter)pyDynamicEnvMap_setVisRegions, NULL, NULL },
-    { _pycs("visRegionNames"), (getter)pyDynamicEnvMap_getVisRegionNames, (setter)pyDynamicEnvMap_setVisRegionNames, NULL, NULL },
+    pyDynamicEnvMap_visRegions_getset,
+    pyDynamicEnvMap_visRegionNames_getset,
     pyDynamicEnvMap_incCharacters_getset,
     PY_GETSET_TERMINATOR
 };

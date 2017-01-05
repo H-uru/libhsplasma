@@ -62,66 +62,6 @@ PY_METHOD_VA(ATCAnim, setLoop,
     Py_RETURN_NONE;
 }
 
-static PyObject* pyATCAnim_getMarkers(pyATCAnim* self, void*) {
-    plATCAnim* anim = self->fThis;
-    PyObject* dict = PyDict_New();
-    for (plATCAnim::marker_t::iterator it = anim->getMarkers().begin();
-         it != anim->getMarkers().end(); it++) {
-        PyDict_SetItemString(dict, it->first, pyPlasma_convert(it->second));
-    }
-    return dict;
-}
-
-static PyObject* pyATCAnim_getLoops(pyATCAnim* self, void*) {
-    plATCAnim* anim = self->fThis;
-    PyObject* dict = PyDict_New();
-    for (plATCAnim::loop_t::iterator it = anim->getLoops().begin();
-         it != anim->getLoops().end(); it++) {
-        PyDict_SetItemString(dict, it->first,
-                  Py_BuildValue("ff", it->second.first, it->second.second));
-    }
-    return dict;
-}
-
-static PyObject* pyATCAnim_getStops(pyATCAnim* self, void*) {
-    plATCAnim* anim = self->fThis;
-    PyObject* list = PyList_New(anim->getStops().size());
-    for (size_t i = 0; i < anim->getStops().size(); i++)
-        PyList_SET_ITEM(list, i, pyPlasma_convert(anim->getStops()[i]));
-    return list;
-}
-
-static int pyATCAnim_setMarkers(pyATCAnim* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add markers, use setMarker()");
-    return -1;
-}
-
-static int pyATCAnim_setLoops(pyATCAnim* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add loops, use setLoop()");
-    return -1;
-}
-
-static int pyATCAnim_setStops(pyATCAnim* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setStops(std::vector<float>());
-        return 0;
-    } else if (PySequence_Check(value)) {
-        std::vector<float> stops(PySequence_Size(value));
-        for (size_t i=0; i<stops.size(); i++) {
-            if (!PyFloat_Check(PySequence_GetItem(value, i))) {
-                PyErr_SetString(PyExc_TypeError, "stops should be a sequence of floats");
-                return -1;
-            }
-            stops[i] = PyFloat_AsDouble(PySequence_GetItem(value, i));
-        }
-        self->fThis->setStops(stops);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "stops should be a sequence of floats");
-        return -1;
-    }
-}
-
 static PyMethodDef pyATCAnim_Methods[] = {
     pyATCAnim_clearMarkers_method,
     pyATCAnim_clearLoops_method,
@@ -129,6 +69,60 @@ static PyMethodDef pyATCAnim_Methods[] = {
     pyATCAnim_setLoop_method,
     PY_METHOD_TERMINATOR
 };
+
+PY_GETSET_GETTER_DECL(ATCAnim, markers) {
+    plATCAnim* anim = self->fThis;
+    PyObject* dict = PyDict_New();
+    for (const auto& mark : anim->getMarkers())
+        PyDict_SetItemString(dict, mark.first, pyPlasma_convert(mark.second));
+    return dict;
+}
+
+PY_PROPERTY_SETTER_MSG(ATCAnim, markers, "To add markers, use setMarker()")
+PY_PROPERTY_GETSET_DECL(ATCAnim, markers)
+
+PY_GETSET_GETTER_DECL(ATCAnim, loops) {
+    plATCAnim* anim = self->fThis;
+    PyObject* dict = PyDict_New();
+    for (const auto& loop : anim->getLoops()) {
+        PyDict_SetItemString(dict, loop.first,
+                  Py_BuildValue("ff", loop.second.first, loop.second.second));
+    }
+    return dict;
+}
+
+PY_PROPERTY_SETTER_MSG(ATCAnim, loops, "To add loops, use setLoop()")
+PY_PROPERTY_GETSET_DECL(ATCAnim, loops)
+
+PY_GETSET_GETTER_DECL(ATCAnim, stops) {
+    plATCAnim* anim = self->fThis;
+    PyObject* list = PyTuple_New(anim->getStops().size());
+    for (size_t i = 0; i < anim->getStops().size(); i++)
+        PyTuple_SET_ITEM(list, i, pyPlasma_convert(anim->getStops()[i]));
+    return list;
+}
+
+PY_GETSET_SETTER_DECL(ATCAnim, stops) {
+    PY_PROPERTY_CHECK_NULL(stops)
+    pySequenceFastRef seq(value);
+    if (!seq.isSequence()) {
+        PyErr_SetString(PyExc_TypeError, "stops should be a sequence of floats");
+        return -1;
+    }
+    std::vector<float> stops(seq.size());
+    for (size_t i=0; i<stops.size(); i++) {
+        PyObject* item = seq.get(i);
+        if (!pyPlasma_check<float>(item)) {
+            PyErr_SetString(PyExc_TypeError, "stops should be a sequence of floats");
+            return -1;
+        }
+        stops[i] = pyPlasma_get<float>(item);
+    }
+    self->fThis->setStops(stops);
+    return 0;
+}
+
+PY_PROPERTY_GETSET_DECL(ATCAnim, stops)
 
 PY_PROPERTY(float, ATCAnim, initial, getInitial, setInitial)
 PY_PROPERTY(float, ATCAnim, loopStart, getLoopStart, setLoopStart)
@@ -158,12 +152,9 @@ static PyGetSetDef pyATCAnim_GetSet[] = {
     pyATCAnim_easeOutLength_getset,
     pyATCAnim_easeOutMin_getset,
     pyATCAnim_easeOutMax_getset,
-    { _pycs("markers"), (getter)pyATCAnim_getMarkers,
-        (setter)pyATCAnim_setMarkers, NULL, NULL },
-    { _pycs("loops"), (getter)pyATCAnim_getLoops,
-        (setter)pyATCAnim_setLoops, NULL, NULL },
-    { _pycs("stops"), (getter)pyATCAnim_getStops,
-        (setter)pyATCAnim_setStops, NULL, NULL },
+    pyATCAnim_markers_getset,
+    pyATCAnim_loops_getset,
+    pyATCAnim_stops_getset,
     PY_GETSET_TERMINATOR
 };
 

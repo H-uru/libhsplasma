@@ -82,9 +82,9 @@ PY_METHOD_VA(GBufferGroup, getVertices,
         verts = self->fThis->getVertices(idx);
     else
         verts = self->fThis->getVertices(start, len);
-    PyObject* list = PyList_New(verts.size());
+    PyObject* list = PyTuple_New(verts.size());
     for (size_t i=0; i<verts.size(); i++)
-        PyList_SET_ITEM(list, i, pyGBufferVertex_FromGBufferVertex(verts[i]));
+        PyTuple_SET_ITEM(list, i, pyGBufferVertex_FromGBufferVertex(verts[i]));
     return list;
 }
 
@@ -103,9 +103,9 @@ PY_METHOD_VA(GBufferGroup, getIndices,
         indices = self->fThis->getIndices(idx);
     else
         indices = self->fThis->getIndices(idx, start, len);
-    PyObject* list = PyList_New(indices.size());
+    PyObject* list = PyTuple_New(indices.size());
     for (size_t i=0; i<indices.size(); i++)
-        PyList_SET_ITEM(list, i, pyPlasma_convert(indices[i]));
+        PyTuple_SET_ITEM(list, i, pyPlasma_convert(indices[i]));
     return list;
 }
 
@@ -120,9 +120,9 @@ PY_METHOD_VA(GBufferGroup, getCells,
     }
 
     std::vector<plGBufferCell> cells = self->fThis->getCells(idx);
-    PyObject* list = PyList_New(cells.size());
+    PyObject* list = PyTuple_New(cells.size());
     for (size_t i=0; i<cells.size(); i++)
-        PyList_SET_ITEM(list, i, pyGBufferCell_FromGBufferCell(cells[i]));
+        PyTuple_SET_ITEM(list, i, pyGBufferCell_FromGBufferCell(cells[i]));
     return list;
 }
 
@@ -130,23 +130,25 @@ PY_METHOD_VA(GBufferGroup, addVertices,
     "Params: list\n"
     "Add a Vertex Buffer with the contents of the supplied vertex list")
 {
-    PyObject* list;
-    if (!PyArg_ParseTuple(args, "O", &list)) {
-        PyErr_SetString(PyExc_TypeError, "addVertices expects a list of plGBufferVertex objects");
+    PyObject* seqObj;
+    if (!PyArg_ParseTuple(args, "O", &seqObj)) {
+        PyErr_SetString(PyExc_TypeError, "addVertices expects a sequence of plGBufferVertex objects");
         return NULL;
     }
-    if (!PyList_Check(list)) {
-        PyErr_SetString(PyExc_TypeError, "addVertices expects a list of plGBufferVertex objects");
+    pySequenceFastRef list(seqObj);
+    if (!list.isSequence()) {
+        PyErr_SetString(PyExc_TypeError, "addVertices expects a sequence of plGBufferVertex objects");
         return NULL;
     }
 
-    std::vector<plGBufferVertex> verts(PyList_Size(list));
+    std::vector<plGBufferVertex> verts(list.size());
     for (size_t i=0; i<verts.size(); i++) {
-        if (!pyGBufferVertex_Check(PyList_GetItem(list, i))) {
-            PyErr_SetString(PyExc_TypeError, "addVertices expects a list of plGBufferVertex objects");
+        PyObject* item = list.get(i);
+        if (!pyGBufferVertex_Check(item)) {
+            PyErr_SetString(PyExc_TypeError, "addVertices expects a sequence of plGBufferVertex objects");
             return NULL;
         }
-        verts[i] = *((pyGBufferVertex*)PyList_GetItem(list, i))->fThis;
+        verts[i] = *((pyGBufferVertex*)item)->fThis;
     }
     self->fThis->addVertices(verts);
     Py_RETURN_NONE;
@@ -156,23 +158,25 @@ PY_METHOD_VA(GBufferGroup, addIndices,
     "Params: list\n"
     "Add a Face Index Buffer with the contents of the supplied index list")
 {
-    PyObject* list;
-    if (!PyArg_ParseTuple(args, "O", &list)) {
-        PyErr_SetString(PyExc_TypeError, "addIndices expects a list of ints");
+    PyObject* seqObj;
+    if (!PyArg_ParseTuple(args, "O", &seqObj)) {
+        PyErr_SetString(PyExc_TypeError, "addIndices expects a sequence of ints");
         return NULL;
     }
-    if (!PyList_Check(list)) {
-        PyErr_SetString(PyExc_TypeError, "addIndices expects a list of ints");
+    pySequenceFastRef list(seqObj);
+    if (!list.isSequence()) {
+        PyErr_SetString(PyExc_TypeError, "addIndices expects a sequence of ints");
         return NULL;
     }
 
-    std::vector<unsigned short> indices(PyList_Size(list));
+    std::vector<unsigned short> indices(list.size());
     for (size_t i=0; i<indices.size(); i++) {
-        if (!PyInt_Check(PyList_GetItem(list, i))) {
-            PyErr_SetString(PyExc_TypeError, "addVertices expects a list of ints");
+        PyObject* item = list.get(i);
+        if (!pyPlasma_check<unsigned short>(item)) {
+            PyErr_SetString(PyExc_TypeError, "addVertices expects a sequence of ints");
             return NULL;
         }
-        indices[i] = PyInt_AsLong(PyList_GetItem(list, i));
+        indices[i] = pyPlasma_get<unsigned short>(item);
     }
     self->fThis->addIndices(indices);
     Py_RETURN_NONE;
@@ -182,23 +186,25 @@ PY_METHOD_VA(GBufferGroup, addCells,
     "Params: list\n"
     "Add a Cell Buffer with the contents of the specified cell list" )
 {
-    PyObject* list;
-    if (!PyArg_ParseTuple(args, "O", &list)) {
-        PyErr_SetString(PyExc_TypeError, "addCells expects a list of plGBufferCell objects");
+    PyObject* seqObj;
+    if (!PyArg_ParseTuple(args, "O", &seqObj)) {
+        PyErr_SetString(PyExc_TypeError, "addCells expects a sequence of plGBufferCell objects");
         return NULL;
     }
-    if (!PyList_Check(list)) {
-        PyErr_SetString(PyExc_TypeError, "addCells expects a list of plGBufferCell objects");
+    pySequenceFastRef list(seqObj);
+    if (!list.isSequence()) {
+        PyErr_SetString(PyExc_TypeError, "addCells expects a sequence of plGBufferCell objects");
         return NULL;
     }
 
-    std::vector<plGBufferCell> cells(PyList_Size(list));
+    std::vector<plGBufferCell> cells(list.size());
     for (size_t i=0; i<cells.size(); i++) {
-        if (!pyGBufferCell_Check(PyList_GetItem(list, i))) {
-            PyErr_SetString(PyExc_TypeError, "addCells expects a list of plGBufferCell objects");
+        PyObject* item = list.get(i);
+        if (!pyGBufferCell_Check(item)) {
+            PyErr_SetString(PyExc_TypeError, "addCells expects a sequence of plGBufferCell objects");
             return NULL;
         }
-        cells[i] = *((pyGBufferCell*)PyList_GetItem(list, i))->fThis;
+        cells[i] = *((pyGBufferCell*)item)->fThis;
     }
     self->fThis->addCells(cells);
     Py_RETURN_NONE;
@@ -294,9 +300,9 @@ PY_METHOD_VA(GBufferGroup, getIdxBufferStorage,
     }
     size_t count = self->fThis->getIdxBufferCount(idx);
     const unsigned short* indices = self->fThis->getIdxBufferStorage(idx);
-    PyObject* idxList = PyList_New(count);
+    PyObject* idxList = PyTuple_New(count);
     for (size_t i=0; i<count; i++)
-        PyList_SET_ITEM(idxList, i, pyPlasma_convert(indices[i]));
+        PyTuple_SET_ITEM(idxList, i, pyPlasma_convert(indices[i]));
     return idxList;
 }
 

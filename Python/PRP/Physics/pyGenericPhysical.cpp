@@ -55,29 +55,29 @@ PY_METHOD_VA(GenericPhysical, calcSphereBounds,
     "Params: points\n"
     "Calculates sphere bounds from a given point cloud")
 {
-    PyObject* points;
-    if (!(PyArg_ParseTuple(args, "O", &points) && PySequence_Check(points))) {
+    PyObject* pointsObj;
+    if (!PyArg_ParseTuple(args, "O", &pointsObj)) {
+        PyErr_SetString(PyExc_TypeError, "calcSphereBounds expects a sequence of hsVector3");
+        return NULL;
+    }
+    pySequenceFastRef points(pointsObj);
+    if (!points.isSequence()) {
         PyErr_SetString(PyExc_TypeError, "calcSphereBounds expects a sequence of hsVector3");
         return NULL;
     }
 
-    hsVector3* myPoints = new hsVector3[PySequence_Length(points)];
-    for (Py_ssize_t i = 0; i < PySequence_Length(points); ++i) {
-        PyObject* item = PySequence_GetItem(points, i);
-        if (!pyVector3_Check(item)) {
+    Py_ssize_t nPoints = points.size();
+    std::vector<hsVector3> myPoints(nPoints);
+    for (Py_ssize_t i = 0; i < nPoints; ++i) {
+        PyObject* item = points.get(i);
+        if (!pyPlasma_check<hsVector3>(item)) {
             PyErr_SetString(PyExc_TypeError, "calcSphereBounds expects a sequence of hsVector3");
-            Py_XDECREF(item);
-            delete[] myPoints;
             return NULL;
         }
-
-        myPoints[i] = *((pyVector3*)item)->fThis;
-        Py_DECREF(item);
+        myPoints[i] = pyPlasma_get<hsVector3>(item);
     }
 
-    self->fThis->calcSphereBounds(PySequence_Length(points), myPoints);
-    delete[] myPoints;
-
+    self->fThis->calcSphereBounds(myPoints.size(), &myPoints[0]);
     Py_RETURN_NONE;
 }
 
@@ -85,29 +85,29 @@ PY_METHOD_VA(GenericPhysical, calcBoxBounds,
     "Params: points\n"
     "Calculates box bounds from a given point cloud")
 {
-    PyObject* points;
-    if (!(PyArg_ParseTuple(args, "O", &points) && PySequence_Check(points))) {
+    PyObject* pointsObj;
+    if (!PyArg_ParseTuple(args, "O", &pointsObj)) {
+        PyErr_SetString(PyExc_TypeError, "calcBoxBounds expects a sequence of hsVector3");
+        return NULL;
+    }
+    pySequenceFastRef points(pointsObj);
+    if (!points.isSequence()) {
         PyErr_SetString(PyExc_TypeError, "calcBoxBounds expects a sequence of hsVector3");
         return NULL;
     }
 
-    hsVector3* myPoints = new hsVector3[PySequence_Length(points)];
-    for (Py_ssize_t i = 0; i < PySequence_Length(points); ++i) {
-        PyObject* item = PySequence_GetItem(points, i);
-        if (!pyVector3_Check(item)) {
+    Py_ssize_t nPoints = points.size();
+    std::vector<hsVector3> myPoints(nPoints);
+    for (Py_ssize_t i = 0; i < nPoints; ++i) {
+        PyObject* item = points.get(i);
+        if (!pyPlasma_check<hsVector3>(item)) {
             PyErr_SetString(PyExc_TypeError, "calcBoxBounds expects a sequence of hsVector3");
-            Py_XDECREF(item);
-            delete[] myPoints;
             return NULL;
         }
-
-        myPoints[i] = *((pyVector3*)item)->fThis;
-        Py_DECREF(item);
+        myPoints[i] = pyPlasma_get<hsVector3>(item);
     }
 
-    self->fThis->calcBoxBounds(PySequence_Length(points), myPoints);
-    delete[] myPoints;
-
+    self->fThis->calcBoxBounds(myPoints.size(), &myPoints[0]);
     Py_RETURN_NONE;
 }
 
@@ -119,71 +119,65 @@ static PyMethodDef pyGenericPhysical_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-static PyObject* pyGenericPhysical_getVerts(pyGenericPhysical* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getVerts().size());
+PY_GETSET_GETTER_DECL(GenericPhysical, verts) {
+    PyObject* list = PyTuple_New(self->fThis->getVerts().size());
     for (size_t i=0; i<self->fThis->getVerts().size(); i++)
-        PyList_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getVerts()[i]));
+        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getVerts()[i]));
     return list;
 }
 
-static PyObject* pyGenericPhysical_getIndices(pyGenericPhysical* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getIndices().size());
-    for (size_t i=0; i<self->fThis->getIndices().size(); i++)
-        PyList_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getIndices()[i]));
-    return list;
-}
-
-static int pyGenericPhysical_setVerts(pyGenericPhysical* self, PyObject* value, void*) {
+PY_GETSET_SETTER_DECL(GenericPhysical, verts) {
     PY_PROPERTY_CHECK_NULL(verts)
-    if (!PyList_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "verts should be list of hsVector3s");
+    pySequenceFastRef seq(value);
+    if (!seq.isSequence()) {
+        PyErr_SetString(PyExc_TypeError, "verts should be a sequence of hsVector3s");
         return -1;
     }
-    size_t nVerts = PyList_Size(value);
-    if (nVerts == 0) {
-        self->fThis->setVerts(0, NULL);
-        return 0;
-    }
-    hsVector3* verts = new hsVector3[nVerts];
-    for (size_t i=0; i<nVerts; i++) {
-        PyObject* vert = PyList_GetItem(value, i);
-        if (vert == NULL || !pyVector3_Check(vert)) {
-            PyErr_SetString(PyExc_TypeError, "verts should be list of hsVector3s");
-            delete[] verts;
+    Py_ssize_t nVerts = seq.size();
+    std::vector<hsVector3> verts(nVerts);
+    for (Py_ssize_t i=0; i<nVerts; i++) {
+        PyObject* vert = seq.get(i);
+        if (vert == NULL || !pyPlasma_check<hsVector3>(vert)) {
+            PyErr_SetString(PyExc_TypeError, "verts should be a sequence of hsVector3s");
             return -1;
         }
-        verts[i] = *((pyVector3*)vert)->fThis;
+        verts[i] = pyPlasma_get<hsVector3>(vert);
     }
-    self->fThis->setVerts(nVerts, verts);
-    delete[] verts;
+    self->fThis->getVerts() = verts;
     return 0;
 }
 
-static int pyGenericPhysical_setIndices(pyGenericPhysical* self, PyObject* value, void*) {
+PY_PROPERTY_GETSET_DECL(GenericPhysical, verts)
+
+PY_GETSET_GETTER_DECL(GenericPhysical, indices) {
+    PyObject* list = PyTuple_New(self->fThis->getIndices().size());
+    for (size_t i=0; i<self->fThis->getIndices().size(); i++)
+        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getIndices()[i]));
+    return list;
+}
+
+PY_GETSET_SETTER_DECL(GenericPhysical, indices) {
     PY_PROPERTY_CHECK_NULL(indices)
-    if (!PyList_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "indices should be list of ints");
+    pySequenceFastRef seq(value);
+    if (!seq.isSequence()) {
+        PyErr_SetString(PyExc_TypeError, "indices should be a sequence of ints");
         return -1;
     }
-    size_t nIndices = PyList_Size(value);
-    if (nIndices == 0) {
-        self->fThis->setIndices(0, NULL);
-        return 0;
-    }
-    unsigned int* indices = new unsigned int[nIndices];
-    for (size_t i=0; i<nIndices; i++) {
-        PyObject* idx = PyList_GetItem(value, i);
-        if (idx == NULL || !PyInt_Check(idx)) {
-            PyErr_SetString(PyExc_TypeError, "indices should be list of ints");
-            delete[] indices;
+    Py_ssize_t nIndices = seq.size();
+    std::vector<unsigned int> indices(nIndices);
+    for (Py_ssize_t i=0; i<nIndices; i++) {
+        PyObject* idx = seq.get(i);
+        if (idx == NULL || !pyPlasma_check<unsigned int>(idx)) {
+            PyErr_SetString(PyExc_TypeError, "indices should be a sequence of ints");
             return -1;
         }
-        indices[i] = PyInt_AsLong(idx);
+        indices[i] = pyPlasma_get<unsigned int>(idx);
     }
-    self->fThis->setIndices(nIndices, indices);
-    delete[] indices;
+    self->fThis->getIndices() = indices;
     return 0;
 }
+
+PY_PROPERTY_GETSET_DECL(GenericPhysical, indices)
 
 PY_PROPERTY(float, GenericPhysical, mass, getMass, setMass)
 PY_PROPERTY(float, GenericPhysical, friction, getFriction, setFriction)
@@ -250,10 +244,8 @@ static PyGetSetDef pyGenericPhysical_GetSet[] = {
     pyGenericPhysical_offset_getset,
     pyGenericPhysical_radius_getset,
     pyGenericPhysical_length_getset,
-    { _pycs("verts"), (getter)pyGenericPhysical_getVerts,
-        (setter)pyGenericPhysical_setVerts, NULL, NULL },
-    { _pycs("indices"), (getter)pyGenericPhysical_getIndices,
-        (setter)pyGenericPhysical_setIndices, NULL, NULL },
+    pyGenericPhysical_verts_getset,
+    pyGenericPhysical_indices_getset,
     pyGenericPhysical_TMDBuffer_getset,
     PY_GETSET_TERMINATOR
 };

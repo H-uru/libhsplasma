@@ -44,7 +44,7 @@ PY_METHOD_VA(GeometrySpan, addPermaLight,
         return NULL;
     }
 
-    self->fThis->addPermaLight(*((pyKey*)light)->fThis);
+    self->fThis->addPermaLight(pyPlasma_get<plKey>(light));
     Py_RETURN_NONE;
 }
 
@@ -77,7 +77,7 @@ PY_METHOD_VA(GeometrySpan, addPermaProj,
         return NULL;
     }
 
-    self->fThis->addPermaProj(*((pyKey*)light)->fThis);
+    self->fThis->addPermaProj(pyPlasma_get<plKey>(light));
     Py_RETURN_NONE;
 }
 
@@ -100,87 +100,6 @@ PY_METHOD_VA(GeometrySpan, clearPermaProj, "Clears all permaprojs") {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGeometrySpan_getIndices(pyGeometrySpan* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getIndices().size());
-    for (size_t i = 0; i < self->fThis->getIndices().size(); ++i)
-        PyList_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getIndices()[i]));
-    return list;
-}
-
-static PyObject* pyGeometrySpan_getVertices(pyGeometrySpan* self, void*) {
-    std::vector<plGeometrySpan::TempVertex> verts = self->fThis->getVertices();
-    PyObject* list = PyList_New(verts.size());
-    for (size_t i = 0; i < verts.size(); ++i)
-        PyList_SET_ITEM(list, i, pyTempVertex_FromTempVertex(verts[i]));
-    return list;
-}
-
-static PyObject* pyGeometrySpan_getPermaLights(pyGeometrySpan* self, void*) {
-    const std::vector<plKey>& lights = self->fThis->getPermaLights();
-    PyObject* tup = PyTuple_New(lights.size());
-    for (size_t i = 0; i < lights.size(); ++i)
-        PyTuple_SET_ITEM(tup, i, pyKey_FromKey(lights[i]));
-    return tup;
-}
-
-static PyObject* pyGeometrySpan_getPermaProjs(pyGeometrySpan* self, void*) {
-    const std::vector<plKey>& lights = self->fThis->getPermaProjs();
-    PyObject* tup = PyTuple_New(lights.size());
-    for (size_t i = 0; i < lights.size(); ++i)
-        PyTuple_SET_ITEM(tup, i, pyKey_FromKey(lights[i]));
-    return tup;
-}
-
-static int pyGeometrySpan_setIndices(pyGeometrySpan* self, PyObject* value, void*) {
-    if (value == NULL || !PySequence_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "indices should be a sequence of unsigned shorts");
-        return -1;
-    }
-    size_t count = PySequence_Size(value);
-    for (size_t i = 0; i < count; ++i) {
-        if (!PyInt_Check(PySequence_Fast_GET_ITEM(value, i))) {
-            PyErr_SetString(PyExc_TypeError, "indices should be a sequence of unsigned shorts");
-            return -1;
-        }
-    }
-
-    std::vector<unsigned short> idx(PySequence_Size(value));
-    for (size_t i = 0; i < idx.size(); ++i)
-        idx[i] = PyInt_AsLong(PySequence_Fast_GET_ITEM(value, i));
-    self->fThis->setIndices(idx);
-    return 0;
-}
-
-static int pyGeometrySpan_setVertices(pyGeometrySpan* self, PyObject* value, void*) {
-    if (value == NULL || !PySequence_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "vertices should be a sequence of TempVertex");
-        return -1;
-    }
-    size_t count = PySequence_Size(value);
-    for (size_t i = 0; i < count; ++i) {
-        if (!pyTempVertex_Check(PySequence_Fast_GET_ITEM(value, i))) {
-            PyErr_SetString(PyExc_TypeError, "vertices should be a sequence of TempVertex");
-            return -1;
-        }
-    }
-
-    std::vector<plGeometrySpan::TempVertex> verts(PySequence_Size(value));
-    for (size_t i = 0; i < verts.size(); ++i)
-        verts[i] = *((pyTempVertex*)PySequence_Fast_GET_ITEM(value, i))->fThis;
-    self->fThis->setVertices(verts);
-    return 0;
-}
-
-static int pyGeometrySpan_setPermaLights(pyGeometrySpan* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add PermaLights, use addPermaLight");
-    return -1;
-}
-
-static int pyGeometrySpan_setPermaProjs(pyGeometrySpan* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add PermaProjs, use addPermaLight");
-    return -1;
-}
-
 static PyMethodDef pyGeometrySpan_Methods[] = {
     pyGeometrySpan_addPermaLight_method,
     pyGeometrySpan_delPermaLight_method,
@@ -190,6 +109,89 @@ static PyMethodDef pyGeometrySpan_Methods[] = {
     pyGeometrySpan_clearPermaProj_method,
     PY_METHOD_TERMINATOR
 };
+
+PY_GETSET_GETTER_DECL(GeometrySpan, indices) {
+    PyObject* list = PyTuple_New(self->fThis->getIndices().size());
+    for (size_t i = 0; i < self->fThis->getIndices().size(); ++i)
+        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getIndices()[i]));
+    return list;
+}
+
+PY_GETSET_SETTER_DECL(GeometrySpan, indices) {
+    PY_PROPERTY_CHECK_NULL(indices)
+    pySequenceFastRef seq(value);
+    if (!seq.isSequence()) {
+        PyErr_SetString(PyExc_TypeError, "indices should be a sequence of unsigned shorts");
+        return -1;
+    }
+    Py_ssize_t count = seq.size();
+    std::vector<unsigned short> idxVec(count);
+    for (Py_ssize_t i = 0; i < count; ++i) {
+        PyObject* idx = seq.get(i);
+        if (!pyPlasma_check<unsigned short>(idx)) {
+            PyErr_SetString(PyExc_TypeError, "indices should be a sequence of unsigned shorts");
+            return -1;
+        }
+        idxVec[i] = pyPlasma_get<unsigned short>(idx);
+    }
+    self->fThis->setIndices(idxVec);
+    return 0;
+}
+
+PY_PROPERTY_GETSET_DECL(GeometrySpan, indices)
+
+PY_GETSET_GETTER_DECL(GeometrySpan, vertices) {
+    std::vector<plGeometrySpan::TempVertex> verts = self->fThis->getVertices();
+    PyObject* list = PyTuple_New(verts.size());
+    for (size_t i = 0; i < verts.size(); ++i)
+        PyTuple_SET_ITEM(list, i, pyTempVertex_FromTempVertex(verts[i]));
+    return list;
+}
+
+PY_GETSET_SETTER_DECL(GeometrySpan, vertices) {
+    PY_PROPERTY_CHECK_NULL(vertices)
+    pySequenceFastRef seq(value);
+    if (!seq.isSequence()) {
+        PyErr_SetString(PyExc_TypeError, "vertices should be a sequence of TempVertex");
+        return -1;
+    }
+    Py_ssize_t count = seq.size();
+    std::vector<plGeometrySpan::TempVertex> verts(count);
+    for (Py_ssize_t i = 0; i < count; ++i) {
+        PyObject* vert = seq.get(i);
+        if (!pyTempVertex_Check(vert)) {
+            PyErr_SetString(PyExc_TypeError, "vertices should be a sequence of TempVertex");
+            return -1;
+        }
+        verts[i] = *((pyTempVertex*)vert)->fThis;
+    }
+    self->fThis->setVertices(verts);
+    return 0;
+}
+
+PY_PROPERTY_GETSET_DECL(GeometrySpan, vertices)
+
+PY_GETSET_GETTER_DECL(GeometrySpan, permaLights) {
+    const std::vector<plKey>& lights = self->fThis->getPermaLights();
+    PyObject* tup = PyTuple_New(lights.size());
+    for (size_t i = 0; i < lights.size(); ++i)
+        PyTuple_SET_ITEM(tup, i, pyPlasma_convert(lights[i]));
+    return tup;
+}
+
+PY_PROPERTY_SETTER_MSG(GeometrySpan, permaLights, "To add PermaLights, use addPermaLight")
+PY_PROPERTY_GETSET_DECL(GeometrySpan, permaLights)
+
+PY_GETSET_GETTER_DECL(GeometrySpan, permaProjs) {
+    const std::vector<plKey>& lights = self->fThis->getPermaProjs();
+    PyObject* tup = PyTuple_New(lights.size());
+    for (size_t i = 0; i < lights.size(); ++i)
+        PyTuple_SET_ITEM(tup, i, pyPlasma_convert(lights[i]));
+    return tup;
+}
+
+PY_PROPERTY_SETTER_MSG(GeometrySpan, permaProjs, "To add PermaProjs, use addPermaLight")
+PY_PROPERTY_GETSET_DECL(GeometrySpan, permaProjs)
 
 PY_PROPERTY(unsigned int, GeometrySpan, baseMatrix, getBaseMatrix, setBaseMatrix)
 PY_PROPERTY(plKey, GeometrySpan, fogEnvironment, getFogEnvironment, setFogEnvironment)
@@ -212,8 +214,7 @@ static PyGetSetDef pyGeometrySpan_GetSet[] = {
     pyGeometrySpan_baseMatrix_getset,
     pyGeometrySpan_fogEnvironment_getset,
     pyGeometrySpan_format_getset,
-    { _pycs("indices"), (getter)pyGeometrySpan_getIndices,
-        (setter)pyGeometrySpan_setIndices, NULL, NULL },
+    pyGeometrySpan_indices_getset,
     pyGeometrySpan_localBounds_getset,
     pyGeometrySpan_localToWorld_getset,
     pyGeometrySpan_localUVWChans_getset,
@@ -224,15 +225,12 @@ static PyGetSetDef pyGeometrySpan_GetSet[] = {
     pyGeometrySpan_numMatrices_getset,
     pyGeometrySpan_penBoneIdx_getset,
     pyGeometrySpan_props_getset,
-    { _pycs("vertices"), (getter)pyGeometrySpan_getVertices,
-        (setter)pyGeometrySpan_setVertices, NULL, NULL },
+    pyGeometrySpan_vertices_getset,
     pyGeometrySpan_waterHeight_getset,
     pyGeometrySpan_worldBounds_getset,
     pyGeometrySpan_worldToLocal_getset,
-    { _pycs("permaLights"), (getter)pyGeometrySpan_getPermaLights,
-        (setter)pyGeometrySpan_setPermaLights, NULL, NULL },
-    { _pycs("permaProjs"), (getter)pyGeometrySpan_getPermaProjs,
-        (setter)pyGeometrySpan_setPermaProjs, NULL, NULL },
+    pyGeometrySpan_permaLights_getset,
+    pyGeometrySpan_permaProjs_getset,
     PY_GETSET_TERMINATOR
 };
 

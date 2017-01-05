@@ -61,35 +61,36 @@ PY_METHOD_NOARGS(AnimTimeConvert, clearCallbacks, "Delete all callbacks from the
     Py_RETURN_NONE;
 }
 
-static PyObject* pyAnimTimeConvert_getStops(pyAnimTimeConvert* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getStopPoints().size());
+static PyMethodDef pyAnimTimeConvert_Methods[] = {
+    pyAnimTimeConvert_addCallback_method,
+    pyAnimTimeConvert_delCallback_method,
+    pyAnimTimeConvert_clearCallbacks_method,
+    PY_METHOD_TERMINATOR
+};
+
+PY_GETSET_GETTER_DECL(AnimTimeConvert, stopPoints) {
+    PyObject* list = PyTuple_New(self->fThis->getStopPoints().size());
     for (size_t i=0; i<self->fThis->getStopPoints().size(); i++)
-        PyList_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getStopPoints()[i]));
+        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getStopPoints()[i]));
     return list;
 }
 
-static PyObject* pyAnimTimeConvert_getCallbacks(pyAnimTimeConvert* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getCallbacks().size());
-    for (size_t i=0; i<self->fThis->getCallbacks().size(); i++)
-        PyList_SET_ITEM(list, i, ICreate(self->fThis->getCallbacks()[i]));
-    return list;
-}
-
-static int pyAnimTimeConvert_setStops(pyAnimTimeConvert* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        Py_XDECREF(value);
+PY_GETSET_SETTER_DECL(AnimTimeConvert, stopPoints) {
+    PY_PROPERTY_CHECK_NULL(stops)
+    if (value == Py_None) {
         self->fThis->setStopPoints(std::vector<float>());
         return 0;
     }
-    if (!PyList_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "stopPoints should be a list of floats");
+    pySequenceFastRef seq(value);
+    if (!seq.isSequence()) {
+        PyErr_SetString(PyExc_TypeError, "stopPoints should be a sequence of floats");
         return -1;
     }
-    std::vector<float> stops(PyList_Size(value));
+    std::vector<float> stops(seq.size());
     for (size_t i=0; i<stops.size(); i++) {
-        PyObject* itm = PyList_GetItem(value, i);
+        PyObject* itm = seq.get(i);
         if (!pyPlasma_check<float>(itm)) {
-            PyErr_SetString(PyExc_TypeError, "stopPoints should be a list of floats");
+            PyErr_SetString(PyExc_TypeError, "stopPoints should be a sequence of floats");
             return -1;
         }
         stops[i] = pyPlasma_get<float>(itm);
@@ -98,17 +99,17 @@ static int pyAnimTimeConvert_setStops(pyAnimTimeConvert* self, PyObject* value, 
     return 0;
 }
 
-static int pyAnimTimeConvert_setCallbacks(pyAnimTimeConvert* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add callbacks, use addCallback()");
-    return -1;
+PY_PROPERTY_GETSET_DECL(AnimTimeConvert, stopPoints)
+
+PY_GETSET_GETTER_DECL(AnimTimeConvert, callbacks) {
+    PyObject* list = PyTuple_New(self->fThis->getCallbacks().size());
+    for (size_t i=0; i<self->fThis->getCallbacks().size(); i++)
+        PyTuple_SET_ITEM(list, i, ICreate(self->fThis->getCallbacks()[i]));
+    return list;
 }
 
-static PyMethodDef pyAnimTimeConvert_Methods[] = {
-    pyAnimTimeConvert_addCallback_method,
-    pyAnimTimeConvert_delCallback_method,
-    pyAnimTimeConvert_clearCallbacks_method,
-    PY_METHOD_TERMINATOR
-};
+PY_PROPERTY_SETTER_MSG(AnimTimeConvert, callbacks, "To add callbacks, use addCallback()")
+PY_PROPERTY_GETSET_DECL(AnimTimeConvert, callbacks)
 
 PY_PROPERTY(unsigned int, AnimTimeConvert, flags, getFlags, setFlags)
 PY_PROPERTY(float, AnimTimeConvert, begin, getBegin, setBegin)
@@ -140,10 +141,8 @@ static PyGetSetDef pyAnimTimeConvert_GetSet[] = {
     pyAnimTimeConvert_easeInCurve_getset,
     pyAnimTimeConvert_easeOutCurve_getset,
     pyAnimTimeConvert_speedEaseCurve_getset,
-    { _pycs("stopPoints"), (getter)pyAnimTimeConvert_getStops,
-        (setter)pyAnimTimeConvert_setStops, NULL, NULL },
-    { _pycs("callbacks"), (getter)pyAnimTimeConvert_getCallbacks,
-        (setter)pyAnimTimeConvert_setCallbacks, NULL, NULL },
+    pyAnimTimeConvert_stopPoints_getset,
+    pyAnimTimeConvert_callbacks_getset,
     PY_GETSET_TERMINATOR
 };
 

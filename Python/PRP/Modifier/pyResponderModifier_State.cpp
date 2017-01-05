@@ -64,24 +64,22 @@ PY_METHOD_NOARGS(ResponderModifier_State, clearCommands,
     Py_RETURN_NONE;
 }
 
-static PyObject* pyResponderModifier_State_getCommands(pyResponderModifier_State* self, void*) {
-    PyObject* list = PyList_New(self->fThis->fCmds.size());
-    for (size_t i=0; i<self->fThis->fCmds.size(); i++)
-        PyList_SET_ITEM(list, i, pyResponderModifier_Cmd_FromResponderModifier_Cmd(self->fThis->fCmds[i]));
-    return list;
-}
-
-static int pyResponderModifier_State_setCommands(pyResponderModifier_State* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_TypeError, "To add commands, use addCommand");
-    return -1;
-}
-
 static PyMethodDef pyResponderModifier_State_Methods[] = {
     pyResponderModifier_State_addCommand_method,
     pyResponderModifier_State_delCommand_method,
     pyResponderModifier_State_clearCommands_method,
     PY_METHOD_TERMINATOR
 };
+
+PY_GETSET_GETTER_DECL(ResponderModifier_State, commands) {
+    PyObject* list = PyTuple_New(self->fThis->fCmds.size());
+    for (size_t i=0; i<self->fThis->fCmds.size(); i++)
+        PyTuple_SET_ITEM(list, i, pyResponderModifier_Cmd_FromResponderModifier_Cmd(self->fThis->fCmds[i]));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(ResponderModifier_State, commands, "To add commands, use addCommand")
+PY_PROPERTY_GETSET_DECL(ResponderModifier_State, commands)
 
 PY_GETSET_GETTER_DECL(ResponderModifier_State, waitToCmd) {
     PyObject* dict = PyDict_New();
@@ -117,8 +115,7 @@ PY_PROPERTY_MEMBER(int8_t, ResponderModifier_State, numCallbacks, fNumCallbacks)
 PY_PROPERTY_MEMBER(int8_t, ResponderModifier_State, switchToState, fSwitchToState)
 
 static PyGetSetDef pyResponderModifier_State_GetSet[] = {
-    { _pycs("commands"), (getter)pyResponderModifier_State_getCommands,
-        (setter)pyResponderModifier_State_setCommands, NULL, NULL },
+    pyResponderModifier_State_commands_getset,
     pyResponderModifier_State_numCallbacks_getset,
     pyResponderModifier_State_switchToState_getset,
     pyResponderModifier_State_waitToCmd_getset,

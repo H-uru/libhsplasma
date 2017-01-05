@@ -88,18 +88,6 @@ PY_METHOD_VA(LogicModBase, setLogicFlag,
     Py_RETURN_NONE;
 }
 
-static PyObject* pyLogicModBase_getCommands(pyLogicModBase* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getCommands().size());
-    for (size_t i=0; i<self->fThis->getCommands().size(); i++)
-        PyList_SET_ITEM(list, i, ICreate(self->fThis->getCommands()[i]));
-    return list;
-}
-
-static int pyLogicModBase_setCommands(pyLogicModBase* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "to add commands, use addCommand");
-    return -1;
-}
-
 static PyMethodDef pyLogicModBase_Methods[] = {
     pyLogicModBase_clearCommands_method,
     pyLogicModBase_addCommand_method,
@@ -109,13 +97,22 @@ static PyMethodDef pyLogicModBase_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
+PY_GETSET_GETTER_DECL(LogicModBase, commands) {
+    PyObject* list = PyTuple_New(self->fThis->getCommands().size());
+    for (size_t i=0; i<self->fThis->getCommands().size(); i++)
+        PyTuple_SET_ITEM(list, i, ICreate(self->fThis->getCommands()[i]));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(LogicModBase, commands, "To add commands, use addCommand")
+PY_PROPERTY_GETSET_DECL(LogicModBase, commands)
+
 PY_PROPERTY_CREATABLE(plNotifyMsg, NotifyMsg, LogicModBase, notify,
                       getNotify, setNotify)
 PY_PROPERTY(bool, LogicModBase, disabled, isDisabled, setDisabled)
 
 static PyGetSetDef pyLogicModBase_GetSet[] = {
-    { _pycs("commands"), (getter)pyLogicModBase_getCommands,
-        (setter)pyLogicModBase_setCommands, NULL, NULL },
+    pyLogicModBase_commands_getset,
     pyLogicModBase_notify_getset,
     pyLogicModBase_disabled_getset,
     PY_GETSET_TERMINATOR

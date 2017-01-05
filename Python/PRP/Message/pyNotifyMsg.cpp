@@ -61,18 +61,6 @@ PY_METHOD_VA(NotifyMsg, delEvent,
     Py_RETURN_NONE;
 }
 
-static PyObject* pyNotifyMsg_getEvents(pyNotifyMsg* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getEvents().size());
-    for (size_t i=0; i<self->fThis->getEvents().size(); i++)
-        PyList_SET_ITEM(list, i, ICreateEventData(self->fThis->getEvents()[i]));
-    return list;
-}
-
-static int pyNotifyMsg_setEvents(pyNotifyMsg* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "to add events, use addEvent");
-    return -1;
-}
-
 static PyMethodDef pyNotifyMsg_Methods[] = {
     pyNotifyMsg_clearEvents_method,
     pyNotifyMsg_addEvent_method,
@@ -80,13 +68,22 @@ static PyMethodDef pyNotifyMsg_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
+PY_GETSET_GETTER_DECL(NotifyMsg, events) {
+    PyObject* list = PyTuple_New(self->fThis->getEvents().size());
+    for (size_t i=0; i<self->fThis->getEvents().size(); i++)
+        PyTuple_SET_ITEM(list, i, ICreateEventData(self->fThis->getEvents()[i]));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(NotifyMsg, events, "To add events, use addEvent")
+PY_PROPERTY_GETSET_DECL(NotifyMsg, events)
+
 PY_PROPERTY(int, NotifyMsg, type, getType, setType)
 PY_PROPERTY(float, NotifyMsg, state, getState, setState)
 PY_PROPERTY(int, NotifyMsg, id, getID, setID)
 
 static PyGetSetDef pyNotifyMsg_GetSet[] = {
-    { _pycs("events"), (getter)pyNotifyMsg_getEvents,
-        (setter)pyNotifyMsg_setEvents, NULL, NULL },
+    pyNotifyMsg_events_getset,
     pyNotifyMsg_type_getset,
     pyNotifyMsg_state_getset,
     pyNotifyMsg_id_getset,

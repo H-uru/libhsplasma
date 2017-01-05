@@ -69,7 +69,7 @@ static PyMethodDef pyMessageWithCallbacks_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-static PyObject* pyMessageWithCallbacks_getCallbacks(pyMessageWithCallbacks* self, void*) {
+PY_GETSET_GETTER_DECL(MessageWithCallbacks, callbacks) {
     const std::vector<plMessage*>& callbacks = self->fThis->getCallbacks();
     PyObject* tup = PyTuple_New(callbacks.size());
     for (size_t i = 0; i < callbacks.size(); ++i)
@@ -77,14 +77,11 @@ static PyObject* pyMessageWithCallbacks_getCallbacks(pyMessageWithCallbacks* sel
     return tup;
 }
 
-static int pyMessageWithCallbacks_setCallbacks(pyMessageWithCallbacks* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add callbacks, use addCallback");
-    return -1;
-}
+PY_PROPERTY_SETTER_MSG(MessageWithCallbacks, callbacks, "To add callbacks, use addCallback")
+PY_PROPERTY_GETSET_DECL(MessageWithCallbacks, callbacks)
 
 static PyGetSetDef pyMessageWithCallbacks_GetSet[] = {
-    { _pycs("callbacks"), (getter)pyMessageWithCallbacks_getCallbacks,
-       (setter)pyMessageWithCallbacks_setCallbacks, NULL, NULL },
+    pyMessageWithCallbacks_callbacks_getset,
     PY_GETSET_TERMINATOR
 };
 

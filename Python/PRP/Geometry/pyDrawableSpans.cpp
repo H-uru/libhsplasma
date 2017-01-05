@@ -93,9 +93,9 @@ PY_METHOD_VA(DrawableSpans, getVerts,
         return NULL;
     }
     std::vector<plGBufferVertex> verts = self->fThis->getVerts(ice->fThis);
-    PyObject* list = PyList_New(verts.size());
+    PyObject* list = PyTuple_New(verts.size());
     for (size_t i=0; i<verts.size(); i++)
-        PyList_SET_ITEM(list, i, pyGBufferVertex_FromGBufferVertex(verts[i]));
+        PyTuple_SET_ITEM(list, i, pyGBufferVertex_FromGBufferVertex(verts[i]));
     return list;
 }
 
@@ -114,9 +114,9 @@ PY_METHOD_VA(DrawableSpans, getIndices,
         return NULL;
     }
     std::vector<unsigned short> indices = self->fThis->getIndices(ice->fThis);
-    PyObject* list = PyList_New(indices.size());
+    PyObject* list = PyTuple_New(indices.size());
     for (size_t i=0; i<indices.size(); i++)
-        PyList_SET_ITEM(list, i, pyPlasma_convert(indices[i]));
+        PyTuple_SET_ITEM(list, i, pyPlasma_convert(indices[i]));
     return list;
 }
 
@@ -130,9 +130,9 @@ PY_METHOD_VA(DrawableSpans, getCells,
         return NULL;
     }
     std::vector<plGBufferCell> cells = self->fThis->getCells(buf, idx);
-    PyObject* list = PyList_New(cells.size());
+    PyObject* list = PyTuple_New(cells.size());
     for (size_t i=0; i<cells.size(); i++)
-        PyList_SET_ITEM(list, i, pyGBufferCell_FromGBufferCell(cells[i]));
+        PyTuple_SET_ITEM(list, i, pyGBufferCell_FromGBufferCell(cells[i]));
     return list;
 }
 
@@ -141,20 +141,21 @@ PY_METHOD_VA(DrawableSpans, addVerts,
     "Adds a group of verts to the specified buffer")
 {
     int buf;
-    PyObject* vlist;
-    if (!PyArg_ParseTuple(args,  "iO", &buf, &vlist)) {
-        PyErr_SetString(PyExc_TypeError, "addVerts expects int, list");
+    PyObject* vlistObj;
+    if (!PyArg_ParseTuple(args,  "iO", &buf, &vlistObj)) {
+        PyErr_SetString(PyExc_TypeError, "addVerts expects int, sequence(plGBufferVertex)");
         return NULL;
     }
-    if (!PyList_Check(vlist)) {
-        PyErr_SetString(PyExc_TypeError, "addVerts expects int, list");
+    pySequenceFastRef vlist(vlistObj);
+    if (!vlist.isSequence()) {
+        PyErr_SetString(PyExc_TypeError, "addVerts expects int, sequence(plGBufferVertex)");
         return NULL;
     }
-    std::vector<plGBufferVertex> verts(PyList_Size(vlist));
+    std::vector<plGBufferVertex> verts(vlist.size());
     for (size_t i=0; i<verts.size(); i++) {
-        PyObject* vert = PyList_GetItem(vlist, i);
+        PyObject* vert = vlist.get(i);
         if (!pyGBufferVertex_Check(vert)) {
-            PyErr_SetString(PyExc_TypeError, "addVerts expects a list of plGBufferVertexes");
+            PyErr_SetString(PyExc_TypeError, "addVerts expects a sequence of plGBufferVertexes");
             return NULL;
         }
         verts[i] = *((pyGBufferVertex*)vert)->fThis;
@@ -168,23 +169,24 @@ PY_METHOD_VA(DrawableSpans, addIndices,
     "Adds a group of indices (ungrouped) to the specified buffer")
 {
     int buf;
-    PyObject* ilist;
-    if (!PyArg_ParseTuple(args,  "iO", &buf, &ilist)) {
-        PyErr_SetString(PyExc_TypeError, "addIndices expects int, list");
+    PyObject* ilistObj;
+    if (!PyArg_ParseTuple(args,  "iO", &buf, &ilistObj)) {
+        PyErr_SetString(PyExc_TypeError, "addIndices expects int, sequence(int)");
         return NULL;
     }
-    if (!PyList_Check(ilist)) {
-        PyErr_SetString(PyExc_TypeError, "addIndices expects int, list");
+    pySequenceFastRef ilist(ilistObj);
+    if (!ilist.isSequence()) {
+        PyErr_SetString(PyExc_TypeError, "addIndices expects int, sequence(int)");
         return NULL;
     }
-    std::vector<unsigned short> indices(PyList_Size(ilist));
+    std::vector<unsigned short> indices(ilist.size());
     for (size_t i=0; i<indices.size(); i++) {
-        PyObject* index = PyList_GetItem(ilist, i);
-        if (!PyInt_Check(index)) {
-            PyErr_SetString(PyExc_TypeError, "addIndices expects a list of ints");
+        PyObject* index = ilist.get(i);
+        if (!pyPlasma_check<unsigned short>(index)) {
+            PyErr_SetString(PyExc_TypeError, "addIndices expects a sequence of ints");
             return NULL;
         }
-        indices[i] = PyInt_AsLong(index);
+        indices[i] = pyPlasma_get<unsigned short>(index);
     }
     self->fThis->addIndices(buf, indices);
     Py_RETURN_NONE;
@@ -195,20 +197,21 @@ PY_METHOD_VA(DrawableSpans, addCells,
     "Adds a group of cells to the specified buffer")
 {
     int buf;
-    PyObject* clist;
-    if (!PyArg_ParseTuple(args,  "iO", &buf, &clist)) {
-        PyErr_SetString(PyExc_TypeError, "addCells expects int, list");
+    PyObject* clistObj;
+    if (!PyArg_ParseTuple(args,  "iO", &buf, &clistObj)) {
+        PyErr_SetString(PyExc_TypeError, "addCells expects int, sequence(plGBufferCell)");
         return NULL;
     }
-    if (!PyList_Check(clist)) {
-        PyErr_SetString(PyExc_TypeError, "addCells expects int, list");
+    pySequenceFastRef clist(clistObj);
+    if (!clist.isSequence()) {
+        PyErr_SetString(PyExc_TypeError, "addCells expects int, sequence(plGBufferCell)");
         return NULL;
     }
-    std::vector<plGBufferCell> cells(PyList_Size(clist));
+    std::vector<plGBufferCell> cells(clist.size());
     for (size_t i=0; i<cells.size(); i++) {
-        PyObject* cell = PyList_GetItem(clist, i);
+        PyObject* cell = clist.get(i);
         if (!pyGBufferCell_Check(cell)) {
-            PyErr_SetString(PyExc_TypeError, "addCells expects a list of plGBufferCells");
+            PyErr_SetString(PyExc_TypeError, "addCells expects a sequence of plGBufferCells");
             return NULL;
         }
         cells[i] = *((pyGBufferCell*)cell)->fThis;
@@ -336,19 +339,20 @@ PY_METHOD_VA(DrawableSpans, buildDIIndex,
     "Params: spans"
     "Builds and returns the offset of the DISpanIndex created for a mesh composed of a set of source spans")
 {
-    PyObject* list;
-    if (!PyArg_ParseTuple(args, "O", &list)) {
+    PyObject* seqObj;
+    if (!PyArg_ParseTuple(args, "O", &seqObj)) {
         PyErr_SetString(PyExc_TypeError, "buildDIIndex expects a sequence of plGeometrySpan");
         return NULL;
     }
-    if (!PySequence_Check(list)) {
+    pySequenceFastRef seq(seqObj);
+    if (!seq.isSequence()) {
         PyErr_SetString(PyExc_TypeError, "buildDIIndex expects a sequence of plGeometrySpan");
         return NULL;
     }
 
-    std::vector<std::shared_ptr<plGeometrySpan> > spans(PySequence_Size(list));
+    std::vector<std::shared_ptr<plGeometrySpan> > spans(seq.size());
     for (size_t i = 0; i < spans.size(); ++i) {
-        PyObject* o = PySequence_Fast_GET_ITEM(list, i);
+        PyObject* o = seq.get(i);
         if (pyGeometrySpan_Check(o))
             spans[i] = ((pyGeometrySpan*)o)->fThis;
         else {
@@ -373,99 +377,6 @@ PY_METHOD_VA(DrawableSpans, addSourceSpan,
         return NULL;
     }
     return pyPlasma_convert(self->fThis->addSourceSpan(span->fThis));
-}
-
-static PyObject* pyDrawableSpans_getSpans(pyDrawableSpans* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getNumSpans());
-    for (size_t i=0; i<self->fThis->getNumSpans(); i++)
-        PyList_SET_ITEM(list, i, ICreateSpan(self->fThis->getSpan(i)));
-    return list;
-}
-
-static PyObject* pyDrawableSpans_getBGroups(pyDrawableSpans* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getNumBufferGroups());
-    for (size_t i=0; i<self->fThis->getNumBufferGroups(); i++)
-        PyList_SET_ITEM(list, i, pyGBufferGroup_FromGBufferGroup(self->fThis->getBuffer(i)));
-    return list;
-}
-
-static PyObject* pyDrawableSpans_getDIIndices(pyDrawableSpans* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getNumDIIndices());
-    for (size_t i=0; i<self->fThis->getNumDIIndices(); i++)
-        PyList_SET_ITEM(list, i, pyDISpanIndex_FromDISpanIndex(self->fThis->getDIIndex(i)));
-    return list;
-}
-
-static PyObject* pyDrawableSpans_getL2Ws(pyDrawableSpans* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getNumTransforms());
-    for (size_t i=0; i<self->fThis->getNumTransforms(); i++)
-        PyList_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getLocalToWorld(i)));
-    return list;
-}
-
-static PyObject* pyDrawableSpans_getW2Ls(pyDrawableSpans* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getNumTransforms());
-    for (size_t i=0; i<self->fThis->getNumTransforms(); i++)
-        PyList_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getWorldToLocal(i)));
-    return list;
-}
-
-static PyObject* pyDrawableSpans_getL2Bs(pyDrawableSpans* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getNumTransforms());
-    for (size_t i=0; i<self->fThis->getNumTransforms(); i++)
-        PyList_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getLocalToBone(i)));
-    return list;
-}
-
-static PyObject* pyDrawableSpans_getB2Ls(pyDrawableSpans* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getNumTransforms());
-    for (size_t i=0; i<self->fThis->getNumTransforms(); i++)
-        PyList_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getBoneToLocal(i)));
-    return list;
-}
-
-static PyObject* pyDrawableSpans_getMaterials(pyDrawableSpans* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getMaterials().size());
-    for (size_t i=0; i<self->fThis->getMaterials().size(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getMaterials()[i]));
-    return list;
-}
-
-static PyObject* pyDrawableSpans_getSourceSpans(pyDrawableSpans* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getSourceSpans().size());
-    for (size_t i = 0; i < self->fThis->getSourceSpans().size(); ++i)
-        PyList_SET_ITEM(list, i, pyGeometrySpan_FromGeometrySpan(self->fThis->getSourceSpans()[i]));
-    return list;
-}
-
-static int pyDrawableSpans_setSpans(pyDrawableSpans* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add spans, use addIcicle()");
-    return -1;
-}
-
-static int pyDrawableSpans_setBGroups(pyDrawableSpans* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add BufferGroups, use createBufferGroup()");
-    return -1;
-}
-
-static int pyDrawableSpans_setDIIndices(pyDrawableSpans* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add DI Indices, use addDIIndex()");
-    return -1;
-}
-
-static int pyDrawableSpans_setTransforms(pyDrawableSpans* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add transform matrices, use addTransform()");
-    return -1;
-}
-
-static int pyDrawableSpans_setMaterials(pyDrawableSpans* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add materials, use addMaterial()");
-    return -1;
-}
-
-static int pyDrawableSpans_setSourceSpans(pyDrawableSpans* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add sourceSpans, use addSourceSpan()");
-    return -1;
 }
 
 static PyMethodDef pyDrawableSpans_Methods[] = {
@@ -494,6 +405,101 @@ static PyMethodDef pyDrawableSpans_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
+PY_GETSET_GETTER_DECL(DrawableSpans, spans) {
+    PyObject* list = PyTuple_New(self->fThis->getNumSpans());
+    for (size_t i=0; i<self->fThis->getNumSpans(); i++)
+        PyTuple_SET_ITEM(list, i, ICreateSpan(self->fThis->getSpan(i)));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(DrawableSpans, spans, "To add spans, use addIcicle()")
+PY_PROPERTY_GETSET_DECL(DrawableSpans, spans)
+
+PY_GETSET_GETTER_DECL(DrawableSpans, bufferGroups) {
+    PyObject* list = PyTuple_New(self->fThis->getNumBufferGroups());
+    for (size_t i=0; i<self->fThis->getNumBufferGroups(); i++)
+        PyTuple_SET_ITEM(list, i, pyGBufferGroup_FromGBufferGroup(self->fThis->getBuffer(i)));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(DrawableSpans, bufferGroups,
+                       "To add BufferGroups, use createBufferGroup()")
+PY_PROPERTY_GETSET_DECL(DrawableSpans, bufferGroups)
+
+PY_GETSET_GETTER_DECL(DrawableSpans, DIIndices) {
+    PyObject* list = PyTuple_New(self->fThis->getNumDIIndices());
+    for (size_t i=0; i<self->fThis->getNumDIIndices(); i++)
+        PyTuple_SET_ITEM(list, i, pyDISpanIndex_FromDISpanIndex(self->fThis->getDIIndex(i)));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(DrawableSpans, DIIndices, "To add DI Indices, use addDIIndex()")
+PY_PROPERTY_GETSET_DECL(DrawableSpans, DIIndices)
+
+PY_GETSET_GETTER_DECL(DrawableSpans, localToWorlds) {
+    PyObject* list = PyTuple_New(self->fThis->getNumTransforms());
+    for (size_t i=0; i<self->fThis->getNumTransforms(); i++)
+        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getLocalToWorld(i)));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(DrawableSpans, localToWorlds,
+                       "To add transform matrices, use addTransform()")
+PY_PROPERTY_GETSET_DECL(DrawableSpans, localToWorlds)
+
+PY_GETSET_GETTER_DECL(DrawableSpans, worldToLocals)  {
+    PyObject* list = PyTuple_New(self->fThis->getNumTransforms());
+    for (size_t i=0; i<self->fThis->getNumTransforms(); i++)
+        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getWorldToLocal(i)));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(DrawableSpans, worldToLocals,
+                       "To add transform matrices, use addTransform()")
+PY_PROPERTY_GETSET_DECL(DrawableSpans, worldToLocals)
+
+PY_GETSET_GETTER_DECL(DrawableSpans, localToBones) {
+    PyObject* list = PyTuple_New(self->fThis->getNumTransforms());
+    for (size_t i=0; i<self->fThis->getNumTransforms(); i++)
+        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getLocalToBone(i)));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(DrawableSpans, localToBones,
+                       "To add transform matrices, use addTransform()")
+PY_PROPERTY_GETSET_DECL(DrawableSpans, localToBones)
+
+PY_GETSET_GETTER_DECL(DrawableSpans, boneToLocals) {
+    PyObject* list = PyTuple_New(self->fThis->getNumTransforms());
+    for (size_t i=0; i<self->fThis->getNumTransforms(); i++)
+        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getBoneToLocal(i)));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(DrawableSpans, boneToLocals,
+                       "To add transform matrices, use addTransform()")
+PY_PROPERTY_GETSET_DECL(DrawableSpans, boneToLocals)
+
+PY_GETSET_GETTER_DECL(DrawableSpans, materials) {
+    PyObject* list = PyTuple_New(self->fThis->getMaterials().size());
+    for (size_t i=0; i<self->fThis->getMaterials().size(); i++)
+        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getMaterials()[i]));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(DrawableSpans, materials, "To add materials, use addMaterial()")
+PY_PROPERTY_GETSET_DECL(DrawableSpans, materials)
+
+PY_GETSET_GETTER_DECL(DrawableSpans, sourceSpans) {
+    PyObject* list = PyTuple_New(self->fThis->getSourceSpans().size());
+    for (size_t i = 0; i < self->fThis->getSourceSpans().size(); ++i)
+        PyTuple_SET_ITEM(list, i, pyGeometrySpan_FromGeometrySpan(self->fThis->getSourceSpans()[i]));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(DrawableSpans, sourceSpans, "To add sourceSpans, use addSourceSpan()")
+PY_PROPERTY_GETSET_DECL(DrawableSpans, sourceSpans)
+
 PY_PROPERTY_BOUNDS(Bounds3Ext, DrawableSpans, localBounds, getLocalBounds, setLocalBounds)
 PY_PROPERTY_BOUNDS(Bounds3Ext, DrawableSpans, worldBounds, getWorldBounds, setWorldBounds)
 PY_PROPERTY_BOUNDS(Bounds3Ext, DrawableSpans, maxWorldBounds, getMaxWorldBounds, setMaxWorldBounds)
@@ -504,32 +510,23 @@ PY_PROPERTY(unsigned int, DrawableSpans, renderLevel, getRenderLevel, setRenderL
 PY_PROPERTY(plKey, DrawableSpans, sceneNode, getSceneNode, setSceneNode)
 
 static PyGetSetDef pyDrawableSpans_GetSet[] = {
-    { _pycs("spans"), (getter)pyDrawableSpans_getSpans,
-        (setter)pyDrawableSpans_setSpans, NULL, NULL },
-    { _pycs("bufferGroups"), (getter)pyDrawableSpans_getBGroups,
-        (setter)pyDrawableSpans_setBGroups, NULL, NULL },
-    { _pycs("DIIndices"), (getter)pyDrawableSpans_getDIIndices,
-        (setter)pyDrawableSpans_setDIIndices, NULL, NULL },
-    { _pycs("localToWorlds"), (getter)pyDrawableSpans_getL2Ws,
-        (setter)pyDrawableSpans_setTransforms, NULL, NULL },
-    { _pycs("worldToLocals"), (getter)pyDrawableSpans_getW2Ls,
-        (setter)pyDrawableSpans_setTransforms, NULL, NULL },
-    { _pycs("localToBones"), (getter)pyDrawableSpans_getL2Bs,
-        (setter)pyDrawableSpans_setTransforms, NULL, NULL },
-    { _pycs("boneToLocals"), (getter)pyDrawableSpans_getB2Ls,
-        (setter)pyDrawableSpans_setTransforms, NULL, NULL },
+    pyDrawableSpans_spans_getset,
+    pyDrawableSpans_bufferGroups_getset,
+    pyDrawableSpans_DIIndices_getset,
+    pyDrawableSpans_localToWorlds_getset,
+    pyDrawableSpans_worldToLocals_getset,
+    pyDrawableSpans_localToBones_getset,
+    pyDrawableSpans_boneToLocals_getset,
     pyDrawableSpans_localBounds_getset,
     pyDrawableSpans_worldBounds_getset,
     pyDrawableSpans_maxWorldBounds_getset,
-    { _pycs("materials"), (getter)pyDrawableSpans_getMaterials,
-        (setter)pyDrawableSpans_setMaterials, NULL, NULL },
+    pyDrawableSpans_materials_getset,
     pyDrawableSpans_spaceTree_getset,
     pyDrawableSpans_props_getset,
     pyDrawableSpans_criteria_getset,
     pyDrawableSpans_renderLevel_getset,
     pyDrawableSpans_sceneNode_getset,
-    { _pycs("sourceSpans"), (getter)pyDrawableSpans_getSourceSpans,
-        (setter)pyDrawableSpans_setSourceSpans, NULL, NULL },
+    pyDrawableSpans_sourceSpans_getset,
     PY_GETSET_TERMINATOR
 };
 

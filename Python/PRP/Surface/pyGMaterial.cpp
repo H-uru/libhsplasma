@@ -97,30 +97,6 @@ PY_METHOD_VA(GMaterial, delPiggyBack,
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGMaterial_getLayers(pyGMaterial* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getLayers().size());
-    for (size_t i=0; i<self->fThis->getLayers().size(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getLayers()[i]));
-    return list;
-}
-
-static PyObject* pyGMaterial_getPBs(pyGMaterial* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getPiggyBacks().size());
-    for (size_t i=0; i<self->fThis->getPiggyBacks().size(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getPiggyBacks()[i]));
-    return list;
-}
-
-static int pyGMaterial_setLayers(pyGMaterial* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add layers, use addLayer()");
-    return -1;
-}
-
-static int pyGMaterial_setPBs(pyGMaterial* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add piggy-backs, use addPiggyBack()");
-    return -1;
-}
-
 static PyMethodDef pyGMaterial_Methods[] = {
     pyGMaterial_clearLayers_method,
     pyGMaterial_addLayer_method,
@@ -131,14 +107,32 @@ static PyMethodDef pyGMaterial_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
+PY_GETSET_GETTER_DECL(GMaterial, layers) {
+    PyObject* list = PyTuple_New(self->fThis->getLayers().size());
+    for (size_t i=0; i<self->fThis->getLayers().size(); i++)
+        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getLayers()[i]));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(GMaterial, layers, "To add layers, use addLayer()")
+PY_PROPERTY_GETSET_DECL(GMaterial, layers)
+
+PY_GETSET_GETTER_DECL(GMaterial, piggyBacks) {
+    PyObject* list = PyTuple_New(self->fThis->getPiggyBacks().size());
+    for (size_t i=0; i<self->fThis->getPiggyBacks().size(); i++)
+        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getPiggyBacks()[i]));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(GMaterial, piggyBacks, "To add piggy-backs, use addPiggyBack()")
+PY_PROPERTY_GETSET_DECL(GMaterial, piggyBacks)
+
 PY_PROPERTY(unsigned int, GMaterial, compFlags, getCompFlags, setCompFlags)
 PY_PROPERTY(unsigned int, GMaterial, loadFlags, getLoadFlags, setLoadFlags)
 
 static PyGetSetDef pyGMaterial_GetSet[] = {
-    { _pycs("layers"), (getter)pyGMaterial_getLayers,
-        (setter)pyGMaterial_setLayers, NULL, NULL },
-    { _pycs("piggyBacks"), (getter)pyGMaterial_getPBs,
-        (setter)pyGMaterial_setPBs, NULL, NULL },
+    pyGMaterial_layers_getset,
+    pyGMaterial_piggyBacks_getset,
     pyGMaterial_compFlags_getset,
     pyGMaterial_loadFlags_getset,
     PY_GETSET_TERMINATOR

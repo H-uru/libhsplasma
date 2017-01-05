@@ -73,30 +73,6 @@ PY_METHOD_VA(PythonFileMod, addParameter,
     Py_RETURN_NONE;
 }
 
-static PyObject* pyPythonFileMod_getReceivers(pyPythonFileMod* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getReceivers().size());
-    for (size_t i=0; i<self->fThis->getReceivers().size(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getReceivers()[i]));
-    return list;
-}
-
-static PyObject* pyPythonFileMod_getParameters(pyPythonFileMod* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getParameters().size());
-    for (size_t i=0; i<self->fThis->getParameters().size(); i++)
-        PyList_SET_ITEM(list, i, pyPythonParameter_FromPythonParameter(self->fThis->getParameters()[i]));
-    return list;
-}
-
-static int pyPythonFileMod_setReceivers(pyPythonFileMod* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "to add receivers, use addReceiver");
-    return -1;
-}
-
-static int pyPythonFileMod_setParameters(pyPythonFileMod* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "to add parameters, use addParameter");
-    return -1;
-}
-
 static PyMethodDef pyPythonFileMod_Methods[] = {
     pyPythonFileMod_clearReceivers_method,
     pyPythonFileMod_clearParameters_method,
@@ -105,14 +81,32 @@ static PyMethodDef pyPythonFileMod_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
+PY_GETSET_GETTER_DECL(PythonFileMod, receivers) {
+    PyObject* list = PyTuple_New(self->fThis->getReceivers().size());
+    for (size_t i=0; i<self->fThis->getReceivers().size(); i++)
+        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getReceivers()[i]));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(PythonFileMod, receivers, "To add receivers, use addReceiver")
+PY_PROPERTY_GETSET_DECL(PythonFileMod, receivers)
+
+PY_GETSET_GETTER_DECL(PythonFileMod, parameters) {
+    PyObject* list = PyTuple_New(self->fThis->getParameters().size());
+    for (size_t i=0; i<self->fThis->getParameters().size(); i++)
+        PyTuple_SET_ITEM(list, i, pyPythonParameter_FromPythonParameter(self->fThis->getParameters()[i]));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(PythonFileMod, parameters, "To add parameters, use addParameter")
+PY_PROPERTY_GETSET_DECL(PythonFileMod, parameters)
+
 PY_PROPERTY(plString, PythonFileMod, filename, getFilename, setFilename)
 
 static PyGetSetDef pyPythonFileMod_GetSet[] = {
     pyPythonFileMod_filename_getset,
-    { _pycs("receivers"), (getter)pyPythonFileMod_getReceivers,
-        (setter)pyPythonFileMod_setReceivers, NULL, NULL },
-    { _pycs("parameters"), (getter)pyPythonFileMod_getParameters,
-        (setter)pyPythonFileMod_setParameters, NULL, NULL },
+    pyPythonFileMod_receivers_getset,
+    pyPythonFileMod_parameters_getset,
     PY_GETSET_TERMINATOR
 };
 

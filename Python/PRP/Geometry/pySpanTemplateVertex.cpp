@@ -25,71 +25,73 @@ PY_PLASMA_DEALLOC(SpanTemplateVertex)
 PY_PLASMA_EMPTY_INIT(SpanTemplateVertex)
 PY_PLASMA_NEW(SpanTemplateVertex, plSpanTemplate::Vertex)
 
-static PyObject* pySpanTemplateVertex_getUVWs(pySpanTemplateVertex* self, void*) {
-    PyObject* list = PyList_New(10);
+PY_GETSET_GETTER_DECL(SpanTemplateVertex, UVWs) {
+    PyObject* list = PyTuple_New(10);
     for (size_t i=0; i<10; i++)
-        PyList_SET_ITEM(list, i, pyPlasma_convert(self->fThis->fUVWs[i]));
+        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->fUVWs[i]));
     return list;
 }
 
-static PyObject* pySpanTemplateVertex_getWeights(pySpanTemplateVertex* self, void*) {
-    PyObject* list = PyList_New(3);
-    for (size_t i=0; i<3; i++)
-        PyList_SET_ITEM(list, i, pyPlasma_convert(self->fThis->fWeights[i]));
-    return list;
-}
-
-static int pySpanTemplateVertex_setUVWs(pySpanTemplateVertex* self, PyObject* value, void*) {
-    std::vector<hsVector3> uvws;
-    if (value == NULL || !PyList_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "UVWs should be a list of up to 10 hsVector3 objects");
+PY_GETSET_SETTER_DECL(SpanTemplateVertex, UVWs) {
+    PY_PROPERTY_CHECK_NULL(UVWs)
+    pySequenceFastRef seq(value);
+    if (!seq.isSequence()) {
+        PyErr_SetString(PyExc_TypeError, "UVWs should be a sequence of up to 10 hsVector3 objects");
         return -1;
     }
-    uvws.resize(PyList_Size(value));
-    if (uvws.size() > 10) {
-        PyErr_SetString(PyExc_RuntimeError, "UVWs should be a list of up to 10 hsVector3 objects");
+    Py_ssize_t size = seq.size();
+    if (size > 10) {
+        PyErr_SetString(PyExc_RuntimeError, "UVWs should be a sequence of up to 10 hsVector3 objects");
         return -1;
     }
-    for (size_t i=0; i<uvws.size(); i++) {
-        PyObject* itm = PyList_GetItem(value, i);
-        if (!pyVector3_Check(itm)) {
-            PyErr_SetString(PyExc_TypeError, "UVWs should be a list of up to 10 hsVector3 objects");
+    for (Py_ssize_t i=0; i<size; i++) {
+        PyObject* itm = seq.get(i);
+        if (!pyPlasma_check<hsVector3>(itm)) {
+            PyErr_SetString(PyExc_TypeError, "UVWs should be a sequence of up to 10 hsVector3 objects");
             return -1;
         }
-        uvws[i] = *((pyVector3*)itm)->fThis;
+        self->fThis->fUVWs[i] = pyPlasma_get<hsVector3>(itm);
     }
-    for (size_t i=0; i<uvws.size(); i++)
-        self->fThis->fUVWs[i] = uvws[i];
-    for (size_t i=uvws.size(); i<10; i++)
+    for (Py_ssize_t i=size; i<10; i++)
         self->fThis->fUVWs[i] = hsVector3(0.0f, 0.0f, 0.0f);
     return 0;
 }
 
-static int pySpanTemplateVertex_setWeights(pySpanTemplateVertex* self, PyObject* value, void*) {
-    std::vector<float> weights;
-    if (value == NULL || !PyList_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "weights should be a list of up to 3 floats");
+PY_PROPERTY_GETSET_DECL(SpanTemplateVertex, UVWs)
+
+PY_GETSET_GETTER_DECL(SpanTemplateVertex, weights) {
+    PyObject* list = PyTuple_New(3);
+    for (size_t i=0; i<3; i++)
+        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->fWeights[i]));
+    return list;
+}
+
+PY_GETSET_SETTER_DECL(SpanTemplateVertex, weights) {
+    PY_PROPERTY_CHECK_NULL(weights)
+    pySequenceFastRef seq(value);
+    if (!seq.isSequence()) {
+        PyErr_SetString(PyExc_TypeError, "weights should be a sequence of up to 3 floats");
         return -1;
     }
-    weights.resize(PyList_Size(value));
-    if (weights.size() > 3) {
-        PyErr_SetString(PyExc_RuntimeError, "weights should be a list of up to 3 floats");
+    Py_ssize_t size = seq.size();
+    if (size > 3) {
+        PyErr_SetString(PyExc_RuntimeError, "weights should be a sequence of up to 3 floats");
         return -1;
     }
-    for (size_t i=0; i<weights.size(); i++) {
-        PyObject* itm = PyList_GetItem(value, i);
-        if (!PyFloat_Check(itm)) {
-            PyErr_SetString(PyExc_TypeError, "weights should be a list of up to 3 floats");
+    for (Py_ssize_t i=0; i<size; i++) {
+        PyObject* itm = seq.get(i);
+        if (!pyPlasma_check<float>(itm)) {
+            PyErr_SetString(PyExc_TypeError, "weights should be a sequence of up to 3 floats");
             return -1;
         }
-        weights[i] = PyFloat_AsDouble(itm);
+        self->fThis->fWeights[i] = pyPlasma_get<float>(itm);
     }
-    for (size_t i=0; i<weights.size(); i++)
-        self->fThis->fWeights[i] = weights[i];
-    for (size_t i=weights.size(); i<3; i++)
+    for (Py_ssize_t i=size; i<3; i++)
         self->fThis->fWeights[i] = 0.0f;
     return 0;
 }
+
+PY_PROPERTY_GETSET_DECL(SpanTemplateVertex, weights)
 
 PY_PROPERTY_MEMBER(hsVector3, SpanTemplateVertex, position, fPosition)
 PY_PROPERTY_MEMBER(hsVector3, SpanTemplateVertex, normal, fNormal)
@@ -103,10 +105,8 @@ static PyGetSetDef pySpanTemplateVertex_GetSet[] = {
     pySpanTemplateVertex_color1_getset,
     pySpanTemplateVertex_color2_getset,
     pySpanTemplateVertex_weightIdx_getset,
-    { _pycs("UVWs"), (getter)pySpanTemplateVertex_getUVWs,
-        (setter)pySpanTemplateVertex_setUVWs, NULL, NULL },
-    { _pycs("weights"), (getter)pySpanTemplateVertex_getWeights,
-        (setter)pySpanTemplateVertex_setWeights, NULL, NULL },
+    pySpanTemplateVertex_UVWs_getset,
+    pySpanTemplateVertex_weights_getset,
     PY_GETSET_TERMINATOR
 };
 

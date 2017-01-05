@@ -78,10 +78,8 @@ PY_PROPERTY(signed char, AgeLinkStruct, linkingRules, getLinkingRules, setLinkin
 PY_PROPERTY_READ(AgeLinkStruct, parentAgeFilename, getParentAgeFilename)
 
 PY_GETSET_SETTER_DECL(AgeLinkStruct, parentAgeFilename) {
-    if (value == NULL) {
-        PyErr_SetString(PyExc_RuntimeError, "Cannot delete parentAgeFilename");
-        return -1;
-    } else if (value == Py_None) {
+    PY_PROPERTY_CHECK_NULL(parentAgeFilename)
+    if (value == Py_None) {
         self->fThis->clearParentAgeFilename();
         return 0;
     } else if (pyPlasma_check<plString>(value)) {

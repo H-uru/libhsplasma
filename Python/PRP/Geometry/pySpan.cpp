@@ -110,25 +110,6 @@ PY_METHOD_VA(Span, addPermaProj,
     Py_RETURN_NONE;
 }
 
-static PyObject* pySpan_getLights(pySpan* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getPermaLights().size());
-    for (size_t i=0; i<self->fThis->getPermaLights().size(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getPermaLights()[i]));
-    return list;
-}
-
-static PyObject* pySpan_getProjs(pySpan* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getPermaProjs().size());
-    for (size_t i=0; i<self->fThis->getPermaProjs().size(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getPermaProjs()[i]));
-    return list;
-}
-
-static int pySpan_setLights(pySpan* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add Lights, use addPermaLight and addPermaProj");
-    return -1;
-}
-
 static PyMethodDef pySpan_Methods[] = {
     pySpan_ClassName_method,
     pySpan_read_method,
@@ -139,6 +120,26 @@ static PyMethodDef pySpan_Methods[] = {
     pySpan_addPermaProj_method,
     PY_METHOD_TERMINATOR
 };
+
+PY_GETSET_GETTER_DECL(Span, permaLights) {
+    PyObject* list = PyTuple_New(self->fThis->getPermaLights().size());
+    for (size_t i=0; i<self->fThis->getPermaLights().size(); i++)
+        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getPermaLights()[i]));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(Span, permaLights, "To add permaLights, use addPermaLight()")
+PY_PROPERTY_GETSET_DECL(Span, permaLights)
+
+PY_GETSET_GETTER_DECL(Span, permaProjs) {
+    PyObject* list = PyTuple_New(self->fThis->getPermaProjs().size());
+    for (size_t i=0; i<self->fThis->getPermaProjs().size(); i++)
+        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getPermaProjs()[i]));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(Span, permaProjs, "To add permaProjs, use addPermaProj()")
+PY_PROPERTY_GETSET_DECL(Span, permaProjs)
 
 PY_PROPERTY(plKey, Span, fog, getFogEnvironment, setFogEnvironment) // Backwards compatibility
 PY_PROPERTY(plKey, Span, fogEnvironment, getFogEnvironment, setFogEnvironment)
@@ -161,10 +162,8 @@ PY_PROPERTY_BOUNDS(Bounds3Ext, Span, worldBounds, getWorldBounds, setWorldBounds
 static PyGetSetDef pySpan_GetSet[] = {
     pySpan_fogEnvironment_getset,
     pySpan_fog_getset,
-    { _pycs("permaLights"), (getter)pySpan_getLights,
-        (setter)pySpan_setLights, NULL, NULL },
-    { _pycs("permaProjs"), (getter)pySpan_getProjs,
-        (setter)pySpan_setLights, NULL, NULL },
+    pySpan_permaLights_getset,
+    pySpan_permaProjs_getset,
     pySpan_localToWorld_getset,
     pySpan_worldToLocal_getset,
     pySpan_subType_getset,

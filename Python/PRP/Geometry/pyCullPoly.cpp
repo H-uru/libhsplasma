@@ -26,35 +26,36 @@ PY_PLASMA_VALUE_DEALLOC(CullPoly)
 PY_PLASMA_EMPTY_INIT(CullPoly)
 PY_PLASMA_VALUE_NEW(CullPoly, plCullPoly)
 
-static PyObject* pyCullPoly_getVerts(pyCullPoly* self, void*) {
-    std::vector<hsVector3> verts = self->fThis->getVerts();
-    PyObject* list = PyList_New(verts.size());
+PY_GETSET_GETTER_DECL(CullPoly, verts) {
+    const std::vector<hsVector3>& verts = self->fThis->getVerts();
+    PyObject* list = PyTuple_New(verts.size());
     for (size_t i=0; i<verts.size(); i++)
-        PyList_SET_ITEM(list, i, pyVector3_FromVector3(verts[i]));
+        PyTuple_SET_ITEM(list, i, pyPlasma_convert(verts[i]));
     return list;
 }
 
-static int pyCullPoly_setVerts(pyCullPoly* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setVerts(std::vector<hsVector3>());
-        return 0;
-    }
-    if (!PyList_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "verts should be a list of hsVector3s");
+PY_GETSET_SETTER_DECL(CullPoly, verts) {
+    PY_PROPERTY_CHECK_NULL(verts)
+    pySequenceFastRef seq(value);
+    if (!seq.isSequence()) {
+        PyErr_SetString(PyExc_TypeError, "verts should be a sequence of hsVector3s");
         return -1;
     }
-    std::vector<hsVector3> verts(PyList_Size(value));
-    for (size_t i=0; i<verts.size(); i++) {
-        PyObject* item = PyList_GetItem(value, i);
-        if (!pyVector3_Check(item)) {
-            PyErr_SetString(PyExc_TypeError, "verts should be a list of hsVector3s");
+    Py_ssize_t count = seq.size();
+    std::vector<hsVector3> verts(count);
+    for (Py_ssize_t i=0; i<count; i++) {
+        PyObject* item = seq.get(i);
+        if (!pyPlasma_check<hsVector3>(item)) {
+            PyErr_SetString(PyExc_TypeError, "verts should be a sequence of hsVector3s");
             return -1;
         }
-        verts[i] = *((pyVector3*)item)->fThis;
+        verts[i] = pyPlasma_get<hsVector3>(item);
     }
     self->fThis->setVerts(verts);
     return 0;
 }
+
+PY_PROPERTY_GETSET_DECL(CullPoly, verts)
 
 PY_PROPERTY(unsigned int, CullPoly, flags, getFlags, setFlags)
 PY_PROPERTY(hsVector3, CullPoly, norm, getNorm, setNorm)
@@ -64,7 +65,7 @@ PY_PROPERTY(float, CullPoly, radius, getRadius, setRadius)
 
 static PyGetSetDef pyCullPoly_GetSet[] = {
     pyCullPoly_flags_getset,
-    { _pycs("verts"), (getter)pyCullPoly_getVerts, (setter)pyCullPoly_setVerts, NULL, NULL },
+    pyCullPoly_verts_getset,
     pyCullPoly_norm_getset,
     pyCullPoly_center_getset,
     pyCullPoly_dist_getset,

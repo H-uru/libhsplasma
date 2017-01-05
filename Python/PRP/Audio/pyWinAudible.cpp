@@ -59,18 +59,6 @@ PY_METHOD_VA(WinAudible, clearSounds, "Remove all sound objects from the Audible
     Py_RETURN_NONE;
 }
 
-static PyObject* pyWinAudible_getSounds(pyWinAudible* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getSounds().size());
-    for (size_t i=0; i<self->fThis->getSounds().size(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getSounds()[i]));
-    return list;
-}
-
-static int pyWinAudible_setSounds(pyWinAudible* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "to add sounds, use addSound()");
-    return -1;
-}
-
 static PyMethodDef pyWinAudible_Methods[] = {
     pyWinAudible_addSound_method,
     pyWinAudible_delSound_method,
@@ -78,10 +66,21 @@ static PyMethodDef pyWinAudible_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
+PY_GETSET_GETTER_DECL(WinAudible, sounds) {
+    const std::vector<plKey>& sounds = self->fThis->getSounds();
+    PyObject* list = PyTuple_New(sounds.size());
+    for (size_t i=0; i<sounds.size(); i++)
+        PyTuple_SET_ITEM(list, i, pyPlasma_convert(sounds[i]));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(WinAudible, sounds, "To add sounds, use addSound()")
+PY_PROPERTY_GETSET_DECL(WinAudible, sounds)
+
 PY_PROPERTY(plKey, WinAudible, sceneNode, getSceneNode, setSceneNode)
 
 static PyGetSetDef pyWinAudible_GetSet[] = {
-    { _pycs("sounds"), (getter)pyWinAudible_getSounds, (setter)pyWinAudible_setSounds, NULL, NULL },
+    pyWinAudible_sounds_getset,
     pyWinAudible_sceneNode_getset,
     PY_GETSET_TERMINATOR
 };

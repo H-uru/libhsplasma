@@ -100,30 +100,6 @@ PY_METHOD_NOARGS(MultistageBehMod, clearReceivers,
     Py_RETURN_NONE;
 }
 
-static PyObject* pyMultistageBehMod_getStages(pyMultistageBehMod* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getStages().size());
-    for (size_t i=0; i<self->fThis->getStages().size(); i++)
-        PyList_SET_ITEM(list, i, ICreate(self->fThis->getStages()[i]));
-    return list;
-}
-
-static PyObject* pyMultistageBehMod_getReceivers(pyMultistageBehMod* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getReceivers().size());
-    for (size_t i=0; i<self->fThis->getReceivers().size(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getReceivers()[i]));
-    return list;
-}
-
-static int pyMultistageBehMod_setStages(pyMultistageBehMod* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add stages, use addStage()");
-    return -1;
-}
-
-static int pyMultistageBehMod_setReceivers(pyMultistageBehMod* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add receivers, use addReceiver()");
-    return -1;
-}
-
 static PyMethodDef pyMultistageBehMod_Methods[] = {
     pyMultistageBehMod_addStage_method,
     pyMultistageBehMod_delStage_method,
@@ -134,16 +110,34 @@ static PyMethodDef pyMultistageBehMod_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
+PY_GETSET_GETTER_DECL(MultistageBehMod, stages) {
+    PyObject* list = PyTuple_New(self->fThis->getStages().size());
+    for (size_t i=0; i<self->fThis->getStages().size(); i++)
+        PyTuple_SET_ITEM(list, i, ICreate(self->fThis->getStages()[i]));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(MultistageBehMod, stages, "To add stages, use addStage()")
+PY_PROPERTY_GETSET_DECL(MultistageBehMod, stages)
+
+PY_GETSET_GETTER_DECL(MultistageBehMod, receivers) {
+    PyObject* list = PyTuple_New(self->fThis->getReceivers().size());
+    for (size_t i=0; i<self->fThis->getReceivers().size(); i++)
+        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getReceivers()[i]));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(MultistageBehMod, receivers, "To add receivers, use addReceiver()")
+PY_PROPERTY_GETSET_DECL(MultistageBehMod, receivers)
+
 PY_PROPERTY(bool, MultistageBehMod, freezePhys, getFreezePhys, setFreezePhys)
 PY_PROPERTY(bool, MultistageBehMod, smartSeek, getSmartSeek, setSmartSeek)
 PY_PROPERTY(bool, MultistageBehMod, reverseFBControlsOnRelease,
             getReverseFBControlsOnRelease, setReverseFBControlsOnRelease)
 
 static PyGetSetDef pyMultistageBehMod_GetSet[] = {
-    { _pycs("stages"), (getter)pyMultistageBehMod_getStages,
-        (setter)pyMultistageBehMod_setStages, NULL, NULL },
-    { _pycs("receivers"), (getter)pyMultistageBehMod_getReceivers,
-        (setter)pyMultistageBehMod_setReceivers, NULL, NULL },
+    pyMultistageBehMod_stages_getset,
+    pyMultistageBehMod_receivers_getset,
     pyMultistageBehMod_freezePhys_getset,
     pyMultistageBehMod_smartSeek_getset,
     pyMultistageBehMod_reverseFBControlsOnRelease_getset,

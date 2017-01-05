@@ -61,25 +61,23 @@ PY_METHOD_VA(AGAnim, delApplicator,
     Py_RETURN_NONE;
 }
 
-static PyObject* pyAGAnim_getApps(pyAGAnim* self, void*) {
-    plAGAnim* anim = self->fThis;
-    PyObject* list = PyList_New(anim->getApplicators().size());
-    for (size_t i=0; i < anim->getApplicators().size(); i++)
-        PyList_SET_ITEM(list, i, ICreate(anim->getApplicators()[i]));
-    return list;
-}
-
-static int pyAGAnim_setApps(pyAGAnim* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add applicators, use addApplicator()");
-    return -1;
-}
-
 static PyMethodDef pyAGAnim_Methods[] = {
     pyAGAnim_clearApplicators_method,
     pyAGAnim_addApplicator_method,
     pyAGAnim_delApplicator_method,
     PY_METHOD_TERMINATOR
 };
+
+PY_GETSET_GETTER_DECL(AGAnim, applicators) {
+    plAGAnim* anim = self->fThis;
+    PyObject* list = PyTuple_New(anim->getApplicators().size());
+    for (size_t i=0; i < anim->getApplicators().size(); i++)
+        PyTuple_SET_ITEM(list, i, ICreate(anim->getApplicators()[i]));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(AGAnim, applicators, "To add applicators, use addApplicator()")
+PY_PROPERTY_GETSET_DECL(AGAnim, applicators)
 
 PY_PROPERTY(float, AGAnim, blend, getBlend, setBlend)
 PY_PROPERTY(float, AGAnim, start, getStart, setStart)
@@ -91,7 +89,7 @@ static PyGetSetDef pyAGAnim_GetSet[] = {
     pyAGAnim_start_getset,
     pyAGAnim_end_getset,
     pyAGAnim_name_getset,
-    { _pycs("applicators"), (getter)pyAGAnim_getApps, (setter)pyAGAnim_setApps, NULL, NULL },
+    pyAGAnim_applicators_getset,
     PY_GETSET_TERMINATOR
 };
 

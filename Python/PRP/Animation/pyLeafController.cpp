@@ -43,7 +43,15 @@ PY_METHOD_NOARGS(LeafController, CompactToLeafController, NULL) {
     return ICreate(self->fThis->CompactToLeafController());
 }
 
-static PyObject* pyLeafController_getKeys(pyLeafController* self, void*) {
+static PyMethodDef pyLeafController_Methods[] = {
+    pyLeafController_hasKeys_method,
+    pyLeafController_hasEaseControllers_method,
+    pyLeafController_ExpandToKeyController_method,
+    pyLeafController_CompactToLeafController_method,
+    PY_METHOD_TERMINATOR
+};
+
+PY_GETSET_GETTER_DECL(LeafController, keys) {
     const std::vector<hsKeyFrame*>& keys = self->fThis->getKeys();
     PyObject* keyTup = PyTuple_New(keys.size());
     for (size_t i=0; i<keys.size(); i++)
@@ -54,34 +62,29 @@ static PyObject* pyLeafController_getKeys(pyLeafController* self, void*) {
     return tup;
 }
 
-static PyObject* pyLeafController_getEaseControllers(pyLeafController* self, void*) {
-    const std::vector<plEaseController*>& controllers = self->fThis->getEaseControllers();
-    PyObject* list = PyList_New(controllers.size());
-    for (size_t i=0; i<controllers.size(); i++)
-        PyList_SET_ITEM(list, i, ICreate(controllers[i]));
-    return list;
-}
-
-static int pyLeafController_setKeys(pyLeafController* self, PyObject* value, void*) {
-    if (value == NULL || !PySequence_Check(value) || PySequence_Size(value) != 2) {
-        PyErr_SetString(PyExc_TypeError, "keys should be a sequence of: sequence (keyframes), int");
+PY_GETSET_SETTER_DECL(LeafController, keys) {
+    PY_PROPERTY_CHECK_NULL(keys)
+    if (!PyTuple_Check(value) || PyTuple_Size(value) != 2) {
+        PyErr_SetString(PyExc_TypeError, "keys should be a tuple of: sequence (keyframes), int");
         return -1;
     }
 
-    PyObject* keySeq = PySequence_GetItem(value, 0);
-    PyObject* keyTypeObj = PySequence_GetItem(value, 1);
-    if (!PySequence_Check(keySeq) || !PyInt_Check(keyTypeObj)) {
-        PyErr_SetString(PyExc_TypeError, "keys should be a sequence of: sequence (keyframes), int");
+    PyObject* keySeqObj = PyTuple_GET_ITEM(value, 0);
+    PyObject* keyTypeObj = PyTuple_GET_ITEM(value, 1);
+    pySequenceFastRef keySeq(keySeqObj);
+    if (!keySeq.isSequence()|| !pyPlasma_check<unsigned int>(keyTypeObj)) {
+        PyErr_SetString(PyExc_TypeError, "keys should be a tuple of: sequence (keyframes), int");
         return -1;
     }
 
+    Py_ssize_t keyCount = keySeq.size();
     std::vector<hsKeyFrame*> keyframes;
-    keyframes.reserve(PySequence_Size(keySeq));
-    unsigned int keyType = PyInt_AsLong(keyTypeObj);
-    for (Py_ssize_t i = 0; i < PySequence_Size(keySeq); ++i) {
-        PyObject* key = PySequence_GetItem(keySeq, i);
+    keyframes.reserve(keyCount);
+    unsigned int keyType = pyPlasma_check<unsigned int>(keyTypeObj);
+    for (Py_ssize_t i = 0; i < keyCount; ++i) {
+        PyObject* key = keySeq.get(i);
         if (!pyKeyFrame_Check(key)) {
-            PyErr_SetString(PyExc_TypeError, "keys should be a sequence of: sequence (keyframes), int");
+            PyErr_SetString(PyExc_TypeError, "keys should be a tuple of: sequence (keyframes), int");
             return -1;
         }
         hsKeyFrame* keyframe = ((pyKeyFrame*)key)->fThis;
@@ -93,40 +96,44 @@ static int pyLeafController_setKeys(pyLeafController* self, PyObject* value, voi
             return -1;
         }
         keyframes.push_back(keyframe);
+        ((pyKeyFrame*)key)->fPyOwned = false;
     }
     self->fThis->setKeys(keyframes, keyType);
     return 0;
 }
 
-static int pyLeafController_setEaseControllers(pyLeafController* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setEaseControllers(std::vector<plEaseController*>());
-        return 0;
-    }
-    if (!PyList_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "easeControllers should be a list of plEaseControllers");
+PY_PROPERTY_GETSET_DECL(LeafController, keys)
+
+PY_GETSET_GETTER_DECL(LeafController, easeControllers) {
+    const std::vector<plEaseController*>& controllers = self->fThis->getEaseControllers();
+    PyObject* list = PyTuple_New(controllers.size());
+    for (size_t i=0; i<controllers.size(); i++)
+        PyTuple_SET_ITEM(list, i, ICreate(controllers[i]));
+    return list;
+}
+
+PY_GETSET_SETTER_DECL(LeafController, easeControllers) {
+    PY_PROPERTY_CHECK_NULL(easeControllers)
+    pySequenceFastRef seq(value);
+    if (!seq.isSequence()) {
+        PyErr_SetString(PyExc_TypeError, "easeControllers should be a sequence of plEaseControllers");
         return -1;
     }
-    std::vector<plEaseController*> controllers(PyList_Size(value));
+    std::vector<plEaseController*> controllers(seq.size());
     for (size_t i=0; i<controllers.size(); i++) {
-        PyObject* itm = PyList_GetItem(value, i);
+        PyObject* itm = seq.get(i);
         if (!pyEaseController_Check(itm)) {
-            PyErr_SetString(PyExc_TypeError, "easeControllers should be a list of plEaseControllers");
+            PyErr_SetString(PyExc_TypeError, "easeControllers should be a sequence of plEaseControllers");
             return -1;
         }
         controllers[i] = ((pyEaseController*)itm)->fThis;
+        ((pyEaseController*)itm)->fPyOwned = false;
     }
     self->fThis->setEaseControllers(controllers);
     return 0;
 }
 
-static PyMethodDef pyLeafController_Methods[] = {
-    pyLeafController_hasKeys_method,
-    pyLeafController_hasEaseControllers_method,
-    pyLeafController_ExpandToKeyController_method,
-    pyLeafController_CompactToLeafController_method,
-    PY_METHOD_TERMINATOR
-};
+PY_PROPERTY_GETSET_DECL(LeafController, easeControllers)
 
 PY_PROPERTY_READ(LeafController, type, getType)
 PY_PROPERTY_SETTER_MSG(LeafController, type, "To set the key type, use the keys setter")
@@ -134,10 +141,8 @@ PY_PROPERTY_GETSET_DECL(LeafController, type)
 
 static PyGetSetDef pyLeafController_GetSet[] = {
     pyLeafController_type_getset,
-    { _pycs("keys"), (getter)pyLeafController_getKeys,
-        (setter)pyLeafController_setKeys, NULL, NULL },
-    { _pycs("easeControllers"), (getter)pyLeafController_getEaseControllers,
-        (setter)pyLeafController_setEaseControllers, NULL, NULL },
+    pyLeafController_keys_getset,
+    pyLeafController_easeControllers_getset,
     PY_GETSET_TERMINATOR
 };
 
