@@ -158,16 +158,11 @@ PyObject* Init_pyAGAnim_Type() {
     if (PyType_Ready(&pyAGAnim_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyAGAnim_Type.tp_dict, "kBodyUnknown",
-                         PyInt_FromLong(plAGAnim::kBodyUnknown));
-    PyDict_SetItemString(pyAGAnim_Type.tp_dict, "kBodyUpper",
-                         PyInt_FromLong(plAGAnim::kBodyUpper));
-    PyDict_SetItemString(pyAGAnim_Type.tp_dict, "kBodyFull",
-                         PyInt_FromLong(plAGAnim::kBodyFull));
-    PyDict_SetItemString(pyAGAnim_Type.tp_dict, "kBodyLower",
-                         PyInt_FromLong(plAGAnim::kBodyLower));
-    PyDict_SetItemString(pyAGAnim_Type.tp_dict, "kBodyMax",
-                         PyInt_FromLong(plAGAnim::kBodyMax));
+    PY_TYPE_ADD_CONST(AGAnim, "kBodyUnknown", plAGAnim::kBodyUnknown);
+    PY_TYPE_ADD_CONST(AGAnim, "kBodyUpper", plAGAnim::kBodyUpper);
+    PY_TYPE_ADD_CONST(AGAnim, "kBodyFull", plAGAnim::kBodyFull);
+    PY_TYPE_ADD_CONST(AGAnim, "kBodyLower", plAGAnim::kBodyLower);
+    PY_TYPE_ADD_CONST(AGAnim, "kBodyMax", plAGAnim::kBodyMax);
 
     Py_INCREF(&pyAGAnim_Type);
     return (PyObject*)&pyAGAnim_Type;

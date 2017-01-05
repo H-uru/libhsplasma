@@ -120,14 +120,10 @@ PyObject* Init_pyCompressedQuatKey64_Type() {
     if (PyType_Ready(&pyCompressedQuatKey64_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyCompressedQuatKey64_Type.tp_dict, "kCompQuatNukeX",
-                         PyInt_FromLong(hsCompressedQuatKey64::kCompQuatNukeX));
-    PyDict_SetItemString(pyCompressedQuatKey64_Type.tp_dict, "kCompQuatNukeY",
-                         PyInt_FromLong(hsCompressedQuatKey64::kCompQuatNukeY));
-    PyDict_SetItemString(pyCompressedQuatKey64_Type.tp_dict, "kCompQuatNukeZ",
-                         PyInt_FromLong(hsCompressedQuatKey64::kCompQuatNukeZ));
-    PyDict_SetItemString(pyCompressedQuatKey64_Type.tp_dict, "kCompQuatNukeW",
-                         PyInt_FromLong(hsCompressedQuatKey64::kCompQuatNukeW));
+    PY_TYPE_ADD_CONST(CompressedQuatKey64, "kCompQuatNukeX", hsCompressedQuatKey64::kCompQuatNukeX);
+    PY_TYPE_ADD_CONST(CompressedQuatKey64, "kCompQuatNukeY", hsCompressedQuatKey64::kCompQuatNukeY);
+    PY_TYPE_ADD_CONST(CompressedQuatKey64, "kCompQuatNukeZ", hsCompressedQuatKey64::kCompQuatNukeZ);
+    PY_TYPE_ADD_CONST(CompressedQuatKey64, "kCompQuatNukeW", hsCompressedQuatKey64::kCompQuatNukeW);
 
     Py_INCREF(&pyCompressedQuatKey64_Type);
     return (PyObject*)&pyCompressedQuatKey64_Type;

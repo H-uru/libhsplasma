@@ -145,18 +145,12 @@ PyObject* Init_pySittingModifier_Type() {
     if (PyType_Ready(&pySittingModifier_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pySittingModifier_Type.tp_dict, "kApproachFront",
-                         PyInt_FromLong(plSittingModifier::kApproachFront));
-    PyDict_SetItemString(pySittingModifier_Type.tp_dict, "kApproachLeft",
-                         PyInt_FromLong(plSittingModifier::kApproachLeft));
-    PyDict_SetItemString(pySittingModifier_Type.tp_dict, "kApproachRight",
-                         PyInt_FromLong(plSittingModifier::kApproachRight));
-    PyDict_SetItemString(pySittingModifier_Type.tp_dict, "kApproachRear",
-                         PyInt_FromLong(plSittingModifier::kApproachRear));
-    PyDict_SetItemString(pySittingModifier_Type.tp_dict, "kApproachMask",
-                         PyInt_FromLong(plSittingModifier::kApproachMask));
-    PyDict_SetItemString(pySittingModifier_Type.tp_dict, "kDisableForward",
-                         PyInt_FromLong(plSittingModifier::kDisableForward));
+    PY_TYPE_ADD_CONST(SittingModifier, "kApproachFront", plSittingModifier::kApproachFront);
+    PY_TYPE_ADD_CONST(SittingModifier, "kApproachLeft", plSittingModifier::kApproachLeft);
+    PY_TYPE_ADD_CONST(SittingModifier, "kApproachRight", plSittingModifier::kApproachRight);
+    PY_TYPE_ADD_CONST(SittingModifier, "kApproachRear", plSittingModifier::kApproachRear);
+    PY_TYPE_ADD_CONST(SittingModifier, "kApproachMask", plSittingModifier::kApproachMask);
+    PY_TYPE_ADD_CONST(SittingModifier, "kDisableForward", plSittingModifier::kDisableForward);
 
     Py_INCREF(&pySittingModifier_Type);
     return (PyObject*)&pySittingModifier_Type;

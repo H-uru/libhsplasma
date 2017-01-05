@@ -143,8 +143,7 @@ PyObject* Init_pyWAVHeader_Type() {
     if (PyType_Ready(&pyWAVHeader_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyWAVHeader_Type.tp_dict, "kPCMFormatTag",
-                         PyInt_FromLong(plWAVHeader::kPCMFormatTag));
+    PY_TYPE_ADD_CONST(WAVHeader, "kPCMFormatTag", plWAVHeader::kPCMFormatTag);
 
     Py_INCREF(&pyWAVHeader_Type);
     return (PyObject*)&pyWAVHeader_Type;

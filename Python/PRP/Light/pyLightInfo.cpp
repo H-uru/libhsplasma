@@ -153,26 +153,16 @@ PyObject* Init_pyLightInfo_Type() {
     if (PyType_Ready(&pyLightInfo_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyLightInfo_Type.tp_dict, "kLPObsolete",
-                         PyInt_FromLong(plLightInfo::kLPObsolete));
-    PyDict_SetItemString(pyLightInfo_Type.tp_dict, "kLPCastShadows",
-                         PyInt_FromLong(plLightInfo::kLPCastShadows));
-    PyDict_SetItemString(pyLightInfo_Type.tp_dict, "kLPMovable",
-                         PyInt_FromLong(plLightInfo::kLPMovable));
-    PyDict_SetItemString(pyLightInfo_Type.tp_dict, "kLPHasIncludes",
-                         PyInt_FromLong(plLightInfo::kLPHasIncludes));
-    PyDict_SetItemString(pyLightInfo_Type.tp_dict, "kLPIncludesChars",
-                         PyInt_FromLong(plLightInfo::kLPIncludesChars));
-    PyDict_SetItemString(pyLightInfo_Type.tp_dict, "kLPOverAll",
-                         PyInt_FromLong(plLightInfo::kLPOverAll));
-    PyDict_SetItemString(pyLightInfo_Type.tp_dict, "kLPHasSpecular",
-                         PyInt_FromLong(plLightInfo::kLPHasSpecular));
-    PyDict_SetItemString(pyLightInfo_Type.tp_dict, "kLPShadowOnly",
-                         PyInt_FromLong(plLightInfo::kLPShadowOnly));
-    PyDict_SetItemString(pyLightInfo_Type.tp_dict, "kLPShadowLightGroup",
-                         PyInt_FromLong(plLightInfo::kLPShadowLightGroup));
-    PyDict_SetItemString(pyLightInfo_Type.tp_dict, "kLPForceProj",
-                         PyInt_FromLong(plLightInfo::kLPForceProj));
+    PY_TYPE_ADD_CONST(LightInfo, "kLPObsolete", plLightInfo::kLPObsolete);
+    PY_TYPE_ADD_CONST(LightInfo, "kLPCastShadows", plLightInfo::kLPCastShadows);
+    PY_TYPE_ADD_CONST(LightInfo, "kLPMovable", plLightInfo::kLPMovable);
+    PY_TYPE_ADD_CONST(LightInfo, "kLPHasIncludes", plLightInfo::kLPHasIncludes);
+    PY_TYPE_ADD_CONST(LightInfo, "kLPIncludesChars", plLightInfo::kLPIncludesChars);
+    PY_TYPE_ADD_CONST(LightInfo, "kLPOverAll", plLightInfo::kLPOverAll);
+    PY_TYPE_ADD_CONST(LightInfo, "kLPHasSpecular", plLightInfo::kLPHasSpecular);
+    PY_TYPE_ADD_CONST(LightInfo, "kLPShadowOnly", plLightInfo::kLPShadowOnly);
+    PY_TYPE_ADD_CONST(LightInfo, "kLPShadowLightGroup", plLightInfo::kLPShadowLightGroup);
+    PY_TYPE_ADD_CONST(LightInfo, "kLPForceProj", plLightInfo::kLPForceProj);
 
     Py_INCREF(&pyLightInfo_Type);
     return (PyObject*)&pyLightInfo_Type;

@@ -130,16 +130,11 @@ PyObject* Init_pySoundBuffer_Type() {
     if (PyType_Ready(&pySoundBuffer_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pySoundBuffer_Type.tp_dict, "kIsExternal",
-                         PyInt_FromLong(plSoundBuffer::kIsExternal));
-    PyDict_SetItemString(pySoundBuffer_Type.tp_dict, "kAlwaysExternal",
-                         PyInt_FromLong(plSoundBuffer::kAlwaysExternal));
-    PyDict_SetItemString(pySoundBuffer_Type.tp_dict, "kOnlyLeftChannel",
-                         PyInt_FromLong(plSoundBuffer::kOnlyLeftChannel));
-    PyDict_SetItemString(pySoundBuffer_Type.tp_dict, "kOnlyRightChannel",
-                         PyInt_FromLong(plSoundBuffer::kOnlyRightChannel));
-    PyDict_SetItemString(pySoundBuffer_Type.tp_dict, "kStreamCompressed",
-                         PyInt_FromLong(plSoundBuffer::kStreamCompressed));
+    PY_TYPE_ADD_CONST(SoundBuffer, "kIsExternal", plSoundBuffer::kIsExternal);
+    PY_TYPE_ADD_CONST(SoundBuffer, "kAlwaysExternal", plSoundBuffer::kAlwaysExternal);
+    PY_TYPE_ADD_CONST(SoundBuffer, "kOnlyLeftChannel", plSoundBuffer::kOnlyLeftChannel);
+    PY_TYPE_ADD_CONST(SoundBuffer, "kOnlyRightChannel", plSoundBuffer::kOnlyRightChannel);
+    PY_TYPE_ADD_CONST(SoundBuffer, "kStreamCompressed", plSoundBuffer::kStreamCompressed);
 
     Py_INCREF(&pySoundBuffer_Type);
     return (PyObject*)&pySoundBuffer_Type;

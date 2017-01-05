@@ -160,10 +160,10 @@ PyObject* Init_pyCoordinateInterface_Type() {
     if (PyType_Ready(&pyCoordinateInterface_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyCoordinateInterface_Type.tp_dict, "kCanEverDelayTransform",
-                         PyInt_FromLong(plCoordinateInterface::kCanEverDelayTransform));
-    PyDict_SetItemString(pyCoordinateInterface_Type.tp_dict, "kDelayedTransformEval",
-                         PyInt_FromLong(plCoordinateInterface::kDelayedTransformEval));
+    PY_TYPE_ADD_CONST(CoordinateInterface, "kCanEverDelayTransform",
+                      plCoordinateInterface::kCanEverDelayTransform);
+    PY_TYPE_ADD_CONST(CoordinateInterface, "kDelayedTransformEval",
+                      plCoordinateInterface::kDelayedTransformEval);
 
     Py_INCREF(&pyCoordinateInterface_Type);
     return (PyObject*)&pyCoordinateInterface_Type;

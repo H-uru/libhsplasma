@@ -145,18 +145,12 @@ PyObject* Init_pyBounds3Ext_Type() {
     if (PyType_Ready(&pyBounds3Ext_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyBounds3Ext_Type.tp_dict, "kAxisAligned",
-                         PyInt_FromLong(hsBounds3Ext::kAxisAligned));
-    PyDict_SetItemString(pyBounds3Ext_Type.tp_dict, "kSphereSet",
-                         PyInt_FromLong(hsBounds3Ext::kSphereSet));
-    PyDict_SetItemString(pyBounds3Ext_Type.tp_dict, "kDistsSet",
-                         PyInt_FromLong(hsBounds3Ext::kDistsSet));
-    PyDict_SetItemString(pyBounds3Ext_Type.tp_dict, "kAxisZeroZero",
-                         PyInt_FromLong(hsBounds3Ext::kAxisZeroZero));
-    PyDict_SetItemString(pyBounds3Ext_Type.tp_dict, "kAxisOneZero",
-                         PyInt_FromLong(hsBounds3Ext::kAxisOneZero));
-    PyDict_SetItemString(pyBounds3Ext_Type.tp_dict, "kAxisTwoZero",
-                         PyInt_FromLong(hsBounds3Ext::kAxisTwoZero));
+    PY_TYPE_ADD_CONST(Bounds3Ext, "kAxisAligned", hsBounds3Ext::kAxisAligned);
+    PY_TYPE_ADD_CONST(Bounds3Ext, "kSphereSet", hsBounds3Ext::kSphereSet);
+    PY_TYPE_ADD_CONST(Bounds3Ext, "kDistsSet", hsBounds3Ext::kDistsSet);
+    PY_TYPE_ADD_CONST(Bounds3Ext, "kAxisZeroZero", hsBounds3Ext::kAxisZeroZero);
+    PY_TYPE_ADD_CONST(Bounds3Ext, "kAxisOneZero", hsBounds3Ext::kAxisOneZero);
+    PY_TYPE_ADD_CONST(Bounds3Ext, "kAxisTwoZero", hsBounds3Ext::kAxisTwoZero);
 
     Py_INCREF(&pyBounds3Ext_Type);
     return (PyObject*)&pyBounds3Ext_Type;

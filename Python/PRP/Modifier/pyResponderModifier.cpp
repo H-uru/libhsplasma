@@ -155,12 +155,12 @@ PyObject* Init_pyResponderModifier_Type() {
     if (PyType_Ready(&pyResponderModifier_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyResponderModifier_Type.tp_dict, "kDetectTrigger",
-                         PyInt_FromLong(plResponderModifier::kDetectTrigger));
-    PyDict_SetItemString(pyResponderModifier_Type.tp_dict, "kDetectUnTrigger",
-                         PyInt_FromLong(plResponderModifier::kDetectUnTrigger));
-    PyDict_SetItemString(pyResponderModifier_Type.tp_dict, "kSkipFFSound",
-                         PyInt_FromLong(plResponderModifier::kSkipFFSound));
+    PY_TYPE_ADD_CONST(ResponderModifier, "kDetectTrigger",
+                      plResponderModifier::kDetectTrigger);
+    PY_TYPE_ADD_CONST(ResponderModifier, "kDetectUnTrigger",
+                      plResponderModifier::kDetectUnTrigger);
+    PY_TYPE_ADD_CONST(ResponderModifier, "kSkipFFSound",
+                      plResponderModifier::kSkipFFSound);
 
     Py_INCREF(&pyResponderModifier_Type);
     return (PyObject*)&pyResponderModifier_Type;

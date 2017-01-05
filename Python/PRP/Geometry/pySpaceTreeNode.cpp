@@ -145,18 +145,12 @@ PyObject* Init_pySpaceTreeNode_Type() {
     if (PyType_Ready(&pySpaceTreeNode_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pySpaceTreeNode_Type.tp_dict, "kNone",
-                         PyInt_FromLong(plSpaceTreeNode::kNone));
-    PyDict_SetItemString(pySpaceTreeNode_Type.tp_dict, "kIsLeaf",
-                         PyInt_FromLong(plSpaceTreeNode::kIsLeaf));
-    PyDict_SetItemString(pySpaceTreeNode_Type.tp_dict, "kDirty",
-                         PyInt_FromLong(plSpaceTreeNode::kDirty));
-    PyDict_SetItemString(pySpaceTreeNode_Type.tp_dict, "kDisabled",
-                         PyInt_FromLong(plSpaceTreeNode::kDisabled));
-    PyDict_SetItemString(pySpaceTreeNode_Type.tp_dict, "kEmpty",
-                         PyInt_FromLong(plSpaceTreeNode::kEmpty));
-    PyDict_SetItemString(pySpaceTreeNode_Type.tp_dict, "kEnabledTemp",
-                         PyInt_FromLong(plSpaceTreeNode::kEnabledTemp));
+    PY_TYPE_ADD_CONST(SpaceTreeNode, "kNone", plSpaceTreeNode::kNone);
+    PY_TYPE_ADD_CONST(SpaceTreeNode, "kIsLeaf", plSpaceTreeNode::kIsLeaf);
+    PY_TYPE_ADD_CONST(SpaceTreeNode, "kDirty", plSpaceTreeNode::kDirty);
+    PY_TYPE_ADD_CONST(SpaceTreeNode, "kDisabled", plSpaceTreeNode::kDisabled);
+    PY_TYPE_ADD_CONST(SpaceTreeNode, "kEmpty", plSpaceTreeNode::kEmpty);
+    PY_TYPE_ADD_CONST(SpaceTreeNode, "kEnabledTemp", plSpaceTreeNode::kEnabledTemp);
 
     Py_INCREF(&pySpaceTreeNode_Type);
     return (PyObject*)&pySpaceTreeNode_Type;

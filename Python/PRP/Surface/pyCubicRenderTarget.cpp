@@ -122,18 +122,12 @@ PyObject* Init_pyCubicRenderTarget_Type() {
     if (PyType_Ready(&pyCubicRenderTarget_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyCubicRenderTarget_Type.tp_dict, "kLeftFace",
-                         PyInt_FromLong(plCubicRenderTarget::kLeftFace));
-    PyDict_SetItemString(pyCubicRenderTarget_Type.tp_dict, "kRightFace",
-                         PyInt_FromLong(plCubicRenderTarget::kRightFace));
-    PyDict_SetItemString(pyCubicRenderTarget_Type.tp_dict, "kFrontFace",
-                         PyInt_FromLong(plCubicRenderTarget::kFrontFace));
-    PyDict_SetItemString(pyCubicRenderTarget_Type.tp_dict, "kBackFace",
-                         PyInt_FromLong(plCubicRenderTarget::kBackFace));
-    PyDict_SetItemString(pyCubicRenderTarget_Type.tp_dict, "kTopFace",
-                         PyInt_FromLong(plCubicRenderTarget::kTopFace));
-    PyDict_SetItemString(pyCubicRenderTarget_Type.tp_dict, "kBottomFace",
-                         PyInt_FromLong(plCubicRenderTarget::kBottomFace));
+    PY_TYPE_ADD_CONST(CubicRenderTarget, "kLeftFace", plCubicRenderTarget::kLeftFace);
+    PY_TYPE_ADD_CONST(CubicRenderTarget, "kRightFace", plCubicRenderTarget::kRightFace);
+    PY_TYPE_ADD_CONST(CubicRenderTarget, "kFrontFace", plCubicRenderTarget::kFrontFace);
+    PY_TYPE_ADD_CONST(CubicRenderTarget, "kBackFace", plCubicRenderTarget::kBackFace);
+    PY_TYPE_ADD_CONST(CubicRenderTarget, "kTopFace", plCubicRenderTarget::kTopFace);
+    PY_TYPE_ADD_CONST(CubicRenderTarget, "kBottomFace", plCubicRenderTarget::kBottomFace);
 
     Py_INCREF(&pyCubicRenderTarget_Type);
     return (PyObject*)&pyCubicRenderTarget_Type;

@@ -465,4 +465,8 @@ template <> inline plKeyDef pyPlasma_get(PyObject* value) { return (plKeyDef)PyI
 
 #define PY_METHOD_TERMINATOR { NULL, NULL, 0, NULL }
 
+#define PY_TYPE_ADD_CONST(pyType, name, value)                          \
+    PyDict_SetItemString(py##pyType##_Type.tp_dict, name,               \
+                         pyPlasma_convert(value))
+
 #endif

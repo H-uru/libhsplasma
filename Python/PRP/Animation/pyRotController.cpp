@@ -94,10 +94,8 @@ PyObject* Init_pyRotController_Type() {
     if (PyType_Ready(&pyRotController_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyRotController_Type.tp_dict, "kSimple",
-                         PyInt_FromLong(plRotController::kSimple));
-    PyDict_SetItemString(pyRotController_Type.tp_dict, "kCompound",
-                         PyInt_FromLong(plRotController::kCompound));
+    PY_TYPE_ADD_CONST(RotController, "kSimple", plRotController::kSimple);
+    PY_TYPE_ADD_CONST(RotController, "kCompound", plRotController::kCompound);
 
     Py_INCREF(&pyRotController_Type);
     return (PyObject*)&pyRotController_Type;

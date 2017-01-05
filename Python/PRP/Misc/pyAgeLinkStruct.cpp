@@ -168,18 +168,12 @@ PyObject* Init_pyAgeLinkStruct_Type() {
     if (PyType_Ready(&pyAgeLinkStruct_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyAgeLinkStruct_Type.tp_dict, "kBasicLink",
-                         PyInt_FromLong(plAgeLinkStruct::kBasicLink));
-    PyDict_SetItemString(pyAgeLinkStruct_Type.tp_dict, "kOriginalBook",
-                         PyInt_FromLong(plAgeLinkStruct::kOriginalBook));
-    PyDict_SetItemString(pyAgeLinkStruct_Type.tp_dict, "kSubAgeBook",
-                         PyInt_FromLong(plAgeLinkStruct::kSubAgeBook));
-    PyDict_SetItemString(pyAgeLinkStruct_Type.tp_dict, "kOwnedBook",
-                         PyInt_FromLong(plAgeLinkStruct::kOwnedBook));
-    PyDict_SetItemString(pyAgeLinkStruct_Type.tp_dict, "kVisitBook",
-                         PyInt_FromLong(plAgeLinkStruct::kVisitBook));
-    PyDict_SetItemString(pyAgeLinkStruct_Type.tp_dict, "kChildAgeBook",
-                         PyInt_FromLong(plAgeLinkStruct::kChildAgeBook));
+    PY_TYPE_ADD_CONST(AgeLinkStruct, "kBasicLink", plAgeLinkStruct::kBasicLink);
+    PY_TYPE_ADD_CONST(AgeLinkStruct, "kOriginalBook", plAgeLinkStruct::kOriginalBook);
+    PY_TYPE_ADD_CONST(AgeLinkStruct, "kSubAgeBook", plAgeLinkStruct::kSubAgeBook);
+    PY_TYPE_ADD_CONST(AgeLinkStruct, "kOwnedBook", plAgeLinkStruct::kOwnedBook);
+    PY_TYPE_ADD_CONST(AgeLinkStruct, "kVisitBook", plAgeLinkStruct::kVisitBook);
+    PY_TYPE_ADD_CONST(AgeLinkStruct, "kChildAgeBook", plAgeLinkStruct::kChildAgeBook);
 
     Py_INCREF(&pyAgeLinkStruct_Type);
     return (PyObject*)&pyAgeLinkStruct_Type;

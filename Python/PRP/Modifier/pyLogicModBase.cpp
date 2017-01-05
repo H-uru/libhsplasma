@@ -184,20 +184,13 @@ PyObject* Init_pyLogicModBase_Type() {
     if (PyType_Ready(&pyLogicModBase_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyLogicModBase_Type.tp_dict, "kLocalElement",
-                         PyInt_FromLong(plLogicModBase::kLocalElement));
-    PyDict_SetItemString(pyLogicModBase_Type.tp_dict, "kReset",
-                         PyInt_FromLong(plLogicModBase::kReset));
-    PyDict_SetItemString(pyLogicModBase_Type.tp_dict, "kTriggered",
-                         PyInt_FromLong(plLogicModBase::kTriggered));
-    PyDict_SetItemString(pyLogicModBase_Type.tp_dict, "kOneShot",
-                         PyInt_FromLong(plLogicModBase::kOneShot));
-    PyDict_SetItemString(pyLogicModBase_Type.tp_dict, "kRequestingTrigger",
-                         PyInt_FromLong(plLogicModBase::kRequestingTrigger));
-    PyDict_SetItemString(pyLogicModBase_Type.tp_dict, "kTypeActivator",
-                         PyInt_FromLong(plLogicModBase::kTypeActivator));
-    PyDict_SetItemString(pyLogicModBase_Type.tp_dict, "kMultiTrigger",
-                         PyInt_FromLong(plLogicModBase::kMultiTrigger));
+    PY_TYPE_ADD_CONST(LogicModBase, "kLocalElement", plLogicModBase::kLocalElement);
+    PY_TYPE_ADD_CONST(LogicModBase, "kReset", plLogicModBase::kReset);
+    PY_TYPE_ADD_CONST(LogicModBase, "kTriggered", plLogicModBase::kTriggered);
+    PY_TYPE_ADD_CONST(LogicModBase, "kOneShot", plLogicModBase::kOneShot);
+    PY_TYPE_ADD_CONST(LogicModBase, "kRequestingTrigger", plLogicModBase::kRequestingTrigger);
+    PY_TYPE_ADD_CONST(LogicModBase, "kTypeActivator", plLogicModBase::kTypeActivator);
+    PY_TYPE_ADD_CONST(LogicModBase, "kMultiTrigger", plLogicModBase::kMultiTrigger);
 
     Py_INCREF(&pyLogicModBase_Type);
     return (PyObject*)&pyLogicModBase_Type;

@@ -84,26 +84,16 @@ PyObject* Init_pyRenderLevel_Type() {
     if (PyType_Ready(&pyRenderLevel_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyRenderLevel_Type.tp_dict, "kOpaqueMajorLevel",
-                         PyInt_FromLong(plRenderLevel::kOpaqueMajorLevel));
-    PyDict_SetItemString(pyRenderLevel_Type.tp_dict, "kFBMajorLevel",
-                         PyInt_FromLong(plRenderLevel::kFBMajorLevel));
-    PyDict_SetItemString(pyRenderLevel_Type.tp_dict, "kDefRendMajorLevel",
-                         PyInt_FromLong(plRenderLevel::kDefRendMajorLevel));
-    PyDict_SetItemString(pyRenderLevel_Type.tp_dict, "kBlendRendMajorLevel",
-                         PyInt_FromLong(plRenderLevel::kBlendRendMajorLevel));
-    PyDict_SetItemString(pyRenderLevel_Type.tp_dict, "kLateRendMajorLevel",
-                         PyInt_FromLong(plRenderLevel::kLateRendMajorLevel));
-    PyDict_SetItemString(pyRenderLevel_Type.tp_dict, "kMajorShift",
-                         PyInt_FromLong(plRenderLevel::kMajorShift));
-    PyDict_SetItemString(pyRenderLevel_Type.tp_dict, "kDefRendMinorLevel",
-                         PyInt_FromLong(plRenderLevel::kDefRendMinorLevel));
-    PyDict_SetItemString(pyRenderLevel_Type.tp_dict, "kOpaqueMinorLevel",
-                         PyInt_FromLong(plRenderLevel::kOpaqueMinorLevel));
-    PyDict_SetItemString(pyRenderLevel_Type.tp_dict, "kMinorLevelMask",
-                         PyInt_FromLong(plRenderLevel::kMinorLevelMask));
-    PyDict_SetItemString(pyRenderLevel_Type.tp_dict, "kAvatarRendMinorLevel",
-                         PyInt_FromLong(plRenderLevel::kAvatarRendMinorLevel));
+    PY_TYPE_ADD_CONST(RenderLevel, "kOpaqueMajorLevel", plRenderLevel::kOpaqueMajorLevel);
+    PY_TYPE_ADD_CONST(RenderLevel, "kFBMajorLevel", plRenderLevel::kFBMajorLevel);
+    PY_TYPE_ADD_CONST(RenderLevel, "kDefRendMajorLevel", plRenderLevel::kDefRendMajorLevel);
+    PY_TYPE_ADD_CONST(RenderLevel, "kBlendRendMajorLevel", plRenderLevel::kBlendRendMajorLevel);
+    PY_TYPE_ADD_CONST(RenderLevel, "kLateRendMajorLevel", plRenderLevel::kLateRendMajorLevel);
+    PY_TYPE_ADD_CONST(RenderLevel, "kMajorShift", plRenderLevel::kMajorShift);
+    PY_TYPE_ADD_CONST(RenderLevel, "kDefRendMinorLevel", plRenderLevel::kDefRendMinorLevel);
+    PY_TYPE_ADD_CONST(RenderLevel, "kOpaqueMinorLevel", plRenderLevel::kOpaqueMinorLevel);
+    PY_TYPE_ADD_CONST(RenderLevel, "kMinorLevelMask", plRenderLevel::kMinorLevelMask);
+    PY_TYPE_ADD_CONST(RenderLevel, "kAvatarRendMinorLevel", plRenderLevel::kAvatarRendMinorLevel);
 
     Py_INCREF(&pyRenderLevel_Type);
     return (PyObject*)&pyRenderLevel_Type;

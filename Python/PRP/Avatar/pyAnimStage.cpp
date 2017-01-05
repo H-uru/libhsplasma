@@ -158,34 +158,21 @@ PyObject* Init_pyAnimStage_Type() {
     if (PyType_Ready(&pyAnimStage_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyAnimStage_Type.tp_dict, "kNotifyEnter",
-                         PyInt_FromLong(plAnimStage::kNotifyEnter));
-    PyDict_SetItemString(pyAnimStage_Type.tp_dict, "kNotifyLoop",
-                         PyInt_FromLong(plAnimStage::kNotifyLoop));
-    PyDict_SetItemString(pyAnimStage_Type.tp_dict, "kNotifyAdvance",
-                         PyInt_FromLong(plAnimStage::kNotifyAdvance));
-    PyDict_SetItemString(pyAnimStage_Type.tp_dict, "kNotifyRegress",
-                         PyInt_FromLong(plAnimStage::kNotifyRegress));
+    PY_TYPE_ADD_CONST(AnimStage, "kNotifyEnter", plAnimStage::kNotifyEnter);
+    PY_TYPE_ADD_CONST(AnimStage, "kNotifyLoop", plAnimStage::kNotifyLoop);
+    PY_TYPE_ADD_CONST(AnimStage, "kNotifyAdvance", plAnimStage::kNotifyAdvance);
+    PY_TYPE_ADD_CONST(AnimStage, "kNotifyRegress", plAnimStage::kNotifyRegress);
 
-    PyDict_SetItemString(pyAnimStage_Type.tp_dict, "kPlayNone",
-                         PyInt_FromLong(plAnimStage::kPlayNone));
-    PyDict_SetItemString(pyAnimStage_Type.tp_dict, "kPlayKey",
-                         PyInt_FromLong(plAnimStage::kPlayKey));
-    PyDict_SetItemString(pyAnimStage_Type.tp_dict, "kPlayAuto",
-                         PyInt_FromLong(plAnimStage::kPlayAuto));
-    PyDict_SetItemString(pyAnimStage_Type.tp_dict, "kPlayMax",
-                         PyInt_FromLong(plAnimStage::kPlayMax));
+    PY_TYPE_ADD_CONST(AnimStage, "kPlayNone", plAnimStage::kPlayNone);
+    PY_TYPE_ADD_CONST(AnimStage, "kPlayKey", plAnimStage::kPlayKey);
+    PY_TYPE_ADD_CONST(AnimStage, "kPlayAuto", plAnimStage::kPlayAuto);
+    PY_TYPE_ADD_CONST(AnimStage, "kPlayMax", plAnimStage::kPlayMax);
 
-    PyDict_SetItemString(pyAnimStage_Type.tp_dict, "kAdvanceNone",
-                         PyInt_FromLong(plAnimStage::kAdvanceNone));
-    PyDict_SetItemString(pyAnimStage_Type.tp_dict, "kAdvanceOnMove",
-                         PyInt_FromLong(plAnimStage::kAdvanceOnMove));
-    PyDict_SetItemString(pyAnimStage_Type.tp_dict, "kAdvanceAuto",
-                         PyInt_FromLong(plAnimStage::kAdvanceAuto));
-    PyDict_SetItemString(pyAnimStage_Type.tp_dict, "kAdvanceOnAnyKey",
-                         PyInt_FromLong(plAnimStage::kAdvanceOnAnyKey));
-    PyDict_SetItemString(pyAnimStage_Type.tp_dict, "kAdvanceMax",
-                         PyInt_FromLong(plAnimStage::kAdvanceMax));
+    PY_TYPE_ADD_CONST(AnimStage, "kAdvanceNone", plAnimStage::kAdvanceNone);
+    PY_TYPE_ADD_CONST(AnimStage, "kAdvanceOnMove", plAnimStage::kAdvanceOnMove);
+    PY_TYPE_ADD_CONST(AnimStage, "kAdvanceAuto", plAnimStage::kAdvanceAuto);
+    PY_TYPE_ADD_CONST(AnimStage, "kAdvanceOnAnyKey", plAnimStage::kAdvanceOnAnyKey);
+    PY_TYPE_ADD_CONST(AnimStage, "kAdvanceMax", plAnimStage::kAdvanceMax);
 
     Py_INCREF(&pyAnimStage_Type);
     return (PyObject*)&pyAnimStage_Type;

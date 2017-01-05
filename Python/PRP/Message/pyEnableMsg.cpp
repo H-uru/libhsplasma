@@ -132,21 +132,13 @@ PyObject* Init_pyEnableMsg_Type() {
     if (PyType_Ready(&pyEnableMsg_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyEnableMsg_Type.tp_dict, "kDisable",
-                         PyInt_FromLong(plEnableMsg::kDisable));
-    PyDict_SetItemString(pyEnableMsg_Type.tp_dict, "kEnable",
-                         PyInt_FromLong(plEnableMsg::kEnable));
-    PyDict_SetItemString(pyEnableMsg_Type.tp_dict, "kDrawable",
-                         PyInt_FromLong(plEnableMsg::kDrawable));
-    PyDict_SetItemString(pyEnableMsg_Type.tp_dict, "kPhysical",
-                         PyInt_FromLong(plEnableMsg::kPhysical));
-    PyDict_SetItemString(pyEnableMsg_Type.tp_dict, "kAudible",
-                         PyInt_FromLong(plEnableMsg::kAudible));
-    PyDict_SetItemString(pyEnableMsg_Type.tp_dict, "kAll",
-                         PyInt_FromLong(plEnableMsg::kAll));
-    PyDict_SetItemString(pyEnableMsg_Type.tp_dict, "kByType",
-                         PyInt_FromLong(plEnableMsg::kByType));
-
+    PY_TYPE_ADD_CONST(EnableMsg, "kDisable", plEnableMsg::kDisable);
+    PY_TYPE_ADD_CONST(EnableMsg, "kEnable", plEnableMsg::kEnable);
+    PY_TYPE_ADD_CONST(EnableMsg, "kDrawable", plEnableMsg::kDrawable);
+    PY_TYPE_ADD_CONST(EnableMsg, "kPhysical", plEnableMsg::kPhysical);
+    PY_TYPE_ADD_CONST(EnableMsg, "kAudible", plEnableMsg::kAudible);
+    PY_TYPE_ADD_CONST(EnableMsg, "kAll", plEnableMsg::kAll);
+    PY_TYPE_ADD_CONST(EnableMsg, "kByType", plEnableMsg::kByType);
 
     Py_INCREF(&pyEnableMsg_Type);
     return (PyObject*)&pyEnableMsg_Type;

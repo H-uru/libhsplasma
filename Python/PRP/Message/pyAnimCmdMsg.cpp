@@ -134,62 +134,34 @@ PyObject* Init_pyAnimCmdMsg_Type() {
     if (PyType_Ready(&pyAnimCmdMsg_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyAnimCmdMsg_Type.tp_dict, "kContinue",
-                         PyInt_FromLong(plAnimCmdMsg::kContinue));
-    PyDict_SetItemString(pyAnimCmdMsg_Type.tp_dict, "kStop",
-                         PyInt_FromLong(plAnimCmdMsg::kStop));
-    PyDict_SetItemString(pyAnimCmdMsg_Type.tp_dict, "kSetLooping",
-                         PyInt_FromLong(plAnimCmdMsg::kSetLooping));
-    PyDict_SetItemString(pyAnimCmdMsg_Type.tp_dict, "kUnSetLooping",
-                         PyInt_FromLong(plAnimCmdMsg::kUnSetLooping));
-    PyDict_SetItemString(pyAnimCmdMsg_Type.tp_dict, "kSetBegin",
-                         PyInt_FromLong(plAnimCmdMsg::kSetBegin));
-    PyDict_SetItemString(pyAnimCmdMsg_Type.tp_dict, "kSetEnd",
-                         PyInt_FromLong(plAnimCmdMsg::kSetEnd));
-    PyDict_SetItemString(pyAnimCmdMsg_Type.tp_dict, "kSetLoopEnd",
-                         PyInt_FromLong(plAnimCmdMsg::kSetLoopEnd));
-    PyDict_SetItemString(pyAnimCmdMsg_Type.tp_dict, "kSetLoopBegin",
-                         PyInt_FromLong(plAnimCmdMsg::kSetLoopBegin));
-    PyDict_SetItemString(pyAnimCmdMsg_Type.tp_dict, "kSetSpeed",
-                         PyInt_FromLong(plAnimCmdMsg::kSetSpeed));
-    PyDict_SetItemString(pyAnimCmdMsg_Type.tp_dict, "kGoToTime",
-                         PyInt_FromLong(plAnimCmdMsg::kGoToTime));
-    PyDict_SetItemString(pyAnimCmdMsg_Type.tp_dict, "kSetBackwards",
-                         PyInt_FromLong(plAnimCmdMsg::kSetBackwards));
-    PyDict_SetItemString(pyAnimCmdMsg_Type.tp_dict, "kSetForwards",
-                         PyInt_FromLong(plAnimCmdMsg::kSetForwards));
-    PyDict_SetItemString(pyAnimCmdMsg_Type.tp_dict, "kToggleState",
-                         PyInt_FromLong(plAnimCmdMsg::kToggleState));
-    PyDict_SetItemString(pyAnimCmdMsg_Type.tp_dict, "kAddCallbacks",
-                         PyInt_FromLong(plAnimCmdMsg::kAddCallbacks));
-    PyDict_SetItemString(pyAnimCmdMsg_Type.tp_dict, "kRemoveCallbacks",
-                         PyInt_FromLong(plAnimCmdMsg::kRemoveCallbacks));
-    PyDict_SetItemString(pyAnimCmdMsg_Type.tp_dict, "kGoToBegin",
-                         PyInt_FromLong(plAnimCmdMsg::kGoToBegin));
-    PyDict_SetItemString(pyAnimCmdMsg_Type.tp_dict, "kGoToEnd",
-                         PyInt_FromLong(plAnimCmdMsg::kGoToEnd));
-    PyDict_SetItemString(pyAnimCmdMsg_Type.tp_dict, "kGoToLoopBegin",
-                         PyInt_FromLong(plAnimCmdMsg::kGoToLoopBegin));
-    PyDict_SetItemString(pyAnimCmdMsg_Type.tp_dict, "kGoToLoopEnd",
-                         PyInt_FromLong(plAnimCmdMsg::kGoToLoopEnd));
-    PyDict_SetItemString(pyAnimCmdMsg_Type.tp_dict, "kIncrementForward",
-                         PyInt_FromLong(plAnimCmdMsg::kIncrementForward));
-    PyDict_SetItemString(pyAnimCmdMsg_Type.tp_dict, "kIncrementBackward",
-                         PyInt_FromLong(plAnimCmdMsg::kIncrementBackward));
-    PyDict_SetItemString(pyAnimCmdMsg_Type.tp_dict, "kRunForward",
-                         PyInt_FromLong(plAnimCmdMsg::kRunForward));
-    PyDict_SetItemString(pyAnimCmdMsg_Type.tp_dict, "kRunBackward",
-                         PyInt_FromLong(plAnimCmdMsg::kRunBackward));
-    PyDict_SetItemString(pyAnimCmdMsg_Type.tp_dict, "kPlayToTime",
-                         PyInt_FromLong(plAnimCmdMsg::kPlayToTime));
-    PyDict_SetItemString(pyAnimCmdMsg_Type.tp_dict, "kPlayToPercentage",
-                         PyInt_FromLong(plAnimCmdMsg::kPlayToPercentage));
-    PyDict_SetItemString(pyAnimCmdMsg_Type.tp_dict, "kFastForward",
-                         PyInt_FromLong(plAnimCmdMsg::kFastForward));
-    PyDict_SetItemString(pyAnimCmdMsg_Type.tp_dict, "kGoToPercent",
-                         PyInt_FromLong(plAnimCmdMsg::kGoToPercent));
-    PyDict_SetItemString(pyAnimCmdMsg_Type.tp_dict, "kNumCmds",
-                         PyInt_FromLong(plAnimCmdMsg::kNumCmds));
+    PY_TYPE_ADD_CONST(AnimCmdMsg, "kContinue", plAnimCmdMsg::kContinue);
+    PY_TYPE_ADD_CONST(AnimCmdMsg, "kStop", plAnimCmdMsg::kStop);
+    PY_TYPE_ADD_CONST(AnimCmdMsg, "kSetLooping", plAnimCmdMsg::kSetLooping);
+    PY_TYPE_ADD_CONST(AnimCmdMsg, "kUnSetLooping", plAnimCmdMsg::kUnSetLooping);
+    PY_TYPE_ADD_CONST(AnimCmdMsg, "kSetBegin", plAnimCmdMsg::kSetBegin);
+    PY_TYPE_ADD_CONST(AnimCmdMsg, "kSetEnd", plAnimCmdMsg::kSetEnd);
+    PY_TYPE_ADD_CONST(AnimCmdMsg, "kSetLoopEnd", plAnimCmdMsg::kSetLoopEnd);
+    PY_TYPE_ADD_CONST(AnimCmdMsg, "kSetLoopBegin", plAnimCmdMsg::kSetLoopBegin);
+    PY_TYPE_ADD_CONST(AnimCmdMsg, "kSetSpeed", plAnimCmdMsg::kSetSpeed);
+    PY_TYPE_ADD_CONST(AnimCmdMsg, "kGoToTime", plAnimCmdMsg::kGoToTime);
+    PY_TYPE_ADD_CONST(AnimCmdMsg, "kSetBackwards", plAnimCmdMsg::kSetBackwards);
+    PY_TYPE_ADD_CONST(AnimCmdMsg, "kSetForwards", plAnimCmdMsg::kSetForwards);
+    PY_TYPE_ADD_CONST(AnimCmdMsg, "kToggleState", plAnimCmdMsg::kToggleState);
+    PY_TYPE_ADD_CONST(AnimCmdMsg, "kAddCallbacks", plAnimCmdMsg::kAddCallbacks);
+    PY_TYPE_ADD_CONST(AnimCmdMsg, "kRemoveCallbacks", plAnimCmdMsg::kRemoveCallbacks);
+    PY_TYPE_ADD_CONST(AnimCmdMsg, "kGoToBegin", plAnimCmdMsg::kGoToBegin);
+    PY_TYPE_ADD_CONST(AnimCmdMsg, "kGoToEnd", plAnimCmdMsg::kGoToEnd);
+    PY_TYPE_ADD_CONST(AnimCmdMsg, "kGoToLoopBegin", plAnimCmdMsg::kGoToLoopBegin);
+    PY_TYPE_ADD_CONST(AnimCmdMsg, "kGoToLoopEnd", plAnimCmdMsg::kGoToLoopEnd);
+    PY_TYPE_ADD_CONST(AnimCmdMsg, "kIncrementForward", plAnimCmdMsg::kIncrementForward);
+    PY_TYPE_ADD_CONST(AnimCmdMsg, "kIncrementBackward", plAnimCmdMsg::kIncrementBackward);
+    PY_TYPE_ADD_CONST(AnimCmdMsg, "kRunForward", plAnimCmdMsg::kRunForward);
+    PY_TYPE_ADD_CONST(AnimCmdMsg, "kRunBackward", plAnimCmdMsg::kRunBackward);
+    PY_TYPE_ADD_CONST(AnimCmdMsg, "kPlayToTime", plAnimCmdMsg::kPlayToTime);
+    PY_TYPE_ADD_CONST(AnimCmdMsg, "kPlayToPercentage", plAnimCmdMsg::kPlayToPercentage);
+    PY_TYPE_ADD_CONST(AnimCmdMsg, "kFastForward", plAnimCmdMsg::kFastForward);
+    PY_TYPE_ADD_CONST(AnimCmdMsg, "kGoToPercent", plAnimCmdMsg::kGoToPercent);
+    PY_TYPE_ADD_CONST(AnimCmdMsg, "kNumCmds", plAnimCmdMsg::kNumCmds);
 
 
     Py_INCREF(&pyAnimCmdMsg_Type);

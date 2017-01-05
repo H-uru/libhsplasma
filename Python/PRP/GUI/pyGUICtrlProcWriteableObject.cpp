@@ -150,14 +150,14 @@ PyObject* Init_pyGUICtrlProcWriteableObject_Type() {
     if (PyType_Ready(&pyGUICtrlProcWriteableObject_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyGUICtrlProcWriteableObject_Type.tp_dict, "kNull",
-                         PyInt_FromLong(pfGUICtrlProcWriteableObject::kNull));
-    PyDict_SetItemString(pyGUICtrlProcWriteableObject_Type.tp_dict, "kConsoleCmd",
-                         PyInt_FromLong(pfGUICtrlProcWriteableObject::kConsoleCmd));
-    PyDict_SetItemString(pyGUICtrlProcWriteableObject_Type.tp_dict, "kPythonScript",
-                         PyInt_FromLong(pfGUICtrlProcWriteableObject::kPythonScript));
-    PyDict_SetItemString(pyGUICtrlProcWriteableObject_Type.tp_dict, "kCloseDlg",
-                         PyInt_FromLong(pfGUICtrlProcWriteableObject::kCloseDlg));
+    PY_TYPE_ADD_CONST(GUICtrlProcWriteableObject, "kNull",
+                      pfGUICtrlProcWriteableObject::kNull);
+    PY_TYPE_ADD_CONST(GUICtrlProcWriteableObject, "kConsoleCmd",
+                      pfGUICtrlProcWriteableObject::kConsoleCmd);
+    PY_TYPE_ADD_CONST(GUICtrlProcWriteableObject, "kPythonScript",
+                      pfGUICtrlProcWriteableObject::kPythonScript);
+    PY_TYPE_ADD_CONST(GUICtrlProcWriteableObject, "kCloseDlg",
+                      pfGUICtrlProcWriteableObject::kCloseDlg);
 
     Py_INCREF(&pyGUICtrlProcWriteableObject_Type);
     return (PyObject*)&pyGUICtrlProcWriteableObject_Type;

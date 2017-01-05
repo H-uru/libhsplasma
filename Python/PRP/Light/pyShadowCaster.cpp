@@ -101,14 +101,10 @@ PyObject* Init_pyShadowCaster_Type() {
     if (PyType_Ready(&pyShadowCaster_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyShadowCaster_Type.tp_dict, "kNone",
-                         PyInt_FromLong(plShadowCaster::kNone));
-    PyDict_SetItemString(pyShadowCaster_Type.tp_dict, "kSelfShadow",
-                         PyInt_FromLong(plShadowCaster::kSelfShadow));
-    PyDict_SetItemString(pyShadowCaster_Type.tp_dict, "kPerspective",
-                         PyInt_FromLong(plShadowCaster::kPerspective));
-    PyDict_SetItemString(pyShadowCaster_Type.tp_dict, "kLimitRes",
-                         PyInt_FromLong(plShadowCaster::kLimitRes));
+    PY_TYPE_ADD_CONST(ShadowCaster, "kNone", plShadowCaster::kNone);
+    PY_TYPE_ADD_CONST(ShadowCaster, "kSelfShadow", plShadowCaster::kSelfShadow);
+    PY_TYPE_ADD_CONST(ShadowCaster, "kPerspective", plShadowCaster::kPerspective);
+    PY_TYPE_ADD_CONST(ShadowCaster, "kLimitRes", plShadowCaster::kLimitRes);
 
     Py_INCREF(&pyShadowCaster_Type);
     return (PyObject*)&pyShadowCaster_Type;

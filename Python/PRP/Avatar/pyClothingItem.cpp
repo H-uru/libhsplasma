@@ -136,12 +136,9 @@ PyObject* Init_pyClothingItem_Type() {
     if (PyType_Ready(&pyClothingItem_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyClothingItem_Type.tp_dict, "kLODHigh",
-        PyInt_FromLong(plClothingItem::kLODHigh));
-    PyDict_SetItemString(pyClothingItem_Type.tp_dict, "kLODMedium",
-        PyInt_FromLong(plClothingItem::kLODMedium));
-    PyDict_SetItemString(pyClothingItem_Type.tp_dict, "kLODLow",
-        PyInt_FromLong(plClothingItem::kLODLow));
+    PY_TYPE_ADD_CONST(ClothingItem, "kLODHigh", plClothingItem::kLODHigh);
+    PY_TYPE_ADD_CONST(ClothingItem, "kLODMedium", plClothingItem::kLODMedium);
+    PY_TYPE_ADD_CONST(ClothingItem, "kLODLow", plClothingItem::kLODLow);
 
     Py_INCREF(&pyClothingItem_Type);
     return (PyObject*)&pyClothingItem_Type;

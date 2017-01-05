@@ -108,30 +108,18 @@ PyObject* Init_pyViewFaceModifier_Type() {
     if (PyType_Ready(&pyViewFaceModifier_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyViewFaceModifier_Type.tp_dict, "kPivotFace",
-                         PyInt_FromLong(plViewFaceModifier::kPivotFace));
-    PyDict_SetItemString(pyViewFaceModifier_Type.tp_dict, "kPivotFavorY",
-                         PyInt_FromLong(plViewFaceModifier::kPivotFavorY));
-    PyDict_SetItemString(pyViewFaceModifier_Type.tp_dict, "kPivotY",
-                         PyInt_FromLong(plViewFaceModifier::kPivotY));
-    PyDict_SetItemString(pyViewFaceModifier_Type.tp_dict, "kPivotTumple",
-                         PyInt_FromLong(plViewFaceModifier::kPivotTumple));
-    PyDict_SetItemString(pyViewFaceModifier_Type.tp_dict, "kScale",
-                         PyInt_FromLong(plViewFaceModifier::kScale));
-    PyDict_SetItemString(pyViewFaceModifier_Type.tp_dict, "kFaceCam",
-                         PyInt_FromLong(plViewFaceModifier::kFaceCam));
-    PyDict_SetItemString(pyViewFaceModifier_Type.tp_dict, "kFaceList",
-                         PyInt_FromLong(plViewFaceModifier::kFaceList));
-    PyDict_SetItemString(pyViewFaceModifier_Type.tp_dict, "kFacePlay",
-                         PyInt_FromLong(plViewFaceModifier::kFacePlay));
-    PyDict_SetItemString(pyViewFaceModifier_Type.tp_dict, "kFaceObj",
-                         PyInt_FromLong(plViewFaceModifier::kFaceObj));
-    PyDict_SetItemString(pyViewFaceModifier_Type.tp_dict, "kOffset",
-                         PyInt_FromLong(plViewFaceModifier::kOffset));
-    PyDict_SetItemString(pyViewFaceModifier_Type.tp_dict, "kOffsetLocal",
-                         PyInt_FromLong(plViewFaceModifier::kOffsetLocal));
-    PyDict_SetItemString(pyViewFaceModifier_Type.tp_dict, "kMaxBounds",
-                         PyInt_FromLong(plViewFaceModifier::kMaxBounds));
+    PY_TYPE_ADD_CONST(ViewFaceModifier, "kPivotFace", plViewFaceModifier::kPivotFace);
+    PY_TYPE_ADD_CONST(ViewFaceModifier, "kPivotFavorY", plViewFaceModifier::kPivotFavorY);
+    PY_TYPE_ADD_CONST(ViewFaceModifier, "kPivotY", plViewFaceModifier::kPivotY);
+    PY_TYPE_ADD_CONST(ViewFaceModifier, "kPivotTumple", plViewFaceModifier::kPivotTumple);
+    PY_TYPE_ADD_CONST(ViewFaceModifier, "kScale", plViewFaceModifier::kScale);
+    PY_TYPE_ADD_CONST(ViewFaceModifier, "kFaceCam", plViewFaceModifier::kFaceCam);
+    PY_TYPE_ADD_CONST(ViewFaceModifier, "kFaceList", plViewFaceModifier::kFaceList);
+    PY_TYPE_ADD_CONST(ViewFaceModifier, "kFacePlay", plViewFaceModifier::kFacePlay);
+    PY_TYPE_ADD_CONST(ViewFaceModifier, "kFaceObj", plViewFaceModifier::kFaceObj);
+    PY_TYPE_ADD_CONST(ViewFaceModifier, "kOffset", plViewFaceModifier::kOffset);
+    PY_TYPE_ADD_CONST(ViewFaceModifier, "kOffsetLocal", plViewFaceModifier::kOffsetLocal);
+    PY_TYPE_ADD_CONST(ViewFaceModifier, "kMaxBounds", plViewFaceModifier::kMaxBounds);
 
     Py_INCREF(&pyViewFaceModifier_Type);
     return (PyObject*)&pyViewFaceModifier_Type;

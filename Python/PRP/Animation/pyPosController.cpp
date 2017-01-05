@@ -94,10 +94,8 @@ PyObject* Init_pyPosController_Type() {
     if (PyType_Ready(&pyPosController_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyPosController_Type.tp_dict, "kSimple",
-                         PyInt_FromLong(plPosController::kSimple));
-    PyDict_SetItemString(pyPosController_Type.tp_dict, "kCompound",
-                         PyInt_FromLong(plPosController::kCompound));
+    PY_TYPE_ADD_CONST(PosController, "kSimple", plPosController::kSimple);
+    PY_TYPE_ADD_CONST(PosController, "kCompound", plPosController::kCompound);
 
     Py_INCREF(&pyPosController_Type);
     return (PyObject*)&pyPosController_Type;

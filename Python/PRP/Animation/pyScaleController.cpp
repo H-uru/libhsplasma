@@ -94,8 +94,7 @@ PyObject* Init_pyScaleController_Type() {
     if (PyType_Ready(&pyScaleController_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyScaleController_Type.tp_dict, "kSimple",
-                         PyInt_FromLong(plScaleController::kSimple));
+    PY_TYPE_ADD_CONST(ScaleController, "kSimple", plScaleController::kSimple);
 
     Py_INCREF(&pyScaleController_Type);
     return (PyObject*)&pyScaleController_Type;

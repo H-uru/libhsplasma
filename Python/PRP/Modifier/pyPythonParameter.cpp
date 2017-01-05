@@ -233,58 +233,32 @@ PyObject* Init_pyPythonParameter_Type() {
     if (PyType_Ready(&pyPythonParameter_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kInt",
-                         PyInt_FromLong(plPythonParameter::kInt));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kFloat",
-                         PyInt_FromLong(plPythonParameter::kFloat));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kBoolean",
-                         PyInt_FromLong(plPythonParameter::kBoolean));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kString",
-                         PyInt_FromLong(plPythonParameter::kString));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kSceneObject",
-                         PyInt_FromLong(plPythonParameter::kSceneObject));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kSceneObjectList",
-                         PyInt_FromLong(plPythonParameter::kSceneObjectList));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kActivator",
-                         PyInt_FromLong(plPythonParameter::kActivator));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kResponder",
-                         PyInt_FromLong(plPythonParameter::kResponder));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kDynamicText",
-                         PyInt_FromLong(plPythonParameter::kDynamicText));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kGUIDialog",
-                         PyInt_FromLong(plPythonParameter::kGUIDialog));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kExcludeRegion",
-                         PyInt_FromLong(plPythonParameter::kExcludeRegion));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kAnimation",
-                         PyInt_FromLong(plPythonParameter::kAnimation));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kAnimationName",
-                         PyInt_FromLong(plPythonParameter::kAnimationName));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kBehavior",
-                         PyInt_FromLong(plPythonParameter::kBehavior));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kMaterial",
-                         PyInt_FromLong(plPythonParameter::kMaterial));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kGUIPopUpMenu",
-                         PyInt_FromLong(plPythonParameter::kGUIPopUpMenu));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kGUISkin",
-                         PyInt_FromLong(plPythonParameter::kGUISkin));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kWaterComponent",
-                         PyInt_FromLong(plPythonParameter::kWaterComponent));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kSwimCurrentInterface",
-                         PyInt_FromLong(plPythonParameter::kSwimCurrentInterface));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kClusterComponent",
-                         PyInt_FromLong(plPythonParameter::kClusterComponent));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kMaterialAnimation",
-                         PyInt_FromLong(plPythonParameter::kMaterialAnimation));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kGrassShaderComponent",
-                         PyInt_FromLong(plPythonParameter::kGrassShaderComponent));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kGlobalSDLVar",
-                         PyInt_FromLong(plPythonParameter::kGlobalSDLVar));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kSubtitle",
-                         PyInt_FromLong(plPythonParameter::kSubtitle));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kBlowerComponent",
-                         PyInt_FromLong(plPythonParameter::kBlowerComponent));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kNone",
-                         PyInt_FromLong(plPythonParameter::kNone));
+    PY_TYPE_ADD_CONST(PythonParameter, "kInt", plPythonParameter::kInt);
+    PY_TYPE_ADD_CONST(PythonParameter, "kFloat", plPythonParameter::kFloat);
+    PY_TYPE_ADD_CONST(PythonParameter, "kBoolean", plPythonParameter::kBoolean);
+    PY_TYPE_ADD_CONST(PythonParameter, "kString", plPythonParameter::kString);
+    PY_TYPE_ADD_CONST(PythonParameter, "kSceneObject", plPythonParameter::kSceneObject);
+    PY_TYPE_ADD_CONST(PythonParameter, "kSceneObjectList", plPythonParameter::kSceneObjectList);
+    PY_TYPE_ADD_CONST(PythonParameter, "kActivator", plPythonParameter::kActivator);
+    PY_TYPE_ADD_CONST(PythonParameter, "kResponder", plPythonParameter::kResponder);
+    PY_TYPE_ADD_CONST(PythonParameter, "kDynamicText", plPythonParameter::kDynamicText);
+    PY_TYPE_ADD_CONST(PythonParameter, "kGUIDialog", plPythonParameter::kGUIDialog);
+    PY_TYPE_ADD_CONST(PythonParameter, "kExcludeRegion", plPythonParameter::kExcludeRegion);
+    PY_TYPE_ADD_CONST(PythonParameter, "kAnimation", plPythonParameter::kAnimation);
+    PY_TYPE_ADD_CONST(PythonParameter, "kAnimationName", plPythonParameter::kAnimationName);
+    PY_TYPE_ADD_CONST(PythonParameter, "kBehavior", plPythonParameter::kBehavior);
+    PY_TYPE_ADD_CONST(PythonParameter, "kMaterial", plPythonParameter::kMaterial);
+    PY_TYPE_ADD_CONST(PythonParameter, "kGUIPopUpMenu", plPythonParameter::kGUIPopUpMenu);
+    PY_TYPE_ADD_CONST(PythonParameter, "kGUISkin", plPythonParameter::kGUISkin);
+    PY_TYPE_ADD_CONST(PythonParameter, "kWaterComponent", plPythonParameter::kWaterComponent);
+    PY_TYPE_ADD_CONST(PythonParameter, "kSwimCurrentInterface", plPythonParameter::kSwimCurrentInterface);
+    PY_TYPE_ADD_CONST(PythonParameter, "kClusterComponent", plPythonParameter::kClusterComponent);
+    PY_TYPE_ADD_CONST(PythonParameter, "kMaterialAnimation", plPythonParameter::kMaterialAnimation);
+    PY_TYPE_ADD_CONST(PythonParameter, "kGrassShaderComponent", plPythonParameter::kGrassShaderComponent);
+    PY_TYPE_ADD_CONST(PythonParameter, "kGlobalSDLVar", plPythonParameter::kGlobalSDLVar);
+    PY_TYPE_ADD_CONST(PythonParameter, "kSubtitle", plPythonParameter::kSubtitle);
+    PY_TYPE_ADD_CONST(PythonParameter, "kBlowerComponent", plPythonParameter::kBlowerComponent);
+    PY_TYPE_ADD_CONST(PythonParameter, "kNone", plPythonParameter::kNone);
 
     Py_INCREF(&pyPythonParameter_Type);
     return (PyObject*)&pyPythonParameter_Type;

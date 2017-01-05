@@ -165,16 +165,11 @@ PyObject* Init_pyDebug_Type() {
     if (PyType_Ready(&pyDebug_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyDebug_Type.tp_dict, "kDLNone",
-                         PyInt_FromLong(plDebug::kDLNone));
-    PyDict_SetItemString(pyDebug_Type.tp_dict, "kDLError",
-                         PyInt_FromLong(plDebug::kDLError));
-    PyDict_SetItemString(pyDebug_Type.tp_dict, "kDLWarning",
-                         PyInt_FromLong(plDebug::kDLWarning));
-    PyDict_SetItemString(pyDebug_Type.tp_dict, "kDLDebug",
-                         PyInt_FromLong(plDebug::kDLDebug));
-    PyDict_SetItemString(pyDebug_Type.tp_dict, "kDLAll",
-                         PyInt_FromLong(plDebug::kDLAll));
+    PY_TYPE_ADD_CONST(Debug, "kDLNone", plDebug::kDLNone);
+    PY_TYPE_ADD_CONST(Debug, "kDLError", plDebug::kDLError);
+    PY_TYPE_ADD_CONST(Debug, "kDLWarning", plDebug::kDLWarning);
+    PY_TYPE_ADD_CONST(Debug, "kDLDebug", plDebug::kDLDebug);
+    PY_TYPE_ADD_CONST(Debug, "kDLAll", plDebug::kDLAll);
 
     Py_INCREF(&pyDebug_Type);
     return (PyObject*)&pyDebug_Type;

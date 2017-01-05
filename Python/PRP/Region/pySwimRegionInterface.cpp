@@ -97,8 +97,7 @@ PyObject* Init_pySwimRegionInterface_Type() {
     if (PyType_Ready(&pySwimRegionInterface_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pySwimRegionInterface_Type.tp_dict, "kDisable",
-                         PyInt_FromLong(plSwimRegionInterface::kDisable));
+    PY_TYPE_ADD_CONST(SwimRegionInterface, "kDisable", plSwimRegionInterface::kDisable);
 
     Py_INCREF(&pySwimRegionInterface_Type);
     return (PyObject*)&pySwimRegionInterface_Type;

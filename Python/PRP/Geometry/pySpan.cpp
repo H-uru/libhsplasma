@@ -245,68 +245,38 @@ PyObject* Init_pySpan_Type() {
     if (PyType_Ready(&pySpan_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kLiteMaterial",
-                         PyInt_FromLong(plSpan::kLiteMaterial));
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kPropNoDraw",
-                         PyInt_FromLong(plSpan::kPropNoDraw));
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kPropNoShadowCast",
-                         PyInt_FromLong(plSpan::kPropNoShadowCast));
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kPropFacesSortable",
-                         PyInt_FromLong(plSpan::kPropFacesSortable));
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kPropVolatile",
-                         PyInt_FromLong(plSpan::kPropVolatile));
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kWaterHeight",
-                         PyInt_FromLong(plSpan::kWaterHeight));
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kPropRunTimeLight",
-                         PyInt_FromLong(plSpan::kPropRunTimeLight));
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kPropReverseSort",
-                         PyInt_FromLong(plSpan::kPropReverseSort));
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kPropHasPermaLights",
-                         PyInt_FromLong(plSpan::kPropHasPermaLights));
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kPropHasPermaProjs",
-                         PyInt_FromLong(plSpan::kPropHasPermaProjs));
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kLiteVtxPreshaded",
-                         PyInt_FromLong(plSpan::kLiteVtxPreshaded));
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kLiteVtxNonPreshaded",
-                         PyInt_FromLong(plSpan::kLiteVtxNonPreshaded));
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kLiteProjection",
-                         PyInt_FromLong(plSpan::kLiteProjection));
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kLiteShadowErase",
-                         PyInt_FromLong(plSpan::kLiteShadowErase));
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kLiteShadow",
-                         PyInt_FromLong(plSpan::kLiteShadow));
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kPropMatHasSpecular",
-                         PyInt_FromLong(plSpan::kPropMatHasSpecular));
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kPropProjAsVtx",
-                         PyInt_FromLong(plSpan::kPropProjAsVtx));
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kPropSkipProjection",
-                         PyInt_FromLong(plSpan::kPropSkipProjection));
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kPropNoShadow",
-                         PyInt_FromLong(plSpan::kPropNoShadow));
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kPropForceShadow",
-                         PyInt_FromLong(plSpan::kPropForceShadow));
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kPropDisableNormal",
-                         PyInt_FromLong(plSpan::kPropDisableNormal));
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kPropCharacter",
-                         PyInt_FromLong(plSpan::kPropCharacter));
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kPartialSort",
-                         PyInt_FromLong(plSpan::kPartialSort));
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kVisLOS",
-                         PyInt_FromLong(plSpan::kVisLOS));
+    PY_TYPE_ADD_CONST(Span, "kLiteMaterial", plSpan::kLiteMaterial);
+    PY_TYPE_ADD_CONST(Span, "kPropNoDraw", plSpan::kPropNoDraw);
+    PY_TYPE_ADD_CONST(Span, "kPropNoShadowCast", plSpan::kPropNoShadowCast);
+    PY_TYPE_ADD_CONST(Span, "kPropFacesSortable", plSpan::kPropFacesSortable);
+    PY_TYPE_ADD_CONST(Span, "kPropVolatile", plSpan::kPropVolatile);
+    PY_TYPE_ADD_CONST(Span, "kWaterHeight", plSpan::kWaterHeight);
+    PY_TYPE_ADD_CONST(Span, "kPropRunTimeLight", plSpan::kPropRunTimeLight);
+    PY_TYPE_ADD_CONST(Span, "kPropReverseSort", plSpan::kPropReverseSort);
+    PY_TYPE_ADD_CONST(Span, "kPropHasPermaLights", plSpan::kPropHasPermaLights);
+    PY_TYPE_ADD_CONST(Span, "kPropHasPermaProjs", plSpan::kPropHasPermaProjs);
+    PY_TYPE_ADD_CONST(Span, "kLiteVtxPreshaded", plSpan::kLiteVtxPreshaded);
+    PY_TYPE_ADD_CONST(Span, "kLiteVtxNonPreshaded", plSpan::kLiteVtxNonPreshaded);
+    PY_TYPE_ADD_CONST(Span, "kLiteProjection", plSpan::kLiteProjection);
+    PY_TYPE_ADD_CONST(Span, "kLiteShadowErase", plSpan::kLiteShadowErase);
+    PY_TYPE_ADD_CONST(Span, "kLiteShadow", plSpan::kLiteShadow);
+    PY_TYPE_ADD_CONST(Span, "kPropMatHasSpecular", plSpan::kPropMatHasSpecular);
+    PY_TYPE_ADD_CONST(Span, "kPropProjAsVtx", plSpan::kPropProjAsVtx);
+    PY_TYPE_ADD_CONST(Span, "kPropSkipProjection", plSpan::kPropSkipProjection);
+    PY_TYPE_ADD_CONST(Span, "kPropNoShadow", plSpan::kPropNoShadow);
+    PY_TYPE_ADD_CONST(Span, "kPropForceShadow", plSpan::kPropForceShadow);
+    PY_TYPE_ADD_CONST(Span, "kPropDisableNormal", plSpan::kPropDisableNormal);
+    PY_TYPE_ADD_CONST(Span, "kPropCharacter", plSpan::kPropCharacter);
+    PY_TYPE_ADD_CONST(Span, "kPartialSort", plSpan::kPartialSort);
+    PY_TYPE_ADD_CONST(Span, "kVisLOS", plSpan::kVisLOS);
 
     // plSpanType
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kSpan",
-                         PyInt_FromLong(plSpan::kSpan));
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kVertexSpan",
-                         PyInt_FromLong(plSpan::kVertexSpan));
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kIcicleSpan",
-                         PyInt_FromLong(plSpan::kIcicleSpan));
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kNullSpan",
-                         PyInt_FromLong(plSpan::kNullSpan));
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kParticleSpan",
-                         PyInt_FromLong(plSpan::kParticleSpan));
-    PyDict_SetItemString(pySpan_Type.tp_dict, "kParticleSet",
-                         PyInt_FromLong(plSpan::kParticleSet));
+    PY_TYPE_ADD_CONST(Span, "kSpan", plSpan::kSpan);
+    PY_TYPE_ADD_CONST(Span, "kVertexSpan", plSpan::kVertexSpan);
+    PY_TYPE_ADD_CONST(Span, "kIcicleSpan", plSpan::kIcicleSpan);
+    PY_TYPE_ADD_CONST(Span, "kNullSpan", plSpan::kNullSpan);
+    PY_TYPE_ADD_CONST(Span, "kParticleSpan", plSpan::kParticleSpan);
+    PY_TYPE_ADD_CONST(Span, "kParticleSet", plSpan::kParticleSet);
 
     Py_INCREF(&pySpan_Type);
     return (PyObject*)&pySpan_Type;

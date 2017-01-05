@@ -94,18 +94,12 @@ PyObject* Init_pyCollisionDetector_Type() {
     if (PyType_Ready(&pyCollisionDetector_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyCollisionDetector_Type.tp_dict, "kTypeEnter",
-        PyInt_FromLong(plCollisionDetector::kTypeEnter));
-    PyDict_SetItemString(pyCollisionDetector_Type.tp_dict, "kTypeExit",
-        PyInt_FromLong(plCollisionDetector::kTypeExit));
-    PyDict_SetItemString(pyCollisionDetector_Type.tp_dict, "kTypeAny",
-        PyInt_FromLong(plCollisionDetector::kTypeAny));
-    PyDict_SetItemString(pyCollisionDetector_Type.tp_dict, "kTypeUnEnter",
-        PyInt_FromLong(plCollisionDetector::kTypeUnEnter));
-    PyDict_SetItemString(pyCollisionDetector_Type.tp_dict, "kTypeUnExit",
-        PyInt_FromLong(plCollisionDetector::kTypeUnExit));
-    PyDict_SetItemString(pyCollisionDetector_Type.tp_dict, "kTypeBump",
-        PyInt_FromLong(plCollisionDetector::kTypeBump));
+    PY_TYPE_ADD_CONST(CollisionDetector, "kTypeEnter", plCollisionDetector::kTypeEnter);
+    PY_TYPE_ADD_CONST(CollisionDetector, "kTypeExit", plCollisionDetector::kTypeExit);
+    PY_TYPE_ADD_CONST(CollisionDetector, "kTypeAny", plCollisionDetector::kTypeAny);
+    PY_TYPE_ADD_CONST(CollisionDetector, "kTypeUnEnter", plCollisionDetector::kTypeUnEnter);
+    PY_TYPE_ADD_CONST(CollisionDetector, "kTypeUnExit", plCollisionDetector::kTypeUnExit);
+    PY_TYPE_ADD_CONST(CollisionDetector, "kTypeBump", plCollisionDetector::kTypeBump);
 
     Py_INCREF(&pyCollisionDetector_Type);
     return (PyObject*)&pyCollisionDetector_Type;

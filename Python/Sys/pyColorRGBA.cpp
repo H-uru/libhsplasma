@@ -243,26 +243,16 @@ PyObject* Init_pyColorRGBA_Type() {
     if (PyType_Ready(&pyColorRGBA_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kBlack",
-                         pyColorRGBA_FromColorRGBA(hsColorRGBA::kBlack));
-    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kWhite",
-                         pyColorRGBA_FromColorRGBA(hsColorRGBA::kWhite));
-    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kRed",
-                         pyColorRGBA_FromColorRGBA(hsColorRGBA::kRed));
-    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kGreen",
-                         pyColorRGBA_FromColorRGBA(hsColorRGBA::kGreen));
-    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kBlue",
-                         pyColorRGBA_FromColorRGBA(hsColorRGBA::kBlue));
-    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kYellow",
-                         pyColorRGBA_FromColorRGBA(hsColorRGBA::kYellow));
-    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kMagenta",
-                         pyColorRGBA_FromColorRGBA(hsColorRGBA::kMagenta));
-    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kCyan",
-                         pyColorRGBA_FromColorRGBA(hsColorRGBA::kCyan));
-    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kGray",
-                         pyColorRGBA_FromColorRGBA(hsColorRGBA::kGray));
-    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kNone",
-                         pyColorRGBA_FromColorRGBA(hsColorRGBA::kNone));
+    PY_TYPE_ADD_CONST(ColorRGBA, "kBlack", hsColorRGBA::kBlack);
+    PY_TYPE_ADD_CONST(ColorRGBA, "kWhite", hsColorRGBA::kWhite);
+    PY_TYPE_ADD_CONST(ColorRGBA, "kRed", hsColorRGBA::kRed);
+    PY_TYPE_ADD_CONST(ColorRGBA, "kGreen", hsColorRGBA::kGreen);
+    PY_TYPE_ADD_CONST(ColorRGBA, "kBlue", hsColorRGBA::kBlue);
+    PY_TYPE_ADD_CONST(ColorRGBA, "kYellow", hsColorRGBA::kYellow);
+    PY_TYPE_ADD_CONST(ColorRGBA, "kMagenta", hsColorRGBA::kMagenta);
+    PY_TYPE_ADD_CONST(ColorRGBA, "kCyan", hsColorRGBA::kCyan);
+    PY_TYPE_ADD_CONST(ColorRGBA, "kGray", hsColorRGBA::kGray);
+    PY_TYPE_ADD_CONST(ColorRGBA, "kNone", hsColorRGBA::kNone);
 
     Py_INCREF(&pyColorRGBA_Type);
     return (PyObject*)&pyColorRGBA_Type;

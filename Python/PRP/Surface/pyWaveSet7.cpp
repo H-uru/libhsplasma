@@ -208,8 +208,7 @@ PyObject* Init_pyWaveSet7_Type() {
     if (PyType_Ready(&pyWaveSet7_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyWaveSet7_Type.tp_dict, "kHasRefObject",
-                         PyInt_FromLong(plWaveSet7::kHasRefObject));
+    PY_TYPE_ADD_CONST(WaveSet7, "kHasRefObject", plWaveSet7::kHasRefObject);
 
     Py_INCREF(&pyWaveSet7_Type);
     return (PyObject*)&pyWaveSet7_Type;

@@ -182,16 +182,11 @@ PyObject* Init_pyEncryptedStream_Type() {
     if (PyType_Ready(&pyEncryptedStream_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyEncryptedStream_Type.tp_dict, "kEncNone",
-                         PyInt_FromLong(plEncryptedStream::kEncNone));
-    PyDict_SetItemString(pyEncryptedStream_Type.tp_dict, "kEncXtea",
-                         PyInt_FromLong(plEncryptedStream::kEncXtea));
-    PyDict_SetItemString(pyEncryptedStream_Type.tp_dict, "kEncAES",
-                         PyInt_FromLong(plEncryptedStream::kEncAES));
-    PyDict_SetItemString(pyEncryptedStream_Type.tp_dict, "kEncDroid",
-                         PyInt_FromLong(plEncryptedStream::kEncDroid));
-    PyDict_SetItemString(pyEncryptedStream_Type.tp_dict, "kEncAuto",
-                         PyInt_FromLong(plEncryptedStream::kEncAuto));
+    PY_TYPE_ADD_CONST(EncryptedStream, "kEncNone", plEncryptedStream::kEncNone);
+    PY_TYPE_ADD_CONST(EncryptedStream, "kEncXtea", plEncryptedStream::kEncXtea);
+    PY_TYPE_ADD_CONST(EncryptedStream, "kEncAES", plEncryptedStream::kEncAES);
+    PY_TYPE_ADD_CONST(EncryptedStream, "kEncDroid", plEncryptedStream::kEncDroid);
+    PY_TYPE_ADD_CONST(EncryptedStream, "kEncAuto", plEncryptedStream::kEncAuto);
 
     Py_INCREF(&pyEncryptedStream_Type);
     return (PyObject*)&pyEncryptedStream_Type;

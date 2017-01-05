@@ -138,32 +138,19 @@ PyObject* Init_pyKeyFrame_Type() {
     if (PyType_Ready(&pyKeyFrame_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyKeyFrame_Type.tp_dict, "kUnknownKeyFrame",
-                         PyInt_FromLong(hsKeyFrame::kUnknownKeyFrame));
-    PyDict_SetItemString(pyKeyFrame_Type.tp_dict, "kPoint3KeyFrame",
-                         PyInt_FromLong(hsKeyFrame::kPoint3KeyFrame));
-    PyDict_SetItemString(pyKeyFrame_Type.tp_dict, "kBezPoint3KeyFrame",
-                         PyInt_FromLong(hsKeyFrame::kBezPoint3KeyFrame));
-    PyDict_SetItemString(pyKeyFrame_Type.tp_dict, "kScalarKeyFrame",
-                         PyInt_FromLong(hsKeyFrame::kScalarKeyFrame));
-    PyDict_SetItemString(pyKeyFrame_Type.tp_dict, "kBezScalarKeyFrame",
-                         PyInt_FromLong(hsKeyFrame::kBezScalarKeyFrame));
-    PyDict_SetItemString(pyKeyFrame_Type.tp_dict, "kScaleKeyFrame",
-                         PyInt_FromLong(hsKeyFrame::kScaleKeyFrame));
-    PyDict_SetItemString(pyKeyFrame_Type.tp_dict, "kBezScaleKeyFrame",
-                         PyInt_FromLong(hsKeyFrame::kBezScaleKeyFrame));
-    PyDict_SetItemString(pyKeyFrame_Type.tp_dict, "kQuatKeyFrame",
-                         PyInt_FromLong(hsKeyFrame::kQuatKeyFrame));
-    PyDict_SetItemString(pyKeyFrame_Type.tp_dict, "kCompressedQuatKeyFrame32",
-                         PyInt_FromLong(hsKeyFrame::kCompressedQuatKeyFrame32));
-    PyDict_SetItemString(pyKeyFrame_Type.tp_dict, "kCompressedQuatKeyFrame64",
-                         PyInt_FromLong(hsKeyFrame::kCompressedQuatKeyFrame64));
-    PyDict_SetItemString(pyKeyFrame_Type.tp_dict, "k3dsMaxKeyFrame",
-                         PyInt_FromLong(hsKeyFrame::k3dsMaxKeyFrame));
-    PyDict_SetItemString(pyKeyFrame_Type.tp_dict, "kMatrix33KeyFrame",
-                         PyInt_FromLong(hsKeyFrame::kMatrix33KeyFrame));
-    PyDict_SetItemString(pyKeyFrame_Type.tp_dict, "kMatrix44KeyFrame",
-                         PyInt_FromLong(hsKeyFrame::kMatrix44KeyFrame));
+    PY_TYPE_ADD_CONST(KeyFrame, "kUnknownKeyFrame", hsKeyFrame::kUnknownKeyFrame);
+    PY_TYPE_ADD_CONST(KeyFrame, "kPoint3KeyFrame", hsKeyFrame::kPoint3KeyFrame);
+    PY_TYPE_ADD_CONST(KeyFrame, "kBezPoint3KeyFrame", hsKeyFrame::kBezPoint3KeyFrame);
+    PY_TYPE_ADD_CONST(KeyFrame, "kScalarKeyFrame", hsKeyFrame::kScalarKeyFrame);
+    PY_TYPE_ADD_CONST(KeyFrame, "kBezScalarKeyFrame", hsKeyFrame::kBezScalarKeyFrame);
+    PY_TYPE_ADD_CONST(KeyFrame, "kScaleKeyFrame", hsKeyFrame::kScaleKeyFrame);
+    PY_TYPE_ADD_CONST(KeyFrame, "kBezScaleKeyFrame", hsKeyFrame::kBezScaleKeyFrame);
+    PY_TYPE_ADD_CONST(KeyFrame, "kQuatKeyFrame", hsKeyFrame::kQuatKeyFrame);
+    PY_TYPE_ADD_CONST(KeyFrame, "kCompressedQuatKeyFrame32", hsKeyFrame::kCompressedQuatKeyFrame32);
+    PY_TYPE_ADD_CONST(KeyFrame, "kCompressedQuatKeyFrame64", hsKeyFrame::kCompressedQuatKeyFrame64);
+    PY_TYPE_ADD_CONST(KeyFrame, "k3dsMaxKeyFrame", hsKeyFrame::k3dsMaxKeyFrame);
+    PY_TYPE_ADD_CONST(KeyFrame, "kMatrix33KeyFrame", hsKeyFrame::kMatrix33KeyFrame);
+    PY_TYPE_ADD_CONST(KeyFrame, "kMatrix44KeyFrame", hsKeyFrame::kMatrix44KeyFrame);
 
     Py_INCREF(&pyKeyFrame_Type);
     return (PyObject*)&pyKeyFrame_Type;

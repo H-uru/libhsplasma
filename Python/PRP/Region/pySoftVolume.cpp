@@ -98,16 +98,11 @@ PyObject* Init_pySoftVolume_Type() {
     if (PyType_Ready(&pySoftVolume_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pySoftVolume_Type.tp_dict, "kListenNone",
-                         PyInt_FromLong(plSoftVolume::kListenNone));
-    PyDict_SetItemString(pySoftVolume_Type.tp_dict, "kListenCheck",
-                         PyInt_FromLong(plSoftVolume::kListenCheck));
-    PyDict_SetItemString(pySoftVolume_Type.tp_dict, "kListenPosSet",
-                         PyInt_FromLong(plSoftVolume::kListenPosSet));
-    PyDict_SetItemString(pySoftVolume_Type.tp_dict, "kListenDirty",
-                         PyInt_FromLong(plSoftVolume::kListenDirty));
-    PyDict_SetItemString(pySoftVolume_Type.tp_dict, "kListenRegistered",
-                         PyInt_FromLong(plSoftVolume::kListenRegistered));
+    PY_TYPE_ADD_CONST(SoftVolume, "kListenNone", plSoftVolume::kListenNone);
+    PY_TYPE_ADD_CONST(SoftVolume, "kListenCheck", plSoftVolume::kListenCheck);
+    PY_TYPE_ADD_CONST(SoftVolume, "kListenPosSet", plSoftVolume::kListenPosSet);
+    PY_TYPE_ADD_CONST(SoftVolume, "kListenDirty", plSoftVolume::kListenDirty);
+    PY_TYPE_ADD_CONST(SoftVolume, "kListenRegistered", plSoftVolume::kListenRegistered);
 
     Py_INCREF(&pySoftVolume_Type);
     return (PyObject*)&pySoftVolume_Type;

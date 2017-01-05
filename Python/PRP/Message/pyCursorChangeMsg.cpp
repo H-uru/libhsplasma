@@ -95,32 +95,19 @@ PyObject* Init_pyCursorChangeMsg_Type() {
     if (PyType_Ready(&pyCursorChangeMsg_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyCursorChangeMsg_Type.tp_dict, "kNoChange",
-                         PyInt_FromLong(plCursorChangeMsg::kNoChange));
-    PyDict_SetItemString(pyCursorChangeMsg_Type.tp_dict, "kCursorUp",
-                         PyInt_FromLong(plCursorChangeMsg::kCursorUp));
-    PyDict_SetItemString(pyCursorChangeMsg_Type.tp_dict, "kCursorLeft",
-                         PyInt_FromLong(plCursorChangeMsg::kCursorLeft));
-    PyDict_SetItemString(pyCursorChangeMsg_Type.tp_dict, "kCursorRight",
-                         PyInt_FromLong(plCursorChangeMsg::kCursorRight));
-    PyDict_SetItemString(pyCursorChangeMsg_Type.tp_dict, "kCursorDown",
-                         PyInt_FromLong(plCursorChangeMsg::kCursorDown));
-    PyDict_SetItemString(pyCursorChangeMsg_Type.tp_dict, "kCursorPoised",
-                         PyInt_FromLong(plCursorChangeMsg::kCursorPoised));
-    PyDict_SetItemString(pyCursorChangeMsg_Type.tp_dict, "kCursorClicked",
-                         PyInt_FromLong(plCursorChangeMsg::kCursorClicked));
-    PyDict_SetItemString(pyCursorChangeMsg_Type.tp_dict, "kCursorUnClicked",
-                         PyInt_FromLong(plCursorChangeMsg::kCursorUnClicked));
-    PyDict_SetItemString(pyCursorChangeMsg_Type.tp_dict, "kCursorHidden",
-                         PyInt_FromLong(plCursorChangeMsg::kCursorHidden));
-    PyDict_SetItemString(pyCursorChangeMsg_Type.tp_dict, "kCursorOpen",
-                         PyInt_FromLong(plCursorChangeMsg::kCursorOpen));
-    PyDict_SetItemString(pyCursorChangeMsg_Type.tp_dict, "kCursorGrab",
-                         PyInt_FromLong(plCursorChangeMsg::kCursorGrab));
-    PyDict_SetItemString(pyCursorChangeMsg_Type.tp_dict, "kCursorArrow",
-                         PyInt_FromLong(plCursorChangeMsg::kCursorArrow));
-    PyDict_SetItemString(pyCursorChangeMsg_Type.tp_dict, "kNullCursor",
-                         PyInt_FromLong(plCursorChangeMsg::kNullCursor));
+    PY_TYPE_ADD_CONST(CursorChangeMsg, "kNoChange", plCursorChangeMsg::kNoChange);
+    PY_TYPE_ADD_CONST(CursorChangeMsg, "kCursorUp", plCursorChangeMsg::kCursorUp);
+    PY_TYPE_ADD_CONST(CursorChangeMsg, "kCursorLeft", plCursorChangeMsg::kCursorLeft);
+    PY_TYPE_ADD_CONST(CursorChangeMsg, "kCursorRight", plCursorChangeMsg::kCursorRight);
+    PY_TYPE_ADD_CONST(CursorChangeMsg, "kCursorDown", plCursorChangeMsg::kCursorDown);
+    PY_TYPE_ADD_CONST(CursorChangeMsg, "kCursorPoised", plCursorChangeMsg::kCursorPoised);
+    PY_TYPE_ADD_CONST(CursorChangeMsg, "kCursorClicked", plCursorChangeMsg::kCursorClicked);
+    PY_TYPE_ADD_CONST(CursorChangeMsg, "kCursorUnClicked", plCursorChangeMsg::kCursorUnClicked);
+    PY_TYPE_ADD_CONST(CursorChangeMsg, "kCursorHidden", plCursorChangeMsg::kCursorHidden);
+    PY_TYPE_ADD_CONST(CursorChangeMsg, "kCursorOpen", plCursorChangeMsg::kCursorOpen);
+    PY_TYPE_ADD_CONST(CursorChangeMsg, "kCursorGrab", plCursorChangeMsg::kCursorGrab);
+    PY_TYPE_ADD_CONST(CursorChangeMsg, "kCursorArrow", plCursorChangeMsg::kCursorArrow);
+    PY_TYPE_ADD_CONST(CursorChangeMsg, "kNullCursor", plCursorChangeMsg::kNullCursor);
 
     Py_INCREF(&pyCursorChangeMsg_Type);
     return (PyObject*)&pyCursorChangeMsg_Type;

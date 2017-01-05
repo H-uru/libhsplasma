@@ -181,20 +181,13 @@ PyObject* Init_pyPageInfo_Type() {
     if (PyType_Ready(&pyPageInfo_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyPageInfo_Type.tp_dict, "kPartialPatchFile",
-                         PyInt_FromLong(plPageInfo::kPartialPatchFile));
-    PyDict_SetItemString(pyPageInfo_Type.tp_dict, "kOldDataChecksum",
-                         PyInt_FromLong(plPageInfo::kOldDataChecksum));
-    PyDict_SetItemString(pyPageInfo_Type.tp_dict, "kOldIdxChecksum",
-                         PyInt_FromLong(plPageInfo::kOldIdxChecksum));
-    PyDict_SetItemString(pyPageInfo_Type.tp_dict, "kBasicChecksum",
-                         PyInt_FromLong(plPageInfo::kBasicChecksum));
-    PyDict_SetItemString(pyPageInfo_Type.tp_dict, "kPatchHeaderOnly",
-                         PyInt_FromLong(plPageInfo::kPatchHeaderOnly));
-    PyDict_SetItemString(pyPageInfo_Type.tp_dict, "kChecksumMask",
-                         PyInt_FromLong(plPageInfo::kChecksumMask));
-    PyDict_SetItemString(pyPageInfo_Type.tp_dict, "kPatchFlags",
-                         PyInt_FromLong(plPageInfo::kPatchFlags));
+    PY_TYPE_ADD_CONST(PageInfo, "kPartialPatchFile", plPageInfo::kPartialPatchFile);
+    PY_TYPE_ADD_CONST(PageInfo, "kOldDataChecksum", plPageInfo::kOldDataChecksum);
+    PY_TYPE_ADD_CONST(PageInfo, "kOldIdxChecksum", plPageInfo::kOldIdxChecksum);
+    PY_TYPE_ADD_CONST(PageInfo, "kBasicChecksum", plPageInfo::kBasicChecksum);
+    PY_TYPE_ADD_CONST(PageInfo, "kPatchHeaderOnly", plPageInfo::kPatchHeaderOnly);
+    PY_TYPE_ADD_CONST(PageInfo, "kChecksumMask", plPageInfo::kChecksumMask);
+    PY_TYPE_ADD_CONST(PageInfo, "kPatchFlags", plPageInfo::kPatchFlags);
 
     Py_INCREF(&pyPageInfo_Type);
     return (PyObject*)&pyPageInfo_Type;

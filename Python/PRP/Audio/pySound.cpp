@@ -131,37 +131,23 @@ PyObject* Init_pySound_Type() {
         return NULL;
 
     /* Konstants */
-    PyDict_SetItemString(pySound_Type.tp_dict,
-                         "kPropIs3DSound", PyInt_FromLong(plSound::kPropIs3DSound));
-    PyDict_SetItemString(pySound_Type.tp_dict,
-                         "kPropDisableLOD", PyInt_FromLong(plSound::kPropDisableLOD));
-    PyDict_SetItemString(pySound_Type.tp_dict,
-                         "kPropLooping", PyInt_FromLong(plSound::kPropLooping));
-    PyDict_SetItemString(pySound_Type.tp_dict,
-                         "kPropAutoStart", PyInt_FromLong(plSound::kPropAutoStart));
-    PyDict_SetItemString(pySound_Type.tp_dict,
-                         "kPropLocalOnly", PyInt_FromLong(plSound::kPropLocalOnly));
-    PyDict_SetItemString(pySound_Type.tp_dict,
-                         "kPropLoadOnlyOnCall", PyInt_FromLong(plSound::kPropLoadOnlyOnCall));
-    PyDict_SetItemString(pySound_Type.tp_dict,
-                         "kPropFullyDisabled", PyInt_FromLong(plSound::kPropFullyDisabled));
-    PyDict_SetItemString(pySound_Type.tp_dict,
-                         "kPropDontFade", PyInt_FromLong(plSound::kPropDontFade));
-    PyDict_SetItemString(pySound_Type.tp_dict,
-                         "kPropIncidental", PyInt_FromLong(plSound::kPropIncidental));
+    PY_TYPE_ADD_CONST(Sound, "kPropIs3DSound", plSound::kPropIs3DSound);
+    PY_TYPE_ADD_CONST(Sound, "kPropDisableLOD", plSound::kPropDisableLOD);
+    PY_TYPE_ADD_CONST(Sound, "kPropLooping", plSound::kPropLooping);
+    PY_TYPE_ADD_CONST(Sound, "kPropAutoStart", plSound::kPropAutoStart);
+    PY_TYPE_ADD_CONST(Sound, "kPropLocalOnly", plSound::kPropLocalOnly);
+    PY_TYPE_ADD_CONST(Sound, "kPropLoadOnlyOnCall", plSound::kPropLoadOnlyOnCall);
+    PY_TYPE_ADD_CONST(Sound, "kPropFullyDisabled", plSound::kPropFullyDisabled);
+    PY_TYPE_ADD_CONST(Sound, "kPropDontFade", plSound::kPropDontFade);
+    PY_TYPE_ADD_CONST(Sound, "kPropIncidental", plSound::kPropIncidental);
 
-    PyDict_SetItemString(pySound_Type.tp_dict,
-                         "kSoundFX", PyInt_FromLong(plSound::kSoundFX));
-    PyDict_SetItemString(pySound_Type.tp_dict,
-                         "kAmbience", PyInt_FromLong(plSound::kAmbience));
-    PyDict_SetItemString(pySound_Type.tp_dict,
-                         "kBackgroundMusic", PyInt_FromLong(plSound::kBackgroundMusic));
-    PyDict_SetItemString(pySound_Type.tp_dict,
-                         "kGUISound", PyInt_FromLong(plSound::kGUISound));
-    PyDict_SetItemString(pySound_Type.tp_dict,
-                         "kNPCVoices", PyInt_FromLong(plSound::kNPCVoices));
+    PY_TYPE_ADD_CONST(Sound, "kSoundFX", plSound::kSoundFX);
+    PY_TYPE_ADD_CONST(Sound, "kAmbience", plSound::kAmbience);
+    PY_TYPE_ADD_CONST(Sound, "kBackgroundMusic", plSound::kBackgroundMusic);
+    PY_TYPE_ADD_CONST(Sound, "kGUISound", plSound::kGUISound);
+    PY_TYPE_ADD_CONST(Sound, "kNPCVoices", plSound::kNPCVoices);
 
-    /* Subclass */
+    /* Nested class */
     PyDict_SetItemString(pySound_Type.tp_dict,
                          "plFadeParams", Init_pyFadeParams_Type());
 

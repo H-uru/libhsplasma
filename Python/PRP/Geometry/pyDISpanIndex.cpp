@@ -123,12 +123,9 @@ PyObject* Init_pyDISpanIndex_Type() {
     if (PyType_Ready(&pyDISpanIndex_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyDISpanIndex_Type.tp_dict, "kNone",
-                         PyInt_FromLong(plDISpanIndex::kNone));
-    PyDict_SetItemString(pyDISpanIndex_Type.tp_dict, "kMatrixOnly",
-                         PyInt_FromLong(plDISpanIndex::kMatrixOnly));
-    PyDict_SetItemString(pyDISpanIndex_Type.tp_dict, "kDontTransformSpans",
-                         PyInt_FromLong(plDISpanIndex::kDontTransformSpans));
+    PY_TYPE_ADD_CONST(DISpanIndex, "kNone", plDISpanIndex::kNone);
+    PY_TYPE_ADD_CONST(DISpanIndex, "kMatrixOnly", plDISpanIndex::kMatrixOnly);
+    PY_TYPE_ADD_CONST(DISpanIndex, "kDontTransformSpans", plDISpanIndex::kDontTransformSpans);
 
     Py_INCREF(&pyDISpanIndex_Type);
     return (PyObject*)&pyDISpanIndex_Type;

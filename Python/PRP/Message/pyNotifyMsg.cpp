@@ -156,16 +156,11 @@ PyObject* Init_pyNotifyMsg_Type() {
     if (PyType_Ready(&pyNotifyMsg_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyNotifyMsg_Type.tp_dict, "kActivator",
-                         PyInt_FromLong(plNotifyMsg::kActivator));
-    PyDict_SetItemString(pyNotifyMsg_Type.tp_dict, "kVarNotification",
-                         PyInt_FromLong(plNotifyMsg::kVarNotification));
-    PyDict_SetItemString(pyNotifyMsg_Type.tp_dict, "kNotifySelf",
-                         PyInt_FromLong(plNotifyMsg::kNotifySelf));
-    PyDict_SetItemString(pyNotifyMsg_Type.tp_dict, "kResponderFF",
-                         PyInt_FromLong(plNotifyMsg::kResponderFF));
-    PyDict_SetItemString(pyNotifyMsg_Type.tp_dict, "kResponderChangeState",
-                         PyInt_FromLong(plNotifyMsg::kResponderChangeState));
+    PY_TYPE_ADD_CONST(NotifyMsg, "kActivator", plNotifyMsg::kActivator);
+    PY_TYPE_ADD_CONST(NotifyMsg, "kVarNotification", plNotifyMsg::kVarNotification);
+    PY_TYPE_ADD_CONST(NotifyMsg, "kNotifySelf", plNotifyMsg::kNotifySelf);
+    PY_TYPE_ADD_CONST(NotifyMsg, "kResponderFF", plNotifyMsg::kResponderFF);
+    PY_TYPE_ADD_CONST(NotifyMsg, "kResponderChangeState", plNotifyMsg::kResponderChangeState);
 
     Py_INCREF(&pyNotifyMsg_Type);
     return (PyObject*)&pyNotifyMsg_Type;

@@ -98,10 +98,10 @@ PyObject* Init_pyVolumeSensorConditionalObject_Type() {
     if (PyType_Ready(&pyVolumeSensorConditionalObject_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyVolumeSensorConditionalObject_Type.tp_dict, "kTypeEnter",
-                         PyInt_FromLong(plVolumeSensorConditionalObject::kTypeEnter));
-    PyDict_SetItemString(pyVolumeSensorConditionalObject_Type.tp_dict, "kTypeExit",
-                         PyInt_FromLong(plVolumeSensorConditionalObject::kTypeExit));
+    PY_TYPE_ADD_CONST(VolumeSensorConditionalObject, "kTypeEnter",
+                      plVolumeSensorConditionalObject::kTypeEnter);
+    PY_TYPE_ADD_CONST(VolumeSensorConditionalObject, "kTypeExit",
+                      plVolumeSensorConditionalObject::kTypeExit);
 
     Py_INCREF(&pyVolumeSensorConditionalObject_Type);
     return (PyObject*)&pyVolumeSensorConditionalObject_Type;

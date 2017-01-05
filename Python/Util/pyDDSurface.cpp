@@ -359,239 +359,196 @@ PyObject* Init_pyDDSurface_Type() {
     if (PyType_Ready(&pyDDSurface_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSD_CAPS",
-                         PyInt_FromLong(plDDSurface::DDSD_CAPS));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSD_HEIGHT",
-                         PyInt_FromLong(plDDSurface::DDSD_HEIGHT));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSD_WIDTH",
-                         PyInt_FromLong(plDDSurface::DDSD_WIDTH));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSD_PITCH",
-                         PyInt_FromLong(plDDSurface::DDSD_PITCH));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSD_BACKBUFFERCOUNT",
-                         PyInt_FromLong(plDDSurface::DDSD_BACKBUFFERCOUNT));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSD_ZBUFFERBITDEPTH",
-                         PyInt_FromLong(plDDSurface::DDSD_ZBUFFERBITDEPTH));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSD_ALPHABITDEPTH",
-                         PyInt_FromLong(plDDSurface::DDSD_ALPHABITDEPTH));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSD_LPSURFACE",
-                         PyInt_FromLong(plDDSurface::DDSD_LPSURFACE));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSD_PIXELFORMAT",
-                         PyInt_FromLong(plDDSurface::DDSD_PIXELFORMAT));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSD_CKDESTOVERLAY",
-                         PyInt_FromLong(plDDSurface::DDSD_CKDESTOVERLAY));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSD_CKDESTBLT",
-                         PyInt_FromLong(plDDSurface::DDSD_CKDESTBLT));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSD_CKSRCOVERLAY",
-                         PyInt_FromLong(plDDSurface::DDSD_CKSRCOVERLAY));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSD_CKSRCBLT",
-                         PyInt_FromLong(plDDSurface::DDSD_CKSRCBLT));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSD_MIPMAPCOUNT",
-                         PyInt_FromLong(plDDSurface::DDSD_MIPMAPCOUNT));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSD_REFRESHRATE",
-                         PyInt_FromLong(plDDSurface::DDSD_REFRESHRATE));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSD_LINEARSIZE",
-                         PyInt_FromLong(plDDSurface::DDSD_LINEARSIZE));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSD_TEXTURESTAGE",
-                         PyInt_FromLong(plDDSurface::DDSD_TEXTURESTAGE));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSD_FVF",
-                         PyInt_FromLong(plDDSurface::DDSD_FVF));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSD_SRCVBHANDLE",
-                         PyInt_FromLong(plDDSurface::DDSD_SRCVBHANDLE));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSD_DEPTH",
-                         PyInt_FromLong(plDDSurface::DDSD_DEPTH));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSD_ALL",
-                         PyInt_FromLong(plDDSurface::DDSD_ALL));
+    PY_TYPE_ADD_CONST(DDSurface, "DDSD_CAPS", plDDSurface::DDSD_CAPS);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSD_HEIGHT", plDDSurface::DDSD_HEIGHT);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSD_WIDTH", plDDSurface::DDSD_WIDTH);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSD_PITCH", plDDSurface::DDSD_PITCH);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSD_BACKBUFFERCOUNT", plDDSurface::DDSD_BACKBUFFERCOUNT);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSD_ZBUFFERBITDEPTH", plDDSurface::DDSD_ZBUFFERBITDEPTH);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSD_ALPHABITDEPTH", plDDSurface::DDSD_ALPHABITDEPTH);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSD_LPSURFACE", plDDSurface::DDSD_LPSURFACE);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSD_PIXELFORMAT", plDDSurface::DDSD_PIXELFORMAT);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSD_CKDESTOVERLAY", plDDSurface::DDSD_CKDESTOVERLAY);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSD_CKDESTBLT", plDDSurface::DDSD_CKDESTBLT);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSD_CKSRCOVERLAY", plDDSurface::DDSD_CKSRCOVERLAY);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSD_CKSRCBLT", plDDSurface::DDSD_CKSRCBLT);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSD_MIPMAPCOUNT", plDDSurface::DDSD_MIPMAPCOUNT);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSD_REFRESHRATE", plDDSurface::DDSD_REFRESHRATE);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSD_LINEARSIZE", plDDSurface::DDSD_LINEARSIZE);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSD_TEXTURESTAGE", plDDSurface::DDSD_TEXTURESTAGE);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSD_FVF", plDDSurface::DDSD_FVF);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSD_SRCVBHANDLE", plDDSurface::DDSD_SRCVBHANDLE);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSD_DEPTH", plDDSurface::DDSD_DEPTH);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSD_ALL", plDDSurface::DDSD_ALL);
 
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDPF_ALPHAPIXELS",
-                         PyInt_FromLong(plDDSurface::DDPF_ALPHAPIXELS));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDPF_ALPHA",
-                         PyInt_FromLong(plDDSurface::DDPF_ALPHA));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDPF_FOURCC",
-                         PyInt_FromLong(plDDSurface::DDPF_FOURCC));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDPF_PALETTEINDEXED4",
-                         PyInt_FromLong(plDDSurface::DDPF_PALETTEINDEXED4));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDPF_PALETTEINDEXEDTO8",
-                         PyInt_FromLong(plDDSurface::DDPF_PALETTEINDEXEDTO8));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDPF_PALETTEINDEXED8",
-                         PyInt_FromLong(plDDSurface::DDPF_PALETTEINDEXED8));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDPF_RGB",
-                         PyInt_FromLong(plDDSurface::DDPF_RGB));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDPF_COMPRESSED",
-                         PyInt_FromLong(plDDSurface::DDPF_COMPRESSED));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDPF_RGBTOYUV",
-                         PyInt_FromLong(plDDSurface::DDPF_RGBTOYUV));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDPF_YUV",
-                         PyInt_FromLong(plDDSurface::DDPF_YUV));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDPF_ZBUFFER",
-                         PyInt_FromLong(plDDSurface::DDPF_ZBUFFER));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDPF_PALETTEINDEXED1",
-                         PyInt_FromLong(plDDSurface::DDPF_PALETTEINDEXED1));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDPF_PALETTEINDEXED2",
-                         PyInt_FromLong(plDDSurface::DDPF_PALETTEINDEXED2));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDPF_ZPIXELS",
-                         PyInt_FromLong(plDDSurface::DDPF_ZPIXELS));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDPF_STENCILBUFFER",
-                         PyInt_FromLong(plDDSurface::DDPF_STENCILBUFFER));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDPF_ALPHAPREMULT",
-                         PyInt_FromLong(plDDSurface::DDPF_ALPHAPREMULT));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDPF_LUMINANCE",
-                         PyInt_FromLong(plDDSurface::DDPF_LUMINANCE));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDPF_BUMPLUMINANCE",
-                         PyInt_FromLong(plDDSurface::DDPF_BUMPLUMINANCE));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDPF_BUMPDUDV",
-                         PyInt_FromLong(plDDSurface::DDPF_BUMPDUDV));
+    PY_TYPE_ADD_CONST(DDSurface, "DDPF_ALPHAPIXELS", plDDSurface::DDPF_ALPHAPIXELS);
+    PY_TYPE_ADD_CONST(DDSurface, "DDPF_ALPHA", plDDSurface::DDPF_ALPHA);
+    PY_TYPE_ADD_CONST(DDSurface, "DDPF_FOURCC", plDDSurface::DDPF_FOURCC);
+    PY_TYPE_ADD_CONST(DDSurface, "DDPF_PALETTEINDEXED4", plDDSurface::DDPF_PALETTEINDEXED4);
+    PY_TYPE_ADD_CONST(DDSurface, "DDPF_PALETTEINDEXEDTO8", plDDSurface::DDPF_PALETTEINDEXEDTO8);
+    PY_TYPE_ADD_CONST(DDSurface, "DDPF_PALETTEINDEXED8", plDDSurface::DDPF_PALETTEINDEXED8);
+    PY_TYPE_ADD_CONST(DDSurface, "DDPF_RGB", plDDSurface::DDPF_RGB);
+    PY_TYPE_ADD_CONST(DDSurface, "DDPF_COMPRESSED", plDDSurface::DDPF_COMPRESSED);
+    PY_TYPE_ADD_CONST(DDSurface, "DDPF_RGBTOYUV", plDDSurface::DDPF_RGBTOYUV);
+    PY_TYPE_ADD_CONST(DDSurface, "DDPF_YUV", plDDSurface::DDPF_YUV);
+    PY_TYPE_ADD_CONST(DDSurface, "DDPF_ZBUFFER", plDDSurface::DDPF_ZBUFFER);
+    PY_TYPE_ADD_CONST(DDSurface, "DDPF_PALETTEINDEXED1", plDDSurface::DDPF_PALETTEINDEXED1);
+    PY_TYPE_ADD_CONST(DDSurface, "DDPF_PALETTEINDEXED2", plDDSurface::DDPF_PALETTEINDEXED2);
+    PY_TYPE_ADD_CONST(DDSurface, "DDPF_ZPIXELS", plDDSurface::DDPF_ZPIXELS);
+    PY_TYPE_ADD_CONST(DDSurface, "DDPF_STENCILBUFFER", plDDSurface::DDPF_STENCILBUFFER);
+    PY_TYPE_ADD_CONST(DDSurface, "DDPF_ALPHAPREMULT", plDDSurface::DDPF_ALPHAPREMULT);
+    PY_TYPE_ADD_CONST(DDSurface, "DDPF_LUMINANCE", plDDSurface::DDPF_LUMINANCE);
+    PY_TYPE_ADD_CONST(DDSurface, "DDPF_BUMPLUMINANCE", plDDSurface::DDPF_BUMPLUMINANCE);
+    PY_TYPE_ADD_CONST(DDSurface, "DDPF_BUMPDUDV", plDDSurface::DDPF_BUMPDUDV);
 
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_RESERVED1",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_RESERVED1));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_ALPHA",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_ALPHA));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_BACKBUFFER",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_BACKBUFFER));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_COMPLEX",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_COMPLEX));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_FLIP",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_FLIP));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_FRONTBUFFER",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_FRONTBUFFER));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_OFFSCREENPLAIN",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_OFFSCREENPLAIN));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_OVERLAY",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_OVERLAY));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_PALETTE",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_PALETTE));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_PRIMARYSURFACE",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_PRIMARYSURFACE));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_PRIMARYSURFACELEFT",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_PRIMARYSURFACELEFT));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_SYSTEMMEMORY",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_SYSTEMMEMORY));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_TEXTURE",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_TEXTURE));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_3DDEVICE",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_3DDEVICE));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_VIDEOMEMORY",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_VIDEOMEMORY));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_VISIBLE",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_VISIBLE));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_WRITEONLY",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_WRITEONLY));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_ZBUFFER",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_ZBUFFER));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_OWNDC",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_OWNDC));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_LIVEVIDEO",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_LIVEVIDEO));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_HWCODEC",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_HWCODEC));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_MODEX",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_MODEX));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_MIPMAP",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_MIPMAP));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_RESERVED2",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_RESERVED2));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_ALLOCONLOAD",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_ALLOCONLOAD));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_VIDEOPORT",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_VIDEOPORT));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_LOCALVIDMEM",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_LOCALVIDMEM));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_NONLOCALVIDMEM",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_NONLOCALVIDMEM));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_STANDARDVGAMODE",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_STANDARDVGAMODE));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS_OPTIMIZED",
-                         PyInt_FromLong(plDDSurface::DDSCAPS_OPTIMIZED));
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_RESERVED1",
+                      plDDSurface::DDSCAPS_RESERVED1);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_ALPHA",
+                      plDDSurface::DDSCAPS_ALPHA);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_BACKBUFFER",
+                      plDDSurface::DDSCAPS_BACKBUFFER);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_COMPLEX",
+                      plDDSurface::DDSCAPS_COMPLEX);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_FLIP",
+                      plDDSurface::DDSCAPS_FLIP);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_FRONTBUFFER",
+                      plDDSurface::DDSCAPS_FRONTBUFFER);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_OFFSCREENPLAIN",
+                      plDDSurface::DDSCAPS_OFFSCREENPLAIN);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_OVERLAY",
+                      plDDSurface::DDSCAPS_OVERLAY);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_PALETTE",
+                      plDDSurface::DDSCAPS_PALETTE);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_PRIMARYSURFACE",
+                      plDDSurface::DDSCAPS_PRIMARYSURFACE);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_PRIMARYSURFACELEFT",
+                      plDDSurface::DDSCAPS_PRIMARYSURFACELEFT);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_SYSTEMMEMORY",
+                      plDDSurface::DDSCAPS_SYSTEMMEMORY);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_TEXTURE",
+                      plDDSurface::DDSCAPS_TEXTURE);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_3DDEVICE",
+                      plDDSurface::DDSCAPS_3DDEVICE);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_VIDEOMEMORY",
+                      plDDSurface::DDSCAPS_VIDEOMEMORY);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_VISIBLE",
+                      plDDSurface::DDSCAPS_VISIBLE);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_WRITEONLY",
+                      plDDSurface::DDSCAPS_WRITEONLY);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_ZBUFFER",
+                      plDDSurface::DDSCAPS_ZBUFFER);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_OWNDC",
+                      plDDSurface::DDSCAPS_OWNDC);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_LIVEVIDEO",
+                      plDDSurface::DDSCAPS_LIVEVIDEO);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_HWCODEC",
+                      plDDSurface::DDSCAPS_HWCODEC);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_MODEX",
+                      plDDSurface::DDSCAPS_MODEX);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_MIPMAP",
+                      plDDSurface::DDSCAPS_MIPMAP);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_RESERVED2",
+                      plDDSurface::DDSCAPS_RESERVED2);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_ALLOCONLOAD",
+                      plDDSurface::DDSCAPS_ALLOCONLOAD);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_VIDEOPORT",
+                      plDDSurface::DDSCAPS_VIDEOPORT);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_LOCALVIDMEM",
+                      plDDSurface::DDSCAPS_LOCALVIDMEM);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_NONLOCALVIDMEM",
+                      plDDSurface::DDSCAPS_NONLOCALVIDMEM);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_STANDARDVGAMODE",
+                      plDDSurface::DDSCAPS_STANDARDVGAMODE);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS_OPTIMIZED",
+                      plDDSurface::DDSCAPS_OPTIMIZED);
 
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_HARDWAREDEINTERLACE",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_HARDWAREDEINTERLACE));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_HINTDYNAMIC",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_HINTDYNAMIC));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_HINTSTATIC",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_HINTSTATIC));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_TEXTUREMANAGE",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_TEXTUREMANAGE));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_RESERVED1",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_RESERVED1));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_RESERVED2",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_RESERVED2));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_OPAQUE",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_OPAQUE));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_HINTALIASING",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_HINTALIASING));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_CUBEMAP",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_CUBEMAP));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_CUBEMAP_POSITIVEX",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_CUBEMAP_POSITIVEX));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_CUBEMAP_NEGATIVEX",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_CUBEMAP_NEGATIVEX));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_CUBEMAP_POSITIVEY",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_CUBEMAP_POSITIVEY));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_CUBEMAP_NEGATIVEY",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_CUBEMAP_NEGATIVEY));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_CUBEMAP_POSITIVEZ",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_CUBEMAP_POSITIVEZ));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_CUBEMAP_NEGATIVEZ",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_CUBEMAP_NEGATIVEZ));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_CUBEMAP_ALLFACES",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_CUBEMAP_ALLFACES));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_MIPMAPSUBLEVEL",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_MIPMAPSUBLEVEL));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_D3DTEXTUREMANAGE",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_D3DTEXTUREMANAGE));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_DONOTPERSIST",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_DONOTPERSIST));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_STEREOSURFACELEFT",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_STEREOSURFACELEFT));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_VOLUME",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_VOLUME));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_NOTUSERLOCKABLE",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_NOTUSERLOCKABLE));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_POINTS",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_POINTS));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_RTPATCHES",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_RTPATCHES));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_NPATCHES",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_NPATCHES));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_RESERVED3",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_RESERVED3));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_DISCARDBACKBUFFER",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_DISCARDBACKBUFFER));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_ENABLEALPHACHANNEL",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_ENABLEALPHACHANNEL));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_EXTENDEDFORMATPRIMARY",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_EXTENDEDFORMATPRIMARY));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS2_ADDITIONALPRIMARY",
-                         PyInt_FromLong(plDDSurface::DDSCAPS2_ADDITIONALPRIMARY));
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_HARDWAREDEINTERLACE",
+                      plDDSurface::DDSCAPS2_HARDWAREDEINTERLACE);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_HINTDYNAMIC",
+                      plDDSurface::DDSCAPS2_HINTDYNAMIC);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_HINTSTATIC",
+                      plDDSurface::DDSCAPS2_HINTSTATIC);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_TEXTUREMANAGE",
+                      plDDSurface::DDSCAPS2_TEXTUREMANAGE);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_RESERVED1",
+                      plDDSurface::DDSCAPS2_RESERVED1);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_RESERVED2",
+                      plDDSurface::DDSCAPS2_RESERVED2);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_OPAQUE",
+                      plDDSurface::DDSCAPS2_OPAQUE);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_HINTALIASING",
+                      plDDSurface::DDSCAPS2_HINTALIASING);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_CUBEMAP",
+                      plDDSurface::DDSCAPS2_CUBEMAP);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_CUBEMAP_POSITIVEX",
+                      plDDSurface::DDSCAPS2_CUBEMAP_POSITIVEX);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_CUBEMAP_NEGATIVEX",
+                      plDDSurface::DDSCAPS2_CUBEMAP_NEGATIVEX);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_CUBEMAP_POSITIVEY",
+                      plDDSurface::DDSCAPS2_CUBEMAP_POSITIVEY);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_CUBEMAP_NEGATIVEY",
+                      plDDSurface::DDSCAPS2_CUBEMAP_NEGATIVEY);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_CUBEMAP_POSITIVEZ",
+                      plDDSurface::DDSCAPS2_CUBEMAP_POSITIVEZ);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_CUBEMAP_NEGATIVEZ",
+                      plDDSurface::DDSCAPS2_CUBEMAP_NEGATIVEZ);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_CUBEMAP_ALLFACES",
+                      plDDSurface::DDSCAPS2_CUBEMAP_ALLFACES);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_MIPMAPSUBLEVEL",
+                      plDDSurface::DDSCAPS2_MIPMAPSUBLEVEL);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_D3DTEXTUREMANAGE",
+                      plDDSurface::DDSCAPS2_D3DTEXTUREMANAGE);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_DONOTPERSIST",
+                      plDDSurface::DDSCAPS2_DONOTPERSIST);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_STEREOSURFACELEFT",
+                      plDDSurface::DDSCAPS2_STEREOSURFACELEFT);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_VOLUME",
+                      plDDSurface::DDSCAPS2_VOLUME);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_NOTUSERLOCKABLE",
+                      plDDSurface::DDSCAPS2_NOTUSERLOCKABLE);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_POINTS",
+                      plDDSurface::DDSCAPS2_POINTS);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_RTPATCHES",
+                      plDDSurface::DDSCAPS2_RTPATCHES);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_NPATCHES",
+                      plDDSurface::DDSCAPS2_NPATCHES);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_RESERVED3",
+                      plDDSurface::DDSCAPS2_RESERVED3);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_DISCARDBACKBUFFER",
+                      plDDSurface::DDSCAPS2_DISCARDBACKBUFFER);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_ENABLEALPHACHANNEL",
+                      plDDSurface::DDSCAPS2_ENABLEALPHACHANNEL);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_EXTENDEDFORMATPRIMARY",
+                      plDDSurface::DDSCAPS2_EXTENDEDFORMATPRIMARY);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS2_ADDITIONALPRIMARY",
+                      plDDSurface::DDSCAPS2_ADDITIONALPRIMARY);
 
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS3_MULTISAMPLE_MASK",
-                         PyInt_FromLong(plDDSurface::DDSCAPS3_MULTISAMPLE_MASK));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS3_MULTISAMPLE_QUALITY_MASK",
-                         PyInt_FromLong(plDDSurface::DDSCAPS3_MULTISAMPLE_QUALITY_MASK));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS3_MULTISAMPLE_QUALITY_SHIFT",
-                         PyInt_FromLong(plDDSurface::DDSCAPS3_MULTISAMPLE_QUALITY_SHIFT));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS3_RESERVED1",
-                         PyInt_FromLong(plDDSurface::DDSCAPS3_RESERVED1));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS3_RESERVED2",
-                         PyInt_FromLong(plDDSurface::DDSCAPS3_RESERVED2));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS3_LIGHTWEIGHTMIPMAP",
-                         PyInt_FromLong(plDDSurface::DDSCAPS3_LIGHTWEIGHTMIPMAP));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS3_AUTOGENMIPMAP",
-                         PyInt_FromLong(plDDSurface::DDSCAPS3_AUTOGENMIPMAP));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS3_DMAP",
-                         PyInt_FromLong(plDDSurface::DDSCAPS3_DMAP));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS3_CREATESHAREDRESOURCE",
-                         PyInt_FromLong(plDDSurface::DDSCAPS3_CREATESHAREDRESOURCE));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS3_READONLYRESOURCE",
-                         PyInt_FromLong(plDDSurface::DDSCAPS3_READONLYRESOURCE));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "DDSCAPS3_OPENSHAREDRESOURCE",
-                         PyInt_FromLong(plDDSurface::DDSCAPS3_OPENSHAREDRESOURCE));
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS3_MULTISAMPLE_MASK",
+                      plDDSurface::DDSCAPS3_MULTISAMPLE_MASK);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS3_MULTISAMPLE_QUALITY_MASK",
+                      plDDSurface::DDSCAPS3_MULTISAMPLE_QUALITY_MASK);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS3_MULTISAMPLE_QUALITY_SHIFT",
+                      plDDSurface::DDSCAPS3_MULTISAMPLE_QUALITY_SHIFT);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS3_RESERVED1",
+                      plDDSurface::DDSCAPS3_RESERVED1);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS3_RESERVED2",
+                      plDDSurface::DDSCAPS3_RESERVED2);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS3_LIGHTWEIGHTMIPMAP",
+                      plDDSurface::DDSCAPS3_LIGHTWEIGHTMIPMAP);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS3_AUTOGENMIPMAP",
+                      plDDSurface::DDSCAPS3_AUTOGENMIPMAP);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS3_DMAP",
+                      plDDSurface::DDSCAPS3_DMAP);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS3_CREATESHAREDRESOURCE",
+                      plDDSurface::DDSCAPS3_CREATESHAREDRESOURCE);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS3_READONLYRESOURCE",
+                      plDDSurface::DDSCAPS3_READONLYRESOURCE);
+    PY_TYPE_ADD_CONST(DDSurface, "DDSCAPS3_OPENSHAREDRESOURCE",
+                      plDDSurface::DDSCAPS3_OPENSHAREDRESOURCE);
 
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "FOURCC_DXT1",
-                         PyInt_FromLong(plDDSurface::FOURCC_DXT1));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "FOURCC_DXT3",
-                         PyInt_FromLong(plDDSurface::FOURCC_DXT3));
-    PyDict_SetItemString(pyDDSurface_Type.tp_dict, "FOURCC_DXT5",
-                         PyInt_FromLong(plDDSurface::FOURCC_DXT5));
+    PY_TYPE_ADD_CONST(DDSurface, "FOURCC_DXT1", plDDSurface::FOURCC_DXT1);
+    PY_TYPE_ADD_CONST(DDSurface, "FOURCC_DXT3", plDDSurface::FOURCC_DXT3);
+    PY_TYPE_ADD_CONST(DDSurface, "FOURCC_DXT5", plDDSurface::FOURCC_DXT5);
 
     Py_INCREF(&pyDDSurface_Type);
     return (PyObject*)&pyDDSurface_Type;

@@ -187,42 +187,42 @@ PyObject* Init_pySynchedObject_Type() {
         return NULL;
 
     /* Flags */
-    PyDict_SetItemString(pySynchedObject_Type.tp_dict, "kDontDirty",
-                         PyInt_FromLong(plSynchedObject::kDontDirty));
-    PyDict_SetItemString(pySynchedObject_Type.tp_dict, "kSendReliably",
-                         PyInt_FromLong(plSynchedObject::kSendReliably));
-    PyDict_SetItemString(pySynchedObject_Type.tp_dict, "kHasConstantNetGroup",
-                         PyInt_FromLong(plSynchedObject::kHasConstantNetGroup));
-    PyDict_SetItemString(pySynchedObject_Type.tp_dict, "kDontSynchGameMessages",
-                         PyInt_FromLong(plSynchedObject::kDontSynchGameMessages));
-    PyDict_SetItemString(pySynchedObject_Type.tp_dict, "kExcludePersistentState",
-                         PyInt_FromLong(plSynchedObject::kExcludePersistentState));
-    PyDict_SetItemString(pySynchedObject_Type.tp_dict, "kExcludeAllPersistentState",
-                         PyInt_FromLong(plSynchedObject::kExcludeAllPersistentState));
-    PyDict_SetItemString(pySynchedObject_Type.tp_dict, "kLocalOnly",
-                         PyInt_FromLong(plSynchedObject::kLocalOnly));
-    PyDict_SetItemString(pySynchedObject_Type.tp_dict, "kHasVolatileState",
-                         PyInt_FromLong(plSynchedObject::kHasVolatileState));
-    PyDict_SetItemString(pySynchedObject_Type.tp_dict, "kAllStateIsVolatile",
-                         PyInt_FromLong(plSynchedObject::kAllStateIsVolatile));
+    PY_TYPE_ADD_CONST(SynchedObject, "kDontDirty",
+                      plSynchedObject::kDontDirty);
+    PY_TYPE_ADD_CONST(SynchedObject, "kSendReliably",
+                      plSynchedObject::kSendReliably);
+    PY_TYPE_ADD_CONST(SynchedObject, "kHasConstantNetGroup",
+                      plSynchedObject::kHasConstantNetGroup);
+    PY_TYPE_ADD_CONST(SynchedObject, "kDontSynchGameMessages",
+                      plSynchedObject::kDontSynchGameMessages);
+    PY_TYPE_ADD_CONST(SynchedObject, "kExcludePersistentState",
+                      plSynchedObject::kExcludePersistentState);
+    PY_TYPE_ADD_CONST(SynchedObject, "kExcludeAllPersistentState",
+                      plSynchedObject::kExcludeAllPersistentState);
+    PY_TYPE_ADD_CONST(SynchedObject, "kLocalOnly",
+                      plSynchedObject::kLocalOnly);
+    PY_TYPE_ADD_CONST(SynchedObject, "kHasVolatileState",
+                      plSynchedObject::kHasVolatileState);
+    PY_TYPE_ADD_CONST(SynchedObject, "kAllStateIsVolatile",
+                      plSynchedObject::kAllStateIsVolatile);
 
     /* SDLSendFlags -- stored in some messages */
-    PyDict_SetItemString(pySynchedObject_Type.tp_dict, "kBCastToClients",
-                         PyInt_FromLong(plSynchedObject::kBCastToClients));
-    PyDict_SetItemString(pySynchedObject_Type.tp_dict, "kForceFullSend",
-                         PyInt_FromLong(plSynchedObject::kForceFullSend));
-    PyDict_SetItemString(pySynchedObject_Type.tp_dict, "kSkipLocalOwnershipCheck",
-                         PyInt_FromLong(plSynchedObject::kSkipLocalOwnershipCheck));
-    PyDict_SetItemString(pySynchedObject_Type.tp_dict, "kSendImmediately",
-                         PyInt_FromLong(plSynchedObject::kSendImmediately));
-    PyDict_SetItemString(pySynchedObject_Type.tp_dict, "kDontPersistOnServer",
-                         PyInt_FromLong(plSynchedObject::kDontPersistOnServer));
-    PyDict_SetItemString(pySynchedObject_Type.tp_dict, "kUseRelevanceRegions",
-                         PyInt_FromLong(plSynchedObject::kUseRelevanceRegions));
-    PyDict_SetItemString(pySynchedObject_Type.tp_dict, "kNewState",
-                         PyInt_FromLong(plSynchedObject::kNewState));
-    PyDict_SetItemString(pySynchedObject_Type.tp_dict, "kIsAvatarState",
-                         PyInt_FromLong(plSynchedObject::kIsAvatarState));
+    PY_TYPE_ADD_CONST(SynchedObject, "kBCastToClients",
+                      plSynchedObject::kBCastToClients);
+    PY_TYPE_ADD_CONST(SynchedObject, "kForceFullSend",
+                      plSynchedObject::kForceFullSend);
+    PY_TYPE_ADD_CONST(SynchedObject, "kSkipLocalOwnershipCheck",
+                      plSynchedObject::kSkipLocalOwnershipCheck);
+    PY_TYPE_ADD_CONST(SynchedObject, "kSendImmediately",
+                      plSynchedObject::kSendImmediately);
+    PY_TYPE_ADD_CONST(SynchedObject, "kDontPersistOnServer",
+                      plSynchedObject::kDontPersistOnServer);
+    PY_TYPE_ADD_CONST(SynchedObject, "kUseRelevanceRegions",
+                      plSynchedObject::kUseRelevanceRegions);
+    PY_TYPE_ADD_CONST(SynchedObject, "kNewState",
+                      plSynchedObject::kNewState);
+    PY_TYPE_ADD_CONST(SynchedObject, "kIsAvatarState",
+                      plSynchedObject::kIsAvatarState);
 
     Py_INCREF(&pySynchedObject_Type);
     return (PyObject*)&pySynchedObject_Type;

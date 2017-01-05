@@ -210,26 +210,16 @@ PyObject* Init_pyAnimTimeConvert_Type() {
     if (PyType_Ready(&pyAnimTimeConvert_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyAnimTimeConvert_Type.tp_dict, "kNone",
-                         PyInt_FromLong(plAnimTimeConvert::kNone));
-    PyDict_SetItemString(pyAnimTimeConvert_Type.tp_dict, "kStopped",
-                         PyInt_FromLong(plAnimTimeConvert::kStopped));
-    PyDict_SetItemString(pyAnimTimeConvert_Type.tp_dict, "kLoop",
-                         PyInt_FromLong(plAnimTimeConvert::kLoop));
-    PyDict_SetItemString(pyAnimTimeConvert_Type.tp_dict, "kBackwards",
-                         PyInt_FromLong(plAnimTimeConvert::kBackwards));
-    PyDict_SetItemString(pyAnimTimeConvert_Type.tp_dict, "kWrap",
-                         PyInt_FromLong(plAnimTimeConvert::kWrap));
-    PyDict_SetItemString(pyAnimTimeConvert_Type.tp_dict, "kNeedsReset",
-                         PyInt_FromLong(plAnimTimeConvert::kNeedsReset));
-    PyDict_SetItemString(pyAnimTimeConvert_Type.tp_dict, "kEasingIn",
-                         PyInt_FromLong(plAnimTimeConvert::kEasingIn));
-    PyDict_SetItemString(pyAnimTimeConvert_Type.tp_dict, "kForcedMove",
-                         PyInt_FromLong(plAnimTimeConvert::kForcedMove));
-    PyDict_SetItemString(pyAnimTimeConvert_Type.tp_dict, "kNoCallbacks",
-                         PyInt_FromLong(plAnimTimeConvert::kNoCallbacks));
-    PyDict_SetItemString(pyAnimTimeConvert_Type.tp_dict, "kFlagsMask",
-                         PyInt_FromLong(plAnimTimeConvert::kFlagsMask));
+    PY_TYPE_ADD_CONST(AnimTimeConvert, "kNone", plAnimTimeConvert::kNone);
+    PY_TYPE_ADD_CONST(AnimTimeConvert, "kStopped",plAnimTimeConvert::kStopped);
+    PY_TYPE_ADD_CONST(AnimTimeConvert, "kLoop",plAnimTimeConvert::kLoop);
+    PY_TYPE_ADD_CONST(AnimTimeConvert, "kBackwards",plAnimTimeConvert::kBackwards);
+    PY_TYPE_ADD_CONST(AnimTimeConvert, "kWrap",plAnimTimeConvert::kWrap);
+    PY_TYPE_ADD_CONST(AnimTimeConvert, "kNeedsReset",plAnimTimeConvert::kNeedsReset);
+    PY_TYPE_ADD_CONST(AnimTimeConvert, "kEasingIn",plAnimTimeConvert::kEasingIn);
+    PY_TYPE_ADD_CONST(AnimTimeConvert, "kForcedMove",plAnimTimeConvert::kForcedMove);
+    PY_TYPE_ADD_CONST(AnimTimeConvert, "kNoCallbacks",plAnimTimeConvert::kNoCallbacks);
+    PY_TYPE_ADD_CONST(AnimTimeConvert, "kFlagsMask",plAnimTimeConvert::kFlagsMask);
 
     Py_INCREF(&pyAnimTimeConvert_Type);
     return (PyObject*)&pyAnimTimeConvert_Type;

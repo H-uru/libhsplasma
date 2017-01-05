@@ -299,58 +299,33 @@ PyObject* Init_pyGeometrySpan_Type() {
         return NULL;
 
     // Format
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kUVCountMask",
-                         PyInt_FromLong(plGeometrySpan::kUVCountMask));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kSkinNoWeights",
-                         PyInt_FromLong(plGeometrySpan::kSkinNoWeights));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kSkin1Weight",
-                         PyInt_FromLong(plGeometrySpan::kSkin1Weight));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kSkin2Weights",
-                         PyInt_FromLong(plGeometrySpan::kSkin2Weights));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kSkin3Weights",
-                         PyInt_FromLong(plGeometrySpan::kSkin3Weights));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kSkinWeightMask",
-                         PyInt_FromLong(plGeometrySpan::kSkinWeightMask));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kSkinIndices",
-                         PyInt_FromLong(plGeometrySpan::kSkinIndices));
+    PY_TYPE_ADD_CONST(GeometrySpan, "kUVCountMask", plGeometrySpan::kUVCountMask);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kSkinNoWeights", plGeometrySpan::kSkinNoWeights);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kSkin1Weight", plGeometrySpan::kSkin1Weight);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kSkin2Weights", plGeometrySpan::kSkin2Weights);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kSkin3Weights", plGeometrySpan::kSkin3Weights);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kSkinWeightMask", plGeometrySpan::kSkinWeightMask);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kSkinIndices", plGeometrySpan::kSkinIndices);
 
     // Properties
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kLiteMaterial",
-                         PyInt_FromLong(plGeometrySpan::kLiteMaterial));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kPropRunTimeLight",
-                         PyInt_FromLong(plGeometrySpan::kPropRunTimeLight));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kPropNoPreShade",
-                         PyInt_FromLong(plGeometrySpan::kPropNoPreShade));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kLiteVtxPreshaded",
-                         PyInt_FromLong(plGeometrySpan::kLiteVtxPreshaded));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kLiteVtxNonPreshaded",
-                         PyInt_FromLong(plGeometrySpan::kLiteVtxNonPreshaded));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kLiteMask",
-                         PyInt_FromLong(plGeometrySpan::kLiteMask));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kRequiresBlending",
-                         PyInt_FromLong(plGeometrySpan::kRequiresBlending));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kInstanced",
-                         PyInt_FromLong(plGeometrySpan::kInstanced));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kUserOwned",
-                         PyInt_FromLong(plGeometrySpan::kUserOwned));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kPropNoShadow",
-                         PyInt_FromLong(plGeometrySpan::kPropNoShadow));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kPropForceShadow",
-                         PyInt_FromLong(plGeometrySpan::kPropForceShadow));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kDiffuseFoldedIn",
-                         PyInt_FromLong(plGeometrySpan::kDiffuseFoldedIn));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kPropReverseSort",
-                         PyInt_FromLong(plGeometrySpan::kPropReverseSort));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kWaterHeight",
-                         PyInt_FromLong(plGeometrySpan::kWaterHeight));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kFirstInstance",
-                         PyInt_FromLong(plGeometrySpan::kFirstInstance));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kPartialSort",
-                         PyInt_FromLong(plGeometrySpan::kPartialSort));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kVisLOS",
-                         PyInt_FromLong(plGeometrySpan::kVisLOS));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kPropNoShadowCast",
-                         PyInt_FromLong(plGeometrySpan::kPropNoShadowCast));
+    PY_TYPE_ADD_CONST(GeometrySpan, "kLiteMaterial", plGeometrySpan::kLiteMaterial);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kPropRunTimeLight", plGeometrySpan::kPropRunTimeLight);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kPropNoPreShade", plGeometrySpan::kPropNoPreShade);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kLiteVtxPreshaded", plGeometrySpan::kLiteVtxPreshaded);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kLiteVtxNonPreshaded", plGeometrySpan::kLiteVtxNonPreshaded);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kLiteMask", plGeometrySpan::kLiteMask);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kRequiresBlending", plGeometrySpan::kRequiresBlending);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kInstanced", plGeometrySpan::kInstanced);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kUserOwned", plGeometrySpan::kUserOwned);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kPropNoShadow", plGeometrySpan::kPropNoShadow);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kPropForceShadow", plGeometrySpan::kPropForceShadow);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kDiffuseFoldedIn", plGeometrySpan::kDiffuseFoldedIn);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kPropReverseSort", plGeometrySpan::kPropReverseSort);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kWaterHeight", plGeometrySpan::kWaterHeight);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kFirstInstance", plGeometrySpan::kFirstInstance);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kPartialSort", plGeometrySpan::kPartialSort);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kVisLOS", plGeometrySpan::kVisLOS);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kPropNoShadowCast", plGeometrySpan::kPropNoShadowCast);
 
     // TempVertex class thing
     PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "TempVertex",

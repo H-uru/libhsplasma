@@ -95,10 +95,8 @@ PyObject* Init_pyExcludeRegionMsg_Type() {
     if (PyType_Ready(&pyExcludeRegionMsg_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyExcludeRegionMsg_Type.tp_dict, "kClear",
-                         PyInt_FromLong(plExcludeRegionMsg::kClear));
-    PyDict_SetItemString(pyExcludeRegionMsg_Type.tp_dict, "kRelease",
-                         PyInt_FromLong(plExcludeRegionMsg::kRelease));
+    PY_TYPE_ADD_CONST(ExcludeRegionMsg, "kClear", plExcludeRegionMsg::kClear);
+    PY_TYPE_ADD_CONST(ExcludeRegionMsg, "kRelease", plExcludeRegionMsg::kRelease);
 
     Py_INCREF(&pyExcludeRegionMsg_Type);
     return (PyObject*)&pyExcludeRegionMsg_Type;

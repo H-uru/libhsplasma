@@ -95,15 +95,12 @@ PyObject* Init_pyMaintainersMarkerModifier_Type() {
     if (PyType_Ready(&pyMaintainersMarkerModifier_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyMaintainersMarkerModifier_Type.tp_dict,
-            "kBroken",
-            PyInt_FromLong(plMaintainersMarkerModifier::kBroken));
-    PyDict_SetItemString(pyMaintainersMarkerModifier_Type.tp_dict,
-            "kRepaired",
-            PyInt_FromLong(plMaintainersMarkerModifier::kRepaired));
-    PyDict_SetItemString(pyMaintainersMarkerModifier_Type.tp_dict,
-            "kCalibrated",
-            PyInt_FromLong(plMaintainersMarkerModifier::kCalibrated));
+    PY_TYPE_ADD_CONST(MaintainersMarkerModifier, "kBroken",
+                      plMaintainersMarkerModifier::kBroken);
+    PY_TYPE_ADD_CONST(MaintainersMarkerModifier, "kRepaired",
+                      plMaintainersMarkerModifier::kRepaired);
+    PY_TYPE_ADD_CONST(MaintainersMarkerModifier, "kCalibrated",
+                      plMaintainersMarkerModifier::kCalibrated);
 
     Py_INCREF(&pyMaintainersMarkerModifier_Type);
     return (PyObject*)&pyMaintainersMarkerModifier_Type;

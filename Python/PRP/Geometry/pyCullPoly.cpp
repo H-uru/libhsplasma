@@ -134,12 +134,9 @@ PyObject* Init_pyCullPoly_Type() {
     if (PyType_Ready(&pyCullPoly_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyCullPoly_Type.tp_dict, "kNone",
-                         PyInt_FromLong(plCullPoly::kNone));
-    PyDict_SetItemString(pyCullPoly_Type.tp_dict, "kHole",
-                         PyInt_FromLong(plCullPoly::kHole));
-    PyDict_SetItemString(pyCullPoly_Type.tp_dict, "kTwoSided",
-                         PyInt_FromLong(plCullPoly::kTwoSided));
+    PY_TYPE_ADD_CONST(CullPoly, "kNone", plCullPoly::kNone);
+    PY_TYPE_ADD_CONST(CullPoly, "kHole", plCullPoly::kHole);
+    PY_TYPE_ADD_CONST(CullPoly, "kTwoSided", plCullPoly::kTwoSided);
 
     Py_INCREF(&pyCullPoly_Type);
     return (PyObject*)&pyCullPoly_Type;

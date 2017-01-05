@@ -154,8 +154,8 @@ PyObject* Init_pyExcludeRegionModifier_Type() {
     if (PyType_Ready(&pyExcludeRegionModifier_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyExcludeRegionModifier_Type.tp_dict, "kBlockCameras",
-                         PyInt_FromLong(plExcludeRegionModifier::kBlockCameras));
+    PY_TYPE_ADD_CONST(ExcludeRegionModifier, "kBlockCameras",
+                      plExcludeRegionModifier::kBlockCameras);
 
     Py_INCREF(&pyExcludeRegionModifier_Type);
     return (PyObject*)&pyExcludeRegionModifier_Type;

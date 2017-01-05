@@ -101,12 +101,9 @@ PyObject* Init_pyFadeParams_Type() {
     if (PyType_Ready(&pyFadeParams_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyFadeParams_Type.tp_dict,
-                         "kLinear", PyInt_FromLong(plSound::plFadeParams::kLinear));
-    PyDict_SetItemString(pyFadeParams_Type.tp_dict,
-                         "kLogarithmic", PyInt_FromLong(plSound::plFadeParams::kLogarithmic));
-    PyDict_SetItemString(pyFadeParams_Type.tp_dict,
-                         "kExponential", PyInt_FromLong(plSound::plFadeParams::kExponential));
+    PY_TYPE_ADD_CONST(FadeParams, "kLinear", plSound::plFadeParams::kLinear);
+    PY_TYPE_ADD_CONST(FadeParams, "kLogarithmic", plSound::plFadeParams::kLogarithmic);
+    PY_TYPE_ADD_CONST(FadeParams, "kExponential", plSound::plFadeParams::kExponential);
 
     Py_INCREF(&pyFadeParams_Type);
     return (PyObject*)&pyFadeParams_Type;

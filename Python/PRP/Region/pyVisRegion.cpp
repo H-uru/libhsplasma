@@ -96,14 +96,10 @@ PyObject* Init_pyVisRegion_Type() {
     if (PyType_Ready(&pyVisRegion_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyVisRegion_Type.tp_dict, "kDisable",
-                         PyInt_FromLong(plVisRegion::kDisable));
-    PyDict_SetItemString(pyVisRegion_Type.tp_dict, "kIsNot",
-                         PyInt_FromLong(plVisRegion::kIsNot));
-    PyDict_SetItemString(pyVisRegion_Type.tp_dict, "kReplaceNormal",
-                         PyInt_FromLong(plVisRegion::kReplaceNormal));
-    PyDict_SetItemString(pyVisRegion_Type.tp_dict, "kDisableNormal",
-                         PyInt_FromLong(plVisRegion::kDisableNormal));
+    PY_TYPE_ADD_CONST(VisRegion, "kDisable", plVisRegion::kDisable);
+    PY_TYPE_ADD_CONST(VisRegion, "kIsNot", plVisRegion::kIsNot);
+    PY_TYPE_ADD_CONST(VisRegion, "kReplaceNormal", plVisRegion::kReplaceNormal);
+    PY_TYPE_ADD_CONST(VisRegion, "kDisableNormal", plVisRegion::kDisableNormal);
 
     Py_INCREF(&pyVisRegion_Type);
     return (PyObject*)&pyVisRegion_Type;

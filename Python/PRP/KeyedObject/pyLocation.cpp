@@ -256,16 +256,11 @@ PyObject* Init_pyLocation_Type() {
     if (PyType_Ready(&pyLocation_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyLocation_Type.tp_dict, "kLocalOnly",
-                         PyInt_FromLong(plLocation::kLocalOnly));
-    PyDict_SetItemString(pyLocation_Type.tp_dict, "kVolatile",
-                         PyInt_FromLong(plLocation::kVolatile));
-    PyDict_SetItemString(pyLocation_Type.tp_dict, "kReserved",
-                         PyInt_FromLong(plLocation::kReserved));
-    PyDict_SetItemString(pyLocation_Type.tp_dict, "kBuiltIn",
-                         PyInt_FromLong(plLocation::kBuiltIn));
-    PyDict_SetItemString(pyLocation_Type.tp_dict, "kItinerant",
-                         PyInt_FromLong(plLocation::kItinerant));
+    PY_TYPE_ADD_CONST(Location, "kLocalOnly", plLocation::kLocalOnly);
+    PY_TYPE_ADD_CONST(Location, "kVolatile", plLocation::kVolatile);
+    PY_TYPE_ADD_CONST(Location, "kReserved", plLocation::kReserved);
+    PY_TYPE_ADD_CONST(Location, "kBuiltIn", plLocation::kBuiltIn);
+    PY_TYPE_ADD_CONST(Location, "kItinerant", plLocation::kItinerant);
 
     Py_INCREF(&pyLocation_Type);
     return (PyObject*)&pyLocation_Type;

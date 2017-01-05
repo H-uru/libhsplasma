@@ -127,8 +127,7 @@ PyObject* Init_pyObjInterface_Type() {
     if (PyType_Ready(&pyObjInterface_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyObjInterface_Type.tp_dict, "kDisable",
-                         PyInt_FromLong(plObjInterface::kDisable));
+    PY_TYPE_ADD_CONST(ObjInterface, "kDisable", plObjInterface::kDisable);
 
     Py_INCREF(&pyObjInterface_Type);
     return (PyObject*)&pyObjInterface_Type;

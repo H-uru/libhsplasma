@@ -97,10 +97,8 @@ PyObject* Init_pyBounds3_Type() {
     if (PyType_Ready(&pyBounds3_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyBounds3_Type.tp_dict, "kCenterValid",
-                         PyInt_FromLong(hsBounds3::kCenterValid));
-    PyDict_SetItemString(pyBounds3_Type.tp_dict, "kIsSphere",
-                         PyInt_FromLong(hsBounds3::kIsSphere));
+    PY_TYPE_ADD_CONST(Bounds3, "kCenterValid", hsBounds3::kCenterValid);
+    PY_TYPE_ADD_CONST(Bounds3, "kIsSphere", hsBounds3::kIsSphere);
 
     Py_INCREF(&pyBounds3_Type);
     return (PyObject*)&pyBounds3_Type;

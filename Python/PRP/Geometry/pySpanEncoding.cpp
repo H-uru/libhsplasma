@@ -136,33 +136,20 @@ PyObject* Init_pySpanEncoding_Type() {
     if (PyType_Ready(&pySpanEncoding_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pySpanEncoding_Type.tp_dict, "kPosNone",
-                         PyInt_FromLong(plSpanEncoding::kPosNone));
-    PyDict_SetItemString(pySpanEncoding_Type.tp_dict, "kPos888",
-                         PyInt_FromLong(plSpanEncoding::kPos888));
-    PyDict_SetItemString(pySpanEncoding_Type.tp_dict, "kPos161616",
-                         PyInt_FromLong(plSpanEncoding::kPos161616));
-    PyDict_SetItemString(pySpanEncoding_Type.tp_dict, "kPos101010",
-                         PyInt_FromLong(plSpanEncoding::kPos101010));
-    PyDict_SetItemString(pySpanEncoding_Type.tp_dict, "kPos008",
-                         PyInt_FromLong(plSpanEncoding::kPos008));
-    PyDict_SetItemString(pySpanEncoding_Type.tp_dict, "kPosMask",
-                         PyInt_FromLong(plSpanEncoding::kPosMask));
+    PY_TYPE_ADD_CONST(SpanEncoding, "kPosNone", plSpanEncoding::kPosNone);
+    PY_TYPE_ADD_CONST(SpanEncoding, "kPos888", plSpanEncoding::kPos888);
+    PY_TYPE_ADD_CONST(SpanEncoding, "kPos161616", plSpanEncoding::kPos161616);
+    PY_TYPE_ADD_CONST(SpanEncoding, "kPos101010", plSpanEncoding::kPos101010);
+    PY_TYPE_ADD_CONST(SpanEncoding, "kPos008", plSpanEncoding::kPos008);
+    PY_TYPE_ADD_CONST(SpanEncoding, "kPosMask", plSpanEncoding::kPosMask);
 
-    PyDict_SetItemString(pySpanEncoding_Type.tp_dict, "kColNone",
-                         PyInt_FromLong(plSpanEncoding::kColNone));
-    PyDict_SetItemString(pySpanEncoding_Type.tp_dict, "kColA8",
-                         PyInt_FromLong(plSpanEncoding::kColA8));
-    PyDict_SetItemString(pySpanEncoding_Type.tp_dict, "kColI8",
-                         PyInt_FromLong(plSpanEncoding::kColI8));
-    PyDict_SetItemString(pySpanEncoding_Type.tp_dict, "kColAI88",
-                         PyInt_FromLong(plSpanEncoding::kColAI88));
-    PyDict_SetItemString(pySpanEncoding_Type.tp_dict, "kColRGB888",
-                         PyInt_FromLong(plSpanEncoding::kColRGB888));
-    PyDict_SetItemString(pySpanEncoding_Type.tp_dict, "kColARGB8888",
-                         PyInt_FromLong(plSpanEncoding::kColARGB8888));
-    PyDict_SetItemString(pySpanEncoding_Type.tp_dict, "kColMask",
-                         PyInt_FromLong(plSpanEncoding::kColMask));
+    PY_TYPE_ADD_CONST(SpanEncoding, "kColNone", plSpanEncoding::kColNone);
+    PY_TYPE_ADD_CONST(SpanEncoding, "kColA8", plSpanEncoding::kColA8);
+    PY_TYPE_ADD_CONST(SpanEncoding, "kColI8", plSpanEncoding::kColI8);
+    PY_TYPE_ADD_CONST(SpanEncoding, "kColAI88", plSpanEncoding::kColAI88);
+    PY_TYPE_ADD_CONST(SpanEncoding, "kColRGB888", plSpanEncoding::kColRGB888);
+    PY_TYPE_ADD_CONST(SpanEncoding, "kColARGB8888", plSpanEncoding::kColARGB8888);
+    PY_TYPE_ADD_CONST(SpanEncoding, "kColMask", plSpanEncoding::kColMask);
 
     Py_INCREF(&pySpanEncoding_Type);
     return (PyObject*)&pySpanEncoding_Type;

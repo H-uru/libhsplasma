@@ -94,10 +94,8 @@ PyObject* Init_pyWin32Sound_Type() {
     if (PyType_Ready(&pyWin32Sound_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyWin32Sound_Type.tp_dict,
-                         "kLeftChannel", PyInt_FromLong(plWin32Sound::kLeftChannel));
-    PyDict_SetItemString(pyWin32Sound_Type.tp_dict,
-                         "kRightChannel", PyInt_FromLong(plWin32Sound::kRightChannel));
+    PY_TYPE_ADD_CONST(Win32Sound, "kLeftChannel", plWin32Sound::kLeftChannel);
+    PY_TYPE_ADD_CONST(Win32Sound, "kRightChannel", plWin32Sound::kRightChannel);
 
     Py_INCREF(&pyWin32Sound_Type);
     return (PyObject*)&pyWin32Sound_Type;

@@ -128,48 +128,28 @@ PyObject* Init_pyLayerInterface_Type() {
         return NULL;
 
     /* plLayerDirtyBits */
-    PyDict_SetItemString(pyLayerInterface_Type.tp_dict, "kTransform",
-                         PyInt_FromLong(plLayerInterface::kTransform));
-    PyDict_SetItemString(pyLayerInterface_Type.tp_dict, "kPreshadeColor",
-                         PyInt_FromLong(plLayerInterface::kPreshadeColor));
-    PyDict_SetItemString(pyLayerInterface_Type.tp_dict, "kAmbientColor",
-                         PyInt_FromLong(plLayerInterface::kAmbientColor));
-    PyDict_SetItemString(pyLayerInterface_Type.tp_dict, "kOpacity",
-                         PyInt_FromLong(plLayerInterface::kOpacity));
-    PyDict_SetItemString(pyLayerInterface_Type.tp_dict, "kTexture",
-                         PyInt_FromLong(plLayerInterface::kTexture));
-    PyDict_SetItemString(pyLayerInterface_Type.tp_dict, "kState",
-                         PyInt_FromLong(plLayerInterface::kState));
-    PyDict_SetItemString(pyLayerInterface_Type.tp_dict, "kUVWSrc",
-                         PyInt_FromLong(plLayerInterface::kUVWSrc));
-    PyDict_SetItemString(pyLayerInterface_Type.tp_dict, "kLODBias",
-                         PyInt_FromLong(plLayerInterface::kLODBias));
-    PyDict_SetItemString(pyLayerInterface_Type.tp_dict, "kSpecularColor",
-                         PyInt_FromLong(plLayerInterface::kSpecularColor));
-    PyDict_SetItemString(pyLayerInterface_Type.tp_dict, "kSpecularPower",
-                         PyInt_FromLong(plLayerInterface::kSpecularPower));
-    PyDict_SetItemString(pyLayerInterface_Type.tp_dict, "kRuntimeColor",
-                         PyInt_FromLong(plLayerInterface::kRuntimeColor));
-    PyDict_SetItemString(pyLayerInterface_Type.tp_dict, "kVertexShader",
-                         PyInt_FromLong(plLayerInterface::kVertexShader));
-    PyDict_SetItemString(pyLayerInterface_Type.tp_dict, "kPixelShader",
-                         PyInt_FromLong(plLayerInterface::kPixelShader));
-    PyDict_SetItemString(pyLayerInterface_Type.tp_dict, "kBumpEnvXfm",
-                         PyInt_FromLong(plLayerInterface::kBumpEnvXfm));
-    PyDict_SetItemString(pyLayerInterface_Type.tp_dict, "kAllDirty",
-                         PyInt_FromLong(plLayerInterface::kAllDirty));
+    PY_TYPE_ADD_CONST(LayerInterface, "kTransform", plLayerInterface::kTransform);
+    PY_TYPE_ADD_CONST(LayerInterface, "kPreshadeColor", plLayerInterface::kPreshadeColor);
+    PY_TYPE_ADD_CONST(LayerInterface, "kAmbientColor", plLayerInterface::kAmbientColor);
+    PY_TYPE_ADD_CONST(LayerInterface, "kOpacity", plLayerInterface::kOpacity);
+    PY_TYPE_ADD_CONST(LayerInterface, "kTexture", plLayerInterface::kTexture);
+    PY_TYPE_ADD_CONST(LayerInterface, "kState", plLayerInterface::kState);
+    PY_TYPE_ADD_CONST(LayerInterface, "kUVWSrc", plLayerInterface::kUVWSrc);
+    PY_TYPE_ADD_CONST(LayerInterface, "kLODBias", plLayerInterface::kLODBias);
+    PY_TYPE_ADD_CONST(LayerInterface, "kSpecularColor", plLayerInterface::kSpecularColor);
+    PY_TYPE_ADD_CONST(LayerInterface, "kSpecularPower", plLayerInterface::kSpecularPower);
+    PY_TYPE_ADD_CONST(LayerInterface, "kRuntimeColor", plLayerInterface::kRuntimeColor);
+    PY_TYPE_ADD_CONST(LayerInterface, "kVertexShader", plLayerInterface::kVertexShader);
+    PY_TYPE_ADD_CONST(LayerInterface, "kPixelShader", plLayerInterface::kPixelShader);
+    PY_TYPE_ADD_CONST(LayerInterface, "kBumpEnvXfm", plLayerInterface::kBumpEnvXfm);
+    PY_TYPE_ADD_CONST(LayerInterface, "kAllDirty", plLayerInterface::kAllDirty);
 
     /* plUVWSrcModifiers */
-    PyDict_SetItemString(pyLayerInterface_Type.tp_dict, "kUVWPassThru",
-                         PyInt_FromLong(plLayerInterface::kUVWPassThru));
-    PyDict_SetItemString(pyLayerInterface_Type.tp_dict, "kUVWIdxMask",
-                         PyInt_FromLong(plLayerInterface::kUVWIdxMask));
-    PyDict_SetItemString(pyLayerInterface_Type.tp_dict, "kUVWNormal",
-                         PyInt_FromLong(plLayerInterface::kUVWNormal));
-    PyDict_SetItemString(pyLayerInterface_Type.tp_dict, "kUVWPosition",
-                         PyInt_FromLong(plLayerInterface::kUVWPosition));
-    PyDict_SetItemString(pyLayerInterface_Type.tp_dict, "kUVWReflect",
-                         PyInt_FromLong(plLayerInterface::kUVWReflect));
+    PY_TYPE_ADD_CONST(LayerInterface, "kUVWPassThru", plLayerInterface::kUVWPassThru);
+    PY_TYPE_ADD_CONST(LayerInterface, "kUVWIdxMask", plLayerInterface::kUVWIdxMask);
+    PY_TYPE_ADD_CONST(LayerInterface, "kUVWNormal", plLayerInterface::kUVWNormal);
+    PY_TYPE_ADD_CONST(LayerInterface, "kUVWPosition", plLayerInterface::kUVWPosition);
+    PY_TYPE_ADD_CONST(LayerInterface, "kUVWReflect", plLayerInterface::kUVWReflect);
 
     Py_INCREF(&pyLayerInterface_Type);
     return (PyObject*)&pyLayerInterface_Type;

@@ -87,84 +87,49 @@ PyObject* Init_pyDrawable_Type() {
         return NULL;
 
     // Properties
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kPropNoDraw",
-                         PyInt_FromLong(plDrawable::kPropNoDraw));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kPropUNUSED",
-                         PyInt_FromLong(plDrawable::kPropUNUSED));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kPropSortSpans",
-                         PyInt_FromLong(plDrawable::kPropSortSpans));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kPropSortFaces",
-                         PyInt_FromLong(plDrawable::kPropSortFaces));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kPropVolatile",
-                         PyInt_FromLong(plDrawable::kPropVolatile));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kPropNoReSort",
-                         PyInt_FromLong(plDrawable::kPropNoReSort));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kPropPartialSort",
-                         PyInt_FromLong(plDrawable::kPropPartialSort));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kPropCharacter",
-                         PyInt_FromLong(plDrawable::kPropCharacter));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kPropSortAsOne",
-                         PyInt_FromLong(plDrawable::kPropSortAsOne));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kPropHasVisLOS",
-                         PyInt_FromLong(plDrawable::kPropHasVisLOS));
+    PY_TYPE_ADD_CONST(Drawable, "kPropNoDraw", plDrawable::kPropNoDraw);
+    PY_TYPE_ADD_CONST(Drawable, "kPropUNUSED", plDrawable::kPropUNUSED);
+    PY_TYPE_ADD_CONST(Drawable, "kPropSortSpans", plDrawable::kPropSortSpans);
+    PY_TYPE_ADD_CONST(Drawable, "kPropSortFaces", plDrawable::kPropSortFaces);
+    PY_TYPE_ADD_CONST(Drawable, "kPropVolatile", plDrawable::kPropVolatile);
+    PY_TYPE_ADD_CONST(Drawable, "kPropNoReSort", plDrawable::kPropNoReSort);
+    PY_TYPE_ADD_CONST(Drawable, "kPropPartialSort", plDrawable::kPropPartialSort);
+    PY_TYPE_ADD_CONST(Drawable, "kPropCharacter", plDrawable::kPropCharacter);
+    PY_TYPE_ADD_CONST(Drawable, "kPropSortAsOne", plDrawable::kPropSortAsOne);
+    PY_TYPE_ADD_CONST(Drawable, "kPropHasVisLOS", plDrawable::kPropHasVisLOS);
 
     // Criteria
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kCritStatic",
-                         PyInt_FromLong(plDrawable::kCritStatic));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kCritSortSpans",
-                         PyInt_FromLong(plDrawable::kCritSortSpans));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kCritSortFaces",
-                         PyInt_FromLong(plDrawable::kCritSortFaces));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kCritCharacter",
-                         PyInt_FromLong(plDrawable::kCritCharacter));
+    PY_TYPE_ADD_CONST(Drawable, "kCritStatic", plDrawable::kCritStatic);
+    PY_TYPE_ADD_CONST(Drawable, "kCritSortSpans", plDrawable::kCritSortSpans);
+    PY_TYPE_ADD_CONST(Drawable, "kCritSortFaces", plDrawable::kCritSortFaces);
+    PY_TYPE_ADD_CONST(Drawable, "kCritCharacter", plDrawable::kCritCharacter);
 
     // plDrawableType
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kNormal",
-                         PyInt_FromLong(plDrawable::kNormal));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kNonDrawable",
-                         PyInt_FromLong(plDrawable::kNonDrawable));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kEnviron",
-                         PyInt_FromLong(plDrawable::kEnviron));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kLightProxy",
-                         PyInt_FromLong(plDrawable::kLightProxy));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kOccluderProxy",
-                         PyInt_FromLong(plDrawable::kOccluderProxy));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kAudibleProxy",
-                         PyInt_FromLong(plDrawable::kAudibleProxy));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kPhysicalProxy",
-                         PyInt_FromLong(plDrawable::kPhysicalProxy));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kCoordinateProxy",
-                         PyInt_FromLong(plDrawable::kCoordinateProxy));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kOccSnapProxy",
-                         PyInt_FromLong(plDrawable::kOccSnapProxy));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kGenericProxy",
-                         PyInt_FromLong(plDrawable::kGenericProxy));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kCameraProxy",
-                         PyInt_FromLong(plDrawable::kCameraProxy));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kAllProxies",
-                         PyInt_FromLong(plDrawable::kAllProxies));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kAllTypes",
-                         PyInt_FromLong(plDrawable::kAllTypes));
+    PY_TYPE_ADD_CONST(Drawable, "kNormal", plDrawable::kNormal);
+    PY_TYPE_ADD_CONST(Drawable, "kNonDrawable", plDrawable::kNonDrawable);
+    PY_TYPE_ADD_CONST(Drawable, "kEnviron", plDrawable::kEnviron);
+    PY_TYPE_ADD_CONST(Drawable, "kLightProxy", plDrawable::kLightProxy);
+    PY_TYPE_ADD_CONST(Drawable, "kOccluderProxy", plDrawable::kOccluderProxy);
+    PY_TYPE_ADD_CONST(Drawable, "kAudibleProxy", plDrawable::kAudibleProxy);
+    PY_TYPE_ADD_CONST(Drawable, "kPhysicalProxy", plDrawable::kPhysicalProxy);
+    PY_TYPE_ADD_CONST(Drawable, "kCoordinateProxy", plDrawable::kCoordinateProxy);
+    PY_TYPE_ADD_CONST(Drawable, "kOccSnapProxy", plDrawable::kOccSnapProxy);
+    PY_TYPE_ADD_CONST(Drawable, "kGenericProxy", plDrawable::kGenericProxy);
+    PY_TYPE_ADD_CONST(Drawable, "kCameraProxy", plDrawable::kCameraProxy);
+    PY_TYPE_ADD_CONST(Drawable, "kAllProxies", plDrawable::kAllProxies);
+    PY_TYPE_ADD_CONST(Drawable, "kAllTypes", plDrawable::kAllTypes);
 
     // plSubDrawableType
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kSubNormal",
-                         PyInt_FromLong(plDrawable::kSubNormal));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kSubNonDrawable",
-                         PyInt_FromLong(plDrawable::kSubNonDrawable));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kSubEnviron",
-                         PyInt_FromLong(plDrawable::kSubEnviron));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kSubAllTypes",
-                         PyInt_FromLong(plDrawable::kSubAllTypes));
+    PY_TYPE_ADD_CONST(Drawable, "kSubNormal", plDrawable::kSubNormal);
+    PY_TYPE_ADD_CONST(Drawable, "kSubNonDrawable", plDrawable::kSubNonDrawable);
+    PY_TYPE_ADD_CONST(Drawable, "kSubEnviron", plDrawable::kSubEnviron);
+    PY_TYPE_ADD_CONST(Drawable, "kSubAllTypes", plDrawable::kSubAllTypes);
 
     // Span ID masks
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kSpanTypeMask",
-                         PyInt_FromLong(plDrawable::kSpanTypeMask));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kSpanIDMask",
-                         PyInt_FromLong(plDrawable::kSpanIDMask));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kSpanTypeIcicle",
-                         PyInt_FromLong(plDrawable::kSpanTypeIcicle));
-    PyDict_SetItemString(pyDrawable_Type.tp_dict, "kSpanTypeParticleSpan",
-                         PyInt_FromLong(plDrawable::kSpanTypeParticleSpan));
+    PY_TYPE_ADD_CONST(Drawable, "kSpanTypeMask", plDrawable::kSpanTypeMask);
+    PY_TYPE_ADD_CONST(Drawable, "kSpanIDMask", plDrawable::kSpanIDMask);
+    PY_TYPE_ADD_CONST(Drawable, "kSpanTypeIcicle", plDrawable::kSpanTypeIcicle);
+    PY_TYPE_ADD_CONST(Drawable, "kSpanTypeParticleSpan", plDrawable::kSpanTypeParticleSpan);
 
     Py_INCREF(&pyDrawable_Type);
     return (PyObject*)&pyDrawable_Type;

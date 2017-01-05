@@ -99,27 +99,17 @@ PyObject* Init_pyFollowMod_Type() {
     if (PyType_Ready(&pyFollowMod_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyFollowMod_Type.tp_dict, "kFollowPlayer",
-        PyInt_FromLong(plFollowMod::kFollowPlayer));
-    PyDict_SetItemString(pyFollowMod_Type.tp_dict, "kFollowObject",
-        PyInt_FromLong(plFollowMod::kFollowObject));
-    PyDict_SetItemString(pyFollowMod_Type.tp_dict, "kFollowCamera",
-        PyInt_FromLong(plFollowMod::kFollowCamera));
-    PyDict_SetItemString(pyFollowMod_Type.tp_dict, "kFollowListener",
-        PyInt_FromLong(plFollowMod::kFollowListener));
+    PY_TYPE_ADD_CONST(FollowMod, "kFollowPlayer", plFollowMod::kFollowPlayer);
+    PY_TYPE_ADD_CONST(FollowMod, "kFollowObject", plFollowMod::kFollowObject);
+    PY_TYPE_ADD_CONST(FollowMod, "kFollowCamera", plFollowMod::kFollowCamera);
+    PY_TYPE_ADD_CONST(FollowMod, "kFollowListener", plFollowMod::kFollowListener);
 
-    PyDict_SetItemString(pyFollowMod_Type.tp_dict, "kPositionX",
-        PyInt_FromLong(plFollowMod::kPositionX));
-    PyDict_SetItemString(pyFollowMod_Type.tp_dict, "kPositionY",
-        PyInt_FromLong(plFollowMod::kPositionY));
-    PyDict_SetItemString(pyFollowMod_Type.tp_dict, "kPositionZ",
-        PyInt_FromLong(plFollowMod::kPositionZ));
-    PyDict_SetItemString(pyFollowMod_Type.tp_dict, "kPosition",
-        PyInt_FromLong(plFollowMod::kPosition));
-    PyDict_SetItemString(pyFollowMod_Type.tp_dict, "kRotate",
-        PyInt_FromLong(plFollowMod::kRotate));
-    PyDict_SetItemString(pyFollowMod_Type.tp_dict, "kFullTransform",
-        PyInt_FromLong(plFollowMod::kFullTransform));
+    PY_TYPE_ADD_CONST(FollowMod, "kPositionX", plFollowMod::kPositionX);
+    PY_TYPE_ADD_CONST(FollowMod, "kPositionY", plFollowMod::kPositionY);
+    PY_TYPE_ADD_CONST(FollowMod, "kPositionZ", plFollowMod::kPositionZ);
+    PY_TYPE_ADD_CONST(FollowMod, "kPosition", plFollowMod::kPosition);
+    PY_TYPE_ADD_CONST(FollowMod, "kRotate", plFollowMod::kRotate);
+    PY_TYPE_ADD_CONST(FollowMod, "kFullTransform", plFollowMod::kFullTransform);
 
     Py_INCREF(&pyFollowMod_Type);
     return (PyObject*) &pyFollowMod_Type;

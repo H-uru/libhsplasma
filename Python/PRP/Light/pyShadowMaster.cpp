@@ -104,12 +104,9 @@ PyObject* Init_pyShadowMaster_Type() {
     if (PyType_Ready(&pyShadowMaster_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyShadowMaster_Type.tp_dict, "kDisable",
-                         PyInt_FromLong(plShadowMaster::kDisable));
-    PyDict_SetItemString(pyShadowMaster_Type.tp_dict, "kSelfShadow",
-                         PyInt_FromLong(plShadowMaster::kSelfShadow));
-    PyDict_SetItemString(pyShadowMaster_Type.tp_dict, "kNumProps",
-                         PyInt_FromLong(plShadowMaster::kNumProps));
+    PY_TYPE_ADD_CONST(ShadowMaster, "kDisable", plShadowMaster::kDisable);
+    PY_TYPE_ADD_CONST(ShadowMaster, "kSelfShadow", plShadowMaster::kSelfShadow);
+    PY_TYPE_ADD_CONST(ShadowMaster, "kNumProps", plShadowMaster::kNumProps);
 
     Py_INCREF(&pyShadowMaster_Type);
     return (PyObject*)&pyShadowMaster_Type;

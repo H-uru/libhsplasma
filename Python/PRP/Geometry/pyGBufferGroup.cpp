@@ -426,22 +426,14 @@ PyObject* Init_pyGBufferGroup_Type() {
         return NULL;
 
     // Formats
-    PyDict_SetItemString(pyGBufferGroup_Type.tp_dict, "kUVCountMask",
-                         PyInt_FromLong(plGBufferGroup::kUVCountMask));
-    PyDict_SetItemString(pyGBufferGroup_Type.tp_dict, "kSkinNoWeights",
-                         PyInt_FromLong(plGBufferGroup::kSkinNoWeights));
-    PyDict_SetItemString(pyGBufferGroup_Type.tp_dict, "kSkin1Weight",
-                         PyInt_FromLong(plGBufferGroup::kSkin1Weight));
-    PyDict_SetItemString(pyGBufferGroup_Type.tp_dict, "kSkin2Weights",
-                         PyInt_FromLong(plGBufferGroup::kSkin2Weights));
-    PyDict_SetItemString(pyGBufferGroup_Type.tp_dict, "kSkin3Weights",
-                         PyInt_FromLong(plGBufferGroup::kSkin3Weights));
-    PyDict_SetItemString(pyGBufferGroup_Type.tp_dict, "kSkinWeightMask",
-                         PyInt_FromLong(plGBufferGroup::kSkinWeightMask));
-    PyDict_SetItemString(pyGBufferGroup_Type.tp_dict, "kSkinIndices",
-                         PyInt_FromLong(plGBufferGroup::kSkinIndices));
-    PyDict_SetItemString(pyGBufferGroup_Type.tp_dict, "kEncoded",
-                         PyInt_FromLong(plGBufferGroup::kEncoded));
+    PY_TYPE_ADD_CONST(GBufferGroup, "kUVCountMask", plGBufferGroup::kUVCountMask);
+    PY_TYPE_ADD_CONST(GBufferGroup, "kSkinNoWeights", plGBufferGroup::kSkinNoWeights);
+    PY_TYPE_ADD_CONST(GBufferGroup, "kSkin1Weight", plGBufferGroup::kSkin1Weight);
+    PY_TYPE_ADD_CONST(GBufferGroup, "kSkin2Weights", plGBufferGroup::kSkin2Weights);
+    PY_TYPE_ADD_CONST(GBufferGroup, "kSkin3Weights", plGBufferGroup::kSkin3Weights);
+    PY_TYPE_ADD_CONST(GBufferGroup, "kSkinWeightMask", plGBufferGroup::kSkinWeightMask);
+    PY_TYPE_ADD_CONST(GBufferGroup, "kSkinIndices", plGBufferGroup::kSkinIndices);
+    PY_TYPE_ADD_CONST(GBufferGroup, "kEncoded", plGBufferGroup::kEncoded);
 
     Py_INCREF(&pyGBufferGroup_Type);
     return (PyObject*)&pyGBufferGroup_Type;

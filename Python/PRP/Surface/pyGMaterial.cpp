@@ -207,34 +207,20 @@ PyObject* Init_pyGMaterial_Type() {
     if (PyType_Ready(&pyGMaterial_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyGMaterial_Type.tp_dict, "kCompShaded",
-                         PyInt_FromLong(hsGMaterial::kCompShaded));
-    PyDict_SetItemString(pyGMaterial_Type.tp_dict, "kCompEnvironMap",
-                         PyInt_FromLong(hsGMaterial::kCompEnvironMap));
-    PyDict_SetItemString(pyGMaterial_Type.tp_dict, "kCompProjectOnto",
-                         PyInt_FromLong(hsGMaterial::kCompProjectOnto));
-    PyDict_SetItemString(pyGMaterial_Type.tp_dict, "kCompSoftShadow",
-                         PyInt_FromLong(hsGMaterial::kCompSoftShadow));
-    PyDict_SetItemString(pyGMaterial_Type.tp_dict, "kCompSpecular",
-                         PyInt_FromLong(hsGMaterial::kCompSpecular));
-    PyDict_SetItemString(pyGMaterial_Type.tp_dict, "kCompTwoSided",
-                         PyInt_FromLong(hsGMaterial::kCompTwoSided));
-    PyDict_SetItemString(pyGMaterial_Type.tp_dict, "kCompDrawAsSplats",
-                         PyInt_FromLong(hsGMaterial::kCompDrawAsSplats));
-    PyDict_SetItemString(pyGMaterial_Type.tp_dict, "kCompAdjusted",
-                         PyInt_FromLong(hsGMaterial::kCompAdjusted));
-    PyDict_SetItemString(pyGMaterial_Type.tp_dict, "kCompNoSoftShadow",
-                         PyInt_FromLong(hsGMaterial::kCompNoSoftShadow));
-    PyDict_SetItemString(pyGMaterial_Type.tp_dict, "kCompDynamic",
-                         PyInt_FromLong(hsGMaterial::kCompDynamic));
-    PyDict_SetItemString(pyGMaterial_Type.tp_dict, "kCompDecal",
-                         PyInt_FromLong(hsGMaterial::kCompDecal));
-    PyDict_SetItemString(pyGMaterial_Type.tp_dict, "kCompIsEmissive",
-                         PyInt_FromLong(hsGMaterial::kCompIsEmissive));
-    PyDict_SetItemString(pyGMaterial_Type.tp_dict, "kCompIsLightMapped",
-                         PyInt_FromLong(hsGMaterial::kCompIsLightMapped));
-    PyDict_SetItemString(pyGMaterial_Type.tp_dict, "kCompNeedsBlendChannel",
-                         PyInt_FromLong(hsGMaterial::kCompNeedsBlendChannel));
+    PY_TYPE_ADD_CONST(GMaterial, "kCompShaded", hsGMaterial::kCompShaded);
+    PY_TYPE_ADD_CONST(GMaterial, "kCompEnvironMap", hsGMaterial::kCompEnvironMap);
+    PY_TYPE_ADD_CONST(GMaterial, "kCompProjectOnto", hsGMaterial::kCompProjectOnto);
+    PY_TYPE_ADD_CONST(GMaterial, "kCompSoftShadow", hsGMaterial::kCompSoftShadow);
+    PY_TYPE_ADD_CONST(GMaterial, "kCompSpecular", hsGMaterial::kCompSpecular);
+    PY_TYPE_ADD_CONST(GMaterial, "kCompTwoSided", hsGMaterial::kCompTwoSided);
+    PY_TYPE_ADD_CONST(GMaterial, "kCompDrawAsSplats", hsGMaterial::kCompDrawAsSplats);
+    PY_TYPE_ADD_CONST(GMaterial, "kCompAdjusted", hsGMaterial::kCompAdjusted);
+    PY_TYPE_ADD_CONST(GMaterial, "kCompNoSoftShadow", hsGMaterial::kCompNoSoftShadow);
+    PY_TYPE_ADD_CONST(GMaterial, "kCompDynamic", hsGMaterial::kCompDynamic);
+    PY_TYPE_ADD_CONST(GMaterial, "kCompDecal", hsGMaterial::kCompDecal);
+    PY_TYPE_ADD_CONST(GMaterial, "kCompIsEmissive", hsGMaterial::kCompIsEmissive);
+    PY_TYPE_ADD_CONST(GMaterial, "kCompIsLightMapped", hsGMaterial::kCompIsLightMapped);
+    PY_TYPE_ADD_CONST(GMaterial, "kCompNeedsBlendChannel", hsGMaterial::kCompNeedsBlendChannel);
 
     Py_INCREF(&pyGMaterial_Type);
     return (PyObject*)&pyGMaterial_Type;

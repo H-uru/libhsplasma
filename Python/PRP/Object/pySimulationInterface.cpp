@@ -94,32 +94,32 @@ PyObject* Init_pySimulationInterface_Type() {
     if (PyType_Ready(&pySimulationInterface_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pySimulationInterface_Type.tp_dict, "kWeightless",
-                         PyInt_FromLong(plSimulationInterface::kWeightless));
-    PyDict_SetItemString(pySimulationInterface_Type.tp_dict, "kPinned",
-                         PyInt_FromLong(plSimulationInterface::kPinned));
-    PyDict_SetItemString(pySimulationInterface_Type.tp_dict, "kWarp",
-                         PyInt_FromLong(plSimulationInterface::kWarp));
-    PyDict_SetItemString(pySimulationInterface_Type.tp_dict, "kUpright",
-                         PyInt_FromLong(plSimulationInterface::kUpright));
-    PyDict_SetItemString(pySimulationInterface_Type.tp_dict, "kPassive",
-                         PyInt_FromLong(plSimulationInterface::kPassive));
-    PyDict_SetItemString(pySimulationInterface_Type.tp_dict, "kRotationForces",
-                         PyInt_FromLong(plSimulationInterface::kRotationForces));
-    PyDict_SetItemString(pySimulationInterface_Type.tp_dict, "kCameraAvoidObject",
-                         PyInt_FromLong(plSimulationInterface::kCameraAvoidObject));
-    PyDict_SetItemString(pySimulationInterface_Type.tp_dict, "kPhysAnim",
-                         PyInt_FromLong(plSimulationInterface::kPhysAnim));
-    PyDict_SetItemString(pySimulationInterface_Type.tp_dict, "kStartInactive",
-                         PyInt_FromLong(plSimulationInterface::kStartInactive));
-    PyDict_SetItemString(pySimulationInterface_Type.tp_dict, "kNoSynchronize",
-                         PyInt_FromLong(plSimulationInterface::kNoSynchronize));
-    PyDict_SetItemString(pySimulationInterface_Type.tp_dict, "kSuppressed",
-                         PyInt_FromLong(plSimulationInterface::kSuppressed));
-    PyDict_SetItemString(pySimulationInterface_Type.tp_dict, "kNoOwnershipChange",
-                         PyInt_FromLong(plSimulationInterface::kNoOwnershipChange));
-    PyDict_SetItemString(pySimulationInterface_Type.tp_dict, "kAvAnimPushable",
-                         PyInt_FromLong(plSimulationInterface::kAvAnimPushable));
+    PY_TYPE_ADD_CONST(SimulationInterface, "kWeightless",
+                      plSimulationInterface::kWeightless);
+    PY_TYPE_ADD_CONST(SimulationInterface, "kPinned",
+                      plSimulationInterface::kPinned);
+    PY_TYPE_ADD_CONST(SimulationInterface, "kWarp",
+                      plSimulationInterface::kWarp);
+    PY_TYPE_ADD_CONST(SimulationInterface, "kUpright",
+                      plSimulationInterface::kUpright);
+    PY_TYPE_ADD_CONST(SimulationInterface, "kPassive",
+                      plSimulationInterface::kPassive);
+    PY_TYPE_ADD_CONST(SimulationInterface, "kRotationForces",
+                      plSimulationInterface::kRotationForces);
+    PY_TYPE_ADD_CONST(SimulationInterface, "kCameraAvoidObject",
+                      plSimulationInterface::kCameraAvoidObject);
+    PY_TYPE_ADD_CONST(SimulationInterface, "kPhysAnim",
+                      plSimulationInterface::kPhysAnim);
+    PY_TYPE_ADD_CONST(SimulationInterface, "kStartInactive",
+                      plSimulationInterface::kStartInactive);
+    PY_TYPE_ADD_CONST(SimulationInterface, "kNoSynchronize",
+                      plSimulationInterface::kNoSynchronize);
+    PY_TYPE_ADD_CONST(SimulationInterface, "kSuppressed",
+                      plSimulationInterface::kSuppressed);
+    PY_TYPE_ADD_CONST(SimulationInterface, "kNoOwnershipChange",
+                      plSimulationInterface::kNoOwnershipChange);
+    PY_TYPE_ADD_CONST(SimulationInterface, "kAvAnimPushable",
+                      plSimulationInterface::kAvAnimPushable);
 
     Py_INCREF(&pySimulationInterface_Type);
     return (PyObject*)&pySimulationInterface_Type;

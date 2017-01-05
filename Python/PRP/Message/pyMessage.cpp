@@ -154,44 +154,25 @@ PyObject* Init_pyMessage_Type() {
     if (PyType_Ready(&pyMessage_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyMessage_Type.tp_dict, "kBCastNone",
-                         PyInt_FromLong(plMessage::kBCastNone));
-    PyDict_SetItemString(pyMessage_Type.tp_dict, "kBCastByType",
-                         PyInt_FromLong(plMessage::kBCastByType));
-    PyDict_SetItemString(pyMessage_Type.tp_dict, "kPropagateToChildren",
-                         PyInt_FromLong(plMessage::kPropagateToChildren));
-    PyDict_SetItemString(pyMessage_Type.tp_dict, "kBCastByExactType",
-                         PyInt_FromLong(plMessage::kBCastByExactType));
-    PyDict_SetItemString(pyMessage_Type.tp_dict, "kPropagateToModifiers",
-                         PyInt_FromLong(plMessage::kPropagateToModifiers));
-    PyDict_SetItemString(pyMessage_Type.tp_dict, "kClearAfterBCast",
-                         PyInt_FromLong(plMessage::kClearAfterBCast));
-    PyDict_SetItemString(pyMessage_Type.tp_dict, "kNetPropagate",
-                         PyInt_FromLong(plMessage::kNetPropagate));
-    PyDict_SetItemString(pyMessage_Type.tp_dict, "kNetSent",
-                         PyInt_FromLong(plMessage::kNetSent));
-    PyDict_SetItemString(pyMessage_Type.tp_dict, "kNetUseRelevanceRegions",
-                         PyInt_FromLong(plMessage::kNetUseRelevanceRegions));
-    PyDict_SetItemString(pyMessage_Type.tp_dict, "kNetForce",
-                         PyInt_FromLong(plMessage::kNetForce));
-    PyDict_SetItemString(pyMessage_Type.tp_dict, "kNetNonLocal",
-                         PyInt_FromLong(plMessage::kNetNonLocal));
-    PyDict_SetItemString(pyMessage_Type.tp_dict, "kLocalPropagate",
-                         PyInt_FromLong(plMessage::kLocalPropagate));
-    PyDict_SetItemString(pyMessage_Type.tp_dict, "kNetNonDeterministic",
-                         PyInt_FromLong(plMessage::kNetNonDeterministic));
-    PyDict_SetItemString(pyMessage_Type.tp_dict, "kMsgWatch",
-                         PyInt_FromLong(plMessage::kMsgWatch));
-    PyDict_SetItemString(pyMessage_Type.tp_dict, "kNetStartCascade",
-                         PyInt_FromLong(plMessage::kNetStartCascade));
-    PyDict_SetItemString(pyMessage_Type.tp_dict, "kNetAllowInterAge",
-                         PyInt_FromLong(plMessage::kNetAllowInterAge));
-    PyDict_SetItemString(pyMessage_Type.tp_dict, "kNetSendUnreliable",
-                         PyInt_FromLong(plMessage::kNetSendUnreliable));
-    PyDict_SetItemString(pyMessage_Type.tp_dict, "kCCRSendToAllPlayers",
-                         PyInt_FromLong(plMessage::kCCRSendToAllPlayers));
-    PyDict_SetItemString(pyMessage_Type.tp_dict, "kNetCreatedRemotely",
-                         PyInt_FromLong(plMessage::kNetCreatedRemotely));
+    PY_TYPE_ADD_CONST(Message, "kBCastNone", plMessage::kBCastNone);
+    PY_TYPE_ADD_CONST(Message, "kBCastByType", plMessage::kBCastByType);
+    PY_TYPE_ADD_CONST(Message, "kPropagateToChildren", plMessage::kPropagateToChildren);
+    PY_TYPE_ADD_CONST(Message, "kBCastByExactType", plMessage::kBCastByExactType);
+    PY_TYPE_ADD_CONST(Message, "kPropagateToModifiers", plMessage::kPropagateToModifiers);
+    PY_TYPE_ADD_CONST(Message, "kClearAfterBCast", plMessage::kClearAfterBCast);
+    PY_TYPE_ADD_CONST(Message, "kNetPropagate", plMessage::kNetPropagate);
+    PY_TYPE_ADD_CONST(Message, "kNetSent", plMessage::kNetSent);
+    PY_TYPE_ADD_CONST(Message, "kNetUseRelevanceRegions", plMessage::kNetUseRelevanceRegions);
+    PY_TYPE_ADD_CONST(Message, "kNetForce", plMessage::kNetForce);
+    PY_TYPE_ADD_CONST(Message, "kNetNonLocal", plMessage::kNetNonLocal);
+    PY_TYPE_ADD_CONST(Message, "kLocalPropagate", plMessage::kLocalPropagate);
+    PY_TYPE_ADD_CONST(Message, "kNetNonDeterministic", plMessage::kNetNonDeterministic);
+    PY_TYPE_ADD_CONST(Message, "kMsgWatch", plMessage::kMsgWatch);
+    PY_TYPE_ADD_CONST(Message, "kNetStartCascade", plMessage::kNetStartCascade);
+    PY_TYPE_ADD_CONST(Message, "kNetAllowInterAge", plMessage::kNetAllowInterAge);
+    PY_TYPE_ADD_CONST(Message, "kNetSendUnreliable", plMessage::kNetSendUnreliable);
+    PY_TYPE_ADD_CONST(Message, "kCCRSendToAllPlayers", plMessage::kCCRSendToAllPlayers);
+    PY_TYPE_ADD_CONST(Message, "kNetCreatedRemotely", plMessage::kNetCreatedRemotely);
 
     Py_INCREF(&pyMessage_Type);
     return (PyObject*)&pyMessage_Type;

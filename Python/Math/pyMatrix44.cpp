@@ -512,12 +512,9 @@ PyObject* Init_pyMatrix44_Type() {
     if (PyType_Ready(&pyMatrix44_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyMatrix44_Type.tp_dict, "kRight",
-                         PyInt_FromLong(hsMatrix44::kRight));
-    PyDict_SetItemString(pyMatrix44_Type.tp_dict, "kUp",
-                         PyInt_FromLong(hsMatrix44::kUp));
-    PyDict_SetItemString(pyMatrix44_Type.tp_dict, "kView",
-                         PyInt_FromLong(hsMatrix44::kView));
+    PY_TYPE_ADD_CONST(Matrix44, "kRight", hsMatrix44::kRight);
+    PY_TYPE_ADD_CONST(Matrix44, "kUp", hsMatrix44::kUp);
+    PY_TYPE_ADD_CONST(Matrix44, "kView", hsMatrix44::kView);
 
     Py_INCREF(&pyMatrix44_Type);
     return (PyObject*)&pyMatrix44_Type;

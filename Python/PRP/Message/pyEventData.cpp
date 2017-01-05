@@ -139,58 +139,33 @@ PyObject* Init_pyEventData_Type() {
     if (PyType_Ready(&pyEventData_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kCollision",
-                         PyInt_FromLong(proEventData::kCollision));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kPicked",
-                         PyInt_FromLong(proEventData::kPicked));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kControlKey",
-                         PyInt_FromLong(proEventData::kControlKey));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kVariable",
-                         PyInt_FromLong(proEventData::kVariable));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kFacing",
-                         PyInt_FromLong(proEventData::kFacing));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kContained",
-                         PyInt_FromLong(proEventData::kContained));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kActivate",
-                         PyInt_FromLong(proEventData::kActivate));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kCallback",
-                         PyInt_FromLong(proEventData::kCallback));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kResponderState",
-                         PyInt_FromLong(proEventData::kResponderState));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kMultiStage",
-                         PyInt_FromLong(proEventData::kMultiStage));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kSpawned",
-                         PyInt_FromLong(proEventData::kSpawned));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kClickDrag",
-                         PyInt_FromLong(proEventData::kClickDrag));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kCoop",
-                         PyInt_FromLong(proEventData::kCoop));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kOfferLinkBook",
-                         PyInt_FromLong(proEventData::kOfferLinkBook));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kBook",
-                         PyInt_FromLong(proEventData::kBook));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kClimbingBlockerHit",
-                         PyInt_FromLong(proEventData::kClimbingBlockerHit));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kNone",
-                         PyInt_FromLong(proEventData::kNone));
+    PY_TYPE_ADD_CONST(EventData, "kCollision", proEventData::kCollision);
+    PY_TYPE_ADD_CONST(EventData, "kPicked", proEventData::kPicked);
+    PY_TYPE_ADD_CONST(EventData, "kControlKey", proEventData::kControlKey);
+    PY_TYPE_ADD_CONST(EventData, "kVariable", proEventData::kVariable);
+    PY_TYPE_ADD_CONST(EventData, "kFacing", proEventData::kFacing);
+    PY_TYPE_ADD_CONST(EventData, "kContained", proEventData::kContained);
+    PY_TYPE_ADD_CONST(EventData, "kActivate", proEventData::kActivate);
+    PY_TYPE_ADD_CONST(EventData, "kCallback", proEventData::kCallback);
+    PY_TYPE_ADD_CONST(EventData, "kResponderState", proEventData::kResponderState);
+    PY_TYPE_ADD_CONST(EventData, "kMultiStage", proEventData::kMultiStage);
+    PY_TYPE_ADD_CONST(EventData, "kSpawned", proEventData::kSpawned);
+    PY_TYPE_ADD_CONST(EventData, "kClickDrag", proEventData::kClickDrag);
+    PY_TYPE_ADD_CONST(EventData, "kCoop", proEventData::kCoop);
+    PY_TYPE_ADD_CONST(EventData, "kOfferLinkBook", proEventData::kOfferLinkBook);
+    PY_TYPE_ADD_CONST(EventData, "kBook", proEventData::kBook);
+    PY_TYPE_ADD_CONST(EventData, "kClimbingBlockerHit", proEventData::kClimbingBlockerHit);
+    PY_TYPE_ADD_CONST(EventData, "kNone", proEventData::kNone);
 
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kNumber",
-                         PyInt_FromLong(proEventData::kNumber));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kKey",
-                         PyInt_FromLong(proEventData::kKey));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kNotta",
-                         PyInt_FromLong(proEventData::kNotta));
+    PY_TYPE_ADD_CONST(EventData, "kNumber", proEventData::kNumber);
+    PY_TYPE_ADD_CONST(EventData, "kKey", proEventData::kKey);
+    PY_TYPE_ADD_CONST(EventData, "kNotta", proEventData::kNotta);
 
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kEnterStage",
-                         PyInt_FromLong(proEventData::kEnterStage));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kBeginningOfLoop",
-                         PyInt_FromLong(proEventData::kBeginningOfLoop));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kAdvanceNextStage",
-                         PyInt_FromLong(proEventData::kAdvanceNextStage));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kRegressPrevStage",
-                         PyInt_FromLong(proEventData::kRegressPrevStage));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kNothing",
-                         PyInt_FromLong(proEventData::kNothing));
+    PY_TYPE_ADD_CONST(EventData, "kEnterStage", proEventData::kEnterStage);
+    PY_TYPE_ADD_CONST(EventData, "kBeginningOfLoop", proEventData::kBeginningOfLoop);
+    PY_TYPE_ADD_CONST(EventData, "kAdvanceNextStage", proEventData::kAdvanceNextStage);
+    PY_TYPE_ADD_CONST(EventData, "kRegressPrevStage", proEventData::kRegressPrevStage);
+    PY_TYPE_ADD_CONST(EventData, "kNothing", proEventData::kNothing);
 
     Py_INCREF(&pyEventData_Type);
     return (PyObject*)&pyEventData_Type;

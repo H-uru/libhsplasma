@@ -303,21 +303,14 @@ PyObject* Init_pyAgeInfo_Type() {
     if (PyType_Ready(&pyAgeInfo_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyAgeInfo_Type.tp_dict, "kFlagPreventAutoLoad",
-                         PyInt_FromLong(plAgeInfo::kPreventAutoLoad));
-    PyDict_SetItemString(pyAgeInfo_Type.tp_dict, "kFlagLoadIfSDLPresent",
-                         PyInt_FromLong(plAgeInfo::kLoadIfSDLPresent));
-    PyDict_SetItemString(pyAgeInfo_Type.tp_dict, "kFlagIsLocalOnly",
-                         PyInt_FromLong(plAgeInfo::kIsLocalOnly));
-    PyDict_SetItemString(pyAgeInfo_Type.tp_dict, "kFlagIsVolatile",
-                         PyInt_FromLong(plAgeInfo::kIsVolatile));
+    PY_TYPE_ADD_CONST(AgeInfo, "kFlagPreventAutoLoad", plAgeInfo::kPreventAutoLoad);
+    PY_TYPE_ADD_CONST(AgeInfo, "kFlagLoadIfSDLPresent", plAgeInfo::kLoadIfSDLPresent);
+    PY_TYPE_ADD_CONST(AgeInfo, "kFlagIsLocalOnly", plAgeInfo::kIsLocalOnly);
+    PY_TYPE_ADD_CONST(AgeInfo, "kFlagIsVolatile", plAgeInfo::kIsVolatile);
 
-    PyDict_SetItemString(pyAgeInfo_Type.tp_dict, "kPageTextures",
-                         PyInt_FromLong(plAgeInfo::kTextures));
-    PyDict_SetItemString(pyAgeInfo_Type.tp_dict, "kPageGlobal",
-                         PyInt_FromLong(plAgeInfo::kGlobal));
-    PyDict_SetItemString(pyAgeInfo_Type.tp_dict, "kNumCommonPages",
-                         PyInt_FromLong(plAgeInfo::kNumCommonPages));
+    PY_TYPE_ADD_CONST(AgeInfo, "kPageTextures", plAgeInfo::kTextures);
+    PY_TYPE_ADD_CONST(AgeInfo, "kPageGlobal", plAgeInfo::kGlobal);
+    PY_TYPE_ADD_CONST(AgeInfo, "kNumCommonPages", plAgeInfo::kNumCommonPages);
 
     PyObject* list = PyList_New(plAgeInfo::kNumCommonPages);
     for (size_t i=0; i<plAgeInfo::kNumCommonPages; i++)

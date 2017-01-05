@@ -143,57 +143,32 @@ PyObject* Init_pySoundMsg_Type() {
     if (PyType_Ready(&pySoundMsg_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pySoundMsg_Type.tp_dict, "kPlay",
-                         PyInt_FromLong(plSoundMsg::kPlay));
-    PyDict_SetItemString(pySoundMsg_Type.tp_dict, "kStop",
-                         PyInt_FromLong(plSoundMsg::kStop));
-    PyDict_SetItemString(pySoundMsg_Type.tp_dict, "kSetLooping",
-                         PyInt_FromLong(plSoundMsg::kSetLooping));
-    PyDict_SetItemString(pySoundMsg_Type.tp_dict, "kUnSetLooping",
-                         PyInt_FromLong(plSoundMsg::kUnSetLooping));
-    PyDict_SetItemString(pySoundMsg_Type.tp_dict, "kSetBegin",
-                         PyInt_FromLong(plSoundMsg::kSetBegin));
-    PyDict_SetItemString(pySoundMsg_Type.tp_dict, "kToggleState",
-                         PyInt_FromLong(plSoundMsg::kToggleState));
-    PyDict_SetItemString(pySoundMsg_Type.tp_dict, "kAddCallbacks",
-                         PyInt_FromLong(plSoundMsg::kAddCallbacks));
-    PyDict_SetItemString(pySoundMsg_Type.tp_dict, "kRemoveCallbacks",
-                         PyInt_FromLong(plSoundMsg::kRemoveCallbacks));
-    PyDict_SetItemString(pySoundMsg_Type.tp_dict, "kGetStatus",
-                         PyInt_FromLong(plSoundMsg::kGetStatus));
-    PyDict_SetItemString(pySoundMsg_Type.tp_dict, "kNumSounds",
-                         PyInt_FromLong(plSoundMsg::kNumSounds));
-    PyDict_SetItemString(pySoundMsg_Type.tp_dict, "kStatusReply",
-                         PyInt_FromLong(plSoundMsg::kStatusReply));
-    PyDict_SetItemString(pySoundMsg_Type.tp_dict, "kGoToTime",
-                         PyInt_FromLong(plSoundMsg::kGoToTime));
-    PyDict_SetItemString(pySoundMsg_Type.tp_dict, "kSetVolume",
-                         PyInt_FromLong(plSoundMsg::kSetVolume));
-    PyDict_SetItemString(pySoundMsg_Type.tp_dict, "kSetTalkIcon",
-                         PyInt_FromLong(plSoundMsg::kSetTalkIcon));
-    PyDict_SetItemString(pySoundMsg_Type.tp_dict, "kClearTalkIcon",
-                         PyInt_FromLong(plSoundMsg::kClearTalkIcon));
-    PyDict_SetItemString(pySoundMsg_Type.tp_dict, "kSetFadeIn",
-                         PyInt_FromLong(plSoundMsg::kSetFadeIn));
-    PyDict_SetItemString(pySoundMsg_Type.tp_dict, "kSetFadeOut",
-                         PyInt_FromLong(plSoundMsg::kSetFadeOut));
-    PyDict_SetItemString(pySoundMsg_Type.tp_dict, "kIsLocalOnly",
-                         PyInt_FromLong(plSoundMsg::kIsLocalOnly));
-    PyDict_SetItemString(pySoundMsg_Type.tp_dict, "kSelectFromGroup",
-                         PyInt_FromLong(plSoundMsg::kSelectFromGroup));
-    PyDict_SetItemString(pySoundMsg_Type.tp_dict, "kNumCmds",
-                         PyInt_FromLong(plSoundMsg::kNumCmds));
-    PyDict_SetItemString(pySoundMsg_Type.tp_dict, "kFastForwardPlay",
-                         PyInt_FromLong(plSoundMsg::kFastForwardPlay));
-    PyDict_SetItemString(pySoundMsg_Type.tp_dict, "kFastForwardToggle",
-                         PyInt_FromLong(plSoundMsg::kFastForwardToggle));
+    PY_TYPE_ADD_CONST(SoundMsg, "kPlay", plSoundMsg::kPlay);
+    PY_TYPE_ADD_CONST(SoundMsg, "kStop", plSoundMsg::kStop);
+    PY_TYPE_ADD_CONST(SoundMsg, "kSetLooping", plSoundMsg::kSetLooping);
+    PY_TYPE_ADD_CONST(SoundMsg, "kUnSetLooping", plSoundMsg::kUnSetLooping);
+    PY_TYPE_ADD_CONST(SoundMsg, "kSetBegin", plSoundMsg::kSetBegin);
+    PY_TYPE_ADD_CONST(SoundMsg, "kToggleState", plSoundMsg::kToggleState);
+    PY_TYPE_ADD_CONST(SoundMsg, "kAddCallbacks", plSoundMsg::kAddCallbacks);
+    PY_TYPE_ADD_CONST(SoundMsg, "kRemoveCallbacks", plSoundMsg::kRemoveCallbacks);
+    PY_TYPE_ADD_CONST(SoundMsg, "kGetStatus", plSoundMsg::kGetStatus);
+    PY_TYPE_ADD_CONST(SoundMsg, "kNumSounds", plSoundMsg::kNumSounds);
+    PY_TYPE_ADD_CONST(SoundMsg, "kStatusReply", plSoundMsg::kStatusReply);
+    PY_TYPE_ADD_CONST(SoundMsg, "kGoToTime", plSoundMsg::kGoToTime);
+    PY_TYPE_ADD_CONST(SoundMsg, "kSetVolume", plSoundMsg::kSetVolume);
+    PY_TYPE_ADD_CONST(SoundMsg, "kSetTalkIcon", plSoundMsg::kSetTalkIcon);
+    PY_TYPE_ADD_CONST(SoundMsg, "kClearTalkIcon", plSoundMsg::kClearTalkIcon);
+    PY_TYPE_ADD_CONST(SoundMsg, "kSetFadeIn", plSoundMsg::kSetFadeIn);
+    PY_TYPE_ADD_CONST(SoundMsg, "kSetFadeOut", plSoundMsg::kSetFadeOut);
+    PY_TYPE_ADD_CONST(SoundMsg, "kIsLocalOnly", plSoundMsg::kIsLocalOnly);
+    PY_TYPE_ADD_CONST(SoundMsg, "kSelectFromGroup", plSoundMsg::kSelectFromGroup);
+    PY_TYPE_ADD_CONST(SoundMsg, "kNumCmds", plSoundMsg::kNumCmds);
+    PY_TYPE_ADD_CONST(SoundMsg, "kFastForwardPlay", plSoundMsg::kFastForwardPlay);
+    PY_TYPE_ADD_CONST(SoundMsg, "kFastForwardToggle", plSoundMsg::kFastForwardToggle);
 
-    PyDict_SetItemString(pySoundMsg_Type.tp_dict, "kLinear",
-                         PyInt_FromLong(plSoundMsg::kLinear));
-    PyDict_SetItemString(pySoundMsg_Type.tp_dict, "kLogarithmic",
-                         PyInt_FromLong(plSoundMsg::kLogarithmic));
-    PyDict_SetItemString(pySoundMsg_Type.tp_dict, "kExponential",
-                         PyInt_FromLong(plSoundMsg::kExponential));
+    PY_TYPE_ADD_CONST(SoundMsg, "kLinear", plSoundMsg::kLinear);
+    PY_TYPE_ADD_CONST(SoundMsg, "kLogarithmic", plSoundMsg::kLogarithmic);
+    PY_TYPE_ADD_CONST(SoundMsg, "kExponential", plSoundMsg::kExponential);
 
     Py_INCREF(&pySoundMsg_Type);
     return (PyObject*)&pySoundMsg_Type;
