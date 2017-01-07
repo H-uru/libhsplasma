@@ -32,7 +32,7 @@ PY_PLASMA_REPR_DECL(Key) {
 }
 
 PY_PLASMA_HASH_DECL(Key) {
-    return (long)(plKeyData*)(*self->fThis);
+    return (Py_hash_t)(plKeyData*)(*self->fThis);
 }
 
 PY_PLASMA_RICHCOMPARE_DECL(Key) {

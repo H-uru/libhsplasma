@@ -60,6 +60,11 @@ inline char* _pycs(const char (&str)[size]) { return const_cast<char*>(str); }
     #error Your Python version is too old.  Only 2.6 and later are supported
 #endif
 
+// The type of hashfunc's return value changed in Python 3.2
+#if (PY_MAJOR_VERSION < 3) || ((PY_MAJOR_VERSION == 3) && (PY_MINOR_VERSION < 2))
+    typedef long Py_hash_t;
+#endif
+
 // This should work the same for all versions
 #define PyStr_To_PlStr PyString_To_PlasmaString
 #define PyAnyStr_Check(ob) (PyUnicode_Check(ob) || PyBytes_Check(ob))
@@ -217,9 +222,9 @@ PyObject* PyPlasmaValue_new(PyTypeObject* type, ArgsT&&... args) {
     PyObject* py##pyType##_repr_impl(py##pyType* self)
 
 #define PY_PLASMA_HASH_DECL(pyType)                                     \
-    static long py##pyType##_hash_impl(py##pyType*);                    \
-    static long (*py##pyType##_hash)(PyObject*) = (hashfunc)py##pyType##_hash_impl; \
-    long py##pyType##_hash_impl(py##pyType* self)
+    static Py_hash_t py##pyType##_hash_impl(py##pyType*);                    \
+    static Py_hash_t (*py##pyType##_hash)(PyObject*) = (hashfunc)py##pyType##_hash_impl; \
+    Py_hash_t py##pyType##_hash_impl(py##pyType* self)
 
 #define PY_PLASMA_RICHCOMPARE_DECL(pyType)                              \
     static PyObject* py##pyType##_richcompare_impl(py##pyType*, py##pyType*, int); \
