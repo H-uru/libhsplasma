@@ -34,18 +34,18 @@ PY_PLASMA_INIT_DECL(Location) {
 
 PY_PLASMA_VALUE_NEW(Location, plLocation)
 
-static PyObject* pyLocation_Repr(pyLocation* self) {
+PY_PLASMA_REPR_DECL(Location) {
     plString repr = plString::Format("<plLocation \"%d|%d\">",
                                      self->fThis->getSeqPrefix(),
                                      self->fThis->getPageNum());
     return pyPlasma_convert(repr);
 }
 
-static long pyLocation_Hash(pyLocation* self) {
+PY_PLASMA_HASH_DECL(Location) {
     return (long)self->fThis->unparse();
 }
 
-static PyObject* pyLocation_RichCompare(pyLocation* left, pyLocation* right, int op) {
+PY_PLASMA_RICHCOMPARE_DECL(Location) {
     bool result = false;
 
     switch (op) {
@@ -194,65 +194,17 @@ static PyGetSetDef pyLocation_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyLocation_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plLocation",            /* tp_name */
-    sizeof(pyLocation),                 /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(Location, plLocation, "plLocation wrapper")
 
-    pyLocation_dealloc,                 /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    (reprfunc)pyLocation_Repr,          /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    (hashfunc)pyLocation_Hash,          /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT,                 /* tp_flags */
-    NULL,                               /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    (richcmpfunc)pyLocation_RichCompare, /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyLocation_Methods,                 /* tp_methods */
-    NULL,                               /* tp_members */
-    pyLocation_GetSet,                  /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    pyLocation___init__,                /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyLocation_new,                     /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyLocation_Type() {
+PY_PLASMA_TYPE_INIT(Location) {
+    pyLocation_Type.tp_dealloc = pyLocation_dealloc;
+    pyLocation_Type.tp_init = pyLocation___init__;
+    pyLocation_Type.tp_new = pyLocation_new;
+    pyLocation_Type.tp_repr = pyLocation_repr;
+    pyLocation_Type.tp_hash = pyLocation_hash;
+    pyLocation_Type.tp_richcompare = pyLocation_richcompare;
+    pyLocation_Type.tp_methods = pyLocation_Methods;
+    pyLocation_Type.tp_getset = pyLocation_GetSet;
     if (PyType_Ready(&pyLocation_Type) < 0)
         return NULL;
 

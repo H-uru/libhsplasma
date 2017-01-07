@@ -44,7 +44,7 @@ PY_PLASMA_INIT_DECL(Matrix44) {
 
 PY_PLASMA_VALUE_NEW(Matrix44, hsMatrix44)
 
-static PyObject* pyMatrix44_Subscript(pyMatrix44* self, PyObject* key) {
+PY_PLASMA_SUBSCRIPT_DECL(Matrix44) {
     int i, j;
     if (!PyArg_ParseTuple(key, "ii", &i, &j)) {
         PyErr_SetString(PyExc_TypeError, "Matrix subscript expects int, int");
@@ -53,25 +53,19 @@ static PyObject* pyMatrix44_Subscript(pyMatrix44* self, PyObject* key) {
     return pyPlasma_convert((*self->fThis)(i, j));
 }
 
-static int pyMatrix44_AssSubscript(pyMatrix44* self, PyObject* key, PyObject* value) {
+PY_PLASMA_ASS_SUBSCRIPT_DECL(Matrix44) {
     int i, j;
     if (!PyArg_ParseTuple(key, "ii", &i, &j)) {
         PyErr_SetString(PyExc_TypeError, "Matrix subscript expects int, int");
         return -1;
     }
-    if (!PyFloat_Check(value)) {
+    if (!pyPlasma_check<float>(value)) {
         PyErr_SetString(PyExc_TypeError, "Matrix values should be floats");
         return -1;
     }
-    (*self->fThis)(i, j) = PyFloat_AsDouble(value);
+    (*self->fThis)(i, j) = pyPlasma_get<float>(value);
     return 0;
 }
-
-static PyMappingMethods pyMatrix44_As_Mapping = {
-    NULL,                                   /* mp_length */
-    (binaryfunc)pyMatrix44_Subscript,       /* mp_subscript */
-    (objobjargproc)pyMatrix44_AssSubscript  /* mp_ass_subscript */
-};
 
 PY_GETSET_GETTER_DECL(Matrix44, mat) {
     PyObject* t1 = PyTuple_New(4);
@@ -378,137 +372,30 @@ PyMethodDef pyMatrix44_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-static PyObject* pyMatrix44_multiply(PyObject* left, PyObject* right) {
-    if (pyMatrix44_Check(left)) {
-        if (pyMatrix44_Check(right)) {
-            return pyPlasma_convert(*((pyMatrix44*)left)->fThis * *((pyMatrix44*)right)->fThis);
-        } else {
-            PyErr_SetString(PyExc_TypeError, "Multiplication operand is not another matrix");
-            return NULL;
-        }
-    } else if (pyMatrix44_Check(right)) {
+PY_PLASMA_NB_BINARYFUNC_DECL(Matrix44, multiply) {
+    if (!pyPlasma_check<hsMatrix44>(left) || !pyPlasma_check<hsMatrix44>(right)) {
         PyErr_SetString(PyExc_TypeError, "Multiplication operand is not another matrix");
         return NULL;
     }
-    // This should not happen...
-    return NULL;
+    return pyPlasma_convert(pyPlasma_get<hsMatrix44>(left) * pyPlasma_get<hsMatrix44>(right));
 }
 
-PyNumberMethods pyMatrix44_As_Number = {
-    NULL,                               /* nb_add */
-    NULL,                               /* nb_subtract */
-    (binaryfunc)pyMatrix44_multiply,    /* nb_multiply */
-#if (PY_MAJOR_VERSION < 3)
-    NULL,                               /* nb_divide */
-#endif
-    NULL,                               /* nb_remainder */
-    NULL,                               /* nb_divmod */
-    NULL,                               /* nb_power */
-    NULL,                               /* nb_negative */
-    NULL,                               /* nb_positive */
-    NULL,                               /* nb_absolute */
-    NULL,                               /* nb_nonzero */
-    NULL,                               /* nb_invert */
-    NULL,                               /* nb_lshift */
-    NULL,                               /* nb_rshift */
-    NULL,                               /* nb_and */
-    NULL,                               /* nb_xor */
-    NULL,                               /* nb_or */
-#if (PY_MAJOR_VERSION < 3)
-    NULL,                               /* nb_coerce */
-#endif
-    NULL,                               /* nb_int */
-    NULL,                               /* nb_long */
-    NULL,                               /* nb_float */
-#if (PY_MAJOR_VERSION < 3)
-    NULL,                               /* nb_oct */
-    NULL,                               /* nb_hex */
-#endif
-    NULL,                               /* nb_inplace_add */
-    NULL,                               /* nb_inplace_subtract */
-    NULL,                               /* nb_inplace_multiply */
-#if (PY_MAJOR_VERSION < 3)
-    NULL,                               /* nb_inplace_divide */
-#endif
-    NULL,                               /* nb_inplace_remainder */
-    NULL,                               /* nb_inplace_power */
-    NULL,                               /* nb_inplace_lshift */
-    NULL,                               /* nb_inplace_rshift */
-    NULL,                               /* nb_inplace_and */
-    NULL,                               /* nb_inplace_xor */
-    NULL,                               /* nb_inplace_or */
-    NULL,                               /* nb_floor_divide */
-    NULL,                               /* nb_true_divide */
-    NULL,                               /* nb_inplace_floor_divide */
-    NULL,                               /* nb_inplace_true_divide */
-#if ((PY_MAJOR_VERSION > 2) || (PY_MAJOR_VERSION == 2 && PY_MINOR_VERSION >= 5))
-    NULL,                               /* nb_index */
-#endif
-#if ((PY_MAJOR_VERSION > 3) || (PY_MAJOR_VERSION == 3 && PY_MINOR_VERSION >= 5))
-    NULL,                               /* nb_matrix_multiply */
-    NULL,                               /* nb_inplace_matrix_multiply */
-#endif
-};
+PY_PLASMA_TYPE(Matrix44, hsMatrix44, "hsMatrix44 wrapper")
+PY_PLASMA_TYPE_AS_NUMBER(Matrix44)
+PY_PLASMA_TYPE_AS_MAPPING(Matrix44)
 
-PyTypeObject pyMatrix44_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.hsMatrix44",            /* tp_name */
-    sizeof(pyMatrix44),                 /* tp_basicsize */
-    0,                                  /* tp_itemsize */
-
-    pyMatrix44_dealloc,                 /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    &pyMatrix44_As_Number,              /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    &pyMatrix44_As_Mapping,             /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPES, /* tp_flags */
-    "hsMatrix44 wrapper",               /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyMatrix44_Methods,                 /* tp_methods */
-    NULL,                               /* tp_members */
-    pyMatrix44_GetSet,                  /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    pyMatrix44___init__,                /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyMatrix44_new,                     /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyMatrix44_Type() {
+PY_PLASMA_TYPE_INIT(Matrix44) {
+    pyMatrix44_As_Number.nb_multiply = pyMatrix44_nb_multiply;
+    pyMatrix44_As_Mapping.mp_subscript = pyMatrix44_mp_subscript;
+    pyMatrix44_As_Mapping.mp_ass_subscript = pyMatrix44_mp_ass_subscript;
+    pyMatrix44_Type.tp_dealloc = pyMatrix44_dealloc;
+    pyMatrix44_Type.tp_init = pyMatrix44___init__;
+    pyMatrix44_Type.tp_new = pyMatrix44_new;
+    pyMatrix44_Type.tp_as_number = &pyMatrix44_As_Number;
+    pyMatrix44_Type.tp_as_mapping = &pyMatrix44_As_Mapping;
+    pyMatrix44_Type.tp_methods = pyMatrix44_Methods;
+    pyMatrix44_Type.tp_getset = pyMatrix44_GetSet;
+    pyMatrix44_Type.tp_flags |= Py_TPFLAGS_CHECKTYPES;
     if (PyType_Ready(&pyMatrix44_Type) < 0)
         return NULL;
 

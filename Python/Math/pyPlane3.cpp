@@ -51,7 +51,7 @@ PY_PLASMA_INIT_DECL(Plane3) {
 
 PY_PLASMA_VALUE_NEW(Plane3, hsPlane3)
 
-static PyObject* pyPlane3_Repr(pyPlane3* self) {
+PY_PLASMA_REPR_DECL(Plane3) {
     plString repr = plString::Format("hsPlane3(%f, %f, %f, %f)",
              self->fThis->N.X, self->fThis->N.Y, self->fThis->N.Z, self->fThis->W);
     return pyPlasma_convert(repr);
@@ -110,65 +110,15 @@ PyGetSetDef pyPlane3_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyPlane3_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.hsPlane3",              /* tp_name */
-    sizeof(pyPlane3),                   /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(Plane3, hsPlane3, "hsPlane3 wrapper")
 
-    pyPlane3_dealloc,                   /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    (reprfunc)pyPlane3_Repr,            /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPES, /* tp_flags */
-    "hsPlane3 wrapper",                 /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyPlane3_Methods,                   /* tp_methods */
-    NULL,                               /* tp_members */
-    pyPlane3_GetSet,                    /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    pyPlane3___init__,                  /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyPlane3_new,                       /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyPlane3_Type() {
+PY_PLASMA_TYPE_INIT(Plane3) {
+    pyPlane3_Type.tp_dealloc = pyPlane3_dealloc;
+    pyPlane3_Type.tp_init = pyPlane3___init__;
+    pyPlane3_Type.tp_new = pyPlane3_new;
+    pyPlane3_Type.tp_repr = pyPlane3_repr;
+    pyPlane3_Type.tp_methods = pyPlane3_Methods;
+    pyPlane3_Type.tp_getset = pyPlane3_GetSet;
     if (PyType_Ready(&pyPlane3_Type) < 0)
         return NULL;
 

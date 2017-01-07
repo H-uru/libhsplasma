@@ -60,7 +60,7 @@ PY_PLASMA_INIT_DECL(Color32) {
 
 PY_PLASMA_VALUE_NEW(Color32, hsColor32)
 
-static PyObject* pyColor32_Repr(pyColor32* self) {
+PY_PLASMA_REPR_DECL(Color32) {
     plString repr = plString::Format("hsColor32(%u, %u, %u, %u)",
         self->fThis->r, self->fThis->g, self->fThis->b, self->fThis->a);
     return PlStr_To_PyStr(repr);
@@ -194,65 +194,15 @@ static PyGetSetDef pyColor32_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyColor32_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.hsColor32",             /* tp_name */
-    sizeof(pyColor32),                  /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(Color32, hsColor32, "hsColor32 wrapper")
 
-    pyColor32_dealloc,                  /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    (reprfunc)pyColor32_Repr,           /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT,                 /* tp_flags */
-    "hsColor32 wrapper",                /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyColor32_Methods,                  /* tp_methods */
-    NULL,                               /* tp_members */
-    pyColor32_GetSet,                   /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    pyColor32___init__,                 /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyColor32_new,                      /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyColor32_Type() {
+PY_PLASMA_TYPE_INIT(Color32) {
+    pyColor32_Type.tp_dealloc = pyColor32_dealloc;
+    pyColor32_Type.tp_init = pyColor32___init__;
+    pyColor32_Type.tp_new = pyColor32_new;
+    pyColor32_Type.tp_repr = pyColor32_repr;
+    pyColor32_Type.tp_methods = pyColor32_Methods;
+    pyColor32_Type.tp_getset = pyColor32_GetSet;
     if (PyType_Ready(&pyColor32_Type) < 0)
         return NULL;
 

@@ -60,18 +60,6 @@ inline char* _pycs(const char (&str)[size]) { return const_cast<char*>(str); }
     #error Your Python version is too old.  Only 2.6 and later are supported
 #endif
 
-#if (PY_MAJOR_VERSION >= 3) || ((PY_MAJOR_VERSION == 2) && (PY_MINOR_VERSION >= 6))
-    #define TP_VERSION_TAG_INIT 0,
-#else
-    #define TP_VERSION_TAG_INIT
-#endif
-
-#if (PY_MAJOR_VERSION >= 4) || ((PY_MAJOR_VERSION == 3) && (PY_MINOR_VERSION >= 4))
-    #define TP_FINALIZE_INIT NULL,
-#else
-    #define TP_FINALIZE_INIT
-#endif
-
 // This should work the same for all versions
 #define PyStr_To_PlStr PyString_To_PlasmaString
 #define PyAnyStr_Check(ob) (PyUnicode_Check(ob) || PyBytes_Check(ob))
@@ -193,7 +181,7 @@ PyObject* PyPlasmaValue_new(PyTypeObject* type, ArgsT&&... args) {
 #define PY_PLASMA_INIT_DECL(pyType)                                     \
     static int py##pyType##___init__impl(py##pyType*, PyObject*, PyObject*); \
     static int (*py##pyType##___init__)(PyObject*, PyObject*, PyObject*) = (initproc)&py##pyType##___init__impl; \
-    int py##pyType##___init__impl(py##pyType* self, PyObject* args, PyObject* kwds) \
+    int py##pyType##___init__impl(py##pyType* self, PyObject* args, PyObject* kwds)
 
 /* The default tp_init implementation for objects which have no need for
  * custom __init__() behavior or additional arguments */
@@ -221,6 +209,48 @@ PyObject* PyPlasmaValue_new(PyTypeObject* type, ArgsT&&... args) {
         delete ((py##pyType*)self)->fThis;                              \
         Py_TYPE(self)->tp_free(self);                                   \
     }
+
+/* Helpers for other types of special functions */
+#define PY_PLASMA_REPR_DECL(pyType)                                     \
+    static PyObject* py##pyType##_repr_impl(py##pyType*);               \
+    static PyObject* (*py##pyType##_repr)(PyObject*) = (reprfunc)py##pyType##_repr_impl; \
+    PyObject* py##pyType##_repr_impl(py##pyType* self)
+
+#define PY_PLASMA_HASH_DECL(pyType)                                     \
+    static long py##pyType##_hash_impl(py##pyType*);                    \
+    static long (*py##pyType##_hash)(PyObject*) = (hashfunc)py##pyType##_hash_impl; \
+    long py##pyType##_hash_impl(py##pyType* self)
+
+#define PY_PLASMA_RICHCOMPARE_DECL(pyType)                              \
+    static PyObject* py##pyType##_richcompare_impl(py##pyType*, py##pyType*, int); \
+    static PyObject* (*py##pyType##_richcompare)(PyObject*, PyObject*, int) = \
+                (richcmpfunc)&py##pyType##_richcompare_impl;            \
+    PyObject* py##pyType##_richcompare_impl(py##pyType* left, py##pyType* right, int op)
+
+#define PY_PLASMA_SUBSCRIPT_DECL(pyType)                                \
+    static PyObject* py##pyType##_mp_subscript_impl(py##pyType*, PyObject*); \
+    static PyObject* (*py##pyType##_mp_subscript)(PyObject*, PyObject*) = \
+                (binaryfunc)&py##pyType##_mp_subscript_impl;            \
+    PyObject* py##pyType##_mp_subscript_impl(py##pyType* self, PyObject* key)
+
+#define PY_PLASMA_ASS_SUBSCRIPT_DECL(pyType)                            \
+    static int py##pyType##_mp_ass_subscript_impl(py##pyType*, PyObject*, PyObject*); \
+    static int (*py##pyType##_mp_ass_subscript)(PyObject*, PyObject*, PyObject*) = \
+                (objobjargproc)&py##pyType##_mp_ass_subscript_impl;     \
+    int py##pyType##_mp_ass_subscript_impl(py##pyType* self, PyObject* key, PyObject* value)
+
+#define PY_PLASMA_NB_BINARYFUNC_DECL(pyType, name)                      \
+    static PyObject* py##pyType##_nb_##name(PyObject* left, PyObject* right)
+
+#define PY_PLASMA_NB_UNARYFUNC_DECL(pyType, name)                       \
+    static PyObject* py##pyType##_nb_##name##_impl(py##pyType*);        \
+    static PyObject* (*py##pyType##_nb_##name)(PyObject*) = (unaryfunc)&py##pyType##_nb_##name##_impl; \
+    PyObject* py##pyType##_nb_##name##_impl(py##pyType* self)
+
+#define PY_PLASMA_NB_INQUIRY_DECL(pyType, name)                        \
+    static int py##pyType##_nb_##name##_impl(py##pyType*);              \
+    static int (*py##pyType##_nb_##name)(PyObject*) = (inquiry)&py##pyType##_nb_##name##_impl; \
+    int py##pyType##_nb_##name##_impl(py##pyType* self)
 
 /* Helpers for getters and setters */
 inline PyObject* pyPlasma_convert(uint8_t value) { return PyInt_FromLong((long)(unsigned long)value); }
@@ -444,7 +474,6 @@ template <> inline plKeyDef pyPlasma_get(PyObject* value) { return (plKeyDef)PyI
     };                                                                  \
     PyObject* py##pyType##_##name(PyObject*, PyObject* args)
 
-
 #define PY_METHOD_GLOBAL_NOARGS(module, name, doctext)                  \
     static PyObject* module##_##name(PyObject*);                        \
     static PyMethodDef module##_##name##_method = {                     \
@@ -464,6 +493,88 @@ template <> inline plKeyDef pyPlasma_get(PyObject* value) { return (plKeyDef)PyI
     PyObject* module##_##name(PyObject*, PyObject* args)
 
 #define PY_METHOD_TERMINATOR { NULL, NULL, 0, NULL }
+
+/* Helpers for declaring and populating the master PyTypeObject structure */
+#if (PY_MAJOR_VERSION >= 3) || ((PY_MAJOR_VERSION == 2) && (PY_MINOR_VERSION >= 6))
+    #define _TP_VERSION_TAG_INIT 0,
+#else
+    #define _TP_VERSION_TAG_INIT
+#endif
+
+#if (PY_MAJOR_VERSION >= 4) || ((PY_MAJOR_VERSION == 3) && (PY_MINOR_VERSION >= 4))
+    #define _TP_FINALIZE_INIT NULL,
+#else
+    #define _TP_FINALIZE_INIT
+#endif
+
+#define PY_PLASMA_TYPE(pyType, classname, doctext)                      \
+    PyTypeObject py##pyType##_Type = {                                  \
+        PyVarObject_HEAD_INIT(NULL, 0)                                  \
+        "PyHSPlasma." #classname,                                       \
+        sizeof(py##pyType), 0,                                          \
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,     \
+        NULL, NULL, NULL, NULL, NULL,                                   \
+        Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,                       \
+        doctext,                                                        \
+        NULL, NULL, NULL, 0, NULL, NULL,                                \
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0,                    \
+        NULL, NULL, NULL, NULL, NULL,                                   \
+        NULL, NULL, NULL, NULL, NULL,                                   \
+        NULL,                                                           \
+        _TP_VERSION_TAG_INIT                                            \
+        _TP_FINALIZE_INIT                                               \
+    };
+
+#if (PY_MAJOR_VERSION < 3)
+    #define _NB_DIVIDE_INIT         NULL,
+    #define _NB_COERCE_INIT         NULL,
+    #define _NB_OCT_HEX_INIT        NULL, NULL,
+    #define _NB_INPLACE_DIVIDE_INIT NULL,
+    /* nb_nonzero was renamed to nb_bool in Python 3.0 */
+    #define nb_bool                 nb_nonzero
+#else
+    #define _NB_DIVIDE_INIT
+    #define _NB_COERCE_INIT
+    #define _NB_OCT_HEX_INIT
+    #define _NB_INPLACE_DIVIDE_INIT
+#endif
+
+#if ((PY_MAJOR_VERSION > 2) || (PY_MAJOR_VERSION == 2 && PY_MINOR_VERSION >= 5))
+    #define _NB_INDEX_INIT NULL,
+#else
+    #define _NB_INDEX_INIT
+#endif
+
+#if ((PY_MAJOR_VERSION > 3) || (PY_MAJOR_VERSION == 3 && PY_MINOR_VERSION >= 5))
+    #define _NB_MATRIX_MULTIPLY_INIT NULL, NULL,
+#else
+    #define _NB_MATRIX_MULTIPLY_INIT
+#endif
+
+#define PY_PLASMA_TYPE_AS_NUMBER(pyType)                                \
+    static PyNumberMethods py##pyType##_As_Number = {                   \
+        NULL, NULL, NULL,                                               \
+        _NB_DIVIDE_INIT                                                 \
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,                 \
+        NULL, NULL, NULL, NULL, NULL,                                   \
+        _NB_COERCE_INIT                                                 \
+        NULL, NULL, NULL,                                               \
+        _NB_OCT_HEX_INIT                                                \
+        NULL, NULL, NULL,                                               \
+        _NB_INPLACE_DIVIDE_INIT                                         \
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL,                       \
+        NULL, NULL, NULL, NULL,                                         \
+        _NB_INDEX_INIT                                                  \
+        _NB_MATRIX_MULTIPLY_INIT                                        \
+    };
+
+#define PY_PLASMA_TYPE_AS_MAPPING(pyType)                               \
+    static PyMappingMethods py##pyType##_As_Mapping = {                 \
+        NULL, NULL, NULL,                                               \
+    };
+
+#define PY_PLASMA_TYPE_INIT(pyType)                                     \
+    PyObject* Init_py##pyType##_Type()
 
 #define PY_TYPE_ADD_CONST(pyType, name, value)                          \
     PyDict_SetItemString(py##pyType##_Type.tp_dict, name,               \

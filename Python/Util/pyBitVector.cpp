@@ -25,15 +25,13 @@ PY_PLASMA_DEALLOC(BitVector)
 PY_PLASMA_EMPTY_INIT(BitVector)
 PY_PLASMA_NEW(BitVector, hsBitVector)
 
-static PyObject* pyBitVector_Subscript(pyBitVector* self, PyObject* key) {
-    if (PyAnyStr_Check(key)) {
-        Py_INCREF(key);
-        plString name = PyStr_To_PlStr(key);
-        int idx = (int)self->fThis->getValue(name);
-        Py_DECREF(key);
+PY_PLASMA_SUBSCRIPT_DECL(BitVector) {
+    if (pyPlasma_check<plString>(key)) {
+        plString name = pyPlasma_get<plString>(key);
+        unsigned int idx = self->fThis->getValue(name);
         return pyPlasma_convert(self->fThis->get(idx));
-    } else if (PyInt_Check(key)) {
-        int idx = PyInt_AsLong(key);
+    } else if (pyPlasma_check<unsigned int>(key)) {
+        unsigned int idx = pyPlasma_get<unsigned int>(key);
         return pyPlasma_convert(self->fThis->get(idx));
     } else {
         PyErr_SetString(PyExc_TypeError, "Invalid subscript");
@@ -41,22 +39,20 @@ static PyObject* pyBitVector_Subscript(pyBitVector* self, PyObject* key) {
     }
 }
 
-static int pyBitVector_AssSubscript(pyBitVector* self, PyObject* key, PyObject* value) {
-    if (!PyInt_Check(value)) {
+PY_PLASMA_ASS_SUBSCRIPT_DECL(BitVector) {
+    if (!pyPlasma_check<bool>(value)) {
         PyErr_SetString(PyExc_TypeError, "BitVector bits should be bools");
         return -1;
     }
-    bool b = (PyInt_AsLong(value) != 0);
+    bool b = pyPlasma_get<bool>(value);
 
-    if (PyAnyStr_Check(key)) {
-        Py_INCREF(key);
-        plString name = PyStr_To_PlStr(key);
-        int idx = (int)self->fThis->getValue(name);
-        Py_DECREF(key);
+    if (pyPlasma_check<plString>(key)) {
+        plString name = pyPlasma_get<plString>(key);
+        unsigned int idx = self->fThis->getValue(name);
         self->fThis->set(idx, b);
         return 0;
-    } else if (PyInt_Check(key)) {
-        int idx = PyInt_AsLong(key);
+    } else if (pyPlasma_check<unsigned int>(key)) {
+        unsigned int idx = pyPlasma_get<unsigned int>(key);
         self->fThis->set(idx, b);
         return 0;
     } else {
@@ -154,12 +150,6 @@ PY_METHOD_VA(BitVector, write,
     Py_RETURN_NONE;
 }
 
-static PyMappingMethods pyBitVector_AsMapping = {
-    NULL,                                   /* mp_length */
-    (binaryfunc)pyBitVector_Subscript,      /* mp_subscript */
-    (objobjargproc)pyBitVector_AssSubscript /* mp_ass_subscript */
-};
-
 static PyMethodDef pyBitVector_Methods[] = {
     pyBitVector_isEmpty_method,
     pyBitVector_clear_method,
@@ -172,65 +162,17 @@ static PyMethodDef pyBitVector_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PyTypeObject pyBitVector_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.hsBitVector",           /* tp_name */
-    sizeof(pyBitVector),                /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(BitVector, hsBitVector, "hsBitVector wrapper")
+PY_PLASMA_TYPE_AS_MAPPING(BitVector)
 
-    pyBitVector_dealloc,                /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    &pyBitVector_AsMapping,             /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT,                 /* tp_flags */
-    "hsBitVector wrapper",              /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyBitVector_Methods,                /* tp_methods */
-    NULL,                               /* tp_members */
-    NULL,                               /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    pyBitVector___init__,               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyBitVector_new,                    /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyBitVector_Type() {
+PY_PLASMA_TYPE_INIT(BitVector) {
+    pyBitVector_As_Mapping.mp_subscript = pyBitVector_mp_subscript;
+    pyBitVector_As_Mapping.mp_ass_subscript = pyBitVector_mp_ass_subscript;
+    pyBitVector_Type.tp_dealloc = pyBitVector_dealloc;
+    pyBitVector_Type.tp_init = pyBitVector___init__;
+    pyBitVector_Type.tp_new = pyBitVector_new;
+    pyBitVector_Type.tp_as_mapping = &pyBitVector_As_Mapping;
+    pyBitVector_Type.tp_methods = pyBitVector_Methods;
     if (PyType_Ready(&pyBitVector_Type) < 0)
         return NULL;
 

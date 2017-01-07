@@ -51,42 +51,42 @@ PY_PLASMA_INIT_DECL(Vector3) {
 
 PY_PLASMA_VALUE_NEW(Vector3, hsVector3)
 
-static PyObject* pyVector3_Repr(pyVector3* self) {
+PY_PLASMA_REPR_DECL(Vector3) {
     plString repr = plString::Format("hsVector3(%f, %f, %f)",
              self->fThis->X, self->fThis->Y, self->fThis->Z);
     return pyPlasma_convert(repr);
 }
 
-static PyObject* pyVector3_add(PyObject* left, PyObject* right) {
+PY_PLASMA_NB_BINARYFUNC_DECL(Vector3, add) {
     if (!pyVector3_Check(left) || !pyVector3_Check(right)) {
         PyErr_SetString(PyExc_TypeError, "Incompatible Types");
         return NULL;
     }
-    return pyPlasma_convert(*((pyVector3*)left)->fThis + *((pyVector3*)right)->fThis);
+    return pyPlasma_convert(pyPlasma_get<hsVector3>(left) + pyPlasma_get<hsVector3>(right));
 }
 
-static PyObject* pyVector3_subtract(PyObject* left, PyObject* right) {
+PY_PLASMA_NB_BINARYFUNC_DECL(Vector3, subtract) {
     if (!pyVector3_Check(left) || !pyVector3_Check(right)) {
         PyErr_SetString(PyExc_TypeError, "Incompatible Types");
         return NULL;
     }
-    return pyPlasma_convert(*((pyVector3*)left)->fThis - *((pyVector3*)right)->fThis);
+    return pyPlasma_convert(pyPlasma_get<hsVector3>(left) - pyPlasma_get<hsVector3>(right));
 }
 
-static PyObject* pyVector3_multiply(PyObject* left, PyObject* right) {
+PY_PLASMA_NB_BINARYFUNC_DECL(Vector3, multiply) {
     if (pyVector3_Check(left)) {
         if (pyVector3_Check(right)) {
             PyErr_SetString(PyExc_TypeError, "Vector Multiplication should use dotP and crossP");
             return NULL;
-        } else if (PyFloat_Check(right)) {
-            return pyPlasma_convert(*((pyVector3*)left)->fThis * PyFloat_AsDouble(right));
+        } else if (pyPlasma_check<float>(right)) {
+            return pyPlasma_convert(pyPlasma_get<hsVector3>(left) * pyPlasma_get<float>(right));
         } else {
             PyErr_SetString(PyExc_TypeError, "Incompatible Types");
             return NULL;
         }
     } else if (pyVector3_Check(right)) {
-        if (PyFloat_Check(left)) {
-            return pyPlasma_convert(*((pyVector3*)right)->fThis * PyFloat_AsDouble(left));
+        if (pyPlasma_check<float>(left)) {
+            return pyPlasma_convert(pyPlasma_get<hsVector3>(right) * pyPlasma_get<float>(left));
         } else {
             PyErr_SetString(PyExc_TypeError, "Incompatible Types");
             return NULL;
@@ -97,23 +97,23 @@ static PyObject* pyVector3_multiply(PyObject* left, PyObject* right) {
     }
 }
 
-static PyObject* pyVector3_negative(pyVector3* self) {
+PY_PLASMA_NB_UNARYFUNC_DECL(Vector3, negative) {
     return pyPlasma_convert(hsVector3(-(self->fThis->X), -(self->fThis->Y),
                                       -(self->fThis->Z)));
 }
 
-static PyObject* pyVector3_positive(pyVector3* self) {
+PY_PLASMA_NB_UNARYFUNC_DECL(Vector3, positive) {
     return pyPlasma_convert(hsVector3(+(self->fThis->X), +(self->fThis->Y),
                                       +(self->fThis->Z)));
 }
 
-static PyObject* pyVector3_absolute(pyVector3* self) {
+PY_PLASMA_NB_UNARYFUNC_DECL(Vector3, absolute) {
     return pyPlasma_convert(hsVector3(fabs(self->fThis->X),
                                       fabs(self->fThis->Y),
                                       fabs(self->fThis->Z)));
 }
 
-static int pyVector3_nonzero(pyVector3* self) {
+PY_PLASMA_NB_INQUIRY_DECL(Vector3, nonzero) {
     return (self->fThis->X != 0.0f) || (self->fThis->Y != 0.0f)
         || (self->fThis->Z != 0.0f);
 }
@@ -193,62 +193,6 @@ PY_METHOD_VA(Vector3, write,
     Py_RETURN_NONE;
 }
 
-PyNumberMethods pyVector3_As_Number = {
-    (binaryfunc)pyVector3_add,          /* nb_add */
-    (binaryfunc)pyVector3_subtract,     /* nb_subtract */
-    (binaryfunc)pyVector3_multiply,     /* nb_multiply */
-#if (PY_MAJOR_VERSION < 3)
-    NULL,                               /* nb_divide */
-#endif
-    NULL,                               /* nb_remainder */
-    NULL,                               /* nb_divmod */
-    NULL,                               /* nb_power */
-    (unaryfunc)pyVector3_negative,      /* nb_negative */
-    (unaryfunc)pyVector3_positive,      /* nb_positive */
-    (unaryfunc)pyVector3_absolute,      /* nb_absolute */
-    (inquiry)pyVector3_nonzero,         /* nb_nonzero */
-    NULL,                               /* nb_invert */
-    NULL,                               /* nb_lshift */
-    NULL,                               /* nb_rshift */
-    NULL,                               /* nb_and */
-    NULL,                               /* nb_xor */
-    NULL,                               /* nb_or */
-#if (PY_MAJOR_VERSION < 3)
-    NULL,                               /* nb_coerce */
-#endif
-    NULL,                               /* nb_int */
-    NULL,                               /* nb_long */
-    NULL,                               /* nb_float */
-#if (PY_MAJOR_VERSION < 3)
-    NULL,                               /* nb_oct */
-    NULL,                               /* nb_hex */
-#endif
-    NULL,                               /* nb_inplace_add */
-    NULL,                               /* nb_inplace_subtract */
-    NULL,                               /* nb_inplace_multiply */
-#if (PY_MAJOR_VERSION < 3)
-    NULL,                               /* nb_inplace_divide */
-#endif
-    NULL,                               /* nb_inplace_remainder */
-    NULL,                               /* nb_inplace_power */
-    NULL,                               /* nb_inplace_lshift */
-    NULL,                               /* nb_inplace_rshift */
-    NULL,                               /* nb_inplace_and */
-    NULL,                               /* nb_inplace_xor */
-    NULL,                               /* nb_inplace_or */
-    NULL,                               /* nb_floor_divide */
-    NULL,                               /* nb_true_divide */
-    NULL,                               /* nb_inplace_floor_divide */
-    NULL,                               /* nb_inplace_true_divide */
-#if ((PY_MAJOR_VERSION > 2) || (PY_MAJOR_VERSION == 2 && PY_MINOR_VERSION >= 5))
-    NULL,                               /* nb_index */
-#endif
-#if ((PY_MAJOR_VERSION > 3) || (PY_MAJOR_VERSION == 3 && PY_MINOR_VERSION >= 5))
-    NULL,                               /* nb_matrix_multiply */
-    NULL,                               /* nb_inplace_matrix_multiply */
-#endif
-};
-
 PyMethodDef pyVector3_Methods[] = {
     pyVector3_magnitude_method,
     pyVector3_normalize_method,
@@ -270,65 +214,25 @@ PyGetSetDef pyVector3_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyVector3_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.hsVector3",             /* tp_name */
-    sizeof(pyVector3),                  /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(Vector3, hsVector3, "hsVector3/hsPoint3 wrapper")
+PY_PLASMA_TYPE_AS_NUMBER(Vector3)
 
-    pyVector3_dealloc,                  /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    (reprfunc)pyVector3_Repr,           /* tp_repr */
-    &pyVector3_As_Number,               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPES, /* tp_flags */
-    "hsVector3/hsPoint3 wrapper",       /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyVector3_Methods,                  /* tp_methods */
-    NULL,                               /* tp_members */
-    pyVector3_GetSet,                   /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    pyVector3___init__,                 /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyVector3_new,                      /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyVector3_Type() {
+PY_PLASMA_TYPE_INIT(Vector3) {
+    pyVector3_As_Number.nb_add = pyVector3_nb_add;
+    pyVector3_As_Number.nb_subtract = pyVector3_nb_subtract;
+    pyVector3_As_Number.nb_multiply = pyVector3_nb_multiply;
+    pyVector3_As_Number.nb_negative = pyVector3_nb_negative;
+    pyVector3_As_Number.nb_positive = pyVector3_nb_positive;
+    pyVector3_As_Number.nb_absolute = pyVector3_nb_absolute;
+    pyVector3_As_Number.nb_bool = pyVector3_nb_nonzero;
+    pyVector3_Type.tp_dealloc = pyVector3_dealloc;
+    pyVector3_Type.tp_init = pyVector3___init__;
+    pyVector3_Type.tp_new = pyVector3_new;
+    pyVector3_Type.tp_repr = pyVector3_repr;
+    pyVector3_Type.tp_as_number = &pyVector3_As_Number;
+    pyVector3_Type.tp_methods = pyVector3_Methods;
+    pyVector3_Type.tp_getset = pyVector3_GetSet;
+    pyVector3_Type.tp_flags |= Py_TPFLAGS_CHECKTYPES;
     if (PyType_Ready(&pyVector3_Type) < 0)
         return NULL;
 

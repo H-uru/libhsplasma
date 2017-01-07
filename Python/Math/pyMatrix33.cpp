@@ -43,7 +43,7 @@ PY_PLASMA_INIT_DECL(Matrix33) {
 
 PY_PLASMA_VALUE_NEW(Matrix33, hsMatrix33)
 
-static PyObject* pyMatrix33_Subscript(pyMatrix33* self, PyObject* key) {
+PY_PLASMA_SUBSCRIPT_DECL(Matrix33) {
     int i, j;
     if (!PyArg_ParseTuple(key, "ii", &i, &j)) {
         PyErr_SetString(PyExc_TypeError, "Matrix subscript expects int, int");
@@ -52,25 +52,19 @@ static PyObject* pyMatrix33_Subscript(pyMatrix33* self, PyObject* key) {
     return pyPlasma_convert((*self->fThis)(i, j));
 }
 
-static int pyMatrix33_AssSubscript(pyMatrix33* self, PyObject* key, PyObject* value) {
+PY_PLASMA_ASS_SUBSCRIPT_DECL(Matrix33) {
     int i, j;
     if (!PyArg_ParseTuple(key, "ii", &i, &j)) {
         PyErr_SetString(PyExc_TypeError, "Matrix subscript expects int, int");
         return -1;
     }
-    if (!PyFloat_Check(value)) {
+    if (!pyPlasma_check<float>(value)) {
         PyErr_SetString(PyExc_TypeError, "Matrix values should be floats");
         return -1;
     }
-    (*self->fThis)(i, j) = PyFloat_AsDouble(value);
+    (*self->fThis)(i, j) = pyPlasma_get<float>(value);
     return 0;
 }
-
-static PyMappingMethods pyMatrix33_As_Mapping = {
-    NULL,                                   /* mp_length */
-    (binaryfunc)pyMatrix33_Subscript,       /* mp_subscript */
-    (objobjargproc)pyMatrix33_AssSubscript  /* mp_ass_subscript */
-};
 
 PY_GETSET_GETTER_DECL(Matrix33, mat) {
     PyObject* t1 = PyTuple_New(3);
@@ -140,65 +134,18 @@ PyMethodDef pyMatrix33_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PyTypeObject pyMatrix33_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.hsMatrix33",            /* tp_name */
-    sizeof(pyMatrix33),                 /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(Matrix33, hsMatrix33, "hsMatrix33 wrapper");
+PY_PLASMA_TYPE_AS_MAPPING(Matrix33)
 
-    pyMatrix33_dealloc,                 /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    &pyMatrix33_As_Mapping,             /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPES, /* tp_flags */
-    "hsMatrix33 wrapper",               /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyMatrix33_Methods,                 /* tp_methods */
-    NULL,                               /* tp_members */
-    pyMatrix33_GetSet,                  /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    pyMatrix33___init__,                /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyMatrix33_new,                     /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyMatrix33_Type() {
+PY_PLASMA_TYPE_INIT(Matrix33) {
+    pyMatrix33_As_Mapping.mp_subscript = pyMatrix33_mp_subscript;
+    pyMatrix33_As_Mapping.mp_ass_subscript = pyMatrix33_mp_ass_subscript;
+    pyMatrix33_Type.tp_dealloc = pyMatrix33_dealloc;
+    pyMatrix33_Type.tp_init = pyMatrix33___init__;
+    pyMatrix33_Type.tp_new = pyMatrix33_new;
+    pyMatrix33_Type.tp_as_mapping = &pyMatrix33_As_Mapping;
+    pyMatrix33_Type.tp_methods = pyMatrix33_Methods;
+    pyMatrix33_Type.tp_getset = pyMatrix33_GetSet;
     if (PyType_Ready(&pyMatrix33_Type) < 0)
         return NULL;
 

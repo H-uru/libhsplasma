@@ -20,6 +20,7 @@
 
 extern "C" {
 
+PY_PLASMA_EMPTY_INIT(WaveState7)
 PY_PLASMA_NEW(WaveState7, plFixedWaterState7::WaveState)
 
 PY_PROPERTY_MEMBER(float, WaveState7, maxLength, fMaxLength)
@@ -37,65 +38,13 @@ static PyGetSetDef pyWaveState7_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyWaveState7_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plWaveState7",          /* tp_name */
-    sizeof(pyWaveState7),               /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(WaveState7, plFixedWaterState7.WaveState,
+               "plFixedWaterState7::WaveState wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plFixedWaterState7 wrapper",             /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    NULL,                               /* tp_methods */
-    NULL,                               /* tp_members */
-    pyWaveState7_GetSet,                /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyWaveState7_new,                   /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyWaveState7_Type() {
+PY_PLASMA_TYPE_INIT(WaveState7) {
+    pyWaveState7_Type.tp_init = pyWaveState7___init__;
+    pyWaveState7_Type.tp_new = pyWaveState7_new;
+    pyWaveState7_Type.tp_getset = pyWaveState7_GetSet;
     if (PyType_Ready(&pyWaveState7_Type) < 0)
         return NULL;
 

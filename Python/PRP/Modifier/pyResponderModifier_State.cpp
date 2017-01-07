@@ -128,65 +128,15 @@ static PyGetSetDef pyResponderModifier_State_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyResponderModifier_State_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plResponderModifier_State", /* tp_name */
-    sizeof(pyResponderModifier_State),  /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(ResponderModifier_State, plResponderModifier_State,
+               "plResponderModifier::plResponderState wrapper")
 
-    pyResponderModifier_State_dealloc,  /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT,                 /* tp_flags */
-    "plResponderModifier::plResponderState wrapper", /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyResponderModifier_State_Methods,  /* tp_methods */
-    NULL,                               /* tp_members */
-    pyResponderModifier_State_GetSet,   /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    pyResponderModifier_State___init__, /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyResponderModifier_State_new,      /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyResponderModifier_State_Type() {
+PY_PLASMA_TYPE_INIT(ResponderModifier_State) {
+    pyResponderModifier_State_Type.tp_dealloc = pyResponderModifier_State_dealloc;
+    pyResponderModifier_State_Type.tp_init = pyResponderModifier_State___init__;
+    pyResponderModifier_State_Type.tp_new = pyResponderModifier_State_new;
+    pyResponderModifier_State_Type.tp_methods = pyResponderModifier_State_Methods;
+    pyResponderModifier_State_Type.tp_getset = pyResponderModifier_State_GetSet;
     if (PyType_Ready(&pyResponderModifier_State_Type) < 0)
         return NULL;
 
