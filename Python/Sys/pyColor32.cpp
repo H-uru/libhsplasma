@@ -63,7 +63,7 @@ PY_PLASMA_VALUE_NEW(Color32, hsColor32)
 PY_PLASMA_REPR_DECL(Color32) {
     plString repr = plString::Format("hsColor32(%u, %u, %u, %u)",
         self->fThis->r, self->fThis->g, self->fThis->b, self->fThis->a);
-    return PlStr_To_PyStr(repr);
+    return pyPlasma_convert(repr);
 }
 
 PY_METHOD_VA(Color32, read32,
