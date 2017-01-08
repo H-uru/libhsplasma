@@ -83,7 +83,7 @@ PY_PLASMA_TYPE(Factory, plFactory, "Creatable Factory")
 PY_PLASMA_TYPE_INIT(Factory) {
     pyFactory_Type.tp_new = pyFactory_new;
     pyFactory_Type.tp_methods = pyFactory_Methods;
-    if (PyType_Ready(&pyFactory_Type) < 0)
+    if (PyType_CheckAndReady(&pyFactory_Type) < 0)
         return NULL;
 
     ADD_CREATABLE(kSceneNode);

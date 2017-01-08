@@ -88,7 +88,7 @@ PY_PLASMA_TYPE_INIT(WAVHeader) {
     pyWAVHeader_Type.tp_new = pyWAVHeader_new;
     pyWAVHeader_Type.tp_methods = pyWAVHeader_Methods;
     pyWAVHeader_Type.tp_getset = pyWAVHeader_GetSet;
-    if (PyType_Ready(&pyWAVHeader_Type) < 0)
+    if (PyType_CheckAndReady(&pyWAVHeader_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(WAVHeader, "kPCMFormatTag", plWAVHeader::kPCMFormatTag);

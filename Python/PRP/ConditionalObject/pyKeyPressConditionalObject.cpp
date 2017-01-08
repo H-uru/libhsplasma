@@ -37,7 +37,7 @@ PY_PLASMA_TYPE_INIT(KeyPressConditionalObject) {
     pyKeyPressConditionalObject_Type.tp_new = pyKeyPressConditionalObject_new;
     pyKeyPressConditionalObject_Type.tp_getset = pyKeyPressConditionalObject_GetSet;
     pyKeyPressConditionalObject_Type.tp_base = &pyConditionalObject_Type;
-    if (PyType_Ready(&pyKeyPressConditionalObject_Type) < 0)
+    if (PyType_CheckAndReady(&pyKeyPressConditionalObject_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyKeyPressConditionalObject_Type);

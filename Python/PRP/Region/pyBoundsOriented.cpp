@@ -71,7 +71,7 @@ PY_PLASMA_TYPE_INIT(BoundsOriented) {
     pyBoundsOriented_Type.tp_new = pyBoundsOriented_new;
     pyBoundsOriented_Type.tp_getset = pyBoundsOriented_GetSet;
     pyBoundsOriented_Type.tp_base = &pyBounds_Type;
-    if (PyType_Ready(&pyBoundsOriented_Type) < 0)
+    if (PyType_CheckAndReady(&pyBoundsOriented_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyBoundsOriented_Type);

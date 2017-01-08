@@ -27,7 +27,7 @@ PY_PLASMA_TYPE(GUICloseDlgProc, pfGUICloseDlgProc, "pfGUICloseDlgProc wrapper")
 PY_PLASMA_TYPE_INIT(GUICloseDlgProc) {
     pyGUICloseDlgProc_Type.tp_new = pyGUICloseDlgProc_new;
     pyGUICloseDlgProc_Type.tp_base = &pyGUICtrlProcWriteableObject_Type;
-    if (PyType_Ready(&pyGUICloseDlgProc_Type) < 0)
+    if (PyType_CheckAndReady(&pyGUICloseDlgProc_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyGUICloseDlgProc_Type);

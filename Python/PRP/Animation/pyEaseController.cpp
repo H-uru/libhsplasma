@@ -30,7 +30,7 @@ PY_PLASMA_TYPE_INIT(EaseController) {
     pyEaseController_Type.tp_init = pyEaseController___init__;
     pyEaseController_Type.tp_new = pyEaseController_new;
     pyEaseController_Type.tp_base = &pyLeafController_Type;
-    if (PyType_Ready(&pyEaseController_Type) < 0)
+    if (PyType_CheckAndReady(&pyEaseController_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyEaseController_Type);

@@ -44,7 +44,7 @@ PY_PLASMA_TYPE_INIT(ShadowCaster) {
     pyShadowCaster_Type.tp_new = pyShadowCaster_new;
     pyShadowCaster_Type.tp_getset = pyShadowCaster_GetSet;
     pyShadowCaster_Type.tp_base = &pyMultiModifier_Type;
-    if (PyType_Ready(&pyShadowCaster_Type) < 0)
+    if (PyType_CheckAndReady(&pyShadowCaster_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(ShadowCaster, "kNone", plShadowCaster::kNone);

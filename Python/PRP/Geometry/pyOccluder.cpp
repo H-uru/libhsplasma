@@ -154,7 +154,7 @@ PY_PLASMA_TYPE_INIT(Occluder) {
     pyOccluder_Type.tp_methods = pyOccluder_Methods;
     pyOccluder_Type.tp_getset = pyOccluder_GetSet;
     pyOccluder_Type.tp_base = &pyObjInterface_Type;
-    if (PyType_Ready(&pyOccluder_Type) < 0)
+    if (PyType_CheckAndReady(&pyOccluder_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyOccluder_Type);

@@ -91,7 +91,7 @@ PY_PLASMA_TYPE_INIT(OneShotMsg) {
     pyOneShotMsg_Type.tp_methods = pyOneShotMsg_Methods;
     pyOneShotMsg_Type.tp_getset = pyOneShotMsg_GetSet;
     pyOneShotMsg_Type.tp_base = &pyResponderMsg_Type;
-    if (PyType_Ready(&pyOneShotMsg_Type) < 0)
+    if (PyType_CheckAndReady(&pyOneShotMsg_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyOneShotMsg_Type);

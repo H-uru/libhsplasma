@@ -396,7 +396,7 @@ PY_PLASMA_TYPE_INIT(Matrix44) {
     pyMatrix44_Type.tp_methods = pyMatrix44_Methods;
     pyMatrix44_Type.tp_getset = pyMatrix44_GetSet;
     pyMatrix44_Type.tp_flags |= Py_TPFLAGS_CHECKTYPES;
-    if (PyType_Ready(&pyMatrix44_Type) < 0)
+    if (PyType_CheckAndReady(&pyMatrix44_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(Matrix44, "kRight", hsMatrix44::kRight);

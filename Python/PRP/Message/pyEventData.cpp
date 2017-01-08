@@ -84,7 +84,7 @@ PY_PLASMA_TYPE_INIT(EventData) {
     pyEventData_Type.tp_init = pyEventData___init__;
     pyEventData_Type.tp_new = pyEventData_new;
     pyEventData_Type.tp_methods = pyEventData_Methods;
-    if (PyType_Ready(&pyEventData_Type) < 0)
+    if (PyType_CheckAndReady(&pyEventData_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(EventData, "kCollision", proEventData::kCollision);

@@ -146,7 +146,7 @@ PY_PLASMA_TYPE_INIT(Matrix33) {
     pyMatrix33_Type.tp_as_mapping = &pyMatrix33_As_Mapping;
     pyMatrix33_Type.tp_methods = pyMatrix33_Methods;
     pyMatrix33_Type.tp_getset = pyMatrix33_GetSet;
-    if (PyType_Ready(&pyMatrix33_Type) < 0)
+    if (PyType_CheckAndReady(&pyMatrix33_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyMatrix33_Type);

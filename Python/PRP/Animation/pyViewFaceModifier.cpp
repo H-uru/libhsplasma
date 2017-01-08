@@ -51,7 +51,7 @@ PY_PLASMA_TYPE_INIT(ViewFaceModifier) {
     pyViewFaceModifier_Type.tp_new = pyViewFaceModifier_new;
     pyViewFaceModifier_Type.tp_getset = pyViewFaceModifier_GetSet;
     pyViewFaceModifier_Type.tp_base = &pySingleModifier_Type;
-    if (PyType_Ready(&pyViewFaceModifier_Type) < 0)
+    if (PyType_CheckAndReady(&pyViewFaceModifier_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(ViewFaceModifier, "kPivotFace", plViewFaceModifier::kPivotFace);

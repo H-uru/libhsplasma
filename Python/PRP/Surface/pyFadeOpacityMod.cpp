@@ -58,7 +58,7 @@ PY_PLASMA_TYPE_INIT(FadeOpacityMod) {
     pyFadeOpacityMod_Type.tp_new = pyFadeOpacityMod_new;
     pyFadeOpacityMod_Type.tp_getset = pyFadeOpacityMod_GetSet;
     pyFadeOpacityMod_Type.tp_base = &pySingleModifier_Type;
-    if (PyType_Ready(&pyFadeOpacityMod_Type) < 0)
+    if (PyType_CheckAndReady(&pyFadeOpacityMod_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyFadeOpacityMod_Type);

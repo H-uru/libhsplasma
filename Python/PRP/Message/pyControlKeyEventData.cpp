@@ -39,7 +39,7 @@ PY_PLASMA_TYPE_INIT(ControlKeyEventData) {
     pyControlKeyEventData_Type.tp_new = pyControlKeyEventData_new;
     pyControlKeyEventData_Type.tp_getset = pyControlKeyEventData_GetSet;
     pyControlKeyEventData_Type.tp_base = &pyEventData_Type;
-    if (PyType_Ready(&pyControlKeyEventData_Type) < 0)
+    if (PyType_CheckAndReady(&pyControlKeyEventData_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyControlKeyEventData_Type);

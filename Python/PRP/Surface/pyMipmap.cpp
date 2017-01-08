@@ -344,7 +344,7 @@ PY_PLASMA_TYPE_INIT(Mipmap) {
     pyMipmap_Type.tp_methods = pyMipmap_Methods;
     pyMipmap_Type.tp_getset = pyMipmap_GetSet;
     pyMipmap_Type.tp_base = &pyBitmap_Type;
-    if (PyType_Ready(&pyMipmap_Type) < 0)
+    if (PyType_CheckAndReady(&pyMipmap_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyMipmap_Type);

@@ -31,7 +31,7 @@ PY_PLASMA_TYPE_INIT(Matrix44Controller) {
     pyMatrix44Controller_Type.tp_init = pyMatrix44Controller___init__;
     pyMatrix44Controller_Type.tp_new = pyMatrix44Controller_new;
     pyMatrix44Controller_Type.tp_base = &pyLeafController_Type;
-    if (PyType_Ready(&pyMatrix44Controller_Type) < 0)
+    if (PyType_CheckAndReady(&pyMatrix44Controller_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyMatrix44Controller_Type);

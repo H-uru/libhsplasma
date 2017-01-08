@@ -249,7 +249,7 @@ PY_PLASMA_TYPE_INIT(AgeInfo) {
     pyAgeInfo_Type.tp_new = pyAgeInfo_new;
     pyAgeInfo_Type.tp_methods = pyAgeInfo_Methods;
     pyAgeInfo_Type.tp_getset = pyAgeInfo_GetSet;
-    if (PyType_Ready(&pyAgeInfo_Type) < 0)
+    if (PyType_CheckAndReady(&pyAgeInfo_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(AgeInfo, "kFlagPreventAutoLoad", plAgeInfo::kPreventAutoLoad);

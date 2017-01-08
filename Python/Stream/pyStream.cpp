@@ -418,7 +418,7 @@ PY_PLASMA_TYPE_INIT(Stream) {
     pyStream_Type.tp_new = pyStream_new;
     pyStream_Type.tp_methods = pyStream_Methods;
     pyStream_Type.tp_getset = pyStream_GetSet;
-    if (PyType_Ready(&pyStream_Type) < 0)
+    if (PyType_CheckAndReady(&pyStream_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyStream_Type);

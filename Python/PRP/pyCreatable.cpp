@@ -124,7 +124,7 @@ PY_PLASMA_TYPE_INIT(Creatable) {
     pyCreatable_Type.tp_init = pyCreatable___init__;
     pyCreatable_Type.tp_new = pyCreatable_new;
     pyCreatable_Type.tp_methods = pyCreatable_Methods;
-    if (PyType_Ready(&pyCreatable_Type) < 0)
+    if (PyType_CheckAndReady(&pyCreatable_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyCreatable_Type);

@@ -127,7 +127,7 @@ PY_PLASMA_TYPE_INIT(PageInfo) {
     pyPageInfo_Type.tp_new = pyPageInfo_new;
     pyPageInfo_Type.tp_methods = pyPageInfo_Methods;
     pyPageInfo_Type.tp_getset = pyPageInfo_GetSet;
-    if (PyType_Ready(&pyPageInfo_Type) < 0)
+    if (PyType_CheckAndReady(&pyPageInfo_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(PageInfo, "kPartialPatchFile", plPageInfo::kPartialPatchFile);

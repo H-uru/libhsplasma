@@ -66,7 +66,7 @@ PY_PLASMA_TYPE_INIT(CompressedQuatKey32) {
     pyCompressedQuatKey32_Type.tp_methods = pyCompressedQuatKey32_Methods;
     pyCompressedQuatKey32_Type.tp_getset = pyCompressedQuatKey32_GetSet;
     pyCompressedQuatKey32_Type.tp_base = &pyKeyFrame_Type;
-    if (PyType_Ready(&pyCompressedQuatKey32_Type) < 0)
+    if (PyType_CheckAndReady(&pyCompressedQuatKey32_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(CompressedQuatKey32, "kCompQuatNukeX", hsCompressedQuatKey32::kCompQuatNukeX);

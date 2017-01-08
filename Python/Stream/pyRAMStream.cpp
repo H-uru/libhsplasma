@@ -77,7 +77,7 @@ PY_PLASMA_TYPE_INIT(RAMStream) {
     pyRAMStream_Type.tp_methods = pyRAMStream_Methods;
     pyRAMStream_Type.tp_getset = pyRAMStream_GetSet;
     pyRAMStream_Type.tp_base = &pyStream_Type;
-    if (PyType_Ready(&pyRAMStream_Type) < 0)
+    if (PyType_CheckAndReady(&pyRAMStream_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyRAMStream_Type);

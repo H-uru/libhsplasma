@@ -130,7 +130,7 @@ PY_PLASMA_TYPE_INIT(SynchedObject) {
     pySynchedObject_Type.tp_methods = pySynchedObject_Methods;
     pySynchedObject_Type.tp_getset = pySynchedObject_GetSet;
     pySynchedObject_Type.tp_base = &pyKeyedObject_Type;
-    if (PyType_Ready(&pySynchedObject_Type) < 0)
+    if (PyType_CheckAndReady(&pySynchedObject_Type) < 0)
         return NULL;
 
     /* Flags */

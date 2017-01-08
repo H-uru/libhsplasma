@@ -45,7 +45,7 @@ PY_PLASMA_TYPE_INIT(VertexSpan) {
     pyVertexSpan_Type.tp_new = pyVertexSpan_new;
     pyVertexSpan_Type.tp_getset = pyVertexSpan_GetSet;
     pyVertexSpan_Type.tp_base = &pySpan_Type;
-    if (PyType_Ready(&pyVertexSpan_Type) < 0)
+    if (PyType_CheckAndReady(&pyVertexSpan_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyVertexSpan_Type);

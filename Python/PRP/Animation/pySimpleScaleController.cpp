@@ -41,7 +41,7 @@ PY_PLASMA_TYPE_INIT(SimpleScaleController) {
     pySimpleScaleController_Type.tp_new = pySimpleScaleController_new;
     pySimpleScaleController_Type.tp_getset = pySimpleScaleController_GetSet;
     pySimpleScaleController_Type.tp_base = &pyScaleController_Type;
-    if (PyType_Ready(&pySimpleScaleController_Type) < 0)
+    if (PyType_CheckAndReady(&pySimpleScaleController_Type) < 0)
         return NULL;
 
     Py_INCREF(&pySimpleScaleController_Type);

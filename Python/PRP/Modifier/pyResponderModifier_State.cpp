@@ -137,7 +137,7 @@ PY_PLASMA_TYPE_INIT(ResponderModifier_State) {
     pyResponderModifier_State_Type.tp_new = pyResponderModifier_State_new;
     pyResponderModifier_State_Type.tp_methods = pyResponderModifier_State_Methods;
     pyResponderModifier_State_Type.tp_getset = pyResponderModifier_State_GetSet;
-    if (PyType_Ready(&pyResponderModifier_State_Type) < 0)
+    if (PyType_CheckAndReady(&pyResponderModifier_State_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyResponderModifier_State_Type);

@@ -37,7 +37,7 @@ PY_PLASMA_TYPE_INIT(CoopEventData) {
     pyCoopEventData_Type.tp_new = pyCoopEventData_new;
     pyCoopEventData_Type.tp_getset = pyCoopEventData_GetSet;
     pyCoopEventData_Type.tp_base = &pyEventData_Type;
-    if (PyType_Ready(&pyCoopEventData_Type) < 0)
+    if (PyType_CheckAndReady(&pyCoopEventData_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyCoopEventData_Type);

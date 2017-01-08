@@ -41,7 +41,7 @@ PY_PLASMA_TYPE_INIT(SwimRegionInterface) {
     pySwimRegionInterface_Type.tp_new = pySwimRegionInterface_new;
     pySwimRegionInterface_Type.tp_getset = pySwimRegionInterface_GetSet;
     pySwimRegionInterface_Type.tp_base = &pyObjInterface_Type;
-    if (PyType_Ready(&pySwimRegionInterface_Type) < 0)
+    if (PyType_CheckAndReady(&pySwimRegionInterface_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(SwimRegionInterface, "kDisable", plSwimRegionInterface::kDisable);

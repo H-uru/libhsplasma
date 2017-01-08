@@ -41,7 +41,7 @@ PY_PLASMA_TYPE_INIT(OfferLinkBookEventData) {
     pyOfferLinkBookEventData_Type.tp_new = pyOfferLinkBookEventData_new;
     pyOfferLinkBookEventData_Type.tp_getset = pyOfferLinkBookEventData_GetSet;
     pyOfferLinkBookEventData_Type.tp_base = &pyEventData_Type;
-    if (PyType_Ready(&pyOfferLinkBookEventData_Type) < 0)
+    if (PyType_CheckAndReady(&pyOfferLinkBookEventData_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyOfferLinkBookEventData_Type);

@@ -96,7 +96,7 @@ PY_PLASMA_TYPE_INIT(MessageWithCallbacks) {
     pyMessageWithCallbacks_Type.tp_methods = pyMessageWithCallbacks_Methods;
     pyMessageWithCallbacks_Type.tp_getset = pyMessageWithCallbacks_GetSet;
     pyMessageWithCallbacks_Type.tp_base = &pyMessage_Type;
-    if (PyType_Ready(&pyMessageWithCallbacks_Type) < 0)
+    if (PyType_CheckAndReady(&pyMessageWithCallbacks_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyMessageWithCallbacks_Type);

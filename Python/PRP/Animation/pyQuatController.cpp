@@ -30,7 +30,7 @@ PY_PLASMA_TYPE_INIT(QuatController) {
     pyQuatController_Type.tp_init = pyQuatController___init__;
     pyQuatController_Type.tp_new = pyQuatController_new;
     pyQuatController_Type.tp_base = &pyLeafController_Type;
-    if (PyType_Ready(&pyQuatController_Type) < 0)
+    if (PyType_CheckAndReady(&pyQuatController_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyQuatController_Type);

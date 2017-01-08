@@ -540,7 +540,7 @@ PY_PLASMA_TYPE_INIT(DrawableSpans) {
     pyDrawableSpans_Type.tp_methods = pyDrawableSpans_Methods;
     pyDrawableSpans_Type.tp_getset = pyDrawableSpans_GetSet;
     pyDrawableSpans_Type.tp_base = &pyDrawable_Type;
-    if (PyType_Ready(&pyDrawableSpans_Type) < 0)
+    if (PyType_CheckAndReady(&pyDrawableSpans_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyDrawableSpans_Type);

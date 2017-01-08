@@ -47,7 +47,7 @@ PY_PLASMA_TYPE_INIT(CompoundPosController) {
     pyCompoundPosController_Type.tp_new = pyCompoundPosController_new;
     pyCompoundPosController_Type.tp_getset = pyCompoundPosController_GetSet;
     pyCompoundPosController_Type.tp_base = &pyPosController_Type;
-    if (PyType_Ready(&pyCompoundPosController_Type) < 0)
+    if (PyType_CheckAndReady(&pyCompoundPosController_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyCompoundPosController_Type);

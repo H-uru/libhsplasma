@@ -155,7 +155,7 @@ PY_PLASMA_TYPE_INIT(DrawInterface) {
     pyDrawInterface_Type.tp_methods = pyDrawInterface_Methods;
     pyDrawInterface_Type.tp_getset = pyDrawInterface_GetSet;
     pyDrawInterface_Type.tp_base = &pyObjInterface_Type;
-    if (PyType_Ready(&pyDrawInterface_Type) < 0)
+    if (PyType_CheckAndReady(&pyDrawInterface_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyDrawInterface_Type);

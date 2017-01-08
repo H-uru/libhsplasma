@@ -117,7 +117,7 @@ PY_PLASMA_TYPE_INIT(DynamicEnvMap) {
     pyDynamicEnvMap_Type.tp_new = pyDynamicEnvMap_new;
     pyDynamicEnvMap_Type.tp_getset = pyDynamicEnvMap_GetSet;
     pyDynamicEnvMap_Type.tp_base = &pyCubicRenderTarget_Type;
-    if (PyType_Ready(&pyDynamicEnvMap_Type) < 0)
+    if (PyType_CheckAndReady(&pyDynamicEnvMap_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyDynamicEnvMap_Type);

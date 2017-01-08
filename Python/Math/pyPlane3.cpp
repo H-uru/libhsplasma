@@ -119,7 +119,7 @@ PY_PLASMA_TYPE_INIT(Plane3) {
     pyPlane3_Type.tp_repr = pyPlane3_repr;
     pyPlane3_Type.tp_methods = pyPlane3_Methods;
     pyPlane3_Type.tp_getset = pyPlane3_GetSet;
-    if (PyType_Ready(&pyPlane3_Type) < 0)
+    if (PyType_CheckAndReady(&pyPlane3_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyPlane3_Type);

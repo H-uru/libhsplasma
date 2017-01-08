@@ -64,7 +64,7 @@ PY_PLASMA_TYPE_INIT(ResponderModifier_Cmd) {
     pyResponderModifier_Cmd_Type.tp_init = pyResponderModifier_Cmd___init__;
     pyResponderModifier_Cmd_Type.tp_new = pyResponderModifier_Cmd_new;
     pyResponderModifier_Cmd_Type.tp_getset = pyResponderModifier_Cmd_GetSet;
-    if (PyType_Ready(&pyResponderModifier_Cmd_Type) < 0)
+    if (PyType_CheckAndReady(&pyResponderModifier_Cmd_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyResponderModifier_Cmd_Type);

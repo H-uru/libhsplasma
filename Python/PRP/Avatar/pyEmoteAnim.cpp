@@ -41,7 +41,7 @@ PY_PLASMA_TYPE_INIT(EmoteAnim) {
     pyEmoteAnim_Type.tp_new = pyEmoteAnim_new;
     pyEmoteAnim_Type.tp_getset = pyEmoteAnim_GetSet;
     pyEmoteAnim_Type.tp_base = &pyATCAnim_Type;
-    if (PyType_Ready(&pyEmoteAnim_Type) < 0)
+    if (PyType_CheckAndReady(&pyEmoteAnim_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyEmoteAnim_Type);

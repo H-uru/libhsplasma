@@ -96,7 +96,7 @@ PY_PLASMA_TYPE_INIT(LogicModifier) {
     pyLogicModifier_Type.tp_methods = pyLogicModifier_Methods;
     pyLogicModifier_Type.tp_getset = pyLogicModifier_GetSet;
     pyLogicModifier_Type.tp_base = &pyLogicModBase_Type;
-    if (PyType_Ready(&pyLogicModifier_Type) < 0)
+    if (PyType_CheckAndReady(&pyLogicModifier_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyLogicModifier_Type);

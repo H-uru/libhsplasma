@@ -37,7 +37,7 @@ PY_PLASMA_TYPE_INIT(CollisionDetector) {
     pyCollisionDetector_Type.tp_new = pyCollisionDetector_new;
     pyCollisionDetector_Type.tp_getset = pyCollisionDetector_GetSet;
     pyCollisionDetector_Type.tp_base = &pyDetectorModifier_Type;
-    if (PyType_Ready(&pyCollisionDetector_Type) < 0)
+    if (PyType_CheckAndReady(&pyCollisionDetector_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(CollisionDetector, "kTypeEnter", plCollisionDetector::kTypeEnter);

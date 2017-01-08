@@ -144,7 +144,7 @@ PY_PLASMA_TYPE_INIT(SpanTemplate) {
     pySpanTemplate_Type.tp_new = pySpanTemplate_new;
     pySpanTemplate_Type.tp_methods = pySpanTemplate_Methods;
     pySpanTemplate_Type.tp_getset = pySpanTemplate_GetSet;
-    if (PyType_Ready(&pySpanTemplate_Type) < 0)
+    if (PyType_CheckAndReady(&pySpanTemplate_Type) < 0)
         return NULL;
 
     Py_INCREF(&pySpanTemplate_Type);

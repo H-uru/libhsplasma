@@ -371,7 +371,7 @@ PY_PLASMA_TYPE_INIT(GBufferGroup) {
     pyGBufferGroup_Type.tp_new = pyGBufferGroup_new;
     pyGBufferGroup_Type.tp_methods = pyGBufferGroup_Methods;
     pyGBufferGroup_Type.tp_getset = pyGBufferGroup_GetSet;
-    if (PyType_Ready(&pyGBufferGroup_Type) < 0)
+    if (PyType_CheckAndReady(&pyGBufferGroup_Type) < 0)
         return NULL;
 
     // Formats

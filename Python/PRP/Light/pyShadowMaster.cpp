@@ -47,7 +47,7 @@ PY_PLASMA_TYPE_INIT(ShadowMaster) {
     pyShadowMaster_Type.tp_new = pyShadowMaster_new;
     pyShadowMaster_Type.tp_getset = pyShadowMaster_GetSet;
     pyShadowMaster_Type.tp_base = &pyObjInterface_Type;
-    if (PyType_Ready(&pyShadowMaster_Type) < 0)
+    if (PyType_CheckAndReady(&pyShadowMaster_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(ShadowMaster, "kDisable", plShadowMaster::kDisable);

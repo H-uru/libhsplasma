@@ -117,7 +117,7 @@ PY_PLASMA_TYPE_INIT(SpanTemplateVertex) {
     pySpanTemplateVertex_Type.tp_init = pySpanTemplateVertex___init__;
     pySpanTemplateVertex_Type.tp_new = pySpanTemplateVertex_new;
     pySpanTemplateVertex_Type.tp_getset = pySpanTemplateVertex_GetSet;
-    if (PyType_Ready(&pySpanTemplateVertex_Type) < 0)
+    if (PyType_CheckAndReady(&pySpanTemplateVertex_Type) < 0)
         return NULL;
 
     Py_INCREF(&pySpanTemplateVertex_Type);

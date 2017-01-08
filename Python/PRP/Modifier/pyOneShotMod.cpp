@@ -47,7 +47,7 @@ PY_PLASMA_TYPE_INIT(OneShotMod) {
     pyOneShotMod_Type.tp_new = pyOneShotMod_new;
     pyOneShotMod_Type.tp_getset = pyOneShotMod_GetSet;
     pyOneShotMod_Type.tp_base = &pyMultiModifier_Type;
-    if (PyType_Ready(&pyOneShotMod_Type) < 0)
+    if (PyType_CheckAndReady(&pyOneShotMod_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyOneShotMod_Type);

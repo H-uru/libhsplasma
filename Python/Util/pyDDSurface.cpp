@@ -305,7 +305,7 @@ PY_PLASMA_TYPE_INIT(DDSurface) {
     pyDDSurface_Type.tp_new = pyDDSurface_new;
     pyDDSurface_Type.tp_methods = pyDDSurface_Methods;
     pyDDSurface_Type.tp_getset = pyDDSurface_GetSet;
-    if (PyType_Ready(&pyDDSurface_Type) < 0)
+    if (PyType_CheckAndReady(&pyDDSurface_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(DDSurface, "DDSD_CAPS", plDDSurface::DDSD_CAPS);

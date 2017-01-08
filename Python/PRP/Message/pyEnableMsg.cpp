@@ -75,7 +75,7 @@ PY_PLASMA_TYPE_INIT(EnableMsg) {
     pyEnableMsg_Type.tp_new = pyEnableMsg_new;
     pyEnableMsg_Type.tp_methods = pyEnableMsg_Methods;
     pyEnableMsg_Type.tp_base = &pyMessage_Type;
-    if (PyType_Ready(&pyEnableMsg_Type) < 0)
+    if (PyType_CheckAndReady(&pyEnableMsg_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(EnableMsg, "kDisable", plEnableMsg::kDisable);

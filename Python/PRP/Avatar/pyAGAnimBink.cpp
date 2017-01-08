@@ -40,7 +40,7 @@ PY_PLASMA_TYPE_INIT(AGAnimBink) {
     pyAGAnimBink_Type.tp_new = pyAGAnimBink_new;
     pyAGAnimBink_Type.tp_getset = pyAGAnimBink_GetSet;
     pyAGAnimBink_Type.tp_base = &pyATCAnim_Type;
-    if (PyType_Ready(&pyAGAnimBink_Type) < 0)
+    if (PyType_CheckAndReady(&pyAGAnimBink_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyAGAnimBink_Type);

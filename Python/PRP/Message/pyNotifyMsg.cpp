@@ -100,7 +100,7 @@ PY_PLASMA_TYPE_INIT(NotifyMsg) {
     pyNotifyMsg_Type.tp_methods = pyNotifyMsg_Methods;
     pyNotifyMsg_Type.tp_getset = pyNotifyMsg_GetSet;
     pyNotifyMsg_Type.tp_base = &pyMessage_Type;
-    if (PyType_Ready(&pyNotifyMsg_Type) < 0)
+    if (PyType_CheckAndReady(&pyNotifyMsg_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(NotifyMsg, "kActivator", plNotifyMsg::kActivator);

@@ -70,7 +70,7 @@ PY_PLASMA_TYPE_INIT(FileStream) {
     pyFileStream_Type.tp_new = pyFileStream_new;
     pyFileStream_Type.tp_methods = pyFileStream_Methods;
     pyFileStream_Type.tp_base = &pyStream_Type;
-    if (PyType_Ready(&pyFileStream_Type) < 0)
+    if (PyType_CheckAndReady(&pyFileStream_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyFileStream_Type);

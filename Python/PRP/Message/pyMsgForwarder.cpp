@@ -94,7 +94,7 @@ PY_PLASMA_TYPE_INIT(MsgForwarder) {
     pyMsgForwarder_Type.tp_methods = pyMsgForwarder_Methods;
     pyMsgForwarder_Type.tp_getset = pyMsgForwarder_GetSet;
     pyMsgForwarder_Type.tp_base = &pyKeyedObject_Type;
-    if (PyType_Ready(&pyMsgForwarder_Type) < 0)
+    if (PyType_CheckAndReady(&pyMsgForwarder_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyMsgForwarder_Type);

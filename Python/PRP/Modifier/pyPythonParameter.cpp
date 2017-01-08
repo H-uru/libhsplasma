@@ -179,7 +179,7 @@ PY_PLASMA_TYPE_INIT(PythonParameter) {
     pyPythonParameter_Type.tp_new = pyPythonParameter_new;
     pyPythonParameter_Type.tp_methods = pyPythonParameter_Methods;
     pyPythonParameter_Type.tp_getset = pyPythonParameter_GetSet;
-    if (PyType_Ready(&pyPythonParameter_Type) < 0)
+    if (PyType_CheckAndReady(&pyPythonParameter_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(PythonParameter, "kInt", plPythonParameter::kInt);

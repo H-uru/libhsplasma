@@ -36,7 +36,7 @@ PY_PLASMA_TYPE_INIT(ScalarChannel) {
     pyScalarChannel_Type.tp_new = pyScalarChannel_new;
     pyScalarChannel_Type.tp_getset = pyScalarChannel_GetSet;
     pyScalarChannel_Type.tp_base = &pyAGChannel_Type;
-    if (PyType_Ready(&pyScalarChannel_Type) < 0)
+    if (PyType_CheckAndReady(&pyScalarChannel_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyScalarChannel_Type);

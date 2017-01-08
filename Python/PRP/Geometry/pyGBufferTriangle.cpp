@@ -89,7 +89,7 @@ PY_PLASMA_TYPE_INIT(GBufferTriangle) {
     pyGBufferTriangle_Type.tp_new = pyGBufferTriangle_new;
     pyGBufferTriangle_Type.tp_methods = pyGBufferTriangle_Methods;
     pyGBufferTriangle_Type.tp_getset = pyGBufferTriangle_GetSet;
-    if (PyType_Ready(&pyGBufferTriangle_Type) < 0)
+    if (PyType_CheckAndReady(&pyGBufferTriangle_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyGBufferTriangle_Type);

@@ -128,7 +128,7 @@ PY_PLASMA_TYPE_INIT(LogicModBase) {
     pyLogicModBase_Type.tp_methods = pyLogicModBase_Methods;
     pyLogicModBase_Type.tp_getset = pyLogicModBase_GetSet;
     pyLogicModBase_Type.tp_base = &pySingleModifier_Type;
-    if (PyType_Ready(&pyLogicModBase_Type) < 0)
+    if (PyType_CheckAndReady(&pyLogicModBase_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(LogicModBase, "kLocalElement", plLogicModBase::kLocalElement);

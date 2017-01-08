@@ -38,7 +38,7 @@ PY_PLASMA_TYPE_INIT(ExcludeRegionMsg) {
     pyExcludeRegionMsg_Type.tp_new = pyExcludeRegionMsg_new;
     pyExcludeRegionMsg_Type.tp_getset = pyExcludeRegionMsg_GetSet;
     pyExcludeRegionMsg_Type.tp_base = &pyMessage_Type;
-    if (PyType_Ready(&pyExcludeRegionMsg_Type) < 0)
+    if (PyType_CheckAndReady(&pyExcludeRegionMsg_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(ExcludeRegionMsg, "kClear", plExcludeRegionMsg::kClear);

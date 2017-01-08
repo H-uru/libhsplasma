@@ -174,7 +174,7 @@ PY_PLASMA_TYPE_INIT(ATCAnim) {
     pyATCAnim_Type.tp_methods = pyATCAnim_Methods;
     pyATCAnim_Type.tp_getset = pyATCAnim_GetSet;
     pyATCAnim_Type.tp_base = &pyAGAnim_Type;
-    if (PyType_Ready(&pyATCAnim_Type) < 0)
+    if (PyType_CheckAndReady(&pyATCAnim_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyATCAnim_Type);

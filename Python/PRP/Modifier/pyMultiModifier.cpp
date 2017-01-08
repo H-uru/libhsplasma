@@ -60,7 +60,7 @@ PY_PLASMA_TYPE_INIT(MultiModifier) {
     pyMultiModifier_Type.tp_new = pyMultiModifier_new;
     pyMultiModifier_Type.tp_methods = pyMultiModifier_Methods;
     pyMultiModifier_Type.tp_base = &pyModifier_Type;
-    if (PyType_Ready(&pyMultiModifier_Type) < 0)
+    if (PyType_CheckAndReady(&pyMultiModifier_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyMultiModifier_Type);

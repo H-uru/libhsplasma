@@ -39,7 +39,7 @@ PY_PLASMA_TYPE_INIT(PointControllerChannel) {
     pyPointControllerChannel_Type.tp_new = pyPointControllerChannel_new;
     pyPointControllerChannel_Type.tp_getset = pyPointControllerChannel_GetSet;
     pyPointControllerChannel_Type.tp_base = &pyPointChannel_Type;
-    if (PyType_Ready(&pyPointControllerChannel_Type) < 0)
+    if (PyType_CheckAndReady(&pyPointControllerChannel_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyPointControllerChannel_Type);

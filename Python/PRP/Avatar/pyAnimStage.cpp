@@ -102,7 +102,7 @@ PY_PLASMA_TYPE_INIT(AnimStage) {
     pyAnimStage_Type.tp_new = pyAnimStage_new;
     pyAnimStage_Type.tp_getset = pyAnimStage_GetSet;
     pyAnimStage_Type.tp_base = &pyCreatable_Type;
-    if (PyType_Ready(&pyAnimStage_Type) < 0)
+    if (PyType_CheckAndReady(&pyAnimStage_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(AnimStage, "kNotifyEnter", plAnimStage::kNotifyEnter);

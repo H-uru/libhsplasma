@@ -31,7 +31,7 @@ PY_PLASMA_TYPE(LocalPlayerIntersectPlaneConditionalObject,
 PY_PLASMA_TYPE_INIT(LocalPlayerIntersectPlaneConditionalObject) {
     pyLocalPlayerIntersectPlaneConditionalObject_Type.tp_new = pyLocalPlayerIntersectPlaneConditionalObject_new;
     pyLocalPlayerIntersectPlaneConditionalObject_Type.tp_base = &pyConditionalObject_Type;
-    if (PyType_Ready(&pyLocalPlayerIntersectPlaneConditionalObject_Type) < 0)
+    if (PyType_CheckAndReady(&pyLocalPlayerIntersectPlaneConditionalObject_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyLocalPlayerIntersectPlaneConditionalObject_Type);

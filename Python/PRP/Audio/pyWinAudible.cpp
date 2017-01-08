@@ -93,7 +93,7 @@ PY_PLASMA_TYPE_INIT(WinAudible) {
     pyWinAudible_Type.tp_methods = pyWinAudible_Methods;
     pyWinAudible_Type.tp_getset = pyWinAudible_GetSet;
     pyWinAudible_Type.tp_base = &pyAudible_Type;
-    if (PyType_Ready(&pyWinAudible_Type) < 0)
+    if (PyType_CheckAndReady(&pyWinAudible_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyWinAudible_Type);

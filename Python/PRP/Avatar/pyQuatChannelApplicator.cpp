@@ -29,7 +29,7 @@ PY_PLASMA_TYPE(QuatChannelApplicator, plQuatChannelApplicator,
 PY_PLASMA_TYPE_INIT(QuatChannelApplicator) {
     pyQuatChannelApplicator_Type.tp_new = pyQuatChannelApplicator_new;
     pyQuatChannelApplicator_Type.tp_base = &pyAGApplicator_Type;
-    if (PyType_Ready(&pyQuatChannelApplicator_Type) < 0)
+    if (PyType_CheckAndReady(&pyQuatChannelApplicator_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyQuatChannelApplicator_Type);

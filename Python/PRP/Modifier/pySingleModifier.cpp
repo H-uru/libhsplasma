@@ -60,7 +60,7 @@ PY_PLASMA_TYPE_INIT(SingleModifier) {
     pySingleModifier_Type.tp_new = pySingleModifier_new;
     pySingleModifier_Type.tp_methods = pySingleModifier_Methods;
     pySingleModifier_Type.tp_base = &pyModifier_Type;
-    if (PyType_Ready(&pySingleModifier_Type) < 0)
+    if (PyType_CheckAndReady(&pySingleModifier_Type) < 0)
         return NULL;
 
     Py_INCREF(&pySingleModifier_Type);

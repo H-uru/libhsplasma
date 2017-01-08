@@ -40,7 +40,7 @@ PY_PLASMA_TYPE_INIT(Bounds3) {
     pyBounds3_Type.tp_new = pyBounds3_new;
     pyBounds3_Type.tp_getset = pyBounds3_GetSet;
     pyBounds3_Type.tp_base = &pyBounds_Type;
-    if (PyType_Ready(&pyBounds3_Type) < 0)
+    if (PyType_CheckAndReady(&pyBounds3_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(Bounds3, "kCenterValid", hsBounds3::kCenterValid);

@@ -41,7 +41,7 @@ PY_PLASMA_TYPE_INIT(SimplePosController) {
     pySimplePosController_Type.tp_new = pySimplePosController_new;
     pySimplePosController_Type.tp_getset = pySimplePosController_GetSet;
     pySimplePosController_Type.tp_base = &pyPosController_Type;
-    if (PyType_Ready(&pySimplePosController_Type) < 0)
+    if (PyType_CheckAndReady(&pySimplePosController_Type) < 0)
         return NULL;
 
     Py_INCREF(&pySimplePosController_Type);

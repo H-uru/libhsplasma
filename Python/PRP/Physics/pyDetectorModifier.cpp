@@ -98,7 +98,7 @@ PY_PLASMA_TYPE_INIT(DetectorModifier) {
     pyDetectorModifier_Type.tp_methods = pyDetectorModifier_Methods;
     pyDetectorModifier_Type.tp_getset = pyDetectorModifier_GetSet;
     pyDetectorModifier_Type.tp_base = &pySingleModifier_Type;
-    if (PyType_Ready(&pyDetectorModifier_Type) < 0)
+    if (PyType_CheckAndReady(&pyDetectorModifier_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyDetectorModifier_Type);

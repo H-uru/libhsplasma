@@ -70,7 +70,7 @@ PY_PLASMA_TYPE_INIT(LayerInterface) {
     pyLayerInterface_Type.tp_new = pyLayerInterface_new;
     pyLayerInterface_Type.tp_getset = pyLayerInterface_GetSet;
     pyLayerInterface_Type.tp_base = &pySynchedObject_Type;
-    if (PyType_Ready(&pyLayerInterface_Type) < 0)
+    if (PyType_CheckAndReady(&pyLayerInterface_Type) < 0)
         return NULL;
 
     /* plLayerDirtyBits */

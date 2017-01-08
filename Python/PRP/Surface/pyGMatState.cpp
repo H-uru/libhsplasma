@@ -42,7 +42,7 @@ PY_PLASMA_TYPE(GMatState, hsGMatState, "hsGMatState wrapper")
 PY_PLASMA_TYPE_INIT(GMatState) {
     pyGMatState_Type.tp_new = pyGMatState_new;
     pyGMatState_Type.tp_getset = pyGMatState_GetSet;
-    if (PyType_Ready(&pyGMatState_Type) < 0)
+    if (PyType_CheckAndReady(&pyGMatState_Type) < 0)
         return NULL;
 
     /* Blend Flags */

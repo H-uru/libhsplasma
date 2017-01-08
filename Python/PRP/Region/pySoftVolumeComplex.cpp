@@ -94,7 +94,7 @@ PY_PLASMA_TYPE_INIT(SoftVolumeComplex) {
     pySoftVolumeComplex_Type.tp_methods = pySoftVolumeComplex_Methods;
     pySoftVolumeComplex_Type.tp_getset = pySoftVolumeComplex_GetSet;
     pySoftVolumeComplex_Type.tp_base = &pySoftVolume_Type;
-    if (PyType_Ready(&pySoftVolumeComplex_Type) < 0)
+    if (PyType_CheckAndReady(&pySoftVolumeComplex_Type) < 0)
         return NULL;
 
     Py_INCREF(&pySoftVolumeComplex_Type);

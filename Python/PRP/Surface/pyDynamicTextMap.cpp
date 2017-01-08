@@ -75,7 +75,7 @@ PY_PLASMA_TYPE_INIT(DynamicTextMap) {
     pyDynamicTextMap_Type.tp_new = pyDynamicTextMap_new;
     pyDynamicTextMap_Type.tp_getset = pyDynamicTextMap_GetSet;
     pyDynamicTextMap_Type.tp_base = &pyMipmap_Type;
-    if (PyType_Ready(&pyDynamicTextMap_Type) < 0)
+    if (PyType_CheckAndReady(&pyDynamicTextMap_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyDynamicTextMap_Type);

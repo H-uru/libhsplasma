@@ -28,7 +28,7 @@ PY_PLASMA_TYPE(AudibleNull, "plAudibleNull", "plAudibleNull wrapper")
 PY_PLASMA_TYPE_INIT(AudibleNull) {
     pyAudibleNull_Type.tp_new = pyAudibleNull_new;
     pyAudibleNull_Type.tp_base = &pyAudible_Type;
-    if (PyType_Ready(&pyAudibleNull_Type) < 0)
+    if (PyType_CheckAndReady(&pyAudibleNull_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyAudibleNull_Type);

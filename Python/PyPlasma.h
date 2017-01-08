@@ -26,6 +26,8 @@ PyObject* PlasmaString_To_PyString(const plString& str);
 PyObject* PlasmaString_To_PyUnicode(const plString& str);
 plString PyString_To_PlasmaString(PyObject* str);
 
+int PyType_CheckAndReady(PyTypeObject* type);
+
 // The Python API insists that character constants are "char *" without the
 // const. Sane compilers complain about this (with good reason). Therefore:
 template <size_t size>

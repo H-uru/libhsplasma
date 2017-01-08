@@ -125,7 +125,7 @@ PY_PLASMA_TYPE_INIT(EncryptedStream) {
     pyEncryptedStream_Type.tp_new = pyEncryptedStream_new;
     pyEncryptedStream_Type.tp_methods = pyEncryptedStream_Methods;
     pyEncryptedStream_Type.tp_base = &pyFileStream_Type;
-    if (PyType_Ready(&pyEncryptedStream_Type) < 0)
+    if (PyType_CheckAndReady(&pyEncryptedStream_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(EncryptedStream, "kEncNone", plEncryptedStream::kEncNone);

@@ -65,7 +65,7 @@ PY_PLASMA_TYPE_INIT(CubicEnvironmap) {
     pyCubicEnvironmap_Type.tp_new = pyCubicEnvironmap_new;
     pyCubicEnvironmap_Type.tp_getset = pyCubicEnvironmap_GetSet;
     pyCubicEnvironmap_Type.tp_base = &pyBitmap_Type;
-    if (PyType_Ready(&pyCubicEnvironmap_Type) < 0)
+    if (PyType_CheckAndReady(&pyCubicEnvironmap_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyCubicEnvironmap_Type);

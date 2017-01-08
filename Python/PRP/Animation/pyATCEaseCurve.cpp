@@ -46,7 +46,7 @@ PY_PLASMA_TYPE_INIT(ATCEaseCurve) {
     pyATCEaseCurve_Type.tp_new = pyATCEaseCurve_new;
     pyATCEaseCurve_Type.tp_getset = pyATCEaseCurve_GetSet;
     pyATCEaseCurve_Type.tp_base = &pyCreatable_Type;
-    if (PyType_Ready(&pyATCEaseCurve_Type) < 0)
+    if (PyType_CheckAndReady(&pyATCEaseCurve_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyATCEaseCurve_Type);

@@ -42,7 +42,7 @@ PY_PLASMA_TYPE_INIT(OmniLightInfo) {
     pyOmniLightInfo_Type.tp_new = pyOmniLightInfo_new;
     pyOmniLightInfo_Type.tp_getset = pyOmniLightInfo_GetSet;
     pyOmniLightInfo_Type.tp_base = &pyLightInfo_Type;
-    if (PyType_Ready(&pyOmniLightInfo_Type) < 0)
+    if (PyType_CheckAndReady(&pyOmniLightInfo_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyOmniLightInfo_Type);

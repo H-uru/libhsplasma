@@ -36,7 +36,7 @@ PY_PLASMA_TYPE_INIT(CallbackEventData) {
     pyCallbackEventData_Type.tp_new = pyCallbackEventData_new;
     pyCallbackEventData_Type.tp_getset = pyCallbackEventData_GetSet;
     pyCallbackEventData_Type.tp_base = &pyEventData_Type;
-    if (PyType_Ready(&pyCallbackEventData_Type) < 0)
+    if (PyType_CheckAndReady(&pyCallbackEventData_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyCallbackEventData_Type);

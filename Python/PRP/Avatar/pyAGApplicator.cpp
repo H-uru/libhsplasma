@@ -42,7 +42,7 @@ PY_PLASMA_TYPE_INIT(AGApplicator) {
     pyAGApplicator_Type.tp_new = pyAGApplicator_new;
     pyAGApplicator_Type.tp_getset = pyAGApplicator_GetSet;
     pyAGApplicator_Type.tp_base = &pyCreatable_Type;
-    if (PyType_Ready(&pyAGApplicator_Type) < 0)
+    if (PyType_CheckAndReady(&pyAGApplicator_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyAGApplicator_Type);

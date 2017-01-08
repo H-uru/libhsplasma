@@ -60,7 +60,7 @@ PY_PLASMA_TYPE_INIT(TMController) {
     pyTMController_Type.tp_methods = pyTMController_Methods;
     pyTMController_Type.tp_getset = pyTMController_GetSet;
     pyTMController_Type.tp_base = &pyController_Type;
-    if (PyType_Ready(&pyTMController_Type) < 0)
+    if (PyType_CheckAndReady(&pyTMController_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyTMController_Type);

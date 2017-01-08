@@ -29,7 +29,7 @@ PY_PLASMA_TYPE(LocalPlayerInBoxConditionalObject, plLocalPlayerInBoxConditionalO
 PY_PLASMA_TYPE_INIT(LocalPlayerInBoxConditionalObject) {
     pyLocalPlayerInBoxConditionalObject_Type.tp_new = pyLocalPlayerInBoxConditionalObject_new;
     pyLocalPlayerInBoxConditionalObject_Type.tp_base = &pyConditionalObject_Type;
-    if (PyType_Ready(&pyLocalPlayerInBoxConditionalObject_Type) < 0)
+    if (PyType_CheckAndReady(&pyLocalPlayerInBoxConditionalObject_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyLocalPlayerInBoxConditionalObject_Type);

@@ -149,7 +149,7 @@ PY_PLASMA_TYPE_INIT(LeafController) {
     pyLeafController_Type.tp_methods = pyLeafController_Methods;
     pyLeafController_Type.tp_getset = pyLeafController_GetSet;
     pyLeafController_Type.tp_base = &pyController_Type;
-    if (PyType_Ready(&pyLeafController_Type) < 0)
+    if (PyType_CheckAndReady(&pyLeafController_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyLeafController_Type);

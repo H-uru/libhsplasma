@@ -93,7 +93,7 @@ PY_PLASMA_TYPE_INIT(InterfaceInfoModifier) {
     pyInterfaceInfoModifier_Type.tp_methods = pyInterfaceInfoModifier_Methods;
     pyInterfaceInfoModifier_Type.tp_getset = pyInterfaceInfoModifier_GetSet;
     pyInterfaceInfoModifier_Type.tp_base = &pySingleModifier_Type;
-    if (PyType_Ready(&pyInterfaceInfoModifier_Type) < 0)
+    if (PyType_CheckAndReady(&pyInterfaceInfoModifier_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyInterfaceInfoModifier_Type);

@@ -190,7 +190,7 @@ PY_PLASMA_TYPE_INIT(ColorRGBA) {
     pyColorRGBA_Type.tp_repr = pyColorRGBA_repr;
     pyColorRGBA_Type.tp_methods = pyColorRGBA_Methods;
     pyColorRGBA_Type.tp_getset = pyColorRGBA_GetSet;
-    if (PyType_Ready(&pyColorRGBA_Type) < 0)
+    if (PyType_CheckAndReady(&pyColorRGBA_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(ColorRGBA, "kBlack", hsColorRGBA::kBlack);

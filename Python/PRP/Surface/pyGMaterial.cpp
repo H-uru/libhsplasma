@@ -151,7 +151,7 @@ PY_PLASMA_TYPE_INIT(GMaterial) {
     pyGMaterial_Type.tp_methods = pyGMaterial_Methods;
     pyGMaterial_Type.tp_getset = pyGMaterial_GetSet;
     pyGMaterial_Type.tp_base = &pySynchedObject_Type;
-    if (PyType_Ready(&pyGMaterial_Type) < 0)
+    if (PyType_CheckAndReady(&pyGMaterial_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(GMaterial, "kCompShaded", hsGMaterial::kCompShaded);

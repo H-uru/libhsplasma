@@ -45,7 +45,7 @@ PY_PLASMA_TYPE_INIT(WaveState7) {
     pyWaveState7_Type.tp_init = pyWaveState7___init__;
     pyWaveState7_Type.tp_new = pyWaveState7_new;
     pyWaveState7_Type.tp_getset = pyWaveState7_GetSet;
-    if (PyType_Ready(&pyWaveState7_Type) < 0)
+    if (PyType_CheckAndReady(&pyWaveState7_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyWaveState7_Type);

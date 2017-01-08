@@ -29,7 +29,7 @@ PY_PLASMA_TYPE(ScalarChannelApplicator, plScalarChannelApplicator,
 PY_PLASMA_TYPE_INIT(ScalarChannelApplicator) {
     pyScalarChannelApplicator_Type.tp_new = pyScalarChannelApplicator_new;
     pyScalarChannelApplicator_Type.tp_base = &pyAGApplicator_Type;
-    if (PyType_Ready(&pyScalarChannelApplicator_Type) < 0)
+    if (PyType_CheckAndReady(&pyScalarChannelApplicator_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyScalarChannelApplicator_Type);

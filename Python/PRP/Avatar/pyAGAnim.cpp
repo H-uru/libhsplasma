@@ -102,7 +102,7 @@ PY_PLASMA_TYPE_INIT(AGAnim) {
     pyAGAnim_Type.tp_methods = pyAGAnim_Methods;
     pyAGAnim_Type.tp_getset = pyAGAnim_GetSet;
     pyAGAnim_Type.tp_base = &pySynchedObject_Type;
-    if (PyType_Ready(&pyAGAnim_Type) < 0)
+    if (PyType_CheckAndReady(&pyAGAnim_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(AGAnim, "kBodyUnknown", plAGAnim::kBodyUnknown);

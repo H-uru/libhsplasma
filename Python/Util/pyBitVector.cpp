@@ -173,7 +173,7 @@ PY_PLASMA_TYPE_INIT(BitVector) {
     pyBitVector_Type.tp_new = pyBitVector_new;
     pyBitVector_Type.tp_as_mapping = &pyBitVector_As_Mapping;
     pyBitVector_Type.tp_methods = pyBitVector_Methods;
-    if (PyType_Ready(&pyBitVector_Type) < 0)
+    if (PyType_CheckAndReady(&pyBitVector_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyBitVector_Type);

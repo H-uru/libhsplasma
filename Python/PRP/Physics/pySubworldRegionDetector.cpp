@@ -39,7 +39,7 @@ PY_PLASMA_TYPE_INIT(SubworldRegionDetector) {
     pySubworldRegionDetector_Type.tp_new = pySubworldRegionDetector_new;
     pySubworldRegionDetector_Type.tp_getset = pySubworldRegionDetector_GetSet;
     pySubworldRegionDetector_Type.tp_base = &pyCollisionDetector_Type;
-    if (PyType_Ready(&pySubworldRegionDetector_Type) < 0)
+    if (PyType_CheckAndReady(&pySubworldRegionDetector_Type) < 0)
         return NULL;
 
     Py_INCREF(&pySubworldRegionDetector_Type);

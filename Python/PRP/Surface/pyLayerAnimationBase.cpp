@@ -55,7 +55,7 @@ PY_PLASMA_TYPE_INIT(LayerAnimationBase) {
     pyLayerAnimationBase_Type.tp_new = pyLayerAnimationBase_new;
     pyLayerAnimationBase_Type.tp_getset = pyLayerAnimationBase_GetSet;
     pyLayerAnimationBase_Type.tp_base = &pyLayerInterface_Type;
-    if (PyType_Ready(&pyLayerAnimationBase_Type) < 0)
+    if (PyType_CheckAndReady(&pyLayerAnimationBase_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyLayerAnimationBase_Type);

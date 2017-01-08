@@ -29,7 +29,7 @@ PY_PLASMA_TYPE(SpawnModifier, plSpawnModifier, "plSpawnModifier wrapper")
 PY_PLASMA_TYPE_INIT(SpawnModifier) {
     pySpawnModifier_Type.tp_new = pySpawnModifier_new;
     pySpawnModifier_Type.tp_base = &pyMultiModifier_Type;
-    if (PyType_Ready(&pySpawnModifier_Type) < 0)
+    if (PyType_CheckAndReady(&pySpawnModifier_Type) < 0)
         return NULL;
 
     Py_INCREF(&pySpawnModifier_Type);

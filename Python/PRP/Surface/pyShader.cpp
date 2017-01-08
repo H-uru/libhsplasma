@@ -71,7 +71,7 @@ PY_PLASMA_TYPE_INIT(Shader) {
     pyShader_Type.tp_new = pyShader_new;
     pyShader_Type.tp_getset = pyShader_GetSet;
     pyShader_Type.tp_base = &pyKeyedObject_Type;
-    if (PyType_Ready(&pyShader_Type) < 0)
+    if (PyType_CheckAndReady(&pyShader_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(Shader, "kUnregistered", plShader::kUnregistered);

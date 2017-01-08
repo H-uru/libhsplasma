@@ -144,7 +144,7 @@ PY_PLASMA_TYPE_INIT(AGMasterMod) {
     pyAGMasterMod_Type.tp_methods = pyAGMasterMod_Methods;
     pyAGMasterMod_Type.tp_getset = pyAGMasterMod_GetSet;
     pyAGMasterMod_Type.tp_base = &pySingleModifier_Type;
-    if (PyType_Ready(&pyAGMasterMod_Type) < 0)
+    if (PyType_CheckAndReady(&pyAGMasterMod_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyAGMasterMod_Type);

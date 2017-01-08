@@ -27,7 +27,7 @@ PY_PLASMA_TYPE(SimDefs, plSimDefs, "plSimDefs constants")
 
 PY_PLASMA_TYPE_INIT(SimDefs) {
     pySimDefs_Type.tp_new = pySimDefs_new;
-    if (PyType_Ready(&pySimDefs_Type) < 0)
+    if (PyType_CheckAndReady(&pySimDefs_Type) < 0)
         return NULL;
 
     /* Bounds */

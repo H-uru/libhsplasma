@@ -29,7 +29,7 @@ PY_PLASMA_TYPE(Physical, plPhysical, "plPhysical wrapper")
 PY_PLASMA_TYPE_INIT(Physical) {
     pyPhysical_Type.tp_new = pyPhysical_new;
     pyPhysical_Type.tp_base = &pySynchedObject_Type;
-    if (PyType_Ready(&pyPhysical_Type) < 0)
+    if (PyType_CheckAndReady(&pyPhysical_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyPhysical_Type);

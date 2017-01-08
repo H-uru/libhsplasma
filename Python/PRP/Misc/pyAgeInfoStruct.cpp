@@ -64,7 +64,7 @@ PY_PLASMA_TYPE_INIT(AgeInfoStruct) {
     pyAgeInfoStruct_Type.tp_new = pyAgeInfoStruct_new;
     pyAgeInfoStruct_Type.tp_getset = pyAgeInfoStruct_GetSet;
     pyAgeInfoStruct_Type.tp_base = &pyCreatable_Type;
-    if (PyType_Ready(&pyAgeInfoStruct_Type) < 0)
+    if (PyType_CheckAndReady(&pyAgeInfoStruct_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyAgeInfoStruct_Type);

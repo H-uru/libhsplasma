@@ -28,7 +28,7 @@ PY_PLASMA_TYPE(PointConstant, plPointConstant, "plPointConstant wrapper")
 PY_PLASMA_TYPE_INIT(PointConstant) {
     pyPointConstant_Type.tp_new = pyPointConstant_new;
     pyPointConstant_Type.tp_base = &pyPointChannel_Type;
-    if (PyType_Ready(&pyPointConstant_Type) < 0)
+    if (PyType_CheckAndReady(&pyPointConstant_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyPointConstant_Type);

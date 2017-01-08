@@ -90,7 +90,7 @@ PY_PLASMA_TYPE_INIT(ORConditionalObject) {
     pyORConditionalObject_Type.tp_methods = pyORConditionalObject_Methods;
     pyORConditionalObject_Type.tp_getset = pyORConditionalObject_GetSet;
     pyORConditionalObject_Type.tp_base = &pyConditionalObject_Type;
-    if (PyType_Ready(&pyORConditionalObject_Type) < 0)
+    if (PyType_CheckAndReady(&pyORConditionalObject_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyORConditionalObject_Type);

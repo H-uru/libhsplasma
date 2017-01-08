@@ -87,7 +87,7 @@ PY_PLASMA_TYPE_INIT(Bounds) {
     pyBounds_Type.tp_new = pyBounds_new;
     pyBounds_Type.tp_methods = pyBounds_Methods;
     pyBounds_Type.tp_getset = pyBounds_GetSet;
-    if (PyType_Ready(&pyBounds_Type) < 0)
+    if (PyType_CheckAndReady(&pyBounds_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyBounds_Type);

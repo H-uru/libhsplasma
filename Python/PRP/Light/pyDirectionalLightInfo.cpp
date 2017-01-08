@@ -29,7 +29,7 @@ PY_PLASMA_TYPE(DirectionalLightInfo, plDirectionalLightInfo,
 PY_PLASMA_TYPE_INIT(DirectionalLightInfo) {
     pyDirectionalLightInfo_Type.tp_new = pyDirectionalLightInfo_new;
     pyDirectionalLightInfo_Type.tp_base = &pyLightInfo_Type;
-    if (PyType_Ready(&pyDirectionalLightInfo_Type) < 0)
+    if (PyType_CheckAndReady(&pyDirectionalLightInfo_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyDirectionalLightInfo_Type);

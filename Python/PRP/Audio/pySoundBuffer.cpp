@@ -73,7 +73,7 @@ PY_PLASMA_TYPE_INIT(SoundBuffer) {
     pySoundBuffer_Type.tp_new = pySoundBuffer_new;
     pySoundBuffer_Type.tp_getset = pySoundBuffer_GetSet;
     pySoundBuffer_Type.tp_base = &pyKeyedObject_Type;
-    if (PyType_Ready(&pySoundBuffer_Type) < 0)
+    if (PyType_CheckAndReady(&pySoundBuffer_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(SoundBuffer, "kIsExternal", plSoundBuffer::kIsExternal);

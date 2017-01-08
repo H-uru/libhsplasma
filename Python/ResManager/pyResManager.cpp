@@ -618,7 +618,7 @@ PY_PLASMA_TYPE_INIT(ResManager) {
     pyResManager_Type.tp_init = pyResManager___init__;
     pyResManager_Type.tp_new = pyResManager_new;
     pyResManager_Type.tp_methods = pyResManager_Methods;
-    if (PyType_Ready(&pyResManager_Type) < 0)
+    if (PyType_CheckAndReady(&pyResManager_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyResManager_Type);

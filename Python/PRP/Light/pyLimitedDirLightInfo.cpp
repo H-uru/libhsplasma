@@ -41,7 +41,7 @@ PY_PLASMA_TYPE_INIT(LimitedDirLightInfo) {
     pyLimitedDirLightInfo_Type.tp_new = pyLimitedDirLightInfo_new;
     pyLimitedDirLightInfo_Type.tp_getset = pyLimitedDirLightInfo_GetSet;
     pyLimitedDirLightInfo_Type.tp_base = &pyDirectionalLightInfo_Type;
-    if (PyType_Ready(&pyLimitedDirLightInfo_Type) < 0)
+    if (PyType_CheckAndReady(&pyLimitedDirLightInfo_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyLimitedDirLightInfo_Type);

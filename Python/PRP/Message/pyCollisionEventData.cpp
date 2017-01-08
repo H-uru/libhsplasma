@@ -41,7 +41,7 @@ PY_PLASMA_TYPE_INIT(CollisionEventData) {
     pyCollisionEventData_Type.tp_new = pyCollisionEventData_new;
     pyCollisionEventData_Type.tp_getset = pyCollisionEventData_GetSet;
     pyCollisionEventData_Type.tp_base = &pyEventData_Type;
-    if (PyType_Ready(&pyCollisionEventData_Type) < 0)
+    if (PyType_CheckAndReady(&pyCollisionEventData_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyCollisionEventData_Type);

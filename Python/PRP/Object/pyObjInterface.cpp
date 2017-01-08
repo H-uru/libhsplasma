@@ -71,7 +71,7 @@ PY_PLASMA_TYPE_INIT(ObjInterface) {
     pyObjInterface_Type.tp_methods = pyObjInterface_Methods;
     pyObjInterface_Type.tp_getset = pyObjInterface_GetSet;
     pyObjInterface_Type.tp_base = &pySynchedObject_Type;
-    if (PyType_Ready(&pyObjInterface_Type) < 0)
+    if (PyType_CheckAndReady(&pyObjInterface_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(ObjInterface, "kDisable", plObjInterface::kDisable);

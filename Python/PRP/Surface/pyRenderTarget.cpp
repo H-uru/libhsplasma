@@ -90,7 +90,7 @@ PY_PLASMA_TYPE_INIT(RenderTarget) {
     pyRenderTarget_Type.tp_new = pyRenderTarget_new;
     pyRenderTarget_Type.tp_getset = pyRenderTarget_GetSet;
     pyRenderTarget_Type.tp_base = &pyBitmap_Type;
-    if (PyType_Ready(&pyRenderTarget_Type) < 0)
+    if (PyType_CheckAndReady(&pyRenderTarget_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyRenderTarget_Type);

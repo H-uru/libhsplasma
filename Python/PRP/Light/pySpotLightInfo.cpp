@@ -40,7 +40,7 @@ PY_PLASMA_TYPE_INIT(SpotLightInfo) {
     pySpotLightInfo_Type.tp_new = pySpotLightInfo_new;
     pySpotLightInfo_Type.tp_getset = pySpotLightInfo_GetSet;
     pySpotLightInfo_Type.tp_base = &pyOmniLightInfo_Type;
-    if (PyType_Ready(&pySpotLightInfo_Type) < 0)
+    if (PyType_CheckAndReady(&pySpotLightInfo_Type) < 0)
         return NULL;
 
     Py_INCREF(&pySpotLightInfo_Type);

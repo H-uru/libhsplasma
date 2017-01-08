@@ -170,7 +170,7 @@ PY_PLASMA_TYPE_INIT(SceneNode) {
     pySceneNode_Type.tp_methods = pySceneNode_Methods;
     pySceneNode_Type.tp_getset = pySceneNode_GetSet;
     pySceneNode_Type.tp_base = &pyKeyedObject_Type;
-    if (PyType_Ready(&pySceneNode_Type) < 0)
+    if (PyType_CheckAndReady(&pySceneNode_Type) < 0)
         return NULL;
 
     Py_INCREF(&pySceneNode_Type);

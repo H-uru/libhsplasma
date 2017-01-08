@@ -47,7 +47,7 @@ PY_PLASMA_TYPE_INIT(SwimCircularCurrentRegion) {
     pySwimCircularCurrentRegion_Type.tp_new = pySwimCircularCurrentRegion_new;
     pySwimCircularCurrentRegion_Type.tp_getset = pySwimCircularCurrentRegion_GetSet;
     pySwimCircularCurrentRegion_Type.tp_base = &pySwimRegionInterface_Type;
-    if (PyType_Ready(&pySwimCircularCurrentRegion_Type) < 0)
+    if (PyType_CheckAndReady(&pySwimCircularCurrentRegion_Type) < 0)
         return NULL;
 
     Py_INCREF(&pySwimCircularCurrentRegion_Type);

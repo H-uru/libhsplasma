@@ -205,7 +205,7 @@ PY_PLASMA_TYPE_INIT(Location) {
     pyLocation_Type.tp_richcompare = pyLocation_richcompare;
     pyLocation_Type.tp_methods = pyLocation_Methods;
     pyLocation_Type.tp_getset = pyLocation_GetSet;
-    if (PyType_Ready(&pyLocation_Type) < 0)
+    if (PyType_CheckAndReady(&pyLocation_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(Location, "kLocalOnly", plLocation::kLocalOnly);

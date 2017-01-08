@@ -78,7 +78,7 @@ PY_PLASMA_TYPE_INIT(AnimCmdMsg) {
     pyAnimCmdMsg_Type.tp_methods = pyAnimCmdMsg_Methods;
     pyAnimCmdMsg_Type.tp_getset = pyAnimCmdMsg_GetSet;
     pyAnimCmdMsg_Type.tp_base = &pyMessageWithCallbacks_Type;
-    if (PyType_Ready(&pyAnimCmdMsg_Type) < 0)
+    if (PyType_CheckAndReady(&pyAnimCmdMsg_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(AnimCmdMsg, "kContinue", plAnimCmdMsg::kContinue);

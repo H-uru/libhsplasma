@@ -30,7 +30,7 @@ PY_PLASMA_TYPE_INIT(GUICtrlProcObject) {
     pyGUICtrlProcObject_Type.tp_dealloc = pyGUICtrlProcObject_dealloc;
     pyGUICtrlProcObject_Type.tp_init = pyGUICtrlProcObject___init__;
     pyGUICtrlProcObject_Type.tp_new = pyGUICtrlProcObject_new;
-    if (PyType_Ready(&pyGUICtrlProcObject_Type) < 0)
+    if (PyType_CheckAndReady(&pyGUICtrlProcObject_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyGUICtrlProcObject_Type);

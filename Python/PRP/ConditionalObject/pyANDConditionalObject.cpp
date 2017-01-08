@@ -90,7 +90,7 @@ PY_PLASMA_TYPE_INIT(ANDConditionalObject) {
     pyANDConditionalObject_Type.tp_methods = pyANDConditionalObject_Methods;
     pyANDConditionalObject_Type.tp_getset = pyANDConditionalObject_GetSet;
     pyANDConditionalObject_Type.tp_base = &pyConditionalObject_Type;
-    if (PyType_Ready(&pyANDConditionalObject_Type) < 0)
+    if (PyType_CheckAndReady(&pyANDConditionalObject_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyANDConditionalObject_Type);

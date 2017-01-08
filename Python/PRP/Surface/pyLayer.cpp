@@ -28,7 +28,7 @@ PY_PLASMA_TYPE(Layer, plLayer, "plLayer wrapper")
 PY_PLASMA_TYPE_INIT(Layer) {
     pyLayer_Type.tp_new = pyLayer_new;
     pyLayer_Type.tp_base = &pyLayerInterface_Type;
-    if (PyType_Ready(&pyLayer_Type) < 0)
+    if (PyType_CheckAndReady(&pyLayer_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyLayer_Type);

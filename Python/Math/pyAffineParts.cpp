@@ -96,7 +96,7 @@ PY_PLASMA_TYPE_INIT(AffineParts) {
     pyAffineParts_Type.tp_new = pyAffineParts_new;
     pyAffineParts_Type.tp_methods = pyAffineParts_Methods;
     pyAffineParts_Type.tp_getset = pyAffineParts_GetSet;
-    if (PyType_Ready(&pyAffineParts_Type) < 0)
+    if (PyType_CheckAndReady(&pyAffineParts_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyAffineParts_Type);

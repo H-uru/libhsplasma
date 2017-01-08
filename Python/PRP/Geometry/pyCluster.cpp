@@ -142,7 +142,7 @@ PY_PLASMA_TYPE_INIT(Cluster) {
     pyCluster_Type.tp_new = pyCluster_new;
     pyCluster_Type.tp_methods = pyCluster_Methods;
     pyCluster_Type.tp_getset = pyCluster_GetSet;
-    if (PyType_Ready(&pyCluster_Type) < 0)
+    if (PyType_CheckAndReady(&pyCluster_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyCluster_Type);

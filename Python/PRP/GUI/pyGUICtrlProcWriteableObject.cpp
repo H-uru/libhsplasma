@@ -95,7 +95,7 @@ PY_PLASMA_TYPE_INIT(GUICtrlProcWriteableObject) {
     pyGUICtrlProcWriteableObject_Type.tp_methods = pyGUICtrlProcWriteableObject_Methods;
     pyGUICtrlProcWriteableObject_Type.tp_getset = pyGUICtrlProcWriteableObject_GetSet;
     pyGUICtrlProcWriteableObject_Type.tp_base = &pyGUICtrlProcObject_Type;
-    if (PyType_Ready(&pyGUICtrlProcWriteableObject_Type) < 0)
+    if (PyType_CheckAndReady(&pyGUICtrlProcWriteableObject_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(GUICtrlProcWriteableObject, "kNull",

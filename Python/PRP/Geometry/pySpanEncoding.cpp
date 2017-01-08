@@ -82,7 +82,7 @@ PY_PLASMA_TYPE_INIT(SpanEncoding) {
     pySpanEncoding_Type.tp_new = pySpanEncoding_new;
     pySpanEncoding_Type.tp_methods = pySpanEncoding_Methods;
     pySpanEncoding_Type.tp_getset = pySpanEncoding_GetSet;
-    if (PyType_Ready(&pySpanEncoding_Type) < 0)
+    if (PyType_CheckAndReady(&pySpanEncoding_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(SpanEncoding, "kPosNone", plSpanEncoding::kPosNone);

@@ -277,7 +277,7 @@ PY_PLASMA_TYPE_INIT(Key) {
     pyKey_Type.tp_richcompare = pyKey_richcompare;
     pyKey_Type.tp_methods = pyKey_Methods;
     pyKey_Type.tp_getset = pyKey_GetSet;
-    if (PyType_Ready(&pyKey_Type) < 0)
+    if (PyType_CheckAndReady(&pyKey_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyKey_Type);

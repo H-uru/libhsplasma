@@ -153,7 +153,7 @@ PY_PLASMA_TYPE_INIT(ShaderConst) {
     pyShaderConst_Type.tp_as_mapping = &pyShaderConst_As_Mapping;
     pyShaderConst_Type.tp_methods = pyShaderConst_Methods;
     pyShaderConst_Type.tp_getset = pyShaderConst_GetSet;
-    if (PyType_Ready(&pyShaderConst_Type) < 0)
+    if (PyType_CheckAndReady(&pyShaderConst_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyShaderConst_Type);

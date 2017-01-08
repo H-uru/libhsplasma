@@ -154,7 +154,7 @@ PY_PLASMA_TYPE_INIT(AnimTimeConvert) {
     pyAnimTimeConvert_Type.tp_methods = pyAnimTimeConvert_Methods;
     pyAnimTimeConvert_Type.tp_getset = pyAnimTimeConvert_GetSet;
     pyAnimTimeConvert_Type.tp_base = &pyCreatable_Type;
-    if (PyType_Ready(&pyAnimTimeConvert_Type) < 0)
+    if (PyType_CheckAndReady(&pyAnimTimeConvert_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(AnimTimeConvert, "kNone", plAnimTimeConvert::kNone);

@@ -29,7 +29,7 @@ PY_PLASMA_TYPE(PointControllerCacheChannel, plPointControllerCacheChannel,
 PY_PLASMA_TYPE_INIT(PointControllerCacheChannel) {
     pyPointControllerCacheChannel_Type.tp_new = pyPointControllerCacheChannel_new;
     pyPointControllerCacheChannel_Type.tp_base = &pyPointChannel_Type;
-    if (PyType_Ready(&pyPointControllerCacheChannel_Type) < 0)
+    if (PyType_CheckAndReady(&pyPointControllerCacheChannel_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyPointControllerCacheChannel_Type);

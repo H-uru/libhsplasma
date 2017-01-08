@@ -29,7 +29,7 @@ PY_PLASMA_TYPE(MatrixDelayedCorrectionApplicator, plMatrixDelayedCorrectionAppli
 PY_PLASMA_TYPE_INIT(MatrixDelayedCorrectionApplicator) {
     pyMatrixDelayedCorrectionApplicator_Type.tp_new = pyMatrixDelayedCorrectionApplicator_new;
     pyMatrixDelayedCorrectionApplicator_Type.tp_base = &pyMatrixChannelApplicator_Type;
-    if (PyType_Ready(&pyMatrixDelayedCorrectionApplicator_Type) < 0)
+    if (PyType_CheckAndReady(&pyMatrixDelayedCorrectionApplicator_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyMatrixDelayedCorrectionApplicator_Type);

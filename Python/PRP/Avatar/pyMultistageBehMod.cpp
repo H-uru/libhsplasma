@@ -157,7 +157,7 @@ PY_PLASMA_TYPE_INIT(MultistageBehMod) {
     pyMultistageBehMod_Type.tp_methods = pyMultistageBehMod_Methods;
     pyMultistageBehMod_Type.tp_getset = pyMultistageBehMod_GetSet;
     pyMultistageBehMod_Type.tp_base = &pySingleModifier_Type;
-    if (PyType_Ready(&pyMultistageBehMod_Type) < 0)
+    if (PyType_CheckAndReady(&pyMultistageBehMod_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyMultistageBehMod_Type);

@@ -29,7 +29,7 @@ PY_PLASMA_TYPE(ObjectInVolumeDetector, plObjectInVolumeDetector,
 PY_PLASMA_TYPE_INIT(ObjectInVolumeDetector) {
     pyObjectInVolumeDetector_Type.tp_new = pyObjectInVolumeDetector_new;
     pyObjectInVolumeDetector_Type.tp_base = &pyCollisionDetector_Type;
-    if (PyType_Ready(&pyObjectInVolumeDetector_Type) < 0)
+    if (PyType_CheckAndReady(&pyObjectInVolumeDetector_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyObjectInVolumeDetector_Type);

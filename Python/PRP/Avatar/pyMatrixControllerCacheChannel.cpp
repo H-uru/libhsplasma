@@ -29,7 +29,7 @@ PY_PLASMA_TYPE(MatrixControllerCacheChannel, plMatrixControllerCacheChannel,
 PY_PLASMA_TYPE_INIT(MatrixControllerCacheChannel) {
     pyMatrixControllerCacheChannel_Type.tp_new = pyMatrixControllerCacheChannel_new;
     pyMatrixControllerCacheChannel_Type.tp_base = &pyMatrixChannel_Type;
-    if (PyType_Ready(&pyMatrixControllerCacheChannel_Type) < 0)
+    if (PyType_CheckAndReady(&pyMatrixControllerCacheChannel_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyMatrixControllerCacheChannel_Type);

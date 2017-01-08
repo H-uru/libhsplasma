@@ -36,7 +36,7 @@ PY_PLASMA_TYPE_INIT(AGChannel) {
     pyAGChannel_Type.tp_new = pyAGChannel_new;
     pyAGChannel_Type.tp_getset = pyAGChannel_GetSet;
     pyAGChannel_Type.tp_base = &pyCreatable_Type;
-    if (PyType_Ready(&pyAGChannel_Type) < 0)
+    if (PyType_CheckAndReady(&pyAGChannel_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyAGChannel_Type);

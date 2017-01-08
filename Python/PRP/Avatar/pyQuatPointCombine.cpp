@@ -28,7 +28,7 @@ PY_PLASMA_TYPE(QuatPointCombine, plQuatPointCombine, "plQuatPointCombine wrapper
 PY_PLASMA_TYPE_INIT(QuatPointCombine) {
     pyQuatPointCombine_Type.tp_new = pyQuatPointCombine_new;
     pyQuatPointCombine_Type.tp_base = &pyMatrixChannel_Type;
-    if (PyType_Ready(&pyQuatPointCombine_Type) < 0)
+    if (PyType_CheckAndReady(&pyQuatPointCombine_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyQuatPointCombine_Type);

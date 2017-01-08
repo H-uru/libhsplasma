@@ -191,7 +191,7 @@ PY_PLASMA_TYPE_INIT(Span) {
     pySpan_Type.tp_new = pySpan_new;
     pySpan_Type.tp_methods = pySpan_Methods;
     pySpan_Type.tp_getset = pySpan_GetSet;
-    if (PyType_Ready(&pySpan_Type) < 0)
+    if (PyType_CheckAndReady(&pySpan_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(Span, "kLiteMaterial", plSpan::kLiteMaterial);

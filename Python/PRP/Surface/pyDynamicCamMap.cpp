@@ -319,7 +319,7 @@ PY_PLASMA_TYPE_INIT(DynamicCamMap) {
     pyDynamicCamMap_Type.tp_methods = pyDynamicCamMap_Methods;
     pyDynamicCamMap_Type.tp_getset = pyDynamicCamMap_GetSet;
     pyDynamicCamMap_Type.tp_base = &pyRenderTarget_Type;
-    if (PyType_Ready(&pyDynamicCamMap_Type) < 0)
+    if (PyType_CheckAndReady(&pyDynamicCamMap_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyDynamicCamMap_Type);

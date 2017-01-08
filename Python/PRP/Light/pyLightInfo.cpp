@@ -97,7 +97,7 @@ PY_PLASMA_TYPE_INIT(LightInfo) {
     pyLightInfo_Type.tp_methods = pyLightInfo_Methods;
     pyLightInfo_Type.tp_getset = pyLightInfo_GetSet;
     pyLightInfo_Type.tp_base = &pyObjInterface_Type;
-    if (PyType_Ready(&pyLightInfo_Type) < 0)
+    if (PyType_CheckAndReady(&pyLightInfo_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(LightInfo, "kLPObsolete", plLightInfo::kLPObsolete);

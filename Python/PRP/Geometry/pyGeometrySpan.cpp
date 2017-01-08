@@ -243,7 +243,7 @@ PY_PLASMA_TYPE_INIT(GeometrySpan) {
     pyGeometrySpan_Type.tp_new = pyGeometrySpan_new;
     pyGeometrySpan_Type.tp_methods = pyGeometrySpan_Methods;
     pyGeometrySpan_Type.tp_getset = pyGeometrySpan_GetSet;
-    if (PyType_Ready(&pyGeometrySpan_Type) < 0)
+    if (PyType_CheckAndReady(&pyGeometrySpan_Type) < 0)
         return NULL;
 
     // Format

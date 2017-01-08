@@ -152,7 +152,7 @@ PY_PLASMA_TYPE_INIT(WaveSet7) {
     pyWaveSet7_Type.tp_methods = pyWaveSet7_Methods;
     pyWaveSet7_Type.tp_getset = pyWaveSet7_GetSet;
     pyWaveSet7_Type.tp_base = &pyWaveSetBase_Type;
-    if (PyType_Ready(&pyWaveSet7_Type) < 0)
+    if (PyType_CheckAndReady(&pyWaveSet7_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(WaveSet7, "kHasRefObject", plWaveSet7::kHasRefObject);

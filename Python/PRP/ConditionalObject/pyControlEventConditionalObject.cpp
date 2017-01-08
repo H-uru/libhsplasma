@@ -38,7 +38,7 @@ PY_PLASMA_TYPE_INIT(ControlEventConditionalObject) {
     pyControlEventConditionalObject_Type.tp_new = pyControlEventConditionalObject_new;
     pyControlEventConditionalObject_Type.tp_getset = pyControlEventConditionalObject_GetSet;
     pyControlEventConditionalObject_Type.tp_base = &pyConditionalObject_Type;
-    if (PyType_Ready(&pyControlEventConditionalObject_Type) < 0)
+    if (PyType_CheckAndReady(&pyControlEventConditionalObject_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyControlEventConditionalObject_Type);

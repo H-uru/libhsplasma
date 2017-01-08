@@ -47,7 +47,7 @@ PY_PLASMA_TYPE_INIT(CompoundRotController) {
     pyCompoundRotController_Type.tp_new = pyCompoundRotController_new;
     pyCompoundRotController_Type.tp_getset = pyCompoundRotController_GetSet;
     pyCompoundRotController_Type.tp_base = &pyRotController_Type;
-    if (PyType_Ready(&pyCompoundRotController_Type) < 0)
+    if (PyType_CheckAndReady(&pyCompoundRotController_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyCompoundRotController_Type);

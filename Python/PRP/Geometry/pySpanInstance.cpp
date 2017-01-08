@@ -150,7 +150,7 @@ PY_PLASMA_TYPE_INIT(SpanInstance) {
     pySpanInstance_Type.tp_new = pySpanInstance_new;
     pySpanInstance_Type.tp_methods = pySpanInstance_Methods;
     pySpanInstance_Type.tp_getset = pySpanInstance_GetSet;
-    if (PyType_Ready(&pySpanInstance_Type) < 0)
+    if (PyType_CheckAndReady(&pySpanInstance_Type) < 0)
         return NULL;
 
     Py_INCREF(&pySpanInstance_Type);

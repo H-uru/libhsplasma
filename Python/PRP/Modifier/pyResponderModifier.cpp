@@ -99,7 +99,7 @@ PY_PLASMA_TYPE_INIT(ResponderModifier) {
     pyResponderModifier_Type.tp_methods = pyResponderModifier_Methods;
     pyResponderModifier_Type.tp_getset = pyResponderModifier_GetSet;
     pyResponderModifier_Type.tp_base = &pySingleModifier_Type;
-    if (PyType_Ready(&pyResponderModifier_Type) < 0)
+    if (PyType_CheckAndReady(&pyResponderModifier_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(ResponderModifier, "kDetectTrigger",

@@ -39,7 +39,7 @@ PY_PLASMA_TYPE_INIT(VisRegion) {
     pyVisRegion_Type.tp_new = pyVisRegion_new;
     pyVisRegion_Type.tp_getset = pyVisRegion_GetSet;
     pyVisRegion_Type.tp_base = &pyObjInterface_Type;
-    if (PyType_Ready(&pyVisRegion_Type) < 0)
+    if (PyType_CheckAndReady(&pyVisRegion_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(VisRegion, "kDisable", plVisRegion::kDisable);

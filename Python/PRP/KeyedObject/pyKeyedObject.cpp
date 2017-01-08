@@ -57,7 +57,7 @@ PY_PLASMA_TYPE_INIT(KeyedObject) {
     pyKeyedObject_Type.tp_new = pyKeyedObject_new;
     pyKeyedObject_Type.tp_getset = pyKeyedObject_GetSet;
     pyKeyedObject_Type.tp_base = &pyCreatable_Type;
-    if (PyType_Ready(&pyKeyedObject_Type) < 0)
+    if (PyType_CheckAndReady(&pyKeyedObject_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyKeyedObject_Type);

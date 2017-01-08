@@ -65,7 +65,7 @@ PY_PLASMA_TYPE_INIT(ConvexIsect) {
     pyConvexIsect_Type.tp_new = pyConvexIsect_new;
     pyConvexIsect_Type.tp_methods = pyConvexIsect_Methods;
     pyConvexIsect_Type.tp_base = &pyVolumeIsect_Type;
-    if (PyType_Ready(&pyConvexIsect_Type) < 0)
+    if (PyType_CheckAndReady(&pyConvexIsect_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyConvexIsect_Type);

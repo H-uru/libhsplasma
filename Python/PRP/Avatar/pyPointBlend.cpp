@@ -28,7 +28,7 @@ PY_PLASMA_TYPE(PointBlend, plPointBlend, "plPointBlend wrapper")
 PY_PLASMA_TYPE_INIT(PointBlend) {
     pyPointBlend_Type.tp_new = pyPointBlend_new;
     pyPointBlend_Type.tp_base = &pyPointChannel_Type;
-    if (PyType_Ready(&pyPointBlend_Type) < 0)
+    if (PyType_CheckAndReady(&pyPointBlend_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyPointBlend_Type);

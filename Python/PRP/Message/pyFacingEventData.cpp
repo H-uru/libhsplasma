@@ -42,7 +42,7 @@ PY_PLASMA_TYPE_INIT(FacingEventData) {
     pyFacingEventData_Type.tp_new = pyFacingEventData_new;
     pyFacingEventData_Type.tp_getset = pyFacingEventData_GetSet;
     pyFacingEventData_Type.tp_base = &pyEventData_Type;
-    if (PyType_Ready(&pyFacingEventData_Type) < 0)
+    if (PyType_CheckAndReady(&pyFacingEventData_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyFacingEventData_Type);

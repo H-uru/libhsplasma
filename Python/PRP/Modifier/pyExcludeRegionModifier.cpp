@@ -99,7 +99,7 @@ PY_PLASMA_TYPE_INIT(ExcludeRegionModifier) {
     pyExcludeRegionModifier_Type.tp_methods = pyExcludeRegionModifier_Methods;
     pyExcludeRegionModifier_Type.tp_getset = pyExcludeRegionModifier_GetSet;
     pyExcludeRegionModifier_Type.tp_base = &pySingleModifier_Type;
-    if (PyType_Ready(&pyExcludeRegionModifier_Type) < 0)
+    if (PyType_CheckAndReady(&pyExcludeRegionModifier_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(ExcludeRegionModifier, "kBlockCameras",

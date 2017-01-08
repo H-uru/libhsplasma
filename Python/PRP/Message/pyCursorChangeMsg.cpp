@@ -38,7 +38,7 @@ PY_PLASMA_TYPE_INIT(CursorChangeMsg) {
     pyCursorChangeMsg_Type.tp_new = pyCursorChangeMsg_new;
     pyCursorChangeMsg_Type.tp_getset = pyCursorChangeMsg_GetSet;
     pyCursorChangeMsg_Type.tp_base = &pyMessage_Type;
-    if (PyType_Ready(&pyCursorChangeMsg_Type) < 0)
+    if (PyType_CheckAndReady(&pyCursorChangeMsg_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(CursorChangeMsg, "kNoChange", plCursorChangeMsg::kNoChange);

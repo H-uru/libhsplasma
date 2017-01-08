@@ -212,7 +212,7 @@ PY_PLASMA_TYPE_INIT(ClusterGroup) {
     pyClusterGroup_Type.tp_methods = pyClusterGroup_Methods;
     pyClusterGroup_Type.tp_getset = pyClusterGroup_GetSet;
     pyClusterGroup_Type.tp_base = &pyKeyedObject_Type;
-    if (PyType_Ready(&pyClusterGroup_Type) < 0)
+    if (PyType_CheckAndReady(&pyClusterGroup_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyClusterGroup_Type);

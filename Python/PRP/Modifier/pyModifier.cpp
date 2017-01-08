@@ -29,7 +29,7 @@ PY_PLASMA_TYPE(Modifier, plModifier, "plModifier wrapper")
 PY_PLASMA_TYPE_INIT(Modifier) {
     pyModifier_Type.tp_new = pyModifier_new;
     pyModifier_Type.tp_base = &pySynchedObject_Type;
-    if (PyType_Ready(&pyModifier_Type) < 0)
+    if (PyType_CheckAndReady(&pyModifier_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyModifier_Type);

@@ -80,7 +80,7 @@ PY_PLASMA_TYPE_INIT(Icicle) {
     pyIcicle_Type.tp_new = pyIcicle_new;
     pyIcicle_Type.tp_getset = pyIcicle_GetSet;
     pyIcicle_Type.tp_base = &pyVertexSpan_Type;
-    if (PyType_Ready(&pyIcicle_Type) < 0)
+    if (PyType_CheckAndReady(&pyIcicle_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyIcicle_Type);

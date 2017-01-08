@@ -98,7 +98,7 @@ PY_PLASMA_TYPE_INIT(Message) {
     pyMessage_Type.tp_methods = pyMessage_Methods;
     pyMessage_Type.tp_getset = pyMessage_GetSet;
     pyMessage_Type.tp_base = &pyCreatable_Type;
-    if (PyType_Ready(&pyMessage_Type) < 0)
+    if (PyType_CheckAndReady(&pyMessage_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(Message, "kBCastNone", plMessage::kBCastNone);

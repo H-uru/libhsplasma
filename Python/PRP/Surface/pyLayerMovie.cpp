@@ -37,7 +37,7 @@ PY_PLASMA_TYPE_INIT(LayerMovie) {
     pyLayerMovie_Type.tp_new = pyLayerMovie_new;
     pyLayerMovie_Type.tp_getset = pyLayerMovie_GetSet;
     pyLayerMovie_Type.tp_base = &pyLayerAnimation_Type;
-    if (PyType_Ready(&pyLayerMovie_Type) < 0)
+    if (PyType_CheckAndReady(&pyLayerMovie_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyLayerMovie_Type);

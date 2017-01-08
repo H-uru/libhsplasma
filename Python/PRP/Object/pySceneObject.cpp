@@ -159,7 +159,7 @@ PY_PLASMA_TYPE_INIT(SceneObject) {
     pySceneObject_Type.tp_methods = pySceneObject_Methods;
     pySceneObject_Type.tp_getset = pySceneObject_GetSet;
     pySceneObject_Type.tp_base = &pySynchedObject_Type;
-    if (PyType_Ready(&pySceneObject_Type) < 0)
+    if (PyType_CheckAndReady(&pySceneObject_Type) < 0)
         return NULL;
 
     Py_INCREF(&pySceneObject_Type);

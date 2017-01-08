@@ -89,7 +89,7 @@ PY_PLASMA_TYPE_INIT(SittingModifier) {
     pySittingModifier_Type.tp_methods = pySittingModifier_Methods;
     pySittingModifier_Type.tp_getset = pySittingModifier_GetSet;
     pySittingModifier_Type.tp_base = &pySingleModifier_Type;
-    if (PyType_Ready(&pySittingModifier_Type) < 0)
+    if (PyType_CheckAndReady(&pySittingModifier_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(SittingModifier, "kApproachFront", plSittingModifier::kApproachFront);

@@ -27,7 +27,7 @@ PY_PLASMA_TYPE(PickingDetector, plPickingDetector, "plPickingDetector wrapper")
 PY_PLASMA_TYPE_INIT(PickingDetector) {
     pyPickingDetector_Type.tp_new = pyPickingDetector_new;
     pyPickingDetector_Type.tp_base = &pyDetectorModifier_Type;
-    if (PyType_Ready(&pyPickingDetector_Type) < 0)
+    if (PyType_CheckAndReady(&pyPickingDetector_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyPickingDetector_Type);

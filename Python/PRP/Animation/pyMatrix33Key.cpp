@@ -38,7 +38,7 @@ PY_PLASMA_TYPE_INIT(Matrix33Key) {
     pyMatrix33Key_Type.tp_new = pyMatrix33Key_new;
     pyMatrix33Key_Type.tp_getset = pyMatrix33Key_GetSet;
     pyMatrix33Key_Type.tp_base = &pyKeyFrame_Type;
-    if (PyType_Ready(&pyMatrix33Key_Type) < 0)
+    if (PyType_CheckAndReady(&pyMatrix33Key_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyMatrix33Key_Type);

@@ -233,7 +233,7 @@ PY_PLASMA_TYPE_INIT(Vector3) {
     pyVector3_Type.tp_methods = pyVector3_Methods;
     pyVector3_Type.tp_getset = pyVector3_GetSet;
     pyVector3_Type.tp_flags |= Py_TPFLAGS_CHECKTYPES;
-    if (PyType_Ready(&pyVector3_Type) < 0)
+    if (PyType_CheckAndReady(&pyVector3_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyVector3_Type);

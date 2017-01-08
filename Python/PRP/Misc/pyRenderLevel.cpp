@@ -27,7 +27,7 @@ PY_PLASMA_TYPE(RenderLevel, plRenderLevel, "plRenderLevel constants")
 
 PY_PLASMA_TYPE_INIT(RenderLevel) {
     pyRenderLevel_Type.tp_new = pyRenderLevel_new;
-    if (PyType_Ready(&pyRenderLevel_Type) < 0)
+    if (PyType_CheckAndReady(&pyRenderLevel_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(RenderLevel, "kOpaqueMajorLevel", plRenderLevel::kOpaqueMajorLevel);

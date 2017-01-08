@@ -271,7 +271,7 @@ PY_PLASMA_TYPE_INIT(GenericPhysical) {
     pyGenericPhysical_Type.tp_methods = pyGenericPhysical_Methods;
     pyGenericPhysical_Type.tp_getset = pyGenericPhysical_GetSet;
     pyGenericPhysical_Type.tp_base = &pyPhysical_Type;
-    if (PyType_Ready(&pyGenericPhysical_Type) < 0)
+    if (PyType_CheckAndReady(&pyGenericPhysical_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyGenericPhysical_Type);

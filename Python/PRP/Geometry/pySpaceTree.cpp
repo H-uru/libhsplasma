@@ -95,7 +95,7 @@ PY_PLASMA_TYPE_INIT(SpaceTree) {
     pySpaceTree_Type.tp_new = pySpaceTree_new;
     pySpaceTree_Type.tp_methods = pySpaceTree_Methods;
     pySpaceTree_Type.tp_base = &pyCreatable_Type;
-    if (PyType_Ready(&pySpaceTree_Type) < 0)
+    if (PyType_CheckAndReady(&pySpaceTree_Type) < 0)
         return NULL;
 
     Py_INCREF(&pySpaceTree_Type);

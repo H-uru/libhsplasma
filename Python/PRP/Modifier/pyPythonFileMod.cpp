@@ -123,7 +123,7 @@ PY_PLASMA_TYPE_INIT(PythonFileMod) {
     pyPythonFileMod_Type.tp_methods = pyPythonFileMod_Methods;
     pyPythonFileMod_Type.tp_getset = pyPythonFileMod_GetSet;
     pyPythonFileMod_Type.tp_base = &pyMultiModifier_Type;
-    if (PyType_Ready(&pyPythonFileMod_Type) < 0)
+    if (PyType_CheckAndReady(&pyPythonFileMod_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyPythonFileMod_Type);

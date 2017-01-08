@@ -78,7 +78,7 @@ PY_PLASMA_TYPE_INIT(LODDist) {
     pyLODDist_Type.tp_new = pyLODDist_new;
     pyLODDist_Type.tp_methods = pyLODDist_Methods;
     pyLODDist_Type.tp_getset = pyLODDist_GetSet;
-    if (PyType_Ready(&pyLODDist_Type) < 0)
+    if (PyType_CheckAndReady(&pyLODDist_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyLODDist_Type);

@@ -38,7 +38,7 @@ PY_PLASMA_TYPE_INIT(SpawnedEventData) {
     pySpawnedEventData_Type.tp_new = pySpawnedEventData_new;
     pySpawnedEventData_Type.tp_getset = pySpawnedEventData_GetSet;
     pySpawnedEventData_Type.tp_base = &pyEventData_Type;
-    if (PyType_Ready(&pySpawnedEventData_Type) < 0)
+    if (PyType_CheckAndReady(&pySpawnedEventData_Type) < 0)
         return NULL;
 
     Py_INCREF(&pySpawnedEventData_Type);

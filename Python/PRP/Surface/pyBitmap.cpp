@@ -96,7 +96,7 @@ PY_PLASMA_TYPE_INIT(Bitmap) {
     pyBitmap_Type.tp_methods = pyBitmap_Methods;
     pyBitmap_Type.tp_getset = pyBitmap_GetSet;
     pyBitmap_Type.tp_base = &pyKeyedObject_Type;
-    if (PyType_Ready(&pyBitmap_Type) < 0)
+    if (PyType_CheckAndReady(&pyBitmap_Type) < 0)
         return NULL;
 
     // Flags

@@ -28,7 +28,7 @@ PY_PLASMA_TYPE(ScalarBlend, plScalarBlend, "plScalarBlend wrapper")
 PY_PLASMA_TYPE_INIT(ScalarBlend) {
     pyScalarBlend_Type.tp_new = pyScalarBlend_new;
     pyScalarBlend_Type.tp_base = &pyScalarChannel_Type;
-    if (PyType_Ready(&pyScalarBlend_Type) < 0)
+    if (PyType_CheckAndReady(&pyScalarBlend_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyScalarBlend_Type);

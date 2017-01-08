@@ -91,7 +91,7 @@ PY_PLASMA_TYPE_INIT(SpaceTreeNode) {
     pySpaceTreeNode_Type.tp_new = pySpaceTreeNode_new;
     pySpaceTreeNode_Type.tp_methods = pySpaceTreeNode_Methods;
     pySpaceTreeNode_Type.tp_getset = pySpaceTreeNode_GetSet;
-    if (PyType_Ready(&pySpaceTreeNode_Type) < 0)
+    if (PyType_CheckAndReady(&pySpaceTreeNode_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(SpaceTreeNode, "kNone", plSpaceTreeNode::kNone);

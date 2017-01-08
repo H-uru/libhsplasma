@@ -37,7 +37,7 @@ PY_PLASMA_TYPE_INIT(PosController) {
     pyPosController_Type.tp_new = pyPosController_new;
     pyPosController_Type.tp_getset = pyPosController_GetSet;
     pyPosController_Type.tp_base = &pyController_Type;
-    if (PyType_Ready(&pyPosController_Type) < 0)
+    if (PyType_CheckAndReady(&pyPosController_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(PosController, "kSimple", plPosController::kSimple);

@@ -105,7 +105,7 @@ PY_PLASMA_TYPE_INIT(CoordinateInterface) {
     pyCoordinateInterface_Type.tp_methods = pyCoordinateInterface_Methods;
     pyCoordinateInterface_Type.tp_getset = pyCoordinateInterface_GetSet;
     pyCoordinateInterface_Type.tp_base = &pyObjInterface_Type;
-    if (PyType_Ready(&pyCoordinateInterface_Type) < 0)
+    if (PyType_CheckAndReady(&pyCoordinateInterface_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(CoordinateInterface, "kCanEverDelayTransform",

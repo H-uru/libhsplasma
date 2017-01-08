@@ -80,7 +80,7 @@ PY_PLASMA_TYPE_INIT(ClothingItem) {
     pyClothingItem_Type.tp_methods = pyClothingItem_Methods;
     pyClothingItem_Type.tp_getset = pyClothingItem_GetSet;
     pyClothingItem_Type.tp_base = &pyKeyedObject_Type;
-    if (PyType_Ready(&pyClothingItem_Type) < 0)
+    if (PyType_CheckAndReady(&pyClothingItem_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(ClothingItem, "kLODHigh", plClothingItem::kLODHigh);

@@ -29,7 +29,7 @@ PY_PLASMA_TYPE(ConstAccelEaseCurve, plConstAccelEaseCurve,
 PY_PLASMA_TYPE_INIT(ConstAccelEaseCurve) {
     pyConstAccelEaseCurve_Type.tp_new = pyConstAccelEaseCurve_new;
     pyConstAccelEaseCurve_Type.tp_base = &pyATCEaseCurve_Type;
-    if (PyType_Ready(&pyConstAccelEaseCurve_Type) < 0)
+    if (PyType_CheckAndReady(&pyConstAccelEaseCurve_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyConstAccelEaseCurve_Type);

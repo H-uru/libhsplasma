@@ -40,7 +40,7 @@ PY_PLASMA_TYPE_INIT(AnimationEventConditionalObject) {
     pyAnimationEventConditionalObject_Type.tp_new = pyAnimationEventConditionalObject_new;
     pyAnimationEventConditionalObject_Type.tp_getset = pyAnimationEventConditionalObject_GetSet;
     pyAnimationEventConditionalObject_Type.tp_base = &pyConditionalObject_Type;
-    if (PyType_Ready(&pyAnimationEventConditionalObject_Type) < 0)
+    if (PyType_CheckAndReady(&pyAnimationEventConditionalObject_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyAnimationEventConditionalObject_Type);

@@ -40,7 +40,7 @@ PY_PLASMA_TYPE_INIT(SoftVolumeSimple) {
     pySoftVolumeSimple_Type.tp_new = pySoftVolumeSimple_new;
     pySoftVolumeSimple_Type.tp_getset = pySoftVolumeSimple_GetSet;
     pySoftVolumeSimple_Type.tp_base = &pySoftVolume_Type;
-    if (PyType_Ready(&pySoftVolumeSimple_Type) < 0)
+    if (PyType_CheckAndReady(&pySoftVolumeSimple_Type) < 0)
         return NULL;
 
     Py_INCREF(&pySoftVolumeSimple_Type);

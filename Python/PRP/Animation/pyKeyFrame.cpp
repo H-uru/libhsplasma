@@ -83,7 +83,7 @@ PY_PLASMA_TYPE_INIT(KeyFrame) {
     pyKeyFrame_Type.tp_new = pyKeyFrame_new;
     pyKeyFrame_Type.tp_methods = pyKeyFrame_Methods;
     pyKeyFrame_Type.tp_getset = pyKeyFrame_GetSet;
-    if (PyType_Ready(&pyKeyFrame_Type) < 0)
+    if (PyType_CheckAndReady(&pyKeyFrame_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(KeyFrame, "kUnknownKeyFrame", hsKeyFrame::kUnknownKeyFrame);

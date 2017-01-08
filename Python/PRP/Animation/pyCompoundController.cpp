@@ -57,7 +57,7 @@ PY_PLASMA_TYPE_INIT(CompoundController) {
     pyCompoundController_Type.tp_methods = pyCompoundController_Methods;
     pyCompoundController_Type.tp_getset = pyCompoundController_GetSet;
     pyCompoundController_Type.tp_base = &pyController_Type;
-    if (PyType_Ready(&pyCompoundController_Type) < 0)
+    if (PyType_CheckAndReady(&pyCompoundController_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyCompoundController_Type);

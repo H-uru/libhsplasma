@@ -28,7 +28,7 @@ PY_PLASMA_TYPE(Controller, plController, "plController wrapper")
 PY_PLASMA_TYPE_INIT(Controller) {
     pyController_Type.tp_new = pyController_new;
     pyController_Type.tp_base = &pyCreatable_Type;
-    if (PyType_Ready(&pyController_Type) < 0)
+    if (PyType_CheckAndReady(&pyController_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyController_Type);

@@ -203,7 +203,7 @@ PY_PLASMA_TYPE_INIT(Color32) {
     pyColor32_Type.tp_repr = pyColor32_repr;
     pyColor32_Type.tp_methods = pyColor32_Methods;
     pyColor32_Type.tp_getset = pyColor32_GetSet;
-    if (PyType_Ready(&pyColor32_Type) < 0)
+    if (PyType_CheckAndReady(&pyColor32_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyColor32_Type);

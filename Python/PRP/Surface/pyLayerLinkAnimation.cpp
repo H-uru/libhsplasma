@@ -40,7 +40,7 @@ PY_PLASMA_TYPE_INIT(LayerLinkAnimation) {
     pyLayerLinkAnimation_Type.tp_new = pyLayerLinkAnimation_new;
     pyLayerLinkAnimation_Type.tp_getset = pyLayerLinkAnimation_GetSet;
     pyLayerLinkAnimation_Type.tp_base = &pyLayerAnimation_Type;
-    if (PyType_Ready(&pyLayerLinkAnimation_Type) < 0)
+    if (PyType_CheckAndReady(&pyLayerLinkAnimation_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyLayerLinkAnimation_Type);

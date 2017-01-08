@@ -41,7 +41,7 @@ PY_PLASMA_TYPE_INIT(MultiStageEventData) {
     pyMultiStageEventData_Type.tp_new = pyMultiStageEventData_new;
     pyMultiStageEventData_Type.tp_getset = pyMultiStageEventData_GetSet;
     pyMultiStageEventData_Type.tp_base = &pyEventData_Type;
-    if (PyType_Ready(&pyMultiStageEventData_Type) < 0)
+    if (PyType_CheckAndReady(&pyMultiStageEventData_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyMultiStageEventData_Type);

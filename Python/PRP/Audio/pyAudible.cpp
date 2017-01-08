@@ -29,7 +29,7 @@ PY_PLASMA_TYPE(Audible, plAudible, "plAudible wrapper")
 PY_PLASMA_TYPE_INIT(Audible) {
     pyAudible_Type.tp_new = pyAudible_new;
     pyAudible_Type.tp_base = &pyKeyedObject_Type;
-    if (PyType_Ready(&pyAudible_Type) < 0)
+    if (PyType_CheckAndReady(&pyAudible_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyAudible_Type);

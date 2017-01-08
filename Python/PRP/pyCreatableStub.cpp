@@ -63,7 +63,7 @@ PY_PLASMA_TYPE_INIT(CreatableStub) {
     pyCreatableStub_Type.tp_new = pyCreatableStub_new;
     pyCreatableStub_Type.tp_methods = pyCreatableStub_Methods;
     pyCreatableStub_Type.tp_base = &pyCreatable_Type;
-    if (PyType_Ready(&pyCreatableStub_Type) < 0)
+    if (PyType_CheckAndReady(&pyCreatableStub_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyCreatableStub_Type);

@@ -88,7 +88,7 @@ PY_PLASMA_TYPE_INIT(Bounds3Ext) {
     pyBounds3Ext_Type.tp_new = pyBounds3Ext_new;
     pyBounds3Ext_Type.tp_getset = pyBounds3Ext_GetSet;
     pyBounds3Ext_Type.tp_base = &pyBounds3_Type;
-    if (PyType_Ready(&pyBounds3Ext_Type) < 0)
+    if (PyType_CheckAndReady(&pyBounds3Ext_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(Bounds3Ext, "kAxisAligned", hsBounds3Ext::kAxisAligned);

@@ -87,7 +87,7 @@ PY_PLASMA_TYPE_INIT(SoundMsg) {
     pySoundMsg_Type.tp_methods = pySoundMsg_Methods;
     pySoundMsg_Type.tp_getset = pySoundMsg_GetSet;
     pySoundMsg_Type.tp_base = &pyMessageWithCallbacks_Type;
-    if (PyType_Ready(&pySoundMsg_Type) < 0)
+    if (PyType_CheckAndReady(&pySoundMsg_Type) < 0)
         return NULL;
 
     PY_TYPE_ADD_CONST(SoundMsg, "kPlay", plSoundMsg::kPlay);
