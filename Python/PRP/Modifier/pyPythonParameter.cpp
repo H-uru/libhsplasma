@@ -26,18 +26,19 @@ extern "C" {
 PY_PLASMA_VALUE_DEALLOC(PythonParameter)
 
 PY_PLASMA_INIT_DECL(PythonParameter) {
-    pyPythonParameter* init = NULL;
+    PyObject* init = NULL;
 
-    delete self->fThis;
-    self->fThis = NULL;
-    if (PyErr_Clear(), PyArg_ParseTuple(args, "|O", &init)) {
-        if (init == NULL)
+    if (PyArg_ParseTuple(args, "|O", &init)) {
+        if (init == NULL) {
             return 0;
-        else  if (pyPythonParameter_Check((PyObject*)init))
-            self->fThis = new plPythonParameter(*init->fThis);
-        else
+        } else if (pyPythonParameter_Check(init)) {
+            (*self->fThis) = *(((pyPythonParameter*)init)->fThis);
+        } else {
+            PyErr_SetString(PyExc_TypeError, "__init__ expects an optional plPythonParameter");
             return -1;
+        }
     } else {
+        PyErr_SetString(PyExc_TypeError, "__init__ expects an optional plPythonParameter");
         return -1;
     }
 
