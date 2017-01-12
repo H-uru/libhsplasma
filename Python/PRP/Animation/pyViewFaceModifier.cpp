@@ -30,7 +30,7 @@ PY_PLASMA_NEW(ViewFaceModifier, plViewFaceModifier)
 
 PY_PROPERTY(hsVector3, ViewFaceModifier, scale, getScale, setScale)
 PY_PROPERTY(hsVector3, ViewFaceModifier, offset, getOffset, setOffset)
-PY_PROPERTY(hsMatrix44, ViewFaceModifier, localToparent, getLocalToParent, setLocalToParent)
+PY_PROPERTY(hsMatrix44, ViewFaceModifier, localToParent, getLocalToParent, setLocalToParent)
 PY_PROPERTY(hsMatrix44, ViewFaceModifier, parentToLocal, getParentToLocal, setParentToLocal)
 PY_PROPERTY(plKey, ViewFaceModifier, faceObj, getFaceObj, setFaceObj)
 PY_PROPERTY_BOUNDS(Bounds3Ext, ViewFaceModifier, maxBounds, getMaxBounds, setMaxBounds)
@@ -38,7 +38,7 @@ PY_PROPERTY_BOUNDS(Bounds3Ext, ViewFaceModifier, maxBounds, getMaxBounds, setMax
 static PyGetSetDef pyViewFaceModifier_GetSet[] = {
     pyViewFaceModifier_scale_getset,
     pyViewFaceModifier_offset_getset,
-    pyViewFaceModifier_localToparent_getset,
+    pyViewFaceModifier_localToParent_getset,
     pyViewFaceModifier_parentToLocal_getset,
     pyViewFaceModifier_faceObj_getset,
     pyViewFaceModifier_maxBounds_getset,
