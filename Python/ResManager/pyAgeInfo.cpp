@@ -22,39 +22,27 @@
 
 extern "C" {
 
-static void pyAgeInfo_dealloc(pyAgeInfo* self) {
-    if (self->fPyOwned)
-        delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+PY_PLASMA_DEALLOC(AgeInfo)
+PY_PLASMA_EMPTY_INIT(AgeInfo)
+PY_PLASMA_NEW(AgeInfo, plAgeInfo)
 
-static int pyAgeInfo___init__(pyAgeInfo* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyAgeInfo_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyAgeInfo* self = (pyAgeInfo*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plAgeInfo();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
-
-static PyObject* pyAgeInfo_readFromFile(pyAgeInfo* self, PyObject* args) {
+PY_METHOD_VA(AgeInfo, readFromFile,
+    "Params: filename\n"
+    "Reads the AgeInfo from a .age file")
+{
     const char* filename;
     if (!PyArg_ParseTuple(args, "s", &filename)) {
         PyErr_SetString(PyExc_TypeError, "readFromFile expects a string");
         return NULL;
     }
     self->fThis->readFromFile(filename);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyAgeInfo_writeToFile(pyAgeInfo* self, PyObject* args) {
+PY_METHOD_VA(AgeInfo, writeToFile,
+    "Params: filename, version\n"
+    "Write the AgeInfo to a .age file")
+{
     const char* filename;
     int version;
     if (!PyArg_ParseTuple(args, "si", &filename, &version)) {
@@ -62,15 +50,19 @@ static PyObject* pyAgeInfo_writeToFile(pyAgeInfo* self, PyObject* args) {
         return NULL;
     }
     self->fThis->writeToFile(filename, (PlasmaVer)version);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyAgeInfo_getNumPages(pyAgeInfo* self) {
-    return PyInt_FromLong(self->fThis->getNumPages());
+PY_METHOD_NOARGS(AgeInfo, getNumPages,
+    "Returns the number of pages described by this AgeInfo")
+{
+    return pyPlasma_convert(self->fThis->getNumPages());
 }
 
-static PyObject* pyAgeInfo_getPage(pyAgeInfo* self, PyObject* args) {
+PY_METHOD_VA(AgeInfo, getPage,
+    "Params: idx\n"
+    "Returns a tuple (name, pageNum, loadFlags) for the specified page")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "getPage expects an int");
@@ -85,16 +77,22 @@ static PyObject* pyAgeInfo_getPage(pyAgeInfo* self, PyObject* args) {
     }
 }
 
-static PyObject* pyAgeInfo_getNumCommonPages(pyAgeInfo* self, PyObject* args) {
+PY_METHOD_VA(AgeInfo, getNumCommonPages,
+    "Params: version\n"
+    "Returns the number of common pages described by this AgeInfo")
+{
     int version;
     if (!PyArg_ParseTuple(args, "i", &version)) {
         PyErr_SetString(PyExc_TypeError, "getNumCommonPages expects an int");
         return NULL;
     }
-    return PyInt_FromLong(self->fThis->getNumCommonPages((PlasmaVer)version));
+    return pyPlasma_convert(self->fThis->getNumCommonPages((PlasmaVer)version));
 }
 
-static PyObject* pyAgeInfo_getCommonPage(pyAgeInfo* self, PyObject* args) {
+PY_METHOD_VA(AgeInfo, getCommonPage,
+    "Params: idx, version\n"
+    "Returns a tuple (name, pageNum, loadFlags) for the specified common page")
+{
     int idx, version;
     if (!PyArg_ParseTuple(args, "ii", &idx, &version)) {
         PyErr_SetString(PyExc_TypeError, "getCommonPage expects int, int");
@@ -109,7 +107,10 @@ static PyObject* pyAgeInfo_getCommonPage(pyAgeInfo* self, PyObject* args) {
     }
 }
 
-static PyObject* pyAgeInfo_setPage(pyAgeInfo* self, PyObject* args) {
+PY_METHOD_VA(AgeInfo, setPage,
+    "Params: idx, (name, pageNum, loadFlags)\n"
+    "Sets info for the specified page")
+{
     int idx;
     const char* name;
     int seqSuffix, flags;
@@ -119,11 +120,13 @@ static PyObject* pyAgeInfo_setPage(pyAgeInfo* self, PyObject* args) {
         return NULL;
     }
     self->fThis->setPage(idx, plAgeInfo::PageEntry(name, seqSuffix, flags));
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyAgeInfo_addPage(pyAgeInfo* self, PyObject* args) {
+PY_METHOD_VA(AgeInfo, addPage,
+    "Params: (name, pageNum, loadFlags)\n"
+    "Adds a page to the AgeInfo")
+{
     const char* name;
     int seqSuffix, flags;
 
@@ -132,39 +135,47 @@ static PyObject* pyAgeInfo_addPage(pyAgeInfo* self, PyObject* args) {
         return NULL;
     }
     self->fThis->addPage(plAgeInfo::PageEntry(name, seqSuffix, flags));
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyAgeInfo_getPageFilename(pyAgeInfo* self, PyObject* args) {
+PY_METHOD_VA(AgeInfo, getPageFilename,
+    "Params: idx, version\n"
+    "Returns the standard Page Filename for the specified page")
+{
     int idx, version;
     if (!PyArg_ParseTuple(args, "ii", &idx, &version)) {
         PyErr_SetString(PyExc_TypeError, "getPageFilename expects int, int");
         return NULL;
     }
     try {
-        return PlStr_To_PyStr(self->fThis->getPageFilename((size_t)idx, (PlasmaVer)version));
+        return pyPlasma_convert(self->fThis->getPageFilename((size_t)idx, (PlasmaVer)version));
     } catch (hsOutOfBoundsException) {
         PyErr_SetString(PyExc_IndexError, "page index out of range");
         return NULL;
     }
 }
 
-static PyObject* pyAgeInfo_getCommonPageFilename(pyAgeInfo* self, PyObject* args) {
+PY_METHOD_VA(AgeInfo, getCommonPageFilename,
+    "Params: idx, version\n"
+    "Returns the standard Page Filename for the specified common page")
+{
     int idx, version;
     if (!PyArg_ParseTuple(args, "ii", &idx, &version)) {
         PyErr_SetString(PyExc_TypeError, "getCommonPageFilename expects int, int");
         return NULL;
     }
     try {
-        return PlStr_To_PyStr(self->fThis->getCommonPageFilename((size_t)idx, (PlasmaVer)version));
+        return pyPlasma_convert(self->fThis->getCommonPageFilename((size_t)idx, (PlasmaVer)version));
     } catch (hsOutOfBoundsException) {
         PyErr_SetString(PyExc_IndexError, "common page index out of range");
         return NULL;
     }
 }
 
-static PyObject* pyAgeInfo_getPageLoc(pyAgeInfo* self, PyObject* args) {
+PY_METHOD_VA(AgeInfo, getPageLoc,
+    "Params: idx\n"
+    "Returns a plLocation for the specified page")
+{
     int idx, ver;
     if (!PyArg_ParseTuple(args, "ii", &idx, &ver)) {
         PyErr_SetString(PyExc_TypeError, "getPageLoc expects int, int");
@@ -178,7 +189,10 @@ static PyObject* pyAgeInfo_getPageLoc(pyAgeInfo* self, PyObject* args) {
     }
 }
 
-static PyObject* pyAgeInfo_getCommonPageLoc(pyAgeInfo* self, PyObject* args) {
+PY_METHOD_VA(AgeInfo, getCommonPageLoc,
+    "Params: idx\n"
+    "Returns a plLocation for the specified common page")
+{
     int idx, ver;
     if (!PyArg_ParseTuple(args, "ii", &idx, &ver)) {
         PyErr_SetString(PyExc_TypeError, "getCommonPageLoc expects int, int");
@@ -192,259 +206,60 @@ static PyObject* pyAgeInfo_getCommonPageLoc(pyAgeInfo* self, PyObject* args) {
     }
 }
 
-static PyObject* pyAgeInfo_getName(pyAgeInfo* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getAgeName());
-}
-
-static PyObject* pyAgeInfo_getStartDateTime(pyAgeInfo* self, void*) {
-    return PyInt_FromLong(self->fThis->getStartDateTime());
-}
-
-static PyObject* pyAgeInfo_getDayLength(pyAgeInfo* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getDayLength());
-}
-
-static PyObject* pyAgeInfo_getMaxCapacity(pyAgeInfo* self, void*) {
-    return PyInt_FromLong(self->fThis->getMaxCapacity());
-}
-
-static PyObject* pyAgeInfo_getLingerTime(pyAgeInfo* self, void*) {
-    return PyInt_FromLong(self->fThis->getLingerTime());
-}
-
-static PyObject* pyAgeInfo_getSeqPrefix(pyAgeInfo* self, void*) {
-    return PyInt_FromLong(self->fThis->getSeqPrefix());
-}
-
-static PyObject* pyAgeInfo_getReleaseVersion(pyAgeInfo* self, void*) {
-    return PyInt_FromLong(self->fThis->getReleaseVersion());
-}
-
-static int pyAgeInfo_setName(pyAgeInfo* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setAgeName("");
-    } else {
-        if (!PyAnyStr_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "name must be a string");
-            return -1;
-        }
-        self->fThis->setAgeName(PyStr_To_PlStr(value));
-    }
-    return 0;
-}
-
-static int pyAgeInfo_setStartDateTime(pyAgeInfo* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setStartDateTime(0);
-    } else {
-        if (!PyInt_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "startDateTime must be an int");
-            return -1;
-        }
-        self->fThis->setStartDateTime(PyInt_AsLong(value));
-    }
-    return 0;
-}
-
-static int pyAgeInfo_setDayLength(pyAgeInfo* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setDayLength(0.0f);
-    } else {
-        if (!PyFloat_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "dayLength must be a float");
-            return -1;
-        }
-        self->fThis->setDayLength(PyFloat_AsDouble(value));
-    }
-    return 0;
-}
-
-static int pyAgeInfo_setMaxCapacity(pyAgeInfo* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setMaxCapacity(0);
-    } else {
-        if (!PyInt_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "maxCapacity must be an int");
-            return -1;
-        }
-        self->fThis->setMaxCapacity(PyInt_AsLong(value));
-    }
-    return 0;
-}
-
-static int pyAgeInfo_setLingerTime(pyAgeInfo* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setLingerTime(0);
-    } else {
-        if (!PyInt_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "lingerTime must be an int");
-            return -1;
-        }
-        self->fThis->setLingerTime(PyInt_AsLong(value));
-    }
-    return 0;
-}
-
-static int pyAgeInfo_setSeqPrefix(pyAgeInfo* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setSeqPrefix(-1);
-    } else {
-        if (!PyInt_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "seqPrefix must be an int");
-            return -1;
-        }
-        self->fThis->setSeqPrefix(PyInt_AsLong(value));
-    }
-    return 0;
-}
-
-static int pyAgeInfo_setReleaseVersion(pyAgeInfo* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setReleaseVersion(0);
-    } else {
-        if (!PyInt_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "releaseVersion must be an int");
-            return -1;
-        }
-        self->fThis->setReleaseVersion(PyInt_AsLong(value));
-    }
-    return 0;
-}
-
 static PyMethodDef pyAgeInfo_Methods[] = {
-    { "readFromFile", (PyCFunction)pyAgeInfo_readFromFile, METH_VARARGS,
-      "Params: filename\n"
-      "Reads the AgeInfo from a .age file" },
-    { "writeToFile", (PyCFunction)pyAgeInfo_writeToFile, METH_VARARGS,
-      "Params: filename, version\n"
-      "Write the AgeInfo to a .age file" },
-    { "getNumPages", (PyCFunction)pyAgeInfo_getNumPages, METH_NOARGS,
-      "Returns the number of pages described by this AgeInfo" },
-    { "getPage", (PyCFunction)pyAgeInfo_getPage, METH_VARARGS,
-      "Params: idx\n"
-      "Returns a tuple (name, pageNum, loadFlags) for the specified page" },
-    { "getNumCommonPages", (PyCFunction)pyAgeInfo_getNumCommonPages, METH_VARARGS,
-      "Params: version\n"
-      "Returns the number of common pages described by this AgeInfo" },
-    { "getCommonPage", (PyCFunction)pyAgeInfo_getCommonPage, METH_VARARGS,
-      "Params: idx, version\n"
-      "Returns a tuple (name, pageNum, loadFlags) for the specified common page" },
-    { "setPage", (PyCFunction)pyAgeInfo_setPage, METH_VARARGS,
-      "Params: idx, (name, pageNum, loadFlags)\n"
-      "Sets info for the specified page" },
-    { "addPage", (PyCFunction)pyAgeInfo_addPage, METH_VARARGS,
-      "Params: (name, pageNum, loadFlags)\n"
-      "Adds a page to the AgeInfo" },
-    { "getPageFilename", (PyCFunction)pyAgeInfo_getPageFilename, METH_VARARGS,
-      "Params: idx, version\n"
-      "Returns the standard Page Filename for the specified page" },
-    { "getCommonPageFilename", (PyCFunction)pyAgeInfo_getCommonPageFilename, METH_VARARGS,
-      "Params: idx, version\n"
-      "Returns the standard Page Filename for the specified common page" },
-    { "getPageLoc", (PyCFunction)pyAgeInfo_getPageLoc, METH_VARARGS,
-      "Params: idx\n"
-      "Returns a plLocation for the specified page" },
-    { "getCommonPageLoc", (PyCFunction)pyAgeInfo_getCommonPageLoc, METH_VARARGS,
-      "Params: idx\n"
-      "Returns a plLocation for the specified common page" },
-    { NULL, NULL, 0, NULL }
+    pyAgeInfo_readFromFile_method,
+    pyAgeInfo_writeToFile_method,
+    pyAgeInfo_getNumPages_method,
+    pyAgeInfo_getPage_method,
+    pyAgeInfo_getNumCommonPages_method,
+    pyAgeInfo_getCommonPage_method,
+    pyAgeInfo_setPage_method,
+    pyAgeInfo_addPage_method,
+    pyAgeInfo_getPageFilename_method,
+    pyAgeInfo_getCommonPageFilename_method,
+    pyAgeInfo_getPageLoc_method,
+    pyAgeInfo_getCommonPageLoc_method,
+    PY_METHOD_TERMINATOR
 };
+
+PY_PROPERTY(plString, AgeInfo, name, getAgeName, setAgeName)
+PY_PROPERTY(unsigned int, AgeInfo, startDateTime, getStartDateTime, setStartDateTime)
+PY_PROPERTY(float, AgeInfo, dayLength, getDayLength, setDayLength)
+PY_PROPERTY(short, AgeInfo, maxCapacity, getMaxCapacity, setMaxCapacity)
+PY_PROPERTY(short, AgeInfo, lingerTime, getLingerTime, setLingerTime)
+PY_PROPERTY(int, AgeInfo, seqPrefix, getSeqPrefix, setSeqPrefix)
+PY_PROPERTY(unsigned int, AgeInfo, releaseVersion, getReleaseVersion, setReleaseVersion)
 
 static PyGetSetDef pyAgeInfo_GetSet[] = {
-    { _pycs("name"), (getter)pyAgeInfo_getName, (setter)pyAgeInfo_setName,
-        _pycs("The Name of the age"), NULL },
-    { _pycs("startDateTime"), (getter)pyAgeInfo_getStartDateTime,
-        (setter)pyAgeInfo_setStartDateTime, NULL, NULL },
-    { _pycs("dayLength"), (getter)pyAgeInfo_getDayLength,
-        (setter)pyAgeInfo_setDayLength, NULL, NULL },
-    { _pycs("maxCapacity"), (getter)pyAgeInfo_getMaxCapacity,
-        (setter)pyAgeInfo_setMaxCapacity, NULL, NULL },
-    { _pycs("lingerTime"), (getter)pyAgeInfo_getLingerTime,
-        (setter)pyAgeInfo_setLingerTime, NULL, NULL },
-    { _pycs("seqPrefix"), (getter)pyAgeInfo_getSeqPrefix,
-        (setter)pyAgeInfo_setSeqPrefix, NULL, NULL },
-    { _pycs("releaseVersion"), (getter)pyAgeInfo_getReleaseVersion,
-        (setter)pyAgeInfo_setReleaseVersion, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyAgeInfo_name_getset,
+    pyAgeInfo_startDateTime_getset,
+    pyAgeInfo_dayLength_getset,
+    pyAgeInfo_maxCapacity_getset,
+    pyAgeInfo_lingerTime_getset,
+    pyAgeInfo_seqPrefix_getset,
+    pyAgeInfo_releaseVersion_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyAgeInfo_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plAgeInfo",             /* tp_name */
-    sizeof(pyAgeInfo),                  /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(AgeInfo, plAgeInfo, "plAgeInfo wrapper")
 
-    (destructor)pyAgeInfo_dealloc,      /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT,                 /* tp_flags */
-    NULL,                               /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyAgeInfo_Methods,                  /* tp_methods */
-    NULL,                               /* tp_members */
-    pyAgeInfo_GetSet,                   /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    (initproc)pyAgeInfo___init__,       /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyAgeInfo_new,                      /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyAgeInfo_Type() {
-    if (PyType_Ready(&pyAgeInfo_Type) < 0)
+PY_PLASMA_TYPE_INIT(AgeInfo) {
+    pyAgeInfo_Type.tp_dealloc = pyAgeInfo_dealloc;
+    pyAgeInfo_Type.tp_init = pyAgeInfo___init__;
+    pyAgeInfo_Type.tp_new = pyAgeInfo_new;
+    pyAgeInfo_Type.tp_methods = pyAgeInfo_Methods;
+    pyAgeInfo_Type.tp_getset = pyAgeInfo_GetSet;
+    if (PyType_CheckAndReady(&pyAgeInfo_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyAgeInfo_Type.tp_dict, "kFlagPreventAutoLoad",
-                         PyInt_FromLong(plAgeInfo::kPreventAutoLoad));
-    PyDict_SetItemString(pyAgeInfo_Type.tp_dict, "kFlagLoadIfSDLPresent",
-                         PyInt_FromLong(plAgeInfo::kLoadIfSDLPresent));
-    PyDict_SetItemString(pyAgeInfo_Type.tp_dict, "kFlagIsLocalOnly",
-                         PyInt_FromLong(plAgeInfo::kIsLocalOnly));
-    PyDict_SetItemString(pyAgeInfo_Type.tp_dict, "kFlagIsVolatile",
-                         PyInt_FromLong(plAgeInfo::kIsVolatile));
+    PY_TYPE_ADD_CONST(AgeInfo, "kFlagPreventAutoLoad", plAgeInfo::kPreventAutoLoad);
+    PY_TYPE_ADD_CONST(AgeInfo, "kFlagLoadIfSDLPresent", plAgeInfo::kLoadIfSDLPresent);
+    PY_TYPE_ADD_CONST(AgeInfo, "kFlagIsLocalOnly", plAgeInfo::kIsLocalOnly);
+    PY_TYPE_ADD_CONST(AgeInfo, "kFlagIsVolatile", plAgeInfo::kIsVolatile);
 
-    PyDict_SetItemString(pyAgeInfo_Type.tp_dict, "kPageTextures",
-                         PyInt_FromLong(plAgeInfo::kTextures));
-    PyDict_SetItemString(pyAgeInfo_Type.tp_dict, "kPageGlobal",
-                         PyInt_FromLong(plAgeInfo::kGlobal));
-    PyDict_SetItemString(pyAgeInfo_Type.tp_dict, "kNumCommonPages",
-                         PyInt_FromLong(plAgeInfo::kNumCommonPages));
+    PY_TYPE_ADD_CONST(AgeInfo, "kPageTextures", plAgeInfo::kTextures);
+    PY_TYPE_ADD_CONST(AgeInfo, "kPageGlobal", plAgeInfo::kGlobal);
+    PY_TYPE_ADD_CONST(AgeInfo, "kNumCommonPages", plAgeInfo::kNumCommonPages);
 
     PyObject* list = PyList_New(plAgeInfo::kNumCommonPages);
     for (size_t i=0; i<plAgeInfo::kNumCommonPages; i++)

@@ -22,92 +22,26 @@
 
 extern "C" {
 
-static PyObject* pyRotController_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plRotController is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(RotController, "plRotController is abstract")
 
-static PyObject* pyRotController_getType(pyRotController* self, void*) {
-    return PyInt_FromLong(self->fThis->getType());
-}
-
-static int pyRotController_setType(pyRotController* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "type is read-only");
-    return -1;
-}
+PY_PROPERTY_RO(RotController, type, getType)
 
 static PyGetSetDef pyRotController_GetSet[] = {
-    { _pycs("type"), (getter)pyRotController_getType, (setter)pyRotController_setType, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyRotController_type_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyRotController_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plRotController",       /* tp_name */
-    sizeof(pyRotController),            /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(RotController, plRotController, "plRotController wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plRotController wrapper",          /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    NULL,                               /* tp_methods */
-    NULL,                               /* tp_members */
-    pyRotController_GetSet,             /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyRotController_new,                /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyRotController_Type() {
+PY_PLASMA_TYPE_INIT(RotController) {
+    pyRotController_Type.tp_new = pyRotController_new;
+    pyRotController_Type.tp_getset = pyRotController_GetSet;
     pyRotController_Type.tp_base = &pyController_Type;
-    if (PyType_Ready(&pyRotController_Type) < 0)
+    if (PyType_CheckAndReady(&pyRotController_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyRotController_Type.tp_dict, "kSimple",
-                         PyInt_FromLong(plRotController::kSimple));
-    PyDict_SetItemString(pyRotController_Type.tp_dict, "kCompound",
-                         PyInt_FromLong(plRotController::kCompound));
+    PY_TYPE_ADD_CONST(RotController, "kSimple", plRotController::kSimple);
+    PY_TYPE_ADD_CONST(RotController, "kCompound", plRotController::kCompound);
 
     Py_INCREF(&pyRotController_Type);
     return (PyObject*)&pyRotController_Type;

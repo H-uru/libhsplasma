@@ -22,106 +22,24 @@
 
 extern "C" {
 
-static PyObject* pyConditionalObject_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plConditionalObject is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(ConditionalObject, "plConditionalObject is abstract")
 
-static PyObject* pyConditionalObject_getSatisfied(pyConditionalObject* self, void*) {
-    return PyBool_FromLong(self->fThis->getSatisfied() ? 1 : 0);
-}
-
-static PyObject* pyConditionalObject_getToggle(pyConditionalObject* self, void*) {
-    return PyBool_FromLong(self->fThis->getToggle() ? 1 : 0);
-}
-
-static int pyConditionalObject_setSatisfied(pyConditionalObject* self, PyObject* value, void*) {
-    if (value == NULL || !PyBool_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "satisfied should be a boolean");
-        return -1;
-    }
-    self->fThis->setSatisfied(PyInt_AsLong(value) != 0);
-    return 0;
-}
-
-static int pyConditionalObject_setToggle(pyConditionalObject* self, PyObject* value, void*) {
-    if (value == NULL || !PyBool_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "toggle should be a boolean");
-        return -1;
-    }
-    self->fThis->setToggle(PyInt_AsLong(value) != 0);
-    return 0;
-}
+PY_PROPERTY(bool, ConditionalObject, satisfied, getSatisfied, setSatisfied)
+PY_PROPERTY(bool, ConditionalObject, toggle, getToggle, setToggle)
 
 static PyGetSetDef pyConditionalObject_GetSet[] = {
-    { _pycs("satisfied"), (getter)pyConditionalObject_getSatisfied,
-       (setter)pyConditionalObject_setSatisfied, NULL, NULL },
-    { _pycs("toggle"), (getter)pyConditionalObject_getToggle,
-       (setter)pyConditionalObject_setToggle, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyConditionalObject_satisfied_getset,
+    pyConditionalObject_toggle_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyConditionalObject_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plConditionalObject",   /* tp_name */
-    sizeof(pyConditionalObject),        /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(ConditionalObject, plConditionalObject, "plConditionalObject wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plConditionalObject wrapper",            /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    NULL,                               /* tp_methods */
-    NULL,                               /* tp_members */
-    pyConditionalObject_GetSet,         /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyConditionalObject_new,            /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyConditionalObject_Type() {
+PY_PLASMA_TYPE_INIT(ConditionalObject) {
+    pyConditionalObject_Type.tp_new = pyConditionalObject_new;
+    pyConditionalObject_Type.tp_getset = pyConditionalObject_GetSet;
     pyConditionalObject_Type.tp_base = &pyKeyedObject_Type;
-    if (PyType_Ready(&pyConditionalObject_Type) < 0)
+    if (PyType_CheckAndReady(&pyConditionalObject_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyConditionalObject_Type);

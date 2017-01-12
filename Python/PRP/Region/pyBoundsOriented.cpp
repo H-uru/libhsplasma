@@ -21,44 +21,13 @@
 
 extern "C" {
 
-static PyObject* pyBoundsOriented_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyBoundsOriented* self = (pyBoundsOriented*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new hsBoundsOriented();
-    return (PyObject*)self;
-}
-
-static PyObject* pyBoundsOriented_getCenter(pyBoundsOriented* self, void*) {
-    return pyVector3_FromVector3(self->fThis->getCenter());
-}
-
-static PyObject* pyBoundsOriented_getCenterValid(pyBoundsOriented* self, void*) {
-    return PyInt_FromLong(self->fThis->getCenterValid());
-}
+PY_PLASMA_VALUE_NEW(BoundsOriented, hsBoundsOriented)
 
 static PyObject* pyBoundsOriented_getPlanes(pyBoundsOriented* self, void*) {
     PyObject* list = PyList_New(self->fThis->getNumPlanes());
     for (size_t i=0; i<self->fThis->getNumPlanes(); i++)
         PyList_SET_ITEM(list, i, pyPlane3_FromPlane3(self->fThis->getPlanes()[i]));
     return list;
-}
-
-static int pyBoundsOriented_setCenter(pyBoundsOriented* self, PyObject* value, void*) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "center should be an hsVector3");
-        return -1;
-    }
-    self->fThis->setCenter(*((pyVector3*)value)->fThis);
-    return 0;
-}
-
-static int pyBoundsOriented_setCenterValid(pyBoundsOriented* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "centerValid should be an int");
-        return -1;
-    }
-    self->fThis->setCenterValid(PyInt_AsLong(value));
-    return 0;
 }
 
 static int pyBoundsOriented_setPlanes(pyBoundsOriented* self, PyObject* value, void*) {
@@ -85,77 +54,24 @@ static int pyBoundsOriented_setPlanes(pyBoundsOriented* self, PyObject* value, v
     }
 }
 
+PY_PROPERTY(hsVector3, BoundsOriented, center, getCenter, setCenter)
+PY_PROPERTY(unsigned int, BoundsOriented, centerValid, getCenterValid, setCenterValid)
+
 static PyGetSetDef pyBoundsOriented_GetSet[] = {
-    { _pycs("center"), (getter)pyBoundsOriented_getCenter,
-        (setter)pyBoundsOriented_setCenter, NULL, NULL },
-    { _pycs("centerValid"), (getter)pyBoundsOriented_getCenterValid,
-        (setter)pyBoundsOriented_setCenterValid, NULL, NULL },
+    pyBoundsOriented_center_getset,
+    pyBoundsOriented_centerValid_getset,
     { _pycs("planes"), (getter)pyBoundsOriented_getPlanes,
         (setter)pyBoundsOriented_setPlanes, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyBoundsOriented_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.hsBoundsOriented",      /* tp_name */
-    sizeof(pyBoundsOriented),           /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(BoundsOriented, hsBoundsOriented, "hsBoundsOriented wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "hsBoundsOriented wrapper",         /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    NULL,                               /* tp_methods */
-    NULL,                               /* tp_members */
-    pyBoundsOriented_GetSet,            /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyBoundsOriented_new,               /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyBoundsOriented_Type() {
+PY_PLASMA_TYPE_INIT(BoundsOriented) {
+    pyBoundsOriented_Type.tp_new = pyBoundsOriented_new;
+    pyBoundsOriented_Type.tp_getset = pyBoundsOriented_GetSet;
     pyBoundsOriented_Type.tp_base = &pyBounds_Type;
-    if (PyType_Ready(&pyBoundsOriented_Type) < 0)
+    if (PyType_CheckAndReady(&pyBoundsOriented_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyBoundsOriented_Type);

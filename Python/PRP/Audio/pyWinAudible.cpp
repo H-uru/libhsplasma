@@ -22,16 +22,12 @@
 
 extern "C" {
 
-static PyObject* pyWinAudible_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyWinAudible* self = (pyWinAudible*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plWinAudible();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(WinAudible, plWinAudible)
 
-static PyObject* pyWinAudible_addSound(pyWinAudible* self, PyObject* args) {
+PY_METHOD_VA(WinAudible, addSound,
+    "Params: sound\n"
+    "Add a sound object to the Audible")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addSound expects a plKey");
@@ -42,25 +38,25 @@ static PyObject* pyWinAudible_addSound(pyWinAudible* self, PyObject* args) {
         return NULL;
     }
     self->fThis->addSound(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyWinAudible_delSound(pyWinAudible* self, PyObject* args) {
+PY_METHOD_VA(WinAudible, delSound,
+    "Params: idx\n"
+    "Remove a sound object from the Audible")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delSound expects an int");
         return NULL;
     }
     self->fThis->delSound(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyWinAudible_clearSounds(pyWinAudible* self) {
+PY_METHOD_VA(WinAudible, clearSounds, "Remove all sound objects from the Audible") {
     self->fThis->clearSounds();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyWinAudible_getSounds(pyWinAudible* self, void*) {
@@ -70,107 +66,34 @@ static PyObject* pyWinAudible_getSounds(pyWinAudible* self, void*) {
     return list;
 }
 
-static PyObject* pyWinAudible_getNode(pyWinAudible* self, void*) {
-    return pyKey_FromKey(self->fThis->getSceneNode());
-}
-
 static int pyWinAudible_setSounds(pyWinAudible* self, PyObject* value, void*) {
     PyErr_SetString(PyExc_RuntimeError, "to add sounds, use addSound()");
     return -1;
 }
 
-static int pyWinAudible_setNode(pyWinAudible* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setSceneNode(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setSceneNode(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "sceneNode should be a plKey");
-        return -1;
-    }
-}
-
 static PyMethodDef pyWinAudible_Methods[] = {
-    { "addSound", (PyCFunction)pyWinAudible_addSound, METH_VARARGS,
-      "Params: sound\n"
-      "Add a sound object to the Audible" },
-    { "delSound", (PyCFunction)pyWinAudible_delSound, METH_VARARGS,
-      "Params: idx\n"
-      "Remove a sound object from the Audible" },
-    { "clearSounds", (PyCFunction)pyWinAudible_clearSounds, METH_NOARGS,
-      "Remove all sound objects from the Audible" },
-    { NULL, NULL, 0, NULL }
+    pyWinAudible_addSound_method,
+    pyWinAudible_delSound_method,
+    pyWinAudible_clearSounds_method,
+    PY_METHOD_TERMINATOR
 };
+
+PY_PROPERTY(plKey, WinAudible, sceneNode, getSceneNode, setSceneNode)
 
 static PyGetSetDef pyWinAudible_GetSet[] = {
     { _pycs("sounds"), (getter)pyWinAudible_getSounds, (setter)pyWinAudible_setSounds, NULL, NULL },
-    { _pycs("sceneNode"), (getter)pyWinAudible_getNode, (setter)pyWinAudible_setNode, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyWinAudible_sceneNode_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyWinAudible_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plWinAudible",          /* tp_name */
-    sizeof(pyWinAudible),               /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(WinAudible, plWinAudible, "plWinAudible wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plWinAudible wrapper",             /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyWinAudible_Methods,               /* tp_methods */
-    NULL,                               /* tp_members */
-    pyWinAudible_GetSet,                /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyWinAudible_new,                   /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyWinAudible_Type() {
+PY_PLASMA_TYPE_INIT(WinAudible) {
+    pyWinAudible_Type.tp_new = pyWinAudible_new;
+    pyWinAudible_Type.tp_methods = pyWinAudible_Methods;
+    pyWinAudible_Type.tp_getset = pyWinAudible_GetSet;
     pyWinAudible_Type.tp_base = &pyAudible_Type;
-    if (PyType_Ready(&pyWinAudible_Type) < 0)
+    if (PyType_CheckAndReady(&pyWinAudible_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyWinAudible_Type);

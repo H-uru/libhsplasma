@@ -78,7 +78,11 @@ public:
     const std::vector<float>& getStopPoints() const { return fStopPoints; }
 
     void setFlags(unsigned int flags) { fFlags = flags; }
+    void setBegin(float begin) { fBegin = begin; }
+    void setEnd(float end) { fEnd = end; }
     void setRange(float begin, float end) { fBegin = begin; fEnd = end; }
+    void setLoopBegin(float begin) { fLoopBegin = begin; }
+    void setLoopEnd(float end) { fLoopEnd = end; }
     void setLoop(float begin, float end) { fLoopBegin = begin; fLoopEnd = end; }
     void setSpeed(float speed) { fSpeed = speed; }
     void setCurrentAnimTime(float time) { fCurrentAnimTime = time; }

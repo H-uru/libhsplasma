@@ -27,6 +27,36 @@ const char* plPythonParameter::ValueTypeNames[] = {
     "BlowerComponent", "None"
 };
 
+plPythonParameter& plPythonParameter::operator=(const plPythonParameter& init) {
+    fID = init.fID;
+    fValueType = init.fValueType;
+
+    switch (fValueType) {
+    case kInt:
+        fIntValue = init.fIntValue;
+        break;
+    case kBoolean:
+        fBoolValue = init.fBoolValue;
+        break;
+    case kFloat:
+        fFloatValue = init.fFloatValue;
+        break;
+    case kString:
+    case kAnimationName:
+    case kGlobalSDLVar:
+    case kSubtitle:
+        fStrValue = init.fStrValue;
+        break;
+    case kNone:
+        break;
+    default:
+        fObjKey = init.fObjKey;
+        break;
+    }
+
+    return *this;
+}
+
 void plPythonParameter::read(hsStream* S, plResManager* mgr) {
     fID = S->readInt();
     fValueType = PlasmaToMapped(S->readInt(), S->getVer());

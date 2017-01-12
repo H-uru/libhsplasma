@@ -22,28 +22,22 @@
 
 extern "C" {
 
-static PyObject* pyATCAnim_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyATCAnim* self = (pyATCAnim*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plATCAnim();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ATCAnim, plATCAnim)
 
-static PyObject* pyATCAnim_clearMarkers(pyATCAnim* self) {
+PY_METHOD_NOARGS(ATCAnim, clearMarkers, "Remove all named markers from the anim") {
     self->fThis->getMarkers().clear();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyATCAnim_clearLoops(pyATCAnim* self) {
+PY_METHOD_NOARGS(ATCAnim, clearLoops, "Remove all named loops from the anim") {
     self->fThis->getLoops().clear();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyATCAnim_setMarker(pyATCAnim* self, PyObject* args) {
+PY_METHOD_VA(ATCAnim, setMarker,
+    "Params: key, position\n"
+    "Add a named marker at the specified position")
+{
     const char* key;
     float pos;
     if (!PyArg_ParseTuple(args, "sf", &key, &pos)) {
@@ -51,11 +45,13 @@ static PyObject* pyATCAnim_setMarker(pyATCAnim* self, PyObject* args) {
         return NULL;
     }
     self->fThis->setMarker(key, pos);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyATCAnim_setLoop(pyATCAnim* self, PyObject* args) {
+PY_METHOD_VA(ATCAnim, setLoop,
+    "Params: key, start, end\n"
+    "Add a named loop to the specified range")
+{
     const char* key;
     float begin, end;
     if (!PyArg_ParseTuple(args, "sff", &key, &begin, &end)) {
@@ -63,60 +59,7 @@ static PyObject* pyATCAnim_setLoop(pyATCAnim* self, PyObject* args) {
         return NULL;
     }
     self->fThis->setLoop(key, begin, end);
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
-static PyObject* pyATCAnim_getInitial(pyATCAnim* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getInitial());
-}
-
-static PyObject* pyATCAnim_getLoopStart(pyATCAnim* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getLoopStart());
-}
-
-static PyObject* pyATCAnim_getLoopEnd(pyATCAnim* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getLoopEnd());
-}
-
-static PyObject* pyATCAnim_getAutoStart(pyATCAnim* self, void*) {
-    return PyBool_FromLong(self->fThis->getAutoStart() ? 1 : 0);
-}
-
-static PyObject* pyATCAnim_getDoLoop(pyATCAnim* self, void*) {
-    return PyBool_FromLong(self->fThis->getDoLoop() ? 1 : 0);
-}
-
-static PyObject* pyATCAnim_getEaseInType(pyATCAnim* self, void*) {
-    return PyInt_FromLong(self->fThis->getEaseInType());
-}
-
-static PyObject* pyATCAnim_getEaseOutType(pyATCAnim* self, void*) {
-    return PyInt_FromLong(self->fThis->getEaseOutType());
-}
-
-static PyObject* pyATCAnim_getEaseInLength(pyATCAnim* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getEaseInLength());
-}
-
-static PyObject* pyATCAnim_getEaseInMin(pyATCAnim* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getEaseInMin());
-}
-
-static PyObject* pyATCAnim_getEaseInMax(pyATCAnim* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getEaseInMax());
-}
-
-static PyObject* pyATCAnim_getEaseOutLength(pyATCAnim* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getEaseOutLength());
-}
-
-static PyObject* pyATCAnim_getEaseOutMin(pyATCAnim* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getEaseOutMin());
-}
-
-static PyObject* pyATCAnim_getEaseOutMax(pyATCAnim* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getEaseOutMax());
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyATCAnim_getMarkers(pyATCAnim* self, void*) {
@@ -124,7 +67,7 @@ static PyObject* pyATCAnim_getMarkers(pyATCAnim* self, void*) {
     PyObject* dict = PyDict_New();
     for (plATCAnim::marker_t::iterator it = anim->getMarkers().begin();
          it != anim->getMarkers().end(); it++) {
-        PyDict_SetItemString(dict, it->first, PyFloat_FromDouble(it->second));
+        PyDict_SetItemString(dict, it->first, pyPlasma_convert(it->second));
     }
     return dict;
 }
@@ -144,137 +87,8 @@ static PyObject* pyATCAnim_getStops(pyATCAnim* self, void*) {
     plATCAnim* anim = self->fThis;
     PyObject* list = PyList_New(anim->getStops().size());
     for (size_t i = 0; i < anim->getStops().size(); i++)
-        PyList_SET_ITEM(list, i, PyFloat_FromDouble(anim->getStops()[i]));
+        PyList_SET_ITEM(list, i, pyPlasma_convert(anim->getStops()[i]));
     return list;
-}
-
-static int pyATCAnim_setInitial(pyATCAnim* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "initial should be a float");
-        return -1;
-    }
-    self->fThis->setInitial(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyATCAnim_setLoopStart(pyATCAnim* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "loopStart should be a float");
-        return -1;
-    }
-    self->fThis->setLoopStart(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyATCAnim_setLoopEnd(pyATCAnim* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "loopEnd should be a float");
-        return -1;
-    }
-    self->fThis->setLoopEnd(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyATCAnim_setAutoStart(pyATCAnim* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "autoStart should be a bool");
-        return -1;
-    }
-    self->fThis->setAutoStart(PyInt_AsLong(value) != 0);
-    return 0;
-}
-
-static int pyATCAnim_setDoLoop(pyATCAnim* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "loop should be a bool");
-        return -1;
-    }
-    self->fThis->setDoLoop(PyInt_AsLong(value) != 0);
-    return 0;
-}
-
-static int pyATCAnim_setEaseInType(pyATCAnim* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "easeInType should be an int");
-        return -1;
-    }
-    self->fThis->setEaseInType(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyATCAnim_setEaseOutType(pyATCAnim* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "easeOutType should be an int");
-        return -1;
-    }
-    self->fThis->setEaseOutType(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyATCAnim_setEaseInLength(pyATCAnim* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "easeInLength should be a float");
-        return -1;
-    }
-    self->fThis->setEaseInParams(PyFloat_AsDouble(value),
-                                        self->fThis->getEaseInMin(),
-                                        self->fThis->getEaseInMax());
-    return 0;
-}
-
-static int pyATCAnim_setEaseInMin(pyATCAnim* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "easeInMin should be a float");
-        return -1;
-    }
-    self->fThis->setEaseInParams(self->fThis->getEaseInLength(),
-                                        PyFloat_AsDouble(value),
-                                        self->fThis->getEaseInMax());
-    return 0;
-}
-
-static int pyATCAnim_setEaseInMax(pyATCAnim* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "easeInMax should be a float");
-        return -1;
-    }
-    self->fThis->setEaseInParams(self->fThis->getEaseInLength(),
-                                        self->fThis->getEaseInMin(),
-                                        PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyATCAnim_setEaseOutLength(pyATCAnim* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "easeOutLength should be a float");
-        return -1;
-    }
-    self->fThis->setEaseOutParams(PyFloat_AsDouble(value),
-                                         self->fThis->getEaseOutMin(),
-                                         self->fThis->getEaseOutMax());
-    return 0;
-}
-
-static int pyATCAnim_setEaseOutMin(pyATCAnim* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "easeOutMin should be a float");
-        return -1;
-    }
-    self->fThis->setEaseOutParams(self->fThis->getEaseOutLength(),
-                                         PyFloat_AsDouble(value),
-                                         self->fThis->getEaseOutMax());
-    return 0;
-}
-
-static int pyATCAnim_setEaseOutMax(pyATCAnim* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "easeOutMax should be a float");
-        return -1;
-    }
-    self->fThis->setEaseOutParams(self->fThis->getEaseOutLength(),
-                                         self->fThis->getEaseOutMin(),
-                                         PyFloat_AsDouble(value));
-    return 0;
 }
 
 static int pyATCAnim_setMarkers(pyATCAnim* self, PyObject* value, void*) {
@@ -309,116 +123,58 @@ static int pyATCAnim_setStops(pyATCAnim* self, PyObject* value, void*) {
 }
 
 static PyMethodDef pyATCAnim_Methods[] = {
-    { "clearMarkers", (PyCFunction)pyATCAnim_clearMarkers, METH_NOARGS,
-      "Remove all named markers from the anim" },
-    { "clearLoops", (PyCFunction)pyATCAnim_clearLoops, METH_NOARGS,
-      "Remove all named loops from the anim" },
-    { "setMarker", (PyCFunction)pyATCAnim_setMarker, METH_VARARGS,
-      "Params: key, position\n"
-      "Add a named marker at the specified position" },
-    { "setLoop", (PyCFunction)pyATCAnim_setLoop, METH_VARARGS,
-      "Params: key, start, end\n"
-      "Add a named loop to the specified range" },
-    { NULL, NULL, 0, NULL }
+    pyATCAnim_clearMarkers_method,
+    pyATCAnim_clearLoops_method,
+    pyATCAnim_setMarker_method,
+    pyATCAnim_setLoop_method,
+    PY_METHOD_TERMINATOR
 };
 
+PY_PROPERTY(float, ATCAnim, initial, getInitial, setInitial)
+PY_PROPERTY(float, ATCAnim, loopStart, getLoopStart, setLoopStart)
+PY_PROPERTY(float, ATCAnim, loopEnd, getLoopEnd, setLoopEnd)
+PY_PROPERTY(bool, ATCAnim, autoStart, getAutoStart, setAutoStart)
+PY_PROPERTY(bool, ATCAnim, loop, getDoLoop, setDoLoop)
+PY_PROPERTY(unsigned char, ATCAnim, easeInType, getEaseInType, setEaseInType)
+PY_PROPERTY(unsigned char, ATCAnim, easeOutType, getEaseOutType, setEaseOutType)
+PY_PROPERTY(float, ATCAnim, easeInLength, getEaseInLength, setEaseInLength)
+PY_PROPERTY(float, ATCAnim, easeInMin, getEaseInMin, setEaseInMin)
+PY_PROPERTY(float, ATCAnim, easeInMax, getEaseInMax, setEaseInMax)
+PY_PROPERTY(float, ATCAnim, easeOutLength, getEaseOutLength, setEaseOutLength)
+PY_PROPERTY(float, ATCAnim, easeOutMin, getEaseOutMin, setEaseOutMin)
+PY_PROPERTY(float, ATCAnim, easeOutMax, getEaseOutMax, setEaseOutMax)
+
 static PyGetSetDef pyATCAnim_GetSet[] = {
-    { _pycs("initial"), (getter)pyATCAnim_getInitial,
-        (setter)pyATCAnim_setInitial, NULL, NULL },
-    { _pycs("loopStart"), (getter)pyATCAnim_getLoopStart,
-        (setter)pyATCAnim_setLoopStart, NULL, NULL },
-    { _pycs("loopEnd"), (getter)pyATCAnim_getLoopEnd,
-        (setter)pyATCAnim_setLoopEnd, NULL, NULL },
-    { _pycs("autoStart"), (getter)pyATCAnim_getAutoStart,
-        (setter)pyATCAnim_setAutoStart, NULL, NULL },
-    { _pycs("loop"), (getter)pyATCAnim_getDoLoop,
-        (setter)pyATCAnim_setDoLoop, NULL, NULL },
-    { _pycs("easeInType"), (getter)pyATCAnim_getEaseInType,
-        (setter)pyATCAnim_setEaseInType, NULL, NULL },
-    { _pycs("easeOutType"), (getter)pyATCAnim_getEaseOutType,
-        (setter)pyATCAnim_setEaseOutType, NULL, NULL },
-    { _pycs("easeInLength"), (getter)pyATCAnim_getEaseInLength,
-        (setter)pyATCAnim_setEaseInLength, NULL, NULL },
-    { _pycs("easeInMin"), (getter)pyATCAnim_getEaseInMin,
-        (setter)pyATCAnim_setEaseInMin, NULL, NULL },
-    { _pycs("easeInMax"), (getter)pyATCAnim_getEaseInMax,
-        (setter)pyATCAnim_setEaseInMax, NULL, NULL },
-    { _pycs("easeOutLength"), (getter)pyATCAnim_getEaseOutLength,
-        (setter)pyATCAnim_setEaseOutLength, NULL, NULL },
-    { _pycs("easeOutMin"), (getter)pyATCAnim_getEaseOutMin,
-        (setter)pyATCAnim_setEaseOutMin, NULL, NULL },
-    { _pycs("easeOutMax"), (getter)pyATCAnim_getEaseOutMax,
-        (setter)pyATCAnim_setEaseOutMax, NULL, NULL },
+    pyATCAnim_initial_getset,
+    pyATCAnim_loopStart_getset,
+    pyATCAnim_loopEnd_getset,
+    pyATCAnim_autoStart_getset,
+    pyATCAnim_loop_getset,
+    pyATCAnim_easeInType_getset,
+    pyATCAnim_easeOutType_getset,
+    pyATCAnim_easeInLength_getset,
+    pyATCAnim_easeInMin_getset,
+    pyATCAnim_easeInMax_getset,
+    pyATCAnim_easeOutLength_getset,
+    pyATCAnim_easeOutMin_getset,
+    pyATCAnim_easeOutMax_getset,
     { _pycs("markers"), (getter)pyATCAnim_getMarkers,
         (setter)pyATCAnim_setMarkers, NULL, NULL },
     { _pycs("loops"), (getter)pyATCAnim_getLoops,
         (setter)pyATCAnim_setLoops, NULL, NULL },
     { _pycs("stops"), (getter)pyATCAnim_getStops,
         (setter)pyATCAnim_setStops, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyATCAnim_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plATCAnim",             /* tp_name */
-    sizeof(pyATCAnim),                  /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(ATCAnim, plATCAnim, "plATCAnim wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plATCAnim wrapper",                /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyATCAnim_Methods,                  /* tp_methods */
-    NULL,                               /* tp_members */
-    pyATCAnim_GetSet,                   /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyATCAnim_new,                      /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyATCAnim_Type() {
+PY_PLASMA_TYPE_INIT(ATCAnim) {
+    pyATCAnim_Type.tp_new = pyATCAnim_new;
+    pyATCAnim_Type.tp_methods = pyATCAnim_Methods;
+    pyATCAnim_Type.tp_getset = pyATCAnim_GetSet;
     pyATCAnim_Type.tp_base = &pyAGAnim_Type;
-    if (PyType_Ready(&pyATCAnim_Type) < 0)
+    if (PyType_CheckAndReady(&pyATCAnim_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyATCAnim_Type);

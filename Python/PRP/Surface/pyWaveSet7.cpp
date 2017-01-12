@@ -22,33 +22,30 @@
 
 extern "C" {
 
-static PyObject* pyWaveSet7_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyWaveSet7* self = (pyWaveSet7*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plWaveSet7();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(WaveSet7, plWaveSet7)
 
-static PyObject* pyWaveSet7_addShore(pyWaveSet7* self, PyObject* args) {
+PY_METHOD_VA(WaveSet7, addShore,
+    "Params: key\n"
+    "Add a shore")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key) || !pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addShore expects a plKey");
         return NULL;
     }
     self->fThis->addShore(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyWaveSet7_clearShores(pyWaveSet7* self) {
+PY_METHOD_NOARGS(WaveSet7, clearShores, "Remove all shores") {
     self->fThis->clearShores();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyWaveSet7_delShore(pyWaveSet7* self, PyObject* args) {
+PY_METHOD_VA(WaveSet7, delShore,
+    "Params: idx\n"
+    "Remove a shore")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delShore expects an int");
@@ -59,28 +56,31 @@ static PyObject* pyWaveSet7_delShore(pyWaveSet7* self, PyObject* args) {
         return NULL;
     }
     self->fThis->delShore(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyWaveSet7_addDecal(pyWaveSet7* self, PyObject* args) {
+PY_METHOD_VA(WaveSet7, addDecal,
+    "Params: key\n"
+    "Add a decal")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key) || !pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addDecal expects a plKey");
         return NULL;
     }
     self->fThis->addDecal(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyWaveSet7_clearDecals(pyWaveSet7* self) {
+PY_METHOD_NOARGS(WaveSet7, clearDecals, "Remove all decals") {
     self->fThis->clearDecals();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyWaveSet7_delDecal(pyWaveSet7* self, PyObject* args) {
+PY_METHOD_VA(WaveSet7, delDecal,
+    "Params: idx\n"
+    "Remove a decal")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delDecal expects an int");
@@ -91,33 +91,18 @@ static PyObject* pyWaveSet7_delDecal(pyWaveSet7* self, PyObject* args) {
         return NULL;
     }
     self->fThis->delDecal(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyWaveSet7_Methods[] = {
-    { "addShore", (PyCFunction)pyWaveSet7_addShore, METH_VARARGS,
-      "Params: key\n"
-      "Add a shore" },
-    { "clearShores", (PyCFunction)pyWaveSet7_clearShores, METH_NOARGS,
-      "Remove all shores" },
-    { "delShore", (PyCFunction)pyWaveSet7_delShore, METH_VARARGS,
-      "Params: idx\n"
-      "Remove a shore" },
-    { "addDecal", (PyCFunction)pyWaveSet7_addDecal, METH_VARARGS,
-      "Params: key\n"
-      "Add a decal" },
-    { "clearDecals", (PyCFunction)pyWaveSet7_clearDecals, METH_NOARGS,
-      "Remove all decals" },
-    { "delDecal", (PyCFunction)pyWaveSet7_delDecal, METH_VARARGS,
-      "Params: idx\n"
-      "Remove a decal" },
-    { NULL, NULL, 0, NULL }
+    pyWaveSet7_addShore_method,
+    pyWaveSet7_clearShores_method,
+    pyWaveSet7_delShore_method,
+    pyWaveSet7_addDecal_method,
+    pyWaveSet7_clearDecals_method,
+    pyWaveSet7_delDecal_method,
+    PY_METHOD_TERMINATOR
 };
-
-static PyObject* pyWaveSet7_getState(pyWaveSet7* self, void*) {
-    return pyFixedWaterState7_FromFixedWaterState7(&self->fThis->getState());
-}
 
 static PyObject* pyWaveSet7_getShores(pyWaveSet7* self, void*) {
     const std::vector<plKey>& shores = self->fThis->getShores();
@@ -135,27 +120,6 @@ static PyObject* pyWaveSet7_getDecals(pyWaveSet7* self, void*) {
     return tuple;
 }
 
-static PyObject* pyWaveSet7_getMaxLen(pyWaveSet7* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getMaxLen());
-}
-
-static PyObject* pyWaveSet7_getEnvMap(pyWaveSet7* self, void*) {
-    return pyKey_FromKey(self->fThis->getEnvMap());
-}
-
-static PyObject* pyWaveSet7_getRefObj(pyWaveSet7* self, void*) {
-    return pyKey_FromKey(self->fThis->getRefObj());
-}
-
-static int pyWaveSet7_setState(pyWaveSet7* self, PyObject* value, void*) {
-    if (value == NULL || !pyFixedWaterState7_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "state should be a plFixedWaterState7");
-        return -1;
-    }
-    self->fThis->setState(*((pyFixedWaterState7*)value)->fThis);
-    return 0;
-}
-
 static int pyWaveSet7_setShores(pyWaveSet7* self, PyObject* value, void*) {
     PyErr_SetString(PyExc_RuntimeError, "to add shores, use addShore");
     return -1;
@@ -166,116 +130,32 @@ static int pyWaveSet7_setDecals(pyWaveSet7* self, PyObject* value, void*) {
     return -1;
 }
 
-static int pyWaveSet7_setMaxLen(pyWaveSet7* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "maxLen expects a float");
-        return -1;
-    }
-    self->fThis->setMaxLen((float)PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyWaveSet7_setEnvMap(pyWaveSet7* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setEnvMap(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setEnvMap(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "envMap expects a plKey");
-        return -1;
-    }
-}
-
-static int pyWaveSet7_setRefObj(pyWaveSet7* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setRefObj(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setRefObj(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "refObj expects a plKey");
-        return -1;
-    }
-}
+PY_PROPERTY_PROXY(plFixedWaterState7, WaveSet7, state, getState)
+PY_PROPERTY(float, WaveSet7, maxLen, getMaxLen, setMaxLen)
+PY_PROPERTY(plKey, WaveSet7, envMap, getEnvMap, setEnvMap)
+PY_PROPERTY(plKey, WaveSet7, refObj, getRefObj, setRefObj)
 
 static PyGetSetDef pyWaveSet7_GetSet[] = {
-    { _pycs("state"), (getter)pyWaveSet7_getState, (setter)pyWaveSet7_setState, NULL, NULL },
+    pyWaveSet7_state_getset,
     { _pycs("shores"), (getter)pyWaveSet7_getShores, (setter)pyWaveSet7_setShores, NULL, NULL },
     { _pycs("decals"), (getter)pyWaveSet7_getDecals, (setter)pyWaveSet7_setDecals, NULL, NULL },
-    { _pycs("maxLen"), (getter)pyWaveSet7_getMaxLen, (setter)pyWaveSet7_setMaxLen, NULL, NULL },
-    { _pycs("envMap"), (getter)pyWaveSet7_getEnvMap, (setter)pyWaveSet7_setEnvMap, NULL, NULL },
-    { _pycs("refObj"), (getter)pyWaveSet7_getRefObj, (setter)pyWaveSet7_setRefObj, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyWaveSet7_maxLen_getset,
+    pyWaveSet7_envMap_getset,
+    pyWaveSet7_refObj_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyWaveSet7_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plWaveSet7",            /* tp_name */
-    sizeof(pyWaveSet7),                 /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(WaveSet7, plWaveSet7, "plWaveSet7 wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plWaveSet7 wrapper",                     /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyWaveSet7_Methods,                 /* tp_methods */
-    NULL,                               /* tp_members */
-    pyWaveSet7_GetSet,                  /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyWaveSet7_new,                     /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyWaveSet7_Type() {
+PY_PLASMA_TYPE_INIT(WaveSet7) {
+    pyWaveSet7_Type.tp_new = pyWaveSet7_new;
+    pyWaveSet7_Type.tp_methods = pyWaveSet7_Methods;
+    pyWaveSet7_Type.tp_getset = pyWaveSet7_GetSet;
     pyWaveSet7_Type.tp_base = &pyWaveSetBase_Type;
-    if (PyType_Ready(&pyWaveSet7_Type) < 0)
+    if (PyType_CheckAndReady(&pyWaveSet7_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyWaveSet7_Type.tp_dict, "kHasRefObject",
-                         PyInt_FromLong(plWaveSet7::kHasRefObject));
+    PY_TYPE_ADD_CONST(WaveSet7, "kHasRefObject", plWaveSet7::kHasRefObject);
 
     Py_INCREF(&pyWaveSet7_Type);
     return (PyObject*)&pyWaveSet7_Type;

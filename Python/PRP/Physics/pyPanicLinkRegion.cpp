@@ -21,95 +21,22 @@
 
 extern "C" {
 
-static PyObject* pyPanicLinkRegion_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyPanicLinkRegion* self = (pyPanicLinkRegion*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plPanicLinkRegion();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(PanicLinkRegion, plPanicLinkRegion)
 
-static PyObject* pyPanicLinkRegion_getPlayLinkOutAnim(pyPanicLinkRegion* self, void*) {
-    return PyBool_FromLong(self->fThis->getPlayLinkOutAnim() ? 1 : 0);
-}
-
-static int pyPanicLinkRegion_setPlayLinkOutAnim(pyPanicLinkRegion* self, PyObject* value, void*) {
-    if (value == NULL || !PyBool_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "playLinkOutAnim should be a boolean");
-        return -1;
-    }
-    self->fThis->setPlayLinkOutAnim(PyInt_AsLong(value) != 0);
-    return 0;
-}
+PY_PROPERTY(bool, PanicLinkRegion, playLinkOutAnim, getPlayLinkOutAnim, setPlayLinkOutAnim)
 
 static PyGetSetDef pyPanicLinkRegion_GetSet[] = {
-    { _pycs("playLinkOutAnim"), (getter)pyPanicLinkRegion_getPlayLinkOutAnim,
-       (setter)pyPanicLinkRegion_setPlayLinkOutAnim, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyPanicLinkRegion_playLinkOutAnim_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyPanicLinkRegion_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plPanicLinkRegion",     /* tp_name */
-    sizeof(pyPanicLinkRegion),          /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(PanicLinkRegion, plPanicLinkRegion, "plPanicLinkRegion wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plPanicLinkRegion wrapper",              /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    NULL,                               /* tp_methods */
-    NULL,                               /* tp_members */
-    pyPanicLinkRegion_GetSet,           /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyPanicLinkRegion_new,              /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyPanicLinkRegion_Type() {
+PY_PLASMA_TYPE_INIT(PanicLinkRegion) {
+    pyPanicLinkRegion_Type.tp_new = pyPanicLinkRegion_new;
+    pyPanicLinkRegion_Type.tp_getset = pyPanicLinkRegion_GetSet;
     pyPanicLinkRegion_Type.tp_base = &pyCollisionDetector_Type;
-    if (PyType_Ready(&pyPanicLinkRegion_Type) < 0)
+    if (PyType_CheckAndReady(&pyPanicLinkRegion_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyPanicLinkRegion_Type);

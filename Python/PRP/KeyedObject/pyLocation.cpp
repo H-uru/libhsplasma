@@ -21,12 +21,9 @@
 
 extern "C" {
 
-static void pyLocation_dealloc(pyLocation* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+PY_PLASMA_VALUE_DEALLOC(Location)
 
-static int pyLocation___init__(pyLocation* self, PyObject* args, PyObject* kwds) {
+PY_PLASMA_INIT_DECL(Location) {
     int version = PlasmaVer::pvUnknown;
     if (!PyArg_ParseTuple(args, "|i", &version))
         return -1;
@@ -35,25 +32,20 @@ static int pyLocation___init__(pyLocation* self, PyObject* args, PyObject* kwds)
     return 0;
 }
 
-static PyObject* pyLocation_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyLocation* self = (pyLocation*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new plLocation();
-    return (PyObject*)self;
-}
+PY_PLASMA_VALUE_NEW(Location, plLocation)
 
-static PyObject* pyLocation_Repr(pyLocation* self) {
+PY_PLASMA_REPR_DECL(Location) {
     plString repr = plString::Format("<plLocation \"%d|%d\">",
                                      self->fThis->getSeqPrefix(),
                                      self->fThis->getPageNum());
-    return PlStr_To_PyStr(repr);
+    return pyPlasma_convert(repr);
 }
 
-static long pyLocation_Hash(pyLocation* self) {
+PY_PLASMA_HASH_DECL(Location) {
     return (long)self->fThis->unparse();
 }
 
-static PyObject* pyLocation_RichCompare(pyLocation* left, pyLocation* right, int op) {
+PY_PLASMA_RICHCOMPARE_DECL(Location) {
     bool result = false;
 
     switch (op) {
@@ -82,16 +74,13 @@ static PyObject* pyLocation_RichCompare(pyLocation* left, pyLocation* right, int
         return NULL;
     }
 
-    if (result) {
-        Py_INCREF(Py_True);
-        return Py_True;
-    } else {
-        Py_INCREF(Py_False);
-        return Py_False;
-    }
+    return pyPlasma_convert(result);
 }
 
-static PyObject* pyLocation_read(pyLocation* self, PyObject* args) {
+PY_METHOD_VA(Location, read,
+    "Params: stream\n"
+    "Reads this Location from the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects an hsStream");
@@ -102,11 +91,13 @@ static PyObject* pyLocation_read(pyLocation* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyLocation_write(pyLocation* self, PyObject* args) {
+PY_METHOD_VA(Location, write,
+    "Params: stream\n"
+    "Writes this Location to the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
@@ -117,239 +108,111 @@ static PyObject* pyLocation_write(pyLocation* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyLocation_invalidate(pyLocation* self) {
+PY_METHOD_NOARGS(Location, invalidate, "Invalidates the location") {
     self->fThis->invalidate();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyLocation_isValid(pyLocation* self) {
-    return PyBool_FromLong(self->fThis->isValid() ? 1 : 0);
+PY_METHOD_NOARGS(Location, isValid, "Returns True if the location is valid") {
+    return pyPlasma_convert(self->fThis->isValid());
 }
 
-static PyObject* pyLocation_isReserved(pyLocation* self) {
-    return PyBool_FromLong(self->fThis->isReserved() ? 1 : 0);
+PY_METHOD_NOARGS(Location, isReserved,
+    "Returns True if the location is a Reserved page")
+{
+    return pyPlasma_convert(self->fThis->isReserved());
 }
 
-static PyObject* pyLocation_isItinerant(pyLocation* self) {
-    return PyBool_FromLong(self->fThis->isItinerant() ? 1 : 0);
+PY_METHOD_NOARGS(Location, isItinerant,
+    "Returns True if the location is an Itinerant page")
+{
+    return pyPlasma_convert(self->fThis->isItinerant());
 }
 
-static PyObject* pyLocation_isVirtual(pyLocation* self) {
-    return PyBool_FromLong(self->fThis->isVirtual() ? 1 : 0);
+PY_METHOD_NOARGS(Location, isVirtual, "Returns True if the location is virtual") {
+    return pyPlasma_convert(self->fThis->isVirtual());
 }
 
-static PyObject* pyLocation_isGlobal(pyLocation* self) {
-    return PyBool_FromLong(self->fThis->isGlobal() ? 1 : 0);
+PY_METHOD_NOARGS(Location, isGlobal,
+    "Returns True if the sequence prefix points to a global age")
+{
+    return pyPlasma_convert(self->fThis->isGlobal());
 }
 
-static PyObject* pyLocation_setVirtual(pyLocation* self) {
+PY_METHOD_NOARGS(Location, setVirtual, "Makes the location virtual") {
     self->fThis->setVirtual();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyLocation_parse(pyLocation* self, PyObject* args) {
+PY_METHOD_VA(Location, parse,
+    "Params: locationId\n"
+    "Parses a raw location")
+{
     int loc;
     if (!PyArg_ParseTuple(args, "i", &loc)) {
         PyErr_SetString(PyExc_TypeError, "parse expects an int");
         return NULL;
     }
     self->fThis->parse(loc);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyLocation_unparse(pyLocation* self) {
-    return PyInt_FromLong(self->fThis->unparse());
-}
-
-static PyObject* pyLocation_getVer(pyLocation* self, void*) {
-    return PyInt_FromLong(self->fThis->getVer());
-}
-
-static PyObject* pyLocation_getPrefix(pyLocation* self, void*) {
-    return PyInt_FromLong(self->fThis->getSeqPrefix());
-}
-
-static PyObject* pyLocation_getPage(pyLocation* self, void*) {
-    return PyInt_FromLong(self->fThis->getPageNum());
-}
-
-static PyObject* pyLocation_getFlags(pyLocation* self, void*) {
-    return PyInt_FromLong(self->fThis->getFlags());
-}
-
-
-static int pyLocation_setVer(pyLocation* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setVer(PlasmaVer::pvUnknown);
-    } else {
-        if (!PyInt_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "version must be an int");
-            return -1;
-        }
-        self->fThis->setVer((PlasmaVer)PyInt_AsLong(value));
-    }
-    return 0;
-}
-
-static int pyLocation_setPrefix(pyLocation* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setSeqPrefix(-1);
-    } else {
-        if (!PyInt_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "prefix must be an int");
-            return -1;
-        }
-        self->fThis->setSeqPrefix(PyInt_AsLong(value));
-    }
-    return 0;
-}
-
-static int pyLocation_setPage(pyLocation* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setPageNum(-1);
-    } else {
-        if (!PyInt_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "page must be an int");
-            return -1;
-        }
-        self->fThis->setPageNum(PyInt_AsLong(value));
-    }
-    return 0;
-}
-
-static int pyLocation_setFlags(pyLocation* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setFlags(-1);
-    } else {
-        if (!PyInt_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "flags must be an int");
-            return -1;
-        }
-        self->fThis->setFlags(PyInt_AsLong(value));
-    }
-    return 0;
+PY_METHOD_NOARGS(Location, unparse,
+    "Returns a raw location ID for the set Plasma version")
+{
+    return pyPlasma_convert(self->fThis->unparse());
 }
 
 static PyMethodDef pyLocation_Methods[] = {
-    { "read", (PyCFunction)pyLocation_read, METH_VARARGS,
-      "Params: stream\n"
-      "Reads this Location from the stream, including the size and offset" },
-    { "write", (PyCFunction)pyLocation_write, METH_VARARGS,
-      "Params: stream\n"
-      "Writes this Location to the stream, including the size and offset" },
-    { "invalidate", (PyCFunction)pyLocation_invalidate, METH_NOARGS,
-      "Invalidates the location" },
-    { "isValid", (PyCFunction)pyLocation_isValid, METH_NOARGS,
-      "Returns True if the location is valid" },
-    { "isReserved", (PyCFunction)pyLocation_isReserved, METH_NOARGS,
-      "Returns True if the location is a Reserved page" },
-    { "isItinerant", (PyCFunction)pyLocation_isItinerant, METH_NOARGS,
-      "Returns True if the location is an Itinerant page" },
-    { "isVirtual", (PyCFunction)pyLocation_isVirtual, METH_NOARGS,
-      "Returns True if the location is virtual" },
-    { "isGlobal", (PyCFunction)pyLocation_isGlobal, METH_NOARGS,
-      "Returns True if the sequence prefix points to a global age" },
-    { "setVirtual", (PyCFunction)pyLocation_setVirtual, METH_NOARGS,
-      "Makes the location virtual" },
-    { "parse", (PyCFunction)pyLocation_parse, METH_VARARGS,
-      "Params: locationId\n"
-      "Parses a raw location" },
-    { "unparse", (PyCFunction)pyLocation_unparse, METH_NOARGS,
-      "Returns a raw location ID for the set Plasma version" },
-    { NULL, NULL, 0, NULL }
+    pyLocation_read_method,
+    pyLocation_write_method,
+    pyLocation_invalidate_method,
+    pyLocation_isValid_method,
+    pyLocation_isReserved_method,
+    pyLocation_isItinerant_method,
+    pyLocation_isVirtual_method,
+    pyLocation_isGlobal_method,
+    pyLocation_setVirtual_method,
+    pyLocation_parse_method,
+    pyLocation_unparse_method,
+    PY_METHOD_TERMINATOR
 };
+
+PY_PROPERTY(int, Location, version, getVer, setVer)
+PY_PROPERTY(int, Location, prefix, getSeqPrefix, setSeqPrefix)
+PY_PROPERTY(int, Location, page, getPageNum, setPageNum)
+PY_PROPERTY(unsigned short, Location, flags, getFlags, setFlags)
 
 static PyGetSetDef pyLocation_GetSet[] = {
-    { _pycs("version"), (getter)pyLocation_getVer, (setter)pyLocation_setVer,
-        _pycs("The Plasma Version (for file parsing)"), NULL },
-    { _pycs("prefix"), (getter)pyLocation_getPrefix, (setter)pyLocation_setPrefix,
-        _pycs("The Sequence Prefix of the age"), NULL },
-    { _pycs("page"), (getter)pyLocation_getPage, (setter)pyLocation_setPage,
-        _pycs("The Page Number of the page"), NULL },
-    { _pycs("flags"), (getter)pyLocation_getFlags, (setter)pyLocation_setFlags,
-        _pycs("The Location flags"), NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyLocation_version_getset,
+    pyLocation_prefix_getset,
+    pyLocation_page_getset,
+    pyLocation_flags_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyLocation_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plLocation",            /* tp_name */
-    sizeof(pyLocation),                 /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(Location, plLocation, "plLocation wrapper")
 
-    (destructor)pyLocation_dealloc,     /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    (reprfunc)pyLocation_Repr,          /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    (hashfunc)pyLocation_Hash,          /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT,                 /* tp_flags */
-    NULL,                               /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    (richcmpfunc)pyLocation_RichCompare, /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyLocation_Methods,                 /* tp_methods */
-    NULL,                               /* tp_members */
-    pyLocation_GetSet,                  /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    (initproc)pyLocation___init__,      /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyLocation_new,                     /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyLocation_Type() {
-    if (PyType_Ready(&pyLocation_Type) < 0)
+PY_PLASMA_TYPE_INIT(Location) {
+    pyLocation_Type.tp_dealloc = pyLocation_dealloc;
+    pyLocation_Type.tp_init = pyLocation___init__;
+    pyLocation_Type.tp_new = pyLocation_new;
+    pyLocation_Type.tp_repr = pyLocation_repr;
+    pyLocation_Type.tp_hash = pyLocation_hash;
+    pyLocation_Type.tp_richcompare = pyLocation_richcompare;
+    pyLocation_Type.tp_methods = pyLocation_Methods;
+    pyLocation_Type.tp_getset = pyLocation_GetSet;
+    if (PyType_CheckAndReady(&pyLocation_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyLocation_Type.tp_dict, "kLocalOnly",
-                         PyInt_FromLong(plLocation::kLocalOnly));
-    PyDict_SetItemString(pyLocation_Type.tp_dict, "kVolatile",
-                         PyInt_FromLong(plLocation::kVolatile));
-    PyDict_SetItemString(pyLocation_Type.tp_dict, "kReserved",
-                         PyInt_FromLong(plLocation::kReserved));
-    PyDict_SetItemString(pyLocation_Type.tp_dict, "kBuiltIn",
-                         PyInt_FromLong(plLocation::kBuiltIn));
-    PyDict_SetItemString(pyLocation_Type.tp_dict, "kItinerant",
-                         PyInt_FromLong(plLocation::kItinerant));
+    PY_TYPE_ADD_CONST(Location, "kLocalOnly", plLocation::kLocalOnly);
+    PY_TYPE_ADD_CONST(Location, "kVolatile", plLocation::kVolatile);
+    PY_TYPE_ADD_CONST(Location, "kReserved", plLocation::kReserved);
+    PY_TYPE_ADD_CONST(Location, "kBuiltIn", plLocation::kBuiltIn);
+    PY_TYPE_ADD_CONST(Location, "kItinerant", plLocation::kItinerant);
 
     Py_INCREF(&pyLocation_Type);
     return (PyObject*)&pyLocation_Type;

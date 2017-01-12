@@ -22,29 +22,32 @@
 
 extern "C" {
 
-static PyObject* pySoftVolumeComplex_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_TypeError, "plSoftVolumeComplex is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(SoftVolumeComplex, "plSoftVolumeComplex is abstract")
 
-static PyObject* pySoftVolumeComplex_addSubVolume(pySoftVolumeComplex* self, PyObject* args) {
+PY_METHOD_VA(SoftVolumeComplex, addSubVolume,
+    "Params: key\n"
+    "Adds a softvolume key")
+{
     PyObject* key;
     if (!(PyArg_ParseTuple(args, "O", &key) && pyKey_Check(key))) {
         PyErr_SetString(PyExc_TypeError, "addSubVolume expects a plKey");
         return NULL;
     }
     self->fThis->addSubVolume(*((pyKey*)key)->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pySoftVolumeComplex_clearSubVolumes(pySoftVolumeComplex* self) {
+PY_METHOD_NOARGS(SoftVolumeComplex, clearSubVolumes,
+    "Removes all softvolume keys")
+{
     self->fThis->clearSubVolumes();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pySoftVolumeComplex_delSubVolume(pySoftVolumeComplex* self, PyObject* args) {
+PY_METHOD_VA(SoftVolumeComplex, delSubVolume,
+    "Params: idx\n"
+    "Removes a softvolume key")
+{
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delSubVolume expects an int");
@@ -55,20 +58,14 @@ static PyObject* pySoftVolumeComplex_delSubVolume(pySoftVolumeComplex* self, PyO
         return NULL;
     }
     self->fThis->delSubVolume((size_t)idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pySoftVolumeComplex_Methods[] = {
-    { "addSubVolume", (PyCFunction)pySoftVolumeComplex_addSubVolume, METH_VARARGS,
-      "Params: key\n"
-      "Adds a softvolume key" },
-    { "clearSubVolumes", (PyCFunction)pySoftVolumeComplex_clearSubVolumes, METH_NOARGS,
-      "Removes all softvolumet keys" },
-    { "delSubVolume", (PyCFunction)pySoftVolumeComplex_delSubVolume, METH_VARARGS,
-      "Params: idx\n"
-      "Removes a softvolume key" },
-    { NULL, NULL, 0, NULL }
+    pySoftVolumeComplex_addSubVolume_method,
+    pySoftVolumeComplex_clearSubVolumes_method,
+    pySoftVolumeComplex_delSubVolume_method,
+    PY_METHOD_TERMINATOR
 };
 
 static PyObject* pySoftVolumeComplex_getSubVolumes(pySoftVolumeComplex* self, void*) {
@@ -85,71 +82,19 @@ static int pySoftVolumeComplex_setSubVolumes(pySoftVolumeComplex*, PyObject*, vo
 }
 
 PyGetSetDef pySoftVolumeComplex_GetSet[] = {
-    { _pycs("subVolumes"), (getter)pySoftVolumeComplex_getSubVolumes, (setter)pySoftVolumeComplex_setSubVolumes, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    { _pycs("subVolumes"), (getter)pySoftVolumeComplex_getSubVolumes,
+      (setter)pySoftVolumeComplex_setSubVolumes, NULL, NULL },
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pySoftVolumeComplex_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plSoftVolumeComplex",   /* tp_name */
-    sizeof(pySoftVolumeComplex),        /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(SoftVolumeComplex, plSoftVolumeComplex, "plSoftVolumeComplex wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plSoftVolumeComplex wrapper",            /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pySoftVolumeComplex_Methods,        /* tp_methods */
-    NULL,                               /* tp_members */
-    pySoftVolumeComplex_GetSet,         /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pySoftVolumeComplex_new,            /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pySoftVolumeComplex_Type() {
+PY_PLASMA_TYPE_INIT(SoftVolumeComplex) {
+    pySoftVolumeComplex_Type.tp_new = pySoftVolumeComplex_new;
+    pySoftVolumeComplex_Type.tp_methods = pySoftVolumeComplex_Methods;
+    pySoftVolumeComplex_Type.tp_getset = pySoftVolumeComplex_GetSet;
     pySoftVolumeComplex_Type.tp_base = &pySoftVolume_Type;
-    if (PyType_Ready(&pySoftVolumeComplex_Type) < 0)
+    if (PyType_CheckAndReady(&pySoftVolumeComplex_Type) < 0)
         return NULL;
 
     Py_INCREF(&pySoftVolumeComplex_Type);

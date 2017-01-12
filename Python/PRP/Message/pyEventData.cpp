@@ -22,28 +22,20 @@
 
 extern "C" {
 
-static void pyEventData_dealloc(pyEventData* self) {
-    if (self->fPyOwned)
-        delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
+PY_PLASMA_DEALLOC(EventData)
+PY_PLASMA_EMPTY_INIT(EventData)
+PY_PLASMA_NEW_MSG(EventData, "proEventData is abstract")
+
+PY_METHOD_NOARGS(EventData, EventType,
+    "Returns the EventData Class Type of this proEventData object")
+{
+    return pyPlasma_convert(self->fThis->EventType());
 }
 
-static int pyEventData___init__(pyEventData* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyEventData_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "proEventData is abstract");
-    return NULL;
-}
-
-static PyObject* pyEventData_EventType(pyEventData* self) {
-    return PyInt_FromLong(self->fThis->EventType());
-}
-
-static PyObject* pyEventData_Read(PyObject*, PyObject* args) {
+PY_METHOD_STATIC_VA(EventData, Read,
+    "Params: stream, resManager\n"
+    "Read a proEventData object from `stream`")
+{
     pyStream* stream;
     pyResManager* mgr;
     if (!PyArg_ParseTuple(args, "OO", &stream, &mgr)) {
@@ -60,7 +52,10 @@ static PyObject* pyEventData_Read(PyObject*, PyObject* args) {
     return pyEvt;
 }
 
-static PyObject* pyEventData_write(pyEventData* self, PyObject* args) {
+PY_METHOD_VA(EventData, write,
+    "Params: stream, resManager\n"
+    "Write this proEventData object to `stream`")
+{
     pyStream* stream;
     pyResManager* mgr;
     if (!PyArg_ParseTuple(args, "OO", &stream, &mgr)) {
@@ -72,136 +67,53 @@ static PyObject* pyEventData_write(pyEventData* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis, mgr->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyEventData_Methods[] = {
-    { "EventType", (PyCFunction)pyEventData_EventType, METH_NOARGS,
-      "Returns the EventData Class Type of this proEventData object" },
-    { "Read", (PyCFunction)pyEventData_Read, METH_VARARGS | METH_STATIC,
-      "Params: stream, resManager\n"
-      "Read a proEventData object from `stream`" },
-    { "write", (PyCFunction)pyEventData_write, METH_VARARGS,
-      "Params: stream, resManager\n"
-      "Write this proEventData object to `stream`" },
-    { NULL, NULL, 0, NULL }
+    pyEventData_EventType_method,
+    pyEventData_Read_method,
+    pyEventData_write_method,
+    PY_METHOD_TERMINATOR
 };
 
-PyTypeObject pyEventData_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.proEventData",          /* tp_name */
-    sizeof(pyEventData),                /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(EventData, proEventData, "proEventData wrapper")
 
-    (destructor)pyEventData_dealloc,    /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "proEventData wrapper",             /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyEventData_Methods,                /* tp_methods */
-    NULL,                               /* tp_members */
-    NULL,                               /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    (initproc)pyEventData___init__,     /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyEventData_new,                    /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyEventData_Type() {
-    if (PyType_Ready(&pyEventData_Type) < 0)
+PY_PLASMA_TYPE_INIT(EventData) {
+    pyEventData_Type.tp_dealloc = pyEventData_dealloc;
+    pyEventData_Type.tp_init = pyEventData___init__;
+    pyEventData_Type.tp_new = pyEventData_new;
+    pyEventData_Type.tp_methods = pyEventData_Methods;
+    if (PyType_CheckAndReady(&pyEventData_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kCollision",
-                         PyInt_FromLong(proEventData::kCollision));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kPicked",
-                         PyInt_FromLong(proEventData::kPicked));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kControlKey",
-                         PyInt_FromLong(proEventData::kControlKey));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kVariable",
-                         PyInt_FromLong(proEventData::kVariable));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kFacing",
-                         PyInt_FromLong(proEventData::kFacing));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kContained",
-                         PyInt_FromLong(proEventData::kContained));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kActivate",
-                         PyInt_FromLong(proEventData::kActivate));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kCallback",
-                         PyInt_FromLong(proEventData::kCallback));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kResponderState",
-                         PyInt_FromLong(proEventData::kResponderState));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kMultiStage",
-                         PyInt_FromLong(proEventData::kMultiStage));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kSpawned",
-                         PyInt_FromLong(proEventData::kSpawned));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kClickDrag",
-                         PyInt_FromLong(proEventData::kClickDrag));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kCoop",
-                         PyInt_FromLong(proEventData::kCoop));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kOfferLinkBook",
-                         PyInt_FromLong(proEventData::kOfferLinkBook));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kBook",
-                         PyInt_FromLong(proEventData::kBook));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kClimbingBlockerHit",
-                         PyInt_FromLong(proEventData::kClimbingBlockerHit));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kNone",
-                         PyInt_FromLong(proEventData::kNone));
+    PY_TYPE_ADD_CONST(EventData, "kCollision", proEventData::kCollision);
+    PY_TYPE_ADD_CONST(EventData, "kPicked", proEventData::kPicked);
+    PY_TYPE_ADD_CONST(EventData, "kControlKey", proEventData::kControlKey);
+    PY_TYPE_ADD_CONST(EventData, "kVariable", proEventData::kVariable);
+    PY_TYPE_ADD_CONST(EventData, "kFacing", proEventData::kFacing);
+    PY_TYPE_ADD_CONST(EventData, "kContained", proEventData::kContained);
+    PY_TYPE_ADD_CONST(EventData, "kActivate", proEventData::kActivate);
+    PY_TYPE_ADD_CONST(EventData, "kCallback", proEventData::kCallback);
+    PY_TYPE_ADD_CONST(EventData, "kResponderState", proEventData::kResponderState);
+    PY_TYPE_ADD_CONST(EventData, "kMultiStage", proEventData::kMultiStage);
+    PY_TYPE_ADD_CONST(EventData, "kSpawned", proEventData::kSpawned);
+    PY_TYPE_ADD_CONST(EventData, "kClickDrag", proEventData::kClickDrag);
+    PY_TYPE_ADD_CONST(EventData, "kCoop", proEventData::kCoop);
+    PY_TYPE_ADD_CONST(EventData, "kOfferLinkBook", proEventData::kOfferLinkBook);
+    PY_TYPE_ADD_CONST(EventData, "kBook", proEventData::kBook);
+    PY_TYPE_ADD_CONST(EventData, "kClimbingBlockerHit", proEventData::kClimbingBlockerHit);
+    PY_TYPE_ADD_CONST(EventData, "kNone", proEventData::kNone);
 
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kNumber",
-                         PyInt_FromLong(proEventData::kNumber));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kKey",
-                         PyInt_FromLong(proEventData::kKey));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kNotta",
-                         PyInt_FromLong(proEventData::kNotta));
+    PY_TYPE_ADD_CONST(EventData, "kNumber", proEventData::kNumber);
+    PY_TYPE_ADD_CONST(EventData, "kKey", proEventData::kKey);
+    PY_TYPE_ADD_CONST(EventData, "kNotta", proEventData::kNotta);
 
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kEnterStage",
-                         PyInt_FromLong(proEventData::kEnterStage));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kBeginningOfLoop",
-                         PyInt_FromLong(proEventData::kBeginningOfLoop));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kAdvanceNextStage",
-                         PyInt_FromLong(proEventData::kAdvanceNextStage));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kRegressPrevStage",
-                         PyInt_FromLong(proEventData::kRegressPrevStage));
-    PyDict_SetItemString(pyEventData_Type.tp_dict, "kNothing",
-                         PyInt_FromLong(proEventData::kNothing));
+    PY_TYPE_ADD_CONST(EventData, "kEnterStage", proEventData::kEnterStage);
+    PY_TYPE_ADD_CONST(EventData, "kBeginningOfLoop", proEventData::kBeginningOfLoop);
+    PY_TYPE_ADD_CONST(EventData, "kAdvanceNextStage", proEventData::kAdvanceNextStage);
+    PY_TYPE_ADD_CONST(EventData, "kRegressPrevStage", proEventData::kRegressPrevStage);
+    PY_TYPE_ADD_CONST(EventData, "kNothing", proEventData::kNothing);
 
     Py_INCREF(&pyEventData_Type);
     return (PyObject*)&pyEventData_Type;

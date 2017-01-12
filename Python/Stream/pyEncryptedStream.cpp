@@ -20,21 +20,14 @@
 
 extern "C" {
 
-static void pyEncryptedStream_dealloc(pyEncryptedStream* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+PY_PLASMA_NEW(EncryptedStream, plEncryptedStream)
 
-static PyObject* pyEncryptedStream_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyEncryptedStream* self = (pyEncryptedStream*)type->tp_alloc(type, 0);
-    int version = PlasmaVer::pvUnknown;
-    PyArg_ParseTuple(args, "|i", &version);
-    if (self != NULL)
-        self->fThis = new plEncryptedStream((PlasmaVer)version);
-    return (PyObject*)self;
-}
-
-static PyObject* pyEncryptedStream_open(pyEncryptedStream* self, PyObject* args) {
+PY_METHOD_VA(EncryptedStream, open,
+    "Params: filename, mode, encryption\n"
+    "Opens the specified file.\n"
+    "Mode is: fmRead, fmWrite, fmReadWrite, fmCreate\n"
+    "Encryption is: kEncNone, kEncXtea, kEncAES, kEncDroid, kEncAuto")
+{
     const char* filename;
     int mode, encryption;
 
@@ -56,7 +49,10 @@ static PyObject* pyEncryptedStream_open(pyEncryptedStream* self, PyObject* args)
     }
 }
 
-static PyObject* pyEncryptedStream_setKey(pyEncryptedStream* self, PyObject* args) {
+PY_METHOD_VA(EncryptedStream, setKey,
+    "Params: key\n"
+    "Sets the encryption key. `key` should be an array of 4 ints")
+{
     PyObject* keyList;
     if (!PyArg_ParseTuple(args, "O", &keyList)) {
         PyErr_SetString(PyExc_TypeError, "setKey expects an array of 4 ints");
@@ -83,129 +79,60 @@ static PyObject* pyEncryptedStream_setKey(pyEncryptedStream* self, PyObject* arg
     }
     Py_DECREF(keyList);
     self->fThis->setKey((unsigned int*)key);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyEncryptedStream_getEncType(pyEncryptedStream* self) {
-    return PyInt_FromLong(self->fThis->getEncType());
+PY_METHOD_NOARGS(EncryptedStream, getEncType, "Returns the encryption type") {
+    return pyPlasma_convert(self->fThis->getEncType());
 }
 
-static PyObject* pyEncryptedStream_IsFileEncrypted(PyObject*, PyObject* args) {
+PY_METHOD_STATIC_VA(EncryptedStream, IsFileEncrypted,
+    "(static)\n"
+    "Params: filename\n"
+    "Tests whether the specified file is encrypted")
+{
     const char* filename;
     if (!PyArg_ParseTuple(args, "s", &filename)) {
         PyErr_SetString(PyExc_TypeError, "IsFileEncrypted expects a string");
         return NULL;
     }
-    bool result = plEncryptedStream::IsFileEncrypted(filename);
-    return PyBool_FromLong(result ? 1 : 0);
+    return pyPlasma_convert(plEncryptedStream::IsFileEncrypted(filename));
 }
 
-static PyObject* pyEncryptedStream__enter__(PyObject* self) {
+PY_METHOD_NOARGS(EncryptedStream, __enter__, NULL) {
     Py_INCREF(self);
-    return self;
+    return (PyObject*)self;
 }
 
-static PyObject* pyEncryptedStream__exit__(pyEncryptedStream* self, PyObject* args) {
+PY_METHOD_VA(EncryptedStream, __exit__, NULL) {
     self->fThis->close();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyEncryptedStream_Methods[] = {
-    { "open", (PyCFunction)pyEncryptedStream_open, METH_VARARGS,
-      "Params: filename, mode, encryption\n"
-      "Opens the specified file.\n"
-      "Mode is: fmRead, fmWrite, fmReadWrite, fmCreate\n"
-      "Encryption is: kEncNone, kEncXtea, kEncAES, kEncDroid, kEncAuto" },
-    { "setKey", (PyCFunction)pyEncryptedStream_setKey, METH_VARARGS,
-      "Params: key\n"
-      "Sets the encryption key. `key` should be an array of 4 ints" },
-    { "getEncType", (PyCFunction)pyEncryptedStream_getEncType, METH_NOARGS,
-      "Returns the encryption type" },
-    { "IsFileEncrypted", (PyCFunction)pyEncryptedStream_IsFileEncrypted,
-      METH_VARARGS | METH_STATIC,
-      "(static)\n"
-      "Params: filename\n"
-      "Tests whether the specified file is encrypted" },
-    { "__enter__", (PyCFunction)pyEncryptedStream__enter__, METH_NOARGS, NULL },
-    { "__exit__", (PyCFunction)pyEncryptedStream__exit__, METH_VARARGS, NULL },
-    { NULL, NULL, 0, NULL }
+    pyEncryptedStream_open_method,
+    pyEncryptedStream_setKey_method,
+    pyEncryptedStream_getEncType_method,
+    pyEncryptedStream_IsFileEncrypted_method,
+    pyEncryptedStream___enter___method,
+    pyEncryptedStream___exit___method,
+    PY_METHOD_TERMINATOR
 };
 
-PyTypeObject pyEncryptedStream_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plEncryptedStream",     /* tp_name */
-    sizeof(pyEncryptedStream),          /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(EncryptedStream, plEncryptedStream, "plEncryptedStream wrapper")
 
-    (destructor)pyEncryptedStream_dealloc, /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plEncryptedStream wrapper",        /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyEncryptedStream_Methods,          /* tp_methods */
-    NULL,                               /* tp_members */
-    NULL,                               /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyEncryptedStream_new,              /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyEncryptedStream_Type() {
+PY_PLASMA_TYPE_INIT(EncryptedStream) {
+    pyEncryptedStream_Type.tp_new = pyEncryptedStream_new;
+    pyEncryptedStream_Type.tp_methods = pyEncryptedStream_Methods;
     pyEncryptedStream_Type.tp_base = &pyFileStream_Type;
-    if (PyType_Ready(&pyEncryptedStream_Type) < 0)
+    if (PyType_CheckAndReady(&pyEncryptedStream_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyEncryptedStream_Type.tp_dict, "kEncNone",
-                         PyInt_FromLong(plEncryptedStream::kEncNone));
-    PyDict_SetItemString(pyEncryptedStream_Type.tp_dict, "kEncXtea",
-                         PyInt_FromLong(plEncryptedStream::kEncXtea));
-    PyDict_SetItemString(pyEncryptedStream_Type.tp_dict, "kEncAES",
-                         PyInt_FromLong(plEncryptedStream::kEncAES));
-    PyDict_SetItemString(pyEncryptedStream_Type.tp_dict, "kEncDroid",
-                         PyInt_FromLong(plEncryptedStream::kEncDroid));
-    PyDict_SetItemString(pyEncryptedStream_Type.tp_dict, "kEncAuto",
-                         PyInt_FromLong(plEncryptedStream::kEncAuto));
+    PY_TYPE_ADD_CONST(EncryptedStream, "kEncNone", plEncryptedStream::kEncNone);
+    PY_TYPE_ADD_CONST(EncryptedStream, "kEncXtea", plEncryptedStream::kEncXtea);
+    PY_TYPE_ADD_CONST(EncryptedStream, "kEncAES", plEncryptedStream::kEncAES);
+    PY_TYPE_ADD_CONST(EncryptedStream, "kEncDroid", plEncryptedStream::kEncDroid);
+    PY_TYPE_ADD_CONST(EncryptedStream, "kEncAuto", plEncryptedStream::kEncAuto);
 
     Py_INCREF(&pyEncryptedStream_Type);
     return (PyObject*)&pyEncryptedStream_Type;

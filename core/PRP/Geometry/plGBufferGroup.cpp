@@ -526,7 +526,7 @@ void plGBufferGroup::addIndices(const std::vector<unsigned short>& indices) {
         fIdxBuffStorage[idx][i] = indices[i];
 }
 
-void plGBufferGroup::setFormat(unsigned char format) {
+void plGBufferGroup::setFormat(unsigned int format) {
     fFormat = format;
     fStride = ICalcVertexSize(fLiteStride);
     fGBuffStorageType |= kStoreIsDirty;

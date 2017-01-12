@@ -94,7 +94,7 @@ protected:
 
 public:
     /** Returns the underlying plCreatableStub object of this stub */
-    const plCreatableStub* getStub() const { return fStub; }
+    plCreatableStub* getStub() const { return fStub; }
 
     /** Sets the underlying plCreatableStub object of this stub */
     void setStub(plCreatableStub* stub);

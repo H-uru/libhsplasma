@@ -18,7 +18,23 @@
 #define _PY_SOUNDMSG_H
 
 #include "PyPlasma.h"
+#include <PRP/Message/plSoundMsg.h>
 
 PY_WRAP_PLASMA(SoundMsg, class plSoundMsg);
+
+/* Python property helpers */
+inline PyObject* pyPlasma_convert(plSoundMsg::FadeType value) {
+    return PyInt_FromLong((long)value);
+}
+
+template <>
+inline int pyPlasma_check<plSoundMsg::FadeType>(PyObject* value) {
+    return PyInt_Check(value);
+}
+
+template <>
+inline plSoundMsg::FadeType pyPlasma_get(PyObject* value) {
+    return (plSoundMsg::FadeType)PyInt_AsLong(value);
+}
 
 #endif

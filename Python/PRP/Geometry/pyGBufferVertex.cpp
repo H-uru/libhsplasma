@@ -21,45 +21,15 @@
 
 extern "C" {
 
-static void pyGBufferVertex_dealloc(pyGBufferVertex* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
-
-static int pyGBufferVertex___init__(pyGBufferVertex* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyGBufferVertex_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyGBufferVertex* self = (pyGBufferVertex*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new plGBufferVertex();
-    return (PyObject*)self;
-}
-
-static PyObject* pyGBufferVertex_getPos(pyGBufferVertex* self, void*) {
-    return pyVector3_FromVector3(self->fThis->fPos);
-}
-
-static PyObject* pyGBufferVertex_getNormal(pyGBufferVertex* self, void*) {
-    return pyVector3_FromVector3(self->fThis->fNormal);
-}
-
-static PyObject* pyGBufferVertex_getSkin(pyGBufferVertex* self, void*) {
-    return PyInt_FromLong(self->fThis->fSkinIdx);
-}
-
-static PyObject* pyGBufferVertex_getColor(pyGBufferVertex* self, void*) {
-    return PyInt_FromLong(self->fThis->fColor);
-}
+PY_PLASMA_VALUE_DEALLOC(GBufferVertex)
+PY_PLASMA_EMPTY_INIT(GBufferVertex)
+PY_PLASMA_VALUE_NEW(GBufferVertex, plGBufferVertex)
 
 static PyObject* pyGBufferVertex_getWeights(pyGBufferVertex* self, void*) {
     PyObject* list = PyList_New(3);
-    PyList_SET_ITEM(list, 0, PyFloat_FromDouble(self->fThis->fSkinWeights[0]));
-    PyList_SET_ITEM(list, 1, PyFloat_FromDouble(self->fThis->fSkinWeights[1]));
-    PyList_SET_ITEM(list, 2, PyFloat_FromDouble(self->fThis->fSkinWeights[2]));
+    PyList_SET_ITEM(list, 0, pyPlasma_convert(self->fThis->fSkinWeights[0]));
+    PyList_SET_ITEM(list, 1, pyPlasma_convert(self->fThis->fSkinWeights[1]));
+    PyList_SET_ITEM(list, 2, pyPlasma_convert(self->fThis->fSkinWeights[2]));
     return list;
 }
 
@@ -68,42 +38,6 @@ static PyObject* pyGBufferVertex_getUVWs(pyGBufferVertex* self, void*) {
     for (size_t i=0; i<10; i++)
         PyList_SET_ITEM(list, i, pyVector3_FromVector3(self->fThis->fUVWs[i]));
     return list;
-}
-
-static int pyGBufferVertex_setPos(pyGBufferVertex* self, PyObject* value, void*) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "pos should be an hsVector3");
-        return -1;
-    }
-    self->fThis->fPos = *((pyVector3*)value)->fThis;
-    return 0;
-}
-
-static int pyGBufferVertex_setNormal(pyGBufferVertex* self, PyObject* value, void*) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "normal should be an hsVector3");
-        return -1;
-    }
-    self->fThis->fNormal = *((pyVector3*)value)->fThis;
-    return 0;
-}
-
-static int pyGBufferVertex_setSkin(pyGBufferVertex* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "skinIdx should be an int");
-        return -1;
-    }
-    self->fThis->fSkinIdx = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyGBufferVertex_setColor(pyGBufferVertex* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "color should be an int");
-        return -1;
-    }
-    self->fThis->fColor = PyInt_AsLong(value);
-    return 0;
 }
 
 static int pyGBufferVertex_setWeights(pyGBufferVertex* self, PyObject* value, void*) {
@@ -150,82 +84,31 @@ static int pyGBufferVertex_setUVWs(pyGBufferVertex* self, PyObject* value, void*
     return 0;
 }
 
+PY_PROPERTY_MEMBER(hsVector3, GBufferVertex, pos, fPos)
+PY_PROPERTY_MEMBER(hsVector3, GBufferVertex, normal, fNormal)
+PY_PROPERTY_MEMBER(int, GBufferVertex, skinIdx, fSkinIdx)
+PY_PROPERTY_MEMBER(unsigned int, GBufferVertex, color, fColor)
+
 static PyGetSetDef pyGBufferVertex_GetSet[] = {
-    { _pycs("pos"), (getter)pyGBufferVertex_getPos,
-        (setter)pyGBufferVertex_setPos, NULL, NULL },
-    { _pycs("normal"), (getter)pyGBufferVertex_getNormal,
-        (setter)pyGBufferVertex_setNormal, NULL, NULL },
-    { _pycs("skinIdx"), (getter)pyGBufferVertex_getSkin,
-        (setter)pyGBufferVertex_setSkin, NULL, NULL },
-    { _pycs("color"), (getter)pyGBufferVertex_getColor,
-        (setter)pyGBufferVertex_setColor, NULL, NULL },
+    pyGBufferVertex_pos_getset,
+    pyGBufferVertex_normal_getset,
+    pyGBufferVertex_skinIdx_getset,
+    pyGBufferVertex_color_getset,
     { _pycs("skinWeights"), (getter)pyGBufferVertex_getWeights,
         (setter)pyGBufferVertex_setWeights, NULL, NULL },
     { _pycs("UVWs"), (getter)pyGBufferVertex_getUVWs,
         (setter)pyGBufferVertex_setUVWs, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyGBufferVertex_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plGBufferVertex",       /* tp_name */
-    sizeof(pyGBufferVertex),            /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(GBufferVertex, plGBufferVertex, "plGBufferVertex wrapper")
 
-    (destructor)pyGBufferVertex_dealloc, /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT,                 /* tp_flags */
-    "plGBufferVertex wrapper",          /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    NULL,                               /* tp_methods */
-    NULL,                               /* tp_members */
-    pyGBufferVertex_GetSet,             /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    (initproc)pyGBufferVertex___init__, /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyGBufferVertex_new,                /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyGBufferVertex_Type() {
-    if (PyType_Ready(&pyGBufferVertex_Type) < 0)
+PY_PLASMA_TYPE_INIT(GBufferVertex) {
+    pyGBufferVertex_Type.tp_dealloc = pyGBufferVertex_dealloc;
+    pyGBufferVertex_Type.tp_init = pyGBufferVertex___init__;
+    pyGBufferVertex_Type.tp_new = pyGBufferVertex_new;
+    pyGBufferVertex_Type.tp_getset = pyGBufferVertex_GetSet;
+    if (PyType_CheckAndReady(&pyGBufferVertex_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyGBufferVertex_Type);

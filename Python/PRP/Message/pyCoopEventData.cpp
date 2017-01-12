@@ -20,110 +20,24 @@
 
 extern "C" {
 
-static PyObject* pyCoopEventData_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyCoopEventData* self = (pyCoopEventData*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new proCoopEventData();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(CoopEventData, proCoopEventData)
 
-static PyObject* pyCoopEventData_getID(pyCoopEventData* self, void*) {
-    return PyInt_FromLong(self->fThis->getID());
-}
-
-static PyObject* pyCoopEventData_getSerial(pyCoopEventData* self, void*) {
-    return PyInt_FromLong(self->fThis->getSerial());
-}
-
-static int pyCoopEventData_setID(pyCoopEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "id should be an int");
-        return -1;
-    }
-    self->fThis->setID(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyCoopEventData_setSerial(pyCoopEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "serial should be an int");
-        return -1;
-    }
-    self->fThis->setSerial(PyInt_AsLong(value));
-    return 0;
-}
+PY_PROPERTY(unsigned int, CoopEventData, id, getID, setID)
+PY_PROPERTY(unsigned short, CoopEventData, serial, getSerial, setSerial)
 
 static PyGetSetDef pyCoopEventData_GetSet[] = {
-    { _pycs("id"), (getter)pyCoopEventData_getID,
-        (setter)pyCoopEventData_setID, NULL, NULL },
-    { _pycs("serial"), (getter)pyCoopEventData_getSerial,
-        (setter)pyCoopEventData_setSerial, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyCoopEventData_id_getset,
+    pyCoopEventData_serial_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyCoopEventData_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.proCoopEventData",      /* tp_name */
-    sizeof(pyCoopEventData),            /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(CoopEventData, proCoopEventData, "proCoopEventData wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "proCoopEventData wrapper",         /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    NULL,                               /* tp_methods */
-    NULL,                               /* tp_members */
-    pyCoopEventData_GetSet,             /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyCoopEventData_new,                /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyCoopEventData_Type() {
+PY_PLASMA_TYPE_INIT(CoopEventData) {
+    pyCoopEventData_Type.tp_new = pyCoopEventData_new;
+    pyCoopEventData_Type.tp_getset = pyCoopEventData_GetSet;
     pyCoopEventData_Type.tp_base = &pyEventData_Type;
-    if (PyType_Ready(&pyCoopEventData_Type) < 0)
+    if (PyType_CheckAndReady(&pyCoopEventData_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyCoopEventData_Type);

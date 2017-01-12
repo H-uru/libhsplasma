@@ -21,125 +21,26 @@
 
 extern "C" {
 
-static PyObject* pyAGAnimBink_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyAGAnimBink* self = (pyAGAnimBink*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plAGAnimBink();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(AGAnimBink, plAGAnimBink)
 
-static PyObject* pyAGAnimBink_getBinkFilename(pyAGAnimBink* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getBinkFilename());
-}
-
-static PyObject* pyAGAnimBink_getSgtFilename(pyAGAnimBink* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getSgtFilename());
-}
-
-static PyObject* pyAGAnimBink_getSubtitleId(pyAGAnimBink* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getSubtitleId());
-}
-
-static int pyAGAnimBink_setBinkFilename(pyAGAnimBink* self, PyObject* value, void*) {
-    if (value == NULL || !PyAnyStr_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "binkFilename should be a string");
-        return -1;
-    }
-    self->fThis->setBinkFilename(PyStr_To_PlStr(value));
-    return 0;
-}
-
-static int pyAGAnimBink_setSgtFilename(pyAGAnimBink* self, PyObject* value, void*) {
-    if (value == NULL || !PyAnyStr_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "sgtFilename should be a string");
-        return -1;
-    }
-    self->fThis->setSgtFilename(PyStr_To_PlStr(value));
-    return 0;
-}
-
-static int pyAGAnimBink_setSubtitleId(pyAGAnimBink* self, PyObject* value, void*) {
-    if (value == NULL || !PyAnyStr_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "subtitleId should be a string");
-        return -1;
-    }
-    self->fThis->setSubtitleId(PyStr_To_PlStr(value));
-    return 0;
-}
+PY_PROPERTY(plString, AGAnimBink, binkFilename, getBinkFilename, setBinkFilename)
+PY_PROPERTY(plString, AGAnimBink,sgtFilename, getSgtFilename, setSgtFilename)
+PY_PROPERTY(plString, AGAnimBink,subtitleId, getSubtitleId, setSubtitleId)
 
 static PyGetSetDef pyAGAnimBink_GetSet[] = {
-    { _pycs("binkFilename"), (getter)pyAGAnimBink_getBinkFilename,
-        (setter)pyAGAnimBink_setBinkFilename, NULL, NULL },
-    { _pycs("sgtFilename"), (getter)pyAGAnimBink_getSgtFilename,
-        (setter)pyAGAnimBink_setSgtFilename, NULL, NULL },
-    { _pycs("subtitleId"), (getter)pyAGAnimBink_getSubtitleId,
-        (setter)pyAGAnimBink_setSubtitleId, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyAGAnimBink_binkFilename_getset,
+    pyAGAnimBink_sgtFilename_getset,
+    pyAGAnimBink_subtitleId_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyAGAnimBink_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plAGAnimBink",          /* tp_name */
-    sizeof(pyAGAnimBink),               /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(AGAnimBink, plAGAnimBink, "plAGAnimBink wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plAGAnimBink wrapper",             /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    NULL,                               /* tp_methods */
-    NULL,                               /* tp_members */
-    pyAGAnimBink_GetSet,                /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyAGAnimBink_new,                   /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyAGAnimBink_Type() {
+PY_PLASMA_TYPE_INIT(AGAnimBink) {
+    pyAGAnimBink_Type.tp_new = pyAGAnimBink_new;
+    pyAGAnimBink_Type.tp_getset = pyAGAnimBink_GetSet;
     pyAGAnimBink_Type.tp_base = &pyATCAnim_Type;
-    if (PyType_Ready(&pyAGAnimBink_Type) < 0)
+    if (PyType_CheckAndReady(&pyAGAnimBink_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyAGAnimBink_Type);

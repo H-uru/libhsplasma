@@ -21,22 +21,17 @@
 
 extern "C" {
 
-static PyObject* pyOneShotMsg_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyOneShotMsg* self = (pyOneShotMsg*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plOneShotMsg();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(OneShotMsg, plOneShotMsg)
 
-static PyObject* pyOneShotMsg_clearCallbacks(pyOneShotMsg* self) {
+PY_METHOD_NOARGS(OneShotMsg, clearCallbacks, "Remove all callbacks") {
     self->fThis->getCallbacks().clearCallbacks();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyOneShotMsg_addCallback(pyOneShotMsg* self, PyObject* args) {
+PY_METHOD_VA(OneShotMsg, addCallback,
+    "Params: marker, receiver, user\n"
+    "Add a callback")
+{
     char* marker;
     PyObject* key;
     short user;
@@ -44,12 +39,14 @@ static PyObject* pyOneShotMsg_addCallback(pyOneShotMsg* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "addCallback expects string, plKey, int");
         return NULL;
     }
-    self->fThis->getCallbacks().addCallback(marker, *((pyKey*)key)->fThis, user);
-    Py_INCREF(Py_None);
-    return Py_None;
+    self->fThis->getCallbacks().addCallback(marker, pyPlasma_get<plKey>(key), user);
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyOneShotMsg_delCallback(pyOneShotMsg* self, PyObject* args) {
+PY_METHOD_VA(OneShotMsg, delCallback,
+    "Params: idx\n"
+    "Remove a callback")
+{
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delCallback expects an int");
@@ -61,20 +58,14 @@ static PyObject* pyOneShotMsg_delCallback(pyOneShotMsg* self, PyObject* args) {
         return NULL;
     }
     cbs.delCallback(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyOneShotMsg_Methods[] = {
-    { "clearCallbacks", (PyCFunction)pyOneShotMsg_clearCallbacks, METH_NOARGS,
-      "Remove all callbacks" },
-    { "addCallback", (PyCFunction)pyOneShotMsg_addCallback, METH_VARARGS,
-      "Params: marker, receiver, user\n"
-      "Add a callback" },
-    { "delCallback", (PyCFunction)pyOneShotMsg_delCallback, METH_VARARGS,
-      "Params: idx\n"
-      "Remove a callback" },
-    { NULL, NULL, 0, NULL }
+    pyOneShotMsg_clearCallbacks_method,
+    pyOneShotMsg_addCallback_method,
+    pyOneShotMsg_delCallback_method,
+    PY_METHOD_TERMINATOR
 };
 
 static PyObject* pyOneShotMsg_getCallbacks(pyOneShotMsg* self, void*) {
@@ -90,70 +81,17 @@ static PyObject* pyOneShotMsg_getCallbacks(pyOneShotMsg* self, void*) {
 
 static PyGetSetDef pyOneShotMsg_GetSet[] = {
     { _pycs("callbacks"), (getter)pyOneShotMsg_getCallbacks, NULL, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyOneShotMsg_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plOneShotMsg",          /* tp_name */
-    sizeof(pyOneShotMsg),               /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(OneShotMsg, plOneShotMsg, "plOneShotMsg wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plOneShotMsg wrapper",                   /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyOneShotMsg_Methods,               /* tp_methods */
-    NULL,                               /* tp_members */
-    pyOneShotMsg_GetSet,                /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyOneShotMsg_new,                   /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyOneShotMsg_Type() {
+PY_PLASMA_TYPE_INIT(OneShotMsg) {
+    pyOneShotMsg_Type.tp_new = pyOneShotMsg_new;
+    pyOneShotMsg_Type.tp_methods = pyOneShotMsg_Methods;
+    pyOneShotMsg_Type.tp_getset = pyOneShotMsg_GetSet;
     pyOneShotMsg_Type.tp_base = &pyResponderMsg_Type;
-    if (PyType_Ready(&pyOneShotMsg_Type) < 0)
+    if (PyType_CheckAndReady(&pyOneShotMsg_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyOneShotMsg_Type);

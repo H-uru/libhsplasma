@@ -22,32 +22,13 @@
 
 extern "C" {
 
-static PyObject* pyShader_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyShader* self = (pyShader*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plShader();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(Shader, plShader)
 
 static PyObject* pyShader_getConsts(pyShader* self, void*) {
     PyObject* list = PyList_New(self->fThis->getConsts().size());
     for (size_t i=0; self->fThis->getConsts().size(); i++)
         PyList_SET_ITEM(list, i, pyShaderConst_FromShaderConst(self->fThis->getConsts()[i]));
     return list;
-}
-
-static PyObject* pyShader_getID(pyShader* self, void*) {
-    return PyInt_FromLong(self->fThis->getID());
-}
-
-static PyObject* pyShader_getInput(pyShader* self, void*) {
-    return PyInt_FromLong(self->fThis->getInput());
-}
-
-static PyObject* pyShader_getOutput(pyShader* self, void*) {
-    return PyInt_FromLong(self->fThis->getOutput());
 }
 
 static int pyShader_setConsts(pyShader* self, PyObject* value, void*) {
@@ -72,186 +53,68 @@ static int pyShader_setConsts(pyShader* self, PyObject* value, void*) {
     }
 }
 
-static int pyShader_setID(pyShader* self, PyObject* value, void*) {
-    if (!PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "id should be an int");
-        return -1;
-    }
-    self->fThis->setID((plShader::plShaderID)PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyShader_setInput(pyShader* self, PyObject* value, void*) {
-    if (!PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "input should be an int");
-        return -1;
-    }
-    self->fThis->setInput(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyShader_setOutput(pyShader* self, PyObject* value, void*) {
-    if (!PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "output should be an int");
-        return -1;
-    }
-    self->fThis->setOutput(PyInt_AsLong(value));
-    return 0;
-}
+PY_PROPERTY(plShader::plShaderID, Shader, id, getID, setID)
+PY_PROPERTY(unsigned char, Shader, input, getInput, setInput)
+PY_PROPERTY(unsigned char, Shader, output, getOutput, setOutput)
 
 static PyGetSetDef pyShader_GetSet[] = {
     { _pycs("constants"), (getter)pyShader_getConsts, (setter)pyShader_setConsts, NULL, NULL },
-    { _pycs("id"), (getter)pyShader_getID, (setter)pyShader_setID, NULL, NULL },
-    { _pycs("input"), (getter)pyShader_getInput, (setter)pyShader_setInput, NULL, NULL },
-    { _pycs("output"), (getter)pyShader_getOutput, (setter)pyShader_setOutput, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyShader_id_getset,
+    pyShader_input_getset,
+    pyShader_output_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyShader_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plShader",              /* tp_name */
-    sizeof(pyShader),                   /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(Shader, plShader, "plShader wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plShader wrapper",                 /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    NULL,                               /* tp_methods */
-    NULL,                               /* tp_members */
-    pyShader_GetSet,                    /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyShader_new,                       /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyShader_Type() {
+PY_PLASMA_TYPE_INIT(Shader) {
+    pyShader_Type.tp_new = pyShader_new;
+    pyShader_Type.tp_getset = pyShader_GetSet;
     pyShader_Type.tp_base = &pyKeyedObject_Type;
-    if (PyType_Ready(&pyShader_Type) < 0)
+    if (PyType_CheckAndReady(&pyShader_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyShader_Type.tp_dict, "kUnregistered",
-                         PyInt_FromLong(plShader::kUnregistered));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "vs_WaveFixedFin6",
-                         PyInt_FromLong(plShader::vs_WaveFixedFin6));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "ps_WaveFixed",
-                         PyInt_FromLong(plShader::ps_WaveFixed));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "vs_CompCosines",
-                         PyInt_FromLong(plShader::vs_CompCosines));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "ps_CompCosines",
-                         PyInt_FromLong(plShader::ps_CompCosines));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "vs_ShoreLeave6",
-                         PyInt_FromLong(plShader::vs_ShoreLeave6));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "ps_ShoreLeave6",
-                         PyInt_FromLong(plShader::ps_ShoreLeave6));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "vs_WaveRip",
-                         PyInt_FromLong(plShader::vs_WaveRip));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "ps_WaveRip",
-                         PyInt_FromLong(plShader::ps_WaveRip));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "vs_WaveDec1Lay",
-                         PyInt_FromLong(plShader::vs_WaveDec1Lay));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "vs_WaveDec2Lay11",
-                         PyInt_FromLong(plShader::vs_WaveDec2Lay11));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "vs_WaveDec2Lay12",
-                         PyInt_FromLong(plShader::vs_WaveDec2Lay12));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "vs_WaveDecEnv",
-                         PyInt_FromLong(plShader::vs_WaveDecEnv));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "ps_CbaseAbase",
-                         PyInt_FromLong(plShader::ps_CbaseAbase));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "ps_CalphaAbase",
-                         PyInt_FromLong(plShader::ps_CalphaAbase));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "ps_CalphaAMult",
-                         PyInt_FromLong(plShader::ps_CalphaAMult));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "ps_CalphaAadd",
-                         PyInt_FromLong(plShader::ps_CalphaAadd));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "ps_CaddAbase",
-                         PyInt_FromLong(plShader::ps_CaddAbase));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "ps_CaddAMult",
-                         PyInt_FromLong(plShader::ps_CaddAMult));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "ps_CaddAAdd",
-                         PyInt_FromLong(plShader::ps_CaddAAdd));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "ps_CmultAbase",
-                         PyInt_FromLong(plShader::ps_CmultAbase));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "ps_CmultAMult",
-                         PyInt_FromLong(plShader::ps_CmultAMult));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "ps_CmultAAdd",
-                         PyInt_FromLong(plShader::ps_CmultAAdd));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "ps_WaveDecEnv",
-                         PyInt_FromLong(plShader::ps_WaveDecEnv));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "vs_WaveGraph2",
-                         PyInt_FromLong(plShader::vs_WaveGraph2));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "ps_WaveGraph",
-                         PyInt_FromLong(plShader::ps_WaveGraph));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "vs_WaveGridFin",
-                         PyInt_FromLong(plShader::vs_WaveGridFin));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "ps_WaveGrid",
-                         PyInt_FromLong(plShader::ps_WaveGrid));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "vs_BiasNormals",
-                         PyInt_FromLong(plShader::vs_BiasNormals));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "ps_BiasNormals",
-                         PyInt_FromLong(plShader::ps_BiasNormals));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "vs_ShoreLeave7",
-                         PyInt_FromLong(plShader::vs_ShoreLeave7));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "vs_WaveRip7",
-                         PyInt_FromLong(plShader::vs_WaveRip7));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "ps_MoreCosines",
-                         PyInt_FromLong(plShader::ps_MoreCosines));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "vs_WaveDec1Lay_7",
-                         PyInt_FromLong(plShader::vs_WaveDec1Lay_7));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "vs_WaveDec2Lay11_7",
-                         PyInt_FromLong(plShader::vs_WaveDec2Lay11_7));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "vs_WaveDec2Lay12_7",
-                         PyInt_FromLong(plShader::vs_WaveDec2Lay12_7));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "vs_WaveDecEnv_7",
-                         PyInt_FromLong(plShader::vs_WaveDecEnv_7));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "vs_WaveFixedFin7",
-                         PyInt_FromLong(plShader::vs_WaveFixedFin7));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "vs_GrassShader",
-                         PyInt_FromLong(plShader::vs_GrassShader));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "ps_GrassShader",
-                         PyInt_FromLong(plShader::ps_GrassShader));
-    PyDict_SetItemString(pyShader_Type.tp_dict, "kNumShaders",
-                         PyInt_FromLong(plShader::kNumShaders));
+    PY_TYPE_ADD_CONST(Shader, "kUnregistered", plShader::kUnregistered);
+    PY_TYPE_ADD_CONST(Shader, "vs_WaveFixedFin6", plShader::vs_WaveFixedFin6);
+    PY_TYPE_ADD_CONST(Shader, "ps_WaveFixed", plShader::ps_WaveFixed);
+    PY_TYPE_ADD_CONST(Shader, "vs_CompCosines", plShader::vs_CompCosines);
+    PY_TYPE_ADD_CONST(Shader, "ps_CompCosines", plShader::ps_CompCosines);
+    PY_TYPE_ADD_CONST(Shader, "vs_ShoreLeave6", plShader::vs_ShoreLeave6);
+    PY_TYPE_ADD_CONST(Shader, "ps_ShoreLeave6", plShader::ps_ShoreLeave6);
+    PY_TYPE_ADD_CONST(Shader, "vs_WaveRip", plShader::vs_WaveRip);
+    PY_TYPE_ADD_CONST(Shader, "ps_WaveRip", plShader::ps_WaveRip);
+    PY_TYPE_ADD_CONST(Shader, "vs_WaveDec1Lay", plShader::vs_WaveDec1Lay);
+    PY_TYPE_ADD_CONST(Shader, "vs_WaveDec2Lay11", plShader::vs_WaveDec2Lay11);
+    PY_TYPE_ADD_CONST(Shader, "vs_WaveDec2Lay12", plShader::vs_WaveDec2Lay12);
+    PY_TYPE_ADD_CONST(Shader, "vs_WaveDecEnv", plShader::vs_WaveDecEnv);
+    PY_TYPE_ADD_CONST(Shader, "ps_CbaseAbase", plShader::ps_CbaseAbase);
+    PY_TYPE_ADD_CONST(Shader, "ps_CalphaAbase", plShader::ps_CalphaAbase);
+    PY_TYPE_ADD_CONST(Shader, "ps_CalphaAMult", plShader::ps_CalphaAMult);
+    PY_TYPE_ADD_CONST(Shader, "ps_CalphaAadd", plShader::ps_CalphaAadd);
+    PY_TYPE_ADD_CONST(Shader, "ps_CaddAbase", plShader::ps_CaddAbase);
+    PY_TYPE_ADD_CONST(Shader, "ps_CaddAMult", plShader::ps_CaddAMult);
+    PY_TYPE_ADD_CONST(Shader, "ps_CaddAAdd", plShader::ps_CaddAAdd);
+    PY_TYPE_ADD_CONST(Shader, "ps_CmultAbase", plShader::ps_CmultAbase);
+    PY_TYPE_ADD_CONST(Shader, "ps_CmultAMult", plShader::ps_CmultAMult);
+    PY_TYPE_ADD_CONST(Shader, "ps_CmultAAdd", plShader::ps_CmultAAdd);
+    PY_TYPE_ADD_CONST(Shader, "ps_WaveDecEnv", plShader::ps_WaveDecEnv);
+    PY_TYPE_ADD_CONST(Shader, "vs_WaveGraph2", plShader::vs_WaveGraph2);
+    PY_TYPE_ADD_CONST(Shader, "ps_WaveGraph", plShader::ps_WaveGraph);
+    PY_TYPE_ADD_CONST(Shader, "vs_WaveGridFin", plShader::vs_WaveGridFin);
+    PY_TYPE_ADD_CONST(Shader, "ps_WaveGrid", plShader::ps_WaveGrid);
+    PY_TYPE_ADD_CONST(Shader, "vs_BiasNormals", plShader::vs_BiasNormals);
+    PY_TYPE_ADD_CONST(Shader, "ps_BiasNormals", plShader::ps_BiasNormals);
+    PY_TYPE_ADD_CONST(Shader, "vs_ShoreLeave7", plShader::vs_ShoreLeave7);
+    PY_TYPE_ADD_CONST(Shader, "vs_WaveRip7", plShader::vs_WaveRip7);
+    PY_TYPE_ADD_CONST(Shader, "ps_MoreCosines", plShader::ps_MoreCosines);
+    PY_TYPE_ADD_CONST(Shader, "vs_WaveDec1Lay_7", plShader::vs_WaveDec1Lay_7);
+    PY_TYPE_ADD_CONST(Shader, "vs_WaveDec2Lay11_7", plShader::vs_WaveDec2Lay11_7);
+    PY_TYPE_ADD_CONST(Shader, "vs_WaveDec2Lay12_7", plShader::vs_WaveDec2Lay12_7);
+    PY_TYPE_ADD_CONST(Shader, "vs_WaveDecEnv_7", plShader::vs_WaveDecEnv_7);
+    PY_TYPE_ADD_CONST(Shader, "vs_WaveFixedFin7", plShader::vs_WaveFixedFin7);
+    PY_TYPE_ADD_CONST(Shader, "vs_GrassShader", plShader::vs_GrassShader);
+    PY_TYPE_ADD_CONST(Shader, "ps_GrassShader", plShader::ps_GrassShader);
+    PY_TYPE_ADD_CONST(Shader, "kNumShaders", plShader::kNumShaders);
 
     Py_INCREF(&pyShader_Type);
     return (PyObject*)&pyShader_Type;

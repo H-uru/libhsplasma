@@ -20,13 +20,7 @@
 
 extern "C" {
 
-static void pyCreatableStub_dealloc(pyCreatable* self) {
-    if (self->fPyOwned)
-        delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
-
-static int pyCreatableStub___init__(pyCreatableStub* self, PyObject* args, PyObject* kwds) {
+PY_PLASMA_INIT_DECL(CreatableStub) {
     int classId, length;
     if (!PyArg_ParseTuple(args, "ii", &classId, &length)) {
         PyErr_SetString(PyExc_TypeError, "__init__ expects int, int");
@@ -38,90 +32,38 @@ static int pyCreatableStub___init__(pyCreatableStub* self, PyObject* args, PyObj
     return 0;
 }
 
-static PyObject* pyCreatableStub_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+PY_PLASMA_NEW_DECL(CreatableStub) {
     pyCreatableStub* self = (pyCreatableStub*)type->tp_alloc(type, 0);
+    // This will get populated in __init__(classID, size)
     self->fThis = NULL;
     return (PyObject*)self;
 }
 
-static PyObject* pyCreatableStub_getData(pyCreatableStub* self) {
+PY_METHOD_NOARGS(CreatableStub, getData, "Returns the Creatable's raw data") {
     return PyBytes_FromStringAndSize((const char*)self->fThis->getData(),
                                      self->fThis->getLength());
 }
 
-static PyObject* pyCreatableStub_getLength(pyCreatableStub* self) {
-    return PyInt_FromLong(self->fThis->getLength());
+PY_METHOD_NOARGS(CreatableStub, getLength,
+    "Returns the length of the Creatable's raw data")
+{
+    return pyPlasma_convert(self->fThis->getLength());
 }
 
 static PyMethodDef pyCreatableStub_Methods[] = {
-    { "getData", (PyCFunction)pyCreatableStub_getData, METH_NOARGS,
-      "Returns the Creatable's raw data" },
-    { "getLength", (PyCFunction)pyCreatableStub_getLength, METH_NOARGS,
-      "Returns the length of the Creatable's raw data" },
-    { NULL, NULL, 0, NULL }
+    pyCreatableStub_getData_method,
+    pyCreatableStub_getLength_method,
+    PY_METHOD_TERMINATOR
 };
 
-PyTypeObject pyCreatableStub_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plCreatableStub",       /* tp_name */
-    sizeof(pyCreatableStub),            /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(CreatableStub, plCreatableStub, "plCreatableStub wrapper")
 
-    (destructor)pyCreatableStub_dealloc, /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plCreatableStub wrapper",          /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyCreatableStub_Methods,            /* tp_methods */
-    NULL,                               /* tp_members */
-    NULL,                               /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    (initproc)pyCreatableStub___init__, /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyCreatableStub_new,                /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyCreatableStub_Type() {
+PY_PLASMA_TYPE_INIT(CreatableStub) {
+    pyCreatableStub_Type.tp_init = pyCreatableStub___init__;
+    pyCreatableStub_Type.tp_new = pyCreatableStub_new;
+    pyCreatableStub_Type.tp_methods = pyCreatableStub_Methods;
     pyCreatableStub_Type.tp_base = &pyCreatable_Type;
-    if (PyType_Ready(&pyCreatableStub_Type) < 0)
+    if (PyType_CheckAndReady(&pyCreatableStub_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyCreatableStub_Type);

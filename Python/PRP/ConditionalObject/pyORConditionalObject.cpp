@@ -22,53 +22,46 @@
 
 extern "C" {
 
-static PyObject* pyORConditionalObject_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyORConditionalObject* self = (pyORConditionalObject*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plORConditionalObject();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ORConditionalObject, plORConditionalObject)
 
-static PyObject* pyORConditionalObject_addChild(pyORConditionalObject* self, PyObject* args) {
+PY_METHOD_VA(ORConditionalObject, addChild,
+    "Params: key\n"
+    "Adds a child condition key")
+{
     PyObject* key;
     if (!(PyArg_ParseTuple(args, "O", &key) && pyKey_Check(key))) {
         PyErr_SetString(PyExc_TypeError, "addChild expects a plKey");
         return NULL;
     }
     self->fThis->addChild(*((pyKey*)key)->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyORConditionalObject_clearChildren(pyORConditionalObject* self) {
+PY_METHOD_NOARGS(ORConditionalObject, clearChildren,
+    "Removes all children condition keys")
+{
     self->fThis->clearChildren();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyORConditionalObject_delChild(pyORConditionalObject* self, PyObject* args) {
+PY_METHOD_VA(ORConditionalObject, delChild,
+    "Params: idx\n"
+    "Removes a child condition key")
+{
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delChild expects an int");
         return NULL;
     }
     self->fThis->delChild((size_t)idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyORConditionalObject_Methods[] = {
-    { "addChild", (PyCFunction)pyORConditionalObject_addChild, METH_VARARGS,
-      "Params: key\n"
-      "Adds a child condition key" },
-    { "clearChildren", (PyCFunction)pyORConditionalObject_clearChildren, METH_NOARGS,
-      "Removes all children condition keys" },
-    { "delChild", (PyCFunction)pyORConditionalObject_delChild, METH_VARARGS,
-      "Params: idx\n"
-      "Removes a child condition key" },
-    { NULL, NULL, 0, NULL }
+    pyORConditionalObject_addChild_method,
+    pyORConditionalObject_clearChildren_method,
+    pyORConditionalObject_delChild_method,
+    PY_METHOD_TERMINATOR
 };
 
 static PyObject* pyORConditionalObject_getORs(pyORConditionalObject* self, void*) {
@@ -86,70 +79,18 @@ static int pyORConditionalObject_setORs(pyORConditionalObject* self, PyObject*, 
 static PyGetSetDef pyORConditionalObject_GetSet[] = {
     { _pycs("children"), (getter)pyORConditionalObject_getORs,
        (setter)pyORConditionalObject_setORs, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyORConditionalObject_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plORConditionalObject", /* tp_name */
-    sizeof(pyORConditionalObject),      /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(ORConditionalObject, plORConditionalObject,
+               "plORConditionalObject wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,  /* tp_flags */
-    "plORConditionalObject wrapper", /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyORConditionalObject_Methods,      /* tp_methods */
-    NULL,                               /* tp_members */
-    pyORConditionalObject_GetSet,       /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyORConditionalObject_new,          /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyORConditionalObject_Type() {
+PY_PLASMA_TYPE_INIT(ORConditionalObject) {
+    pyORConditionalObject_Type.tp_new = pyORConditionalObject_new;
+    pyORConditionalObject_Type.tp_methods = pyORConditionalObject_Methods;
+    pyORConditionalObject_Type.tp_getset = pyORConditionalObject_GetSet;
     pyORConditionalObject_Type.tp_base = &pyConditionalObject_Type;
-    if (PyType_Ready(&pyORConditionalObject_Type) < 0)
+    if (PyType_CheckAndReady(&pyORConditionalObject_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyORConditionalObject_Type);

@@ -20,95 +20,23 @@
 
 extern "C" {
 
-static PyObject* pyResponderStateEventData_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyResponderStateEventData* self = (pyResponderStateEventData*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new proResponderStateEventData();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ResponderStateEventData, proResponderStateEventData)
 
-static PyObject* pyResponderStateEventData_getState(pyResponderStateEventData* self, void*) {
-    return PyInt_FromLong(self->fThis->getState());
-}
-
-static int pyResponderStateEventData_setState(pyResponderStateEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "state should be an int");
-        return -1;
-    }
-    self->fThis->setState(PyInt_AsLong(value));
-    return 0;
-}
+PY_PROPERTY(int, ResponderStateEventData, state, getState, setState)
 
 static PyGetSetDef pyResponderStateEventData_GetSet[] = {
-    { _pycs("state"), (getter)pyResponderStateEventData_getState,
-        (setter)pyResponderStateEventData_setState, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyResponderStateEventData_state_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyResponderStateEventData_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.proResponderStateEventData", /* tp_name */
-    sizeof(pyResponderStateEventData),  /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(ResponderStateEventData, proResponderStateEventData,
+               "proResponderStateEventData wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "proResponderStateEventData wrapper", /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    NULL,                               /* tp_methods */
-    NULL,                               /* tp_members */
-    pyResponderStateEventData_GetSet,   /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyResponderStateEventData_new,      /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyResponderStateEventData_Type() {
+PY_PLASMA_TYPE_INIT(ResponderStateEventData) {
+    pyResponderStateEventData_Type.tp_new = pyResponderStateEventData_new;
+    pyResponderStateEventData_Type.tp_getset = pyResponderStateEventData_GetSet;
     pyResponderStateEventData_Type.tp_base = &pyEventData_Type;
-    if (PyType_Ready(&pyResponderStateEventData_Type) < 0)
+    if (PyType_CheckAndReady(&pyResponderStateEventData_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyResponderStateEventData_Type);

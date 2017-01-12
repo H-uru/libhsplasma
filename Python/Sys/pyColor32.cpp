@@ -21,12 +21,13 @@
 
 extern "C" {
 
-static void pyColor32_dealloc(pyColor32* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+PY_PLASMA_VALUE_DEALLOC(Color32)
 
-static PyObject* pyColor32_set(pyColor32* self, PyObject* args, PyObject* kwds) {
+PY_METHOD_KWARGS(Color32, set,
+    "Params: red, green, blue, alpha (all optional)\n"
+    "Params: color (32-bit value)\n"
+    "Sets the color")
+{
     int red = 0, green = 0, blue = 0, alpha = 255, color = 0xFF000000;
 
     static char* kwlist1[] = { _pycs("red"), _pycs("green"), _pycs("blue"),
@@ -35,9 +36,8 @@ static PyObject* pyColor32_set(pyColor32* self, PyObject* args, PyObject* kwds) 
 
     if (PyArg_ParseTupleAndKeywords(args, kwds, "I", kwlist2, &color)) {
         self->fThis->color = color;
-    } else if (PyArg_ParseTupleAndKeywords(args, kwds, "|iiii", kwlist1,
-                                           &red, &green, &blue, &alpha)) {
-        PyErr_Clear();
+    } else if (PyErr_Clear(), PyArg_ParseTupleAndKeywords(args, kwds, "|iiii", kwlist1,
+                                                          &red, &green, &blue, &alpha)) {
         self->fThis->r = red;
         self->fThis->g = green;
         self->fThis->b = blue;
@@ -47,11 +47,10 @@ static PyObject* pyColor32_set(pyColor32* self, PyObject* args, PyObject* kwds) 
         return NULL;
     }
 
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static int pyColor32___init__(pyColor32* self, PyObject* args, PyObject* kwds) {
+PY_PLASMA_INIT_DECL(Color32) {
     PyObject* retn = pyColor32_set(self, args, kwds);
     if (retn == NULL)
         return -1;
@@ -59,20 +58,18 @@ static int pyColor32___init__(pyColor32* self, PyObject* args, PyObject* kwds) {
     return 0;
 }
 
-static PyObject* pyColor32_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyColor32* self = (pyColor32*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new hsColor32();
-    return (PyObject*)self;
-}
+PY_PLASMA_VALUE_NEW(Color32, hsColor32)
 
-static PyObject* pyColor32_Repr(pyColor32* self) {
+PY_PLASMA_REPR_DECL(Color32) {
     plString repr = plString::Format("hsColor32(%u, %u, %u, %u)",
         self->fThis->r, self->fThis->g, self->fThis->b, self->fThis->a);
     return PlStr_To_PyStr(repr);
 }
 
-static PyObject* pyColor32_read32(pyColor32* self, PyObject* args) {
+PY_METHOD_VA(Color32, read32,
+    "Params: stream\n"
+    "Reads this object from `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read32 expects a hsStream");
@@ -83,11 +80,13 @@ static PyObject* pyColor32_read32(pyColor32* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read32(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyColor32_write32(pyColor32* self, PyObject* args) {
+PY_METHOD_VA(Color32, write32,
+    "Params: stream\n"
+    "Writes this object to `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write32 expects a hsStream");
@@ -98,11 +97,13 @@ static PyObject* pyColor32_write32(pyColor32* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write32(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyColor32_readRGBA8(pyColor32* self, PyObject* args) {
+PY_METHOD_VA(Color32, readRGBA8,
+    "Params: stream\n"
+    "Reads this object from `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "readRGBA8 expects a hsStream");
@@ -113,11 +114,13 @@ static PyObject* pyColor32_readRGBA8(pyColor32* self, PyObject* args) {
         return NULL;
     }
     self->fThis->readRGBA8(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyColor32_writeRGBA8(pyColor32* self, PyObject* args) {
+PY_METHOD_VA(Color32, writeRGBA8,
+    "Params: stream\n"
+    "Writes this object to `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "writeRGBA8 expects a hsStream");
@@ -128,11 +131,13 @@ static PyObject* pyColor32_writeRGBA8(pyColor32* self, PyObject* args) {
         return NULL;
     }
     self->fThis->writeRGBA8(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyColor32_readRGB8(pyColor32* self, PyObject* args) {
+PY_METHOD_VA(Color32, readRGB8,
+    "Params: stream\n"
+    "Same as readRGBA8(), but does not read alpha")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "readRGB8 expects a hsStream");
@@ -143,11 +148,13 @@ static PyObject* pyColor32_readRGB8(pyColor32* self, PyObject* args) {
         return NULL;
     }
     self->fThis->readRGB8(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyColor32_writeRGB8(pyColor32* self, PyObject* args) {
+PY_METHOD_VA(Color32, writeRGB8,
+    "Params: stream\n"
+    "Same as writeRGBA8(), but does not write alpha")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "writeRGB8 expects a hsStream");
@@ -158,170 +165,45 @@ static PyObject* pyColor32_writeRGB8(pyColor32* self, PyObject* args) {
         return NULL;
     }
     self->fThis->writeRGB8(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
-static PyObject* pyColor32_getRed(pyColor32* self, void* closure) {
-    return PyInt_FromLong(self->fThis->r);
-}
-
-static PyObject* pyColor32_getGreen(pyColor32* self, void* closure) {
-    return PyInt_FromLong(self->fThis->g);
-}
-
-static PyObject* pyColor32_getBlue(pyColor32* self, void* closure) {
-    return PyInt_FromLong(self->fThis->b);
-}
-
-static PyObject* pyColor32_getAlpha(pyColor32* self, void* closure) {
-    return PyInt_FromLong(self->fThis->a);
-}
-
-static PyObject* pyColor32_getColor(pyColor32* self, void* closure) {
-    return PyInt_FromLong(self->fThis->color);
-}
-
-static int pyColor32_setRed(pyColor32* self, PyObject* value, void* closure) {
-    if (!PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "red should be an int");
-        return -1;
-    }
-    self->fThis->r = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyColor32_setGreen(pyColor32* self, PyObject* value, void* closure) {
-    if (!PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "green should be an int");
-        return -1;
-    }
-    self->fThis->g = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyColor32_setBlue(pyColor32* self, PyObject* value, void* closure) {
-    if (!PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "blue should be an int");
-        return -1;
-    }
-    self->fThis->b = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyColor32_setAlpha(pyColor32* self, PyObject* value, void* closure) {
-    if (!PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "alpha should be an int");
-        return -1;
-    }
-    self->fThis->a = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyColor32_setColor(pyColor32* self, PyObject* value, void* closure) {
-    if (!PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "color should be an int");
-        return -1;
-    }
-    self->fThis->color = PyInt_AsLong(value);
-    return 0;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyColor32_Methods[] = {
-    { "set", (PyCFunction)pyColor32_set, METH_VARARGS | METH_KEYWORDS,
-      "Params: red, green, blue, alpha (all optional)\n"
-      "Params: color (32-bit value)\n"
-      "Sets the color" },
-    { "read32", (PyCFunction)pyColor32_read32, METH_VARARGS,
-      "Params: stream\n"
-      "Reads this object from `stream`" },
-    { "write32", (PyCFunction)pyColor32_write32, METH_VARARGS,
-      "Params: stream\n"
-      "Writes this object to `stream`" },
-    { "readRGBA8", (PyCFunction)pyColor32_readRGBA8, METH_VARARGS,
-      "Params: stream\n"
-      "Reads this object from `stream`" },
-    { "writeRGBA8", (PyCFunction)pyColor32_writeRGBA8, METH_VARARGS,
-      "Params: stream\n"
-      "Writes this object to `stream`" },
-    { "readRGB8", (PyCFunction)pyColor32_readRGB8, METH_VARARGS,
-      "Params: stream\n"
-      "Same as readRGBA8(), but does not read alpha" },
-    { "writeRGB8", (PyCFunction)pyColor32_writeRGB8, METH_VARARGS,
-      "Params: stream\n"
-      "Same as writeRGBA8(), but does not write alpha" },
-    { NULL, NULL, 0, NULL }
+    pyColor32_set_method,
+    pyColor32_read32_method,
+    pyColor32_write32_method,
+    pyColor32_readRGBA8_method,
+    pyColor32_writeRGBA8_method,
+    pyColor32_readRGB8_method,
+    pyColor32_writeRGB8_method,
+    PY_METHOD_TERMINATOR
 };
+
+PY_PROPERTY_MEMBER(unsigned char, Color32, red, r)
+PY_PROPERTY_MEMBER(unsigned char, Color32, green, g)
+PY_PROPERTY_MEMBER(unsigned char, Color32, blue, b)
+PY_PROPERTY_MEMBER(unsigned char, Color32, alpha, a)
+PY_PROPERTY_MEMBER(unsigned int, Color32, color, color)
 
 static PyGetSetDef pyColor32_GetSet[] = {
-    { _pycs("red"), (getter)pyColor32_getRed, (setter)pyColor32_setRed, NULL, NULL },
-    { _pycs("green"), (getter)pyColor32_getGreen, (setter)pyColor32_setGreen, NULL, NULL },
-    { _pycs("blue"), (getter)pyColor32_getBlue, (setter)pyColor32_setBlue, NULL, NULL },
-    { _pycs("alpha"), (getter)pyColor32_getAlpha, (setter)pyColor32_setAlpha, NULL, NULL },
-    { _pycs("color"), (getter)pyColor32_getColor, (setter)pyColor32_setColor, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyColor32_red_getset,
+    pyColor32_green_getset,
+    pyColor32_blue_getset,
+    pyColor32_alpha_getset,
+    pyColor32_color_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyColor32_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.hsColor32",             /* tp_name */
-    sizeof(pyColor32),                  /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(Color32, hsColor32, "hsColor32 wrapper")
 
-    (destructor)pyColor32_dealloc,      /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    (reprfunc)pyColor32_Repr,           /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT,                 /* tp_flags */
-    "hsColor32 wrapper",                /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyColor32_Methods,                  /* tp_methods */
-    NULL,                               /* tp_members */
-    pyColor32_GetSet,                   /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    (initproc)pyColor32___init__,       /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyColor32_new,                      /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyColor32_Type() {
-    if (PyType_Ready(&pyColor32_Type) < 0)
+PY_PLASMA_TYPE_INIT(Color32) {
+    pyColor32_Type.tp_dealloc = pyColor32_dealloc;
+    pyColor32_Type.tp_init = pyColor32___init__;
+    pyColor32_Type.tp_new = pyColor32_new;
+    pyColor32_Type.tp_repr = pyColor32_repr;
+    pyColor32_Type.tp_methods = pyColor32_Methods;
+    pyColor32_Type.tp_getset = pyColor32_GetSet;
+    if (PyType_CheckAndReady(&pyColor32_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyColor32_Type);

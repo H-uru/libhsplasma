@@ -22,22 +22,19 @@
 
 extern "C" {
 
-static PyObject* pyDrawInterface_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyDrawInterface* self = (pyDrawInterface*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plDrawInterface();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(DrawInterface, plDrawInterface)
 
-static PyObject* pyDrawInterface_clearDrawables(pyDrawInterface* self) {
+PY_METHOD_NOARGS(DrawInterface, clearDrawables,
+    "Removes all drawables from the Draw Interface")
+{
     self->fThis->clearDrawables();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyDrawInterface_addDrawable(pyDrawInterface* self, PyObject* args) {
+PY_METHOD_VA(DrawInterface, addDrawable,
+    "Params: (key, idx,)\n"
+    "Adds a drawable reference and key index to the Draw Interface")
+{
     pyKey* draw;
     int key;
     if (!PyArg_ParseTuple(args, "Oi", &draw, &key)) {
@@ -49,28 +46,33 @@ static PyObject* pyDrawInterface_addDrawable(pyDrawInterface* self, PyObject* ar
         return NULL;
     }
     self->fThis->addDrawable(*draw->fThis, key);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyDrawInterface_delDrawable(pyDrawInterface* self, PyObject* args) {
+PY_METHOD_VA(DrawInterface, delDrawable,
+    "Params: idx\n"
+    "Removes a drawable reference and key from the Draw Interface")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delDrawable expects an int");
         return NULL;
     }
     self->fThis->delDrawable(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyDrawInterface_clearRegions(pyDrawInterface* self) {
+PY_METHOD_NOARGS(DrawInterface, clearRegions,
+    "Removes all regions from the Draw Interface")
+{
     self->fThis->clearRegions();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyDrawInterface_addRegion(pyDrawInterface* self, PyObject* args) {
+PY_METHOD_VA(DrawInterface, addRegion,
+    "Params: key\n"
+    "Adds a region to the Draw Interface")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addRegion expects a plKey");
@@ -81,19 +83,20 @@ static PyObject* pyDrawInterface_addRegion(pyDrawInterface* self, PyObject* args
         return NULL;
     }
     self->fThis->addRegion(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyDrawInterface_delRegion(pyDrawInterface* self, PyObject* args) {
+PY_METHOD_VA(DrawInterface, delRegion,
+    "Params: idx\n"
+    "Removes a region from the Draw Interface")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delRegion expects an int");
         return NULL;
     }
     self->fThis->delRegion(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyDrawInterface_getDrawables(pyDrawInterface* self, void*) {
@@ -127,23 +130,13 @@ static int pyDrawInterface_setRegions(pyDrawInterface* self, PyObject* value, vo
 }
 
 PyMethodDef pyDrawInterface_Methods[] = {
-    { "clearDrawables", (PyCFunction)pyDrawInterface_clearDrawables, METH_NOARGS,
-      "Removes all drawables from the Draw Interface" },
-    { "addDrawable", (PyCFunction)pyDrawInterface_addDrawable, METH_VARARGS,
-      "Params: (key, idx,)\n"
-      "Adds a drawable reference and key index to the Draw Interface" },
-    { "delDrawable", (PyCFunction)pyDrawInterface_delDrawable, METH_VARARGS,
-      "Params: idx\n"
-      "Removes a drawable reference and key from the Draw Interface" },
-    { "clearRegions", (PyCFunction)pyDrawInterface_clearRegions, METH_NOARGS,
-      "Removes all regions from the Draw Interface" },
-    { "addRegion", (PyCFunction)pyDrawInterface_addRegion, METH_VARARGS,
-      "Params: key\n"
-      "Adds a region to the Draw Interface" },
-    { "delRegion", (PyCFunction)pyDrawInterface_delRegion, METH_VARARGS,
-      "Params: idx\n"
-      "Removes a region from the Draw Interface" },
-    { NULL, NULL, 0, NULL }
+    pyDrawInterface_clearDrawables_method,
+    pyDrawInterface_addDrawable_method,
+    pyDrawInterface_delDrawable_method,
+    pyDrawInterface_clearRegions_method,
+    pyDrawInterface_addRegion_method,
+    pyDrawInterface_delRegion_method,
+    PY_METHOD_TERMINATOR
 };
 
 PyGetSetDef pyDrawInterface_GetSet[] = {
@@ -152,70 +145,17 @@ PyGetSetDef pyDrawInterface_GetSet[] = {
         _pycs("Drawable references and keys"), NULL },
     { _pycs("regions"), (getter)pyDrawInterface_getRegions,
         (setter)pyDrawInterface_setRegions, _pycs("Drawable regions"), NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyDrawInterface_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plDrawInterface",       /* tp_name */
-    sizeof(pyDrawInterface),            /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(DrawInterface, plDrawInterface, "plDrawInterface wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plDrawInterface wrapper",          /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyDrawInterface_Methods,            /* tp_methods */
-    NULL,                               /* tp_members */
-    pyDrawInterface_GetSet,             /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyDrawInterface_new,                /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyDrawInterface_Type() {
+PY_PLASMA_TYPE_INIT(DrawInterface) {
+    pyDrawInterface_Type.tp_new = pyDrawInterface_new;
+    pyDrawInterface_Type.tp_methods = pyDrawInterface_Methods;
+    pyDrawInterface_Type.tp_getset = pyDrawInterface_GetSet;
     pyDrawInterface_Type.tp_base = &pyObjInterface_Type;
-    if (PyType_Ready(&pyDrawInterface_Type) < 0)
+    if (PyType_CheckAndReady(&pyDrawInterface_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyDrawInterface_Type);

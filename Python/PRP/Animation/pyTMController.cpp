@@ -24,153 +24,43 @@
 
 extern "C" {
 
-static int pyTMController___init__(pyTMController* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
+PY_PLASMA_EMPTY_INIT(TMController)
+PY_PLASMA_NEW(TMController, plTMController)
 
-static PyObject* pyTMController_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyTMController* self = (pyTMController*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plTMController();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
-
-static PyObject* pyTMController_getPos(pyTMController* self, void*) {
-    return ICreate(self->fThis->getPosController());
-}
-
-static PyObject* pyTMController_getRot(pyTMController* self, void*) {
-    return ICreate(self->fThis->getRotController());
-}
-
-static PyObject* pyTMController_getScale(pyTMController* self, void*) {
-    return ICreate(self->fThis->getScaleController());
-}
-
-static int pyTMController_setPos(pyTMController* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setPosController(NULL);
-        return 0;
-    }
-    if (!pyPosController_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "pos should be a plPosController");
-        return -1;
-    }
-    self->fThis->setPosController(((pyPosController*)value)->fThis);
-    ((pyPosController*)value)->fPyOwned = false;
-    return 0;
-}
-
-static int pyTMController_setRot(pyTMController* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setRotController(NULL);
-        return 0;
-    }
-    if (!pyRotController_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "rot should be a plRotController");
-        return -1;
-    }
-    self->fThis->setRotController(((pyRotController*)value)->fThis);
-    ((pyRotController*)value)->fPyOwned = false;
-    return 0;
-}
-
-static int pyTMController_setScale(pyTMController* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setScaleController(NULL);
-        return 0;
-    }
-    if (!pyScaleController_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "scale should be a plSclaeController");
-        return -1;
-    }
-    self->fThis->setScaleController(((pyScaleController*)value)->fThis);
-    ((pyScaleController*)value)->fPyOwned = false;
-    return 0;
-}
-
-static PyObject* pyTMController_convertToCompoundController(pyTMController* self) {
+PY_METHOD_NOARGS(TMController, convertToCompoundController,
+    "Converts this controller to a plCompoundController")
+{
     return ICreate(self->fThis->convertToCompoundController());
 }
 
 static PyMethodDef pyTMController_Methods[] = {
-    { "convertToCompoundController", (PyCFunction)pyTMController_convertToCompoundController, METH_NOARGS,
-      "Converts this controller to a plCompoundController" },
-    { NULL, NULL, 0, NULL }
+    pyTMController_convertToCompoundController_method,
+    PY_METHOD_TERMINATOR
 };
+
+PY_PROPERTY_CREATABLE(plPosController, PosController, TMController, pos,
+                      getPosController, setPosController)
+PY_PROPERTY_CREATABLE(plRotController, RotController, TMController, rot,
+                      getRotController, setRotController)
+PY_PROPERTY_CREATABLE(plScaleController, ScaleController, TMController, scale,
+                      getScaleController, setScaleController)
 
 static PyGetSetDef pyTMController_GetSet[] = {
-    { _pycs("pos"), (getter)pyTMController_getPos, (setter)pyTMController_setPos, NULL, NULL },
-    { _pycs("rot"), (getter)pyTMController_getRot, (setter)pyTMController_setRot, NULL, NULL },
-    { _pycs("scale"), (getter)pyTMController_getScale, (setter)pyTMController_setScale, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyTMController_pos_getset,
+    pyTMController_rot_getset,
+    pyTMController_scale_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyTMController_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plTMController",        /* tp_name */
-    sizeof(pyTMController),             /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(TMController, plTMController, "plTMController wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plTMController wrapper",           /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyTMController_Methods,             /* tp_methods */
-    NULL,                               /* tp_members */
-    pyTMController_GetSet,              /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    (initproc)pyTMController___init__,  /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyTMController_new,                 /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyTMController_Type() {
+PY_PLASMA_TYPE_INIT(TMController) {
+    pyTMController_Type.tp_init = pyTMController___init__;
+    pyTMController_Type.tp_new = pyTMController_new;
+    pyTMController_Type.tp_methods = pyTMController_Methods;
+    pyTMController_Type.tp_getset = pyTMController_GetSet;
     pyTMController_Type.tp_base = &pyController_Type;
-    if (PyType_Ready(&pyTMController_Type) < 0)
+    if (PyType_CheckAndReady(&pyTMController_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyTMController_Type);

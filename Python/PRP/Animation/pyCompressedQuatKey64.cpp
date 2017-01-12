@@ -21,22 +21,13 @@
 
 extern "C" {
 
-static int pyCompressedQuatKey64___init__(pyCompressedQuatKey64* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
+PY_PLASMA_EMPTY_INIT(CompressedQuatKey64)
+PY_PLASMA_NEW(CompressedQuatKey64, hsCompressedQuatKey64)
 
-static PyObject* pyCompressedQuatKey64_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyCompressedQuatKey64* self = (pyCompressedQuatKey64*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new hsCompressedQuatKey64();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
-
-static PyObject* pyCompressedQuatKey64_setValue(pyCompressedQuatKey64* self, PyObject* args) {
+PY_METHOD_VA(CompressedQuatKey64, setValue,
+    "Params: quat, type\n"
+    "Set the hsQuat data.  Type is the compression nuking to use")
+{
     pyQuat* value;
     int type;
     if (!PyArg_ParseTuple(args, "Oi", &value, &type)) {
@@ -48,103 +39,40 @@ static PyObject* pyCompressedQuatKey64_setValue(pyCompressedQuatKey64* self, PyO
         return NULL;
     }
     self->fThis->setQuat(*value->fThis, type);
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
-static PyObject* pyCompressedQuatKey64_getValue(pyCompressedQuatKey64* self, void*) {
-    return pyQuat_FromQuat(self->fThis->getQuat());
-}
-
-static int pyCompressedQuatKey64_setValueErr(pyCompressedQuatKey64* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To set the compressed quat, use setValue()");
-    return -1;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyCompressedQuatKey64_Methods[] = {
-    { "setValue", (PyCFunction)pyCompressedQuatKey64_setValue, METH_VARARGS,
-      "Params: quat, type\n"
-      "Set the hsQuat data.  Type is the compression nuking to use" },
-    { NULL, NULL, 0, NULL }
+    pyCompressedQuatKey64_setValue_method,
+    PY_METHOD_TERMINATOR
 };
+
+PY_PROPERTY_READ(CompressedQuatKey64, value, getQuat)
+PY_PROPERTY_SETTER_MSG(CompressedQuatKey64, value,
+                       "To set the compressed quat, use setValue()")
+PY_PROPERTY_GETSET_DECL(CompressedQuatKey64, value)
 
 static PyGetSetDef pyCompressedQuatKey64_GetSet[] = {
-    { _pycs("value"), (getter)pyCompressedQuatKey64_getValue,
-        (setter)pyCompressedQuatKey64_setValueErr, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyCompressedQuatKey64_value_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyCompressedQuatKey64_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.hsCompressedQuatKey64", /* tp_name */
-    sizeof(pyCompressedQuatKey64),      /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(CompressedQuatKey64, hsCompressedQuatKey64,
+               "hsCompressedQuatKey64 wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "hsCompressedQuatKey64 wrapper",    /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyCompressedQuatKey64_Methods,      /* tp_methods */
-    NULL,                               /* tp_members */
-    pyCompressedQuatKey64_GetSet,       /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    (initproc)pyCompressedQuatKey64___init__, /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyCompressedQuatKey64_new,          /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyCompressedQuatKey64_Type() {
+PY_PLASMA_TYPE_INIT(CompressedQuatKey64) {
+    pyCompressedQuatKey64_Type.tp_init = pyCompressedQuatKey64___init__;
+    pyCompressedQuatKey64_Type.tp_new = pyCompressedQuatKey64_new;
+    pyCompressedQuatKey64_Type.tp_methods = pyCompressedQuatKey64_Methods;
+    pyCompressedQuatKey64_Type.tp_getset = pyCompressedQuatKey64_GetSet;
     pyCompressedQuatKey64_Type.tp_base = &pyKeyFrame_Type;
-    if (PyType_Ready(&pyCompressedQuatKey64_Type) < 0)
+    if (PyType_CheckAndReady(&pyCompressedQuatKey64_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyCompressedQuatKey64_Type.tp_dict, "kCompQuatNukeX",
-                         PyInt_FromLong(hsCompressedQuatKey64::kCompQuatNukeX));
-    PyDict_SetItemString(pyCompressedQuatKey64_Type.tp_dict, "kCompQuatNukeY",
-                         PyInt_FromLong(hsCompressedQuatKey64::kCompQuatNukeY));
-    PyDict_SetItemString(pyCompressedQuatKey64_Type.tp_dict, "kCompQuatNukeZ",
-                         PyInt_FromLong(hsCompressedQuatKey64::kCompQuatNukeZ));
-    PyDict_SetItemString(pyCompressedQuatKey64_Type.tp_dict, "kCompQuatNukeW",
-                         PyInt_FromLong(hsCompressedQuatKey64::kCompQuatNukeW));
+    PY_TYPE_ADD_CONST(CompressedQuatKey64, "kCompQuatNukeX", hsCompressedQuatKey64::kCompQuatNukeX);
+    PY_TYPE_ADD_CONST(CompressedQuatKey64, "kCompQuatNukeY", hsCompressedQuatKey64::kCompQuatNukeY);
+    PY_TYPE_ADD_CONST(CompressedQuatKey64, "kCompQuatNukeZ", hsCompressedQuatKey64::kCompQuatNukeZ);
+    PY_TYPE_ADD_CONST(CompressedQuatKey64, "kCompQuatNukeW", hsCompressedQuatKey64::kCompQuatNukeW);
 
     Py_INCREF(&pyCompressedQuatKey64_Type);
     return (PyObject*)&pyCompressedQuatKey64_Type;

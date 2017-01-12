@@ -25,16 +25,12 @@
 
 extern "C" {
 
-static PyObject* pyClusterGroup_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyClusterGroup* self = (pyClusterGroup*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plClusterGroup();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ClusterGroup, plClusterGroup)
 
-static PyObject* pyClusterGroup_addCluster(pyClusterGroup* self, PyObject* args) {
+PY_METHOD_VA(ClusterGroup, addCluster,
+    "Params: region\n"
+    "Add a plCluster object to the group")
+{
     pyCluster* cluster;
     if (!PyArg_ParseTuple(args, "O", &cluster)) {
         PyErr_SetString(PyExc_TypeError, "addCluster expects a plCluster");
@@ -46,28 +42,31 @@ static PyObject* pyClusterGroup_addCluster(pyClusterGroup* self, PyObject* args)
     }
     self->fThis->addCluster(cluster->fThis);
     cluster->fPyOwned = false;
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyClusterGroup_delCluster(pyClusterGroup* self, PyObject* args) {
+PY_METHOD_VA(ClusterGroup, delCluster,
+    "Params: idx\n"
+    "Remove a plCluster object from the group")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delCluster expects an int");
         return NULL;
     }
     self->fThis->delCluster(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyClusterGroup_clearClusters(pyClusterGroup* self) {
+PY_METHOD_NOARGS(ClusterGroup, clearClusters, "Remove all clusters from the group") {
     self->fThis->clearClusters();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyClusterGroup_addRegion(pyClusterGroup* self, PyObject* args) {
+PY_METHOD_VA(ClusterGroup, addRegion,
+    "Params: key\n"
+    "Add a region reference to the group")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addRegion expects a plKey");
@@ -78,28 +77,31 @@ static PyObject* pyClusterGroup_addRegion(pyClusterGroup* self, PyObject* args) 
         return NULL;
     }
     self->fThis->addRegion(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyClusterGroup_delRegion(pyClusterGroup* self, PyObject* args) {
+PY_METHOD_VA(ClusterGroup, delRegion,
+    "Params: idx\n"
+    "Remove a region reference from the group")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delRegion expects an int");
         return NULL;
     }
     self->fThis->delRegion(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyClusterGroup_clearRegions(pyClusterGroup* self) {
+PY_METHOD_NOARGS(ClusterGroup, clearRegions, "Remove all regions from the group") {
     self->fThis->clearRegions();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyClusterGroup_addLight(pyClusterGroup* self, PyObject* args) {
+PY_METHOD_VA(ClusterGroup, addLight,
+    "Params: key\n"
+    "Add a light reference to the group")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addLight expects a plKey");
@@ -110,49 +112,25 @@ static PyObject* pyClusterGroup_addLight(pyClusterGroup* self, PyObject* args) {
         return NULL;
     }
     self->fThis->addLight(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyClusterGroup_delLight(pyClusterGroup* self, PyObject* args) {
+PY_METHOD_VA(ClusterGroup, delLight,
+    "Params: idx\n"
+    "Remove a light reference from the group")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delLight expects an int");
         return NULL;
     }
     self->fThis->delLight(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyClusterGroup_clearLights(pyClusterGroup* self) {
+PY_METHOD_NOARGS(ClusterGroup, clearLights, "Remove all lights from the group") {
     self->fThis->clearLights();
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
-static PyObject* pyClusterGroup_getLOD(pyClusterGroup* self, void*) {
-    return pyLODDist_FromLODDist(&self->fThis->getLOD());
-}
-
-static PyObject* pyClusterGroup_getTemplate(pyClusterGroup* self, void*) {
-    return pySpanTemplate_FromSpanTemplate(&self->fThis->getTemplate());
-}
-
-static PyObject* pyClusterGroup_getMaterial(pyClusterGroup* self, void*) {
-    return pyKey_FromKey(self->fThis->getMaterial());
-}
-
-static PyObject* pyClusterGroup_getSceneNode(pyClusterGroup* self, void*) {
-    return pyKey_FromKey(self->fThis->getSceneNode());
-}
-
-static PyObject* pyClusterGroup_getDrawable(pyClusterGroup* self, void*) {
-    return pyKey_FromKey(self->fThis->getDrawable());
-}
-
-static PyObject* pyClusterGroup_getRenderLevel(pyClusterGroup* self, void*) {
-    return PyInt_FromLong(self->fThis->getRenderLevel());
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyClusterGroup_getClusters(pyClusterGroup* self, void*) {
@@ -176,64 +154,6 @@ static PyObject* pyClusterGroup_getLights(pyClusterGroup* self, void*) {
     return list;
 }
 
-static int pyClusterGroup_setLOD(pyClusterGroup* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "LOD cannot be assigned to");
-    return -1;
-}
-
-static int pyClusterGroup_setTemplate(pyClusterGroup* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "template cannot be assigned to");
-    return -1;
-}
-
-static int pyClusterGroup_setMaterial(pyClusterGroup* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setMaterial(plKey());
-        return 0;
-    }
-    if (!pyKey_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "material should be a plKey");
-        return -1;
-    }
-    self->fThis->setMaterial(*((pyKey*)value)->fThis);
-    return 0;
-}
-
-static int pyClusterGroup_setSceneNode(pyClusterGroup* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setSceneNode(plKey());
-        return 0;
-    }
-    if (!pyKey_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "sceneNode should be a plKey");
-        return -1;
-    }
-    self->fThis->setSceneNode(*((pyKey*)value)->fThis);
-    return 0;
-}
-
-static int pyClusterGroup_setDrawable(pyClusterGroup* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setDrawable(plKey());
-        return 0;
-    }
-    if (!pyKey_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "drawable should be a plKey");
-        return -1;
-    }
-    self->fThis->setDrawable(*((pyKey*)value)->fThis);
-    return 0;
-}
-
-static int pyClusterGroup_setRenderLevel(pyClusterGroup* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "renderLevel should be an int");
-        return -1;
-    }
-    self->fThis->setRenderLevel(PyInt_AsLong(value));
-    return 0;
-}
-
 static int pyClusterGroup_setClusters(pyClusterGroup* self, PyObject* value, void*) {
     PyErr_SetString(PyExc_RuntimeError, "To add clusters, use addCluster");
     return -1;
@@ -250,116 +170,49 @@ static int pyClusterGroup_setLights(pyClusterGroup* self, PyObject* value, void*
 }
 
 static PyMethodDef pyClusterGroup_Methods[] = {
-    { "addCluster", (PyCFunction)pyClusterGroup_addCluster, METH_VARARGS,
-      "Params: region\n"
-      "Add a plCluster object to the group" },
-    { "delCluster", (PyCFunction)pyClusterGroup_delCluster, METH_VARARGS,
-      "Params: idx\n"
-      "Remove a plCluster object from the group" },
-    { "clearClusters", (PyCFunction)pyClusterGroup_clearClusters, METH_NOARGS,
-      "Remove all clusters from the group" },
-    { "addRegion", (PyCFunction)pyClusterGroup_addRegion, METH_VARARGS,
-      "Params: key\n"
-      "Add a region reference to the group" },
-    { "delRegion", (PyCFunction)pyClusterGroup_delRegion, METH_VARARGS,
-      "Params: idx\n"
-      "Remove a region reference from the group" },
-    { "clearRegions", (PyCFunction)pyClusterGroup_clearRegions, METH_NOARGS,
-      "Remove all regions from the group" },
-    { "addLight", (PyCFunction)pyClusterGroup_addLight, METH_VARARGS,
-      "Params: key\n"
-      "Add a light reference to the group" },
-    { "delLight", (PyCFunction)pyClusterGroup_delLight, METH_VARARGS,
-      "Params: idx\n"
-      "Remove a light reference from the group" },
-    { "clearLights", (PyCFunction)pyClusterGroup_clearLights, METH_NOARGS,
-      "Remove all lights from the group" },
-    { NULL, NULL, 0, NULL }
+    pyClusterGroup_addCluster_method,
+    pyClusterGroup_delCluster_method,
+    pyClusterGroup_clearClusters_method,
+    pyClusterGroup_addRegion_method,
+    pyClusterGroup_delRegion_method,
+    pyClusterGroup_clearRegions_method,
+    pyClusterGroup_addLight_method,
+    pyClusterGroup_delLight_method,
+    pyClusterGroup_clearLights_method,
+    PY_METHOD_TERMINATOR
 };
 
+PY_PROPERTY_PROXY_RO(plLODDist, ClusterGroup, LOD, getLOD)
+PY_PROPERTY_PROXY_RO(plSpanTemplate, ClusterGroup, template, getTemplate)
+PY_PROPERTY(plKey, ClusterGroup, material, getMaterial, setMaterial)
+PY_PROPERTY(plKey, ClusterGroup, sceneNode, getSceneNode, setSceneNode)
+PY_PROPERTY(plKey, ClusterGroup, drawable, getDrawable, setDrawable)
+PY_PROPERTY(unsigned int, ClusterGroup, renderLevel, getRenderLevel, setRenderLevel)
+
 static PyGetSetDef pyClusterGroup_GetSet[] = {
-    { _pycs("LOD"), (getter)pyClusterGroup_getLOD,
-        (setter)pyClusterGroup_setLOD, NULL, NULL },
-    { _pycs("template"), (getter)pyClusterGroup_getTemplate,
-        (setter)pyClusterGroup_setTemplate, NULL, NULL },
-    { _pycs("material"), (getter)pyClusterGroup_getMaterial,
-        (setter)pyClusterGroup_setMaterial, NULL, NULL },
-    { _pycs("sceneNode"), (getter)pyClusterGroup_getSceneNode,
-        (setter)pyClusterGroup_setSceneNode, NULL, NULL },
-    { _pycs("drawable"), (getter)pyClusterGroup_getDrawable,
-        (setter)pyClusterGroup_setDrawable, NULL, NULL },
-    { _pycs("renderLevel"), (getter)pyClusterGroup_getRenderLevel,
-        (setter)pyClusterGroup_setRenderLevel, NULL, NULL },
+    pyClusterGroup_LOD_getset,
+    pyClusterGroup_template_getset,
+    pyClusterGroup_material_getset,
+    pyClusterGroup_sceneNode_getset,
+    pyClusterGroup_drawable_getset,
+    pyClusterGroup_renderLevel_getset,
     { _pycs("clusters"), (getter)pyClusterGroup_getClusters,
         (setter)pyClusterGroup_setClusters, NULL, NULL },
     { _pycs("regions"), (getter)pyClusterGroup_getRegions,
         (setter)pyClusterGroup_setRegions, NULL, NULL },
     { _pycs("lights"), (getter)pyClusterGroup_getLights,
         (setter)pyClusterGroup_setLights, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyClusterGroup_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plClusterGroup",        /* tp_name */
-    sizeof(pyClusterGroup),             /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(ClusterGroup, plClusterGroup, "pyClusterGroup wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "pyClusterGroup wrapper",           /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyClusterGroup_Methods,             /* tp_methods */
-    NULL,                               /* tp_members */
-    pyClusterGroup_GetSet,              /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyClusterGroup_new,                 /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyClusterGroup_Type() {
+PY_PLASMA_TYPE_INIT(ClusterGroup) {
+    pyClusterGroup_Type.tp_new = pyClusterGroup_new;
+    pyClusterGroup_Type.tp_methods = pyClusterGroup_Methods;
+    pyClusterGroup_Type.tp_getset = pyClusterGroup_GetSet;
     pyClusterGroup_Type.tp_base = &pyKeyedObject_Type;
-    if (PyType_Ready(&pyClusterGroup_Type) < 0)
+    if (PyType_CheckAndReady(&pyClusterGroup_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyClusterGroup_Type);

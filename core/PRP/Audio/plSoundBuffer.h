@@ -96,6 +96,7 @@ public:
     void setFileName(const plString& name) { fFileName = name; }
     void setFlags(unsigned int flags) { fFlags = flags; }
     void setData(size_t length, const unsigned char* data);
+    void setDataLength(size_t length) { setData(length, NULL); }
 };
 
 #endif

@@ -49,6 +49,8 @@ public:
     void setStartSpeed(float speed) { fStartSpeed = speed; }
     void setSpeed(float speed) { fSpeed = speed; }
     void setLength(float length) { fLength = length; }
+    void setMinLength(float length) { fMinLength = length; }
+    void setMaxLength(float length) { fMaxLength = length; }
     void setLengthBounds(float min, float max) { fMinLength = min; fMaxLength = max; }
     void setBeginWorldTime(double time) { fBeginWorldTime = time; }
 };

@@ -20,110 +20,24 @@
 
 extern "C" {
 
-static PyObject* pyActivateEventData_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyActivateEventData* self = (pyActivateEventData*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new proActivateEventData();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ActivateEventData, proActivateEventData)
 
-static PyObject* pyActivateEventData_getActive(pyActivateEventData* self, void*) {
-    return PyBool_FromLong(self->fThis->isActive());
-}
-
-static PyObject* pyActivateEventData_getActivate(pyActivateEventData* self, void*) {
-    return PyBool_FromLong(self->fThis->isActivate());
-}
-
-static int pyActivateEventData_setActive(pyActivateEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "active should be a bool");
-        return -1;
-    }
-    self->fThis->setActive(PyInt_AsLong(value) != 0);
-    return 0;
-}
-
-static int pyActivateEventData_setActivate(pyActivateEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "activate should be a bool");
-        return -1;
-    }
-    self->fThis->setActivate(PyInt_AsLong(value) != 0);
-    return 0;
-}
+PY_PROPERTY(bool, ActivateEventData, active, isActive, setActive)
+PY_PROPERTY(bool, ActivateEventData, activate, isActivate, setActivate)
 
 static PyGetSetDef pyActivateEventData_GetSet[] = {
-    { _pycs("active"), (getter)pyActivateEventData_getActive,
-        (setter)pyActivateEventData_setActive, NULL, NULL },
-    { _pycs("activate"), (getter)pyActivateEventData_getActivate,
-        (setter)pyActivateEventData_setActivate, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyActivateEventData_active_getset,
+    pyActivateEventData_activate_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyActivateEventData_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.proActivateEventData",  /* tp_name */
-    sizeof(pyActivateEventData),        /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(ActivateEventData, proActivateEventData, "proActivateEventData wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "proActivateEventData wrapper",     /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    NULL,                               /* tp_methods */
-    NULL,                               /* tp_members */
-    pyActivateEventData_GetSet,         /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyActivateEventData_new,            /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyActivateEventData_Type() {
+PY_PLASMA_TYPE_INIT(ActivateEventData) {
+    pyActivateEventData_Type.tp_new = pyActivateEventData_new;
+    pyActivateEventData_Type.tp_getset = pyActivateEventData_GetSet;
     pyActivateEventData_Type.tp_base = &pyEventData_Type;
-    if (PyType_Ready(&pyActivateEventData_Type) < 0)
+    if (PyType_CheckAndReady(&pyActivateEventData_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyActivateEventData_Type);

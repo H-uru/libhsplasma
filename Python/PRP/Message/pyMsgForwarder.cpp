@@ -23,22 +23,19 @@
 
 extern "C" {
 
-static PyObject* pyMsgForwarder_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyMsgForwarder* self = (pyMsgForwarder*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plMsgForwarder();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(MsgForwarder, plMsgForwarder)
 
-static PyObject* pyMsgForwarder_clearKeys(pyMsgForwarder* self) {
+PY_METHOD_NOARGS(MsgForwarder, clearForwardKeys,
+    "Remove all forward keys from the forwarder")
+{
     self->fThis->clearForwardKeys();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyMsgForwarder_addKey(pyMsgForwarder* self, PyObject* args) {
+PY_METHOD_VA(MsgForwarder, addForwardKey,
+    "Params: key\n"
+    "Add a forward key to the forwarder")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addForwardKey expects a plKey");
@@ -49,19 +46,20 @@ static PyObject* pyMsgForwarder_addKey(pyMsgForwarder* self, PyObject* args) {
         return NULL;
     }
     self->fThis->addForwardKey(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyMsgForwarder_delKey(pyMsgForwarder* self, PyObject* args) {
+PY_METHOD_VA(MsgForwarder, delForwardKey,
+    "Params: idx\n"
+    "Remove a forward key from the forwarder")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delForwardKey expects an int");
         return NULL;
     }
     self->fThis->delForwardKey(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyMsgForwarder_getForwardKeys(pyMsgForwarder* self, void*) {
@@ -77,84 +75,26 @@ static int pyMsgForwarder_setForwardKeys(pyMsgForwarder* self, PyObject* value, 
 }
 
 static PyMethodDef pyMsgForwarder_Methods[] = {
-    { "clearForwardKeys", (PyCFunction)pyMsgForwarder_clearKeys, METH_NOARGS,
-      "Remove all forward keys from the forwarder" },
-    { "addForwardKey", (PyCFunction)pyMsgForwarder_addKey, METH_VARARGS,
-      "Params: key\n"
-      "Add a forward key to the forwarder" },
-    { "delForwardKey", (PyCFunction)pyMsgForwarder_delKey, METH_VARARGS,
-      "Params: idx\n"
-      "Remove a forward key from the forwarder" },
-    { NULL, NULL, 0, NULL }
+    pyMsgForwarder_clearForwardKeys_method,
+    pyMsgForwarder_addForwardKey_method,
+    pyMsgForwarder_delForwardKey_method,
+    PY_METHOD_TERMINATOR
 };
 
 static PyGetSetDef pyMsgForwarder_GetSet[] = {
     { _pycs("forwardKeys"), (getter)pyMsgForwarder_getForwardKeys,
         (setter)pyMsgForwarder_setForwardKeys, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyMsgForwarder_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plMsgForwarder",        /* tp_name */
-    sizeof(pyMsgForwarder),             /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(MsgForwarder, plMsgForwarder, "plMsgForwarder wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plMsgForwarder wrapper",           /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyMsgForwarder_Methods,             /* tp_methods */
-    NULL,                               /* tp_members */
-    pyMsgForwarder_GetSet,              /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyMsgForwarder_new,                 /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyMsgForwarder_Type() {
+PY_PLASMA_TYPE_INIT(MsgForwarder) {
+    pyMsgForwarder_Type.tp_new = pyMsgForwarder_new;
+    pyMsgForwarder_Type.tp_methods = pyMsgForwarder_Methods;
+    pyMsgForwarder_Type.tp_getset = pyMsgForwarder_GetSet;
     pyMsgForwarder_Type.tp_base = &pyKeyedObject_Type;
-    if (PyType_Ready(&pyMsgForwarder_Type) < 0)
+    if (PyType_CheckAndReady(&pyMsgForwarder_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyMsgForwarder_Type);

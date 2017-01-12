@@ -16,7 +16,6 @@
 
 #include "pyKey.h"
 
-#include <PRP/KeyedObject/plKey.h>
 #include <PRP/KeyedObject/hsKeyedObject.h>
 #include "PRP/pyCreatable.h"
 #include "pyKeyedObject.h"
@@ -24,26 +23,19 @@
 
 extern "C" {
 
-static void pyKey_dealloc(pyKey* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+PY_PLASMA_VALUE_DEALLOC(Key)
+PY_PLASMA_NEW_MSG(Key, "Cannot construct Keys directly")
 
-static PyObject* pyKey_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "Cannot construct Keys directly");
-    return NULL;
-}
-
-static PyObject* pyKey_Repr(pyKey* self) {
+PY_PLASMA_REPR_DECL(Key) {
     plString repr = plString::Format("<plKey \"%s\">", self->fThis->toString().cstr());
-    return PlStr_To_PyStr(repr);
+    return pyPlasma_convert(repr);
 }
 
-static long pyKey_Hash(pyKey* self) {
-    return (long)(plKeyData*)(*self->fThis);
+PY_PLASMA_HASH_DECL(Key) {
+    return (Py_hash_t)(plKeyData*)(*self->fThis);
 }
 
-static PyObject* pyKey_RichCompare(pyKey* left, pyKey* right, int op) {
+PY_PLASMA_RICHCOMPARE_DECL(Key) {
     bool result = false;
 
     if (!pyKey_Check((PyObject*)right)) {
@@ -84,16 +76,13 @@ static PyObject* pyKey_RichCompare(pyKey* left, pyKey* right, int op) {
         }
     }
 
-    if (result) {
-        Py_INCREF(Py_True);
-        return Py_True;
-    } else {
-        Py_INCREF(Py_False);
-        return Py_False;
-    }
+    return pyPlasma_convert(result);
 }
 
-static PyObject* pyKey_read(pyKey* self, PyObject* args) {
+PY_METHOD_VA(Key, read,
+    "Params: stream\n"
+    "Reads this key from the stream, including the size and offset")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects an hsStream");
@@ -104,11 +93,13 @@ static PyObject* pyKey_read(pyKey* self, PyObject* args) {
         return NULL;
     }
     (*self->fThis)->read(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyKey_write(pyKey* self, PyObject* args) {
+PY_METHOD_VA(Key, write,
+    "Params: stream\n"
+    "Writes this key to the stream, including the size and offset")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
@@ -119,11 +110,13 @@ static PyObject* pyKey_write(pyKey* self, PyObject* args) {
         return NULL;
     }
     (*self->fThis)->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyKey_readUoid(pyKey* self, PyObject* args) {
+PY_METHOD_VA(Key, readUoid,
+    "Params: stream\n"
+    "Reads this key from the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "readUoid expects an hsStream");
@@ -134,11 +127,13 @@ static PyObject* pyKey_readUoid(pyKey* self, PyObject* args) {
         return NULL;
     }
     (*self->fThis)->readUoid(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyKey_writeUoid(pyKey* self, PyObject* args) {
+PY_METHOD_VA(Key, writeUoid,
+    "Params: stream\n"
+    "Writes this key from the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "writeUoid expects an hsStream");
@@ -149,202 +144,140 @@ static PyObject* pyKey_writeUoid(pyKey* self, PyObject* args) {
         return NULL;
     }
     (*self->fThis)->writeUoid(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyKey_exists(pyKey* self) {
-    return PyBool_FromLong(self->fThis->Exists() ? 1 : 0);
+PY_METHOD_NOARGS(Key, exists, "Returns True if the key exists") {
+    return pyPlasma_convert(self->fThis->Exists());
 }
 
-static PyObject* pyKey_isLoaded(pyKey* self) {
-    return PyBool_FromLong(self->fThis->isLoaded() ? 1 : 0);
-}
-
-static PyObject* pyKey_getType(pyKey* self, void* closure) {
-    return PyInt_FromLong((*self->fThis)->getType());
-}
-
-static PyObject* pyKey_getName(pyKey* self, void* closure) {
-    return PlStr_To_PyStr((*self->fThis)->getName());
-}
-
-static PyObject* pyKey_getLocation(pyKey* self, void* closure) {
-    return pyLocation_FromLocation((*self->fThis)->getLocation());
-}
-
-static PyObject* pyKey_getLoadMask(pyKey* self, void* closure) {
-    return PyInt_FromLong((*self->fThis)->getLoadMask().getMask());
-}
-
-static PyObject* pyKey_getID(pyKey* self, void* closure) {
-    return PyInt_FromLong((*self->fThis)->getID());
-}
-
-static PyObject* pyKey_getObj(pyKey* self, void* closure) {
-    return ICreate((*self->fThis)->getObj());
-}
-
-static int pyKey_setType(pyKey* self, PyObject* value, void* closure) {
-    PyErr_SetString(PyExc_RuntimeError, "Cannot change a plKey's type");
-    return -1;
-}
-
-static int pyKey_setName(pyKey* self, PyObject* value, void* closure) {
-    if (value == NULL) {
-        (*self->fThis)->setName("");
-    } else {
-        if (!PyAnyStr_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "name must be a string");
-            return -1;
-        }
-        (*self->fThis)->setName(PyStr_To_PlStr(value));
-    }
-    return 0;
-}
-
-static int pyKey_setLocation(pyKey* self, PyObject* value, void* closure) {
-    if (value == NULL) {
-        (*self->fThis)->setLocation(plLocation());
-    } else {
-        if (!pyLocation_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "location must be a plLocation");
-            return -1;
-        }
-        (*self->fThis)->setLocation(*((pyLocation*)value)->fThis);
-    }
-    return 0;
-}
-
-static int pyKey_setLoadMask(pyKey* self, PyObject* value, void* closure) {
-    if (value == NULL) {
-        (*self->fThis)->setLoadMask(plLoadMask());
-    } else {
-        if (!PyInt_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "mask must be an int");
-            return -1;
-        }
-        plLoadMask mask;
-        mask.setMask(PyInt_AsLong(value));
-        (*self->fThis)->setLoadMask(mask);
-    }
-    return 0;
-}
-
-static int pyKey_setID(pyKey* self, PyObject* value, void* closure) {
-    if (value == NULL) {
-        (*self->fThis)->setID(0);
-    } else {
-        if (!PyInt_Check(value)) {
-            PyErr_SetString(PyExc_TypeError, "id must be an int");
-            return -1;
-        }
-        (*self->fThis)->setID(PyInt_AsLong(value));
-    }
-    return 0;
-}
-
-static int pyKey_setObj(pyKey* self, PyObject* value, void* closure) {
-    PyErr_SetString(PyExc_RuntimeError, "object is read-only");
-    return -1;
+PY_METHOD_NOARGS(Key, isLoaded, "Returns True if the key is loaded") {
+    return pyPlasma_convert(self->fThis->isLoaded());
 }
 
 static PyMethodDef pyKey_Methods[] = {
-    { "read", (PyCFunction)pyKey_read, METH_VARARGS,
-      "Params: stream\n"
-      "Reads this key from the stream, including the size and offset" },
-    { "write", (PyCFunction)pyKey_write, METH_VARARGS,
-      "Params: stream\n"
-      "Writes this key to the stream, including the size and offset" },
-    { "readUoid", (PyCFunction)pyKey_readUoid, METH_VARARGS,
-      "Params: stream\n"
-      "Reads this key from the stream" },
-    { "writeUoid", (PyCFunction)pyKey_writeUoid, METH_VARARGS,
-      "Params: stream\n"
-      "Writes this key from the stream" },
-    { "exists", (PyCFunction)pyKey_exists, METH_NOARGS,
-      "Returns True if the key exists" },
-    { "isLoaded", (PyCFunction)pyKey_isLoaded, METH_NOARGS,
-      "Returns True if the key is loaded" },
-    { NULL, NULL, 0, NULL }
+    pyKey_read_method,
+    pyKey_write_method,
+    pyKey_readUoid_method,
+    pyKey_writeUoid_method,
+    pyKey_exists_method,
+    pyKey_isLoaded_method,
+    PY_METHOD_TERMINATOR
 };
+
+/* NOTE: Not using standard PY_PROPERTY() wrappers, since the plKey needs to
+ * be dereferenced in all the getters/setters below */
+
+PY_GETSET_GETTER_DECL(Key, type) {
+    return pyPlasma_convert((*self->fThis)->getType());
+}
+
+PY_PROPERTY_GETSET_RO_DECL(Key, type)
+
+PY_GETSET_GETTER_DECL(Key, name) {
+    return pyPlasma_convert((*self->fThis)->getName());
+}
+
+PY_GETSET_SETTER_DECL(Key, name) {
+    if (value == NULL) {
+        PyErr_SetString(PyExc_RuntimeError, "name cannot be deleted");
+        return -1;
+    } else if (!pyPlasma_check<plString>(value)) {
+        PyErr_SetString(PyExc_TypeError, "name expected type plString");
+        return -1;
+    }
+    (*self->fThis)->setName(pyPlasma_get<plString>(value));
+    return 0;
+}
+
+PY_PROPERTY_GETSET_DECL(Key, name)
+
+PY_GETSET_GETTER_DECL(Key, location) {
+    return pyLocation_FromLocation((*self->fThis)->getLocation());
+}
+
+PY_GETSET_SETTER_DECL(Key, location) {
+    if (value == NULL) {
+        PyErr_SetString(PyExc_RuntimeError, "location cannot be deleted");
+        return -1;
+    } else if (value == Py_None) {
+        (*self->fThis)->setLocation(plLocation());
+        return 0;
+    } else if (!pyLocation_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "location expected type plLocation");
+        return -1;
+    }
+    (*self->fThis)->setLocation(*((pyLocation*)value)->fThis);
+    return 0;
+}
+
+PY_PROPERTY_GETSET_DECL(Key, location)
+
+PY_GETSET_GETTER_DECL(Key, mask) {
+    return pyPlasma_convert((*self->fThis)->getLoadMask().getMask());
+}
+
+PY_GETSET_SETTER_DECL(Key, mask) {
+    if (value == NULL) {
+        PyErr_SetString(PyExc_RuntimeError, "mask cannot be deleted");
+        return -1;
+    } else if (!pyPlasma_check<unsigned short>(value)) {
+        PyErr_SetString(PyExc_TypeError, "mask expected type unsigned short");
+        return -1;
+    }
+    plLoadMask mask;
+    mask.setMask(pyPlasma_get<unsigned short>(value));
+    (*self->fThis)->setLoadMask(mask);
+    return 0;
+}
+
+PY_PROPERTY_GETSET_DECL(Key, mask)
+
+PY_GETSET_GETTER_DECL(Key, id) {
+    return pyPlasma_convert((*self->fThis)->getID());
+}
+
+PY_GETSET_SETTER_DECL(Key, id) {
+    if (value == NULL) {
+        PyErr_SetString(PyExc_RuntimeError, "id cannot be deleted");
+        return -1;
+    } else if (!pyPlasma_check<uint32_t>(value)) {
+        PyErr_SetString(PyExc_TypeError, "id expected type uint32_t");
+        return -1;
+    }
+    (*self->fThis)->setID(pyPlasma_get<uint32_t>(value));
+    return 0;
+}
+
+PY_PROPERTY_GETSET_DECL(Key, id)
+
+PY_GETSET_GETTER_DECL(Key, object) {
+    return ICreate((*self->fThis)->getObj());
+}
+
+PY_PROPERTY_GETSET_RO_DECL(Key, object)
 
 static PyGetSetDef pyKey_GetSet[] = {
-    { _pycs("type"), (getter)pyKey_getType, (setter)pyKey_setType,
-        _pycs("The Class Index of this plKey"), NULL },
-    { _pycs("name"), (getter)pyKey_getName, (setter)pyKey_setName,
-        _pycs("The name of this plKey"), NULL },
-    { _pycs("location"), (getter)pyKey_getLocation, (setter)pyKey_setLocation,
-        _pycs("The plLocation of this plKey"), NULL },
-    { _pycs("mask"), (getter)pyKey_getLoadMask, (setter)pyKey_setLoadMask,
-        _pycs("The Load Mask for this plKey"), NULL },
-    { _pycs("id"), (getter)pyKey_getID, (setter)pyKey_setID,
-        _pycs("The file index of this plKey (usually set automatically)"), NULL },
-    { _pycs("object"), (getter)pyKey_getObj, (setter)pyKey_setObj,
-        _pycs("The hsKeyedObject class this key points to"), NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyKey_type_getset,
+    pyKey_name_getset,
+    pyKey_location_getset,
+    pyKey_mask_getset,
+    pyKey_id_getset,
+    pyKey_object_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyKey_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plKey",                 /* tp_name */
-    sizeof(pyKey),                      /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(Key, plKey, "plKey wrapper")
 
-    (destructor)pyKey_dealloc,          /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    (reprfunc)pyKey_Repr,               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    (hashfunc)pyKey_Hash,               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT,                 /* tp_flags */
-    NULL,                               /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    (richcmpfunc)pyKey_RichCompare,     /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyKey_Methods,                      /* tp_methods */
-    NULL,                               /* tp_members */
-    pyKey_GetSet,                       /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyKey_new,                          /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyKey_Type() {
-    if (PyType_Ready(&pyKey_Type) < 0)
+PY_PLASMA_TYPE_INIT(Key) {
+    pyKey_Type.tp_dealloc = pyKey_dealloc;
+    pyKey_Type.tp_new = pyKey_new;
+    pyKey_Type.tp_repr = pyKey_repr;
+    pyKey_Type.tp_hash = pyKey_hash;
+    pyKey_Type.tp_richcompare = pyKey_richcompare;
+    pyKey_Type.tp_methods = pyKey_Methods;
+    pyKey_Type.tp_getset = pyKey_GetSet;
+    if (PyType_CheckAndReady(&pyKey_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyKey_Type);
@@ -354,10 +287,8 @@ PyObject* Init_pyKey_Type() {
 PY_PLASMA_CHECK_TYPE(Key)
 
 PyObject* pyKey_FromKey(const plKey& key) {
-    if (!key.Exists()) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
+    if (!key.Exists())
+        Py_RETURN_NONE;
     pyKey* obj = PyObject_New(pyKey, &pyKey_Type);
     obj->fThis = new plKey(key);
     return (PyObject*)obj;

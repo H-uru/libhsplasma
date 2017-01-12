@@ -18,7 +18,13 @@
 #define _PYGMATSTATE_H
 
 #include "PyPlasma.h"
+#include <PRP/Surface/hsGMatState.h>
 
 PY_WRAP_PLASMA(GMatState, class hsGMatState);
+
+/* Python property helpers */
+inline PyObject* pyPlasma_convert(hsGMatState* value) {
+    return pyGMatState_FromGMatState(value);
+}
 
 #endif

@@ -23,22 +23,17 @@
 
 extern "C" {
 
-static PyObject* pyGMaterial_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyGMaterial* self = (pyGMaterial*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new hsGMaterial();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(GMaterial, hsGMaterial)
 
-static PyObject* pyGMaterial_clearLayers(pyGMaterial* self) {
+PY_METHOD_NOARGS(GMaterial, clearLayers, "Remove all layer keys from the material") {
     self->fThis->clearLayers();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyGMaterial_addLayer(pyGMaterial* self, PyObject* args) {
+PY_METHOD_VA(GMaterial, addLayer,
+    "Params: key\n"
+    "Add a layer to the material")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addLayer expects a plKey");
@@ -49,28 +44,33 @@ static PyObject* pyGMaterial_addLayer(pyGMaterial* self, PyObject* args) {
         return NULL;
     }
     self->fThis->addLayer(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyGMaterial_delLayer(pyGMaterial* self, PyObject* args) {
+PY_METHOD_VA(GMaterial, delLayer,
+    "Params: idx\n"
+    "Remove a layer from the material")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delLayer expects an int");
         return NULL;
     }
     self->fThis->delLayer(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyGMaterial_clearPBs(pyGMaterial* self) {
+PY_METHOD_NOARGS(GMaterial, clearPiggyBacks,
+    "Remove all piggy back keys from the material")
+{
     self->fThis->clearPiggyBacks();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyGMaterial_addPB(pyGMaterial* self, PyObject* args) {
+PY_METHOD_VA(GMaterial, addPiggyBack,
+    "Params: key\n"
+    "Add a piggy back to the material")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addPiggyBack expects a plKey");
@@ -81,19 +81,20 @@ static PyObject* pyGMaterial_addPB(pyGMaterial* self, PyObject* args) {
         return NULL;
     }
     self->fThis->addPiggyBack(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyGMaterial_delPB(pyGMaterial* self, PyObject* args) {
+PY_METHOD_VA(GMaterial, delPiggyBack,
+    "Params: idx\n"
+    "Remove a piggy back from the material")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delPiggyBack expects an int");
         return NULL;
     }
     self->fThis->delPiggyBack(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyGMaterial_getLayers(pyGMaterial* self, void*) {
@@ -110,14 +111,6 @@ static PyObject* pyGMaterial_getPBs(pyGMaterial* self, void*) {
     return list;
 }
 
-static PyObject* pyGMaterial_getCompFlags(pyGMaterial* self, void*) {
-    return PyInt_FromLong(self->fThis->getCompFlags());
-}
-
-static PyObject* pyGMaterial_getLoadFlags(pyGMaterial* self, void*) {
-    return PyInt_FromLong(self->fThis->getLoadFlags());
-}
-
 static int pyGMaterial_setLayers(pyGMaterial* self, PyObject* value, void*) {
     PyErr_SetString(PyExc_RuntimeError, "To add layers, use addLayer()");
     return -1;
@@ -128,147 +121,53 @@ static int pyGMaterial_setPBs(pyGMaterial* self, PyObject* value, void*) {
     return -1;
 }
 
-static int pyGMaterial_setCompFlags(pyGMaterial* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "compFlags should be an int");
-        return -1;
-    }
-    self->fThis->setCompFlags(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyGMaterial_setLoadFlags(pyGMaterial* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "loadFlags should be an int");
-        return -1;
-    }
-    self->fThis->setLoadFlags(PyInt_AsLong(value));
-    return 0;
-}
-
 static PyMethodDef pyGMaterial_Methods[] = {
-    { "clearLayers", (PyCFunction)pyGMaterial_clearLayers, METH_NOARGS,
-      "Remove all layer keys from the material" },
-    { "addLayer", (PyCFunction)pyGMaterial_addLayer, METH_VARARGS,
-      "Params: key\n"
-      "Add a layer to the material" },
-    { "delLayer", (PyCFunction)pyGMaterial_delLayer, METH_VARARGS,
-      "Params: idx\n"
-      "Remove a layer from the material" },
-    { "clearPiggyBacks", (PyCFunction)pyGMaterial_clearPBs, METH_NOARGS,
-      "Remove all piggy back keys from the material" },
-    { "addPiggyBack", (PyCFunction)pyGMaterial_addPB, METH_VARARGS,
-      "Params: key\n"
-      "Add a piggy back to the material" },
-    { "delPiggyBack", (PyCFunction)pyGMaterial_delPB, METH_VARARGS,
-      "Params: idx\n"
-      "Remove a piggy back from the material" },
-    { NULL, NULL, 0, NULL }
+    pyGMaterial_clearLayers_method,
+    pyGMaterial_addLayer_method,
+    pyGMaterial_delLayer_method,
+    pyGMaterial_clearPiggyBacks_method,
+    pyGMaterial_addPiggyBack_method,
+    pyGMaterial_delPiggyBack_method,
+    PY_METHOD_TERMINATOR
 };
+
+PY_PROPERTY(unsigned int, GMaterial, compFlags, getCompFlags, setCompFlags)
+PY_PROPERTY(unsigned int, GMaterial, loadFlags, getLoadFlags, setLoadFlags)
 
 static PyGetSetDef pyGMaterial_GetSet[] = {
     { _pycs("layers"), (getter)pyGMaterial_getLayers,
         (setter)pyGMaterial_setLayers, NULL, NULL },
     { _pycs("piggyBacks"), (getter)pyGMaterial_getPBs,
         (setter)pyGMaterial_setPBs, NULL, NULL },
-    { _pycs("compFlags"), (getter)pyGMaterial_getCompFlags,
-        (setter)pyGMaterial_setCompFlags, NULL, NULL },
-    { _pycs("loadFlags"), (getter)pyGMaterial_getLoadFlags,
-        (setter)pyGMaterial_setLoadFlags, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyGMaterial_compFlags_getset,
+    pyGMaterial_loadFlags_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyGMaterial_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.hsGMaterial",           /* tp_name */
-    sizeof(pyGMaterial),                /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(GMaterial, hsGMaterial, "hsGMaterial wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "hsGMaterial wrapper",              /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyGMaterial_Methods,                /* tp_methods */
-    NULL,                               /* tp_members */
-    pyGMaterial_GetSet,                 /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyGMaterial_new,                    /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyGMaterial_Type() {
+PY_PLASMA_TYPE_INIT(GMaterial) {
+    pyGMaterial_Type.tp_new = pyGMaterial_new;
+    pyGMaterial_Type.tp_methods = pyGMaterial_Methods;
+    pyGMaterial_Type.tp_getset = pyGMaterial_GetSet;
     pyGMaterial_Type.tp_base = &pySynchedObject_Type;
-    if (PyType_Ready(&pyGMaterial_Type) < 0)
+    if (PyType_CheckAndReady(&pyGMaterial_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyGMaterial_Type.tp_dict, "kCompShaded",
-                         PyInt_FromLong(hsGMaterial::kCompShaded));
-    PyDict_SetItemString(pyGMaterial_Type.tp_dict, "kCompEnvironMap",
-                         PyInt_FromLong(hsGMaterial::kCompEnvironMap));
-    PyDict_SetItemString(pyGMaterial_Type.tp_dict, "kCompProjectOnto",
-                         PyInt_FromLong(hsGMaterial::kCompProjectOnto));
-    PyDict_SetItemString(pyGMaterial_Type.tp_dict, "kCompSoftShadow",
-                         PyInt_FromLong(hsGMaterial::kCompSoftShadow));
-    PyDict_SetItemString(pyGMaterial_Type.tp_dict, "kCompSpecular",
-                         PyInt_FromLong(hsGMaterial::kCompSpecular));
-    PyDict_SetItemString(pyGMaterial_Type.tp_dict, "kCompTwoSided",
-                         PyInt_FromLong(hsGMaterial::kCompTwoSided));
-    PyDict_SetItemString(pyGMaterial_Type.tp_dict, "kCompDrawAsSplats",
-                         PyInt_FromLong(hsGMaterial::kCompDrawAsSplats));
-    PyDict_SetItemString(pyGMaterial_Type.tp_dict, "kCompAdjusted",
-                         PyInt_FromLong(hsGMaterial::kCompAdjusted));
-    PyDict_SetItemString(pyGMaterial_Type.tp_dict, "kCompNoSoftShadow",
-                         PyInt_FromLong(hsGMaterial::kCompNoSoftShadow));
-    PyDict_SetItemString(pyGMaterial_Type.tp_dict, "kCompDynamic",
-                         PyInt_FromLong(hsGMaterial::kCompDynamic));
-    PyDict_SetItemString(pyGMaterial_Type.tp_dict, "kCompDecal",
-                         PyInt_FromLong(hsGMaterial::kCompDecal));
-    PyDict_SetItemString(pyGMaterial_Type.tp_dict, "kCompIsEmissive",
-                         PyInt_FromLong(hsGMaterial::kCompIsEmissive));
-    PyDict_SetItemString(pyGMaterial_Type.tp_dict, "kCompIsLightMapped",
-                         PyInt_FromLong(hsGMaterial::kCompIsLightMapped));
-    PyDict_SetItemString(pyGMaterial_Type.tp_dict, "kCompNeedsBlendChannel",
-                         PyInt_FromLong(hsGMaterial::kCompNeedsBlendChannel));
+    PY_TYPE_ADD_CONST(GMaterial, "kCompShaded", hsGMaterial::kCompShaded);
+    PY_TYPE_ADD_CONST(GMaterial, "kCompEnvironMap", hsGMaterial::kCompEnvironMap);
+    PY_TYPE_ADD_CONST(GMaterial, "kCompProjectOnto", hsGMaterial::kCompProjectOnto);
+    PY_TYPE_ADD_CONST(GMaterial, "kCompSoftShadow", hsGMaterial::kCompSoftShadow);
+    PY_TYPE_ADD_CONST(GMaterial, "kCompSpecular", hsGMaterial::kCompSpecular);
+    PY_TYPE_ADD_CONST(GMaterial, "kCompTwoSided", hsGMaterial::kCompTwoSided);
+    PY_TYPE_ADD_CONST(GMaterial, "kCompDrawAsSplats", hsGMaterial::kCompDrawAsSplats);
+    PY_TYPE_ADD_CONST(GMaterial, "kCompAdjusted", hsGMaterial::kCompAdjusted);
+    PY_TYPE_ADD_CONST(GMaterial, "kCompNoSoftShadow", hsGMaterial::kCompNoSoftShadow);
+    PY_TYPE_ADD_CONST(GMaterial, "kCompDynamic", hsGMaterial::kCompDynamic);
+    PY_TYPE_ADD_CONST(GMaterial, "kCompDecal", hsGMaterial::kCompDecal);
+    PY_TYPE_ADD_CONST(GMaterial, "kCompIsEmissive", hsGMaterial::kCompIsEmissive);
+    PY_TYPE_ADD_CONST(GMaterial, "kCompIsLightMapped", hsGMaterial::kCompIsLightMapped);
+    PY_TYPE_ADD_CONST(GMaterial, "kCompNeedsBlendChannel", hsGMaterial::kCompNeedsBlendChannel);
 
     Py_INCREF(&pyGMaterial_Type);
     return (PyObject*)&pyGMaterial_Type;

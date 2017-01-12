@@ -23,28 +23,14 @@
 
 extern "C" {
 
-static void pySpanInstance_dealloc(pySpanInstance* self) {
-    if (self->fPyOwned)
-        delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+PY_PLASMA_DEALLOC(SpanInstance)
+PY_PLASMA_EMPTY_INIT(SpanInstance)
+PY_PLASMA_NEW(SpanInstance, plSpanInstance)
 
-static int pySpanInstance___init__(pySpanInstance* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pySpanInstance_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySpanInstance* self = (pySpanInstance*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSpanInstance();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
-
-static PyObject* pySpanInstance_read(pySpanInstance* self, PyObject* args) {
+PY_METHOD_VA(SpanInstance, read,
+    "Params: stream, encoding, numVerts\n"
+    "Reads this object from the stream")
+{
     pyStream* stream;
     pySpanEncoding* encoding;
     int numVerts;
@@ -57,11 +43,13 @@ static PyObject* pySpanInstance_read(pySpanInstance* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis, *encoding->fThis, numVerts);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pySpanInstance_write(pySpanInstance* self, PyObject* args) {
+PY_METHOD_VA(SpanInstance, write,
+    "Params: stream\n"
+    "Writes this object to the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
@@ -72,15 +60,14 @@ static PyObject* pySpanInstance_write(pySpanInstance* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySpanInstance_getPosDeltas(pySpanInstance* self, void*) {
     std::vector<hsVector3> deltas = self->fThis->getPosDeltas();
     PyObject* list = PyList_New(deltas.size());
     for (size_t i=0; i<deltas.size(); i++)
-        PyList_SET_ITEM(list, i, pyVector3_FromVector3(deltas[i]));
+        PyList_SET_ITEM(list, i, pyPlasma_convert(deltas[i]));
     return list;
 }
 
@@ -88,12 +75,8 @@ static PyObject* pySpanInstance_getColors(pySpanInstance* self, void*) {
     std::vector<unsigned int> colors = self->fThis->getColors();
     PyObject* list = PyList_New(colors.size());
     for (size_t i=0; i<colors.size(); i++)
-        PyList_SET_ITEM(list, i, PyInt_FromLong(colors[i]));
+        PyList_SET_ITEM(list, i, pyPlasma_convert(colors[i]));
     return list;
-}
-
-static PyObject* pySpanInstance_getL2W(pySpanInstance* self, void*) {
-    return pyMatrix44_FromMatrix44(self->fThis->getLocalToWorld());
 }
 
 static int pySpanInstance_setPosDeltas(pySpanInstance* self, PyObject* value, void*) {
@@ -142,95 +125,32 @@ static int pySpanInstance_setColors(pySpanInstance* self, PyObject* value, void*
     return 0;
 }
 
-static int pySpanInstance_setL2W(pySpanInstance* self, PyObject* value, void*) {
-    if (value == NULL || !pyMatrix44_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "localToWorld should be an hsMatrix44");
-        return -1;
-    }
-    self->fThis->setLocalToWorld(*((pyMatrix44*)value)->fThis);
-    return 0;
-}
-
 static PyMethodDef pySpanInstance_Methods[] = {
-    { "read", (PyCFunction)pySpanInstance_read, METH_VARARGS,
-      "Params: stream, encoding, numVerts\n"
-      "Reads this object from the stream" },
-    { "write", (PyCFunction)pySpanInstance_write, METH_VARARGS,
-      "Params: stream\n"
-      "Writes this object to the stream" },
-    { NULL, NULL, 0, NULL }
+    pySpanInstance_read_method,
+    pySpanInstance_write_method,
+    PY_METHOD_TERMINATOR
 };
+
+PY_PROPERTY(hsMatrix44, SpanInstance, localToWorld, getLocalToWorld, setLocalToWorld)
 
 static PyGetSetDef pySpanInstance_GetSet[] = {
     { _pycs("posDeltas"), (getter)pySpanInstance_getPosDeltas,
         (setter)pySpanInstance_setPosDeltas, NULL, NULL },
     { _pycs("colors"), (getter)pySpanInstance_getColors,
         (setter)pySpanInstance_setColors, NULL, NULL },
-    { _pycs("localToWorld"), (getter)pySpanInstance_getL2W,
-        (setter)pySpanInstance_setL2W, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pySpanInstance_localToWorld_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pySpanInstance_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plSpanInstance",        /* tp_name */
-    sizeof(pySpanInstance),             /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(SpanInstance, plSpanInstance, "plSpanInstance wrapper")
 
-    (destructor)pySpanInstance_dealloc, /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT,                 /* tp_flags */
-    "plSpanInstance wrapper",           /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pySpanInstance_Methods,             /* tp_methods */
-    NULL,                               /* tp_members */
-    pySpanInstance_GetSet,              /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    (initproc)pySpanInstance___init__,  /* tp_init */
-    NULL,                               /* tp_alloc */
-    pySpanInstance_new,                 /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pySpanInstance_Type() {
-    if (PyType_Ready(&pySpanInstance_Type) < 0)
+PY_PLASMA_TYPE_INIT(SpanInstance) {
+    pySpanInstance_Type.tp_dealloc = pySpanInstance_dealloc;
+    pySpanInstance_Type.tp_init = pySpanInstance___init__;
+    pySpanInstance_Type.tp_new = pySpanInstance_new;
+    pySpanInstance_Type.tp_methods = pySpanInstance_Methods;
+    pySpanInstance_Type.tp_getset = pySpanInstance_GetSet;
+    if (PyType_CheckAndReady(&pySpanInstance_Type) < 0)
         return NULL;
 
     Py_INCREF(&pySpanInstance_Type);

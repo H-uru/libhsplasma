@@ -22,4 +22,21 @@
 PY_WRAP_PLASMA(WAVHeader, class plWAVHeader);
 PY_WRAP_PLASMA(SoundBuffer, class plSoundBuffer);
 
+/* Python property helpers */
+class plWAVHeader;
+
+inline PyObject* pyPlasma_convert(plWAVHeader* value) {
+    return pyWAVHeader_FromWAVHeader(value);
+}
+
+template <>
+inline int pyPlasma_check<plWAVHeader>(PyObject* value) {
+    return pyWAVHeader_Check(value);
+}
+
+template <>
+inline plWAVHeader* pyPlasma_get(PyObject* value) {
+    return ((pyWAVHeader*)value)->fThis;
+}
+
 #endif

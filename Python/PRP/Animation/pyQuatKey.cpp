@@ -21,100 +21,24 @@
 
 extern "C" {
 
-static int pyQuatKey___init__(pyQuatKey* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
+PY_PLASMA_EMPTY_INIT(QuatKey)
+PY_PLASMA_NEW(QuatKey, hsQuatKey)
 
-static PyObject* pyQuatKey_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyQuatKey* self = (pyQuatKey*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new hsQuatKey();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
-
-static PyObject* pyQuatKey_getValue(pyQuatKey* self, void*) {
-    return pyQuat_FromQuat(self->fThis->fValue);
-}
-
-static int pyQuatKey_setValue(pyQuatKey* self, PyObject* value, void*) {
-    if (value == NULL || !pyQuat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "value should be an hsQuat");
-        return -1;
-    }
-    self->fThis->fValue = *((pyQuat*)value)->fThis;
-    return 0;
-}
+PY_PROPERTY_MEMBER(hsQuat, QuatKey, value, fValue)
 
 static PyGetSetDef pyQuatKey_GetSet[] = {
-    { _pycs("value"), (getter)pyQuatKey_getValue, (setter)pyQuatKey_setValue, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyQuatKey_value_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyQuatKey_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.hsQuatKey",             /* tp_name */
-    sizeof(pyQuatKey),                  /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(QuatKey, hsQuatKey, "hsQuatKey wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "hsQuatKey wrapper",                /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    NULL,                               /* tp_methods */
-    NULL,                               /* tp_members */
-    pyQuatKey_GetSet,                   /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    (initproc)pyQuatKey___init__,       /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyQuatKey_new,                      /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyQuatKey_Type() {
+PY_PLASMA_TYPE_INIT(QuatKey) {
+    pyQuatKey_Type.tp_init = pyQuatKey___init__;
+    pyQuatKey_Type.tp_new = pyQuatKey_new;
+    pyQuatKey_Type.tp_getset = pyQuatKey_GetSet;
     pyQuatKey_Type.tp_base = &pyKeyFrame_Type;
-    if (PyType_Ready(&pyQuatKey_Type) < 0)
+    if (PyType_CheckAndReady(&pyQuatKey_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyQuatKey_Type);

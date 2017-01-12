@@ -21,165 +21,36 @@
 
 extern "C" {
 
-static PyObject* pyShadowCaster_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyShadowCaster* self = (pyShadowCaster*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plShadowCaster();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ShadowCaster, plShadowCaster)
 
-static PyObject* pyShadowCaster_getCastFlags(pyShadowCaster* self, void*) {
-    return PyInt_FromLong(self->fThis->getCastFlags());
-}
-
-static PyObject* pyShadowCaster_getBoost(pyShadowCaster* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getBoost());
-}
-
-static PyObject* pyShadowCaster_getAttenScale(pyShadowCaster* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getAttenScale());
-}
-
-static PyObject* pyShadowCaster_getBlurScale(pyShadowCaster* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getBlurScale());
-}
-
-static PyObject* pyShadowCaster_getMaxOpacity(pyShadowCaster* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getMaxOpacity());
-}
-
-static int pyShadowCaster_setCastFlags(pyShadowCaster* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "castFlags should be an int");
-        return -1;
-    }
-    self->fThis->setCastFlags((unsigned char)PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyShadowCaster_setBoost(pyShadowCaster* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "boost should be a float");
-        return -1;
-    }
-    self->fThis->setBoost((float)PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyShadowCaster_setAttenScale(pyShadowCaster* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "attenScale should be a float");
-        return -1;
-    }
-    self->fThis->setAttenScale((float)PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyShadowCaster_setBlurScale(pyShadowCaster* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "blurScale should be a float");
-        return -1;
-    }
-    self->fThis->setBlurScale((float)PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyShadowCaster_setMaxOpacity(pyShadowCaster* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "maxOpacity should be a float");
-        return -1;
-    }
-    self->fThis->setMaxOpacity((float)PyFloat_AsDouble(value));
-    return 0;
-}
+PY_PROPERTY(unsigned char, ShadowCaster, castFlags, getCastFlags, setCastFlags)
+PY_PROPERTY(float, ShadowCaster, boost, getBoost, setBoost)
+PY_PROPERTY(float, ShadowCaster, attenScale, getAttenScale, setAttenScale)
+PY_PROPERTY(float, ShadowCaster, blurScale, getBlurScale, setBlurScale)
+PY_PROPERTY(float, ShadowCaster, maxOpacity, getMaxOpacity, setMaxOpacity)
 
 static PyGetSetDef pyShadowCaster_GetSet[] = {
-    { _pycs("castFlags"), (getter)pyShadowCaster_getCastFlags,
-      (setter)pyShadowCaster_setCastFlags, NULL, NULL },
-    { _pycs("boost"), (getter)pyShadowCaster_getBoost,
-      (setter)pyShadowCaster_setBoost, NULL, NULL },
-    { _pycs("attenScale"), (getter)pyShadowCaster_getAttenScale,
-      (setter)pyShadowCaster_setAttenScale, NULL, NULL },
-    { _pycs("blurScale"), (getter)pyShadowCaster_getBlurScale,
-      (setter)pyShadowCaster_setBlurScale , NULL, NULL },
-    { _pycs("maxOpacity"), (getter)pyShadowCaster_getMaxOpacity,
-      (setter)pyShadowCaster_setMaxOpacity, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyShadowCaster_castFlags_getset,
+    pyShadowCaster_boost_getset,
+    pyShadowCaster_attenScale_getset,
+    pyShadowCaster_blurScale_getset,
+    pyShadowCaster_maxOpacity_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyShadowCaster_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plShadowCaster",        /* tp_name */
-    sizeof(pyShadowCaster),             /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(ShadowCaster, plShadowCaster, "plShadowCaster wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plShadowCaster wrapper",                 /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    NULL,                               /* tp_methods */
-    NULL,                               /* tp_members */
-    pyShadowCaster_GetSet,              /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyShadowCaster_new,                 /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyShadowCaster_Type() {
+PY_PLASMA_TYPE_INIT(ShadowCaster) {
+    pyShadowCaster_Type.tp_new = pyShadowCaster_new;
+    pyShadowCaster_Type.tp_getset = pyShadowCaster_GetSet;
     pyShadowCaster_Type.tp_base = &pyMultiModifier_Type;
-    if (PyType_Ready(&pyShadowCaster_Type) < 0)
+    if (PyType_CheckAndReady(&pyShadowCaster_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyShadowCaster_Type.tp_dict, "kNone",
-                         PyInt_FromLong(plShadowCaster::kNone));
-    PyDict_SetItemString(pyShadowCaster_Type.tp_dict, "kSelfShadow",
-                         PyInt_FromLong(plShadowCaster::kSelfShadow));
-    PyDict_SetItemString(pyShadowCaster_Type.tp_dict, "kPerspective",
-                         PyInt_FromLong(plShadowCaster::kPerspective));
-    PyDict_SetItemString(pyShadowCaster_Type.tp_dict, "kLimitRes",
-                         PyInt_FromLong(plShadowCaster::kLimitRes));
+    PY_TYPE_ADD_CONST(ShadowCaster, "kNone", plShadowCaster::kNone);
+    PY_TYPE_ADD_CONST(ShadowCaster, "kSelfShadow", plShadowCaster::kSelfShadow);
+    PY_TYPE_ADD_CONST(ShadowCaster, "kPerspective", plShadowCaster::kPerspective);
+    PY_TYPE_ADD_CONST(ShadowCaster, "kLimitRes", plShadowCaster::kLimitRes);
 
     Py_INCREF(&pyShadowCaster_Type);
     return (PyObject*)&pyShadowCaster_Type;

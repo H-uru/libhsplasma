@@ -56,7 +56,7 @@ public:
 
     void setType(unsigned int type) { fType = type; }
     void setFrame(unsigned int frame);
-    void setFrame(float frame);
+    void setFrameTime(float frame);
 };
 
 struct PLASMA_DLL hsPoint3Key : public hsKeyFrame {

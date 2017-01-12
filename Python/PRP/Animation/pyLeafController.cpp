@@ -24,39 +24,23 @@
 
 extern "C" {
 
-static int pyLeafController___init__(pyLeafController* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
+PY_PLASMA_EMPTY_INIT(LeafController)
+PY_PLASMA_NEW(LeafController, plLeafController)
+
+PY_METHOD_NOARGS(LeafController, hasKeys, NULL) {
+    return pyPlasma_convert(self->fThis->hasKeys());
 }
 
-static PyObject* pyLeafController_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyLeafController* self = (pyLeafController*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plLeafController();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
+PY_METHOD_NOARGS(LeafController, hasEaseControllers, NULL) {
+    return pyPlasma_convert(self->fThis->hasEaseControllers());
 }
 
-static PyObject* pyLeafController_hasKeys(pyLeafController* self) {
-    return PyBool_FromLong(self->fThis->hasKeys() ? 1 : 0);
-}
-
-static PyObject* pyLeafController_hasEaseControllers(pyLeafController* self) {
-    return PyBool_FromLong(self->fThis->hasEaseControllers() ? 1 : 0);
-}
-
-static PyObject* pyLeafController_ExpandToKeyController(pyLeafController* self) {
+PY_METHOD_NOARGS(LeafController, ExpandToKeyController, NULL) {
     return ICreate(self->fThis->ExpandToKeyController());
 }
 
-static PyObject* pyLeafController_CompactToLeafController(pyLeafController* self) {
+PY_METHOD_NOARGS(LeafController, CompactToLeafController, NULL) {
     return ICreate(self->fThis->CompactToLeafController());
-}
-
-static PyObject* pyLeafController_getType(pyLeafController* self, void*) {
-    return PyInt_FromLong(self->fThis->getType());
 }
 
 static PyObject* pyLeafController_getKeys(pyLeafController* self, void*) {
@@ -66,7 +50,7 @@ static PyObject* pyLeafController_getKeys(pyLeafController* self, void*) {
         PyTuple_SET_ITEM(keyTup, i, pyKeyFrame_FromKeyFrame(keys[i]));
     PyObject* tup = PyTuple_New(2);
     PyTuple_SET_ITEM(tup, 0, keyTup);
-    PyTuple_SET_ITEM(tup, 1, PyInt_FromLong(self->fThis->getType()));
+    PyTuple_SET_ITEM(tup, 1, pyPlasma_convert(self->fThis->getType()));
     return tup;
 }
 
@@ -76,11 +60,6 @@ static PyObject* pyLeafController_getEaseControllers(pyLeafController* self, voi
     for (size_t i=0; i<controllers.size(); i++)
         PyList_SET_ITEM(list, i, ICreate(controllers[i]));
     return list;
-}
-
-static int pyLeafController_setType(pyLeafController* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To set the key type, use the keys setter");
-    return -1;
 }
 
 static int pyLeafController_setKeys(pyLeafController* self, PyObject* value, void*) {
@@ -142,84 +121,35 @@ static int pyLeafController_setEaseControllers(pyLeafController* self, PyObject*
 }
 
 static PyMethodDef pyLeafController_Methods[] = {
-    { "hasKeys", (PyCFunction)pyLeafController_hasKeys, METH_NOARGS, NULL },
-    { "hasEaseControllers", (PyCFunction)pyLeafController_hasEaseControllers, METH_NOARGS, NULL },
-    { "ExpandToKeyController", (PyCFunction)pyLeafController_ExpandToKeyController, METH_NOARGS, NULL },
-    { "CompactToLeafController", (PyCFunction)pyLeafController_CompactToLeafController, METH_NOARGS, NULL },
-    { NULL, NULL, 0, NULL }
+    pyLeafController_hasKeys_method,
+    pyLeafController_hasEaseControllers_method,
+    pyLeafController_ExpandToKeyController_method,
+    pyLeafController_CompactToLeafController_method,
+    PY_METHOD_TERMINATOR
 };
 
+PY_PROPERTY_READ(LeafController, type, getType)
+PY_PROPERTY_SETTER_MSG(LeafController, type, "To set the key type, use the keys setter")
+PY_PROPERTY_GETSET_DECL(LeafController, type)
+
 static PyGetSetDef pyLeafController_GetSet[] = {
-    { _pycs("type"), (getter)pyLeafController_getType,
-        (setter)pyLeafController_setType, NULL, NULL },
+    pyLeafController_type_getset,
     { _pycs("keys"), (getter)pyLeafController_getKeys,
         (setter)pyLeafController_setKeys, NULL, NULL },
     { _pycs("easeControllers"), (getter)pyLeafController_getEaseControllers,
         (setter)pyLeafController_setEaseControllers, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyLeafController_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plLeafController",      /* tp_name */
-    sizeof(pyLeafController),           /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(LeafController, plLeafController, "plLeafController wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plLeafController wrapper",         /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyLeafController_Methods,           /* tp_methods */
-    NULL,                               /* tp_members */
-    pyLeafController_GetSet,            /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    (initproc)pyLeafController___init__, /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyLeafController_new,               /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyLeafController_Type() {
+PY_PLASMA_TYPE_INIT(LeafController) {
+    pyLeafController_Type.tp_init = pyLeafController___init__;
+    pyLeafController_Type.tp_new = pyLeafController_new;
+    pyLeafController_Type.tp_methods = pyLeafController_Methods;
+    pyLeafController_Type.tp_getset = pyLeafController_GetSet;
     pyLeafController_Type.tp_base = &pyController_Type;
-    if (PyType_Ready(&pyLeafController_Type) < 0)
+    if (PyType_CheckAndReady(&pyLeafController_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyLeafController_Type);

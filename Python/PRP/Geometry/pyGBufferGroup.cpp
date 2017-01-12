@@ -21,30 +21,22 @@
 
 extern "C" {
 
-static void pyGBufferGroup_dealloc(pyGBufferGroup* self) {
-    if (self->fPyOwned)
-        delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+PY_PLASMA_DEALLOC(GBufferGroup)
 
-static int pyGBufferGroup___init__(pyGBufferGroup* self, PyObject* args, PyObject* kwds) {
+PY_PLASMA_INIT_DECL(GBufferGroup) {
     int fmt;
     if (!PyArg_ParseTuple(args, "i", &fmt))
         return -1;
-    self->fThis->setFormat(fmt);
+    self->fThis->setFormat((unsigned int)fmt);
     return 0;
 }
 
-static PyObject* pyGBufferGroup_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyGBufferGroup* self = (pyGBufferGroup*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plGBufferGroup(0);
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW_VA(GBufferGroup, plGBufferGroup, 0)
 
-static PyObject* pyGBufferGroup_read(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, read,
+    "Params: stream\n"
+    "Read this BufferGroup from a stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects an hsStream");
@@ -55,11 +47,13 @@ static PyObject* pyGBufferGroup_read(pyGBufferGroup* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyGBufferGroup_write(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, write,
+    "Params: stream\n"
+    "Write this BufferGroup to a stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
@@ -70,11 +64,13 @@ static PyObject* pyGBufferGroup_write(pyGBufferGroup* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyGBufferGroup_getVerts(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, getVertices,
+    "Params: idx\n"
+    "Get the specified vertex group as a list of plGBufferVertex objects")
+{
     int idx, start = 0, len = -1;
     if (!PyArg_ParseTuple(args, "i|ii", &idx, &start, &len)) {
         PyErr_SetString(PyExc_TypeError, "getVertices expects an int");
@@ -92,7 +88,10 @@ static PyObject* pyGBufferGroup_getVerts(pyGBufferGroup* self, PyObject* args) {
     return list;
 }
 
-static PyObject* pyGBufferGroup_getIndices(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, getIndices,
+    "Params: idx\n"
+    "Get the specified face index list as a list of indices")
+{
     int idx, start = 0, len = -1;
     if (!PyArg_ParseTuple(args, "i|ii", &idx, &start, &len)) {
         PyErr_SetString(PyExc_TypeError, "getIndices expects an int");
@@ -106,11 +105,14 @@ static PyObject* pyGBufferGroup_getIndices(pyGBufferGroup* self, PyObject* args)
         indices = self->fThis->getIndices(idx, start, len);
     PyObject* list = PyList_New(indices.size());
     for (size_t i=0; i<indices.size(); i++)
-        PyList_SET_ITEM(list, i, PyInt_FromLong(indices[i]));
+        PyList_SET_ITEM(list, i, pyPlasma_convert(indices[i]));
     return list;
 }
 
-static PyObject* pyGBufferGroup_getCells(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, getCells,
+    "Params: idx\n"
+    "Get the specified cell list as a list of plGBufferCell objects")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "getCells expects an int");
@@ -124,7 +126,10 @@ static PyObject* pyGBufferGroup_getCells(pyGBufferGroup* self, PyObject* args) {
     return list;
 }
 
-static PyObject* pyGBufferGroup_addVerts(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, addVertices,
+    "Params: list\n"
+    "Add a Vertex Buffer with the contents of the supplied vertex list")
+{
     PyObject* list;
     if (!PyArg_ParseTuple(args, "O", &list)) {
         PyErr_SetString(PyExc_TypeError, "addVertices expects a list of plGBufferVertex objects");
@@ -144,11 +149,13 @@ static PyObject* pyGBufferGroup_addVerts(pyGBufferGroup* self, PyObject* args) {
         verts[i] = *((pyGBufferVertex*)PyList_GetItem(list, i))->fThis;
     }
     self->fThis->addVertices(verts);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyGBufferGroup_addIndices(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, addIndices,
+    "Params: list\n"
+    "Add a Face Index Buffer with the contents of the supplied index list")
+{
     PyObject* list;
     if (!PyArg_ParseTuple(args, "O", &list)) {
         PyErr_SetString(PyExc_TypeError, "addIndices expects a list of ints");
@@ -168,11 +175,13 @@ static PyObject* pyGBufferGroup_addIndices(pyGBufferGroup* self, PyObject* args)
         indices[i] = PyInt_AsLong(PyList_GetItem(list, i));
     }
     self->fThis->addIndices(indices);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyGBufferGroup_addCells(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, addCells,
+    "Params: list\n"
+    "Add a Cell Buffer with the contents of the specified cell list" )
+{
     PyObject* list;
     if (!PyArg_ParseTuple(args, "O", &list)) {
         PyErr_SetString(PyExc_TypeError, "addCells expects a list of plGBufferCell objects");
@@ -192,70 +201,79 @@ static PyObject* pyGBufferGroup_addCells(pyGBufferGroup* self, PyObject* args) {
         cells[i] = *((pyGBufferCell*)PyList_GetItem(list, i))->fThis;
     }
     self->fThis->addCells(cells);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyGBufferGroup_delVerts(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, delVertices,
+    "Params: idx\n"
+    "Remove the specified Vertex buffer")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delVertices expects an int");
         return NULL;
     }
     self->fThis->delVertices(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyGBufferGroup_delIndices(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, delIndices,
+    "Params: idx\n"
+    "Remove the specified Face Index buffer")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delIndices expects an int");
         return NULL;
     }
     self->fThis->delIndices(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyGBufferGroup_delCells(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, delCells,
+    "Params: idx\n"
+    "Remove the specified Cell buffer")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delCells expects an int");
         return NULL;
     }
     self->fThis->delCells(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyGBufferGroup_clearVerts(pyGBufferGroup* self) {
+PY_METHOD_NOARGS(GBufferGroup, clearVertices, "Remove all Vertex buffers") {
     self->fThis->clearVertices();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyGBufferGroup_clearIndices(pyGBufferGroup* self) {
+PY_METHOD_NOARGS(GBufferGroup, clearIndices, "Remove all Face Index buffers") {
     self->fThis->clearIndices();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyGBufferGroup_clearCells(pyGBufferGroup* self) {
+PY_METHOD_NOARGS(GBufferGroup, clearCells, "Remove all Cell buffers") {
     self->fThis->clearCells();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyGBufferGroup_getNumVertBuffers(pyGBufferGroup* self) {
-    return PyInt_FromLong(self->fThis->getNumVertBuffers());
+PY_METHOD_NOARGS(GBufferGroup, getNumVertBuffers,
+    "Return the nubmer of stored Vertex buffers")
+{
+    return pyPlasma_convert(self->fThis->getNumVertBuffers());
 }
 
-static PyObject* pyGBufferGroup_getNumIdxBuffers(pyGBufferGroup* self) {
-    return PyInt_FromLong(self->fThis->getNumIdxBuffers());
+PY_METHOD_NOARGS(GBufferGroup, getNumIdxBuffers,
+    "Return the nubmer of stored Index buffers")
+{
+    return pyPlasma_convert(self->fThis->getNumIdxBuffers());
 }
 
-static PyObject* pyGBufferGroup_getVertBufferStorage(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, getVertBufferStorage,
+    "Params: idx\n"
+    "Retrieve a raw Vertex buffer")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "getVertBufferStorage expects an int");
@@ -265,7 +283,10 @@ static PyObject* pyGBufferGroup_getVertBufferStorage(pyGBufferGroup* self, PyObj
                                      self->fThis->getVertBufferSize(idx));
 }
 
-static PyObject* pyGBufferGroup_getIdxBufferStorage(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, getIdxBufferStorage,
+    "Params: idx\n"
+    "Retrieve a raw Vertex buffer")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "getIdxBufferStorage expects an int");
@@ -275,241 +296,93 @@ static PyObject* pyGBufferGroup_getIdxBufferStorage(pyGBufferGroup* self, PyObje
     const unsigned short* indices = self->fThis->getIdxBufferStorage(idx);
     PyObject* idxList = PyList_New(count);
     for (size_t i=0; i<count; i++)
-        PyList_SET_ITEM(idxList, i, PyInt_FromLong(indices[i]));
+        PyList_SET_ITEM(idxList, i, pyPlasma_convert(indices[i]));
     return idxList;
 }
 
-static PyObject* pyGBufferGroup_getVertBufferSize(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, getVertBufferSize,
+    "Params: idx\n"
+    "Return the size of the specified Vertex buffer")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "getVertBufferSize expects an int");
         return NULL;
     }
-    return PyInt_FromLong(self->fThis->getVertBufferSize(idx));
+    return pyPlasma_convert(self->fThis->getVertBufferSize(idx));
 }
 
-static PyObject* pyGBufferGroup_getIdxBufferCount(pyGBufferGroup* self, PyObject* args) {
+PY_METHOD_VA(GBufferGroup, getIdxBufferCount,
+    "Params: idx\n"
+    "Return the number of indices in the specified Index buffer")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "getIdxBufferCount expects an int");
         return NULL;
     }
-    return PyInt_FromLong(self->fThis->getIdxBufferCount(idx));
-}
-
-static PyObject* pyGBufferGroup_getFormat(pyGBufferGroup* self, void*) {
-    return PyInt_FromLong(self->fThis->getFormat());
-}
-
-static PyObject* pyGBufferGroup_getSkinWeights(pyGBufferGroup* self, void*) {
-    return PyInt_FromLong(self->fThis->getSkinWeights());
-}
-
-static PyObject* pyGBufferGroup_getNumUVs(pyGBufferGroup* self, void*) {
-    return PyInt_FromLong(self->fThis->getNumUVs());
-}
-
-static PyObject* pyGBufferGroup_getHasSIs(pyGBufferGroup* self, void*) {
-    return PyBool_FromLong(self->fThis->getHasSkinIndices());
-}
-
-static PyObject* pyGBufferGroup_getStride(pyGBufferGroup* self, void*) {
-    return PyInt_FromLong(self->fThis->getStride());
-}
-
-static int pyGBufferGroup_setFormat(pyGBufferGroup* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "format should be an int");
-        return -1;
-    }
-    self->fThis->setFormat(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyGBufferGroup_setSkinWeights(pyGBufferGroup* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "skinWeights should be an int");
-        return -1;
-    }
-    self->fThis->setSkinWeights(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyGBufferGroup_setNumUVs(pyGBufferGroup* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "numUVs should be an int");
-        return -1;
-    }
-    self->fThis->setNumUVs(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyGBufferGroup_setHasSIs(pyGBufferGroup* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "hasSkinIndices should be a bool");
-        return -1;
-    }
-    self->fThis->setHasSkinIndices(PyInt_AsLong(value) != 0);
-    return 0;
-}
-
-static int pyGBufferGroup_setStride(pyGBufferGroup* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "stride is read-only");
-    return -1;
+    return pyPlasma_convert(self->fThis->getIdxBufferCount(idx));
 }
 
 static PyMethodDef pyGBufferGroup_Methods[] = {
-    { "read", (PyCFunction)pyGBufferGroup_read, METH_VARARGS,
-      "Params: stream\n"
-      "Read this BufferGroup from a stream" },
-    { "write", (PyCFunction)pyGBufferGroup_write, METH_VARARGS,
-      "Params: stream\n"
-      "Write this BufferGroup to a stream" },
-    { "getVertices", (PyCFunction)pyGBufferGroup_getVerts, METH_VARARGS,
-      "Params: idx\n"
-      "Get the specified vertex group as a list of plGBufferVertex objects" },
-    { "getIndices", (PyCFunction)pyGBufferGroup_getIndices, METH_VARARGS,
-      "Params: idx\n"
-      "Get the specified face index list as a list of indices" },
-    { "getCells", (PyCFunction)pyGBufferGroup_getCells, METH_VARARGS,
-      "Params: idx\n"
-      "Get the specified cell list as a list of plGBufferCell objects" },
-    { "addVertices", (PyCFunction)pyGBufferGroup_addVerts, METH_VARARGS,
-      "Params: list\n"
-      "Add a Vertex Buffer with the contents of the supplied vertex list" },
-    { "addIndices", (PyCFunction)pyGBufferGroup_addIndices, METH_VARARGS,
-      "Params: list\n"
-      "Add a Face Index Buffer with the contents of the supplied index list" },
-    { "addCells", (PyCFunction)pyGBufferGroup_addCells, METH_VARARGS,
-      "Params: list\n"
-      "Add a Cell Buffer with the contents of the specified cell list" },
-    { "delVertices", (PyCFunction)pyGBufferGroup_delVerts, METH_VARARGS,
-      "Params: idx\n"
-      "Remove the specified Vertex buffer" },
-    { "delIndices", (PyCFunction)pyGBufferGroup_delIndices, METH_VARARGS,
-      "Params: idx\n"
-      "Remove the specified Face Index buffer" },
-    { "delCells", (PyCFunction)pyGBufferGroup_delCells, METH_VARARGS,
-      "Params: idx\n"
-      "Remove the specified Cell buffer" },
-    { "clearVertices", (PyCFunction)pyGBufferGroup_clearVerts, METH_NOARGS,
-      "Remove all Vertex buffers" },
-    { "clearIndices", (PyCFunction)pyGBufferGroup_clearIndices, METH_NOARGS,
-      "Remove all Face Index buffers" },
-    { "clearCells", (PyCFunction)pyGBufferGroup_clearCells, METH_NOARGS,
-      "Remove all Cell buffers" },
-    { "getNumVertBuffers", (PyCFunction)pyGBufferGroup_getNumVertBuffers, METH_NOARGS,
-      "Return the nubmer of stored Vertex buffers" },
-    { "getNumIdxBuffers", (PyCFunction)pyGBufferGroup_getNumIdxBuffers, METH_NOARGS,
-      "Return the nubmer of stored Index buffers" },
-    { "getVertBufferStorage", (PyCFunction)pyGBufferGroup_getVertBufferStorage, METH_VARARGS,
-      "Params: idx\n"
-      "Retrieve a raw Vertex buffer" },
-    { "getIdxBufferStorage", (PyCFunction)pyGBufferGroup_getIdxBufferStorage, METH_VARARGS,
-      "Params: idx\n"
-      "Retrieve a raw Vertex buffer" },
-    { "getVertBufferSize", (PyCFunction)pyGBufferGroup_getVertBufferSize, METH_VARARGS,
-      "Params: idx\n"
-      "Return the size of the specified Vertex buffer" },
-    { "getIdxBufferCount", (PyCFunction)pyGBufferGroup_getIdxBufferCount, METH_VARARGS,
-      "Params: idx\n"
-      "Return the number of indices in the specified Index buffer" },
-    { NULL, NULL, 0, NULL }
+    pyGBufferGroup_read_method,
+    pyGBufferGroup_write_method,
+    pyGBufferGroup_getVertices_method,
+    pyGBufferGroup_getIndices_method,
+    pyGBufferGroup_getCells_method,
+    pyGBufferGroup_addVertices_method,
+    pyGBufferGroup_addIndices_method,
+    pyGBufferGroup_addCells_method,
+    pyGBufferGroup_delVertices_method,
+    pyGBufferGroup_delIndices_method,
+    pyGBufferGroup_delCells_method,
+    pyGBufferGroup_clearVertices_method,
+    pyGBufferGroup_clearIndices_method,
+    pyGBufferGroup_clearCells_method,
+    pyGBufferGroup_getNumVertBuffers_method,
+    pyGBufferGroup_getNumIdxBuffers_method,
+    pyGBufferGroup_getVertBufferStorage_method,
+    pyGBufferGroup_getIdxBufferStorage_method,
+    pyGBufferGroup_getVertBufferSize_method,
+    pyGBufferGroup_getIdxBufferCount_method,
+    PY_METHOD_TERMINATOR
 };
+
+PY_PROPERTY(unsigned int, GBufferGroup, format, getFormat, setFormat)
+PY_PROPERTY(size_t, GBufferGroup, skinWeights, getSkinWeights, setSkinWeights)
+PY_PROPERTY(size_t, GBufferGroup, numUVs, getNumUVs, setNumUVs)
+PY_PROPERTY(bool, GBufferGroup, hasSkinIndices, getHasSkinIndices, setHasSkinIndices)
+PY_PROPERTY_RO(GBufferGroup, stride, getStride)
 
 static PyGetSetDef pyGBufferGroup_GetSet[] = {
-    { _pycs("format"), (getter)pyGBufferGroup_getFormat,
-        (setter)pyGBufferGroup_setFormat, NULL, NULL },
-    { _pycs("skinWeights"), (getter)pyGBufferGroup_getSkinWeights,
-        (setter)pyGBufferGroup_setSkinWeights, NULL, NULL },
-    { _pycs("numUVs"), (getter)pyGBufferGroup_getNumUVs,
-        (setter)pyGBufferGroup_setNumUVs, NULL, NULL },
-    { _pycs("hasSkinIndices"), (getter)pyGBufferGroup_getHasSIs,
-        (setter)pyGBufferGroup_setHasSIs, NULL, NULL },
-    { _pycs("stride"), (getter)pyGBufferGroup_getStride,
-        (setter)pyGBufferGroup_setStride, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyGBufferGroup_format_getset,
+    pyGBufferGroup_skinWeights_getset,
+    pyGBufferGroup_numUVs_getset,
+    pyGBufferGroup_hasSkinIndices_getset,
+    pyGBufferGroup_stride_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyGBufferGroup_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plGBufferGroup",        /* tp_name */
-    sizeof(pyGBufferGroup),             /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(GBufferGroup, plGBufferGroup, "plGBufferGroup wrapper")
 
-    (destructor)pyGBufferGroup_dealloc, /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT,                 /* tp_flags */
-    "plGBufferGroup wrapper",           /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyGBufferGroup_Methods,             /* tp_methods */
-    NULL,                               /* tp_members */
-    pyGBufferGroup_GetSet,              /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    (initproc)pyGBufferGroup___init__,  /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyGBufferGroup_new,                 /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyGBufferGroup_Type() {
-    if (PyType_Ready(&pyGBufferGroup_Type) < 0)
+PY_PLASMA_TYPE_INIT(GBufferGroup) {
+    pyGBufferGroup_Type.tp_dealloc = pyGBufferGroup_dealloc;
+    pyGBufferGroup_Type.tp_init = pyGBufferGroup___init__;
+    pyGBufferGroup_Type.tp_new = pyGBufferGroup_new;
+    pyGBufferGroup_Type.tp_methods = pyGBufferGroup_Methods;
+    pyGBufferGroup_Type.tp_getset = pyGBufferGroup_GetSet;
+    if (PyType_CheckAndReady(&pyGBufferGroup_Type) < 0)
         return NULL;
 
     // Formats
-    PyDict_SetItemString(pyGBufferGroup_Type.tp_dict, "kUVCountMask",
-                         PyInt_FromLong(plGBufferGroup::kUVCountMask));
-    PyDict_SetItemString(pyGBufferGroup_Type.tp_dict, "kSkinNoWeights",
-                         PyInt_FromLong(plGBufferGroup::kSkinNoWeights));
-    PyDict_SetItemString(pyGBufferGroup_Type.tp_dict, "kSkin1Weight",
-                         PyInt_FromLong(plGBufferGroup::kSkin1Weight));
-    PyDict_SetItemString(pyGBufferGroup_Type.tp_dict, "kSkin2Weights",
-                         PyInt_FromLong(plGBufferGroup::kSkin2Weights));
-    PyDict_SetItemString(pyGBufferGroup_Type.tp_dict, "kSkin3Weights",
-                         PyInt_FromLong(plGBufferGroup::kSkin3Weights));
-    PyDict_SetItemString(pyGBufferGroup_Type.tp_dict, "kSkinWeightMask",
-                         PyInt_FromLong(plGBufferGroup::kSkinWeightMask));
-    PyDict_SetItemString(pyGBufferGroup_Type.tp_dict, "kSkinIndices",
-                         PyInt_FromLong(plGBufferGroup::kSkinIndices));
-    PyDict_SetItemString(pyGBufferGroup_Type.tp_dict, "kEncoded",
-                         PyInt_FromLong(plGBufferGroup::kEncoded));
+    PY_TYPE_ADD_CONST(GBufferGroup, "kUVCountMask", plGBufferGroup::kUVCountMask);
+    PY_TYPE_ADD_CONST(GBufferGroup, "kSkinNoWeights", plGBufferGroup::kSkinNoWeights);
+    PY_TYPE_ADD_CONST(GBufferGroup, "kSkin1Weight", plGBufferGroup::kSkin1Weight);
+    PY_TYPE_ADD_CONST(GBufferGroup, "kSkin2Weights", plGBufferGroup::kSkin2Weights);
+    PY_TYPE_ADD_CONST(GBufferGroup, "kSkin3Weights", plGBufferGroup::kSkin3Weights);
+    PY_TYPE_ADD_CONST(GBufferGroup, "kSkinWeightMask", plGBufferGroup::kSkinWeightMask);
+    PY_TYPE_ADD_CONST(GBufferGroup, "kSkinIndices", plGBufferGroup::kSkinIndices);
+    PY_TYPE_ADD_CONST(GBufferGroup, "kEncoded", plGBufferGroup::kEncoded);
 
     Py_INCREF(&pyGBufferGroup_Type);
     return (PyObject*)&pyGBufferGroup_Type;

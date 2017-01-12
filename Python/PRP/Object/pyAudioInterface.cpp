@@ -22,99 +22,22 @@
 
 extern "C" {
 
-static PyObject* pyAudioInterface_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyAudioInterface* self = (pyAudioInterface*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plAudioInterface();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(AudioInterface, plAudioInterface)
 
-static PyObject* pyAudioInterface_getAudible(pyAudioInterface* self, void*) {
-    return pyKey_FromKey(self->fThis->getAudible());
-}
-
-static int pyAudioInterface_setAudible(pyAudioInterface* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setAudible(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setAudible(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "audible should be a plKey");
-        return -1;
-    }
-}
+PY_PROPERTY(plKey, AudioInterface, audible, getAudible, setAudible)
 
 PyGetSetDef pyAudioInterface_GetSet[] = {
-    { _pycs("audible"), (getter)pyAudioInterface_getAudible,
-        (setter)pyAudioInterface_setAudible, _pycs("The Audible key"), NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyAudioInterface_audible_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyAudioInterface_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plAudioInterface",      /* tp_name */
-    sizeof(pyAudioInterface),           /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(AudioInterface, plAudioInterface, "plAudioInterface wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plAudioInterface wrapper",         /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    NULL,                               /* tp_methods */
-    NULL,                               /* tp_members */
-    pyAudioInterface_GetSet,            /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyAudioInterface_new,               /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyAudioInterface_Type() {
+PY_PLASMA_TYPE_INIT(AudioInterface) {
+    pyAudioInterface_Type.tp_new = pyAudioInterface_new;
+    pyAudioInterface_Type.tp_getset = pyAudioInterface_GetSet;
     pyAudioInterface_Type.tp_base = &pyObjInterface_Type;
-    if (PyType_Ready(&pyAudioInterface_Type) < 0)
+    if (PyType_CheckAndReady(&pyAudioInterface_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyAudioInterface_Type);

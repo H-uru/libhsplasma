@@ -21,12 +21,12 @@
 
 extern "C" {
 
-static PyObject* pySpanTemplate_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "Cannot create plSpanTemplate objects from Python");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(SpanTemplate, "Cannot create plSpanTemplate objects from Python")
 
-static PyObject* pySpanTemplate_read(pySpanTemplate* self, PyObject* args) {
+PY_METHOD_VA(SpanTemplate, read,
+    "Params: stream\n"
+    "Reads this object from the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
@@ -37,11 +37,13 @@ static PyObject* pySpanTemplate_read(pySpanTemplate* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pySpanTemplate_write(pySpanTemplate* self, PyObject* args) {
+PY_METHOD_VA(SpanTemplate, write,
+    "Params: stream\n"
+    "Writes this object to the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
@@ -52,8 +54,7 @@ static PyObject* pySpanTemplate_write(pySpanTemplate* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySpanTemplate_getVerts(pySpanTemplate* self, void*) {
@@ -69,12 +70,8 @@ static PyObject* pySpanTemplate_getIndices(pySpanTemplate* self, void*) {
     size_t numIndices = self->fThis->getNumTris() * 3;
     PyObject* list = PyList_New(numIndices);
     for (size_t i=0; i<numIndices; i++)
-        PyList_SET_ITEM(list, i, PyInt_FromLong(indices[i]));
+        PyList_SET_ITEM(list, i, pyPlasma_convert(indices[i]));
     return list;
-}
-
-static PyObject* pySpanTemplate_getFormat(pySpanTemplate* self, void*) {
-    return PyInt_FromLong(self->fThis->getFormat());
 }
 
 static int pySpanTemplate_setVerts(pySpanTemplate* self, PyObject* value, void*) {
@@ -124,95 +121,30 @@ static int pySpanTemplate_setIndices(pySpanTemplate* self, PyObject* value, void
     return 0;
 }
 
-static int pySpanTemplate_setFormat(pySpanTemplate* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "format should be an int");
-        return -1;
-    }
-    self->fThis->setFormat(PyInt_AsLong(value));
-    return 0;
-}
-
 static PyMethodDef pySpanTemplate_Methods[] = {
-    { "read", (PyCFunction)pySpanTemplate_read, METH_VARARGS,
-      "Params: stream\n"
-      "Reads this object from the stream" },
-    { "write", (PyCFunction)pySpanTemplate_write, METH_VARARGS,
-      "Params: stream\n"
-      "Writes this object to the stream" },
-    { NULL, NULL, 0, NULL }
+    pySpanTemplate_read_method,
+    pySpanTemplate_write_method,
+    PY_METHOD_TERMINATOR
 };
+
+PY_PROPERTY(unsigned short, SpanTemplate, format, getFormat, setFormat)
 
 static PyGetSetDef pySpanTemplate_GetSet[] = {
     { _pycs("vertices"), (getter)pySpanTemplate_getVerts,
         (setter)pySpanTemplate_setVerts, NULL, NULL },
     { _pycs("indices"), (getter)pySpanTemplate_getIndices,
         (setter)pySpanTemplate_setIndices, NULL, NULL },
-    { _pycs("format"), (getter)pySpanTemplate_getFormat,
-        (setter)pySpanTemplate_setFormat, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pySpanTemplate_format_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pySpanTemplate_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plSpanTemplate",        /* tp_name */
-    sizeof(pySpanTemplate),             /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(SpanTemplate, plSpanTemplate, "plSpanTemplate wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT,                 /* tp_flags */
-    "plSpanTemplate wrapper",           /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pySpanTemplate_Methods,             /* tp_methods */
-    NULL,                               /* tp_members */
-    pySpanTemplate_GetSet,              /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pySpanTemplate_new,                 /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pySpanTemplate_Type() {
-    if (PyType_Ready(&pySpanTemplate_Type) < 0)
+PY_PLASMA_TYPE_INIT(SpanTemplate) {
+    pySpanTemplate_Type.tp_new = pySpanTemplate_new;
+    pySpanTemplate_Type.tp_methods = pySpanTemplate_Methods;
+    pySpanTemplate_Type.tp_getset = pySpanTemplate_GetSet;
+    if (PyType_CheckAndReady(&pySpanTemplate_Type) < 0)
         return NULL;
 
     Py_INCREF(&pySpanTemplate_Type);

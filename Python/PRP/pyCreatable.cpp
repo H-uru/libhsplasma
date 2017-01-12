@@ -22,59 +22,58 @@
 
 extern "C" {
 
-static void pyCreatable_dealloc(pyCreatable* self) {
-    if (self->fPyOwned) {
-        plCreatable* obj = self->fThis;
-        delete obj;
-        self->fThis = NULL;
-    }
-    Py_TYPE(self)->tp_free((PyObject*)self);
+PY_PLASMA_DEALLOC(Creatable)
+PY_PLASMA_EMPTY_INIT(Creatable)
+PY_PLASMA_NEW_MSG(Creatable, "plCreatable is abstract")
+
+PY_METHOD_NOARGS(Creatable, ClassIndex,
+    "Returns the Creatable Class Index of this Creatable")
+{
+    return pyPlasma_convert(self->fThis->ClassIndex());
 }
 
-static int pyCreatable___init__(pyCreatable* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyCreatable_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plCreatable is abstract");
-    return NULL;
-}
-
-static PyObject* pyCreatable_ClassIndex(pyCreatable* self) {
-    return PyInt_FromLong(self->fThis->ClassIndex());
-}
-
-static PyObject* pyCreatable_ClassIndexVer(pyCreatable* self, PyObject* args) {
+PY_METHOD_VA(Creatable, ClassIndexVer,
+    "Params: version\n"
+    "Returns the Creatable Class Index of this Creatable for\n"
+    "the specified Plasma version")
+{
     int ver;
     if (!PyArg_ParseTuple(args, "i", &ver)) {
         PyErr_SetString(PyExc_TypeError, "ClassIndexVer expects an int");
         return NULL;
     }
-    return PyInt_FromLong(self->fThis->ClassIndex((PlasmaVer)ver));
+    return pyPlasma_convert(self->fThis->ClassIndex((PlasmaVer)ver));
 }
 
-static PyObject* pyCreatable_ClassName(pyCreatable* self) {
-    return PyString_FromString(self->fThis->ClassName());
+PY_METHOD_NOARGS(Creatable, ClassName,
+    "Returns the Creatable Name of this Creatable")
+{
+    return pyPlasma_convert(self->fThis->ClassName());
 }
 
-static PyObject* pyCreatable_ClassInstance(pyCreatable* self, PyObject* args) {
+PY_METHOD_VA(Creatable, ClassInstance,
+    "Params: classId\n"
+    "Returns true if this Creatable is an instance or subclass\n"
+    "of `classId`")
+{
     int classId;
     if (!PyArg_ParseTuple(args, "i", &classId)) {
         PyErr_SetString(PyExc_TypeError, "ClassInstance expects an int");
         return NULL;
     }
-    bool yes = self->fThis->ClassInstance(classId);
-    return PyBool_FromLong(yes ? 1 : 0);
+    return pyPlasma_convert(self->fThis->ClassInstance(classId));
 }
 
-static PyObject* pyCreatable_isStub(pyCreatable* self) {
-    bool yes = self->fThis->isStub();
-    return PyBool_FromLong(yes ? 1 : 0);
+PY_METHOD_NOARGS(Creatable, isStub,
+    "Returns true if this Creatable is a stub (plCreatableStub)")
+{
+    return pyPlasma_convert(self->fThis->isStub());
 }
 
-static PyObject* pyCreatable_read(pyCreatable* self, PyObject* args) {
+PY_METHOD_VA(Creatable, read,
+    "Params: stream, resManager\n"
+    "Read this Creatable from `stream`")
+{
     pyStream* stream;
     pyResManager* mgr;
     if (!PyArg_ParseTuple(args, "OO", &stream, &mgr)) {
@@ -86,11 +85,13 @@ static PyObject* pyCreatable_read(pyCreatable* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis, mgr->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyCreatable_write(pyCreatable* self, PyObject* args) {
+PY_METHOD_VA(Creatable, write,
+    "Params: stream, resManager\n"
+    "Write this Creatable to `stream`")
+{
     pyStream* stream;
     pyResManager* mgr;
     if (!PyArg_ParseTuple(args, "OO", &stream, &mgr)) {
@@ -102,94 +103,28 @@ static PyObject* pyCreatable_write(pyCreatable* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis, mgr->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyCreatable_Methods[] = {
-    { "ClassIndex", (PyCFunction)pyCreatable_ClassIndex, METH_NOARGS,
-      "Returns the Creatable Class Index of this Creatable" },
-    { "ClassIndexVer", (PyCFunction)pyCreatable_ClassIndexVer, METH_VARARGS,
-      "Params: version\n"
-      "Returns the Creatable Class Index of this Creatable for\n"
-      "the specified Plasma version" },
-    { "ClassName", (PyCFunction)pyCreatable_ClassName, METH_NOARGS,
-      "Returns the Creatable Name of this Creatable" },
-    { "ClassInstance", (PyCFunction)pyCreatable_ClassInstance, METH_VARARGS,
-      "Params: classId\n"
-      "Returns true if this Creatable is an instance or subclass\n"
-      "of `classId`" },
-    { "isStub", (PyCFunction)pyCreatable_isStub, METH_NOARGS,
-      "Returns true if this Creatable is a stub (plCreatableStub)" },
-    { "read", (PyCFunction)pyCreatable_read, METH_VARARGS,
-      "Params: stream, resManager\n"
-      "Read this Creatable from `stream`" },
-    { "write", (PyCFunction)pyCreatable_write, METH_VARARGS,
-      "Params: stream, resManager\n"
-      "Write this Creatable to `stream`" },
-    { NULL, NULL, 0, NULL }
+    pyCreatable_ClassIndex_method,
+    pyCreatable_ClassIndexVer_method,
+    pyCreatable_ClassName_method,
+    pyCreatable_ClassInstance_method,
+    pyCreatable_isStub_method,
+    pyCreatable_read_method,
+    pyCreatable_write_method,
+    PY_METHOD_TERMINATOR
 };
 
-PyTypeObject pyCreatable_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plCreatable",           /* tp_name */
-    sizeof(pyCreatable),                /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(Creatable, plCreatable, "plCreatable wrapper")
 
-    (destructor)pyCreatable_dealloc,    /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plCreatable wrapper",              /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyCreatable_Methods,                /* tp_methods */
-    NULL,                               /* tp_members */
-    NULL,                               /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    (initproc)pyCreatable___init__,     /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyCreatable_new,                    /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyCreatable_Type() {
-    if (PyType_Ready(&pyCreatable_Type) < 0)
+PY_PLASMA_TYPE_INIT(Creatable) {
+    pyCreatable_Type.tp_dealloc = pyCreatable_dealloc;
+    pyCreatable_Type.tp_init = pyCreatable___init__;
+    pyCreatable_Type.tp_new = pyCreatable_new;
+    pyCreatable_Type.tp_methods = pyCreatable_Methods;
+    if (PyType_CheckAndReady(&pyCreatable_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyCreatable_Type);

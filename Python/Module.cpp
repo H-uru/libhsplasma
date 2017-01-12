@@ -137,7 +137,11 @@
 
 extern "C" {
 
-static PyObject* PyPlasma_CleanFileName(PyObject*, PyObject* args) {
+PY_METHOD_GLOBAL_VA(PyHSPlasma, CleanFileName,
+    "Params: string, allowPathChars=False\n"
+    "Strips illegal characters from a filename. If allowPathChars is True,\n"
+    "the characters '\\', '/' and ':' will not be removed")
+{
     const char* fname;
     unsigned char allowPathChars = 0;
     if (!PyArg_ParseTuple(args, "s|b", &fname, &allowPathChars)) {
@@ -149,21 +153,18 @@ static PyObject* PyPlasma_CleanFileName(PyObject*, PyObject* args) {
 
 }
 
-static PyMethodDef PyPlasma_Methods[] = {
-    { "CleanFileName", (PyCFunction)PyPlasma_CleanFileName, METH_VARARGS,
-      "Params: string, allowPathChars=False\n"
-      "Strips illegal characters from a filename. If allowPathChars is True,\n"
-      "the characters '\\', '/' and ':' will not be removed" },
-    { NULL, NULL, 0, NULL }
+static PyMethodDef PyHSPlasma_Methods[] = {
+    PyHSPlasma_CleanFileName_method,
+    PY_METHOD_TERMINATOR
 };
 
 #if PY_MAJOR_VERSION >= 3
-static PyModuleDef PyPlasma_Module = {
+static PyModuleDef PyHSPlasma_Module = {
     PyModuleDef_HEAD_INIT,      /* m_base */
     "PyHSPlasma",               /* m_name */
     "Python libHSPlasma interface module",  /* m_doc */
     0,                          /* m_size */
-    PyPlasma_Methods,           /* m_methods */
+    PyHSPlasma_Methods,         /* m_methods */
     NULL,                       /* m_reload */
     NULL,                       /* m_traverse */
     NULL,                       /* m_clear */
@@ -392,11 +393,11 @@ void initPyPlasma_Constants(PyObject* module) {
 
 #if PY_MAJOR_VERSION >= 3
 PyMODINIT_FUNC PyInit_PyHSPlasma() {
-    PyObject* module = PyModule_Create(&PyPlasma_Module);
+    PyObject* module = PyModule_Create(&PyHSPlasma_Module);
 
 #else
 PyMODINIT_FUNC initPyHSPlasma() {
-    PyObject* module = Py_InitModule3("PyHSPlasma", PyPlasma_Methods,
+    PyObject* module = Py_InitModule3("PyHSPlasma", PyHSPlasma_Methods,
                                       "libHSPlasma Python Interface Module");
 
 #endif
@@ -505,14 +506,14 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plResponderModifier_Cmd", Init_pyResponderModifier_Cmd_Type());
     PyModule_AddObject(module, "plResponderModifier_State", Init_pyResponderModifier_State_Type());
     PyModule_AddObject(module, "plCullPoly", Init_pyCullPoly_Type());
-    PyModule_AddObject(module, "plAgeInfoStruct", Init_pyAgeInfoStruct_Type());
-    PyModule_AddObject(module, "plAgeLinkStruct", Init_pyAgeLinkStruct_Type());
     PyModule_AddObject(module, "plSpawnPointInfo", Init_pySpawnPointInfo_Type());
     PyModule_AddObject(module, "plFixedWaterState7", Init_pyFixedWaterState7_Type());
 
     /* Creatables */
     PyModule_AddObject(module, "plCreatable", Init_pyCreatable_Type());
     PyModule_AddObject(module, "plCreatableStub", Init_pyCreatableStub_Type());
+    PyModule_AddObject(module, "plAgeInfoStruct", Init_pyAgeInfoStruct_Type());
+    PyModule_AddObject(module, "plAgeLinkStruct", Init_pyAgeLinkStruct_Type());
 
     PyModule_AddObject(module, "hsKeyedObject", Init_pyKeyedObject_Type());
     PyModule_AddObject(module, "hsKeyedObjectStub", Init_pyKeyedObjectStub_Type());

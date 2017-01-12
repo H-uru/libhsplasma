@@ -18,8 +18,38 @@
 #define _PYMULTISTAGEBEHMOD_H
 
 #include "PyPlasma.h"
+#include <PRP/Avatar/plAnimStage.h>
 
 PY_WRAP_PLASMA(MultistageBehMod, class plMultistageBehMod);
 PY_WRAP_PLASMA(AnimStage, class plAnimStage);
+
+/* Python property helpers */
+inline PyObject* pyPlasma_convert(plAnimStage::PlayType value) {
+    return PyInt_FromLong((long)value);
+}
+
+inline PyObject* pyPlasma_convert(plAnimStage::AdvanceType value) {
+    return PyInt_FromLong((long)value);
+}
+
+template <>
+inline int pyPlasma_check<plAnimStage::PlayType>(PyObject* value) {
+    return PyInt_Check(value);
+}
+
+template <>
+inline int pyPlasma_check<plAnimStage::AdvanceType>(PyObject* value) {
+    return PyInt_Check(value);
+}
+
+template <>
+inline plAnimStage::PlayType pyPlasma_get(PyObject* value) {
+    return (plAnimStage::PlayType)PyInt_AsLong(value);
+}
+
+template <>
+inline plAnimStage::AdvanceType pyPlasma_get(PyObject* value) {
+    return (plAnimStage::AdvanceType)PyInt_AsLong(value);
+}
 
 #endif

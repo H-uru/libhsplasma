@@ -22,23 +22,18 @@
 
 extern "C" {
 
-static PyObject* pySceneNode_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pySceneNode* self = (pySceneNode*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plSceneNode();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(SceneNode, plSceneNode)
 
-static PyObject* pySceneNode_clear(pySceneNode* self) {
+PY_METHOD_NOARGS(SceneNode, clear, "Removes all objects from the Scene Node") {
     self->fThis->clearSceneObjects();
     self->fThis->clearPoolObjects();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pySceneNode_addSceneObject(pySceneNode* self, PyObject* args) {
+PY_METHOD_VA(SceneNode, addSceneObject,
+    "Params: key\n"
+    "Adds the Scene Object to the Scene Node")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addSceneObject expects a plKey");
@@ -49,11 +44,13 @@ static PyObject* pySceneNode_addSceneObject(pySceneNode* self, PyObject* args) {
         return NULL;
     }
     self->fThis->addSceneObject(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pySceneNode_addPoolObject(pySceneNode* self, PyObject* args) {
+PY_METHOD_VA(SceneNode, addPoolObject,
+    "Params: key\n"
+    "Adds the Object to the Scene Node")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addPoolObject expects a plKey");
@@ -64,11 +61,13 @@ static PyObject* pySceneNode_addPoolObject(pySceneNode* self, PyObject* args) {
         return NULL;
     }
     self->fThis->addPoolObject(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pySceneNode_addSceneObjects(pySceneNode* self, PyObject* args) {
+PY_METHOD_VA(SceneNode, addSceneObjects,
+    "Params: keyArray\n"
+    "Adds multiple Scene Objects to the Scene Node")
+{
     PyObject* list;
     if (!PyArg_ParseTuple(args, "O", &list)) {
         PyErr_SetString(PyExc_TypeError, "addSceneObjects expects a list of plKeys");
@@ -91,11 +90,13 @@ static PyObject* pySceneNode_addSceneObjects(pySceneNode* self, PyObject* args) 
     }
     self->fThis->getSceneObjects().insert(self->fThis->getSceneObjects().end(),
                                           addend.begin(), addend.end());
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pySceneNode_addPoolObjects(pySceneNode* self, PyObject* args) {
+PY_METHOD_VA(SceneNode, addPoolObjects,
+    "Params: keyArray\n"
+    "Adds multiple Object to the Scene Node")
+{
     PyObject* list;
     if (!PyArg_ParseTuple(args, "O", &list)) {
         PyErr_SetString(PyExc_TypeError, "addPoolObjects expects a list of plKeys");
@@ -118,8 +119,7 @@ static PyObject* pySceneNode_addPoolObjects(pySceneNode* self, PyObject* args) {
     }
     self->fThis->getPoolObjects().insert(self->fThis->getPoolObjects().end(),
                                          addend.begin(), addend.end());
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pySceneNode_getSceneObjects(pySceneNode* self, void*) {
@@ -147,21 +147,12 @@ static int pySceneNode_setPoolObjects(pySceneNode* self, PyObject* value, void*)
 }
 
 PyMethodDef pySceneNode_Methods[] = {
-    { "clear", (PyCFunction)pySceneNode_clear, METH_NOARGS,
-      "Removes all objects from the Scene Node" },
-    { "addSceneObject", (PyCFunction)pySceneNode_addSceneObject, METH_VARARGS,
-      "Params: key\n"
-      "Adds the Scene Object to the Scene Node" },
-    { "addPoolObject", (PyCFunction)pySceneNode_addPoolObject, METH_VARARGS,
-      "Params: key\n"
-      "Adds the Object to the Scene Node" },
-    { "addSceneObjects", (PyCFunction)pySceneNode_addSceneObjects, METH_VARARGS,
-      "Params: keyArray\n"
-      "Adds multiple Scene Objects to the Scene Node" },
-    { "addPoolObject", (PyCFunction)pySceneNode_addPoolObjects, METH_VARARGS,
-      "Params: keyArray\n"
-      "Adds multiple Object to the Scene Node" },
-    { NULL, NULL, 0, NULL }
+    pySceneNode_clear_method,
+    pySceneNode_addSceneObject_method,
+    pySceneNode_addPoolObject_method,
+    pySceneNode_addSceneObjects_method,
+    pySceneNode_addPoolObjects_method,
+    PY_METHOD_TERMINATOR
 };
 
 PyGetSetDef pySceneNode_GetSet[] = {
@@ -169,70 +160,17 @@ PyGetSetDef pySceneNode_GetSet[] = {
         (setter)pySceneNode_setSceneObjects, NULL, NULL },
     { _pycs("poolObjects"), (getter)pySceneNode_getPoolObjects,
         (setter)pySceneNode_setPoolObjects, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pySceneNode_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plSceneNode",           /* tp_name */
-    sizeof(pySceneNode),                /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(SceneNode, plSceneNode, "plSceneNode wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plSceneNode wrapper",              /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pySceneNode_Methods,                /* tp_methods */
-    NULL,                               /* tp_members */
-    pySceneNode_GetSet,                 /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pySceneNode_new,                    /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pySceneNode_Type() {
+PY_PLASMA_TYPE_INIT(SceneNode) {
+    pySceneNode_Type.tp_new = pySceneNode_new;
+    pySceneNode_Type.tp_methods = pySceneNode_Methods;
+    pySceneNode_Type.tp_getset = pySceneNode_GetSet;
     pySceneNode_Type.tp_base = &pyKeyedObject_Type;
-    if (PyType_Ready(&pySceneNode_Type) < 0)
+    if (PyType_CheckAndReady(&pySceneNode_Type) < 0)
         return NULL;
 
     Py_INCREF(&pySceneNode_Type);

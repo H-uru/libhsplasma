@@ -15,6 +15,7 @@
  */
 
 #include "PyPlasma.h"
+#include <unordered_set>
 
 PyObject* PlasmaString_To_PyString(const plString& str) {
     return PyString_FromString(str.cstr());
@@ -33,4 +34,22 @@ plString PyString_To_PlasmaString(PyObject* str) {
     } else {
         return PyBytes_AsString(str);
     }
+}
+
+int PyType_CheckAndReady(PyTypeObject* type)
+{
+    static std::unordered_set<PyTypeObject*> init_bases;
+    if (type->tp_base != NULL && init_bases.find(type->tp_base) == init_bases.end()) {
+        fputs(plString::Format("ERROR: Base %s for type %s is not initialized\n",
+                               type->tp_base->tp_name, type->tp_name).cstr(),
+              stderr);
+        fputs(plString::Format("Classes derived from %s WILL NOT WORK CORRECTLY\n",
+                               type->tp_base->tp_name).cstr(), stderr);
+    }
+    int result = PyType_Ready(type);
+    if (result == 0)
+        init_bases.insert(type);
+    else
+        fputs(plString::Format("WARN: Failed to ready %s", type->tp_name).cstr(), stderr);
+    return result;
 }

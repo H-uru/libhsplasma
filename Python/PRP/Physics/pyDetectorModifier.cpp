@@ -23,12 +23,12 @@
 
 extern "C" {
 
-static PyObject* pyDetectorModifier_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plDetectorModifier is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(DetectorModifier, "plDetectorModifier is abstract")
 
-static PyObject* pyDetectorModifier_addReceiver(pyDetectorModifier* self, PyObject* args) {
+PY_METHOD_VA(DetectorModifier, addReceiver,
+    "Params: key\n"
+    "Adds a notification receiver to this detector")
+{
     PyObject* receiver;
     if (!(PyArg_ParseTuple(args, "O", &receiver) && pyKey_Check(receiver))) {
         PyErr_SetString(PyExc_TypeError, "addReceiver expects a plKey");
@@ -36,17 +36,20 @@ static PyObject* pyDetectorModifier_addReceiver(pyDetectorModifier* self, PyObje
     }
 
     self->fThis->addReceiver(*((pyKey*)receiver)->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyDetectorModifier_clearReceivers(pyDetectorModifier* self) {
+PY_METHOD_NOARGS(DetectorModifier, clearReceivers,
+    "Removes all receivers from this detector")
+{
     self->fThis->clearReceivers();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyDetectorModifier_delReceiver(pyDetectorModifier* self, PyObject* args) {
+PY_METHOD_VA(DetectorModifier, delReceiver,
+    "Params: idx\n"
+    "Removes a receiver from this detector")
+{
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delReceiver expects an int");
@@ -54,20 +57,14 @@ static PyObject* pyDetectorModifier_delReceiver(pyDetectorModifier* self, PyObje
     }
 
     self->fThis->delReceiver((size_t)idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyDetectorModifier_Methods[] = {
-    { "addReceiver", (PyCFunction)pyDetectorModifier_addReceiver, METH_VARARGS,
-      "Params: key\n"
-      "Adds a notification receiver to this detector" },
-    { "clearReceivers", (PyCFunction)pyDetectorModifier_clearReceivers, METH_NOARGS,
-      "Removes all receivers from this detector" },
-    { "delReceiver", (PyCFunction)pyDetectorModifier_delReceiver, METH_VARARGS,
-      "Params: idx\n"
-      "Removes a receiver from this detector" },
-    { NULL, NULL, 0, NULL }
+    pyDetectorModifier_addReceiver_method,
+    pyDetectorModifier_clearReceivers_method,
+    pyDetectorModifier_delReceiver_method,
+    PY_METHOD_TERMINATOR
 };
 
 static PyObject* pyDetectorModifier_getReceivers(pyDetectorModifier* self, void*) {
@@ -78,116 +75,30 @@ static PyObject* pyDetectorModifier_getReceivers(pyDetectorModifier* self, void*
     return sequence;
 }
 
-static PyObject* pyDetectorModifier_getRemoteMod(pyDetectorModifier* self, void*) {
-    return pyKey_FromKey(self->fThis->getRemoteMod());
-}
-
-static PyObject* pyDetectorModifier_getProxy(pyDetectorModifier* self, void*) {
-    return pyKey_FromKey(self->fThis->getProxy());
-}
-
 static int pyDetectorModifier_setReceivers(pyDetectorModifier* self, PyObject* value, void*) {
     PyErr_SetString(PyExc_RuntimeError, "To add receivers, use addReceiver");
     return -1;
 }
 
-static int pyDetectorModifier_setRemoteMod(pyDetectorModifier* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setRemoteMod(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setRemoteMod(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "remoteMod should be a plKey");
-        return -1;
-    }
-}
-
-static int pyDetectorModifier_setProxy(pyDetectorModifier* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->setProxy(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setProxy(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "proxy should be a plKey");
-        return -1;
-    }
-}
+PY_PROPERTY(plKey, DetectorModifier, remoteMod, getRemoteMod, setRemoteMod)
+PY_PROPERTY(plKey, DetectorModifier, proxy, getProxy, setProxy)
 
 static PyGetSetDef pyDetectorModifier_GetSet[] = {
     { _pycs("receivers"), (getter)pyDetectorModifier_getReceivers,
         (setter)pyDetectorModifier_setReceivers, NULL, NULL },
-    { _pycs("remoteMod"), (getter)pyDetectorModifier_getRemoteMod,
-        (setter)pyDetectorModifier_setRemoteMod, NULL, NULL },
-    { _pycs("proxy"), (getter)pyDetectorModifier_getProxy,
-        (setter)pyDetectorModifier_setProxy, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyDetectorModifier_remoteMod_getset,
+    pyDetectorModifier_proxy_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyDetectorModifier_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plDetectorModifier",    /* tp_name */
-    sizeof(pyDetectorModifier),         /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(DetectorModifier, plDetectorModifier, "plDetectorModifier wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plDetectorModifier wrapper",             /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyDetectorModifier_Methods,         /* tp_methods */
-    NULL,                               /* tp_members */
-    pyDetectorModifier_GetSet,          /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyDetectorModifier_new,             /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyDetectorModifier_Type() {
+PY_PLASMA_TYPE_INIT(DetectorModifier) {
+    pyDetectorModifier_Type.tp_new = pyDetectorModifier_new;
+    pyDetectorModifier_Type.tp_methods = pyDetectorModifier_Methods;
+    pyDetectorModifier_Type.tp_getset = pyDetectorModifier_GetSet;
     pyDetectorModifier_Type.tp_base = &pySingleModifier_Type;
-    if (PyType_Ready(&pyDetectorModifier_Type) < 0)
+    if (PyType_CheckAndReady(&pyDetectorModifier_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyDetectorModifier_Type);

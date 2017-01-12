@@ -21,12 +21,9 @@
 
 extern "C" {
 
-static void pyPlane3_dealloc(pyPlane3* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+PY_PLASMA_VALUE_DEALLOC(Plane3)
 
-static int pyPlane3___init__(pyPlane3* self, PyObject* args, PyObject* kwds) {
+PY_PLASMA_INIT_DECL(Plane3) {
     float x = 0.0f, y = 0.0f, z = 0.0f, w = 0.0f;
     PyObject* init = NULL;
     static char* kwlist[] = { _pycs("X"), _pycs("Y"), _pycs("Z"), _pycs("W"), NULL };
@@ -40,7 +37,7 @@ static int pyPlane3___init__(pyPlane3* self, PyObject* args, PyObject* kwds) {
             return 0;
         }
         if (pyPlane3_Check(init)) {
-            (*self->fThis) = (*((pyPlane3*)init)->fThis);
+            (*self->fThis) = pyPlasma_get<hsPlane3>(init);
         } else {
             PyErr_SetString(PyExc_TypeError, "__init__ expects a Plane");
             return -1;
@@ -52,20 +49,18 @@ static int pyPlane3___init__(pyPlane3* self, PyObject* args, PyObject* kwds) {
     return 0;
 }
 
-static PyObject* pyPlane3_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyPlane3* self = (pyPlane3*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new hsPlane3();
-    return (PyObject*)self;
-}
+PY_PLASMA_VALUE_NEW(Plane3, hsPlane3)
 
-static PyObject* pyPlane3_Repr(pyPlane3* self) {
+PY_PLASMA_REPR_DECL(Plane3) {
     plString repr = plString::Format("hsPlane3(%f, %f, %f, %f)",
              self->fThis->N.X, self->fThis->N.Y, self->fThis->N.Z, self->fThis->W);
-    return PlStr_To_PyStr(repr);
+    return pyPlasma_convert(repr);
 }
 
-static PyObject* pyPlane3_read(pyPlane3* self, PyObject* args) {
+PY_METHOD_VA(Plane3, read,
+    "Params: stream\n"
+    "Reads this Plane from `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
@@ -76,11 +71,13 @@ static PyObject* pyPlane3_read(pyPlane3* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyPlane3_write(pyPlane3* self, PyObject* args) {
+PY_METHOD_VA(Plane3, write,
+    "Params: stream\n"
+    "Writes this Plane to `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
@@ -91,140 +88,38 @@ static PyObject* pyPlane3_write(pyPlane3* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
-static PyObject* pyPlane3_getX(pyPlane3* self, void*) {
-    return PyFloat_FromDouble(self->fThis->N.X);
-}
-
-static PyObject* pyPlane3_getY(pyPlane3* self, void*) {
-    return PyFloat_FromDouble(self->fThis->N.Y);
-}
-
-static PyObject* pyPlane3_getZ(pyPlane3* self, void*) {
-    return PyFloat_FromDouble(self->fThis->N.Z);
-}
-
-static PyObject* pyPlane3_getW(pyPlane3* self, void*) {
-    return PyFloat_FromDouble(self->fThis->W);
-}
-
-static int pyPlane3_setX(pyPlane3* self, PyObject* value, void*) {
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "X needs to be a float");
-        return -1;
-    }
-    self->fThis->N.X = PyFloat_AsDouble(value);
-    return 0;
-}
-
-static int pyPlane3_setY(pyPlane3* self, PyObject* value, void*) {
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "Y needs to be a float");
-        return -1;
-    }
-    self->fThis->N.Y = PyFloat_AsDouble(value);
-    return 0;
-}
-
-static int pyPlane3_setZ(pyPlane3* self, PyObject* value, void*) {
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "Z needs to be a float");
-        return -1;
-    }
-    self->fThis->N.Z = PyFloat_AsDouble(value);
-    return 0;
-}
-
-static int pyPlane3_setW(pyPlane3* self, PyObject* value, void*) {
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "W needs to be a float");
-        return -1;
-    }
-    self->fThis->W = PyFloat_AsDouble(value);
-    return 0;
+    Py_RETURN_NONE;
 }
 
 PyMethodDef pyPlane3_Methods[] = {
-    { "read", (PyCFunction)pyPlane3_read, METH_VARARGS,
-      "Params: stream\n"
-      "Reads this Plane from `stream`" },
-    { "write", (PyCFunction)pyPlane3_write, METH_VARARGS,
-      "Params: stream\n"
-      "Writes this Plane to `stream`" },
-    { NULL, NULL, 0, NULL }
+    pyPlane3_read_method,
+    pyPlane3_write_method,
+    PY_METHOD_TERMINATOR
 };
+
+PY_PROPERTY_MEMBER(float, Plane3, X, N.X)
+PY_PROPERTY_MEMBER(float, Plane3, Y, N.Y)
+PY_PROPERTY_MEMBER(float, Plane3, Z, N.Z)
+PY_PROPERTY_MEMBER(float, Plane3, W, W)
 
 PyGetSetDef pyPlane3_GetSet[] = {
-    { _pycs("X"), (getter)pyPlane3_getX, (setter)pyPlane3_setX, NULL, NULL },
-    { _pycs("Y"), (getter)pyPlane3_getY, (setter)pyPlane3_setY, NULL, NULL },
-    { _pycs("Z"), (getter)pyPlane3_getZ, (setter)pyPlane3_setZ, NULL, NULL },
-    { _pycs("W"), (getter)pyPlane3_getW, (setter)pyPlane3_setW, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyPlane3_X_getset,
+    pyPlane3_Y_getset,
+    pyPlane3_Z_getset,
+    pyPlane3_W_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyPlane3_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.hsPlane3",              /* tp_name */
-    sizeof(pyPlane3),                   /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(Plane3, hsPlane3, "hsPlane3 wrapper")
 
-    (destructor)pyPlane3_dealloc,       /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    (reprfunc)pyPlane3_Repr,            /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPES, /* tp_flags */
-    "hsPlane3 wrapper",                 /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyPlane3_Methods,                   /* tp_methods */
-    NULL,                               /* tp_members */
-    pyPlane3_GetSet,                    /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    (initproc)pyPlane3___init__,        /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyPlane3_new,                       /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyPlane3_Type() {
-    if (PyType_Ready(&pyPlane3_Type) < 0)
+PY_PLASMA_TYPE_INIT(Plane3) {
+    pyPlane3_Type.tp_dealloc = pyPlane3_dealloc;
+    pyPlane3_Type.tp_init = pyPlane3___init__;
+    pyPlane3_Type.tp_new = pyPlane3_new;
+    pyPlane3_Type.tp_repr = pyPlane3_repr;
+    pyPlane3_Type.tp_methods = pyPlane3_Methods;
+    pyPlane3_Type.tp_getset = pyPlane3_GetSet;
+    if (PyType_CheckAndReady(&pyPlane3_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyPlane3_Type);

@@ -18,128 +18,30 @@
 
 #include <PRP/Avatar/plATCAnim.h>
 #include "PRP/pyCreatable.h"
+#include "PRP/Avatar/pyAGAnim.h"
 
 extern "C" {
 
-static PyObject* pyEmoteAnim_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyEmoteAnim* self = (pyEmoteAnim*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plEmoteAnim();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(EmoteAnim, plEmoteAnim)
 
-static PyObject* pyEmoteAnim_getBodyUsage(pyEmoteAnim* self, void*) {
-    return PyInt_FromLong(self->fThis->getBodyUsage());
-}
-
-static PyObject* pyEmoteAnim_getFadeIn(pyEmoteAnim* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getFadeIn());
-}
-
-static PyObject* pyEmoteAnim_getFadeOut(pyEmoteAnim* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getFadeOut());
-}
-
-static int pyEmoteAnim_setBodyUsage(pyEmoteAnim* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "bodyUsage should be an int");
-        return -1;
-    }
-    self->fThis->setBodyUsage((plAGAnim::BodyUsage)PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyEmoteAnim_setFadeIn(pyEmoteAnim* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "fadeIn should be a float");
-        return -1;
-    }
-    self->fThis->setFadeIn(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyEmoteAnim_setFadeOut(pyEmoteAnim* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "fadeOut should be a float");
-        return -1;
-    }
-    self->fThis->setFadeOut(PyFloat_AsDouble(value));
-    return 0;
-}
+PY_PROPERTY(plAGAnim::BodyUsage, EmoteAnim, bodyUsage, getBodyUsage, setBodyUsage)
+PY_PROPERTY(float, EmoteAnim, fadeIn, getFadeIn, setFadeIn)
+PY_PROPERTY(float, EmoteAnim, fadeOut, getFadeOut, setFadeOut)
 
 static PyGetSetDef pyEmoteAnim_GetSet[] = {
-    { _pycs("bodyUsage"), (getter)pyEmoteAnim_getBodyUsage,
-        (setter)pyEmoteAnim_setBodyUsage, NULL, NULL },
-    { _pycs("fadeIn"), (getter)pyEmoteAnim_getFadeIn,
-        (setter)pyEmoteAnim_setFadeIn, NULL, NULL },
-    { _pycs("fadeOut"), (getter)pyEmoteAnim_getFadeOut,
-        (setter)pyEmoteAnim_setFadeOut, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyEmoteAnim_bodyUsage_getset,
+    pyEmoteAnim_fadeIn_getset,
+    pyEmoteAnim_fadeOut_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyEmoteAnim_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plEmoteAnim",           /* tp_name */
-    sizeof(pyEmoteAnim),                /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(EmoteAnim, plEmoteAnim, "plEmoteAnim wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plEmoteAnim wrapper",              /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    NULL,                               /* tp_methods */
-    NULL,                               /* tp_members */
-    pyEmoteAnim_GetSet,                 /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyEmoteAnim_new,                    /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyEmoteAnim_Type() {
+PY_PLASMA_TYPE_INIT(EmoteAnim) {
+    pyEmoteAnim_Type.tp_new = pyEmoteAnim_new;
+    pyEmoteAnim_Type.tp_getset = pyEmoteAnim_GetSet;
     pyEmoteAnim_Type.tp_base = &pyATCAnim_Type;
-    if (PyType_Ready(&pyEmoteAnim_Type) < 0)
+    if (PyType_CheckAndReady(&pyEmoteAnim_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyEmoteAnim_Type);

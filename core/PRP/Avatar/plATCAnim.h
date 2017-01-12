@@ -80,6 +80,12 @@ public:
     void setDoLoop(bool loop) { fLoop = loop; }
     void setEaseInType(unsigned char type) { fEaseInType = type; }
     void setEaseOutType(unsigned char type) { fEaseOutType = type; }
+    void setEaseInLength(float length) { fEaseInLength = length; }
+    void setEaseInMin(float min) { fEaseInMin = min; }
+    void setEaseInMax(float max) { fEaseInMax = max; }
+    void setEaseOutLength(float length) { fEaseOutLength = length; }
+    void setEaseOutMin(float min) { fEaseOutMin = min; }
+    void setEaseOutMax(float max) { fEaseOutMax = max; }
 
     void setEaseInParams(float length, float min, float max)
     { fEaseInLength = length; fEaseInMin = min; fEaseInMax = max; }

@@ -22,34 +22,19 @@
 
 extern "C" {
 
-static PyObject* pyAgeLinkStruct_new(PyTypeObject* type, PyObject*, PyObject*) {
-    pyAgeLinkStruct* self = (pyAgeLinkStruct*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plAgeLinkStruct();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
+PY_PLASMA_NEW(AgeLinkStruct, plAgeLinkStruct)
+
+PY_GETSET_GETTER_DECL(AgeLinkStruct, ageInfo) {
+    // This cannot be a subclass, since it's an inline member
+    return pyAgeInfoStruct_FromAgeInfoStruct(&self->fThis->getAgeInfo());
 }
 
-static PyObject* pyAgeLinkStruct_getAgeInfo(pyAgeLinkStruct* self, void*) {
-    return ICreate(&self->fThis->getAgeInfo());
-}
-
-static PyObject* pyAgeLinkStruct_getSpawnPoint(pyAgeLinkStruct* self, void*) {
-    return pySpawnPointInfo_FromSpawnPointInfo(&self->fThis->getSpawnPoint());
-}
-
-static PyObject* pyAgeLinkStruct_getLinkingRules(pyAgeLinkStruct* self, void*) {
-    return PyInt_FromLong(self->fThis->getLinkingRules());
-}
-
-static PyObject* pyAgeLinkStruct_getParentAgeFilename(pyAgeLinkStruct* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getParentAgeFilename());
-}
-
-static int pyAgeLinkStruct_setAgeInfo(pyAgeLinkStruct* self, PyObject* value, void*) {
+PY_GETSET_SETTER_DECL(AgeLinkStruct, ageInfo) {
     plAgeInfoStruct& ais = self->fThis->getAgeInfo();
-    if (value == NULL || value == Py_None) {
+    if (value == NULL) {
+        PyErr_SetString(PyExc_RuntimeError, "ageInfo cannot be deleted");
+        return -1;
+    } else if (value == Py_None) {
         self->fThis->setHasAgeInfo(false);
         ais = plAgeInfoStruct();
         return 0;
@@ -63,9 +48,18 @@ static int pyAgeLinkStruct_setAgeInfo(pyAgeLinkStruct* self, PyObject* value, vo
     }
 }
 
-static int pyAgeLinkStruct_setSpawnPoint(pyAgeLinkStruct* self, PyObject* value, void*) {
+PY_PROPERTY_GETSET_DECL(AgeLinkStruct, ageInfo)
+
+PY_GETSET_GETTER_DECL(AgeLinkStruct, spawnPoint) {
+    return pySpawnPointInfo_FromSpawnPointInfo(&self->fThis->getSpawnPoint());
+}
+
+PY_GETSET_SETTER_DECL(AgeLinkStruct, spawnPoint) {
     plSpawnPointInfo& spi = self->fThis->getSpawnPoint();
-    if (value == NULL || value == Py_None) {
+    if (value == NULL) {
+        PyErr_SetString(PyExc_RuntimeError, "spawnPoint cannot be deleted");
+        return -1;
+    } else if (value == Py_None) {
         self->fThis->setHasSpawnPoint(false);
         spi = plSpawnPointInfo();
         return 0;
@@ -79,21 +73,21 @@ static int pyAgeLinkStruct_setSpawnPoint(pyAgeLinkStruct* self, PyObject* value,
     }
 }
 
-static int pyAgeLinkStruct_setLinkingRules(pyAgeLinkStruct* self, PyObject* value, void*) {
-    if (!PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "linkingRules must be an int");
-        return -1;
-    }
-    self->fThis->setLinkingRules(PyInt_AsLong(value));
-    return 0;
-}
+PY_PROPERTY_GETSET_DECL(AgeLinkStruct, spawnPoint)
 
-static int pyAgeLinkStruct_setParentAgeFilename(pyAgeLinkStruct* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
+PY_PROPERTY(signed char, AgeLinkStruct, linkingRules, getLinkingRules, setLinkingRules)
+
+PY_PROPERTY_READ(AgeLinkStruct, parentAgeFilename, getParentAgeFilename)
+
+PY_GETSET_SETTER_DECL(AgeLinkStruct, parentAgeFilename) {
+    if (value == NULL) {
+        PyErr_SetString(PyExc_RuntimeError, "Cannot delete parentAgeFilename");
+        return -1;
+    } else if (value == Py_None) {
         self->fThis->clearParentAgeFilename();
         return 0;
-    } else if (PyAnyStr_Check(value)) {
-        self->fThis->setParentAgeFilename(PyStr_To_PlStr(value));
+    } else if (pyPlasma_check<plString>(value)) {
+        self->fThis->setParentAgeFilename(pyPlasma_get<plString>(value));
         return 0;
     } else {
         PyErr_SetString(PyExc_TypeError, "parentAgeFilename must be a string");
@@ -101,93 +95,31 @@ static int pyAgeLinkStruct_setParentAgeFilename(pyAgeLinkStruct* self, PyObject*
     }
 }
 
+PY_PROPERTY_GETSET_DECL(AgeLinkStruct, parentAgeFilename)
+
 PyGetSetDef pyAgeLinkStruct_GetSet[] = {
-    { _pycs("ageInfo"), (getter)pyAgeLinkStruct_getAgeInfo,
-      (setter)pyAgeLinkStruct_setAgeInfo, NULL, NULL },
-    { _pycs("spawnPoint"), (getter)pyAgeLinkStruct_getSpawnPoint,
-     (setter)pyAgeLinkStruct_setSpawnPoint, NULL, NULL },
-    { _pycs("linkingRules"), (getter)pyAgeLinkStruct_getLinkingRules,
-      (setter)pyAgeLinkStruct_setLinkingRules, NULL, NULL },
-    { _pycs("parentAgeFilename"), (getter)pyAgeLinkStruct_getParentAgeFilename,
-     (setter)pyAgeLinkStruct_setParentAgeFilename, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyAgeLinkStruct_ageInfo_getset,
+    pyAgeLinkStruct_spawnPoint_getset,
+    pyAgeLinkStruct_linkingRules_getset,
+    pyAgeLinkStruct_parentAgeFilename_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyAgeLinkStruct_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plAgeLinkStruct",       /* tp_name */
-    sizeof(pyAgeLinkStruct),            /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(AgeLinkStruct, plAgeLinkStruct, "plAgeLinkStruct wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plAgeLinkStruct wrapper",                 /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    NULL,                               /* tp_methods */
-    NULL,                               /* tp_members */
-    pyAgeLinkStruct_GetSet,             /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyAgeLinkStruct_new,                /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyAgeLinkStruct_Type() {
+PY_PLASMA_TYPE_INIT(AgeLinkStruct) {
+    pyAgeLinkStruct_Type.tp_new = pyAgeLinkStruct_new;
+    pyAgeLinkStruct_Type.tp_getset = pyAgeLinkStruct_GetSet;
     pyAgeLinkStruct_Type.tp_base = &pyCreatable_Type;
-    if (PyType_Ready(&pyAgeLinkStruct_Type) < 0)
+    if (PyType_CheckAndReady(&pyAgeLinkStruct_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyAgeLinkStruct_Type.tp_dict, "kBasicLink",
-                         PyInt_FromLong(plAgeLinkStruct::kBasicLink));
-    PyDict_SetItemString(pyAgeLinkStruct_Type.tp_dict, "kOriginalBook",
-                         PyInt_FromLong(plAgeLinkStruct::kOriginalBook));
-    PyDict_SetItemString(pyAgeLinkStruct_Type.tp_dict, "kSubAgeBook",
-                         PyInt_FromLong(plAgeLinkStruct::kSubAgeBook));
-    PyDict_SetItemString(pyAgeLinkStruct_Type.tp_dict, "kOwnedBook",
-                         PyInt_FromLong(plAgeLinkStruct::kOwnedBook));
-    PyDict_SetItemString(pyAgeLinkStruct_Type.tp_dict, "kVisitBook",
-                         PyInt_FromLong(plAgeLinkStruct::kVisitBook));
-    PyDict_SetItemString(pyAgeLinkStruct_Type.tp_dict, "kChildAgeBook",
-                         PyInt_FromLong(plAgeLinkStruct::kChildAgeBook));
+    PY_TYPE_ADD_CONST(AgeLinkStruct, "kBasicLink", plAgeLinkStruct::kBasicLink);
+    PY_TYPE_ADD_CONST(AgeLinkStruct, "kOriginalBook", plAgeLinkStruct::kOriginalBook);
+    PY_TYPE_ADD_CONST(AgeLinkStruct, "kSubAgeBook", plAgeLinkStruct::kSubAgeBook);
+    PY_TYPE_ADD_CONST(AgeLinkStruct, "kOwnedBook", plAgeLinkStruct::kOwnedBook);
+    PY_TYPE_ADD_CONST(AgeLinkStruct, "kVisitBook", plAgeLinkStruct::kVisitBook);
+    PY_TYPE_ADD_CONST(AgeLinkStruct, "kChildAgeBook", plAgeLinkStruct::kChildAgeBook);
 
     Py_INCREF(&pyAgeLinkStruct_Type);
     return (PyObject*)&pyAgeLinkStruct_Type;

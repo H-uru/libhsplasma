@@ -21,62 +21,38 @@
 
 extern "C" {
 
-static void pyBitVector_dealloc(pyBitVector* self) {
-    if (self->fPyOwned)
-        delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+PY_PLASMA_DEALLOC(BitVector)
+PY_PLASMA_EMPTY_INIT(BitVector)
+PY_PLASMA_NEW(BitVector, hsBitVector)
 
-static int pyBitVector___init__(pyBitVector* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-
-    return 0;
-}
-
-static PyObject* pyBitVector_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyBitVector* self = (pyBitVector*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new hsBitVector();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
-
-static PyObject* pyBitVector_Subscript(pyBitVector* self, PyObject* key) {
-    if (PyAnyStr_Check(key)) {
-        Py_INCREF(key);
-        plString name = PyStr_To_PlStr(key);
-        int idx = (int)self->fThis->getValue(name);
-        Py_DECREF(key);
-        bool v = self->fThis->get(idx);
-        return PyBool_FromLong(v ? 1 : 0);
-    } else if (PyInt_Check(key)) {
-        int idx = PyInt_AsLong(key);
-        bool v = self->fThis->get(idx);
-        return PyBool_FromLong(v ? 1 : 0);
+PY_PLASMA_SUBSCRIPT_DECL(BitVector) {
+    if (pyPlasma_check<plString>(key)) {
+        plString name = pyPlasma_get<plString>(key);
+        unsigned int idx = self->fThis->getValue(name);
+        return pyPlasma_convert(self->fThis->get(idx));
+    } else if (pyPlasma_check<unsigned int>(key)) {
+        unsigned int idx = pyPlasma_get<unsigned int>(key);
+        return pyPlasma_convert(self->fThis->get(idx));
     } else {
         PyErr_SetString(PyExc_TypeError, "Invalid subscript");
         return NULL;
     }
 }
 
-static int pyBitVector_AssSubscript(pyBitVector* self, PyObject* key, PyObject* value) {
-    if (!PyInt_Check(value)) {
+PY_PLASMA_ASS_SUBSCRIPT_DECL(BitVector) {
+    if (!pyPlasma_check<bool>(value)) {
         PyErr_SetString(PyExc_TypeError, "BitVector bits should be bools");
         return -1;
     }
-    bool b = (PyInt_AsLong(value) != 0);
+    bool b = pyPlasma_get<bool>(value);
 
-    if (PyAnyStr_Check(key)) {
-        Py_INCREF(key);
-        plString name = PyStr_To_PlStr(key);
-        int idx = (int)self->fThis->getValue(name);
-        Py_DECREF(key);
+    if (pyPlasma_check<plString>(key)) {
+        plString name = pyPlasma_get<plString>(key);
+        unsigned int idx = self->fThis->getValue(name);
         self->fThis->set(idx, b);
         return 0;
-    } else if (PyInt_Check(key)) {
-        int idx = PyInt_AsLong(key);
+    } else if (pyPlasma_check<unsigned int>(key)) {
+        unsigned int idx = pyPlasma_get<unsigned int>(key);
         self->fThis->set(idx, b);
         return 0;
     } else {
@@ -85,41 +61,51 @@ static int pyBitVector_AssSubscript(pyBitVector* self, PyObject* key, PyObject* 
     }
 }
 
-static PyObject* pyBitVector_isEmpty(pyBitVector* self) {
-    return PyBool_FromLong(self->fThis->isEmpty() ? 1 : 0);
+PY_METHOD_NOARGS(BitVector, isEmpty, "Returns whether the vector is empty") {
+    return pyPlasma_convert(self->fThis->isEmpty());
 }
 
-static PyObject* pyBitVector_clear(pyBitVector* self) {
+PY_METHOD_NOARGS(BitVector, clear, "Clears the vector of all bits") {
     self->fThis->clear();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyBitVector_compact(pyBitVector* self) {
+PY_METHOD_NOARGS(BitVector, compact,
+    "Compacts the vector to the smallest size necessary to\n"
+    "store all of the contained bits")
+{
     self->fThis->compact();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyBitVector_getName(pyBitVector* self, PyObject* args) {
+PY_METHOD_VA(BitVector, getName,
+    "Params: index\n"
+    "Returns the name of the bit at `index`")
+{
     int index;
     if (!PyArg_ParseTuple(args, "i", &index)) {
         PyErr_SetString(PyExc_TypeError, "getName expects an int");
         return NULL;
     }
-    return PlStr_To_PyStr(self->fThis->getName((size_t)index));
+    return pyPlasma_convert(self->fThis->getName((size_t)index));
 }
 
-static PyObject* pyBitVector_getValue(pyBitVector* self, PyObject* args) {
+PY_METHOD_VA(BitVector, getValue,
+    "Params: name\n"
+    "Returns the index of the bit named `name`")
+{
     const char* name;
     if (!PyArg_ParseTuple(args, "s", &name)) {
         PyErr_SetString(PyExc_TypeError, "getValue expects a string");
         return NULL;
     }
-    return PyInt_FromLong(self->fThis->getValue(name));
+    return pyPlasma_convert(self->fThis->getValue(name));
 }
 
-static PyObject* pyBitVector_setName(pyBitVector* self, PyObject* args) {
+PY_METHOD_VA(BitVector, setName,
+    "Params: index, name\n"
+    "Names the bit at `index` to `name`")
+{
     int index;
     const char* name;
     if (!PyArg_ParseTuple(args, "is", &index, &name)) {
@@ -127,11 +113,13 @@ static PyObject* pyBitVector_setName(pyBitVector* self, PyObject* args) {
         return NULL;
     }
     self->fThis->setName(index, name);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyBitVector_read(pyBitVector* self, PyObject* args) {
+PY_METHOD_VA(BitVector, read,
+    "Params: stream\n"
+    "Read this BitVector from `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
@@ -142,11 +130,13 @@ static PyObject* pyBitVector_read(pyBitVector* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyBitVector_write(pyBitVector* self, PyObject* args) {
+PY_METHOD_VA(BitVector, write,
+    "Params: stream\n"
+    "Write this BitVector to `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
@@ -157,102 +147,33 @@ static PyObject* pyBitVector_write(pyBitVector* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyMappingMethods pyBitVector_AsMapping = {
-    NULL,                                   /* mp_length */
-    (binaryfunc)pyBitVector_Subscript,      /* mp_subscript */
-    (objobjargproc)pyBitVector_AssSubscript /* mp_ass_subscript */
-};
-
 static PyMethodDef pyBitVector_Methods[] = {
-    { "isEmpty", (PyCFunction)pyBitVector_isEmpty, METH_NOARGS,
-      "Returns whether the vector is empty" },
-    { "clear", (PyCFunction)pyBitVector_clear, METH_NOARGS,
-      "Clears the vector of all bits" },
-    { "compact", (PyCFunction)pyBitVector_compact, METH_NOARGS,
-      "Compacts the vector to the smallest size necessary to\n"
-      "store all of the contained bits" },
-    { "getName", (PyCFunction)pyBitVector_getName, METH_VARARGS,
-      "Params: index\n"
-      "Returns the name of the bit at `index`" },
-    { "getValue", (PyCFunction)pyBitVector_getValue, METH_VARARGS,
-      "Params: name\n"
-      "Returns the index of the bit named `name`" },
-    { "setName", (PyCFunction)pyBitVector_setName, METH_VARARGS,
-      "Params: index, name\n"
-      "Names the bit at `index` to `name`" },
-    { "read", (PyCFunction)pyBitVector_read, METH_VARARGS,
-      "Params: stream\n"
-      "Read this BitVector from `stream`" },
-    { "write", (PyCFunction)pyBitVector_write, METH_VARARGS,
-      "Params: stream\n"
-      "Write this BitVector to `stream`" },
-    { NULL, NULL, 0, NULL }
+    pyBitVector_isEmpty_method,
+    pyBitVector_clear_method,
+    pyBitVector_compact_method,
+    pyBitVector_getName_method,
+    pyBitVector_getValue_method,
+    pyBitVector_setName_method,
+    pyBitVector_read_method,
+    pyBitVector_write_method,
+    PY_METHOD_TERMINATOR
 };
 
-PyTypeObject pyBitVector_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.hsBitVector",           /* tp_name */
-    sizeof(pyBitVector),                /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(BitVector, hsBitVector, "hsBitVector wrapper")
+PY_PLASMA_TYPE_AS_MAPPING(BitVector)
 
-    (destructor)pyBitVector_dealloc,    /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    &pyBitVector_AsMapping,             /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT,                 /* tp_flags */
-    "hsBitVector wrapper",              /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyBitVector_Methods,                /* tp_methods */
-    NULL,                               /* tp_members */
-    NULL,                               /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    (initproc)pyBitVector___init__,     /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyBitVector_new,                    /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyBitVector_Type() {
-    if (PyType_Ready(&pyBitVector_Type) < 0)
+PY_PLASMA_TYPE_INIT(BitVector) {
+    pyBitVector_As_Mapping.mp_subscript = pyBitVector_mp_subscript;
+    pyBitVector_As_Mapping.mp_ass_subscript = pyBitVector_mp_ass_subscript;
+    pyBitVector_Type.tp_dealloc = pyBitVector_dealloc;
+    pyBitVector_Type.tp_init = pyBitVector___init__;
+    pyBitVector_Type.tp_new = pyBitVector_new;
+    pyBitVector_Type.tp_as_mapping = &pyBitVector_As_Mapping;
+    pyBitVector_Type.tp_methods = pyBitVector_Methods;
+    if (PyType_CheckAndReady(&pyBitVector_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyBitVector_Type);

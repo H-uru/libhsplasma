@@ -21,129 +21,27 @@
 
 extern "C" {
 
-static PyObject* pyMultiStageEventData_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyMultiStageEventData* self = (pyMultiStageEventData*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new proMultiStageEventData();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(MultiStageEventData, proMultiStageEventData)
 
-static PyObject* pyMultiStageEventData_getStage(pyMultiStageEventData* self, void*) {
-    return PyInt_FromLong(self->fThis->getStage());
-}
-
-static PyObject* pyMultiStageEventData_getEvent(pyMultiStageEventData* self, void*) {
-    return PyInt_FromLong(self->fThis->getEvent());
-}
-
-static PyObject* pyMultiStageEventData_getAvatar(pyMultiStageEventData* self, void*) {
-    return pyKey_FromKey(self->fThis->getAvatar());
-}
-
-static int pyMultiStageEventData_setStage(pyMultiStageEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "stage should be an int");
-        return -1;
-    }
-    self->fThis->setStage(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyMultiStageEventData_setEvent(pyMultiStageEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "event should be an int");
-        return -1;
-    }
-    self->fThis->setEvent(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyMultiStageEventData_setAvatar(pyMultiStageEventData* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setAvatar(plKey());
-        return 0;
-    } else if (pyKey_Check(value)) {
-        self->fThis->setAvatar(*((pyKey*)value)->fThis);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "avatar should be a plKey");
-        return -1;
-    }
-}
+PY_PROPERTY(int, MultiStageEventData, stage, getStage, setStage)
+PY_PROPERTY(int, MultiStageEventData, event, getEvent, setEvent)
+PY_PROPERTY(plKey, MultiStageEventData, avatar, getAvatar, setAvatar)
 
 static PyGetSetDef pyMultiStageEventData_GetSet[] = {
-    { _pycs("stage"), (getter)pyMultiStageEventData_getStage,
-        (setter)pyMultiStageEventData_setStage, NULL, NULL },
-    { _pycs("event"), (getter)pyMultiStageEventData_getEvent,
-        (setter)pyMultiStageEventData_setEvent, NULL, NULL },
-    { _pycs("avatar"), (getter)pyMultiStageEventData_getAvatar,
-        (setter)pyMultiStageEventData_setAvatar, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyMultiStageEventData_stage_getset,
+    pyMultiStageEventData_event_getset,
+    pyMultiStageEventData_avatar_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyMultiStageEventData_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.proMultiStageEventData",/* tp_name */
-    sizeof(pyMultiStageEventData),      /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(MultiStageEventData, proMultiStageEventData,
+               "proMultiStageEventData wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "proMultiStageEventData wrapper",   /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    NULL,                               /* tp_methods */
-    NULL,                               /* tp_members */
-    pyMultiStageEventData_GetSet,       /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyMultiStageEventData_new,          /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyMultiStageEventData_Type() {
+PY_PLASMA_TYPE_INIT(MultiStageEventData) {
+    pyMultiStageEventData_Type.tp_new = pyMultiStageEventData_new;
+    pyMultiStageEventData_Type.tp_getset = pyMultiStageEventData_GetSet;
     pyMultiStageEventData_Type.tp_base = &pyEventData_Type;
-    if (PyType_Ready(&pyMultiStageEventData_Type) < 0)
+    if (PyType_CheckAndReady(&pyMultiStageEventData_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyMultiStageEventData_Type);

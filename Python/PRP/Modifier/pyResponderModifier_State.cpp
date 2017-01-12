@@ -21,28 +21,14 @@
 
 extern "C" {
 
-static void pyResponderModifier_State_dealloc(pyResponderModifier_State* self) {
-    if (self->fPyOwned)
-        delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+PY_PLASMA_DEALLOC(ResponderModifier_State)
+PY_PLASMA_EMPTY_INIT(ResponderModifier_State)
+PY_PLASMA_NEW(ResponderModifier_State, plResponderModifier::plResponderState)
 
-static int pyResponderModifier_State___init__(pyResponderModifier_State* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyResponderModifier_State_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyResponderModifier_State* self = (pyResponderModifier_State*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plResponderModifier::plResponderState();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
-
-static PyObject* pyResponderModifier_State_addCommand(pyResponderModifier_State* self, PyObject* args) {
+PY_METHOD_VA(ResponderModifier_State, addCommand,
+    "Params: msg, waitOn\n"
+    "Add a command to the Responder state")
+{
     pyMessage* msg;
     int waitOn;
     if (!PyArg_ParseTuple(args, "Oi", &msg, &waitOn)) {
@@ -55,25 +41,27 @@ static PyObject* pyResponderModifier_State_addCommand(pyResponderModifier_State*
     }
     self->fThis->addCommand(msg->fThis, waitOn);
     msg->fPyOwned = false;
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyResponderModifier_State_delCommand(pyResponderModifier_State* self, PyObject* args) {
+PY_METHOD_VA(ResponderModifier_State, delCommand,
+    "Params: idx\n"
+    "Delete a command from the Responder state")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delCommand expects an int");
         return NULL;
     }
     self->fThis->delCommand(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyResponderModifier_State_clearCommands(pyResponderModifier_State* self) {
+PY_METHOD_NOARGS(ResponderModifier_State, clearCommands,
+    "Delete all commands from the Responder state")
+{
     self->fThis->clearCommands();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyResponderModifier_State_getCommands(pyResponderModifier_State* self, void*) {
@@ -83,48 +71,28 @@ static PyObject* pyResponderModifier_State_getCommands(pyResponderModifier_State
     return list;
 }
 
-static PyObject* pyResponderModifier_State_getNumCallbacks(pyResponderModifier_State* self, void*) {
-    return PyInt_FromLong(self->fThis->fNumCallbacks);
-}
-
-static PyObject* pyResponderModifier_State_getSwitch(pyResponderModifier_State* self, void*) {
-    return PyInt_FromLong(self->fThis->fSwitchToState);
-}
-
-static PyObject* pyResponderModifier_State_getWaits(pyResponderModifier_State* self, void*) {
-    PyObject* dict = PyDict_New();
-    std::map<int8_t, int8_t>::iterator wp = self->fThis->fWaitToCmd.begin();
-    for ( ; wp != self->fThis->fWaitToCmd.end(); wp++)
-        PyDict_SetItem(dict, PyInt_FromLong(wp->first), PyInt_FromLong(wp->second));
-    return dict;
-}
-
 static int pyResponderModifier_State_setCommands(pyResponderModifier_State* self, PyObject* value, void*) {
     PyErr_SetString(PyExc_TypeError, "To add commands, use addCommand");
     return -1;
 }
 
-static int pyResponderModifier_State_setNumCallbacks(pyResponderModifier_State* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "numCallbacks should be an int");
-        return -1;
-    }
-    self->fThis->fNumCallbacks = PyInt_AsLong(value);
-    return 0;
+static PyMethodDef pyResponderModifier_State_Methods[] = {
+    pyResponderModifier_State_addCommand_method,
+    pyResponderModifier_State_delCommand_method,
+    pyResponderModifier_State_clearCommands_method,
+    PY_METHOD_TERMINATOR
+};
+
+PY_GETSET_GETTER_DECL(ResponderModifier_State, waitToCmd) {
+    PyObject* dict = PyDict_New();
+    for (const auto& wp : self->fThis->fWaitToCmd)
+        PyDict_SetItem(dict, pyPlasma_convert(wp.first), pyPlasma_convert(wp.second));
+    return dict;
 }
 
-static int pyResponderModifier_State_setSwitch(pyResponderModifier_State* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "switchToState should be an int");
-        return -1;
-    }
-    self->fThis->fSwitchToState = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyResponderModifier_State_setWaits(pyResponderModifier_State* self, PyObject* value, void*) {
+PY_GETSET_SETTER_DECL(ResponderModifier_State, waitToCmd) {
     if (value == NULL) {
-        self->fThis->fWaitToCmd.clear();
+        PyErr_SetString(PyExc_RuntimeError, "waitToCmd cannot be deleted");
         return 0;
     }
     if (!PyDict_Check(value)) {
@@ -137,99 +105,39 @@ static int pyResponderModifier_State_setWaits(pyResponderModifier_State* self, P
     self->fThis->fWaitToCmd.clear();
 
     while (PyDict_Next(value, &pos, &dkey, &dvalue)) {
-        if (!PyInt_Check(dkey) || !PyInt_Check(dvalue)) {
+        if (!pyPlasma_check<int8_t>(dkey) || !pyPlasma_check<int8_t>(dvalue)) {
             PyErr_SetString(PyExc_TypeError, "waitToCmd should be a dict { int => int }");
             return -1;
         }
-        self->fThis->fWaitToCmd[PyInt_AsLong(dkey)] = PyInt_AsLong(dvalue);
+        self->fThis->fWaitToCmd[pyPlasma_get<int8_t>(dkey)] = pyPlasma_get<int8_t>(dvalue);
     }
     return 0;
 }
 
-static PyMethodDef pyResponderModifier_State_Methods[] = {
-    { "addCommand", (PyCFunction)pyResponderModifier_State_addCommand, METH_VARARGS,
-      "Params: msg, waitOn\n"
-      "Add a command to the Responder state" },
-    { "delCommand", (PyCFunction)pyResponderModifier_State_delCommand, METH_VARARGS,
-      "Params: idx\n"
-      "Delete a command from the Responder state" },
-    { "clearCommands", (PyCFunction)pyResponderModifier_State_clearCommands, METH_NOARGS,
-      "Delete all commands from the Responder state" },
-    { NULL, NULL, 0, NULL }
-};
+PY_PROPERTY_GETSET_DECL(ResponderModifier_State, waitToCmd)
+
+PY_PROPERTY_MEMBER(int8_t, ResponderModifier_State, numCallbacks, fNumCallbacks)
+PY_PROPERTY_MEMBER(int8_t, ResponderModifier_State, switchToState, fSwitchToState)
 
 static PyGetSetDef pyResponderModifier_State_GetSet[] = {
     { _pycs("commands"), (getter)pyResponderModifier_State_getCommands,
         (setter)pyResponderModifier_State_setCommands, NULL, NULL },
-    { _pycs("numCallbacks"), (getter)pyResponderModifier_State_getNumCallbacks,
-        (setter)pyResponderModifier_State_setNumCallbacks, NULL, NULL },
-    { _pycs("switchToState"), (getter)pyResponderModifier_State_getSwitch,
-        (setter)pyResponderModifier_State_setSwitch, NULL, NULL },
-    { _pycs("waitToCmd"), (getter)pyResponderModifier_State_getWaits,
-        (setter)pyResponderModifier_State_setWaits, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyResponderModifier_State_numCallbacks_getset,
+    pyResponderModifier_State_switchToState_getset,
+    pyResponderModifier_State_waitToCmd_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyResponderModifier_State_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plResponderModifier_State", /* tp_name */
-    sizeof(pyResponderModifier_State),  /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(ResponderModifier_State, plResponderModifier_State,
+               "plResponderModifier::plResponderState wrapper")
 
-    (destructor)pyResponderModifier_State_dealloc, /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT,                 /* tp_flags */
-    "plResponderModifier::plResponderState wrapper", /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyResponderModifier_State_Methods,  /* tp_methods */
-    NULL,                               /* tp_members */
-    pyResponderModifier_State_GetSet,   /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    (initproc)pyResponderModifier_State___init__, /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyResponderModifier_State_new,      /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyResponderModifier_State_Type() {
-    if (PyType_Ready(&pyResponderModifier_State_Type) < 0)
+PY_PLASMA_TYPE_INIT(ResponderModifier_State) {
+    pyResponderModifier_State_Type.tp_dealloc = pyResponderModifier_State_dealloc;
+    pyResponderModifier_State_Type.tp_init = pyResponderModifier_State___init__;
+    pyResponderModifier_State_Type.tp_new = pyResponderModifier_State_new;
+    pyResponderModifier_State_Type.tp_methods = pyResponderModifier_State_Methods;
+    pyResponderModifier_State_Type.tp_getset = pyResponderModifier_State_GetSet;
+    if (PyType_CheckAndReady(&pyResponderModifier_State_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyResponderModifier_State_Type);

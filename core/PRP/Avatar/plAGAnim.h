@@ -78,8 +78,8 @@ protected:
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
-    plString getVarName() const { return fGlobalVarName; }
-    void setVarName(const plString& name) { fGlobalVarName = name; }
+    plString getGlobalVarName() const { return fGlobalVarName; }
+    void setGlobalVarName(const plString& name) { fGlobalVarName = name; }
 };
 
 #endif

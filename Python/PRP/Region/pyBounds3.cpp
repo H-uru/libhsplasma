@@ -21,126 +21,30 @@
 
 extern "C" {
 
-static PyObject* pyBounds3_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyBounds3* self = (pyBounds3*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new hsBounds3();
-    return (PyObject*)self;
-}
+PY_PLASMA_VALUE_NEW(Bounds3, hsBounds3)
 
-static PyObject* pyBounds3_getMins(pyBounds3* self, void*) {
-    return pyVector3_FromVector3(self->fThis->getMins());
-}
-
-static PyObject* pyBounds3_getMaxs(pyBounds3* self, void*) {
-    return pyVector3_FromVector3(self->fThis->getMaxs());
-}
-
-static PyObject* pyBounds3_getCenter(pyBounds3* self, void*) {
-    return pyVector3_FromVector3(self->fThis->getCenter());
-}
-
-static int pyBounds3_setMins(pyBounds3* self, PyObject* value, void*) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "mins should be an hsVector3");
-        return -1;
-    }
-    self->fThis->setMins(*((pyVector3*)value)->fThis);
-    return 0;
-}
-
-static int pyBounds3_setMaxs(pyBounds3* self, PyObject* value, void*) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "maxs should be an hsVector3");
-        return -1;
-    }
-    self->fThis->setMaxs(*((pyVector3*)value)->fThis);
-    return 0;
-}
-
-static int pyBounds3_setCenter(pyBounds3* self, PyObject* value, void*) {
-    if (value == NULL || !pyVector3_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "center should be an hsVector3");
-        return -1;
-    }
-    self->fThis->setCenter(*((pyVector3*)value)->fThis);
-    return 0;
-}
+PY_PROPERTY(hsVector3, Bounds3, mins, getMins, setMins)
+PY_PROPERTY(hsVector3, Bounds3, maxs, getMaxs, setMaxs)
+PY_PROPERTY(hsVector3, Bounds3, center, getCenter, setCenter)
 
 static PyGetSetDef pyBounds3_GetSet[] = {
-    { _pycs("mins"), (getter)pyBounds3_getMins, (setter)pyBounds3_setMins, NULL, NULL },
-    { _pycs("maxs"), (getter)pyBounds3_getMaxs, (setter)pyBounds3_setMaxs, NULL, NULL },
-    { _pycs("center"), (getter)pyBounds3_getCenter, (setter)pyBounds3_setCenter, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyBounds3_mins_getset,
+    pyBounds3_maxs_getset,
+    pyBounds3_center_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyBounds3_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.hsBounds3",             /* tp_name */
-    sizeof(pyBounds3),                  /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(Bounds3, hsBounds3, "hsBounds3 wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "hsBounds3 wrapper",                /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    NULL,                               /* tp_methods */
-    NULL,                               /* tp_members */
-    pyBounds3_GetSet,                   /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyBounds3_new,                      /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyBounds3_Type() {
+PY_PLASMA_TYPE_INIT(Bounds3) {
+    pyBounds3_Type.tp_new = pyBounds3_new;
+    pyBounds3_Type.tp_getset = pyBounds3_GetSet;
     pyBounds3_Type.tp_base = &pyBounds_Type;
-    if (PyType_Ready(&pyBounds3_Type) < 0)
+    if (PyType_CheckAndReady(&pyBounds3_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyBounds3_Type.tp_dict, "kCenterValid",
-                         PyInt_FromLong(hsBounds3::kCenterValid));
-    PyDict_SetItemString(pyBounds3_Type.tp_dict, "kIsSphere",
-                         PyInt_FromLong(hsBounds3::kIsSphere));
+    PY_TYPE_ADD_CONST(Bounds3, "kCenterValid", hsBounds3::kCenterValid);
+    PY_TYPE_ADD_CONST(Bounds3, "kIsSphere", hsBounds3::kIsSphere);
 
     Py_INCREF(&pyBounds3_Type);
     return (PyObject*)&pyBounds3_Type;

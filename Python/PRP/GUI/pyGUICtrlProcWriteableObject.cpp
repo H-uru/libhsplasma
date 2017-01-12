@@ -21,12 +21,12 @@
 
 extern "C" {
 
-static PyObject* pyGUICtrlProcWriteableObject_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "pfGUICtrlProcWriteableObject is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(GUICtrlProcWriteableObject, "pfGUICtrlProcWriteableObject is abstract")
 
-static PyObject* pyGUICtrlProcWriteableObject_Read(PyObject*, PyObject* args) {
+PY_METHOD_STATIC_VA(GUICtrlProcWriteableObject, Read,
+    "Params: stream\n"
+    "Read a writable GUI Proc object from `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "Read expects an hsStream");
@@ -39,8 +39,7 @@ static PyObject* pyGUICtrlProcWriteableObject_Read(PyObject*, PyObject* args) {
     pfGUICtrlProcWriteableObject* proc = pfGUICtrlProcWriteableObject::Read(stream->fThis);
     PyObject* pyproc = NULL;
     if (proc == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } else if (proc->getType() == pfGUICtrlProcWriteableObject::kConsoleCmd) {
         pyproc = pyGUIConsoleCmdProc_FromGUIConsoleCmdProc((pfGUIConsoleCmdProc*)proc);
         ((pyGUIConsoleCmdProc*)pyproc)->fPyOwned = true;
@@ -57,7 +56,10 @@ static PyObject* pyGUICtrlProcWriteableObject_Read(PyObject*, PyObject* args) {
     return pyproc;
 }
 
-static PyObject* pyGUICtrlProcWriteableObject_Write(PyObject*, PyObject* args) {
+PY_METHOD_STATIC_VA(GUICtrlProcWriteableObject, Write,
+    "Params: stream, proc\n"
+    "Write a writable GUI Proc object to `stream`")
+{
     pyStream* stream;
     pyGUICtrlProcWriteableObject* proc;
     if (!PyArg_ParseTuple(args, "OO", &stream, &proc)) {
@@ -69,106 +71,41 @@ static PyObject* pyGUICtrlProcWriteableObject_Write(PyObject*, PyObject* args) {
         return NULL;
     }
     pfGUICtrlProcWriteableObject::Write(stream->fThis, proc->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
-static PyObject* pyGUICtrlProcWriteableObject_getType(pyGUICtrlProcWriteableObject* self, void*) {
-    return PyInt_FromLong(self->fThis->getType());
-}
-
-static int pyGUICtrlProcWriteableObject_setType(pyGUICtrlProcWriteableObject* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "type is read-only");
-    return -1;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyGUICtrlProcWriteableObject_Methods[] = {
-    { "Read", (PyCFunction)pyGUICtrlProcWriteableObject_Read, METH_VARARGS | METH_STATIC,
-      "Params: stream\n"
-      "Read a writable GUI Proc object from `stream`" },
-    { "Write", (PyCFunction)pyGUICtrlProcWriteableObject_Write, METH_VARARGS | METH_STATIC,
-      "Params: stream, proc\n"
-      "Write a writable GUI Proc object to `stream`" },
-    { NULL, NULL, 0, NULL }
+    pyGUICtrlProcWriteableObject_Read_method,
+    pyGUICtrlProcWriteableObject_Write_method,
+    PY_METHOD_TERMINATOR
 };
+
+PY_PROPERTY_RO(GUICtrlProcWriteableObject, type, getType)
 
 static PyGetSetDef pyGUICtrlProcWriteableObject_GetSet[] = {
-    { _pycs("type"), (getter)pyGUICtrlProcWriteableObject_getType,
-        (setter)pyGUICtrlProcWriteableObject_setType, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyGUICtrlProcWriteableObject_type_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyGUICtrlProcWriteableObject_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.pfGUICtrlProcWriteableObject", /* tp_name */
-    sizeof(pyGUICtrlProcWriteableObject), /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(GUICtrlProcWriteableObject, pfGUICtrlProcWriteableObject,
+               "pfGUICtrlProcWriteableObject wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "pfGUICtrlProcWriteableObject wrapper", /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyGUICtrlProcWriteableObject_Methods, /* tp_methods */
-    NULL,                               /* tp_members */
-    pyGUICtrlProcWriteableObject_GetSet, /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyGUICtrlProcWriteableObject_new,   /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyGUICtrlProcWriteableObject_Type() {
+PY_PLASMA_TYPE_INIT(GUICtrlProcWriteableObject) {
+    pyGUICtrlProcWriteableObject_Type.tp_new = pyGUICtrlProcWriteableObject_new;
+    pyGUICtrlProcWriteableObject_Type.tp_methods = pyGUICtrlProcWriteableObject_Methods;
+    pyGUICtrlProcWriteableObject_Type.tp_getset = pyGUICtrlProcWriteableObject_GetSet;
     pyGUICtrlProcWriteableObject_Type.tp_base = &pyGUICtrlProcObject_Type;
-    if (PyType_Ready(&pyGUICtrlProcWriteableObject_Type) < 0)
+    if (PyType_CheckAndReady(&pyGUICtrlProcWriteableObject_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyGUICtrlProcWriteableObject_Type.tp_dict, "kNull",
-                         PyInt_FromLong(pfGUICtrlProcWriteableObject::kNull));
-    PyDict_SetItemString(pyGUICtrlProcWriteableObject_Type.tp_dict, "kConsoleCmd",
-                         PyInt_FromLong(pfGUICtrlProcWriteableObject::kConsoleCmd));
-    PyDict_SetItemString(pyGUICtrlProcWriteableObject_Type.tp_dict, "kPythonScript",
-                         PyInt_FromLong(pfGUICtrlProcWriteableObject::kPythonScript));
-    PyDict_SetItemString(pyGUICtrlProcWriteableObject_Type.tp_dict, "kCloseDlg",
-                         PyInt_FromLong(pfGUICtrlProcWriteableObject::kCloseDlg));
+    PY_TYPE_ADD_CONST(GUICtrlProcWriteableObject, "kNull",
+                      pfGUICtrlProcWriteableObject::kNull);
+    PY_TYPE_ADD_CONST(GUICtrlProcWriteableObject, "kConsoleCmd",
+                      pfGUICtrlProcWriteableObject::kConsoleCmd);
+    PY_TYPE_ADD_CONST(GUICtrlProcWriteableObject, "kPythonScript",
+                      pfGUICtrlProcWriteableObject::kPythonScript);
+    PY_TYPE_ADD_CONST(GUICtrlProcWriteableObject, "kCloseDlg",
+                      pfGUICtrlProcWriteableObject::kCloseDlg);
 
     Py_INCREF(&pyGUICtrlProcWriteableObject_Type);
     return (PyObject*)&pyGUICtrlProcWriteableObject_Type;

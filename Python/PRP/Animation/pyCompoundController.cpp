@@ -21,156 +21,43 @@
 
 extern "C" {
 
-static int pyCompoundController___init__(pyCompoundController* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
+PY_PLASMA_EMPTY_INIT(CompoundController)
+PY_PLASMA_NEW(CompoundController, plCompoundController)
 
-static PyObject* pyCompoundController_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyCompoundController* self = (pyCompoundController*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plCompoundController();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
-
-static PyObject* pyCompoundController_getX(pyCompoundController* self, void*) {
-    return ICreate(self->fThis->getXController());
-}
-
-static PyObject* pyCompoundController_getY(pyCompoundController* self, void*) {
-    return ICreate(self->fThis->getYController());
-}
-
-static PyObject* pyCompoundController_getZ(pyCompoundController* self, void*) {
-    return ICreate(self->fThis->getZController());
-}
-
-static int pyCompoundController_setX(pyCompoundController* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setXController(NULL);
-        return 0;
-    }
-    if (!pyController_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "X should be a plController");
-        return -1;
-    }
-    self->fThis->setXController(((pyController*)value)->fThis);
-    ((pyController*)value)->fPyOwned = false;
-    return 0;
-}
-
-static int pyCompoundController_setY(pyCompoundController* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setYController(NULL);
-        return 0;
-    }
-    if (!pyController_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "Y should be a plController");
-        return -1;
-    }
-    self->fThis->setYController(((pyController*)value)->fThis);
-    ((pyController*)value)->fPyOwned = false;
-    return 0;
-}
-
-static int pyCompoundController_setZ(pyCompoundController* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setZController(NULL);
-        return 0;
-    }
-    if (!pyController_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "Z should be a plController");
-        return -1;
-    }
-    self->fThis->setZController(((pyController*)value)->fThis);
-    ((pyController*)value)->fPyOwned = false;
-    return 0;
-}
-
-static PyObject* pyCompoundController_convertToTMController(pyCompoundController* self) {
+PY_METHOD_NOARGS(CompoundController, convertToTMController,
+    "Converts this controller to a plTMController")
+{
     return ICreate(self->fThis->convertToTMController());
 }
 
 static PyMethodDef pyCompoundController_Methods[] = {
-    { "convertToTMController", (PyCFunction)pyCompoundController_convertToTMController, METH_NOARGS,
-      "Converts this controller to a plTMController" },
-    { NULL, NULL, 0, NULL }
+    pyCompoundController_convertToTMController_method,
+    PY_METHOD_TERMINATOR
 };
+
+PY_PROPERTY_CREATABLE(plController, Controller, CompoundController, X,
+                      getXController, setXController)
+PY_PROPERTY_CREATABLE(plController, Controller, CompoundController, Y,
+                      getYController, setYController)
+PY_PROPERTY_CREATABLE(plController, Controller, CompoundController, Z,
+                      getZController, setZController)
 
 static PyGetSetDef pyCompoundController_GetSet[] = {
-    { _pycs("X"), (getter)pyCompoundController_getX,
-        (setter)pyCompoundController_setX, NULL, NULL },
-    { _pycs("Y"), (getter)pyCompoundController_getY,
-        (setter)pyCompoundController_setY, NULL, NULL },
-    { _pycs("Z"), (getter)pyCompoundController_getZ,
-        (setter)pyCompoundController_setZ, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyCompoundController_X_getset,
+    pyCompoundController_Y_getset,
+    pyCompoundController_Z_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyCompoundController_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plCompoundController",  /* tp_name */
-    sizeof(pyCompoundController),       /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(CompoundController, plCompoundController, "plCompoundController wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plCompoundController wrapper",     /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyCompoundController_Methods,       /* tp_methods */
-    NULL,                               /* tp_members */
-    pyCompoundController_GetSet,        /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    (initproc)pyCompoundController___init__, /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyCompoundController_new,           /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyCompoundController_Type() {
+PY_PLASMA_TYPE_INIT(CompoundController) {
+    pyCompoundController_Type.tp_init = pyCompoundController___init__;
+    pyCompoundController_Type.tp_new = pyCompoundController_new;
+    pyCompoundController_Type.tp_methods = pyCompoundController_Methods;
+    pyCompoundController_Type.tp_getset = pyCompoundController_GetSet;
     pyCompoundController_Type.tp_base = &pyController_Type;
-    if (PyType_Ready(&pyCompoundController_Type) < 0)
+    if (PyType_CheckAndReady(&pyCompoundController_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyCompoundController_Type);

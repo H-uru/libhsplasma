@@ -23,38 +23,34 @@
 
 extern "C" {
 
-static void pyPythonParameter_dealloc(pyPythonParameter* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+PY_PLASMA_VALUE_DEALLOC(PythonParameter)
 
-static int pyPythonParameter___init__(pyPythonParameter* self, PyObject* args, PyObject* kwds) {
-    pyPythonParameter* init = NULL;
+PY_PLASMA_INIT_DECL(PythonParameter) {
+    PyObject* init = NULL;
 
-    if (PyErr_Clear(), PyArg_ParseTuple(args, "|O", &init)) {
-        if (init == NULL)
+    if (PyArg_ParseTuple(args, "|O", &init)) {
+        if (init == NULL) {
             return 0;
-        if (pyPythonParameter_Check((PyObject*)init)) {
-            delete self->fThis;
-            self->fThis = new plPythonParameter(*init->fThis);
+        } else if (pyPythonParameter_Check(init)) {
+            (*self->fThis) = *(((pyPythonParameter*)init)->fThis);
         } else {
+            PyErr_SetString(PyExc_TypeError, "__init__ expects an optional plPythonParameter");
             return -1;
         }
     } else {
+        PyErr_SetString(PyExc_TypeError, "__init__ expects an optional plPythonParameter");
         return -1;
     }
 
     return 0;
 }
 
-static PyObject* pyPythonParameter_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyPythonParameter* self = (pyPythonParameter*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new plPythonParameter();
-    return (PyObject*)self;
-}
+PY_PLASMA_VALUE_NEW(PythonParameter, plPythonParameter)
 
-static PyObject* pyPythonParameter_read(pyPythonParameter* self, PyObject* args) {
+PY_METHOD_VA(PythonParameter, read,
+    "Params: stream, mgr\n"
+    "Reads this object from `stream`")
+{
     pyStream* stream;
     pyResManager* mgr;
     if (!PyArg_ParseTuple(args, "OO", &stream, &mgr)) {
@@ -66,11 +62,13 @@ static PyObject* pyPythonParameter_read(pyPythonParameter* self, PyObject* args)
         return NULL;
     }
     self->fThis->read(stream->fThis, mgr->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyPythonParameter_write(pyPythonParameter* self, PyObject* args) {
+PY_METHOD_VA(PythonParameter, write,
+    "Params: stream, mgr\n"
+    "Writes this object to `stream`")
+{
     pyStream* stream;
     pyResManager* mgr;
     if (!PyArg_ParseTuple(args, "OO", &stream, &mgr)) {
@@ -82,240 +80,135 @@ static PyObject* pyPythonParameter_write(pyPythonParameter* self, PyObject* args
         return NULL;
     }
     self->fThis->write(stream->fThis, mgr->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyPythonParameter_getID(pyPythonParameter* self, void*) {
-    return PyInt_FromLong(self->fThis->fID);
-}
+static PyMethodDef pyPythonParameter_Methods[] = {
+    pyPythonParameter_read_method,
+    pyPythonParameter_write_method,
+    PY_METHOD_TERMINATOR
+};
 
-static PyObject* pyPythonParameter_getType(pyPythonParameter* self, void*) {
-    return PyInt_FromLong(self->fThis->fValueType);
-}
+PY_PROPERTY_MEMBER(unsigned int, PythonParameter, id, fID)
+PY_PROPERTY_MEMBER(unsigned int, PythonParameter, valueType, fValueType)
 
-static PyObject* pyPythonParameter_getValue(pyPythonParameter* self, void*) {
+PY_GETSET_GETTER_DECL(PythonParameter, value) {
     switch (self->fThis->fValueType) {
     case plPythonParameter::kInt:
-        return PyInt_FromLong(self->fThis->fIntValue);
+        return pyPlasma_convert(self->fThis->fIntValue);
     case plPythonParameter::kFloat:
-        return PyFloat_FromDouble(self->fThis->fFloatValue);
+        return pyPlasma_convert(self->fThis->fFloatValue);
     case plPythonParameter::kBoolean:
-        return PyBool_FromLong(self->fThis->fBoolValue);
+        return pyPlasma_convert(self->fThis->fBoolValue);
     case plPythonParameter::kString:
     case plPythonParameter::kAnimationName:
     case plPythonParameter::kGlobalSDLVar:
     case plPythonParameter::kSubtitle:
-        return PlStr_To_PyStr(self->fThis->fStrValue);
+        return pyPlasma_convert(self->fThis->fStrValue);
     case plPythonParameter::kNone:
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     default:
-        return pyKey_FromKey(self->fThis->fObjKey);
+        return pyPlasma_convert(self->fThis->fObjKey);
     }
 }
 
-static int pyPythonParameter_setID(pyPythonParameter* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "id should be an int");
+PY_GETSET_SETTER_DECL(PythonParameter, value) {
+    if (value == NULL) {
+        PyErr_SetString(PyExc_RuntimeError, "value cannot be deleted");
         return -1;
     }
-    self->fThis->fID = PyInt_AsLong(value);
-    return 0;
-}
 
-static int pyPythonParameter_setType(pyPythonParameter* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "valueType should be an int");
-        return -1;
-    }
-    self->fThis->fValueType = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyPythonParameter_setValue(pyPythonParameter* self, PyObject* value, void*) {
     switch (self->fThis->fValueType) {
     case plPythonParameter::kInt:
-        if (value == NULL || !PyInt_Check(value)) {
+        if (!pyPlasma_check<int>(value)) {
             PyErr_SetString(PyExc_TypeError, "value should be an int");
             return -1;
         }
-        self->fThis->fIntValue = PyInt_AsLong(value);
+        self->fThis->fIntValue = pyPlasma_get<int>(value);
         return 0;
     case plPythonParameter::kFloat:
-        if (value == NULL || !PyFloat_Check(value)) {
+        if (!pyPlasma_check<float>(value)) {
             PyErr_SetString(PyExc_TypeError, "value should be a float");
             return -1;
         }
-        self->fThis->fFloatValue = (float)PyFloat_AsDouble(value);
+        self->fThis->fFloatValue = pyPlasma_get<float>(value);
         return 0;
     case plPythonParameter::kBoolean:
-        if (value == NULL || !PyBool_Check(value)) {
+        if (!pyPlasma_check<bool>(value)) {
             PyErr_SetString(PyExc_TypeError, "value should be a boolean");
             return -1;
         }
-        self->fThis->fBoolValue = PyInt_AsLong(value) != 0;
+        self->fThis->fBoolValue = pyPlasma_get<bool>(value);
         return 0;
     case plPythonParameter::kString:
     case plPythonParameter::kAnimationName:
     case plPythonParameter::kGlobalSDLVar:
     case plPythonParameter::kSubtitle:
-        if (value == NULL || !PyAnyStr_Check(value)) {
+        if (!pyPlasma_check<plString>(value)) {
             PyErr_SetString(PyExc_TypeError, "value should be a string");
             return -1;
         }
-        self->fThis->fStrValue = PyStr_To_PlStr(value);
+        self->fThis->fStrValue = pyPlasma_get<plString>(value);
         return 0;
     case plPythonParameter::kNone:
         PyErr_SetString(PyExc_RuntimeError, "cannot assign to a plPythonParameter whose type is kNone");
         return -1;
     default:
-        if (value == NULL || value == Py_None) {
-            self->fThis->fObjKey = plKey();
-            return 0;
-        } else if (!pyKey_Check(value)) {
+        if (!pyPlasma_check<plKey>(value)) {
             PyErr_SetString(PyExc_TypeError, "value should be a plKey");
             return -1;
         }
-        self->fThis->fObjKey = *((pyKey*)value)->fThis;
+        self->fThis->fObjKey = pyPlasma_get<plKey>(value);
         return 0;
     }
 }
 
-static PyMethodDef pyPythonParameter_Methods[] = {
-    { "read", (PyCFunction)pyPythonParameter_read, METH_VARARGS,
-      "Params: stream, mgr\n"
-      "Reads this object from `stream`" },
-    { "write", (PyCFunction)pyPythonParameter_write, METH_VARARGS,
-      "Params: stream, mgr\n"
-      "Writes this object to `stream`" },
-    { NULL, NULL, 0, NULL }
-};
+PY_PROPERTY_GETSET_DECL(PythonParameter, value)
 
 static PyGetSetDef pyPythonParameter_GetSet[] = {
-    { _pycs("id"), (getter)pyPythonParameter_getID,
-        (setter)pyPythonParameter_setID, NULL, NULL },
-    { _pycs("valueType"), (getter)pyPythonParameter_getType,
-        (setter)pyPythonParameter_setType, NULL, NULL },
-    { _pycs("value"), (getter)pyPythonParameter_getValue,
-        (setter)pyPythonParameter_setValue, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyPythonParameter_id_getset,
+    pyPythonParameter_valueType_getset,
+    pyPythonParameter_value_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyPythonParameter_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plPythonParameter",     /* tp_name */
-    sizeof(pyPythonParameter),          /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(PythonParameter, plPythonParameter, "plPythonParameter wrapper")
 
-    (destructor)pyPythonParameter_dealloc,  /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT,                 /* tp_flags */
-    "plPythonParameter wrapper",        /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyPythonParameter_Methods,          /* tp_methods */
-    NULL,                               /* tp_members */
-    pyPythonParameter_GetSet,           /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    (initproc)pyPythonParameter___init__, /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyPythonParameter_new,              /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyPythonParameter_Type() {
-    if (PyType_Ready(&pyPythonParameter_Type) < 0)
+PY_PLASMA_TYPE_INIT(PythonParameter) {
+    pyPythonParameter_Type.tp_dealloc = pyPythonParameter_dealloc;
+    pyPythonParameter_Type.tp_init = pyPythonParameter___init__;
+    pyPythonParameter_Type.tp_new = pyPythonParameter_new;
+    pyPythonParameter_Type.tp_methods = pyPythonParameter_Methods;
+    pyPythonParameter_Type.tp_getset = pyPythonParameter_GetSet;
+    if (PyType_CheckAndReady(&pyPythonParameter_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kInt",
-                         PyInt_FromLong(plPythonParameter::kInt));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kFloat",
-                         PyInt_FromLong(plPythonParameter::kFloat));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kBoolean",
-                         PyInt_FromLong(plPythonParameter::kBoolean));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kString",
-                         PyInt_FromLong(plPythonParameter::kString));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kSceneObject",
-                         PyInt_FromLong(plPythonParameter::kSceneObject));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kSceneObjectList",
-                         PyInt_FromLong(plPythonParameter::kSceneObjectList));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kActivator",
-                         PyInt_FromLong(plPythonParameter::kActivator));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kResponder",
-                         PyInt_FromLong(plPythonParameter::kResponder));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kDynamicText",
-                         PyInt_FromLong(plPythonParameter::kDynamicText));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kGUIDialog",
-                         PyInt_FromLong(plPythonParameter::kGUIDialog));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kExcludeRegion",
-                         PyInt_FromLong(plPythonParameter::kExcludeRegion));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kAnimation",
-                         PyInt_FromLong(plPythonParameter::kAnimation));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kAnimationName",
-                         PyInt_FromLong(plPythonParameter::kAnimationName));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kBehavior",
-                         PyInt_FromLong(plPythonParameter::kBehavior));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kMaterial",
-                         PyInt_FromLong(plPythonParameter::kMaterial));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kGUIPopUpMenu",
-                         PyInt_FromLong(plPythonParameter::kGUIPopUpMenu));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kGUISkin",
-                         PyInt_FromLong(plPythonParameter::kGUISkin));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kWaterComponent",
-                         PyInt_FromLong(plPythonParameter::kWaterComponent));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kSwimCurrentInterface",
-                         PyInt_FromLong(plPythonParameter::kSwimCurrentInterface));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kClusterComponent",
-                         PyInt_FromLong(plPythonParameter::kClusterComponent));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kMaterialAnimation",
-                         PyInt_FromLong(plPythonParameter::kMaterialAnimation));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kGrassShaderComponent",
-                         PyInt_FromLong(plPythonParameter::kGrassShaderComponent));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kGlobalSDLVar",
-                         PyInt_FromLong(plPythonParameter::kGlobalSDLVar));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kSubtitle",
-                         PyInt_FromLong(plPythonParameter::kSubtitle));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kBlowerComponent",
-                         PyInt_FromLong(plPythonParameter::kBlowerComponent));
-    PyDict_SetItemString(pyPythonParameter_Type.tp_dict, "kNone",
-                         PyInt_FromLong(plPythonParameter::kNone));
+    PY_TYPE_ADD_CONST(PythonParameter, "kInt", plPythonParameter::kInt);
+    PY_TYPE_ADD_CONST(PythonParameter, "kFloat", plPythonParameter::kFloat);
+    PY_TYPE_ADD_CONST(PythonParameter, "kBoolean", plPythonParameter::kBoolean);
+    PY_TYPE_ADD_CONST(PythonParameter, "kString", plPythonParameter::kString);
+    PY_TYPE_ADD_CONST(PythonParameter, "kSceneObject", plPythonParameter::kSceneObject);
+    PY_TYPE_ADD_CONST(PythonParameter, "kSceneObjectList", plPythonParameter::kSceneObjectList);
+    PY_TYPE_ADD_CONST(PythonParameter, "kActivator", plPythonParameter::kActivator);
+    PY_TYPE_ADD_CONST(PythonParameter, "kResponder", plPythonParameter::kResponder);
+    PY_TYPE_ADD_CONST(PythonParameter, "kDynamicText", plPythonParameter::kDynamicText);
+    PY_TYPE_ADD_CONST(PythonParameter, "kGUIDialog", plPythonParameter::kGUIDialog);
+    PY_TYPE_ADD_CONST(PythonParameter, "kExcludeRegion", plPythonParameter::kExcludeRegion);
+    PY_TYPE_ADD_CONST(PythonParameter, "kAnimation", plPythonParameter::kAnimation);
+    PY_TYPE_ADD_CONST(PythonParameter, "kAnimationName", plPythonParameter::kAnimationName);
+    PY_TYPE_ADD_CONST(PythonParameter, "kBehavior", plPythonParameter::kBehavior);
+    PY_TYPE_ADD_CONST(PythonParameter, "kMaterial", plPythonParameter::kMaterial);
+    PY_TYPE_ADD_CONST(PythonParameter, "kGUIPopUpMenu", plPythonParameter::kGUIPopUpMenu);
+    PY_TYPE_ADD_CONST(PythonParameter, "kGUISkin", plPythonParameter::kGUISkin);
+    PY_TYPE_ADD_CONST(PythonParameter, "kWaterComponent", plPythonParameter::kWaterComponent);
+    PY_TYPE_ADD_CONST(PythonParameter, "kSwimCurrentInterface", plPythonParameter::kSwimCurrentInterface);
+    PY_TYPE_ADD_CONST(PythonParameter, "kClusterComponent", plPythonParameter::kClusterComponent);
+    PY_TYPE_ADD_CONST(PythonParameter, "kMaterialAnimation", plPythonParameter::kMaterialAnimation);
+    PY_TYPE_ADD_CONST(PythonParameter, "kGrassShaderComponent", plPythonParameter::kGrassShaderComponent);
+    PY_TYPE_ADD_CONST(PythonParameter, "kGlobalSDLVar", plPythonParameter::kGlobalSDLVar);
+    PY_TYPE_ADD_CONST(PythonParameter, "kSubtitle", plPythonParameter::kSubtitle);
+    PY_TYPE_ADD_CONST(PythonParameter, "kBlowerComponent", plPythonParameter::kBlowerComponent);
+    PY_TYPE_ADD_CONST(PythonParameter, "kNone", plPythonParameter::kNone);
 
     Py_INCREF(&pyPythonParameter_Type);
     return (PyObject*)&pyPythonParameter_Type;

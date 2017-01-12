@@ -25,28 +25,14 @@
 
 extern "C" {
 
-static void pyCluster_dealloc(pyCluster* self) {
-    if (self->fPyOwned)
-        delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+PY_PLASMA_DEALLOC(Cluster)
+PY_PLASMA_EMPTY_INIT(Cluster)
+PY_PLASMA_NEW(Cluster, plCluster)
 
-static int pyCluster___init__(pyCluster* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
-
-static PyObject* pyCluster_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyCluster* self = (pyCluster*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plCluster();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
-
-static PyObject* pyCluster_read(pyCluster* self, PyObject* args) {
+PY_METHOD_VA(Cluster, read,
+    "Params: stream, group\n"
+    "Read this object from the stream")
+{
     pyStream* stream;
     pyClusterGroup* group;
     if (!PyArg_ParseTuple(args, "OO", &stream, &group)) {
@@ -58,11 +44,13 @@ static PyObject* pyCluster_read(pyCluster* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis, group->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyCluster_write(pyCluster* self, PyObject* args) {
+PY_METHOD_VA(Cluster, write,
+    "Params: stream\n"
+    "Write this object to the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
@@ -73,17 +61,20 @@ static PyObject* pyCluster_write(pyCluster* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyCluster_clearInstances(pyCluster* self) {
+PY_METHOD_NOARGS(Cluster, clearInstances,
+    "Remove all plSpanInstance objects from the cluster")
+{
     self->fThis->clearInstances();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyCluster_addInstance(pyCluster* self, PyObject* args) {
+PY_METHOD_VA(Cluster, addInstance,
+    "Params: instance\n"
+    "Add a plSpanInstance to the cluster")
+{
     pySpanInstance* instance;
     if (!PyArg_ParseTuple(args, "O", &instance)) {
         PyErr_SetString(PyExc_TypeError, "addInstance expects a plSpanInstance");
@@ -95,27 +86,20 @@ static PyObject* pyCluster_addInstance(pyCluster* self, PyObject* args) {
     }
     self->fThis->addInstance(instance->fThis);
     instance->fPyOwned = false;
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyCluster_delInstance(pyCluster* self, PyObject* args) {
+PY_METHOD_VA(Cluster, delInstance,
+    "Params: idx\n"
+    "Remove a plSpanInstance from the cluster")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delInstance expects an int");
         return NULL;
     }
     self->fThis->delInstance(idx);
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
-static PyObject* pyCluster_getEncoding(pyCluster* self, void*) {
-    return pySpanEncoding_FromSpanEncoding(&self->fThis->getEncoding());
-}
-
-static PyObject* pyCluster_getGroup(pyCluster* self, void*) {
-    return ICreate(self->fThis->getGroup());
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyCluster_getInstances(pyCluster* self, void*) {
@@ -125,117 +109,40 @@ static PyObject* pyCluster_getInstances(pyCluster* self, void*) {
     return list;
 }
 
-static int pyCluster_setEncoding(pyCluster* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "encoding cannot be assigned");
-    return -1;
-}
-
-static int pyCluster_setGroup(pyCluster* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setGroup(NULL);
-        return 0;
-    }
-    if (!pyClusterGroup_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "group should be a plClusterGroup");
-        return -1;
-    }
-    self->fThis->setGroup(((pyClusterGroup*)value)->fThis);
-    return 0;
-}
-
 static int pyCluster_setInstances(pyCluster* self, PyObject* value, void*) {
     PyErr_SetString(PyExc_RuntimeError, "To add instances, use addInstance");
     return -1;
 }
 
 static PyMethodDef pyCluster_Methods[] = {
-    { "read", (PyCFunction)pyCluster_read, METH_VARARGS,
-      "Params: stream, group\n"
-      "Read this object from the stream" },
-    { "write", (PyCFunction)pyCluster_write, METH_VARARGS,
-      "Params: stream\n"
-      "Write this object to the stream" },
-    { "clearInstances", (PyCFunction)pyCluster_clearInstances, METH_NOARGS,
-      "Remove all plSpanInstance objects from the cluster" },
-    { "addInstance", (PyCFunction)pyCluster_addInstance, METH_VARARGS,
-      "Params: instance\n"
-      "Add a plSpanInstance to the cluster" },
-    { "delInstance", (PyCFunction)pyCluster_delInstance, METH_VARARGS,
-      "Params: idx\n"
-      "Remove a plSpanInstance from the cluster" },
-    { NULL, NULL, 0, NULL }
+    pyCluster_read_method,
+    pyCluster_write_method,
+    pyCluster_clearInstances_method,
+    pyCluster_addInstance_method,
+    pyCluster_delInstance_method,
+    PY_METHOD_TERMINATOR
 };
+
+PY_PROPERTY_PROXY_RO(plSpanEncoding, Cluster, encoding, getEncoding)
+PY_PROPERTY_CREATABLE(plClusterGroup, ClusterGroup, Cluster, group, getGroup, setGroup)
 
 static PyGetSetDef pyCluster_GetSet[] = {
-    { _pycs("encoding"), (getter)pyCluster_getEncoding,
-        (setter)pyCluster_setEncoding, NULL, NULL },
-    { _pycs("group"), (getter)pyCluster_getGroup,
-        (setter)pyCluster_setGroup, NULL, NULL },
+    pyCluster_encoding_getset,
+    pyCluster_group_getset,
     { _pycs("instances"), (getter)pyCluster_getInstances,
         (setter)pyCluster_setInstances, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyCluster_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plCluster",             /* tp_name */
-    sizeof(pyCluster),                  /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(Cluster, plCluster, "plCluster wrapper")
 
-    (destructor)pyCluster_dealloc,      /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plCluster wrapper",                /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyCluster_Methods,                  /* tp_methods */
-    NULL,                               /* tp_members */
-    pyCluster_GetSet,                   /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    (initproc)pyCluster___init__,       /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyCluster_new,                      /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyCluster_Type() {
-    if (PyType_Ready(&pyCluster_Type) < 0)
+PY_PLASMA_TYPE_INIT(Cluster) {
+    pyCluster_Type.tp_dealloc = pyCluster_dealloc;
+    pyCluster_Type.tp_init = pyCluster___init__;
+    pyCluster_Type.tp_new = pyCluster_new;
+    pyCluster_Type.tp_methods = pyCluster_Methods;
+    pyCluster_Type.tp_getset = pyCluster_GetSet;
+    if (PyType_CheckAndReady(&pyCluster_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyCluster_Type);

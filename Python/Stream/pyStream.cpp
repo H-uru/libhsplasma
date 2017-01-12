@@ -20,12 +20,9 @@
 
 extern "C" {
 
-static void pyStream_dealloc(pyStream* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+PY_PLASMA_DEALLOC(Stream)
 
-static int pyStream___init__(pyStream* self, PyObject* args, PyObject* kwds) {
+PY_PLASMA_INIT_DECL(Stream) {
     static char* kwlist[] = { _pycs("ver"), NULL };
 
     int ver = PlasmaVer::pvUnknown;
@@ -36,69 +33,64 @@ static int pyStream___init__(pyStream* self, PyObject* args, PyObject* kwds) {
     return 0;
 }
 
-static PyObject* pyStream_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "hsStream is abstract");
-    return NULL;
-}
+PY_PLASMA_NEW_MSG(Stream, "hsStream is abstract")
 
-static PyObject* pyStream_close(pyStream* self) {
+PY_METHOD_NOARGS(Stream, close, "Closes the stream, if it is open") {
     self->fThis->close();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyStream_eof(pyStream* self) {
-    bool eof = self->fThis->eof();
-    if (eof) {
-        Py_INCREF(Py_True);
-        return Py_True;
-    } else {
-        Py_INCREF(Py_False);
-        return Py_False;
-    }
+PY_METHOD_NOARGS(Stream, eof,
+    "Returns True if the position is at the end of the stream")
+{
+    return pyPlasma_convert(self->fThis->eof());
 }
 
-static PyObject* pyStream_seek(pyStream* self, PyObject* args) {
+PY_METHOD_VA(Stream, seek,
+    "Params: position\n"
+    "Seeks to the specified position within the stream")
+{
     int32_t pos;
     if (!PyArg_ParseTuple(args, "i", &pos)) {
         PyErr_SetString(PyExc_TypeError, "seek expects an int");
         return NULL;
     }
     self->fThis->seek((uint32_t)pos);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyStream_skip(pyStream* self, PyObject* args) {
+PY_METHOD_VA(Stream, skip,
+    "Params: count\n"
+    "Skips `count` bytes within the stream")
+{
     uint32_t count;
     if (!PyArg_ParseTuple(args, "i", &count)) {
         PyErr_SetString(PyExc_TypeError, "skip expects an int");
         return NULL;
     }
     self->fThis->skip(count);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyStream_fastForward(pyStream* self) {
+PY_METHOD_NOARGS(Stream, fastForward, "Seeks directly to the end of the stream") {
     self->fThis->fastForward();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyStream_rewind(pyStream* self) {
+PY_METHOD_NOARGS(Stream, rewind, "Seeks directly to the beginning of the stream") {
     self->fThis->rewind();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyStream_flush(pyStream* self) {
+PY_METHOD_NOARGS(Stream, flush, "Flushes the stream") {
     self->fThis->flush();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyStream_read(pyStream* self, PyObject* args) {
+PY_METHOD_VA(Stream, read,
+    "Params: size\n"
+    "Reads `size` bytes and returns a binary string with the data")
+{
     int size;
     if (!PyArg_ParseTuple(args, "i", &size)) {
         PyErr_SetString(PyExc_TypeError, "read expects an int");
@@ -117,7 +109,10 @@ static PyObject* pyStream_read(pyStream* self, PyObject* args) {
     }
 }
 
-static PyObject* pyStream_write(pyStream* self, PyObject* args) {
+PY_METHOD_VA(Stream, write,
+    "Params: data\n"
+    "Writes `data` (as a binary string) to the stream")
+{
     const char* data;
     int dataSize;
     if (!PyArg_ParseTuple(args, "s#", &data, &dataSize)) {
@@ -126,15 +121,17 @@ static PyObject* pyStream_write(pyStream* self, PyObject* args) {
     }
     try {
         self->fThis->write((size_t)dataSize, data);
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
         return NULL;
     }
 }
 
-static PyObject* pyStream_writeFrom(pyStream* self, PyObject* args) {
+PY_METHOD_VA(Stream, writeFrom,
+    "Params: stream\n"
+    "Copies the contents of `stream` to this stream")
+{
     pyStream* from;
     if (!PyArg_ParseTuple(args, "O", &from)) {
         PyErr_SetString(PyExc_TypeError, "writeFrom expects a pyStream");
@@ -151,96 +148,91 @@ static PyObject* pyStream_writeFrom(pyStream* self, PyObject* args) {
         return NULL;
     }
 
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyStream_readByte(pyStream* self) {
+PY_METHOD_NOARGS(Stream, readByte, NULL) {
     try {
-        return PyInt_FromLong(self->fThis->readByte());
+        return pyPlasma_convert(self->fThis->readByte());
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
         return NULL;
     }
 }
 
-static PyObject* pyStream_readShort(pyStream* self) {
+PY_METHOD_NOARGS(Stream, readShort, NULL) {
     try {
-        return PyInt_FromLong(self->fThis->readShort());
+        return pyPlasma_convert(self->fThis->readShort());
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
         return NULL;
     }
 }
 
-static PyObject* pyStream_readInt(pyStream* self) {
+PY_METHOD_NOARGS(Stream, readInt, NULL) {
     try {
-        return PyInt_FromLong(self->fThis->readInt());
+        return pyPlasma_convert(self->fThis->readInt());
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
         return NULL;
     }
 }
 
-static PyObject* pyStream_readFloat(pyStream* self) {
+PY_METHOD_NOARGS(Stream, readFloat, NULL) {
     try {
-        return PyFloat_FromDouble(self->fThis->readFloat());
+        return pyPlasma_convert(self->fThis->readFloat());
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
         return NULL;
     }
 }
 
-static PyObject* pyStream_readDouble(pyStream* self) {
+PY_METHOD_NOARGS(Stream, readDouble, NULL) {
     try {
-        return PyFloat_FromDouble(self->fThis->readDouble());
+        return pyPlasma_convert(self->fThis->readDouble());
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
         return NULL;
     }
 }
 
-static PyObject* pyStream_readBool(pyStream* self) {
+PY_METHOD_NOARGS(Stream, readBool, NULL) {
     try {
-        bool b = self->fThis->readBool();
-        return PyBool_FromLong(b ? 1 : 0);
+        return pyPlasma_convert(self->fThis->readBool());
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
         return NULL;
     }
 }
 
-static PyObject* pyStream_readSafeStr(pyStream* self) {
+PY_METHOD_NOARGS(Stream, readSafeStr, NULL) {
     try {
-        plString str = self->fThis->readSafeStr();
-        return PlStr_To_PyStr(str);
+        return pyPlasma_convert(self->fThis->readSafeStr());
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
         return NULL;
     }
 }
 
-static PyObject* pyStream_readSafeWStr(pyStream* self) {
+PY_METHOD_NOARGS(Stream, readSafeWStr, NULL) {
     try {
-        plString str = self->fThis->readSafeWStr();
-        return PlStr_To_PyStr(str);
+        return pyPlasma_convert(self->fThis->readSafeWStr());
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
         return NULL;
     }
 }
 
-static PyObject* pyStream_readLine(pyStream* self) {
+PY_METHOD_NOARGS(Stream, readLine, NULL) {
     try {
-        plString str = self->fThis->readLine();
-        return PlStr_To_PyStr(str);
+        return pyPlasma_convert(self->fThis->readLine());
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
         return NULL;
     }
 }
 
-static PyObject* pyStream_writeByte(pyStream* self, PyObject* args) {
+PY_METHOD_VA(Stream, writeByte, NULL) {
     int8_t b;
     if (!PyArg_ParseTuple(args, "b", &b)) {
         PyErr_SetString(PyExc_TypeError, "writeByte expects a byte");
@@ -248,15 +240,14 @@ static PyObject* pyStream_writeByte(pyStream* self, PyObject* args) {
     }
     try {
         self->fThis->writeByte(b);
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
         return NULL;
     }
 }
 
-static PyObject* pyStream_writeShort(pyStream* self, PyObject* args) {
+PY_METHOD_VA(Stream, writeShort, NULL) {
     int16_t h;
     if (!PyArg_ParseTuple(args, "h", &h)) {
         PyErr_SetString(PyExc_TypeError, "writeShort expects a short");
@@ -264,15 +255,14 @@ static PyObject* pyStream_writeShort(pyStream* self, PyObject* args) {
     }
     try {
         self->fThis->writeShort(h);
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
         return NULL;
     }
 }
 
-static PyObject* pyStream_writeInt(pyStream* self, PyObject* args) {
+PY_METHOD_VA(Stream, writeInt, NULL) {
     int32_t i;
     if (!PyArg_ParseTuple(args, "i", &i)) {
         PyErr_SetString(PyExc_TypeError, "writeInt expects an int");
@@ -280,15 +270,14 @@ static PyObject* pyStream_writeInt(pyStream* self, PyObject* args) {
     }
     try {
         self->fThis->writeInt(i);
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
         return NULL;
     }
 }
 
-static PyObject* pyStream_writeFloat(pyStream* self, PyObject* args) {
+PY_METHOD_VA(Stream, writeFloat, NULL) {
     float f;
     if (!PyArg_ParseTuple(args, "f", &f)) {
         PyErr_SetString(PyExc_TypeError, "writeFloat expects a float");
@@ -296,15 +285,14 @@ static PyObject* pyStream_writeFloat(pyStream* self, PyObject* args) {
     }
     try {
         self->fThis->writeFloat(f);
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
         return NULL;
     }
 }
 
-static PyObject* pyStream_writeDouble(pyStream* self, PyObject* args) {
+PY_METHOD_VA(Stream, writeDouble, NULL) {
     double d;
     if (!PyArg_ParseTuple(args, "d", &d)) {
         PyErr_SetString(PyExc_TypeError, "writeDouble expects a double");
@@ -312,15 +300,14 @@ static PyObject* pyStream_writeDouble(pyStream* self, PyObject* args) {
     }
     try {
         self->fThis->writeDouble(d);
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
         return NULL;
     }
 }
 
-static PyObject* pyStream_writeBool(pyStream* self, PyObject* args) {
+PY_METHOD_VA(Stream, writeBool, NULL) {
     bool b;
     if (!PyArg_ParseTuple(args, "b", &b)) {
         PyErr_SetString(PyExc_TypeError, "writeBool expects a bool");
@@ -328,15 +315,14 @@ static PyObject* pyStream_writeBool(pyStream* self, PyObject* args) {
     }
     try {
         self->fThis->writeBool(b);
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
         return NULL;
     }
 }
 
-static PyObject* pyStream_writeSafeStr(pyStream* self, PyObject* args) {
+PY_METHOD_VA(Stream, writeSafeStr, NULL) {
     const char* str;
     if (!PyArg_ParseTuple(args, "s", &str)) {
         PyErr_SetString(PyExc_TypeError, "writeSafeStr expects a string");
@@ -344,15 +330,14 @@ static PyObject* pyStream_writeSafeStr(pyStream* self, PyObject* args) {
     }
     try {
         self->fThis->writeSafeStr(str);
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
         return NULL;
     }
 }
 
-static PyObject* pyStream_writeSafeWStr(pyStream* self, PyObject* args) {
+PY_METHOD_VA(Stream, writeSafeWStr, NULL) {
     const char* str;
     if (!PyArg_ParseTuple(args, "s", &str)) {
         PyErr_SetString(PyExc_TypeError, "writeSafeWStr expects a string");
@@ -360,15 +345,14 @@ static PyObject* pyStream_writeSafeWStr(pyStream* self, PyObject* args) {
     }
     try {
         self->fThis->writeSafeWStr(str);
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
         return NULL;
     }
 }
 
-static PyObject* pyStream_writeLine(pyStream* self, PyObject* args) {
+PY_METHOD_VA(Stream, writeLine, NULL) {
     const char* str;
     if (!PyArg_ParseTuple(args, "s", &str)) {
         PyErr_SetString(PyExc_TypeError, "writeLine expects a string");
@@ -376,166 +360,65 @@ static PyObject* pyStream_writeLine(pyStream* self, PyObject* args) {
     }
     try {
         self->fThis->writeLine(str);
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
         return NULL;
     }
 }
 
-static PyObject* pyStream_getVer(pyStream* self, void* closure) {
-    return PyInt_FromLong(self->fThis->getVer());
-}
-
-static int pyStream_setVer(pyStream* self, PyObject* value, void* closure) {
-    if (value == NULL) {
-        PyErr_SetString(PyExc_TypeError, "Cannot delete the version");
-        return -1;
-    }
-    if (!PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "version must be an int");
-        return -1;
-    }
-    self->fThis->setVer((PlasmaVer)PyInt_AsLong(value));
-    return 0;
-}
-
-static PyObject* pyStream_getSize(pyStream* self, void* closure) {
-    return PyLong_FromLong(self->fThis->size());
-}
-
-static int pyStream_setSize(pyStream* self, PyObject* value, void* closure) {
-    PyErr_SetString(PyExc_RuntimeError, "size is read-only");
-    return -1;
-}
-
-static PyObject* pyStream_getPos(pyStream* self, void* closure) {
-    return PyLong_FromLong(self->fThis->pos());
-}
-
-static int pyStream_setPos(pyStream* self, PyObject* value, void* closure) {
-    PyErr_SetString(PyExc_RuntimeError, "pos is read-only");
-    return -1;
-}
-
 static PyMethodDef pyStream_Methods[] = {
-    { "close", (PyCFunction)pyStream_close, METH_NOARGS,
-      "Closes the stream, if it is open" },
-    { "eof", (PyCFunction)pyStream_eof, METH_NOARGS,
-      "Returns True if the position is at the end of the stream" },
-    { "seek", (PyCFunction)pyStream_seek, METH_VARARGS,
-      "Params: position\n"
-      "Seeks to the specified position within the stream " },
-    { "skip", (PyCFunction)pyStream_skip, METH_VARARGS,
-      "Params: count\n"
-      "Skips `count` bytes within the stream" },
-    { "fastForward", (PyCFunction)pyStream_fastForward, METH_NOARGS,
-      "Seeks directly to the end of the stream" },
-    { "rewind", (PyCFunction)pyStream_rewind, METH_NOARGS,
-      "Seeks directly to the beginning of the stream" },
-    { "flush", (PyCFunction)pyStream_flush, METH_NOARGS,
-      "Flushes the stream" },
-    { "read", (PyCFunction)pyStream_read, METH_VARARGS,
-      "Params: size\n"
-      "Reads `size` bytes and returns a binary string with the data" },
-    { "write", (PyCFunction)pyStream_write, METH_VARARGS,
-      "Params: data\n"
-      "Writes `data` (as a binary string) to the stream" },
-    { "writeFrom", (PyCFunction)pyStream_writeFrom, METH_VARARGS,
-      "Params: stream\n"
-      "Copies the contents of `stream` to this stream" },
-    { "readByte", (PyCFunction)pyStream_readByte, METH_NOARGS, NULL },
-    { "readShort", (PyCFunction)pyStream_readShort, METH_NOARGS, NULL },
-    { "readInt", (PyCFunction)pyStream_readInt, METH_NOARGS, NULL },
-    { "readFloat", (PyCFunction)pyStream_readFloat, METH_NOARGS, NULL },
-    { "readDouble", (PyCFunction)pyStream_readDouble, METH_NOARGS, NULL },
-    { "readBool", (PyCFunction)pyStream_readBool, METH_NOARGS, NULL },
-    { "readSafeStr", (PyCFunction)pyStream_readSafeStr, METH_NOARGS, NULL },
-    { "readSafeWStr", (PyCFunction)pyStream_readSafeWStr, METH_NOARGS, NULL },
-    { "readLine", (PyCFunction)pyStream_readLine, METH_NOARGS, NULL },
-    { "writeByte", (PyCFunction)pyStream_writeByte, METH_VARARGS, NULL },
-    { "writeShort", (PyCFunction)pyStream_writeShort, METH_VARARGS, NULL },
-    { "writeInt", (PyCFunction)pyStream_writeInt, METH_VARARGS, NULL },
-    { "writeFloat", (PyCFunction)pyStream_writeFloat, METH_VARARGS, NULL },
-    { "writeDouble", (PyCFunction)pyStream_writeDouble, METH_VARARGS, NULL },
-    { "writeBool", (PyCFunction)pyStream_writeBool, METH_VARARGS, NULL },
-    { "writeSafeStr", (PyCFunction)pyStream_writeSafeStr, METH_VARARGS, NULL },
-    { "writeSafeWStr", (PyCFunction)pyStream_writeSafeWStr, METH_VARARGS, NULL },
-    { "writeLine", (PyCFunction)pyStream_writeLine, METH_VARARGS, NULL },
-    { NULL, NULL, 0, NULL }
+    pyStream_close_method,
+    pyStream_eof_method,
+    pyStream_seek_method,
+    pyStream_skip_method,
+    pyStream_fastForward_method,
+    pyStream_rewind_method,
+    pyStream_flush_method,
+    pyStream_read_method,
+    pyStream_write_method,
+    pyStream_writeFrom_method,
+    pyStream_readByte_method,
+    pyStream_readShort_method,
+    pyStream_readInt_method,
+    pyStream_readFloat_method,
+    pyStream_readDouble_method,
+    pyStream_readBool_method,
+    pyStream_readSafeStr_method,
+    pyStream_readSafeWStr_method,
+    pyStream_readLine_method,
+    pyStream_writeByte_method,
+    pyStream_writeShort_method,
+    pyStream_writeInt_method,
+    pyStream_writeFloat_method,
+    pyStream_writeDouble_method,
+    pyStream_writeBool_method,
+    pyStream_writeSafeStr_method,
+    pyStream_writeSafeWStr_method,
+    pyStream_writeLine_method,
+    PY_METHOD_TERMINATOR
 };
+
+PY_PROPERTY(PlasmaVer, Stream, version, getVer, setVer)
+PY_PROPERTY_RO(Stream, size, size)
+PY_PROPERTY_RO(Stream, pos, pos)
 
 static PyGetSetDef pyStream_GetSet[] = {
-    { _pycs("version"), (getter)pyStream_getVer, (setter)pyStream_setVer,
-        _pycs("Stream version, to be used by other classes"), NULL },
-    { _pycs("size"), (getter)pyStream_getSize, (setter)pyStream_setSize,
-        _pycs("Total stream size"), NULL },
-    { _pycs("pos"), (getter)pyStream_getPos, (setter)pyStream_setPos,
-        _pycs("Current position within the stream"), NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyStream_version_getset,
+    pyStream_size_getset,
+    pyStream_pos_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyStream_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.hsStream",              /* tp_name */
-    sizeof(pyStream),                   /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(Stream, hsStream, "hsStream wrapper")
 
-    (destructor)pyStream_dealloc,       /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "hsStream wrapper",                 /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyStream_Methods,                   /* tp_methods */
-    NULL,                               /* tp_members */
-    pyStream_GetSet,                    /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    (initproc)pyStream___init__,        /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyStream_new,                       /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyStream_Type() {
-    if (PyType_Ready(&pyStream_Type) < 0)
+PY_PLASMA_TYPE_INIT(Stream) {
+    pyStream_Type.tp_dealloc = pyStream_dealloc;
+    pyStream_Type.tp_init = pyStream___init__;
+    pyStream_Type.tp_new = pyStream_new;
+    pyStream_Type.tp_methods = pyStream_Methods;
+    pyStream_Type.tp_getset = pyStream_GetSet;
+    if (PyType_CheckAndReady(&pyStream_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyStream_Type);

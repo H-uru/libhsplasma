@@ -19,10 +19,14 @@
 
 #include <Python.h>
 #include <Util/plString.h>
+#include <Sys/Platform.h>
+#include <type_traits>
 
 PyObject* PlasmaString_To_PyString(const plString& str);
 PyObject* PlasmaString_To_PyUnicode(const plString& str);
 plString PyString_To_PlasmaString(PyObject* str);
+
+int PyType_CheckAndReady(PyTypeObject* type);
 
 // The Python API insists that character constants are "char *" without the
 // const. Sane compilers complain about this (with good reason). Therefore:
@@ -38,7 +42,6 @@ inline char* _pycs(const char (&str)[size]) { return const_cast<char*>(str); }
     #define PyInt_AsLong PyLong_AsLong
 
     // String -> Unicode
-    #define PyAnyStr_Check(ob) (PyUnicode_Check(ob) || PyBytes_Check(ob))
     #define PyString_FromString(str) PyUnicode_DecodeUTF8((str), strlen((str)), NULL)
     #define PlStr_To_PyStr PlasmaString_To_PyUnicode
 
@@ -55,25 +58,22 @@ inline char* _pycs(const char (&str)[size]) { return const_cast<char*>(str); }
     #define PyBytes_FromStringAndSize(v, len) PyString_FromStringAndSize(v, len)
     #define PyBytes_AsStringAndSize(obj, buf, len) PyString_AsStringAndSize(obj, buf, len)
     #define PyBytes_AsString PyString_AsString
-    #define PyAnyStr_Check(ob) (PyUnicode_Check(ob) || PyBytes_Check(ob))
 #else
     #error Your Python version is too old.  Only 2.6 and later are supported
 #endif
 
-#if (PY_MAJOR_VERSION >= 3) || ((PY_MAJOR_VERSION == 2) && (PY_MINOR_VERSION >= 6))
-    #define TP_VERSION_TAG_INIT 0,
-#else
-    #define TP_VERSION_TAG_INIT
-#endif
-
-#if (PY_MAJOR_VERSION >= 4) || ((PY_MAJOR_VERSION == 3) && (PY_MINOR_VERSION >= 4))
-    #define TP_FINALIZE_INIT NULL,
-#else
-    #define TP_FINALIZE_INIT
+// The type of hashfunc's return value changed in Python 3.2
+#if (PY_MAJOR_VERSION < 3) || ((PY_MAJOR_VERSION == 3) && (PY_MINOR_VERSION < 2))
+    typedef long Py_hash_t;
 #endif
 
 // This should work the same for all versions
 #define PyStr_To_PlStr PyString_To_PlasmaString
+#define PyAnyStr_Check(ob) (PyUnicode_Check(ob) || PyBytes_Check(ob))
+
+// C doesn't have boolean types until C11, which Python doesn't use
+#define PyBool_FromBool(b) PyBool_FromLong((b) ? 1 : 0)
+#define PyBool_AsBool(b) (PyInt_AsLong((b)) != 0)
 
 /* Use this macro to ensure the layouts of subclass types are consistent */
 #define PY_WRAP_PLASMA(pyType, plType)                          \
@@ -89,6 +89,8 @@ inline char* _pycs(const char (&str)[size]) { return const_cast<char*>(str); }
     PyObject* py##pyType##_From##pyType(plType*);               \
     }
 
+/* Defines a value-type wrapped class (i.e. those which are copied instead of
+ * sharing references) */
 #define PY_WRAP_PLASMA_VALUE(pyType, plType)                    \
     extern "C" {                                                \
     struct py##pyType {                                         \
@@ -112,10 +114,8 @@ inline char* _pycs(const char (&str)[size]) { return const_cast<char*>(str); }
 #define PY_PLASMA_IFC_METHODS(pyType, plType)                           \
     PY_PLASMA_CHECK_TYPE(pyType)                                        \
     PyObject* py##pyType##_From##pyType(plType* obj) {                  \
-        if (!obj) {                                                     \
-            Py_INCREF(Py_None);                                         \
-            return Py_None;                                             \
-        }                                                               \
+        if (!obj)                                                       \
+            Py_RETURN_NONE;                                             \
         py##pyType* pyobj = PyObject_New(py##pyType, &py##pyType##_Type); \
         pyobj->fThis = obj;                                             \
         pyobj->fPyOwned = false;                                        \
@@ -129,5 +129,462 @@ inline char* _pycs(const char (&str)[size]) { return const_cast<char*>(str); }
         pyobj->fThis = new plType(obj);                                 \
         return (PyObject*)pyobj;                                        \
     }
+
+template <class pyType, class plType, typename... ArgsT>
+PyObject* PyPlasma_new(PyTypeObject* type, ArgsT&&... args) {
+    pyType* self = (pyType*)type->tp_alloc(type, 0);
+    if (self != NULL) {
+        self->fThis = new plType(std::forward<ArgsT&&>(args)...);
+        self->fPyOwned = true;
+    }
+    return (PyObject*)self;
+}
+
+template <class pyType, class plType, typename... ArgsT>
+PyObject* PyPlasmaValue_new(PyTypeObject* type, ArgsT&&... args) {
+    pyType* self = (pyType*)type->tp_alloc(type, 0);
+    if (self != NULL)
+        self->fThis = new plType(std::forward<ArgsT&&>(args)...);
+    return (PyObject*)self;
+}
+
+#define PY_PLASMA_NEW_DECL(pyType)                                      \
+    static PyObject* py##pyType##_new(PyTypeObject* type, PyObject* args, PyObject* kwargs)
+
+/* The default tp_new implementation */
+#define PY_PLASMA_NEW(pyType, plType)                                   \
+    PY_PLASMA_NEW_DECL(pyType) {                                        \
+        (void)args;                                                     \
+        (void)kwargs;                                                   \
+        return PyPlasma_new<py##pyType, plType>(type);                  \
+    }
+
+/* The default tp_new implementation with one or more static arguments */
+#define PY_PLASMA_NEW_VA(pyType, plType, ...)                           \
+    PY_PLASMA_NEW_DECL(pyType) {                                        \
+        (void)args;                                                     \
+        (void)kwargs;                                                   \
+        return PyPlasma_new<py##pyType, plType>(type, __VA_ARGS__);     \
+    }
+
+/* The default tp_new implementation for value-type objects */
+#define PY_PLASMA_VALUE_NEW(pyType, plType)                             \
+    PY_PLASMA_NEW_DECL(pyType) {                                        \
+        (void)args;                                                     \
+        (void)kwargs;                                                   \
+        return PyPlasmaValue_new<py##pyType, plType>(type);             \
+    }
+
+/* A tp_new implementation that raises a RuntimeError instead of constructing
+ * an object */
+#define PY_PLASMA_NEW_MSG(pyType, message)                              \
+    PY_PLASMA_NEW_DECL(pyType) {                                        \
+        (void)args;                                                     \
+        (void)kwargs;                                                   \
+        PyErr_SetString(PyExc_RuntimeError, message);                   \
+        return NULL;                                                    \
+    }
+
+#define PY_PLASMA_INIT_DECL(pyType)                                     \
+    static int py##pyType##___init__impl(py##pyType*, PyObject*, PyObject*); \
+    static int (*py##pyType##___init__)(PyObject*, PyObject*, PyObject*) = (initproc)&py##pyType##___init__impl; \
+    int py##pyType##___init__impl(py##pyType* self, PyObject* args, PyObject* kwds)
+
+/* The default tp_init implementation for objects which have no need for
+ * custom __init__() behavior or additional arguments */
+#define PY_PLASMA_EMPTY_INIT(pyType)                                    \
+    PY_PLASMA_INIT_DECL(pyType) {                                       \
+        if (!PyArg_ParseTuple(args, ""))                                \
+            return -1;                                                  \
+        return 0;                                                       \
+    }
+
+#define PY_PLASMA_DEALLOC_DECL(pyType)                                  \
+    static void py##pyType##_dealloc(PyObject* self)
+
+/* The default tp_dealloc implementation */
+#define PY_PLASMA_DEALLOC(pyType)                                       \
+    PY_PLASMA_DEALLOC_DECL(pyType) {                                    \
+        if (((py##pyType*)self)->fPyOwned)                              \
+            delete ((py##pyType*)self)->fThis;                          \
+        Py_TYPE(self)->tp_free(self);                                   \
+    }
+
+/* The default tp_dealloc implementation for value-type objects */
+#define PY_PLASMA_VALUE_DEALLOC(pyType)                                 \
+    PY_PLASMA_DEALLOC_DECL(pyType) {                                    \
+        delete ((py##pyType*)self)->fThis;                              \
+        Py_TYPE(self)->tp_free(self);                                   \
+    }
+
+/* Helpers for other types of special functions */
+#define PY_PLASMA_REPR_DECL(pyType)                                     \
+    static PyObject* py##pyType##_repr_impl(py##pyType*);               \
+    static PyObject* (*py##pyType##_repr)(PyObject*) = (reprfunc)py##pyType##_repr_impl; \
+    PyObject* py##pyType##_repr_impl(py##pyType* self)
+
+#define PY_PLASMA_HASH_DECL(pyType)                                     \
+    static Py_hash_t py##pyType##_hash_impl(py##pyType*);                    \
+    static Py_hash_t (*py##pyType##_hash)(PyObject*) = (hashfunc)py##pyType##_hash_impl; \
+    Py_hash_t py##pyType##_hash_impl(py##pyType* self)
+
+#define PY_PLASMA_RICHCOMPARE_DECL(pyType)                              \
+    static PyObject* py##pyType##_richcompare_impl(py##pyType*, py##pyType*, int); \
+    static PyObject* (*py##pyType##_richcompare)(PyObject*, PyObject*, int) = \
+                (richcmpfunc)&py##pyType##_richcompare_impl;            \
+    PyObject* py##pyType##_richcompare_impl(py##pyType* left, py##pyType* right, int op)
+
+#define PY_PLASMA_SUBSCRIPT_DECL(pyType)                                \
+    static PyObject* py##pyType##_mp_subscript_impl(py##pyType*, PyObject*); \
+    static PyObject* (*py##pyType##_mp_subscript)(PyObject*, PyObject*) = \
+                (binaryfunc)&py##pyType##_mp_subscript_impl;            \
+    PyObject* py##pyType##_mp_subscript_impl(py##pyType* self, PyObject* key)
+
+#define PY_PLASMA_ASS_SUBSCRIPT_DECL(pyType)                            \
+    static int py##pyType##_mp_ass_subscript_impl(py##pyType*, PyObject*, PyObject*); \
+    static int (*py##pyType##_mp_ass_subscript)(PyObject*, PyObject*, PyObject*) = \
+                (objobjargproc)&py##pyType##_mp_ass_subscript_impl;     \
+    int py##pyType##_mp_ass_subscript_impl(py##pyType* self, PyObject* key, PyObject* value)
+
+#define PY_PLASMA_NB_BINARYFUNC_DECL(pyType, name)                      \
+    static PyObject* py##pyType##_nb_##name(PyObject* left, PyObject* right)
+
+#define PY_PLASMA_NB_UNARYFUNC_DECL(pyType, name)                       \
+    static PyObject* py##pyType##_nb_##name##_impl(py##pyType*);        \
+    static PyObject* (*py##pyType##_nb_##name)(PyObject*) = (unaryfunc)&py##pyType##_nb_##name##_impl; \
+    PyObject* py##pyType##_nb_##name##_impl(py##pyType* self)
+
+#define PY_PLASMA_NB_INQUIRY_DECL(pyType, name)                        \
+    static int py##pyType##_nb_##name##_impl(py##pyType*);              \
+    static int (*py##pyType##_nb_##name)(PyObject*) = (inquiry)&py##pyType##_nb_##name##_impl; \
+    int py##pyType##_nb_##name##_impl(py##pyType* self)
+
+/* Helpers for getters and setters */
+inline PyObject* pyPlasma_convert(uint8_t value) { return PyInt_FromLong((long)(unsigned long)value); }
+inline PyObject* pyPlasma_convert(uint16_t value) { return PyInt_FromLong((long)(unsigned long)value); }
+inline PyObject* pyPlasma_convert(uint32_t value) { return PyInt_FromLong((long)(unsigned long)value); }
+inline PyObject* pyPlasma_convert(uint64_t value) { return PyInt_FromLong((long)(unsigned long)value); }
+inline PyObject* pyPlasma_convert(int8_t value) { return PyInt_FromLong((long)value); }
+inline PyObject* pyPlasma_convert(int16_t value) { return PyInt_FromLong((long)value); }
+inline PyObject* pyPlasma_convert(int32_t value) { return PyInt_FromLong((long)value); }
+inline PyObject* pyPlasma_convert(int64_t value) { return PyInt_FromLong((long)value); }
+inline PyObject* pyPlasma_convert(float value) { return PyFloat_FromDouble((double)value); }
+inline PyObject* pyPlasma_convert(double value) { return PyFloat_FromDouble(value); }
+inline PyObject* pyPlasma_convert(bool value) { return PyBool_FromBool(value); }
+inline PyObject* pyPlasma_convert(const plString& value) { return PlStr_To_PyStr(value); }
+inline PyObject* pyPlasma_convert(const char* value) { return PyString_FromString(value); }
+inline PyObject* pyPlasma_convert(CallbackEvent value) { return PyInt_FromLong((long)value); }
+inline PyObject* pyPlasma_convert(ControlEventCode value) { return PyInt_FromLong((long)value); }
+inline PyObject* pyPlasma_convert(plKeyDef value) { return PyInt_FromLong((long)value); }
+
+// Force compilers to throw an error for pointers without a specialization,
+// rather than converting them to an integral type and accepting it silently
+PyObject* pyPlasma_convert(void* value) = delete;
+
+template <typename T>
+inline int pyPlasma_check(PyObject* value)
+{
+    return T::unimplemented_specialization_for_pyPlasma_check();
+}
+
+template <> inline int pyPlasma_check<uint8_t>(PyObject* value) { return PyInt_Check(value); }
+template <> inline int pyPlasma_check<uint16_t>(PyObject* value) { return PyInt_Check(value); }
+template <> inline int pyPlasma_check<uint32_t>(PyObject* value) { return PyInt_Check(value); }
+template <> inline int pyPlasma_check<uint64_t>(PyObject* value) { return PyInt_Check(value); }
+template <> inline int pyPlasma_check<int8_t>(PyObject* value) { return PyInt_Check(value); }
+template <> inline int pyPlasma_check<int16_t>(PyObject* value) { return PyInt_Check(value); }
+template <> inline int pyPlasma_check<int32_t>(PyObject* value) { return PyInt_Check(value); }
+template <> inline int pyPlasma_check<int64_t>(PyObject* value) { return PyInt_Check(value); }
+template <> inline int pyPlasma_check<float>(PyObject* value) { return PyFloat_Check(value); }
+template <> inline int pyPlasma_check<double>(PyObject* value) { return PyFloat_Check(value); }
+template <> inline int pyPlasma_check<bool>(PyObject* value) { return PyInt_Check(value); }
+template <> inline int pyPlasma_check<plString>(PyObject* value) { return PyAnyStr_Check(value); }
+template <> inline int pyPlasma_check<CallbackEvent>(PyObject* value) { return PyInt_Check(value); }
+template <> inline int pyPlasma_check<ControlEventCode>(PyObject* value) { return PyInt_Check(value); }
+template <> inline int pyPlasma_check<plKeyDef>(PyObject* value) { return PyInt_Check(value); }
+
+template <typename T>
+inline T pyPlasma_get(PyObject* value) {
+    return T::unimplemented_specialization_for_pyPlasma_get();
+}
+
+template <> inline uint8_t pyPlasma_get(PyObject* value) { return (uint8_t)(unsigned long)PyInt_AsLong(value); }
+template <> inline uint16_t pyPlasma_get(PyObject* value) { return (uint16_t)(unsigned long)PyInt_AsLong(value); }
+template <> inline uint32_t pyPlasma_get(PyObject* value) { return (uint32_t)(unsigned long)PyInt_AsLong(value); }
+template <> inline uint64_t pyPlasma_get(PyObject* value) { return (uint64_t)(unsigned long)PyInt_AsLong(value); }
+template <> inline int8_t pyPlasma_get(PyObject* value) { return (int8_t)PyInt_AsLong(value); }
+template <> inline int16_t pyPlasma_get(PyObject* value) { return (int16_t)PyInt_AsLong(value); }
+template <> inline int32_t pyPlasma_get(PyObject* value) { return (int32_t)PyInt_AsLong(value); }
+template <> inline int64_t pyPlasma_get(PyObject* value) { return (int64_t)PyInt_AsLong(value); }
+template <> inline float pyPlasma_get(PyObject* value) { return (float)PyFloat_AsDouble(value); }
+template <> inline double pyPlasma_get(PyObject* value) { return PyFloat_AsDouble(value); }
+template <> inline bool pyPlasma_get(PyObject* value) { return PyInt_AsLong(value) != 0; }
+template <> inline plString pyPlasma_get(PyObject* value) { return PyString_To_PlasmaString(value); }
+template <> inline CallbackEvent pyPlasma_get(PyObject* value) { return (CallbackEvent)PyInt_AsLong(value); }
+template <> inline ControlEventCode pyPlasma_get(PyObject* value) { return (ControlEventCode)PyInt_AsLong(value); }
+template <> inline plKeyDef pyPlasma_get(PyObject* value) { return (plKeyDef)PyInt_AsLong(value); }
+
+/* Helpers for properties (GetSet objects in the Python/C API) */
+#define PY_GETSET_GETTER_DECL(pyType, name)                             \
+    static PyObject* py##pyType##_get_##name(py##pyType* self, void*)
+
+#define PY_GETSET_SETTER_DECL(pyType, name)                             \
+    static int py##pyType##_set_##name(py##pyType* self, PyObject* value, void*)
+
+#define PY_PROPERTY_GETSET_DECL(pyType, name)                           \
+    static PyGetSetDef py##pyType##_##name##_getset = {                 \
+        _pycs(#name), (getter)py##pyType##_get_##name,                  \
+        (setter)py##pyType##_set_##name, NULL, NULL                     \
+    };
+
+#define PY_PROPERTY_GETSET_RO_DECL(pyType, name)                        \
+    static PyGetSetDef py##pyType##_##name##_getset = {                 \
+        _pycs(#name), (getter)py##pyType##_get_##name,                  \
+        NULL, NULL, NULL                                                \
+    };
+
+#define PY_GETSET_TERMINATOR { NULL, NULL, NULL, NULL, NULL }
+
+#define PY_PROPERTY_READ(pyType, name, getter)                          \
+    PY_GETSET_GETTER_DECL(pyType, name) {                               \
+        return pyPlasma_convert(self->fThis->getter());                 \
+    }
+
+#define PY_PROPERTY_WRITE(type, pyType, name, setter)                   \
+    PY_GETSET_SETTER_DECL(pyType, name) {                               \
+        if (value == NULL) {                                            \
+            PyErr_SetString(PyExc_RuntimeError, #name " cannot be deleted"); \
+            return -1;                                                  \
+        } else if (!pyPlasma_check<type>(value)) {                      \
+            PyErr_SetString(PyExc_TypeError, #name " expected type " #type); \
+            return -1;                                                  \
+        }                                                               \
+        self->fThis->setter(pyPlasma_get<type>(value));                 \
+        return 0;                                                       \
+    }
+
+#define PY_PROPERTY_SETTER_MSG(pyType, name, message)                   \
+    PY_GETSET_SETTER_DECL(pyType, name) {                               \
+        (void)self;                                                     \
+        (void)value;                                                    \
+        PyErr_SetString(PyExc_RuntimeError, message);                   \
+        return -1;                                                      \
+    }
+
+#define PY_PROPERTY(type, pyType, name, getter, setter)                 \
+    PY_PROPERTY_READ(pyType, name, getter)                              \
+    PY_PROPERTY_WRITE(type, pyType, name, setter)                       \
+    PY_PROPERTY_GETSET_DECL(pyType, name)
+
+#define PY_PROPERTY_RO(pyType, name, getter)                            \
+    PY_PROPERTY_READ(pyType, name, getter)                              \
+    PY_PROPERTY_GETSET_RO_DECL(pyType, name)
+
+/* Helpers for properties that have direct-access to a member, rather than
+ * using getter/setter functions */
+#define PY_PROPERTY_MEMBER_READ(pyType, name, member)                   \
+    PY_GETSET_GETTER_DECL(pyType, name) {                               \
+        return pyPlasma_convert(self->fThis->member);                   \
+    }
+
+#define PY_PROPERTY_MEMBER_WRITE(type, pyType, name, member)            \
+    PY_GETSET_SETTER_DECL(pyType, name) {                               \
+        if (value == NULL) {                                            \
+            PyErr_SetString(PyExc_RuntimeError, #name " cannot be deleted"); \
+            return -1;                                                  \
+        } else if (!pyPlasma_check<type>(value)) {                      \
+            PyErr_SetString(PyExc_TypeError, #name " expected type " #type); \
+            return -1;                                                  \
+        }                                                               \
+        self->fThis->member = pyPlasma_get<type>(value);                \
+        return 0;                                                       \
+    }
+
+#define PY_PROPERTY_MEMBER(type, pyType, name, member)                  \
+    PY_PROPERTY_MEMBER_READ(pyType, name, member)                       \
+    PY_PROPERTY_MEMBER_WRITE(type, pyType, name, member)                \
+    PY_PROPERTY_GETSET_DECL(pyType, name)
+
+/* Helpers for properties that proxy an object through a reference, rather
+ * than taking a pointer or value and constructing a new object */
+#define PY_PROPERTY_PROXY_READ(pyType, name, getter)                    \
+    PY_GETSET_GETTER_DECL(pyType, name) {                               \
+        return pyPlasma_convert(&self->fThis->getter());                \
+    }
+
+#define PY_PROPERTY_PROXY_WRITE(type, pyType, name, getter)             \
+    PY_GETSET_SETTER_DECL(pyType, name) {                               \
+        if (value == NULL) {                                            \
+            PyErr_SetString(PyExc_RuntimeError, #name " cannot be deleted"); \
+            return -1;                                                  \
+        } else if (!pyPlasma_check<type>(value)) {                      \
+            PyErr_SetString(PyExc_TypeError, #name " expected type " #type); \
+            return -1;                                                  \
+        }                                                               \
+        self->fThis->getter() = *pyPlasma_get<type*>(value);            \
+        return 0;                                                       \
+    }
+
+#define PY_PROPERTY_PROXY(type, pyType, name, getter)                   \
+    PY_PROPERTY_PROXY_READ(pyType, name, getter)                        \
+    PY_PROPERTY_PROXY_WRITE(type, pyType, name, getter)                 \
+    PY_PROPERTY_GETSET_DECL(pyType, name)
+
+#define PY_PROPERTY_PROXY_RO(type, pyType, name, getter)                \
+    PY_PROPERTY_PROXY_READ(pyType, name, getter)                        \
+    PY_PROPERTY_GETSET_RO_DECL(pyType, name)
+
+/* Helpers for setting up the structures and function declarations for
+ * bound methods */
+#define PY_METHOD_NOARGS(pyType, name, doctext)                         \
+    static PyObject* py##pyType##_##name(py##pyType*);                  \
+    static PyMethodDef py##pyType##_##name##_method = {                 \
+        #name, (PyCFunction)py##pyType##_##name,                        \
+        METH_NOARGS,                                                    \
+        doctext                                                         \
+    };                                                                  \
+    PyObject* py##pyType##_##name(py##pyType* self)
+
+#define PY_METHOD_VA(pyType, name, doctext)                             \
+    static PyObject* py##pyType##_##name(py##pyType*, PyObject*);       \
+    static PyMethodDef py##pyType##_##name##_method = {                 \
+        #name, (PyCFunction)py##pyType##_##name,                        \
+        METH_VARARGS,                                                   \
+        doctext                                                         \
+    };                                                                  \
+    PyObject* py##pyType##_##name(py##pyType* self, PyObject* args)
+
+#define PY_METHOD_KWARGS(pyType, name, doctext)                         \
+    static PyObject* py##pyType##_##name(py##pyType*, PyObject*, PyObject*); \
+    static PyMethodDef py##pyType##_##name##_method = {                 \
+        #name, (PyCFunction)py##pyType##_##name,                        \
+        METH_VARARGS | METH_KEYWORDS,                                   \
+        doctext                                                         \
+    };                                                                  \
+    PyObject* py##pyType##_##name(py##pyType* self, PyObject* args, PyObject* kwds)
+
+#define PY_METHOD_STATIC_NOARGS(pyType, name, doctext)                  \
+    static PyObject* py##pyType##_##name(PyObject*);                    \
+    static PyMethodDef py##pyType##_##name##_method = {                 \
+        #name, (PyCFunction)py##pyType##_##name,                        \
+        METH_STATIC | METH_NOARGS,                                      \
+        doctext                                                         \
+    };                                                                  \
+    PyObject* py##pyType##_##name(PyObject*)
+
+#define PY_METHOD_STATIC_VA(pyType, name, doctext)                      \
+    static PyObject* py##pyType##_##name(PyObject*, PyObject*);         \
+    static PyMethodDef py##pyType##_##name##_method = {                 \
+        #name, (PyCFunction)py##pyType##_##name,                        \
+        METH_STATIC | METH_VARARGS,                                     \
+        doctext                                                         \
+    };                                                                  \
+    PyObject* py##pyType##_##name(PyObject*, PyObject* args)
+
+#define PY_METHOD_GLOBAL_NOARGS(module, name, doctext)                  \
+    static PyObject* module##_##name(PyObject*);                        \
+    static PyMethodDef module##_##name##_method = {                     \
+        #name, (PyCFunction)module##_##name,                            \
+        METH_NOARGS,                                                    \
+        doctext                                                         \
+    };                                                                  \
+    PyObject* module##_##name(PyObject*)
+
+#define PY_METHOD_GLOBAL_VA(module, name, doctext)                      \
+    static PyObject* module##_##name(PyObject*, PyObject*);             \
+    static PyMethodDef module##_##name##_method = {                     \
+        #name, (PyCFunction)module##_##name,                            \
+        METH_VARARGS,                                                   \
+        doctext                                                         \
+    };                                                                  \
+    PyObject* module##_##name(PyObject*, PyObject* args)
+
+#define PY_METHOD_TERMINATOR { NULL, NULL, 0, NULL }
+
+/* Helpers for declaring and populating the master PyTypeObject structure */
+#if (PY_MAJOR_VERSION >= 3) || ((PY_MAJOR_VERSION == 2) && (PY_MINOR_VERSION >= 6))
+    #define _TP_VERSION_TAG_INIT 0,
+#else
+    #define _TP_VERSION_TAG_INIT
+#endif
+
+#if (PY_MAJOR_VERSION >= 4) || ((PY_MAJOR_VERSION == 3) && (PY_MINOR_VERSION >= 4))
+    #define _TP_FINALIZE_INIT NULL,
+#else
+    #define _TP_FINALIZE_INIT
+#endif
+
+#define PY_PLASMA_TYPE(pyType, classname, doctext)                      \
+    PyTypeObject py##pyType##_Type = {                                  \
+        PyVarObject_HEAD_INIT(NULL, 0)                                  \
+        "PyHSPlasma." #classname,                                       \
+        sizeof(py##pyType), 0,                                          \
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,     \
+        NULL, NULL, NULL, NULL, NULL,                                   \
+        Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,                       \
+        doctext,                                                        \
+        NULL, NULL, NULL, 0, NULL, NULL,                                \
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0,                    \
+        NULL, NULL, NULL, NULL, NULL,                                   \
+        NULL, NULL, NULL, NULL, NULL,                                   \
+        NULL,                                                           \
+        _TP_VERSION_TAG_INIT                                            \
+        _TP_FINALIZE_INIT                                               \
+    };
+
+#if (PY_MAJOR_VERSION < 3)
+    #define _NB_DIVIDE_INIT         NULL,
+    #define _NB_COERCE_INIT         NULL,
+    #define _NB_OCT_HEX_INIT        NULL, NULL,
+    #define _NB_INPLACE_DIVIDE_INIT NULL,
+    /* nb_nonzero was renamed to nb_bool in Python 3.0 */
+    #define nb_bool                 nb_nonzero
+#else
+    #define _NB_DIVIDE_INIT
+    #define _NB_COERCE_INIT
+    #define _NB_OCT_HEX_INIT
+    #define _NB_INPLACE_DIVIDE_INIT
+#endif
+
+#if ((PY_MAJOR_VERSION > 2) || (PY_MAJOR_VERSION == 2 && PY_MINOR_VERSION >= 5))
+    #define _NB_INDEX_INIT NULL,
+#else
+    #define _NB_INDEX_INIT
+#endif
+
+#if ((PY_MAJOR_VERSION > 3) || (PY_MAJOR_VERSION == 3 && PY_MINOR_VERSION >= 5))
+    #define _NB_MATRIX_MULTIPLY_INIT NULL, NULL,
+#else
+    #define _NB_MATRIX_MULTIPLY_INIT
+#endif
+
+#define PY_PLASMA_TYPE_AS_NUMBER(pyType)                                \
+    static PyNumberMethods py##pyType##_As_Number = {                   \
+        NULL, NULL, NULL,                                               \
+        _NB_DIVIDE_INIT                                                 \
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,                 \
+        NULL, NULL, NULL, NULL, NULL,                                   \
+        _NB_COERCE_INIT                                                 \
+        NULL, NULL, NULL,                                               \
+        _NB_OCT_HEX_INIT                                                \
+        NULL, NULL, NULL,                                               \
+        _NB_INPLACE_DIVIDE_INIT                                         \
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL,                       \
+        NULL, NULL, NULL, NULL,                                         \
+        _NB_INDEX_INIT                                                  \
+        _NB_MATRIX_MULTIPLY_INIT                                        \
+    };
+
+#define PY_PLASMA_TYPE_AS_MAPPING(pyType)                               \
+    static PyMappingMethods py##pyType##_As_Mapping = {                 \
+        NULL, NULL, NULL,                                               \
+    };
+
+#define PY_PLASMA_TYPE_INIT(pyType)                                     \
+    PyObject* Init_py##pyType##_Type()
+
+#define PY_TYPE_ADD_CONST(pyType, name, value)                          \
+    PyDict_SetItemString(py##pyType##_Type.tp_dict, name,               \
+                         pyPlasma_convert(value))
 
 #endif

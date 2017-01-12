@@ -22,19 +22,16 @@
 
 extern "C" {
 
-static void pyMatrix44_dealloc(pyMatrix44* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+PY_PLASMA_VALUE_DEALLOC(Matrix44)
 
-static int pyMatrix44___init__(pyMatrix44* self, PyObject* args, PyObject* kwds) {
+PY_PLASMA_INIT_DECL(Matrix44) {
     PyObject* init = NULL;
     if (!PyArg_ParseTuple(args, "|O", &init))
         return -1;
 
     if (init != NULL) {
         if (pyMatrix44_Check(init)) {
-            (*self->fThis) = (*((pyMatrix44*)init)->fThis);
+            (*self->fThis) = pyPlasma_get<hsMatrix44>(init);
         } else {
             PyErr_SetString(PyExc_TypeError, "__init__ expects a matrix");
             return -1;
@@ -45,119 +42,101 @@ static int pyMatrix44___init__(pyMatrix44* self, PyObject* args, PyObject* kwds)
     return 0;
 }
 
-static PyObject* pyMatrix44_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyMatrix44* self = (pyMatrix44*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new hsMatrix44();
-    return (PyObject*)self;
-}
+PY_PLASMA_VALUE_NEW(Matrix44, hsMatrix44)
 
-static PyObject* pyMatrix44_multiply(PyObject* left, PyObject* right) {
-    if (pyMatrix44_Check(left)) {
-        if (pyMatrix44_Check(right)) {
-            return pyMatrix44_FromMatrix44(*((pyMatrix44*)left)->fThis * *((pyMatrix44*)right)->fThis);
-        } else {
-            PyErr_SetString(PyExc_TypeError, "Multiplication operand is not another matrix");
-            return NULL;
-        }
-    } else if (pyMatrix44_Check(right)) {
-        PyErr_SetString(PyExc_TypeError, "Multiplication operand is not another matrix");
-        return NULL;
-    }
-    // This should not happen...
-    return NULL;
-}
-
-static PyObject* pyMatrix44_Subscript(pyMatrix44* self, PyObject* key) {
+PY_PLASMA_SUBSCRIPT_DECL(Matrix44) {
     int i, j;
     if (!PyArg_ParseTuple(key, "ii", &i, &j)) {
         PyErr_SetString(PyExc_TypeError, "Matrix subscript expects int, int");
         return NULL;
     }
-    return PyFloat_FromDouble((*self->fThis)(i, j));
+    return pyPlasma_convert((*self->fThis)(i, j));
 }
 
-static int pyMatrix44_AssSubscript(pyMatrix44* self, PyObject* key, PyObject* value) {
+PY_PLASMA_ASS_SUBSCRIPT_DECL(Matrix44) {
     int i, j;
     if (!PyArg_ParseTuple(key, "ii", &i, &j)) {
         PyErr_SetString(PyExc_TypeError, "Matrix subscript expects int, int");
         return -1;
     }
-    if (!PyFloat_Check(value)) {
+    if (!pyPlasma_check<float>(value)) {
         PyErr_SetString(PyExc_TypeError, "Matrix values should be floats");
         return -1;
     }
-    (*self->fThis)(i, j) = PyFloat_AsDouble(value);
+    (*self->fThis)(i, j) = pyPlasma_get<float>(value);
     return 0;
 }
 
-static PyObject* pyMatrix44_getMat(pyMatrix44* self, void*) {
-    PyObject* l1 = PyList_New(4);
-    PyObject* l2 = PyList_New(4);
-    PyObject* l3 = PyList_New(4);
-    PyObject* l4 = PyList_New(4);
-    PyList_SET_ITEM(l1, 0, PyFloat_FromDouble((*self->fThis)(0, 0)));
-    PyList_SET_ITEM(l1, 1, PyFloat_FromDouble((*self->fThis)(0, 1)));
-    PyList_SET_ITEM(l1, 2, PyFloat_FromDouble((*self->fThis)(0, 2)));
-    PyList_SET_ITEM(l1, 3, PyFloat_FromDouble((*self->fThis)(0, 3)));
-    PyList_SET_ITEM(l2, 0, PyFloat_FromDouble((*self->fThis)(1, 0)));
-    PyList_SET_ITEM(l2, 1, PyFloat_FromDouble((*self->fThis)(1, 1)));
-    PyList_SET_ITEM(l2, 2, PyFloat_FromDouble((*self->fThis)(1, 2)));
-    PyList_SET_ITEM(l2, 3, PyFloat_FromDouble((*self->fThis)(1, 3)));
-    PyList_SET_ITEM(l3, 0, PyFloat_FromDouble((*self->fThis)(2, 0)));
-    PyList_SET_ITEM(l3, 1, PyFloat_FromDouble((*self->fThis)(2, 1)));
-    PyList_SET_ITEM(l3, 2, PyFloat_FromDouble((*self->fThis)(2, 2)));
-    PyList_SET_ITEM(l3, 3, PyFloat_FromDouble((*self->fThis)(2, 3)));
-    PyList_SET_ITEM(l4, 0, PyFloat_FromDouble((*self->fThis)(3, 0)));
-    PyList_SET_ITEM(l4, 1, PyFloat_FromDouble((*self->fThis)(3, 1)));
-    PyList_SET_ITEM(l4, 2, PyFloat_FromDouble((*self->fThis)(3, 2)));
-    PyList_SET_ITEM(l4, 3, PyFloat_FromDouble((*self->fThis)(3, 3)));
+PY_GETSET_GETTER_DECL(Matrix44, mat) {
+    PyObject* t1 = PyTuple_New(4);
+    PyObject* t2 = PyTuple_New(4);
+    PyObject* t3 = PyTuple_New(4);
+    PyObject* t4 = PyTuple_New(4);
+    PyTuple_SET_ITEM(t1, 0, pyPlasma_convert((*self->fThis)(0, 0)));
+    PyTuple_SET_ITEM(t1, 1, pyPlasma_convert((*self->fThis)(0, 1)));
+    PyTuple_SET_ITEM(t1, 2, pyPlasma_convert((*self->fThis)(0, 2)));
+    PyTuple_SET_ITEM(t1, 3, pyPlasma_convert((*self->fThis)(0, 3)));
+    PyTuple_SET_ITEM(t2, 0, pyPlasma_convert((*self->fThis)(1, 0)));
+    PyTuple_SET_ITEM(t2, 1, pyPlasma_convert((*self->fThis)(1, 1)));
+    PyTuple_SET_ITEM(t2, 2, pyPlasma_convert((*self->fThis)(1, 2)));
+    PyTuple_SET_ITEM(t2, 3, pyPlasma_convert((*self->fThis)(1, 3)));
+    PyTuple_SET_ITEM(t3, 0, pyPlasma_convert((*self->fThis)(2, 0)));
+    PyTuple_SET_ITEM(t3, 1, pyPlasma_convert((*self->fThis)(2, 1)));
+    PyTuple_SET_ITEM(t3, 2, pyPlasma_convert((*self->fThis)(2, 2)));
+    PyTuple_SET_ITEM(t3, 3, pyPlasma_convert((*self->fThis)(2, 3)));
+    PyTuple_SET_ITEM(t4, 0, pyPlasma_convert((*self->fThis)(3, 0)));
+    PyTuple_SET_ITEM(t4, 1, pyPlasma_convert((*self->fThis)(3, 1)));
+    PyTuple_SET_ITEM(t4, 2, pyPlasma_convert((*self->fThis)(3, 2)));
+    PyTuple_SET_ITEM(t4, 3, pyPlasma_convert((*self->fThis)(3, 3)));
 
-    PyObject* list = PyList_New(4);
-    PyList_SET_ITEM(list, 0, l1);
-    PyList_SET_ITEM(list, 1, l2);
-    PyList_SET_ITEM(list, 2, l3);
-    PyList_SET_ITEM(list, 3, l4);
-    return list;
+    PyObject* mat = PyTuple_New(4);
+    PyTuple_SET_ITEM(mat, 0, t1);
+    PyTuple_SET_ITEM(mat, 1, t2);
+    PyTuple_SET_ITEM(mat, 2, t3);
+    PyTuple_SET_ITEM(mat, 3, t4);
+    return mat;
 }
 
-static PyObject* pyMatrix44_getGlMat(pyMatrix44* self, void*) {
-    PyObject* list = PyList_New(16);
+PY_PROPERTY_GETSET_RO_DECL(Matrix44, mat)
+
+PY_GETSET_GETTER_DECL(Matrix44, glMat) {
+    PyObject* mat = PyTuple_New(16);
     const float* glmat = self->fThis->glMatrix();
-    PyList_SET_ITEM(list, 0, PyFloat_FromDouble(glmat[0]));
-    PyList_SET_ITEM(list, 1, PyFloat_FromDouble(glmat[1]));
-    PyList_SET_ITEM(list, 2, PyFloat_FromDouble(glmat[2]));
-    PyList_SET_ITEM(list, 3, PyFloat_FromDouble(glmat[3]));
-    PyList_SET_ITEM(list, 4, PyFloat_FromDouble(glmat[4]));
-    PyList_SET_ITEM(list, 5, PyFloat_FromDouble(glmat[5]));
-    PyList_SET_ITEM(list, 6, PyFloat_FromDouble(glmat[6]));
-    PyList_SET_ITEM(list, 7, PyFloat_FromDouble(glmat[7]));
-    PyList_SET_ITEM(list, 8, PyFloat_FromDouble(glmat[8]));
-    PyList_SET_ITEM(list, 9, PyFloat_FromDouble(glmat[9]));
-    PyList_SET_ITEM(list, 10, PyFloat_FromDouble(glmat[10]));
-    PyList_SET_ITEM(list, 11, PyFloat_FromDouble(glmat[11]));
-    PyList_SET_ITEM(list, 12, PyFloat_FromDouble(glmat[12]));
-    PyList_SET_ITEM(list, 13, PyFloat_FromDouble(glmat[13]));
-    PyList_SET_ITEM(list, 14, PyFloat_FromDouble(glmat[14]));
-    PyList_SET_ITEM(list, 15, PyFloat_FromDouble(glmat[15]));
-    return list;
+    PyTuple_SET_ITEM(mat, 0, pyPlasma_convert(glmat[0]));
+    PyTuple_SET_ITEM(mat, 1, pyPlasma_convert(glmat[1]));
+    PyTuple_SET_ITEM(mat, 2, pyPlasma_convert(glmat[2]));
+    PyTuple_SET_ITEM(mat, 3, pyPlasma_convert(glmat[3]));
+    PyTuple_SET_ITEM(mat, 4, pyPlasma_convert(glmat[4]));
+    PyTuple_SET_ITEM(mat, 5, pyPlasma_convert(glmat[5]));
+    PyTuple_SET_ITEM(mat, 6, pyPlasma_convert(glmat[6]));
+    PyTuple_SET_ITEM(mat, 7, pyPlasma_convert(glmat[7]));
+    PyTuple_SET_ITEM(mat, 8, pyPlasma_convert(glmat[8]));
+    PyTuple_SET_ITEM(mat, 9, pyPlasma_convert(glmat[9]));
+    PyTuple_SET_ITEM(mat, 10, pyPlasma_convert(glmat[10]));
+    PyTuple_SET_ITEM(mat, 11, pyPlasma_convert(glmat[11]));
+    PyTuple_SET_ITEM(mat, 12, pyPlasma_convert(glmat[12]));
+    PyTuple_SET_ITEM(mat, 13, pyPlasma_convert(glmat[13]));
+    PyTuple_SET_ITEM(mat, 14, pyPlasma_convert(glmat[14]));
+    PyTuple_SET_ITEM(mat, 15, pyPlasma_convert(glmat[15]));
+    return mat;
 }
 
-static int pyMatrix44_setMat(pyMatrix44* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "mat is read-only");
-    return -1;
+PY_PROPERTY_GETSET_RO_DECL(Matrix44, glMat)
+
+PyGetSetDef pyMatrix44_GetSet[] = {
+    pyMatrix44_mat_getset,
+    pyMatrix44_glMat_getset,
+    PY_GETSET_TERMINATOR
+};
+
+PY_METHOD_STATIC_NOARGS(Matrix44, Identity, "Creates an identity matrix") {
+    return pyPlasma_convert(hsMatrix44::Identity());
 }
 
-static int pyMatrix44_setGlMat(pyMatrix44* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "glMat is read-only");
-    return -1;
-}
-
-static PyObject* pyMatrix44_Identity(PyObject*) {
-    return pyMatrix44_FromMatrix44(hsMatrix44::Identity());
-}
-
-static PyObject* pyMatrix44_TranslateMat(PyObject*, PyObject* args) {
+PY_METHOD_STATIC_VA(Matrix44, TranslateMat,
+    "Params: vector\n"
+    "Creates a translation matrix")
+{
     pyVector3* vec;
     if (!PyArg_ParseTuple(args, "O", &vec)) {
         PyErr_SetString(PyExc_TypeError, "TranslateMat expects an hsVector3");
@@ -167,20 +146,26 @@ static PyObject* pyMatrix44_TranslateMat(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "TranslateMat expects an hsVector3");
         return NULL;
     }
-    return pyMatrix44_FromMatrix44(hsMatrix44::TranslateMat(*vec->fThis));
+    return pyPlasma_convert(hsMatrix44::TranslateMat(*vec->fThis));
 }
 
-static PyObject* pyMatrix44_RotateMat(PyObject*, PyObject* args) {
+PY_METHOD_STATIC_VA(Matrix44, RotateMat,
+    "Params: axis, angle\n"
+    "Creates a rotation matrix")
+{
     int axis;
     float angle;
     if (!PyArg_ParseTuple(args, "if", &axis, &angle)) {
         PyErr_SetString(PyExc_TypeError, "RotateMat expects int, float");
         return NULL;
     }
-    return pyMatrix44_FromMatrix44(hsMatrix44::RotateMat(axis, angle));
+    return pyPlasma_convert(hsMatrix44::RotateMat(axis, angle));
 }
 
-static PyObject* pyMatrix44_ScaleMat(PyObject*, PyObject* args) {
+PY_METHOD_STATIC_VA(Matrix44, ScaleMat,
+    "Params: vector\n"
+    "Creates a scaling matrix")
+{
     pyVector3* vec;
     if (!PyArg_ParseTuple(args, "O", &vec)) {
         PyErr_SetString(PyExc_TypeError, "ScaleMat expects an hsVector3");
@@ -190,18 +175,23 @@ static PyObject* pyMatrix44_ScaleMat(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "ScaleMat expects an hsVector3");
         return NULL;
     }
-    return pyMatrix44_FromMatrix44(hsMatrix44::ScaleMat(*vec->fThis));
+    return pyPlasma_convert(hsMatrix44::ScaleMat(*vec->fThis));
 }
 
-static PyObject* pyMatrix44_inverse(pyMatrix44* self) {
-    return pyMatrix44_FromMatrix44(self->fThis->inverse());
+PY_METHOD_NOARGS(Matrix44, inverse, "Returns the inverse of the matrix") {
+    return pyPlasma_convert(self->fThis->inverse());
 }
 
-static PyObject* pyMatrix44_isIdentity(pyMatrix44* self) {
-    return PyBool_FromLong(self->fThis->IsIdentity() ? 1 : 0);
+PY_METHOD_NOARGS(Matrix44, isIdentity,
+    "Returns True if the matrix is the identity matrix")
+{
+    return pyPlasma_convert(self->fThis->IsIdentity());
 }
 
-static PyObject* pyMatrix44_translate(pyMatrix44* self, PyObject* args) {
+PY_METHOD_VA(Matrix44, translate,
+    "Params: vector\n"
+    "Translate the matrix by the specified vector")
+{
     pyVector3* vec;
     if (!PyArg_ParseTuple(args, "O", &vec)) {
         PyErr_SetString(PyExc_TypeError, "translate expects an hsVector3");
@@ -212,11 +202,13 @@ static PyObject* pyMatrix44_translate(pyMatrix44* self, PyObject* args) {
         return NULL;
     }
     self->fThis->translate(*vec->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyMatrix44_rotate(pyMatrix44* self, PyObject* args) {
+PY_METHOD_VA(Matrix44, rotate,
+    "Params: axis, angle\n"
+    "Rotate the matrix around the specified axis by angle radians")
+{
     int axis;
     float angle;
     if (!PyArg_ParseTuple(args, "if", &axis, &angle)) {
@@ -224,11 +216,13 @@ static PyObject* pyMatrix44_rotate(pyMatrix44* self, PyObject* args) {
         return NULL;
     }
     self->fThis->rotate(axis, angle);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyMatrix44_scale(pyMatrix44* self, PyObject* args) {
+PY_METHOD_VA(Matrix44, scale,
+    "Params: vector\n"
+    "Scale the matrix by the specified vector")
+{
     pyVector3* vec;
     if (!PyArg_ParseTuple(args, "O", &vec)) {
         PyErr_SetString(PyExc_TypeError, "scale expects an hsVector3");
@@ -239,11 +233,13 @@ static PyObject* pyMatrix44_scale(pyMatrix44* self, PyObject* args) {
         return NULL;
     }
     self->fThis->scale(*vec->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyMatrix44_setTranslate(pyMatrix44* self, PyObject* args) {
+PY_METHOD_VA(Matrix44, setTranslate,
+    "Params: vector\n"
+    "Set the absolute translation")
+{
     pyVector3* vec;
     if (!PyArg_ParseTuple(args, "O", &vec)) {
         PyErr_SetString(PyExc_TypeError, "setTranslate expects an hsVector3");
@@ -254,11 +250,13 @@ static PyObject* pyMatrix44_setTranslate(pyMatrix44* self, PyObject* args) {
         return NULL;
     }
     self->fThis->setTranslate(*vec->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyMatrix44_setRotate(pyMatrix44* self, PyObject* args) {
+PY_METHOD_VA(Matrix44, setRotate,
+    "Params: axis, angle\n"
+    "Set the absolute rotation to be along `axis` at `angle` radians")
+{
     int axis;
     float angle;
     if (!PyArg_ParseTuple(args, "if", &axis, &angle)) {
@@ -266,11 +264,13 @@ static PyObject* pyMatrix44_setRotate(pyMatrix44* self, PyObject* args) {
         return NULL;
     }
     self->fThis->setRotate(axis, angle);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyMatrix44_setScale(pyMatrix44* self, PyObject* args) {
+PY_METHOD_VA(Matrix44, setScale,
+    "Params: vector\n"
+    "Set the absolute scale")
+{
     pyVector3* vec;
     if (!PyArg_ParseTuple(args, "O", &vec)) {
         PyErr_SetString(PyExc_TypeError, "setScale expects an hsVector3");
@@ -281,11 +281,13 @@ static PyObject* pyMatrix44_setScale(pyMatrix44* self, PyObject* args) {
         return NULL;
     }
     self->fThis->setScale(*vec->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyMatrix44_multPoint(pyMatrix44* self, PyObject* args) {
+PY_METHOD_VA(Matrix44, multPoint,
+    "Params: vector\n"
+    "Multiply a point by the matrix and add displacement")
+{
     pyVector3* vec;
     if (!PyArg_ParseTuple(args, "O", &vec)) {
         PyErr_SetString(PyExc_TypeError, "multPoint expects an hsVector3");
@@ -296,10 +298,13 @@ static PyObject* pyMatrix44_multPoint(pyMatrix44* self, PyObject* args) {
         return NULL;
     }
     hsVector3 result = self->fThis->multPoint(*vec->fThis);
-    return pyVector3_FromVector3(result);
+    return pyPlasma_convert(result);
 }
 
-static PyObject* pyMatrix44_multVector(pyMatrix44* self, PyObject* args) {
+PY_METHOD_VA(Matrix44, multVector,
+    "Params: vector\n"
+    "Multiply a vector by the matrix and do not add displacement")
+{
     pyVector3* vec;
     if (!PyArg_ParseTuple(args, "O", &vec)) {
         PyErr_SetString(PyExc_TypeError, "multVector expects an hsVector3");
@@ -310,10 +315,13 @@ static PyObject* pyMatrix44_multVector(pyMatrix44* self, PyObject* args) {
         return NULL;
     }
     hsVector3 result = self->fThis->multVector(*vec->fThis);
-    return pyVector3_FromVector3(result);
+    return pyPlasma_convert(result);
 }
 
-static PyObject* pyMatrix44_read(pyMatrix44* self, PyObject* args) {
+PY_METHOD_VA(Matrix44, read,
+    "Params: stream\n"
+    "Reads this matrix from `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
@@ -324,11 +332,13 @@ static PyObject* pyMatrix44_read(pyMatrix44* self, PyObject* args) {
         return NULL;
     }
     self->fThis->read(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyMatrix44_write(pyMatrix44* self, PyObject* args) {
+PY_METHOD_VA(Matrix44, write,
+    "Params: stream\n"
+    "Writes this matrix to `stream`")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
@@ -339,195 +349,59 @@ static PyObject* pyMatrix44_write(pyMatrix44* self, PyObject* args) {
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-PyNumberMethods pyMatrix44_As_Number = {
-    NULL,                               /* nb_add */
-    NULL,                               /* nb_subtract */
-    (binaryfunc)pyMatrix44_multiply,    /* nb_multiply */
-#if (PY_MAJOR_VERSION < 3)
-    NULL,                               /* nb_divide */
-#endif
-    NULL,                               /* nb_remainder */
-    NULL,                               /* nb_divmod */
-    NULL,                               /* nb_power */
-    NULL,                               /* nb_negative */
-    NULL,                               /* nb_positive */
-    NULL,                               /* nb_absolute */
-    NULL,                               /* nb_nonzero */
-    NULL,                               /* nb_invert */
-    NULL,                               /* nb_lshift */
-    NULL,                               /* nb_rshift */
-    NULL,                               /* nb_and */
-    NULL,                               /* nb_xor */
-    NULL,                               /* nb_or */
-#if (PY_MAJOR_VERSION < 3)
-    NULL,                               /* nb_coerce */
-#endif
-    NULL,                               /* nb_int */
-    NULL,                               /* nb_long */
-    NULL,                               /* nb_float */
-#if (PY_MAJOR_VERSION < 3)
-    NULL,                               /* nb_oct */
-    NULL,                               /* nb_hex */
-#endif
-    NULL,                               /* nb_inplace_add */
-    NULL,                               /* nb_inplace_subtract */
-    NULL,                               /* nb_inplace_multiply */
-#if (PY_MAJOR_VERSION < 3)
-    NULL,                               /* nb_inplace_divide */
-#endif
-    NULL,                               /* nb_inplace_remainder */
-    NULL,                               /* nb_inplace_power */
-    NULL,                               /* nb_inplace_lshift */
-    NULL,                               /* nb_inplace_rshift */
-    NULL,                               /* nb_inplace_and */
-    NULL,                               /* nb_inplace_xor */
-    NULL,                               /* nb_inplace_or */
-    NULL,                               /* nb_floor_divide */
-    NULL,                               /* nb_true_divide */
-    NULL,                               /* nb_inplace_floor_divide */
-    NULL,                               /* nb_inplace_true_divide */
-#if ((PY_MAJOR_VERSION > 2) || (PY_MAJOR_VERSION == 2 && PY_MINOR_VERSION >= 5))
-    NULL,                               /* nb_index */
-#endif
-#if ((PY_MAJOR_VERSION > 3) || (PY_MAJOR_VERSION == 3 && PY_MINOR_VERSION >= 5))
-    NULL,                               /* nb_matrix_multiply */
-    NULL,                               /* nb_inplace_matrix_multiply */
-#endif
-};
-
-static PyMappingMethods pyMatrix44_As_Mapping = {
-    NULL,                                   /* mp_length */
-    (binaryfunc)pyMatrix44_Subscript,       /* mp_subscript */
-    (objobjargproc)pyMatrix44_AssSubscript  /* mp_ass_subscript */
-};
-
-PyGetSetDef pyMatrix44_GetSet[] = {
-    { _pycs("mat"), (getter)pyMatrix44_getMat, (setter)pyMatrix44_setMat, NULL, NULL },
-    { _pycs("glMat"), (getter)pyMatrix44_getGlMat, (setter)pyMatrix44_setGlMat, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
-};
-
 PyMethodDef pyMatrix44_Methods[] = {
-    { "Identity", (PyCFunction)pyMatrix44_Identity, METH_NOARGS | METH_STATIC,
-      "Creates an identity matrix" },
-    { "TranslateMat", (PyCFunction)pyMatrix44_TranslateMat, METH_VARARGS | METH_STATIC,
-      "Params: vector\n"
-      "Creates a translation matrix" },
-    { "RotateMat", (PyCFunction)pyMatrix44_RotateMat, METH_VARARGS | METH_STATIC,
-      "Params: axis, angle\n"
-      "Creates a rotation matrix" },
-    { "ScaleMat", (PyCFunction)pyMatrix44_ScaleMat, METH_VARARGS | METH_STATIC,
-      "Params: vector\n"
-      "Creates a scaling matrix" },
-    { "inverse", (PyCFunction)pyMatrix44_inverse, METH_NOARGS,
-      "Returns the inverse of the matrix" },
-    { "isIdentity", (PyCFunction)pyMatrix44_isIdentity, METH_NOARGS,
-      "Returns True if the matrix is the identity matrix" },
-    { "translate", (PyCFunction)pyMatrix44_translate, METH_VARARGS,
-      "Params: vector\n"
-      "Translate the matrix by the specified vector" },
-    { "rotate", (PyCFunction)pyMatrix44_rotate, METH_VARARGS,
-      "Params: axis, angle\n"
-      "Rotate the matrix around the specified axis by angle radians" },
-    { "scale", (PyCFunction)pyMatrix44_scale, METH_VARARGS,
-      "Params: vector\n"
-      "Scale the matrix by the specified vector" },
-    { "setTranslate", (PyCFunction)pyMatrix44_setTranslate, METH_VARARGS,
-      "Params: vector\n"
-      "Set the absolute translation" },
-    { "setRotate", (PyCFunction)pyMatrix44_setRotate, METH_VARARGS,
-      "Params: axis, angle\n"
-      "Set the absolute rotation to be along `axis` at `angle` radians" },
-    { "setScale", (PyCFunction)pyMatrix44_setScale, METH_VARARGS,
-      "Params: vector\n"
-      "Set the absolute scale" },
-    { "multPoint", (PyCFunction)pyMatrix44_multPoint, METH_VARARGS,
-      "Params: vector\n"
-      "Multiply a point by the matrix and add displacement" },
-    { "multVector", (PyCFunction)pyMatrix44_multVector, METH_VARARGS,
-      "Params: vector\n"
-      "Multiply a vector by the matrix and do not add displacement" },
-    { "read", (PyCFunction)pyMatrix44_read, METH_VARARGS,
-      "Params: stream\n"
-      "Reads this matrix from `stream`" },
-    { "write", (PyCFunction)pyMatrix44_write, METH_VARARGS,
-      "Params: stream\n"
-      "Writes this matrix to `stream`" },
-    { NULL, NULL, 0, NULL }
+    pyMatrix44_Identity_method,
+    pyMatrix44_TranslateMat_method,
+    pyMatrix44_RotateMat_method,
+    pyMatrix44_ScaleMat_method,
+    pyMatrix44_inverse_method,
+    pyMatrix44_isIdentity_method,
+    pyMatrix44_translate_method,
+    pyMatrix44_rotate_method,
+    pyMatrix44_scale_method,
+    pyMatrix44_setTranslate_method,
+    pyMatrix44_setRotate_method,
+    pyMatrix44_setScale_method,
+    pyMatrix44_multPoint_method,
+    pyMatrix44_multVector_method,
+    pyMatrix44_read_method,
+    pyMatrix44_write_method,
+    PY_METHOD_TERMINATOR
 };
 
-PyTypeObject pyMatrix44_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.hsMatrix44",            /* tp_name */
-    sizeof(pyMatrix44),                 /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_NB_BINARYFUNC_DECL(Matrix44, multiply) {
+    if (!pyPlasma_check<hsMatrix44>(left) || !pyPlasma_check<hsMatrix44>(right)) {
+        PyErr_SetString(PyExc_TypeError, "Multiplication operand is not another matrix");
+        return NULL;
+    }
+    return pyPlasma_convert(pyPlasma_get<hsMatrix44>(left) * pyPlasma_get<hsMatrix44>(right));
+}
 
-    (destructor)pyMatrix44_dealloc,     /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    &pyMatrix44_As_Number,              /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    &pyMatrix44_As_Mapping,             /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
+PY_PLASMA_TYPE(Matrix44, hsMatrix44, "hsMatrix44 wrapper")
+PY_PLASMA_TYPE_AS_NUMBER(Matrix44)
+PY_PLASMA_TYPE_AS_MAPPING(Matrix44)
 
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPES, /* tp_flags */
-    "hsMatrix44 wrapper",               /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyMatrix44_Methods,                 /* tp_methods */
-    NULL,                               /* tp_members */
-    pyMatrix44_GetSet,                  /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    (initproc)pyMatrix44___init__,      /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyMatrix44_new,                     /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyMatrix44_Type() {
-    if (PyType_Ready(&pyMatrix44_Type) < 0)
+PY_PLASMA_TYPE_INIT(Matrix44) {
+    pyMatrix44_As_Number.nb_multiply = pyMatrix44_nb_multiply;
+    pyMatrix44_As_Mapping.mp_subscript = pyMatrix44_mp_subscript;
+    pyMatrix44_As_Mapping.mp_ass_subscript = pyMatrix44_mp_ass_subscript;
+    pyMatrix44_Type.tp_dealloc = pyMatrix44_dealloc;
+    pyMatrix44_Type.tp_init = pyMatrix44___init__;
+    pyMatrix44_Type.tp_new = pyMatrix44_new;
+    pyMatrix44_Type.tp_as_number = &pyMatrix44_As_Number;
+    pyMatrix44_Type.tp_as_mapping = &pyMatrix44_As_Mapping;
+    pyMatrix44_Type.tp_methods = pyMatrix44_Methods;
+    pyMatrix44_Type.tp_getset = pyMatrix44_GetSet;
+    pyMatrix44_Type.tp_flags |= Py_TPFLAGS_CHECKTYPES;
+    if (PyType_CheckAndReady(&pyMatrix44_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyMatrix44_Type.tp_dict, "kRight",
-                         PyInt_FromLong(hsMatrix44::kRight));
-    PyDict_SetItemString(pyMatrix44_Type.tp_dict, "kUp",
-                         PyInt_FromLong(hsMatrix44::kUp));
-    PyDict_SetItemString(pyMatrix44_Type.tp_dict, "kView",
-                         PyInt_FromLong(hsMatrix44::kView));
+    PY_TYPE_ADD_CONST(Matrix44, "kRight", hsMatrix44::kRight);
+    PY_TYPE_ADD_CONST(Matrix44, "kUp", hsMatrix44::kUp);
+    PY_TYPE_ADD_CONST(Matrix44, "kView", hsMatrix44::kView);
 
     Py_INCREF(&pyMatrix44_Type);
     return (PyObject*)&pyMatrix44_Type;

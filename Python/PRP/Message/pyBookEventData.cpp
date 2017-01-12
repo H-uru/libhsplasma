@@ -20,110 +20,24 @@
 
 extern "C" {
 
-static PyObject* pyBookEventData_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyBookEventData* self = (pyBookEventData*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new proBookEventData();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(BookEventData, proBookEventData)
 
-static PyObject* pyBookEventData_getEvent(pyBookEventData* self, void*) {
-    return PyInt_FromLong(self->fThis->getEvent());
-}
-
-static PyObject* pyBookEventData_getLinkID(pyBookEventData* self, void*) {
-    return PyInt_FromLong(self->fThis->getLinkID());
-}
-
-static int pyBookEventData_setEvent(pyBookEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "event should be an int");
-        return -1;
-    }
-    self->fThis->setEvent(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyBookEventData_setLinkID(pyBookEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "linkID should be an int");
-        return -1;
-    }
-    self->fThis->setLinkID(PyInt_AsLong(value));
-    return 0;
-}
+PY_PROPERTY(unsigned int, BookEventData, event, getEvent, setEvent)
+PY_PROPERTY(unsigned int, BookEventData, linkID, getLinkID, setLinkID)
 
 static PyGetSetDef pyBookEventData_GetSet[] = {
-    { _pycs("event"), (getter)pyBookEventData_getEvent,
-        (setter)pyBookEventData_setEvent, NULL, NULL },
-    { _pycs("linkID"), (getter)pyBookEventData_getLinkID,
-        (setter)pyBookEventData_setLinkID, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyBookEventData_event_getset,
+    pyBookEventData_linkID_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyBookEventData_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.proBookEventData",      /* tp_name */
-    sizeof(pyBookEventData),            /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(BookEventData, proBookEventData, "proBookEventData wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "proBookEventData wrapper",         /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    NULL,                               /* tp_methods */
-    NULL,                               /* tp_members */
-    pyBookEventData_GetSet,             /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyBookEventData_new,                /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyBookEventData_Type() {
+PY_PLASMA_TYPE_INIT(BookEventData) {
+    pyBookEventData_Type.tp_new = pyBookEventData_new;
+    pyBookEventData_Type.tp_getset = pyBookEventData_GetSet;
     pyBookEventData_Type.tp_base = &pyEventData_Type;
-    if (PyType_Ready(&pyBookEventData_Type) < 0)
+    if (PyType_CheckAndReady(&pyBookEventData_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyBookEventData_Type);

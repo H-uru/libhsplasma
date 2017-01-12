@@ -17,8 +17,7 @@
 #include "pyResManager.h"
 
 #include <ResManager/plResManager.h>
-#include <PRP/KeyedObject/hsKeyedObject.h>
-#include <PRP/plCreatable.h>
+#include <PRP/plSceneNode.h>
 #include "Stream/pyStream.h"
 #include "PRP/pyCreatable.h"
 #include "PRP/pySceneNode.h"
@@ -27,12 +26,9 @@
 
 extern "C" {
 
-static void pyResManager_dealloc(pyResManager* self) {
-    delete self->fThis;
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
+PY_PLASMA_DEALLOC(ResManager)
 
-static int pyResManager___init__(pyResManager* self, PyObject* args, PyObject* kwds) {
+PY_PLASMA_INIT_DECL(ResManager) {
     int version = PlasmaVer::pvUnknown;
     if (!PyArg_ParseTuple(args, "|i", &version))
         return -1;
@@ -41,29 +37,31 @@ static int pyResManager___init__(pyResManager* self, PyObject* args, PyObject* k
     return 0;
 }
 
-static PyObject* pyResManager_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyResManager* self = (pyResManager*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis = new plResManager();
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(ResManager, plResManager)
 
-static PyObject* pyResManager_setVer(pyResManager* self, PyObject* args) {
+PY_METHOD_VA(ResManager, setVer,
+    "Params: version, [force]\n"
+    "Sets the plasma version of the resource manager")
+{
     int ver, force = 0;
     if (!PyArg_ParseTuple(args, "i|i", &ver, &force)) {
         PyErr_SetString(PyExc_TypeError, "setVer expects an int");
         return NULL;
     }
     self->fThis->setVer((PlasmaVer)ver, (force != 0));
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyResManager_getVer(pyResManager* self) {
-    return PyInt_FromLong(self->fThis->getVer());
+PY_METHOD_NOARGS(ResManager, getVer,
+    "Gets the plasma version of the resource manager")
+{
+    return pyPlasma_convert(self->fThis->getVer());
 }
 
-static PyObject* pyResManager_readKey(pyResManager* self, PyObject* args) {
+PY_METHOD_VA(ResManager, readKey,
+    "Params: stream\n"
+    "Reads a plKey from the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "readKey expects an hsStream");
@@ -76,7 +74,10 @@ static PyObject* pyResManager_readKey(pyResManager* self, PyObject* args) {
     return pyKey_FromKey(self->fThis->readKey(stream->fThis));
 }
 
-static PyObject* pyResManager_readUoid(pyResManager* self, PyObject* args) {
+PY_METHOD_VA(ResManager, readUoid,
+    "Params: stream\n"
+    "Reads a non-null plKey from the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "readUoid expects an hsStream");
@@ -89,7 +90,10 @@ static PyObject* pyResManager_readUoid(pyResManager* self, PyObject* args) {
     return pyKey_FromKey(self->fThis->readUoid(stream->fThis));
 }
 
-static PyObject* pyResManager_writeKey(pyResManager* self, PyObject* args) {
+PY_METHOD_VA(ResManager, writeKey,
+    "Params: stream, key\n"
+    "Writes a plKey to the stream")
+{
     pyStream* stream;
     pyKey* key;
     if (!PyArg_ParseTuple(args, "OO", &stream, &key)) {
@@ -101,11 +105,13 @@ static PyObject* pyResManager_writeKey(pyResManager* self, PyObject* args) {
         return NULL;
     }
     self->fThis->writeKey(stream->fThis, *(key->fThis));
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyResManager_writeUoid(pyResManager* self, PyObject* args) {
+PY_METHOD_VA(ResManager, writeUoid,
+    "Params: stream, key\n"
+    "Writes a non-null plKey to the stream")
+{
     pyStream* stream;
     pyKey* key;
     if (!PyArg_ParseTuple(args, "OO", &stream, &key)) {
@@ -117,11 +123,13 @@ static PyObject* pyResManager_writeUoid(pyResManager* self, PyObject* args) {
         return NULL;
     }
     self->fThis->writeUoid(stream->fThis, *(key->fThis));
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyResManager_getObject(pyResManager* self, PyObject* args) {
+PY_METHOD_VA(ResManager, getObject,
+    "Params: key\n"
+    "Finds and returns the loaded Keyed Object described by `key`")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "getObject expects a plKey");
@@ -134,7 +142,10 @@ static PyObject* pyResManager_getObject(pyResManager* self, PyObject* args) {
     return ICreate(self->fThis->getObject(*(key->fThis)));
 }
 
-static PyObject* pyResManager_countKeys(pyResManager* self, PyObject* args) {
+PY_METHOD_VA(ResManager, countKeys,
+    "Params: location\n"
+    "Counts the number of loaded keys in `location`")
+{
     pyLocation* loc;
     if (!PyArg_ParseTuple(args, "O", &loc)) {
         PyErr_SetString(PyExc_TypeError, "countKeys expects a plLocation");
@@ -144,10 +155,13 @@ static PyObject* pyResManager_countKeys(pyResManager* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "countKeys expects a plLocation");
         return NULL;
     }
-    return PyInt_FromLong(self->fThis->countKeys(*(loc->fThis)));
+    return pyPlasma_convert(self->fThis->countKeys(*(loc->fThis)));
 }
 
-static PyObject* pyResManager_ReadPage(pyResManager* self, PyObject* args) {
+PY_METHOD_VA(ResManager, ReadPage,
+    "Params: filename, [stub]\n"
+    "Reads an entire PRP file and returns the plPageInfo for it")
+{
     const char* filename;
     int stub = false;
     if (!PyArg_ParseTuple(args, "s|i", &filename, &stub)) {
@@ -162,14 +176,16 @@ static PyObject* pyResManager_ReadPage(pyResManager* self, PyObject* args) {
         return NULL;
     }
     if (page == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } else {
         return pyPageInfo_FromPageInfo(page);
     }
 }
 
-static PyObject* pyResManager_WritePage(pyResManager* self, PyObject* args) {
+PY_METHOD_VA(ResManager, WritePage,
+    "Params: filename, page\n"
+    "Writes an entire page to a PRP file")
+{
     const char* filename;
     pyPageInfo* page;
     if (!PyArg_ParseTuple(args, "sO", &filename, &page)) {
@@ -186,11 +202,13 @@ static PyObject* pyResManager_WritePage(pyResManager* self, PyObject* args) {
         PyErr_SetString(PyExc_IOError, "Error writing page");
         return NULL;
     }
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyResManager_FindPage(pyResManager* self, PyObject* args) {
+PY_METHOD_VA(ResManager, FindPage,
+    "Params: location\n"
+    "Finds and returns the plPageInfo at `location`")
+{
     pyLocation* loc;
     if (!PyArg_ParseTuple(args, "O", &loc)) {
         PyErr_SetString(PyExc_TypeError, "FindPage expects a plLocation");
@@ -202,14 +220,17 @@ static PyObject* pyResManager_FindPage(pyResManager* self, PyObject* args) {
     }
     plPageInfo* page = self->fThis->FindPage(*loc->fThis);
     if (page == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } else {
         return pyPageInfo_FromPageInfo(page);
     }
 }
 
-static PyObject* pyResManager_UnloadPage(pyResManager* self, PyObject* args) {
+PY_METHOD_VA(ResManager, UnloadPage,
+    "Params: location\n"
+    "Unloads the specified page, as well as all associated objects\n"
+    "from the ResManager")
+{
     pyLocation* loc;
     if (!PyArg_ParseTuple(args, "O", &loc)) {
         PyErr_SetString(PyExc_TypeError, "UnloadPage expects a plLocation");
@@ -220,11 +241,14 @@ static PyObject* pyResManager_UnloadPage(pyResManager* self, PyObject* args) {
         return NULL;
     }
     self->fThis->UnloadPage(*loc->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyResManager_ReadAge(pyResManager* self, PyObject* args) {
+PY_METHOD_VA(ResManager, ReadAge,
+    "Params: filename, readPages\n"
+    "Reads a .age file. If readPages is True, also loads all PRPs\n"
+    "identified in the .age file")
+{
     const char* filename;
     char readPages;
     if (!PyArg_ParseTuple(args, "sb", &filename, &readPages)) {
@@ -243,14 +267,17 @@ static PyObject* pyResManager_ReadAge(pyResManager* self, PyObject* args) {
         return NULL;
     }
     if (age == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } else {
         return pyAgeInfo_FromAgeInfo(age);
     }
 }
 
-static PyObject* pyResManager_WriteAge(pyResManager* self, PyObject* args) {
+PY_METHOD_VA(ResManager, WriteAge,
+    "Params: filename, age\n"
+    "Writes a plAgeInfo to the specified file\n"
+    "Does NOT write any PRP files!")
+{
     const char* filename;
     pyAgeInfo* age;
     if (!PyArg_ParseTuple(args, "sO", &filename, &age)) {
@@ -267,11 +294,13 @@ static PyObject* pyResManager_WriteAge(pyResManager* self, PyObject* args) {
         PyErr_SetString(PyExc_IOError, "Error writing age");
         return NULL;
     }
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyResManager_FindAge(pyResManager* self, PyObject* args) {
+PY_METHOD_VA(ResManager, FindAge,
+    "Params: age\n"
+    "Finds and returns the plAgeInfo for `age`")
+{
     const char* ageName;
     if (!PyArg_ParseTuple(args, "s", &ageName)) {
         PyErr_SetString(PyExc_TypeError, "FindAge expects a string");
@@ -279,25 +308,30 @@ static PyObject* pyResManager_FindAge(pyResManager* self, PyObject* args) {
     }
     plAgeInfo* age = self->fThis->FindAge(ageName);
     if (age == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_RETURN_NONE;
     } else {
         return pyAgeInfo_FromAgeInfo(age);
     }
 }
 
-static PyObject* pyResManager_UnloadAge(pyResManager* self, PyObject* args) {
+PY_METHOD_VA(ResManager, UnloadAge,
+    "Params: age\n"
+    "Unloads the specified age, as well as any pages and objects\n"
+    "associated with it from the ResManager")
+{
     const char* ageName;
     if (!PyArg_ParseTuple(args, "s", &ageName)) {
         PyErr_SetString(PyExc_TypeError, "UnloadAge expects a string");
         return NULL;
     }
     self->fThis->UnloadAge(ageName);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyResManager_ReadCreatable(pyResManager* self, PyObject* args) {
+PY_METHOD_VA(ResManager, ReadCreatable,
+    "Params: stream\n"
+    "Reads a Creatable from the stream")
+{
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "ReadCreatable expects an hsStream");
@@ -310,7 +344,11 @@ static PyObject* pyResManager_ReadCreatable(pyResManager* self, PyObject* args) 
     return ICreate(self->fThis->ReadCreatable(stream->fThis));
 }
 
-static PyObject* pyResManager_ReadCreatableStub(pyResManager* self, PyObject* args) {
+PY_METHOD_VA(ResManager, ReadCreatableStub,
+    "Params: stream, size\n"
+    "Reads a Creatable if the class is supported by libHSPlasma, "
+    "or a CreatableStub of size `size` if it is not")
+{
     pyStream* stream;
     int size;
     if (!PyArg_ParseTuple(args, "Oi", &stream, &size)) {
@@ -324,7 +362,10 @@ static PyObject* pyResManager_ReadCreatableStub(pyResManager* self, PyObject* ar
     return ICreate(self->fThis->ReadCreatable(stream->fThis, true, (size_t)size));
 }
 
-static PyObject* pyResManager_WriteCreatable(pyResManager* self, PyObject* args) {
+PY_METHOD_VA(ResManager, WriteCreatable,
+    "Params: stream, obj\n"
+    "Writes the Creatable `obj` to the stream")
+{
     pyStream* stream;
     pyCreatable* cre;
     if (!PyArg_ParseTuple(args, "OO", &stream, &cre)) {
@@ -336,11 +377,13 @@ static PyObject* pyResManager_WriteCreatable(pyResManager* self, PyObject* args)
         return NULL;
     }
     self->fThis->WriteCreatable(stream->fThis, cre->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyResManager_getSceneNode(pyResManager* self, PyObject* args) {
+PY_METHOD_VA(ResManager, getSceneNode,
+    "Params: location\n"
+    "Returns the SceneNode for the specified location")
+{
     pyLocation* loc;
     if (!PyArg_ParseTuple(args, "O", &loc)) {
         PyErr_SetString(PyExc_TypeError, "getSceneNode expects a plLocation");
@@ -350,10 +393,10 @@ static PyObject* pyResManager_getSceneNode(pyResManager* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "getSceneNode expects a plLocation");
         return NULL;
     }
-    return pySceneNode_FromSceneNode(self->fThis->getSceneNode(*loc->fThis));
+    return ICreate(self->fThis->getSceneNode(*loc->fThis));
 }
 
-static PyObject* pyResManager_getLocations(pyResManager* self) {
+PY_METHOD_NOARGS(ResManager, getLocations, "Returns a list of all loaded locations") {
     std::vector<plLocation> locs = self->fThis->getLocations();
     PyObject* list = PyList_New(locs.size());
     for (size_t i=0; i<locs.size(); i++)
@@ -361,7 +404,10 @@ static PyObject* pyResManager_getLocations(pyResManager* self) {
     return list;
 }
 
-static PyObject* pyResManager_getTypes(pyResManager* self, PyObject* args) {
+PY_METHOD_VA(ResManager, getTypes,
+    "Params: location\n"
+    "Returns a list of the Creatable Types that are used in location")
+{
     pyLocation* loc;
     char checkKeys = 0;
     if (!PyArg_ParseTuple(args, "O|b", &loc, &checkKeys)) {
@@ -376,11 +422,14 @@ static PyObject* pyResManager_getTypes(pyResManager* self, PyObject* args) {
     std::vector<short> types = self->fThis->getTypes(*loc->fThis, (checkKeys != 0));
     PyObject* list = PyList_New(types.size());
     for (size_t i=0; i<types.size(); i++)
-        PyList_SET_ITEM(list, i, PyInt_FromLong(types[i]));
+        PyList_SET_ITEM(list, i, pyPlasma_convert(types[i]));
     return list;
 }
 
-static PyObject* pyResManager_getKeys(pyResManager* self, PyObject* args) {
+PY_METHOD_VA(ResManager, getKeys,
+    "Params: location, type\n"
+    "Returns all keys of type `type` loaded for the specified location")
+{
     pyLocation* loc;
     int type;
     char checkKeys = 0;
@@ -400,7 +449,10 @@ static PyObject* pyResManager_getKeys(pyResManager* self, PyObject* args) {
     return list;
 }
 
-static PyObject* pyResManager_AddObject(pyResManager* self, PyObject* args) {
+PY_METHOD_VA(ResManager, AddObject,
+    "Params: location, object\n"
+    "Registers the object to `location` and adds it to the ResManager")
+{
     pyLocation* loc;
     pyKeyedObject* obj;
     if (!PyArg_ParseTuple(args, "OO", &loc, &obj)) {
@@ -414,11 +466,13 @@ static PyObject* pyResManager_AddObject(pyResManager* self, PyObject* args) {
 
     self->fThis->AddObject(*loc->fThis, obj->fThis);
     obj->fPyOwned = false;
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyResManager_AddPage(pyResManager* self, PyObject* args) {
+PY_METHOD_VA(ResManager, AddPage,
+    "Params: page\n"
+    "Adds the plPageInfo to the ResManager")
+{
     pyPageInfo* page;
     if (!PyArg_ParseTuple(args, "O", &page)) {
         PyErr_SetString(PyExc_TypeError, "AddPage expects a plPageInfo");
@@ -431,11 +485,13 @@ static PyObject* pyResManager_AddPage(pyResManager* self, PyObject* args) {
 
     self->fThis->AddPage(page->fThis);
     page->fPyOwned = false;
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyResManager_AddAge(pyResManager* self, PyObject* args) {
+PY_METHOD_VA(ResManager, AddAge,
+    "Params: age\n"
+    "Adds the plAgeInfo to the ResManager")
+{
     pyAgeInfo* age;
     if (!PyArg_ParseTuple(args, "O", &age)) {
         PyErr_SetString(PyExc_TypeError, "AddAge expects a plAgeInfo");
@@ -448,11 +504,13 @@ static PyObject* pyResManager_AddAge(pyResManager* self, PyObject* args) {
 
     self->fThis->AddAge(age->fThis);
     age->fPyOwned = false;
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyResManager_DelObject(pyResManager* self, PyObject* args) {
+PY_METHOD_VA(ResManager, DelObject,
+    "Params: key\n"
+    "Removes the object specified by `key` from the ResManager")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "DelObject expects a plKey");
@@ -464,11 +522,13 @@ static PyObject* pyResManager_DelObject(pyResManager* self, PyObject* args) {
     }
 
     self->fThis->DelObject(*key->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyResManager_DelPage(pyResManager* self, PyObject* args) {
+PY_METHOD_VA(ResManager, DelPage,
+    "Params: location\n"
+    "Deletes the Page specified by `location` from the ResManager")
+{
     pyLocation* loc;
     if (!PyArg_ParseTuple(args, "O", &loc)) {
         PyErr_SetString(PyExc_TypeError, "DelPage expects a plLocation");
@@ -480,11 +540,13 @@ static PyObject* pyResManager_DelPage(pyResManager* self, PyObject* args) {
     }
 
     self->fThis->DelPage(*loc->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyResManager_DelAge(pyResManager* self, PyObject* args) {
+PY_METHOD_VA(ResManager, DelAge,
+    "Params: name\n"
+    "Deletes the Age from the ResManager")
+{
     const char* age;
     if (!PyArg_ParseTuple(args, "s", &age)) {
         PyErr_SetString(PyExc_TypeError, "DelAge expects a string");
@@ -492,11 +554,14 @@ static PyObject* pyResManager_DelAge(pyResManager* self, PyObject* args) {
     }
 
     self->fThis->DelAge(age);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyResManager_ChangeLocation(pyResManager* self, PyObject* args) {
+PY_METHOD_VA(ResManager, ChangeLocation,
+    "Params: locFrom, locTo\n"
+    "Changes a location for a page and/or all keys registered under locFrom\n"
+    "to locTo")
+{
     pyLocation* locFrom;
     pyLocation* locTo;
     if (!PyArg_ParseTuple(args, "OO", &locFrom, &locTo)) {
@@ -509,168 +574,51 @@ static PyObject* pyResManager_ChangeLocation(pyResManager* self, PyObject* args)
     }
 
     self->fThis->ChangeLocation(*locFrom->fThis, *locTo->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef pyResManager_Methods[] = {
-    { "setVer", (PyCFunction)pyResManager_setVer, METH_VARARGS,
-      "Params: version, [force]\n"
-      "Sets the plasma version of the resource manager" },
-    { "getVer", (PyCFunction)pyResManager_getVer, METH_NOARGS,
-      "Gets the plasma version of the resource manager" },
-    { "readKey", (PyCFunction)pyResManager_readKey, METH_VARARGS,
-      "Params: stream\n"
-      "Reads a plKey from the stream" },
-    { "readUoid", (PyCFunction)pyResManager_readUoid, METH_VARARGS,
-      "Params: stream\n"
-      "Reads a non-null plKey from the stream" },
-    { "writeKey", (PyCFunction)pyResManager_writeKey, METH_VARARGS,
-      "Params: stream, key\n"
-      "Writes a plKey to the stream" },
-    { "writeUoid", (PyCFunction)pyResManager_writeUoid, METH_VARARGS,
-      "Params: stream, key\n"
-      "Writes a non-null plKey to the stream" },
-    { "getObject", (PyCFunction)pyResManager_getObject, METH_VARARGS,
-      "Params: key\n"
-      "Finds and returns the loaded Keyed Object described by `key`" },
-    { "countKeys", (PyCFunction)pyResManager_countKeys, METH_VARARGS,
-      "Params: location\n"
-      "Counts the number of loaded keys in `location`" },
-    { "ReadPage", (PyCFunction)pyResManager_ReadPage, METH_VARARGS,
-      "Params: filename, [stub]\n"
-      "Reads an entire PRP file and returns the plPageInfo for it" },
-    { "WritePage", (PyCFunction)pyResManager_WritePage, METH_VARARGS,
-      "Params: filename, page\n"
-      "Writes an entire page to a PRP file" },
-    { "FindPage", (PyCFunction)pyResManager_FindPage, METH_VARARGS,
-      "Params: location\n"
-      "Finds and returns the plPageInfo at `location`" },
-    { "UnloadPage", (PyCFunction)pyResManager_UnloadPage, METH_VARARGS,
-      "Params: location\n"
-      "Unloads the specified page, as well as all associated objects\n"
-      "from the ResManager" },
-    { "ReadAge", (PyCFunction)pyResManager_ReadAge, METH_VARARGS,
-      "Params: filename, readPages\n"
-      "Reads a .age file. If readPages is True, also loads all PRPs\n"
-      "identified in the .age file" },
-    { "WriteAge", (PyCFunction)pyResManager_WriteAge, METH_VARARGS,
-      "Params: filename, age\n"
-      "Writes a plAgeInfo to the specified file\n"
-      "Does NOT write any PRP files!" },
-    { "FindAge", (PyCFunction)pyResManager_FindAge, METH_VARARGS,
-      "Params: age\n"
-      "Finds and returns the plAgeInfo for `age`" },
-    { "UnloadAge", (PyCFunction)pyResManager_UnloadAge, METH_VARARGS,
-      "Params: age\n"
-      "Unloads the specified age, as well as any pages and objects\n"
-      "associated with it from the ResManager" },
-    { "ReadCreatable", (PyCFunction)pyResManager_ReadCreatable, METH_VARARGS,
-      "Params: stream\n"
-      "Reads a Creatable from the stream" },
-    { "ReadCreatableStub", (PyCFunction)pyResManager_ReadCreatableStub, METH_VARARGS,
-      "Params: stream, size\n"
-      "Reads a Creatable if the class is supported by libPlasma, "
-      "or a CreatableStub of size `size` if it is not" },
-    { "WriteCreatable", (PyCFunction)pyResManager_WriteCreatable, METH_VARARGS,
-      "Params: stream, obj\n"
-      "Writes the Creatable `obj` to the stream" },
-    { "getSceneNode", (PyCFunction)pyResManager_getSceneNode, METH_VARARGS,
-      "Params: location\n"
-      "Returns the SceneNode for the specified location" },
-    { "getLocations", (PyCFunction)pyResManager_getLocations, METH_NOARGS,
-      "Returns a list of all loaded locations" },
-    { "getTypes", (PyCFunction)pyResManager_getTypes, METH_VARARGS,
-      "Params: location\n"
-      "Returns a list of the Creatable Types that are used in location" },
-    { "getKeys", (PyCFunction)pyResManager_getKeys, METH_VARARGS,
-      "Params: location, type\n"
-      "Returns all keys of type `type` loaded for the specified location" },
-    { "AddObject", (PyCFunction)pyResManager_AddObject, METH_VARARGS,
-      "Params: location, object\n"
-      "Registers the object to `location` and adds it to the ResManager" },
-    { "AddPage", (PyCFunction)pyResManager_AddPage, METH_VARARGS,
-      "Params: page\n"
-      "Adds the plPageInfo to the ResManager" },
-    { "AddAge", (PyCFunction)pyResManager_AddAge, METH_VARARGS,
-      "Params: age\n"
-      "Adds the plAgeInfo to the ResManager" },
-    { "DelObject", (PyCFunction)pyResManager_DelObject, METH_VARARGS,
-      "Params: key\n"
-      "Removes the object specified by `key` from the ResManager" },
-    { "DelPage", (PyCFunction)pyResManager_DelPage, METH_VARARGS,
-      "Params: location\n"
-      "Deletes the Page specified by `location` from the ResManager" },
-    { "DelAge", (PyCFunction)pyResManager_DelAge, METH_VARARGS,
-      "Params: name\n"
-      "Deletes the Age from the ResManager" },
-    { "ChangeLocation", (PyCFunction)pyResManager_ChangeLocation, METH_VARARGS,
-      "Params: locFrom, locTo\n"
-      "Changes a location for a page and/or all keys registered under locFrom\n"
-      "to locTo" },
-    { NULL, NULL, 0, NULL }
+    pyResManager_setVer_method,
+    pyResManager_getVer_method,
+    pyResManager_readKey_method,
+    pyResManager_readUoid_method,
+    pyResManager_writeKey_method,
+    pyResManager_writeUoid_method,
+    pyResManager_getObject_method,
+    pyResManager_countKeys_method,
+    pyResManager_ReadPage_method,
+    pyResManager_WritePage_method,
+    pyResManager_FindPage_method,
+    pyResManager_UnloadPage_method,
+    pyResManager_ReadAge_method,
+    pyResManager_WriteAge_method,
+    pyResManager_FindAge_method,
+    pyResManager_UnloadAge_method,
+    pyResManager_ReadCreatable_method,
+    pyResManager_ReadCreatableStub_method,
+    pyResManager_WriteCreatable_method,
+    pyResManager_getSceneNode_method,
+    pyResManager_getLocations_method,
+    pyResManager_getTypes_method,
+    pyResManager_getKeys_method,
+    pyResManager_AddObject_method,
+    pyResManager_AddPage_method,
+    pyResManager_AddAge_method,
+    pyResManager_DelObject_method,
+    pyResManager_DelPage_method,
+    pyResManager_DelAge_method,
+    pyResManager_ChangeLocation_method,
+    PY_METHOD_TERMINATOR
 };
 
-PyTypeObject pyResManager_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plResManager",          /* tp_name */
-    sizeof(pyResManager),               /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(ResManager, plResManager, "Resource Manager")
 
-    (destructor)pyResManager_dealloc,   /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "Resource Manager",                 /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyResManager_Methods,               /* tp_methods */
-    NULL,                               /* tp_members */
-    NULL,                               /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    (initproc)pyResManager___init__,    /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyResManager_new,                   /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyResManager_Type() {
-    if (PyType_Ready(&pyResManager_Type) < 0)
+PY_PLASMA_TYPE_INIT(ResManager) {
+    pyResManager_Type.tp_dealloc = pyResManager_dealloc;
+    pyResManager_Type.tp_init = pyResManager___init__;
+    pyResManager_Type.tp_new = pyResManager_new;
+    pyResManager_Type.tp_methods = pyResManager_Methods;
+    if (PyType_CheckAndReady(&pyResManager_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyResManager_Type);

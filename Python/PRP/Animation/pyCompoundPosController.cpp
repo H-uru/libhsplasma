@@ -22,146 +22,32 @@
 
 extern "C" {
 
-static int pyCompoundPosController___init__(pyCompoundPosController* self, PyObject* args, PyObject* kwds) {
-    if (!PyArg_ParseTuple(args, ""))
-        return -1;
-    return 0;
-}
+PY_PLASMA_EMPTY_INIT(CompoundPosController)
+PY_PLASMA_NEW(CompoundPosController, plCompoundPosController)
 
-static PyObject* pyCompoundPosController_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyCompoundPosController* self = (pyCompoundPosController*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plCompoundPosController();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
-}
-
-static PyObject* pyCompoundPosController_getX(pyCompoundPosController* self, void*) {
-    return ICreate(self->fThis->getX());
-}
-
-static PyObject* pyCompoundPosController_getY(pyCompoundPosController* self, void*) {
-    return ICreate(self->fThis->getY());
-}
-
-static PyObject* pyCompoundPosController_getZ(pyCompoundPosController* self, void*) {
-    return ICreate(self->fThis->getZ());
-}
-
-static int pyCompoundPosController_setX(pyCompoundPosController* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setX(NULL);
-        return 0;
-    }
-    if (!pyScalarController_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "X should be a plScalarController");
-        return -1;
-    }
-    self->fThis->setX(((pyScalarController*)value)->fThis);
-    ((pyScalarController*)value)->fPyOwned = false;
-    return 0;
-}
-
-static int pyCompoundPosController_setY(pyCompoundPosController* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setY(NULL);
-        return 0;
-    }
-    if (!pyScalarController_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "Y should be a plScalarController");
-        return -1;
-    }
-    self->fThis->setY(((pyScalarController*)value)->fThis);
-    ((pyScalarController*)value)->fPyOwned = false;
-    return 0;
-}
-
-static int pyCompoundPosController_setZ(pyCompoundPosController* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setZ(NULL);
-        return 0;
-    }
-    if (!pyScalarController_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "Z should be a plScalarController");
-        return -1;
-    }
-    self->fThis->setZ(((pyScalarController*)value)->fThis);
-    ((pyScalarController*)value)->fPyOwned = false;
-    return 0;
-}
+PY_PROPERTY_CREATABLE(plScalarController, ScalarController,
+                      CompoundPosController, X, getX, setX)
+PY_PROPERTY_CREATABLE(plScalarController, ScalarController,
+                      CompoundPosController, Y, getY, setY)
+PY_PROPERTY_CREATABLE(plScalarController, ScalarController,
+                      CompoundPosController, Z, getZ, setZ)
 
 static PyGetSetDef pyCompoundPosController_GetSet[] = {
-    { _pycs("X"), (getter)pyCompoundPosController_getX,
-        (setter)pyCompoundPosController_setX, NULL, NULL },
-    { _pycs("Y"), (getter)pyCompoundPosController_getY,
-        (setter)pyCompoundPosController_setY, NULL, NULL },
-    { _pycs("Z"), (getter)pyCompoundPosController_getZ,
-        (setter)pyCompoundPosController_setZ, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    pyCompoundPosController_X_getset,
+    pyCompoundPosController_Y_getset,
+    pyCompoundPosController_Z_getset,
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyCompoundPosController_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plCompoundPosController", /* tp_name */
-    sizeof(pyCompoundPosController),    /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(CompoundPosController, plCompoundPosController,
+               "plCompoundPosController wrapper")
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plCompoundPosController wrapper",  /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    NULL,                               /* tp_methods */
-    NULL,                               /* tp_members */
-    pyCompoundPosController_GetSet,     /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    (initproc)pyCompoundPosController___init__, /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyCompoundPosController_new,        /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyCompoundPosController_Type() {
+PY_PLASMA_TYPE_INIT(CompoundPosController) {
+    pyCompoundPosController_Type.tp_init = pyCompoundPosController___init__;
+    pyCompoundPosController_Type.tp_new = pyCompoundPosController_new;
+    pyCompoundPosController_Type.tp_getset = pyCompoundPosController_GetSet;
     pyCompoundPosController_Type.tp_base = &pyPosController_Type;
-    if (PyType_Ready(&pyCompoundPosController_Type) < 0)
+    if (PyType_CheckAndReady(&pyCompoundPosController_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyCompoundPosController_Type);

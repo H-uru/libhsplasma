@@ -23,18 +23,21 @@
 
 extern "C" {
 
-static void pyGeometrySpan_dealloc(pyGeometrySpan* self) {
-    Py_TYPE(self)->tp_free((PyObject*)self);
+PY_PLASMA_DEALLOC_DECL(GeometrySpan) {
+    Py_TYPE(self)->tp_free(self);
 }
 
-static PyObject* pyGeometrySpan_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+PY_PLASMA_NEW_DECL(GeometrySpan) {
     pyGeometrySpan* self = (pyGeometrySpan*)type->tp_alloc(type, 0);
     if (self != NULL)
         self->fThis.reset(new plGeometrySpan);
     return (PyObject*)self;
 }
 
-static PyObject* pyGeometrySpan_addPermaLight(pyGeometrySpan* self, PyObject* args) {
+PY_METHOD_VA(GeometrySpan, addPermaLight,
+    "Params: light\n"
+    "Adds a permalight")
+{
     PyObject* light;
     if (!(PyArg_ParseTuple(args, "O", &light) && pyKey_Check(light))) {
         PyErr_SetString(PyExc_TypeError, "addPermaLight expects a plKey");
@@ -42,11 +45,13 @@ static PyObject* pyGeometrySpan_addPermaLight(pyGeometrySpan* self, PyObject* ar
     }
 
     self->fThis->addPermaLight(*((pyKey*)light)->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyGeometrySpan_delPermaLight(pyGeometrySpan* self, PyObject* args) {
+PY_METHOD_VA(GeometrySpan, delPermaLight,
+    "Params: idx\n"
+    "Removes a permalight")
+{
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delPermaLight expects an int");
@@ -54,17 +59,18 @@ static PyObject* pyGeometrySpan_delPermaLight(pyGeometrySpan* self, PyObject* ar
     }
 
     self->fThis->delPermaLight((size_t)idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyGeometrySpan_clearPermaLights(pyGeometrySpan* self) {
+PY_METHOD_NOARGS(GeometrySpan, clearPermaLight, "Clears all permalights") {
     self->fThis->clearPermaLights();
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyGeometrySpan_addPermaProj(pyGeometrySpan* self, PyObject* args) {
+PY_METHOD_VA(GeometrySpan, addPermaProj,
+    "Params: light\n"
+    "Adds a permaproj")
+{
     PyObject* light;
     if (!(PyArg_ParseTuple(args, "O", &light) && pyKey_Check(light))) {
         PyErr_SetString(PyExc_TypeError, "addPermaProj expects a plKey");
@@ -72,11 +78,13 @@ static PyObject* pyGeometrySpan_addPermaProj(pyGeometrySpan* self, PyObject* arg
     }
 
     self->fThis->addPermaProj(*((pyKey*)light)->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyGeometrySpan_delPermaProj(pyGeometrySpan* self, PyObject* args) {
+PY_METHOD_VA(GeometrySpan, delPermaProj,
+    "Params: idx\n"
+    "Removes a permaproj")
+{
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delPermaProj expects an int");
@@ -84,73 +92,19 @@ static PyObject* pyGeometrySpan_delPermaProj(pyGeometrySpan* self, PyObject* arg
     }
 
     self->fThis->delPermaProj((size_t)idx);
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
-static PyObject* pyGeometrySpan_clearPermaProjs(pyGeometrySpan* self) {
+PY_METHOD_VA(GeometrySpan, clearPermaProj, "Clears all permaprojs") {
     self->fThis->clearPermaProjs();
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
-static PyObject* pyGeometrySpan_getBaseMatrix(pyGeometrySpan* self, void*) {
-    return PyInt_FromLong(self->fThis->getBaseMatrix());
-}
-
-static PyObject* pyGeometrySpan_getFogEnvironment(pyGeometrySpan* self, void*) {
-    return pyKey_FromKey(self->fThis->getFogEnvironment());
-}
-
-static PyObject* pyGeometrySpan_getFormat(pyGeometrySpan* self, void*) {
-    return PyInt_FromLong(self->fThis->getFormat());
+    Py_RETURN_NONE;
 }
 
 static PyObject* pyGeometrySpan_getIndices(pyGeometrySpan* self, void*) {
     PyObject* list = PyList_New(self->fThis->getIndices().size());
     for (size_t i = 0; i < self->fThis->getIndices().size(); ++i)
-        PyList_SET_ITEM(list, i, PyInt_FromLong(self->fThis->getIndices()[i]));
+        PyList_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getIndices()[i]));
     return list;
-}
-
-static PyObject* pyGeometrySpan_getLocalBounds(pyGeometrySpan* self, void*) {
-    return ICreateBounds(self->fThis->getLocalBounds());
-}
-
-static PyObject* pyGeometrySpan_getLocalToWorld(pyGeometrySpan* self, void*) {
-    return pyMatrix44_FromMatrix44(self->fThis->getLocalToWorld());
-}
-
-static PyObject* pyGeometrySpan_getLocalUVWChans(pyGeometrySpan* self, void*) {
-    return PyInt_FromLong(self->fThis->getLocalUVWChans());
-}
-
-static PyObject* pyGeometrySpan_getMaterial(pyGeometrySpan* self, void*) {
-    return pyKey_FromKey(self->fThis->getMaterial());
-}
-
-static PyObject* pyGeometrySpan_getMaxBoneIdx(pyGeometrySpan* self, void*) {
-    return PyInt_FromLong(self->fThis->getMaxBoneIdx());
-}
-
-static PyObject* pyGeometrySpan_getMaxDist(pyGeometrySpan* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getMaxDist());
-}
-
-static PyObject* pyGeometrySpan_getMinDist(pyGeometrySpan* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getMinDist());
-}
-
-static PyObject* pyGeometrySpan_getNumMatrices(pyGeometrySpan* self, void*) {
-    return PyInt_FromLong(self->fThis->getNumMatrices());
-}
-
-static PyObject* pyGeometrySpan_getPenBoneIdx(pyGeometrySpan* self, void*) {
-    return PyInt_FromLong(self->fThis->getPenBoneIdx());
-}
-
-static PyObject* pyGeometrySpan_getProps(pyGeometrySpan* self, void*) {
-    return PyInt_FromLong(self->fThis->getProps());
 }
 
 static PyObject* pyGeometrySpan_getVertices(pyGeometrySpan* self, void*) {
@@ -159,18 +113,6 @@ static PyObject* pyGeometrySpan_getVertices(pyGeometrySpan* self, void*) {
     for (size_t i = 0; i < verts.size(); ++i)
         PyList_SET_ITEM(list, i, pyTempVertex_FromTempVertex(verts[i]));
     return list;
-}
-
-static PyObject* pyGeometrySpan_getWaterHeight(pyGeometrySpan* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getWaterHeight());
-}
-
-static PyObject* pyGeometrySpan_getWorldBounds(pyGeometrySpan* self, void*) {
-    return ICreateBounds(self->fThis->getWorldBounds());
-}
-
-static PyObject* pyGeometrySpan_getWorldToLocal(pyGeometrySpan* self, void*) {
-    return pyMatrix44_FromMatrix44(self->fThis->getWorldToLocal());
 }
 
 static PyObject* pyGeometrySpan_getPermaLights(pyGeometrySpan* self, void*) {
@@ -187,33 +129,6 @@ static PyObject* pyGeometrySpan_getPermaProjs(pyGeometrySpan* self, void*) {
     for (size_t i = 0; i < lights.size(); ++i)
         PyTuple_SET_ITEM(tup, i, pyKey_FromKey(lights[i]));
     return tup;
-}
-
-static int pyGeometrySpan_setBaseMatrix(pyGeometrySpan* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "baseMatrix should be an int");
-        return -1;
-    }
-    self->fThis->setBaseMatrix(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyGeometrySpan_setFogEnvironment(pyGeometrySpan* self, PyObject* value, void*) {
-    if (value == NULL || !pyKey_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "fogEnvironment should be a plKey");
-        return -1;
-    }
-    self->fThis->setFogEnvironment(*((pyKey*)value)->fThis);
-    return 0;
-}
-
-static int pyGeometrySpan_setFormat(pyGeometrySpan* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "format should be an int");
-        return -1;
-    }
-    self->fThis->setFormat(PyInt_AsLong(value));
-    return 0;
 }
 
 static int pyGeometrySpan_setIndices(pyGeometrySpan* self, PyObject* value, void*) {
@@ -233,96 +148,6 @@ static int pyGeometrySpan_setIndices(pyGeometrySpan* self, PyObject* value, void
     for (size_t i = 0; i < idx.size(); ++i)
         idx[i] = PyInt_AsLong(PySequence_Fast_GET_ITEM(value, i));
     self->fThis->setIndices(idx);
-    return 0;
-}
-
-static int pyGeometrySpan_setLocalBounds(pyGeometrySpan* self, PyObject* value, void*) {
-    if (value == NULL || !pyBounds3Ext_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "localBounds should be an hsBounds3Ext");
-        return -1;
-    }
-    self->fThis->setLocalBounds(*((pyBounds3Ext*)value)->fThis);
-    return 0;
-}
-
-static int pyGeometrySpan_setLocalToWorld(pyGeometrySpan* self, PyObject* value, void*) {
-    if (value == NULL || !pyMatrix44_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "localToWorld should be an hsMatrix44");
-        return -1;
-    }
-    self->fThis->setLocalToWorld(*((pyMatrix44*)value)->fThis);
-    return 0;
-}
-
-static int pyGeometrySpan_setLocalUVWChans(pyGeometrySpan* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "localUVWChans should be an int");
-        return -1;
-    }
-    self->fThis->setLocalUVWChans(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyGeometrySpan_setMaterial(pyGeometrySpan* self, PyObject* value, void*) {
-    if (value == NULL || !pyKey_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "material should be a plKey");
-        return -1;
-    }
-    self->fThis->setMaterial(*((pyKey*)value)->fThis);
-    return 0;
-}
-
-static int pyGeometrySpan_setMaxBoneIdx(pyGeometrySpan* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "maxBoneIdx should be an int");
-        return -1;
-    }
-    self->fThis->setMaxBoneIdx(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyGeometrySpan_setMaxDist(pyGeometrySpan* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "maxDist should be a float");
-        return -1;
-    }
-    self->fThis->setMaxDist(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyGeometrySpan_setMinDist(pyGeometrySpan* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "minDist should be a float");
-        return -1;
-    }
-    self->fThis->setMinDist(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyGeometrySpan_setNumMatrices(pyGeometrySpan* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "numMatrices should be an int");
-        return -1;
-    }
-    self->fThis->setNumMatrices(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyGeometrySpan_setPenBoneIdx(pyGeometrySpan* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "penBoneIdx should be an int");
-        return -1;
-    }
-    self->fThis->setPenBoneIdx(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyGeometrySpan_setProps(pyGeometrySpan* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "props should be an int");
-        return -1;
-    }
-    self->fThis->setProps(PyInt_AsLong(value));
     return 0;
 }
 
@@ -346,33 +171,6 @@ static int pyGeometrySpan_setVertices(pyGeometrySpan* self, PyObject* value, voi
     return 0;
 }
 
-static int pyGeometrySpan_setWaterHeight(pyGeometrySpan* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "waterHeight should be a float");
-        return -1;
-    }
-    self->fThis->setWaterHeight(PyFloat_AsDouble(value));
-    return 0;
-}
-
-static int pyGeometrySpan_setWorldBounds(pyGeometrySpan* self, PyObject* value, void*) {
-    if (value == NULL || !pyBounds3Ext_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "worldBounds should be an hsBounds3Ext");
-        return -1;
-    }
-    self->fThis->setWorldBounds(*((pyBounds3Ext*)value)->fThis);
-    return 0;
-}
-
-static int pyGeometrySpan_setWorldToLocal(pyGeometrySpan* self, PyObject* value, void*) {
-    if (value == NULL || !pyMatrix44_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "worldToLocal should be an hsMatrix44");
-        return -1;
-    }
-    self->fThis->setWorldToLocal(*((pyMatrix44*)value)->fThis);
-    return 0;
-}
-
 static int pyGeometrySpan_setPermaLights(pyGeometrySpan* self, PyObject* value, void*) {
     PyErr_SetString(PyExc_RuntimeError, "To add PermaLights, use addPermaLight");
     return -1;
@@ -384,184 +182,98 @@ static int pyGeometrySpan_setPermaProjs(pyGeometrySpan* self, PyObject* value, v
 }
 
 static PyMethodDef pyGeometrySpan_Methods[] = {
-    { "addPermaLight", (PyCFunction)pyGeometrySpan_addPermaLight, METH_VARARGS,
-      "Params: light\n"
-      "Adds a permalight" },
-    { "delPermaLight", (PyCFunction)pyGeometrySpan_delPermaLight, METH_VARARGS,
-      "Params: idx\n"
-      "Removes a permalight" },
-    { "clearPermaLight", (PyCFunction)pyGeometrySpan_clearPermaLights, METH_NOARGS,
-      "Clears all permalights" },
-    { "addPermaProj", (PyCFunction)pyGeometrySpan_addPermaProj, METH_VARARGS,
-      "Params: light\n"
-      "Adds a permaproj" },
-    { "delPermaProj", (PyCFunction)pyGeometrySpan_delPermaProj, METH_VARARGS,
-      "Params: idx\n"
-      "Removes a permaproj" },
-    { "clearPermaProj", (PyCFunction)pyGeometrySpan_clearPermaProjs, METH_NOARGS,
-      "Clears all permaprojs" },
-    { NULL, NULL, 0, NULL }
+    pyGeometrySpan_addPermaLight_method,
+    pyGeometrySpan_delPermaLight_method,
+    pyGeometrySpan_clearPermaLight_method,
+    pyGeometrySpan_addPermaProj_method,
+    pyGeometrySpan_delPermaProj_method,
+    pyGeometrySpan_clearPermaProj_method,
+    PY_METHOD_TERMINATOR
 };
 
+PY_PROPERTY(unsigned int, GeometrySpan, baseMatrix, getBaseMatrix, setBaseMatrix)
+PY_PROPERTY(plKey, GeometrySpan, fogEnvironment, getFogEnvironment, setFogEnvironment)
+PY_PROPERTY(unsigned int, GeometrySpan, format, getFormat, setFormat)
+PY_PROPERTY_BOUNDS(Bounds3Ext, GeometrySpan, localBounds, getLocalBounds, setLocalBounds)
+PY_PROPERTY(hsMatrix44, GeometrySpan, localToWorld, getLocalToWorld, setLocalToWorld)
+PY_PROPERTY(unsigned int, GeometrySpan, localUVWChans, getLocalUVWChans, setLocalUVWChans)
+PY_PROPERTY(plKey, GeometrySpan, material, getMaterial, setMaterial)
+PY_PROPERTY(unsigned int, GeometrySpan, maxBoneIdx, getMaxBoneIdx, setMaxBoneIdx)
+PY_PROPERTY(float, GeometrySpan, maxDist, getMaxDist, setMaxDist)
+PY_PROPERTY(float, GeometrySpan, minDist, getMinDist, setMinDist)
+PY_PROPERTY(unsigned int, GeometrySpan, numMatrices, getNumMatrices, setNumMatrices)
+PY_PROPERTY(unsigned int, GeometrySpan, penBoneIdx, getPenBoneIdx, setPenBoneIdx)
+PY_PROPERTY(unsigned int, GeometrySpan, props, getProps, setProps)
+PY_PROPERTY(float, GeometrySpan, waterHeight, getWaterHeight, setWaterHeight)
+PY_PROPERTY_BOUNDS(Bounds3Ext, GeometrySpan, worldBounds, getWorldBounds, setWorldBounds)
+PY_PROPERTY(hsMatrix44, GeometrySpan, worldToLocal, getWorldToLocal, setWorldToLocal)
+
 static PyGetSetDef pyGeometrySpan_GetSet[] = {
-    { _pycs("baseMatrix"), (getter)pyGeometrySpan_getBaseMatrix,
-        (setter)pyGeometrySpan_setBaseMatrix, NULL, NULL },
-    { _pycs("fogEnvironment"), (getter)pyGeometrySpan_getFogEnvironment,
-        (setter)pyGeometrySpan_setFogEnvironment, NULL, NULL },
-    { _pycs("format"), (getter)pyGeometrySpan_getFormat,
-        (setter)pyGeometrySpan_setFormat, NULL, NULL },
+    pyGeometrySpan_baseMatrix_getset,
+    pyGeometrySpan_fogEnvironment_getset,
+    pyGeometrySpan_format_getset,
     { _pycs("indices"), (getter)pyGeometrySpan_getIndices,
         (setter)pyGeometrySpan_setIndices, NULL, NULL },
-    { _pycs("localBounds"), (getter)pyGeometrySpan_getLocalBounds,
-        (setter)pyGeometrySpan_setLocalBounds, NULL, NULL },
-    { _pycs("localToWorld"), (getter)pyGeometrySpan_getLocalToWorld,
-        (setter)pyGeometrySpan_setLocalToWorld, NULL, NULL },
-    { _pycs("localUVWChans"), (getter)pyGeometrySpan_getLocalUVWChans,
-        (setter)pyGeometrySpan_setLocalUVWChans, NULL, NULL },
-    { _pycs("material"), (getter)pyGeometrySpan_getMaterial,
-        (setter)pyGeometrySpan_setMaterial, NULL, NULL},
-    { _pycs("maxBoneIdx"), (getter)pyGeometrySpan_getMaxBoneIdx,
-        (setter)pyGeometrySpan_setMaxBoneIdx, NULL, NULL },
-    { _pycs("maxDist"), (getter)pyGeometrySpan_getMaxDist,
-        (setter)pyGeometrySpan_setMaxDist, NULL, NULL},
-    { _pycs("minDist"), (getter)pyGeometrySpan_getMinDist,
-        (setter)pyGeometrySpan_setMinDist, NULL, NULL},
-    { _pycs("numMatrices"), (getter)pyGeometrySpan_getNumMatrices,
-        (setter)pyGeometrySpan_setNumMatrices, NULL, NULL},
-    { _pycs("penBoneIdx"), (getter)pyGeometrySpan_getPenBoneIdx,
-        (setter)pyGeometrySpan_setPenBoneIdx, NULL, NULL },
-    { _pycs("props"), (getter)pyGeometrySpan_getProps,
-        (setter)pyGeometrySpan_setProps, NULL, NULL },
+    pyGeometrySpan_localBounds_getset,
+    pyGeometrySpan_localToWorld_getset,
+    pyGeometrySpan_localUVWChans_getset,
+    pyGeometrySpan_material_getset,
+    pyGeometrySpan_maxBoneIdx_getset,
+    pyGeometrySpan_maxDist_getset,
+    pyGeometrySpan_minDist_getset,
+    pyGeometrySpan_numMatrices_getset,
+    pyGeometrySpan_penBoneIdx_getset,
+    pyGeometrySpan_props_getset,
     { _pycs("vertices"), (getter)pyGeometrySpan_getVertices,
         (setter)pyGeometrySpan_setVertices, NULL, NULL },
-    { _pycs("waterHeight"), (getter)pyGeometrySpan_getWaterHeight,
-        (setter)pyGeometrySpan_setWaterHeight, NULL, NULL },
-    { _pycs("worldBounds"), (getter)pyGeometrySpan_getWorldBounds,
-        (setter)pyGeometrySpan_setWorldBounds, NULL, NULL },
-    { _pycs("worldToLocal"), (getter)pyGeometrySpan_getWorldToLocal,
-        (setter)pyGeometrySpan_setWorldToLocal, NULL, NULL },
+    pyGeometrySpan_waterHeight_getset,
+    pyGeometrySpan_worldBounds_getset,
+    pyGeometrySpan_worldToLocal_getset,
     { _pycs("permaLights"), (getter)pyGeometrySpan_getPermaLights,
         (setter)pyGeometrySpan_setPermaLights, NULL, NULL },
     { _pycs("permaProjs"), (getter)pyGeometrySpan_getPermaProjs,
         (setter)pyGeometrySpan_setPermaProjs, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
+    PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyGeometrySpan_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plGeometrySpan",        /* tp_name */
-    sizeof(pyGeometrySpan),             /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(GeometrySpan, plGeometrySpan, "plGeometrySpan wrapper")
 
-    (destructor)pyGeometrySpan_dealloc, /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT,                 /* tp_flags */
-    "plGeometrySpan wrapper",           /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyGeometrySpan_Methods,             /* tp_methods */
-    NULL,                               /* tp_members */
-    pyGeometrySpan_GetSet,              /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyGeometrySpan_new,                 /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyGeometrySpan_Type() {
-    if (PyType_Ready(&pyGeometrySpan_Type) < 0)
+PY_PLASMA_TYPE_INIT(GeometrySpan) {
+    pyGeometrySpan_Type.tp_dealloc = pyGeometrySpan_dealloc;
+    pyGeometrySpan_Type.tp_new = pyGeometrySpan_new;
+    pyGeometrySpan_Type.tp_methods = pyGeometrySpan_Methods;
+    pyGeometrySpan_Type.tp_getset = pyGeometrySpan_GetSet;
+    if (PyType_CheckAndReady(&pyGeometrySpan_Type) < 0)
         return NULL;
 
     // Format
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kUVCountMask",
-                         PyInt_FromLong(plGeometrySpan::kUVCountMask));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kSkinNoWeights",
-                         PyInt_FromLong(plGeometrySpan::kSkinNoWeights));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kSkin1Weight",
-                         PyInt_FromLong(plGeometrySpan::kSkin1Weight));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kSkin2Weights",
-                         PyInt_FromLong(plGeometrySpan::kSkin2Weights));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kSkin3Weights",
-                         PyInt_FromLong(plGeometrySpan::kSkin3Weights));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kSkinWeightMask",
-                         PyInt_FromLong(plGeometrySpan::kSkinWeightMask));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kSkinIndices",
-                         PyInt_FromLong(plGeometrySpan::kSkinIndices));
+    PY_TYPE_ADD_CONST(GeometrySpan, "kUVCountMask", plGeometrySpan::kUVCountMask);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kSkinNoWeights", plGeometrySpan::kSkinNoWeights);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kSkin1Weight", plGeometrySpan::kSkin1Weight);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kSkin2Weights", plGeometrySpan::kSkin2Weights);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kSkin3Weights", plGeometrySpan::kSkin3Weights);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kSkinWeightMask", plGeometrySpan::kSkinWeightMask);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kSkinIndices", plGeometrySpan::kSkinIndices);
 
     // Properties
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kLiteMaterial",
-                         PyInt_FromLong(plGeometrySpan::kLiteMaterial));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kPropRunTimeLight",
-                         PyInt_FromLong(plGeometrySpan::kPropRunTimeLight));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kPropNoPreShade",
-                         PyInt_FromLong(plGeometrySpan::kPropNoPreShade));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kLiteVtxPreshaded",
-                         PyInt_FromLong(plGeometrySpan::kLiteVtxPreshaded));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kLiteVtxNonPreshaded",
-                         PyInt_FromLong(plGeometrySpan::kLiteVtxNonPreshaded));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kLiteMask",
-                         PyInt_FromLong(plGeometrySpan::kLiteMask));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kRequiresBlending",
-                         PyInt_FromLong(plGeometrySpan::kRequiresBlending));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kInstanced",
-                         PyInt_FromLong(plGeometrySpan::kInstanced));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kUserOwned",
-                         PyInt_FromLong(plGeometrySpan::kUserOwned));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kPropNoShadow",
-                         PyInt_FromLong(plGeometrySpan::kPropNoShadow));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kPropForceShadow",
-                         PyInt_FromLong(plGeometrySpan::kPropForceShadow));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kDiffuseFoldedIn",
-                         PyInt_FromLong(plGeometrySpan::kDiffuseFoldedIn));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kPropReverseSort",
-                         PyInt_FromLong(plGeometrySpan::kPropReverseSort));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kWaterHeight",
-                         PyInt_FromLong(plGeometrySpan::kWaterHeight));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kFirstInstance",
-                         PyInt_FromLong(plGeometrySpan::kFirstInstance));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kPartialSort",
-                         PyInt_FromLong(plGeometrySpan::kPartialSort));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kVisLOS",
-                         PyInt_FromLong(plGeometrySpan::kVisLOS));
-    PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "kPropNoShadowCast",
-                         PyInt_FromLong(plGeometrySpan::kPropNoShadowCast));
+    PY_TYPE_ADD_CONST(GeometrySpan, "kLiteMaterial", plGeometrySpan::kLiteMaterial);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kPropRunTimeLight", plGeometrySpan::kPropRunTimeLight);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kPropNoPreShade", plGeometrySpan::kPropNoPreShade);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kLiteVtxPreshaded", plGeometrySpan::kLiteVtxPreshaded);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kLiteVtxNonPreshaded", plGeometrySpan::kLiteVtxNonPreshaded);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kLiteMask", plGeometrySpan::kLiteMask);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kRequiresBlending", plGeometrySpan::kRequiresBlending);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kInstanced", plGeometrySpan::kInstanced);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kUserOwned", plGeometrySpan::kUserOwned);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kPropNoShadow", plGeometrySpan::kPropNoShadow);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kPropForceShadow", plGeometrySpan::kPropForceShadow);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kDiffuseFoldedIn", plGeometrySpan::kDiffuseFoldedIn);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kPropReverseSort", plGeometrySpan::kPropReverseSort);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kWaterHeight", plGeometrySpan::kWaterHeight);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kFirstInstance", plGeometrySpan::kFirstInstance);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kPartialSort", plGeometrySpan::kPartialSort);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kVisLOS", plGeometrySpan::kVisLOS);
+    PY_TYPE_ADD_CONST(GeometrySpan, "kPropNoShadowCast", plGeometrySpan::kPropNoShadowCast);
 
     // TempVertex class thing
     PyDict_SetItemString(pyGeometrySpan_Type.tp_dict, "TempVertex",
@@ -579,10 +291,8 @@ int pyGeometrySpan_Check(PyObject* obj) {
 }
 
 PyObject* pyGeometrySpan_FromGeometrySpan(const std::shared_ptr<plGeometrySpan>& span) {
-    if (span == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
+    if (span == NULL)
+        Py_RETURN_NONE;
     pyGeometrySpan* pspan = PyObject_New(pyGeometrySpan, &pyGeometrySpan_Type);
     pspan->fThis = span;
     return (PyObject*)pspan;
