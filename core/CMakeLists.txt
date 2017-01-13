@@ -1,17 +1,20 @@
 find_package(ZLIB REQUIRED)
 find_package(JPEG REQUIRED)
 find_package(Threads REQUIRED)
-find_package(PhysX)
+
+if(ENABLE_PHYSX)
+    find_package(PhysX)
+endif(ENABLE_PHYSX)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdPartyLibs/squish)
 include_directories(${ZLIB_INCLUDE_DIR})
 include_directories(${JPEG_INCLUDE_DIR})
 
-if(PHYSX_FOUND)
+if(PHYSX_FOUND AND ENABLE_PHYSX)
     add_definitions(-DHAVE_PX_SDK)
     include_directories(${PHYSX_INCLUDE_DIRS})
-endif(PHYSX_FOUND)
+endif(PHYSX_FOUND AND ENABLE_PHYSX)
 
 add_definitions(-DBUILD_PLASMA_DLL)
 
@@ -792,9 +795,9 @@ add_library(HSPlasma
             ${SQUISH}
 )
 target_link_libraries(HSPlasma ${ZLIB_LIBRARIES} ${JPEG_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
-if(PHYSX_FOUND)
+if(PHYSX_FOUND AND ENABLE_PHYSX)
     target_link_libraries(HSPlasma ${PHYSX_COOKING_LIBRARY})
-endif(PHYSX_FOUND)
+endif(PHYSX_FOUND AND ENABLE_PHYSX)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libhsplasma.pc.in.cmake ${CMAKE_CURRENT_BINARY_DIR}/libhsplasma.pc @ONLY)
 
