@@ -80,7 +80,7 @@ PY_GETSET_SETTER_DECL(LeafController, keys) {
     Py_ssize_t keyCount = keySeq.size();
     std::vector<hsKeyFrame*> keyframes;
     keyframes.reserve(keyCount);
-    unsigned int keyType = pyPlasma_check<unsigned int>(keyTypeObj);
+    unsigned int keyType = pyPlasma_get<unsigned int>(keyTypeObj);
     for (Py_ssize_t i = 0; i < keyCount; ++i) {
         PyObject* key = keySeq.get(i);
         if (!pyKeyFrame_Check(key)) {
