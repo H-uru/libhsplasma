@@ -128,11 +128,11 @@ PY_METHOD_VA(DynamicCamMap, addVisRegionName,
     "Adds a VisRegion name")
 {
     PyObject* name;
-    if (!(PyArg_ParseTuple(args, "O", &name) && pyPlasma_check<plString>(name))) {
+    if (!(PyArg_ParseTuple(args, "O", &name) && pyPlasma_check<ST::string>(name))) {
         PyErr_SetString(PyExc_TypeError, "addVisRegionName expects a string");
         return NULL;
     }
-    self->fThis->addVisRegionName(pyPlasma_get<plString>(name));
+    self->fThis->addVisRegionName(pyPlasma_get<ST::string>(name));
     Py_RETURN_NONE;
 }
 
@@ -287,8 +287,8 @@ PY_GETSET_SETTER_DECL(DynamicCamMap, visRegionNames) {
     std::vector<ST::string> names(count);
     for (Py_ssize_t i=0; i<count; i++) {
         PyObject* name = seq.get(i);
-        if (pyPlasma_check<plString>(name)) {
-            names[i] = pyPlasma_get<plString>(name);
+        if (pyPlasma_check<ST::string>(name)) {
+            names[i] = pyPlasma_get<ST::string>(name);
         } else {
             PyErr_SetString(PyExc_TypeError, "visRegionNames should be a sequence of strings");
             return -1;

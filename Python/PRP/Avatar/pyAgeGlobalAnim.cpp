@@ -23,7 +23,7 @@ extern "C" {
 
 PY_PLASMA_NEW(AgeGlobalAnim, plAgeGlobalAnim)
 
-PY_PROPERTY(plString, AgeGlobalAnim, globalVarName, getGlobalVarName, setGlobalVarName)
+PY_PROPERTY(ST::string, AgeGlobalAnim, globalVarName, getGlobalVarName, setGlobalVarName)
 
 static PyGetSetDef pyAgeGlobalAnim_GetSet[] = {
     pyAgeGlobalAnim_globalVarName_getset,

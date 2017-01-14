@@ -28,7 +28,7 @@ PY_PROPERTY(plAnimStage::PlayType, AnimStage, forwardType, getForwardType, setFo
 PY_PROPERTY(plAnimStage::PlayType, AnimStage, backType, getBackType, setBackType)
 PY_PROPERTY(plAnimStage::AdvanceType, AnimStage, advanceType, getAdvanceType, setAdvanceType)
 PY_PROPERTY(plAnimStage::AdvanceType, AnimStage, regressType, getRegressType, setRegressType)
-PY_PROPERTY(plString, AnimStage, animName, getAnimName, setAnimName)
+PY_PROPERTY(ST::string, AnimStage, animName, getAnimName, setAnimName)
 PY_PROPERTY(unsigned char, AnimStage, notify, getNotify, setNotify)
 PY_PROPERTY(int, AnimStage, loops, getLoops, setLoops)
 

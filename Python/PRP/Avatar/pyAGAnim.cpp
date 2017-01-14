@@ -82,7 +82,7 @@ PY_PROPERTY_GETSET_DECL(AGAnim, applicators)
 PY_PROPERTY(float, AGAnim, blend, getBlend, setBlend)
 PY_PROPERTY(float, AGAnim, start, getStart, setStart)
 PY_PROPERTY(float, AGAnim, end, getEnd, setEnd)
-PY_PROPERTY(plString, AGAnim, name, getName, setName)
+PY_PROPERTY(ST::string, AGAnim, name, getName, setName)
 
 static PyGetSetDef pyAGAnim_GetSet[] = {
     pyAGAnim_blend_getset,

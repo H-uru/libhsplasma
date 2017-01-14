@@ -26,7 +26,7 @@ PY_PLASMA_EMPTY_INIT(BitVector)
 PY_PLASMA_NEW(BitVector, hsBitVector)
 
 PY_PLASMA_SUBSCRIPT_DECL(BitVector) {
-    if (pyPlasma_check<plString>(key)) {
+    if (pyPlasma_check<ST::string>(key)) {
         ST::string name = pyPlasma_get<ST::string>(key);
         unsigned int idx = self->fThis->getValue(name.c_str());
         return pyPlasma_convert(self->fThis->get(idx));
@@ -46,7 +46,7 @@ PY_PLASMA_ASS_SUBSCRIPT_DECL(BitVector) {
     }
     bool b = pyPlasma_get<bool>(value);
 
-    if (pyPlasma_check<plString>(key)) {
+    if (pyPlasma_check<ST::string>(key)) {
         ST::string name = pyPlasma_get<ST::string>(key);
         unsigned int idx = self->fThis->getValue(name.c_str());
         self->fThis->set(idx, b);

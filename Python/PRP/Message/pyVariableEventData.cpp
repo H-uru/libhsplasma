@@ -23,7 +23,7 @@ extern "C" {
 
 PY_PLASMA_NEW(VariableEventData, proVariableEventData)
 
-PY_PROPERTY(plString, VariableEventData, name, getName, setName)
+PY_PROPERTY(ST::string, VariableEventData, name, getName, setName)
 PY_PROPERTY(int, VariableEventData, dataType, getDataType, setDataType)
 PY_PROPERTY(float, VariableEventData, number, getNumber, setNumber)
 PY_PROPERTY(plKey, VariableEventData, key, getKey, setKey)

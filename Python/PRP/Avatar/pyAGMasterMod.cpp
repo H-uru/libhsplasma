@@ -119,7 +119,7 @@ PY_GETSET_GETTER_DECL(AGMasterMod, eoaKeys) {
 PY_PROPERTY_SETTER_MSG(AGMasterMod, eoaKeys, "To add eoaKeys, use addEoaKey()")
 PY_PROPERTY_GETSET_DECL(AGMasterMod, eoaKeys)
 
-PY_PROPERTY(plString, AGMasterMod, groupName, getGroupName, setGroupName)
+PY_PROPERTY(ST::string, AGMasterMod, groupName, getGroupName, setGroupName)
 PY_PROPERTY(bool, AGMasterMod, isGrouped, getIsGrouped, setIsGrouped)
 PY_PROPERTY(bool, AGMasterMod, isGroupMaster, getIsGroupMaster, setIsGroupMaster)
 PY_PROPERTY(plKey, AGMasterMod, msgForwarder, getMsgForwarder, setMsgForwarder)

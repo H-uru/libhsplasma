@@ -23,7 +23,7 @@ extern "C" {
 
 PY_PLASMA_NEW_MSG(AGChannel, "plAGChannel is abstract")
 
-PY_PROPERTY(plString, AGChannel, name, getName, setName)
+PY_PROPERTY(ST::string, AGChannel, name, getName, setName)
 
 static PyGetSetDef pyAGChannel_GetSet[] = {
     pyAGChannel_name_getset,

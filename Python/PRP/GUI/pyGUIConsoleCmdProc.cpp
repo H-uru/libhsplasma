@@ -22,7 +22,7 @@ extern "C" {
 
 PY_PLASMA_NEW(GUIConsoleCmdProc, pfGUIConsoleCmdProc)
 
-PY_PROPERTY(plString, GUIConsoleCmdProc, command, getCommand, setCommand)
+PY_PROPERTY(ST::string, GUIConsoleCmdProc, command, getCommand, setCommand)
 
 static PyGetSetDef pyGUIConsoleCmdProc_GetSet[] = {
     pyGUIConsoleCmdProc_command_getset,

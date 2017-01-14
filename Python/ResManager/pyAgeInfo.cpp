@@ -222,7 +222,7 @@ static PyMethodDef pyAgeInfo_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_PROPERTY(plString, AgeInfo, name, getAgeName, setAgeName)
+PY_PROPERTY(ST::string, AgeInfo, name, getAgeName, setAgeName)
 PY_PROPERTY(unsigned int, AgeInfo, startDateTime, getStartDateTime, setStartDateTime)
 PY_PROPERTY(float, AgeInfo, dayLength, getDayLength, setDayLength)
 PY_PROPERTY(short, AgeInfo, maxCapacity, getMaxCapacity, setMaxCapacity)

@@ -24,8 +24,8 @@ extern "C" {
 
 PY_PLASMA_NEW(AgeInfoStruct, plAgeInfoStruct)
 
-PY_PROPERTY(plString, AgeInfoStruct, ageFilename, getAgeFilename, setAgeFilename)
-PY_PROPERTY(plString, AgeInfoStruct, ageInstanceName, getAgeInstanceName, setAgeInstanceName)
+PY_PROPERTY(ST::string, AgeInfoStruct, ageFilename, getAgeFilename, setAgeFilename)
+PY_PROPERTY(ST::string, AgeInfoStruct, ageInstanceName, getAgeInstanceName, setAgeInstanceName)
 
 PY_GETSET_GETTER_DECL(AgeInfoStruct, ageInstanceGuid) {
     return pyPlasma_convert(self->fThis->getAgeInstanceGuid().toString());
@@ -33,12 +33,12 @@ PY_GETSET_GETTER_DECL(AgeInfoStruct, ageInstanceGuid) {
 
 PY_GETSET_SETTER_DECL(AgeInfoStruct, ageInstanceGuid) {
     PY_PROPERTY_CHECK_NULL(ageInstanceGuid)
-    if (!pyPlasma_check<plString>(value)) {
+    if (!pyPlasma_check<ST::string>(value)) {
         PyErr_SetString(PyExc_TypeError, "ageInstanceGuid should be a string");
         return -1;
     }
     try {
-        plUuid uuid(pyPlasma_get<plString>(value));
+        plUuid uuid(pyPlasma_get<ST::string>(value));
         self->fThis->setAgeInstanceGuid(uuid);
     } catch (const hsBadParamException&) {
         PyErr_SetString(PyExc_ValueError, "ageInstanceGuid must be a valid UUID string");

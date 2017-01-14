@@ -24,7 +24,7 @@ extern "C" {
 
 PY_PLASMA_NEW(OneShotMod, plOneShotMod)
 
-PY_PROPERTY(plString, OneShotMod, animName, getAnimName, setAnimName)
+PY_PROPERTY(ST::string, OneShotMod, animName, getAnimName, setAnimName)
 PY_PROPERTY(bool, OneShotMod, drivable, isDrivable, setDrivable)
 PY_PROPERTY(bool, OneShotMod, reversable, isReversable, setReversable)
 PY_PROPERTY(bool, OneShotMod, smartSeek, getSmartSeek, setSmartSeek)

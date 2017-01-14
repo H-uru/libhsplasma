@@ -42,7 +42,7 @@ PY_PROPERTY_PROXY_RO(plSound::plFadeParams, Sound, fadeOutParams, getFadeOutPara
 PY_PROPERTY(plKey, Sound, softRegion, getSoftRegion, setSoftRegion)
 PY_PROPERTY(plKey, Sound, softOcclusionRegion, getSoftOcclusionRegion, setSoftOcclusionRegion)
 PY_PROPERTY(plKey, Sound, dataBuffer, getDataBuffer, setDataBuffer)
-PY_PROPERTY(plString, Sound, subtitleId, getSubtitleId, setSubtitleId)
+PY_PROPERTY(ST::string, Sound, subtitleId, getSubtitleId, setSubtitleId)
 
 static PyGetSetDef pySound_GetSet[] = {
     pySound_type_getset,

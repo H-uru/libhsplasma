@@ -141,11 +141,11 @@ PY_GETSET_SETTER_DECL(PythonParameter, value) {
     case plPythonParameter::kAnimationName:
     case plPythonParameter::kGlobalSDLVar:
     case plPythonParameter::kSubtitle:
-        if (!pyPlasma_check<plString>(value)) {
+        if (!pyPlasma_check<ST::string>(value)) {
             PyErr_SetString(PyExc_TypeError, "value should be a string");
             return -1;
         }
-        self->fThis->fStrValue = pyPlasma_get<plString>(value);
+        self->fThis->fStrValue = pyPlasma_get<ST::string>(value);
         return 0;
     case plPythonParameter::kNone:
         PyErr_SetString(PyExc_RuntimeError, "cannot assign to a plPythonParameter whose type is kNone");

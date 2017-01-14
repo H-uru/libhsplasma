@@ -74,11 +74,11 @@ PY_GETSET_SETTER_DECL(SynchedObject, excludes) {
     Py_ssize_t count = seq.size();
     for (Py_ssize_t i=0; i<count; i++) {
         PyObject* item = seq.get(i);
-        if (!pyPlasma_check<plString>(item)) {
+        if (!pyPlasma_check<ST::string>(item)) {
             PyErr_SetString(PyExc_TypeError, "excludes should be a list of strings");
             return -1;
         }
-        self->fThis->setExclude(pyPlasma_get<plString>(item));
+        self->fThis->setExclude(pyPlasma_get<ST::string>(item));
     }
     return 0;
 }
@@ -103,11 +103,11 @@ PY_GETSET_SETTER_DECL(SynchedObject, volatiles) {
     Py_ssize_t count = seq.size();
     for (Py_ssize_t i=0; i<count; i++) {
         PyObject* item = seq.get(i);
-        if (!pyPlasma_check<plString>(item)) {
+        if (!pyPlasma_check<ST::string>(item)) {
             PyErr_SetString(PyExc_TypeError, "volatiles should be a list of strings");
             return -1;
         }
-        self->fThis->setVolatile(pyPlasma_get<plString>(item));
+        self->fThis->setVolatile(pyPlasma_get<ST::string>(item));
     }
     return 0;
 }

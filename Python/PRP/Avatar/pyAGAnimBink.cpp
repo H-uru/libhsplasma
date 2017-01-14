@@ -23,9 +23,9 @@ extern "C" {
 
 PY_PLASMA_NEW(AGAnimBink, plAGAnimBink)
 
-PY_PROPERTY(plString, AGAnimBink, binkFilename, getBinkFilename, setBinkFilename)
-PY_PROPERTY(plString, AGAnimBink,sgtFilename, getSgtFilename, setSgtFilename)
-PY_PROPERTY(plString, AGAnimBink,subtitleId, getSubtitleId, setSubtitleId)
+PY_PROPERTY(ST::string, AGAnimBink, binkFilename, getBinkFilename, setBinkFilename)
+PY_PROPERTY(ST::string, AGAnimBink,sgtFilename, getSgtFilename, setSgtFilename)
+PY_PROPERTY(ST::string, AGAnimBink,subtitleId, getSubtitleId, setSubtitleId)
 
 static PyGetSetDef pyAGAnimBink_GetSet[] = {
     pyAGAnimBink_binkFilename_getset,

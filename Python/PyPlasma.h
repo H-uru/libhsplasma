@@ -18,13 +18,14 @@
 #define _PYPLASMA_H
 
 #include <Python.h>
+#include <PlasmaDefs.h>
 #include <Sys/Platform.h>
 #include <string_theory/string>
 #include <type_traits>
 
-PyObject* PyString_FromPlasmaString(const ST::string& str);
-PyObject* PyUnicode_FromPlasmaString(const ST::string& str);
-ST::string PyAnyString_AsPlasmaString(PyObject* str);
+PyObject* PyString_FromSTString(const ST::string& str);
+PyObject* PyUnicode_FromSTString(const ST::string& str);
+ST::string PyAnyString_AsSTString(PyObject* str);
 #define PyAnyString_Check(ob) (PyUnicode_Check(value) || PyBytes_Check(value))
 
 int PyType_CheckAndReady(PyTypeObject* type);
@@ -62,7 +63,7 @@ struct pySequenceFastRef
 
     // String -> Unicode
     #define PyString_FromString(str) PyUnicode_DecodeUTF8((str), strlen((str)), NULL)
-    #define PyAnyString_FromPlasmaString PyUnicode_FromPlasmaString
+    #define PyAnyString_FromSTString PyUnicode_FromSTString
 
     // Py_TPFLAGS_CHECKTYPES is no longer used in Py3k
     #define Py_TPFLAGS_CHECKTYPES 0
@@ -72,7 +73,7 @@ struct pySequenceFastRef
     #undef PyBytes_AsStringAndSize
     #undef PyBytes_AsString
 
-    #define PyAnyString_FromPlasmaString PyString_FromPlasmaString
+    #define PyAnyString_FromSTString PyString_FromSTString
     #define PyBytes_Check(ob) PyString_Check(ob)
     #define PyBytes_FromStringAndSize(v, len) PyString_FromStringAndSize(v, len)
     #define PyBytes_AsStringAndSize(obj, buf, len) PyString_AsStringAndSize(obj, buf, len)
@@ -286,7 +287,7 @@ inline PyObject* pyPlasma_convert(int64_t value) { return PyInt_FromLong((long)v
 inline PyObject* pyPlasma_convert(float value) { return PyFloat_FromDouble((double)value); }
 inline PyObject* pyPlasma_convert(double value) { return PyFloat_FromDouble(value); }
 inline PyObject* pyPlasma_convert(bool value) { return PyBool_FromBool(value); }
-inline PyObject* pyPlasma_convert(const plString& value) { return PyAnyString_FromPlasmaString(value); }
+inline PyObject* pyPlasma_convert(const ST::string& value) { return PyAnyString_FromSTString(value); }
 inline PyObject* pyPlasma_convert(const char* value) { return PyString_FromString(value); }
 inline PyObject* pyPlasma_convert(CallbackEvent value) { return PyInt_FromLong((long)value); }
 inline PyObject* pyPlasma_convert(ControlEventCode value) { return PyInt_FromLong((long)value); }
@@ -313,7 +314,7 @@ template <> inline int pyPlasma_check<int64_t>(PyObject* value) { return PyInt_C
 template <> inline int pyPlasma_check<float>(PyObject* value) { return PyFloat_Check(value); }
 template <> inline int pyPlasma_check<double>(PyObject* value) { return PyFloat_Check(value); }
 template <> inline int pyPlasma_check<bool>(PyObject* value) { return PyInt_Check(value); }
-template <> inline int pyPlasma_check<plString>(PyObject* value) { return PyAnyString_Check(value); }
+template <> inline int pyPlasma_check<ST::string>(PyObject* value) { return PyAnyString_Check(value); }
 template <> inline int pyPlasma_check<CallbackEvent>(PyObject* value) { return PyInt_Check(value); }
 template <> inline int pyPlasma_check<ControlEventCode>(PyObject* value) { return PyInt_Check(value); }
 template <> inline int pyPlasma_check<plKeyDef>(PyObject* value) { return PyInt_Check(value); }
@@ -334,7 +335,7 @@ template <> inline int64_t pyPlasma_get(PyObject* value) { return (int64_t)PyInt
 template <> inline float pyPlasma_get(PyObject* value) { return (float)PyFloat_AsDouble(value); }
 template <> inline double pyPlasma_get(PyObject* value) { return PyFloat_AsDouble(value); }
 template <> inline bool pyPlasma_get(PyObject* value) { return PyInt_AsLong(value) != 0; }
-template <> inline plString pyPlasma_get(PyObject* value) { return PyAnyString_AsPlasmaString(value); }
+template <> inline ST::string pyPlasma_get(PyObject* value) { return PyAnyString_AsSTString(value); }
 template <> inline CallbackEvent pyPlasma_get(PyObject* value) { return (CallbackEvent)PyInt_AsLong(value); }
 template <> inline ControlEventCode pyPlasma_get(PyObject* value) { return (ControlEventCode)PyInt_AsLong(value); }
 template <> inline plKeyDef pyPlasma_get(PyObject* value) { return (plKeyDef)PyInt_AsLong(value); }

@@ -80,8 +80,8 @@ PY_GETSET_SETTER_DECL(DynamicEnvMap, visRegionNames) {
     std::vector<ST::string> names(count);
     for (Py_ssize_t i=0; i<count; i++) {
         PyObject* name = seq.get(i);
-        if (pyPlasma_check<plString>(name)) {
-            names[i] = pyPlasma_get<plString>(name);
+        if (pyPlasma_check<ST::string>(name)) {
+            names[i] = pyPlasma_get<ST::string>(name);
         } else {
             PyErr_SetString(PyExc_TypeError, "visRegionNames should be a sequence of strings");
             return -1;
