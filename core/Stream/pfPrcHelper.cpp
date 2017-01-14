@@ -49,6 +49,10 @@ void pfPrcHelper::writeParam(const char* name, const ST::string& value) {
     file->writeStr(buf);
 }
 
+void pfPrcHelper::writeParam(const char* name, const char* value) {
+    writeParam(name, ST::string(value));
+}
+
 void pfPrcHelper::writeParam(const char* name, int value) {
     char buf[256];
     snprintf(buf, 256, " %s=\"%d\"", name, value);
