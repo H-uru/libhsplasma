@@ -33,7 +33,7 @@ PY_METHOD_VA(SoftVolumeComplex, addSubVolume,
         PyErr_SetString(PyExc_TypeError, "addSubVolume expects a plKey");
         return NULL;
     }
-    self->fThis->addSubVolume(*((pyKey*)key)->fThis);
+    self->fThis->addSubVolume(pyPlasma_get<plKey>(key));
     Py_RETURN_NONE;
 }
 
@@ -68,7 +68,7 @@ static PyMethodDef pySoftVolumeComplex_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-static PyObject* pySoftVolumeComplex_getSubVolumes(pySoftVolumeComplex* self, void*) {
+PY_GETSET_GETTER_DECL(SoftVolumeComplex, subVolumes) {
     const std::vector<plKey>& sv = self->fThis->getSubVolumes();
     PyObject* tup = PyTuple_New(sv.size());
     for (size_t i = 0; i < sv.size(); ++i)
@@ -76,14 +76,11 @@ static PyObject* pySoftVolumeComplex_getSubVolumes(pySoftVolumeComplex* self, vo
     return tup;
 }
 
-static int pySoftVolumeComplex_setSubVolumes(pySoftVolumeComplex*, PyObject*, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add subvolumes, use addSubVolume");
-    return -1;
-}
+PY_PROPERTY_SETTER_MSG(SoftVolumeComplex, subVolumes, "To add subvolumes, use addSubVolume")
+PY_PROPERTY_GETSET_DECL(SoftVolumeComplex, subVolumes)
 
 PyGetSetDef pySoftVolumeComplex_GetSet[] = {
-    { _pycs("subVolumes"), (getter)pySoftVolumeComplex_getSubVolumes,
-      (setter)pySoftVolumeComplex_setSubVolumes, NULL, NULL },
+    pySoftVolumeComplex_subVolumes_getset,
     PY_GETSET_TERMINATOR
 };
 

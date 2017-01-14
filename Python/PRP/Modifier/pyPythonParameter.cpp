@@ -113,10 +113,7 @@ PY_GETSET_GETTER_DECL(PythonParameter, value) {
 }
 
 PY_GETSET_SETTER_DECL(PythonParameter, value) {
-    if (value == NULL) {
-        PyErr_SetString(PyExc_RuntimeError, "value cannot be deleted");
-        return -1;
-    }
+    PY_PROPERTY_CHECK_NULL(value)
 
     switch (self->fThis->fValueType) {
     case plPythonParameter::kInt:

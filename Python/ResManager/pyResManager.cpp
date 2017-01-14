@@ -398,9 +398,9 @@ PY_METHOD_VA(ResManager, getSceneNode,
 
 PY_METHOD_NOARGS(ResManager, getLocations, "Returns a list of all loaded locations") {
     std::vector<plLocation> locs = self->fThis->getLocations();
-    PyObject* list = PyList_New(locs.size());
+    PyObject* list = PyTuple_New(locs.size());
     for (size_t i=0; i<locs.size(); i++)
-        PyList_SET_ITEM(list, i, pyLocation_FromLocation(locs[i]));
+        PyTuple_SET_ITEM(list, i, pyLocation_FromLocation(locs[i]));
     return list;
 }
 
@@ -420,9 +420,9 @@ PY_METHOD_VA(ResManager, getTypes,
     }
 
     std::vector<short> types = self->fThis->getTypes(*loc->fThis, (checkKeys != 0));
-    PyObject* list = PyList_New(types.size());
+    PyObject* list = PyTuple_New(types.size());
     for (size_t i=0; i<types.size(); i++)
-        PyList_SET_ITEM(list, i, pyPlasma_convert(types[i]));
+        PyTuple_SET_ITEM(list, i, pyPlasma_convert(types[i]));
     return list;
 }
 
@@ -443,9 +443,9 @@ PY_METHOD_VA(ResManager, getKeys,
     }
 
     std::vector<plKey> keys = self->fThis->getKeys(*loc->fThis, type, (checkKeys != 0));
-    PyObject* list = PyList_New(keys.size());
+    PyObject* list = PyTuple_New(keys.size());
     for (size_t i=0; i<keys.size(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(keys[i]));
+        PyTuple_SET_ITEM(list, i, pyKey_FromKey(keys[i]));
     return list;
 }
 

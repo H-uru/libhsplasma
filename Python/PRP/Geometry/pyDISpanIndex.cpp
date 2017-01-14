@@ -24,40 +24,39 @@ PY_PLASMA_VALUE_DEALLOC(DISpanIndex)
 PY_PLASMA_EMPTY_INIT(DISpanIndex)
 PY_PLASMA_VALUE_NEW(DISpanIndex, plDISpanIndex)
 
-static PyObject* pyDISpanIndex_getIndices(pyDISpanIndex* self, void*) {
-    PyObject* list = PyList_New(self->fThis->fIndices.size());
+PY_GETSET_GETTER_DECL(DISpanIndex, indices) {
+    PyObject* list = PyTuple_New(self->fThis->fIndices.size());
     for (size_t i=0; i<self->fThis->fIndices.size(); i++)
-        PyList_SET_ITEM(list, i, pyPlasma_convert(self->fThis->fIndices[i]));
+        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->fIndices[i]));
     return list;
 }
 
-static int pyDISpanIndex_setIndices(pyDISpanIndex* self, PyObject* value, void*) {
-    if (value == NULL) {
-        self->fThis->fIndices.clear();
-        return 0;
-    } else if (PyList_Check(value)) {
-        self->fThis->fIndices.resize(PyList_Size(value));
-        for (size_t i=0; i<self->fThis->fIndices.size(); i++) {
-            if (!PyInt_Check(PyList_GetItem(value, i))) {
-                PyErr_SetString(PyExc_TypeError, "indices should be a list of ints");
-                return -1;
-            }
-            self->fThis->fIndices[i] = PyInt_AsLong(PyList_GetItem(value, i));
-        }
-        return 0;
-    } else {
+PY_GETSET_SETTER_DECL(DISpanIndex, indices) {
+    PY_PROPERTY_CHECK_NULL(indices)
+    pySequenceFastRef seq(value);
+    if (!seq.isSequence()) {
         PyErr_SetString(PyExc_TypeError, "indices should be a list of ints");
         return -1;
     }
+    self->fThis->fIndices.resize(seq.size());
+    for (size_t i=0; i<self->fThis->fIndices.size(); i++) {
+        PyObject* item = seq.get(i);
+        if (!pyPlasma_check<unsigned int>(item)) {
+            PyErr_SetString(PyExc_TypeError, "indices should be a list of ints");
+            return -1;
+        }
+        self->fThis->fIndices[i] = pyPlasma_get<unsigned int>(item);
+    }
+    return 0;
 }
+
+PY_PROPERTY_GETSET_DECL(DISpanIndex, indices)
 
 PY_PROPERTY_MEMBER(uint8_t, DISpanIndex, flags, fFlags)
 
 static PyGetSetDef pyDISpanIndex_GetSet[] = {
     pyDISpanIndex_flags_getset,
-    { _pycs("indices"), (getter)pyDISpanIndex_getIndices,
-        (setter)pyDISpanIndex_setIndices,
-        _pycs("Collection of span index groups for the spans"), NULL },
+    pyDISpanIndex_indices_getset,
     PY_GETSET_TERMINATOR
 };
 

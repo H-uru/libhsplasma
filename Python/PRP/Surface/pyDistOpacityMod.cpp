@@ -28,10 +28,8 @@ PY_PLASMA_NEW(DistOpacityMod, plDistOpacityMod)
         return pyPlasma_convert(self->fThis->getDistance(plDistOpacityMod::distEnum)); \
     }                                                                   \
     PY_GETSET_SETTER_DECL(DistOpacityMod, propName) {                   \
-        if (value == NULL) {                                            \
-            PyErr_SetString(PyExc_RuntimeError, #propName " cannot be deleted"); \
-            return -1;                                                  \
-        } else if (!pyPlasma_check<float>(value)) {                     \
+        PY_PROPERTY_CHECK_NULL(propName)                                \
+        if (!pyPlasma_check<float>(value)) {                            \
             PyErr_SetString(PyExc_TypeError, #propName " expected type float"); \
             return -1;                                                  \
         }                                                               \

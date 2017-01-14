@@ -45,23 +45,21 @@ PY_METHOD_VA(LightInfo, addVisRegion,
     Py_RETURN_NONE;
 }
 
-static PyObject* pyLightInfo_getVisRegions(pyLightInfo* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getVisRegions().size());
-    for (size_t i=0; i<self->fThis->getVisRegions().size(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getVisRegions()[i]));
-    return list;
-}
-
-static int pyLightInfo_setVisRegions(pyLightInfo* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add Vis Regions, use addVisRegion()");
-    return -1;
-}
-
 static PyMethodDef pyLightInfo_Methods[] = {
     pyLightInfo_clearVisRegions_method,
     pyLightInfo_addVisRegion_method,
     PY_METHOD_TERMINATOR
 };
+
+PY_GETSET_GETTER_DECL(LightInfo, visRegions) {
+    PyObject* list = PyTuple_New(self->fThis->getVisRegions().size());
+    for (size_t i=0; i<self->fThis->getVisRegions().size(); i++)
+        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getVisRegions()[i]));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(LightInfo, visRegions, "To add Vis Regions, use addVisRegion()")
+PY_PROPERTY_GETSET_DECL(LightInfo, visRegions)
 
 PY_PROPERTY(hsColorRGBA, LightInfo, ambient, getAmbient, setAmbient)
 PY_PROPERTY(hsColorRGBA, LightInfo, diffuse, getDiffuse, setDiffuse)
@@ -85,8 +83,7 @@ static PyGetSetDef pyLightInfo_GetSet[] = {
     pyLightInfo_projection_getset,
     pyLightInfo_softVolume_getset,
     pyLightInfo_sceneNode_getset,
-    { _pycs("visRegions"), (getter)pyLightInfo_getVisRegions,
-        (setter)pyLightInfo_setVisRegions, NULL, NULL },
+    pyLightInfo_visRegions_getset,
     PY_GETSET_TERMINATOR
 };
 

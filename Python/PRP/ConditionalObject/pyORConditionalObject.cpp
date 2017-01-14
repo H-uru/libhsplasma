@@ -33,7 +33,7 @@ PY_METHOD_VA(ORConditionalObject, addChild,
         PyErr_SetString(PyExc_TypeError, "addChild expects a plKey");
         return NULL;
     }
-    self->fThis->addChild(*((pyKey*)key)->fThis);
+    self->fThis->addChild(pyPlasma_get<plKey>(key));
     Py_RETURN_NONE;
 }
 
@@ -64,21 +64,18 @@ static PyMethodDef pyORConditionalObject_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-static PyObject* pyORConditionalObject_getORs(pyORConditionalObject* self, void*) {
+PY_GETSET_GETTER_DECL(ORConditionalObject, children) {
     PyObject* children = PyTuple_New(self->fThis->getChildren().size());
     for (size_t i = 0; i < self->fThis->getChildren().size(); ++i)
-        PyTuple_SET_ITEM(children, i, pyKey_FromKey(self->fThis->getChildren()[i]));
+        PyTuple_SET_ITEM(children, i, pyPlasma_convert(self->fThis->getChildren()[i]));
     return children;
 }
 
-static int pyORConditionalObject_setORs(pyORConditionalObject* self, PyObject*, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add children, use addChild()");
-    return -1;
-}
+PY_PROPERTY_SETTER_MSG(ORConditionalObject, children, "To add children, use addChild()")
+PY_PROPERTY_GETSET_DECL(ORConditionalObject, children)
 
 static PyGetSetDef pyORConditionalObject_GetSet[] = {
-    { _pycs("children"), (getter)pyORConditionalObject_getORs,
-       (setter)pyORConditionalObject_setORs, NULL, NULL },
+    pyORConditionalObject_children_getset,
     PY_GETSET_TERMINATOR
 };
 

@@ -59,18 +59,6 @@ PY_METHOD_VA(LogicModifier, delCondition,
     Py_RETURN_NONE;
 }
 
-static PyObject* pyLogicModifier_getConditions(pyLogicModifier* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getConditions().size());
-    for (size_t i=0; i<self->fThis->getConditions().size(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getConditions()[i]));
-    return list;
-}
-
-static int pyLogicModifier_setConditions(pyLogicModifier* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "to add conditions, use addCondition");
-    return -1;
-}
-
 static PyMethodDef pyLogicModifier_Methods[] = {
     pyLogicModifier_clearConditions_method,
     pyLogicModifier_addCondition_method,
@@ -78,12 +66,21 @@ static PyMethodDef pyLogicModifier_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
+PY_GETSET_GETTER_DECL(LogicModifier, conditions) {
+    PyObject* list = PyTuple_New(self->fThis->getConditions().size());
+    for (size_t i=0; i<self->fThis->getConditions().size(); i++)
+        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getConditions()[i]));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(LogicModifier, conditions, "To add conditions, use addCondition")
+PY_PROPERTY_GETSET_DECL(LogicModifier, conditions)
+
 PY_PROPERTY(unsigned int, LogicModifier, cursor, getCursor, setCursor)
 PY_PROPERTY(plKey, LogicModifier, parent, getParent, setParent)
 
 static PyGetSetDef pyLogicModifier_GetSet[] = {
-    { _pycs("conditions"), (getter)pyLogicModifier_getConditions,
-        (setter)pyLogicModifier_setConditions, NULL, NULL },
+    pyLogicModifier_conditions_getset,
     pyLogicModifier_cursor_getset,
     pyLogicModifier_parent_getset,
     PY_GETSET_TERMINATOR

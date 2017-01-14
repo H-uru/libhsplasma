@@ -33,7 +33,7 @@ PY_METHOD_VA(ANDConditionalObject, addChild,
         PyErr_SetString(PyExc_TypeError, "addChild expects a plKey");
         return NULL;
     }
-    self->fThis->addChild(*((pyKey*)key)->fThis);
+    self->fThis->addChild(pyPlasma_get<plKey>(key));
     Py_RETURN_NONE;
 }
 
@@ -64,21 +64,18 @@ static PyMethodDef pyANDConditionalObject_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-static PyObject* pyANDConditionalObject_getANDs(pyANDConditionalObject* self, void*) {
+PY_GETSET_GETTER_DECL(ANDConditionalObject, children) {
     PyObject* children = PyTuple_New(self->fThis->getChildren().size());
     for (size_t i = 0; i < self->fThis->getChildren().size(); ++i)
-        PyTuple_SET_ITEM(children, i, pyKey_FromKey(self->fThis->getChildren()[i]));
+        PyTuple_SET_ITEM(children, i, pyPlasma_convert(self->fThis->getChildren()[i]));
     return children;
 }
 
-static int pyANDConditionalObject_setANDs(pyANDConditionalObject* self, PyObject*, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add children, use addChild()");
-    return -1;
-}
+PY_PROPERTY_SETTER_MSG(ANDConditionalObject, children, "To add children, use addChild()")
+PY_PROPERTY_GETSET_DECL(ANDConditionalObject, children)
 
 static PyGetSetDef pyANDConditionalObject_GetSet[] = {
-    { _pycs("children"), (getter)pyANDConditionalObject_getANDs,
-       (setter)pyANDConditionalObject_setANDs, NULL, NULL },
+    pyANDConditionalObject_children_getset,
     PY_GETSET_TERMINATOR
 };
 

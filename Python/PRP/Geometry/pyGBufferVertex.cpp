@@ -25,64 +25,74 @@ PY_PLASMA_VALUE_DEALLOC(GBufferVertex)
 PY_PLASMA_EMPTY_INIT(GBufferVertex)
 PY_PLASMA_VALUE_NEW(GBufferVertex, plGBufferVertex)
 
-static PyObject* pyGBufferVertex_getWeights(pyGBufferVertex* self, void*) {
-    PyObject* list = PyList_New(3);
-    PyList_SET_ITEM(list, 0, pyPlasma_convert(self->fThis->fSkinWeights[0]));
-    PyList_SET_ITEM(list, 1, pyPlasma_convert(self->fThis->fSkinWeights[1]));
-    PyList_SET_ITEM(list, 2, pyPlasma_convert(self->fThis->fSkinWeights[2]));
+PY_GETSET_GETTER_DECL(GBufferVertex, skinWeights) {
+    PyObject* list = PyTuple_New(3);
+    PyTuple_SET_ITEM(list, 0, pyPlasma_convert(self->fThis->fSkinWeights[0]));
+    PyTuple_SET_ITEM(list, 1, pyPlasma_convert(self->fThis->fSkinWeights[1]));
+    PyTuple_SET_ITEM(list, 2, pyPlasma_convert(self->fThis->fSkinWeights[2]));
     return list;
 }
 
-static PyObject* pyGBufferVertex_getUVWs(pyGBufferVertex* self, void*) {
-    PyObject* list = PyList_New(10);
-    for (size_t i=0; i<10; i++)
-        PyList_SET_ITEM(list, i, pyVector3_FromVector3(self->fThis->fUVWs[i]));
-    return list;
-}
-
-static int pyGBufferVertex_setWeights(pyGBufferVertex* self, PyObject* value, void*) {
-    if (value != NULL && !PyList_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "weights should be a list of up to 3 floats");
+PY_GETSET_SETTER_DECL(GBufferVertex, skinWeights) {
+    PY_PROPERTY_CHECK_NULL(weights)
+    pySequenceFastRef seq(value);
+    if (!seq.isSequence()) {
+        PyErr_SetString(PyExc_TypeError, "skinWeights should be a sequence of up to 3 floats");
         return -1;
     }
-    int size = (value == NULL) ? 0 : PyList_Size(value);
+    Py_ssize_t size = seq.size();
     if (size > 3) {
-        PyErr_SetString(PyExc_RuntimeError, "weights should be a list of up to 3 floats");
+        PyErr_SetString(PyExc_RuntimeError, "skinWeights should be a sequence of up to 3 floats");
         return -1;
     }
-    for (int i=0; i<size; i++) {
-        if (!PyFloat_Check(PyList_GetItem(value, i))) {
-            PyErr_SetString(PyExc_TypeError, "weights should be a list of up to 3 floats");
+    for (Py_ssize_t i=0; i<size; i++) {
+        PyObject* item = seq.get(i);
+        if (!pyPlasma_check<float>(item)) {
+            PyErr_SetString(PyExc_TypeError, "skinWeights should be a sequence of up to 3 floats");
             return -1;
         }
-        self->fThis->fSkinWeights[i] = PyFloat_AsDouble(PyList_GetItem(value, i));
+        self->fThis->fSkinWeights[i] = pyPlasma_get<float>(item);
     }
-    for (int i=size; i<3; i++)
+    for (Py_ssize_t i=size; i<3; i++)
         self->fThis->fSkinWeights[i] = 0.0f;
     return 0;
 }
 
-static int pyGBufferVertex_setUVWs(pyGBufferVertex* self, PyObject* value, void*) {
-    if (value != NULL && !PyList_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "UVWs should be a list of up to 10 hsVector3s");
+PY_PROPERTY_GETSET_DECL(GBufferVertex, skinWeights)
+
+PY_GETSET_GETTER_DECL(GBufferVertex, UVWs) {
+    PyObject* list = PyTuple_New(10);
+    for (size_t i=0; i<10; i++)
+        PyTuple_SET_ITEM(list, i, pyVector3_FromVector3(self->fThis->fUVWs[i]));
+    return list;
+}
+
+PY_GETSET_SETTER_DECL(GBufferVertex, UVWs) {
+    PY_PROPERTY_CHECK_NULL(UVWs)
+    pySequenceFastRef seq(value);
+    if (!seq.isSequence()) {
+        PyErr_SetString(PyExc_TypeError, "UVWs should be a sequence of up to 10 hsVector3s");
         return -1;
     }
-    int size = (value == NULL) ? 0 : PyList_Size(value);
+    Py_ssize_t size = seq.size();
     if (size > 10) {
-        PyErr_SetString(PyExc_RuntimeError, "UVWs should be a list of up to 10 hsVector3s");
+        PyErr_SetString(PyExc_RuntimeError, "UVWs should be a sequence of up to 10 hsVector3s");
         return -1;
     }
-    for (int i=0; i<size; i++) {
-        if (!pyVector3_Check(PyList_GetItem(value, i))) {
-            PyErr_SetString(PyExc_TypeError, "UVWs should be a list of up to 10 hsVector3s");
+    for (Py_ssize_t i=0; i<size; i++) {
+        PyObject* item = seq.get(i);
+        if (!pyPlasma_check<hsVector3>(item)) {
+            PyErr_SetString(PyExc_TypeError, "UVWs should be a sequence of up to 10 hsVector3s");
             return -1;
         }
-        self->fThis->fUVWs[i] = *((pyVector3*)PyList_GetItem(value, i))->fThis;
+        self->fThis->fUVWs[i] = pyPlasma_get<hsVector3>(item);
     }
-    for (int i=size; i<10; i++)
+    for (Py_ssize_t i=size; i<10; i++)
         self->fThis->fUVWs[i] = hsVector3(0.0f, 0.0f, 0.0f);
     return 0;
 }
+
+PY_PROPERTY_GETSET_DECL(GBufferVertex, UVWs)
 
 PY_PROPERTY_MEMBER(hsVector3, GBufferVertex, pos, fPos)
 PY_PROPERTY_MEMBER(hsVector3, GBufferVertex, normal, fNormal)
@@ -94,10 +104,8 @@ static PyGetSetDef pyGBufferVertex_GetSet[] = {
     pyGBufferVertex_normal_getset,
     pyGBufferVertex_skinIdx_getset,
     pyGBufferVertex_color_getset,
-    { _pycs("skinWeights"), (getter)pyGBufferVertex_getWeights,
-        (setter)pyGBufferVertex_setWeights, NULL, NULL },
-    { _pycs("UVWs"), (getter)pyGBufferVertex_getUVWs,
-        (setter)pyGBufferVertex_setUVWs, NULL, NULL },
+    pyGBufferVertex_skinWeights_getset,
+    pyGBufferVertex_UVWs_getset,
     PY_GETSET_TERMINATOR
 };
 

@@ -34,10 +34,8 @@ PY_GETSET_GETTER_DECL(ScaleKey, value) {
 }
 
 PY_GETSET_SETTER_DECL(ScaleKey, value) {
-    if (value == NULL) {
-        PyErr_SetString(PyExc_RuntimeError, "value cannot be deleted");
-        return -1;
-    } else if (!PyTuple_Check(value) || PyTuple_Size(value) != 2) {
+    PY_PROPERTY_CHECK_NULL(value)
+    if (!PyTuple_Check(value) || PyTuple_Size(value) != 2) {
         PyErr_SetString(PyExc_TypeError, "value should be a tuple (hsVector3, hsQuat)");
         return -1;
     }

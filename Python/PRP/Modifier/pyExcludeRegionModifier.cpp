@@ -33,7 +33,7 @@ PY_METHOD_VA(ExcludeRegionModifier, addSafePoint,
         PyErr_SetString(PyExc_TypeError, "addSafePoint expects a plKey");
         return NULL;
     }
-    self->fThis->addSafePoint(*((pyKey*)key)->fThis);
+    self->fThis->addSafePoint(pyPlasma_get<plKey>(key));
     Py_RETURN_NONE;
 }
 
@@ -68,7 +68,7 @@ static PyMethodDef pyExcludeRegionModifier_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-static PyObject* pyExcludeRegionModifier_getSafePoints(pyExcludeRegionModifier* self, void*) {
+PY_GETSET_GETTER_DECL(ExcludeRegionModifier, safePoints) {
     const std::vector<plKey>& points = self->fThis->getSafePoints();
     PyObject* tup = PyTuple_New(points.size());
     for (size_t i = 0; i < points.size(); ++i)
@@ -76,16 +76,14 @@ static PyObject* pyExcludeRegionModifier_getSafePoints(pyExcludeRegionModifier* 
     return tup;
 }
 
-static int pyExcludeRegionModifier_setSafePoints(pyExcludeRegionModifier* self, PyObject*, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add safePoints, use addSafePoint()");
-    return -1;
-}
+PY_PROPERTY_SETTER_MSG(ExcludeRegionModifier, safePoints, "To add safePoints, use addSafePoint()")
+PY_PROPERTY_GETSET_DECL(ExcludeRegionModifier, safePoints)
 
 PY_PROPERTY(bool, ExcludeRegionModifier, seek, getSeek, setSeek)
 PY_PROPERTY(float, ExcludeRegionModifier, seekTime, getSeekTime, setSeekTime)
 
 static PyGetSetDef pyExcludeRegionModifier_GetSet[] = {
-    { _pycs("safePoints"), (getter)pyExcludeRegionModifier_getSafePoints, (setter)pyExcludeRegionModifier_setSafePoints, NULL, NULL },
+    pyExcludeRegionModifier_safePoints_getset,
     pyExcludeRegionModifier_seek_getset,
     pyExcludeRegionModifier_seekTime_getset,
     PY_GETSET_TERMINATOR

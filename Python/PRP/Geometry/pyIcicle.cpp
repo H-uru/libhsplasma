@@ -23,43 +23,45 @@ extern "C" {
 
 PY_PLASMA_NEW(Icicle, plIcicle)
 
-static PyObject* pyIcicle_getSortData(pyIcicle* self, void*) {
+PY_GETSET_GETTER_DECL(Icicle, sortData) {
     int size = self->fThis->getILength() / 3;
     const plGBufferTriangle* sortData = self->fThis->getSortData();
     if (sortData == NULL) {
-        PyObject* list = PyList_New(0);
-        return list;
+        Py_RETURN_NONE;
     } else {
-        PyObject* list = PyList_New(size);
+        PyObject* list = PyTuple_New(size);
         for (int i=0; i<size; i++)
-            PyList_SET_ITEM(list, i, pyGBufferTriangle_FromGBufferTriangle(sortData[i]));
+            PyTuple_SET_ITEM(list, i, pyGBufferTriangle_FromGBufferTriangle(sortData[i]));
         return list;
     }
 }
 
-static int pyIcicle_setSortData(pyIcicle* self, PyObject* value, void*) {
-    if (value == NULL) {
+PY_GETSET_SETTER_DECL(Icicle, sortData) {
+    PY_PROPERTY_CHECK_NULL(sortData)
+    if (value == Py_None) {
         self->fThis->setSortData(NULL);
         return 0;
-    } else if (PyList_Check(value)) {
-        int size = PyList_Size(value);
-        plGBufferTriangle* sortData = new plGBufferTriangle[size];
-        for (int i=0; i<size; i++) {
-            if (!pyGBufferTriangle_Check(PyList_GetItem(value, i))) {
-                PyErr_SetString(PyExc_TypeError, "sortData should be a list of plGBufferTriangles");
-                delete[] sortData;
-                return -1;
-            }
-            sortData[i] = *((pyGBufferTriangle*)PyList_GetItem(value, i))->fThis;
-        }
-        self->fThis->setSortData(sortData);
-        delete[] sortData;
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "sortData should be a list of plGBufferTriangles");
+    }
+    pySequenceFastRef seq(value);
+    if (!seq.isSequence()) {
+        PyErr_SetString(PyExc_TypeError, "sortData should be a sequence of plGBufferTriangles");
         return -1;
     }
+    Py_ssize_t size = seq.size();
+    std::vector<plGBufferTriangle> sortData(size);
+    for (Py_ssize_t i=0; i<size; i++) {
+        PyObject* item = seq.get(i);
+        if (!pyGBufferTriangle_Check(item)) {
+            PyErr_SetString(PyExc_TypeError, "sortData should be a sequence of plGBufferTriangles");
+            return -1;
+        }
+        sortData[i] = *((pyGBufferTriangle*)item)->fThis;
+    }
+    self->fThis->setSortData(&sortData[0]);
+    return 0;
 }
+
+PY_PROPERTY_GETSET_DECL(Icicle, sortData)
 
 PY_PROPERTY(unsigned int, Icicle, IBufferIdx, getIBufferIdx, setIBufferIdx)
 PY_PROPERTY(unsigned int, Icicle, IStartIdx, getIStartIdx, setIStartIdx)
@@ -69,8 +71,7 @@ static PyGetSetDef pyIcicle_GetSet[] = {
     pyIcicle_IBufferIdx_getset,
     pyIcicle_IStartIdx_getset,
     pyIcicle_ILength_getset,
-    { _pycs("sortData"), (getter)pyIcicle_getSortData, (setter)pyIcicle_setSortData,
-      _pycs("Optional face sort data"), NULL },
+    pyIcicle_sortData_getset,
     PY_GETSET_TERMINATOR
 };
 

@@ -68,19 +68,22 @@ static PyMethodDef pyOneShotMsg_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-static PyObject* pyOneShotMsg_getCallbacks(pyOneShotMsg* self, void*) {
+PY_GETSET_GETTER_DECL(OneShotMsg, callbacks) {
     const plOneShotCallbacks& cbs = self->fThis->getCallbacks();
     PyObject* tup = PyTuple_New(cbs.getNumCallbacks());
     for (size_t i = 0; i < cbs.getNumCallbacks(); ++i) {
         const auto& cb = cbs.getCallbacks()[i];
-        PyObject* value = Py_BuildValue("OOh", PlStr_To_PyStr(cb.fMarker), pyKey_FromKey(cb.fReceiver), cb.fUser);
+        PyObject* value = Py_BuildValue("OOh", pyPlasma_convert(cb.fMarker),
+                                        pyPlasma_convert(cb.fReceiver), cb.fUser);
         PyTuple_SET_ITEM(tup, i, value);
     }
     return tup;
 }
 
+PY_PROPERTY_GETSET_RO_DECL(OneShotMsg, callbacks)
+
 static PyGetSetDef pyOneShotMsg_GetSet[] = {
-    { _pycs("callbacks"), (getter)pyOneShotMsg_getCallbacks, NULL, NULL, NULL },
+    pyOneShotMsg_callbacks_getset,
     PY_GETSET_TERMINATOR
 };
 

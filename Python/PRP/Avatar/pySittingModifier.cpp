@@ -62,23 +62,22 @@ static PyMethodDef pySittingModifier_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-static PyObject* pySittingModifier_getNotifyKeys(pySittingModifier* self, void*) {
+PY_GETSET_GETTER_DECL(SittingModifier, notifyKeys) {
     PyObject* keys = PyTuple_New(self->fThis->getNotifyKeys().size());
     for (size_t i = 0; i < self->fThis->getNotifyKeys().size(); ++i)
         PyTuple_SET_ITEM(keys, i, pyKey_FromKey(self->fThis->getNotifyKeys()[i]));
     return keys;
 }
 
-static int pySittingModifier_setNotifyKeys(pySittingModifier* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add notifyKeys, use addNotifyKey()");
-    return -1;
-}
+PY_PROPERTY_SETTER_MSG(SittingModifier, notifyKeys,
+                       "To add notifyKeys, use addNotifyKey()")
+PY_PROPERTY_GETSET_DECL(SittingModifier, notifyKeys)
 
 PY_PROPERTY(uint8_t, SittingModifier, miscFlags, getMiscFlags, setMiscFlags)
 
 static PyGetSetDef pySittingModifier_GetSet[] = {
     pySittingModifier_miscFlags_getset,
-    { _pycs("notifyKeys"), (getter)pySittingModifier_getNotifyKeys, (setter)pySittingModifier_setNotifyKeys, NULL, NULL },
+    pySittingModifier_notifyKeys_getset,
     PY_GETSET_TERMINATOR
 };
 

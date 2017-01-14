@@ -62,18 +62,6 @@ PY_METHOD_VA(MsgForwarder, delForwardKey,
     Py_RETURN_NONE;
 }
 
-static PyObject* pyMsgForwarder_getForwardKeys(pyMsgForwarder* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getForwardKeys().size());
-    for (size_t i=0; i<self->fThis->getForwardKeys().size(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getForwardKeys()[i]));
-    return list;
-}
-
-static int pyMsgForwarder_setForwardKeys(pyMsgForwarder* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "to add forward keys, use addForwardKey");
-    return -1;
-}
-
 static PyMethodDef pyMsgForwarder_Methods[] = {
     pyMsgForwarder_clearForwardKeys_method,
     pyMsgForwarder_addForwardKey_method,
@@ -81,9 +69,18 @@ static PyMethodDef pyMsgForwarder_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
+PY_GETSET_GETTER_DECL(MsgForwarder, forwardKeys) {
+    PyObject* list = PyTuple_New(self->fThis->getForwardKeys().size());
+    for (size_t i=0; i<self->fThis->getForwardKeys().size(); i++)
+        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getForwardKeys()[i]));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(MsgForwarder, forwardKeys, "To add forward keys, use addForwardKey")
+PY_PROPERTY_GETSET_DECL(MsgForwarder, forwardKeys)
+
 static PyGetSetDef pyMsgForwarder_GetSet[] = {
-    { _pycs("forwardKeys"), (getter)pyMsgForwarder_getForwardKeys,
-        (setter)pyMsgForwarder_setForwardKeys, NULL, NULL },
+    pyMsgForwarder_forwardKeys_getset,
     PY_GETSET_TERMINATOR
 };
 

@@ -261,9 +261,9 @@ PY_PLASMA_TYPE_INIT(AgeInfo) {
     PY_TYPE_ADD_CONST(AgeInfo, "kPageGlobal", plAgeInfo::kGlobal);
     PY_TYPE_ADD_CONST(AgeInfo, "kNumCommonPages", plAgeInfo::kNumCommonPages);
 
-    PyObject* list = PyList_New(plAgeInfo::kNumCommonPages);
+    PyObject* list = PyTuple_New(plAgeInfo::kNumCommonPages);
     for (size_t i=0; i<plAgeInfo::kNumCommonPages; i++)
-        PyList_SET_ITEM(list, i, PlStr_To_PyStr(plAgeInfo::kCommonPages[i]));
+        PyTuple_SET_ITEM(list, i, pyPlasma_convert(plAgeInfo::kCommonPages[i]));
     PyDict_SetItemString(pyAgeInfo_Type.tp_dict, "kCommonPages", list);
 
     Py_INCREF(&pyAgeInfo_Type);

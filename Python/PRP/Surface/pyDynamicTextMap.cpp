@@ -24,37 +24,39 @@ extern "C" {
 
 PY_PLASMA_NEW(DynamicTextMap, plDynamicTextMap)
 
-static PyObject* pyDynamicTextMap_getInitBuffer(pyDynamicTextMap* self, void*) {
-    PyObject* data = PyList_New(self->fThis->getInitBufferSize());
+PY_GETSET_GETTER_DECL(DynamicTextMap, initBuffer) {
+    PyObject* data = PyTuple_New(self->fThis->getInitBufferSize());
     for (size_t i=0; i<self->fThis->getInitBufferSize(); i++)
-        PyList_SET_ITEM(data, i, pyPlasma_convert(self->fThis->getInitBuffer()[i]));
+        PyTuple_SET_ITEM(data, i, pyPlasma_convert(self->fThis->getInitBuffer()[i]));
     return data;
 }
 
-static int pyDynamicTextMap_setInitBuffer(pyDynamicTextMap* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
+PY_GETSET_SETTER_DECL(DynamicTextMap, initBuffer) {
+    PY_PROPERTY_CHECK_NULL(initBuffer)
+    if (value == Py_None) {
         self->fThis->setInitBuffer(NULL, 0);
         return 0;
     }
-    if (!PyList_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "initBuffer should be a list of ints");
+    pySequenceFastRef seq(value);
+    if (!seq.isSequence()) {
+        PyErr_SetString(PyExc_TypeError, "initBuffer should be a sequence of ints");
         return -1;
     }
-    int len = PyList_Size(value);
-    unsigned int* buf = new unsigned int[len];
-    for (int i=0; i<len; i++) {
-        PyObject* itm = PyList_GetItem(value, i);
-        if (!PyInt_Check(itm)) {
-            PyErr_SetString(PyExc_TypeError, "initBuffer should be a list of ints");
-            delete[] buf;
+    Py_ssize_t len = seq.size();
+    std::vector<unsigned int> buf(len);
+    for (Py_ssize_t i=0; i<len; i++) {
+        PyObject* itm = seq.get(i);
+        if (!pyPlasma_check<unsigned int>(itm)) {
+            PyErr_SetString(PyExc_TypeError, "initBuffer should be a sequence of ints");
             return -1;
         }
-        buf[i] = PyInt_AsLong(itm);
+        buf[i] = pyPlasma_get<unsigned int>(itm);
     }
-    self->fThis->setInitBuffer(buf, (size_t)len);
-    delete[] buf;
+    self->fThis->setInitBuffer(&buf[0], buf.size());
     return 0;
 }
+
+PY_PROPERTY_GETSET_DECL(DynamicTextMap, initBuffer)
 
 PY_PROPERTY(unsigned int, DynamicTextMap, visWidth, getVisWidth, setVisWidth)
 PY_PROPERTY(unsigned int, DynamicTextMap, visHeight, getVisHeight, setVisHeight)
@@ -64,8 +66,7 @@ static PyGetSetDef pyDynamicTextMap_GetSet[] = {
     pyDynamicTextMap_visWidth_getset,
     pyDynamicTextMap_visHeight_getset,
     pyDynamicTextMap_hasAlpha_getset,
-    { _pycs("initBuffer"), (getter)pyDynamicTextMap_getInitBuffer,
-        (setter)pyDynamicTextMap_setInitBuffer, NULL, NULL },
+    pyDynamicTextMap_initBuffer_getset,
     PY_GETSET_TERMINATOR
 };
 

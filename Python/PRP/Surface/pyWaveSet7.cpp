@@ -104,7 +104,7 @@ static PyMethodDef pyWaveSet7_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-static PyObject* pyWaveSet7_getShores(pyWaveSet7* self, void*) {
+PY_GETSET_GETTER_DECL(WaveSet7, shores) {
     const std::vector<plKey>& shores = self->fThis->getShores();
     PyObject* tuple = PyTuple_New(shores.size());
     for (size_t i = 0; i < shores.size(); ++i)
@@ -112,7 +112,10 @@ static PyObject* pyWaveSet7_getShores(pyWaveSet7* self, void*) {
     return tuple;
 }
 
-static PyObject* pyWaveSet7_getDecals(pyWaveSet7* self, void*) {
+PY_PROPERTY_SETTER_MSG(WaveSet7, shores, "To add shores, use addShore")
+PY_PROPERTY_GETSET_DECL(WaveSet7, shores)
+
+PY_GETSET_GETTER_DECL(WaveSet7, decals) {
     const std::vector<plKey>& decals = self->fThis->getDecals();
     PyObject* tuple = PyTuple_New(decals.size());
     for (size_t i = 0; i < decals.size(); ++i)
@@ -120,15 +123,8 @@ static PyObject* pyWaveSet7_getDecals(pyWaveSet7* self, void*) {
     return tuple;
 }
 
-static int pyWaveSet7_setShores(pyWaveSet7* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "to add shores, use addShore");
-    return -1;
-}
-
-static int pyWaveSet7_setDecals(pyWaveSet7* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "to add decals, use addDecal");
-    return -1;
-}
+PY_PROPERTY_SETTER_MSG(WaveSet7, decals, "To add decals, use addDecal")
+PY_PROPERTY_GETSET_DECL(WaveSet7, decals)
 
 PY_PROPERTY_PROXY(plFixedWaterState7, WaveSet7, state, getState)
 PY_PROPERTY(float, WaveSet7, maxLen, getMaxLen, setMaxLen)
@@ -137,8 +133,8 @@ PY_PROPERTY(plKey, WaveSet7, refObj, getRefObj, setRefObj)
 
 static PyGetSetDef pyWaveSet7_GetSet[] = {
     pyWaveSet7_state_getset,
-    { _pycs("shores"), (getter)pyWaveSet7_getShores, (setter)pyWaveSet7_setShores, NULL, NULL },
-    { _pycs("decals"), (getter)pyWaveSet7_getDecals, (setter)pyWaveSet7_setDecals, NULL, NULL },
+    pyWaveSet7_shores_getset,
+    pyWaveSet7_decals_getset,
     pyWaveSet7_maxLen_getset,
     pyWaveSet7_envMap_getset,
     pyWaveSet7_refObj_getset,

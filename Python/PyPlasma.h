@@ -22,9 +22,10 @@
 #include <Sys/Platform.h>
 #include <type_traits>
 
-PyObject* PlasmaString_To_PyString(const plString& str);
-PyObject* PlasmaString_To_PyUnicode(const plString& str);
-plString PyString_To_PlasmaString(PyObject* str);
+PyObject* PyString_FromPlasmaString(const plString& str);
+PyObject* PyUnicode_FromPlasmaString(const plString& str);
+plString PyAnyString_AsPlasmaString(PyObject* str);
+#define PyAnyString_Check(ob) (PyUnicode_Check(value) || PyBytes_Check(value))
 
 int PyType_CheckAndReady(PyTypeObject* type);
 
@@ -32,6 +33,24 @@ int PyType_CheckAndReady(PyTypeObject* type);
 // const. Sane compilers complain about this (with good reason). Therefore:
 template <size_t size>
 inline char* _pycs(const char (&str)[size]) { return const_cast<char*>(str); }
+
+/* Helper object for managing and accessing the reference that is returned by
+ * PySequence_Fast() to allow fast access to arbitrary sequence-type objects */
+struct pySequenceFastRef
+{
+    PyObject* fObj;
+
+    pySequenceFastRef(PyObject* o)
+        : fObj(PySequence_Fast(o, "Object is not a sequence")) { }
+    ~pySequenceFastRef() { Py_XDECREF(fObj); }
+
+    bool isSequence() const { return fObj != NULL; }
+
+    Py_ssize_t size() { return PySequence_Fast_GET_SIZE(fObj); }
+
+    /** Returns a borrowed reference within the sequence FAST storage */
+    PyObject* get(Py_ssize_t idx) { return PySequence_Fast_GET_ITEM(fObj, idx); }
+};
 
 // Python 3.x does things differently...  This should help to keep things
 // under control with both 2.x and 3.0 somewhat seamlessly.
@@ -43,7 +62,7 @@ inline char* _pycs(const char (&str)[size]) { return const_cast<char*>(str); }
 
     // String -> Unicode
     #define PyString_FromString(str) PyUnicode_DecodeUTF8((str), strlen((str)), NULL)
-    #define PlStr_To_PyStr PlasmaString_To_PyUnicode
+    #define PyAnyString_FromPlasmaString PyUnicode_FromPlasmaString
 
     // Py_TPFLAGS_CHECKTYPES is no longer used in Py3k
     #define Py_TPFLAGS_CHECKTYPES 0
@@ -53,7 +72,7 @@ inline char* _pycs(const char (&str)[size]) { return const_cast<char*>(str); }
     #undef PyBytes_AsStringAndSize
     #undef PyBytes_AsString
 
-    #define PlStr_To_PyStr PlasmaString_To_PyString
+    #define PyAnyString_FromPlasmaString PyString_FromPlasmaString
     #define PyBytes_Check(ob) PyString_Check(ob)
     #define PyBytes_FromStringAndSize(v, len) PyString_FromStringAndSize(v, len)
     #define PyBytes_AsStringAndSize(obj, buf, len) PyString_AsStringAndSize(obj, buf, len)
@@ -66,10 +85,6 @@ inline char* _pycs(const char (&str)[size]) { return const_cast<char*>(str); }
 #if (PY_MAJOR_VERSION < 3) || ((PY_MAJOR_VERSION == 3) && (PY_MINOR_VERSION < 2))
     typedef long Py_hash_t;
 #endif
-
-// This should work the same for all versions
-#define PyStr_To_PlStr PyString_To_PlasmaString
-#define PyAnyStr_Check(ob) (PyUnicode_Check(ob) || PyBytes_Check(ob))
 
 // C doesn't have boolean types until C11, which Python doesn't use
 #define PyBool_FromBool(b) PyBool_FromLong((b) ? 1 : 0)
@@ -271,7 +286,7 @@ inline PyObject* pyPlasma_convert(int64_t value) { return PyInt_FromLong((long)v
 inline PyObject* pyPlasma_convert(float value) { return PyFloat_FromDouble((double)value); }
 inline PyObject* pyPlasma_convert(double value) { return PyFloat_FromDouble(value); }
 inline PyObject* pyPlasma_convert(bool value) { return PyBool_FromBool(value); }
-inline PyObject* pyPlasma_convert(const plString& value) { return PlStr_To_PyStr(value); }
+inline PyObject* pyPlasma_convert(const plString& value) { return PyAnyString_FromPlasmaString(value); }
 inline PyObject* pyPlasma_convert(const char* value) { return PyString_FromString(value); }
 inline PyObject* pyPlasma_convert(CallbackEvent value) { return PyInt_FromLong((long)value); }
 inline PyObject* pyPlasma_convert(ControlEventCode value) { return PyInt_FromLong((long)value); }
@@ -298,7 +313,7 @@ template <> inline int pyPlasma_check<int64_t>(PyObject* value) { return PyInt_C
 template <> inline int pyPlasma_check<float>(PyObject* value) { return PyFloat_Check(value); }
 template <> inline int pyPlasma_check<double>(PyObject* value) { return PyFloat_Check(value); }
 template <> inline int pyPlasma_check<bool>(PyObject* value) { return PyInt_Check(value); }
-template <> inline int pyPlasma_check<plString>(PyObject* value) { return PyAnyStr_Check(value); }
+template <> inline int pyPlasma_check<plString>(PyObject* value) { return PyAnyString_Check(value); }
 template <> inline int pyPlasma_check<CallbackEvent>(PyObject* value) { return PyInt_Check(value); }
 template <> inline int pyPlasma_check<ControlEventCode>(PyObject* value) { return PyInt_Check(value); }
 template <> inline int pyPlasma_check<plKeyDef>(PyObject* value) { return PyInt_Check(value); }
@@ -319,7 +334,7 @@ template <> inline int64_t pyPlasma_get(PyObject* value) { return (int64_t)PyInt
 template <> inline float pyPlasma_get(PyObject* value) { return (float)PyFloat_AsDouble(value); }
 template <> inline double pyPlasma_get(PyObject* value) { return PyFloat_AsDouble(value); }
 template <> inline bool pyPlasma_get(PyObject* value) { return PyInt_AsLong(value) != 0; }
-template <> inline plString pyPlasma_get(PyObject* value) { return PyString_To_PlasmaString(value); }
+template <> inline plString pyPlasma_get(PyObject* value) { return PyAnyString_AsPlasmaString(value); }
 template <> inline CallbackEvent pyPlasma_get(PyObject* value) { return (CallbackEvent)PyInt_AsLong(value); }
 template <> inline ControlEventCode pyPlasma_get(PyObject* value) { return (ControlEventCode)PyInt_AsLong(value); }
 template <> inline plKeyDef pyPlasma_get(PyObject* value) { return (plKeyDef)PyInt_AsLong(value); }
@@ -350,12 +365,18 @@ template <> inline plKeyDef pyPlasma_get(PyObject* value) { return (plKeyDef)PyI
         return pyPlasma_convert(self->fThis->getter());                 \
     }
 
+/* Place this at the beginning of a property SETTER to ensure the value
+ * is not NULL (i.e. that the caller didn't try to delete the property) */
+#define PY_PROPERTY_CHECK_NULL(name)                                    \
+    if (value == NULL) {                                                \
+        PyErr_SetString(PyExc_RuntimeError, #name " cannot be deleted"); \
+        return -1;                                                      \
+    }
+
 #define PY_PROPERTY_WRITE(type, pyType, name, setter)                   \
     PY_GETSET_SETTER_DECL(pyType, name) {                               \
-        if (value == NULL) {                                            \
-            PyErr_SetString(PyExc_RuntimeError, #name " cannot be deleted"); \
-            return -1;                                                  \
-        } else if (!pyPlasma_check<type>(value)) {                      \
+        PY_PROPERTY_CHECK_NULL(name)                                    \
+        if (!pyPlasma_check<type>(value)) {                             \
             PyErr_SetString(PyExc_TypeError, #name " expected type " #type); \
             return -1;                                                  \
         }                                                               \
@@ -389,10 +410,8 @@ template <> inline plKeyDef pyPlasma_get(PyObject* value) { return (plKeyDef)PyI
 
 #define PY_PROPERTY_MEMBER_WRITE(type, pyType, name, member)            \
     PY_GETSET_SETTER_DECL(pyType, name) {                               \
-        if (value == NULL) {                                            \
-            PyErr_SetString(PyExc_RuntimeError, #name " cannot be deleted"); \
-            return -1;                                                  \
-        } else if (!pyPlasma_check<type>(value)) {                      \
+        PY_PROPERTY_CHECK_NULL(name)                                    \
+        if (!pyPlasma_check<type>(value)) {                             \
             PyErr_SetString(PyExc_TypeError, #name " expected type " #type); \
             return -1;                                                  \
         }                                                               \
@@ -414,10 +433,8 @@ template <> inline plKeyDef pyPlasma_get(PyObject* value) { return (plKeyDef)PyI
 
 #define PY_PROPERTY_PROXY_WRITE(type, pyType, name, getter)             \
     PY_GETSET_SETTER_DECL(pyType, name) {                               \
-        if (value == NULL) {                                            \
-            PyErr_SetString(PyExc_RuntimeError, #name " cannot be deleted"); \
-            return -1;                                                  \
-        } else if (!pyPlasma_check<type>(value)) {                      \
+        PY_PROPERTY_CHECK_NULL(name)                                    \
+        if (!pyPlasma_check<type>(value)) {                             \
             PyErr_SetString(PyExc_TypeError, #name " expected type " #type); \
             return -1;                                                  \
         }                                                               \

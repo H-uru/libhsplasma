@@ -56,10 +56,8 @@ PY_GETSET_GETTER_DECL(Bitmap, modTime) {
 }
 
 PY_GETSET_SETTER_DECL(Bitmap, modTime) {
-    if (value == NULL) {
-        PyErr_SetString(PyExc_RuntimeError, "modTime cannot be deleted");
-        return -1;
-    } else if (!PyTuple_Check(value) || (PyTuple_Size(value) != 2)) {
+    PY_PROPERTY_CHECK_NULL(modTime)
+    if (!PyTuple_Check(value) || (PyTuple_Size(value) != 2)) {
         PyErr_SetString(PyExc_TypeError, "modTime should be a tuple (int, int)");
         return -1;
     }

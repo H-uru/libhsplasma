@@ -32,10 +32,8 @@ PY_GETSET_GETTER_DECL(AgeInfoStruct, ageInstanceGuid) {
 }
 
 PY_GETSET_SETTER_DECL(AgeInfoStruct, ageInstanceGuid) {
-    if (value == NULL) {
-        PyErr_SetString(PyExc_RuntimeError, "ageInstanceGuid cannot be deleted");
-        return -1;
-    } else if (!pyPlasma_check<plString>(value)) {
+    PY_PROPERTY_CHECK_NULL(ageInstanceGuid)
+    if (!pyPlasma_check<plString>(value)) {
         PyErr_SetString(PyExc_TypeError, "ageInstanceGuid should be a string");
         return -1;
     }

@@ -99,36 +99,6 @@ PY_METHOD_VA(DrawInterface, delRegion,
     Py_RETURN_NONE;
 }
 
-static PyObject* pyDrawInterface_getDrawables(pyDrawInterface* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getNumDrawables());
-    for (size_t i=0; i<self->fThis->getNumDrawables(); i++) {
-        PyObject* tup = Py_BuildValue("(Oi)",
-            pyKey_FromKey(self->fThis->getDrawable(i)),
-            self->fThis->getDrawableKey(i));
-        if (tup == NULL)
-            return NULL;
-        PyList_SET_ITEM(list, i, tup);
-    }
-    return list;
-}
-
-static PyObject* pyDrawInterface_getRegions(pyDrawInterface* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getRegions().size());
-    for (size_t i=0; i<self->fThis->getRegions().size(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getRegions()[i]));
-    return list;
-}
-
-static int pyDrawInterface_setDrawables(pyDrawInterface* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add Drawables, use addDrawable");
-    return -1;
-}
-
-static int pyDrawInterface_setRegions(pyDrawInterface* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add Regions, use addRegion");
-    return -1;
-}
-
 PyMethodDef pyDrawInterface_Methods[] = {
     pyDrawInterface_clearDrawables_method,
     pyDrawInterface_addDrawable_method,
@@ -139,12 +109,35 @@ PyMethodDef pyDrawInterface_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
+PY_GETSET_GETTER_DECL(DrawInterface, drawables) {
+    PyObject* list = PyTuple_New(self->fThis->getNumDrawables());
+    for (size_t i=0; i<self->fThis->getNumDrawables(); i++) {
+        PyObject* tup = Py_BuildValue("(Oi)",
+            pyKey_FromKey(self->fThis->getDrawable(i)),
+            self->fThis->getDrawableKey(i));
+        if (tup == NULL)
+            return NULL;
+        PyTuple_SET_ITEM(list, i, tup);
+    }
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(DrawInterface, drawables, "To add Drawables, use addDrawable")
+PY_PROPERTY_GETSET_DECL(DrawInterface, drawables)
+
+PY_GETSET_GETTER_DECL(DrawInterface, regions) {
+    PyObject* list = PyTuple_New(self->fThis->getRegions().size());
+    for (size_t i=0; i<self->fThis->getRegions().size(); i++)
+        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getRegions()[i]));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(DrawInterface, regions, "To add Regions, use addRegion")
+PY_PROPERTY_GETSET_DECL(DrawInterface, regions)
+
 PyGetSetDef pyDrawInterface_GetSet[] = {
-    { _pycs("drawables"), (getter)pyDrawInterface_getDrawables,
-        (setter)pyDrawInterface_setDrawables,
-        _pycs("Drawable references and keys"), NULL },
-    { _pycs("regions"), (getter)pyDrawInterface_getRegions,
-        (setter)pyDrawInterface_setRegions, _pycs("Drawable regions"), NULL },
+    pyDrawInterface_drawables_getset,
+    pyDrawInterface_regions_getset,
     PY_GETSET_TERMINATOR
 };
 

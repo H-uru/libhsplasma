@@ -35,7 +35,7 @@ PY_METHOD_VA(DetectorModifier, addReceiver,
         return NULL;
     }
 
-    self->fThis->addReceiver(*((pyKey*)receiver)->fThis);
+    self->fThis->addReceiver(pyPlasma_get<plKey>(receiver));
     Py_RETURN_NONE;
 }
 
@@ -67,7 +67,7 @@ static PyMethodDef pyDetectorModifier_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-static PyObject* pyDetectorModifier_getReceivers(pyDetectorModifier* self, void*) {
+PY_GETSET_GETTER_DECL(DetectorModifier, receivers) {
     plDetectorModifier* mod = self->fThis;
     PyObject* sequence = PyTuple_New(mod->getReceivers().size());
     for (size_t i = 0; i < mod->getReceivers().size(); ++i)
@@ -75,17 +75,14 @@ static PyObject* pyDetectorModifier_getReceivers(pyDetectorModifier* self, void*
     return sequence;
 }
 
-static int pyDetectorModifier_setReceivers(pyDetectorModifier* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add receivers, use addReceiver");
-    return -1;
-}
+PY_PROPERTY_SETTER_MSG(DetectorModifier, receivers, "To add receivers, use addReceiver")
+PY_PROPERTY_GETSET_DECL(DetectorModifier, receivers)
 
 PY_PROPERTY(plKey, DetectorModifier, remoteMod, getRemoteMod, setRemoteMod)
 PY_PROPERTY(plKey, DetectorModifier, proxy, getProxy, setProxy)
 
 static PyGetSetDef pyDetectorModifier_GetSet[] = {
-    { _pycs("receivers"), (getter)pyDetectorModifier_getReceivers,
-        (setter)pyDetectorModifier_setReceivers, NULL, NULL },
+    pyDetectorModifier_receivers_getset,
     pyDetectorModifier_remoteMod_getset,
     pyDetectorModifier_proxy_getset,
     PY_GETSET_TERMINATOR

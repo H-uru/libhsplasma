@@ -39,10 +39,8 @@ PY_GETSET_GETTER_DECL(SoundBuffer, data) {
 }
 
 PY_GETSET_SETTER_DECL(SoundBuffer, data) {
-    if (value == NULL) {
-        PyErr_SetString(PyExc_RuntimeError, "data cannot be deleted");
-        return -1;
-    } else if (value == Py_None) {
+    PY_PROPERTY_CHECK_NULL(data)
+    if (value == Py_None) {
         self->fThis->setData(0, NULL);
         return 0;
     } else if (!PyBytes_Check(value)) {

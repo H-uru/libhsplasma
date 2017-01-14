@@ -148,7 +148,7 @@ PY_METHOD_GLOBAL_VA(PyHSPlasma, CleanFileName,
         PyErr_SetString(PyExc_TypeError, "CleanFileName expects a string");
         return NULL;
     }
-    return PlStr_To_PyStr(CleanFileName(fname, allowPathChars != 0));
+    return pyPlasma_convert(CleanFileName(fname, allowPathChars != 0));
 }
 
 }

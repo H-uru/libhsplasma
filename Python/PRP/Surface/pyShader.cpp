@@ -24,41 +24,46 @@ extern "C" {
 
 PY_PLASMA_NEW(Shader, plShader)
 
-static PyObject* pyShader_getConsts(pyShader* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getConsts().size());
+PY_GETSET_GETTER_DECL(Shader, constants) {
+    PyObject* list = PyTuple_New(self->fThis->getConsts().size());
     for (size_t i=0; self->fThis->getConsts().size(); i++)
-        PyList_SET_ITEM(list, i, pyShaderConst_FromShaderConst(self->fThis->getConsts()[i]));
+        PyTuple_SET_ITEM(list, i, pyShaderConst_FromShaderConst(self->fThis->getConsts()[i]));
     return list;
 }
 
-static int pyShader_setConsts(pyShader* self, PyObject* value, void*) {
-    if (value == NULL || value == Py_None) {
+PY_GETSET_SETTER_DECL(Shader, constants) {
+    PY_PROPERTY_CHECK_NULL(consts)
+    if (value == Py_None) {
         self->fThis->setConsts(std::vector<plShaderConst>());
         return 0;
-    } else if (PyList_Check(value)) {
-        size_t count = PyList_Size(value);
-        std::vector<plShaderConst> constList(count);
-        for (size_t i=0; i<count; i++) {
-            if (!pyShaderConst_Check(PyList_GetItem(value, i))) {
-                PyErr_SetString(PyExc_TypeError, "consts should be a list of strings");
-                return -1;
-            }
-            constList[i] = *((pyShaderConst*)(PyList_GetItem(value, i)))->fThis;
-        }
-        self->fThis->setConsts(constList);
-        return 0;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "consts should be a list of strings");
+    }
+    pySequenceFastRef seq(value);
+    if (!seq.isSequence()) {
+        PyErr_SetString(PyExc_TypeError, "constants should be a sequence of plShaderConsts");
         return -1;
     }
+    Py_ssize_t count = seq.size();
+    std::vector<plShaderConst> constList(count);
+    for (Py_ssize_t i=0; i<count; i++) {
+        PyObject* item = seq.get(i);
+        if (!pyShaderConst_Check(item)) {
+            PyErr_SetString(PyExc_TypeError, "constants should be a sequence of plShaderConsts");
+            return -1;
+        }
+        constList[i] = *((pyShaderConst*)item)->fThis;
+    }
+    self->fThis->setConsts(constList);
+    return 0;
 }
+
+PY_PROPERTY_GETSET_DECL(Shader, constants)
 
 PY_PROPERTY(plShader::plShaderID, Shader, id, getID, setID)
 PY_PROPERTY(unsigned char, Shader, input, getInput, setInput)
 PY_PROPERTY(unsigned char, Shader, output, getOutput, setOutput)
 
 static PyGetSetDef pyShader_GetSet[] = {
-    { _pycs("constants"), (getter)pyShader_getConsts, (setter)pyShader_setConsts, NULL, NULL },
+    pyShader_constants_getset,
     pyShader_id_getset,
     pyShader_input_getset,
     pyShader_output_getset,

@@ -30,11 +30,10 @@ PY_GETSET_GETTER_DECL(AgeLinkStruct, ageInfo) {
 }
 
 PY_GETSET_SETTER_DECL(AgeLinkStruct, ageInfo) {
+    PY_PROPERTY_CHECK_NULL(ageInfo)
+
     plAgeInfoStruct& ais = self->fThis->getAgeInfo();
-    if (value == NULL) {
-        PyErr_SetString(PyExc_RuntimeError, "ageInfo cannot be deleted");
-        return -1;
-    } else if (value == Py_None) {
+    if (value == Py_None) {
         self->fThis->setHasAgeInfo(false);
         ais = plAgeInfoStruct();
         return 0;
@@ -55,11 +54,10 @@ PY_GETSET_GETTER_DECL(AgeLinkStruct, spawnPoint) {
 }
 
 PY_GETSET_SETTER_DECL(AgeLinkStruct, spawnPoint) {
+    PY_PROPERTY_CHECK_NULL(spawnPoint)
+
     plSpawnPointInfo& spi = self->fThis->getSpawnPoint();
-    if (value == NULL) {
-        PyErr_SetString(PyExc_RuntimeError, "spawnPoint cannot be deleted");
-        return -1;
-    } else if (value == Py_None) {
+    if (value == Py_None) {
         self->fThis->setHasSpawnPoint(false);
         spi = plSpawnPointInfo();
         return 0;
@@ -80,10 +78,8 @@ PY_PROPERTY(signed char, AgeLinkStruct, linkingRules, getLinkingRules, setLinkin
 PY_PROPERTY_READ(AgeLinkStruct, parentAgeFilename, getParentAgeFilename)
 
 PY_GETSET_SETTER_DECL(AgeLinkStruct, parentAgeFilename) {
-    if (value == NULL) {
-        PyErr_SetString(PyExc_RuntimeError, "Cannot delete parentAgeFilename");
-        return -1;
-    } else if (value == Py_None) {
+    PY_PROPERTY_CHECK_NULL(parentAgeFilename)
+    if (value == Py_None) {
         self->fThis->clearParentAgeFilename();
         return 0;
     } else if (pyPlasma_check<plString>(value)) {

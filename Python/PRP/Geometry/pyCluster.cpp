@@ -102,18 +102,6 @@ PY_METHOD_VA(Cluster, delInstance,
     Py_RETURN_NONE;
 }
 
-static PyObject* pyCluster_getInstances(pyCluster* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getInstances().size());
-    for (size_t i=0; i<self->fThis->getInstances().size(); i++)
-        PyList_SET_ITEM(list, i, pySpanInstance_FromSpanInstance(self->fThis->getInstances()[i]));
-    return list;
-}
-
-static int pyCluster_setInstances(pyCluster* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add instances, use addInstance");
-    return -1;
-}
-
 static PyMethodDef pyCluster_Methods[] = {
     pyCluster_read_method,
     pyCluster_write_method,
@@ -123,14 +111,23 @@ static PyMethodDef pyCluster_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
+PY_GETSET_GETTER_DECL(Cluster, instances) {
+    PyObject* list = PyTuple_New(self->fThis->getInstances().size());
+    for (size_t i=0; i<self->fThis->getInstances().size(); i++)
+        PyTuple_SET_ITEM(list, i, pySpanInstance_FromSpanInstance(self->fThis->getInstances()[i]));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(Cluster, instances, "To add instances, use addInstance")
+PY_PROPERTY_GETSET_DECL(Cluster, instances)
+
 PY_PROPERTY_PROXY_RO(plSpanEncoding, Cluster, encoding, getEncoding)
 PY_PROPERTY_CREATABLE(plClusterGroup, ClusterGroup, Cluster, group, getGroup, setGroup)
 
 static PyGetSetDef pyCluster_GetSet[] = {
     pyCluster_encoding_getset,
     pyCluster_group_getset,
-    { _pycs("instances"), (getter)pyCluster_getInstances,
-        (setter)pyCluster_setInstances, NULL, NULL },
+    pyCluster_instances_getset,
     PY_GETSET_TERMINATOR
 };
 

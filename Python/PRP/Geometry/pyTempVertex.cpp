@@ -24,69 +24,73 @@ extern "C" {
 PY_PLASMA_VALUE_DEALLOC(TempVertex)
 PY_PLASMA_VALUE_NEW(TempVertex, plGeometrySpan::TempVertex)
 
-static PyObject* pyTempVertex_getUVs(pyTempVertex* self, void*) {
-    PyObject* list = PyList_New(8);
+PY_GETSET_GETTER_DECL(TempVertex, uvs) {
+    PyObject* list = PyTuple_New(8);
     for (size_t i = 0; i < 8; ++i)
-        PyList_SET_ITEM(list, i, pyPlasma_convert(self->fThis->fUVs[i]));
+        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->fUVs[i]));
     return list;
 }
 
-static PyObject* pyTempVertex_getWeights(pyTempVertex* self, void*) {
-    PyObject* list = PyList_New(3);
-    for (size_t i = 0; i < 3; ++i)
-        PyList_SET_ITEM(list, i, pyPlasma_convert(self->fThis->fWeights[i]));
-    return list;
-}
-
-static int pyTempVertex_setUVs(pyTempVertex* self, PyObject* value, void*) {
-    if (value == NULL || !PySequence_Check(value)) {
+PY_GETSET_SETTER_DECL(TempVertex, uvs) {
+    PY_PROPERTY_CHECK_NULL(uvs)
+    pySequenceFastRef seq(value);
+    if (!seq.isSequence()) {
         PyErr_SetString(PyExc_TypeError, "uvs must be a sequence of hsVector3");
         return -1;
     }
-    size_t size = (PySequence_Size(value) > 8) ? 8 : PySequence_Size(value);
-    for (size_t i = 0; i < size; ++i) {
-        if (!pyVector3_Check(PySequence_Fast_GET_ITEM(value, i))) {
+    Py_ssize_t size = (seq.size() > 8) ? 8 : seq.size();
+    for (Py_ssize_t i = 0; i < size; ++i) {
+        PyObject* uv = seq.get(i);
+        if (!pyPlasma_check<hsVector3>(uv)) {
             PyErr_SetString(PyExc_TypeError, "uvs must be a sequence of hsVector3");
             return -1;
         }
+        self->fThis->fUVs[i] = pyPlasma_get<hsVector3>(uv);
     }
-
-    for (size_t i = 0; i < size; ++i)
-        self->fThis->fUVs[i] = *((pyVector3*)PySequence_Fast_GET_ITEM(value, i))->fThis;
     return 0;
 }
 
-static int pyTempVertex_setWeights(pyTempVertex* self, PyObject* value, void*) {
-    if (value == NULL || !PySequence_Check(value)) {
+PY_PROPERTY_GETSET_DECL(TempVertex, uvs)
+
+PY_GETSET_GETTER_DECL(TempVertex, weights) {
+    PyObject* list = PyTuple_New(3);
+    for (size_t i = 0; i < 3; ++i)
+        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->fWeights[i]));
+    return list;
+}
+
+PY_GETSET_SETTER_DECL(TempVertex, weights) {
+    PY_PROPERTY_CHECK_NULL(weights)
+    pySequenceFastRef seq(value);
+    if (!seq.isSequence()) {
         PyErr_SetString(PyExc_TypeError, "weights must be a sequence of floats");
         return -1;
     }
-    size_t size = (PySequence_Size(value) > 3) ? 3 : PySequence_Size(value);
-    for (size_t i = 0; i < size; ++i) {
-        if (!PyFloat_Check(PySequence_Fast_GET_ITEM(value, i))) {
+    Py_ssize_t size = (seq.size() > 3) ? 3 : seq.size();
+    for (Py_ssize_t i = 0; i < size; ++i) {
+        PyObject* weight = seq.get(i);
+        if (!pyPlasma_check<float>(weight)) {
             PyErr_SetString(PyExc_TypeError, "weights must be a sequence of floats");
             return -1;
         }
+        self->fThis->fWeights[i] = pyPlasma_get<float>(weight);
     }
-
-    for (size_t i = 0; i < size; ++i)
-        self->fThis->fWeights[i] = PyFloat_AsDouble(PySequence_Fast_GET_ITEM(value, i));
     return 0;
 }
+
+PY_PROPERTY_GETSET_DECL(TempVertex, weights)
 
 PY_GETSET_GETTER_DECL(TempVertex, color) {
     return pyColor32_FromColor32(hsColor32(self->fThis->fColor));
 }
 
 PY_GETSET_SETTER_DECL(TempVertex, color) {
-    if (value == NULL) {
-        PyErr_SetString(PyExc_RuntimeError, "color cannot be deleted");
-        return -1;
-    } else if (pyColor32_Check(value)) {
+    PY_PROPERTY_CHECK_NULL(color)
+    if (pyColor32_Check(value)) {
         self->fThis->fColor = ((pyColor32*)value)->fThis->color;
         return 0;
-    } else if (PyInt_Check(value)) {
-        self->fThis->fColor = PyInt_AsLong(value);
+    } else if (pyPlasma_check<unsigned int>(value)) {
+        self->fThis->fColor = pyPlasma_get<unsigned int>(value);
         return 0;
     } else {
         PyErr_SetString(PyExc_TypeError, "color must be an int or an hsColor32");
@@ -105,8 +109,8 @@ PyGetSetDef pyTempVertex_GetSet[] = {
     pyTempVertex_indices_getset,
     pyTempVertex_normal_getset,
     pyTempVertex_position_getset,
-    { _pycs("uvs"), (getter)pyTempVertex_getUVs, (setter)pyTempVertex_setUVs, NULL, NULL },
-    { _pycs("weights"), (getter)pyTempVertex_getWeights, (setter)pyTempVertex_setWeights, NULL, NULL },
+    pyTempVertex_uvs_getset,
+    pyTempVertex_weights_getset,
     PY_GETSET_TERMINATOR
 };
 

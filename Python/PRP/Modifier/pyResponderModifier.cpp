@@ -60,18 +60,6 @@ PY_METHOD_NOARGS(ResponderModifier, clearStates, "Delete all states from the Res
     Py_RETURN_NONE;
 }
 
-static PyObject* pyResponderModifier_getStates(pyResponderModifier* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getStates().size());
-    for (size_t i=0; i<self->fThis->getStates().size(); i++)
-        PyList_SET_ITEM(list, i, pyResponderModifier_State_FromResponderModifier_State(self->fThis->getStates()[i]));
-    return list;
-}
-
-static int pyResponderModifier_setStates(pyResponderModifier* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "to add states, use addState");
-    return -1;
-}
-
 static PyMethodDef pyResponderModifier_Methods[] = {
     pyResponderModifier_addState_method,
     pyResponderModifier_delState_method,
@@ -79,13 +67,22 @@ static PyMethodDef pyResponderModifier_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
+PY_GETSET_GETTER_DECL(ResponderModifier, states) {
+    PyObject* list = PyTuple_New(self->fThis->getStates().size());
+    for (size_t i=0; i<self->fThis->getStates().size(); i++)
+        PyTuple_SET_ITEM(list, i, pyResponderModifier_State_FromResponderModifier_State(self->fThis->getStates()[i]));
+    return list;
+}
+
+PY_PROPERTY_SETTER_MSG(ResponderModifier, states, "To add states, use addState")
+PY_PROPERTY_GETSET_DECL(ResponderModifier, states)
+
 PY_PROPERTY(signed char, ResponderModifier, curState, getCurState, setCurState)
 PY_PROPERTY(bool, ResponderModifier, enabled, isEnabled, setEnabled)
 PY_PROPERTY(unsigned char, ResponderModifier, flags, getFlags, setFlags)
 
 static PyGetSetDef pyResponderModifier_GetSet[] = {
-    { _pycs("states"), (getter)pyResponderModifier_getStates,
-        (setter)pyResponderModifier_setStates, NULL, NULL },
+    pyResponderModifier_states_getset,
     pyResponderModifier_curState_getset,
     pyResponderModifier_enabled_getset,
     pyResponderModifier_flags_getset,

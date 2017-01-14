@@ -98,29 +98,25 @@ PY_METHOD_VA(Occluder, delVisRegion,
     Py_RETURN_NONE;
 }
 
-static PyObject* pyOccluder_getPolys(pyOccluder* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getPolys().size());
+PY_GETSET_GETTER_DECL(Occluder, polys) {
+    PyObject* list = PyTuple_New(self->fThis->getPolys().size());
     for (size_t i=0; i<self->fThis->getPolys().size(); i++)
-        PyList_SET_ITEM(list, i, pyCullPoly_FromCullPoly(self->fThis->getPolys()[i]));
+        PyTuple_SET_ITEM(list, i, pyCullPoly_FromCullPoly(self->fThis->getPolys()[i]));
     return list;
 }
 
-static PyObject* pyOccluder_getVisRegions(pyOccluder* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getVisRegions().size());
+PY_PROPERTY_SETTER_MSG(Occluder, polys, "To add polys, use addPoly()")
+PY_PROPERTY_GETSET_DECL(Occluder, polys)
+
+PY_GETSET_GETTER_DECL(Occluder, visRegions) {
+    PyObject* list = PyTuple_New(self->fThis->getVisRegions().size());
     for (size_t i=0; i<self->fThis->getVisRegions().size(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getVisRegions()[i]));
+        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getVisRegions()[i]));
     return list;
 }
 
-static int pyOccluder_setPolys(pyOccluder* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "to add polys, use addPoly()");
-    return -1;
-}
-
-static int pyOccluder_setVisRegions(pyOccluder* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "to add visRegions, use addVisRegion()");
-    return -1;
-}
+PY_PROPERTY_SETTER_MSG(Occluder, visRegions, "To add visRegions, use addVisRegion()")
+PY_PROPERTY_GETSET_DECL(Occluder, visRegions)
 
 static PyMethodDef pyOccluder_Methods[] = {
     pyOccluder_clearPolys_method,
@@ -140,10 +136,8 @@ static PyGetSetDef pyOccluder_GetSet[] = {
     pyOccluder_priority_getset,
     pyOccluder_worldBounds_getset,
     pyOccluder_sceneNode_getset,
-    { _pycs("polys"), (getter)pyOccluder_getPolys,
-        (setter)pyOccluder_setPolys, NULL, NULL },
-    { _pycs("visRegions"), (getter)pyOccluder_getVisRegions,
-        (setter)pyOccluder_setVisRegions, NULL, NULL },
+    pyOccluder_polys_getset,
+    pyOccluder_visRegions_getset,
     PY_GETSET_TERMINATOR
 };
 

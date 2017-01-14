@@ -63,81 +63,77 @@ PY_METHOD_VA(SpanInstance, write,
     Py_RETURN_NONE;
 }
 
-static PyObject* pySpanInstance_getPosDeltas(pySpanInstance* self, void*) {
-    std::vector<hsVector3> deltas = self->fThis->getPosDeltas();
-    PyObject* list = PyList_New(deltas.size());
-    for (size_t i=0; i<deltas.size(); i++)
-        PyList_SET_ITEM(list, i, pyPlasma_convert(deltas[i]));
-    return list;
-}
-
-static PyObject* pySpanInstance_getColors(pySpanInstance* self, void*) {
-    std::vector<unsigned int> colors = self->fThis->getColors();
-    PyObject* list = PyList_New(colors.size());
-    for (size_t i=0; i<colors.size(); i++)
-        PyList_SET_ITEM(list, i, pyPlasma_convert(colors[i]));
-    return list;
-}
-
-static int pySpanInstance_setPosDeltas(pySpanInstance* self, PyObject* value, void*) {
-    std::vector<hsVector3> deltas;
-    if (value == NULL) {
-        self->fThis->setPosDeltas(deltas);
-        return 0;
-    }
-    if (!PyList_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "posDeltas should be a list of hsVector3 objects");
-        return -1;
-    }
-    deltas.resize(PyList_Size(value));
-    for (size_t i=0; i<deltas.size(); i++) {
-        PyObject* itm = PyList_GetItem(value, i);
-        if (!pyVector3_Check(itm)) {
-            PyErr_SetString(PyExc_TypeError, "posDeltas should be a list of hsVector3 objects");
-            return -1;
-        }
-        deltas[i] = *((pyVector3*)itm)->fThis;
-    }
-    self->fThis->setPosDeltas(deltas);
-    return 0;
-}
-
-static int pySpanInstance_setColors(pySpanInstance* self, PyObject* value, void*) {
-    std::vector<unsigned int> colors;
-    if (value == NULL) {
-        self->fThis->setColors(colors);
-        return 0;
-    }
-    if (!PyList_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "colors should be a list of ints");
-        return -1;
-    }
-    colors.resize(PyList_Size(value));
-    for (size_t i=0; i<colors.size(); i++) {
-        PyObject* itm = PyList_GetItem(value, i);
-        if (!PyInt_Check(itm)) {
-            PyErr_SetString(PyExc_TypeError, "colors should be a list of ints");
-            return -1;
-        }
-        colors[i] = PyInt_AsLong(itm);
-    }
-    self->fThis->setColors(colors);
-    return 0;
-}
-
 static PyMethodDef pySpanInstance_Methods[] = {
     pySpanInstance_read_method,
     pySpanInstance_write_method,
     PY_METHOD_TERMINATOR
 };
 
+PY_GETSET_GETTER_DECL(SpanInstance, posDeltas) {
+    std::vector<hsVector3> deltas = self->fThis->getPosDeltas();
+    PyObject* list = PyTuple_New(deltas.size());
+    for (size_t i=0; i<deltas.size(); i++)
+        PyTuple_SET_ITEM(list, i, pyPlasma_convert(deltas[i]));
+    return list;
+}
+
+PY_GETSET_SETTER_DECL(SpanInstance, posDeltas) {
+    PY_PROPERTY_CHECK_NULL(posDeltas)
+    pySequenceFastRef seq(value);
+    if (!seq.isSequence()) {
+        PyErr_SetString(PyExc_TypeError, "posDeltas should be a sequence of hsVector3 objects");
+        return -1;
+    }
+    std::vector<hsVector3> deltas(seq.size());
+    for (size_t i=0; i<deltas.size(); i++) {
+        PyObject* itm = seq.get(i);
+        if (!pyPlasma_check<hsVector3>(itm)) {
+            PyErr_SetString(PyExc_TypeError, "posDeltas should be a sequence of hsVector3 objects");
+            return -1;
+        }
+        deltas[i] = pyPlasma_get<hsVector3>(itm);
+    }
+    self->fThis->setPosDeltas(deltas);
+    return 0;
+}
+
+PY_PROPERTY_GETSET_DECL(SpanInstance, posDeltas)
+
+PY_GETSET_GETTER_DECL(SpanInstance, colors) {
+    std::vector<unsigned int> colors = self->fThis->getColors();
+    PyObject* list = PyTuple_New(colors.size());
+    for (size_t i=0; i<colors.size(); i++)
+        PyTuple_SET_ITEM(list, i, pyPlasma_convert(colors[i]));
+    return list;
+}
+
+PY_GETSET_SETTER_DECL(SpanInstance, colors) {
+    PY_PROPERTY_CHECK_NULL(colors)
+    pySequenceFastRef seq(value);
+    if (!seq.isSequence()) {
+        PyErr_SetString(PyExc_TypeError, "colors should be a sequence of ints");
+        return -1;
+    }
+    std::vector<unsigned int> colors(seq.size());
+    for (size_t i=0; i<colors.size(); i++) {
+        PyObject* itm = seq.get(i);
+        if (!pyPlasma_check<unsigned int>(itm)) {
+            PyErr_SetString(PyExc_TypeError, "colors should be a sequence of ints");
+            return -1;
+        }
+        colors[i] = pyPlasma_get<unsigned int>(itm);
+    }
+    self->fThis->setColors(colors);
+    return 0;
+}
+
+PY_PROPERTY_GETSET_DECL(SpanInstance, colors)
+
 PY_PROPERTY(hsMatrix44, SpanInstance, localToWorld, getLocalToWorld, setLocalToWorld)
 
 static PyGetSetDef pySpanInstance_GetSet[] = {
-    { _pycs("posDeltas"), (getter)pySpanInstance_getPosDeltas,
-        (setter)pySpanInstance_setPosDeltas, NULL, NULL },
-    { _pycs("colors"), (getter)pySpanInstance_getColors,
-        (setter)pySpanInstance_setColors, NULL, NULL },
+    pySpanInstance_posDeltas_getset,
+    pySpanInstance_colors_getset,
     pySpanInstance_localToWorld_getset,
     PY_GETSET_TERMINATOR
 };

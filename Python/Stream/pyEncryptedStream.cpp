@@ -49,35 +49,34 @@ PY_METHOD_VA(EncryptedStream, open,
     }
 }
 
+/* I really wanted this one to actually take a tuple, since it is a fixed-size
+ * input value that is closely related.  However, the old code expected a
+ * list, and requiring a tuple would break backwards compatibility, so we
+ * now accept any sequence as a compromise */
 PY_METHOD_VA(EncryptedStream, setKey,
     "Params: key\n"
-    "Sets the encryption key. `key` should be an array of 4 ints")
+    "Sets the encryption key. `key` should be a tuple of 4 ints")
 {
-    PyObject* keyList;
-    if (!PyArg_ParseTuple(args, "O", &keyList)) {
+    PyObject* keyListObj;
+    if (!PyArg_ParseTuple(args, "O", &keyListObj)) {
         PyErr_SetString(PyExc_TypeError, "setKey expects an array of 4 ints");
         return NULL;
     }
-    Py_INCREF(keyList);
-    if (!PyList_Check(keyList) || (PyList_Size(keyList) != 4)) {
-        Py_DECREF(keyList);
-        PyErr_SetString(PyExc_TypeError, "setKey expects an array of 4 ints");
+    pySequenceFastRef keyList(keyListObj);
+    if (!keyList.isSequence() || keyList.size() != 4) {
+        PyErr_SetString(PyExc_TypeError, "setKey expects a tuple of 4 ints");
         return NULL;
     }
     int key[4];
-    for (int i=0; i<4; i++) {
-        PyObject* k = PyList_GetItem(keyList, i);
-        Py_INCREF(k);
-        if (!PyInt_Check(k)) {
-            Py_DECREF(k);
-            Py_DECREF(keyList);
-            PyErr_SetString(PyExc_TypeError, "setKey expects an array of 4 ints");
+    for (Py_ssize_t i=0; i<4; i++) {
+        PyObject* k = keyList.get(i);
+        if (!pyPlasma_check<int>(k)) {
+            PyErr_SetString(PyExc_TypeError, "setKey expects a tuple of 4 ints");
             return NULL;
         }
-        key[i] = PyInt_AsLong(k);
+        key[i] = pyPlasma_get<int>(k);
         Py_DECREF(k);
     }
-    Py_DECREF(keyList);
     self->fThis->setKey((unsigned int*)key);
     Py_RETURN_NONE;
 }
