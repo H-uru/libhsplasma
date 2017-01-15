@@ -162,7 +162,7 @@ void plPNG::DecompressPNG(hsStream* S, void* buf, size_t size) {
     //png_set_bgr(pi.fPngReader);
 
     std::unique_ptr<png_bytep[]> rows(new png_bytep[pngHeight]);
-    const unsigned int stride = pngHeight * depth * channels / 8;
+    const unsigned int stride = pngWidth * depth * channels / 8;
     png_bytep dest = reinterpret_cast<png_bytep>(buf);
     for (size_t i = 0; i < pngHeight; ++i) {
         rows[i] = dest + (i * stride);

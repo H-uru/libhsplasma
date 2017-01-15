@@ -166,7 +166,7 @@ struct RAII_JSAMPROW
 
     ~RAII_JSAMPROW() {
         for (size_t i = 0; i < _Rows; ++i)
-            delete[] data[_Rows];
+            delete[] data[i];
     }
 };
 
