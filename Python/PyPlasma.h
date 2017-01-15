@@ -339,6 +339,12 @@ template <> inline CallbackEvent pyPlasma_get(PyObject* value) { return (Callbac
 template <> inline ControlEventCode pyPlasma_get(PyObject* value) { return (ControlEventCode)PyInt_AsLong(value); }
 template <> inline plKeyDef pyPlasma_get(PyObject* value) { return (plKeyDef)PyInt_AsLong(value); }
 
+#ifdef NEED_SIZE_T_OVERLOAD
+inline PyObject* pyPlasma_convert(size_t value) { return PyInt_FromLong((long)(unsigned long)value); }
+template <> inline int pyPlasma_check<size_t>(PyObject* value) { return PyInt_Check(value); }
+template <> inline size_t pyPlasma_get(PyObject* value) { return (size_t)(unsigned long)PyInt_AsLong(value); }
+#endif
+
 /* Helpers for properties (GetSet objects in the Python/C API) */
 #define PY_GETSET_GETTER_DECL(pyType, name)                             \
     static PyObject* py##pyType##_get_##name(py##pyType* self, void*)

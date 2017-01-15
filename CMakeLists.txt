@@ -36,6 +36,8 @@ try_compile(HAVE_OVERRIDE ${PROJECT_BINARY_DIR}
             ${PROJECT_SOURCE_DIR}/cmake/check_override.cpp)
 try_compile(HAVE_NOEXCEPT ${PROJECT_BINARY_DIR}
             ${PROJECT_SOURCE_DIR}/cmake/check_noexcept.cpp)
+try_compile(NEED_SIZE_T_OVERLOAD ${PROJECT_BINARY_DIR}
+            ${PROJECT_SOURCE_DIR}/cmake/check_size_t_overload.cpp)
 
 configure_file(${PROJECT_SOURCE_DIR}/cmake/PlasmaConfig.h.in
                ${PROJECT_BINARY_DIR}/PlasmaConfig.h)
