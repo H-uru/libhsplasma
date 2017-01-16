@@ -161,13 +161,12 @@ bool plEncryptedStream::IsFileEncrypted(const ST::string& file) {
         return true;
     } else {
         sF.rewind();
-        ST::string magicS = sF.readStr(12);
+        char magicS[12];
+        sF.read(12, magicS);
         sF.close();
-        if ((magicS == uruMagic)  ||
-            (magicS == uruMagic2) ||
-            (magicS == liveMagic))
-            return true;
-        return false;
+        return (memcmp(magicS, uruMagic, strlen(uruMagic)) == 0)   ||
+               (memcmp(magicS, uruMagic2, strlen(uruMagic2)) == 0) ||
+               (memcmp(magicS, liveMagic, strlen(liveMagic)) == 0);
     }
 }
 
