@@ -17,6 +17,7 @@
 #include "ResManager/plResManager.h"
 #include "PRP/KeyedObject/hsKeyedObject.h"
 #include "Sys/Platform.h"
+#include <string_theory/stdio>
 #include <string.h>
 #ifdef _WIN32
   #include <windows.h>
@@ -33,60 +34,79 @@
 #endif
 
 void doHelp() {
-    printf("Usage: PrpPack [-x|-r] filename.prp\n");
-    printf("       PrpPack [-c] filename.prd\n\n");
-    printf("If you're not handy with a hex editor, turn back now!\n\n");
-    printf("Options:  -x    Extract a PRP file\n");
-    printf("          -r    (Default) Unpacks and repacks the PRP file.  Temp files\n");
-    printf("                are automatically deleted after the operation is finished.\n");
-    printf("          -c    (Default for .prd files) Create a PRP file from a PRD.\n\n");
-    printf("PRD Format\n");
-    printf("    [4]   \"PRD\\0\"\n");
-    printf("    [2]   Length of Age Name\n");
-    printf("    [?]   Age Name\n");
-    printf("    [2]   Length of Page Name\n");
-    printf("    [?]   Page Name\n");
-    printf("    [2:2] Plasma Version [Major:Minor] (Use 0 for EOA)\n");
-    printf("    [4]   PageID (actual value)\n");
-    printf("    [2]   Location Flags\n\n");
-    printf("Objects are read from Age_Page_PRP\\*.po\n\n");
+    puts("Usage: PrpPack [-x|-r] filename.prp");
+    puts("       PrpPack [-c] filename.prd");
+    puts("");
+    puts("If you're not handy with a hex editor, turn back now!");
+    puts("");
+    puts("Options:  -x    Extract a PRP file");
+    puts("          -r    (Default) Unpacks and repacks the PRP file.  Temp files");
+    puts("                are automatically deleted after the operation is finished.");
+    puts("          -c    (Default for .prd files) Create a PRP file from a PRD.");
+    puts("");
+    puts("PRD Format");
+    puts("    [4]   \"PRD\\0\"");
+    puts("    [2]   Length of Age Name");
+    puts("    [?]   Age Name");
+    puts("    [2]   Length of Page Name");
+    puts("    [?]   Page Name");
+    puts("    [2:2] Plasma Version [Major:Minor] (Use 0 for EOA)");
+    puts("    [4]   PageID (actual value)");
+    puts("    [2]   Location Flags");
+    puts("");
+    puts("Objects are read from Age_Page_PRP\\*.po");
+    puts("");
 }
 
 typedef enum { kCreate, kExtract, kRepack } eDirection;
 
-const char* filenameConvert(char* filename, eDirection dir) {
+ST::string filenameConvert(const ST::string& filename, eDirection dir) {
     if (dir == kRepack) {
-        fprintf(stderr, "Zrax broke me!\n");
+        fputs("Zrax broke me!\n", stderr);
         abort();
     }
-    char* newName = (char*)malloc(strlen(filename)+5);
-    strcpy(newName, filename);
-    char* dotLoc = strrchr(newName, '.');
-    if (dotLoc == NULL) {
-        strcat(newName, dir == kCreate ? ".prp" : ".prd");
+    ST::string newName = filename;
+    ST_ssize_t dotLoc = newName.find_last('.');
+    if (dotLoc < 0) {
+        newName += (dir == kCreate) ? ".prp" : ".prd";
     } else if (dir == kCreate) {
-        if (strcmp(dotLoc, ".prd") == 0)
-            newName[strlen(newName)-1] = 'p';
-        else if (strcmp(dotLoc, ".prp") != 0)
-            strcat(newName, ".prp");
+        ST::string ext = newName.substr(dotLoc);
+        if (ext == ".prd")
+            newName.replace(".prd", ".prp");
+        else if (ext != ".prp")
+            newName += ".prp";
     } else {
-        if (strcmp(dotLoc, ".prp") == 0)
-            newName[strlen(newName)-1] = 'd';
-        else if (strcmp(dotLoc, ".prd") != 0)
-            strcat(newName, ".prd");
+        ST::string ext = newName.substr(dotLoc);
+        if (ext == ".prp")
+            newName.replace(".prp", ".prd");
+        else if (ext != ".prd")
+            newName += ".prd";
     }
     return newName;
 }
 
-const char* getOutputDir(char* filename, plPageInfo* page) {
-    char* odir = (char*)malloc(strlen(filename) +
-                        page->getAge().len() + page->getPage().len() + 7);
-    strcpy(odir, filename);
-    char* sepLoc = strrchr(odir, PATHSEP);
-    if (sepLoc == NULL) odir[0] = 0;
-    else sepLoc[1] = 0;
-    sprintf(odir, "%s%s_%s_PRP%c", odir, page->getAge().cstr(), page->getPage().cstr(), PATHSEP);
-    return odir;
+ST::string getOutputDir(const ST::string& filename, plPageInfo* page) {
+    ST::string odir = filename;
+    ST_ssize_t sepLoc = odir.find_last(PATHSEP);
+    if (sepLoc < 0)
+        odir = ST::string();
+    else
+        odir = odir.left(sepLoc + 1);
+    return odir + ST::format("{}_{}_PRP" PATHSEPSTR, page->getAge(), page->getPage());
+}
+
+ST::string CleanFileName(const ST::string& fname) {
+    ST::char_buffer result;
+    char* buf = result.create_writable_buffer(fname.size());
+    memcpy(buf, fname.c_str(), fname.size() + 1);
+    for (char* bp = buf; *bp; bp++) {
+        if (*bp == '?' || *bp == '*' || *bp == '<' || *bp == '>' ||
+            *bp == '"' || *bp == '|' || *bp < (char)0x20)
+            *bp = '_';
+        if (*bp == '/' || *bp == '\\' || *bp == ':')
+            *bp = '_';
+    }
+    return result;
 }
 
 #ifndef _WIN32
@@ -99,14 +119,15 @@ int selAll(DIRENT de) {
 }
 #endif
 
-int main(int argc, char** argv) {
+int main(int argc, const char* argv[]) {
     if (argc < 2 || argc > 3) {
         doHelp();
         return 0;
     }
 
     eDirection direction = kRepack;
-    char* filename = argv[1];
+    ST::string filename = argv[1];
+    ST_ssize_t dotLoc = filename.find_last('.');
     if (argc == 3) {
         if (strcmp(argv[1], "-c") == 0)
             direction = kCreate;
@@ -119,14 +140,14 @@ int main(int argc, char** argv) {
             return 1;
         }
         filename = argv[2];
-    } else if (strrchr(filename, '.') && strcmp(strrchr(filename, '.'), ".prd") == 0) {
+    } else if (dotLoc >= 0 && filename.substr(dotLoc) == ".prd") {
         direction = kCreate;
     }
 
     plResManager rm;
     hsFileStream S, OS;
     if (!S.open(filename, fmRead)) {
-        fprintf(stderr, "Error opening %s for reading!", filename);
+        ST::printf(stderr, "Error opening {} for reading!", filename);
         return 1;
     }
     plPageInfo* page = new plPageInfo();
@@ -134,16 +155,15 @@ int main(int argc, char** argv) {
     //int len;
     short maj = 63, min = 11;
     unsigned int i, j;
-    char strBuf[256];
     if (direction == kExtract || direction == kRepack) {
         S.close();
         delete page;
         page = rm.ReadPage(filename, true);
         OS.open(filenameConvert(filename, kExtract), fmCreate);
         OS.write(4, "PRD");
-        OS.writeShort(strlen(page->getAge()));
+        OS.writeShort(page->getAge().size());
         OS.writeStr(page->getAge());
-        OS.writeShort(strlen(page->getPage()));
+        OS.writeShort(page->getPage().size());
         OS.writeStr(page->getPage());
         if (rm.getVer().isUniversal()) {
             maj = 0x7FFF;
@@ -166,16 +186,16 @@ int main(int argc, char** argv) {
 
         std::vector<short> types = rm.getTypes(loc);
       #ifdef _WIN32
-        CreateDirectory(getOutputDir(filename, page), NULL);
+        CreateDirectoryW(getOutputDir(filename, page).to_wchar(), NULL);
       #else
-        mkdir(getOutputDir(filename, page), S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH);
+        mkdir(getOutputDir(filename, page).c_str(), S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH);
       #endif
         for (i=0; i<types.size(); i++) {
             std::vector<plKey> objs = rm.getKeys(loc, types[i]);
             for (j=0; j<objs.size(); j++) {
-                sprintf(strBuf, "%s[%04hX]%s.po", getOutputDir(filename, page),
-                                types[i], CleanFileName(objs[j]->getName()).cstr());
-                OS.open(strBuf, fmCreate);
+                ST::string po_file = ST::format("{}[{04X}]{}.po", getOutputDir(filename, page),
+                                                types[i], CleanFileName(objs[j]->getName()));
+                OS.open(po_file, fmCreate);
                 OS.setVer(rm.getVer());
                 rm.WriteCreatable(&OS, objs[j]->getObj());
                 OS.close();
@@ -183,21 +203,21 @@ int main(int argc, char** argv) {
         }
     }
     if (direction == kRepack) {
-        filename = strdup(filenameConvert(filename, kExtract));
+        filename = filenameConvert(filename, kExtract);
         S.open(filename, fmRead);
     }
     if (direction == kCreate || direction == kRepack) {
         OS.open(filenameConvert(filename, kCreate), fmCreate);
         char sig[4];
         S.read(4, sig);
-        if (strcmp(sig, "PRD") != 0) {
-            fprintf(stderr, "Error: Invalid input file!\n");
+        if (strncmp(sig, "PRD", sizeof(sig)) != 0) {
+            fputs("Error: Invalid input file!\n", stderr);
             OS.close();
             S.close();
             return 1;
         }
-        plString ageName = S.readStr(S.readShort());
-        plString pageName = S.readStr(S.readShort());
+        ST::string ageName = S.readStr(S.readShort());
+        ST::string pageName = S.readStr(S.readShort());
         page->setAge(ageName);
         page->setPage(pageName);
         maj = S.readShort();
@@ -217,7 +237,7 @@ int main(int argc, char** argv) {
             if (min == 12)
                 OS.setVer(PlasmaVer::pvPots);
         } else {
-            fprintf(stderr, "Error: Invalid Plasma version: %hd.%hd\n", maj, min);
+            ST::printf(stderr, "Error: Invalid Plasma version: {}.{}\n", maj, min);
             OS.close();
             S.close();
             return 1;
@@ -230,19 +250,19 @@ int main(int argc, char** argv) {
         page->setFlags(plPageInfo::kBasicChecksum);
         S.close();
 
-        std::vector<char*> inFiles;
+        std::vector<ST::string> inFiles;
         std::vector<short> inClasses;
         hsFileStream PS;
         PS.setVer(OS.getVer());
       #ifdef _WIN32
-        sprintf(strBuf, "%s*.po", getOutputDir(filename, page));
-        WIN32_FIND_DATA fd;
-        HANDLE fr = FindFirstFile(strBuf, &fd);
+        ST::string pattern = ST::format("{}*.po", getOutputDir(filename, page));
+        WIN32_FIND_DATAW fd;
+        HANDLE fr = FindFirstFileW(pattern.to_wchar(), &fd);
         if (fr != NULL) {
             do {
-                sprintf(strBuf, "%s%s", getOutputDir(filename, page), fd.cFileName);
-                inFiles.push_back(strdup(strBuf));
-                PS.open(strBuf, fmRead);
+                ST::string po_file = getOutputDir(filename, page) + fd.cFileName;
+                inFiles.push_back(po_file);
+                PS.open(po_file, fmRead);
                 short classType = PS.readShort();
                 PS.close();
                 bool haveClass = false;
@@ -252,16 +272,16 @@ int main(int argc, char** argv) {
                 }
                 if (!haveClass)
                     inClasses.push_back(classType);
-            } while (FindNextFile(fr, &fd));
+            } while (FindNextFileW(fr, &fd));
             FindClose(fr);
         }
       #else
         dirent** des;
-        unsigned int nEntries = scandir(getOutputDir(filename, page), &des, &selPO, &alphasort);
+        unsigned int nEntries = scandir(getOutputDir(filename, page).c_str(), &des, &selPO, &alphasort);
         for (i=0; i<nEntries; i++) {
-            sprintf(strBuf, "%s%s", getOutputDir(filename, page), des[i]->d_name);
-            inFiles.push_back(strdup(strBuf));
-            PS.open(strBuf, fmRead);
+            ST::string po_file = getOutputDir(filename, page) + des[i]->d_name;
+            inFiles.push_back(po_file);
+            PS.open(po_file, fmRead);
             short classType = PS.readShort();
             PS.close();
             bool haveClass = false;
@@ -283,7 +303,7 @@ int main(int argc, char** argv) {
             PS.open(inFiles[i], fmRead);
             PS.setVer(S.getVer());
             unsigned int poLen = PS.size();
-            unsigned char* objBuf = new unsigned char[poLen];
+            uint8_t* objBuf = new uint8_t[poLen];
             key->setFileOff(OS.pos());
             key->setObjSize(poLen);
             PS.read(poLen, objBuf);
@@ -293,8 +313,6 @@ int main(int argc, char** argv) {
             key->readUoid(&PS);
             PS.close();
             keys.add(key);
-            free(inFiles[i]);
-            inFiles[i] = NULL;
         }
 
         page->setIndexStart(OS.pos());
@@ -332,27 +350,27 @@ int main(int argc, char** argv) {
     // Delete temp files with the repack option
     if (direction == kRepack) {
       #ifdef _WIN32
-        sprintf(strBuf, "%s*.po", getOutputDir(filename, page));
-        WIN32_FIND_DATA rfd;
-        HANDLE rfr = FindFirstFile(strBuf, &rfd);
+        ST::string pattern = ST::format("{}*.po", getOutputDir(filename, page));
+        WIN32_FIND_DATAW rfd;
+        HANDLE rfr = FindFirstFileW(pattern.to_wchar(), &rfd);
         if (rfr != NULL) {
             do {
-                sprintf(strBuf, "%s%s", getOutputDir(filename, page), rfd.cFileName);
-                DeleteFile(strBuf);
-            } while (FindNextFile(rfr, &rfd));
+                ST::string po_file = getOutputDir(filename, page) + rfd.cFileName;
+                DeleteFileW(po_file.to_wchar());
+            } while (FindNextFileW(rfr, &rfd));
             FindClose(rfr);
         }
-        RemoveDirectory(getOutputDir(filename, page));
-        DeleteFile(filename);
+        RemoveDirectoryW(getOutputDir(filename, page).to_wchar());
+        DeleteFileW(filename.to_wchar());
       #else
         dirent** rdes;
-        unsigned int nEntries = scandir(getOutputDir(filename, page), &rdes, &selAll, &alphasort);
+        unsigned int nEntries = scandir(getOutputDir(filename, page).c_str(), &rdes, &selAll, &alphasort);
         for (i=0; i<nEntries; i++) {
-            sprintf(strBuf, "%s%s", getOutputDir(filename, page), rdes[i]->d_name);
-            unlink(strBuf);
+            ST::string po_file = getOutputDir(filename, page) + rdes[i]->d_name;
+            unlink(po_file.c_str());
         }
-        rmdir(getOutputDir(filename, page));
-        unlink(filename);
+        rmdir(getOutputDir(filename, page).c_str());
+        unlink(filename.c_str());
       #endif
     }
 

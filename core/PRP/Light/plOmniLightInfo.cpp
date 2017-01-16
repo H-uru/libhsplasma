@@ -45,10 +45,10 @@ void plOmniLightInfo::IPrcWrite(pfPrcHelper* prc) {
 
 void plOmniLightInfo::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Attensity") {
-        fAttenConst = tag->getParam("Constant", "0").toFloat();
-        fAttenLinear = tag->getParam("Linear", "0").toFloat();
-        fAttenQuadratic = tag->getParam("Quadratic", "0").toFloat();
-        fAttenCutoff = tag->getParam("Cutoff", "0").toFloat();
+        fAttenConst = tag->getParam("Constant", "0").to_float();
+        fAttenLinear = tag->getParam("Linear", "0").to_float();
+        fAttenQuadratic = tag->getParam("Quadratic", "0").to_float();
+        fAttenCutoff = tag->getParam("Cutoff", "0").to_float();
     } else {
         plLightInfo::IPrcParse(tag, mgr);
     }
@@ -84,9 +84,9 @@ void plSpotLightInfo::IPrcWrite(pfPrcHelper* prc) {
 
 void plSpotLightInfo::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "SpotLight") {
-        fFalloff = tag->getParam("Falloff", "0").toFloat();
-        fSpotInner = tag->getParam("SpotInner", "0").toFloat();
-        fSpotOuter = tag->getParam("SpotOuter", "0").toFloat();
+        fFalloff = tag->getParam("Falloff", "0").to_float();
+        fSpotInner = tag->getParam("SpotInner", "0").to_float();
+        fSpotOuter = tag->getParam("SpotOuter", "0").to_float();
     } else {
         plOmniLightInfo::IPrcParse(tag, mgr);
     }

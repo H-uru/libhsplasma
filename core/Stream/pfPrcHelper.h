@@ -43,11 +43,12 @@ public:
         : iLvl(0), inTag(false), file(S), excludes(0) { startPrc(); }
     ~pfPrcHelper() { finalize(); }
 
-    void directWrite(const plString& text);
+    void directWrite(const ST::string& text);
     void exclude(PrcExclude excl) { excludes |= excl; }
     bool isExcluded(PrcExclude excl) { return (excludes & excl) != 0; }
 
     void startTag(const char* name);
+    void writeParam(const char* name, const ST::string& value);
     void writeParam(const char* name, const char* value);
     void writeParam(const char* name, int value);
     void writeParam(const char* name, long value);

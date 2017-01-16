@@ -15,6 +15,7 @@
  */
 
 #include "proEventData.h"
+#include <cstring>
 
 /* proEventData */
 const char* const proEventData::fEventNames[] = {
@@ -79,7 +80,7 @@ void proEventData::prcWrite(pfPrcHelper* prc) {
 }
 
 proEventData* proEventData::PrcParse(const pfPrcTag* tag, plResManager* mgr) {
-    proEventData* event = ICreateEventDataType(tag->getName());
+    proEventData* event = ICreateEventDataType(tag->getName().c_str());
     if (event != NULL) {
         const pfPrcTag* child = tag->getFirstChild();
         while (child != NULL) {
@@ -123,7 +124,7 @@ void proCollisionEventData::IPrcWrite(pfPrcHelper* prc) {
 
 void proCollisionEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "CollisionParams") {
-        fEnter = tag->getParam("Enter", "false").toBool();
+        fEnter = tag->getParam("Enter", "false").to_bool();
     } else if (tag->getName() == "Hitter") {
         if (tag->hasChildren())
             fHitter = mgr->prcParseKey(tag->getFirstChild());
@@ -169,7 +170,7 @@ void proPickedEventData::IPrcWrite(pfPrcHelper* prc) {
 
 void proPickedEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "PickedParams") {
-        fEnabled = tag->getParam("Enabled", "false").toBool();
+        fEnabled = tag->getParam("Enabled", "false").to_bool();
     } else if (tag->getName() == "Picker") {
         if (tag->hasChildren())
             fPicker = mgr->prcParseKey(tag->getFirstChild());
@@ -205,8 +206,8 @@ void proControlKeyEventData::IPrcWrite(pfPrcHelper* prc) {
 
 void proControlKeyEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "ControlKeyParams") {
-        fControlKey = tag->getParam("ControlKey", "0").toInt();
-        fDown = tag->getParam("Down", "false").toBool();
+        fControlKey = tag->getParam("ControlKey", "0").to_int();
+        fDown = tag->getParam("Down", "false").to_bool();
     } else {
         proEventData::IPrcParse(tag, mgr);
     }
@@ -241,8 +242,8 @@ void proVariableEventData::IPrcWrite(pfPrcHelper* prc) {
 void proVariableEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "VariableParams") {
         fName = tag->getParam("Name", "");
-        fDataType = tag->getParam("DataType", "0").toInt();
-        fNumber = tag->getParam("Number", "0").toFloat();
+        fDataType = tag->getParam("DataType", "0").to_int();
+        fNumber = tag->getParam("Number", "0").to_float();
         if (tag->hasChildren())
             fKey = mgr->prcParseKey(tag->getFirstChild());
     } else {
@@ -282,8 +283,8 @@ void proFacingEventData::IPrcWrite(pfPrcHelper* prc) {
 
 void proFacingEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "FacingParams") {
-        fDot = tag->getParam("Dot", "0").toFloat();
-        fEnabled = tag->getParam("Enabled", "false").toBool();
+        fDot = tag->getParam("Dot", "0").to_float();
+        fEnabled = tag->getParam("Enabled", "false").to_bool();
     } else if (tag->getName() == "Facer") {
         if (tag->hasChildren())
             fFacer = mgr->prcParseKey(tag->getFirstChild());
@@ -324,7 +325,7 @@ void proContainedEventData::IPrcWrite(pfPrcHelper* prc) {
 
 void proContainedEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "ContainedParams") {
-        fEntering = tag->getParam("Entering", "false").toBool();
+        fEntering = tag->getParam("Entering", "false").to_bool();
     } else if (tag->getName() == "Contained") {
         if (tag->hasChildren())
             fContained = mgr->prcParseKey(tag->getFirstChild());
@@ -357,8 +358,8 @@ void proActivateEventData::IPrcWrite(pfPrcHelper* prc) {
 
 void proActivateEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "ActivateParams") {
-        fActive = tag->getParam("Active", "false").toBool();
-        fActivate = tag->getParam("Activate", "false").toBool();
+        fActive = tag->getParam("Active", "false").to_bool();
+        fActivate = tag->getParam("Activate", "false").to_bool();
     } else {
         proEventData::IPrcParse(tag, mgr);
     }
@@ -382,7 +383,7 @@ void proCallbackEventData::IPrcWrite(pfPrcHelper* prc) {
 
 void proCallbackEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "CallbackParams") {
-        fCallbackEventType = tag->getParam("CallbackEventType", "0").toInt();
+        fCallbackEventType = tag->getParam("CallbackEventType", "0").to_int();
     } else {
         proEventData::IPrcParse(tag, mgr);
     }
@@ -406,7 +407,7 @@ void proResponderStateEventData::IPrcWrite(pfPrcHelper* prc) {
 
 void proResponderStateEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "ResponderStateParams") {
-        fState = tag->getParam("State", "0").toInt();
+        fState = tag->getParam("State", "0").to_int();
     } else {
         proEventData::IPrcParse(tag, mgr);
     }
@@ -439,8 +440,8 @@ void proMultiStageEventData::IPrcWrite(pfPrcHelper* prc) {
 
 void proMultiStageEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "MultiStageParams") {
-        fStage = tag->getParam("Stage", "0").toInt();
-        fEvent = tag->getParam("Event", "0").toInt();
+        fStage = tag->getParam("Stage", "0").to_int();
+        fEvent = tag->getParam("Event", "0").to_int();
     } else if (tag->getName() == "Avatar") {
         if (tag->hasChildren())
             fAvatar = mgr->prcParseKey(tag->getFirstChild());
@@ -503,8 +504,8 @@ void proCoopEventData::IPrcWrite(pfPrcHelper* prc) {
 
 void proCoopEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "CoopParams") {
-        fID = tag->getParam("ID", "0").toUint();
-        fSerial = tag->getParam("Serial", "0").toUint();
+        fID = tag->getParam("ID", "0").to_uint();
+        fSerial = tag->getParam("Serial", "0").to_uint();
     } else {
         proEventData::IPrcParse(tag, mgr);
     }
@@ -537,8 +538,8 @@ void proOfferLinkBookEventData::IPrcWrite(pfPrcHelper* prc) {
 
 void proOfferLinkBookEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "OfferParams") {
-        fTargetAge = tag->getParam("TargetAge", "0").toInt();
-        fOfferee = tag->getParam("Offeree", "0").toInt();
+        fTargetAge = tag->getParam("TargetAge", "0").to_int();
+        fOfferee = tag->getParam("Offeree", "0").to_int();
     } else if (tag->getName() == "Offerer") {
         if (tag->hasChildren())
             fOfferer = mgr->prcParseKey(tag->getFirstChild());
@@ -568,8 +569,8 @@ void proBookEventData::IPrcWrite(pfPrcHelper* prc) {
 
 void proBookEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "BookParams") {
-        fEvent = tag->getParam("Event", "0").toUint();
-        fLinkID = tag->getParam("LinkID", "0").toUint();
+        fEvent = tag->getParam("Event", "0").to_uint();
+        fLinkID = tag->getParam("LinkID", "0").to_uint();
     } else {
         proEventData::IPrcParse(tag, mgr);
     }

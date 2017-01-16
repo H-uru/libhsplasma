@@ -40,13 +40,13 @@ void plNetServerSessionInfo::read(hsStream* S) {
 void plNetServerSessionInfo::write(hsStream* S) {
     S->writeByte(fContents);
     if (fContents & kHasServerName) {
-        S->writeShort(fServerName.len());
+        S->writeShort(fServerName.size());
         S->writeStr(fServerName);
     }
     if (fContents & kHasServerType)
         S->writeByte(fServerType);
     if (fContents & kHasServerAddr) {
-        S->writeShort(fServerAddr.len());
+        S->writeShort(fServerAddr.size());
         S->writeStr(fServerAddr);
     }
     if (fContents & kHasServerPort)
@@ -55,12 +55,12 @@ void plNetServerSessionInfo::write(hsStream* S) {
         fServerGuid.write(S);
 }
 
-void plNetServerSessionInfo::setServerName(const plString& name) {
+void plNetServerSessionInfo::setServerName(const ST::string& name) {
     fContents |= kHasServerName;
     fServerName = name;
 }
 
-void plNetServerSessionInfo::setServerAddr(const plString& addr) {
+void plNetServerSessionInfo::setServerAddr(const ST::string& addr) {
     fContents |= kHasServerAddr;
     fServerAddr = addr;
 }
@@ -132,7 +132,7 @@ void plNetGameServerState::read(hsStream* S) {
     fObjects.resize(fRecords.size());
     for (size_t i=0; i<fRecords.size(); i++) {
         fRecords[i] = new plStateDataRecord();
-        plString descName;
+        ST::string descName;
         int descVer;
         plStateDataRecord::ReadStreamHeader(&data, descName, descVer, &fObjects[i]);
         fRecords[i]->setDescriptor(fSDLMgr.GetDescriptor(descName, descVer));

@@ -18,6 +18,7 @@
 #include "Debug/hsExceptions.hpp"
 #include "Debug/plDebug.h"
 #include "PRP/Surface/plMipmap.h"
+#include <cstring>
 
 #define DDSD1_SIZE  0x6C
 #define DDSD2_SIZE  0x7C
@@ -137,18 +138,18 @@ void plDDSurface::read(hsStream* S) {
         S->read(fDataSize, fDataBuffer);
     }
     if (S->pos() != fDataSize + size + 4) {
-        plDebug::Debug("DDS CalcSize-Read difference: %d bytes",
+        plDebug::Debug("DDS CalcSize-Read difference: {} bytes",
                        (fDataSize + size + 4) - S->pos());
     }
     if (S->pos() != S->size()) {
-        plDebug::Debug("DDS RealSize-Read difference: %d bytes",
+        plDebug::Debug("DDS RealSize-Read difference: {} bytes",
                        S->size() - S->pos());
     }
 }
 
 void plDDSurface::write(hsStream* S) {
     if (fDataSize != calcTotalBufferSize()) {
-        plDebug::Debug("Data format does not match buffer size: %d, %d",
+        plDebug::Debug("Data format does not match buffer size: {}, {}",
                        fDataSize, calcTotalBufferSize());
     }
 

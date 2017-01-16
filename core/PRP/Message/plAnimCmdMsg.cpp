@@ -140,13 +140,13 @@ void plAnimCmdMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fCmd.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "AnimParams") {
-        fBegin = tag->getParam("Begin", "0").toFloat();
-        fEnd = tag->getParam("End", "0").toFloat();
-        fLoopBegin = tag->getParam("LoopBegin", "0").toFloat();
-        fLoopEnd = tag->getParam("LoopEnd", "0").toFloat();
-        fSpeed = tag->getParam("Speed", "0").toFloat();
-        fSpeedChangeRate = tag->getParam("SpeedChangeRate", "0").toFloat();
-        fTime = tag->getParam("Time", "0").toFloat();
+        fBegin = tag->getParam("Begin", "0").to_float();
+        fEnd = tag->getParam("End", "0").to_float();
+        fLoopBegin = tag->getParam("LoopBegin", "0").to_float();
+        fLoopEnd = tag->getParam("LoopEnd", "0").to_float();
+        fSpeed = tag->getParam("Speed", "0").to_float();
+        fSpeedChangeRate = tag->getParam("SpeedChangeRate", "0").to_float();
+        fTime = tag->getParam("Time", "0").to_float();
     } else if (tag->getName() == "Anims") {
         fAnimName = tag->getParam("AnimName", "");
         fLoopName = tag->getParam("LoopName", "");

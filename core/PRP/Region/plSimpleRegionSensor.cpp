@@ -71,12 +71,12 @@ void plSimpleRegionSensor::IPrcWrite(pfPrcHelper* prc) {
 
 void plSimpleRegionSensor::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "EnterMsg") {
-        if (tag->getParam("NULL", "false").toBool())
+        if (tag->getParam("NULL", "false").to_bool())
             setEnterMsg(NULL);
         else if (tag->hasChildren())
             setEnterMsg(plMessage::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else if (tag->getName() == "ExitMsg") {
-        if (tag->getParam("NULL", "false").toBool())
+        if (tag->getParam("NULL", "false").to_bool())
             setExitMsg(NULL);
         else if (tag->hasChildren())
             setExitMsg(plMessage::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
@@ -133,7 +133,7 @@ void plAutoWalkRegion::IPrcWrite(pfPrcHelper* prc) {
 
 void plAutoWalkRegion::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "AutoWalkParams") {
-        fUnknown = tag->getParam("Unknown", "0").toUint();
+        fUnknown = tag->getParam("Unknown", "0").to_uint();
     } else {
         plSimpleRegionSensor::IPrcParse(tag, mgr);
     }

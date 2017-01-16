@@ -42,7 +42,7 @@ void plDirectMusicSound::IPrcWrite(pfPrcHelper* prc) {
 void plDirectMusicSound::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "DirectMusicParams") {
         fFileName = tag->getParam("FileName", "");
-        fUnknown1 = tag->getParam("Unknown", "0").toUint();
+        fUnknown1 = tag->getParam("Unknown", "0").to_uint();
     } else {
         plSound::IPrcParse(tag, mgr);
     }

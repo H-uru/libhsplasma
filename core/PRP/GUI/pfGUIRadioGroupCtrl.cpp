@@ -50,7 +50,7 @@ void pfGUIRadioGroupCtrl::IPrcWrite(pfPrcHelper* prc) {
 
 void pfGUIRadioGroupCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Items") {
-        fDefaultValue = tag->getParam("Default", "0").toInt();
+        fDefaultValue = tag->getParam("Default", "0").to_int();
         fControls.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fControls.size(); i++) {

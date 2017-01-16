@@ -68,7 +68,7 @@ public:
 
 protected:
     plWAVHeader fHeader;
-    plString fFileName;
+    ST::string fFileName;
     size_t fDataLength;
     unsigned char* fData;
     unsigned int fFlags;
@@ -88,12 +88,12 @@ public:
     const plWAVHeader& getHeader() const { return fHeader; }
     plWAVHeader& getHeader() { return fHeader; }
 
-    plString getFileName() const { return fFileName; }
+    ST::string getFileName() const { return fFileName; }
     unsigned int getFlags() const { return fFlags; }
     size_t getDataLength() const { return fDataLength; }
     unsigned char* getData() const { return fData; }
 
-    void setFileName(const plString& name) { fFileName = name; }
+    void setFileName(const ST::string& name) { fFileName = name; }
     void setFlags(unsigned int flags) { fFlags = flags; }
     void setData(size_t length, const unsigned char* data);
     void setDataLength(size_t length) { setData(length, NULL); }

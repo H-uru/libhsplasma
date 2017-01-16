@@ -120,15 +120,15 @@ void pfGUIKnobCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fAnimEndPos.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "EoaInts") {
-        fEoaInt1 = tag->getParam("Int1", "0").toUint();
-        fEoaInt2 = tag->getParam("Int2", "0").toUint();
-        fEoaInt3 = tag->getParam("Int3", "0").toUint();
-        fEoaInt4 = tag->getParam("Int4", "0").toUint();
+        fEoaInt1 = tag->getParam("Int1", "0").to_uint();
+        fEoaInt2 = tag->getParam("Int2", "0").to_uint();
+        fEoaInt3 = tag->getParam("Int3", "0").to_uint();
+        fEoaInt4 = tag->getParam("Int4", "0").to_uint();
     } else if (tag->getName() == "EoaFloats") {
-        fEoaFl1 = tag->getParam("Float1", "0").toFloat();
-        fEoaFl2 = tag->getParam("Float2", "0").toFloat();
-        fEoaFl3 = tag->getParam("Float3", "0").toFloat();
-        fEoaFl4 = tag->getParam("Float4", "0").toFloat();
+        fEoaFl1 = tag->getParam("Float1", "0").to_float();
+        fEoaFl2 = tag->getParam("Float2", "0").to_float();
+        fEoaFl3 = tag->getParam("Float3", "0").to_float();
+        fEoaFl4 = tag->getParam("Float4", "0").to_float();
     } else {
         pfGUIValueCtrl::IPrcParse(tag, mgr);
     }

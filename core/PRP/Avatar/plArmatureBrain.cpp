@@ -66,7 +66,7 @@ void plAvBrainHuman::IPrcWrite(pfPrcHelper* prc) {
 
 void plAvBrainHuman::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "HumanParams") {
-        fIsCustomAvatar = tag->getParam("IsCustomAvatar", "false").toBool();
+        fIsCustomAvatar = tag->getParam("IsCustomAvatar", "false").to_bool();
     } else {
         plArmatureBrain::IPrcParse(tag, mgr);
     }

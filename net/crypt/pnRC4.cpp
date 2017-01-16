@@ -16,6 +16,7 @@
 
 #include "pnRC4.h"
 #include "Debug/plDebug.h"
+#include <cstring>
 
 void pnRC4Socket::init(size_t keySize, const unsigned char* keyData)
 {

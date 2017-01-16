@@ -36,7 +36,7 @@ void plNetMsgInitialAgeStateSent::IPrcWrite(pfPrcHelper* prc) {
 
 void plNetMsgInitialAgeStateSent::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "InitialAgeStateParams") {
-        fNumInitialStates = tag->getParam("NumInitialStates", "0").toUint();
+        fNumInitialStates = tag->getParam("NumInitialStates", "0").to_uint();
     } else {
         plNetMessage::IPrcParse(tag, mgr);
     }

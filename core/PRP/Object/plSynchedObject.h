@@ -48,8 +48,8 @@ public:
 
 protected:
     unsigned int fSynchFlags;
-    std::vector<plString> fSDLExcludeList;
-    std::vector<plString> fSDLVolatileList;
+    std::vector<ST::string> fSDLExcludeList;
+    std::vector<ST::string> fSDLVolatileList;
 
 public:
     plSynchedObject() : fSynchFlags() { }
@@ -65,10 +65,10 @@ public:
     int getSynchFlags() const { return fSynchFlags; }
     void setSynchFlags(unsigned int flags) { fSynchFlags = flags; }
 
-    const std::vector<plString>& getExcludes() const { return fSDLExcludeList; }
-    const std::vector<plString>& getVolatiles() const { return fSDLVolatileList; }
-    void setExclude(const plString& sdl);
-    void setVolatile(const plString& sdl);
+    const std::vector<ST::string>& getExcludes() const { return fSDLExcludeList; }
+    const std::vector<ST::string>& getVolatiles() const { return fSDLVolatileList; }
+    void setExclude(const ST::string& sdl);
+    void setVolatile(const ST::string& sdl);
     void clearExcludes();
     void clearVolatiles();
 };

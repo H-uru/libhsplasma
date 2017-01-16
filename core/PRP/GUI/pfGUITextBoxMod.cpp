@@ -31,18 +31,18 @@ void pfGUITextBoxMod::read(hsStream* S, plResManager* mgr) {
             && S->readBool())
         fLocalizationPath = S->readSafeWStr();
     else
-        fLocalizationPath = plString();
+        fLocalizationPath = ST::null;
 }
 
 void pfGUITextBoxMod::write(hsStream* S, plResManager* mgr) {
     pfGUIControlMod::write(S, mgr);
 
-    S->writeInt(fText.len());
+    S->writeInt(fText.size());
     S->writeStr(fText);
 
     if (!S->getVer().isUruSP() || S->getVer().isUniversal()) {
-        S->writeBool(!fLocalizationPath.empty());
-        if (!fLocalizationPath.empty())
+        S->writeBool(!fLocalizationPath.is_empty());
+        if (!fLocalizationPath.is_empty())
             S->writeSafeWStr(fLocalizationPath);
     }
 }
@@ -51,7 +51,7 @@ void pfGUITextBoxMod::IPrcWrite(pfPrcHelper* prc) {
     pfGUIControlMod::IPrcWrite(prc);
 
     prc->writeSimpleTag("Text");
-    prc->writeHexStream(fText.len(), (unsigned char*)fText.cstr());
+    prc->writeHexStream(fText.size(), (unsigned char*)fText.c_str());
     prc->closeTag();
 
     prc->startTag("LocalizationPath");

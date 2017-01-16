@@ -80,7 +80,7 @@ void plOccluder::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fWorldBounds.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "Priority") {
-        fPriority = tag->getParam("value", "0").toFloat();
+        fPriority = tag->getParam("value", "0").to_float();
     } else if (tag->getName() == "Polys") {
         fPolys.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();

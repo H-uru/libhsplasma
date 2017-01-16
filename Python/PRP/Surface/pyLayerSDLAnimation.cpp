@@ -23,7 +23,7 @@ extern "C" {
 
 PY_PLASMA_NEW(LayerSDLAnimation, plLayerSDLAnimation)
 
-PY_PROPERTY(plString, LayerSDLAnimation, varName, getVarName, setVarName)
+PY_PROPERTY(ST::string, LayerSDLAnimation, varName, getVarName, setVarName)
 
 static PyGetSetDef pyLayerSDLAnimation_GetSet[] = {
     pyLayerSDLAnimation_varName_getset,

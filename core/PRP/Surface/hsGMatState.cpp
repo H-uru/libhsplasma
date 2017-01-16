@@ -56,9 +56,9 @@ void hsGMatState::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "hsGMatState")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    fBlendFlags = tag->getParam("BlendFlags", "0").toUint();
-    fClampFlags = tag->getParam("ClampFlags", "0").toUint();
-    fShadeFlags = tag->getParam("ShadeFlags", "0").toUint();
-    fZFlags = tag->getParam("ZFlags", "0").toUint();
-    fMiscFlags = tag->getParam("MiscFlags", "0").toUint();
+    fBlendFlags = tag->getParam("BlendFlags", "0").to_uint();
+    fClampFlags = tag->getParam("ClampFlags", "0").to_uint();
+    fShadeFlags = tag->getParam("ShadeFlags", "0").to_uint();
+    fZFlags = tag->getParam("ZFlags", "0").to_uint();
+    fMiscFlags = tag->getParam("MiscFlags", "0").to_uint();
 }

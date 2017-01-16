@@ -64,7 +64,7 @@ pfGUICtrlProcWriteableObject* pfGUICtrlProcWriteableObject::PrcParse(const pfPrc
     pfGUICtrlProcWriteableObject* proc;
 
     if (tag->getName() == "pfGUICtrlProcObject") {
-        if (tag->getParam("NULL", "false").toBool())
+        if (tag->getParam("NULL", "false").to_bool())
             return NULL;
         throw pfPrcParseException(__FILE__, __LINE__, "Abstract class");
     } else if (tag->getName() == "pfGUICloseDlgProc") {
@@ -99,7 +99,7 @@ void pfGUIConsoleCmdProc::IRead(hsStream* S) {
 }
 
 void pfGUIConsoleCmdProc::IWrite(hsStream* S) {
-    S->writeInt(fCommand.len());
+    S->writeInt(fCommand.size());
     S->writeStr(fCommand);
 }
 

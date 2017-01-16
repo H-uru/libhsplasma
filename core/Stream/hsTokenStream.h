@@ -24,10 +24,10 @@
 class PLASMA_DLL hsTokenStream {
 public:
     struct PLASMA_DLL Region {
-        plString fStart;
-        plString fEnd;
+        ST::string fStart;
+        ST::string fEnd;
 
-        Region(const plString& start, const plString& end)
+        Region(const ST::string& start, const ST::string& end)
             : fStart(start), fEnd(end) { }
         Region() { }
     };
@@ -37,7 +37,7 @@ protected:
 
     hsStream* fStream;
     bool fIOwnStream;
-    std::queue<plString> fLineTokens;
+    std::queue<ST::string> fLineTokens;
     std::vector<char> fDelims;
     std::vector<Region> fCommentMarkers;
     std::vector<Region> fStringMarkers;
@@ -46,12 +46,12 @@ protected:
 public:
     hsTokenStream(hsStream* stream)
         : fStream(stream), fIOwnStream(false), fInComment(-1) { }
-    hsTokenStream(const plString& filename);
+    hsTokenStream(const ST::string& filename);
     ~hsTokenStream();
 
-    plString next();
+    ST::string next();
     bool hasNext();
-    plString peekNext();
+    ST::string peekNext();
 
     void setDelimiters(const char* delims);
     void setCommentMarkers(const std::vector<Region>& comments);

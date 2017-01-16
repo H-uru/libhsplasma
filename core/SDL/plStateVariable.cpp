@@ -18,6 +18,7 @@
 #include "plStateDataRecord.h"
 #include "ResManager/plFactory.h"
 #include "Util/hsBitVector.h"
+#include <cstring>
 
 /* plStateVarNotificationInfo */
 void plStateVarNotificationInfo::read(hsStream* S) {
@@ -238,7 +239,7 @@ void plSimpleStateVariable::resize(size_t size) {
         fBool = new bool[fCount];
         break;
     case plVarDescriptor::kString:
-        fString = new plString[fCount];
+        fString = new ST::string[fCount];
         break;
     case plVarDescriptor::kKey:
         fUoid = new plUoid[fCount];
@@ -440,7 +441,7 @@ void plSimpleStateVariable::IWriteData(hsStream* S, plResManager* mgr, size_t id
     case plVarDescriptor::kString:
         {
             char buf[32];
-            strncpy(buf, fString[idx].cstr(), 32);
+            strncpy(buf, fString[idx].c_str(), 32);
             buf[31] = 0;
             S->write(32, buf);
         }
@@ -511,37 +512,33 @@ void plSimpleStateVariable::IWriteData(hsStream* S, plResManager* mgr, size_t id
 void plSimpleStateVariable::SetFromDefault() {
     if (fDescriptor == NULL)
         throw hsBadParamException(__FILE__, __LINE__);
-    plString def = fDescriptor->getDefault().toLower();
+    ST::string def = fDescriptor->getDefault().to_lower();
 
     for (size_t i=0; i<fDescriptor->getCount(); i++) {
         switch (fDescriptor->getType()) {
         case plVarDescriptor::kInt:
-            if (def.empty())
+            if (def.is_empty())
                 fInt[i] = 0;
             else
-                fInt[i] = def.toInt();
+                fInt[i] = def.to_int();
             break;
         case plVarDescriptor::kUint:
-            if (def.empty())
+            if (def.is_empty())
                 fUint[i] = 0;
             else
-                fUint[i] = def.toUint();
+                fUint[i] = def.to_uint();
             break;
         case plVarDescriptor::kFloat:
-            if (def.empty())
+            if (def.is_empty())
                 fFloat[i] = 0.0f;
             else
-                fFloat[i] = def.toFloat();
+                fFloat[i] = def.to_float();
             break;
         case plVarDescriptor::kBool:
-            if (def.empty())
+            if (def.is_empty())
                 fBool[i] = false;
-            else if (def == "false")
-                fBool[i] = false;
-            else if (def == "true")
-                fBool[i] = true;
             else
-                fBool[i] = (def.toInt() != 0);
+                fBool[i] = def.to_bool();
             break;
         case plVarDescriptor::kString:
             fString[i] = def;
@@ -553,46 +550,46 @@ void plSimpleStateVariable::SetFromDefault() {
             fCreatable[i] = NULL;
             break;
         case plVarDescriptor::kDouble:
-            if (def.empty())
+            if (def.is_empty())
                 fDouble[i] = 0.0;
             else
-                fDouble[i] = def.toFloat();
+                fDouble[i] = def.to_double();
             break;
         case plVarDescriptor::kTime:
             fTime[i].toCurrentTime();
             break;
         case plVarDescriptor::kByte:
-            if (def.empty())
+            if (def.is_empty())
                 fByte[i] = 0;
             else
-                fByte[i] = def.toUint();
+                fByte[i] = def.to_uint();
             break;
         case plVarDescriptor::kChar:
-            if (def.empty())
+            if (def.is_empty())
                 fChar[i] = 0;
             else
-                fChar[i] = def.toUint();
+                fChar[i] = def.to_uint();
             break;
         case plVarDescriptor::kShort:
-            if (def.empty())
+            if (def.is_empty())
                 fShort[i] = 0;
             else
-                fShort[i] = def.toInt();
+                fShort[i] = def.to_int();
             break;
         case plVarDescriptor::kAgeTimeOfDay:
             break;
         case plVarDescriptor::kVector3:
         case plVarDescriptor::kPoint3:
-            if (def.empty()) {
+            if (def.is_empty()) {
                 fVector[i] = hsVector3(0.0f, 0.0f, 0.0f);
             } else {
-                plString parse = def;
-                parse = parse.afterFirst('(');
-                fVector[i].X = parse.beforeFirst(',').toFloat();
-                parse = parse.afterFirst(',');
-                fVector[i].Y = parse.beforeFirst(',').toFloat();
-                parse = parse.afterFirst(',');
-                fVector[i].Z = parse.beforeFirst(')').toFloat();
+                ST::string parse = def;
+                parse = parse.after_first('(');
+                fVector[i].X = parse.before_first(',').to_float();
+                parse = parse.after_first(',');
+                fVector[i].Y = parse.before_first(',').to_float();
+                parse = parse.after_first(',');
+                fVector[i].Z = parse.before_first(')').to_float();
             }
             break;
         case plVarDescriptor::kRGB:
@@ -602,46 +599,46 @@ void plSimpleStateVariable::SetFromDefault() {
             throw hsNotImplementedException(__FILE__, __LINE__, def);
             break;
         case plVarDescriptor::kQuaternion:
-            if (def.empty()) {
+            if (def.is_empty()) {
                 fQuat[i] = hsQuat(0.0f, 0.0f, 0.0f, 0.0f);
             } else {
-                plString parse = def;
-                parse = parse.afterFirst('(');
-                fQuat[i].X = parse.beforeFirst(',').toFloat();
-                parse = parse.afterFirst(',');
-                fQuat[i].Y = parse.beforeFirst(',').toFloat();
-                parse = parse.afterFirst(',');
-                fQuat[i].Z = parse.beforeFirst(',').toFloat();
-                parse = parse.afterFirst(',');
-                fQuat[i].W = parse.beforeFirst(')').toFloat();
+                ST::string parse = def;
+                parse = parse.after_first('(');
+                fQuat[i].X = parse.before_first(',').to_float();
+                parse = parse.after_first(',');
+                fQuat[i].Y = parse.before_first(',').to_float();
+                parse = parse.after_first(',');
+                fQuat[i].Z = parse.before_first(',').to_float();
+                parse = parse.after_first(',');
+                fQuat[i].W = parse.before_first(')').to_float();
             }
             break;
         case plVarDescriptor::kRGB8:
-            if (def.empty()) {
+            if (def.is_empty()) {
                 fColor32[i] = hsColor32(0xFF000000);
             } else {
-                plString parse = def;
-                parse = parse.afterFirst('(');
-                fColor32[i].r = (unsigned char)(parse.beforeFirst(',').toFloat() * 255);
-                parse = parse.afterFirst(',');
-                fColor32[i].g = (unsigned char)(parse.beforeFirst(',').toFloat() * 255);
-                parse = parse.afterFirst(',');
-                fColor32[i].b = (unsigned char)(parse.beforeFirst(')').toFloat() * 255);
+                ST::string parse = def;
+                parse = parse.after_first('(');
+                fColor32[i].r = (unsigned char)(parse.before_first(',').to_float() * 255);
+                parse = parse.after_first(',');
+                fColor32[i].g = (unsigned char)(parse.before_first(',').to_float() * 255);
+                parse = parse.after_first(',');
+                fColor32[i].b = (unsigned char)(parse.before_first(')').to_float() * 255);
             }
             break;
         case plVarDescriptor::kRGBA8:
-            if (def.empty()) {
+            if (def.is_empty()) {
                 fColor32[i] = hsColor32(0xFF000000);
             } else {
-                plString parse = def;
-                parse = parse.afterFirst('(');
-                fColor32[i].r = (unsigned char)(parse.beforeFirst(',').toFloat() * 255);
-                parse = parse.afterFirst(',');
-                fColor32[i].g = (unsigned char)(parse.beforeFirst(',').toFloat() * 255);
-                parse = parse.afterFirst(',');
-                fColor32[i].b = (unsigned char)(parse.beforeFirst(',').toFloat() * 255);
-                parse = parse.afterFirst(',');
-                fColor32[i].a = (unsigned char)(parse.beforeFirst(')').toFloat() * 255);
+                ST::string parse = def;
+                parse = parse.after_first('(');
+                fColor32[i].r = (unsigned char)(parse.before_first(',').to_float() * 255);
+                parse = parse.after_first(',');
+                fColor32[i].g = (unsigned char)(parse.before_first(',').to_float() * 255);
+                parse = parse.after_first(',');
+                fColor32[i].b = (unsigned char)(parse.before_first(',').to_float() * 255);
+                parse = parse.after_first(',');
+                fColor32[i].a = (unsigned char)(parse.before_first(')').to_float() * 255);
             }
             break;
         case plVarDescriptor::kMatrix44:
@@ -657,7 +654,7 @@ void plSimpleStateVariable::SetFromDefault() {
 bool plSimpleStateVariable::isDefault(bool secondChance) const {
     if (fDescriptor == NULL)
         throw hsBadParamException(__FILE__, __LINE__);
-    plString def = fDescriptor->getDefault().toLower();
+    ST::string def = fDescriptor->getDefault().to_lower();
 
     if (fDescriptor->getCount() != fCount)
         return false;
@@ -665,41 +662,41 @@ bool plSimpleStateVariable::isDefault(bool secondChance) const {
     for (size_t i=0; i<fDescriptor->getCount(); i++) {
         switch (fDescriptor->getType()) {
         case plVarDescriptor::kInt:
-            if (def.empty()) {
+            if (def.is_empty()) {
                 if (fInt[i] != 0)
                     return false;
             } else {
-                if (fInt[i] != def.toInt())
+                if (fInt[i] != def.to_int())
                     return false;
             }
             break;
         case plVarDescriptor::kUint:
-            if (def.empty()) {
+            if (def.is_empty()) {
                 if (fUint[i] != 0)
                     return false;
             } else {
-                if (fUint[i] != def.toUint())
+                if (fUint[i] != def.to_uint())
                     return false;
             }
             break;
         case plVarDescriptor::kFloat:
-            if (def.empty()) {
+            if (def.is_empty()) {
                 if (fFloat[i] != 0.0f)
                     return false;
             } else {
-                if (fFloat[i] != def.toFloat())
+                if (fFloat[i] != def.to_float())
                     return false;
             }
             break;
         case plVarDescriptor::kBool:
-            if (def.empty() || def == "false") {
+            if (def.is_empty() || def == "false") {
                 if (fBool[i] != false)
                     return false;
             } else if (def == "true") {
                 if (fBool[i] != true)
                     return false;
             } else {
-                if (fBool[i] != (def.toInt() != 0))
+                if (fBool[i] != (def.to_int() != 0))
                     return false;
             }
             break;
@@ -716,11 +713,11 @@ bool plSimpleStateVariable::isDefault(bool secondChance) const {
                 return false;
             break;
         case plVarDescriptor::kDouble:
-            if (def.empty()) {
+            if (def.is_empty()) {
                 if (fDouble[i] != 0.0)
                     return false;
             } else {
-                if (fDouble[i] != def.toFloat())
+                if (fDouble[i] != def.to_float())
                     return false;
             }
             break;
@@ -728,29 +725,29 @@ bool plSimpleStateVariable::isDefault(bool secondChance) const {
             return false;
             break;
         case plVarDescriptor::kByte:
-            if (def.empty()) {
+            if (def.is_empty()) {
                 if (fByte[i] != 0)
                     return false;
             } else {
-                if (fByte[i] != def.toUint())
+                if (fByte[i] != def.to_uint())
                     return false;
             }
             break;
         case plVarDescriptor::kChar:
-            if (def.empty()) {
+            if (def.is_empty()) {
                 if (fChar[i] != 0)
                     return false;
             } else {
-                if (fChar[i] != (char)def.toUint())
+                if (fChar[i] != (char)def.to_uint())
                     return false;
             }
             break;
         case plVarDescriptor::kShort:
-            if (def.empty()) {
+            if (def.is_empty()) {
                 if (fShort[i] != 0)
                     return false;
             } else {
-                if (fShort[i] != def.toInt())
+                if (fShort[i] != def.to_int())
                     return false;
             }
             break;
@@ -759,18 +756,18 @@ bool plSimpleStateVariable::isDefault(bool secondChance) const {
             break;
         case plVarDescriptor::kVector3:
         case plVarDescriptor::kPoint3:
-            if (def.empty()) {
+            if (def.is_empty()) {
                 if (fVector[i] == hsVector3(0.0f, 0.0f, 0.0f))
                     return false;
             } else {
-                plString parse = def;
+                ST::string parse = def;
                 hsVector3 vec;
-                parse = parse.afterFirst('(');
-                vec.X = parse.beforeFirst(',').toFloat();
-                parse = parse.afterFirst(',');
-                vec.Y = parse.beforeFirst(',').toFloat();
-                parse = parse.afterFirst(',');
-                vec.Z = parse.beforeFirst(')').toFloat();
+                parse = parse.after_first('(');
+                vec.X = parse.before_first(',').to_float();
+                parse = parse.after_first(',');
+                vec.Y = parse.before_first(',').to_float();
+                parse = parse.after_first(',');
+                vec.Z = parse.before_first(')').to_float();
                 if (fVector[i] != vec)
                     return false;
             }
@@ -782,56 +779,56 @@ bool plSimpleStateVariable::isDefault(bool secondChance) const {
             throw hsNotImplementedException(__FILE__, __LINE__);
             break;
         case plVarDescriptor::kQuaternion:
-            if (def.empty()) {
+            if (def.is_empty()) {
                 if (fQuat[i] != hsQuat(0.0f, 0.0f, 0.0f, 0.0f))
                     return false;
             } else {
-                plString parse = def;
+                ST::string parse = def;
                 hsQuat quat;
-                parse = parse.afterFirst('(');
-                quat.X = parse.beforeFirst(',').toFloat();
-                parse = parse.afterFirst(',');
-                quat.Y = parse.beforeFirst(',').toFloat();
-                parse = parse.afterFirst(',');
-                quat.Z = parse.beforeFirst(',').toFloat();
-                parse = parse.afterFirst(',');
-                quat.W = parse.beforeFirst(')').toFloat();
+                parse = parse.after_first('(');
+                quat.X = parse.before_first(',').to_float();
+                parse = parse.after_first(',');
+                quat.Y = parse.before_first(',').to_float();
+                parse = parse.after_first(',');
+                quat.Z = parse.before_first(',').to_float();
+                parse = parse.after_first(',');
+                quat.W = parse.before_first(')').to_float();
                 if (fQuat[i] != quat)
                     return false;
             }
             break;
         case plVarDescriptor::kRGB8:
-            if (def.empty()) {
+            if (def.is_empty()) {
                 if (fColor32[i] != hsColor32(0xFF000000))
                     return false;
             } else {
-                plString parse = def;
+                ST::string parse = def;
                 hsColor32 color;
-                parse = parse.afterFirst('(');
-                color.r = (unsigned char)(parse.beforeFirst(',').toFloat() * 255);
-                parse = parse.afterFirst(',');
-                color.g = (unsigned char)(parse.beforeFirst(',').toFloat() * 255);
-                parse = parse.afterFirst(',');
-                color.b = (unsigned char)(parse.beforeFirst(')').toFloat() * 255);
+                parse = parse.after_first('(');
+                color.r = (unsigned char)(parse.before_first(',').to_float() * 255);
+                parse = parse.after_first(',');
+                color.g = (unsigned char)(parse.before_first(',').to_float() * 255);
+                parse = parse.after_first(',');
+                color.b = (unsigned char)(parse.before_first(')').to_float() * 255);
                 if (fColor32[i] != color)
                     return false;
             }
             break;
         case plVarDescriptor::kRGBA8:
-            if (def.empty()) {
+            if (def.is_empty()) {
                 if (fColor32[i] != hsColor32(0xFF000000))
                     return false;
             } else {
-                plString parse = def;
+                ST::string parse = def;
                 hsColor32 color;
-                parse = parse.afterFirst('(');
-                color.r = (unsigned char)(parse.beforeFirst(',').toFloat() * 255);
-                parse = parse.afterFirst(',');
-                color.g = (unsigned char)(parse.beforeFirst(',').toFloat() * 255);
-                parse = parse.afterFirst(',');
-                color.b = (unsigned char)(parse.beforeFirst(',').toFloat() * 255);
-                parse = parse.afterFirst(',');
-                color.a = (unsigned char)(parse.beforeFirst(')').toFloat() * 255);
+                parse = parse.after_first('(');
+                color.r = (unsigned char)(parse.before_first(',').to_float() * 255);
+                parse = parse.after_first(',');
+                color.g = (unsigned char)(parse.before_first(',').to_float() * 255);
+                parse = parse.after_first(',');
+                color.b = (unsigned char)(parse.before_first(',').to_float() * 255);
+                parse = parse.after_first(',');
+                color.a = (unsigned char)(parse.before_first(')').to_float() * 255);
                 if (fColor32[i] != color)
                     return false;
             }

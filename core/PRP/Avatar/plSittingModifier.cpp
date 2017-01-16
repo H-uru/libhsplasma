@@ -49,7 +49,7 @@ void plSittingModifier::IPrcWrite(pfPrcHelper* prc) {
 
 void plSittingModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "SittingModParams") {
-        fMiscFlags = tag->getParam("MiscFlags", "0").toUint();
+        fMiscFlags = tag->getParam("MiscFlags", "0").to_uint();
     } else if (tag->getName() == "NotifyKeys") {
         fNotifyKeys.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();

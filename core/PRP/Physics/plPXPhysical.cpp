@@ -17,12 +17,13 @@
 #include "plPXPhysical.h"
 #include "plGenericPhysical.h"
 #include "Debug/plDebug.h"
+#include <cstring>
 
 unsigned int PXCookedData::readOPC(hsStream* S) {
     char tag[4];
     S->read(4, tag);
     if (memcmp(tag, "OPC\x01", 4) != 0) {
-        plDebug::Debug("StreamPos = %d", S->pos());
+        plDebug::Debug("StreamPos = {}", S->pos());
         throw hsBadParamException(__FILE__, __LINE__, "Invalid PhysX Opcode header");
     }
     if (S->readInt() != 0)
@@ -94,7 +95,7 @@ void PXCookedData::readHBM(hsStream* S) {
 
     // verify size
     if (S->pos() != endpos)
-        throw hsBadParamException(__FILE__, __LINE__, plString::Format("Invalid HBM size: Expected pos %d, but reached pos %d", endpos, S->pos()));
+        throw hsBadParamException(__FILE__, __LINE__, ST::format("Invalid HBM size: Expected pos {}, but reached pos {}", endpos, S->pos()));
 }
 
 void PXCookedData::skipMaxDependantList(hsStream*S, unsigned int size)

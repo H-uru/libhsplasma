@@ -81,7 +81,7 @@ void plLogicModBase::IPrcWrite(pfPrcHelper* prc) {
 
 void plLogicModBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "LogicModParams") {
-        fDisabled = tag->getParam("Disabled", "false").toBool();
+        fDisabled = tag->getParam("Disabled", "false").to_bool();
     } else if (tag->getName() == "Commands") {
         clearCommands();
         fCommandList.resize(tag->countChildren());

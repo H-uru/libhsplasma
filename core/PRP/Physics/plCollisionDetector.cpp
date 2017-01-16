@@ -37,7 +37,7 @@ void plCollisionDetector::IPrcWrite(pfPrcHelper* prc) {
 
 void plCollisionDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "CollisionType") {
-        fType = tag->getParam("value", "0").toUint();
+        fType = tag->getParam("value", "0").to_uint();
     } else {
         plDetectorModifier::IPrcParse(tag, mgr);
     }
@@ -71,7 +71,7 @@ void plSubworldRegionDetector::IPrcWrite(pfPrcHelper* prc) {
 
 void plSubworldRegionDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "SubworldParams") {
-        fOnExit = tag->getParam("OnExit", "false").toBool();
+        fOnExit = tag->getParam("OnExit", "false").to_bool();
     } else if (tag->getName() == "Subworld") {
         if (tag->hasChildren())
             fSub = mgr->prcParseKey(tag->getFirstChild());
@@ -102,7 +102,7 @@ void plPanicLinkRegion::IPrcWrite(pfPrcHelper* prc) {
 
 void plPanicLinkRegion::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "PanicLinkParams") {
-        fPlayLinkOutAnim = tag->getParam("PlayLinkOutAnim", "true").toBool();
+        fPlayLinkOutAnim = tag->getParam("PlayLinkOutAnim", "true").to_bool();
     } else {
         plCollisionDetector::IPrcParse(tag, mgr);
     }

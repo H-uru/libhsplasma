@@ -100,21 +100,21 @@ void plNetMessage::IPrcWrite(pfPrcHelper* prc) {
 
 void plNetMessage::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "NetMsgParams") {
-        fFlags = tag->getParam("Flags", "0").toUint();
+        fFlags = tag->getParam("Flags", "0").to_uint();
         const pfPrcTag* child = tag->getFirstChild();
         while (child != NULL) {
             if (child->getName() == "ProtocolVersion") {
-                fProtocolVerMaj = child->getParam("Major", "12").toUint();
-                fProtocolVerMin = child->getParam("Minor", "6").toUint();
+                fProtocolVerMaj = child->getParam("Major", "12").to_uint();
+                fProtocolVerMin = child->getParam("Minor", "6").to_uint();
             } else if (child->getName() == "TimeSent") {
                 if (child->hasChildren())
                     fTimeSent.prcParse(child->getFirstChild());
             } else if (child->getName() == "Context") {
-                fContext = child->getParam("value", "0").toUint();
+                fContext = child->getParam("value", "0").to_uint();
             } else if (child->getName() == "Transaction") {
-                fTransID = child->getParam("ID", "0").toUint();
+                fTransID = child->getParam("ID", "0").to_uint();
             } else if (child->getName() == "Player") {
-                fPlayerID = child->getParam("ID", "0").toUint();
+                fPlayerID = child->getParam("ID", "0").to_uint();
             } else if (child->getName() == "AccountUuid") {
                 if (child->hasChildren())
                     fAcctUuid.prcParse(child->getFirstChild());

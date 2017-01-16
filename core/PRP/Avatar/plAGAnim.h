@@ -31,7 +31,7 @@ public:
 protected:
     std::vector<plAGApplicator*> fApps;
     float fBlend, fStart, fEnd;
-    plString fName;
+    ST::string fName;
     unsigned char fEoaFlag;
 
 public:
@@ -55,19 +55,19 @@ public:
     float getBlend() const { return fBlend; }
     float getStart() const { return fStart; }
     float getEnd() const { return fEnd; }
-    plString getName() const { return fName; }
+    ST::string getName() const { return fName; }
 
     void setBlend(float blend) { fBlend = blend; }
     void setStart(float start) { fStart = start; }
     void setEnd(float end) { fEnd = end; }
-    void setName(const plString& name) { fName = name; }
+    void setName(const ST::string& name) { fName = name; }
 };
 
 class PLASMA_DLL plAgeGlobalAnim : public plAGAnim {
     CREATABLE(plAgeGlobalAnim, kAgeGlobalAnim, plAGAnim)
 
 protected:
-    plString fGlobalVarName;
+    ST::string fGlobalVarName;
 
 public:
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -78,8 +78,8 @@ protected:
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
-    plString getGlobalVarName() const { return fGlobalVarName; }
-    void setGlobalVarName(const plString& name) { fGlobalVarName = name; }
+    ST::string getGlobalVarName() const { return fGlobalVarName; }
+    void setGlobalVarName(const ST::string& name) { fGlobalVarName = name; }
 };
 
 #endif

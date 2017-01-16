@@ -23,7 +23,7 @@ extern "C" {
 
 PY_PLASMA_NEW(AGModifier, plAGModifier)
 
-PY_PROPERTY(plString, AGModifier, channelName, getChannelName, setChannelName)
+PY_PROPERTY(ST::string, AGModifier, channelName, getChannelName, setChannelName)
 PY_PROPERTY(bool, AGModifier, autoApply, getAutoApply, setAutoApply)
 PY_PROPERTY(bool, AGModifier, enabled, getEnabled, setEnabled)
 

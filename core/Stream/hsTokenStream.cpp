@@ -18,7 +18,7 @@
 #include <cstring>
 
 /* hsTokenStream */
-hsTokenStream::hsTokenStream(const plString& filename)
+hsTokenStream::hsTokenStream(const ST::string& filename)
              : fIOwnStream(true), fInComment(-1) {
     fStream = new hsFileStream();
     ((hsFileStream*)fStream)->open(filename, fmRead);
@@ -29,9 +29,9 @@ hsTokenStream::~hsTokenStream() {
         delete fStream;
 }
 
-plString hsTokenStream::next() {
+ST::string hsTokenStream::next() {
     if (hasNext()) {
-        plString s = fLineTokens.front();
+        ST::string s = fLineTokens.front();
         fLineTokens.pop();
         return s;
     }
@@ -44,10 +44,10 @@ bool hsTokenStream::hasNext() {
     return !(fLineTokens.empty());
 }
 
-plString hsTokenStream::peekNext() {
+ST::string hsTokenStream::peekNext() {
     if (hasNext())
         return fLineTokens.front();
-    return "";
+    return ST::null;
 }
 
 void hsTokenStream::setDelimiters(const char* delims) {
@@ -68,54 +68,54 @@ void hsTokenStream::getLine() {
     if (fStream->eof())
         return;
 
-    plString line = fStream->readLine() + "\n";
+    ST::string line = fStream->readLine() + "\n";
     size_t beg=0, end=0;
     int tokType;
-    while (end < line.len()) {
+    while (end < line.size()) {
         beg = end;
         if (fInComment == -1) {
-            while (beg < line.len() && getCharType(line[beg]) == kCharNone)
+            while (beg < line.size() && getCharType(line.char_at(beg)) == kCharNone)
                 beg++;
         }
         for (auto mark = fStringMarkers.begin(); mark != fStringMarkers.end(); ++mark) {
-            if (line.mid(beg).startsWith(mark->fStart)) {
-                long strEnd = line.mid(beg + mark->fStart.len()).find(mark->fEnd);
+            if (line.substr(beg).starts_with(mark->fStart)) {
+                long strEnd = line.substr(beg + mark->fStart.size()).find(mark->fEnd);
                 if (strEnd == -1)
                     throw hsBadParamException(__FILE__, __LINE__);
-                unsigned long markerLen = mark->fStart.len() + mark->fEnd.len();
-                fLineTokens.push(line.mid(beg, strEnd + markerLen));
+                unsigned long markerLen = mark->fStart.size() + mark->fEnd.size();
+                fLineTokens.push(line.substr(beg, strEnd + markerLen));
                 beg += strEnd + markerLen;
             }
         }
         for (size_t i=0; i<fCommentMarkers.size(); i++) {
-            if (fInComment == -1 && line.mid(beg).startsWith(fCommentMarkers[i].fStart)) {
+            if (fInComment == -1 && line.substr(beg).starts_with(fCommentMarkers[i].fStart)) {
                 fInComment = i;
-                beg += fCommentMarkers[i].fStart.len();
+                beg += fCommentMarkers[i].fStart.size();
             }
         }
         if (fInComment == -1) {
-            while (beg < line.len() && getCharType(line[beg]) == kCharNone)
+            while (beg < line.size() && getCharType(line.char_at(beg)) == kCharNone)
                 beg++;
         }
         end = beg;
         if (fInComment != -1) {
             tokType = kCharComment;
-            while (end < line.len() && fInComment != -1) {
-                if (line.mid(end).startsWith(fCommentMarkers[fInComment].fEnd)) {
-                    end += fCommentMarkers[fInComment].fEnd.len();
+            while (end < line.size() && fInComment != -1) {
+                if (line.substr(end).starts_with(fCommentMarkers[fInComment].fEnd)) {
+                    end += fCommentMarkers[fInComment].fEnd.size();
                     fInComment = -1;
                 } else {
                     end++;
                 }
             }
         } else {
-            tokType = getCharType(line[beg]);
-            while (end < line.len() && getCharType(line[end]) == tokType) {
+            tokType = getCharType(line.char_at(beg));
+            while (end < line.size() && getCharType(line.char_at(end)) == tokType) {
                 end++;
                 if (tokType == kCharDelim) break; // Only return one Delimiter
             }
             if (end != beg)
-                fLineTokens.push(line.mid(beg, end-beg));
+                fLineTokens.push(line.substr(beg, end-beg));
         }
     }
 

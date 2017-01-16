@@ -66,8 +66,8 @@ void plMessage::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "MessageParams") {
-        fTimeStamp = tag->getParam("TimeStamp", "0").toFloat();
-        fBCastFlags = tag->getParam("BCastFlags", "0").toUint();
+        fTimeStamp = tag->getParam("TimeStamp", "0").to_float();
+        fBCastFlags = tag->getParam("BCastFlags", "0").to_uint();
     } else {
         plCreatable::IPrcParse(tag, mgr);
     }

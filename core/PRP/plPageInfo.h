@@ -35,7 +35,7 @@ public:
 
 private:
     plLocation fLocation;
-    plString fAge, fPage;
+    ST::string fAge, fPage;
     unsigned int fIdxChecksum, fChecksum;
     int fReleaseVersion;
     unsigned int fDataStart, fIdxStart, fFlags;
@@ -45,7 +45,7 @@ private:
 
 public:
     plPageInfo() { IInit(); }
-    plPageInfo(const plString& age, const plString& page);
+    plPageInfo(const ST::string& age, const ST::string& page);
 
     bool isValid() const { return fLocation.isValid(); }
 
@@ -56,10 +56,10 @@ public:
     void prcParse(const pfPrcTag* tag);
 
 public:
-    plString getFilename(PlasmaVer ver) const;
-    plString getAge() const { return fAge; }
-    plString getChapter() const { return "District"; }
-    plString getPage() const { return fPage; }
+    ST::string getFilename(PlasmaVer ver) const;
+    ST::string getAge() const { return fAge; }
+    ST::string getChapter() const { return "District"; }
+    ST::string getPage() const { return fPage; }
     unsigned int getChecksum() const { return fChecksum; }
     unsigned int getReleaseVersion() const { return fReleaseVersion; }
     unsigned int getDataStart() const { return fDataStart; }
@@ -68,8 +68,8 @@ public:
     const plLocation& getLocation() const { return fLocation; }
     unsigned int getNumObjects() const { return fNumObjects; }
 
-    void setAge(const plString& age) { fAge = age; }
-    void setPage(const plString& page) { fPage = page; }
+    void setAge(const ST::string& age) { fAge = age; }
+    void setPage(const ST::string& page) { fPage = page; }
     void setChecksum(unsigned int sum) { fChecksum = sum; }
     void setReleaseVersion(unsigned int relVer) { fReleaseVersion = relVer; }
     void setDataStart(unsigned int loc) { fDataStart = loc; }

@@ -15,7 +15,7 @@
  */
 
 #include "Stream/hsStream.h"
-#include "plString.h"
+#include <string_theory/string>
 
 class PLASMA_DLL plMD5Hash {
 public:
@@ -27,7 +27,7 @@ public:
     bool operator==(const plMD5Hash& cmp);
     bool operator!=(const plMD5Hash& cmp);
 
-    plString toHex() const;
+    ST::string toHex() const;
     void fromHex(const char* hex);
     void read(hsStream* S);
     void write(hsStream* S);
@@ -44,7 +44,7 @@ private:
 public:
     static plMD5Hash hashStream(hsStream* S);
     static plMD5Hash hashFile(const char* filename);
-    static plMD5Hash hashString(const plString& str);
+    static plMD5Hash hashString(const ST::string& str);
 
 private:
     plMD5();

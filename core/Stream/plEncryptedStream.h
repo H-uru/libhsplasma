@@ -47,7 +47,7 @@ public:
     plEncryptedStream(int pv = PlasmaVer::pvUnknown);
     virtual ~plEncryptedStream() { close(); }
 
-    bool open(const char* file, FileMode mode, EncryptionType type);
+    bool open(const ST::string& file, FileMode mode, EncryptionType type);
     bool open(hsStream* S, FileMode mode, EncryptionType type);
     void close() HS_OVERRIDE;
     void setKey(unsigned int* keys);
@@ -66,7 +66,7 @@ public:
     size_t read(size_t size, void* buf) HS_OVERRIDE;
     size_t write(size_t size, const void* buf) HS_OVERRIDE;
 
-    static bool IsFileEncrypted(const char* file);
+    static bool IsFileEncrypted(const ST::string& file);
 };
 
 #endif

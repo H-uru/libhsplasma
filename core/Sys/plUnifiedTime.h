@@ -102,7 +102,7 @@ public:
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
 
-    plString format(const char* fmt);
+    ST::string format(const char* fmt);
     void fromString(const char* buf, const char* fmt) { operator=(FromString(buf, fmt)); }
 
     bool atEpoch() const { return (fSecs == 0 && fMicros == 0); }

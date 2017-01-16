@@ -15,20 +15,21 @@
  */
 
 #include "PyPlasma.h"
+#include <string_theory/format>
 #include <unordered_set>
 
-PyObject* PyString_FromPlasmaString(const plString& str) {
-    return PyString_FromString(str.cstr());
+PyObject* PyString_FromSTString(const ST::string& str) {
+    return PyString_FromString(str.c_str());
 }
 
-PyObject* PyUnicode_FromPlasmaString(const plString& str) {
-    return PyUnicode_DecodeUTF8(str.cstr(), str.len(), NULL);
+PyObject* PyUnicode_FromSTString(const ST::string& str) {
+    return PyUnicode_DecodeUTF8(str.c_str(), str.size(), NULL);
 }
 
-plString PyAnyString_AsPlasmaString(PyObject* str) {
+ST::string PyAnyString_AsSTString(PyObject* str) {
     if (PyUnicode_Check(str)) {
         PyObject* utfStr = PyUnicode_AsUTF8String(str);
-        plString plstr = PyBytes_AsString(utfStr);
+        ST::string plstr = PyBytes_AsString(utfStr);
         Py_XDECREF(utfStr);
         return plstr;
     } else {
@@ -40,16 +41,16 @@ int PyType_CheckAndReady(PyTypeObject* type)
 {
     static std::unordered_set<PyTypeObject*> init_bases;
     if (type->tp_base != NULL && init_bases.find(type->tp_base) == init_bases.end()) {
-        fputs(plString::Format("ERROR: Base %s for type %s is not initialized\n",
-                               type->tp_base->tp_name, type->tp_name).cstr(),
+        fputs(ST::format("ERROR: Base {} for type {} is not initialized\n",
+                         type->tp_base->tp_name, type->tp_name).c_str(),
               stderr);
-        fputs(plString::Format("Classes derived from %s WILL NOT WORK CORRECTLY\n",
-                               type->tp_base->tp_name).cstr(), stderr);
+        fputs(ST::format("Classes derived from {} WILL NOT WORK CORRECTLY\n",
+                         type->tp_base->tp_name).c_str(), stderr);
     }
     int result = PyType_Ready(type);
     if (result == 0)
         init_bases.insert(type);
     else
-        fputs(plString::Format("WARN: Failed to ready %s", type->tp_name).cstr(), stderr);
+        fputs(ST::format("WARN: Failed to ready {}", type->tp_name).c_str(), stderr);
     return result;
 }

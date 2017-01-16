@@ -35,7 +35,7 @@ void plKeyPressConditionalObject::IPrcWrite(pfPrcHelper* prc) {
 
 void plKeyPressConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "KeyEvent") {
-        fKeyEvent = (plKeyDef)tag->getParam("value", "0").toInt();
+        fKeyEvent = (plKeyDef)tag->getParam("value", "0").to_int();
     } else {
         plConditionalObject::IPrcParse(tag, mgr);
     }

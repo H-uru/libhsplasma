@@ -77,7 +77,7 @@ void plLoadAvatarMsg::IPrcWrite(pfPrcHelper* prc) {
 
 void plLoadAvatarMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "AvatarParams") {
-        fIsPlayer = tag->getParam("IsPlayer", "false").toBool();
+        fIsPlayer = tag->getParam("IsPlayer", "false").to_bool();
         fUserStr = tag->getParam("UserStr", "");
     } else if (tag->getName() == "InitialTask") {
         if (tag->hasChildren())

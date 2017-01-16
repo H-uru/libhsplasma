@@ -94,7 +94,7 @@ add_library(HSPlasmaNet
             ${PN_GATE_SRCS}  ${PN_GATE_HDRS}
             ${PN_SRCS}       ${PN_HDRS}
 )
-target_link_libraries(HSPlasmaNet HSPlasma)
+target_link_libraries(HSPlasmaNet HSPlasma ${STRING_THEORY_LIBRARIES})
 if(NOT ${CMAKE_SYSTEM_NAME} MATCHES "SunOS")
     target_link_libraries(HSPlasmaNet ${OPENSSL_LIBRARIES})
 endif()

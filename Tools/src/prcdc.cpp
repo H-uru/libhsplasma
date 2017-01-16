@@ -20,6 +20,7 @@
 #include <Stream/hsStdioStream.h>
 #include <Debug/plDebug.h>
 #include <PRP/KeyedObject/hsKeyedObject.h>
+#include <cstring>
 
 void doHelp(const char* exename) {
     printf("Usage: %s [options] filename\n\n", exename);
@@ -34,10 +35,10 @@ void doHelp(const char* exename) {
 }
 
 int main(int argc, char** argv) {
-    plString inputFile, outputFile;
+    ST::string inputFile, outputFile;
     bool exVtx = false, exTex = false;
     PlasmaVer inVer = PlasmaVer::pvUnknown;
-    plString objName;
+    ST::string objName;
     short objType = -1;
 
     if (argc == 1) {
@@ -57,7 +58,7 @@ int main(int argc, char** argv) {
                 fprintf(stderr, "Error: expected version specifier\n");
                 return 1;
             }
-            plString ver = plString(argv[i]).toLower();
+            ST::string ver = ST::string(argv[i]).to_lower();
             if (ver == "prime")
                 inVer = PlasmaVer::pvPrime;
             else if (ver == "pots")
@@ -71,7 +72,7 @@ int main(int argc, char** argv) {
             else if (ver == "universal")
                 inVer = PlasmaVer::pvUniversal;
             else {
-                fprintf(stderr, "Error: unrecognized version: %s\n", ver.cstr());
+                fprintf(stderr, "Error: unrecognized version: %s\n", ver.c_str());
                 return 1;
             }
         } else if (strcmp(argv[i], "-x") == 0 || strcmp(argv[i], "--extract") == 0) {
@@ -79,21 +80,21 @@ int main(int argc, char** argv) {
                 fprintf(stderr, "Error: expected object specifier");
                 return 1;
             }
-            plString objSpec = argv[i];
-            plString type = objSpec.beforeFirst(':');
-            objType = plFactory::ClassIndex(type);
+            ST::string objSpec = argv[i];
+            ST::string type = objSpec.before_first(':');
+            objType = plFactory::ClassIndex(type.c_str());
             if (objType == -1)
-                objType = type.toInt();
-            objName = objSpec.afterLast(':');
-            if (objName.startsWith("\"")) {
+                objType = type.to_int();
+            objName = objSpec.after_last(':');
+            if (objName.starts_with("\"")) {
                 do {
                     if (++i >= argc) {
                         fprintf(stderr, "Error: Unterminated string");
                         return 1;
                     }
-                    objName += plString(" ") + argv[i];
-                } while (!objName.endsWith("\""));
-                objName = objName.mid(1, objName.len() - 2);
+                    objName += ST::string(" ") + argv[i];
+                } while (!objName.ends_with("\""));
+                objName = objName.substr(1, objName.size() - 2);
             }
         } else if (strcmp(argv[i], "--notex") == 0) {
             exTex = true;
@@ -107,15 +108,15 @@ int main(int argc, char** argv) {
         } else if (argv[i][0] == '-') {
             fprintf(stderr, "Warning: unrecognized option %s\n", argv[i]);
         } else {
-            if (inputFile.empty())
+            if (inputFile.is_empty())
                 inputFile = argv[i];
             else
                 fprintf(stderr, "Warning: ignoring extra parameter %s\n", argv[i]);
         }
     }
-    if (outputFile.empty())
+    if (outputFile.is_empty())
         outputFile = "out.prc";
-    if (!inVer.isValid() && inputFile.afterLast('.') != "prp" && inputFile.afterLast('.') != "age") {
+    if (!inVer.isValid() && inputFile.after_last('.') != "prp" && inputFile.after_last('.') != "age") {
         fprintf(stderr, "Error: Plasma version must be specified for object decompilation\n");
         return 1;
     }
@@ -131,7 +132,7 @@ int main(int argc, char** argv) {
     if (exVtx) prc.exclude(pfPrcHelper::kExcludeVertexData);
 
     try {
-        if (inputFile.afterLast('.') == "prp") {
+        if (inputFile.after_last('.') == "prp") {
             plPageInfo* page = rm.ReadPage(inputFile);
             if (objType == -1) {
                 rm.WritePagePrc(&prc, page);
@@ -148,9 +149,9 @@ int main(int argc, char** argv) {
                 if (!found)
                     fprintf(stderr, "Object %s:%s does not exist\n",
                                     plFactory::ClassName(objType),
-                                    objName.cstr());
+                                    objName.c_str());
             }
-        } else if (inputFile.afterLast('.') == "age") {
+        } else if (inputFile.after_last('.') == "age") {
             plAgeInfo* age = rm.ReadAge(inputFile, false);
             rm.WriteAgePrc(&prc, age);
         } else {
@@ -171,7 +172,7 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    printf("Successfully decompiled %s!\n", inputFile.cstr());
+    printf("Successfully decompiled %s!\n", inputFile.c_str());
 
     return 0;
 }

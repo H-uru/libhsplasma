@@ -79,9 +79,9 @@ void pfGUIColorScheme::prcParse(const pfPrcTag* tag) {
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
     fFontFace = tag->getParam("Face", "");
-    fFontSize = tag->getParam("Size", "0").toUint();
-    fTransparent = tag->getParam("transparent", "0").toInt();
-    fFontFlags = tag->getParam("flags", "0").toUint();
+    fFontSize = tag->getParam("Size", "0").to_uint();
+    fTransparent = tag->getParam("transparent", "0").to_int();
+    fFontFlags = tag->getParam("flags", "0").to_uint();
 
     const pfPrcTag* child = tag->getFirstChild();
     while (child != NULL) {
@@ -233,8 +233,8 @@ void pfGUIControlMod::IPrcWrite(pfPrcHelper* prc) {
 
 void pfGUIControlMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "ControlParams") {
-        fTagID = tag->getParam("TagID", "0").toUint();
-        fVisible = tag->getParam("Visible", "true").toBool();
+        fTagID = tag->getParam("TagID", "0").to_uint();
+        fVisible = tag->getParam("Visible", "true").to_bool();
     } else if (tag->getName() == "Handler") {
         if (tag->hasChildren())
             setHandler(pfGUICtrlProcWriteableObject::PrcParse(tag->getFirstChild()));
@@ -247,7 +247,7 @@ void pfGUIControlMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fDynTextMap = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "pfGUIColorScheme") {
-        if (tag->getParam("NULL", "false")) {
+        if (tag->getParam("NULL", "false").to_bool()) {
             setColorScheme(NULL);
         } else {
             setColorScheme(new pfGUIColorScheme());
@@ -259,7 +259,7 @@ void pfGUIControlMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         for (size_t i=0; i<fSoundIndices.size(); i++) {
             if (child->getName() != "SoundIndex")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
-            fSoundIndices[i] = child->getParam("value", "0").toInt();
+            fSoundIndices[i] = child->getParam("value", "0").to_int();
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "Proxy") {

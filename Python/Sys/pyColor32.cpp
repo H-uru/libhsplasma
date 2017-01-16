@@ -18,6 +18,7 @@
 
 #include <Sys/hsColor.h>
 #include "Stream/pyStream.h"
+#include <string_theory/format>
 
 extern "C" {
 
@@ -61,7 +62,7 @@ PY_PLASMA_INIT_DECL(Color32) {
 PY_PLASMA_VALUE_NEW(Color32, hsColor32)
 
 PY_PLASMA_REPR_DECL(Color32) {
-    plString repr = plString::Format("hsColor32(%u, %u, %u, %u)",
+    ST::string repr = ST::format("hsColor32({}, {}, {}, {})",
         self->fThis->r, self->fThis->g, self->fThis->b, self->fThis->a);
     return pyPlasma_convert(repr);
 }

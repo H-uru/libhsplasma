@@ -40,19 +40,19 @@ bool plServerGuid::operator==(const plServerGuid& other) {
            (fGuid[7] == other.fGuid[7]);
 }
 
-plString plServerGuid::toString() const {
+ST::string plServerGuid::toString() const {
     char buf[17];
     snprintf(buf, 17, "%02X%02X%02X%02X%02X%02X%02X%02X",
              fGuid[0], fGuid[1], fGuid[2], fGuid[3],
              fGuid[4], fGuid[5], fGuid[6], fGuid[7]);
-    return plString(buf);
+    return ST::string(buf);
 }
 
-plServerGuid plServerGuid::FromString(const plString& str) {
+plServerGuid plServerGuid::FromString(const ST::string& str) {
     plServerGuid guid;
     for (size_t i=0; i<8; i++) {
-        char x = str[(2*i)  ];
-        char y = str[(2*i)+1];
+        char x = str.char_at((2*i)  );
+        char y = str.char_at((2*i)+1);
         if (x >= '0' && x <= '9')
             guid[i] = x - '0';
         else if (x >= 'A' && x <= 'F')

@@ -37,7 +37,7 @@ void plSimSuppressMsg::IPrcWrite(pfPrcHelper* prc) {
 
 void plSimSuppressMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "SimSuppressParams") {
-        fSuppress = tag->getParam("Suppress", "false").toBool();
+        fSuppress = tag->getParam("Suppress", "false").to_bool();
     } else {
         plMessage::IPrcParse(tag, mgr);
     }

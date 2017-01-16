@@ -15,6 +15,7 @@
  */
 
 #include "hsRAMStream.h"
+#include <cstring>
 
 hsRAMStream::~hsRAMStream() {
     delete[] fData;

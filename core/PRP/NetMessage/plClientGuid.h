@@ -42,12 +42,12 @@ private:
     unsigned short fFlags;
     plUuid fAcctUuid;
     unsigned int fPlayerID;
-    plString fPlayerName;
+    ST::string fPlayerName;
     unsigned char fCCRLevel, fProtectedLogin, fBuildType;
     unsigned int fSrcAddr;
     unsigned short fSrcPort;
     unsigned short fReserved;
-    plString fClientKey;
+    ST::string fClientKey;
 
 public:
     plClientGuid() : fFlags(0) { }
@@ -63,26 +63,26 @@ public:
     unsigned short getFlags() const { return fFlags; }
     plUuid getAcctUuid() const { return fAcctUuid; }
     unsigned int getPlayerID() const { return fPlayerID; }
-    plString getPlayerName() const { return fPlayerName; }
+    ST::string getPlayerName() const { return fPlayerName; }
     unsigned char getCCRLevel() const { return fCCRLevel; }
     unsigned char getProtectedLogin() const { return fProtectedLogin; }
     unsigned char getBuildType() const { return fBuildType; }
     unsigned int getSrcAddr() const { return fSrcAddr; }
     unsigned short getSrcPort() const { return fSrcPort; }
     unsigned short getReserved() const { return fReserved; }
-    plString getClientKey() const { return fClientKey; }
+    ST::string getClientKey() const { return fClientKey; }
 
     void setFlags(unsigned short flags) { fFlags = flags; }
     void setAcctUuid(const plUuid& acctUuid) { fAcctUuid = acctUuid; }
     void setPlayerID(unsigned int playerID) { fPlayerID = playerID; }
-    void setPlayerName(const plString& playerName) { fPlayerName = playerName; }
+    void setPlayerName(const ST::string& playerName) { fPlayerName = playerName; }
     void setCCRLevel(unsigned char level) { fCCRLevel = level; }
     void setProtectedLogin(unsigned char protectedLogin) { fProtectedLogin = protectedLogin; }
     void setBuildType(unsigned char buildType) { fBuildType = buildType; }
     void setSrcAddr(unsigned int srcAddr) { fSrcAddr = srcAddr; }
     void setSrcPort(unsigned short srcPort) { fSrcPort = srcPort; }
     void setReserved(unsigned short reserved) { fReserved = reserved; }
-    void setClientKey(const plString& clientKey) { fClientKey = clientKey; }
+    void setClientKey(const ST::string& clientKey) { fClientKey = clientKey; }
 };
 
 #endif

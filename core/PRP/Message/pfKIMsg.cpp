@@ -62,13 +62,13 @@ void pfKIMsg::IPrcWrite(pfPrcHelper* prc) {
 
 void pfKIMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Parameters") {
-        fCommand = (uint8_t)tag->getParam("Command", "0").toUint();
-        fFlags = tag->getParam("Flags", "0").toUint();
-        fDelay = tag->getParam("Delay", "0").toFloat();
-        fValue = tag->getParam("Value", "0").toInt();
+        fCommand = (uint8_t)tag->getParam("Command", "0").to_uint();
+        fFlags = tag->getParam("Flags", "0").to_uint();
+        fDelay = tag->getParam("Delay", "0").to_float();
+        fValue = tag->getParam("Value", "0").to_int();
     } else if (tag->getName() == "Player") {
         fUser = tag->getParam("User", "");
-        fPlayerID = tag->getParam("ID", "0").toUint();
+        fPlayerID = tag->getParam("ID", "0").to_uint();
     } else if (tag->getName() == "Message") {
         fString = tag->getParam("value", "");
     } else {

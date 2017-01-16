@@ -64,8 +64,8 @@ PyMethodDef pyClothingItem_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_PROPERTY(plString, ClothingItem, description, getDescription, setDescription)
-PY_PROPERTY(plString, ClothingItem, itemName, getItemName, setItemName)
+PY_PROPERTY(ST::string, ClothingItem, description, getDescription, setDescription)
+PY_PROPERTY(ST::string, ClothingItem, itemName, getItemName, setItemName)
 
 PyGetSetDef pyClothingItem_GetSet[] = {
     pyClothingItem_description_getset,

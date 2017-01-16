@@ -57,7 +57,7 @@ void plNetMsgGroupOwner::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         for (size_t i=0; i<fGroups.size(); i++) {
             if (child->getName() != "Group")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
-            fGroups[i].fOwnIt = child->getParam("OwnIt", "False").toBool();
+            fGroups[i].fOwnIt = child->getParam("OwnIt", "False").to_bool();
             if (child->hasChildren())
                 fGroups[i].fGroupID.prcParse(child->getFirstChild());
             child = child->getNextSibling();

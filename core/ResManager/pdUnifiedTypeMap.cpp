@@ -17,6 +17,7 @@
 #include "pdUnifiedTypeMap.h"
 #include <cstdlib>
 #include <cstdio>
+#include <cstring>
 #include "Debug/hsExceptions.hpp"
 #include "Debug/plDebug.h"
 
@@ -2136,7 +2137,7 @@ const char* pdUnifiedTypeMap::fClassNames[TYPESPACE_MAX] = {
 
 const char* pdUnifiedTypeMap::ClassName(short typeIdx) {
     if (typeIdx < 0 || typeIdx >= TYPESPACE_MAX) {
-        plDebug::Debug("pdUnifiedTypeMap::ClassName ERR: Got type %04hX", typeIdx);
+        plDebug::Debug("pdUnifiedTypeMap::ClassName ERR: Got type {_04X}", typeIdx);
         return NULL;
     }
 
@@ -2154,13 +2155,13 @@ short pdUnifiedTypeMap::ClassIndex(const char* typeName) {
         if (fClassNames[i] != NULL && strcmp(fClassNames[i], typeName) == 0)
             return i;
 
-    plDebug::Debug("pdUnifiedTypeMap::ClassIndex ERR: Got class %s", typeName);
+    plDebug::Debug("pdUnifiedTypeMap::ClassIndex ERR: Got class {}", typeName);
     return -1;
 }
 
 short pdUnifiedTypeMap::PlasmaToMapped(short typeIdx, PlasmaVer ver) {
     if (typeIdx < 0 || typeIdx >= TYPESPACE_MAX) {
-        plDebug::Debug("pdUnifiedTypeMap::PlasmaToMapped ERR: Got type %04hX", typeIdx);
+        plDebug::Debug("pdUnifiedTypeMap::PlasmaToMapped ERR: Got type {_04X}", typeIdx);
         return -1;
     }
 
@@ -2186,7 +2187,7 @@ short pdUnifiedTypeMap::PlasmaToMapped(short typeIdx, PlasmaVer ver) {
 
 short pdUnifiedTypeMap::MappedToPlasma(short typeIdx, PlasmaVer ver) {
     if (typeIdx < 0 || typeIdx >= TYPESPACE_MAX) {
-        plDebug::Debug("pdUnifiedTypeMap::MappedToPlasma ERR: Got type %04hX", typeIdx);
+        plDebug::Debug("pdUnifiedTypeMap::MappedToPlasma ERR: Got type {_04X}", typeIdx);
         return -1;
     }
 
@@ -2228,7 +2229,7 @@ short pdUnifiedTypeMap::ClassVersion(short typeIdx, PlasmaVer ver) {
 
 short pdUnifiedTypeMap::CurrentVersion(short typeIdx) {
     if (typeIdx < 0 || typeIdx >= TYPESPACE_MAX) {
-        plDebug::Debug("pdUnifiedTypeMap::CurrentVersion ERR: Got type %04hX", typeIdx);
+        plDebug::Debug("pdUnifiedTypeMap::CurrentVersion ERR: Got type {_04X}", typeIdx);
         return -1;
     }
 

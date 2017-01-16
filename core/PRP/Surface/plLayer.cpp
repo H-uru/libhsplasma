@@ -121,10 +121,10 @@ void plLayer::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fSpecular.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "LayerParams") {
-        fUVWSrc = tag->getParam("UVWSrc", "0").toUint();
-        fOpacity = tag->getParam("Opacity", "0").toFloat();
-        fLODBias = tag->getParam("LODBias", "0").toFloat();
-        fSpecularPower = tag->getParam("SpecularPower", "0").toFloat();
+        fUVWSrc = tag->getParam("UVWSrc", "0").to_uint();
+        fOpacity = tag->getParam("Opacity", "0").to_float();
+        fLODBias = tag->getParam("LODBias", "0").to_float();
+        fSpecularPower = tag->getParam("SpecularPower", "0").to_float();
     } else if (tag->getName() == "Texture") {
         if (tag->hasChildren())
             fTexture = mgr->prcParseKey(tag->getFirstChild());

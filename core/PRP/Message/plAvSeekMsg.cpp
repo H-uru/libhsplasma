@@ -82,12 +82,12 @@ void plAvSeekMsg::IPrcWrite(pfPrcHelper* prc) {
 
 void plAvSeekMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "SeekParams") {
-        fDuration = tag->getParam("Duration", "0").toFloat();
-        fSmartSeek = tag->getParam("SmartSeek", "true").toBool();
+        fDuration = tag->getParam("Duration", "0").to_float();
+        fSmartSeek = tag->getParam("SmartSeek", "true").to_bool();
         fAnimName = tag->getParam("AnimName", "");
-        fAlignType = tag->getParam("AlignType", "0").toUint();
-        fNoSeek = tag->getParam("NoSeek", "false").toBool();
-        fFlags = tag->getParam("Flags", "0").toUint();
+        fAlignType = tag->getParam("AlignType", "0").to_uint();
+        fNoSeek = tag->getParam("NoSeek", "false").to_bool();
+        fFlags = tag->getParam("Flags", "0").to_uint();
     } else if (tag->getName() == "SeekPoint") {
         const pfPrcTag* child = tag->getFirstChild();
         while (child != NULL) {
@@ -143,8 +143,8 @@ void plAvOneShotMsg::IPrcWrite(pfPrcHelper* prc) {
 void plAvOneShotMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "OneShotParams") {
         fAnimName = tag->getParam("AnimName", "");
-        fDrivable = tag->getParam("Drivable", "false").toBool();
-        fReversible = tag->getParam("Reversible", "false").toBool();
+        fDrivable = tag->getParam("Drivable", "false").to_bool();
+        fReversible = tag->getParam("Reversible", "false").to_bool();
     } else {
         plAvSeekMsg::IPrcParse(tag, mgr);
     }

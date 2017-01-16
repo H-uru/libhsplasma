@@ -42,9 +42,9 @@ void plVolumeSensorConditionalObject::IPrcWrite(pfPrcHelper* prc) {
 
 void plVolumeSensorConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "VolumeSensorParams") {
-        fTrigNum = tag->getParam("TrigNum", "0").toInt();
-        fType = tag->getParam("Type", "0").toInt();
-        fFirst = tag->getParam("First", "false").toBool();
+        fTrigNum = tag->getParam("TrigNum", "0").to_int();
+        fType = tag->getParam("Type", "0").to_int();
+        fFirst = tag->getParam("First", "false").to_bool();
     } else {
         plConditionalObject::IPrcParse(tag, mgr);
     }

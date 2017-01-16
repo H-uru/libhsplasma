@@ -23,8 +23,8 @@ extern "C" {
 
 PY_PLASMA_NEW(AnimCmdMsg, plAnimCmdMsg)
 
-PY_PROPERTY(plString, AnimCmdMsg, animName, getAnimName, setAnimName)
-PY_PROPERTY(plString, AnimCmdMsg, loopName, getLoopName, setLoopName)
+PY_PROPERTY(ST::string, AnimCmdMsg, animName, getAnimName, setAnimName)
+PY_PROPERTY(ST::string, AnimCmdMsg, loopName, getLoopName, setLoopName)
 PY_PROPERTY(float, AnimCmdMsg, begin, getBegin, setBegin)
 PY_PROPERTY(float, AnimCmdMsg, end, getEnd, setEnd)
 PY_PROPERTY(float, AnimCmdMsg, loopBegin, getLoopBegin, setLoopBegin)

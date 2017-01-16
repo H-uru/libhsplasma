@@ -18,6 +18,7 @@
 
 #include <Math/hsQuat.h>
 #include "Stream/pyStream.h"
+#include <string_theory/format>
 
 extern "C" {
 
@@ -61,7 +62,7 @@ PY_PLASMA_INIT_DECL(Quat) {
 PY_PLASMA_VALUE_NEW(Quat, hsQuat)
 
 PY_PLASMA_REPR_DECL(Quat) {
-    plString repr = plString::Format("hsQuat(%f, %f, %f, %f)",
+    ST::string repr = ST::format("hsQuat({f}, {f}, {f}, {f})",
              self->fThis->X, self->fThis->Y, self->fThis->Z, self->fThis->W);
     return pyPlasma_convert(repr);
 }

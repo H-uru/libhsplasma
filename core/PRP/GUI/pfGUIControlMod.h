@@ -35,7 +35,7 @@ public:
 private:
     hsColorRGBA fForeColor, fBackColor, fSelForeColor, fSelBackColor;
     int fTransparent;
-    plString fFontFace;
+    ST::string fFontFace;
     unsigned char fFontSize, fFontFlags;
 
 public:
@@ -55,7 +55,7 @@ public:
     hsColorRGBA getSelForeColor() const { return fSelForeColor; }
     hsColorRGBA getSelBackColor() const { return fSelBackColor; }
     int getTransparent() const { return fTransparent; }
-    plString getFontFace() const { return fFontFace; }
+    ST::string getFontFace() const { return fFontFace; }
     unsigned char getFontSize() const { return fFontSize; }
     unsigned char getFontFlags() const { return fFontFlags; }
 
@@ -64,7 +64,7 @@ public:
     void setSelForeColor(const hsColorRGBA& color) { fSelForeColor = color; }
     void setSelBackColor(const hsColorRGBA& color) { fSelBackColor = color; }
     void setTransparent(int trans) { fTransparent = trans; }
-    void setFontFace(const plString& face) { fFontFace = face; }
+    void setFontFace(const ST::string& face) { fFontFace = face; }
     void setFontSize(unsigned char size) { fFontSize = size; }
     void setFontFlags(unsigned char flags) { fFontFlags = flags; }
 };

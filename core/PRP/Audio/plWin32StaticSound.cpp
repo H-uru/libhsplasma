@@ -60,8 +60,8 @@ void plWin32GroupedSound::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         for (size_t i=0; i<nChildren; i++) {
             if (child->getName() != "VolumeSet")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
-            fStartPositions[i] = child->getParam("position", "0").toUint();
-            fVolumes[i] = child->getParam("volume", "0").toFloat();
+            fStartPositions[i] = child->getParam("position", "0").to_uint();
+            fVolumes[i] = child->getParam("volume", "0").to_float();
         }
     } else {
         plWin32Sound::IPrcParse(tag, mgr);

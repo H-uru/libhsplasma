@@ -24,7 +24,7 @@ void plSeekPointMod::read(hsStream* S, plResManager* mgr) {
 
 void plSeekPointMod::write(hsStream* S, plResManager* mgr) {
     plMultiModifier::write(S, mgr);
-    S->writeInt(fName.len());
+    S->writeInt(fName.size());
     S->writeStr(fName);
 }
 

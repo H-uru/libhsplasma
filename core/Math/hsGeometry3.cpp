@@ -46,9 +46,9 @@ void hsVector3::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "hsVector3")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    X = tag->getParam("X", "0").toFloat();
-    Y = tag->getParam("Y", "0").toFloat();
-    Z = tag->getParam("Z", "0").toFloat();
+    X = tag->getParam("X", "0").to_float();
+    Y = tag->getParam("Y", "0").to_float();
+    Z = tag->getParam("Z", "0").to_float();
 }
 
 void hsVector3::normalize() {
@@ -85,8 +85,8 @@ void hsPlane3::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "hsPlane3")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    N.X = tag->getParam("X", "0").toFloat();
-    N.Y = tag->getParam("Y", "0").toFloat();
-    N.Z = tag->getParam("Z", "0").toFloat();
-    W = tag->getParam("W", "0").toFloat();
+    N.X = tag->getParam("X", "0").to_float();
+    N.Y = tag->getParam("Y", "0").to_float();
+    N.Z = tag->getParam("Z", "0").to_float();
+    W = tag->getParam("W", "0").to_float();
 }

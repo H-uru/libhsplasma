@@ -36,7 +36,7 @@ void plNodeRegionModifier::IPrcWrite(pfPrcHelper* prc) {
 
 void plNodeRegionModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "NodeRegionParams") {
-        fEnabled = tag->getParam("Enabled", "true").toBool();
+        fEnabled = tag->getParam("Enabled", "true").to_bool();
     } else {
         plSingleModifier::IPrcParse(tag, mgr);
     }

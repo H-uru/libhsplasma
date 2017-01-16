@@ -149,7 +149,7 @@ public:
     short getType() const { return fUoid.getType(); }
 
     /** Returns the name of the object referenced by this key */
-    const plString& getName() const { return fUoid.getName(); }
+    const ST::string& getName() const { return fUoid.getName(); }
 
     /** Returns the location where this key and its object are stored */
     const plLocation& getLocation() const { return fUoid.getLocation(); }
@@ -192,7 +192,7 @@ public:
      * Sets the name of an object/key.  This can be done at any time.
      * \sa hsKeyedObject::init()
      */
-    void setName(const plString& name) { fUoid.setName(name); }
+    void setName(const ST::string& name) { fUoid.setName(name); }
 
     /**
      * Sets the location of this key and its object.  Generally, you should
@@ -331,7 +331,7 @@ public:
      * otherwise, returns the plUoid's string representation.
      * \sa plUoid::toString()
      */
-    plString toString() const;
+    ST::string toString() const;
 };
 
 #endif

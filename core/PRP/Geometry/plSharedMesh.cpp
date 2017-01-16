@@ -73,7 +73,7 @@ void plSharedMesh::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fMorphSet = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "Flags") {
-        fFlags = tag->getParam("value", "0").toUint();
+        fFlags = tag->getParam("value", "0").to_uint();
     } else {
         hsKeyedObject::IPrcParse(tag, mgr);
     }

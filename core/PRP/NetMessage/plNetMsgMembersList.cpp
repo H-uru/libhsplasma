@@ -47,7 +47,7 @@ void plNetMsgMemberInfoHelper::IPrcWrite(pfPrcHelper* prc) {
 
 void plNetMsgMemberInfoHelper::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "MemberInfo") {
-        fFlags = tag->getParam("Flags", "0").toUint();
+        fFlags = tag->getParam("Flags", "0").to_uint();
         const pfPrcTag* child = tag->getFirstChild();
         while (child != NULL) {
             if (child->getName() == "ClientGuid") {
@@ -133,7 +133,7 @@ void plNetMsgMemberUpdate::IPrcWrite(pfPrcHelper* prc) {
 
 void plNetMsgMemberUpdate::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "MemberUpdate") {
-        fAddMember = tag->getParam("AddMember", "0").toBool();
+        fAddMember = tag->getParam("AddMember", "false").to_bool();
         const pfPrcTag* child = tag->getFirstChild();
         fMemberInfo.prcParse(child, mgr);
     } else {

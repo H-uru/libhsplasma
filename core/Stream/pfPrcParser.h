@@ -24,11 +24,11 @@
 
 class PLASMA_DLL pfPrcTag {
 protected:
-    plString fName;
-    std::map<plString, plString> fParams;
+    ST::string fName;
+    std::map<ST::string, ST::string> fParams;
     pfPrcTag* fNextSibling;
     pfPrcTag* fFirstChild;
-    std::list<plString> fContents;
+    std::list<ST::string> fContents;
     bool fIsEndTag;
 
     pfPrcTag() : fNextSibling(NULL), fFirstChild(NULL), fIsEndTag(false) { }
@@ -39,15 +39,15 @@ protected:
     friend class pfPrcParser;
 
 public:
-    plString getName() const { return fName; }
-    plString getParam(const plString& key, const plString& def) const;
-    const std::list<plString>& getContents() const { return fContents; }
+    ST::string getName() const { return fName; }
+    ST::string getParam(const ST::string& key, const ST::string& def) const;
+    const std::list<ST::string>& getContents() const { return fContents; }
     const pfPrcTag* getFirstChild() const { return fFirstChild; }
     const pfPrcTag* getNextSibling() const { return fNextSibling; }
     bool hasChildren() const { return (fFirstChild != NULL); }
     bool hasNextSibling() const { return (fNextSibling != NULL); }
     bool isEndTag() const { return fIsEndTag; }
-    bool hasParam(const plString& key) const;
+    bool hasParam(const ST::string& key) const;
     size_t countChildren() const;
 
     void readHexStream(size_t maxLen, unsigned char* buf) const;
@@ -73,14 +73,14 @@ private:
 class PLASMA_DLL pfPrcParseException : public hsException {
 public:
     pfPrcParseException(const char* file, unsigned long line,
-                        const char* msg, ...) HS_NOEXCEPT;
+                        const char* msg) HS_NOEXCEPT;
 };
 
 
 class PLASMA_DLL pfPrcTagException : public pfPrcParseException {
 public:
     pfPrcTagException(const char* file, unsigned long line,
-                      const char* tag) HS_NOEXCEPT;
+                      const ST::string& tag) HS_NOEXCEPT;
 };
 
 #endif

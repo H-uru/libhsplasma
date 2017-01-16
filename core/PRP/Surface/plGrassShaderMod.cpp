@@ -50,12 +50,12 @@ void plGrassWave::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "plGrassWave")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    fDistX = tag->getParam("DistX", "0").toFloat();
-    fDistY = tag->getParam("DistY", "0").toFloat();
-    fDistZ = tag->getParam("DistZ", "0").toFloat();
-    fDirX = tag->getParam("DirX", "0").toFloat();
-    fDirY = tag->getParam("DirY", "0").toFloat();
-    fSpeed = tag->getParam("Speed", "0").toFloat();
+    fDistX = tag->getParam("DistX", "0").to_float();
+    fDistY = tag->getParam("DistY", "0").to_float();
+    fDistZ = tag->getParam("DistZ", "0").to_float();
+    fDirX = tag->getParam("DirX", "0").to_float();
+    fDirY = tag->getParam("DirY", "0").to_float();
+    fSpeed = tag->getParam("Speed", "0").to_float();
 }
 
 

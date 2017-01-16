@@ -37,7 +37,7 @@ void plServerReplyMsg::IPrcWrite(pfPrcHelper* prc) {
 
 void plServerReplyMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "ReplyType") {
-        fType = tag->getParam("value", "0").toInt();
+        fType = tag->getParam("value", "0").to_int();
     } else {
         plMessage::IPrcParse(tag, mgr);
     }

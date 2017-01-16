@@ -37,9 +37,9 @@ public:
 
 protected:
     unsigned char fFlags;
-    plString fAgeFilename, fAgeInstanceName;
+    ST::string fAgeFilename, fAgeInstanceName;
     plUuid fAgeInstanceGuid;
-    plString fAgeUserDefinedName, fAgeDescription;
+    ST::string fAgeUserDefinedName, fAgeDescription;
     int fAgeSequenceNumber, fAgeLanguage;
 
 public:
@@ -57,19 +57,19 @@ public:
     bool isEmpty() { return (fFlags == 0); }
     void clear() { fFlags = 0; }
 
-    plString getAgeFilename() const { return fAgeFilename; }
-    plString getAgeInstanceName() const { return fAgeInstanceName; }
+    ST::string getAgeFilename() const { return fAgeFilename; }
+    ST::string getAgeInstanceName() const { return fAgeInstanceName; }
     const plUuid& getAgeInstanceGuid() const { return fAgeInstanceGuid; }
-    plString getAgeUserDefinedName() const { return fAgeUserDefinedName; }
-    plString getAgeDescription() const { return fAgeDescription; }
+    ST::string getAgeUserDefinedName() const { return fAgeUserDefinedName; }
+    ST::string getAgeDescription() const { return fAgeDescription; }
     int getAgeSequenceNumber() const { return fAgeSequenceNumber; }
     int getAgeLanguage() const { return fAgeLanguage; }
 
-    void setAgeFilename(plString name);
-    void setAgeInstanceName(plString name);
+    void setAgeFilename(const ST::string& name);
+    void setAgeInstanceName(const ST::string& name);
     void setAgeInstanceGuid(const plUuid& guid);
-    void setAgeUserDefinedName(plString name);
-    void setAgeDescription(plString desc);
+    void setAgeUserDefinedName(const ST::string& name);
+    void setAgeDescription(const ST::string& desc);
     void setAgeSequenceNumber(int seq);
     void setAgeLanguage(int lang);
 
@@ -134,7 +134,7 @@ protected:
     unsigned char fAmCCR;
     plAgeInfoStruct fAgeInfo;
     plSpawnPointInfo fSpawnPoint;
-    plString fParentAgeFilename;
+    ST::string fParentAgeFilename;
 
 public:
     plAgeLinkStruct()
@@ -160,11 +160,11 @@ public:
 
     signed char getLinkingRules() const { return fLinkingRules; }
     unsigned char getAmCCR() const { return fAmCCR; }
-    plString getParentAgeFilename() const { return fParentAgeFilename; }
+    ST::string getParentAgeFilename() const { return fParentAgeFilename; }
 
     void setLinkingRules(signed char rules);
     void setAmCCR(unsigned char ccr);
-    void setParentAgeFilename(plString filename);
+    void setParentAgeFilename(const ST::string& filename);
 
     void setHasAgeInfo(bool has);
     void setHasSpawnPoint(bool has);
@@ -182,7 +182,7 @@ public:
 
 class PLASMA_DLL plAgeLinkEffects {
 protected:
-    plString fLinkInAnimName;
+    ST::string fLinkInAnimName;
     bool fBool1, fBool2, fBool3, fBool4;
 
 public:
@@ -195,13 +195,13 @@ public:
     void prcParse(const pfPrcTag* tag);
 
 public:
-    plString getLinkInAnimName() const { return fLinkInAnimName; }
+    ST::string getLinkInAnimName() const { return fLinkInAnimName; }
     bool getBool1() const { return fBool1; }
     bool getBool2() const { return fBool2; }
     bool getBool3() const { return fBool3; }
     bool getBool4() const { return fBool4; }
 
-    void setLinkInAnimName(plString name) { fLinkInAnimName = name; }
+    void setLinkInAnimName(const ST::string& name) { fLinkInAnimName = name; }
     void setBool1(bool value) { fBool1 = value; }
     void setBool2(bool value) { fBool2 = value; }
     void setBool3(bool value) { fBool3 = value; }

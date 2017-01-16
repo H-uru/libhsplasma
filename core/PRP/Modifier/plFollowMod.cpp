@@ -50,8 +50,8 @@ void plFollowMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fLeader = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "Flags") {
-        fLeaderType = static_cast<FollowLeaderType>(tag->getParam("leaderType", "0").toUint());
-        fMode = tag->getParam("mode", "7").toUint();
+        fLeaderType = static_cast<FollowLeaderType>(tag->getParam("leaderType", "0").to_uint());
+        fMode = tag->getParam("mode", "7").to_uint();
     } else {
         plSingleModifier::IPrcParse(tag, mgr);
     }

@@ -75,7 +75,7 @@ void plPythonMod::write(hsStream* S, plResManager* mgr) {
     S->writeInt(fAnimNotetracks.size());
     for (size_t i=0; i<fAnimNotetracks.size(); i++) {
         mgr->writeKey(S, fAnimNotetracks[i].objKey);
-        S->writeInt(fAnimNotetracks[i].note_name.len());
+        S->writeInt(fAnimNotetracks[i].note_name.size());
         S->writeStr(fAnimNotetracks[i].note_name);
         S->writeByte(0);
         mgr->writeKey(S, fAnimNotetracks[i].modKey);
@@ -83,7 +83,7 @@ void plPythonMod::write(hsStream* S, plResManager* mgr) {
 
     S->writeInt(fSoundName2Idx.size());
     for (size_t i=0; i<fSoundName2Idx.size(); i++) {
-        S->writeInt(fSoundName2Idx[i].sound_name.len());
+        S->writeInt(fSoundName2Idx[i].sound_name.size());
         S->writeStr(fSoundName2Idx[i].sound_name);
         S->writeByte(0);
         S->writeInt(fSoundName2Idx[i].sound_index);
@@ -91,10 +91,10 @@ void plPythonMod::write(hsStream* S, plResManager* mgr) {
 
     S->writeInt(fMaterialAnim.size());
     for (size_t i=0; i<fMaterialAnim.size(); i++) {
-        S->writeInt(fMaterialAnim[i].material_name.len());
+        S->writeInt(fMaterialAnim[i].material_name.size());
         S->writeStr(fMaterialAnim[i].material_name);
         S->writeByte(0);
-        S->writeInt(fMaterialAnim[i].note_name.len());
+        S->writeInt(fMaterialAnim[i].note_name.size());
         S->writeStr(fMaterialAnim[i].note_name);
         S->writeByte(0);
         mgr->writeKey(S, fMaterialAnim[i].modKey);
@@ -200,7 +200,7 @@ void plPythonMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
                 throw pfPrcTagException(__FILE__, __LINE__, rec->getName());
 
             fSoundName2Idx[i].sound_name = rec->getParam("SoundName", "");
-            fSoundName2Idx[i].sound_index = rec->getParam("SoundIndex", "").toInt();
+            fSoundName2Idx[i].sound_index = rec->getParam("SoundIndex", "").to_int();
             rec = rec->getNextSibling();
         }
     } else if (tag->getName() == "MaterialAnims") {

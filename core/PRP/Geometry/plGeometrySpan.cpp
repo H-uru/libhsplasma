@@ -182,7 +182,7 @@ void plGeometrySpan::prcWrite(pfPrcHelper* prc) {
                 prc->writeParam("Index", verts[i].fIndices);
             prc->endTagNoBreak();
             for (size_t j=0; j<(size_t)((fFormat & kSkinWeightMask) >> 4); j++)
-                prc->directWrite(plString::Format("%f ", verts[i].fWeights[j]));
+                prc->directWrite(ST::format("{f} ", verts[i].fWeights[j]));
             prc->closeTagNoBreak();
 
             prc->closeTag();    // Vertex
@@ -213,7 +213,7 @@ void plGeometrySpan::prcWrite(pfPrcHelper* prc) {
         prc->writeSimpleTag("Triangles");
         for (size_t i=0; i<fNumIndices; i += 3) {
             prc->writeTagNoBreak("Triangle");
-            prc->directWrite(plString::Format("%d %d %d",
+            prc->directWrite(ST::format("{} {} {}",
                              fIndexData[i], fIndexData[i+1], fIndexData[i+2]));
             prc->closeTagNoBreak();
         }
@@ -234,17 +234,17 @@ void plGeometrySpan::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "plGeometrySpan")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    fBaseMatrix = tag->getParam("BaseMatrix", "0").toUint();
-    fNumMatrices = tag->getParam("NumMatrices", "0").toUint();
-    fLocalUVWChans = tag->getParam("LocalUVWChans", "0").toUint();
-    fMaxBoneIdx = tag->getParam("MaxBoneIdx", "0").toUint();
-    fPenBoneIdx = tag->getParam("PenBoneIdx", "0").toUint();
-    fMinDist = tag->getParam("MinDist", "0").toFloat();
-    fMaxDist = tag->getParam("MaxDist", "0").toFloat();
-    fFormat = tag->getParam("Format", "0").toUint();
-    fProps = tag->getParam("Props", "0").toUint();
-    fDecalLevel = tag->getParam("DecalLevel", "0").toUint();
-    fWaterHeight = tag->getParam("WaterHeight", "0").toFloat();
+    fBaseMatrix = tag->getParam("BaseMatrix", "0").to_uint();
+    fNumMatrices = tag->getParam("NumMatrices", "0").to_uint();
+    fLocalUVWChans = tag->getParam("LocalUVWChans", "0").to_uint();
+    fMaxBoneIdx = tag->getParam("MaxBoneIdx", "0").to_uint();
+    fPenBoneIdx = tag->getParam("PenBoneIdx", "0").to_uint();
+    fMinDist = tag->getParam("MinDist", "0").to_float();
+    fMaxDist = tag->getParam("MaxDist", "0").to_float();
+    fFormat = tag->getParam("Format", "0").to_uint();
+    fProps = tag->getParam("Props", "0").to_uint();
+    fDecalLevel = tag->getParam("DecalLevel", "0").to_uint();
+    fWaterHeight = tag->getParam("WaterHeight", "0").to_float();
 
     fVertexData.clear();
     fMultColor.clear();
@@ -279,13 +279,13 @@ void plGeometrySpan::prcParse(const pfPrcTag* tag) {
                             uvChild = uvChild->getNextSibling();
                         }
                     } else if (subChild->getName() == "Weights") {
-                        verts[i].fIndices = subChild->getParam("Index", "0").toUint();
-                        std::list<plString> wgtList = subChild->getContents();
+                        verts[i].fIndices = subChild->getParam("Index", "0").to_uint();
+                        std::list<ST::string> wgtList = subChild->getContents();
                         if (wgtList.size() != (size_t)((fFormat & kSkinWeightMask) >> 4))
                             throw pfPrcParseException(__FILE__, __LINE__, "Incorrect Number of Weights");
                         auto wgt = wgtList.begin();
                         for (size_t j=0; j<(size_t)((fFormat & kSkinWeightMask) >> 4); j++)
-                            verts[i].fWeights[j] = (*wgt++).toFloat();
+                            verts[i].fWeights[j] = (*wgt++).to_float();
                     } else {
                         throw pfPrcTagException(__FILE__, __LINE__, subChild->getName());
                     }
@@ -341,18 +341,18 @@ void plGeometrySpan::prcParse(const pfPrcTag* tag) {
             for (size_t i=0; i<fNumIndices; i += 3) {
                 if (triChild->getName() != "Triangle")
                     throw pfPrcTagException(__FILE__, __LINE__, triChild->getName());
-                std::list<plString> idxList = triChild->getContents();
+                std::list<ST::string> idxList = triChild->getContents();
                 if (idxList.size() != 3)
                     throw pfPrcParseException(__FILE__, __LINE__, "Triangles should have exactly 3 indices");
                 auto idx_iter = idxList.begin();
-                fIndexData[i] = (*idx_iter++).toUint();
-                fIndexData[i+1] = (*idx_iter++).toUint();
-                fIndexData[i+2] = (*idx_iter++).toUint();
+                fIndexData[i] = (*idx_iter++).to_uint();
+                fIndexData[i+1] = (*idx_iter++).to_uint();
+                fIndexData[i+2] = (*idx_iter++).to_uint();
                 triChild = triChild->getNextSibling();
             }
         } else if (child->getName() == "InstanceGroup") {
-            fInstanceGroup = child->getParam("value", "0").toUint();
-            numInstanceRefs = child->getParam("NumRefs", "0").toUint();
+            fInstanceGroup = child->getParam("value", "0").to_uint();
+            numInstanceRefs = child->getParam("NumRefs", "0").to_uint();
         } else {
             throw pfPrcTagException(__FILE__, __LINE__, child->getName());
         }

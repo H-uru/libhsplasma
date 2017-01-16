@@ -31,7 +31,7 @@ public:
 
 protected:
     std::vector<plKey> fAnimationKeys;
-    plString fAnimName;
+    ST::string fAnimName;
     hsVector3 fAnimStartPos, fAnimEndPos;
     unsigned int fEoaInt1, fEoaInt2, fEoaInt3, fEoaInt4;
     float fEoaFl1, fEoaFl2, fEoaFl3, fEoaFl4;
@@ -53,11 +53,11 @@ public:
     void delAnimationKey(size_t idx) { fAnimationKeys.erase(fAnimationKeys.begin() + idx); }
     void clearAnimationKeys() { fAnimationKeys.clear(); }
 
-    plString getAnimName() const { return fAnimName; }
+    ST::string getAnimName() const { return fAnimName; }
     hsVector3 getAnimStartPos() const { return fAnimStartPos; }
     hsVector3 getAnimEndPos() const { return fAnimEndPos; }
 
-    void setAnimName(const plString& name) { fAnimName = name; }
+    void setAnimName(const ST::string& name) { fAnimName = name; }
     void setAnimStartPos(const hsVector3& pos) { fAnimStartPos = pos; }
     void setAnimEndPos(const hsVector3& pos) { fAnimEndPos = pos; }
 };

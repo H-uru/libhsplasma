@@ -61,7 +61,7 @@ void plSynchedObject::read(hsStream* S, plResManager* mgr) {
                     | ((eoaFlags & 0x2) ? kExcludePersistentState : 0)
                     | ((eoaFlags & 0x4) ? kExcludeAllPersistentState : 0);
         if (eoaFlags & 0xFFFFFFF0)
-            plDebug::Debug("Myst5 Object got unknown synch flags: %08X", eoaFlags);
+            plDebug::Debug("Myst5 Object got unknown synch flags: {_08X}", eoaFlags);
     }
 }
 
@@ -74,14 +74,14 @@ void plSynchedObject::write(hsStream* S, plResManager* mgr) {
         if (fSynchFlags & kExcludePersistentState) {
             S->writeShort(fSDLExcludeList.size());
             for (i=0; i<fSDLExcludeList.size(); i++) {
-                S->writeShort(fSDLExcludeList[i].len());
+                S->writeShort(fSDLExcludeList[i].size());
                 S->writeStr(fSDLExcludeList[i]);
             }
         }
         if (fSynchFlags & kHasVolatileState) {
             S->writeShort(fSDLVolatileList.size());
             for (i=0; i<fSDLVolatileList.size(); i++) {
-                S->writeShort(fSDLVolatileList[i].len());
+                S->writeShort(fSDLVolatileList[i].size());
                 S->writeStr(fSDLVolatileList[i]);
             }
         }
@@ -95,7 +95,7 @@ void plSynchedObject::write(hsStream* S, plResManager* mgr) {
         if ((eoaFlags & 0x6) == 0) {
             S->writeShort(fSDLExcludeList.size());
             for (i=0; i<fSDLExcludeList.size(); i++) {
-                S->writeShort(fSDLExcludeList[i].len());
+                S->writeShort(fSDLExcludeList[i].size());
                 S->writeStr(fSDLExcludeList[i]);
             }
         }
@@ -126,15 +126,15 @@ void plSynchedObject::IPrcWrite(pfPrcHelper* prc) {
 void plSynchedObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     // Backwards compatibility synonym
     if (tag->getName() == "SynchParams" || tag->getName() == "SyncParams") {
-        fSynchFlags = tag->getParam("flags", "0").toUint();
+        fSynchFlags = tag->getParam("flags", "0").to_uint();
         const pfPrcTag* child = tag->getFirstChild();
         while (child != NULL) {
             if (child->getName() == "ExcludePersistentStates") {
-                std::list<plString> states = child->getContents();
-                fSDLExcludeList = std::vector<plString>(states.begin(), states.end());
+                std::list<ST::string> states = child->getContents();
+                fSDLExcludeList = std::vector<ST::string>(states.begin(), states.end());
             } else if (child->getName() == "VolatileStates") {
-                std::list<plString> states = child->getContents();
-                fSDLVolatileList = std::vector<plString>(states.begin(), states.end());
+                std::list<ST::string> states = child->getContents();
+                fSDLVolatileList = std::vector<ST::string>(states.begin(), states.end());
             } else {
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             }
@@ -145,12 +145,12 @@ void plSynchedObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plSynchedObject::setExclude(const plString& sdl) {
+void plSynchedObject::setExclude(const ST::string& sdl) {
     fSynchFlags |= kExcludePersistentState;
     fSDLExcludeList.push_back(sdl);
 }
 
-void plSynchedObject::setVolatile(const plString& sdl) {
+void plSynchedObject::setVolatile(const ST::string& sdl) {
     fSynchFlags |= kHasVolatileState;
     fSDLVolatileList.push_back(sdl);
 }

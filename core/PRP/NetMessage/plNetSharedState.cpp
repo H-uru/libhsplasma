@@ -106,29 +106,29 @@ void plGenericType::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "plGenericType")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    fType = tag->getParam("Type", "0xFF").toUint();
+    fType = tag->getParam("Type", "0xFF").to_uint();
     switch (fType) {
     case kString:
     case kAny:
         fString = tag->getParam("Value", "");
         break;
     case kBool:
-        fBool = tag->getParam("Value", "false").toBool();
+        fBool = tag->getParam("Value", "false").to_bool();
         break;
     case kByte:
-        fByte = tag->getParam("Value", "0").toUint();
+        fByte = tag->getParam("Value", "0").to_uint();
         break;
     case kInt:
-        fInt = tag->getParam("Value", "0").toInt();
+        fInt = tag->getParam("Value", "0").to_int();
         break;
     case kUint:
-        fUint = tag->getParam("Value", "0").toUint();
+        fUint = tag->getParam("Value", "0").to_uint();
         break;
     case kFloat:
-        fFloat = tag->getParam("Value", "0").toFloat();
+        fFloat = tag->getParam("Value", "0").to_float();
         break;
     case kDouble:
-        fDouble = tag->getParam("Value", "0").toFloat();
+        fDouble = tag->getParam("Value", "0").to_float();
         break;
     default:
         throw hsBadParamException(__FILE__, __LINE__, "Invalid variable type");
@@ -178,7 +178,7 @@ void plNetSharedState::read(hsStream* S) {
 }
 
 void plNetSharedState::write(hsStream* S) {
-    S->writeShort(fName.len());
+    S->writeShort(fName.size());
     S->writeStr(fName);
     S->writeInt(fVars.size());
     S->writeBool(fServerMayDelete);
@@ -204,7 +204,7 @@ void plNetSharedState::prcParse(const pfPrcTag* tag) {
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
     fName = tag->getParam("Name", "");
-    fServerMayDelete = tag->getParam("ServerMayDelete", "false").toBool();
+    fServerMayDelete = tag->getParam("ServerMayDelete", "false").to_bool();
 
     fVars.resize(tag->countChildren());
     const pfPrcTag* child = tag->getFirstChild();

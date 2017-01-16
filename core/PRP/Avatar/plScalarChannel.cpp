@@ -37,7 +37,7 @@ void plScalarConstant::IPrcWrite(pfPrcHelper* prc) {
 
 void plScalarConstant::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Result") {
-        fResult = tag->getParam("value", "0").toFloat();
+        fResult = tag->getParam("value", "0").to_float();
     } else {
         plAGChannel::IPrcParse(tag, mgr);
     }

@@ -38,8 +38,8 @@ void plFacingConditionalObject::IPrcWrite(pfPrcHelper* prc) {
 
 void plFacingConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "FacingParams") {
-        fTolerance = tag->getParam("Tolerance", "0").toFloat();
-        fDirectional = tag->getParam("Directional", "false").toBool();
+        fTolerance = tag->getParam("Tolerance", "0").to_float();
+        fDirectional = tag->getParam("Directional", "false").to_bool();
     } else {
         plConditionalObject::IPrcParse(tag, mgr);
     }

@@ -16,6 +16,8 @@
 
 #include <cstdio>
 #include <cmath>
+#include <cstring>
+#include <string_theory/format>
 #include "hsMatrix44.h"
 
 #define DATA(y, x) data[y+(x*4)]
@@ -285,7 +287,7 @@ void hsMatrix44::prcWrite(pfPrcHelper* prc) {
         prc->endTag(true);
     } else {
         prc->writeTagNoBreak("hsMatrix44");
-        plString buf = plString::Format("[%f,%f,%f,%f ; %f,%f,%f,%f ; %f,%f,%f,%f ; %f,%f,%f,%f]",
+        ST::string buf = ST::format("[{f},{f},{f},{f} ; {f},{f},{f},{f} ; {f},{f},{f},{f} ; {f},{f},{f},{f}]",
             DATA(0, 0), DATA(0, 1), DATA(0, 2), DATA(0, 3),
             DATA(1, 0), DATA(1, 1), DATA(1, 2), DATA(1, 3),
             DATA(2, 0), DATA(2, 1), DATA(2, 2), DATA(2, 3),
@@ -299,67 +301,67 @@ void hsMatrix44::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "hsMatrix44")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    if (tag->getParam("identity", "false").toBool()) {
+    if (tag->getParam("identity", "false").to_bool()) {
         Reset();
     } else {
-        std::list<plString> contents = tag->getContents();
+        std::list<ST::string> contents = tag->getContents();
         auto iter = contents.begin();
         if (*iter++ != "[")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        DATA(0, 0) = (*iter++).toFloat();
+        DATA(0, 0) = (*iter++).to_float();
         if (*iter++ != ",")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        DATA(0, 1) = (*iter++).toFloat();
+        DATA(0, 1) = (*iter++).to_float();
         if (*iter++ != ",")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        DATA(0, 2) = (*iter++).toFloat();
+        DATA(0, 2) = (*iter++).to_float();
         if (*iter++ != ",")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        DATA(0, 3) = (*iter++).toFloat();
+        DATA(0, 3) = (*iter++).to_float();
         if (*iter++ != ";")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        DATA(1, 0) = (*iter++).toFloat();
+        DATA(1, 0) = (*iter++).to_float();
         if (*iter++ != ",")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        DATA(1, 1) = (*iter++).toFloat();
+        DATA(1, 1) = (*iter++).to_float();
         if (*iter++ != ",")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        DATA(1, 2) = (*iter++).toFloat();
+        DATA(1, 2) = (*iter++).to_float();
         if (*iter++ != ",")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        DATA(1, 3) = (*iter++).toFloat();
+        DATA(1, 3) = (*iter++).to_float();
         if (*iter++ != ";")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        DATA(2, 0) = (*iter++).toFloat();
+        DATA(2, 0) = (*iter++).to_float();
         if (*iter++ != ",")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        DATA(2, 1) = (*iter++).toFloat();
+        DATA(2, 1) = (*iter++).to_float();
         if (*iter++ != ",")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        DATA(2, 2) = (*iter++).toFloat();
+        DATA(2, 2) = (*iter++).to_float();
         if (*iter++ != ",")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        DATA(2, 3) = (*iter++).toFloat();
+        DATA(2, 3) = (*iter++).to_float();
         if (*iter++ != ";")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        DATA(3, 0) = (*iter++).toFloat();
+        DATA(3, 0) = (*iter++).to_float();
         if (*iter++ != ",")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        DATA(3, 1) = (*iter++).toFloat();
+        DATA(3, 1) = (*iter++).to_float();
         if (*iter++ != ",")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        DATA(3, 2) = (*iter++).toFloat();
+        DATA(3, 2) = (*iter++).to_float();
         if (*iter++ != ",")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        DATA(3, 3) = (*iter++).toFloat();
+        DATA(3, 3) = (*iter++).to_float();
         if (*iter++ != "]")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
     }
 }
 
-plString hsMatrix44::toString() const {
-    return plString::Format("[ %5.1f %5.1f %5.1f %5.1f\n  %5.1f %5.1f %5.1f %5.1f\n"
-                            "  %5.1f %5.1f %5.1f %5.1f\n  %5.1f %5.1f %5.1f %5.1f ]",
+ST::string hsMatrix44::toString() const {
+    return ST::format("[ {5.1f} {5.1f} {5.1f} {5.1f}\n  {5.1f} {5.1f} {5.1f} {5.1f}\n"
+                      "  {5.1f} {5.1f} {5.1f} {5.1f}\n  {5.1f} {5.1f} {5.1f} {5.1f} ]",
         DATA(0, 0), DATA(0, 1), DATA(0, 2), DATA(0, 3),
         DATA(1, 0), DATA(1, 1), DATA(1, 2), DATA(1, 3),
         DATA(2, 0), DATA(2, 1), DATA(2, 2), DATA(2, 3),

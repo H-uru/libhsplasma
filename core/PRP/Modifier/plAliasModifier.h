@@ -23,7 +23,7 @@ class PLASMA_DLL plAliasModifier : public plSingleModifier {
     CREATABLE(plAliasModifier, kAliasModifier, plSingleModifier)
 
 protected:
-    plString fAlias;
+    ST::string fAlias;
 
 public:
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;

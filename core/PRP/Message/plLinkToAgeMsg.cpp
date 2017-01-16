@@ -27,7 +27,7 @@ void plLinkToAgeMsg::read(hsStream* S, plResManager* mgr) {
     else
         fStreamVersion = 0;
     if (fStreamVersion != 0)
-        plDebug::Debug("Got plLinkToAgeMsg StreamVersion %u", fStreamVersion);
+        plDebug::Debug("Got plLinkToAgeMsg StreamVersion {}", fStreamVersion);
     fAgeLink.read(S, mgr);
     fLinkEffects.read(S);
     if (S->getVer().isNewPlasma())
@@ -62,7 +62,7 @@ void plLinkToAgeMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else if (tag->getName() == "plAgeLinkEffects") {
         fLinkEffects.prcParse(tag);
     } else if (tag->getName() == "EoaUnknown") {
-        fEoaUnknown = tag->getParam("value", "0").toUint();
+        fEoaUnknown = tag->getParam("value", "0").to_uint();
     } else {
         plMessage::IPrcParse(tag, mgr);
     }

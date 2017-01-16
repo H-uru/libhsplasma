@@ -17,13 +17,14 @@
 #ifndef _PNSHA1_H
 #define _PNSHA1_H
 
-#include "Util/plString.h"
+#include "PlasmaDefs.h"
+#include <string_theory/string>
 
 struct PLASMANET_DLL pnSha1Hash {
     unsigned int fData[5];
 
-    void fromString(const plString& src);
-    plString toString() const;
+    void fromString(const ST::string& src);
+    ST::string toString() const;
 
     void swapBytes();
 
@@ -31,11 +32,11 @@ struct PLASMANET_DLL pnSha1Hash {
     static pnSha1Hash Sha1(const void* src, size_t len);
 };
 
-PLASMANET_DLL pnSha1Hash NCHashPassword(const plString& userName,
-                                        const plString& password);
+PLASMANET_DLL pnSha1Hash NCHashPassword(const ST::string& userName,
+                                        const ST::string& password);
 
-PLASMANET_DLL pnSha1Hash NCHashLoginInfo(const plString& userName,
-                                         const plString& password,
+PLASMANET_DLL pnSha1Hash NCHashLoginInfo(const ST::string& userName,
+                                         const ST::string& password,
                                          uint32_t serverChallenge,
                                          uint32_t clientChallenge);
 

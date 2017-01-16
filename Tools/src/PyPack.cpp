@@ -19,6 +19,7 @@
 #include "Debug/plDebug.h"
 #include <list>
 #include <ctime>
+#include <cstring>
 
 void doHelp() {
     printf("Usage: PyPack -x filename.pak [-o outdir]\n");
@@ -42,7 +43,7 @@ enum PycHeader {
 };
 
 struct PycObject {
-    plString fFilename;
+    ST::string fFilename;
     uint32_t fOffset, fSize;
     uint8_t* fData;
 };
@@ -79,8 +80,8 @@ bool parseKey(const char* buf, unsigned int& val) {
 
 int main(int argc, char** argv) {
     Action action = kInvalid;
-    plString pakfile, outdir;
-    std::list<plString> infiles;
+    ST::string pakfile, outdir;
+    std::list<ST::string> infiles;
     plEncryptedStream::EncryptionType eType = plEncryptedStream::kEncAuto;
     unsigned int uruKey[4];
     memcpy(uruKey, plEncryptedStream::DefaultKey(), sizeof(uruKey));
@@ -116,13 +117,13 @@ int main(int argc, char** argv) {
         } else if (strcmp(argv[i], "-eoa") == 0) {
             eType = plEncryptedStream::kEncAES;
         } else {
-            if (!pakfile.empty())
+            if (!pakfile.is_empty())
                 infiles.push_back(pakfile);
             pakfile = argv[i];
         }
     }
 
-    if (pakfile.empty()) {
+    if (pakfile.is_empty()) {
         doHelp();
         return 1;
     }
@@ -131,21 +132,21 @@ int main(int argc, char** argv) {
     if (action == kCreate) {
         uint32_t offs = 0, baseOffs = 4;
         pakObjects.resize(infiles.size());
-        std::list<plString>::iterator it = infiles.begin();;
+        std::list<ST::string>::iterator it = infiles.begin();;
         for (size_t i=0; it!=infiles.end(); i++, it++) {
-            plString name = *it;
-            if (name.afterLast('.').toLower() != "pyc") {
-                plDebug::Error("Unsupported format: %s\n", name.cstr());
+            ST::string name = *it;
+            if (name.after_last('.').to_lower() != "pyc") {
+                plDebug::Error("Unsupported format: {}\n", name);
                 return 1;
             }
             if (name.find(PATHSEP) >= 0)
-                name = name.afterLast(PATHSEP).beforeLast('.');
+                name = name.after_last(PATHSEP).before_last('.');
             else
-                name = name.beforeLast('.');
+                name = name.before_last('.');
             pakObjects[i].fFilename = name + ".py";
             hsFileStream S;
             if (!S.open(*it, fmRead)) {
-                plDebug::Error("Cannot open file %s\n", (*it).cstr());
+                plDebug::Error("Cannot open file {}\n", *it);
                 return 1;
             }
             pakObjects[i].fSize = S.size() - 8;
@@ -154,7 +155,7 @@ int main(int argc, char** argv) {
             S.read(pakObjects[i].fSize, pakObjects[i].fData);
             pakObjects[i].fOffset = offs;
             offs += pakObjects[i].fSize + 4;
-            baseOffs += pakObjects[i].fFilename.len() + 6;
+            baseOffs += pakObjects[i].fFilename.size() + 6;
         }
 
         PlasmaVer ver = PlasmaVer::pvPrime;
@@ -187,14 +188,14 @@ int main(int argc, char** argv) {
         if (eType == plEncryptedStream::kEncNone || !plEncryptedStream::IsFileEncrypted(pakfile)) {
             IS = new hsFileStream(PlasmaVer::pvPrime);
             if (!((hsFileStream*)IS)->open(pakfile, fmRead)) {
-                plDebug::Error("Cannot open file %s", pakfile.cstr());
+                plDebug::Error("Cannot open file {}", pakfile);
                 return 1;
             }
             eType = plEncryptedStream::kEncNone;
         } else {
             IS = new plEncryptedStream(PlasmaVer::pvPrime);
             if (!((plEncryptedStream*)IS)->open(pakfile, fmRead, eType)) {
-                plDebug::Error("Cannot open file %s\n", pakfile.cstr());
+                plDebug::Error("Cannot open file {}\n", pakfile);
                 return 1;
             }
             ((plEncryptedStream*)IS)->setKey(uruKey);
@@ -210,7 +211,7 @@ int main(int argc, char** argv) {
         for (size_t i=0; i<oldObjCount; i++) {
             pakObjects[i].fFilename = IS->readSafeStr();
             pakObjects[i].fOffset = IS->readInt();
-            baseOffs += pakObjects[i].fFilename.len() + 6;
+            baseOffs += pakObjects[i].fFilename.size() + 6;
         }
         uint32_t oldBase = IS->pos();
         for (size_t i=0; i<oldObjCount; i++) {
@@ -227,21 +228,21 @@ int main(int argc, char** argv) {
         }
         delete IS;
 
-        std::list<plString>::iterator it = infiles.begin();;
+        std::list<ST::string>::iterator it = infiles.begin();;
         for (size_t i=oldObjCount; it!=infiles.end(); i++, it++) {
-            plString name = *it;
-            if (name.afterLast('.').toLower() != "pyc") {
-                plDebug::Error("Unsupported format: %s\n", name.cstr());
+            ST::string name = *it;
+            if (name.after_last('.').to_lower() != "pyc") {
+                plDebug::Error("Unsupported format: {}\n", name);
                 return 1;
             }
             if (name.find(PATHSEP) >= 0)
-                name = name.afterLast(PATHSEP).beforeLast('.');
+                name = name.after_last(PATHSEP).before_last('.');
             else
-                name = name.beforeLast('.');
+                name = name.before_last('.');
             pakObjects[i].fFilename = name + ".py";
             hsFileStream S;
             if (!S.open(*it, fmRead)) {
-                plDebug::Error("Cannot open file %s\n", (*it).cstr());
+                plDebug::Error("Cannot open file {}\n", *it);
                 return 1;
             }
             pakObjects[i].fSize = S.size() - 8;
@@ -250,7 +251,7 @@ int main(int argc, char** argv) {
             S.read(pakObjects[i].fSize, pakObjects[i].fData);
             pakObjects[i].fOffset = offs;
             offs += pakObjects[i].fSize + 4;
-            baseOffs += pakObjects[i].fFilename.len() + 6;
+            baseOffs += pakObjects[i].fFilename.size() + 6;
         }
 
         hsStream* OS;
@@ -277,14 +278,14 @@ int main(int argc, char** argv) {
         if (eType == plEncryptedStream::kEncNone || !plEncryptedStream::IsFileEncrypted(pakfile)) {
             IS = new hsFileStream(PlasmaVer::pvPrime);
             if (!((hsFileStream*)IS)->open(pakfile, fmRead)) {
-                plDebug::Error("Cannot open file %s\n", pakfile.cstr());
+                plDebug::Error("Cannot open file {}\n", pakfile);
                 return 1;
             }
             eType = plEncryptedStream::kEncNone;
         } else {
             IS = new plEncryptedStream(PlasmaVer::pvPrime);
             if (!((plEncryptedStream*)IS)->open(pakfile, fmRead, eType)) {
-                plDebug::Error("Cannot open file %s\n", pakfile.cstr());
+                plDebug::Error("Cannot open file {}\n", pakfile);
                 return 1;
             }
             ((plEncryptedStream*)IS)->setKey(uruKey);
@@ -312,7 +313,7 @@ int main(int argc, char** argv) {
             IS->read(pakObjects[i].fSize, pakObjects[i].fData);
 
             hsFileStream S;
-            if (!outdir.empty())
+            if (!outdir.is_empty())
                 outdir += PATHSEPSTR;
             S.open(outdir + pakObjects[i].fFilename + "c", fmCreate);
             S.writeInt((eType == plEncryptedStream::kEncXtea || eType == plEncryptedStream::kEncNone)

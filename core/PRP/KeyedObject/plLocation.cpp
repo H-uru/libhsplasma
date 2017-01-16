@@ -15,6 +15,7 @@
  */
 
 #include "plLocation.h"
+#include <string_theory/format>
 
 bool plLocation::operator==(const plLocation& other) const {
     return (fState == other.fState && fPageNum == other.fPageNum
@@ -131,14 +132,14 @@ void plLocation::prcWrite(pfPrcHelper* prc) {
         prc->writeParam("Location", "VIRTUAL");
         prc->writeParamHex("LocFlag", fFlags);
     } else {
-        plString buf = plString::Format("%d;%d", fSeqPrefix, fPageNum);
+        ST::string buf = ST::format("{};{}", fSeqPrefix, fPageNum);
         prc->writeParam("Location", buf);
         prc->writeParamHex("LocFlag", fFlags);
     }
 }
 
 void plLocation::prcParse(const pfPrcTag* tag) {
-    plString buf = tag->getParam("Location", "INVALID");
+    ST::string buf = tag->getParam("Location", "INVALID");
     if (buf == "INVALID") {
         fState = kStateInvalid;
         fSeqPrefix = 0;
@@ -149,10 +150,11 @@ void plLocation::prcParse(const pfPrcTag* tag) {
         fPageNum = 0;
     } else {
         fState = kStateNormal;
-        fSeqPrefix = buf.beforeFirst(';').toInt();
-        fPageNum = buf.afterFirst(';').toInt();
+        std::vector<ST::string> parts = buf.split(';');
+        fSeqPrefix = parts.at(0).to_int();
+        fPageNum = parts.at(1).to_int();
     }
-    fFlags = tag->getParam("LocFlag", "0").toUint();
+    fFlags = tag->getParam("LocFlag", "0").to_uint();
 }
 
 void plLocation::invalidate() {
@@ -186,10 +188,10 @@ void plLocation::set(int pid, unsigned short flags, PlasmaVer pv) {
     fFlags = flags;
 }
 
-plString plLocation::toString() const {
+ST::string plLocation::toString() const {
     if (fState == kStateInvalid)
         return "<INVALID>";
     else if (fState == kStateVirtual)
         return "<VIRTUAL>";
-    return plString::Format("<%d|%d>", fSeqPrefix, fPageNum);
+    return ST::format("<{}|{}>", fSeqPrefix, fPageNum);
 }

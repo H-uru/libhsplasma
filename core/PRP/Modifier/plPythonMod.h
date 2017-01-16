@@ -20,19 +20,19 @@
 #include "plModifier.h"
 
 struct PLASMA_DLL PY_MATERIAL_ANIM {
-    plString material_name;
-    plString note_name;
+    ST::string material_name;
+    ST::string note_name;
     plKey modKey;
 };
 
 struct PLASMA_DLL PY_NOTETRACK {
     plKey objKey;
-    plString note_name;
+    ST::string note_name;
     plKey modKey;
 };
 
 struct PLASMA_DLL PY_SOUND_IDX {
-    plString sound_name;
+    ST::string sound_name;
     int sound_index;
 };
 

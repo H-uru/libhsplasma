@@ -68,7 +68,7 @@ protected:
 
 class PLASMA_DLL pfGUIConsoleCmdProc : public pfGUICtrlProcWriteableObject {
 protected:
-    plString fCommand;
+    ST::string fCommand;
 
 public:
     pfGUIConsoleCmdProc() { fType = kConsoleCmd; }
@@ -80,8 +80,8 @@ protected:
     void IPrcParse(const pfPrcTag* tag) HS_OVERRIDE;
 
 public:
-    plString getCommand() const { return fCommand; }
-    void setCommand(const plString& cmd) { fCommand = cmd; }
+    ST::string getCommand() const { return fCommand; }
+    void setCommand(const ST::string& cmd) { fCommand = cmd; }
 };
 
 

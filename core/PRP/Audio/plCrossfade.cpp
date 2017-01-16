@@ -54,12 +54,12 @@ void plCrossfade::IPrcWrite(pfPrcHelper* prc) {
 
 void plCrossfade::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "CrossfadeParams") {
-        fFirstIdx = tag->getParam("First", "0").toUint();
-        fSecondIdx = tag->getParam("Second", "0").toUint();
-        fStartType = tag->getParam("StartType", "0").toUint();
-        fEndType = tag->getParam("EndType", "0").toUint();
-        fFlags = tag->getParam("Flags", "0").toUint();
-        fRegistered = tag->getParam("Registered", "false").toBool();
+        fFirstIdx = tag->getParam("First", "0").to_uint();
+        fSecondIdx = tag->getParam("Second", "0").to_uint();
+        fStartType = tag->getParam("StartType", "0").to_uint();
+        fEndType = tag->getParam("EndType", "0").to_uint();
+        fFlags = tag->getParam("Flags", "0").to_uint();
+        fRegistered = tag->getParam("Registered", "false").to_bool();
     } else {
         plSingleModifier::IPrcParse(tag, mgr);
     }

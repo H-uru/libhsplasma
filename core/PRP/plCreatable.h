@@ -19,6 +19,7 @@
 
 #include "ResManager/pdUnifiedTypeMap.h"
 #include "ResManager/plResManager.h"
+#include <string_theory/format>
 
 #define CREATABLE(classname, classid, parentclass) \
 public: \
@@ -37,9 +38,9 @@ public: \
         } else if (requireValid) { \
             short otherClassId = pCre->ClassIndex(); \
             throw hsBadParamException(__FILE__, __LINE__, \
-                plString::Format("Required conversion failed for %s -> %s", \
-                                 pdUnifiedTypeMap::ClassName(otherClassId), \
-                                 pdUnifiedTypeMap::ClassName(classid))); \
+                ST::format("Required conversion failed for {} -> {}", \
+                           pdUnifiedTypeMap::ClassName(otherClassId), \
+                           pdUnifiedTypeMap::ClassName(classid))); \
         } else { \
             return NULL; \
         } \

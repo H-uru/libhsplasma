@@ -19,6 +19,7 @@
 #include "PRP/Object/plSceneObject.h"
 #include "PRP/Object/plSimulationInterface.h"
 #include "PRP/Region/hsBounds.h"
+#include <cstring>
 
 /* Engine specific headers */
 #include "plHKPhysical.h"
@@ -157,9 +158,9 @@ void plGenericPhysical::write(hsStream* S, plResManager* mgr) {
 void plGenericPhysical::IPrcWrite(pfPrcHelper* prc) {
     plPhysical::IPrcWrite(prc);
 
-    plString groups = "";
-    plString reports = fDisableReport ? "kDisable " : "";
-    plString collides = fDisableCollide ? "kDisable " : "";
+    ST::string groups = "";
+    ST::string reports = fDisableReport ? "kDisable " : "";
+    ST::string collides = fDisableCollide ? "kDisable " : "";
     for (size_t i=0; i<plSimDefs::kGroupMax; i++) {
         if (fMemberGroup == i) {
            groups += plSimDefs::GroupNames[i];
@@ -245,7 +246,7 @@ void plGenericPhysical::IPrcWrite(pfPrcHelper* prc) {
         prc->writeSimpleTag("Faces");
         for (size_t i=0; i<fIndices.size(); i += 3) {
             prc->writeTagNoBreak("Triangle");
-            prc->directWrite(plString::Format("%d %d %d",
+            prc->directWrite(ST::format("{} {} {}",
                              fIndices[i+0], fIndices[i+1], fIndices[i+2]));
             prc->closeTagNoBreak();
         }
@@ -264,7 +265,7 @@ void plGenericPhysical::IPrcWrite(pfPrcHelper* prc) {
         prc->writeSimpleTag("Faces");
         for (size_t i=0; i<fIndices.size(); i += 3) {
             prc->writeTagNoBreak("Triangle");
-            prc->directWrite(plString::Format("%d %d %d",
+            prc->directWrite(ST::format("{} {} {}",
                              fIndices[i+0], fIndices[i+1], fIndices[i+2]));
             prc->closeTagNoBreak();
         }
@@ -285,15 +286,15 @@ void plGenericPhysical::IPrcWrite(pfPrcHelper* prc) {
 
 void plGenericPhysical::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "PhysicalParams") {
-        fMass = tag->getParam("Mass", "0").toFloat();
-        fFriction = tag->getParam("Friction", "0").toFloat();
-        fRestitution = tag->getParam("Restitution", "0").toFloat();
-        fLOSDBs = tag->getParam("LOSDBs", "0").toUint();
-        fCollideGroup = tag->getParam("CollideGroup", "0").toUint();
+        fMass = tag->getParam("Mass", "0").to_float();
+        fFriction = tag->getParam("Friction", "0").to_float();
+        fRestitution = tag->getParam("Restitution", "0").to_float();
+        fLOSDBs = tag->getParam("LOSDBs", "0").to_uint();
+        fCollideGroup = tag->getParam("CollideGroup", "0").to_uint();
 
-        plString group = tag->getParam("MemberGroup", "kGroupStatic");
-        plString reports = tag->getParam("ReportGroup", "");
-        plString collides = tag->getParam("CollideGroup", "");
+        ST::string group = tag->getParam("MemberGroup", "kGroupStatic");
+        ST::string reports = tag->getParam("ReportGroup", "");
+        ST::string collides = tag->getParam("CollideGroup", "");
         fMemberGroup = fReportGroup = fCollideGroup = 0;
         fDisableReport = (reports.find("kDisable") != -1);
         fDisableCollide = (collides.find("kDisable") != -1);
@@ -336,14 +337,14 @@ void plGenericPhysical::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fProps.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "Bounds" ) {
-        plString bounds = tag->getParam("Type", "kBoxBounds");
+        ST::string bounds = tag->getParam("Type", "kBoxBounds");
         for (size_t i=0; i<plSimDefs::kNumBounds; i++)
             if (bounds == plSimDefs::BoundsNames[i])
                 fBounds = (plSimDefs::Bounds)i;
         const pfPrcTag* child = tag->getFirstChild();
         while (child != NULL) {
             if (child->getName() == "SphereBounds") {
-                fRadius = child->getParam("Radius", "0").toFloat();
+                fRadius = child->getParam("Radius", "0").to_float();
                 if (child->hasChildren())
                     fOffset.prcParse(child->getFirstChild());
             } else if (child->getName() == "BoxBounds") {
@@ -361,8 +362,8 @@ void plGenericPhysical::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
                     subchild = subchild->getNextSibling();
                 }
             } else if (child->getName() == "CylinderBounds") {
-                fRadius = child->getParam("Radius", "0").toFloat();
-                fLength = child->getParam("Length", "0").toFloat();
+                fRadius = child->getParam("Radius", "0").to_float();
+                fLength = child->getParam("Length", "0").to_float();
             } else if (child->getName() == "Verts") {
                 fVerts.resize(child->countChildren());
                 const pfPrcTag* vert = child->getFirstChild();
@@ -376,13 +377,13 @@ void plGenericPhysical::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
                 for (size_t i=0; i<fIndices.size(); i += 3) {
                     if (tri->getName() != "Triangle")
                         throw pfPrcTagException(__FILE__, __LINE__, tri->getName());
-                    std::list<plString> idxList = tri->getContents();
+                    std::list<ST::string> idxList = tri->getContents();
                     if (idxList.size() != 3)
                         throw pfPrcParseException(__FILE__, __LINE__, "Triangles should have exactly 3 indices");
                     auto idx_iter = idxList.begin();
-                    fIndices[i+0] = (*idx_iter++).toUint();
-                    fIndices[i+1] = (*idx_iter++).toUint();
-                    fIndices[i+2] = (*idx_iter++).toUint();
+                    fIndices[i+0] = (*idx_iter++).to_uint();
+                    fIndices[i+1] = (*idx_iter++).to_uint();
+                    fIndices[i+2] = (*idx_iter++).to_uint();
                     tri = tri->getNextSibling();
                 }
             } else if (child->getName() == "TriMeshDataBuffer") {
@@ -392,7 +393,7 @@ void plGenericPhysical::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
                 for (size_t i=0; i<fTMDSize; i++) {
                     if (face->getName() != "Face")
                         throw pfPrcTagException(__FILE__, __LINE__, face->getName());
-                    fTMDBuffer[i] = face->getParam("data", "0").toUint();
+                    fTMDBuffer[i] = face->getParam("data", "0").to_uint();
                     face = face->getNextSibling();
                 }
             } else {
@@ -454,32 +455,32 @@ void plGenericPhysical::IReadHKPhysical(hsStream* S, plResManager* mgr) {
     // now compare
     if (memGroup != hMemberGroup) {
         showAll = true;
-        plDebug::Warning("%s memGroup changed: 0x%08X => 0x%08X",
-                getKey().toString().cstr(), hMemberGroup, memGroup);
+        plDebug::Warning("{} memGroup changed: 0x{_08X} => 0x{_08X}",
+                getKey().toString(), hMemberGroup, memGroup);
     }
     if (repGroup != hReportGroup) {
         showAll = true;
-        plDebug::Warning("%s repGroup changed: 0x%08X => 0x%08X",
-                getKey().toString().cstr(), hReportGroup, repGroup);
+        plDebug::Warning("{} repGroup changed: 0x{_08X} => 0x{_08X}",
+                getKey().toString(), hReportGroup, repGroup);
     }
     if (colGroup != hCollideGroup) {
         showAll = true;
-        plDebug::Warning("%s colGroup changed: 0x%08X => 0x%08X",
-                getKey().toString().cstr(), hCollideGroup, colGroup);
+        plDebug::Warning("{} colGroup changed: 0x{_08X} => 0x{_08X}",
+                getKey().toString(), hCollideGroup, colGroup);
     }
     if (showAll) {
-        plDebug::Debug("%s original HK flags: memGroup = 0x%08X, repGroup = 0x%08X, colGroup = 0x%08X",
-                getKey().toString().cstr(), hMemberGroup, hReportGroup, hCollideGroup);
-        plDebug::Debug("%s Generic data: memGroup = 0x%08X, repGroup = 0x%08X, colGroup = 0x%08X",
-                getKey().toString().cstr(), fMemberGroup, fReportGroup, fCollideGroup);
-        plString info = plString::Format("%s LOSDBs = 0x%08X, properties: ", getKey().toString().cstr(), fLOSDBs);
+        plDebug::Debug("{} original HK flags: memGroup = 0x{_08X}, repGroup = 0x{_08X}, colGroup = 0x{_08X}",
+                getKey().toString(), hMemberGroup, hReportGroup, hCollideGroup);
+        plDebug::Debug("{} Generic data: memGroup = 0x{_08X}, repGroup = 0x{_08X}, colGroup = 0x{_08X}",
+                getKey().toString(), fMemberGroup, fReportGroup, fCollideGroup);
+        ST::string info = ST::format("{} LOSDBs = 0x{_08X}, properties: ", getKey().toString(), fLOSDBs);
         for (size_t i=0; i<fProps.size(); i++) {
             if (fProps.get(i)) {
                 info += fProps.getName(i);
                 info += " ";
             }
         }
-        plDebug::Debug(info);
+        plDebug::Debug(info.c_str());
     }
 #endif
 }
@@ -582,12 +583,12 @@ void plGenericPhysical::IReadPXPhysical(hsStream* S, plResManager* mgr) {
     uint8_t group = plPXSimDefs::toGroup(fMemberGroup, fCollideGroup);
     uint32_t reports = plPXSimDefs::setReportsOn(fReportGroup);
     if (group != pxGroup) {
-        plDebug::Warning("%s mem/colGroup changed: 0x%08X => 0x%08X",
-                getKey().toString().cstr(), pxGroup, group);
+        plDebug::Warning("{} mem/colGroup changed: 0x{_08X} => 0x{_08X}",
+                getKey().toString(), pxGroup, group);
     }
     if (reports != pxReports) {
-        plDebug::Warning("%s repGroup changed: 0x%08X => 0x%08X",
-                getKey().toString().cstr(), pxReports, reports);
+        plDebug::Warning("{} repGroup changed: 0x{_08X} => 0x{_08X}",
+                getKey().toString(), pxReports, reports);
     }
 #endif
 }

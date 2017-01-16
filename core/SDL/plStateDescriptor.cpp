@@ -41,7 +41,7 @@ void plVarDescriptor::read(hsStream* S) {
 void plVarDescriptor::write(hsStream* S) {
     S->writeByte(3);
     S->writeSafeStr(fName);
-    S->writeShort(fDisplay.len());
+    S->writeShort(fDisplay.size());
     S->writeStr(fDisplay);
     S->writeInt(fCount);
     S->writeByte(fType);
@@ -84,8 +84,8 @@ void plVarDescriptor::setVariableLength(bool varLength) {
         fFlags &= ~kVariableLength;
 }
 
-plVarDescriptor::Type plVarDescriptor::GetTypeFromString(const plString& type, bool isEoa) {
-    plString itype = type.toLower();
+plVarDescriptor::Type plVarDescriptor::GetTypeFromString(const ST::string& type, bool isEoa) {
+    ST::string itype = type.to_lower();
     if (isEoa) {
         // These translate differently in Myst5...
         if (itype == "bool")
@@ -129,7 +129,7 @@ plVarDescriptor::Type plVarDescriptor::GetTypeFromString(const plString& type, b
         else
             return kStateDescriptor;
     } else {
-        if (type.startsWith("$"))
+        if (type.char_at(0) == '$')
             return kStateDescriptor;
         else if (itype == "int")
             return kInt;
@@ -214,14 +214,14 @@ void plStateDescriptor::prcWrite(pfPrcHelper* prc) {
     }
 }
 
-plVarDescriptor* plStateDescriptor::get(const plString& name) {
+plVarDescriptor* plStateDescriptor::get(const ST::string& name) {
     for (size_t i=0; i<fVariables.size(); i++)
         if (fVariables[i]->getName() == name)
             return fVariables[i];
     return NULL;
 }
 
-void plStateDescriptor::set(const plString& name, plVarDescriptor* var) {
+void plStateDescriptor::set(const ST::string& name, plVarDescriptor* var) {
     size_t idx = (size_t)-1;
     for (size_t i=0; i<fVariables.size(); i++)
         if (fVariables[i]->getName() == name)
@@ -238,7 +238,7 @@ void plStateDescriptor::delVariable(size_t idx) {
     fVariables.erase(fVariables.begin() + idx);
 }
 
-void plStateDescriptor::delVariable(const plString& name) {
+void plStateDescriptor::delVariable(const ST::string& name) {
     for (auto var = fVariables.begin(); var != fVariables.end(); ++var) {
         if ((*var)->getName() == name) {
             delete *var;

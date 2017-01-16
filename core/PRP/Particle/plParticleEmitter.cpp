@@ -59,9 +59,9 @@ void plParticleEmitter::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             setGenerator(plParticleGenerator::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else if (tag->getName() == "EmitterParams") {
-        fSpanIndex = tag->getParam("SpanIndex", "0").toUint();
-        fMaxParticles = tag->getParam("MaxParticles", "0").toUint();
-        fMiscFlags = tag->getParam("MiscFlags", "0").toUint();
+        fSpanIndex = tag->getParam("SpanIndex", "0").to_uint();
+        fMaxParticles = tag->getParam("MaxParticles", "0").to_uint();
+        fMiscFlags = tag->getParam("MiscFlags", "0").to_uint();
     } else if (tag->getName() == "Color") {
         if (tag->hasChildren())
             fColor.prcParse(tag->getFirstChild());

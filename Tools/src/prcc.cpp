@@ -19,6 +19,7 @@
 #include <Debug/hsExceptions.hpp>
 #include <PRP/plPageInfo.h>
 #include <PRP/plCreatable.h>
+#include <cstring>
 
 void doHelp(const char* exename) {
     printf("Usage: %s infile [options]\n\n", exename);
@@ -29,7 +30,7 @@ void doHelp(const char* exename) {
 }
 
 int main(int argc, char* argv[]) {
-    plString inputFile, outputFile;
+    ST::string inputFile, outputFile;
     PlasmaVer outVer = PlasmaVer::pvUnknown;
 
     if (argc == 1) {
@@ -41,7 +42,7 @@ int main(int argc, char* argv[]) {
         if (strcmp(argv[i], "-o") == 0 || strcmp(argv[i], "--out") == 0) {
             outputFile = argv[++i];
         } else if (strcmp(argv[i], "-v") == 0 || strcmp(argv[i], "--ver") == 0) {
-            plString ver = plString(argv[++i]).toLower();
+            ST::string ver = ST::string(argv[++i]).to_lower();
             if (ver == "prime")
                 outVer = PlasmaVer::pvPrime;
             else if (ver == "pots")
@@ -55,7 +56,7 @@ int main(int argc, char* argv[]) {
             else if (ver == "universal")
                 outVer = PlasmaVer::pvUniversal;
             else {
-                fprintf(stderr, "Error: unrecognized version: %s\n", ver.cstr());
+                fprintf(stderr, "Error: unrecognized version: %s\n", ver.c_str());
                 return 1;
             }
         } else if (strcmp(argv[i], "-?") == 0 || strcmp(argv[i], "--help") == 0) {
@@ -64,7 +65,7 @@ int main(int argc, char* argv[]) {
         } else if (argv[i][0] == '-') {
             fprintf(stderr, "Warning: unrecognized option %s\n", argv[i]);
         } else {
-            if (inputFile.empty())
+            if (inputFile.is_empty())
                 inputFile = argv[i];
             else
                 fprintf(stderr, "Warning: ignoring extra parameter %s\n", argv[i]);
@@ -88,17 +89,17 @@ int main(int argc, char* argv[]) {
         prc.read(&S);
         const pfPrcTag* root = prc.getRoot();
         if (root->getName() == "Page") {
-            if (outputFile.empty())
+            if (outputFile.is_empty())
                 outputFile = "out.prp";
             plPageInfo* page = rm.ReadPagePrc(root);
             rm.WritePage(outputFile, page);
         } else if (root->getName() == "Age") {
-            if (outputFile.empty())
+            if (outputFile.is_empty())
                 outputFile = "out.age";
             plAgeInfo* age = rm.ReadAgePrc(root);
             rm.WriteAge(outputFile, age);
         } else {
-            if (outputFile.empty())
+            if (outputFile.is_empty())
                 outputFile = "out.po";
             plCreatable* cre = rm.prcParseCreatable(root);
             if (cre != NULL) {
@@ -116,7 +117,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    printf("Successfully compiled %s!\n", inputFile.cstr());
+    printf("Successfully compiled %s!\n", inputFile.c_str());
 
     return 0;
 }

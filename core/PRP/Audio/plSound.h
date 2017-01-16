@@ -79,7 +79,7 @@ protected:
     plEAXSourceSettings fEAXSettings;
     plFadeParams fFadeInParams, fFadeOutParams;
     plKey fSoftRegion, fSoftOcclusionRegion, fDataBuffer;
-    plString fSubtitleId;
+    ST::string fSubtitleId;
 
 public:
     plSound() : fType(kStartType), fPriority(0), fPlaying(false), fTime(0.0f),
@@ -113,7 +113,7 @@ public:
     plKey getSoftRegion() const { return fSoftRegion; }
     plKey getSoftOcclusionRegion() const { return fSoftOcclusionRegion; }
     plKey getDataBuffer() const { return fDataBuffer; }
-    plString getSubtitleId() const { return fSubtitleId; }
+    ST::string getSubtitleId() const { return fSubtitleId; }
 
     void setType(unsigned char type) { fType = type; }
     void setPriority(unsigned char priority) { fPriority = priority; }
@@ -133,7 +133,7 @@ public:
     void setSoftRegion(plKey region) { fSoftRegion = region; }
     void setSoftOcclusionRegion(plKey region) { fSoftOcclusionRegion = region; }
     void setDataBuffer(plKey buffer) { fDataBuffer = buffer; }
-    void setSubtitleId(const plString& subtitle) { fSubtitleId = subtitle; }
+    void setSubtitleId(const ST::string& subtitle) { fSubtitleId = subtitle; }
 
     const plEAXSourceSettings& getEAXSettings() const { return fEAXSettings; }
     const plFadeParams& getFadeInParams() const { return fFadeInParams; }

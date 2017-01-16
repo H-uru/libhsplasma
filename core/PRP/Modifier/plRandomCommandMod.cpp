@@ -47,10 +47,10 @@ void plRandomCommandMod::IPrcWrite(pfPrcHelper* prc) {
 
 void plRandomCommandMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "RandomCommandParams") {
-        fMode = tag->getParam("Mode", "0").toUint();
-        fState = tag->getParam("State", "0").toUint();
-        fMinDelay = tag->getParam("MinDelay", "0").toFloat();
-        fMaxDelay = tag->getParam("MaxDelay", "0").toFloat();
+        fMode = tag->getParam("Mode", "0").to_uint();
+        fState = tag->getParam("State", "0").to_uint();
+        fMinDelay = tag->getParam("MinDelay", "0").to_float();
+        fMaxDelay = tag->getParam("MaxDelay", "0").to_float();
     } else {
         plSingleModifier::IPrcParse(tag, mgr);
     }

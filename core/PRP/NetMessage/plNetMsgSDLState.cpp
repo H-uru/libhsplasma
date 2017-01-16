@@ -64,9 +64,9 @@ void plNetMsgSDLState::IPrcWrite(pfPrcHelper* prc) {
 
 void plNetMsgSDLState::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "SDLStateParams") {
-        fIsInitialState = tag->getParam("IsInitialState", "false").toBool();
-        fPersistOnServer = tag->getParam("PersistOnServer", "false").toBool();
-        fIsAvatarState = tag->getParam("IsAvatarState", "false").toBool();
+        fIsInitialState = tag->getParam("IsInitialState", "false").to_bool();
+        fPersistOnServer = tag->getParam("PersistOnServer", "false").to_bool();
+        fIsAvatarState = tag->getParam("IsAvatarState", "false").to_bool();
     } else {
         if (fDescriptor != NULL)
             //TODO: Parse SDL as PRC
@@ -78,7 +78,7 @@ void plNetMsgSDLState::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 bool plNetMsgSDLState::findDescriptor(plSDLMgr* sdl) {
     hsStream* blob = getStream();
-    plString descName;
+    ST::string descName;
     int descVersion = -1;
     plStateDataRecord::ReadStreamHeader(blob, descName, descVersion, NULL);
     fDescriptor = sdl->GetDescriptor(descName, descVersion);

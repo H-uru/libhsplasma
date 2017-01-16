@@ -35,7 +35,7 @@ void plNetMsgRoomsList::write(hsStream* S, plResManager* mgr) {
     S->writeInt(fRooms.size());
     for (size_t i=0; i<fRooms.size(); i++) {
         fRooms[i].fLocation.write(S);
-        S->writeShort(fRooms[i].fName.len());
+        S->writeShort(fRooms[i].fName.size());
         S->writeStr(fRooms[i].fName);
     }
 }
@@ -70,7 +70,7 @@ void plNetMsgRoomsList::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plNetMsgRoomsList::addRoom(const plLocation& loc, const plString& name) {
+void plNetMsgRoomsList::addRoom(const plLocation& loc, const ST::string& name) {
     Room rm;
     rm.fLocation = loc;
     rm.fName = name;
@@ -99,7 +99,7 @@ void plNetMsgPagingRoom::IPrcWrite(pfPrcHelper* prc) {
 
 void plNetMsgPagingRoom::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "PageFlags") {
-        fPageFlags = tag->getParam("value", "0").toUint();
+        fPageFlags = tag->getParam("value", "0").to_uint();
     } else {
         plNetMsgRoomsList::IPrcParse(tag, mgr);
     }

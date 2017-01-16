@@ -50,25 +50,25 @@ void plAgeInfoStruct::read(hsStream* S, plResManager* mgr) {
 void plAgeInfoStruct::write(hsStream* S, plResManager* mgr) {
     S->writeByte(fFlags);
     if (fFlags & kHasAgeFilename) {
-        S->writeShort(fAgeFilename.len());
+        S->writeShort(fAgeFilename.size());
         S->writeStr(fAgeFilename);
     }
     if (fFlags & kHasAgeInstanceName) {
-        S->writeShort(fAgeInstanceName.len());
+        S->writeShort(fAgeInstanceName.size());
         S->writeStr(fAgeInstanceName);
     }
     if (fFlags & kHasAgeInstanceGuid) {
         fAgeInstanceGuid.write(S);
     }
     if (fFlags & kHasAgeUserDefinedName) {
-        S->writeShort(fAgeUserDefinedName.len());
+        S->writeShort(fAgeUserDefinedName.size());
         S->writeStr(fAgeUserDefinedName);
     }
     if (fFlags & kHasAgeSequenceNumber) {
         S->writeInt(fAgeSequenceNumber);
     }
     if (fFlags & kHasAgeDescription) {
-        S->writeShort(fAgeDescription.len());
+        S->writeShort(fAgeDescription.size());
         S->writeStr(fAgeDescription);
     }
     if (fFlags & kHasAgeLanguage) {
@@ -137,24 +137,24 @@ void plAgeInfoStruct::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fAgeUserDefinedName = tag->getParam("value", "");
     } else if (tag->getName() == "SequenceNumber") {
         fFlags |= kHasAgeSequenceNumber;
-        fAgeSequenceNumber = tag->getParam("value", "0").toInt();
+        fAgeSequenceNumber = tag->getParam("value", "0").to_int();
     } else if (tag->getName() == "AgeDescription") {
         fFlags |= kHasAgeDescription;
         fAgeDescription = tag->getParam("value", "");
     } else if (tag->getName() == "AgeLanguage") {
         fFlags |= kHasAgeLanguage;
-        fAgeLanguage = tag->getParam("value", "0").toInt();
+        fAgeLanguage = tag->getParam("value", "0").to_int();
     } else {
         plCreatable::IPrcParse(tag, mgr);
     }
 }
 
-void plAgeInfoStruct::setAgeFilename(plString name) {
+void plAgeInfoStruct::setAgeFilename(const ST::string& name) {
     fFlags |= kHasAgeFilename;
     fAgeFilename = name;
 }
 
-void plAgeInfoStruct::setAgeInstanceName(plString name) {
+void plAgeInfoStruct::setAgeInstanceName(const ST::string& name) {
     fFlags |= kHasAgeInstanceName;
     fAgeInstanceName = name;
 }
@@ -164,12 +164,12 @@ void plAgeInfoStruct::setAgeInstanceGuid(const plUuid& guid) {
     fAgeInstanceGuid = guid;
 }
 
-void plAgeInfoStruct::setAgeUserDefinedName(plString name) {
+void plAgeInfoStruct::setAgeUserDefinedName(const ST::string& name) {
     fFlags |= kHasAgeUserDefinedName;
     fAgeUserDefinedName = name;
 }
 
-void plAgeInfoStruct::setAgeDescription(plString desc) {
+void plAgeInfoStruct::setAgeDescription(const ST::string& desc) {
     fFlags |= kHasAgeDescription;
     fAgeDescription = desc;
 }
@@ -185,12 +185,12 @@ void plAgeInfoStruct::setAgeLanguage(int lang) {
 }
 
 void plAgeInfoStruct::clearAgeFilename() {
-    fAgeFilename = plString();
+    fAgeFilename = ST::null;
     fFlags &= ~kHasAgeFilename;
 }
 
 void plAgeInfoStruct::clearAgeInstanceName() {
-    fAgeInstanceName = plString();
+    fAgeInstanceName = ST::null;
     fFlags &= ~kHasAgeInstanceName;
 }
 
@@ -200,12 +200,12 @@ void plAgeInfoStruct::clearAgeInstanceGuid() {
 }
 
 void plAgeInfoStruct::clearAgeUserDefinedName() {
-    fAgeUserDefinedName = plString();
+    fAgeUserDefinedName = ST::null;
     fFlags &= ~kHasAgeUserDefinedName;
 }
 
 void plAgeInfoStruct::clearAgeDescription() {
-    fAgeDescription = plString();
+    fAgeDescription = ST::null;
     fFlags &= ~kHasAgeDescription;
 }
 
@@ -235,7 +235,7 @@ void plAgeLinkStruct::read(hsStream* S, plResManager* mgr) {
             fLinkingRules = S->readByte();
         if (fFlags & kHasSpawnPt_DEAD) {
             size_t len = S->readShort();
-            plString str = S->readStr(len);
+            ST::string str = S->readStr(len);
             fSpawnPoint.setSpawnPt(str);
             if (str == "LinkInPointDefault")
                 fSpawnPoint.setTitle("Default");
@@ -296,7 +296,7 @@ void plAgeLinkStruct::write(hsStream* S, plResManager* mgr) {
         if (fFlags & kHasAmCCR)
             S->writeByte(fAmCCR);
         if (fFlags & kHasParentAgeFilename) {
-            S->writeShort(fParentAgeFilename.len());
+            S->writeShort(fParentAgeFilename.size());
             S->writeStr(fParentAgeFilename);
         }
     } else {
@@ -305,9 +305,9 @@ void plAgeLinkStruct::write(hsStream* S, plResManager* mgr) {
         fields[1] = true;
         fields[2] = true;
 
-        S->writeShort(fAgeInfo.getAgeFilename().len());
+        S->writeShort(fAgeInfo.getAgeFilename().size());
         S->writeStr(fAgeInfo.getAgeFilename());
-        S->writeShort(fAgeInfo.getAgeInstanceName().len());
+        S->writeShort(fAgeInfo.getAgeInstanceName().size());
         S->writeStr(fAgeInfo.getAgeInstanceName());
         fSpawnPoint.write(S);
     }
@@ -355,14 +355,14 @@ void plAgeLinkStruct::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             fAgeInfo.clear();
     } else if (tag->getName() == "LinkingRules") {
         fFlags |= kHasLinkingRules;
-        plString lRule = tag->getParam("value", "kBasicLink");
+        ST::string lRule = tag->getParam("value", "kBasicLink");
         fLinkingRules = -1;
         for (size_t i=0; i<=kChildAgeBook; i++) {
             if (lRule == kLinkingRuleNames[i])
                 fLinkingRules = i;
         }
         if (fLinkingRules == -1) {
-            fLinkingRules = lRule.toInt();
+            fLinkingRules = lRule.to_int();
         }
     } else if (tag->getName() == "SpawnPoint") {
         fFlags |= kHasSpawnPt;
@@ -372,7 +372,7 @@ void plAgeLinkStruct::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             fSpawnPoint.clear();
     } else if (tag->getName() == "AmCCR") {
         fFlags |= kHasAmCCR;
-        fAmCCR = tag->getParam("value", "0").toUint();
+        fAmCCR = tag->getParam("value", "0").to_uint();
     } else if (tag->getName() == "ParentAgeFilename") {
         fFlags |= kHasParentAgeFilename;
         fParentAgeFilename = tag->getParam("value", "");
@@ -391,7 +391,7 @@ void plAgeLinkStruct::setAmCCR(unsigned char ccr) {
     fFlags |= kHasAmCCR;
 }
 
-void plAgeLinkStruct::setParentAgeFilename(plString filename) {
+void plAgeLinkStruct::setParentAgeFilename(const ST::string& filename) {
     fParentAgeFilename = filename;
     fFlags |= kHasParentAgeFilename;
 }
@@ -421,7 +421,7 @@ void plAgeLinkStruct::clearAmCCR() {
 }
 
 void plAgeLinkStruct::clearParentAgeFilename() {
-    fParentAgeFilename = plString();
+    fParentAgeFilename = ST::null;
     fFlags &= ~kHasParentAgeFilename;
 }
 
@@ -494,8 +494,8 @@ void plAgeLinkEffects::prcParse(const pfPrcTag* tag) {
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
     fLinkInAnimName = tag->getParam("LinkInAnimName", "");
-    fBool1 = tag->getParam("Bool1", "true").toBool();
-    fBool2 = tag->getParam("Bool2", "true").toBool();
-    fBool3 = tag->getParam("Bool3", "true").toBool();
-    fBool4 = tag->getParam("Bool4", "true").toBool();
+    fBool1 = tag->getParam("Bool1", "true").to_bool();
+    fBool2 = tag->getParam("Bool2", "true").to_bool();
+    fBool3 = tag->getParam("Bool3", "true").to_bool();
+    fBool4 = tag->getParam("Bool4", "true").to_bool();
 }

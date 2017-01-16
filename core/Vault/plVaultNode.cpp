@@ -336,7 +336,7 @@ void plVaultNode::write(hsStream* S) {
     if (fFields[kFieldCreateAgeTime])
         fCreateAgeTime.write(S);
     if (fFields[kFieldCreateAgeName]) {
-        S->writeShort(fCreateAgeName.len());
+        S->writeShort(fCreateAgeName.size());
         S->writeStr(fCreateAgeName);
     }
     if (fFields[kFieldCreateAgeGuid])
@@ -358,43 +358,43 @@ void plVaultNode::write(hsStream* S) {
     if (fFields[kFieldUInt32_4])
         S->writeInt(fUInt32[3]);
     if (fFields[kFieldString64_1]) {
-        S->writeShort(fString64[0].len());
+        S->writeShort(fString64[0].size());
         S->writeStr(fString64[0]);
     }
     if (fFields[kFieldString64_2]) {
-        S->writeShort(fString64[1].len());
+        S->writeShort(fString64[1].size());
         S->writeStr(fString64[1]);
     }
     if (fFields[kFieldString64_3]) {
-        S->writeShort(fString64[2].len());
+        S->writeShort(fString64[2].size());
         S->writeStr(fString64[2]);
     }
     if (fFields[kFieldString64_4]) {
-        S->writeShort(fString64[3].len());
+        S->writeShort(fString64[3].size());
         S->writeStr(fString64[3]);
     }
     if (fFields[kFieldString64_5]) {
-        S->writeShort(fString64[4].len());
+        S->writeShort(fString64[4].size());
         S->writeStr(fString64[4]);
     }
     if (fFields[kFieldString64_6]) {
-        S->writeShort(fString64[5].len());
+        S->writeShort(fString64[5].size());
         S->writeStr(fString64[5]);
     }
     if (fFields[kFieldIString64_1]) {
-        S->writeShort(fIString64[0].len());
+        S->writeShort(fIString64[0].size());
         S->writeStr(fIString64[0]);
     }
     if (fFields[kFieldIString64_2]) {
-        S->writeShort(fIString64[1].len());
+        S->writeShort(fIString64[1].size());
         S->writeStr(fIString64[1]);
     }
     if (fFields[kFieldText_1]) {
-        S->writeShort(fText[0].len());
+        S->writeShort(fText[0].size());
         S->writeStr(fText[0]);
     }
     if (fFields[kFieldText_2]) {
-        S->writeShort(fText[1].len());
+        S->writeShort(fText[1].size());
         S->writeStr(fText[1]);
     }
     if (fFields[kFieldBlob_1])
@@ -455,7 +455,7 @@ plServerGuid plVaultNode::getGuid2() const {
     return fFields[kFieldGuid_2] ? fGuid2 : plServerGuid();
 }
 
-plString plVaultNode::getCreateAgeName() const {
+ST::string plVaultNode::getCreateAgeName() const {
     return fFields[kFieldCreateAgeName] ? fCreateAgeName : "";
 }
 
@@ -491,43 +491,43 @@ unsigned int plVaultNode::getUInt32_4() const {
     return fFields[kFieldUInt32_4] ? fUInt32[3] : 0;
 }
 
-plString plVaultNode::getString64_1() const {
+ST::string plVaultNode::getString64_1() const {
     return fFields[kFieldString64_1] ? fString64[0] : "";
 }
 
-plString plVaultNode::getString64_2() const {
+ST::string plVaultNode::getString64_2() const {
     return fFields[kFieldString64_2] ? fString64[1] : "";
 }
 
-plString plVaultNode::getString64_3() const {
+ST::string plVaultNode::getString64_3() const {
     return fFields[kFieldString64_3] ? fString64[2] : "";
 }
 
-plString plVaultNode::getString64_4() const {
+ST::string plVaultNode::getString64_4() const {
     return fFields[kFieldString64_4] ? fString64[3] : "";
 }
 
-plString plVaultNode::getString64_5() const {
+ST::string plVaultNode::getString64_5() const {
     return fFields[kFieldString64_5] ? fString64[4] : "";
 }
 
-plString plVaultNode::getString64_6() const {
+ST::string plVaultNode::getString64_6() const {
     return fFields[kFieldString64_6] ? fString64[5] : "";
 }
 
-plString plVaultNode::getIString64_1() const {
+ST::string plVaultNode::getIString64_1() const {
     return fFields[kFieldIString64_1] ? fIString64[0] : "";
 }
 
-plString plVaultNode::getIString64_2() const {
+ST::string plVaultNode::getIString64_2() const {
     return fFields[kFieldIString64_2] ? fIString64[1] : "";
 }
 
-plString plVaultNode::getText_1() const {
+ST::string plVaultNode::getText_1() const {
     return fFields[kFieldText_1] ? fText[0] : "";
 }
 
-plString plVaultNode::getText_2() const {
+ST::string plVaultNode::getText_2() const {
     return fFields[kFieldText_2] ? fText[1] : "";
 }
 
@@ -599,7 +599,7 @@ void plVaultNode::setGuid2(const plServerGuid& guid) {
     fGuid2 = guid;
 }
 
-void plVaultNode::setCreateAgeName(const plString& name) {
+void plVaultNode::setCreateAgeName(const ST::string& name) {
     fFields[kFieldCreateAgeName] = true;
     fCreateAgeName = name;
 }
@@ -644,52 +644,52 @@ void plVaultNode::setUInt32_4(unsigned int value) {
     fUInt32[3] = value;
 }
 
-void plVaultNode::setString64_1(const plString& value) {
+void plVaultNode::setString64_1(const ST::string& value) {
     fFields[kFieldString64_1] = true;
     fString64[0] = value;
 }
 
-void plVaultNode::setString64_2(const plString& value) {
+void plVaultNode::setString64_2(const ST::string& value) {
     fFields[kFieldString64_2] = true;
     fString64[1] = value;
 }
 
-void plVaultNode::setString64_3(const plString& value) {
+void plVaultNode::setString64_3(const ST::string& value) {
     fFields[kFieldString64_3] = true;
     fString64[2] = value;
 }
 
-void plVaultNode::setString64_4(const plString& value) {
+void plVaultNode::setString64_4(const ST::string& value) {
     fFields[kFieldString64_4] = true;
     fString64[3] = value;
 }
 
-void plVaultNode::setString64_5(const plString& value) {
+void plVaultNode::setString64_5(const ST::string& value) {
     fFields[kFieldString64_5] = true;
     fString64[4] = value;
 }
 
-void plVaultNode::setString64_6(const plString& value) {
+void plVaultNode::setString64_6(const ST::string& value) {
     fFields[kFieldString64_6] = true;
     fString64[5] = value;
 }
 
-void plVaultNode::setIString64_1(const plString& value) {
+void plVaultNode::setIString64_1(const ST::string& value) {
     fFields[kFieldIString64_1] = true;
     fIString64[0] = value;
 }
 
-void plVaultNode::setIString64_2(const plString& value) {
+void plVaultNode::setIString64_2(const ST::string& value) {
     fFields[kFieldIString64_2] = true;
     fIString64[1] = value;
 }
 
-void plVaultNode::setText_1(const plString& value) {
+void plVaultNode::setText_1(const ST::string& value) {
     fFields[kFieldText_1] = true;
     fText[0] = value;
 }
 
-void plVaultNode::setText_2(const plString& value) {
+void plVaultNode::setText_2(const ST::string& value) {
     fFields[kFieldText_2] = true;
     fText[1] = value;
 }

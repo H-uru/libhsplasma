@@ -28,7 +28,7 @@ public:
 protected:
     unsigned int fTagID, fVersion;
     plKey fRenderMod;
-    char fName[128];
+    ST::string fName;
     std::vector<plKey> fControls;
     pfGUIColorScheme fColorScheme;
     plKey fProcReceiver, fSceneNode;
@@ -53,14 +53,14 @@ public:
     unsigned int getTagID() const { return fTagID; }
     unsigned int getVersion() const { return fVersion; }
     plKey getRenderMod() const { return fRenderMod; }
-    plString getName() const { return fName; }
+    ST::string getName() const { return fName; }
     plKey getProcReceiver() const { return fProcReceiver; }
     plKey getSceneNode() const { return fSceneNode; }
 
     void setTagID(unsigned int id) { fTagID = id; }
     void setVersion(unsigned int version) { fVersion = version; }
     void setRenderMod(plKey mod) { fRenderMod = mod; }
-    void setName(const char* name) { strncpy(fName, name, 128); }
+    void setName(const char* name) { fName = name; }
     void setProcReceiver(plKey receiver) { fProcReceiver = receiver; }
     void setSceneNode(plKey node) { fSceneNode = node; }
 

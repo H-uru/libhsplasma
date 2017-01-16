@@ -133,10 +133,10 @@ void hsPoint3Key::prcParse(const pfPrcTag* tag) {
     else if (tag->getName() == "hsPoint3Key")
         fType = kPoint3KeyFrame;
     else
-        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName().c_str());
 
-    fFrame = tag->getParam("Frame", "0").toUint();
-    fFrameTime = tag->getParam("FrameTime", "0").toFloat();
+    fFrame = tag->getParam("Frame", "0").to_uint();
+    fFrameTime = tag->getParam("FrameTime", "0").to_float();
 
     const pfPrcTag* child = tag->getFirstChild();
     while (child != NULL) {
@@ -150,7 +150,7 @@ void hsPoint3Key::prcParse(const pfPrcTag* tag) {
             if (child->hasChildren())
                 fOutTan.prcParse(child->getFirstChild());
         } else {
-            throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+            throw pfPrcTagException(__FILE__, __LINE__, child->getName().c_str());
         }
         child = child->getNextSibling();
     }
@@ -214,11 +214,11 @@ void hsScalarKey::prcParse(const pfPrcTag* tag) {
     else
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    fFrame = tag->getParam("Frame", "0").toUint();
-    fFrameTime = tag->getParam("FrameTime", "0").toFloat();
-    fValue = tag->getParam("Value", "0").toFloat();
-    fInTan = tag->getParam("InTan", "0").toFloat();
-    fOutTan = tag->getParam("OutTan", "0").toFloat();
+    fFrame = tag->getParam("Frame", "0").to_uint();
+    fFrameTime = tag->getParam("FrameTime", "0").to_float();
+    fValue = tag->getParam("Value", "0").to_float();
+    fInTan = tag->getParam("InTan", "0").to_float();
+    fOutTan = tag->getParam("OutTan", "0").to_float();
 }
 
 hsScalarKey& hsScalarKey::operator=(const hsKeyFrame& rhs) {
@@ -291,8 +291,8 @@ void hsScaleKey::prcParse(const pfPrcTag* tag) {
     else
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    fFrame = tag->getParam("Frame", "0").toUint();
-    fFrameTime = tag->getParam("FrameTime", "0").toFloat();
+    fFrame = tag->getParam("Frame", "0").to_uint();
+    fFrameTime = tag->getParam("FrameTime", "0").to_float();
 
     const pfPrcTag* child = tag->getFirstChild();
     while (child != NULL) {
@@ -362,8 +362,8 @@ void hsQuatKey::prcParse(const pfPrcTag* tag) {
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     fType = kQuatKeyFrame;
 
-    fFrame = tag->getParam("Frame", "0").toUint();
-    fFrameTime = tag->getParam("FrameTime", "0").toFloat();
+    fFrame = tag->getParam("Frame", "0").to_uint();
+    fFrameTime = tag->getParam("FrameTime", "0").to_float();
     if (tag->hasChildren())
         fValue.prcParse(tag->getFirstChild());
 }
@@ -467,9 +467,9 @@ void hsCompressedQuatKey32::prcParse(const pfPrcTag* tag) {
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     fType = kCompressedQuatKeyFrame32;
 
-    fFrame = tag->getParam("Frame", "0").toUint();
-    fFrameTime = tag->getParam("FrameTime", "0").toFloat();
-    unsigned char fmt = tag->getParam("Format", "0").toUint();
+    fFrame = tag->getParam("Frame", "0").to_uint();
+    fFrameTime = tag->getParam("FrameTime", "0").to_float();
+    unsigned char fmt = tag->getParam("Format", "0").to_uint();
 
     if (tag->hasChildren()) {
         hsQuat q;
@@ -585,9 +585,9 @@ void hsCompressedQuatKey64::prcParse(const pfPrcTag* tag) {
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     fType = kCompressedQuatKeyFrame64;
 
-    fFrame = tag->getParam("Frame", "0").toUint();
-    fFrameTime = tag->getParam("FrameTime", "0").toFloat();
-    unsigned char fmt = tag->getParam("Format", "0").toUint();
+    fFrame = tag->getParam("Frame", "0").to_uint();
+    fFrameTime = tag->getParam("FrameTime", "0").to_float();
+    unsigned char fmt = tag->getParam("Format", "0").to_uint();
 
     if (tag->hasChildren()) {
         hsQuat q;
@@ -635,8 +635,8 @@ void hsG3DSMaxKeyFrame::prcParse(const pfPrcTag* tag) {
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     fType = k3dsMaxKeyFrame;
 
-    fFrame = tag->getParam("Frame", "0").toUint();
-    fFrameTime = tag->getParam("FrameTime", "0").toFloat();
+    fFrame = tag->getParam("Frame", "0").to_uint();
+    fFrameTime = tag->getParam("FrameTime", "0").to_float();
     if (tag->hasChildren())
         fValue.prcParse(tag->getFirstChild());
 }
@@ -679,8 +679,8 @@ void hsMatrix33Key::prcParse(const pfPrcTag* tag) {
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     fType = kMatrix33KeyFrame;
 
-    fFrame = tag->getParam("Frame", "0").toUint();
-    fFrameTime = tag->getParam("FrameTime", "0").toFloat();
+    fFrame = tag->getParam("Frame", "0").to_uint();
+    fFrameTime = tag->getParam("FrameTime", "0").to_float();
     if (tag->hasChildren())
         fValue.prcParse(tag->getFirstChild());
 }
@@ -723,8 +723,8 @@ void hsMatrix44Key::prcParse(const pfPrcTag* tag) {
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     fType = kMatrix44KeyFrame;
 
-    fFrame = tag->getParam("Frame", "0").toUint();
-    fFrameTime = tag->getParam("FrameTime", "0").toFloat();
+    fFrame = tag->getParam("Frame", "0").to_uint();
+    fFrameTime = tag->getParam("FrameTime", "0").to_float();
 
     if (tag->hasChildren())
         fValue.prcParse(tag->getFirstChild());

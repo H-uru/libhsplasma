@@ -40,7 +40,7 @@ public:
 private:
     PlayType fForwardType, fBackType;
     AdvanceType fAdvanceType, fRegressType;
-    plString fAnimName;
+    ST::string fAnimName;
     unsigned char fNotify;
     int fLoops;
     bool fDoAdvanceTo, fDoRegressTo;
@@ -75,7 +75,7 @@ public:
     PlayType getBackType() const { return fBackType; }
     AdvanceType getAdvanceType() const { return fAdvanceType; }
     AdvanceType getRegressType() const { return fRegressType; }
-    plString getAnimName() const { return fAnimName; }
+    ST::string getAnimName() const { return fAnimName; }
     unsigned char getNotify() const { return fNotify; }
     int getLoops() const { return fLoops; }
     bool doAdvanceTo() const { return fDoAdvanceTo; }
@@ -87,7 +87,7 @@ public:
     void setBackType(PlayType back) { fBackType = back; }
     void setAdvanceType(AdvanceType adv) { fAdvanceType = adv; }
     void setRegressType(AdvanceType reg) { fRegressType = reg; }
-    void setAnimName(const plString& name) { fAnimName = name; }
+    void setAnimName(const ST::string& name) { fAnimName = name; }
     void setNotify(unsigned char notify) { fNotify = notify; }
     void setLoops(int loops) { fLoops = loops; }
 

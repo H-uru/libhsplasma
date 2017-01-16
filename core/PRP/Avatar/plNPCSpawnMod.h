@@ -24,7 +24,7 @@ class PLASMA_DLL plNPCSpawnMod : public plSingleModifier {
     CREATABLE(plNPCSpawnMod, kNPCSpawnMod, plSingleModifier)
 
 protected:
-    plString fModelName, fAccountName;
+    ST::string fModelName, fAccountName;
     bool fAutoSpawn;
     plNotifyMsg* fNotify;
 

@@ -15,6 +15,8 @@
  */
 
 #include "plUuid.h"
+#include <string_theory/format>
+#include <cstring>
 
 static const unsigned char nullDat4[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 const plUuid NullUuid(0, 0, 0, nullDat4);
@@ -102,27 +104,27 @@ bool plUuid::isNull() const {
     return operator==(NullUuid);
 }
 
-plString plUuid::toString() const {
-    return plString::Format("%08x-%04x-%04x-%02x%02x-%02x%02x%02x%02x%02x%02x",
-                            fData1, fData2, fData3,
-                            fData4[0], fData4[1], fData4[2], fData4[3],
-                            fData4[4], fData4[5], fData4[6], fData4[7]);
+ST::string plUuid::toString() const {
+    return ST::format("{_08x}-{_04x}-{_04x}-{_02x}{_02x}-{_02x}{_02x}{_02x}{_02x}{_02x}{_02x}",
+                      fData1, fData2, fData3,
+                      fData4[0], fData4[1], fData4[2], fData4[3],
+                      fData4[4], fData4[5], fData4[6], fData4[7]);
 }
 
-void plUuid::fromString(const plString& str) {
-    if (str.len() != 36 || str[8] != '-' || str[13] != '-' ||
-                           str[18] != '-' || str[23] != '-')
+void plUuid::fromString(const ST::string& str) {
+    if (str.size() != 36 || str.char_at(8) != '-' || str.char_at(13) != '-' ||
+                            str.char_at(18) != '-' || str.char_at(23) != '-')
         throw hsBadParamException(__FILE__, __LINE__, "Incorrect Uuid format");
 
-    fData1 = str.mid(0, 8).toUint(16);
-    fData2 = str.mid(9, 4).toUint(16);
-    fData3 = str.mid(14, 4).toUint(16);
-    fData4[0] = str.mid(19, 2).toUint(16);
-    fData4[1] = str.mid(21, 2).toUint(16);
-    fData4[2] = str.mid(24, 2).toUint(16);
-    fData4[3] = str.mid(26, 2).toUint(16);
-    fData4[4] = str.mid(28, 2).toUint(16);
-    fData4[5] = str.mid(30, 2).toUint(16);
-    fData4[6] = str.mid(32, 2).toUint(16);
-    fData4[7] = str.mid(34, 2).toUint(16);
+    fData1 = str.substr(0, 8).to_uint(16);
+    fData2 = str.substr(9, 4).to_uint(16);
+    fData3 = str.substr(14, 4).to_uint(16);
+    fData4[0] = str.substr(19, 2).to_uint(16);
+    fData4[1] = str.substr(21, 2).to_uint(16);
+    fData4[2] = str.substr(24, 2).to_uint(16);
+    fData4[3] = str.substr(26, 2).to_uint(16);
+    fData4[4] = str.substr(28, 2).to_uint(16);
+    fData4[5] = str.substr(30, 2).to_uint(16);
+    fData4[6] = str.substr(32, 2).to_uint(16);
+    fData4[7] = str.substr(34, 2).to_uint(16);
 }

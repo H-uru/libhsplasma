@@ -160,10 +160,10 @@ void plDynaWakeMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fDefaultDir.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "DynaWakeMgrParams") {
-        fAnimWgt = tag->getParam("AnimWeight", "0").toFloat();
-        fVelWgt = tag->getParam("VelWeight", "0").toFloat();
+        fAnimWgt = tag->getParam("AnimWeight", "0").to_float();
+        fVelWgt = tag->getParam("VelWeight", "0").to_float();
     } else if (tag->getName() == "plAnimPath") {
-        if (tag->getParam("NULL", "false").toBool()) {
+        if (tag->getParam("NULL", "false").to_bool()) {
             setAnimPath(NULL);
         } else {
             if (tag->hasChildren())

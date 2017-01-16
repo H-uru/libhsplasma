@@ -77,8 +77,8 @@ void plGameMarkerModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fBounceAnimKey = mgr->prcParseKey(tag);
     } else if (tag->getName() == "SoundIndices") {
-        fPlaceSoundIdx = tag->getParam("Place", "0").toUint();
-        fHitSoundIdx = tag->getParam("Hit", "0").toUint();
+        fPlaceSoundIdx = tag->getParam("Place", "0").to_uint();
+        fHitSoundIdx = tag->getParam("Hit", "0").to_uint();
     } else {
         plSingleModifier::IPrcParse(tag, mgr);
     }

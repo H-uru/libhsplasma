@@ -18,6 +18,7 @@
 
 #include <Math/hsGeometry3.h>
 #include "Stream/pyStream.h"
+#include <string_theory/format>
 
 extern "C" {
 
@@ -52,7 +53,7 @@ PY_PLASMA_INIT_DECL(Vector3) {
 PY_PLASMA_VALUE_NEW(Vector3, hsVector3)
 
 PY_PLASMA_REPR_DECL(Vector3) {
-    plString repr = plString::Format("hsVector3(%f, %f, %f)",
+    ST::string repr = ST::format("hsVector3({f}, {f}, {f})",
              self->fThis->X, self->fThis->Y, self->fThis->Z);
     return pyPlasma_convert(repr);
 }

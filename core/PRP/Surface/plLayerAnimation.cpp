@@ -194,7 +194,7 @@ void plLayerLinkAnimation::IPrcWrite(pfPrcHelper* prc) {
 
 void plLayerLinkAnimation::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "LinkTo") {
-        fLeavingAge = tag->getParam("LeavingAge", "false").toBool();
+        fLeavingAge = tag->getParam("LeavingAge", "false").to_bool();
         if (tag->hasChildren())
             fLinkKey = mgr->prcParseKey(tag->getFirstChild());
     } else {

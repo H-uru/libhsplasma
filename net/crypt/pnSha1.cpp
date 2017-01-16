@@ -18,27 +18,29 @@
 #include "pnNetMsg.h"
 #include "Debug/hsExceptions.hpp"
 #include <openssl/sha.h>
+#include <string_theory/format>
+#include <cstring>
 
-void pnSha1Hash::fromString(const plString& src)
+void pnSha1Hash::fromString(const ST::string& src)
 {
-    if (src.len() != 40)
+    if (src.size() != 40)
         throw hsBadParamException(__FILE__, __LINE__, "Invalid SHA1 string");
 
-    fData[0] = src.mid(0, 8).toUint(16);
-    fData[1] = src.mid(8, 8).toUint(16);
-    fData[2] = src.mid(16, 8).toUint(16);
-    fData[3] = src.mid(24, 8).toUint(16);
-    fData[4] = src.mid(32, 8).toUint(16);
+    fData[0] = src.substr(0, 8).to_uint(16);
+    fData[1] = src.substr(8, 8).to_uint(16);
+    fData[2] = src.substr(16, 8).to_uint(16);
+    fData[3] = src.substr(24, 8).to_uint(16);
+    fData[4] = src.substr(32, 8).to_uint(16);
     for (size_t i=0; i<5; i++)
         fData[i] = BESWAP32(fData[i]);
 }
 
-plString pnSha1Hash::toString() const
+ST::string pnSha1Hash::toString() const
 {
-    return plString::Format("%08x%08x%08x%08x%08x",
-                            BESWAP32(fData[0]), BESWAP32(fData[1]),
-                            BESWAP32(fData[2]), BESWAP32(fData[3]),
-                            BESWAP32(fData[4]));
+    return ST::format("{_08x}{_08x}{_08x}{_08x}{_08x}",
+                      BESWAP32(fData[0]), BESWAP32(fData[1]),
+                      BESWAP32(fData[2]), BESWAP32(fData[3]),
+                      BESWAP32(fData[4]));
 }
 
 void pnSha1Hash::swapBytes()
@@ -64,16 +66,16 @@ pnSha1Hash pnSha1Hash::Sha1(const void* src, size_t len)
     return hash;
 }
 
-pnSha1Hash NCHashPassword(const plString& userName, const plString& password)
+pnSha1Hash NCHashPassword(const ST::string& userName, const ST::string& password)
 {
-    plString::Wide userBuf = userName.toLower().wstr();
-    plString::Wide passBuf = password.wstr();
-    pl_wchar_t* hashBuf = new pl_wchar_t[userBuf.len() + passBuf.len()];
-    memcpy(hashBuf, passBuf.data(), passBuf.len() * sizeof(pl_wchar_t));
-    memcpy(hashBuf + passBuf.len(), userBuf.data(), userBuf.len() * sizeof(pl_wchar_t));
-    hashBuf[passBuf.len() - 1] = 0;
-    hashBuf[(passBuf.len() + userBuf.len()) - 1] = 0;
-    pnSha1Hash result = pnSha1Hash::Sha0(hashBuf, (userBuf.len() + passBuf.len()) * sizeof(pl_wchar_t));
+    ST::utf16_buffer userBuf = userName.to_lower().to_utf16();
+    ST::utf16_buffer passBuf = password.to_utf16();
+    char16_t * hashBuf = new char16_t[userBuf.size() + passBuf.size()];
+    memcpy(hashBuf, passBuf.data(), passBuf.size() * sizeof(char16_t));
+    memcpy(hashBuf + passBuf.size(), userBuf.data(), userBuf.size() * sizeof(char16_t));
+    hashBuf[passBuf.size() - 1] = 0;
+    hashBuf[(passBuf.size() + userBuf.size()) - 1] = 0;
+    pnSha1Hash result = pnSha1Hash::Sha0(hashBuf, (userBuf.size() + passBuf.size()) * sizeof(char16_t));
     delete[] hashBuf;
     return result;
 }
@@ -83,7 +85,7 @@ struct NCChallengeBuffer {
     pnSha1Hash fNamePassHash;
 };
 
-pnSha1Hash NCHashLoginInfo(const plString& userName, const plString& password,
+pnSha1Hash NCHashLoginInfo(const ST::string& userName, const ST::string& password,
                            uint32_t serverChallenge, uint32_t clientChallenge)
 {
     NCChallengeBuffer buffer;

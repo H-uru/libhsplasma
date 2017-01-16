@@ -18,6 +18,7 @@
 
 #include <Sys/hsColor.h>
 #include "Stream/pyStream.h"
+#include <string_theory/format>
 
 extern "C" {
 
@@ -50,7 +51,7 @@ PY_PLASMA_INIT_DECL(ColorRGBA) {
 PY_PLASMA_VALUE_NEW(ColorRGBA, hsColorRGBA)
 
 PY_PLASMA_REPR_DECL(ColorRGBA) {
-    plString repr = plString::Format("hsColorRGBA(%f, %f, %f, %f)",
+    ST::string repr = ST::format("hsColorRGBA({f}, {f}, {f}, {f})",
         self->fThis->r, self->fThis->g, self->fThis->b, self->fThis->a);
     return pyPlasma_convert(repr);
 }

@@ -52,8 +52,8 @@ public:
 
     /* Incoming Protocol - To be implemented by subclasses */
     virtual void onPingReply(uint32_t transId, uint32_t pingTimeMs);
-    virtual void onFileSrvIpAddressReply(uint32_t transId, const plString& addr);
-    virtual void onAuthSrvIpAddressReply(uint32_t transId, const plString& addr);
+    virtual void onFileSrvIpAddressReply(uint32_t transId, const ST::string& addr);
+    virtual void onAuthSrvIpAddressReply(uint32_t transId, const ST::string& addr);
 
 protected:
     pnRC4Socket* fSock;

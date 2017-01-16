@@ -124,13 +124,13 @@ void plCompoundController::IPrcWrite(pfPrcHelper* prc) {
 
 void plCompoundController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "X") {
-        if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").toBool())
+        if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").to_bool())
             setXController(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else if (tag->getName() == "Y") {
-        if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").toBool())
+        if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").to_bool())
             setYController(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else if (tag->getName() == "Z") {
-        if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").toBool())
+        if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").to_bool())
             setZController(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else {
         plCreatable::IPrcParse(tag, mgr);

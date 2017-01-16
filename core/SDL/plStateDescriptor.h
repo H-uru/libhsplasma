@@ -45,11 +45,11 @@ public:
     };
 
 protected:
-    plString fName, fDefault, fDisplay;
+    ST::string fName, fDefault, fDisplay;
     size_t fCount;
     Type fType;
     unsigned int fFlags;
-    plString fStateDescType;
+    ST::string fStateDescType;
     int fStateDescVer;
     class plStateDescriptor* fStateDesc;
 
@@ -60,12 +60,12 @@ public:
     void write(hsStream* S);
 
 public:
-    plString getName() const { return fName; }
-    plString getDefault() const { return fDefault; }
-    plString getDisplay() const { return fDisplay; }
+    ST::string getName() const { return fName; }
+    ST::string getDefault() const { return fDefault; }
+    ST::string getDisplay() const { return fDisplay; }
     size_t getCount() const { return fCount; }
     Type getType() const { return fType; }
-    plString getStateDescType() const { return fStateDescType; }
+    ST::string getStateDescType() const { return fStateDescType; }
     int getStateDescVer() const { return fStateDescVer; }
     plStateDescriptor* getStateDesc() const { return fStateDesc; }
     bool isInternal() const { return (fFlags & kInternal) != 0; }
@@ -73,25 +73,25 @@ public:
     bool isVariableLength() const { return (fFlags & kVariableLength) != 0; }
     bool isValid() const { return fType != kNone; }
 
-    void setName(const plString& name) { fName = name; }
-    void setDefault(const plString& def) { fDefault = def; }
-    void setDisplay(const plString& disp) { fDisplay = disp; }
+    void setName(const ST::string& name) { fName = name; }
+    void setDefault(const ST::string& def) { fDefault = def; }
+    void setDisplay(const ST::string& disp) { fDisplay = disp; }
     void setCount(size_t count) { fCount = count; }
     void setType(Type type) { fType = type; }
-    void setStateDescType(const plString& type) { fStateDescType = type; }
+    void setStateDescType(const ST::string& type) { fStateDescType = type; }
     void setStateDescVer(int ver) { fStateDescVer = ver; }
     void setStateDesc(plStateDescriptor* desc);
     void setInternal(bool internal);
     void setAlwaysNew(bool alwaysNew);
     void setVariableLength(bool varLength);
 
-    static Type GetTypeFromString(const plString& type, bool isEoa);
+    static Type GetTypeFromString(const ST::string& type, bool isEoa);
 };
 
 
 class PLASMA_DLL plStateDescriptor {
 protected:
-    plString fName;
+    ST::string fName;
     int fVersion;
     std::vector<plVarDescriptor*> fVariables;
 
@@ -104,22 +104,22 @@ public:
     void prcWrite(pfPrcHelper* prc);
 
 public:
-    plString getName() const { return fName; }
+    ST::string getName() const { return fName; }
     int getVersion() const { return fVersion; }
     bool isValid() const { return fVersion != -1; }
 
-    void setName(const plString& name) { fName = name; }
+    void setName(const ST::string& name) { fName = name; }
     void setVersion(int ver) { fVersion = ver; }
 
     plVarDescriptor* get(size_t idx) { return fVariables[idx]; }
-    plVarDescriptor* get(const plString& name);
+    plVarDescriptor* get(const ST::string& name);
     void set(size_t idx, plVarDescriptor* var) { fVariables[idx] = var; }
-    void set(const plString& name, plVarDescriptor* var);
+    void set(const ST::string& name, plVarDescriptor* var);
 
     size_t getNumVars() const { return fVariables.size(); }
     void addVariable(plVarDescriptor* var) { fVariables.push_back(var); }
     void delVariable(size_t idx);
-    void delVariable(const plString& name);
+    void delVariable(const ST::string& name);
     void clearVariables();
 };
 

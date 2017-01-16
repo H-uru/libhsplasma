@@ -89,10 +89,10 @@ PY_GETSET_SETTER_DECL(LeafController, keys) {
         }
         hsKeyFrame* keyframe = ((pyKeyFrame*)key)->fThis;
         if (keyframe->getType() != keyType) {
-            PyErr_SetString(PyExc_TypeError, plString::Format("keys should be of type %s, not %s",
-                                                              hsKeyFrame::TypeNames[keyType],
-                                                              hsKeyFrame::TypeNames[keyframe->getType()]
-                                                              ).cstr());
+            PyErr_SetString(PyExc_TypeError, ST::format("keys should be of type {}, not {}",
+                                                        hsKeyFrame::TypeNames[keyType],
+                                                        hsKeyFrame::TypeNames[keyframe->getType()]
+                                                        ).c_str());
             return -1;
         }
         keyframes.push_back(keyframe);

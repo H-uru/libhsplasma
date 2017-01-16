@@ -33,7 +33,7 @@ public:
     };
 
     struct PLASMA_DLL pfMenuItem {
-        plString fName;
+        ST::string fName;
         pfGUICtrlProcWriteableObject* fHandler;
         plKey fSubMenu;
         float fYOffsetToNext;
@@ -60,7 +60,7 @@ protected:
 public:
     size_t getNumItems() const { return fMenuItems.size(); }
     pfMenuItem& getItem(size_t idx) { return fMenuItems[idx]; }
-    void addItem(const plString& name, pfGUICtrlProcWriteableObject* handler,
+    void addItem(const ST::string& name, pfGUICtrlProcWriteableObject* handler,
                  plKey subMenu = plKey(), float yoffs = 0.0f);
     void delItem(size_t idx);
     void moveItem(size_t from, size_t to);

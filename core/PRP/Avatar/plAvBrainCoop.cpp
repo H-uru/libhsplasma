@@ -88,10 +88,10 @@ void plAvBrainCoop::IPrcWrite(pfPrcHelper* prc) {
 
 void plAvBrainCoop::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Initiator") {
-        fInitiatorID = tag->getParam("ID", "0").toUint();
-        fInitiatorSerial = tag->getParam("Serial", "0").toUint();
+        fInitiatorID = tag->getParam("ID", "0").to_uint();
+        fInitiatorSerial = tag->getParam("Serial", "0").to_uint();
     } else if (tag->getName() == "AvBrainCoopParams") {
-        fWaitingForClick = tag->getParam("WaitingForClick", "False").toBool();
+        fWaitingForClick = tag->getParam("WaitingForClick", "False").to_bool();
     } else if (tag->getName() == "Host") {
         if (tag->hasChildren())
             fHostKey = mgr->prcParseKey(tag->getFirstChild());

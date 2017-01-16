@@ -27,7 +27,7 @@ public:
 
 protected:
     std::vector<plKey> fAnimationKeys, fMouseOverAnimKeys;
-    plString fAnimName, fMouseOverAnimName;
+    ST::string fAnimName, fMouseOverAnimName;
     plKey fDraggable;
     int fNotifyType, fEoaUnknown1, fEoaUnknown2;
 
@@ -54,13 +54,13 @@ public:
     void delMouseOverKey(size_t idx) { fMouseOverAnimKeys.erase(fMouseOverAnimKeys.begin() + idx); }
     void clearMouseOverKeys() { fMouseOverAnimKeys.clear(); }
 
-    const plString& getAnimationName() const { return fAnimName; }
-    const plString& getMouseOverAnimName() const { return fMouseOverAnimName; }
+    const ST::string& getAnimationName() const { return fAnimName; }
+    const ST::string& getMouseOverAnimName() const { return fMouseOverAnimName; }
     plKey getDraggable() const { return fDraggable; }
     int getNotifyType() const { return fNotifyType; }
 
-    void setAnimationName(const plString& name) { fAnimName = name; }
-    void setMouseOverAnimName(const plString& name) { fMouseOverAnimName = name; }
+    void setAnimationName(const ST::string& name) { fAnimName = name; }
+    void setMouseOverAnimName(const ST::string& name) { fMouseOverAnimName = name; }
     void setDraggable(plKey draggable) { fDraggable = draggable; }
     void setNotifyType(int type) { fNotifyType = type; }
 };

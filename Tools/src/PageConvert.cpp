@@ -87,7 +87,7 @@ int main(int argc, char** argv) {
                 doHelp();
                 return 0;
             } else {
-                plDebug::Error("Error: Unrecognized option %s", argv[i]);
+                plDebug::Error("Error: Unrecognized option {}", argv[i]);
                 return 1;
             }
         } else {
@@ -95,20 +95,20 @@ int main(int argc, char** argv) {
             try {
                 page = rm.ReadPage(argv[i]);
             } catch (const hsException& e) {
-                plDebug::Error("%s:%lu: %s", e.File(), e.Line(), e.what());
+                plDebug::Error("{}:{}: {}", e.File(), e.Line(), e.what());
                 return 1;
             } catch (const std::exception& e) {
-                plDebug::Error("%s", e.what());
+                plDebug::Error("{}", e.what());
                 return 1;
             } catch (...) {
                 plDebug::Error("Undefined error!");
                 return 1;
             }
-            printf("PageID: %s (%08X)\n", page->getLocation().toString().cstr(),
+            printf("PageID: %s (%08X)\n", page->getLocation().toString().c_str(),
                                           page->getLocation().unparse());
             printf("Page Flags: %d\n", page->getLocation().getFlags());
-            printf("Age Name: %s\n", page->getAge().cstr());
-            printf("Page Name: %s\n", page->getPage().cstr());
+            printf("Age Name: %s\n", page->getAge().c_str());
+            printf("Page Name: %s\n", page->getPage().c_str());
             printf("Plasma Version: %s\n", getVerName(rm.getVer()));
             printf("Keyring: %d keys\n", rm.countKeys(page->getLocation()));
             printf("Objects Read: %d\n", page->getNumObjects());

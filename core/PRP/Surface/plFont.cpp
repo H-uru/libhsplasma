@@ -50,11 +50,11 @@ void plFont::plCharacter::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "plCharacter")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    fBitmapOffset = tag->getParam("BitmapOffset", "0").toUint();
-    fHeight = tag->getParam("Height", "0").toUint();
-    fBaseline = tag->getParam("Baseline", "0").toInt();
-    fLeftKern = tag->getParam("LeftKern", "0").toFloat();
-    fRightKern = tag->getParam("RightKern", "0").toFloat();
+    fBitmapOffset = tag->getParam("BitmapOffset", "0").to_uint();
+    fHeight = tag->getParam("Height", "0").to_uint();
+    fBaseline = tag->getParam("Baseline", "0").to_int();
+    fLeftKern = tag->getParam("LeftKern", "0").to_float();
+    fRightKern = tag->getParam("RightKern", "0").to_float();
 }
 
 
@@ -141,9 +141,9 @@ void plFont::IPrcWrite(pfPrcHelper* prc) {
 void plFont::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "FontParams") {
         fFace = tag->getParam("Fontface", "");
-        fSize = tag->getParam("Size", "0").toUint();
-        fFlags = tag->getParam("Flags", "0").toUint();
-        fFirstChar = tag->getParam("FirstChar", "0").toUint();
+        fSize = tag->getParam("Size", "0").to_uint();
+        fFlags = tag->getParam("Flags", "0").to_uint();
+        fFirstChar = tag->getParam("FirstChar", "0").to_uint();
     } else if (tag->getName() == "Characters") {
         fCharacters.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
@@ -152,10 +152,10 @@ void plFont::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "Bitmap") {
-        fWidth = tag->getParam("Width", "0").toUint();
-        fHeight = tag->getParam("Height", "0").toUint();
-        fBPP = tag->getParam("BPP", "0").toUint();
-        fMaxCharHeight = tag->getParam("MaxCharHeight", "0").toInt();
+        fWidth = tag->getParam("Width", "0").to_uint();
+        fHeight = tag->getParam("Height", "0").to_uint();
+        fBPP = tag->getParam("BPP", "0").to_uint();
+        fMaxCharHeight = tag->getParam("MaxCharHeight", "0").to_int();
         size_t size = (fBPP * fWidth * fHeight) / 8;
         fBmpData = new unsigned char[size];
         tag->readHexStream(size, fBmpData);
@@ -194,7 +194,7 @@ void plFont::readP2F(hsStream* S) {
 
 void plFont::writeP2F(hsStream* S) const {
     char buf[256];
-    strncpy(buf, fFace.cstr(), 256);
+    strncpy(buf, fFace.c_str(), 256);
     S->write(256, buf);
 
     S->writeByte(fSize);

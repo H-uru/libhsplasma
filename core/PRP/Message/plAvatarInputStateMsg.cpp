@@ -39,7 +39,7 @@ void plAvatarInputStateMsg::IPrcWrite(pfPrcHelper* prc) {
 
 void plAvatarInputStateMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "State") {
-        fState = tag->getParam("value", "0").toUint();
+        fState = tag->getParam("value", "0").to_uint();
     } else {
         plMessage::IPrcParse(tag, mgr);
     }

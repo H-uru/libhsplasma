@@ -47,10 +47,10 @@ void plBlower::IPrcWrite(pfPrcHelper* prc) {
 
 void plBlower::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "BlowerParams") {
-        fMasterPower = tag->getParam("MasterPower", "0").toFloat();
-        fDirectRate = tag->getParam("DirectRate", "0").toFloat();
-        fImpulseRate = tag->getParam("ImpulseRate", "0").toFloat();
-        fSpringKonst = tag->getParam("SpringKonst", "0").toFloat();
+        fMasterPower = tag->getParam("MasterPower", "0").to_float();
+        fDirectRate = tag->getParam("DirectRate", "0").to_float();
+        fImpulseRate = tag->getParam("ImpulseRate", "0").to_float();
+        fSpringKonst = tag->getParam("SpringKonst", "0").to_float();
     } else {
         plSingleModifier::IPrcParse(tag, mgr);
     }

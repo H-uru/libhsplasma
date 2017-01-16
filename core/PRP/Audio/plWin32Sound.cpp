@@ -36,7 +36,7 @@ void plWin32Sound::IPrcWrite(pfPrcHelper* prc) {
 
 void plWin32Sound::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "ChannelSelect") {
-        fChannelSelect = tag->getParam("channel", "0").toUint();
+        fChannelSelect = tag->getParam("channel", "0").to_uint();
     } else {
         plSound::IPrcParse(tag, mgr);
     }

@@ -25,7 +25,7 @@ extern "C" {
 PY_PLASMA_NEW(SoundBuffer, plSoundBuffer)
 
 PY_PROPERTY_PROXY(plWAVHeader, SoundBuffer, header, getHeader)
-PY_PROPERTY(plString, SoundBuffer, fileName, getFileName, setFileName)
+PY_PROPERTY(ST::string, SoundBuffer, fileName, getFileName, setFileName)
 PY_PROPERTY(unsigned int, SoundBuffer, flags, getFlags, setFlags)
 PY_PROPERTY(size_t, SoundBuffer, dataLength, getDataLength, setDataLength)
 

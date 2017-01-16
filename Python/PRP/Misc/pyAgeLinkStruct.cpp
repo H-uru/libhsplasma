@@ -82,8 +82,8 @@ PY_GETSET_SETTER_DECL(AgeLinkStruct, parentAgeFilename) {
     if (value == Py_None) {
         self->fThis->clearParentAgeFilename();
         return 0;
-    } else if (pyPlasma_check<plString>(value)) {
-        self->fThis->setParentAgeFilename(pyPlasma_get<plString>(value));
+    } else if (pyPlasma_check<ST::string>(value)) {
+        self->fThis->setParentAgeFilename(pyPlasma_get<ST::string>(value));
         return 0;
     } else {
         PyErr_SetString(PyExc_TypeError, "parentAgeFilename must be a string");

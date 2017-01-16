@@ -17,6 +17,7 @@
 #ifndef _PLDEBUG_H
 #define _PLDEBUG_H
 
+#include <string_theory/format>
 #include "Stream/hsStdioStream.h"
 
 class PLASMA_DLL plDebug {
@@ -28,18 +29,59 @@ private:
     static int fDebugLevel;
     static bool fIOwnStream;
     static bool fIsExitRegistered;
-    static plString fDebugFile;
+    static ST::string fDebugFile;
 
 public:
     static void Init(int level, hsStream* stream = NULL);
     static void InitFile(int level, const char* filename = "Plasma.log");
 
-    static void Error(const char* fmt, ...);
-    static void Warning(const char* fmt, ...);
-    static void Debug(const char* fmt, ...);
+    static void Error(const char* line)
+    {
+        if (fDebugLevel < kDLError)
+            return;
+        WriteLn(line);
+    }
+
+    static void Warning(const char* line)
+    {
+        if (fDebugLevel < kDLWarning)
+            return;
+        WriteLn(line);
+    }
+
+    static void Debug(const char* line)
+    {
+        if (fDebugLevel < kDLDebug)
+            return;
+        WriteLn(line);
+    }
+
+    template <typename... T_args>
+    static void Error(const char* fmt, T_args&&... args)
+    {
+        if (fDebugLevel < kDLError)
+            return;
+        WriteLn(ST::format(fmt, std::forward<T_args>(args)...));
+    }
+
+    template <typename... T_args>
+    static void Warning(const char* fmt, T_args&&... args)
+    {
+        if (fDebugLevel < kDLWarning)
+            return;
+        WriteLn(ST::format(fmt, std::forward<T_args>(args)...));
+    }
+
+    template <typename... T_args>
+    static void Debug(const char* fmt, T_args&&... args)
+    {
+        if (fDebugLevel < kDLDebug)
+            return;
+        WriteLn(ST::format(fmt, std::forward<T_args>(args)...));
+    }
 
 private:
-    static void WriteLn(const char* fmt, va_list args);
+    static void WriteLn(const ST::string& line);
     static void DelayInit();
     static void DeInit();
 };

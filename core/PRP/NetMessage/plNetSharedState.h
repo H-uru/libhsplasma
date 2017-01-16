@@ -34,7 +34,7 @@ public:
         bool fBool;
         signed char fByte;
     };
-    plString fString;
+    ST::string fString;
     unsigned char fType;
 
 public:
@@ -49,7 +49,7 @@ public:
 
 class PLASMA_DLL plGenericVar {
 private:
-    plString fName;
+    ST::string fName;
     plGenericType fValue;
 
 public:
@@ -59,10 +59,10 @@ public:
     void prcParse(const pfPrcTag* tag);
 
 public:
-    plString getName() const { return fName; }
+    ST::string getName() const { return fName; }
     const plGenericType& getValue() const { return fValue; }
 
-    void setName(const plString& name) { fName = name; }
+    void setName(const ST::string& name) { fName = name; }
     void setValue(const plGenericType& value) { fValue = value; }
 
     plGenericType::Type getType() const { return (plGenericType::Type)fValue.fType; }
@@ -72,13 +72,13 @@ public:
     double getDouble() const { return fValue.fDouble; }
     bool getBool() const { return fValue.fBool; }
     signed char getByte() const { return fValue.fByte; }
-    plString getString() const { return fValue.fString; }
+    ST::string getString() const { return fValue.fString; }
 };
 
 
 class PLASMA_DLL plNetSharedState {
 private:
-    plString fName;
+    ST::string fName;
     std::vector<plGenericVar> fVars;
     bool fServerMayDelete;
 
@@ -91,10 +91,10 @@ public:
     void prcParse(const pfPrcTag* tag);
 
 public:
-    plString getName() const { return fName; }
+    ST::string getName() const { return fName; }
     bool getServerMayDelete() const { return fServerMayDelete; }
 
-    void setName(const plString& name) { fName = name; }
+    void setName(const ST::string& name) { fName = name; }
     void setServerMayDelete(bool may) { fServerMayDelete = may; }
 
     const std::vector<plGenericVar>& getVars() const { return fVars; }

@@ -43,9 +43,9 @@ void plPrintShape::IPrcWrite(pfPrcHelper* prc) {
 
 void plPrintShape::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Dimensions") {
-        fWidth = tag->getParam("Width", "0").toFloat();
-        fLength = tag->getParam("Length", "0").toFloat();
-        fHeight = tag->getParam("Height", "0").toFloat();
+        fWidth = tag->getParam("Width", "0").to_float();
+        fLength = tag->getParam("Length", "0").to_float();
+        fHeight = tag->getParam("Height", "0").to_float();
     } else {
         plObjInterface::IPrcParse(tag, mgr);
     }

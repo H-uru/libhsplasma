@@ -34,7 +34,7 @@ void plLayerMovie::read(hsStream* S, plResManager* mgr) {
 void plLayerMovie::write(hsStream* S, plResManager* mgr) {
     plLayerAnimation::write(S, mgr);
 
-    S->writeInt(fMovieName.len());
+    S->writeInt(fMovieName.size());
     S->writeStr(fMovieName);
 
     if (S->getVer().isNewPlasma()) {
@@ -75,7 +75,7 @@ void plLayerMovie::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fEoaKey2 = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "EoaInt") {
-        fEoaInt = tag->getParam("Value", "0").toUint();
+        fEoaInt = tag->getParam("Value", "0").to_uint();
     } else {
         plLayerAnimation::IPrcParse(tag, mgr);
     }

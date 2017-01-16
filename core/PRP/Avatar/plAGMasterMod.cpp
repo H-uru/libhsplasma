@@ -52,7 +52,7 @@ void plAGMasterMod::write(hsStream* S, plResManager* mgr) {
     } else if (!S->getVer().isPrime()) {
         S->writeInt(0);
     } else if (!S->getVer().isNewPlasma()) {
-        S->writeInt(fGroupName.len());
+        S->writeInt(fGroupName.size());
         S->writeStr(fGroupName);
     }
 
@@ -102,8 +102,8 @@ void plAGMasterMod::IPrcWrite(pfPrcHelper* prc) {
 void plAGMasterMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Group") {
         fGroupName = tag->getParam("Name", "");
-        fIsGrouped = tag->getParam("IsGrouped", "False").toBool();
-        fIsGroupMaster = tag->getParam("IsGroupMaster", "False").toBool();
+        fIsGrouped = tag->getParam("IsGrouped", "False").to_bool();
+        fIsGroupMaster = tag->getParam("IsGroupMaster", "False").to_bool();
         if (tag->hasChildren()) {
             const pfPrcTag* child = tag->getFirstChild();
             if (child->getName() != "MsgForwarder")

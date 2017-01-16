@@ -337,9 +337,9 @@ void plDrawableSpans::IPrcWrite(pfPrcHelper* prc) {
 
 void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Properties") {
-        fProps = tag->getParam("Flags", "0").toUint();
-        fCriteria = tag->getParam("Criteria", "0").toUint();
-        fRenderLevel = tag->getParam("RenderLevel", "0").toUint();
+        fProps = tag->getParam("Flags", "0").to_uint();
+        fCriteria = tag->getParam("Criteria", "0").to_uint();
+        fRenderLevel = tag->getParam("RenderLevel", "0").to_uint();
     } else if (tag->getName() == "Materials") {
         fMaterials.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
@@ -374,8 +374,8 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         for (size_t i=0; i<fSpanSourceIndices.size(); i++) {
             if (child->getName() != "SourceIndex")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
-            fSpanSourceIndices[i] = child->getParam("value", "0").toUint()
-                                  | child->getParam("type", "0").toUint();
+            fSpanSourceIndices[i] = child->getParam("value", "0").to_uint()
+                                  | child->getParam("type", "0").to_uint();
             if ((fSpanSourceIndices[i] & kSpanTypeMask) == kSpanTypeIcicle)
                 fSpans[i] = fIcicles[fSpanSourceIndices[i] & kSpanIDMask];
             else if ((fSpanSourceIndices[i] & kSpanTypeMask) == kSpanTypeParticleSpan)
@@ -483,13 +483,13 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             if (child->getName() != "plDISpanIndex")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
 
-            fDIIndices[i].fFlags = child->getParam("Flags", "0").toUint();
+            fDIIndices[i].fFlags = child->getParam("Flags", "0").to_uint();
             fDIIndices[i].fIndices.resize(child->countChildren());
             const pfPrcTag* subChild = child->getFirstChild();
             for (size_t j=0; j<(fDIIndices[i].fIndices.size()); j++) {
                 if (subChild->getName() != "Index")
                     throw pfPrcTagException(__FILE__, __LINE__, subChild->getName());
-                fDIIndices[i].fIndices[j] = subChild->getParam("value", "0").toUint();
+                fDIIndices[i].fIndices[j] = subChild->getParam("value", "0").to_uint();
                 subChild = subChild->getNextSibling();
             }
             child = child->getNextSibling();

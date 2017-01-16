@@ -15,6 +15,8 @@
  */
 
 #include "plSpanTemplate.h"
+#include <string_theory/format>
+#include <cstring>
 
 plSpanTemplate::~plSpanTemplate() {
     delete[] fData;
@@ -79,7 +81,7 @@ void plSpanTemplate::prcWrite(pfPrcHelper* prc) {
             if (fFormat & kWeightMask) {
                 prc->writeTagNoBreak("Weights");
                 for (size_t j=0; j<(size_t)((fFormat & kWeightMask) / 0x100); j++)
-                    prc->directWrite(plString::Format("%f ", verts[i].fWeights[j]));
+                    prc->directWrite(ST::format("{f} ", verts[i].fWeights[j]));
                 prc->closeTagNoBreak();
             }
 
@@ -93,7 +95,7 @@ void plSpanTemplate::prcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("Indices");
     for (size_t i=0; i<(size_t)(fNumTris * 3); i += 3) {
         prc->writeTagNoBreak("Triangle");
-        prc->directWrite(plString::Format("%d %d %d",
+        prc->directWrite(ST::format("{} {} {}",
                          fIndices[i], fIndices[i+1], fIndices[i+2]));
         prc->closeTagNoBreak();
     }
@@ -106,7 +108,7 @@ void plSpanTemplate::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "plSpanTemplate")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    fFormat = tag->getParam("Format", "0").toUint();
+    fFormat = tag->getParam("Format", "0").to_uint();
     const pfPrcTag* child = tag->getFirstChild();
     while (child != NULL) {
         if (child->getName() == "Vertices") {
@@ -116,9 +118,9 @@ void plSpanTemplate::prcParse(const pfPrcTag* tag) {
             for (size_t i=0; i<fNumVerts; i++) {
                 if (vertChild->getName() != "Vertex")
                     throw pfPrcTagException(__FILE__, __LINE__, vertChild->getName());
-                verts[i].fColor1 = tag->getParam("Color1", "0").toUint();
-                verts[i].fColor2 = tag->getParam("Color2", "0").toUint();
-                verts[i].fWeightIdx = tag->getParam("WeightIdx", "0").toInt();
+                verts[i].fColor1 = tag->getParam("Color1", "0").to_uint();
+                verts[i].fColor2 = tag->getParam("Color2", "0").to_uint();
+                verts[i].fWeightIdx = tag->getParam("WeightIdx", "0").to_int();
                 const pfPrcTag* subChild = vertChild->getFirstChild();
                 while (subChild != NULL) {
                     if (subChild->getName() == "Position") {
@@ -136,12 +138,12 @@ void plSpanTemplate::prcParse(const pfPrcTag* tag) {
                             uvwChild = uvwChild->getNextSibling();
                         }
                     } else if (subChild->getName() == "Weights") {
-                        std::list<plString> wgtList = subChild->getContents();
+                        std::list<ST::string> wgtList = subChild->getContents();
                         if (wgtList.size() != (fFormat & kWeightMask) / 0x100)
                             throw pfPrcParseException(__FILE__, __LINE__, "Incorrect Number of Weights");
                         auto wgt = wgtList.begin();
                         for (size_t j=0; j<(size_t)((fFormat & kWeightMask) / 0x100); j++)
-                            verts[i].fWeights[j] = (*wgt++).toFloat();
+                            verts[i].fWeights[j] = (*wgt++).to_float();
                     } else {
                         throw pfPrcTagException(__FILE__, __LINE__, subChild->getName());
                     }
@@ -155,13 +157,13 @@ void plSpanTemplate::prcParse(const pfPrcTag* tag) {
             fIndices = new unsigned short[fNumTris * 3];
             const pfPrcTag* idxChild = child->getFirstChild();
             for (size_t i=0; i<(size_t)(fNumTris * 3); i += 3) {
-                std::list<plString> idxList = idxChild->getContents();
+                std::list<ST::string> idxList = idxChild->getContents();
                 if (idxList.size() != 3)
                     throw pfPrcParseException(__FILE__, __LINE__, "Triangles should have exactly 3 indices");
                 auto idx_iter = idxList.begin();
-                fIndices[i] = (*idx_iter++).toUint();
-                fIndices[i+1] = (*idx_iter++).toUint();
-                fIndices[i+2] = (*idx_iter++).toUint();
+                fIndices[i] = (*idx_iter++).to_uint();
+                fIndices[i+1] = (*idx_iter++).to_uint();
+                fIndices[i+2] = (*idx_iter++).to_uint();
                 idxChild = idxChild->getNextSibling();
             }
         } else {

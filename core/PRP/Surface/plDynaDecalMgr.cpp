@@ -150,22 +150,22 @@ void plDynaDecalMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "DynaDecalParams") {
-        fMaxNumVerts = tag->getParam("MaxNumVerts", "0").toUint();
-        fMaxNumIdx = tag->getParam("MaxNumIndices", "0").toUint();
-        fWaitOnEnable = tag->getParam("WaintOnEnable", "0").toUint();
-        fPartyTime = tag->getParam("PartyTime", "0").toFloat();
+        fMaxNumVerts = tag->getParam("MaxNumVerts", "0").to_uint();
+        fMaxNumIdx = tag->getParam("MaxNumIndices", "0").to_uint();
+        fWaitOnEnable = tag->getParam("WaintOnEnable", "0").to_uint();
+        fPartyTime = tag->getParam("PartyTime", "0").to_float();
     } else if (tag->getName() == "DynaDecalMetrics") {
-        fIntensity = tag->getParam("Intensity", "0").toFloat();
-        fWetLength = tag->getParam("WetLength", "0").toFloat();
-        fRampEnd = tag->getParam("RampEnd", "0").toFloat();
-        fDecayStart = tag->getParam("DecayStart", "0").toFloat();
-        fLifeSpan = tag->getParam("LifeSpan", "0").toFloat();
+        fIntensity = tag->getParam("Intensity", "0").to_float();
+        fWetLength = tag->getParam("WetLength", "0").to_float();
+        fRampEnd = tag->getParam("RampEnd", "0").to_float();
+        fDecayStart = tag->getParam("DecayStart", "0").to_float();
+        fLifeSpan = tag->getParam("LifeSpan", "0").to_float();
 
         const pfPrcTag* child = tag->getFirstChild();
         while (child != NULL) {
             if (child->getName() == "GridSize") {
-                fGridSizeU = child->getParam("U", "0").toFloat();
-                fGridSizeV = child->getParam("V", "0").toFloat();
+                fGridSizeU = child->getParam("U", "0").to_float();
+                fGridSizeV = child->getParam("V", "0").to_float();
             } else if (child->getName() == "Scale") {
                 if (child->hasChildren())
                     fScale.prcParse(child->getFirstChild());

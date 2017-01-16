@@ -96,14 +96,14 @@ void plCreatableListHelper::IPrcWrite(pfPrcHelper* prc) {
 
 void plCreatableListHelper::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "CreatableList") {
-        fFlags = tag->getParam("Flags", "0").toUint();
+        fFlags = tag->getParam("Flags", "0").to_uint();
 
         clearCreatables();
         const pfPrcTag* child = tag->getFirstChild();
         while (child != NULL) {
             if (child->getName() != "Creatable")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
-            uint16_t id = child->getParam("id", "0").toUint();
+            uint16_t id = child->getParam("id", "0").to_uint();
             if (child->hasChildren())
                 fCreatables[id] = mgr->prcParseCreatable(child->getFirstChild());
             child = child->getNextSibling();

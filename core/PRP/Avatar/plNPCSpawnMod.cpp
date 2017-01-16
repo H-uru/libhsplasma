@@ -67,9 +67,9 @@ void plNPCSpawnMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "NPCSpawnParams") {
         fModelName = tag->getParam("ModelName", "");
         fAccountName = tag->getParam("AccountName", "");
-        fAutoSpawn = tag->getParam("AutoSpawn", "false").toBool();
+        fAutoSpawn = tag->getParam("AutoSpawn", "false").to_bool();
     } else if (tag->getName() == "Notify") {
-        if (tag->getParam("NULL", "false").toBool()) {
+        if (tag->getParam("NULL", "false").to_bool()) {
             setNotify(NULL);
         } else if (tag->hasChildren()) {
             setNotify(plNotifyMsg::Convert(mgr->prcParseCreatable(tag->getFirstChild())));

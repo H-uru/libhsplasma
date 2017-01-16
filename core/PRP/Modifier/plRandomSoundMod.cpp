@@ -51,13 +51,13 @@ void plRandomSoundModGroup::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "plRandomSoundModGroup")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    fGroupedIdx = tag->getParam("GroupedIdx", "0").toInt();
+    fGroupedIdx = tag->getParam("GroupedIdx", "0").to_int();
     fIndices.resize(tag->countChildren());
     const pfPrcTag* child = tag->getFirstChild();
     for (size_t i=0; i<fIndices.size(); i++) {
         if (child->getName() != "Sound")
             throw pfPrcTagException(__FILE__, __LINE__, child->getName());
-        fIndices[i] = child->getParam("Index", "0").toUint();
+        fIndices[i] = child->getParam("Index", "0").to_uint();
         child = child->getNextSibling();
     }
 }

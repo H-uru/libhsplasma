@@ -74,7 +74,7 @@ PY_GETSET_GETTER_DECL(ATCAnim, markers) {
     plATCAnim* anim = self->fThis;
     PyObject* dict = PyDict_New();
     for (const auto& mark : anim->getMarkers())
-        PyDict_SetItemString(dict, mark.first, pyPlasma_convert(mark.second));
+        PyDict_SetItemString(dict, mark.first.c_str(), pyPlasma_convert(mark.second));
     return dict;
 }
 
@@ -85,7 +85,7 @@ PY_GETSET_GETTER_DECL(ATCAnim, loops) {
     plATCAnim* anim = self->fThis;
     PyObject* dict = PyDict_New();
     for (const auto& loop : anim->getLoops()) {
-        PyDict_SetItemString(dict, loop.first,
+        PyDict_SetItemString(dict, loop.first.c_str(),
                   Py_BuildValue("ff", loop.second.first, loop.second.second));
     }
     return dict;

@@ -19,7 +19,7 @@
 #include "ResManager/pdUnifiedTypeMap.h"
 #include "Debug/plDebug.h"
 
-plPageInfo::plPageInfo(const plString& age, const plString& page) {
+plPageInfo::plPageInfo(const ST::string& age, const ST::string& page) {
     IInit();
     setAge(age);
     setPage(page);
@@ -61,7 +61,7 @@ void plPageInfo::read(hsStream* S) {
                 pdUnifiedTypeMap::SetCurrentVersion(type, S->getVer(), ver);
 
                 if (pdUnifiedTypeMap::ClassVersion(type, S->getVer()) != ver) {
-                    plDebug::Warning("Warning: Class %s expected version %d, got %d",
+                    plDebug::Warning("Warning: Class {} expected version {}, got {}",
                                      pdUnifiedTypeMap::ClassName(type, S->getVer()),
                                      pdUnifiedTypeMap::ClassVersion(type, S->getVer()), ver);
                 }
@@ -76,7 +76,7 @@ void plPageInfo::read(hsStream* S) {
                 S->readShort());
 
         fAge = S->readSafeStr();
-        if (fAge.empty()) {
+        if (fAge.is_empty()) {
             locflags = 0;
             S->skip(-4);
             fAge = S->readSafeStr();
@@ -125,17 +125,17 @@ void plPageInfo::read(hsStream* S) {
             pdUnifiedTypeMap::SetCurrentVersion(type, S->getVer(), ver);
 
             if (pdUnifiedTypeMap::ClassVersion(type, S->getVer()) != ver) {
-                plDebug::Warning("Warning: Class %s expected version %d, got %d",
+                plDebug::Warning("Warning: Class {} expected version {}, got {}",
                                  pdUnifiedTypeMap::ClassName(type, S->getVer()),
                                  pdUnifiedTypeMap::ClassVersion(type, S->getVer()), ver);
             }
         }
     }
 
-    plDebug::Debug("* Loading: %s (%s)\n"
-                   "  Location: <%d|%d>\n"
-                   "  Version: %s",
-                   fPage.cstr(), fAge.cstr(),
+    plDebug::Debug("* Loading: {} ({})\n"
+                   "  Location: <{}|{}>\n"
+                   "  Version: {}",
+                   fPage, fAge,
                    fLocation.getSeqPrefix(), fLocation.getPageNum(),
                    PlasmaVer::GetVersionName(S->getVer()));
 }
@@ -226,11 +226,11 @@ void plPageInfo::prcParse(const pfPrcTag* tag) {
     fLocation.prcParse(tag);
 }
 
-plString plPageInfo::getFilename(PlasmaVer ver) const {
+ST::string plPageInfo::getFilename(PlasmaVer ver) const {
     if (ver.isNewPlasma())
-        return plString::Format("%s_%s.prp", fAge.cstr(), fPage.cstr());
+        return ST::format("{}_{}.prp", fAge, fPage);
     else if (ver < MAKE_VERSION(2, 0, 60, 00))
-        return plString::Format("%s_District_%s.prx", fAge.cstr(), fPage.cstr());
+        return ST::format("{}_District_{}.prx", fAge, fPage);
     else
-        return plString::Format("%s_District_%s.prp", fAge.cstr(), fPage.cstr());
+        return ST::format("{}_District_{}.prp", fAge, fPage);
 }

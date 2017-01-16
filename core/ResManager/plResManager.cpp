@@ -25,7 +25,7 @@
 
 plResManager::~plResManager() {
     if (ages.size() > 0 || pages.size() > 0)
-        plDebug::Debug("~plResManager: cleaning up %d ages and %d pages",
+        plDebug::Debug("~plResManager: cleaning up {} ages and {} pages",
                        ages.size(), pages.size());
     while (ages.size() > 0)
         UnloadAge(ages[0]->getAgeName());
@@ -134,31 +134,31 @@ hsKeyedObject* plResManager::getObject(plKey key) {
     return fk->getObj();
 }
 
-plPageInfo* plResManager::ReadPage(const char* filename, bool stub) {
+plPageInfo* plResManager::ReadPage(const ST::string& filename, bool stub) {
     bool packed = true;
-    plString file = plString(filename);
+    ST::string file(filename);
 
-    if (!file.endsWith(".prp", true)) {
-        if (file.endsWith(".prx", true) || file.endsWith(".prm", true)) {
+    if (!file.ends_with(".prp", ST::case_insensitive)) {
+        if (file.ends_with(".prx", ST::case_insensitive) || file.ends_with(".prm", ST::case_insensitive)) {
             packed = false;
-            file = file.beforeLast('.');
+            file = file.before_last('.');
             if (!hsFileStream::FileExists(file + ".prx"))
                 throw hsFileReadException(__FILE__, __LINE__,
-                        (file+".prx").cstr());
+                        (file+".prx").c_str());
             if (!hsFileStream::FileExists(file + ".prm"))
                 throw hsFileReadException(__FILE__, __LINE__,
-                        (file+".prm").cstr());
+                        (file+".prm").c_str());
 
             file += ".prx";
         } else {
             throw hsBadParamException(__FILE__, __LINE__,
-                plString::Format("%s is not a valid Page file", file.cstr()).cstr());
+                ST::format("{} is not a valid Page file", file));
         }
     }
 
     hsFileStream* S = new hsFileStream();
     if (!S->open(file, fmRead))
-        throw hsFileReadException(__FILE__, __LINE__, file.cstr());
+        throw hsFileReadException(__FILE__, __LINE__, file.c_str());
     plPageInfo* page = new plPageInfo();
     page->read(S);
 
@@ -172,11 +172,11 @@ plPageInfo* plResManager::ReadPage(const char* filename, bool stub) {
     if (!packed) {
         S->close();
         delete S;
-        file = file.beforeLast('.') + ".prm";
+        file = file.before_last('.') + ".prm";
         S = new hsFileStream();
         S->setVer(getVer());
         if (!S->open(file, fmRead))
-            throw hsFileReadException(__FILE__, __LINE__, file.cstr());
+            throw hsFileReadException(__FILE__, __LINE__, file.c_str());
     }
     mustStub = stub;
     page->setNumObjects(ReadObjects(S, loc));
@@ -203,7 +203,7 @@ plPageInfo* plResManager::ReadPagePrc(const pfPrcTag* root) {
     return page;
 }
 
-void plResManager::WritePage(const char* filename, plPageInfo* page) {
+void plResManager::WritePage(const ST::string& filename, plPageInfo* page) {
     hsFileStream* S = new hsFileStream();
     S->open(filename, fmWrite);
     S->setVer(getVer());
@@ -278,7 +278,7 @@ unsigned int plResManager::ReadPage(hsStream* S, std::vector<plPageInfo*>& agepa
     return ReadKeyring(S, loc);
 }
 
-plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
+plAgeInfo* plResManager::ReadAge(const ST::string& filename, bool readPages) {
     plAgeInfo* age = new plAgeInfo();
     age->readFromFile(filename);
 
@@ -292,16 +292,16 @@ plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
     }
 
     if (readPages) {
-        plString path = plString(filename).beforeLast(PATHSEP);
-        if (path.len() > 0)
+        ST::string path = filename.before_last(PATHSEP);
+        if (path.size() > 0)
             path = path + PATHSEPSTR;
 
         PlasmaVer ageVer = PlasmaVer::pvUnknown;
         bool packed = true;
         if (age->getNumPages() > 0) {
-            plString file = plString::Format("%s_District_%s",
-                    age->getAgeName().cstr(),
-                    age->getPage(0).fName.cstr());
+            ST::string file = ST::format("{}_District_{}",
+                    age->getAgeName(),
+                    age->getPage(0).fName);
             if (hsFileStream::FileExists(path + file + ".prp")) {
                 ageVer = MAKE_VERSION(2, 0, 63, 12);
             } else if (hsFileStream::FileExists(path + file + ".prx")) {
@@ -319,7 +319,7 @@ plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
             if (hsFileStream::FileExists(path + age->getCommonPageFilename(i, ageVer))) {
                 S = new hsFileStream();
                 if (!S->open(path + age->getCommonPageFilename(i, ageVer), fmRead)) {
-                    throw hsFileReadException(__FILE__, __LINE__, filename);
+                    throw hsFileReadException(__FILE__, __LINE__, filename.c_str());
                 }
                 ReadPage(S, agepages);
                 S->close();
@@ -331,7 +331,7 @@ plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
             if (hsFileStream::FileExists(path + age->getPageFilename(i, ageVer))) {
                 S = new hsFileStream();
                 if (!S->open(path + age->getPageFilename(i, ageVer), fmRead)) {
-                    throw hsFileReadException(__FILE__, __LINE__, filename);
+                    throw hsFileReadException(__FILE__, __LINE__, filename.c_str());
                 }
                 ReadPage(S, agepages);
                 S->close();
@@ -342,13 +342,13 @@ plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
         for (size_t i=0; i < agepages.size(); i++) {
             S = new hsFileStream();
             S->setVer(getVer());
-            plString file = path + agepages[i]->getFilename(ageVer);
+            ST::string file = path + agepages[i]->getFilename(ageVer);
             if (!packed) {
-                file = file.beforeLast('.') + ".prm";
+                file = file.before_last('.') + ".prm";
             }
 
             if (!S->open(file, fmRead)) {
-                throw hsFileReadException(__FILE__, __LINE__, filename);
+                throw hsFileReadException(__FILE__, __LINE__, filename.c_str());
             }
 
             agepages[i]->setNumObjects(
@@ -380,20 +380,20 @@ plAgeInfo* plResManager::ReadAgePrc(const pfPrcTag* root) {
     return age;
 }
 
-void plResManager::WriteAge(const char* filename, plAgeInfo* age) {
-    plString path = filename;
-    plString ageName = path.afterLast(PATHSEP);
-    if (!ageName.beforeLast('.').empty())
-        ageName = ageName.beforeLast('.');
+void plResManager::WriteAge(const ST::string& filename, plAgeInfo* age) {
+    ST::string ageName = filename.after_last(PATHSEP);
+    ST_ssize_t dot = ageName.find_last('.');
+    if (dot >= 0)
+        ageName = ageName.left(dot);
     age->setAgeName(ageName);
-    age->writeToFile(path, getVer());
+    age->writeToFile(filename, getVer());
 }
 
 void plResManager::WriteAgePrc(pfPrcHelper* prc, plAgeInfo* age) {
     age->prcWrite(prc);
 }
 
-plAgeInfo* plResManager::FindAge(const plString& name) {
+plAgeInfo* plResManager::FindAge(const ST::string& name) {
     std::vector<plAgeInfo*>::iterator ai = ages.begin();
     while (ai != ages.end()) {
         if ((*ai)->getAgeName() == name)
@@ -403,7 +403,7 @@ plAgeInfo* plResManager::FindAge(const plString& name) {
     return NULL;
 }
 
-void plResManager::UnloadAge(const plString& name) {
+void plResManager::UnloadAge(const ST::string& name) {
     std::vector<plPageInfo*>::iterator pi = pages.begin();
     while (pi != pages.end()) {
         if ((*pi)->getAge() == name) {
@@ -445,7 +445,7 @@ unsigned int plResManager::ReadKeyring(hsStream* S, const plLocation& loc) {
         unsigned int oCount = S->readInt();
         keys.reserveKeySpace(loc, type, oCount);
 #ifdef RMTRACE
-        plDebug::Debug("  * Indexing %d objects of type [%04hX]%s", oCount, type,
+        plDebug::Debug("  * Indexing {} objects of type [{_04X}]{}", oCount, type,
                        pdUnifiedTypeMap::ClassName(type));
 #endif
         for (unsigned int j=0; j<oCount; j++) {
@@ -512,7 +512,7 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
     for (unsigned int i=0; i<types.size(); i++) {
         std::vector<plKey> kList = keys.getKeys(loc, types[i]);
 #ifdef RMTRACE
-        plDebug::Debug("* Reading %d objects of type [%04hX]%s", kList.size(),
+        plDebug::Debug("* Reading {} objects of type [{_04X}]{}", kList.size(),
                        types[i], pdUnifiedTypeMap::ClassName(types[i]));
 #endif
         for (unsigned int j=0; j<kList.size(); j++) {
@@ -521,7 +521,7 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
             if (kList[j]->getFileOff() <= 0)
                 continue;
 #ifdef RMTRACE
-            plDebug::Debug("  * (%d) Reading %s @ 0x%08X", j, kList[j]->getName().cstr(),
+            plDebug::Debug("  * ({}) Reading {} @ 0x{_08X}", j, kList[j]->getName(),
                            kList[j]->getFileOff());
 #endif
             S->seek(kList[j]->getFileOff());
@@ -543,26 +543,26 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
                 if (kList[j]->getObj() != NULL) {
                     nRead++;
                     if (!subStream->eof()) {
-                        plDebug::Warning("[%04hX:%s] Size-Read difference: %d bytes left after reading",
-                            kList[j]->getType(), kList[j]->getName().cstr(),
+                        plDebug::Warning("[{_04X}:{}] Size-Read difference: {} bytes left after reading",
+                            kList[j]->getType(), kList[j]->getName(),
                             (int)(subStream->size() - (subStream->pos())));
-                        plDebug::Debug("At: 0x%08X (%d bytes)",
+                        plDebug::Debug("At: 0x{_08X} ({} bytes)",
                             kList[j]->getFileOff(),
                             kList[j]->getObjSize());
                     }
                 }
             } catch (const hsException& e) {
-                plDebug::Error("Failed reading %s: %s",
-                               kList[j].toString().cstr(), e.what());
-                plDebug::Error("Failure on line %s:%d", e.File(), e.Line());
+                plDebug::Error("Failed reading {}: {}",
+                               kList[j].toString(), e.what());
+                plDebug::Error("Failure on line {}:{}", e.File(), e.Line());
                 kList[j]->deleteObj();
             } catch (const std::exception& e) {
-                plDebug::Error("Failed reading %s: %s",
-                               kList[j].toString().cstr(), e.what());
+                plDebug::Error("Failed reading {}: {}",
+                               kList[j].toString(), e.what());
                 kList[j]->deleteObj();
             } catch (...) {
-                plDebug::Error("Undefined error reading %s",
-                               kList[j].toString().cstr());
+                plDebug::Error("Undefined error reading {}",
+                               kList[j].toString());
                 kList[j]->deleteObj();
             }
             delete subStream;
@@ -582,7 +582,7 @@ unsigned int plResManager::WriteObjects(hsStream* S, const plLocation& loc) {
     for (unsigned int i=0; i<types.size(); i++) {
         std::vector<plKey> kList = keys.getKeys(loc, types[i]);
 #ifdef RMTRACE
-        plDebug::Debug("* Writing %d objects of type [%04hX]", kList.size(), types[i]);
+        plDebug::Debug("* Writing {} objects of type [{_04X}]", kList.size(), types[i]);
 #endif
         for (unsigned int j=0; j<kList.size(); j++) {
             kList[j]->setFileOff(S->pos());
@@ -590,25 +590,25 @@ unsigned int plResManager::WriteObjects(hsStream* S, const plLocation& loc) {
             if (kList[j]->getObj() != NULL) {
                 try {
 #ifdef RMTRACE
-                    plDebug::Debug("  * (%d) Writing %s @ 0x%08X", j, kList[j].getName().cstr(),
+                    plDebug::Debug("  * ({}) Writing {} @ 0x{_08X}", j, kList[j].getName(),
                                    kList[j]->getFileOff());
 #endif
                     WriteCreatable(S, kList[j]->getObj());
                     nWritten++;
                 } catch (const hsException &e) {
-                    plDebug::Error("Failed writing %s: %s",
-                                   kList[j].toString().cstr(), e.what());
-                    plDebug::Error("Failure on line %s:%d", e.File(), e.Line());
+                    plDebug::Error("Failed writing {}: {}",
+                                   kList[j].toString(), e.what());
+                    plDebug::Error("Failure on line {}:{}", e.File(), e.Line());
                 } catch (const std::exception &e) {
-                    plDebug::Error("Failed writing %s: %s",
-                                   kList[j].toString().cstr(), e.what());
+                    plDebug::Error("Failed writing {}: {}",
+                                   kList[j].toString(), e.what());
                 } catch (...) {
-                    plDebug::Error("Undefined error writing %s",
-                                   kList[j].toString().cstr());
+                    plDebug::Error("Undefined error writing {}",
+                                   kList[j].toString());
                 }
             } else {
                 WriteCreatable(S, NULL);
-                plDebug::Warning("Object for %s does not exist", kList[j].toString().cstr());
+                plDebug::Warning("Object for {} does not exist", kList[j].toString());
             }
             kList[j]->setObjSize(S->pos() - kList[j]->getFileOff());
         }
@@ -629,16 +629,16 @@ plCreatable* plResManager::ReadCreatable(hsStream* S, bool canStub, int stubLen)
             pCre->read(S, this);
         } else if (type != 0x8000) {
             if (canStub) {
-                plDebug::Warning("Warning: Type [%04hX]%s is a STUB",
+                plDebug::Warning("Warning: Type [{_04X}]{} is a STUB",
                                  pdUnifiedTypeMap::PlasmaToMapped(type, S->getVer()),
                                  pdUnifiedTypeMap::ClassName(type, S->getVer()));
                 pCre = new plCreatableStub(pdUnifiedTypeMap::PlasmaToMapped(type, S->getVer()), stubLen - 2);
                 pCre->read(S, this);
             } else {
                 throw hsNotImplementedException(__FILE__, __LINE__,
-                            plString::Format("Cannot read unimplemented type [%04hX]%s",
-                                             pdUnifiedTypeMap::PlasmaToMapped(type, S->getVer()),
-                                             pdUnifiedTypeMap::ClassName(type, S->getVer())));
+                            ST::format("Cannot read unimplemented type [{04X}]{}",
+                                       pdUnifiedTypeMap::PlasmaToMapped(type, S->getVer()),
+                                       pdUnifiedTypeMap::ClassName(type, S->getVer())));
             }
         }
     }
@@ -651,7 +651,7 @@ void plResManager::WriteCreatable(hsStream* S, plCreatable* pCre) {
     } else {
         short classIdx = pCre->ClassIndex(S->getVer());
         if (classIdx == -1) {
-            plDebug::Warning("Class [%04hX]%s not available in the requested Plasma version",
+            plDebug::Warning("Class [{_04X}]{} not available in the requested Plasma version",
                              pCre->ClassIndex(), pCre->ClassName());
             S->writeShort(0x8000);
         } else {
@@ -662,7 +662,7 @@ void plResManager::WriteCreatable(hsStream* S, plCreatable* pCre) {
 }
 
 plCreatable* plResManager::prcParseCreatable(const pfPrcTag* tag) {
-    plCreatable* pCre = plFactory::Create(tag->getName());
+    plCreatable* pCre = plFactory::Create(tag->getName().c_str());
     if (pCre != NULL)
         pCre->prcParse(tag, this);
     return pCre;
@@ -728,7 +728,7 @@ void plResManager::DelPage(const plLocation& loc) {
     }
 }
 
-void plResManager::DelAge(const plString& name) {
+void plResManager::DelAge(const ST::string& name) {
     std::vector<plAgeInfo*>::iterator ai = ages.begin();
     while (ai != ages.end()) {
         if ((*ai)->getAgeName() == name) {

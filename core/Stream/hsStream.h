@@ -20,7 +20,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include "Util/plString.h"
+#include <string_theory/string>
 #include "Util/PlasmaVersions.h"
 #include "Sys/Platform.h"
 #include "PlasmaDefs.h"
@@ -64,10 +64,10 @@ public:
     float readFloat();
     double readDouble();
     bool readBool();
-    plString readStr(size_t len);
-    plString readSafeStr();
-    plString readSafeWStr();
-    virtual plString readLine();
+    ST::string readStr(size_t len);
+    ST::string readSafeStr();
+    ST::string readSafeWStr();
+    virtual ST::string readLine();
 
     void writeByte(uint8_t v);
     void writeShort(uint16_t v);
@@ -78,10 +78,10 @@ public:
     void writeFloat(float v);
     void writeDouble(double v);
     void writeBool(bool v);
-    void writeStr(const plString& str);
-    void writeSafeStr(const plString& str);
-    void writeSafeWStr(const plString& str);
-    virtual void writeLine(const plString& ln, bool winEOL = false);
+    void writeStr(const ST::string& str);
+    void writeSafeStr(const ST::string& str);
+    void writeSafeWStr(const ST::string& str);
+    virtual void writeLine(const ST::string& ln, bool winEOL = false);
 };
 
 class PLASMA_DLL hsFileStream : public hsStream {
@@ -93,9 +93,9 @@ public:
     explicit hsFileStream(int pv = PlasmaVer::pvUnknown) : hsStream(pv), F(NULL) { }
     virtual ~hsFileStream() { close(); }
 
-    static bool FileExists(const char* file);
+    static bool FileExists(const ST::string& file);
 
-    virtual bool open(const char* file, FileMode mode);
+    virtual bool open(const ST::string& file, FileMode mode);
     void close() HS_OVERRIDE;
 
     uint32_t size() const HS_OVERRIDE;

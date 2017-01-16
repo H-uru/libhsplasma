@@ -76,7 +76,7 @@ void plCreatableStub::prcWrite(pfPrcHelper* prc) {
 void plCreatableStub::prcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() != "plCreatableStub")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
-    fClassIdx = pdUnifiedTypeMap::ClassIndex(tag->getParam("Type", ""));
+    fClassIdx = pdUnifiedTypeMap::ClassIndex(tag->getParam("Type", "").c_str());
 
     delete[] fData;
     fDataLen = tag->getContents().size();

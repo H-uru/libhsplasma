@@ -37,7 +37,7 @@ void plNetGroupId::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "plNetGroupId")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    fFlags = tag->getParam("Flags", "0").toUint();
+    fFlags = tag->getParam("Flags", "0").to_uint();
     if (tag->hasChildren())
         fID.prcParse(tag->getFirstChild());
 }

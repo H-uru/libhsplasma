@@ -23,7 +23,7 @@ class PLASMA_DLL plSeekPointMod : public plMultiModifier {
     CREATABLE(plSeekPointMod, kSeekPointMod, plMultiModifier)
 
 protected:
-    plString fName;
+    ST::string fName;
 
 public:
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -34,8 +34,8 @@ protected:
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
-    plString getName() const { return fName; }
-    void setName(const plString& name) { fName = name; }
+    ST::string getName() const { return fName; }
+    void setName(const ST::string& name) { fName = name; }
 };
 
 #endif

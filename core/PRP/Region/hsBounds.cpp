@@ -50,7 +50,7 @@ void hsBounds::prcParse(const pfPrcTag* tag) {
 
 void hsBounds::IPrcParse(const pfPrcTag* tag) {
     if (tag->getName() == "BoundsInfo") {
-        fType = tag->getParam("Type", "0").toInt();
+        fType = tag->getParam("Type", "0").to_int();
     } else {
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     }
@@ -199,7 +199,7 @@ void hsBounds3Ext::IPrcWrite(pfPrcHelper* prc) {
 
 void hsBounds3Ext::IPrcParse(const pfPrcTag* tag) {
     if (tag->getName() == "ExtFlags") {
-        fExtFlags = tag->getParam("value", "0").toUint();
+        fExtFlags = tag->getParam("value", "0").to_uint();
     } else if (tag->getName() == "Corner") {
         if (tag->hasChildren())
             fCorner.prcParse(tag->getFirstChild());
@@ -209,8 +209,8 @@ void hsBounds3Ext::IPrcParse(const pfPrcTag* tag) {
             if (child->getName() != "Axis")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
 
-            fDists[i].X = child->getParam("DistX", "0").toFloat();
-            fDists[i].Y = child->getParam("DistY", "0").toFloat();
+            fDists[i].X = child->getParam("DistX", "0").to_float();
+            fDists[i].Y = child->getParam("DistY", "0").to_float();
             if (child->hasChildren())
                 fAxes[i].prcParse(child->getFirstChild());
 
@@ -314,7 +314,7 @@ void hsBoundsOriented::IPrcWrite(pfPrcHelper* prc) {
 
 void hsBoundsOriented::IPrcParse(const pfPrcTag* tag) {
     if (tag->getName() == "Center") {
-        fCenterValid = tag->getParam("IsValid", "false").toBool();
+        fCenterValid = tag->getParam("IsValid", "false").to_bool();
         if (tag->hasChildren())
             fCenter.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "Planes") {

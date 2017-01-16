@@ -32,7 +32,7 @@ void plLoadMask::prcWrite(pfPrcHelper* prc) {
 }
 
 void plLoadMask::prcParse(const pfPrcTag* tag) {
-    fMask = tag->getParam("LoadMask", "0xFFFF").toUint();
+    fMask = tag->getParam("LoadMask", "0xFFFF").to_uint();
 }
 
 void plLoadMask::setQuality(unsigned char low, unsigned char high) {

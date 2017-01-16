@@ -41,7 +41,7 @@ plKeyData* plKeyData::PrcParse(const pfPrcTag* tag) {
     if (tag->getName() != "plKey")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    if (!tag->getParam("NULL", "false").toBool()) {
+    if (!tag->getParam("NULL", "false").to_bool()) {
         plKeyData* key = new plKeyData();
         key->fUoid.prcParse(tag);
         return key;
@@ -52,7 +52,7 @@ plKeyData* plKeyData::PrcParse(const pfPrcTag* tag) {
 
 void plKeyData::UnRef() {
     if (--fRefCnt == 0) {
-        //plDebug::Debug("Key %s no longer in use, deleting...", toString().cstr());
+        //plDebug::Debug("Key %s no longer in use, deleting...", toString());
         delete this;
     }
 }
@@ -130,7 +130,7 @@ bool plKey::isLoaded() const {
     return fKeyData->getObj() != NULL;
 }
 
-plString plKey::toString() const {
+ST::string plKey::toString() const {
     if (!Exists())
         return "NULL";
     return fKeyData->getUoid().toString();

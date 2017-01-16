@@ -16,6 +16,7 @@
 
 #include "pnNetMsg.h"
 #include "Debug/hsExceptions.hpp"
+#include <cstring>
 
 static msgparm_t AllocBasic(unsigned int size, unsigned int count)
 {
@@ -66,6 +67,14 @@ msgparm_t* NCAllocMessage(const pnNetMsg* msg)
         }
     }
     return data;
+}
+
+char16_t* NCCopyString(const ST::string& string)
+{
+    ST::utf16_buffer wstr = string.to_utf16();
+    char16_t* alloc = new char16_t[wstr.size() + 1];
+    memcpy(alloc, wstr.data(), wstr.size() + 1);
+    return alloc;
 }
 
 void NCFreeMessage(msgparm_t* data, const pnNetMsg* msg)
@@ -121,7 +130,7 @@ size_t NCMessageSize(const msgparm_t* data, const pnNetMsg* msg)
             break;
         case kFieldString:
             bufSize += sizeof(uint16_t);
-            bufSize += plwcslen(data[i].fString) * sizeof(pl_wchar_t);
+            bufSize += ST::utf16_buffer::strlen(data[i].fString) * sizeof(char16_t);
             break;
         case kFieldVarCount:
             bufSize += sizeof(uint32_t);
@@ -157,17 +166,17 @@ void pnNetAgeInfo::read(const unsigned char* buffer)
     fAgeInstanceId.read(buffer);
     buffer += 16;
 
-    fAgeFilename = plString((const pl_wchar_t*)buffer);
-    buffer += 64 * sizeof(pl_wchar_t);
+    fAgeFilename = ST::string::from_utf16((const char16_t*)buffer);
+    buffer += 64 * sizeof(char16_t);
 
-    fAgeInstanceName = plString((const pl_wchar_t*)buffer);
-    buffer += 64 * sizeof(pl_wchar_t);
+    fAgeInstanceName = ST::string::from_utf16((const char16_t*)buffer);
+    buffer += 64 * sizeof(char16_t);
 
-    fAgeUserName = plString((const pl_wchar_t*)buffer);
-    buffer += 64 * sizeof(pl_wchar_t);
+    fAgeUserName = ST::string::from_utf16((const char16_t*)buffer);
+    buffer += 64 * sizeof(char16_t);
 
-    fDescription = plString((const pl_wchar_t*)buffer);
-    buffer += 1024 * sizeof(pl_wchar_t);
+    fDescription = ST::string::from_utf16((const char16_t*)buffer);
+    buffer += 1024 * sizeof(char16_t);
 
     fSequenceNumber = *(uint32_t*)buffer;
     buffer += sizeof(uint32_t);
@@ -187,25 +196,25 @@ void pnNetAgeInfo::write(unsigned char* buffer)
     fAgeInstanceId.write(buffer);
     buffer += 16;
 
-    plString::Wide wsbuf = fAgeFilename.wstr();
-    memcpy(buffer, wsbuf.data(), (wsbuf.len() >= 64 ? 63 : wsbuf.len()) * sizeof(pl_wchar_t));
-    buffer[63 * sizeof(pl_wchar_t)] = 0;
-    buffer += 64 * sizeof(pl_wchar_t);
+    ST::utf16_buffer wsbuf = fAgeFilename.to_utf16();
+    memcpy(buffer, wsbuf.data(), (wsbuf.size() >= 64 ? 63 : wsbuf.size()) * sizeof(char16_t));
+    buffer[63 * sizeof(char16_t)] = 0;
+    buffer += 64 * sizeof(char16_t);
 
-    wsbuf = fAgeInstanceName.wstr();
-    memcpy(buffer, wsbuf.data(), (wsbuf.len() >= 64 ? 63 : wsbuf.len()) * sizeof(pl_wchar_t));
-    buffer[63 * sizeof(pl_wchar_t)] = 0;
-    buffer += 64 * sizeof(pl_wchar_t);
+    wsbuf = fAgeInstanceName.to_utf16();
+    memcpy(buffer, wsbuf.data(), (wsbuf.size() >= 64 ? 63 : wsbuf.size()) * sizeof(char16_t));
+    buffer[63 * sizeof(char16_t)] = 0;
+    buffer += 64 * sizeof(char16_t);
 
-    wsbuf = fAgeUserName.wstr();
-    memcpy(buffer, wsbuf.data(), (wsbuf.len() >= 64 ? 63 : wsbuf.len()) * sizeof(pl_wchar_t));
-    buffer[63 * sizeof(pl_wchar_t)] = 0;
-    buffer += 64 * sizeof(pl_wchar_t);
+    wsbuf = fAgeUserName.to_utf16();
+    memcpy(buffer, wsbuf.data(), (wsbuf.size() >= 64 ? 63 : wsbuf.size()) * sizeof(char16_t));
+    buffer[63 * sizeof(char16_t)] = 0;
+    buffer += 64 * sizeof(char16_t);
 
-    wsbuf = fDescription.wstr();
-    memcpy(buffer, wsbuf.data(), (wsbuf.len() >= 1024 ? 1023 : wsbuf.len()) * sizeof(pl_wchar_t));
-    buffer[1023 * sizeof(pl_wchar_t)] = 0;
-    buffer += 1024 * sizeof(pl_wchar_t);
+    wsbuf = fDescription.to_utf16();
+    memcpy(buffer, wsbuf.data(), (wsbuf.size() >= 1024 ? 1023 : wsbuf.size()) * sizeof(char16_t));
+    buffer[1023 * sizeof(char16_t)] = 0;
+    buffer += 1024 * sizeof(char16_t);
 
     *(uint32_t*)buffer = fSequenceNumber;
     buffer += sizeof(uint32_t);

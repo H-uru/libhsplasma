@@ -34,7 +34,7 @@ public:
 
     unsigned int fID, fValueType;
     plKey fObjKey;
-    plString fStrValue;
+    ST::string fStrValue;
 
     union {
         int fIntValue;
@@ -80,7 +80,7 @@ public:
     };
 
 protected:
-    plString fPythonFile;
+    ST::string fPythonFile;
     std::vector<plKey> fReceivers;
     std::vector<plPythonParameter> fParameters;
 
@@ -93,8 +93,8 @@ protected:
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
-    const plString& getFilename() const { return fPythonFile; }
-    void setFilename(const plString& filename) { fPythonFile = filename; }
+    const ST::string& getFilename() const { return fPythonFile; }
+    void setFilename(const ST::string& filename) { fPythonFile = filename; }
 
     const std::vector<plKey>& getReceivers() const { return fReceivers; }
     std::vector<plKey>& getReceivers() { return fReceivers; }

@@ -22,9 +22,9 @@ extern "C" {
 
 PY_PLASMA_NEW(SpawnPointInfo, plSpawnPointInfo)
 
-PY_PROPERTY(plString, SpawnPointInfo, title, getTitle, setTitle)
-PY_PROPERTY(plString, SpawnPointInfo, spawnPt, getSpawnPt, setSpawnPt)
-PY_PROPERTY(plString, SpawnPointInfo, cameraStack, getCameraStack, setCameraStack)
+PY_PROPERTY(ST::string, SpawnPointInfo, title, getTitle, setTitle)
+PY_PROPERTY(ST::string, SpawnPointInfo, spawnPt, getSpawnPt, setSpawnPt)
+PY_PROPERTY(ST::string, SpawnPointInfo, cameraStack, getCameraStack, setCameraStack)
 
 PyGetSetDef pySpawnPointInfo_GetSet[] = {
     pySpawnPointInfo_title_getset,

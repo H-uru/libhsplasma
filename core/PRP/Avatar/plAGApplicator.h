@@ -25,7 +25,7 @@ class PLASMA_DLL plAGApplicator : public plCreatable {
 protected:
     plAGChannel* fChannel;
     bool fEnabled;
-    plString fChannelName;
+    ST::string fChannelName;
 
 public:
     plAGApplicator() : fChannel(NULL), fEnabled(true) { }
@@ -43,10 +43,10 @@ public:
     void setChannel(plAGChannel*);
 
     bool isEnabled() const { return fEnabled; }
-    plString getChannelName() const { return fChannelName; }
+    ST::string getChannelName() const { return fChannelName; }
 
     void setEnabled(bool enabled) { fEnabled = enabled; }
-    void setChannelName(const plString& channelName) { fChannelName = channelName; }
+    void setChannelName(const ST::string& channelName) { fChannelName = channelName; }
 };
 
 

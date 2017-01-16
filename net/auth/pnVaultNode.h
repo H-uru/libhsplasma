@@ -45,15 +45,15 @@ protected:
 
     int32_t fNodeIdx;
     uint32_t fCreateTime, fModifyTime;
-    plString fCreateAgeName;
+    ST::string fCreateAgeName;
     plUuid fCreateAgeUuid, fCreatorUuid;
     int32_t fCreatorIdx, fNodeType;
     int32_t fInt32[4];
     uint32_t fUint32[4];
     plUuid fUuid[4];
-    plString fString64[6];
-    plString fIString64[2];
-    plString fText[2];
+    ST::string fString64[6];
+    ST::string fIString64[2];
+    ST::string fText[2];
     plVaultBlob fBlob[2];
 
 public:
@@ -79,7 +79,7 @@ public:
     uint32_t getNodeIdx() const;
     uint32_t getCreateTime() const;
     uint32_t getModifyTime() const;
-    plString getCreateAgeName() const;
+    ST::string getCreateAgeName() const;
     plUuid getCreateAgeUuid() const;
     plUuid getCreatorUuid() const;
     uint32_t getCreatorIdx() const;
@@ -87,15 +87,15 @@ public:
     int32_t getInt32(size_t which) const;
     uint32_t getUint32(size_t which) const;
     plUuid getUuid(size_t which) const;
-    plString getString64(size_t which) const;
-    plString getIString64(size_t which) const;
-    plString getText(size_t which) const;
+    ST::string getString64(size_t which) const;
+    ST::string getIString64(size_t which) const;
+    ST::string getText(size_t which) const;
     plVaultBlob getBlob(size_t which) const;
 
     void setNodeIdx(uint32_t idx);
     void setCreateTime(uint32_t createTime);
     void setModifyTime(uint32_t modTime);
-    void setCreateAgeName(const plString& name);
+    void setCreateAgeName(const ST::string& name);
     void setCreateAgeUuid(const plUuid& uuid);
     void setCreatorUuid(const plUuid& uuid);
     void setCreatorIdx(uint32_t idx);
@@ -103,9 +103,9 @@ public:
     void setInt32(size_t which, int32_t value);
     void setUint32(size_t which, uint32_t value);
     void setUuid(size_t which, const plUuid& value);
-    void setString64(size_t which, const plString& value);
-    void setIString64(size_t which, const plString& value);
-    void setText(size_t which, const plString& value);
+    void setString64(size_t which, const ST::string& value);
+    void setIString64(size_t which, const ST::string& value);
+    void setText(size_t which, const ST::string& value);
     void setBlob(size_t which, const plVaultBlob& value);
 
 private:

@@ -51,13 +51,13 @@ void plATCEaseCurve::IPrcWrite(pfPrcHelper* prc) {
 
 void plATCEaseCurve::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Lengths") {
-        fMinLength = tag->getParam("Min", "0").toFloat();
-        fMaxLength = tag->getParam("Max", "0").toFloat();
-        fLength = tag->getParam("Norm", "0").toFloat();
+        fMinLength = tag->getParam("Min", "0").to_float();
+        fMaxLength = tag->getParam("Max", "0").to_float();
+        fLength = tag->getParam("Norm", "0").to_float();
     } else if (tag->getName() == "Timing") {
-        fStartSpeed = tag->getParam("StartSpeed", "0").toFloat();
-        fSpeed = tag->getParam("Speed", "0").toFloat();
-        fBeginWorldTime = tag->getParam("BeginWorldTime", "0").toFloat();
+        fStartSpeed = tag->getParam("StartSpeed", "0").to_float();
+        fSpeed = tag->getParam("Speed", "0").to_float();
+        fBeginWorldTime = tag->getParam("BeginWorldTime", "0").to_float();
     } else {
         plCreatable::IPrcParse(tag, mgr);
     }
@@ -87,19 +87,19 @@ void plSplineEaseCurve::IPrcWrite(pfPrcHelper* prc) {
     plATCEaseCurve::IPrcWrite(prc);
 
     prc->writeTagNoBreak("SplineCoefficients");
-    prc->directWrite(plString::Format("%f %f %f %f",
+    prc->directWrite(ST::format("{f} {f} {f} {f}",
                      fCoef[0], fCoef[1], fCoef[2], fCoef[3]));
     prc->closeTagNoBreak();
 }
 
 void plSplineEaseCurve::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "SplineCoefficients") {
-        std::list<plString> coefList = tag->getContents();
+        std::list<ST::string> coefList = tag->getContents();
         if (coefList.size() != 4)
             throw pfPrcParseException(__FILE__, __LINE__, "plSplineEaseCurve expects exactly 4 coefficients");
         size_t i = 0;
         for (auto coef = coefList.begin(); coef != coefList.end(); ++coef)
-            fCoef[i++] = coef->toFloat();
+            fCoef[i++] = coef->to_float();
     } else {
         plATCEaseCurve::IPrcParse(tag, mgr);
     }

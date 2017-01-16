@@ -91,39 +91,40 @@ bool hsStream::readBool() {
     return readByte() != 0;
 }
 
-plString hsStream::readStr(size_t len) {
-    char* buf = new char[len+1];
+ST::string hsStream::readStr(size_t len) {
+    ST::char_buffer result;
+    char* buf = result.create_writable_buffer(len);
     read(len * sizeof(char), buf);
     buf[len] = 0;
-    plString str(buf);
-    delete[] buf;
-    return str;
+    return result;
 }
 
-plString hsStream::readSafeStr() {
+ST::string hsStream::readSafeStr() {
     char* buf;
     uint16_t ssInfo = readShort();
     if (ssInfo == 0) {
         if (ver < MAKE_VERSION(2, 0, 63, 5) && readShort() != 0) {
             skip(-2);
         }
-        return plString();
+        return ST::null;
     }
 
+    ST::char_buffer result;
     if (ver.isUniversal()) {
-        buf = new char[ssInfo+1];
+        buf = result.create_writable_buffer(ssInfo);
         read(ssInfo, buf);
         buf[ssInfo] = 0;
     } else if (ver.isNewPlasma()) {
-        buf = new char[ssInfo+1];
+        buf = result.create_writable_buffer(ssInfo);
         read(ssInfo, buf);
         for (size_t i=0; i<ssInfo; i++)
             buf[i] ^= eoaStrKey[i%8];
         buf[ssInfo] = 0;
     } else {
-        if (!(ssInfo & 0xF000)) readShort(); // Discarded
+        if (!(ssInfo & 0xF000))
+            readShort(); // Discarded
         uint16_t size = (ssInfo & 0x0FFF);
-        buf = new char[size+1];
+        buf = result.create_writable_buffer(size);
         read(size, buf);
         if ((size > 0) && (buf[0] & 0x80)) {
             for (size_t i=0; i<size; i++)
@@ -131,57 +132,48 @@ plString hsStream::readSafeStr() {
         }
         buf[size] = 0;
     }
-    plString str(buf);
-    delete[] buf;
-    return str;
+    return result;
 }
 
-plString hsStream::readSafeWStr() {
+ST::string hsStream::readSafeWStr() {
     uint16_t ssInfo = readShort();
-    pl_wchar_t* buf;
+    ST::utf16_buffer result;
+    char16_t* buf;
     if (ver.isUniversal()) {
-        buf = new pl_wchar_t[ssInfo+1];
+        buf = result.create_writable_buffer(ssInfo);
         for (size_t i=0; i<ssInfo; i++)
             buf[i] = readShort() & 0xFFFF;
         readShort();    // Terminator
         buf[ssInfo] = 0;
     } else if (ver.isNewPlasma()) {
-        buf = new pl_wchar_t[ssInfo+1];
+        buf = result.create_writable_buffer(ssInfo);
         for (size_t i=0; i<ssInfo; i++)
             buf[i] = (readShort() ^ eoaStrKey[i%8]) & 0xFFFF;
         readShort();    // Terminator
         buf[ssInfo] = 0;
     } else {
         uint16_t size = (ssInfo & 0x0FFF);
-        buf = new pl_wchar_t[size+1];
+        buf = result.create_writable_buffer(size);
         for (size_t i=0; i<size; i++)
             buf[i] = (~readShort()) & 0xFFFF;
         readShort();    // Terminator
         buf[size] = 0;
     }
-    plString str(buf);
-    delete[] buf;
-    return str;
+    return result;
 }
 
-plString hsStream::readLine() {
-    char* buf = new char[4096];
-    unsigned int i = 0;
+ST::string hsStream::readLine() {
+    ST::string_stream line;
     char c = readByte();
     while ((c != '\n') && (c != '\r') && !eof()) {
-        buf[i++] = c;
+        line.append_char(c);
         c = readByte();
-        if (i >= 4096)
-            throw hsFileReadException(__FILE__, __LINE__, "Line too long");
     }
     if (c != '\n' && c != '\r')
-        buf[i++] = c;
-    buf[i] = 0;
+        line.append_char(c);
     if (c == '\r')
         readByte(); // Eat the \n in Windows-style EOLs
-    plString str(buf);
-    delete[] buf;
-    return str;
+    return line.to_string();
 }
 
 void hsStream::writeByte(uint8_t v) {
@@ -242,45 +234,45 @@ void hsStream::writeBool(bool v) {
     write(sizeof(b), &b);
 }
 
-void hsStream::writeStr(const plString& str) {
-    write(str.len(), str.cstr());
+void hsStream::writeStr(const ST::string& str) {
+    write(str.size(), str.c_str());
 }
 
-void hsStream::writeSafeStr(const plString& str) {
-    if (str.len() > 0xFFF)
+void hsStream::writeSafeStr(const ST::string& str) {
+    if (str.size() > 0xFFF)
         plDebug::Warning("SafeString length is excessively long");
 
     if (!ver.isSafeVer())
         ver = PlasmaVer::GetSafestVersion(ver);
 
-    uint16_t ssInfo = (uint16_t)str.len();
+    uint16_t ssInfo = (uint16_t)str.size();
     char* wbuf;
     if (ver.isUniversal()) {
         writeShort(ssInfo);
         wbuf = new char[ssInfo];
-        memcpy(wbuf, str.cstr(), ssInfo);
+        memcpy(wbuf, str.c_str(), ssInfo);
     } else if (ver.isNewPlasma()) {
         writeShort(ssInfo);
         wbuf = new char[ssInfo];
         for (size_t i=0; i<ssInfo; i++)
-            wbuf[i] = str[i] ^ eoaStrKey[i%8];
+            wbuf[i] = str.char_at(i) ^ eoaStrKey[i%8];
     } else {
         ssInfo &= 0x0FFF;
         writeShort(ssInfo | 0xF000);
         wbuf = new char[ssInfo];
         for (size_t i=0; i<ssInfo; i++)
-            wbuf[i] = ~str[i];
+            wbuf[i] = ~str.char_at(i);
     }
     write(ssInfo, wbuf);
     delete[] wbuf;
 }
 
-void hsStream::writeSafeWStr(const plString& str) {
-    if (str.len() > 0xFFF)
+void hsStream::writeSafeWStr(const ST::string& str) {
+    ST::utf16_buffer buf = str.to_utf16();
+    if (buf.size() > 0xFFF)
         plDebug::Warning("SafeWString length is excessively long");
 
-    uint16_t ssInfo = (uint16_t)str.len();
-    plString::Wide buf = str.wstr();
+    uint16_t ssInfo = (uint16_t)buf.size();
     if (ver.isUniversal()) {
         writeShort(ssInfo);
         for (size_t i=0; i<ssInfo; i++)
@@ -300,7 +292,7 @@ void hsStream::writeSafeWStr(const plString& str) {
     }
 }
 
-void hsStream::writeLine(const plString& ln, bool winEOL) {
+void hsStream::writeLine(const ST::string& ln, bool winEOL) {
     writeStr(ln);
     if (winEOL)
         writeByte('\r');
@@ -309,15 +301,15 @@ void hsStream::writeLine(const plString& ln, bool winEOL) {
 
 
 /* hsFileStream */
-bool hsFileStream::FileExists(const char* file) {
-    FILE* eFile = fopen(file, "rb");
+bool hsFileStream::FileExists(const ST::string& file) {
+    FILE* eFile = fopen(file.c_str(), "rb");
     bool exist = (eFile != NULL);
     if (exist)
         fclose(eFile);
     return exist;
 }
 
-bool hsFileStream::open(const char* file, FileMode mode) {
+bool hsFileStream::open(const ST::string& file, FileMode mode) {
     const char* fms;
     switch (mode) {
     case fmRead:
@@ -336,7 +328,7 @@ bool hsFileStream::open(const char* file, FileMode mode) {
         throw hsBadParamException(__FILE__, __LINE__, "Invalid mode");
     }
 
-    F = fopen(file, fms);
+    F = fopen(file.c_str(), fms);
     if (F != NULL) {
         fm = mode;
         return true;
@@ -411,8 +403,9 @@ size_t hsFileStream::read(size_t size, void* buf) {
         throw hsFileReadException(__FILE__, __LINE__);
     size_t nread = fread(buf, 1, size, F);
     if (nread != size) {
-        throw hsFileReadException(__FILE__, __LINE__, plString::Format("Read past end of file: %d bytes requested, %d available",
-                         size, nread));
+        throw hsFileReadException(__FILE__, __LINE__,
+                         ST::format("Read past end of file: {} bytes requested, {} available",
+                         size, nread).c_str());
     }
     return nread;
 }
@@ -439,7 +432,7 @@ hsFileReadException::hsFileReadException(const char* file,
                    : hsException(file, line) {
     fWhat = "Error reading file";
     if (filename != NULL)
-        fWhat += plString(": ") + filename;
+        fWhat += ST::string(": ") + filename;
 }
 
 
@@ -449,5 +442,5 @@ hsFileWriteException::hsFileWriteException(const char* file,
                     : hsException(file, line) {
     fWhat = "Error writing to file";
     if (filename != NULL)
-        fWhat += plString(": ") + filename;
+        fWhat += ST::string(": ") + filename;
 }

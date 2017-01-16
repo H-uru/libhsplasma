@@ -19,6 +19,7 @@
 #include <Debug/hsExceptions.hpp>
 #include <Debug/plDebug.h>
 #include <PRP/KeyedObject/hsKeyedObject.h>
+#include <cstring>
 
 void doHelp(const char* prgName) {
     fprintf(stderr, "Usage: %s filename.prp action [options]\n\n", prgName);
@@ -32,7 +33,7 @@ void doHelp(const char* prgName) {
     fprintf(stderr, "    --help          Display this help message and then exit\n\n");
 }
 
-plKey findObject(plResManager* mgr, const plLocation& loc, const plString& name, short type) {
+plKey findObject(plResManager* mgr, const plLocation& loc, const ST::string& name, short type) {
     std::vector<plKey> keys = mgr->getKeys(loc, type);
     for (std::vector<plKey>::iterator it=keys.begin(); it != keys.end(); it++) {
         if ((*it)->getName() == name)
@@ -52,8 +53,8 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    plString outFile, inFile, prpFile;
-    plString objName;
+    ST::string outFile, inFile, prpFile;
+    ST::string objName;
     short objType = -1;
     int action = kActionUnknown;
 
@@ -88,21 +89,21 @@ int main(int argc, char* argv[]) {
                     return 1;
                 }
                 action = (action & ~kActionMask) | kActionDel;
-                plString objSpec = argv[i];
-                plString type = objSpec.beforeFirst(':');
-                objType = plFactory::ClassIndex(type);
+                ST::string objSpec = argv[i];
+                ST::string type = objSpec.before_first(':');
+                objType = plFactory::ClassIndex(type.c_str());
                 if (objType == -1)
-                    objType = type.toInt();
-                objName = objSpec.afterLast(':');
-                if (objName.startsWith("\"")) {
+                    objType = type.to_int();
+                objName = objSpec.after_last(':');
+                if (objName.starts_with("\"")) {
                     do {
                         if (++i >= argc) {
                             fprintf(stderr, "Error: Unterminated string\n");
                             return 1;
                         }
-                        objName += plString(" ") + argv[i];
-                    } while (!objName.endsWith("\""));
-                    objName = objName.mid(1, objName.len() - 2);
+                        objName += ST::string(" ") + argv[i];
+                    } while (!objName.ends_with("\""));
+                    objName = objName.substr(1, objName.size() - 2);
                 }
             } else if (strcmp(argv[i], "extract") == 0) {
                 if (++i >= argc) {
@@ -110,24 +111,24 @@ int main(int argc, char* argv[]) {
                     return 1;
                 }
                 action = (action & ~kActionMask) | kActionExtract;
-                plString objSpec = argv[i];
-                plString type = objSpec.beforeFirst(':');
-                objType = plFactory::ClassIndex(type);
+                ST::string objSpec = argv[i];
+                ST::string type = objSpec.before_first(':');
+                objType = plFactory::ClassIndex(type.c_str());
                 if (objType == -1)
-                    objType = type.toInt();
-                objName = objSpec.afterLast(':');
-                if (objName.startsWith("\"")) {
+                    objType = type.to_int();
+                objName = objSpec.after_last(':');
+                if (objName.starts_with("\"")) {
                     do {
                         if (++i >= argc) {
                             fprintf(stderr, "Error: Unterminated string\n");
                             return 1;
                         }
-                        objName += plString(" ") + argv[i];
-                    } while (!objName.endsWith("\""));
-                    objName = objName.mid(1, objName.len() - 2);
+                        objName += ST::string(" ") + argv[i];
+                    } while (!objName.ends_with("\""));
+                    objName = objName.substr(1, objName.size() - 2);
                 }
             } else {
-                if (prpFile.empty()) {
+                if (prpFile.is_empty()) {
                     prpFile = argv[i];
                 } else {
                     fprintf(stderr, "Unknown action: %s\nSee --help for usage details\n", argv[i]);
@@ -136,7 +137,7 @@ int main(int argc, char* argv[]) {
             }
         }
     }
-    if ((action & kActionMask) == kActionUnknown || prpFile.empty()) {
+    if ((action & kActionMask) == kActionUnknown || prpFile.is_empty()) {
         doHelp(argv[0]);
         return 1;
     }
@@ -161,7 +162,7 @@ int main(int argc, char* argv[]) {
         hsFileStream in;
         plCreatable* cre = NULL;
 
-        if (inFile.endsWith(".prc") || inFile.endsWith(".xml") || (action & kModePRC) != 0) {
+        if (inFile.ends_with(".prc") || inFile.ends_with(".xml") || (action & kModePRC) != 0) {
             // Add PRC source
             pfPrcParser prc;
             try {
@@ -203,7 +204,7 @@ int main(int argc, char* argv[]) {
             // let's make sure it's in the right Location:
             resMgr.MoveKey(kobj->getKey(), page->getLocation());
         } else {
-            fprintf(stderr, "Failure parsing %s\n", inFile.cstr());
+            fprintf(stderr, "Failure parsing %s\n", inFile.c_str());
             return 1;
         }
         resMgr.WritePage(prpFile, page);
@@ -211,7 +212,7 @@ int main(int argc, char* argv[]) {
         plKey key = findObject(&resMgr, page->getLocation(), objName, objType);
         if (!key.Exists() || key->getObj() == NULL) {
             fprintf(stderr, "Could not find %s:%s\n",
-                    plFactory::ClassName(objType), objName.cstr());
+                    plFactory::ClassName(objType), objName.c_str());
             return 1;
         }
         resMgr.DelObject(key);
@@ -220,12 +221,12 @@ int main(int argc, char* argv[]) {
         plKey key = findObject(&resMgr, page->getLocation(), objName, objType);
         if (!key.Exists() || key->getObj() == NULL) {
             fprintf(stderr, "Could not find %s:%s\n",
-                    plFactory::ClassName(objType), objName.cstr());
+                    plFactory::ClassName(objType), objName.c_str());
             return 1;
         }
-        if (outFile.empty())
-            outFile = plString::Format("[%04X]%s.%s", objType, objName.cstr(),
-                                       (action & kModePRC) != 0 ? "prc" : "po");
+        if (outFile.is_empty())
+            outFile = ST::format("[{_04X}]{}.{}", objType, objName,
+                                 (action & kModePRC) != 0 ? "prc" : "po");
         hsFileStream out;
         out.setVer(resMgr.getVer());
         out.open(outFile, fmCreate);

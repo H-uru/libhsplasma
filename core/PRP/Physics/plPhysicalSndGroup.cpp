@@ -60,7 +60,7 @@ void plPhysicalSndGroup::IPrcWrite(pfPrcHelper* prc) {
 
 void plPhysicalSndGroup::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "SoundGroupParams") {
-        fGroup = tag->getParam("Group", "0").toUint();
+        fGroup = tag->getParam("Group", "0").to_uint();
     } else if (tag->getName() == "ImpactSounds") {
         fImpactSounds.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();

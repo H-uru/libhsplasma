@@ -103,13 +103,13 @@ void hsG3DDeviceRecord::write(hsStream* S) {
     S->writeInt(fFlags);
     S->writeInt(fDeviceType);
 
-    S->writeInt(fDriverDesc.len());
+    S->writeInt(fDriverDesc.size());
     S->writeStr(fDriverDesc);
-    S->writeInt(fDriverName.len());
+    S->writeInt(fDriverName.size());
     S->writeStr(fDriverName);
-    S->writeInt(fDriverVersion.len());
+    S->writeInt(fDriverVersion.size());
     S->writeStr(fDriverVersion);
-    S->writeInt(fDeviceDesc.len());
+    S->writeInt(fDeviceDesc.size());
     S->writeStr(fDeviceDesc);
 
     fCaps.write(S);

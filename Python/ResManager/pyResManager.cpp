@@ -259,8 +259,8 @@ PY_METHOD_VA(ResManager, ReadAge,
     try {
         age = self->fThis->ReadAge(filename, readPages != 0);
     } catch (hsException& e) {
-        plString err = plString::Format("Error reading age: %s", e.what());
-        PyErr_SetString(PyExc_IOError, err.cstr());
+        ST::string err = ST::format("Error reading age: {}", e.what());
+        PyErr_SetString(PyExc_IOError, err.c_str());
         return NULL;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading age");

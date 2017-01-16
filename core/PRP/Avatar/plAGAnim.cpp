@@ -86,9 +86,9 @@ void plAGAnim::IPrcWrite(pfPrcHelper* prc) {
 void plAGAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "AGAnimParams") {
         fName = tag->getParam("Name", "");
-        fStart = tag->getParam("Start", "0").toFloat();
-        fEnd = tag->getParam("End", "0").toFloat();
-        fEoaFlag = tag->getParam("EoaFlag", "0").toUint();
+        fStart = tag->getParam("Start", "0").to_float();
+        fEnd = tag->getParam("End", "0").to_float();
+        fEoaFlag = tag->getParam("EoaFlag", "0").to_uint();
     } else if (tag->getName() == "Applicators") {
         clearApplicators();
         fApps.resize(tag->countChildren());

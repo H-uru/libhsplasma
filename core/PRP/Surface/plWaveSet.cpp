@@ -103,7 +103,7 @@ void plWaveSet7::IPrcWrite(pfPrcHelper* prc) {
 
 void plWaveSet7::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "WaveSet7Params") {
-        fMaxLen = tag->getParam("MaxLen", "0").toFloat();
+        fMaxLen = tag->getParam("MaxLen", "0").to_float();
     } else if (tag->getName() == "plFixedWaterState7") {
         fState.prcParse(tag);
     } else if (tag->getName() == "Shores") {

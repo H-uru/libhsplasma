@@ -77,7 +77,7 @@ void plAxisAnimModifier::write(hsStream* S, plResManager* mgr) {
     S->writeBool(fAllOrNothing);
 
     mgr->WriteCreatable(S, fNotify);
-    S->writeShort(fAnimLabel.len());
+    S->writeShort(fAnimLabel.size());
     S->writeStr(fAnimLabel);
 
     if (S->getVer().isNewPlasma()) {
@@ -176,7 +176,7 @@ void plAxisAnimModifier::IPrcWrite(pfPrcHelper* prc) {
 
 void plAxisAnimModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "AxisAnimParams") {
-        fAllOrNothing = tag->getParam("AllOrNothing", "false").toBool();
+        fAllOrNothing = tag->getParam("AllOrNothing", "false").to_bool();
         fAnimLabel = tag->getParam("AnimLabel", "");
     } else if (tag->getName() == "XAnim") {
         if (tag->hasChildren())

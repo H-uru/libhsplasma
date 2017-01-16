@@ -26,7 +26,7 @@ public:
     enum TextBoxFlags { kCenterJustify = kDerivedFlagsStart, kRightJustify };
 
 protected:
-    plString fText, fLocalizationPath;
+    ST::string fText, fLocalizationPath;
 
 public:
     pfGUITextBoxMod();
@@ -39,11 +39,11 @@ protected:
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
-    plString getText() const { return fText; }
-    plString getLocalizationPath() const { return fLocalizationPath; }
+    ST::string getText() const { return fText; }
+    ST::string getLocalizationPath() const { return fLocalizationPath; }
 
-    void setText(const plString& text) { fText = text; }
-    void setLocalizationPath(const plString& path) { fLocalizationPath = path; }
+    void setText(const ST::string& text) { fText = text; }
+    void setLocalizationPath(const ST::string& path) { fLocalizationPath = path; }
 };
 
 #endif

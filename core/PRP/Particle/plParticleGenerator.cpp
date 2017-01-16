@@ -80,11 +80,11 @@ void plOneTimeParticleGenerator::IPrcWrite(pfPrcHelper* prc) {
 
 void plOneTimeParticleGenerator::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "GeneratorParams") {
-        fXSize = tag->getParam("XSize", "0").toFloat();
-        fYSize = tag->getParam("YSize", "0").toFloat();
-        fScaleMin = tag->getParam("ScaleMin", "0").toFloat();
-        fScaleMax = tag->getParam("ScaleMax", "0").toFloat();
-        fPartRadsPerSecRange = tag->getParam("RadsPerSecond", "0").toFloat();
+        fXSize = tag->getParam("XSize", "0").to_float();
+        fYSize = tag->getParam("YSize", "0").to_float();
+        fScaleMin = tag->getParam("ScaleMin", "0").to_float();
+        fScaleMax = tag->getParam("ScaleMax", "0").to_float();
+        fPartRadsPerSecRange = tag->getParam("RadsPerSecond", "0").to_float();
     } else if (tag->getName() == "ParticleSources") {
         fCount = tag->countChildren();
         clearParticles();
@@ -219,20 +219,20 @@ void plSimpleParticleGenerator::IPrcWrite(pfPrcHelper* prc) {
 
 void plSimpleParticleGenerator::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "ParticleParams") {
-        fGenLife = tag->getParam("GenLife", "0").toFloat();
-        fPartLifeMin = tag->getParam("PartLifeMin", "0").toFloat();
-        fPartLifeMax = tag->getParam("PartLifeMax", "0").toFloat();
-        fParticlesPerSecond = tag->getParam("ParticlesPerSecond", "0").toFloat();
-        fPartMassRange = tag->getParam("ParticleMass", "0").toFloat();
-        fPartRadsPerSecRange = tag->getParam("RadsPerSecond", "0").toFloat();
+        fGenLife = tag->getParam("GenLife", "0").to_float();
+        fPartLifeMin = tag->getParam("PartLifeMin", "0").to_float();
+        fPartLifeMax = tag->getParam("PartLifeMax", "0").to_float();
+        fParticlesPerSecond = tag->getParam("ParticlesPerSecond", "0").to_float();
+        fPartMassRange = tag->getParam("ParticleMass", "0").to_float();
+        fPartRadsPerSecRange = tag->getParam("RadsPerSecond", "0").to_float();
     } else if (tag->getName() == "GeneratorParams") {
-        fAngleRange = tag->getParam("AngleRange", "0").toFloat();
-        fVelMin = tag->getParam("VelMin", "0").toFloat();
-        fVelMax = tag->getParam("VelMax", "0").toFloat();
-        fXSize = tag->getParam("XSize", "0").toFloat();
-        fYSize = tag->getParam("YSize", "0").toFloat();
-        fScaleMin = tag->getParam("ScaleMin", "0").toFloat();
-        fScaleMax = tag->getParam("ScaleMax", "0").toFloat();
+        fAngleRange = tag->getParam("AngleRange", "0").to_float();
+        fVelMin = tag->getParam("VelMin", "0").to_float();
+        fVelMax = tag->getParam("VelMax", "0").to_float();
+        fXSize = tag->getParam("XSize", "0").to_float();
+        fYSize = tag->getParam("YSize", "0").to_float();
+        fScaleMin = tag->getParam("ScaleMin", "0").to_float();
+        fScaleMax = tag->getParam("ScaleMax", "0").to_float();
     } else if (tag->getName() == "ParticleSources") {
         fNumSources = tag->countChildren();
         clearSources();
@@ -244,8 +244,8 @@ void plSimpleParticleGenerator::IPrcParse(const pfPrcTag* tag, plResManager* mgr
             for (size_t i=0; i<fNumSources; i++) {
                 if (child->getName() != "Source")
                     throw pfPrcTagException(__FILE__, __LINE__, child->getName());
-                fInitPitch[i] = tag->getParam("Pitch", "0").toFloat();
-                fInitYaw[i] = tag->getParam("Yaw", "0").toFloat();
+                fInitPitch[i] = tag->getParam("Pitch", "0").to_float();
+                fInitYaw[i] = tag->getParam("Yaw", "0").to_float();
                 if (child->hasChildren())
                     fInitPos[i].prcParse(child->getFirstChild());
                 child = child->getNextSibling();

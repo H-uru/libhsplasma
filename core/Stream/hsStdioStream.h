@@ -27,7 +27,7 @@ protected:
 public:
     explicit hsStdioStream(bool useStdErr = false);
 
-    bool open(const char*, FileMode) HS_OVERRIDE { return false; }
+    bool open(const ST::string&, FileMode) HS_OVERRIDE { return false; }
     void close() HS_OVERRIDE { }
 
     uint32_t size() const HS_OVERRIDE { return 0; }

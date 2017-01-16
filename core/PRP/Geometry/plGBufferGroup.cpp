@@ -15,6 +15,7 @@
  */
 
 #include "plGBufferGroup.h"
+#include <string_theory/format>
 
 /* plGBufferCell */
 void plGBufferCell::read(hsStream* S) {
@@ -41,9 +42,9 @@ void plGBufferCell::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "plGBufferCell")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    fVtxStart = tag->getParam("VertexStart", "0").toUint();
-    fColorStart = tag->getParam("ColorStart", "0").toUint();
-    fLength = tag->getParam("Length", "0").toUint();
+    fVtxStart = tag->getParam("VertexStart", "0").to_uint();
+    fColorStart = tag->getParam("ColorStart", "0").to_uint();
+    fLength = tag->getParam("Length", "0").to_uint();
 }
 
 
@@ -85,10 +86,10 @@ void plGBufferTriangle::prcParse(const pfPrcTag* tag) {
     const pfPrcTag* child = tag->getFirstChild();
     while (child != NULL) {
         if (child->getName() == "Indices") {
-            fIndex1 = child->getParam("Index1", "0").toUint();
-            fIndex2 = child->getParam("Index2", "0").toUint();
-            fIndex3 = child->getParam("Index3", "0").toUint();
-            fSpanIndex = child->getParam("SpanIndex", "0").toUint();
+            fIndex1 = child->getParam("Index1", "0").to_uint();
+            fIndex2 = child->getParam("Index2", "0").to_uint();
+            fIndex3 = child->getParam("Index3", "0").to_uint();
+            fSpanIndex = child->getParam("SpanIndex", "0").to_uint();
         } else if (child->getName() == "Center") {
             if (child->hasChildren())
                 fCenter.prcParse(child->getFirstChild());
@@ -284,7 +285,7 @@ void plGBufferGroup::prcWrite(pfPrcHelper* prc) {
                     prc->writeParam("SkinIndex", verts[i].fSkinIdx);
                 prc->endTagNoBreak();
                 for (size_t j=0; j<(size_t)((fFormat & kSkinWeightMask) >> 4); j++)
-                    prc->directWrite(plString::Format("%g ", verts[i].fSkinWeights[j]));
+                    prc->directWrite(ST::format("{} ", verts[i].fSkinWeights[j]));
                 prc->closeTagNoBreak();
 
                 prc->writeSimpleTag("Normal");
@@ -308,7 +309,7 @@ void plGBufferGroup::prcWrite(pfPrcHelper* prc) {
             prc->writeSimpleTag("IndexGroup");
             for (size_t j=0; j<fIdxBuffCounts[i]; j += 3) {
                 prc->writeTagNoBreak("Triangle");
-                prc->directWrite(plString::Format("%d %d %d",
+                prc->directWrite(ST::format("{} {} {}",
                                  fIdxBuffStorage[i][j],
                                  fIdxBuffStorage[i][j+1],
                                  fIdxBuffStorage[i][j+2]));
@@ -331,7 +332,7 @@ void plGBufferGroup::prcWrite(pfPrcHelper* prc) {
 void plGBufferGroup::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "plGBufferGroup")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
-    fFormat = tag->getParam("Format", "0").toUint();
+    fFormat = tag->getParam("Format", "0").to_uint();
     fStride = ICalcVertexSize(fLiteStride);
 
     clearVertices();
@@ -356,18 +357,18 @@ void plGBufferGroup::prcParse(const pfPrcTag* tag) {
                         if (subChild->hasChildren())
                             buf[i].fPos.prcParse(subChild->getFirstChild());
                     } else if (subChild->getName() == "SkinWeights") {
-                        buf[i].fSkinIdx = subChild->getParam("SkinIndex", "0").toInt();
-                        std::list<plString> wgtList = subChild->getContents();
+                        buf[i].fSkinIdx = subChild->getParam("SkinIndex", "0").to_int();
+                        std::list<ST::string> wgtList = subChild->getContents();
                         if (wgtList.size() != (size_t)((fFormat & kSkinWeightMask) >> 4))
                             throw pfPrcParseException(__FILE__, __LINE__, "Incorrect Number of Skin Weights");
                         auto wgt = wgtList.begin();
                         for (size_t j=0; j<(size_t)((fFormat & kSkinWeightMask) >> 4); j++)
-                            buf[i].fSkinWeights[j] = (*wgt++).toFloat();
+                            buf[i].fSkinWeights[j] = (*wgt++).to_float();
                     } else if (subChild->getName() == "Normal") {
                         if (subChild->hasChildren())
                             buf[i].fNormal.prcParse(subChild->getFirstChild());
                     } else if (subChild->getName() == "Color") {
-                        buf[i].fColor = subChild->getParam("value", "0").toUint();
+                        buf[i].fColor = subChild->getParam("value", "0").to_uint();
                     } else if (subChild->getName() == "UVWMaps") {
                         if ((fFormat & kUVCountMask) != subChild->countChildren())
                             throw pfPrcParseException(__FILE__, __LINE__, "Incorrect Number of UVW maps");
@@ -393,13 +394,13 @@ void plGBufferGroup::prcParse(const pfPrcTag* tag) {
             for (size_t i=0; i<idxCount; i += 3) {
                 if (idxChild->getName() != "Triangle")
                     throw pfPrcTagException(__FILE__, __LINE__, idxChild->getName());
-                std::list<plString> idxList = idxChild->getContents();
+                std::list<ST::string> idxList = idxChild->getContents();
                 if (idxList.size() != 3)
                     throw pfPrcParseException(__FILE__, __LINE__, "Triangles should have exactly 3 indices");
                 auto idx_iter = idxList.begin();
-                idxBuff[i] = (*idx_iter++).toUint();
-                idxBuff[i+1] = (*idx_iter++).toUint();
-                idxBuff[i+2] = (*idx_iter++).toUint();
+                idxBuff[i] = (*idx_iter++).to_uint();
+                idxBuff[i+1] = (*idx_iter++).to_uint();
+                idxBuff[i+2] = (*idx_iter++).to_uint();
                 idxChild = idxChild->getNextSibling();
             }
         } else if (child->getName() == "CellGroup") {

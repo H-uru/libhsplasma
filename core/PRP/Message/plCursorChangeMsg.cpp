@@ -38,8 +38,8 @@ void plCursorChangeMsg::IPrcWrite(pfPrcHelper* prc) {
 
 void plCursorChangeMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "CursorChange") {
-        fType = tag->getParam("Type", "0").toInt();
-        fPriority = tag->getParam("Priority", "0").toInt();
+        fType = tag->getParam("Type", "0").to_int();
+        fPriority = tag->getParam("Priority", "0").to_int();
     } else {
         plMessage::IPrcParse(tag, mgr);
     }

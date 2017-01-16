@@ -57,7 +57,7 @@ void plAvTaskMsg::IPrcWrite(pfPrcHelper* prc) {
 
 void plAvTaskMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Task") {
-        if (tag->getParam("NULL", "false").toBool())
+        if (tag->getParam("NULL", "false").to_bool())
             setTask(NULL);
         else if (tag->hasChildren())
             setTask(plAvTask::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
@@ -103,7 +103,7 @@ void plAvPushBrainMsg::IPrcWrite(pfPrcHelper* prc) {
 
 void plAvPushBrainMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Brain") {
-        if (tag->getParam("NULL", "false").toBool())
+        if (tag->getParam("NULL", "false").to_bool())
             setBrain(NULL);
         else if (tag->hasChildren())
             setBrain(plArmatureBrain::Convert(mgr->prcParseCreatable(tag->getFirstChild())));

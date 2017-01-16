@@ -43,9 +43,9 @@ void plSwimRegionInterface::IPrcWrite(pfPrcHelper* prc) {
 
 void plSwimRegionInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "SwimRegionParams") {
-        fDownBuoyancy = tag->getParam("DownBuoyancy", "0").toFloat();
-        fUpBuoyancy = tag->getParam("UpBuoyancy", "0").toFloat();
-        fMaxUpwardVel = tag->getParam("MaxUpwardVel", "0").toFloat();
+        fDownBuoyancy = tag->getParam("DownBuoyancy", "0").to_float();
+        fUpBuoyancy = tag->getParam("UpBuoyancy", "0").to_float();
+        fMaxUpwardVel = tag->getParam("MaxUpwardVel", "0").to_float();
     } else {
         plObjInterface::IPrcParse(tag, mgr);
     }
@@ -93,11 +93,11 @@ void plSwimCircularCurrentRegion::IPrcWrite(pfPrcHelper* prc) {
 
 void plSwimCircularCurrentRegion::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "CircularCurrent") {
-        fRotation = tag->getParam("Rotation", "0").toFloat();
-        fPullNearDistSq = tag->getParam("PullNearDistSq", "0").toFloat();
-        fPullFarDistSq = tag->getParam("PullFarDistSq", "0").toFloat();
-        fPullNearVel = tag->getParam("PullNearVel", "0").toFloat();
-        fPullFarVel = tag->getParam("PullFarVel", "0").toFloat();
+        fRotation = tag->getParam("Rotation", "0").to_float();
+        fPullNearDistSq = tag->getParam("PullNearDistSq", "0").to_float();
+        fPullFarDistSq = tag->getParam("PullFarDistSq", "0").to_float();
+        fPullNearVel = tag->getParam("PullNearVel", "0").to_float();
+        fPullFarVel = tag->getParam("PullFarVel", "0").to_float();
     } else if (tag->getName() == "Current") {
         if (tag->hasChildren())
             fCurrentObj = mgr->prcParseKey(tag->getFirstChild());
@@ -145,10 +145,10 @@ void plSwimStraightCurrentRegion::IPrcWrite(pfPrcHelper* prc) {
 
 void plSwimStraightCurrentRegion::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "StraightCurrent") {
-        fNearDist = tag->getParam("NearDist", "0").toFloat();
-        fFarDist = tag->getParam("FarDist", "0").toFloat();
-        fNearVel = tag->getParam("NearVel", "0").toFloat();
-        fFarVel = tag->getParam("FarVel", "0").toFloat();
+        fNearDist = tag->getParam("NearDist", "0").to_float();
+        fFarDist = tag->getParam("FarDist", "0").to_float();
+        fNearVel = tag->getParam("NearVel", "0").to_float();
+        fFarVel = tag->getParam("FarVel", "0").to_float();
     } else if (tag->getName() == "Current") {
         if (tag->hasChildren())
             fCurrentObj = mgr->prcParseKey(tag->getFirstChild());

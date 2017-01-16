@@ -41,7 +41,7 @@ private:
     plLocation location;
     plLoadMask loadMask;
     short classType;
-    plString objName;
+    ST::string objName;
     unsigned int objID, clonePlayerID, cloneID;
 
 public:
@@ -75,14 +75,14 @@ public:
      * Returns a string representation of the Uoid, in the form:
      * "<seqPrefix|pageNum>[typeID]object_name"
      */
-    plString toString() const;
+    ST::string toString() const;
 
 public:
     /** Returns the class type of the object */
     short getType() const { return classType; }
 
     /** Returns the name of the object */
-    const plString& getName() const { return objName; }
+    const ST::string& getName() const { return objName; }
 
     /** Returns the location where the object is stored */
     const plLocation& getLocation() const { return location; }
@@ -106,7 +106,7 @@ public:
     void setType(short type) { classType = type; }
 
     /** Set the name of the object referred to by this Uoid */
-    void setName(const plString& name) { objName = name; }
+    void setName(const ST::string& name) { objName = name; }
 
     /** Set the location of the object referred to by this Uoid */
     void setLocation(const plLocation& loc) { location = loc; }

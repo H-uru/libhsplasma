@@ -137,10 +137,10 @@ static int prp_getattr(const char* path, struct stat* stbuf)
         stbuf->st_ctime = s_fctime;
     } else {
         // Find the type first
-        plString typeStr = plString(path + 1).beforeFirst('/');
-        if (typeStr.empty())
+        ST::string typeStr = ST::string(path + 1).before_first('/');
+        if (typeStr.is_empty())
             return -ENOENT;
-        short type = plFactory::ClassIndex(typeStr);
+        short type = plFactory::ClassIndex(typeStr.c_str());
         if (type < 0)
             return -ENOENT;
 
@@ -153,7 +153,7 @@ static int prp_getattr(const char* path, struct stat* stbuf)
         if (!hasType)
             return -ENOENT;
 
-        plString fname = plString(path + 1).afterFirst('/');
+        ST::string fname = ST::string(path + 1).after_first('/');
         if (fname.empty()) {
             // Directory
             stbuf->st_mode = S_IFDIR | 0555;
@@ -165,8 +165,8 @@ static int prp_getattr(const char* path, struct stat* stbuf)
             stbuf->st_ctime = s_fctime;
         } else {
             // File
-            plString ftype = fname.afterLast('.');
-            fname = fname.beforeLast('.');
+            ST::string ftype = fname.after_last('.');
+            fname = fname.before_last('.');
             std::vector<plKey> keys = RESMGR.getKeys(PAGE->getLocation(), type);
             for (std::vector<plKey>::iterator it = keys.begin(); it != keys.end(); it++) {
                 if (CleanFileName((*it)->getName()) == fname) {
@@ -196,15 +196,15 @@ static int prp_open(const char* path, fuse_file_info* fi)
     }
 
     // Get the type
-    plString typeStr = plString(path + 1).beforeFirst('/');
-    if (typeStr.empty())
+    ST::string typeStr = ST::string(path + 1).before_first('/');
+    if (typeStr.is_empty())
         return -ENOENT;
-    short type = plFactory::ClassIndex(typeStr);
+    short type = plFactory::ClassIndex(typeStr.c_str());
     if (type < 0)
         return -ENOENT;
 
     // Make sure the object is actually present (O_CREAT is already handled)
-    plString oname = plString(path + 1).afterFirst('/').beforeLast('.');
+    ST::string oname = ST::string(path + 1).after_first('/').before_last('.');
     plKey myKey;
     std::vector<plKey> keys = RESMGR.getKeys(PAGE->getLocation(), type);
     for (std::vector<plKey>::iterator it = keys.begin(); it != keys.end(); it++) {
@@ -258,7 +258,7 @@ static int prp_read(const char* path, char* buf, size_t size, off_t offset,
         return -1;
     }
 
-    plString ext = plString(path).afterLast('.');
+    ST::string ext = ST::string(path).after_last('.');
     FileCache* fc = s_openfiles[fi->fh - 1];
     if (ext == "prc") {
         if (offset >= fc->prcsize)
@@ -294,10 +294,10 @@ static int prp_readdir(const char* path, void* buf, fuse_fill_dir_t filler,
         return 0;
     } else {
         // Type directory
-        plString typeStr = plString(path + 1);
-        if (typeStr.empty())
+        ST::string typeStr = ST::string(path + 1);
+        if (typeStr.is_empty())
             return -ENOENT;
-        short type = plFactory::ClassIndex(typeStr);
+        short type = plFactory::ClassIndex(typeStr.c_str());
         if (type < 0)
             return -ENOENT;
 

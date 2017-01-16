@@ -39,8 +39,8 @@ void plArmatureEffectStateMsg::IPrcWrite(pfPrcHelper* prc) {
 
 void plArmatureEffectStateMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "ArmatureEffectState") {
-        fSurface = tag->getParam("Surface", "0").toInt();
-        fAddSurface = tag->getParam("AddSurface", "false").toBool();
+        fSurface = tag->getParam("Surface", "0").to_int();
+        fAddSurface = tag->getParam("AddSurface", "false").to_bool();
     } else {
         plMessage::IPrcParse(tag, mgr);
     }

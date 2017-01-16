@@ -55,13 +55,13 @@ void plAvAnimTask::IPrcWrite(pfPrcHelper* prc) {
 void plAvAnimTask::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "AnimTaskParams") {
         fAnimName = tag->getParam("AnimName", "");
-        fInitialBlend = tag->getParam("InitialBlend", "0").toFloat();
-        fTargetBlend = tag->getParam("TargetBlend", "0").toFloat();
-        fFadeSpeed = tag->getParam("FadeSpeed", "0").toFloat();
-        fSetTime = tag->getParam("SetTime", "0").toFloat();
-        fStart = tag->getParam("Start", "false").toBool();
-        fLoop = tag->getParam("Loop", "false").toBool();
-        fAttach = tag->getParam("Attach", "false").toBool();
+        fInitialBlend = tag->getParam("InitialBlend", "0").to_float();
+        fTargetBlend = tag->getParam("TargetBlend", "0").to_float();
+        fFadeSpeed = tag->getParam("FadeSpeed", "0").to_float();
+        fSetTime = tag->getParam("SetTime", "0").to_float();
+        fStart = tag->getParam("Start", "false").to_bool();
+        fLoop = tag->getParam("Loop", "false").to_bool();
+        fAttach = tag->getParam("Attach", "false").to_bool();
     } else {
         plCreatable::IPrcParse(tag, mgr);
     }
@@ -123,7 +123,7 @@ void plAvTaskBrain::IPrcWrite(pfPrcHelper* prc) {
 
 void plAvTaskBrain::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Brain") {
-        if (tag->getParam("NULL", "false").toBool())
+        if (tag->getParam("NULL", "false").to_bool())
             setBrain(NULL);
         else if (tag->hasChildren())
             setBrain(plArmatureBrain::Convert(mgr->prcParseCreatable(tag->getFirstChild())));

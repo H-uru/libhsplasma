@@ -35,7 +35,7 @@ void pfGUIListElement::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "pfGUIListElement")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    fSelected = tag->getParam("Selected", "false").toBool();
+    fSelected = tag->getParam("Selected", "false").to_bool();
 }
 
 

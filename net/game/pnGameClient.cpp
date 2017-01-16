@@ -20,6 +20,7 @@
 #include "Stream/hsRAMStream.h"
 #include "crypt/pnBigInteger.h"
 #include "crypt/pnSha1.h"
+#include <cstring>
 
 /* Dispatch */
 bool pnGameClient::Dispatch::dispatch(pnSocket* sock)
@@ -29,7 +30,7 @@ bool pnGameClient::Dispatch::dispatch(pnSocket* sock)
     sock->recv(&msgId, sizeof(uint16_t));
     const pnNetMsg* msgDesc = GET_Game2Cli(msgId);
     if (msgDesc == NULL) {
-        plDebug::Error("Got invalid message ID (%u)", msgId);
+        plDebug::Error("Got invalid message ID ({})", msgId);
         return false;
     }
 
@@ -50,7 +51,7 @@ bool pnGameClient::Dispatch::dispatch(pnSocket* sock)
             try {
                 pCre = fReceiver->fResMgr->ReadCreatable(&rs, true, msgbuf[1].fUint);
             } catch (hsException& ex) {
-                plDebug::Error("Error reading propagated message: %s\n", ex.what());
+                plDebug::Error("Error reading propagated message: {}\n", ex.what());
                 delete pCre;
                 pCre = NULL;
             }
@@ -60,7 +61,7 @@ bool pnGameClient::Dispatch::dispatch(pnSocket* sock)
                 if (fDeleteMsgs)
                     delete pCre;
             } else {
-                plDebug::Error("Ignored propagated message [%04X]%s",
+                plDebug::Error("Ignored propagated message [{_04X}]{}",
                                 pdUnifiedTypeMap::PlasmaToMapped(msgbuf[0].fUint, PlasmaVer::pvMoul),
                                 pdUnifiedTypeMap::ClassName(msgbuf[0].fUint, PlasmaVer::pvMoul));
             }
@@ -194,7 +195,7 @@ ENetError pnGameClient::performConnect()
         fSock->recv(&errorCode, sizeof(uint32_t));
         delete fSock;
         fSock = NULL;
-        plDebug::Error("Error connecting to Game server: %s",
+        plDebug::Error("Error connecting to Game server: {}",
                        GetNetErrorString(errorCode));
         return (ENetError)errorCode;
     } else {

@@ -54,8 +54,8 @@ void plSpawnMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fAge = tag->getParam("Age", "");
         fPage = tag->getParam("Page", "");
         fObjName = tag->getParam("ObjName", "");
-        fBool1 = tag->getParam("Bool1", "false").toBool();
-        fDisableDraw = tag->getParam("DisableDraw", "false").toBool();
+        fBool1 = tag->getParam("Bool1", "false").to_bool();
+        fDisableDraw = tag->getParam("DisableDraw", "false").to_bool();
     } else {
         plModifier::IPrcParse(tag, mgr);
     }

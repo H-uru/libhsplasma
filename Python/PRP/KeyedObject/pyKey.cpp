@@ -27,7 +27,7 @@ PY_PLASMA_VALUE_DEALLOC(Key)
 PY_PLASMA_NEW_MSG(Key, "Cannot construct Keys directly")
 
 PY_PLASMA_REPR_DECL(Key) {
-    plString repr = plString::Format("<plKey \"%s\">", self->fThis->toString().cstr());
+    ST::string repr = ST::format("<plKey \"{}\">", self->fThis->toString());
     return pyPlasma_convert(repr);
 }
 
@@ -180,11 +180,11 @@ PY_GETSET_GETTER_DECL(Key, name) {
 
 PY_GETSET_SETTER_DECL(Key, name) {
     PY_PROPERTY_CHECK_NULL(name)
-    if (!pyPlasma_check<plString>(value)) {
+    if (!pyPlasma_check<ST::string>(value)) {
         PyErr_SetString(PyExc_TypeError, "name expected type plString");
         return -1;
     }
-    (*self->fThis)->setName(pyPlasma_get<plString>(value));
+    (*self->fThis)->setName(pyPlasma_get<ST::string>(value));
     return 0;
 }
 

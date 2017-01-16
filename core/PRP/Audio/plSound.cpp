@@ -53,13 +53,13 @@ void plSound::plFadeParams::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "plFadeParams")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    fType = tag->getParam("Type", "0").toUint();
-    fLengthInSecs = tag->getParam("Length", "0").toFloat();
-    fVolStart = tag->getParam("VolStart", "0").toFloat();
-    fVolEnd = tag->getParam("VolEnd", "0").toFloat();
-    fCurrTime = tag->getParam("CurrTime", "0").toFloat();
-    fStopWhenDone = tag->getParam("StopWhenDone", "false").toBool();
-    fFadeSoftVol = tag->getParam("FadeSoftVol", "false").toBool();
+    fType = tag->getParam("Type", "0").to_uint();
+    fLengthInSecs = tag->getParam("Length", "0").to_float();
+    fVolStart = tag->getParam("VolStart", "0").to_float();
+    fVolEnd = tag->getParam("VolEnd", "0").to_float();
+    fCurrTime = tag->getParam("CurrTime", "0").to_float();
+    fStopWhenDone = tag->getParam("StopWhenDone", "false").to_bool();
+    fFadeSoftVol = tag->getParam("FadeSoftVol", "false").to_bool();
 }
 
 
@@ -182,21 +182,21 @@ void plSound::IPrcWrite(pfPrcHelper* prc) {
 
 void plSound::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "SoundParams") {
-        fPlaying = tag->getParam("Playing", "false").toBool();
-        fTime = tag->getParam("Time", "0").toFloat();
-        fMaxFalloff = tag->getParam("MaxFalloff", "0").toInt();
-        fMinFalloff = tag->getParam("MinFalloff", "0").toInt();
-        fProperties = tag->getParam("Properties", "0").toUint();
-        fType = tag->getParam("Type", "0").toUint();
-        fPriority = tag->getParam("Priority", "0").toUint();
+        fPlaying = tag->getParam("Playing", "false").to_bool();
+        fTime = tag->getParam("Time", "0").to_float();
+        fMaxFalloff = tag->getParam("MaxFalloff", "0").to_int();
+        fMinFalloff = tag->getParam("MinFalloff", "0").to_int();
+        fProperties = tag->getParam("Properties", "0").to_uint();
+        fType = tag->getParam("Type", "0").to_uint();
+        fPriority = tag->getParam("Priority", "0").to_uint();
     } else if (tag->getName() == "Volumes") {
-        fCurrVolume = tag->getParam("Current", "0").toFloat();
-        fDesiredVol = tag->getParam("Desired", "0").toFloat();
-        fFadedVolume = tag->getParam("Fade", "0").toFloat();
+        fCurrVolume = tag->getParam("Current", "0").to_float();
+        fDesiredVol = tag->getParam("Desired", "0").to_float();
+        fFadedVolume = tag->getParam("Fade", "0").to_float();
     } else if (tag->getName() == "Cone") {
-        fOuterVol = tag->getParam("OuterVol", "0").toInt();
-        fInnerCone = tag->getParam("InnerCone", "360").toInt();
-        fOuterCone = tag->getParam("OuterCone", "360").toInt();
+        fOuterVol = tag->getParam("OuterVol", "0").to_int();
+        fInnerCone = tag->getParam("InnerCone", "360").to_int();
+        fOuterCone = tag->getParam("OuterCone", "360").to_int();
     } else if (tag->getName() == "Localization") {
         fSubtitleId = tag->getParam("SubtitleId", "");
     } else if (tag->getName() == "FadeInParams") {

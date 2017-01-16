@@ -15,14 +15,16 @@
  */
 
 #include "plAgeInfo.h"
+#include <string_theory/format>
 
-const plString plAgeInfo::kCommonPages[] = { "Textures", "BuiltIn" };
+const ST::string plAgeInfo::kCommonPages[] = { "Textures", "BuiltIn" };
 
 /* plAgeInfo */
-void plAgeInfo::readFromFile(const plString& filename) {
-    fName = filename.afterLast(PATHSEP);
-    if (!fName.beforeLast('.').empty())
-        fName = fName.beforeLast('.');
+void plAgeInfo::readFromFile(const ST::string& filename) {
+    fName = filename.after_last(PATHSEP);
+    ST_ssize_t dot = fName.find_last('.');
+    if (dot >= 0)
+        fName = fName.left(dot);
 
     hsStream* S;
     if (plEncryptedStream::IsFileEncrypted(filename)) {
@@ -34,28 +36,28 @@ void plAgeInfo::readFromFile(const plString& filename) {
     }
 
     while (!S->eof()) {
-        plString ln = S->readLine();
-        plString field = ln.beforeFirst('=').toLower();
-        plString value = ln.afterFirst('=');
+        ST::string ln = S->readLine();
+        std::vector<ST::string> parts = ln.split('=', 1);
+        ST::string field = parts.at(0).to_lower();
+        ST::string value = parts.at(1);
 
         if (field == "startdatetime") {
-            fStartDateTime = value.toUint();
+            fStartDateTime = value.to_uint();
         } else if (field == "daylength") {
-            fDayLength = value.toFloat();
+            fDayLength = value.to_float();
         } else if (field == "maxcapacity") {
-            fMaxCapacity = (short)value.toInt();
+            fMaxCapacity = (short)value.to_int();
         } else if (field == "lingertime") {
-            fLingerTime = (short)value.toInt();
+            fLingerTime = (short)value.to_int();
         } else if (field == "sequenceprefix") {
-            fSeqPrefix = value.toInt();
+            fSeqPrefix = value.to_int();
         } else if (field == "releaseversion") {
-            fReleaseVersion = value.toUint();
+            fReleaseVersion = value.to_uint();
         } else if (field == "page") {
-            plString name = value.beforeFirst(',');
-            value = value.afterFirst(',');
-            int seqSuffix = value.beforeFirst(',').toInt();
-            value = value.afterFirst(',');
-            unsigned int loadFlags = value.toUint();
+            std::vector<ST::string> parts = value.split(',');
+            ST::string name = parts.at(0);
+            int seqSuffix = (parts.size() > 1) ? parts.at(1).to_int() : 0;
+            unsigned int loadFlags = (parts.size() > 2) ? parts.at(2).to_uint() : 0;
             PageEntry page(name, seqSuffix, loadFlags);
             addPage(page);
         }
@@ -64,7 +66,7 @@ void plAgeInfo::readFromFile(const plString& filename) {
     delete S;
 }
 
-void plAgeInfo::writeToFile(const plString& filename, PlasmaVer ver) {
+void plAgeInfo::writeToFile(const ST::string& filename, PlasmaVer ver) {
     hsStream* S;
     if (ver.isUniversal()) {
         S = new hsFileStream();
@@ -79,22 +81,22 @@ void plAgeInfo::writeToFile(const plString& filename, PlasmaVer ver) {
         ((plEncryptedStream*)S)->open(filename, fmCreate, eType);
     }
 
-    S->writeLine(plString::Format("StartDateTime=%010u", fStartDateTime), true);
-    S->writeLine(plString::Format("DayLength=%f", fDayLength), true);
-    S->writeLine(plString::Format("MaxCapacity=%hd", fMaxCapacity), true);
-    S->writeLine(plString::Format("LingerTime=%hd", fLingerTime), true);
-    S->writeLine(plString::Format("SequencePrefix=%d", fSeqPrefix), true);
-    S->writeLine(plString::Format("ReleaseVersion=%u", fReleaseVersion), true);
+    S->writeLine(ST::format("StartDateTime={_010}", fStartDateTime), true);
+    S->writeLine(ST::format("DayLength={f}", fDayLength), true);
+    S->writeLine(ST::format("MaxCapacity={}", fMaxCapacity), true);
+    S->writeLine(ST::format("LingerTime={}", fLingerTime), true);
+    S->writeLine(ST::format("SequencePrefix={}", fSeqPrefix), true);
+    S->writeLine(ST::format("ReleaseVersion={}", fReleaseVersion), true);
 
     for (size_t i=0; i<fPages.size(); i++) {
         if (fPages[i].fLoadFlags != 0)
-            S->writeLine(plString::Format("Page=%s,%d,%d",
-                         fPages[i].fName.cstr(),
+            S->writeLine(ST::format("Page={},{},{}",
+                         fPages[i].fName,
                          fPages[i].fSeqSuffix,
                          fPages[i].fLoadFlags), true);
         else
-            S->writeLine(plString::Format("Page=%s,%d",
-                         fPages[i].fName.cstr(),
+            S->writeLine(ST::format("Page={},{}",
+                         fPages[i].fName,
                          fPages[i].fSeqSuffix), true);
     }
 
@@ -140,12 +142,12 @@ void plAgeInfo::prcParse(const pfPrcTag* tag) {
     const pfPrcTag* child = tag->getFirstChild();
     while (child != NULL) {
         if (child->getName() == "AgeParams") {
-            fStartDateTime = child->getParam("StartDateTime", "0").toUint();
-            fDayLength = child->getParam("DayLength", "0").toFloat();
-            fMaxCapacity = child->getParam("MaxCapacity", "0").toInt();
-            fLingerTime = child->getParam("LingerTime", "0").toInt();
-            fSeqPrefix = child->getParam("SeqPrefix", "0").toInt();
-            fReleaseVersion = child->getParam("ReleaseVersion", "0").toUint();
+            fStartDateTime = child->getParam("StartDateTime", "0").to_uint();
+            fDayLength = child->getParam("DayLength", "0").to_float();
+            fMaxCapacity = child->getParam("MaxCapacity", "0").to_int();
+            fLingerTime = child->getParam("LingerTime", "0").to_int();
+            fSeqPrefix = child->getParam("SeqPrefix", "0").to_int();
+            fReleaseVersion = child->getParam("ReleaseVersion", "0").to_uint();
         } else if (child->getName() == "Pages") {
             fPages.resize(child->countChildren());
             const pfPrcTag* page = child->getFirstChild();
@@ -174,26 +176,26 @@ plAgeInfo::PageEntry plAgeInfo::getCommonPage(size_t idx, PlasmaVer pv) const {
     return PageEntry(kCommonPages[idx], (-1) - idx, 0);
 }
 
-plString plAgeInfo::getPageFilename(size_t idx, PlasmaVer pv) const {
+ST::string plAgeInfo::getPageFilename(size_t idx, PlasmaVer pv) const {
     if (!pv.isValid())
         throw hsBadVersionException(__FILE__, __LINE__);
     if (pv.isNewPlasma() || pv.isUniversal())    // Includes pvUniversal
-        return plString::Format("%s_%s.prp", fName.cstr(), fPages[idx].fName.cstr());
+        return ST::format("{}_{}.prp", fName, fPages[idx].fName);
     else if (pv < MAKE_VERSION(2, 0, 60, 00))
-        return plString::Format("%s_District_%s.prx", fName.cstr(), fPages[idx].fName.cstr());
+        return ST::format("{}_District_{}.prx", fName, fPages[idx].fName);
     else
-        return plString::Format("%s_District_%s.prp", fName.cstr(), fPages[idx].fName.cstr());
+        return ST::format("{}_District_{}.prp", fName, fPages[idx].fName);
 }
 
-plString plAgeInfo::getCommonPageFilename(size_t idx, PlasmaVer pv) const {
+ST::string plAgeInfo::getCommonPageFilename(size_t idx, PlasmaVer pv) const {
     if (!pv.isValid())
         throw hsBadVersionException(__FILE__, __LINE__);
     if (pv.isNewPlasma() || pv.isUniversal())    // Includes pvUniversal
-        return plString::Format("%s_%s.prp", fName.cstr(), kCommonPages[idx].cstr());
+        return ST::format("{}_{}.prp", fName, kCommonPages[idx]);
     else if (pv < MAKE_VERSION(2, 0, 60, 00))
-        return plString::Format("%s_District_%s.prx", fName.cstr(), kCommonPages[idx].cstr());
+        return ST::format("{}_District_{}.prx", fName, kCommonPages[idx]);
     else
-        return plString::Format("%s_District_%s.prp", fName.cstr(), kCommonPages[idx].cstr());
+        return ST::format("{}_District_{}.prp", fName, kCommonPages[idx]);
 }
 
 plLocation plAgeInfo::getPageLoc(size_t idx, PlasmaVer pv) const {

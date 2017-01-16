@@ -15,6 +15,7 @@
  */
 
 #include "plSoundBuffer.h"
+#include <cstring>
 
 /* plWAVHeader */
 void plWAVHeader::read(hsStream* S) {
@@ -50,12 +51,12 @@ void plWAVHeader::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "WavHeader")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    fFormatTag = tag->getParam("Format", "0").toUint();
-    fNumChannels = tag->getParam("Channels", "0").toUint();
-    fNumSamplesPerSec = tag->getParam("SamplesPerSec", "0").toUint();
-    fAvgBytesPerSec = tag->getParam("BytesPerSec", "0").toUint();
-    fBlockAlign = tag->getParam("BlockAlign", "0").toUint();
-    fBitsPerSample = tag->getParam("BitsPerSample", "0").toUint();
+    fFormatTag = tag->getParam("Format", "0").to_uint();
+    fNumChannels = tag->getParam("Channels", "0").to_uint();
+    fNumSamplesPerSec = tag->getParam("SamplesPerSec", "0").to_uint();
+    fAvgBytesPerSec = tag->getParam("BytesPerSec", "0").to_uint();
+    fBlockAlign = tag->getParam("BlockAlign", "0").to_uint();
+    fBitsPerSample = tag->getParam("BitsPerSample", "0").to_uint();
 }
 
 
@@ -94,9 +95,9 @@ void plSoundBuffer::write(hsStream* S, plResManager* mgr) {
         fFlags |= kIsExternal;
     S->writeInt(fFlags);
     S->writeInt(fDataLength);
-    plString writeFileName = fFileName;
-    if (!fFileName.empty()) {
-        writeFileName = strrchr(fFileName, '\\');
+    ST::string writeFileName = fFileName;
+    if (!fFileName.is_empty()) {
+        writeFileName = strrchr(fFileName.c_str(), '\\');
         if (writeFileName != NULL)
             fFileName = writeFileName;
     }
@@ -124,8 +125,8 @@ void plSoundBuffer::IPrcWrite(pfPrcHelper* prc) {
 
 void plSoundBuffer::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "SoundBuffer") {
-        fFlags = tag->getParam("Flags", "0").toUint();
-        fDataLength = tag->getParam("Length", "0").toUint();
+        fFlags = tag->getParam("Flags", "0").to_uint();
+        fDataLength = tag->getParam("Length", "0").to_uint();
         fFileName = tag->getParam("Filename", "");
         if (!tag->getContents().empty()) {
             fData = new unsigned char[fDataLength];

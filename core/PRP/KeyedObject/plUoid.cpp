@@ -19,6 +19,7 @@
 #include "ResManager/pdUnifiedTypeMap.h"
 #include <string.h>
 #include <stdlib.h>
+#include <string_theory/format>
 
 bool plUoid::operator==(const plUoid& other) const {
     return (location == other.location) && (classType == other.classType) &&
@@ -124,14 +125,14 @@ void plUoid::prcParse(const pfPrcTag* tag) {
         throw hsBadParamException(__FILE__, __LINE__, "Tag name mismatch");
 
     objName = tag->getParam("Name", "");
-    classType = plFactory::ClassIndex(tag->getParam("Type", ""));
+    classType = plFactory::ClassIndex(tag->getParam("Type", "").c_str());
     location.prcParse(tag);
     loadMask.prcParse(tag);
-    cloneID = tag->getParam("CloneID", "0").toUint();
-    clonePlayerID = tag->getParam("ClonePlayerID", "0").toUint();
+    cloneID = tag->getParam("CloneID", "0").to_uint();
+    clonePlayerID = tag->getParam("ClonePlayerID", "0").to_uint();
 }
 
-plString plUoid::toString() const {
-    return plString::Format("%s[%04hX]%s", location.toString().cstr(),
-                            classType, objName.cstr());
+ST::string plUoid::toString() const {
+    return ST::format("{}[{_04X}]{}", location.toString(),
+                      classType, objName);
 }

@@ -70,7 +70,7 @@ void plDrawInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         for (size_t i=0; i<fDrawables.size(); i++) {
             if (child->getName() != "Drawable")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
-            fDrawableKeys[i] = child->getParam("key", "0").toInt();
+            fDrawableKeys[i] = child->getParam("key", "0").to_int();
             if (child->hasChildren())
                 fDrawables[i] = mgr->prcParseKey(child->getFirstChild());
             child = child->getNextSibling();
@@ -130,7 +130,7 @@ void plInstanceDrawInterface::IPrcWrite(pfPrcHelper* prc) {
 
 void plInstanceDrawInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Target") {
-        fTargetID = tag->getParam("ID", "0").toUint();
+        fTargetID = tag->getParam("ID", "0").to_uint();
         if (tag->hasChildren())
             fDrawable = mgr->prcParseKey(tag->getFirstChild());
     } else {

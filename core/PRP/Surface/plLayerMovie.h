@@ -23,7 +23,7 @@ class PLASMA_DLL plLayerMovie : public plLayerAnimation {
     CREATABLE(plLayerMovie, kLayerMovie, plLayerAnimation)
 
 protected:
-    plString fMovieName;
+    ST::string fMovieName;
     plKey fEoaKey1, fEoaKey2;
     unsigned int fEoaInt;
 
@@ -36,8 +36,8 @@ protected:
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
-    plString getMovieName() const { return fMovieName; }
-    void setMovieName(const plString& name) { fMovieName = name; }
+    ST::string getMovieName() const { return fMovieName; }
+    void setMovieName(const ST::string& name) { fMovieName = name; }
 };
 
 

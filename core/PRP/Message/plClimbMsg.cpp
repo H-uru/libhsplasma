@@ -50,9 +50,9 @@ void plClimbMsg::IPrcWrite(pfPrcHelper* prc) {
 
 void plClimbMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "ClimbMsgParams") {
-        fCommand = tag->getParam("Command", "0").toUint();
-        fDirection = tag->getParam("Direction", "0").toUint();
-        fStatus = tag->getParam("Status", "false").toBool();
+        fCommand = tag->getParam("Command", "0").to_uint();
+        fDirection = tag->getParam("Direction", "0").to_uint();
+        fStatus = tag->getParam("Status", "false").to_bool();
     } else if (tag->getName() == "Target") {
         if (tag->hasChildren())
             fTarget = mgr->prcParseKey(tag->getFirstChild());

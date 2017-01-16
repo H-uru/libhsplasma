@@ -56,11 +56,11 @@ void plStereizer::IPrcWrite(pfPrcHelper* prc) {
 
 void plStereizer::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "StereizerParams") {
-        fAmbientDist = tag->getParam("AmbientDist", "0").toFloat();
-        fTransition = tag->getParam("Transition", "0").toFloat();
-        fMaxSepDist = tag->getParam("MaxSepDist", "0").toFloat();
-        fMinSepDist = tag->getParam("MinSepDist", "0").toFloat();
-        fTanAng = tag->getParam("TanAng", "0").toFloat();
+        fAmbientDist = tag->getParam("AmbientDist", "0").to_float();
+        fTransition = tag->getParam("Transition", "0").to_float();
+        fMaxSepDist = tag->getParam("MaxSepDist", "0").to_float();
+        fMinSepDist = tag->getParam("MinSepDist", "0").to_float();
+        fTanAng = tag->getParam("TanAng", "0").to_float();
     } else if (tag->getName() == "InitPos") {
         if (tag->hasChildren())
             fInitPos.prcParse(tag->getFirstChild());

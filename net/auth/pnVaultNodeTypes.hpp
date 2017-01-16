@@ -62,21 +62,21 @@ public: \
     { setUuid(idx, value); }
 
 #define ACCESS_STRING64(idx, name) \
-    plString get##name() const \
+    ST::string get##name() const \
     { return getString64(idx); } \
-    void set##name(const plString& value) \
+    void set##name(const ST::string& value) \
     { setString64(idx, value); }
 
 #define ACCESS_ISTRING64(idx, name) \
-    plString get##name() const \
+    ST::string get##name() const \
     { return getIString64(idx); } \
-    void set##name(const plString& value) \
+    void set##name(const ST::string& value) \
     { setIString64(idx, value); }
 
 #define ACCESS_TEXT(idx, name) \
-    plString get##name() const \
+    ST::string get##name() const \
     { return getText(idx); } \
-    void set##name(const plString& value) \
+    void set##name(const ST::string& value) \
     { setText(idx, value); }
 
 #define ACCESS_BLOB(idx, name) \

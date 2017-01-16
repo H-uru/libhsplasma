@@ -35,7 +35,7 @@ private:
     uint8_t fContents;
     uint8_t fServerType;
     uint16_t fServerPort;
-    plString fServerName, fServerAddr;
+    ST::string fServerName, fServerAddr;
     plUuid fServerGuid;
 
 public:
@@ -46,14 +46,14 @@ public:
 
 public:
     uint8_t getContents() const { return fContents; }
-    plString getServerName() const { return fServerName; }
-    plString getServerAddr() const { return fServerAddr; }
+    ST::string getServerName() const { return fServerName; }
+    ST::string getServerAddr() const { return fServerAddr; }
     uint8_t getServerType() const { return fServerType; }
     uint16_t getServerPort() const { return fServerPort; }
     plUuid getServerGuid() const { return fServerGuid; }
 
-    void setServerName(const plString& name);
-    void setServerAddr(const plString& addr);
+    void setServerName(const ST::string& name);
+    void setServerAddr(const ST::string& addr);
     void setServerType(uint8_t type);
     void setServerPort(uint16_t port);
     void setServerGuid(const plUuid& guid);

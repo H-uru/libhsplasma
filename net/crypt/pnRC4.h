@@ -17,7 +17,6 @@
 #ifndef _PNRC4_H
 #define _PNRC4_H
 
-#include "Util/plString.h"
 #include "pnSocket.h"
 #include <cstdlib>
 #include <openssl/rc4.h>

@@ -61,7 +61,7 @@ public:
     };
 
 protected:
-    plString fFace;
+    ST::string fFace;
     unsigned char fSize, fBPP;
     unsigned short fFirstChar;
     unsigned int fFlags, fWidth, fHeight;
@@ -102,7 +102,7 @@ public:
     size_t getNumCharacters() const { return fCharacters.size(); }
     void setNumCharacters(size_t count) { fCharacters.resize(count); }
 
-    const plString& getName() const { return fFace; }
+    const ST::string& getName() const { return fFace; }
     unsigned char getSize() const { return fSize; }
     unsigned char getBPP() const { return fBPP; }
     unsigned int getWidth() const { return fWidth; }
@@ -110,7 +110,7 @@ public:
     unsigned short getFirstChar() const { return fFirstChar; }
     int getMaxCharHeight() const { return fMaxCharHeight; }
 
-    void setName(const plString& name) { fFace = name; }
+    void setName(const ST::string& name) { fFace = name; }
     void setSize(unsigned char size) { fSize = size; }
     void setBPP(unsigned char bpp) { fBPP = bpp; }
     void setWidth(unsigned int width) { fWidth = width; }

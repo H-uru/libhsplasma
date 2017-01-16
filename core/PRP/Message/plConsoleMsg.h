@@ -27,7 +27,7 @@ public:
 
 protected:
     unsigned int fCmd;
-    plString fString;
+    ST::string fString;
 
 public:
     plConsoleMsg() : fCmd(kExecuteLine) { }
@@ -43,8 +43,8 @@ public:
     unsigned int getCmd() const { return fCmd; }
     void setCmd(unsigned int cmd) { fCmd = cmd; }
 
-    plString getString() const { return fString; }
-    void setString(plString& str) { fString = str; }
+    ST::string getString() const { return fString; }
+    void setString(const ST::string& str) { fString = str; }
 };
 
 #endif

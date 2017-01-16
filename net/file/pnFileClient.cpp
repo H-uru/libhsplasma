@@ -17,6 +17,7 @@
 #include "pnFileClient.h"
 #include "FileMessages.h"
 #include "Debug/plDebug.h"
+#include <cstring>
 
 struct FileMsg_Header {
     uint32_t fMsgSize;
@@ -25,20 +26,20 @@ struct FileMsg_Header {
 
 
 /* pnFileManifest */
-const pl_wchar_t* pnFileManifest::read(const pl_wchar_t* src)
+const char16_t* pnFileManifest::read(const char16_t* src)
 {
-    size_t len = plwcslen(src);
-    fFilename = plString(src, len);
+    size_t len = ST::utf16_buffer::strlen(src);
+    fFilename = ST::string::from_utf16(src, len);
     src += (len + 1);
 
-    len = plwcslen(src);
-    fDownloadName = plString(src, len);
+    len = ST::utf16_buffer::strlen(src);
+    fDownloadName = ST::string::from_utf16(src, len);
     src += (len + 1);
 
-    fHash.fromHex(plString(src).cstr());
+    fHash.fromHex(ST::string::from_utf16(src).c_str());
     src += 33;
 
-    fCompressedHash.fromHex(plString(src).cstr());
+    fCompressedHash.fromHex(ST::string::from_utf16(src).c_str());
     src += 33;
 
     fFileSize = (src[0] << 16) | (src[1] & 0xFFFF);
@@ -53,40 +54,40 @@ const pl_wchar_t* pnFileManifest::read(const pl_wchar_t* src)
     return src;
 }
 
-pl_wchar_t* pnFileManifest::write(pl_wchar_t* dest)
+char16_t* pnFileManifest::write(char16_t* dest)
 {
-    plString::Wide wsbuf = fFilename.wstr();
-    memcpy(dest, wsbuf.data(), wsbuf.len() * sizeof(pl_wchar_t));
-    dest[wsbuf.len()] = 0;
-    dest += (wsbuf.len() + 1);
+    ST::utf16_buffer wsbuf = fFilename.to_utf16();
+    memcpy(dest, wsbuf.data(), wsbuf.size() * sizeof(char16_t));
+    dest[wsbuf.size()] = 0;
+    dest += (wsbuf.size() + 1);
 
-    wsbuf = fDownloadName.wstr();
-    memcpy(dest, wsbuf.data(), wsbuf.len() * sizeof(pl_wchar_t));
-    dest[wsbuf.len()] = 0;
-    dest += (wsbuf.len() + 1);
+    wsbuf = fDownloadName.to_utf16();
+    memcpy(dest, wsbuf.data(), wsbuf.size() * sizeof(char16_t));
+    dest[wsbuf.size()] = 0;
+    dest += (wsbuf.size() + 1);
 
-    wsbuf = fHash.toHex().wstr();
-    memcpy(dest, wsbuf.data(), 32 * sizeof(pl_wchar_t));
+    wsbuf = fHash.toHex().to_utf16();
+    memcpy(dest, wsbuf.data(), 32 * sizeof(char16_t));
     dest[32] = 0;
     dest += 33;
 
-    wsbuf = fCompressedHash.toHex().wstr();
-    memcpy(dest, wsbuf.data(), 32 * sizeof(pl_wchar_t));
+    wsbuf = fCompressedHash.toHex().to_utf16();
+    memcpy(dest, wsbuf.data(), 32 * sizeof(char16_t));
     dest[32] = 0;
     dest += 33;
 
-    dest[0] = (pl_wchar_t)(fFileSize >> 16);
-    dest[1] = (pl_wchar_t)(fFileSize & 0xFFFF);
+    dest[0] = (char16_t)(fFileSize >> 16);
+    dest[1] = (char16_t)(fFileSize & 0xFFFF);
     dest[2] = 0;
     dest += 3;
 
-    dest[0] = (pl_wchar_t)(fCompressedSize >> 16);
-    dest[1] = (pl_wchar_t)(fCompressedSize & 0xFFFF);
+    dest[0] = (char16_t)(fCompressedSize >> 16);
+    dest[1] = (char16_t)(fCompressedSize & 0xFFFF);
     dest[2] = 0;
     dest += 3;
 
-    dest[0] = (pl_wchar_t)(fFlags >> 16);
-    dest[1] = (pl_wchar_t)(fFlags & 0xFFFF);
+    dest[0] = (char16_t)(fFlags >> 16);
+    dest[1] = (char16_t)(fFlags & 0xFFFF);
     dest[2] = 0;
     dest += 3;
 
@@ -96,7 +97,7 @@ pl_wchar_t* pnFileManifest::write(pl_wchar_t* dest)
 size_t pnFileManifest::calcSize() const
 {
     // 2 MD5 hashes, 3 uint32s, 2 pl_wchar strings, and \0 pads for each
-    return 77 + fFilename.wstr().len() + fDownloadName.wstr().len();
+    return 77 + fFilename.to_utf16().size() + fDownloadName.to_utf16().size();
 }
 
 
@@ -137,7 +138,7 @@ bool pnFileClient::Dispatch::dispatch(pnSocket* sock)
             } else {
                 files = new pnFileManifest[totalFiles];
             }
-            const pl_wchar_t* bufp = (pl_wchar_t*)(msgbuf + 20);
+            const char16_t* bufp = (char16_t*)(msgbuf + 20);
             for (; i<totalFiles; i++) {
                 if (*bufp == 0) {
                     fMfsQueue[transId] = files;
@@ -271,35 +272,35 @@ uint32_t pnFileClient::sendBuildIdRequest()
     return transId;
 }
 
-uint32_t pnFileClient::sendManifestRequest(const plString& group, uint32_t buildId)
+uint32_t pnFileClient::sendManifestRequest(const ST::string& group, uint32_t buildId)
 {
-    plString::Wide wgroup = group.wstr();
-    size_t len = wgroup.len() + 1;
+    ST::utf16_buffer wgroup = group.to_utf16();
+    size_t len = wgroup.size() + 1;
 
     uint32_t transId = nextTransId();
     uint8_t msgbuf[536];
     *(uint32_t*)(msgbuf    ) = 536;                         // Msg size
     *(uint32_t*)(msgbuf + 4) = kCli2File_ManifestRequest;   // Msg ID
     *(uint32_t*)(msgbuf + 8) = transId;                     // Trans ID
-    memcpy(msgbuf + 12, wgroup.data(), (len >= 260 ? 259 : len) * sizeof(pl_wchar_t));
-    *(pl_wchar_t*)(msgbuf + 530) = 0;                       // Nul terminator
+    memcpy(msgbuf + 12, wgroup.data(), (len >= 260 ? 259 : len) * sizeof(char16_t));
+    *(char16_t*)(msgbuf + 530) = 0;                         // Nul terminator
     *(uint32_t*)(msgbuf + 532) = buildId;                   // Build ID
     fSock->send(msgbuf, 536);
     return transId;
 }
 
-uint32_t pnFileClient::sendFileDownloadRequest(const plString& filename, uint32_t buildId)
+uint32_t pnFileClient::sendFileDownloadRequest(const ST::string& filename, uint32_t buildId)
 {
-    plString::Wide wfilename = filename.wstr();
-    size_t len = wfilename.len() + 1;
+    ST::utf16_buffer wfilename = filename.to_utf16();
+    size_t len = wfilename.size() + 1;
 
     uint32_t transId = nextTransId();
     uint8_t msgbuf[536];
     *(uint32_t*)(msgbuf    ) = 536;                             // Msg size
     *(uint32_t*)(msgbuf + 4) = kCli2File_FileDownloadRequest;   // Msg ID
     *(uint32_t*)(msgbuf + 8) = transId;                         // Trans ID
-    memcpy(msgbuf + 12, wfilename.data(), (len >= 260 ? 259 : len) * sizeof(pl_wchar_t));
-    *(pl_wchar_t*)(msgbuf + 530) = 0;                           // Nul terminator
+    memcpy(msgbuf + 12, wfilename.data(), (len >= 260 ? 259 : len) * sizeof(char16_t));
+    *(char16_t*)(msgbuf + 530) = 0;                             // Nul terminator
     *(uint32_t*)(msgbuf + 532) = buildId;                       // Build ID
     fSock->send(msgbuf, 536);
     return transId;

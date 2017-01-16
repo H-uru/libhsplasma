@@ -150,17 +150,17 @@ void plCameraBrain1::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fEoaFlags.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "CameraParams") {
-        fAccel = tag->getParam("Accel", "0").toFloat();
-        fDecel = tag->getParam("Decel", "0").toFloat();
-        fVelocity = tag->getParam("Velocity", "0").toFloat();
-        fPOAAccel = tag->getParam("POAAccel", "0").toFloat();
-        fPOADecel = tag->getParam("POADecel", "0").toFloat();
-        fPOAVelocity = tag->getParam("POAVelocity", "0").toFloat();
-        fXPanLimit = tag->getParam("XPanLimit", "0").toFloat();
-        fZPanLimit = tag->getParam("ZPanLimit", "0").toFloat();
-        fZoomRate = tag->getParam("ZoomRate", "0").toFloat();
-        fZoomMin = tag->getParam("ZoomMin", "0").toFloat();
-        fZoomMax = tag->getParam("ZoomMax", "0").toFloat();
+        fAccel = tag->getParam("Accel", "0").to_float();
+        fDecel = tag->getParam("Decel", "0").to_float();
+        fVelocity = tag->getParam("Velocity", "0").to_float();
+        fPOAAccel = tag->getParam("POAAccel", "0").to_float();
+        fPOADecel = tag->getParam("POADecel", "0").to_float();
+        fPOAVelocity = tag->getParam("POAVelocity", "0").to_float();
+        fXPanLimit = tag->getParam("XPanLimit", "0").to_float();
+        fZPanLimit = tag->getParam("ZPanLimit", "0").to_float();
+        fZoomRate = tag->getParam("ZoomRate", "0").to_float();
+        fZoomMin = tag->getParam("ZoomMin", "0").to_float();
+        fZoomMax = tag->getParam("ZoomMax", "0").to_float();
     } else if (tag->getName() == "POAOffset") {
         if (tag->hasChildren())
             fPOAOffset.prcParse(tag->getFirstChild());
@@ -278,10 +278,10 @@ void plCameraBrain1_Circle::IPrcWrite(pfPrcHelper* prc) {
 
 void plCameraBrain1_Circle::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "CircleParams") {
-        fCircleFlags = tag->getParam("Flags", "0").toUint();
-        fCirPerSec = tag->getParam("CirclesPerSec", "0").toFloat();
+        fCircleFlags = tag->getParam("Flags", "0").to_uint();
+        fCirPerSec = tag->getParam("CirclesPerSec", "0").to_float();
     } else if (tag->getName() == "Circle") {
-        fRadius = tag->getParam("radius", "0").toFloat();
+        fRadius = tag->getParam("radius", "0").to_float();
         if (tag->hasChildren())
             fCenter.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "CenterObject") {

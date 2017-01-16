@@ -27,7 +27,7 @@ PY_PLASMA_NEW_MSG(AGApplicator, "plAGApplicator is abstract")
 PY_PROPERTY_CREATABLE(plAGChannel, AGChannel, AGApplicator, channel,
                       getChannel, setChannel)
 PY_PROPERTY(bool, AGApplicator, enabled, isEnabled, setEnabled)
-PY_PROPERTY(plString, AGApplicator, channelName, getChannelName, setChannelName)
+PY_PROPERTY(ST::string, AGApplicator, channelName, getChannelName, setChannelName)
 
 static PyGetSetDef pyAGApplicator_GetSet[] = {
     pyAGApplicator_channel_getset,

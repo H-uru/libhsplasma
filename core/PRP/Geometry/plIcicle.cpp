@@ -80,9 +80,9 @@ void plIcicle::IPrcWrite(pfPrcHelper* prc) {
 
 void plIcicle::IPrcParse(const pfPrcTag* tag) {
     if (tag->getName() == "Icicle") {
-        fIBufferIdx = tag->getParam("BufferIdx", "0").toUint();
-        fIStartIdx = tag->getParam("StartIdx", "0").toUint();
-        fILength = tag->getParam("Length", "0").toUint();
+        fIBufferIdx = tag->getParam("BufferIdx", "0").to_uint();
+        fIStartIdx = tag->getParam("StartIdx", "0").to_uint();
+        fILength = tag->getParam("Length", "0").to_uint();
     } else if (tag->getName() == "SortData") {
         if (tag->countChildren() != (fILength / 3))
             throw pfPrcParseException(__FILE__, __LINE__, "SortData should have exactly Length/3 triangles");
