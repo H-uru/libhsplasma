@@ -27,28 +27,27 @@ public:
 
 protected:
     struct PLASMA_DLL LevelData {
-        unsigned int fSize, fOffset;
-        unsigned int fWidth, fHeight;
+        uint32_t fSize, fOffset;
+        uint32_t fWidth, fHeight;
     };
 
-    unsigned char* fImageData;
+    uint8_t* fImageData;
     size_t fTotalSize;
-    unsigned char* fJPEGData;
-    size_t fJPEGSize;
-    unsigned char* fJAlphaData;
-    size_t fJAlphaSize;
 
-    unsigned int fWidth, fHeight, fStride;
+    std::vector<uint8_t> fJPEGCache;
+    std::vector<uint8_t> fJAlphaCache;
+
+    uint32_t fWidth, fHeight, fStride;
     std::vector<LevelData> fLevelData;
 
 public:
     plMipmap();
-    plMipmap(unsigned int width, unsigned int height, unsigned char numLevels,
-             unsigned char compType, ColorFormat format, unsigned char dxtLevel = kDXTError);
+    plMipmap(uint32_t width, uint32_t height, uint8_t numLevels,
+             uint8_t compType, ColorFormat format, uint8_t dxtLevel = kDXTError);
     virtual ~plMipmap();
 
-    void Create(unsigned int width, unsigned int height, unsigned char numLevels,
-                unsigned char compType, ColorFormat format, unsigned char dxtLevel = kDXTError);
+    void Create(uint32_t width, uint32_t height, uint8_t numLevels,
+                uint8_t compType, ColorFormat format, uint8_t dxtLevel = kDXTError);
     void CopyFrom(plMipmap* src);
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -81,10 +80,10 @@ public:
     unsigned int getLevelHeight(size_t idx) const { return fLevelData[idx].fHeight; }
     const void* getLevelData(size_t idx) const;
 
-    size_t getJpegSize() const { return fJPEGSize; }
-    size_t getJpegAlphaSize() const { return fJAlphaSize; }
-    const void* getJpegImage() const { return fJPEGData; }
-    const void* getJpegAlpha() const { return fJAlphaData; }
+    size_t getJpegSize() const { return fJPEGCache.size(); }
+    size_t getJpegAlphaSize() const { return fJAlphaCache.size(); }
+    const void* getJpegImage() const { return fJPEGCache.data(); }
+    const void* getJpegAlpha() const { return fJAlphaCache.data(); }
 
     void setImageData(const void* data, size_t size);
     void setLevelData(size_t idx, const void* data, size_t size);
@@ -97,8 +96,8 @@ public:
     void extractColorData(void* buffer, size_t size) const;
     void extractAlphaData(void* buffer, size_t size) const;
 
-    bool isImageJPEG() const { return fJPEGData != NULL; }
-    bool isAlphaJPEG() const { return fJAlphaData != NULL; }
+    bool isImageJPEG() const { return !fJPEGCache.empty(); }
+    bool isAlphaJPEG() const { return !fJAlphaCache.empty(); }
 
     size_t GetUncompressedSize(size_t level) const;
     void DecompressImage(size_t level, void* dest, size_t size);

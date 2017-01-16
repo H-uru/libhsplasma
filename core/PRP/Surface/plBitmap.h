@@ -88,7 +88,10 @@ public:
         kDirectXCompression,
 
         /** Image is JPEG compressed */
-        kJPEGCompression
+        kJPEGCompression,
+
+        /** Image is PNG compressed */
+        kPNGCompression,
     };
 
     enum ColorSpace {

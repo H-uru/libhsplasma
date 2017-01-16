@@ -119,6 +119,7 @@ PY_PLASMA_TYPE_INIT(Bitmap) {
     PY_TYPE_ADD_CONST(Bitmap, "kUncompressed", plBitmap::kUncompressed);
     PY_TYPE_ADD_CONST(Bitmap, "kDirectXCompression", plBitmap::kDirectXCompression);
     PY_TYPE_ADD_CONST(Bitmap, "kJPEGCompression", plBitmap::kJPEGCompression);
+    PY_TYPE_ADD_CONST(Bitmap, "kPNGCompression", plBitmap::kPNGCompression);
 
     // Space
     PY_TYPE_ADD_CONST(Bitmap, "kNoSpace", plBitmap::kNoSpace);
