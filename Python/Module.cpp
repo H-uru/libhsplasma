@@ -135,10 +135,8 @@
 #include "PRP/Surface/pyShader.h"
 #include "PRP/Surface/pyWaveSet.h"
 
-extern "C" {
-
 /* For compatibility with plString's CleanFileName utility */
-ST::string CleanFileName(const ST::string& fname, bool allowPathChars) {
+static ST::string CleanFileName(const ST::string& fname, bool allowPathChars) {
     ST::char_buffer result;
     char* buf = result.create_writable_buffer(fname.size());
     memcpy(buf, fname.c_str(), fname.size() + 1);
@@ -166,8 +164,6 @@ PY_METHOD_GLOBAL_VA(PyHSPlasma, CleanFileName,
     return pyPlasma_convert(CleanFileName(fname, allowPathChars != 0));
 }
 
-}
-
 static PyMethodDef PyHSPlasma_Methods[] = {
     PyHSPlasma_CleanFileName_method,
     PY_METHOD_TERMINATOR
@@ -187,7 +183,7 @@ static PyModuleDef PyHSPlasma_Module = {
 };
 #endif
 
-void initPyPlasma_Constants(PyObject* module) {
+static void initPyHSPlasma_Constants(PyObject* module) {
     /* Generic constants */
     PyModule_AddIntConstant(module, "pvUnknown", PlasmaVer::pvUnknown);
     PyModule_AddIntConstant(module, "pvPrime", PlasmaVer::pvPrime);
@@ -416,7 +412,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
                                       "libHSPlasma Python Interface Module");
 
 #endif
-    initPyPlasma_Constants(module);
+    initPyHSPlasma_Constants(module);
 
     /* Debug */
     PyModule_AddObject(module, "plDebug", Init_pyDebug_Type());
