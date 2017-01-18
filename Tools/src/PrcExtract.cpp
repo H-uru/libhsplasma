@@ -18,7 +18,8 @@
 #include <Debug/hsExceptions.hpp>
 #include <Stream/hsStdioStream.h>
 #include <Debug/plDebug.h>
-#include <string.h>
+#include <string_theory/stdio>
+#include <cstring>
 #include <time.h>
 #ifdef _WIN32
   #include <windows.h>
@@ -32,12 +33,15 @@
 #include <sys/stat.h>
 
 void doHelp() {
-    printf("Usage: PrcExtract [options] filename.prp\n\n");
-    printf("Objects are written to Age_PRC\\filename.prc\n\n");
-    printf("options:\n");
-    printf("    -vtx   include vertex data\n");
-    printf("    -tex   include texture data\n");
-    printf("    -help  display this help message\n\n");
+    puts("Usage: PrcExtract [options] filename.prp");
+    puts("");
+    puts("Objects are written to Age_PRC\\filename.prc");
+    puts("");
+    puts("options:");
+    puts("    -vtx   include vertex data");
+    puts("    -tex   include texture data");
+    puts("    -help  display this help message");
+    puts("");
 }
 
 ST::string filenameConvert(const ST::string& filename) {
@@ -61,7 +65,7 @@ ST::string getOutputDir(const ST::string& filename, plPageInfo* page) {
     return name + page->getAge() + "_PRC" SLASH_S;
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char* argv[]) {
     if (argc < 2) {
         doHelp();
         return 0;
@@ -76,21 +80,22 @@ int main(int argc, char** argv) {
     bool exVtx = true, exTex = true, noHdr = false;
     for (int i=1; i<argc; i++) {
         if (argv[i][0] == '-') {
-            if (argv[i][1] == '-') argv[i]++;
+            if (argv[i][1] == '-')
+                argv[i]++;
             if (strcmp(argv[i], "-help") == 0) {
                 doHelp();
                 return 0;
             } else if (strcmp(argv[i], "-vtx") == 0) {
                 exVtx = false;
-                fprintf(stderr, "Warning: Including Vertex data\n");
+                fputs("Warning: Including Vertex data\n", stderr);
             } else if (strcmp(argv[i], "-tex") == 0) {
                 exTex = false;
-                fprintf(stderr, "Note: Texture data unsupported. -tex will "
-                                "be ignored for this export\n");
+                fputs("Note: Texture data unsupported. -tex will "
+                      "be ignored for this export\n", stderr);
             } else if (strcmp(argv[i], "-nohdr") == 0) {
                 noHdr = true;
             } else {
-                fprintf(stderr, "Error: Unrecognized option %s\n", argv[i]);
+                ST::printf(stderr, "Error: Unrecognized option %s\n", argv[i]);
                 return 1;
             }
         } else {
@@ -102,59 +107,58 @@ int main(int argc, char** argv) {
         try {
             page = rm.ReadPage(fFiles[i]);
         } catch (hsException& e) {
-            fprintf(stderr, "%s:%lu: %s\n", e.File(), e.Line(), e.what());
+            ST::printf(stderr, "{}:{}: {}\n", e.File(), e.Line(), e.what());
             return 1;
         } catch (std::exception& e) {
-            fprintf(stderr, "PrcExtract Exception: %s\n", e.what());
+            ST::printf(stderr, "PrcExtract Exception: {}\n", e.what());
             return 1;
         } catch (...) {
-            fprintf(stderr, "Undefined error!\n");
+            fputs("Undefined error!\n", stderr);
             return 1;
         }
         outDir = getOutputDir(fFiles[i], page);
         outFile = outDir + filenameConvert(fFiles[i]);
       #ifdef _WIN32
-        CreateDirectory(outDir.c_str(), NULL);
+        CreateDirectoryW(outDir.to_wchar(), NULL);
       #else
         mkdir(outDir.c_str(), S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH);
       #endif
 
-        printf("Writing %s\n", outFile.c_str());
-        hsFileStream* S = new hsFileStream();
-        if (!S->open(outFile, fmWrite)) {
-            fprintf(stderr, "Error opening %s for writing!\n", outFile.c_str());
-            delete S;
+        ST::printf("Writing {}\n", outFile);
+        hsFileStream S;
+        if (!S.open(outFile, fmWrite)) {
+            ST::printf(stderr, "Error opening {} for writing!\n", outFile);
             return 1;
         }
-        S->setVer(rm.getVer());
-        pfPrcHelper* prc = new pfPrcHelper(S);
-        if (exVtx) prc->exclude(pfPrcHelper::kExcludeVertexData);
-        if (exTex) prc->exclude(pfPrcHelper::kExcludeTextureData);
+        S.setVer(rm.getVer());
+        pfPrcHelper prc(&S);
+        if (exVtx)
+            prc.exclude(pfPrcHelper::kExcludeVertexData);
+        if (exTex)
+            prc.exclude(pfPrcHelper::kExcludeTextureData);
         if (!noHdr) {
-            prc->writeComment("Generator: PrcExtract");
-            prc->writeComment(("Source: " + fFiles[i]).c_str());
+            prc.writeComment("Generator: PrcExtract");
+            prc.writeComment(("Source: " + fFiles[i]).c_str());
             time_t ts = time(NULL);
             char buf[256];
             strftime(buf, 256, "Created: %Y/%m/%d %H:%M:%S", localtime(&ts));
-            prc->writeComment(buf);
-            S->writeStr("\n");
+            prc.writeComment(buf);
+            S.writeStr("\n");
         }
         try {
-            rm.WritePagePrc(prc, page);
+            rm.WritePagePrc(&prc, page);
         } catch (hsException& e) {
-            fprintf(stderr, "%s:%lu: %s\n", e.File(), e.Line(), e.what());
+            ST::printf(stderr, "{}:{}: {}\n", e.File(), e.Line(), e.what());
             return 1;
         } catch (std::exception& e) {
-            fprintf(stderr, "PrcExtract Exception: %s\n", e.what());
+            ST::printf(stderr, "PrcExtract Exception: {}\n", e.what());
             return 1;
         } catch (...) {
-            fprintf(stderr, "Undefined error!\n");
+            fputs("Undefined error!\n", stderr);
             return 1;
         }
 
-        delete prc;
-        S->close();
-        delete S;
+        S.close();
     }
 
     return 0;

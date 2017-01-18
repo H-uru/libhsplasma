@@ -15,7 +15,7 @@
  */
 
 #include "PyPlasma.h"
-#include <string_theory/format>
+#include <string_theory/stdio>
 #include <unordered_set>
 
 PyObject* PyString_FromSTString(const ST::string& str) {
@@ -41,16 +41,15 @@ int PyType_CheckAndReady(PyTypeObject* type)
 {
     static std::unordered_set<PyTypeObject*> init_bases;
     if (type->tp_base != NULL && init_bases.find(type->tp_base) == init_bases.end()) {
-        fputs(ST::format("ERROR: Base {} for type {} is not initialized\n",
-                         type->tp_base->tp_name, type->tp_name).c_str(),
-              stderr);
-        fputs(ST::format("Classes derived from {} WILL NOT WORK CORRECTLY\n",
-                         type->tp_base->tp_name).c_str(), stderr);
+        ST::printf(stderr, "ERROR: Base {} for type {} is not initialized\n",
+                   type->tp_base->tp_name, type->tp_name);
+        ST::printf(stderr, "Classes derived from {} WILL NOT WORK CORRECTLY\n",
+                   type->tp_base->tp_name);
     }
     int result = PyType_Ready(type);
     if (result == 0)
         init_bases.insert(type);
     else
-        fputs(ST::format("WARN: Failed to ready {}", type->tp_name).c_str(), stderr);
+        ST::printf(stderr, "WARN: Failed to ready {}", type->tp_name);
     return result;
 }

@@ -172,7 +172,8 @@ void pfPrcHelper::startPrc() {
 }
 
 void pfPrcHelper::finalize() {
-    if (inTag) endTag();
+    if (inTag)
+        endTag();
     while (!openTags.empty())
         closeTag();
 }

@@ -19,18 +19,22 @@
 #include <Debug/hsExceptions.hpp>
 #include <Debug/plDebug.h>
 #include <PRP/KeyedObject/hsKeyedObject.h>
+#include <string_theory/stdio>
 #include <cstring>
 
 void doHelp(const char* prgName) {
-    fprintf(stderr, "Usage: %s filename.prp action [options]\n\n", prgName);
-    fprintf(stderr, "actions:\n");
-    fprintf(stderr, "    add filename        Insert an object (.po or .prc) into the PRP\n");
-    fprintf(stderr, "    del type:object     Remove an object from the PRP\n");
-    fprintf(stderr, "    extract type:object Extract an object (.po) from the PRP\n\n");
-    fprintf(stderr, "options:\n");
-    fprintf(stderr, "    -o filename     Specify the output file (extract mode)\n");
-    fprintf(stderr, "    --prc           Do PRC decompilation (extract mode)\n");
-    fprintf(stderr, "    --help          Display this help message and then exit\n\n");
+    ST::printf("Usage: {} filename.prp action [options]\n", prgName);
+    puts("");
+    puts("actions:");
+    puts("    add filename        Insert an object (.po or .prc) into the PRP");
+    puts("    del type:object     Remove an object from the PRP");
+    puts("    extract type:object Extract an object (.po) from the PRP");
+    puts("");
+    puts("options:");
+    puts("    -o filename     Specify the output file (extract mode)");
+    puts("    --prc           Do PRC decompilation (extract mode)");
+    puts("    --help          Display this help message and then exit");
+    puts("");
 }
 
 plKey findObject(plResManager* mgr, const plLocation& loc, const ST::string& name, short type) {
@@ -62,7 +66,7 @@ int main(int argc, char* argv[]) {
         if (argv[i][0] == '-') {
             if (strcmp(argv[i], "-o") == 0) {
                 if (++i >= argc) {
-                    fprintf(stderr, "Missing output filename\n");
+                    fputs("Missing output filename\n", stderr);
                     return 1;
                 }
                 outFile = argv[i];
@@ -72,20 +76,21 @@ int main(int argc, char* argv[]) {
                 doHelp(argv[0]);
                 return 0;
             } else {
-                fprintf(stderr, "Unrecognized option: %s\nSee --help for usage details\n", argv[i]);
+                ST::printf(stderr, "Unrecognized option: {}\n"
+                                   "See --help for usage details\n", argv[i]);
                 return 1;
             }
         } else {
             if (strcmp(argv[i], "add") == 0) {
                 if (++i >= argc) {
-                    fprintf(stderr, "Missing input filename\n");
+                    fputs("Missing input filename\n", stderr);
                     return 1;
                 }
                 action = (action & ~kActionMask) | kActionAdd;
                 inFile = argv[i];
             } else if (strcmp(argv[i], "del") == 0) {
                 if (++i >= argc) {
-                    fprintf(stderr, "Missing object specifier\n");
+                    fputs("Missing object specifier\n", stderr);
                     return 1;
                 }
                 action = (action & ~kActionMask) | kActionDel;
@@ -98,7 +103,7 @@ int main(int argc, char* argv[]) {
                 if (objName.starts_with("\"")) {
                     do {
                         if (++i >= argc) {
-                            fprintf(stderr, "Error: Unterminated string\n");
+                            fputs("Error: Unterminated string\n", stderr);
                             return 1;
                         }
                         objName += ST::string(" ") + argv[i];
@@ -107,7 +112,7 @@ int main(int argc, char* argv[]) {
                 }
             } else if (strcmp(argv[i], "extract") == 0) {
                 if (++i >= argc) {
-                    fprintf(stderr, "Missing object specifier\n");
+                    fputs("Missing object specifier\n", stderr);
                     return 1;
                 }
                 action = (action & ~kActionMask) | kActionExtract;
@@ -120,7 +125,7 @@ int main(int argc, char* argv[]) {
                 if (objName.starts_with("\"")) {
                     do {
                         if (++i >= argc) {
-                            fprintf(stderr, "Error: Unterminated string\n");
+                            fputs("Error: Unterminated string\n", stderr);
                             return 1;
                         }
                         objName += ST::string(" ") + argv[i];
@@ -131,7 +136,8 @@ int main(int argc, char* argv[]) {
                 if (prpFile.is_empty()) {
                     prpFile = argv[i];
                 } else {
-                    fprintf(stderr, "Unknown action: %s\nSee --help for usage details\n", argv[i]);
+                    ST::printf(stderr, "Unknown action: {}\n"
+                                       "See --help for usage details\n", argv[i]);
                     return 1;
                 }
             }
@@ -148,13 +154,13 @@ int main(int argc, char* argv[]) {
     try {
         page = resMgr.ReadPage(prpFile);
     } catch (hsException& e) {
-        fprintf(stderr, "%s:%lu: %s\n", e.File(), e.Line(), e.what());
+        ST::printf(stderr, "{}:{}: {}\n", e.File(), e.Line(), e.what());
         return 1;
     } catch (std::exception& e) {
-        fprintf(stderr, "Caught exception: %s\n", e.what());
+        ST::printf(stderr, "Caught exception: {}\n", e.what());
         return 1;
     } catch (...) {
-        fprintf(stderr, "Undefined error!\n");
+        fputs("Undefined error!\n", stderr);
         return 1;
     }
 
@@ -171,10 +177,10 @@ int main(int argc, char* argv[]) {
                 const pfPrcTag* root = prc.getRoot();
                 cre = resMgr.prcParseCreatable(root);
             } catch (hsException& e) {
-                fprintf(stderr, "%s:%lu: %s\n", e.File(), e.Line(), e.what());
+                ST::printf(stderr, "{}:{}: {}\n", e.File(), e.Line(), e.what());
                 return 1;
             } catch (std::exception& e) {
-                fprintf(stderr, "Caught Exception: %s\n", e.what());
+                ST::printf(stderr, "Caught Exception: {}\n", e.what());
                 return 1;
             }
         } else {
@@ -184,10 +190,10 @@ int main(int argc, char* argv[]) {
                 in.open(inFile, fmRead);
                 cre = resMgr.ReadCreatable(&in);
             } catch (hsException& e) {
-                fprintf(stderr, "%s:%lu: %s\n", e.File(), e.Line(), e.what());
+                ST::printf(stderr, "{}:{}: {}\n", e.File(), e.Line(), e.what());
                 return 1;
             } catch (std::exception& e) {
-                fprintf(stderr, "Caught Exception: %s\n", e.what());
+                ST::printf(stderr, "Caught Exception: {}wwwwwwwwwwwww\n", e.what());
                 return 1;
             }
         }
@@ -195,8 +201,8 @@ int main(int argc, char* argv[]) {
         if (cre != NULL) {
             hsKeyedObject* kobj = hsKeyedObject::Convert(cre);
             if (kobj == NULL) {
-                fprintf(stderr, "Creatable '%s' is not a keyed object\n",
-                        plFactory::ClassName(cre->ClassIndex()));
+                ST::printf(stderr, "Creatable '{}' is not a keyed object\n",
+                           plFactory::ClassName(cre->ClassIndex()));
                 delete cre;
                 return 1;
             }
@@ -204,15 +210,15 @@ int main(int argc, char* argv[]) {
             // let's make sure it's in the right Location:
             resMgr.MoveKey(kobj->getKey(), page->getLocation());
         } else {
-            fprintf(stderr, "Failure parsing %s\n", inFile.c_str());
+            ST::printf(stderr, "Failure parsing {}\n", inFile);
             return 1;
         }
         resMgr.WritePage(prpFile, page);
     } else if ((action & kActionMask) == kActionDel) {
         plKey key = findObject(&resMgr, page->getLocation(), objName, objType);
         if (!key.Exists() || key->getObj() == NULL) {
-            fprintf(stderr, "Could not find %s:%s\n",
-                    plFactory::ClassName(objType), objName.c_str());
+            ST::printf(stderr, "Could not find {}:{}\n",
+                       plFactory::ClassName(objType), objName);
             return 1;
         }
         resMgr.DelObject(key);
@@ -220,8 +226,8 @@ int main(int argc, char* argv[]) {
     } else if ((action & kActionMask) == kActionExtract) {
         plKey key = findObject(&resMgr, page->getLocation(), objName, objType);
         if (!key.Exists() || key->getObj() == NULL) {
-            fprintf(stderr, "Could not find %s:%s\n",
-                    plFactory::ClassName(objType), objName.c_str());
+            ST::printf(stderr, "Could not find {}:{}\n",
+                       plFactory::ClassName(objType), objName);
             return 1;
         }
         if (outFile.is_empty())
@@ -238,4 +244,6 @@ int main(int argc, char* argv[]) {
         }
         out.close();
     }
+
+    return 0;
 }

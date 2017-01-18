@@ -14,8 +14,8 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
-#include <string.h>
+#include <cstring>
+#include <string_theory/stdio>
 #include "ResManager/plResManager.h"
 #include "Debug/hsExceptions.hpp"
 #include "Debug/plDebug.h"
@@ -28,7 +28,7 @@ const char* getSuffix(PlasmaVer pv) {
     case PlasmaVer::pvEoa:         return "eoa";
     case PlasmaVer::pvHex:         return "hex";
     case PlasmaVer::pvUniversal:   return "universal";
-    default:            return "err";
+    default:                       return "err";
     }
 }
 
@@ -40,23 +40,27 @@ const char* getVerName(PlasmaVer pv) {
     case PlasmaVer::pvEoa:         return "EoA";
     case PlasmaVer::pvHex:         return "HexIsle";
     case PlasmaVer::pvUniversal:   return "Universal";
-    default:            return "Unknown";
+    default:                       return "Unknown";
     }
 }
 
 void doHelp() {
-    printf("PRP Page Converter 1.0\nBy Michael Hansen\n\n");
-    printf("Usage:  PageConvert [-to???] [-help] filename [filename] [...]\n\n");
-    printf("  -toprime  Converts to Prime format (63.11) (Default)\n");
-    printf("  -topots   Converts to Path of the Shell format (63.12)\n");
-    printf("  -tomoul   Converts to Uru Live format\n");
-    printf("  -toeoa    Converts to Myst V: End of Ages format\n");
-    printf("  -tohex    Converts to Hex Isle format\n");
-    printf("  -touniv   Converts to Universal format\n");
-    printf("  -help     Displays this screen\n\n");
+    puts("PRP Page Converter 1.0");
+    puts("By Michael Hansen");
+    puts("");
+    puts("Usage:  PageConvert [-to???] [-help] filename [filename] [...]");
+    puts("");
+    puts("  -toprime  Converts to Prime format (63.11) (Default)");
+    puts("  -topots   Converts to Path of the Shell format (63.12)");
+    puts("  -tomoul   Converts to Uru Live format");
+    puts("  -toeoa    Converts to Myst V: End of Ages format");
+    puts("  -tohex    Converts to Hex Isle format");
+    puts("  -touniv   Converts to Universal format");
+    puts("  -help     Displays this screen");
+    puts("");
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char* argv[]) {
     plResManager rm;
     plDebug::Init(plDebug::kDLAll);
 
@@ -70,7 +74,8 @@ int main(int argc, char** argv) {
 
     for (int i=1; i<argc; i++) {
         if (argv[i][0] == '-') {
-            if (argv[i][1] == '-') argv[i]++;
+            if (argv[i][1] == '-')
+                argv[i]++;
             if (strcmp(argv[i], "-toeoa") == 0)
                 toVer = PlasmaVer::pvEoa;
             else if (strcmp(argv[i], "-toprime") == 0)
@@ -104,24 +109,23 @@ int main(int argc, char** argv) {
                 plDebug::Error("Undefined error!");
                 return 1;
             }
-            printf("PageID: %s (%08X)\n", page->getLocation().toString().c_str(),
-                                          page->getLocation().unparse());
-            printf("Page Flags: %d\n", page->getLocation().getFlags());
-            printf("Age Name: %s\n", page->getAge().c_str());
-            printf("Page Name: %s\n", page->getPage().c_str());
-            printf("Plasma Version: %s\n", getVerName(rm.getVer()));
-            printf("Keyring: %d keys\n", rm.countKeys(page->getLocation()));
-            printf("Objects Read: %d\n", page->getNumObjects());
+            ST::printf("PageID: {} ({08X})\n", page->getLocation().toString(),
+                                               page->getLocation().unparse());
+            ST::printf("Page Flags: {}\n", page->getLocation().getFlags());
+            ST::printf("Age Name: {}\n", page->getAge());
+            ST::printf("Page Name: {}\n", page->getPage());
+            ST::printf("Plasma Version: {}\n", getVerName(rm.getVer()));
+            ST::printf("Keyring: {} keys\n", rm.countKeys(page->getLocation()));
+            ST::printf("Objects Read: {}\n", page->getNumObjects());
 
             rm.setVer(toVer, true);
-            char fn[256];
-            snprintf(fn, 256, "%s.%s", argv[i], getSuffix(toVer));
-            rm.WritePage(fn, page);
-            printf("Objects Written: %d\n\n", page->getNumObjects());
+            ST::string filename = ST::format("{}.{}", argv[i], getSuffix(toVer));
+            rm.WritePage(filename, page);
+            ST::printf("Objects Written: {}\n\n", page->getNumObjects());
             files++;
         }
     }
 
-    printf("Done!  Successfully transcoded %d files!\n", files);
+    ST::printf("Done!  Successfully transcoded {} files!\n", files);
     return 0;
 }

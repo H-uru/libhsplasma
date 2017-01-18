@@ -20,21 +20,24 @@
 #include <Stream/hsStdioStream.h>
 #include <Debug/plDebug.h>
 #include <PRP/KeyedObject/hsKeyedObject.h>
+#include <string_theory/stdio>
 #include <cstring>
 
 void doHelp(const char* exename) {
-    printf("Usage: %s [options] filename\n\n", exename);
-    printf("Options:\n");
-    printf("\t-o file      Write output to `file`\n");
-    printf("\t-v ver       Select input version (prime, pots, moul, eoa, hex, universal)\n");
-    printf("\t             (for use with Creatables; PRP versions are determined automatically)\n");
-    printf("\t-x type:name Decompile a single object from a PRP file\n");
-    printf("\t--novtx      Don't include vertex data\n");
-    printf("\t--notex      Don't include texture data\n");
-    printf("\t--help       Display this help message and then exit\n\n");
+    ST::printf("Usage: {} [options] filename\n", exename);
+    puts("");
+    puts("Options:");
+    puts("\t-o file      Write output to `file`");
+    puts("\t-v ver       Select input version (prime, pots, moul, eoa, hex, universal)");
+    puts("\t             (for use with Creatables; PRP versions are determined automatically)");
+    puts("\t-x type:name Decompile a single object from a PRP file");
+    puts("\t--novtx      Don't include vertex data");
+    puts("\t--notex      Don't include texture data");
+    puts("\t--help       Display this help message and then exit");
+    puts("");
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char* argv[]) {
     ST::string inputFile, outputFile;
     bool exVtx = false, exTex = false;
     PlasmaVer inVer = PlasmaVer::pvUnknown;
@@ -49,13 +52,13 @@ int main(int argc, char** argv) {
     for (int i=1; i<argc; i++) {
         if (strcmp(argv[i], "-o") == 0 || strcmp(argv[i], "--out") == 0) {
             if (++i >= argc) {
-                fprintf(stderr, "Error: expected filename\n");
+                fputs("Error: expected filename\n", stderr);
                 return 1;
             }
             outputFile = argv[i];
         } else if (strcmp(argv[i], "-v") == 0 || strcmp(argv[i], "--ver") == 0) {
             if (++i >= argc) {
-                fprintf(stderr, "Error: expected version specifier\n");
+                fputs("Error: expected version specifier\n", stderr);
                 return 1;
             }
             ST::string ver = ST::string(argv[i]).to_lower();
@@ -72,12 +75,12 @@ int main(int argc, char** argv) {
             else if (ver == "universal")
                 inVer = PlasmaVer::pvUniversal;
             else {
-                fprintf(stderr, "Error: unrecognized version: %s\n", ver.c_str());
+                ST::printf(stderr, "Error: unrecognized version: {}\n", ver);
                 return 1;
             }
         } else if (strcmp(argv[i], "-x") == 0 || strcmp(argv[i], "--extract") == 0) {
             if (++i >= argc) {
-                fprintf(stderr, "Error: expected object specifier");
+                fputs("Error: expected object specifier", stderr);
                 return 1;
             }
             ST::string objSpec = argv[i];
@@ -89,35 +92,35 @@ int main(int argc, char** argv) {
             if (objName.starts_with("\"")) {
                 do {
                     if (++i >= argc) {
-                        fprintf(stderr, "Error: Unterminated string");
+                        fputs("Error: Unterminated string\n", stderr);
                         return 1;
                     }
-                    objName += ST::string(" ") + argv[i];
+                    objName += ST_LITERAL(" ") + argv[i];
                 } while (!objName.ends_with("\""));
                 objName = objName.substr(1, objName.size() - 2);
             }
         } else if (strcmp(argv[i], "--notex") == 0) {
             exTex = true;
-            fprintf(stderr, "Warning: omitting texture data; output files wil be incomplete\n");
+            fputs("Warning: omitting texture data; output files wil be incomplete\n", stderr);
         } else if (strcmp(argv[i], "--novtx") == 0) {
             exVtx = true;
-            fprintf(stderr, "Warning: omitting vertex data; output files wil be incomplete\n");
+            fputs("Warning: omitting vertex data; output files wil be incomplete\n", stderr);
         } else if (strcmp(argv[i], "-?") == 0 || strcmp(argv[i], "--help") == 0) {
             doHelp(argv[0]);
             return 0;
         } else if (argv[i][0] == '-') {
-            fprintf(stderr, "Warning: unrecognized option %s\n", argv[i]);
+            ST::printf(stderr, "Warning: unrecognized option {}\n", argv[i]);
         } else {
             if (inputFile.is_empty())
                 inputFile = argv[i];
             else
-                fprintf(stderr, "Warning: ignoring extra parameter %s\n", argv[i]);
+                ST::printf(stderr, "Warning: ignoring extra parameter {}\n", argv[i]);
         }
     }
     if (outputFile.is_empty())
         outputFile = "out.prc";
     if (!inVer.isValid() && inputFile.after_last('.') != "prp" && inputFile.after_last('.') != "age") {
-        fprintf(stderr, "Error: Plasma version must be specified for object decompilation\n");
+        fputs("Error: Plasma version must be specified for object decompilation\n", stderr);
         return 1;
     }
 
@@ -128,8 +131,10 @@ int main(int argc, char** argv) {
     hsFileStream out;
     out.open(outputFile, fmCreate);
     pfPrcHelper prc(&out);
-    if (exTex) prc.exclude(pfPrcHelper::kExcludeTextureData);
-    if (exVtx) prc.exclude(pfPrcHelper::kExcludeVertexData);
+    if (exTex)
+        prc.exclude(pfPrcHelper::kExcludeTextureData);
+    if (exVtx)
+        prc.exclude(pfPrcHelper::kExcludeVertexData);
 
     try {
         if (inputFile.after_last('.') == "prp") {
@@ -146,10 +151,10 @@ int main(int argc, char** argv) {
                         break;
                     }
                 }
-                if (!found)
-                    fprintf(stderr, "Object %s:%s does not exist\n",
-                                    plFactory::ClassName(objType),
-                                    objName.c_str());
+                if (!found) {
+                    ST::printf(stderr, "Object {}:{} does not exist\n",
+                               plFactory::ClassName(objType), objName);
+                }
             }
         } else if (inputFile.after_last('.') == "age") {
             plAgeInfo* age = rm.ReadAge(inputFile, false);
@@ -157,7 +162,7 @@ int main(int argc, char** argv) {
         } else {
             hsFileStream in;
             if (!in.open(inputFile, fmRead)) {
-                fprintf(stderr, "Error opening input file\n");
+                fputs("Error opening input file\n", stderr);
                 return 1;
             }
             in.setVer(inVer);
@@ -165,14 +170,14 @@ int main(int argc, char** argv) {
             cre->prcWrite(&prc);
         }
     } catch (hsException& e) {
-        fprintf(stderr, "%s:%lu: %s\n", e.File(), e.Line(), e.what());
+        ST::printf(stderr, "{}:{}: {}\n", e.File(), e.Line(), e.what());
         return 1;
     } catch (std::exception& e) {
-        fprintf(stderr, "Caught Exception: %s\n", e.what());
+        ST::printf(stderr, "Caught Exception: {}\n", e.what());
         return 1;
     }
 
-    printf("Successfully decompiled %s!\n", inputFile.c_str());
+    ST::printf("Successfully decompiled {}!\n", inputFile);
 
     return 0;
 }

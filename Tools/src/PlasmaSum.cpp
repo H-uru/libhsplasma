@@ -16,6 +16,7 @@
 
 #include <Util/plMD5.h>
 #include <Stream/plEncryptedStream.h>
+#include <string_theory/stdio>
 #include <list>
 #include <vector>
 #include <cstring>
@@ -64,9 +65,8 @@ void PrintFile(const SumEntry& file, char op) {
     char buf[32];
     struct tm* tbuf = localtime(&file.fTimestamp);
     strftime(buf, 32, "%Y/%m/%d %H:%M:%S", tbuf);
-    printf("%c %s  %s  %s\n", op,
-           file.fHash.toHex().c_str(),
-           buf, file.fPath.c_str());
+    ST::printf("{c} {}  {}  {}\n", op, file.fHash.toHex(),
+               buf, file.fPath);
 }
 
 ST::string FixSlashes(const ST::string& src) {
@@ -170,14 +170,14 @@ ST::string GetInternalName(const ST::string& filename) {
 
 bool UpdateSums(const ST::string& filename) {
     bool isUpdated = false;
-    printf("%s:\n", filename.c_str());
+    ST::printf("{}:\n", filename);
     try {
         SumFile sum;
         plEncryptedStream S;
         plEncryptedStream::EncryptionType eType = plEncryptedStream::kEncXtea;
         if (!s_createFile) {
             if (!S.open(filename, fmRead, plEncryptedStream::kEncAuto)) {
-                fprintf(stderr, "Could not open file %s\n", filename.c_str());
+                ST::printf(stderr, "Could not open file {}\n", filename);
                 return false;
             }
             eType = S.getEncType();
@@ -187,15 +187,15 @@ bool UpdateSums(const ST::string& filename) {
 
         std::vector<SumEntry>::iterator it = sum.fEntries.begin();
         while (it != sum.fEntries.end()) {
-            hsFileStream* IS = FindFilePath(it->fPath, cdUp(filename));
-            if (IS == NULL) {
+            std::unique_ptr<hsFileStream> IS(FindFilePath(it->fPath, cdUp(filename)));
+            if (!IS) {
                 if (s_autoYes) {
                     PrintFile(*it, '-');
                     it = sum.fEntries.erase(it);
                     isUpdated = true;
                 } else {
-                    fprintf(stderr, "File %s not found.  Remove it? [y/N] ",
-                            it->fPath.c_str());
+                    ST::printf(stderr, "File {} not found.  Remove it? [y/N] ",
+                               it->fPath);
                     char buf[256];
                     fgets(buf, 256, stdin);
 
@@ -210,7 +210,7 @@ bool UpdateSums(const ST::string& filename) {
                 }
                 continue;
             }
-            plMD5Hash hash = plMD5::hashStream(IS);
+            plMD5Hash hash = plMD5::hashStream(IS.get());
             it->fTimestamp = IS->getModTime();
             if (it->fHash != hash) {
                 it->fHash = hash;
@@ -219,24 +219,22 @@ bool UpdateSums(const ST::string& filename) {
             } else {
                 PrintFile(*it, ' ');
             }
-            if (IS != NULL)
-                delete IS;
             ++it;
         }
 
         if (isUpdated) {
             if (!S.open(filename, fmCreate, eType)) {
-                fprintf(stderr, "Error: Could not open %s for writing!\n", filename.c_str());
+                ST::printf(stderr, "Error: Could not open {} for writing!\n", filename);
                 return false;
             }
             sum.write(&S);
             S.close();
         }
-        printf("\n");
+        puts("");
     } catch (hsException& e) {
-        fprintf(stderr, "%s:%ld: %s\n", e.File(), e.Line(), e.what());
+        ST::printf(stderr, "{}:{}: {}\n", e.File(), e.Line(), e.what());
     } catch (...) {
-        fprintf(stderr, "An unknown error occured\n");
+        fputs("An unknown error occured\n", stderr);
     }
     return isUpdated;
 }
@@ -244,16 +242,19 @@ bool UpdateSums(const ST::string& filename) {
 
 /* Main program */
 void doHelp(const char* progName) {
-    printf("Usage: %s [options] sumfile [...]\n\n", progName);
-    printf("Options:\n");
-    printf("    -L        List the contents of the sumfile\n");
-    printf("    -c        Create a new sumfile (or overwrite one if it already exists)\n");
-    printf("    -i path   Insert `path` into the sumfile (or re-hash if it exists)\n");
-    printf("    -d path   Remove `path` from the sumfile\n");
-    printf("    -y        Answer YES to delete prompts\n");
-    printf("    -old      Use the older (pre-Path of the Shell) format\n\n");
-    printf("If no options are specified, the default is to re-sum the contents\n");
-    printf("of `sumfile`\n\n");
+    ST::printf("Usage: {} [options] sumfile [...]\n", progName);
+    puts("");
+    puts("Options:");
+    puts("    -L        List the contents of the sumfile");
+    puts("    -c        Create a new sumfile (or overwrite one if it already exists)");
+    puts("    -i path   Insert `path` into the sumfile (or re-hash if it exists)");
+    puts("    -d path   Remove `path` from the sumfile");
+    puts("    -y        Answer YES to delete prompts");
+    puts("    -old      Use the older (pre-Path of the Shell) format");
+    puts("");
+    puts("If no options are specified, the default is to re-sum the contents");
+    puts("of `sumfile`");
+    puts("");
 }
 
 enum OperationMode {
@@ -278,14 +279,14 @@ int main(int argc, char* argv[]) {
             } else if (strcmp(argv[i], "-i") == 0) {
                 mode = kModeManual;
                 if (++i >= argc) {
-                    fprintf(stderr, "Error: Expected filename\n");
+                    fputs("Error: Expected filename\n", stderr);
                     return 1;
                 }
                 addPaths.push_back(argv[i]);
             } else if (strcmp(argv[i], "-d") == 0) {
                 mode = kModeManual;
                 if (++i >= argc) {
-                    fprintf(stderr, "Error: Expected filename\n");
+                    fputs("Error: Expected filename\n", stderr);
                     return 1;
                 }
                 delPaths.push_back(argv[i]);
@@ -299,7 +300,7 @@ int main(int argc, char* argv[]) {
                 doHelp(argv[0]);
                 return 0;
             } else {
-                fprintf(stderr, "Error: Unrecognized option %s\n", argv[i]);
+                ST::printf(stderr, "Error: Unrecognized option {}\n", argv[i]);
                 return 1;
             }
         } else {
@@ -308,11 +309,11 @@ int main(int argc, char* argv[]) {
     }
 
     if (sumFiles.empty()) {
-        fprintf(stderr, "Error: No sum files specified\n");
+        fputs("Error: No sum files specified\n", stderr);
         return 1;
     }
     if (s_createFile && mode == kModeList) {
-        fprintf(stderr, "Error: -c and -L options cannot be combined\n");
+        fputs("Error: -c and -L options cannot be combined\n", stderr);
         return 1;
     }
 
@@ -320,16 +321,16 @@ int main(int argc, char* argv[]) {
     case kModeUpdate:
         for (std::list<ST::string>::iterator fn = sumFiles.begin(); fn != sumFiles.end(); fn++) {
             if (UpdateSums(*fn))
-                printf("Successfully updated %s\n", fn->c_str());
+                ST::printf("Successfully updated {}\n", *fn);
         }
         break;
     case kModeList:
         for (std::list<ST::string>::iterator fn = sumFiles.begin(); fn != sumFiles.end(); fn++) {
-            printf("%s:\n", fn->c_str());
+            ST::printf("{}:\n", *fn);
             try {
                 plEncryptedStream S;
                 if (!S.open(*fn, fmRead, plEncryptedStream::kEncAuto)) {
-                    fprintf(stderr, "Could not open file %s\n", fn->c_str());
+                    ST::printf(stderr, "Could not open file {}\n", *fn);
                     continue;
                 }
                 SumFile sum;
@@ -341,18 +342,18 @@ int main(int argc, char* argv[]) {
                     PrintFile(*it, ' ');
                 printf("\n");
             } catch (hsException& e) {
-                fprintf(stderr, "%s:%ld: %s\n", e.File(), e.Line(), e.what());
+                ST::printf(stderr, "{}:{}: {}\n", e.File(), e.Line(), e.what());
                 return 1;
             } catch (...) {
-                fprintf(stderr, "An unknown error occured\n");
+                fputs("An unknown error occured\n", stderr);
                 return 1;
             }
         }
         break;
     case kModeManual:
         if (sumFiles.size() != 1) {
-            fprintf(stderr, "Error: You must specify exactly ONE sumfile for\n");
-            fprintf(stderr, "-i and -d operations\n");
+            fputs("Error: You must specify exactly ONE sumfile for\n", stderr);
+            fputs("-i and -d operations\n", stderr);
             return 1;
         }
         try {
@@ -362,7 +363,7 @@ int main(int argc, char* argv[]) {
             plEncryptedStream::EncryptionType eType = plEncryptedStream::kEncXtea;
             if (!s_createFile) {
                 if (!S.open(sumFiles.front(), fmRead, plEncryptedStream::kEncAuto)) {
-                    fprintf(stderr, "Could not open file %s\n", sumFiles.front().c_str());
+                    ST::printf(stderr, "Could not open file {}\n", sumFiles.front());
                     return 1;
                 }
                 eType = S.getEncType();
@@ -388,19 +389,19 @@ int main(int argc, char* argv[]) {
                     }
                 }
                 if (!found)
-                    fprintf(stderr, "Warning: path '%s' not found\n", pi->c_str());
+                    ST::printf(stderr, "Warning: path '{}' not found\n", *pi);
             }
 
             for (pi = addPaths.begin(); pi != addPaths.end(); pi++) {
-                hsFileStream* IS = FindFilePath(*pi, "");
-                if (IS == NULL) {
-                    fprintf(stderr, "Warning: path '%s' not found\n", pi->c_str());
+                std::unique_ptr<hsFileStream> IS(FindFilePath(*pi, ""));
+                if (!IS) {
+                    ST::printf(stderr, "Warning: path '{}' not found\n", *pi);
                     continue;
                 }
 
                 SumEntry ent;
                 ent.fPath = GetInternalName(*pi);
-                ent.fHash = plMD5::hashStream(IS);
+                ent.fHash = plMD5::hashStream(IS.get());
                 ent.fTimestamp = IS->getModTime();
                 bool found = false;
                 it = sum.fEntries.begin();
@@ -421,29 +422,27 @@ int main(int argc, char* argv[]) {
                 if (!found) {
                     PrintFile(ent, '+');
                     sum.fEntries.push_back(ent);
-                    if (IS != NULL)
-                        delete IS;
                     isUpdated = true;
                 }
             }
 
             if (isUpdated) {
                 if (!S.open(sumFiles.front(), fmWrite, eType)) {
-                    fprintf(stderr, "Error: Could not open %s for writing!\n",
-                            sumFiles.front().c_str());
+                    ST::printf(stderr, "Error: Could not open {} for writing!\n",
+                               sumFiles.front());
                     return 1;
                 }
                 sum.write(&S);
                 S.close();
-                printf("Successfully %s %s\n",
-                       s_createFile ? "created" : "updated",
-                       sumFiles.front().c_str());
+                ST::printf("Successfully {} {}\n",
+                           s_createFile ? "created" : "updated",
+                           sumFiles.front());
             }
         } catch (hsException& e) {
-            fprintf(stderr, "%s:%ld: %s\n", e.File(), e.Line(), e.what());
+            ST::printf(stderr, "{}:{}: {}\n", e.File(), e.Line(), e.what());
             return 1;
         } catch (...) {
-            fprintf(stderr, "An unknown error occured\n");
+            fputs("An unknown error occured\n", stderr);
             return 1;
         }
         break;
