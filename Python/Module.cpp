@@ -45,6 +45,7 @@
 #include "PRP/Avatar/pyAGModifier.h"
 #include "PRP/Avatar/pyATCAnim.h"
 #include "PRP/Avatar/pyClothingItem.h"
+#include "PRP/Avatar/pyLadderModifier.h"
 #include "PRP/Avatar/pyMultistageBehMod.h"
 #include "PRP/Avatar/pySittingModifier.h"
 #include "PRP/Audio/pyAudible.h"
@@ -780,6 +781,8 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plConvexIsect", Init_pyConvexIsect_Type());
     PyModule_AddObject(module, "plSoundMsg", Init_pySoundMsg_Type());
     PyModule_AddObject(module, "plSwimMsg", Init_pySwimMsg_Type());
+    PyModule_AddObject(module, "plAvLadderMod", Init_pyAvLadderMod_Type());
+    PyModule_AddObject(module, "plLadderModifier", Init_pyLadderModifier_Type());
 
 #if PY_MAJOR_VERSION >= 3
     return module;

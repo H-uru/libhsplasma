@@ -120,6 +120,7 @@ set(PRP_AVTR_SRCS
     PRP/Avatar/pyAnimStage.cpp
     PRP/Avatar/pyClothingItem.cpp
     PRP/Avatar/pyEmoteAnim.cpp
+    PRP/Avatar/pyLadderModifier.cpp
     PRP/Avatar/pyLightAmbientApplicator.cpp
     PRP/Avatar/pyLightDiffuseApplicator.cpp
     PRP/Avatar/pyLightSpecularApplicator.cpp
@@ -170,6 +171,7 @@ set(PRP_AVTR_HDRS
     PRP/Avatar/pyAGMasterMod.h
     PRP/Avatar/pyAGModifier.h
     PRP/Avatar/pyATCAnim.h
+    PRP/Avatar/pyLadderModifier.h
     PRP/Avatar/pyMultistageBehMod.h
     PRP/Avatar/pySittingModifier.h
 )
