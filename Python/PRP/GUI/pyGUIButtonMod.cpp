@@ -14,16 +14,19 @@
 * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <PyPlasma.h>
 #include <PRP/GUI/pfGUIButtonMod.h>
 #include "pyGUIButtonMod.h"
+#include "PRP/GUI/pyGUIControlMod.h"
 #include "PRP/KeyedObject/pyKey.h"
 
 extern "C" {
 
 PY_PLASMA_NEW(GUIButtonMod, pfGUIButtonMod)
 
-static PyObject* pyGUIButtonMod_addAnim(pyGUIButtonMod* self, PyObject* args) {
+PY_METHOD_VA(GUIButtonMod, addAnim,
+    "Params: animation key\n"
+    "Add an animation to the button mod")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addAnim expects a plKey");
@@ -37,7 +40,10 @@ static PyObject* pyGUIButtonMod_addAnim(pyGUIButtonMod* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGUIButtonMod_delAnim(pyGUIButtonMod* self, PyObject* args) {
+PY_METHOD_VA(GUIButtonMod, delAnim,
+    "Params: idx\n"
+    "Remove an animation from the button mod")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delAnim expects an int");
@@ -47,12 +53,17 @@ static PyObject* pyGUIButtonMod_delAnim(pyGUIButtonMod* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGUIButtonMod_clearAnims(pyGUIButtonMod* self) {
+PY_METHOD_NOARGS(GUIButtonMod, clearAnims,
+    "Remove all animation keys from the button mod")
+{
     self->fThis->clearAnimationKeys();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGUIButtonMod_addMouseOver(pyGUIButtonMod* self, PyObject* args) {
+PY_METHOD_VA(GUIButtonMod, addMouseOver,
+    "Params: animation key\n"
+    "Add a mouse-over animation to the button mod")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addMouseOver expects a plKey");
@@ -66,7 +77,10 @@ static PyObject* pyGUIButtonMod_addMouseOver(pyGUIButtonMod* self, PyObject* arg
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGUIButtonMod_delMouseOver(pyGUIButtonMod* self, PyObject* args) {
+PY_METHOD_VA(GUIButtonMod, delMouseOver,
+    "Params: idx\n"
+    "Remove a mouse-over animation from the button mod")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delMouseOver expects an int");
@@ -76,57 +90,43 @@ static PyObject* pyGUIButtonMod_delMouseOver(pyGUIButtonMod* self, PyObject* arg
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGUIButtonMod_clearMouseOvers(pyGUIButtonMod* self) {
+PY_METHOD_NOARGS(GUIButtonMod, clearMouseOvers,
+    "Remove all mouse-over animation keys from the button mod")
+{
     self->fThis->clearMouseOverKeys();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGUIButtonMod_getAnimationKeys(pyGUIButtonMod* self, void*) {
+static PyMethodDef pyGUIButtonMod_Methods[] = {
+    pyGUIButtonMod_addAnim_method,
+    pyGUIButtonMod_delAnim_method,
+    pyGUIButtonMod_clearAnims_method,
+    pyGUIButtonMod_addMouseOver_method,
+    pyGUIButtonMod_delMouseOver_method,
+    pyGUIButtonMod_clearMouseOvers_method,
+    PY_METHOD_TERMINATOR
+};
+
+PY_GETSET_GETTER_DECL(GUIButtonMod, animationKeys) {
     PyObject* list = PyTuple_New(self->fThis->getAnimationKeys().size());
     for (size_t i = 0; i<self->fThis->getAnimationKeys().size(); i++)
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getAnimationKeys()[i]));
     return list;
 }
+PY_PROPERTY_SETTER_MSG(GUIButtonMod, animationKeys, "To add animations, use addAnim()")
+PY_PROPERTY_GETSET_DECL(GUIButtonMod, animationKeys)
 
-static PyObject* pyGUIButtonMod_getMouseOverKeys(pyGUIButtonMod* self, void*) {
+PY_GETSET_GETTER_DECL(GUIButtonMod, mouseOverKeys) {
     PyObject* list = PyTuple_New(self->fThis->getMouseOverKeys().size());
     for (size_t i = 0; i<self->fThis->getMouseOverKeys().size(); i++)
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getMouseOverKeys()[i]));
     return list;
 }
+PY_PROPERTY_SETTER_MSG(GUIButtonMod, mouseOverKeys, "To add mouse-over animations, use addMouseOver()")
+PY_PROPERTY_GETSET_DECL(GUIButtonMod, mouseOverKeys)
 
-static int pyGUIButtonMod_setAnimationKeys(pyGUIButtonMod* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add animations, use addAnim()");
-    return -1;
-}
-
-static int pyGUIButtonMod_setMouseOverKeys(pyGUIButtonMod* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add mouse-over animations, use addMouseOver()");
-    return -1;
-}
-
-static PyMethodDef pyGUIButtonMod_Methods[] = {
-    { "addAnim", (PyCFunction)pyGUIButtonMod_addAnim, METH_VARARGS,
-    "Params: key\n"
-    "Add an animation to the button" },
-    { "delAnim", (PyCFunction)pyGUIButtonMod_delAnim, METH_VARARGS,
-    "Params: idx\n"
-    "Remove an animation from the button" },
-    { "clearAnims", (PyCFunction)pyGUIButtonMod_clearAnims, METH_NOARGS,
-    "Remove all animation keys from the button" },
-    { "addMouseOver", (PyCFunction)pyGUIButtonMod_addMouseOver, METH_VARARGS,
-    "Params: key\n"
-    "Add a mouse-over animation to the button" },
-    { "delMouseOver", (PyCFunction)pyGUIButtonMod_delMouseOver, METH_VARARGS,
-    "Params: idx\n"
-    "Remove a mouse-over animation from the button" },
-    { "clearMouseOver", (PyCFunction)pyGUIButtonMod_clearMouseOvers, METH_NOARGS,
-    "Remove all mouse-over animation keys from the button" },
-    { NULL, NULL, 0, NULL }
-};
-
-PY_PROPERTY(plString, GUIButtonMod, animName, getAnimationName, setAnimationName)
-PY_PROPERTY(plString, GUIButtonMod, mouseOverAnimName, getMouseOverAnimName, setMouseOverAnimName)
+PY_PROPERTY(ST::string, GUIButtonMod, animName, getAnimationName, setAnimationName)
+PY_PROPERTY(ST::string, GUIButtonMod, mouseOverAnimName, getMouseOverAnimName, setMouseOverAnimName)
 PY_PROPERTY(plKey, GUIButtonMod, draggable, getDraggable, setDraggable)
 PY_PROPERTY(int, GUIButtonMod, notifyType, getNotifyType, setNotifyType)
 
@@ -135,80 +135,25 @@ static PyGetSetDef pyGUIButtonMod_GetSet[] = {
     pyGUIButtonMod_mouseOverAnimName_getset,
     pyGUIButtonMod_draggable_getset,
     pyGUIButtonMod_notifyType_getset,
-    { _pycs("animationKeys"), (getter)pyGUIButtonMod_getAnimationKeys, (setter)pyGUIButtonMod_setAnimationKeys, NULL, NULL },
-    { _pycs("mouseOverKeys"), (getter)pyGUIButtonMod_getMouseOverKeys, (setter)pyGUIButtonMod_setMouseOverKeys, NULL, NULL },
+    pyGUIButtonMod_animationKeys_getset,
+    pyGUIButtonMod_mouseOverKeys_getset,
     PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyGUIButtonMod_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.pfGUIButtonMod",        /* tp_name */
-    sizeof(pyGUIButtonMod),             /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(GUIButtonMod, pfGUIButtonMod, "pfGUIButtonMod wrapper");
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "pfGUIButtonMod wrapper",           /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyGUIButtonMod_Methods,             /* tp_methods */
-    NULL,                               /* tp_members */
-    pyGUIButtonMod_GetSet,              /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyGUIButtonMod_new,                 /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyGUIButtonMod_Type() {
+PY_PLASMA_TYPE_INIT(GUIButtonMod) {
+    pyGUIButtonMod_Type.tp_new = pyGUIButtonMod_new;
+    pyGUIButtonMod_Type.tp_methods = pyGUIButtonMod_Methods;
+    pyGUIButtonMod_Type.tp_getset = pyGUIButtonMod_GetSet;
+    pyGUIButtonMod_Type.tp_base = &pyGUIControlMod_Type;
     if (PyType_Ready(&pyGUIButtonMod_Type) < 0)
         return NULL;
 
     /* Konstants */
-    PyDict_SetItemString(pyGUIButtonMod_Type.tp_dict,
-        "kNotifyOnUp", pyPlasma_convert(pfGUIButtonMod::kNotifyOnUp));
-    PyDict_SetItemString(pyGUIButtonMod_Type.tp_dict,
-        "kNotifyOnDown", pyPlasma_convert(pfGUIButtonMod::kNotifyOnDown));
-    PyDict_SetItemString(pyGUIButtonMod_Type.tp_dict,
-        "kNotifyOnUpAndDown", pyPlasma_convert(pfGUIButtonMod::kNotifyOnUpAndDown));
+    PY_TYPE_ADD_CONST(GUIButtonMod, "kNotifyOnUp", pfGUIButtonMod::kNotifyOnUp);
+    PY_TYPE_ADD_CONST(GUIButtonMod, "kNotifyOnDown", pfGUIButtonMod::kNotifyOnDown);
+    PY_TYPE_ADD_CONST(GUIButtonMod, "kNotifyOnUpAndDown", pfGUIButtonMod::kNotifyOnUpAndDown);
 
     Py_INCREF(&pyGUIButtonMod_Type);
     return (PyObject*)&pyGUIButtonMod_Type;

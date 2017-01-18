@@ -14,30 +14,37 @@
 * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <PyPlasma.h>
 #include <PRP/GUI/pfGUIDialogMod.h>
 #include "pyGUIDialogMod.h"
+#include "pyGUIControlMod.h"
+#include "PRP/Modifier/pyModifier.h"
 #include "PRP/KeyedObject/pyKey.h"
 
 extern "C" {
 
 PY_PLASMA_NEW(GUIDialogMod, pfGUIDialogMod)
 
-static PyObject* pyGUIDialogMod_addControl(pyGUIDialogMod* self, PyObject* args) {
-    pyKey* ctrl;
-    if (!PyArg_ParseTuple(args, "O", &ctrl)) {
+PY_METHOD_VA(GUIDialogMod, addControl,
+    "Params: control\n"
+    "Add a control to the dialog mod")
+{
+    pyKey* control;
+    if (!PyArg_ParseTuple(args, "O", &control)) {
         PyErr_SetString(PyExc_TypeError, "addControl expects a plKey");
         return NULL;
     }
-    if (!pyKey_Check((PyObject*)ctrl)) {
+    if (!pyKey_Check((PyObject*)control)) {
         PyErr_SetString(PyExc_TypeError, "addControl expects a plKey");
         return NULL;
     }
-    self->fThis->addControl(*ctrl->fThis);
+    self->fThis->addControl(*control->fThis);
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGUIDialogMod_delControl(pyGUIDialogMod* self, PyObject* args) {
+PY_METHOD_VA(GUIDialogMod, delControl,
+    "Params: idx\n"
+    "Remove a control from the dialog mod")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delControl expects an int");
@@ -47,41 +54,37 @@ static PyObject* pyGUIDialogMod_delControl(pyGUIDialogMod* self, PyObject* args)
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGUIDialogMod_clearControls(pyGUIDialogMod* self) {
+PY_METHOD_NOARGS(GUIDialogMod, clearControls,
+    "Remove all controls from the dialog mod")
+{
     self->fThis->clearControls();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGUIDialogMod_getControls(pyGUIDialogMod* self, void*) {
+PY_GETSET_GETTER_DECL(GUIDialogMod, controls) {
     PyObject* list = PyTuple_New(self->fThis->getControls().size());
     for (size_t i = 0; i < self->fThis->getControls().size(); i++)
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getControls()[i]));
     return list;
 }
 
-static int pyGUIDialogMod_setControls(pyGUIDialogMod* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add controls, use addControl()");
-    return -1;
-}
-
 static PyMethodDef pyGUIDialogMod_Methods[] = {
-    { "addControl", (PyCFunction)pyGUIDialogMod_addControl, METH_VARARGS,
-    "Params: stage\n"
-    "Add a GUIControl to the dialog mod" },
-    { "delControl", (PyCFunction)pyGUIDialogMod_delControl, METH_VARARGS,
-    "Params: idx\n"
-    "Remove a control from the dialog mod" },
-    { "clearControls", (PyCFunction)pyGUIDialogMod_clearControls, METH_NOARGS,
-    "Remove all controls from the dialog mod" },
-    { NULL, NULL, NULL, NULL }
+    pyGUIDialogMod_addControl_method,
+    pyGUIDialogMod_delControl_method,
+    pyGUIDialogMod_clearControls_method,
+    PY_METHOD_TERMINATOR
 };
 
 PY_PROPERTY(int, GUIDialogMod, tagID, getTagID, setTagID)
 PY_PROPERTY(int, GUIDialogMod, version, getVersion, setVersion)
 PY_PROPERTY(plKey, GUIDialogMod, renderMod, getRenderMod, setRenderMod)
-PY_PROPERTY(plString, GUIDialogMod, name, getName, setName)
+PY_PROPERTY(ST::string, GUIDialogMod, name, getName, setName)
 PY_PROPERTY(plKey, GUIDialogMod, procReceiver, getProcReceiver, setProcReceiver)
 PY_PROPERTY(plKey, GUIDialogMod, sceneNode, getSceneNode, setSceneNode)
+PY_PROPERTY(pfGUIColorScheme, GUIDialogMod, colorScheme, getColorScheme, setColorScheme)
+
+PY_PROPERTY_SETTER_MSG(GUIDialogMod, controls, "To add controls, use addControl()")
+PY_PROPERTY_GETSET_DECL(GUIDialogMod, controls)
 
 static PyGetSetDef pyGUIDialogMod_GetSet[] = {
     pyGUIDialogMod_tagID_getset,
@@ -90,69 +93,18 @@ static PyGetSetDef pyGUIDialogMod_GetSet[] = {
     pyGUIDialogMod_name_getset,
     pyGUIDialogMod_procReceiver_getset,
     pyGUIDialogMod_sceneNode_getset,
-    { _pycs("controls"), (getter)pyGUIDialogMod_getControls, (setter)pyGUIDialogMod_setControls, NULL, NULL },
+    pyGUIDialogMod_colorScheme_getset,
+    pyGUIDialogMod_controls_getset,
     PY_GETSET_TERMINATOR
 };
 
-PyTypeObject pyGUIDialogMod_Type = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.pfGUIDialogMod",        /* tp_name */
-    sizeof(pyGUIDialogMod),             /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+PY_PLASMA_TYPE(GUIDialogMod, pfGUIDialogMod, "pfGUIDialogMod wrapper");
 
-    NULL,                               /* tp_dealloc */
-    NULL,                               /* tp_print */
-    NULL,                               /* tp_getattr */
-    NULL,                               /* tp_setattr */
-    NULL,                               /* tp_compare */
-    NULL,                               /* tp_repr */
-    NULL,                               /* tp_as_number */
-    NULL,                               /* tp_as_sequence */
-    NULL,                               /* tp_as_mapping */
-    NULL,                               /* tp_hash */
-    NULL,                               /* tp_call */
-    NULL,                               /* tp_str */
-    NULL,                               /* tp_getattro */
-    NULL,                               /* tp_setattro */
-    NULL,                               /* tp_as_buffer */
-
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "pfGUIDialogMod wrapper",           /* tp_doc */
-
-    NULL,                               /* tp_traverse */
-    NULL,                               /* tp_clear */
-    NULL,                               /* tp_richcompare */
-    0,                                  /* tp_weaklistoffset */
-    NULL,                               /* tp_iter */
-    NULL,                               /* tp_iternext */
-
-    pyGUIDialogMod_Methods,             /* tp_methods */
-    NULL,                               /* tp_members */
-    pyGUIDialogMod_GetSet,              /* tp_getset */
-    NULL,                               /* tp_base */
-    NULL,                               /* tp_dict */
-    NULL,                               /* tp_descr_get */
-    NULL,                               /* tp_descr_set */
-    0,                                  /* tp_dictoffset */
-
-    NULL,                               /* tp_init */
-    NULL,                               /* tp_alloc */
-    pyGUIDialogMod_new,                 /* tp_new */
-    NULL,                               /* tp_free */
-    NULL,                               /* tp_is_gc */
-
-    NULL,                               /* tp_bases */
-    NULL,                               /* tp_mro */
-    NULL,                               /* tp_cache */
-    NULL,                               /* tp_subclasses */
-    NULL,                               /* tp_weaklist */
-
-    NULL,                               /* tp_del */
-    TP_VERSION_TAG_INIT                 /* tp_version_tag */
-    TP_FINALIZE_INIT                    /* tp_finalize */
-};
-
-PyObject* Init_pyGUIDialogMod_Type() {
+PY_PLASMA_TYPE_INIT(GUIDialogMod) {
+    pyGUIDialogMod_Type.tp_new = pyGUIDialogMod_new;
+    pyGUIDialogMod_Type.tp_methods = pyGUIDialogMod_Methods;
+    pyGUIDialogMod_Type.tp_getset = pyGUIDialogMod_GetSet;
+    pyGUIDialogMod_Type.tp_base = &pySingleModifier_Type;
     if (PyType_Ready(&pyGUIDialogMod_Type) < 0)
         return NULL;
 
