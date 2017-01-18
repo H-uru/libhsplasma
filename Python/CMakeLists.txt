@@ -257,11 +257,20 @@ set(PRP_GUI_SRCS
     PRP/GUI/pyGUICtrlProcWriteableObject.cpp
     PRP/GUI/pyGUIDialogMod.cpp
     PRP/GUI/pyGUIDialogProc.cpp
+    PRP/GUI/pyGUIDynDisplayCtrl.cpp
     PRP/GUI/pyGUIKnobCtrl.cpp
+    PRP/GUI/pyGUIListBoxMod.cpp
     PRP/GUI/pyGUIMisc.cpp
+    PRP/GUI/pyGUIMultiLineEditCtrl.cpp
+    PRP/GUI/pyGUIPopUpMenu.cpp
+    PRP/GUI/pyGUIProgressCtrl.cpp
     PRP/GUI/pyGUIPythonScriptProc.cpp
+    PRP/GUI/pyGUIRadioGroupCtrl.cpp
+    PRP/GUI/pyGUISkin.cpp
     PRP/GUI/pyGUITextBoxMod.cpp
+    PRP/GUI/pyGUIUpDownPairMod.cpp
     PRP/GUI/pyGUIValueCtrl.cpp
+    PRP/GUI/pyImageLibMod.cpp
 )
 set(PRP_GUI_HDRS
     PRP/GUI/pyGUIButtonMod.h
@@ -269,10 +278,19 @@ set(PRP_GUI_HDRS
     PRP/GUI/pyGUICheckBoxCtrl.h
     PRP/GUI/pyGUIControlMod.h
     PRP/GUI/pyGUIDialogMod.h
+    PRP/GUI/pyGUIDynDisplayCtrl.h
     PRP/GUI/pyGUIKnobCtrl.h
+    PRP/GUI/pyGUIListBoxMod.h
     PRP/GUI/pyGUIMisc.h
+    PRP/GUI/pyGUIMultiLineEditCtrl.h
+    PRP/GUI/pyGUIPopUpMenu.h
+    PRP/GUI/pyGUIProgressCtrl.h
+    PRP/GUI/pyGUIRadioGroupCtrl.h
+    PRP/GUI/pyGUISkin.h
     PRP/GUI/pyGUITextBoxMod.h
+    PRP/GUI/pyGUIUpDownPairMod.h
     PRP/GUI/pyGUIValueCtrl.h
+    PRP/GUI/pyImageLibMod.h
 )
 
 set(PRP_KEY_SRCS

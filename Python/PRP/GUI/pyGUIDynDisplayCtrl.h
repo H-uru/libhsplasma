@@ -14,12 +14,11 @@
 * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _PYGUIBUTTONMOD_H
-#define _PYGUIBUTTONMOD_H
+#ifndef _PYGUIDYNDISPLAYCTRL_H
+#define _PYGUIDYNDISPLAYCTRL_H
 
 #include "PyPlasma.h"
 
-PY_WRAP_PLASMA(GUIButtonMod, class pfGUIButtonMod)
-PY_WRAP_PLASMA(GUIMenuItem, class pfGUIMenuItem)
+PY_WRAP_PLASMA(GUIDynDisplayCtrl, class pfGUIDynDisplayCtrl)
 
 #endif

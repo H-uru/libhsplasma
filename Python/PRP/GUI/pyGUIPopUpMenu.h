@@ -14,12 +14,19 @@
 * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _PYGUIBUTTONMOD_H
-#define _PYGUIBUTTONMOD_H
+#ifndef _PYGUIPOPUPMENU_H
+#define _PYGUIPOPUPMENU_H
 
 #include "PyPlasma.h"
+#include "PRP/GUI/pfGUIPopUpMenu.h"
 
-PY_WRAP_PLASMA(GUIButtonMod, class pfGUIButtonMod)
-PY_WRAP_PLASMA(GUIMenuItem, class pfGUIMenuItem)
+PY_WRAP_PLASMA(GUIPopUpMenu, class pfGUIPopUpMenu)
+
+/* Python property helpers */
+inline PyObject* pyPlasma_convert(pfGUIPopUpMenu::Alignment value) { return PyInt_FromLong((long)value); }
+
+template <> inline int pyPlasma_check<pfGUIPopUpMenu::Alignment>(PyObject* value) { return PyInt_Check(value); }
+
+template <> inline pfGUIPopUpMenu::Alignment pyPlasma_get(PyObject* value) { return (pfGUIPopUpMenu::Alignment)PyInt_AsLong(value); }
 
 #endif

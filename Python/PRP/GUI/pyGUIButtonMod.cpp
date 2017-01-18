@@ -162,3 +162,27 @@ PY_PLASMA_TYPE_INIT(GUIButtonMod) {
 PY_PLASMA_IFC_METHODS(GUIButtonMod, pfGUIButtonMod)
 
 }
+
+extern "C" {
+
+PY_PLASMA_NEW(GUIMenuItem, pfGUIMenuItem)
+
+PY_PLASMA_TYPE(GUIMenuItem, pfGUIMenuItem, "pfGUIMenuItem wrapper");
+
+PY_PLASMA_TYPE_INIT(GUIMenuItem) {
+    pyGUIMenuItem_Type.tp_new = pyGUIMenuItem_new;
+    pyGUIMenuItem_Type.tp_base = &pyGUIButtonMod_Type;
+    if (PyType_Ready(&pyGUIMenuItem_Type) < 0)
+        return NULL;
+
+    /* Konstants */
+    PY_TYPE_ADD_CONST(GUIMenuItem, "kDrawSubMenuArrow", pfGUIMenuItem::kDrawSubMenuArrow);
+    PY_TYPE_ADD_CONST(GUIMenuItem, "kReportHovers", pfGUIMenuItem::kReportHovers);
+
+    Py_INCREF(&pyGUIMenuItem_Type);
+    return (PyObject*)&pyGUIMenuItem_Type;
+}
+
+PY_PLASMA_IFC_METHODS(GUIMenuItem, pfGUIMenuItem)
+
+}

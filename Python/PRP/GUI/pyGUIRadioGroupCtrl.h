@@ -14,12 +14,11 @@
 * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _PYGUIBUTTONMOD_H
-#define _PYGUIBUTTONMOD_H
+#ifndef _PYGUIRADIOGROUPCTRL_H
+#define _PYGUIRADIOGROUPCTRL_H
 
 #include "PyPlasma.h"
 
-PY_WRAP_PLASMA(GUIButtonMod, class pfGUIButtonMod)
-PY_WRAP_PLASMA(GUIMenuItem, class pfGUIMenuItem)
+PY_WRAP_PLASMA(GUIRadioGroupCtrl, class pfGUIRadioGroupCtrl)
 
 #endif
