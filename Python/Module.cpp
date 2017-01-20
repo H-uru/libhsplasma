@@ -74,6 +74,7 @@
 #include "PRP/GUI/pyGUIButtonMod.h"
 #include "PRP/GUI/pyGUICheckBoxCtrl.h"
 #include "PRP/GUI/pyGUIControlHandlers.h"
+#include "PRP/GUI/pyGUIControlMod.h"
 #include "PRP/GUI/pyGUIDialogMod.h"
 #include "PRP/GUI/pyGUIDynDisplayCtrl.h"
 #include "PRP/GUI/pyGUIKnobCtrl.h"
@@ -649,14 +650,17 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plShadowMaster", Init_pyShadowMaster_Type());
     PyModule_AddObject(module, "plPointShadowMaster", Init_pyPointShadowMaster_Type());
     PyModule_AddObject(module, "plDirectShadowMaster", Init_pyDirectShadowMaster_Type());
+    PyModule_AddObject(module, "pfGUICtrlProcObject", Init_pyGUICtrlProcObject_Type());
+    PyModule_AddObject(module, "pfGUICtrlProcWriteableObject", Init_pyGUICtrlProcWriteableObject_Type());
+    PyModule_AddObject(module, "pfGUICloseDlgProc", Init_pyGUICloseDlgProc_Type());
+    PyModule_AddObject(module, "pfGUIConsoleCmdProc", Init_pyGUIConsoleCmdProc_Type());
+    PyModule_AddObject(module, "pfGUIPythonScriptProc", Init_pyGUIPythonScriptProc_Type());
+    PyModule_AddObject(module, "pfGUIColorScheme", Init_pyGUIColorScheme_Type());
+    PyModule_AddObject(module, "pfGUIControlMod", Init_pyGUIControlMod_Type());
+    PyModule_AddObject(module, "pfGUIValueCtrl", Init_pyGUIValueCtrl_Type());
     PyModule_AddObject(module, "pfGUIButtonMod", Init_pyGUIButtonMod_Type());
     PyModule_AddObject(module, "pfGUICheckBoxCtrl", Init_pyGUICheckBoxCtrl_Type());
     PyModule_AddObject(module, "pfGUIClickMapCtrl", Init_pyGUIClickMapCtrl_Type());
-    PyModule_AddObject(module, "pfGUICloseDlgProc", Init_pyGUICloseDlgProc_Type());
-    PyModule_AddObject(module, "pfGUIConsoleCmdProc", Init_pyGUIConsoleCmdProc_Type());
-    PyModule_AddObject(module, "pfGUIControlMod", Init_pyGUIConsoleCmdProc_Type());
-    PyModule_AddObject(module, "pfGUICtrlProcObject", Init_pyGUICtrlProcObject_Type());
-    PyModule_AddObject(module, "pfGUICtrlProcWriteableObject", Init_pyGUICtrlProcWriteableObject_Type());
     PyModule_AddObject(module, "pfGUIDialogMod", Init_pyGUIDialogMod_Type());
     PyModule_AddObject(module, "pfGUIDialogProc", Init_pyGUIDialogProc_Type());
     PyModule_AddObject(module, "pfGUIDragBarCtrl", Init_pyGUIDragBarCtrl_Type());
@@ -669,12 +673,10 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "pfGUIMultiLineEditCtrl", Init_pyGUIMultiLineEditCtrl_Type());
     PyModule_AddObject(module, "pfGUIPopUpMenu", Init_pyGUIPopUpMenu_Type());
     PyModule_AddObject(module, "pfGUIProgressCtrl", Init_pyGUIProgressCtrl_Type());
-    PyModule_AddObject(module, "pfGUIPythonScriptProc", Init_pyGUIPythonScriptProc_Type());
     PyModule_AddObject(module, "pfGUIRadioGroupCtrl", Init_pyGUIRadioGroupCtrl_Type());
     PyModule_AddObject(module, "pfGUISkin", Init_pyGUISkin_Type());
     PyModule_AddObject(module, "pfGUITextBoxMod", Init_pyGUITextBoxMod_Type());
     PyModule_AddObject(module, "pfGUIUpDownPairMod", Init_pyGUIUpDownPairMod_Type());
-    PyModule_AddObject(module, "pfGUIValueCtrl", Init_pyGUIValueCtrl_Type());
     PyModule_AddObject(module, "plImageLibMod", Init_pyImageLibMod_Type());
     PyModule_AddObject(module, "plWaveSetBase", Init_pyWaveSetBase_Type());
     PyModule_AddObject(module, "plWaveSet7", Init_pyWaveSet7_Type());

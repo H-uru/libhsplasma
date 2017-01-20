@@ -23,20 +23,20 @@ extern "C" {
 
 PY_PLASMA_NEW(GUIMultiLineEditCtrl, pfGUIMultiLineEditCtrl)
 
-PY_PROPERTY(plKey, GUIMultiLineEditCtrl, scrollControl, getScrollCtrl, setScrollCtrl)
+PY_PROPERTY(plKey, GUIMultiLineEditCtrl, scrollCtrl, getScrollCtrl, setScrollCtrl)
 
 static PyGetSetDef pyGUIMultiLineEditCtrl_GetSet[] = {
-    pyGUIMultiLineEditCtrl_scrollControl_getset,
+    pyGUIMultiLineEditCtrl_scrollCtrl_getset,
     PY_GETSET_TERMINATOR
 };
 
 PY_PLASMA_TYPE(GUIMultiLineEditCtrl, pfGUIMultiLineEditCtrl, "pfGUIMultiLineEditCtrl wrapper");
 
 PY_PLASMA_TYPE_INIT(GUIMultiLineEditCtrl) {
-    pyGUIMultiLineEditCtrl_Type.tp_getset = pyGUIMultiLineEditCtrl_GetSet;
     pyGUIMultiLineEditCtrl_Type.tp_new = pyGUIMultiLineEditCtrl_new;
+    pyGUIMultiLineEditCtrl_Type.tp_getset = pyGUIMultiLineEditCtrl_GetSet;
     pyGUIMultiLineEditCtrl_Type.tp_base = &pyGUIControlMod_Type;
-    if (PyType_Ready(&pyGUIMultiLineEditCtrl_Type) < 0)
+    if (PyType_CheckAndReady(&pyGUIMultiLineEditCtrl_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyGUIMultiLineEditCtrl_Type);

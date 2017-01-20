@@ -20,7 +20,9 @@
 #include <typeinfo>
 
 PyObject* ICreateGUIControlHandler(pfGUICtrlProcObject* proc) {
-    if (typeid(*proc) == typeid(pfGUIConsoleCmdProc))
+    if (proc == NULL)
+        Py_RETURN_NONE;
+    else if (typeid(*proc) == typeid(pfGUIConsoleCmdProc))
         return pyGUIConsoleCmdProc_FromGUIConsoleCmdProc((pfGUIConsoleCmdProc*)proc);
     else if (typeid(*proc) == typeid(pfGUIPythonScriptProc))
         return pyGUIPythonScriptProc_FromGUIPythonScriptProc((pfGUIPythonScriptProc*)proc);

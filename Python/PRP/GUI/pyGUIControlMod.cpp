@@ -21,9 +21,10 @@
 #include "Sys/pyColor.h"
 #include "pyGUIControlHandlers.h"
 
+/* pyGUIColorScheme */
 extern "C" {
 
-PY_PLASMA_VALUE_NEW(GUIColorScheme, pfGUIColorScheme)
+PY_PLASMA_NEW(GUIColorScheme, pfGUIColorScheme)
 
 PY_PROPERTY(hsColorRGBA, GUIColorScheme, foreColor, getForeColor, setForeColor)
 PY_PROPERTY(hsColorRGBA, GUIColorScheme, backColor, getBackColor, setBackColor)
@@ -51,7 +52,7 @@ PY_PLASMA_TYPE(GUIColorScheme, pfGUIColorScheme, "pfGUIColorScheme wrapper");
 PY_PLASMA_TYPE_INIT(GUIColorScheme) {
     pyGUIColorScheme_Type.tp_new = pyGUIColorScheme_new;
     pyGUIColorScheme_Type.tp_getset = pyGUIColorScheme_GetSet;
-    if (PyType_Ready(&pyGUIColorScheme_Type) < 0)
+    if (PyType_CheckAndReady(&pyGUIColorScheme_Type) < 0)
         return NULL;
 
     /* Konstants */
@@ -63,10 +64,11 @@ PY_PLASMA_TYPE_INIT(GUIColorScheme) {
     return (PyObject*)&pyGUIColorScheme_Type;
 }
 
-PY_PLASMA_VALUE_IFC_METHODS(GUIColorScheme, pfGUIColorScheme)
+PY_PLASMA_IFC_METHODS(GUIColorScheme, pfGUIColorScheme)
 
 }
 
+/* pyGUIControlMod */
 extern "C" {
 
 PY_PLASMA_NEW(GUIControlMod, pfGUIControlMod)
@@ -90,10 +92,10 @@ PY_GETSET_GETTER_DECL(GUIControlMod, soundIndices) {
 
 PY_GETSET_SETTER_DECL(GUIControlMod, soundIndices) {
     PY_PROPERTY_CHECK_NULL(soundIndices)
-        if (value == Py_None) {
-            self->fThis->setSoundIndices(std::vector<int>());
-            return 0;
-        }
+    if (value == Py_None) {
+        self->fThis->setSoundIndices(std::vector<int>());
+        return 0;
+    }
     pySequenceFastRef seq(value);
     if (!seq.isSequence()) {
         PyErr_SetString(PyExc_TypeError, "soundIndices should be a sequence of ints");
@@ -113,17 +115,19 @@ PY_GETSET_SETTER_DECL(GUIControlMod, soundIndices) {
 }
 
 PY_GETSET_GETTER_DECL(GUIControlMod, colorScheme) {
-    PyObject* colorScheme = pyGUIColorScheme_FromGUIColorScheme(*self->fThis->getColorScheme());
-    return colorScheme;
+    return pyPlasma_convert(self->fThis->getColorScheme());
 }
 
 PY_GETSET_SETTER_DECL(GUIControlMod, colorScheme) {
-    PY_PROPERTY_CHECK_NULL(colorScheme)
+    if (value == Py_None) {
+        self->fThis->setColorScheme(NULL);
+        return 0;
+    }
     if (!pyPlasma_check<pfGUIColorScheme>(value)) {
         PyErr_SetString(PyExc_TypeError, "colorScheme should be a pfGUIColorScheme");
         return -1;
     }
-    self->fThis->setColorScheme(((pyGUIColorScheme*)value)->fThis);
+    self->fThis->setColorScheme(pyPlasma_get<pfGUIColorScheme*>(value));
     return 0;
 }
 
@@ -157,7 +161,7 @@ PY_PLASMA_TYPE_INIT(GUIControlMod) {
     pyGUIControlMod_Type.tp_methods = pyGUIControlMod_Methods;
     pyGUIControlMod_Type.tp_getset = pyGUIControlMod_GetSet;
     pyGUIControlMod_Type.tp_base = &pySingleModifier_Type;
-    if (PyType_Ready(&pyGUIControlMod_Type) < 0)
+    if (PyType_CheckAndReady(&pyGUIControlMod_Type) < 0)
         return NULL;
 
     /* Konstants */

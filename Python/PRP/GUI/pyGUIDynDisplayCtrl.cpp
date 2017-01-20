@@ -59,6 +59,7 @@ PY_METHOD_NOARGS(GUIDynDisplayCtrl, clearTextMaps,
     self->fThis->clearTextMaps();
     Py_RETURN_NONE;
 }
+
 PY_METHOD_VA(GUIDynDisplayCtrl, addLayer,
     "Params: animation key\n"
     "Add a layer to the dynamic display control")
@@ -152,6 +153,8 @@ PY_GETSET_GETTER_DECL(GUIDynDisplayCtrl, textMaps) {
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getTextMaps()[i]));
     return list;
 }
+PY_PROPERTY_SETTER_MSG(GUIDynDisplayCtrl, textMaps, "To add textMaps, use addTextMaps()")
+PY_PROPERTY_GETSET_DECL(GUIDynDisplayCtrl, textMaps)
 
 PY_GETSET_GETTER_DECL(GUIDynDisplayCtrl, layers) {
     PyObject* list = PyTuple_New(self->fThis->getLayers().size());
@@ -159,6 +162,8 @@ PY_GETSET_GETTER_DECL(GUIDynDisplayCtrl, layers) {
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getLayers()[i]));
     return list;
 }
+PY_PROPERTY_SETTER_MSG(GUIDynDisplayCtrl, layers, "To add layers, use addLayer()")
+PY_PROPERTY_GETSET_DECL(GUIDynDisplayCtrl, layers)
 
 PY_GETSET_GETTER_DECL(GUIDynDisplayCtrl, materials) {
     PyObject* list = PyTuple_New(self->fThis->getMaterials().size());
@@ -166,11 +171,6 @@ PY_GETSET_GETTER_DECL(GUIDynDisplayCtrl, materials) {
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getMaterials()[i]));
     return list;
 }
-
-PY_PROPERTY_SETTER_MSG(GUIDynDisplayCtrl, textMaps, "To add textMaps, use addTextMaps()")
-PY_PROPERTY_GETSET_DECL(GUIDynDisplayCtrl, textMaps)
-PY_PROPERTY_SETTER_MSG(GUIDynDisplayCtrl, layers, "To add layers, use addLayer()")
-PY_PROPERTY_GETSET_DECL(GUIDynDisplayCtrl, layers)
 PY_PROPERTY_SETTER_MSG(GUIDynDisplayCtrl, materials, "To add materials, use addMaterial()")
 PY_PROPERTY_GETSET_DECL(GUIDynDisplayCtrl, materials)
 
@@ -185,10 +185,10 @@ PY_PLASMA_TYPE(GUIDynDisplayCtrl, pfGUIDynDisplayCtrl, "pfGUIDynDisplayCtrl wrap
 
 PY_PLASMA_TYPE_INIT(GUIDynDisplayCtrl) {
     pyGUIDynDisplayCtrl_Type.tp_new = pyGUIDynDisplayCtrl_new;
-    pyGUIDynDisplayCtrl_Type.tp_getset = pyGUIDynDisplayCtrl_GetSet;
     pyGUIDynDisplayCtrl_Type.tp_methods = pyGUIDynDisplayCtrl_Methods;
+    pyGUIDynDisplayCtrl_Type.tp_getset = pyGUIDynDisplayCtrl_GetSet;
     pyGUIDynDisplayCtrl_Type.tp_base = &pyGUIControlMod_Type;
-    if (PyType_Ready(&pyGUIDynDisplayCtrl_Type) < 0)
+    if (PyType_CheckAndReady(&pyGUIDynDisplayCtrl_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyGUIDynDisplayCtrl_Type);

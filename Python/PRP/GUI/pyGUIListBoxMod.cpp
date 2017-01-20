@@ -19,6 +19,7 @@
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/GUI/pyGUIControlMod.h"
 
+/* pyGUIListElement */
 extern "C" {
 
 PY_PLASMA_VALUE_NEW(GUIListElement, pfGUIListElement)
@@ -35,7 +36,7 @@ PY_PLASMA_TYPE(GUIListElement, pfGUIListElement, "pfGUIListElement wrapper");
 PY_PLASMA_TYPE_INIT(GUIListElement) {
     pyGUIListElement_Type.tp_new = pyGUIListElement_new;
     pyGUIListElement_Type.tp_getset = pyGUIListElement_GetSet;
-    if (PyType_Ready(&pyGUIListElement_Type) < 0)
+    if (PyType_CheckAndReady(&pyGUIListElement_Type) < 0)
         return NULL;
 
     /* Konstants */
@@ -51,25 +52,25 @@ PY_PLASMA_VALUE_IFC_METHODS(GUIListElement, pfGUIListElement)
 
 }
 
-
+/* pyGUIListBoxMod */
 extern "C" {
 
 PY_PLASMA_NEW(GUIListBoxMod, pfGUIListBoxMod)
 
-PY_PROPERTY(plKey, GUIListBoxMod, scrollControl, getScrollCtrl, setScrollCtrl)
+PY_PROPERTY(plKey, GUIListBoxMod, scrollCtrl, getScrollCtrl, setScrollCtrl)
 
 static PyGetSetDef pyGUIListBoxMod_GetSet[] = {
-    pyGUIListBoxMod_scrollControl_getset,
+    pyGUIListBoxMod_scrollCtrl_getset,
     PY_GETSET_TERMINATOR
 };
 
 PY_PLASMA_TYPE(GUIListBoxMod, pfGUIListBoxMod, "pfGUIListBoxMod wrapper");
 
 PY_PLASMA_TYPE_INIT(GUIListBoxMod) {
-    pyGUIListBoxMod_Type.tp_getset = pyGUIListBoxMod_GetSet;
     pyGUIListBoxMod_Type.tp_new = pyGUIListBoxMod_new;
+    pyGUIListBoxMod_Type.tp_getset = pyGUIListBoxMod_GetSet;
     pyGUIListBoxMod_Type.tp_base = &pyGUIControlMod_Type;
-    if (PyType_Ready(&pyGUIListBoxMod_Type) < 0)
+    if (PyType_CheckAndReady(&pyGUIListBoxMod_Type) < 0)
         return NULL;
 
     /* Konstants */

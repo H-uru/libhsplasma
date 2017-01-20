@@ -24,58 +24,58 @@ extern "C" {
 
 PY_PLASMA_NEW(GUIKnobCtrl, pfGUIKnobCtrl)
 
-static PyObject* pyGUIKnobCtrl_addAnim(pyGUIKnobCtrl* self, PyObject* args) {
+PY_METHOD_VA(GUIKnobCtrl, addAnimationKey,
+    "Params: animation key\n"
+    "Add an animation to the knob")
+{
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
-        PyErr_SetString(PyExc_TypeError, "addAnim expects a plKey");
+        PyErr_SetString(PyExc_TypeError, "addAnimationKey expects a plKey");
         return NULL;
     }
     if (!pyKey_Check((PyObject*)key)) {
-        PyErr_SetString(PyExc_TypeError, "addAnim expects a plKey");
+        PyErr_SetString(PyExc_TypeError, "addAnimationKey expects a plKey");
         return NULL;
     }
     self->fThis->addAnimationKey(*key->fThis);
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGUIKnobCtrl_delAnim(pyGUIKnobCtrl* self, PyObject* args) {
+PY_METHOD_VA(GUIKnobCtrl, delAnimationKey,
+    "Params: idx\n"
+    "Remove an animation from the knob")
+{
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
-        PyErr_SetString(PyExc_TypeError, "delAnim expects an int");
+        PyErr_SetString(PyExc_TypeError, "delAnimationKey expects an int");
         return NULL;
     }
     self->fThis->delAnimationKey(idx);
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGUIKnobCtrl_clearAnims(pyGUIKnobCtrl* self) {
+PY_METHOD_NOARGS(GUIKnobCtrl, clearAnimationKeys,
+    "Remove all animation keys from the knob")
+{
     self->fThis->clearAnimationKeys();
     Py_RETURN_NONE;
 }
 
-static PyObject* pyGUIKnobCtrl_getAnimationKeys(pyGUIKnobCtrl* self, void*) {
+static PyMethodDef pyGUIKnobCtrl_Methods[] = {
+    pyGUIKnobCtrl_addAnimationKey_method,
+    pyGUIKnobCtrl_delAnimationKey_method,
+    pyGUIKnobCtrl_clearAnimationKeys_method,
+    PY_METHOD_TERMINATOR
+};
+
+PY_GETSET_GETTER_DECL(GUIKnobCtrl, animationKeys) {
     PyObject* list = PyTuple_New(self->fThis->getAnimationKeys().size());
     for (size_t i = 0; i<self->fThis->getAnimationKeys().size(); i++)
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getAnimationKeys()[i]));
     return list;
 }
-
-static int pyGUIKnobCtrl_setAnimationKeys(pyGUIKnobCtrl* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add animations, use addAnim()");
-    return -1;
-}
-
-static PyMethodDef pyGUIKnobCtrl_Methods[] = {
-    { "addAnim", (PyCFunction)pyGUIKnobCtrl_addAnim, METH_VARARGS,
-    "Params: key\n"
-    "Add an animation to the knob" },
-    { "delAnim", (PyCFunction)pyGUIKnobCtrl_delAnim, METH_VARARGS,
-    "Params: idx\n"
-    "Remove an animation from the knob" },
-    { "clearAnims", (PyCFunction)pyGUIKnobCtrl_clearAnims, METH_NOARGS,
-    "Remove all animation keys from the knob" },
-    { NULL, NULL, 0, NULL }
-};
+PY_PROPERTY_SETTER_MSG(GUIKnobCtrl, animationKeys, "To add animations, use addAnimationKey()")
+PY_PROPERTY_GETSET_DECL(GUIKnobCtrl, animationKeys)
 
 PY_PROPERTY(ST::string, GUIKnobCtrl, animName, getAnimName, setAnimName)
 PY_PROPERTY(hsVector3, GUIKnobCtrl, animStartPos, getAnimStartPos, setAnimStartPos)
@@ -85,7 +85,7 @@ static PyGetSetDef pyGUIKnobCtrl_GetSet[] = {
     pyGUIKnobCtrl_animName_getset,
     pyGUIKnobCtrl_animStartPos_getset,
     pyGUIKnobCtrl_animEndPos_getset,
-    { _pycs("animationKeys"), (getter)pyGUIKnobCtrl_getAnimationKeys, (setter)pyGUIKnobCtrl_setAnimationKeys, NULL, NULL },
+    pyGUIKnobCtrl_animationKeys_getset,
     PY_GETSET_TERMINATOR
 };
 
@@ -93,9 +93,10 @@ PY_PLASMA_TYPE(GUIKnobCtrl, pfGUIKnobCtrl, "pfGUIKnobCtrl wrapper");
 
 PY_PLASMA_TYPE_INIT(GUIKnobCtrl) {
     pyGUIKnobCtrl_Type.tp_new = pyGUIKnobCtrl_new;
+    pyGUIKnobCtrl_Type.tp_methods = pyGUIKnobCtrl_Methods;
     pyGUIKnobCtrl_Type.tp_getset = pyGUIKnobCtrl_GetSet;
     pyGUIKnobCtrl_Type.tp_base = &pyGUIValueCtrl_Type;
-    if (PyType_Ready(&pyGUIKnobCtrl_Type) < 0)
+    if (PyType_CheckAndReady(&pyGUIKnobCtrl_Type) < 0)
         return NULL;
 
     /* Konstants */

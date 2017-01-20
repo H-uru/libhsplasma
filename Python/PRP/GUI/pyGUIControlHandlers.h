@@ -19,12 +19,12 @@
 
 #include "PyPlasma.h"
 
-PY_WRAP_PLASMA(GUICtrlProcObject, class pfGUICtrlProcObject);
-PY_WRAP_PLASMA(GUIDialogProc, class pfGUIDialogProc);
-PY_WRAP_PLASMA(GUICtrlProcWriteableObject, class pfGUICtrlProcWriteableObject);
-PY_WRAP_PLASMA(GUICloseDlgProc, class pfGUICloseDlgProc);
-PY_WRAP_PLASMA(GUIConsoleCmdProc, class pfGUIConsoleCmdProc);
-PY_WRAP_PLASMA(GUIPythonScriptProc, class pfGUIPythonScriptProc);
+PY_WRAP_PLASMA(GUICtrlProcObject, class pfGUICtrlProcObject)
+PY_WRAP_PLASMA(GUIDialogProc, class pfGUIDialogProc)
+PY_WRAP_PLASMA(GUICtrlProcWriteableObject, class pfGUICtrlProcWriteableObject)
+PY_WRAP_PLASMA(GUICloseDlgProc, class pfGUICloseDlgProc)
+PY_WRAP_PLASMA(GUIConsoleCmdProc, class pfGUIConsoleCmdProc)
+PY_WRAP_PLASMA(GUIPythonScriptProc, class pfGUIPythonScriptProc)
 
 PyObject* ICreateGUIControlHandler(class pfGUICtrlProcObject*);
 
@@ -36,12 +36,15 @@ PyObject* ICreateGUIControlHandler(class pfGUICtrlProcObject*);
 
 #define PY_PROPERTY_GUIPROC_WRITE(pyType, myType, name, setter)         \
     PY_GETSET_SETTER_DECL(myType, name) {                               \
-        PY_PROPERTY_CHECK_NULL(name)                                    \
+        if (value == Py_None) {                                         \
+            self->fThis->setter(NULL);                                  \
+            return 0;                                                   \
+        }                                                               \
         if (!py##pyType##_Check(value)) {                               \
             PyErr_SetString(PyExc_TypeError, #name " expected type pf" #pyType); \
             return -1;                                                  \
         }                                                               \
-        self->fThis->setter(((py##pyType*)value)->fThis);              \
+        self->fThis->setter(((py##pyType*)value)->fThis);               \
         return 0;                                                       \
     }
 

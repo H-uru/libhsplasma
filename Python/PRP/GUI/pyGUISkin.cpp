@@ -40,7 +40,7 @@ PY_PLASMA_TYPE_INIT(GUISkin) {
     pyGUISkin_Type.tp_new = pyGUISkin_new;
     pyGUISkin_Type.tp_getset = pyGUISkin_GetSet;
     pyGUISkin_Type.tp_base = &pyKeyedObject_Type;
-    if (PyType_Ready(&pyGUISkin_Type) < 0)
+    if (PyType_CheckAndReady(&pyGUISkin_Type) < 0)
         return NULL;
 
     /* Konstants */

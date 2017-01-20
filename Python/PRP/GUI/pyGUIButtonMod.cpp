@@ -19,78 +19,79 @@
 #include "PRP/GUI/pyGUIControlMod.h"
 #include "PRP/KeyedObject/pyKey.h"
 
+/* pyGUIButtonMod */
 extern "C" {
 
 PY_PLASMA_NEW(GUIButtonMod, pfGUIButtonMod)
 
-PY_METHOD_VA(GUIButtonMod, addAnim,
+PY_METHOD_VA(GUIButtonMod, addAnimationKey,
     "Params: animation key\n"
     "Add an animation to the button mod")
 {
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
-        PyErr_SetString(PyExc_TypeError, "addAnim expects a plKey");
+        PyErr_SetString(PyExc_TypeError, "addAnimationKey expects a plKey");
         return NULL;
     }
     if (!pyKey_Check((PyObject*)key)) {
-        PyErr_SetString(PyExc_TypeError, "addAnim expects a plKey");
+        PyErr_SetString(PyExc_TypeError, "addAnimationKey expects a plKey");
         return NULL;
     }
     self->fThis->addAnimationKey(*key->fThis);
     Py_RETURN_NONE;
 }
 
-PY_METHOD_VA(GUIButtonMod, delAnim,
+PY_METHOD_VA(GUIButtonMod, delAnimationKey,
     "Params: idx\n"
     "Remove an animation from the button mod")
 {
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
-        PyErr_SetString(PyExc_TypeError, "delAnim expects an int");
+        PyErr_SetString(PyExc_TypeError, "delAnimationKey expects an int");
         return NULL;
     }
     self->fThis->delAnimationKey(idx);
     Py_RETURN_NONE;
 }
 
-PY_METHOD_NOARGS(GUIButtonMod, clearAnims,
+PY_METHOD_NOARGS(GUIButtonMod, clearAnimationKeys,
     "Remove all animation keys from the button mod")
 {
     self->fThis->clearAnimationKeys();
     Py_RETURN_NONE;
 }
 
-PY_METHOD_VA(GUIButtonMod, addMouseOver,
+PY_METHOD_VA(GUIButtonMod, addMouseOverKey,
     "Params: animation key\n"
     "Add a mouse-over animation to the button mod")
 {
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
-        PyErr_SetString(PyExc_TypeError, "addMouseOver expects a plKey");
+        PyErr_SetString(PyExc_TypeError, "addMouseOverKey expects a plKey");
         return NULL;
     }
     if (!pyKey_Check((PyObject*)key)) {
-        PyErr_SetString(PyExc_TypeError, "addMouseOver expects a plKey");
+        PyErr_SetString(PyExc_TypeError, "addMouseOverKey expects a plKey");
         return NULL;
     }
     self->fThis->addMouseOverKey(*key->fThis);
     Py_RETURN_NONE;
 }
 
-PY_METHOD_VA(GUIButtonMod, delMouseOver,
+PY_METHOD_VA(GUIButtonMod, delMouseOverKey,
     "Params: idx\n"
     "Remove a mouse-over animation from the button mod")
 {
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
-        PyErr_SetString(PyExc_TypeError, "delMouseOver expects an int");
+        PyErr_SetString(PyExc_TypeError, "delMouseOverKey expects an int");
         return NULL;
     }
     self->fThis->delMouseOverKey(idx);
     Py_RETURN_NONE;
 }
 
-PY_METHOD_NOARGS(GUIButtonMod, clearMouseOvers,
+PY_METHOD_NOARGS(GUIButtonMod, clearMouseOverKeys,
     "Remove all mouse-over animation keys from the button mod")
 {
     self->fThis->clearMouseOverKeys();
@@ -98,12 +99,12 @@ PY_METHOD_NOARGS(GUIButtonMod, clearMouseOvers,
 }
 
 static PyMethodDef pyGUIButtonMod_Methods[] = {
-    pyGUIButtonMod_addAnim_method,
-    pyGUIButtonMod_delAnim_method,
-    pyGUIButtonMod_clearAnims_method,
-    pyGUIButtonMod_addMouseOver_method,
-    pyGUIButtonMod_delMouseOver_method,
-    pyGUIButtonMod_clearMouseOvers_method,
+    pyGUIButtonMod_addAnimationKey_method,
+    pyGUIButtonMod_delAnimationKey_method,
+    pyGUIButtonMod_clearAnimationKeys_method,
+    pyGUIButtonMod_addMouseOverKey_method,
+    pyGUIButtonMod_delMouseOverKey_method,
+    pyGUIButtonMod_clearMouseOverKeys_method,
     PY_METHOD_TERMINATOR
 };
 
@@ -113,7 +114,7 @@ PY_GETSET_GETTER_DECL(GUIButtonMod, animationKeys) {
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getAnimationKeys()[i]));
     return list;
 }
-PY_PROPERTY_SETTER_MSG(GUIButtonMod, animationKeys, "To add animations, use addAnim()")
+PY_PROPERTY_SETTER_MSG(GUIButtonMod, animationKeys, "To add animations, use addAnimationKey()")
 PY_PROPERTY_GETSET_DECL(GUIButtonMod, animationKeys)
 
 PY_GETSET_GETTER_DECL(GUIButtonMod, mouseOverKeys) {
@@ -122,7 +123,7 @@ PY_GETSET_GETTER_DECL(GUIButtonMod, mouseOverKeys) {
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getMouseOverKeys()[i]));
     return list;
 }
-PY_PROPERTY_SETTER_MSG(GUIButtonMod, mouseOverKeys, "To add mouse-over animations, use addMouseOver()")
+PY_PROPERTY_SETTER_MSG(GUIButtonMod, mouseOverKeys, "To add mouse-over animations, use addMouseOverKey()")
 PY_PROPERTY_GETSET_DECL(GUIButtonMod, mouseOverKeys)
 
 PY_PROPERTY(ST::string, GUIButtonMod, animName, getAnimationName, setAnimationName)
@@ -147,7 +148,7 @@ PY_PLASMA_TYPE_INIT(GUIButtonMod) {
     pyGUIButtonMod_Type.tp_methods = pyGUIButtonMod_Methods;
     pyGUIButtonMod_Type.tp_getset = pyGUIButtonMod_GetSet;
     pyGUIButtonMod_Type.tp_base = &pyGUIControlMod_Type;
-    if (PyType_Ready(&pyGUIButtonMod_Type) < 0)
+    if (PyType_CheckAndReady(&pyGUIButtonMod_Type) < 0)
         return NULL;
 
     /* Konstants */
@@ -163,6 +164,7 @@ PY_PLASMA_IFC_METHODS(GUIButtonMod, pfGUIButtonMod)
 
 }
 
+/* pyGUIMenuItem */
 extern "C" {
 
 PY_PLASMA_NEW(GUIMenuItem, pfGUIMenuItem)
@@ -172,7 +174,7 @@ PY_PLASMA_TYPE(GUIMenuItem, pfGUIMenuItem, "pfGUIMenuItem wrapper");
 PY_PLASMA_TYPE_INIT(GUIMenuItem) {
     pyGUIMenuItem_Type.tp_new = pyGUIMenuItem_new;
     pyGUIMenuItem_Type.tp_base = &pyGUIButtonMod_Type;
-    if (PyType_Ready(&pyGUIMenuItem_Type) < 0)
+    if (PyType_CheckAndReady(&pyGUIMenuItem_Type) < 0)
         return NULL;
 
     /* Konstants */

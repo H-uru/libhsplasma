@@ -44,7 +44,7 @@ PY_PLASMA_TYPE_INIT(GUIPopUpMenu) {
     pyGUIPopUpMenu_Type.tp_new = pyGUIPopUpMenu_new;
     pyGUIPopUpMenu_Type.tp_getset = pyGUIPopUpMenu_GetSet;
     pyGUIPopUpMenu_Type.tp_base = &pyGUIDialogMod_Type;
-    if (PyType_Ready(&pyGUIPopUpMenu_Type) < 0)
+    if (PyType_CheckAndReady(&pyGUIPopUpMenu_Type) < 0)
         return NULL;
 
     /* Konstants */

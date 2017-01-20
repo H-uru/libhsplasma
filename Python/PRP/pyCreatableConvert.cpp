@@ -205,11 +205,21 @@
 #include "PRP/Geometry/pySpaceTree.h"
 #include "PRP/GUI/pyGUIButtonMod.h"
 #include "PRP/GUI/pyGUICheckBoxCtrl.h"
-#include "PRP/GUI/pyGUIControlHandlers.h"
+#include "PRP/GUI/pyGUIControlMod.h"
 #include "PRP/GUI/pyGUIDialogMod.h"
+#include "PRP/GUI/pyGUIDynDisplayCtrl.h"
 #include "PRP/GUI/pyGUIKnobCtrl.h"
+#include "PRP/GUI/pyGUIListBoxMod.h"
 #include "PRP/GUI/pyGUIMisc.h"
+#include "PRP/GUI/pyGUIMultiLineEditCtrl.h"
+#include "PRP/GUI/pyGUIPopUpMenu.h"
+#include "PRP/GUI/pyGUIProgressCtrl.h"
+#include "PRP/GUI/pyGUIRadioGroupCtrl.h"
+#include "PRP/GUI/pyGUISkin.h"
 #include "PRP/GUI/pyGUITextBoxMod.h"
+#include "PRP/GUI/pyGUIUpDownPairMod.h"
+#include "PRP/GUI/pyGUIValueCtrl.h"
+#include "PRP/GUI/pyImageLibMod.h"
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/Light/pyLightInfo.h"
@@ -483,6 +493,28 @@ PyObject* ICreate(plCreatable* pCre)
         case kConvexIsect: pyConvexIsect_FromConvexIsect(plConvexIsect::Convert(pCre));
         case kSoundMsg: pySoundMsg_FromSoundMsg(plSoundMsg::Convert(pCre));
         case kSwimMsg: pySwimMsg_FromSwimMsg(plSwimMsg::Convert(pCre));
+        case kGUIButtonMod: pyGUIButtonMod_FromGUIButtonMod(pfGUIButtonMod::Convert(pCre));
+        case kGUIMenuItem: pyGUIMenuItem_FromGUIMenuItem(pfGUIMenuItem::Convert(pCre));
+        case kGUICheckBoxCtrl: pyGUICheckBoxCtrl_FromGUICheckBoxCtrl(pfGUICheckBoxCtrl::Convert(pCre));
+        case kGUIControlMod: pyGUIControlMod_FromGUIControlMod(pfGUIControlMod::Convert(pCre));
+        case kGUIDialogMod: pyGUIDialogMod_FromGUIDialogMod(pfGUIDialogMod::Convert(pCre));
+        case kGUIDynDisplayCtrl: pyGUIDynDisplayCtrl_FromGUIDynDisplayCtrl(pfGUIDynDisplayCtrl::Convert(pCre));
+        case kGUIKnobCtrl: pyGUIKnobCtrl_FromGUIKnobCtrl(pfGUIKnobCtrl::Convert(pCre));
+        case kGUIListBoxMod: pyGUIListBoxMod_FromGUIListBoxMod(pfGUIListBoxMod::Convert(pCre));
+        case kGUIClickMapCtrl: pyGUIClickMapCtrl_FromGUIClickMapCtrl(pfGUIClickMapCtrl::Convert(pCre));
+        case kGUIDragBarCtrl: pyGUIDragBarCtrl_FromGUIDragBarCtrl(pfGUIDragBarCtrl::Convert(pCre));
+        case kGUIDraggableMod: pyGUIDraggableMod_FromGUIDraggableMod(pfGUIDraggableMod::Convert(pCre));
+        case kGUIEditBoxMod: pyGUIEditBoxMod_FromGUIEditBoxMod(pfGUIEditBoxMod::Convert(pCre));
+        case kGUIMultiLineEditCtrl: pyGUIMultiLineEditCtrl_FromGUIMultiLineEditCtrl(pfGUIMultiLineEditCtrl::Convert(pCre));
+        case kGUIPopUpMenu: pyGUIPopUpMenu_FromGUIPopUpMenu(pfGUIPopUpMenu::Convert(pCre));
+        case kGUIProgressCtrl: pyGUIProgressCtrl_FromGUIProgressCtrl(pfGUIProgressCtrl::Convert(pCre));
+        case kGUIRadioGroupCtrl: pyGUIRadioGroupCtrl_FromGUIRadioGroupCtrl(pfGUIRadioGroupCtrl::Convert(pCre));
+        case kGUISkin: pyGUISkin_FromGUISkin(pfGUISkin::Convert(pCre));
+        case kGUITextBoxMod: pyGUITextBoxMod_FromGUITextBoxMod(pfGUITextBoxMod::Convert(pCre));
+        case kGUIUpDownPairMod: pyGUIUpDownPairMod_FromGUIUpDownPairMod(pfGUIUpDownPairMod::Convert(pCre));
+        case kGUIValueCtrl: pyGUIValueCtrl_FromGUIValueCtrl(pfGUIValueCtrl::Convert(pCre));
+        case kImageLibMod: pyImageLibMod_FromImageLibMod(plImageLibMod::Convert(pCre));
+        case kPostEffectMod: pyPostEffectMod_FromPostEffectMod(plPostEffectMod::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (pCre->ClassInstance(kMessage))

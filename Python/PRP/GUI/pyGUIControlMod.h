@@ -20,15 +20,15 @@
 #include "PyPlasma.h"
 #include <PRP/GUI/pfGUIControlMod.h>
 
-PY_WRAP_PLASMA_VALUE(GUIColorScheme, class pfGUIColorScheme)
+PY_WRAP_PLASMA(GUIColorScheme, class pfGUIColorScheme)
 PY_WRAP_PLASMA(GUIControlMod, class pfGUIControlMod)
 
 
 /* Python property helpers */
-inline PyObject* pyPlasma_convert(const pfGUIColorScheme& value) { return pyGUIColorScheme_FromGUIColorScheme(value); }
+inline PyObject* pyPlasma_convert(pfGUIColorScheme* value) { return pyGUIColorScheme_FromGUIColorScheme(value); }
 
 template <> inline int pyPlasma_check<pfGUIColorScheme>(PyObject *value) { return pyGUIColorScheme_Check(value); }
 
-template <> inline pfGUIColorScheme pyPlasma_get(PyObject* value) { return *((pyGUIColorScheme*)value)->fThis; }
+template <> inline pfGUIColorScheme* pyPlasma_get(PyObject* value) { return ((pyGUIColorScheme*)value)->fThis; }
 
 #endif

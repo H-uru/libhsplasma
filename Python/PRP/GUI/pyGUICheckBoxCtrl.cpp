@@ -23,37 +23,37 @@ extern "C" {
 
 PY_PLASMA_NEW(GUICheckBoxCtrl, pfGUICheckBoxCtrl)
 
-PY_METHOD_VA(GUICheckBoxCtrl, addAnim,
+PY_METHOD_VA(GUICheckBoxCtrl, addAnimKey,
     "Params: animation key\n"
     "Add an animation to the checkbox control")
 {
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
-        PyErr_SetString(PyExc_TypeError, "addAnim expects a plKey");
+        PyErr_SetString(PyExc_TypeError, "addAnimKey expects a plKey");
         return NULL;
     }
     if (!pyKey_Check((PyObject*)key)) {
-        PyErr_SetString(PyExc_TypeError, "addAnim expects a plKey");
+        PyErr_SetString(PyExc_TypeError, "addAnimKey expects a plKey");
         return NULL;
     }
     self->fThis->addAnimKey(*key->fThis);
     Py_RETURN_NONE;
 }
 
-PY_METHOD_VA(GUICheckBoxCtrl, delAnim,
+PY_METHOD_VA(GUICheckBoxCtrl, delAnimKey,
     "Params: idx\n"
     "Remove an animation from the checkbox control")
 {
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
-        PyErr_SetString(PyExc_TypeError, "delAnim expects an int");
+        PyErr_SetString(PyExc_TypeError, "delAnimKey expects an int");
         return NULL;
     }
     self->fThis->delAnimKey(idx);
     Py_RETURN_NONE;
 }
 
-PY_METHOD_NOARGS(GUICheckBoxCtrl, clearAnims,
+PY_METHOD_NOARGS(GUICheckBoxCtrl, clearAnimKeys,
     "Remove all animation keys from the checkbox control")
 {
     self->fThis->clearAnimKeys();
@@ -61,20 +61,20 @@ PY_METHOD_NOARGS(GUICheckBoxCtrl, clearAnims,
 }
 
 static PyMethodDef pyGUICheckBoxCtrl_Methods[] = {
-    pyGUICheckBoxCtrl_addAnim_method,
-    pyGUICheckBoxCtrl_delAnim_method,
-    pyGUICheckBoxCtrl_clearAnims_method,
+    pyGUICheckBoxCtrl_addAnimKey_method,
+    pyGUICheckBoxCtrl_delAnimKey_method,
+    pyGUICheckBoxCtrl_clearAnimKeys_method,
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(GUICheckBoxCtrl, animationKeys) {
+PY_GETSET_GETTER_DECL(GUICheckBoxCtrl, animKeys) {
     PyObject* list = PyTuple_New(self->fThis->getAnimKeys().size());
     for (size_t i = 0; i<self->fThis->getAnimKeys().size(); i++)
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getAnimKeys()[i]));
     return list;
 }
-PY_PROPERTY_SETTER_MSG(GUICheckBoxCtrl, animationKeys, "To add animations, use addAnim()")
-PY_PROPERTY_GETSET_DECL(GUICheckBoxCtrl, animationKeys)
+PY_PROPERTY_SETTER_MSG(GUICheckBoxCtrl, animKeys, "To add animations, use addAnimKey()")
+PY_PROPERTY_GETSET_DECL(GUICheckBoxCtrl, animKeys)
 
 PY_PROPERTY(ST::string, GUICheckBoxCtrl, animName, getAnimName, setAnimName)
 PY_PROPERTY(bool, GUICheckBoxCtrl, checked, isChecked, setChecked)
@@ -82,7 +82,7 @@ PY_PROPERTY(bool, GUICheckBoxCtrl, checked, isChecked, setChecked)
 static PyGetSetDef pyGUICheckBoxCtrl_GetSet[] = {
     pyGUICheckBoxCtrl_animName_getset,
     pyGUICheckBoxCtrl_checked_getset,
-    pyGUICheckBoxCtrl_animationKeys_getset,
+    pyGUICheckBoxCtrl_animKeys_getset,
     PY_GETSET_TERMINATOR
 };
 
@@ -91,10 +91,10 @@ PY_PLASMA_TYPE(GUICheckBoxCtrl, pfGUICheckBoxCtrl, "pfGUICheckBoxCtrl wrapper");
 
 PY_PLASMA_TYPE_INIT(GUICheckBoxCtrl) {
     pyGUICheckBoxCtrl_Type.tp_new = pyGUICheckBoxCtrl_new;
-    pyGUICheckBoxCtrl_Type.tp_getset = pyGUICheckBoxCtrl_GetSet;
     pyGUICheckBoxCtrl_Type.tp_methods = pyGUICheckBoxCtrl_Methods;
+    pyGUICheckBoxCtrl_Type.tp_getset = pyGUICheckBoxCtrl_GetSet;
     pyGUICheckBoxCtrl_Type.tp_base = &pyGUIControlMod_Type;
-    if (PyType_Ready(&pyGUICheckBoxCtrl_Type) < 0)
+    if (PyType_CheckAndReady(&pyGUICheckBoxCtrl_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyGUICheckBoxCtrl_Type);

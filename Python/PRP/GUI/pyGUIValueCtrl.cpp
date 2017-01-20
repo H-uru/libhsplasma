@@ -37,8 +37,9 @@ PY_PLASMA_TYPE(GUIValueCtrl, pfGUIValueCtrl, "pfGUIValueCtrl wrapper");
 
 PY_PLASMA_TYPE_INIT(GUIValueCtrl) {
     pyGUIValueCtrl_Type.tp_new = pyGUIValueCtrl_new;
+    pyGUIValueCtrl_Type.tp_getset = pyGUIValueCtrl_GetSet;
     pyGUIValueCtrl_Type.tp_base = &pyGUIControlMod_Type;
-    if (PyType_Ready(&pyGUIValueCtrl_Type) < 0)
+    if (PyType_CheckAndReady(&pyGUIValueCtrl_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyGUIValueCtrl_Type);

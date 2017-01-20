@@ -28,18 +28,18 @@ PY_PROPERTY(float, PostEffectMod, hither, getHither, setHither)
 PY_PROPERTY(float, PostEffectMod, yon, getHither, setYon)
 PY_PROPERTY(float, PostEffectMod, fovX, getFovX, setFovX)
 PY_PROPERTY(float, PostEffectMod, fovY, getFovY, setFovY)
-PY_PROPERTY(plKey, PostEffectMod, sceneNode, getNodeKey, setNodeKey)
-PY_PROPERTY(hsMatrix44, PostEffectMod, worldToCamera, getDefaultW2C, setDefaultW2C)
-PY_PROPERTY(hsMatrix44, PostEffectMod, cameraToWorld, getDefaultC2W, setDefaultC2W)
+PY_PROPERTY(plKey, PostEffectMod, nodeKey, getNodeKey, setNodeKey)
+PY_PROPERTY(hsMatrix44, PostEffectMod, defaultW2C, getDefaultW2C, setDefaultW2C)
+PY_PROPERTY(hsMatrix44, PostEffectMod, defaultC2W, getDefaultC2W, setDefaultC2W)
 
 static PyGetSetDef pyPostEffectMod_GetSet[] = {
     pyPostEffectMod_hither_getset,
     pyPostEffectMod_yon_getset,
     pyPostEffectMod_fovX_getset,
     pyPostEffectMod_fovY_getset,
-    pyPostEffectMod_sceneNode_getset,
-    pyPostEffectMod_worldToCamera_getset,
-    pyPostEffectMod_cameraToWorld_getset,
+    pyPostEffectMod_nodeKey_getset,
+    pyPostEffectMod_defaultW2C_getset,
+    pyPostEffectMod_defaultC2W_getset,
     PY_GETSET_TERMINATOR
 };
 
@@ -49,7 +49,7 @@ PY_PLASMA_TYPE_INIT(PostEffectMod) {
     pyPostEffectMod_Type.tp_new = pyPostEffectMod_new;
     pyPostEffectMod_Type.tp_getset = pyPostEffectMod_GetSet;
     pyPostEffectMod_Type.tp_base = &pySingleModifier_Type;
-    if (PyType_Ready(&pyPostEffectMod_Type) < 0)
+    if (PyType_CheckAndReady(&pyPostEffectMod_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyPostEffectMod_Type);

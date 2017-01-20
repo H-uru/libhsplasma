@@ -62,10 +62,9 @@ public:
     void setTagID(unsigned int id) { fTagID = id; }
     void setVersion(unsigned int version) { fVersion = version; }
     void setRenderMod(plKey mod) { fRenderMod = mod; }
-    void setName(ST::string name) { fName = name; }
+    void setName(const ST::string& name) { fName = name; }
     void setProcReceiver(plKey receiver) { fProcReceiver = receiver; }
     void setSceneNode(plKey node) { fSceneNode = node; }
-    void setColorScheme(pfGUIColorScheme scheme) { fColorScheme = scheme; }
 };
 
 #endif

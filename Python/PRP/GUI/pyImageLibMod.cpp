@@ -24,7 +24,7 @@ extern "C" {
 PY_PLASMA_NEW(ImageLibMod, plImageLibMod)
 
 PY_METHOD_VA(ImageLibMod, addImage,
-    "Params: animation key\n"
+    "Params: image key\n"
     "Add an image to the library")
 {
     pyKey* key;
@@ -86,10 +86,10 @@ PY_PLASMA_TYPE(ImageLibMod, pfImageLibMod, "plImageLibMod wrapper");
 
 PY_PLASMA_TYPE_INIT(ImageLibMod) {
     pyImageLibMod_Type.tp_new = pyImageLibMod_new;
-    pyImageLibMod_Type.tp_getset = pyImageLibMod_GetSet;
     pyImageLibMod_Type.tp_methods = pyImageLibMod_Methods;
+    pyImageLibMod_Type.tp_getset = pyImageLibMod_GetSet;
     pyImageLibMod_Type.tp_base = &pySingleModifier_Type;
-    if (PyType_Ready(&pyImageLibMod_Type) < 0)
+    if (PyType_CheckAndReady(&pyImageLibMod_Type) < 0)
         return NULL;
 
     Py_INCREF(&pyImageLibMod_Type);
