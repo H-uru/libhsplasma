@@ -18,8 +18,6 @@
 
 #include <PRP/plCreatable.h>
 
-extern "C" {
-
 PY_PLASMA_INIT_DECL(CreatableStub) {
     int classId, length;
     if (!PyArg_ParseTuple(args, "ii", &classId, &length)) {
@@ -71,5 +69,3 @@ PY_PLASMA_TYPE_INIT(CreatableStub) {
 }
 
 PY_PLASMA_IFC_METHODS(CreatableStub, const plCreatableStub)
-
-}

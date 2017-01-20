@@ -23,8 +23,6 @@
 #include "pySpanInstance.h"
 #include "Stream/pyStream.h"
 
-extern "C" {
-
 PY_PLASMA_DEALLOC(Cluster)
 PY_PLASMA_EMPTY_INIT(Cluster)
 PY_PLASMA_NEW(Cluster, plCluster)
@@ -147,5 +145,3 @@ PY_PLASMA_TYPE_INIT(Cluster) {
 }
 
 PY_PLASMA_IFC_METHODS(Cluster, plCluster)
-
-}

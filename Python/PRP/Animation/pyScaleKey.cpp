@@ -19,8 +19,6 @@
 #include <PRP/Animation/hsKeys.h>
 #include "Math/pyGeometry3.h"
 
-extern "C" {
-
 PY_PLASMA_EMPTY_INIT(ScaleKey)
 PY_PLASMA_NEW(ScaleKey, hsScaleKey)
 
@@ -74,5 +72,3 @@ PY_PLASMA_TYPE_INIT(ScaleKey) {
 }
 
 PY_PLASMA_IFC_METHODS(ScaleKey, hsScaleKey)
-
-}

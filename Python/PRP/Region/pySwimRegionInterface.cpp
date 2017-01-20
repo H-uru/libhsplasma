@@ -19,8 +19,6 @@
 #include <PRP/Region/plSwimRegion.h>
 #include "PRP/Object/pyObjInterface.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(SwimRegionInterface, plSwimRegionInterface)
 
 PY_PROPERTY(float, SwimRegionInterface, downBuoyancy, getDownBuoyancy, setDownBuoyancy)
@@ -51,5 +49,3 @@ PY_PLASMA_TYPE_INIT(SwimRegionInterface) {
 }
 
 PY_PLASMA_IFC_METHODS(SwimRegionInterface, plSwimRegionInterface);
-
-}

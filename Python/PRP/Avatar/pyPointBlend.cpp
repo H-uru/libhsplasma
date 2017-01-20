@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plPointChannel.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(PointBlend, plPointBlend)
 
 PY_PLASMA_TYPE(PointBlend, plPointBlend, "plPointBlend wrapper")
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(PointBlend) {
 }
 
 PY_PLASMA_IFC_METHODS(PointBlend, plPointBlend)
-
-}

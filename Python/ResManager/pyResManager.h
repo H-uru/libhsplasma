@@ -23,11 +23,7 @@ PY_WRAP_PLASMA(ResManager, class plResManager);
 PY_WRAP_PLASMA(PageInfo, class plPageInfo);
 PY_WRAP_PLASMA(AgeInfo, class plAgeInfo);
 
-extern "C" {
-
 extern PyTypeObject pyFactory_Type;
 PyObject* Init_pyFactory_Type();
-
-}
 
 #endif

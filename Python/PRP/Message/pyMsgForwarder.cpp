@@ -21,8 +21,6 @@
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(MsgForwarder, plMsgForwarder)
 
 PY_METHOD_NOARGS(MsgForwarder, clearForwardKeys,
@@ -99,5 +97,3 @@ PY_PLASMA_TYPE_INIT(MsgForwarder) {
 }
 
 PY_PLASMA_IFC_METHODS(MsgForwarder, plMsgForwarder)
-
-}

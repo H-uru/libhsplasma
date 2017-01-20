@@ -20,8 +20,6 @@
 #include "PRP/pyCreatable.h"
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(SoftVolumeComplex, "plSoftVolumeComplex is abstract")
 
 PY_METHOD_VA(SoftVolumeComplex, addSubVolume,
@@ -99,5 +97,3 @@ PY_PLASMA_TYPE_INIT(SoftVolumeComplex) {
 }
 
 PY_PLASMA_IFC_METHODS(SoftVolumeComplex, plSoftVolumeComplex)
-
-}

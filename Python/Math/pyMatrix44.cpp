@@ -20,8 +20,6 @@
 #include "pyGeometry3.h"
 #include "Stream/pyStream.h"
 
-extern "C" {
-
 PY_PLASMA_VALUE_DEALLOC(Matrix44)
 
 PY_PLASMA_INIT_DECL(Matrix44) {
@@ -408,5 +406,3 @@ PY_PLASMA_TYPE_INIT(Matrix44) {
 }
 
 PY_PLASMA_VALUE_IFC_METHODS(Matrix44, hsMatrix44)
-
-}

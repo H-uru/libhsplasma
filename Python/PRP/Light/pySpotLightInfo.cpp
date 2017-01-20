@@ -19,8 +19,6 @@
 #include <PRP/Light/plOmniLightInfo.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(SpotLightInfo, plSpotLightInfo)
 
 PY_PROPERTY(float, SpotLightInfo, falloff, getFalloff, setFalloff)
@@ -48,5 +46,3 @@ PY_PLASMA_TYPE_INIT(SpotLightInfo) {
 }
 
 PY_PLASMA_IFC_METHODS(SpotLightInfo, plSpotLightInfo)
-
-}

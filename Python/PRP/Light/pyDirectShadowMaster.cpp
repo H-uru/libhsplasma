@@ -19,8 +19,6 @@
 #include <PRP/Light/plShadowMaster.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(DirectShadowMaster, plDirectShadowMaster)
 
 PY_PLASMA_TYPE(DirectShadowMaster, plDirectShadowMaster,
@@ -37,5 +35,3 @@ PY_PLASMA_TYPE_INIT(DirectShadowMaster) {
 }
 
 PY_PLASMA_IFC_METHODS(DirectShadowMaster, plDirectShadowMaster)
-
-}

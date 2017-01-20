@@ -24,8 +24,6 @@
 #include "Math/pyMatrix.h"
 #include "Sys/pyColor.h"
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(LayerInterface, "plLayerInterface is abstract")
 
 PY_PROPERTY(plKey, LayerInterface, underLay, getUnderLay, setUnderLay)
@@ -102,5 +100,3 @@ PY_PLASMA_TYPE_INIT(LayerInterface) {
 }
 
 PY_PLASMA_IFC_METHODS(LayerInterface, plLayerInterface)
-
-}

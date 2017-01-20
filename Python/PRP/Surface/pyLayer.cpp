@@ -19,8 +19,6 @@
 #include <PRP/Surface/plLayer.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(Layer, plLayer)
 
 PY_PLASMA_TYPE(Layer, plLayer, "plLayer wrapper")
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(Layer) {
 }
 
 PY_PLASMA_IFC_METHODS(Layer, plLayer)
-
-}

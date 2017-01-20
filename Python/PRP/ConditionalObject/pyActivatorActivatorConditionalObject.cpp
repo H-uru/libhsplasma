@@ -19,8 +19,6 @@
 #include <PRP/ConditionalObject/plActivatorConditionalObject.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(ActivatorActivatorConditionalObject, plActivatorActivatorConditionalObject)
 
 PY_PLASMA_TYPE(ActivatorActivatorConditionalObject, plActivatorActivatorConditionalObject,
@@ -37,5 +35,3 @@ PY_PLASMA_TYPE_INIT(ActivatorActivatorConditionalObject) {
 }
 
 PY_PLASMA_IFC_METHODS(ActivatorActivatorConditionalObject, plActivatorActivatorConditionalObject)
-
-};

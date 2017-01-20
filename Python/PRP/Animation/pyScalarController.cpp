@@ -19,8 +19,6 @@
 #include <PRP/Animation/plKeyControllers.hpp>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_EMPTY_INIT(ScalarController)
 PY_PLASMA_NEW(ScalarController, plScalarController)
 
@@ -38,5 +36,3 @@ PY_PLASMA_TYPE_INIT(ScalarController) {
 }
 
 PY_PLASMA_IFC_METHODS(ScalarController, plScalarController)
-
-}

@@ -21,8 +21,6 @@
 #include "PRP/pyCreatable.h"
 #include "PRP/Object/pySynchedObject.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(AGAnim, plAGAnim)
 
 PY_METHOD_NOARGS(AGAnim, clearApplicators, "Remove all plAGApplicators from the anim") {
@@ -114,5 +112,3 @@ PY_PLASMA_TYPE_INIT(AGAnim) {
 }
 
 PY_PLASMA_IFC_METHODS(AGAnim, plAGAnim)
-
-}

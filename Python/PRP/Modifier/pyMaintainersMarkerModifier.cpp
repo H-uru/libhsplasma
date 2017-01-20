@@ -20,8 +20,6 @@
 #include "pyModifier.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(MaintainersMarkerModifier, plMaintainersMarkerModifier)
 
 PY_PROPERTY(unsigned int, MaintainersMarkerModifier, calibration,
@@ -54,5 +52,3 @@ PY_PLASMA_TYPE_INIT(MaintainersMarkerModifier) {
 }
 
 PY_PLASMA_IFC_METHODS(MaintainersMarkerModifier, plMaintainersMarkerModifier)
-
-}

@@ -22,8 +22,6 @@
 #include "PRP/pyCreatable.h"
 #include "PRP/Surface/pyBitmap.h"
 
-extern "C" {
-
 PY_PLASMA_DEALLOC(DDSurface)
 PY_PLASMA_EMPTY_INIT(DDSurface)
 PY_PLASMA_NEW(DDSurface, plDDSurface)
@@ -493,5 +491,3 @@ PY_PLASMA_TYPE_INIT(DDSurface) {
 }
 
 PY_PLASMA_IFC_METHODS(DDSurface, plDDSurface)
-
-}

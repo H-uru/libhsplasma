@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plScalarChannel.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(ScalarBlend, plScalarBlend)
 
 PY_PLASMA_TYPE(ScalarBlend, plScalarBlend, "plScalarBlend wrapper")
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(ScalarBlend) {
 }
 
 PY_PLASMA_IFC_METHODS(ScalarBlend, plScalarBlend)
-
-}

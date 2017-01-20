@@ -19,8 +19,6 @@
 #include <PRP/Animation/hsKeys.h>
 #include "Stream/pyStream.h"
 
-extern "C" {
-
 PY_PLASMA_DEALLOC(KeyFrame)
 PY_PLASMA_NEW_MSG(KeyFrame, "hsKeyFrame is abstract")
 
@@ -105,5 +103,3 @@ PY_PLASMA_TYPE_INIT(KeyFrame) {
 }
 
 PY_PLASMA_IFC_METHODS(KeyFrame, hsKeyFrame)
-
-}

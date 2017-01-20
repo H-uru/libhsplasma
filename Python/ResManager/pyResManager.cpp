@@ -24,8 +24,6 @@
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/KeyedObject/pyKeyedObject.h"
 
-extern "C" {
-
 PY_PLASMA_DEALLOC(ResManager)
 
 PY_PLASMA_INIT_DECL(ResManager) {
@@ -626,5 +624,3 @@ PY_PLASMA_TYPE_INIT(ResManager) {
 }
 
 PY_PLASMA_IFC_METHODS(ResManager, plResManager)
-
-}

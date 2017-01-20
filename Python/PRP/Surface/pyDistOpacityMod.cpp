@@ -19,8 +19,6 @@
 #include <PRP/Surface/plDistOpacityMod.h>
 #include "pyDistOpacityMod.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(DistOpacityMod, plDistOpacityMod)
 
 #define DOM_DISTANCE(propName, distEnum)                                \
@@ -65,5 +63,3 @@ PY_PLASMA_TYPE_INIT(DistOpacityMod) {
 }
 
 PY_PLASMA_IFC_METHODS(DistOpacityMod, plDistOpacityMod)
-
-}

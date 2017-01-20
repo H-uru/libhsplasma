@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plATCAnim.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(AGAnimBink, plAGAnimBink)
 
 PY_PROPERTY(ST::string, AGAnimBink, binkFilename, getBinkFilename, setBinkFilename)
@@ -48,5 +46,3 @@ PY_PLASMA_TYPE_INIT(AGAnimBink) {
 }
 
 PY_PLASMA_IFC_METHODS(AGAnimBink, plAGAnimBink)
-
-}

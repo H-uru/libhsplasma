@@ -21,8 +21,6 @@
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(ClothingItem, plClothingItem)
 
 PY_METHOD_VA(ClothingItem, getMesh,
@@ -92,5 +90,3 @@ PY_PLASMA_TYPE_INIT(ClothingItem) {
 }
 
 PY_PLASMA_IFC_METHODS(ClothingItem, plClothingItem)
-
-}

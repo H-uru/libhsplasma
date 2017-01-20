@@ -21,8 +21,6 @@
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/Modifier/pyModifier.h"
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(DetectorModifier, "plDetectorModifier is abstract")
 
 PY_METHOD_VA(DetectorModifier, addReceiver,
@@ -103,5 +101,3 @@ PY_PLASMA_TYPE_INIT(DetectorModifier) {
 }
 
 PY_PLASMA_IFC_METHODS(DetectorModifier, plDetectorModifier)
-
-};

@@ -20,8 +20,6 @@
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(LayerLinkAnimation, plLayerLinkAnimation)
 
 PY_PROPERTY(plKey, LayerLinkAnimation, linkKey, getLinkKey, setLinkKey)
@@ -48,5 +46,3 @@ PY_PLASMA_TYPE_INIT(LayerLinkAnimation) {
 }
 
 PY_PLASMA_IFC_METHODS(LayerLinkAnimation, plLayerLinkAnimation)
-
-}

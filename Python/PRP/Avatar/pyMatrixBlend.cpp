@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plMatrixChannel.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(MatrixBlend, plMatrixBlend)
 
 PY_PLASMA_TYPE(MatrixBlend, plMatrixBlend, "plMatrixBlend wrapper")
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(MatrixBlend) {
 }
 
 PY_PLASMA_IFC_METHODS(MatrixBlend, plMatrixBlend)
-
-}

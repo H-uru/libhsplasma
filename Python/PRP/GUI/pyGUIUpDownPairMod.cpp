@@ -19,8 +19,6 @@
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/GUI/pyGUIValueCtrl.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(GUIUpDownPairMod, pfGUIUpDownPairMod)
 
 PY_PROPERTY(plKey, GUIUpDownPairMod, upControl, getUpControl, setUpControl)
@@ -32,7 +30,7 @@ static PyGetSetDef pyGUIUpDownPairMod_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PY_PLASMA_TYPE(GUIUpDownPairMod, pfGUIUpDownPairMod, "pfGUIUpDownPairMod wrapper");
+PY_PLASMA_TYPE(GUIUpDownPairMod, pfGUIUpDownPairMod, "pfGUIUpDownPairMod wrapper")
 
 PY_PLASMA_TYPE_INIT(GUIUpDownPairMod) {
     pyGUIUpDownPairMod_Type.tp_new = pyGUIUpDownPairMod_new;
@@ -46,5 +44,3 @@ PY_PLASMA_TYPE_INIT(GUIUpDownPairMod) {
 }
 
 PY_PLASMA_IFC_METHODS(GUIUpDownPairMod, pfGUIUpDownPairMod)
-
-}

@@ -21,8 +21,6 @@
 #include "PRP/Modifier/pyModifier.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(SimpleRegionSensor, plSimpleRegionSensor)
 
 PY_PROPERTY_CREATABLE(plMessage, Message, SimpleRegionSensor, enterMsg,
@@ -51,5 +49,3 @@ PY_PLASMA_TYPE_INIT(SimpleRegionSensor) {
 }
 
 PY_PLASMA_IFC_METHODS(SimpleRegionSensor, plSimpleRegionSensor);
-
-}

@@ -18,8 +18,6 @@
 
 #include "PRP/Modifier/pyModifier.h"
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(WaveSetBase, "plWaveSetBase is abstract")
 
 PY_PLASMA_TYPE(WaveSetBase, plWaveSetBase, "plWaveSetBase wrapper")
@@ -35,5 +33,3 @@ PY_PLASMA_TYPE_INIT(WaveSetBase) {
 }
 
 PY_PLASMA_IFC_METHODS(WaveSetBase, plWaveSetBase)
-
-}

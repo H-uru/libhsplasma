@@ -18,8 +18,6 @@
 
 #include <PRP/Region/plSoftVolume.h>
 
-extern "C" {
-
 PY_PLASMA_NEW(SoftVolumeUnion, plSoftVolumeUnion)
 
 PY_PLASMA_TYPE(SoftVolumeUnion, plSoftVolumeUnion, "plSoftVolumeUnion wrapper")
@@ -35,5 +33,3 @@ PY_PLASMA_TYPE_INIT(SoftVolumeUnion) {
 }
 
 PY_PLASMA_IFC_METHODS(SoftVolumeUnion, plSoftVolumeUnion)
-
-}

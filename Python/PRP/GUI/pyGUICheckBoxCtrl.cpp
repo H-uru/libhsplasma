@@ -19,8 +19,6 @@
 #include "PRP/GUI/pyGUIControlMod.h"
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(GUICheckBoxCtrl, pfGUICheckBoxCtrl)
 
 PY_METHOD_VA(GUICheckBoxCtrl, addAnimKey,
@@ -86,8 +84,7 @@ static PyGetSetDef pyGUICheckBoxCtrl_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PY_PLASMA_TYPE(GUICheckBoxCtrl, pfGUICheckBoxCtrl, "pfGUICheckBoxCtrl wrapper");
-
+PY_PLASMA_TYPE(GUICheckBoxCtrl, pfGUICheckBoxCtrl, "pfGUICheckBoxCtrl wrapper")
 
 PY_PLASMA_TYPE_INIT(GUICheckBoxCtrl) {
     pyGUICheckBoxCtrl_Type.tp_new = pyGUICheckBoxCtrl_new;
@@ -102,5 +99,3 @@ PY_PLASMA_TYPE_INIT(GUICheckBoxCtrl) {
 }
 
 PY_PLASMA_IFC_METHODS(GUICheckBoxCtrl, pfGUICheckBoxCtrl)
-
-}

@@ -21,8 +21,6 @@
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(PythonFileMod, plPythonFileMod)
 
 PY_METHOD_NOARGS(PythonFileMod, clearReceivers,
@@ -125,5 +123,3 @@ PY_PLASMA_TYPE_INIT(PythonFileMod) {
 }
 
 PY_PLASMA_IFC_METHODS(PythonFileMod, plPythonFileMod)
-
-}

@@ -18,8 +18,6 @@
 
 #include <PRP/Geometry/plDrawableSpans.h>
 
-extern "C" {
-
 PY_PLASMA_VALUE_DEALLOC(DISpanIndex)
 PY_PLASMA_EMPTY_INIT(DISpanIndex)
 PY_PLASMA_VALUE_NEW(DISpanIndex, plDISpanIndex)
@@ -79,5 +77,3 @@ PY_PLASMA_TYPE_INIT(DISpanIndex) {
 }
 
 PY_PLASMA_VALUE_IFC_METHODS(DISpanIndex, plDISpanIndex)
-
-}

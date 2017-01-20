@@ -20,8 +20,6 @@
 #include "Stream/pyStream.h"
 #include "ResManager/pyResManager.h"
 
-extern "C" {
-
 PY_PLASMA_DEALLOC(EventData)
 PY_PLASMA_EMPTY_INIT(EventData)
 PY_PLASMA_NEW_MSG(EventData, "proEventData is abstract")
@@ -120,5 +118,3 @@ PY_PLASMA_TYPE_INIT(EventData) {
 }
 
 PY_PLASMA_IFC_METHODS(EventData, proEventData)
-
-}

@@ -20,8 +20,6 @@
 #include "Math/pyGeometry3.h"
 #include "Sys/pyColor.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(FixedWaterState7, plFixedWaterState7)
 
 PY_PROPERTY_PROXY(plFixedWaterState7::WaveState, FixedWaterState7, geoState, getGeoState)
@@ -90,5 +88,3 @@ PY_PLASMA_TYPE_INIT(FixedWaterState7) {
 }
 
 PY_PLASMA_IFC_METHODS(FixedWaterState7, plFixedWaterState7)
-
-}

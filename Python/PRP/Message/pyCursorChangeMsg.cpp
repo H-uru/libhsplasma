@@ -19,8 +19,6 @@
 #include <PRP/Message/plCursorChangeMsg.h>
 #include "pyMessage.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(CursorChangeMsg, plCursorChangeMsg)
 
 PY_PROPERTY(int, CursorChangeMsg, type, getType, setType)
@@ -60,5 +58,3 @@ PY_PLASMA_TYPE_INIT(CursorChangeMsg) {
 }
 
 PY_PLASMA_IFC_METHODS(CursorChangeMsg, plCursorChangeMsg)
-
-}

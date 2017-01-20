@@ -19,8 +19,6 @@
 #include <PRP/ConditionalObject/plControlEventConditionalObject.h>
 #include "pyConditionalObject.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(ControlEventConditionalObject, plControlEventConditionalObject)
 
 PY_PROPERTY(ControlEventCode, ControlEventConditionalObject, controlEvent,
@@ -46,5 +44,3 @@ PY_PLASMA_TYPE_INIT(ControlEventConditionalObject) {
 }
 
 PY_PLASMA_IFC_METHODS(ControlEventConditionalObject, plControlEventConditionalObject)
-
-};

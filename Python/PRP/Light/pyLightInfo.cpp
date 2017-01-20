@@ -23,8 +23,6 @@
 #include "Sys/pyColor.h"
 #include "Math/pyMatrix.h"
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(LightInfo, "plLightInfo is abstract")
 
 PY_METHOD_NOARGS(LightInfo, clearVisRegions, "Remove all VisRegions from the light") {
@@ -113,5 +111,3 @@ PY_PLASMA_TYPE_INIT(LightInfo) {
 }
 
 PY_PLASMA_IFC_METHODS(LightInfo, plLightInfo)
-
-}

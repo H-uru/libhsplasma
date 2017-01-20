@@ -20,8 +20,6 @@
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(LogicModifier, plLogicModifier)
 
 PY_METHOD_NOARGS(LogicModifier, clearConditions, "Remove all condition keys") {
@@ -101,5 +99,3 @@ PY_PLASMA_TYPE_INIT(LogicModifier) {
 }
 
 PY_PLASMA_IFC_METHODS(LogicModifier, plLogicModifier)
-
-}

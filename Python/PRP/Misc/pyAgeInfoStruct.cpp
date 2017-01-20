@@ -20,8 +20,6 @@
 #include <Sys/plUuid.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(AgeInfoStruct, plAgeInfoStruct)
 
 PY_PROPERTY(ST::string, AgeInfoStruct, ageFilename, getAgeFilename, setAgeFilename)
@@ -70,5 +68,3 @@ PY_PLASMA_TYPE_INIT(AgeInfoStruct) {
 }
 
 PY_PLASMA_IFC_METHODS(AgeInfoStruct, plAgeInfoStruct)
-
-}

@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plPointChannel.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(PointTimeScale, plPointTimeScale)
 
 PY_PLASMA_TYPE(PointTimeScale, plPointTimeScale, "plPointTimeScale wrapper")
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(PointTimeScale) {
 }
 
 PY_PLASMA_IFC_METHODS(PointTimeScale, plPointTimeScale)
-
-}

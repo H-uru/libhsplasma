@@ -19,8 +19,6 @@
 #include <Debug/plDebug.h>
 #include "Stream/pyStream.h"
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(Debug, "plDebug is static")
 
 PY_METHOD_STATIC_VA(Debug, Init,
@@ -120,6 +118,4 @@ PY_PLASMA_TYPE_INIT(Debug) {
 
     Py_INCREF(&pyDebug_Type);
     return (PyObject*)&pyDebug_Type;
-}
-
 }

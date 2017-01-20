@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plPointChannel.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(PointChannelApplicator, plPointChannelApplicator)
 
 PY_PLASMA_TYPE(PointChannelApplicator, plPointChannelApplicator,
@@ -37,5 +35,3 @@ PY_PLASMA_TYPE_INIT(PointChannelApplicator) {
 }
 
 PY_PLASMA_IFC_METHODS(PointChannelApplicator, plPointChannelApplicator)
-
-}

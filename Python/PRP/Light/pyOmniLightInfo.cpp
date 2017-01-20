@@ -19,8 +19,6 @@
 #include <PRP/Light/plOmniLightInfo.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(OmniLightInfo, plOmniLightInfo)
 
 PY_PROPERTY(float, OmniLightInfo, attenConst, getAttenConst, setAttenConst)
@@ -50,5 +48,3 @@ PY_PLASMA_TYPE_INIT(OmniLightInfo) {
 }
 
 PY_PLASMA_IFC_METHODS(OmniLightInfo, plOmniLightInfo)
-
-}

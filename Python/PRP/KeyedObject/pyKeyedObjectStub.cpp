@@ -20,8 +20,6 @@
 #include "pyKey.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_INIT_DECL(KeyedObjectStub) {
     const char* name = "";
     if (!PyArg_ParseTuple(args, "|s", &name)) {
@@ -57,5 +55,3 @@ PY_PLASMA_TYPE_INIT(KeyedObjectStub) {
 }
 
 PY_PLASMA_IFC_METHODS(KeyedObjectStub, hsKeyedObjectStub)
-
-}

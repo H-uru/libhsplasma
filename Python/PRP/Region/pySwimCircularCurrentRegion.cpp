@@ -19,8 +19,6 @@
 #include "PRP/KeyedObject/pyKey.h"
 #include <PRP/Region/plSwimRegion.h>
 
-extern "C" {
-
 PY_PLASMA_NEW(SwimCircularCurrentRegion, plSwimCircularCurrentRegion)
 
 PY_PROPERTY(float, SwimCircularCurrentRegion, rotation, getRotation, setRotation)
@@ -55,5 +53,3 @@ PY_PLASMA_TYPE_INIT(SwimCircularCurrentRegion) {
 }
 
 PY_PLASMA_IFC_METHODS(SwimCircularCurrentRegion, plSwimCircularCurrentRegion);
-
-}

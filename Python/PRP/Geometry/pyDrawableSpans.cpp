@@ -26,8 +26,6 @@
 #include "PRP/Region/pyBounds.h"
 #include "Math/pyMatrix.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(DrawableSpans, plDrawableSpans)
 
 PY_METHOD_NOARGS(DrawableSpans, clearSpans,
@@ -545,5 +543,3 @@ PY_PLASMA_TYPE_INIT(DrawableSpans) {
 }
 
 PY_PLASMA_IFC_METHODS(DrawableSpans, plDrawableSpans)
-
-}

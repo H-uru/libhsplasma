@@ -19,8 +19,6 @@
 #include <PRP/Geometry/plSpaceTree.h>
 #include "PRP/Region/pyBounds.h"
 
-extern "C" {
-
 PY_PLASMA_VALUE_DEALLOC(SpaceTreeNode)
 PY_PLASMA_EMPTY_INIT(SpaceTreeNode)
 PY_PLASMA_VALUE_NEW(SpaceTreeNode, plSpaceTreeNode)
@@ -106,5 +104,3 @@ PY_PLASMA_TYPE_INIT(SpaceTreeNode) {
 }
 
 PY_PLASMA_VALUE_IFC_METHODS(SpaceTreeNode, plSpaceTreeNode)
-
-}

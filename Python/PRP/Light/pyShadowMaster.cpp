@@ -20,8 +20,6 @@
 #include "PRP/Object/pyObjInterface.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(ShadowMaster, plShadowMaster)
 
 PY_PROPERTY(float, ShadowMaster, attenDist, getAttenDist, setAttenDist)
@@ -59,5 +57,3 @@ PY_PLASMA_TYPE_INIT(ShadowMaster) {
 }
 
 PY_PLASMA_IFC_METHODS(ShadowMaster, plShadowMaster)
-
-}

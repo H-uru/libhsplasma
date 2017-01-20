@@ -18,8 +18,6 @@
 
 #include <Stream/hsStream.h>
 
-extern "C" {
-
 PY_PLASMA_DEALLOC(Stream)
 
 PY_PLASMA_INIT_DECL(Stream) {
@@ -426,5 +424,3 @@ PY_PLASMA_TYPE_INIT(Stream) {
 }
 
 PY_PLASMA_IFC_METHODS(Stream, hsStream)
-
-}

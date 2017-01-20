@@ -19,8 +19,6 @@
 #include <PRP/Message/plResponderMsg.h>
 #include "pyMessage.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(ResponderMsg, plResponderMsg)
 
 PY_PLASMA_TYPE(ResponderMsg, plResponderMsg, "plResponderMsg wrapper")
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(ResponderMsg) {
 }
 
 PY_PLASMA_IFC_METHODS(ResponderMsg, plResponderMsg)
-
-}

@@ -19,8 +19,6 @@
 #include <PRP/Animation/hsKeys.h>
 #include "Math/pyGeometry3.h"
 
-extern "C" {
-
 PY_PLASMA_EMPTY_INIT(CompressedQuatKey64)
 PY_PLASMA_NEW(CompressedQuatKey64, hsCompressedQuatKey64)
 
@@ -79,5 +77,3 @@ PY_PLASMA_TYPE_INIT(CompressedQuatKey64) {
 }
 
 PY_PLASMA_IFC_METHODS(CompressedQuatKey64, hsCompressedQuatKey64)
-
-}

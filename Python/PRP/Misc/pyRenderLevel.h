@@ -19,11 +19,7 @@
 
 #include "PyPlasma.h"
 
-extern "C" {
-
 extern PyTypeObject pyRenderLevel_Type;
 PyObject* Init_pyRenderLevel_Type();
-
-}
 
 #endif

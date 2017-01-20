@@ -23,8 +23,6 @@
 #include "PRP/pyCreatable.h"
 #include "Util/pyBitVector.h"
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(LogicModBase, "plLogicModBase is abstract")
 
 PY_METHOD_NOARGS(LogicModBase, clearCommands, "Remove all commands") {
@@ -141,5 +139,3 @@ PY_PLASMA_TYPE_INIT(LogicModBase) {
 }
 
 PY_PLASMA_IFC_METHODS(LogicModBase, plLogicModBase)
-
-}

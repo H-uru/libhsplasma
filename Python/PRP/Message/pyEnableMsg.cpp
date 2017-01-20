@@ -19,8 +19,6 @@
 #include <PRP/Message/plEnableMsg.h>
 #include "pyMessage.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(EnableMsg, plEnableMsg)
 
 PY_METHOD_VA(EnableMsg, getCmd, "Params: cmd") {
@@ -91,5 +89,3 @@ PY_PLASMA_TYPE_INIT(EnableMsg) {
 }
 
 PY_PLASMA_IFC_METHODS(EnableMsg, plEnableMsg)
-
-};

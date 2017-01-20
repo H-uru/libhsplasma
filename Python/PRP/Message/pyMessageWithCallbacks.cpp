@@ -20,8 +20,6 @@
 #include "pyMessage.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(MessageWithCallbacks, plMessageWithCallbacks)
 
 PY_METHOD_VA(MessageWithCallbacks, addCallback,
@@ -101,5 +99,3 @@ PY_PLASMA_TYPE_INIT(MessageWithCallbacks) {
 }
 
 PY_PLASMA_IFC_METHODS(MessageWithCallbacks, plMessageWithCallbacks)
-
-};

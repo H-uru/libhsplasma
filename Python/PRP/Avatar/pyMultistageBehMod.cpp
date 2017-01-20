@@ -21,8 +21,6 @@
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(MultistageBehMod, plMultistageBehMod)
 
 PY_METHOD_VA(MultistageBehMod, addStage,
@@ -159,5 +157,3 @@ PY_PLASMA_TYPE_INIT(MultistageBehMod) {
 }
 
 PY_PLASMA_IFC_METHODS(MultistageBehMod, plMultistageBehMod)
-
-}

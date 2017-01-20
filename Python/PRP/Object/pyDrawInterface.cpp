@@ -20,8 +20,6 @@
 #include "PRP/pyCreatable.h"
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(DrawInterface, plDrawInterface)
 
 PY_METHOD_NOARGS(DrawInterface, clearDrawables,
@@ -156,5 +154,3 @@ PY_PLASMA_TYPE_INIT(DrawInterface) {
 }
 
 PY_PLASMA_IFC_METHODS(DrawInterface, plDrawInterface)
-
-}

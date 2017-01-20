@@ -20,8 +20,6 @@
 #include "pyMessage.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(EventCallbackMsg, plEventCallbackMsg)
 
 PY_PROPERTY(float, EventCallbackMsg, eventTime, getEventTime, setEventTime)
@@ -53,5 +51,3 @@ PY_PLASMA_TYPE_INIT(EventCallbackMsg) {
 }
 
 PY_PLASMA_IFC_METHODS(EventCallbackMsg, plEventCallbackMsg)
-
-}

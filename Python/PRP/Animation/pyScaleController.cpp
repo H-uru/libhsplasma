@@ -20,8 +20,6 @@
 #include "pyController.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(ScaleController, "plScaleController is abstract")
 
 PY_PROPERTY_RO(ScaleController, type, getType)
@@ -47,5 +45,3 @@ PY_PLASMA_TYPE_INIT(ScaleController) {
 }
 
 PY_PLASMA_IFC_METHODS(ScaleController, plScaleController)
-
-}

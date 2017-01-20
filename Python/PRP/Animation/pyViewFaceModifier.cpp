@@ -24,8 +24,6 @@
 #include "Math/pyGeometry3.h"
 #include "Math/pyMatrix.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(ViewFaceModifier, plViewFaceModifier)
 
 PY_PROPERTY(hsVector3, ViewFaceModifier, scale, getScale, setScale)
@@ -72,5 +70,3 @@ PY_PLASMA_TYPE_INIT(ViewFaceModifier) {
 }
 
 PY_PLASMA_IFC_METHODS(ViewFaceModifier, plViewFaceModifier)
-
-}

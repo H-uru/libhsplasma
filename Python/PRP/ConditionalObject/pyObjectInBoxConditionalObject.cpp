@@ -19,8 +19,6 @@
 #include <PRP/ConditionalObject/plDetectConditionalObjects.hpp>
 #include "pyConditionalObject.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(ObjectInBoxConditionalObject, plObjectInBoxConditionalObject)
 
 PY_PLASMA_TYPE(ObjectInBoxConditionalObject, plObjectInBoxConditionalObject,
@@ -37,5 +35,3 @@ PY_PLASMA_TYPE_INIT(ObjectInBoxConditionalObject) {
 }
 
 PY_PLASMA_IFC_METHODS(ObjectInBoxConditionalObject, plObjectInBoxConditionalObject)
-
-};

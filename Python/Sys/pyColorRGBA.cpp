@@ -20,8 +20,6 @@
 #include "Stream/pyStream.h"
 #include <string_theory/format>
 
-extern "C" {
-
 PY_PLASMA_VALUE_DEALLOC(ColorRGBA)
 
 PY_PLASMA_INIT_DECL(ColorRGBA) {
@@ -210,5 +208,3 @@ PY_PLASMA_TYPE_INIT(ColorRGBA) {
 }
 
 PY_PLASMA_VALUE_IFC_METHODS(ColorRGBA, hsColorRGBA)
-
-}

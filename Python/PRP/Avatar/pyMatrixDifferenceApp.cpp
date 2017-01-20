@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plMatrixChannel.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(MatrixDifferenceApp, plMatrixDifferenceApp)
 
 PY_PLASMA_TYPE(MatrixDifferenceApp, plMatrixDifferenceApp,
@@ -37,5 +35,3 @@ PY_PLASMA_TYPE_INIT(MatrixDifferenceApp) {
 }
 
 PY_PLASMA_IFC_METHODS(MatrixDifferenceApp, plMatrixDifferenceApp)
-
-}

@@ -19,8 +19,6 @@
 #include <PRP/Surface/plLayerMovie.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(LayerBink, plLayerBink)
 
 PY_PLASMA_TYPE(LayerBink, plLayerBink, "plLayerBink wrapper")
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(LayerBink) {
 }
 
 PY_PLASMA_IFC_METHODS(LayerBink, plLayerBink)
-
-}

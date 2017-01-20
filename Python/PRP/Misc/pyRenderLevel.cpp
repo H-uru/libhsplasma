@@ -18,8 +18,6 @@
 
 #include <PRP/Misc/plRenderLevel.h>
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(RenderLevel, "Cannot construct plRenderLevel objects")
 
 typedef PyObject pyRenderLevel;
@@ -43,6 +41,4 @@ PY_PLASMA_TYPE_INIT(RenderLevel) {
 
     Py_INCREF(&pyRenderLevel_Type);
     return (PyObject*)&pyRenderLevel_Type;
-}
-
 }

@@ -20,8 +20,6 @@
 #include "PRP/pyCreatable.h"
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(AudioInterface, plAudioInterface)
 
 PY_PROPERTY(plKey, AudioInterface, audible, getAudible, setAudible)
@@ -45,5 +43,3 @@ PY_PLASMA_TYPE_INIT(AudioInterface) {
 }
 
 PY_PLASMA_IFC_METHODS(AudioInterface, plAudioInterface)
-
-}

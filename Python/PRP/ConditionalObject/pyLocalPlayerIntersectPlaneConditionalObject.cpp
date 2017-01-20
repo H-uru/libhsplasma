@@ -19,8 +19,6 @@
 #include <PRP/ConditionalObject/plDetectConditionalObjects.hpp>
 #include "pyConditionalObject.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(LocalPlayerIntersectPlaneConditionalObject,
               plLocalPlayerIntersectPlaneConditionalObject)
 
@@ -40,5 +38,3 @@ PY_PLASMA_TYPE_INIT(LocalPlayerIntersectPlaneConditionalObject) {
 
 PY_PLASMA_IFC_METHODS(LocalPlayerIntersectPlaneConditionalObject,
                       plLocalPlayerIntersectPlaneConditionalObject)
-
-};

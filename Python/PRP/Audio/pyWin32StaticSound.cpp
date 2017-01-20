@@ -19,8 +19,6 @@
 #include <PRP/Audio/plWin32StaticSound.h>
 #include "pyWin32Sound.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(Win32StaticSound, plWin32StaticSound)
 
 PY_PLASMA_TYPE(Win32StaticSound, plWin32StaticSound, "plWin32StaticSound wrapper")
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(Win32StaticSound) {
 }
 
 PY_PLASMA_IFC_METHODS(Win32StaticSound, plWin32StaticSound)
-
-}

@@ -20,8 +20,6 @@
 #include "PRP/pyCreatable.h"
 #include "PRP/Message/pyMessage.h"
 
-extern "C" {
-
 PY_PLASMA_DEALLOC(ResponderModifier_Cmd)
 
 PY_PLASMA_INIT_DECL(ResponderModifier_Cmd) {
@@ -72,5 +70,3 @@ PY_PLASMA_TYPE_INIT(ResponderModifier_Cmd) {
 }
 
 PY_PLASMA_IFC_METHODS(ResponderModifier_Cmd, plResponderModifier::plResponderCmd)
-
-}

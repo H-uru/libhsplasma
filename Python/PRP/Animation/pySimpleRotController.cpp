@@ -20,8 +20,6 @@
 #include "pyLeafController.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_EMPTY_INIT(SimpleRotController)
 PY_PLASMA_NEW(SimpleRotController, plSimpleRotController)
 
@@ -49,5 +47,3 @@ PY_PLASMA_TYPE_INIT(SimpleRotController) {
 }
 
 PY_PLASMA_IFC_METHODS(SimpleRotController, plSimpleRotController)
-
-}

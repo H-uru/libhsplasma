@@ -21,8 +21,6 @@
 #include "Math/pyMatrix.h"
 #include "Math/pyGeometry3.h"
 
-extern "C" {
-
 PY_PLASMA_DEALLOC(SpanInstance)
 PY_PLASMA_EMPTY_INIT(SpanInstance)
 PY_PLASMA_NEW(SpanInstance, plSpanInstance)
@@ -154,5 +152,3 @@ PY_PLASMA_TYPE_INIT(SpanInstance) {
 }
 
 PY_PLASMA_IFC_METHODS(SpanInstance, plSpanInstance)
-
-}

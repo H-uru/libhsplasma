@@ -18,8 +18,6 @@
 
 #include <PRP/Region/plSoftVolume.h>
 
-extern "C" {
-
 PY_PLASMA_NEW(SoftVolumeInvert, plSoftVolumeInvert)
 
 PY_PLASMA_TYPE(SoftVolumeInvert, plSoftVolumeInvert, "plSoftVolumeInvert wrapper")
@@ -35,5 +33,3 @@ PY_PLASMA_TYPE_INIT(SoftVolumeInvert) {
 }
 
 PY_PLASMA_IFC_METHODS(SoftVolumeInvert, plSoftVolumeInvert)
-
-}

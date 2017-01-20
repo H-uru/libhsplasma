@@ -19,8 +19,6 @@
 #include <PRP/Light/plDirectionalLightInfo.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(LimitedDirLightInfo, plLimitedDirLightInfo)
 
 PY_PROPERTY(float, LimitedDirLightInfo, width, getWidth, setWidth)
@@ -49,5 +47,3 @@ PY_PLASMA_TYPE_INIT(LimitedDirLightInfo) {
 }
 
 PY_PLASMA_IFC_METHODS(LimitedDirLightInfo, plLimitedDirLightInfo)
-
-}

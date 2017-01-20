@@ -20,8 +20,6 @@
 #include <PRP/Message/plSwimMsg.h>
 #include "pyMessage.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(SwimMsg, plSwimMsg)
 
 PY_PROPERTY(bool, SwimMsg, isEntering, getIsEntering, setIsEntering)
@@ -47,5 +45,3 @@ PY_PLASMA_TYPE_INIT(SwimMsg) {
 }
 
 PY_PLASMA_IFC_METHODS(SwimMsg, plSwimMsg)
-
-}

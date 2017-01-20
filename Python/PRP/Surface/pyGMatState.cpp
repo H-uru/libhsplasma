@@ -18,8 +18,6 @@
 
 #include <PRP/Surface/hsGMatState.h>
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(GMatState, "Cannot construct hsGMatState objects")
 
 PY_PROPERTY_MEMBER(unsigned int, GMatState, blendFlags, fBlendFlags)
@@ -141,5 +139,3 @@ PY_PLASMA_TYPE_INIT(GMatState) {
 }
 
 PY_PLASMA_IFC_METHODS(GMatState, hsGMatState)
-
-}

@@ -18,8 +18,6 @@
 
 #include <PRP/Message/proEventData.h>
 
-extern "C" {
-
 PY_PLASMA_NEW(ActivateEventData, proActivateEventData)
 
 PY_PROPERTY(bool, ActivateEventData, active, isActive, setActive)
@@ -45,5 +43,3 @@ PY_PLASMA_TYPE_INIT(ActivateEventData) {
 }
 
 PY_PLASMA_IFC_METHODS(ActivateEventData, proActivateEventData)
-
-}

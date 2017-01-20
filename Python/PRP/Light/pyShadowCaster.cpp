@@ -19,8 +19,6 @@
 #include <PRP/Light/plShadowCaster.h>
 #include "PRP/Modifier/pyModifier.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(ShadowCaster, plShadowCaster)
 
 PY_PROPERTY(unsigned char, ShadowCaster, castFlags, getCastFlags, setCastFlags)
@@ -57,5 +55,3 @@ PY_PLASMA_TYPE_INIT(ShadowCaster) {
 }
 
 PY_PLASMA_IFC_METHODS(ShadowCaster, plShadowCaster)
-
-}

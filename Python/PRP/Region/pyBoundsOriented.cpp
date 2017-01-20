@@ -19,8 +19,6 @@
 #include <PRP/Region/hsBounds.h>
 #include "Math/pyGeometry3.h"
 
-extern "C" {
-
 PY_PLASMA_VALUE_NEW(BoundsOriented, hsBoundsOriented)
 
 PY_GETSET_GETTER_DECL(BoundsOriented, planes) {
@@ -77,5 +75,3 @@ PY_PLASMA_TYPE_INIT(BoundsOriented) {
 }
 
 PY_PLASMA_VALUE_IFC_METHODS(BoundsOriented, hsBoundsOriented)
-
-}

@@ -20,8 +20,6 @@
 #include "Stream/pyStream.h"
 #include "ResManager/pyResManager.h"
 
-extern "C" {
-
 PY_PLASMA_DEALLOC(Creatable)
 PY_PLASMA_EMPTY_INIT(Creatable)
 PY_PLASMA_NEW_MSG(Creatable, "plCreatable is abstract")
@@ -132,5 +130,3 @@ PY_PLASMA_TYPE_INIT(Creatable) {
 }
 
 PY_PLASMA_IFC_METHODS(Creatable, plCreatable)
-
-}

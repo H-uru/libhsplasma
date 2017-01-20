@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plQuatChannel.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(QuatBlend, plQuatBlend)
 
 PY_PLASMA_TYPE(QuatBlend, plQuatBlend, "plQuatBlend wrapper")
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(QuatBlend) {
 }
 
 PY_PLASMA_IFC_METHODS(QuatBlend, plQuatBlend)
-
-}

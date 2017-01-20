@@ -19,8 +19,6 @@
 #include <PRP/Animation/plATCEaseCurves.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(ATCEaseCurve, plATCEaseCurve)
 
 PY_PROPERTY(float, ATCEaseCurve, startSpeed, getStartSpeed, setStartSpeed)
@@ -54,5 +52,3 @@ PY_PLASMA_TYPE_INIT(ATCEaseCurve) {
 }
 
 PY_PLASMA_IFC_METHODS(ATCEaseCurve, plATCEaseCurve)
-
-}

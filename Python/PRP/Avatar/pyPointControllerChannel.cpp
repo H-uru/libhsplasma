@@ -20,8 +20,6 @@
 #include "PRP/pyCreatable.h"
 #include "PRP/Animation/pyController.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(PointControllerChannel, plPointControllerChannel)
 
 PY_PROPERTY_CREATABLE(plController, Controller, PointControllerChannel,
@@ -47,5 +45,3 @@ PY_PLASMA_TYPE_INIT(PointControllerChannel) {
 }
 
 PY_PLASMA_IFC_METHODS(PointControllerChannel, plPointControllerChannel)
-
-}

@@ -19,8 +19,6 @@
 #include <PRP/Message/plExcludeRegionMsg.h>
 #include "pyMessage.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(ExcludeRegionMsg, plExcludeRegionMsg)
 
 PY_PROPERTY(unsigned char, ExcludeRegionMsg, cmd, getCmd, setCmd)
@@ -49,5 +47,3 @@ PY_PLASMA_TYPE_INIT(ExcludeRegionMsg) {
 }
 
 PY_PLASMA_IFC_METHODS(ExcludeRegionMsg, plExcludeRegionMsg)
-
-}

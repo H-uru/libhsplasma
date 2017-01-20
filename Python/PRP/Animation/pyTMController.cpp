@@ -22,8 +22,6 @@
 #include "pyScaleController.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_EMPTY_INIT(TMController)
 PY_PLASMA_NEW(TMController, plTMController)
 
@@ -68,5 +66,3 @@ PY_PLASMA_TYPE_INIT(TMController) {
 }
 
 PY_PLASMA_IFC_METHODS(TMController, plTMController)
-
-}

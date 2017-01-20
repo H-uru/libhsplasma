@@ -20,8 +20,6 @@
 #include "pyModifier.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(OneShotMod, plOneShotMod)
 
 PY_PROPERTY(ST::string, OneShotMod, animName, getAnimName, setAnimName)
@@ -55,5 +53,3 @@ PY_PLASMA_TYPE_INIT(OneShotMod) {
 }
 
 PY_PLASMA_IFC_METHODS(OneShotMod, plOneShotMod)
-
-}

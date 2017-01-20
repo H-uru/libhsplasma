@@ -18,8 +18,6 @@
 
 #include <Stream/hsRAMStream.h>
 
-extern "C" {
-
 PY_PLASMA_NEW(RAMStream, hsRAMStream)
 
 PY_METHOD_VA(RAMStream, resize,
@@ -85,5 +83,3 @@ PY_PLASMA_TYPE_INIT(RAMStream) {
 }
 
 PY_PLASMA_IFC_METHODS(RAMStream, hsRAMStream)
-
-}

@@ -19,8 +19,6 @@
 #include <PRP/Animation/plATCEaseCurves.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(SplineEaseCurve, plSplineEaseCurve)
 
 PY_GETSET_GETTER_DECL(SplineEaseCurve, splineCoef) {
@@ -68,5 +66,3 @@ PY_PLASMA_TYPE_INIT(SplineEaseCurve) {
 }
 
 PY_PLASMA_IFC_METHODS(SplineEaseCurve, plSplineEaseCurve)
-
-}

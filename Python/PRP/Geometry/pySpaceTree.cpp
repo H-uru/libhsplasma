@@ -20,8 +20,6 @@
 #include "PRP/Region/pyBounds.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_EMPTY_INIT(SpaceTree)
 PY_PLASMA_NEW(SpaceTree, plSpaceTree)
 
@@ -103,5 +101,3 @@ PY_PLASMA_TYPE_INIT(SpaceTree) {
 }
 
 PY_PLASMA_IFC_METHODS(SpaceTree, plSpaceTree)
-
-}

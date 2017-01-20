@@ -20,8 +20,6 @@
 #include "pyConditionalObject.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(VolumeSensorConditionalObject, plVolumeSensorConditionalObject)
 
 PY_PROPERTY(int, VolumeSensorConditionalObject, trigNum, getTrigNum, setTrigNum)
@@ -55,5 +53,3 @@ PY_PLASMA_TYPE_INIT(VolumeSensorConditionalObject) {
 }
 
 PY_PLASMA_IFC_METHODS(VolumeSensorConditionalObject, plVolumeSensorConditionalObject)
-
-};

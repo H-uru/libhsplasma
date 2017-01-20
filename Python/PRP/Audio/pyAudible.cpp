@@ -20,8 +20,6 @@
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(Audible, plAudible)
 
 PY_PLASMA_TYPE(Audible, plAudible, "plAudible wrapper")
@@ -37,5 +35,3 @@ PY_PLASMA_TYPE_INIT(Audible) {
 }
 
 PY_PLASMA_IFC_METHODS(Audible, plAudible)
-
-}

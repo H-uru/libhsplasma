@@ -20,8 +20,6 @@
 #include "Stream/pyStream.h"
 #include <string_theory/format>
 
-extern "C" {
-
 PY_PLASMA_VALUE_DEALLOC(Location)
 
 PY_PLASMA_INIT_DECL(Location) {
@@ -220,5 +218,3 @@ PY_PLASMA_TYPE_INIT(Location) {
 }
 
 PY_PLASMA_VALUE_IFC_METHODS(Location, plLocation)
-
-}

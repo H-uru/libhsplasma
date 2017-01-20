@@ -25,8 +25,6 @@
 #include "Math/pyGeometry3.h"
 #include "Sys/pyColor.h"
 
-extern "C" {
-
 // DynamicEnvMap
 
 PY_PLASMA_NEW(DynamicEnvMap, plDynamicEnvMap)
@@ -131,5 +129,3 @@ PY_PLASMA_TYPE_INIT(DynamicEnvMap) {
 }
 
 PY_PLASMA_IFC_METHODS(DynamicEnvMap, plDynamicEnvMap)
-
-}

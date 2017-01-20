@@ -18,8 +18,6 @@
 
 #include <PRP/Surface/plFixedWaterState7.h>
 
-extern "C" {
-
 PY_PLASMA_EMPTY_INIT(WaveState7)
 PY_PLASMA_NEW(WaveState7, plFixedWaterState7::WaveState)
 
@@ -53,5 +51,3 @@ PY_PLASMA_TYPE_INIT(WaveState7) {
 }
 
 PY_PLASMA_IFC_METHODS(WaveState7, plFixedWaterState7::WaveState)
-
-}

@@ -19,8 +19,6 @@
 #include <PRP/Surface/plLayer.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(LayerDepth, plLayerDepth)
 
 PY_PLASMA_TYPE(LayerDepth, plLayerDepth, "plLayerDepth wrapper")
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(LayerDepth) {
 }
 
 PY_PLASMA_IFC_METHODS(LayerDepth, plLayerDepth)
-
-}

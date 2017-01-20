@@ -16,8 +16,6 @@
 
 #include "pySound.h"
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(FadeParams, "Cannot construct plFadeParams objects in Python")
 
 PY_PROPERTY_MEMBER(float, FadeParams, lengthInSecs, fLengthInSecs)
@@ -56,5 +54,3 @@ PY_PLASMA_TYPE_INIT(FadeParams) {
 }
 
 PY_PLASMA_IFC_METHODS(FadeParams, plSound::plFadeParams)
-
-}

@@ -18,8 +18,6 @@
 
 #include <PRP/Message/proEventData.h>
 
-extern "C" {
-
 PY_PLASMA_NEW(BookEventData, proBookEventData)
 
 PY_PROPERTY(unsigned int, BookEventData, event, getEvent, setEvent)
@@ -45,5 +43,3 @@ PY_PLASMA_TYPE_INIT(BookEventData) {
 }
 
 PY_PLASMA_IFC_METHODS(BookEventData, proBookEventData)
-
-}

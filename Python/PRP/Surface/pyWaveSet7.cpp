@@ -20,8 +20,6 @@
 #include "pyFixedWaterState7.h"
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(WaveSet7, plWaveSet7)
 
 PY_METHOD_VA(WaveSet7, addShore,
@@ -158,5 +156,3 @@ PY_PLASMA_TYPE_INIT(WaveSet7) {
 }
 
 PY_PLASMA_IFC_METHODS(WaveSet7, plWaveSet7)
-
-}

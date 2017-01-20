@@ -19,8 +19,6 @@
 #include <Math/hsMatrix33.h>
 #include "Stream/pyStream.h"
 
-extern "C" {
-
 PY_PLASMA_VALUE_DEALLOC(Matrix33)
 
 PY_PLASMA_INIT_DECL(Matrix33) {
@@ -154,5 +152,3 @@ PY_PLASMA_TYPE_INIT(Matrix33) {
 }
 
 PY_PLASMA_VALUE_IFC_METHODS(Matrix33, hsMatrix33)
-
-}

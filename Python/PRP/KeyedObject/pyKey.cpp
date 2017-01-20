@@ -21,8 +21,6 @@
 #include "pyKeyedObject.h"
 #include "Stream/pyStream.h"
 
-extern "C" {
-
 PY_PLASMA_VALUE_DEALLOC(Key)
 PY_PLASMA_NEW_MSG(Key, "Cannot construct Keys directly")
 
@@ -284,6 +282,4 @@ PyObject* pyKey_FromKey(const plKey& key) {
     pyKey* obj = PyObject_New(pyKey, &pyKey_Type);
     obj->fThis = new plKey(key);
     return (PyObject*)obj;
-}
-
 }

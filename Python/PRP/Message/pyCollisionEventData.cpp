@@ -19,8 +19,6 @@
 #include <PRP/Message/proEventData.h>
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(CollisionEventData, proCollisionEventData)
 
 PY_PROPERTY(bool, CollisionEventData, enter, isEnter, setEnter)
@@ -49,5 +47,3 @@ PY_PLASMA_TYPE_INIT(CollisionEventData) {
 }
 
 PY_PLASMA_IFC_METHODS(CollisionEventData, proCollisionEventData)
-
-}

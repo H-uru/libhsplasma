@@ -19,8 +19,6 @@
 #include <PRP/Surface/plLayerMovie.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(LayerAVI, plLayerAVI)
 
 PY_PLASMA_TYPE(LayerAVI, plLayerAVI, "plLayerAVI wrapper")
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(LayerAVI) {
 }
 
 PY_PLASMA_IFC_METHODS(LayerAVI, plLayerAVI)
-
-}

@@ -19,8 +19,6 @@
 #include <PRP/Message/plTimerCallbackMsg.h>
 #include "pyMessage.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(TimerCallbackMsg, plTimerCallbackMsg)
 
 PY_PROPERTY(unsigned int, TimerCallbackMsg, ID, getID, setID)
@@ -46,5 +44,3 @@ PY_PLASMA_TYPE_INIT(TimerCallbackMsg) {
 }
 
 PY_PLASMA_IFC_METHODS(TimerCallbackMsg, plTimerCallbackMsg)
-
-}

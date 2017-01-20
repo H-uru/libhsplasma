@@ -20,8 +20,6 @@
 #include "PRP/pyCreatable.h"
 #include "Stream/pyStream.h"
 
-extern "C" {
-
 PY_PLASMA_INIT_DECL(Mipmap) {
     const char* name = "";
     int width, height, numLevels, compType, format;
@@ -352,5 +350,3 @@ PY_PLASMA_TYPE_INIT(Mipmap) {
 }
 
 PY_PLASMA_IFC_METHODS(Mipmap, plMipmap)
-
-}

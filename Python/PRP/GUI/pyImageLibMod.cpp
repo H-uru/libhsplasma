@@ -19,8 +19,6 @@
 #include "PRP/Modifier/pyModifier.h"
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(ImageLibMod, plImageLibMod)
 
 PY_METHOD_VA(ImageLibMod, addImage,
@@ -82,7 +80,7 @@ static PyGetSetDef pyImageLibMod_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PY_PLASMA_TYPE(ImageLibMod, pfImageLibMod, "plImageLibMod wrapper");
+PY_PLASMA_TYPE(ImageLibMod, pfImageLibMod, "plImageLibMod wrapper")
 
 PY_PLASMA_TYPE_INIT(ImageLibMod) {
     pyImageLibMod_Type.tp_new = pyImageLibMod_new;
@@ -97,5 +95,3 @@ PY_PLASMA_TYPE_INIT(ImageLibMod) {
 }
 
 PY_PLASMA_IFC_METHODS(ImageLibMod, plImageLibMod)
-
-}

@@ -19,8 +19,6 @@
 #include <PRP/Surface/plShader.h>
 #include "Stream/pyStream.h"
 
-extern "C" {
-
 PY_PLASMA_VALUE_DEALLOC(ShaderConst)
 
 PY_PLASMA_INIT_DECL(ShaderConst) {
@@ -161,5 +159,3 @@ PY_PLASMA_TYPE_INIT(ShaderConst) {
 }
 
 PY_PLASMA_VALUE_IFC_METHODS(ShaderConst, plShaderConst)
-
-}

@@ -19,8 +19,6 @@
 #include <PRP/Physics/plObjectInVolumeDetector.h>
 #include "pyCollisionDetector.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(ObjectInVolumeDetector, plObjectInVolumeDetector)
 
 PY_PLASMA_TYPE(ObjectInVolumeDetector, plObjectInVolumeDetector,
@@ -37,5 +35,3 @@ PY_PLASMA_TYPE_INIT(ObjectInVolumeDetector) {
 }
 
 PY_PLASMA_IFC_METHODS(ObjectInVolumeDetector, plObjectInVolumeDetector)
-
-};

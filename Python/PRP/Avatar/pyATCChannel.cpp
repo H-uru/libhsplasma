@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plScalarChannel.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(ATCChannel, plATCChannel)
 
 PY_PLASMA_TYPE(ATCChannel, plATCChannel, "plATCChannel wrapper")
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(ATCChannel) {
 }
 
 PY_PLASMA_IFC_METHODS(ATCChannel, plATCChannel)
-
-}

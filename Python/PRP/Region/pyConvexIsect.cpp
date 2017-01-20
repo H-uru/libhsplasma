@@ -20,8 +20,6 @@
 #include "Math/pyGeometry3.h"
 #include "Math/pyMatrix.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(ConvexIsect, plConvexIsect)
 
 PY_METHOD_VA(ConvexIsect, addPlane,
@@ -73,5 +71,3 @@ PY_PLASMA_TYPE_INIT(ConvexIsect) {
 }
 
 PY_PLASMA_IFC_METHODS(ConvexIsect, plConvexIsect)
-
-}

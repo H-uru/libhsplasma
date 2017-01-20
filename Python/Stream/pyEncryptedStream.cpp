@@ -18,8 +18,6 @@
 
 #include <Stream/plEncryptedStream.h>
 
-extern "C" {
-
 PY_PLASMA_NEW(EncryptedStream, plEncryptedStream)
 
 PY_METHOD_VA(EncryptedStream, open,
@@ -138,5 +136,3 @@ PY_PLASMA_TYPE_INIT(EncryptedStream) {
 }
 
 PY_PLASMA_IFC_METHODS(EncryptedStream, plEncryptedStream)
-
-}

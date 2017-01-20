@@ -19,8 +19,6 @@
 #include <PRP/ConditionalObject/plKeyPressConditionalObject.h>
 #include "pyConditionalObject.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(KeyPressConditionalObject, plKeyPressConditionalObject)
 
 PY_PROPERTY(plKeyDef, KeyPressConditionalObject, keyEvent, getKeyEvent, setKeyEvent)
@@ -45,5 +43,3 @@ PY_PLASMA_TYPE_INIT(KeyPressConditionalObject) {
 }
 
 PY_PLASMA_IFC_METHODS(KeyPressConditionalObject, plKeyPressConditionalObject)
-
-};

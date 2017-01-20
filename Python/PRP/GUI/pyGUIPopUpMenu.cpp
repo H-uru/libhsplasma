@@ -19,8 +19,6 @@
 #include "PRP/GUI/pyGUIDialogMod.h"
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(GUIPopUpMenu, pfGUIPopUpMenu)
 
 PY_PROPERTY(unsigned short, GUIPopUpMenu, margin, getMargin, setMargin)
@@ -38,7 +36,7 @@ static PyGetSetDef pyGUIPopUpMenu_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PY_PLASMA_TYPE(GUIPopUpMenu, pfGUIPopUpMenu, "pfGUIPopUpMenu wrapper");
+PY_PLASMA_TYPE(GUIPopUpMenu, pfGUIPopUpMenu, "pfGUIPopUpMenu wrapper")
 
 PY_PLASMA_TYPE_INIT(GUIPopUpMenu) {
     pyGUIPopUpMenu_Type.tp_new = pyGUIPopUpMenu_new;
@@ -63,5 +61,3 @@ PY_PLASMA_TYPE_INIT(GUIPopUpMenu) {
 }
 
 PY_PLASMA_IFC_METHODS(GUIPopUpMenu, pfGUIPopUpMenu)
-
-}

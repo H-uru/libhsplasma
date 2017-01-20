@@ -19,8 +19,6 @@
 #include <PRP/Message/plResponderMsg.h>
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(OneShotMsg, plOneShotMsg)
 
 PY_METHOD_NOARGS(OneShotMsg, clearCallbacks, "Remove all callbacks") {
@@ -102,5 +100,3 @@ PY_PLASMA_TYPE_INIT(OneShotMsg) {
 }
 
 PY_PLASMA_IFC_METHODS(OneShotMsg, plOneShotMsg)
-
-}

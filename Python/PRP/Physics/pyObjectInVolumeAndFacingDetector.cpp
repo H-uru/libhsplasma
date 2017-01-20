@@ -18,8 +18,6 @@
 
 #include <PRP/Physics/plObjectInVolumeDetector.h>
 
-extern "C" {
-
 PY_PLASMA_NEW(ObjectInVolumeAndFacingDetector, plObjectInVolumeAndFacingDetector)
 
 PY_PROPERTY(float, ObjectInVolumeAndFacingDetector, facingTolerance,
@@ -48,5 +46,3 @@ PY_PLASMA_TYPE_INIT(ObjectInVolumeAndFacingDetector) {
 }
 
 PY_PLASMA_IFC_METHODS(ObjectInVolumeAndFacingDetector, plObjectInVolumeAndFacingDetector)
-
-};

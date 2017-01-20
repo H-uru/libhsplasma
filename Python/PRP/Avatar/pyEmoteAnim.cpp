@@ -20,8 +20,6 @@
 #include "PRP/pyCreatable.h"
 #include "PRP/Avatar/pyAGAnim.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(EmoteAnim, plEmoteAnim)
 
 PY_PROPERTY(plAGAnim::BodyUsage, EmoteAnim, bodyUsage, getBodyUsage, setBodyUsage)
@@ -49,5 +47,3 @@ PY_PLASMA_TYPE_INIT(EmoteAnim) {
 }
 
 PY_PLASMA_IFC_METHODS(EmoteAnim, plEmoteAnim)
-
-}

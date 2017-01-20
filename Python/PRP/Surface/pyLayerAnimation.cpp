@@ -20,8 +20,6 @@
 #include "PRP/Animation/pyAnimTimeConvert.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(LayerAnimation, plLayerAnimation)
 
 PY_PROPERTY_PROXY_RO(plAnimTimeConvert, LayerAnimation, timeConvert, getTimeConvert)
@@ -45,5 +43,3 @@ PY_PLASMA_TYPE_INIT(LayerAnimation) {
 }
 
 PY_PLASMA_IFC_METHODS(LayerAnimation, plLayerAnimation)
-
-}

@@ -22,8 +22,6 @@
 #include "Math/pyGeometry3.h"
 #include "Sys/pyColor.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(DynamicCamMap, plDynamicCamMap)
 
 PY_METHOD_VA(DynamicCamMap, addMatLayer,
@@ -343,5 +341,3 @@ PY_PLASMA_TYPE_INIT(DynamicCamMap) {
 }
 
 PY_PLASMA_IFC_METHODS(DynamicCamMap, plDynamicCamMap)
-
-}

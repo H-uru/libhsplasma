@@ -20,8 +20,6 @@
 #include "Stream/pyStream.h"
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_DEALLOC(AgeInfo)
 PY_PLASMA_EMPTY_INIT(AgeInfo)
 PY_PLASMA_NEW(AgeInfo, plAgeInfo)
@@ -271,5 +269,3 @@ PY_PLASMA_TYPE_INIT(AgeInfo) {
 }
 
 PY_PLASMA_IFC_METHODS(AgeInfo, plAgeInfo)
-
-}

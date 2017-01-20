@@ -19,8 +19,6 @@
 #include <Math/hsAffineParts.h>
 #include "Stream/pyStream.h"
 
-extern "C" {
-
 PY_PLASMA_VALUE_DEALLOC(AffineParts)
 PY_PLASMA_EMPTY_INIT(AffineParts)
 PY_PLASMA_VALUE_NEW(AffineParts, hsAffineParts)
@@ -104,5 +102,3 @@ PY_PLASMA_TYPE_INIT(AffineParts) {
 }
 
 PY_PLASMA_VALUE_IFC_METHODS(AffineParts, hsAffineParts)
-
-}

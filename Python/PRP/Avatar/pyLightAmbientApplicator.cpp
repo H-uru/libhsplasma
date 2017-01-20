@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plAGApplicator.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(LightAmbientApplicator, plLightAmbientApplicator)
 
 PY_PLASMA_TYPE(LightAmbientApplicator, plLightAmbientApplicator,
@@ -37,5 +35,3 @@ PY_PLASMA_TYPE_INIT(LightAmbientApplicator) {
 }
 
 PY_PLASMA_IFC_METHODS(LightAmbientApplicator, plLightAmbientApplicator)
-
-}

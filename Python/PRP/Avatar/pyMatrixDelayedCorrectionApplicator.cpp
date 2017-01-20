@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plMatrixChannel.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(MatrixDelayedCorrectionApplicator, plMatrixDelayedCorrectionApplicator)
 
 PY_PLASMA_TYPE(MatrixDelayedCorrectionApplicator, plMatrixDelayedCorrectionApplicator,
@@ -37,5 +35,3 @@ PY_PLASMA_TYPE_INIT(MatrixDelayedCorrectionApplicator) {
 }
 
 PY_PLASMA_IFC_METHODS(MatrixDelayedCorrectionApplicator, plMatrixDelayedCorrectionApplicator)
-
-}

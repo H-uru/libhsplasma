@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plPointChannel.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(PointControllerCacheChannel, plPointControllerCacheChannel)
 
 PY_PLASMA_TYPE(PointControllerCacheChannel, plPointControllerCacheChannel,
@@ -37,5 +35,3 @@ PY_PLASMA_TYPE_INIT(PointControllerCacheChannel) {
 }
 
 PY_PLASMA_IFC_METHODS(PointControllerCacheChannel, plPointControllerCacheChannel)
-
-}

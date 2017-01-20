@@ -21,8 +21,6 @@
 #include "PRP/KeyedObject/pyKey.h"
 #include "Math/pyMatrix.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(CoordinateInterface, plCoordinateInterface)
 
 PY_METHOD_NOARGS(CoordinateInterface, clearChildren,
@@ -114,5 +112,3 @@ PY_PLASMA_TYPE_INIT(CoordinateInterface) {
 }
 
 PY_PLASMA_IFC_METHODS(CoordinateInterface, plCoordinateInterface)
-
-}

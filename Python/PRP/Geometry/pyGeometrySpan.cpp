@@ -21,8 +21,6 @@
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/Region/pyBounds.h"
 
-extern "C" {
-
 PY_PLASMA_DEALLOC_DECL(GeometrySpan) {
     Py_TYPE(self)->tp_free(self);
 }
@@ -295,5 +293,3 @@ PyObject* pyGeometrySpan_FromGeometrySpan(const std::shared_ptr<plGeometrySpan>&
     pspan->fThis = span;
     return (PyObject*)pspan;
 }
-
-};

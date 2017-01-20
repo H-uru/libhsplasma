@@ -22,8 +22,6 @@
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(Occluder, plOccluder)
 
 PY_METHOD_NOARGS(Occluder, clearPolys, "Remove all plCullPolys from the occluder") {
@@ -156,5 +154,3 @@ PY_PLASMA_TYPE_INIT(Occluder) {
 }
 
 PY_PLASMA_IFC_METHODS(Occluder, plOccluder)
-
-}

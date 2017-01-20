@@ -19,8 +19,6 @@
 #include <PRP/GUI/pfGUIControlHandlers.h>
 #include "Stream/pyStream.h"
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(GUICtrlProcWriteableObject, "pfGUICtrlProcWriteableObject is abstract")
 
 PY_METHOD_STATIC_VA(GUICtrlProcWriteableObject, Read,
@@ -112,5 +110,3 @@ PY_PLASMA_TYPE_INIT(GUICtrlProcWriteableObject) {
 }
 
 PY_PLASMA_IFC_METHODS(GUICtrlProcWriteableObject, pfGUICtrlProcWriteableObject)
-
-}

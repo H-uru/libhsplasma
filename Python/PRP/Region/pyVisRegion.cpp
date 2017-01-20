@@ -20,8 +20,6 @@
 #include "PRP/Object/pyObjInterface.h"
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(VisRegion, plVisRegion)
 
 PY_PROPERTY(plKey, VisRegion, region, getRegion, setRegion)
@@ -52,5 +50,3 @@ PY_PLASMA_TYPE_INIT(VisRegion) {
 }
 
 PY_PLASMA_IFC_METHODS(VisRegion, plVisRegion)
-
-}

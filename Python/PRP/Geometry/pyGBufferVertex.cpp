@@ -19,8 +19,6 @@
 #include <PRP/Geometry/plGBufferGroup.h>
 #include "Math/pyGeometry3.h"
 
-extern "C" {
-
 PY_PLASMA_VALUE_DEALLOC(GBufferVertex)
 PY_PLASMA_EMPTY_INIT(GBufferVertex)
 PY_PLASMA_VALUE_NEW(GBufferVertex, plGBufferVertex)
@@ -124,5 +122,3 @@ PY_PLASMA_TYPE_INIT(GBufferVertex) {
 }
 
 PY_PLASMA_VALUE_IFC_METHODS(GBufferVertex, plGBufferVertex)
-
-}
