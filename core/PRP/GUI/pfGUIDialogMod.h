@@ -56,16 +56,15 @@ public:
     ST::string getName() const { return fName; }
     plKey getProcReceiver() const { return fProcReceiver; }
     plKey getSceneNode() const { return fSceneNode; }
+    const pfGUIColorScheme& getColorScheme() const { return fColorScheme; }
+    pfGUIColorScheme& getColorScheme() { return fColorScheme; }
 
     void setTagID(unsigned int id) { fTagID = id; }
     void setVersion(unsigned int version) { fVersion = version; }
     void setRenderMod(plKey mod) { fRenderMod = mod; }
-    void setName(const char* name) { fName = name; }
+    void setName(const ST::string& name) { fName = name; }
     void setProcReceiver(plKey receiver) { fProcReceiver = receiver; }
     void setSceneNode(plKey node) { fSceneNode = node; }
-
-    const pfGUIColorScheme& getColorScheme() const { return fColorScheme; }
-    pfGUIColorScheme& getColorScheme() { return fColorScheme; }
 };
 
 #endif

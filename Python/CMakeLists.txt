@@ -247,15 +247,50 @@ set(PRP_GEOM_HDRS
 )
 
 set(PRP_GUI_SRCS
+    PRP/GUI/pyGUIButtonMod.cpp
+    PRP/GUI/pyGUICheckBoxCtrl.cpp
     PRP/GUI/pyGUICloseDlgProc.cpp
     PRP/GUI/pyGUIConsoleCmdProc.cpp
+    PRP/GUI/pyGUIControlMod.cpp
+    PRP/GUI/pyGUICtrlProcConvert.cpp
     PRP/GUI/pyGUICtrlProcObject.cpp
     PRP/GUI/pyGUICtrlProcWriteableObject.cpp
+    PRP/GUI/pyGUIDialogMod.cpp
     PRP/GUI/pyGUIDialogProc.cpp
+    PRP/GUI/pyGUIDynDisplayCtrl.cpp
+    PRP/GUI/pyGUIKnobCtrl.cpp
+    PRP/GUI/pyGUIListBoxMod.cpp
+    PRP/GUI/pyGUIMisc.cpp
+    PRP/GUI/pyGUIMultiLineEditCtrl.cpp
+    PRP/GUI/pyGUIPopUpMenu.cpp
+    PRP/GUI/pyGUIProgressCtrl.cpp
     PRP/GUI/pyGUIPythonScriptProc.cpp
+    PRP/GUI/pyGUIRadioGroupCtrl.cpp
+    PRP/GUI/pyGUISkin.cpp
+    PRP/GUI/pyGUITextBoxMod.cpp
+    PRP/GUI/pyGUIUpDownPairMod.cpp
+    PRP/GUI/pyGUIValueCtrl.cpp
+    PRP/GUI/pyImageLibMod.cpp
 )
 set(PRP_GUI_HDRS
+    PRP/GUI/pyGUIButtonMod.h
     PRP/GUI/pyGUIControlHandlers.h
+    PRP/GUI/pyGUICheckBoxCtrl.h
+    PRP/GUI/pyGUIControlMod.h
+    PRP/GUI/pyGUIDialogMod.h
+    PRP/GUI/pyGUIDynDisplayCtrl.h
+    PRP/GUI/pyGUIKnobCtrl.h
+    PRP/GUI/pyGUIListBoxMod.h
+    PRP/GUI/pyGUIMisc.h
+    PRP/GUI/pyGUIMultiLineEditCtrl.h
+    PRP/GUI/pyGUIPopUpMenu.h
+    PRP/GUI/pyGUIProgressCtrl.h
+    PRP/GUI/pyGUIRadioGroupCtrl.h
+    PRP/GUI/pyGUISkin.h
+    PRP/GUI/pyGUITextBoxMod.h
+    PRP/GUI/pyGUIUpDownPairMod.h
+    PRP/GUI/pyGUIValueCtrl.h
+    PRP/GUI/pyImageLibMod.h
 )
 
 set(PRP_KEY_SRCS
@@ -363,6 +398,7 @@ set(PRP_MOD_SRCS
     PRP/Modifier/pyModifier.cpp
     PRP/Modifier/pyMultiModifier.cpp
     PRP/Modifier/pyOneShotMod.cpp
+    PRP/Modifier/pyPostEffectMod.cpp
     PRP/Modifier/pyPythonFileMod.cpp
     PRP/Modifier/pyPythonParameter.cpp
     PRP/Modifier/pyResponderEnableMsg.cpp
@@ -380,6 +416,7 @@ set(PRP_MOD_HDRS
     PRP/Modifier/pyMaintainersMarkerModifier.h
     PRP/Modifier/pyModifier.h
     PRP/Modifier/pyOneShotMod.h
+    PRP/Modifier/pyPostEffectMod.h
     PRP/Modifier/pyPythonFileMod.h
     PRP/Modifier/pyResponderModifier.h
     PRP/Modifier/pySpawnModifier.h
