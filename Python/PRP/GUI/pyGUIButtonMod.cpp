@@ -20,8 +20,6 @@
 #include "PRP/KeyedObject/pyKey.h"
 
 /* pyGUIButtonMod */
-extern "C" {
-
 PY_PLASMA_NEW(GUIButtonMod, pfGUIButtonMod)
 
 PY_METHOD_VA(GUIButtonMod, addAnimationKey,
@@ -141,7 +139,7 @@ static PyGetSetDef pyGUIButtonMod_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PY_PLASMA_TYPE(GUIButtonMod, pfGUIButtonMod, "pfGUIButtonMod wrapper");
+PY_PLASMA_TYPE(GUIButtonMod, pfGUIButtonMod, "pfGUIButtonMod wrapper")
 
 PY_PLASMA_TYPE_INIT(GUIButtonMod) {
     pyGUIButtonMod_Type.tp_new = pyGUIButtonMod_new;
@@ -162,14 +160,11 @@ PY_PLASMA_TYPE_INIT(GUIButtonMod) {
 
 PY_PLASMA_IFC_METHODS(GUIButtonMod, pfGUIButtonMod)
 
-}
 
 /* pyGUIMenuItem */
-extern "C" {
-
 PY_PLASMA_NEW(GUIMenuItem, pfGUIMenuItem)
 
-PY_PLASMA_TYPE(GUIMenuItem, pfGUIMenuItem, "pfGUIMenuItem wrapper");
+PY_PLASMA_TYPE(GUIMenuItem, pfGUIMenuItem, "pfGUIMenuItem wrapper")
 
 PY_PLASMA_TYPE_INIT(GUIMenuItem) {
     pyGUIMenuItem_Type.tp_new = pyGUIMenuItem_new;
@@ -186,5 +181,3 @@ PY_PLASMA_TYPE_INIT(GUIMenuItem) {
 }
 
 PY_PLASMA_IFC_METHODS(GUIMenuItem, pfGUIMenuItem)
-
-}

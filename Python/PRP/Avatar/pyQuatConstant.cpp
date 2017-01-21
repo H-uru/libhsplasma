@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plQuatChannel.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(QuatConstant, plQuatConstant)
 
 PY_PLASMA_TYPE(QuatConstant, plQuatConstant, "plQuatConstant wrapper")
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(QuatConstant) {
 }
 
 PY_PLASMA_IFC_METHODS(QuatConstant, plQuatConstant)
-
-}

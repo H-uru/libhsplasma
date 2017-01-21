@@ -18,8 +18,6 @@
 
 #include <PRP/Physics/plPhysical.h>
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(SimDefs, "Cannot construct plSimDefs objects")
 
 typedef PyObject pySimDefs;
@@ -58,6 +56,4 @@ PY_PLASMA_TYPE_INIT(SimDefs) {
 
     Py_INCREF(&pySimDefs_Type);
     return (PyObject*)&pySimDefs_Type;
-}
-
 }

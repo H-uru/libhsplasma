@@ -20,8 +20,6 @@
 #include "PRP/Object/pySynchedObject.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(Modifier, "plModifier is abstract")
 
 PY_PLASMA_TYPE(Modifier, plModifier, "plModifier wrapper")
@@ -37,5 +35,3 @@ PY_PLASMA_TYPE_INIT(Modifier) {
 }
 
 PY_PLASMA_IFC_METHODS(Modifier, plModifier)
-
-}

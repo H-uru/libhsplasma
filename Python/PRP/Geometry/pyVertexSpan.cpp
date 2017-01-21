@@ -18,8 +18,6 @@
 
 #include <PRP/Geometry/plVertexSpan.h>
 
-extern "C" {
-
 PY_PLASMA_NEW(VertexSpan, plVertexSpan)
 
 PY_PROPERTY(unsigned int, VertexSpan, groupIdx, getGroupIdx, setGroupIdx)
@@ -53,5 +51,3 @@ PY_PLASMA_TYPE_INIT(VertexSpan) {
 }
 
 PY_PLASMA_IFC_METHODS(VertexSpan, plVertexSpan)
-
-}

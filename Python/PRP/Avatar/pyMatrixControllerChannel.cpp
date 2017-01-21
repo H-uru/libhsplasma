@@ -20,8 +20,6 @@
 #include "PRP/pyCreatable.h"
 #include "PRP/Animation/pyController.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(MatrixControllerChannel, plMatrixControllerChannel)
 
 PY_PROPERTY_CREATABLE(plController, Controller, MatrixControllerChannel,
@@ -47,5 +45,3 @@ PY_PLASMA_TYPE_INIT(MatrixControllerChannel) {
 }
 
 PY_PLASMA_IFC_METHODS(MatrixControllerChannel, plMatrixControllerChannel)
-
-}

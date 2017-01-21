@@ -21,8 +21,6 @@
 #include "PRP/Object/pySynchedObject.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(GMaterial, hsGMaterial)
 
 PY_METHOD_NOARGS(GMaterial, clearLayers, "Remove all layer keys from the material") {
@@ -168,5 +166,3 @@ PY_PLASMA_TYPE_INIT(GMaterial) {
 }
 
 PY_PLASMA_IFC_METHODS(GMaterial, hsGMaterial)
-
-}

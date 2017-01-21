@@ -19,8 +19,6 @@
 #include <PRP/Animation/hsKeys.h>
 #include "Math/pyMatrix.h"
 
-extern "C" {
-
 PY_PLASMA_EMPTY_INIT(Matrix44Key)
 PY_PLASMA_NEW(Matrix44Key, hsMatrix44Key)
 
@@ -46,5 +44,3 @@ PY_PLASMA_TYPE_INIT(Matrix44Key) {
 }
 
 PY_PLASMA_IFC_METHODS(Matrix44Key, hsMatrix44Key)
-
-}

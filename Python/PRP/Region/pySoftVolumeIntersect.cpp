@@ -18,8 +18,6 @@
 
 #include <PRP/Region/plSoftVolume.h>
 
-extern "C" {
-
 PY_PLASMA_NEW(SoftVolumeIntersect, plSoftVolumeIntersect)
 
 PY_PLASMA_TYPE(SoftVolumeIntersect, plSoftVolumeIntersect,
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(SoftVolumeIntersect) {
 }
 
 PY_PLASMA_IFC_METHODS(SoftVolumeIntersect, plSoftVolumeIntersect)
-
-}

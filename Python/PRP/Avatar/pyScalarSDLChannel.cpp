@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plScalarChannel.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(ScalarSDLChannel, plScalarSDLChannel)
 
 PY_PLASMA_TYPE(ScalarSDLChannel, plScalarSDLChannel, "plScalarSDLChannel wrapper")
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(ScalarSDLChannel) {
 }
 
 PY_PLASMA_IFC_METHODS(ScalarSDLChannel, plScalarSDLChannel)
-
-}

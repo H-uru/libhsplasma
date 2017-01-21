@@ -19,8 +19,6 @@
 #include "PRP/GUI/pyGUIControlMod.h"
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(GUIDynDisplayCtrl, pfGUIDynDisplayCtrl)
 
 PY_METHOD_VA(GUIDynDisplayCtrl, addTextMap,
@@ -181,7 +179,7 @@ static PyGetSetDef pyGUIDynDisplayCtrl_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PY_PLASMA_TYPE(GUIDynDisplayCtrl, pfGUIDynDisplayCtrl, "pfGUIDynDisplayCtrl wrapper");
+PY_PLASMA_TYPE(GUIDynDisplayCtrl, pfGUIDynDisplayCtrl, "pfGUIDynDisplayCtrl wrapper")
 
 PY_PLASMA_TYPE_INIT(GUIDynDisplayCtrl) {
     pyGUIDynDisplayCtrl_Type.tp_new = pyGUIDynDisplayCtrl_new;
@@ -196,5 +194,3 @@ PY_PLASMA_TYPE_INIT(GUIDynDisplayCtrl) {
 }
 
 PY_PLASMA_IFC_METHODS(GUIDynDisplayCtrl, pfGUIDynDisplayCtrl)
-
-}

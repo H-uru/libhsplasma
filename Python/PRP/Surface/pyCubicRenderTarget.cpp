@@ -19,8 +19,6 @@
 #include <PRP/Surface/plRenderTarget.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(CubicRenderTarget, plCubicRenderTarget)
 
 /* These are proxies to render target objects in the CRT, so they cannot be set */
@@ -80,5 +78,3 @@ PY_PLASMA_TYPE_INIT(CubicRenderTarget) {
 }
 
 PY_PLASMA_IFC_METHODS(CubicRenderTarget, plCubicRenderTarget)
-
-}

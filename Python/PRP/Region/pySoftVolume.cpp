@@ -20,8 +20,6 @@
 #include "PRP/Object/pyObjInterface.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(SoftVolume, "plSoftVolume is abstract")
 
 PY_PROPERTY(unsigned int, SoftVolume, listenState, getListenState, setListenState)
@@ -55,5 +53,3 @@ PY_PLASMA_TYPE_INIT(SoftVolume) {
 }
 
 PY_PLASMA_IFC_METHODS(SoftVolume, plSoftVolume)
-
-}

@@ -20,8 +20,6 @@
 #include "PyPlasma.h"
 #include <memory>
 
-extern "C" {
-
 typedef struct {
     PyObject_HEAD
     std::shared_ptr<class plGeometrySpan> fThis;
@@ -31,7 +29,5 @@ extern PyTypeObject pyGeometrySpan_Type;
 PyObject* Init_pyGeometrySpan_Type();
 int pyGeometrySpan_Check(PyObject* obj);
 PyObject* pyGeometrySpan_FromGeometrySpan(const std::shared_ptr<class plGeometrySpan>& span);
-
-};
 
 #endif

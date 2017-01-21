@@ -20,8 +20,6 @@
 #include "Stream/pyStream.h"
 #include <string_theory/format>
 
-extern "C" {
-
 PY_PLASMA_VALUE_DEALLOC(Plane3)
 
 PY_PLASMA_INIT_DECL(Plane3) {
@@ -128,5 +126,3 @@ PY_PLASMA_TYPE_INIT(Plane3) {
 }
 
 PY_PLASMA_VALUE_IFC_METHODS(Plane3, hsPlane3)
-
-}

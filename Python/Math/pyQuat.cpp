@@ -20,8 +20,6 @@
 #include "Stream/pyStream.h"
 #include <string_theory/format>
 
-extern "C" {
-
 PY_PLASMA_VALUE_DEALLOC(Quat)
 
 PY_PLASMA_INIT_DECL(Quat) {
@@ -218,5 +216,3 @@ PY_PLASMA_TYPE_INIT(Quat) {
 }
 
 PY_PLASMA_VALUE_IFC_METHODS(Quat, hsQuat)
-
-}

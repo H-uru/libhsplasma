@@ -19,8 +19,6 @@
 #include <PRP/Modifier/plModifier.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(MultiModifier, "plMultiModifier is abstract")
 
 PY_METHOD_VA(MultiModifier, getFlag,
@@ -68,5 +66,3 @@ PY_PLASMA_TYPE_INIT(MultiModifier) {
 }
 
 PY_PLASMA_IFC_METHODS(MultiModifier, plMultiModifier)
-
-}

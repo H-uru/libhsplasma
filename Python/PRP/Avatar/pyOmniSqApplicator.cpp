@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plAGApplicator.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(OmniSqApplicator, plOmniSqApplicator)
 
 PY_PLASMA_TYPE(OmniSqApplicator, plOmniSqApplicator, "plOmniSqApplicator wrapper")
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(OmniSqApplicator) {
 }
 
 PY_PLASMA_IFC_METHODS(OmniSqApplicator, plOmniSqApplicator)
-
-}

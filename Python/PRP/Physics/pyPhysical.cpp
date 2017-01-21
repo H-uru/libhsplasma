@@ -20,8 +20,6 @@
 #include "PRP/Object/pySynchedObject.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(Physical, "plPhysical is abstract")
 
 PY_PLASMA_TYPE(Physical, plPhysical, "plPhysical wrapper")
@@ -37,5 +35,3 @@ PY_PLASMA_TYPE_INIT(Physical) {
 }
 
 PY_PLASMA_IFC_METHODS(Physical, plPhysical)
-
-}

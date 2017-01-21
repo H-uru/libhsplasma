@@ -18,8 +18,6 @@
 
 #include <PRP/Misc/plSpawnPointInfo.h>
 
-extern "C" {
-
 PY_PLASMA_NEW(SpawnPointInfo, plSpawnPointInfo)
 
 PY_PROPERTY(ST::string, SpawnPointInfo, title, getTitle, setTitle)
@@ -46,5 +44,3 @@ PY_PLASMA_TYPE_INIT(SpawnPointInfo) {
 }
 
 PY_PLASMA_IFC_METHODS(SpawnPointInfo, plSpawnPointInfo)
-
-}

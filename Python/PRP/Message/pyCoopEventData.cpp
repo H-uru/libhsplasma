@@ -18,8 +18,6 @@
 
 #include <PRP/Message/proEventData.h>
 
-extern "C" {
-
 PY_PLASMA_NEW(CoopEventData, proCoopEventData)
 
 PY_PROPERTY(unsigned int, CoopEventData, id, getID, setID)
@@ -45,5 +43,3 @@ PY_PLASMA_TYPE_INIT(CoopEventData) {
 }
 
 PY_PLASMA_IFC_METHODS(CoopEventData, proCoopEventData)
-
-}

@@ -20,8 +20,6 @@
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(Message, plMessage)
 
 PY_METHOD_VA(Message, addReceiver,
@@ -123,5 +121,3 @@ PY_PLASMA_TYPE_INIT(Message) {
 }
 
 PY_PLASMA_IFC_METHODS(Message, plMessage)
-
-}

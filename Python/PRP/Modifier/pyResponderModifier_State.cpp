@@ -19,8 +19,6 @@
 #include <PRP/Modifier/plResponderModifier.h>
 #include "PRP/Message/pyMessage.h"
 
-extern "C" {
-
 PY_PLASMA_DEALLOC(ResponderModifier_State)
 PY_PLASMA_EMPTY_INIT(ResponderModifier_State)
 PY_PLASMA_NEW(ResponderModifier_State, plResponderModifier::plResponderState)
@@ -139,5 +137,3 @@ PY_PLASMA_TYPE_INIT(ResponderModifier_State) {
 }
 
 PY_PLASMA_IFC_METHODS(ResponderModifier_State, plResponderModifier::plResponderState)
-
-}

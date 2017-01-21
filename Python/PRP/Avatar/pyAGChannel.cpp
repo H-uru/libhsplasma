@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plAGChannel.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(AGChannel, "plAGChannel is abstract")
 
 PY_PROPERTY(ST::string, AGChannel, name, getName, setName)
@@ -44,5 +42,3 @@ PY_PLASMA_TYPE_INIT(AGChannel) {
 }
 
 PY_PLASMA_IFC_METHODS(AGChannel, plAGChannel)
-
-}

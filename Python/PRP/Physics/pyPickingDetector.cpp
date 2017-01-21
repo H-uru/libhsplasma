@@ -18,8 +18,6 @@
 
 #include <PRP/Physics/plDetectorModifier.h>
 
-extern "C" {
-
 PY_PLASMA_NEW(PickingDetector, plPickingDetector)
 
 PY_PLASMA_TYPE(PickingDetector, plPickingDetector, "plPickingDetector wrapper")
@@ -35,5 +33,3 @@ PY_PLASMA_TYPE_INIT(PickingDetector) {
 }
 
 PY_PLASMA_IFC_METHODS(PickingDetector, plPickingDetector)
-
-};

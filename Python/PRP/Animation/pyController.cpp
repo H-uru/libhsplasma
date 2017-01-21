@@ -19,8 +19,6 @@
 #include <PRP/Animation/plController.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(Controller, "plController is abstract")
 
 PY_PLASMA_TYPE(Controller, plController, "plController wrapper")
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(Controller) {
 }
 
 PY_PLASMA_IFC_METHODS(Controller, plController)
-
-}

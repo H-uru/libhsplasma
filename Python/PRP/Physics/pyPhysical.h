@@ -23,12 +23,8 @@
 PY_WRAP_PLASMA(Physical, class plPhysical);
 PY_WRAP_PLASMA(GenericPhysical, class plGenericPhysical);
 
-extern "C" {
-
 extern PyTypeObject pySimDefs_Type;
 PyObject* Init_pySimDefs_Type();
-
-}
 
 /* Python property helpers */
 inline PyObject* pyPlasma_convert(plSimDefs::Bounds value) {

@@ -20,8 +20,6 @@
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(ConditionalObject, "plConditionalObject is abstract")
 
 PY_PROPERTY(bool, ConditionalObject, satisfied, getSatisfied, setSatisfied)
@@ -47,5 +45,3 @@ PY_PLASMA_TYPE_INIT(ConditionalObject) {
 }
 
 PY_PLASMA_IFC_METHODS(ConditionalObject, plConditionalObject)
-
-};

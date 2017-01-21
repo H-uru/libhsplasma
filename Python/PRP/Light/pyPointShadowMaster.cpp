@@ -19,8 +19,6 @@
 #include <PRP/Light/plShadowMaster.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(PointShadowMaster, plPointShadowMaster)
 
 PY_PLASMA_TYPE(PointShadowMaster, plPointShadowMaster, "plPointShadowMaster wrapper")
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(PointShadowMaster) {
 }
 
 PY_PLASMA_IFC_METHODS(PointShadowMaster, plPointShadowMaster)
-
-}

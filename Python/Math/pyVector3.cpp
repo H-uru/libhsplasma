@@ -20,8 +20,6 @@
 #include "Stream/pyStream.h"
 #include <string_theory/format>
 
-extern "C" {
-
 PY_PLASMA_VALUE_DEALLOC(Vector3)
 
 PY_PLASMA_INIT_DECL(Vector3) {
@@ -242,5 +240,3 @@ PY_PLASMA_TYPE_INIT(Vector3) {
 }
 
 PY_PLASMA_VALUE_IFC_METHODS(Vector3, hsVector3)
-
-}

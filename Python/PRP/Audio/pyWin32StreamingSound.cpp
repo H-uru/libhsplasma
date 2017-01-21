@@ -18,8 +18,6 @@
 
 #include <PRP/Audio/plWin32Sound.h>
 
-extern "C" {
-
 PY_PLASMA_NEW(Win32StreamingSound, plWin32StreamingSound)
 
 PY_PLASMA_TYPE(Win32StreamingSound, plWin32StreamingSound,
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(Win32StreamingSound) {
 }
 
 PY_PLASMA_IFC_METHODS(Win32StreamingSound, plWin32StreamingSound)
-
-}

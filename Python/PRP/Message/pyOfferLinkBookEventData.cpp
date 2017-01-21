@@ -19,8 +19,6 @@
 #include <PRP/Message/proEventData.h>
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(OfferLinkBookEventData, proOfferLinkBookEventData)
 
 PY_PROPERTY(plKey, OfferLinkBookEventData, offerer, getOfferer, setOfferer)
@@ -49,5 +47,3 @@ PY_PLASMA_TYPE_INIT(OfferLinkBookEventData) {
 }
 
 PY_PLASMA_IFC_METHODS(OfferLinkBookEventData, proOfferLinkBookEventData)
-
-}

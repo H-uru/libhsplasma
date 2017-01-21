@@ -19,8 +19,6 @@
 #include <PRP/Message/plAnimCmdMsg.h>
 #include "pyMessageWithCallbacks.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(AnimCmdMsg, plAnimCmdMsg)
 
 PY_PROPERTY(ST::string, AnimCmdMsg, animName, getAnimName, setAnimName)
@@ -116,5 +114,3 @@ PY_PLASMA_TYPE_INIT(AnimCmdMsg) {
 }
 
 PY_PLASMA_IFC_METHODS(AnimCmdMsg, plAnimCmdMsg)
-
-};

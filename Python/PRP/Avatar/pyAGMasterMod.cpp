@@ -20,8 +20,6 @@
 #include "PRP/Modifier/pyModifier.h"
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(AGMasterMod, plAGMasterMod)
 
 PY_METHOD_VA(AGMasterMod, addPrivateAnim,
@@ -149,5 +147,3 @@ PY_PLASMA_TYPE_INIT(AGMasterMod) {
 }
 
 PY_PLASMA_IFC_METHODS(AGMasterMod, plAGMasterMod)
-
-};

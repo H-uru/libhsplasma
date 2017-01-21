@@ -18,8 +18,6 @@
 
 #include <PRP/GUI/pfGUIControlHandlers.h>
 
-extern "C" {
-
 PY_PLASMA_NEW(GUIConsoleCmdProc, pfGUIConsoleCmdProc)
 
 PY_PROPERTY(ST::string, GUIConsoleCmdProc, command, getCommand, setCommand)
@@ -43,5 +41,3 @@ PY_PLASMA_TYPE_INIT(GUIConsoleCmdProc) {
 }
 
 PY_PLASMA_IFC_METHODS(GUIConsoleCmdProc, pfGUIConsoleCmdProc)
-
-}

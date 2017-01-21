@@ -20,8 +20,6 @@
 #include "pyLayerAnimation.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(LayerMovie, plLayerMovie)
 
 PY_PROPERTY(ST::string, LayerMovie, movieName, getMovieName, setMovieName)
@@ -45,5 +43,3 @@ PY_PLASMA_TYPE_INIT(LayerMovie) {
 }
 
 PY_PLASMA_IFC_METHODS(LayerMovie, plLayerMovie)
-
-}

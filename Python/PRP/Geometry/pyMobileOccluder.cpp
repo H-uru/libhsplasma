@@ -21,8 +21,6 @@
 #include "PRP/pyCreatable.h"
 #include "Math/pyMatrix.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(MobileOccluder, plMobileOccluder)
 
 PY_PROPERTY(hsMatrix44, MobileOccluder, localToWorld, getLocalToWorld, setLocalToWorld)
@@ -50,5 +48,3 @@ PY_PLASMA_TYPE_INIT(MobileOccluder) {
 }
 
 PY_PLASMA_IFC_METHODS(MobileOccluder, plMobileOccluder)
-
-}

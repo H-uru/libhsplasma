@@ -22,8 +22,6 @@
 #include "PRP/KeyedObject/pyKey.h"
 #include "Util/pyBitVector.h"
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(ObjInterface, "plObjInterface is abstract")
 
 PY_METHOD_VA(ObjInterface, getProperty,
@@ -81,5 +79,3 @@ PY_PLASMA_TYPE_INIT(ObjInterface) {
 }
 
 PY_PLASMA_IFC_METHODS(ObjInterface, plObjInterface)
-
-}

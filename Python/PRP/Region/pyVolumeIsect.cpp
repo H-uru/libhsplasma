@@ -19,8 +19,6 @@
 #include <PRP/Region/plVolumeIsect.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(VolumeIsect, "plVolumeIsect is abstract")
 
 PY_PLASMA_TYPE(VolumeIsect, plVolumeIsect, "plVolumeIsect wrapper")
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(VolumeIsect) {
 }
 
 PY_PLASMA_IFC_METHODS(VolumeIsect, plVolumeIsect)
-
-}

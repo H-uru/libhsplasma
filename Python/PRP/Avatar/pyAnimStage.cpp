@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plAnimStage.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_EMPTY_INIT(AnimStage)
 PY_PLASMA_NEW(AnimStage, plAnimStage)
 
@@ -122,5 +120,3 @@ PY_PLASMA_TYPE_INIT(AnimStage) {
 }
 
 PY_PLASMA_IFC_METHODS(AnimStage, plAnimStage)
-
-}

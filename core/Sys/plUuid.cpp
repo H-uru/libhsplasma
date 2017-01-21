@@ -19,7 +19,7 @@
 #include <cstring>
 
 static const unsigned char nullDat4[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
-const plUuid NullUuid(0, 0, 0, nullDat4);
+const plUuid plUuid::Null(0, 0, 0, nullDat4);
 
 plUuid::plUuid() : fData1(0), fData2(0), fData3(0) {
     memset(fData4, 0, sizeof(fData4));
@@ -98,10 +98,6 @@ void plUuid::clear() {
     fData2 = 0;
     fData3 = 0;
     memset(fData4, 0, sizeof(fData4));
-}
-
-bool plUuid::isNull() const {
-    return operator==(NullUuid);
 }
 
 ST::string plUuid::toString() const {

@@ -20,8 +20,6 @@
 #include "pyLeafController.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_EMPTY_INIT(CompoundPosController)
 PY_PLASMA_NEW(CompoundPosController, plCompoundPosController)
 
@@ -55,5 +53,3 @@ PY_PLASMA_TYPE_INIT(CompoundPosController) {
 }
 
 PY_PLASMA_IFC_METHODS(CompoundPosController, plCompoundPosController)
-
-}

@@ -19,8 +19,6 @@
 #include <PRP/ConditionalObject/plFacingConditionalObject.h>
 #include "pyConditionalObject.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(FacingConditionalObject, plFacingConditionalObject)
 
 PY_PROPERTY(float, FacingConditionalObject, tolerance, getTolerance, setTolerance)
@@ -47,5 +45,3 @@ PY_PLASMA_TYPE_INIT(FacingConditionalObject) {
 }
 
 PY_PLASMA_IFC_METHODS(FacingConditionalObject, plFacingConditionalObject)
-
-};

@@ -26,9 +26,7 @@
 
 // FIX: MSVC doesn't have the <sys/time.h> stuff, so let's add it
 #ifdef _MSC_VER
-extern "C" {
-    int gettimeofday(struct timeval* tv, void* tz);
-}
+int gettimeofday(struct timeval* tv, void* tz);
 #endif
 
 #include "Stream/pfPrcHelper.h"

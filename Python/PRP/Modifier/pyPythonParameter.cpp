@@ -21,8 +21,6 @@
 #include "Stream/pyStream.h"
 #include "ResManager/pyResManager.h"
 
-extern "C" {
-
 PY_PLASMA_VALUE_DEALLOC(PythonParameter)
 
 PY_PLASMA_INIT_DECL(PythonParameter) {
@@ -212,5 +210,3 @@ PY_PLASMA_TYPE_INIT(PythonParameter) {
 }
 
 PY_PLASMA_VALUE_IFC_METHODS(PythonParameter, plPythonParameter)
-
-}

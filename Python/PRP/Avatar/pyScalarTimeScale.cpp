@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plScalarChannel.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(ScalarTimeScale, plScalarTimeScale)
 
 PY_PLASMA_TYPE(ScalarTimeScale, plScalarTimeScale, "plScalarTimeScale wrapper")
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(ScalarTimeScale) {
 }
 
 PY_PLASMA_IFC_METHODS(ScalarTimeScale, plScalarTimeScale)
-
-}

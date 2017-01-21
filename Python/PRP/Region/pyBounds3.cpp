@@ -19,8 +19,6 @@
 #include <PRP/Region/hsBounds.h>
 #include "Math/pyGeometry3.h"
 
-extern "C" {
-
 PY_PLASMA_VALUE_NEW(Bounds3, hsBounds3)
 
 PY_PROPERTY(hsVector3, Bounds3, mins, getMins, setMins)
@@ -51,5 +49,3 @@ PY_PLASMA_TYPE_INIT(Bounds3) {
 }
 
 PY_PLASMA_VALUE_IFC_METHODS(Bounds3, hsBounds3)
-
-}

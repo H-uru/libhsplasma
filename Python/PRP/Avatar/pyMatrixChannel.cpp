@@ -20,8 +20,6 @@
 #include "PRP/pyCreatable.h"
 #include "Math/pyGeometry3.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(MatrixChannel, plMatrixChannel)
 
 PY_PROPERTY(hsAffineParts, MatrixChannel, affine, getAffine, setAffine)
@@ -45,5 +43,3 @@ PY_PLASMA_TYPE_INIT(MatrixChannel) {
 }
 
 PY_PLASMA_IFC_METHODS(MatrixChannel, plMatrixChannel)
-
-}

@@ -19,11 +19,7 @@
 
 #include "PyPlasma.h"
 
-extern "C" {
-
 extern PyTypeObject pyDebug_Type;
 PyObject* Init_pyDebug_Type();
-
-}
 
 #endif

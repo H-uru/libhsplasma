@@ -31,6 +31,8 @@ private:
     unsigned char fData4[8];
 
 public:
+    static const plUuid Null;
+
     /** Constructs a null UUID, i.e. 00000000-0000-0000-0000-000000000000. */
     plUuid();
 
@@ -78,7 +80,7 @@ public:
     void clear();
 
     /** Returns true if the UUID is 00000000-0000-0000-0000-000000000000. */
-    bool isNull() const;
+    bool isNull() const { return operator==(Null); }
 
     /**
      * Returns a string representation of this UUID in the form of
@@ -95,7 +97,5 @@ public:
      */
     void fromString(const ST::string& str);
 };
-
-extern const plUuid NullUuid;
 
 #endif

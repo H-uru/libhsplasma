@@ -19,8 +19,6 @@
 #include "PRP/GUI/pyGUIControlMod.h"
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(GUIRadioGroupCtrl, pfGUIRadioGroupCtrl)
 
 PY_METHOD_VA(GUIRadioGroupCtrl, addControl,
@@ -85,7 +83,7 @@ static PyGetSetDef pyGUIRadioGroupCtrl_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PY_PLASMA_TYPE(GUIRadioGroupCtrl, pfGUIRadioGroupCtrl, "pfGUIRadioGroupCtrl wrapper");
+PY_PLASMA_TYPE(GUIRadioGroupCtrl, pfGUIRadioGroupCtrl, "pfGUIRadioGroupCtrl wrapper")
 
 PY_PLASMA_TYPE_INIT(GUIRadioGroupCtrl) {
     pyGUIRadioGroupCtrl_Type.tp_new = pyGUIRadioGroupCtrl_new;
@@ -103,5 +101,3 @@ PY_PLASMA_TYPE_INIT(GUIRadioGroupCtrl) {
 }
 
 PY_PLASMA_IFC_METHODS(GUIRadioGroupCtrl, pfGUIRadioGroupCtrl)
-
-}

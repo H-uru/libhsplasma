@@ -19,8 +19,6 @@
 #include <PRP/Message/proEventData.h>
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(MultiStageEventData, proMultiStageEventData)
 
 PY_PROPERTY(int, MultiStageEventData, stage, getStage, setStage)
@@ -49,5 +47,3 @@ PY_PLASMA_TYPE_INIT(MultiStageEventData) {
 }
 
 PY_PLASMA_IFC_METHODS(MultiStageEventData, proMultiStageEventData)
-
-}

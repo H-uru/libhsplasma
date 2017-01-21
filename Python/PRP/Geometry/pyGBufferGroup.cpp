@@ -19,8 +19,6 @@
 #include <PRP/Geometry/plGBufferGroup.h>
 #include "Stream/pyStream.h"
 
-extern "C" {
-
 PY_PLASMA_DEALLOC(GBufferGroup)
 
 PY_PLASMA_INIT_DECL(GBufferGroup) {
@@ -395,5 +393,3 @@ PY_PLASMA_TYPE_INIT(GBufferGroup) {
 }
 
 PY_PLASMA_IFC_METHODS(GBufferGroup, plGBufferGroup)
-
-}

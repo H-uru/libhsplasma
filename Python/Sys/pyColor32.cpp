@@ -20,8 +20,6 @@
 #include "Stream/pyStream.h"
 #include <string_theory/format>
 
-extern "C" {
-
 PY_PLASMA_VALUE_DEALLOC(Color32)
 
 PY_METHOD_KWARGS(Color32, set,
@@ -212,5 +210,3 @@ PY_PLASMA_TYPE_INIT(Color32) {
 }
 
 PY_PLASMA_VALUE_IFC_METHODS(Color32, hsColor32)
-
-}

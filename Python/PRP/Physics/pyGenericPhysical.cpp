@@ -22,8 +22,6 @@
 #include "Math/pyGeometry3.h"
 #include "Util/pyBitVector.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(GenericPhysical, plGenericPhysical)
 
 PY_METHOD_VA(GenericPhysical, getProperty,
@@ -265,5 +263,3 @@ PY_PLASMA_TYPE_INIT(GenericPhysical) {
 }
 
 PY_PLASMA_IFC_METHODS(GenericPhysical, plGenericPhysical)
-
-}

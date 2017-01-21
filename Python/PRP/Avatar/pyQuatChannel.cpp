@@ -20,8 +20,6 @@
 #include "PRP/pyCreatable.h"
 #include "Math/pyGeometry3.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(QuatChannel, plQuatChannel)
 
 PY_PROPERTY(hsQuat, QuatChannel, result, getResult, setResult)
@@ -45,5 +43,3 @@ PY_PLASMA_TYPE_INIT(QuatChannel) {
 }
 
 PY_PLASMA_IFC_METHODS(QuatChannel, plQuatChannel)
-
-}

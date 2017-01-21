@@ -18,8 +18,6 @@
 
 #include <PRP/Message/proEventData.h>
 
-extern "C" {
-
 PY_PLASMA_NEW(ClickDragEventData, proClickDragEventData)
 
 PY_PLASMA_TYPE(ClickDragEventData, proClickDragEventData,
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(ClickDragEventData) {
 }
 
 PY_PLASMA_IFC_METHODS(ClickDragEventData, proClickDragEventData)
-
-}

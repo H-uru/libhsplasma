@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plMatrixChannel.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(MatrixControllerCacheChannel, plMatrixControllerCacheChannel)
 
 PY_PLASMA_TYPE(MatrixControllerCacheChannel, plMatrixControllerCacheChannel,
@@ -37,5 +35,3 @@ PY_PLASMA_TYPE_INIT(MatrixControllerCacheChannel) {
 }
 
 PY_PLASMA_IFC_METHODS(MatrixControllerCacheChannel, plMatrixControllerCacheChannel)
-
-}

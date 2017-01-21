@@ -19,8 +19,6 @@
 #include <PRP/Animation/plKeyControllers.hpp>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_EMPTY_INIT(Point3Controller)
 PY_PLASMA_NEW(Point3Controller, plPoint3Controller)
 
@@ -38,5 +36,3 @@ PY_PLASMA_TYPE_INIT(Point3Controller) {
 }
 
 PY_PLASMA_IFC_METHODS(Point3Controller, plPoint3Controller)
-
-}

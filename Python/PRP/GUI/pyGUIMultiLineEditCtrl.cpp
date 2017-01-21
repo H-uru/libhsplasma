@@ -19,8 +19,6 @@
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/GUI/pyGUIControlMod.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(GUIMultiLineEditCtrl, pfGUIMultiLineEditCtrl)
 
 PY_PROPERTY(plKey, GUIMultiLineEditCtrl, scrollCtrl, getScrollCtrl, setScrollCtrl)
@@ -30,7 +28,7 @@ static PyGetSetDef pyGUIMultiLineEditCtrl_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PY_PLASMA_TYPE(GUIMultiLineEditCtrl, pfGUIMultiLineEditCtrl, "pfGUIMultiLineEditCtrl wrapper");
+PY_PLASMA_TYPE(GUIMultiLineEditCtrl, pfGUIMultiLineEditCtrl, "pfGUIMultiLineEditCtrl wrapper")
 
 PY_PLASMA_TYPE_INIT(GUIMultiLineEditCtrl) {
     pyGUIMultiLineEditCtrl_Type.tp_new = pyGUIMultiLineEditCtrl_new;
@@ -44,5 +42,3 @@ PY_PLASMA_TYPE_INIT(GUIMultiLineEditCtrl) {
 }
 
 PY_PLASMA_IFC_METHODS(GUIMultiLineEditCtrl, pfGUIMultiLineEditCtrl)
-
-}

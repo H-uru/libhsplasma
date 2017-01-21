@@ -18,8 +18,6 @@
 
 #include <PRP/GUI/pfGUIControlHandlers.h>
 
-extern "C" {
-
 PY_PLASMA_DEALLOC(GUICtrlProcObject)
 PY_PLASMA_EMPTY_INIT(GUICtrlProcObject)
 PY_PLASMA_NEW_MSG(GUICtrlProcObject, "pfGUICtrlProcObject is abstract")
@@ -38,5 +36,3 @@ PY_PLASMA_TYPE_INIT(GUICtrlProcObject) {
 }
 
 PY_PLASMA_IFC_METHODS(GUICtrlProcObject, pfGUICtrlProcObject)
-
-}

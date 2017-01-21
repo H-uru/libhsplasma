@@ -18,12 +18,11 @@
 #include "plUnifiedTime.h"
 
 #ifdef _MSC_VER
-extern "C" {
-
 int gettimeofday(struct timeval* tv, void* tz) {
     FILETIME ft;
 
-    if (!tv) return -1;
+    if (!tv)
+        return -1;
     GetSystemTimeAsFileTime(&ft);
 
     unsigned __int64 tim = ft.dwHighDateTime;
@@ -36,8 +35,6 @@ int gettimeofday(struct timeval* tv, void* tz) {
     tv->tv_usec = (long)(tim % 1000000L);
 
     return 0;
-}
-
 }
 #endif
 

@@ -19,8 +19,6 @@
 #include <PRP/Message/proEventData.h>
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(ContainedEventData, proContainedEventData)
 
 PY_PROPERTY(plKey, ContainedEventData, contained, getContained, setContained)
@@ -49,5 +47,3 @@ PY_PLASMA_TYPE_INIT(ContainedEventData) {
 }
 
 PY_PLASMA_IFC_METHODS(ContainedEventData, proContainedEventData)
-
-}

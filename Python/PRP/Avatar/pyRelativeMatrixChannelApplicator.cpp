@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plMatrixChannel.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(RelativeMatrixChannelApplicator, plRelativeMatrixChannelApplicator)
 
 PY_PLASMA_TYPE(RelativeMatrixChannelApplicator, plRelativeMatrixChannelApplicator,
@@ -37,5 +35,3 @@ PY_PLASMA_TYPE_INIT(RelativeMatrixChannelApplicator) {
 }
 
 PY_PLASMA_IFC_METHODS(RelativeMatrixChannelApplicator, plRelativeMatrixChannelApplicator)
-
-}

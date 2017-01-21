@@ -21,8 +21,6 @@
 #include "PRP/pyCreatable.h"
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(ActivatorConditionalObject, plActivatorConditionalObject)
 
 PY_METHOD_VA(ActivatorConditionalObject, addActivator,
@@ -98,5 +96,3 @@ PY_PLASMA_TYPE_INIT(ActivatorConditionalObject) {
 }
 
 PY_PLASMA_IFC_METHODS(ActivatorConditionalObject, plActivatorConditionalObject)
-
-};

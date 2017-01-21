@@ -19,8 +19,6 @@
 #include <PRP/Region/hsBounds.h>
 #include "Stream/pyStream.h"
 
-extern "C" {
-
 PY_PLASMA_VALUE_DEALLOC(Bounds)
 PY_PLASMA_EMPTY_INIT(Bounds)
 PY_PLASMA_VALUE_NEW(Bounds, hsBounds)
@@ -95,5 +93,3 @@ PY_PLASMA_TYPE_INIT(Bounds) {
 }
 
 PY_PLASMA_VALUE_IFC_METHODS(Bounds, hsBounds)
-
-}

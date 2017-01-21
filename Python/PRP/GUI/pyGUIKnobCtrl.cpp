@@ -20,8 +20,6 @@
 #include "PRP/KeyedObject/pyKey.h"
 #include "Math/pyGeometry3.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(GUIKnobCtrl, pfGUIKnobCtrl)
 
 PY_METHOD_VA(GUIKnobCtrl, addAnimationKey,
@@ -89,7 +87,7 @@ static PyGetSetDef pyGUIKnobCtrl_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PY_PLASMA_TYPE(GUIKnobCtrl, pfGUIKnobCtrl, "pfGUIKnobCtrl wrapper");
+PY_PLASMA_TYPE(GUIKnobCtrl, pfGUIKnobCtrl, "pfGUIKnobCtrl wrapper")
 
 PY_PLASMA_TYPE_INIT(GUIKnobCtrl) {
     pyGUIKnobCtrl_Type.tp_new = pyGUIKnobCtrl_new;
@@ -111,5 +109,3 @@ PY_PLASMA_TYPE_INIT(GUIKnobCtrl) {
 }
 
 PY_PLASMA_IFC_METHODS(GUIKnobCtrl, pfGUIKnobCtrl)
-
-}

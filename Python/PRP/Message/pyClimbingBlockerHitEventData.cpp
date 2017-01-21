@@ -19,8 +19,6 @@
 #include <PRP/Message/proEventData.h>
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(ClimbingBlockerHitEventData, proClimbingBlockerHitEventData)
 
 PY_PROPERTY(plKey, ClimbingBlockerHitEventData, blocker, getBlocker, setBlocker)
@@ -45,5 +43,3 @@ PY_PLASMA_TYPE_INIT(ClimbingBlockerHitEventData) {
 }
 
 PY_PLASMA_IFC_METHODS(ClimbingBlockerHitEventData, proClimbingBlockerHitEventData)
-
-}

@@ -19,8 +19,6 @@
 #include <PRP/Audio/plAudible.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(AudibleNull, plAudibleNull)
 
 PY_PLASMA_TYPE(AudibleNull, "plAudibleNull", "plAudibleNull wrapper")
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(AudibleNull) {
 }
 
 PY_PLASMA_IFC_METHODS(AudibleNull, plAudibleNull)
-
-}

@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plMatrixChannel.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(QuatPointCombine, plQuatPointCombine)
 
 PY_PLASMA_TYPE(QuatPointCombine, plQuatPointCombine, "plQuatPointCombine wrapper")
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(QuatPointCombine) {
 }
 
 PY_PLASMA_IFC_METHODS(QuatPointCombine, plQuatPointCombine)
-
-}

@@ -19,8 +19,6 @@
 #include <Util/hsBitVector.h>
 #include "Stream/pyStream.h"
 
-extern "C" {
-
 PY_PLASMA_DEALLOC(BitVector)
 PY_PLASMA_EMPTY_INIT(BitVector)
 PY_PLASMA_NEW(BitVector, hsBitVector)
@@ -181,5 +179,3 @@ PY_PLASMA_TYPE_INIT(BitVector) {
 }
 
 PY_PLASMA_IFC_METHODS(BitVector, hsBitVector)
-
-}

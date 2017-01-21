@@ -18,8 +18,6 @@
 
 #include <PRP/Geometry/plGBufferGroup.h>
 
-extern "C" {
-
 PY_PLASMA_VALUE_DEALLOC(GBufferCell)
 PY_PLASMA_EMPTY_INIT(GBufferCell)
 PY_PLASMA_VALUE_NEW(GBufferCell, plGBufferCell)
@@ -50,5 +48,3 @@ PY_PLASMA_TYPE_INIT(GBufferCell) {
 }
 
 PY_PLASMA_VALUE_IFC_METHODS(GBufferCell, plGBufferCell)
-
-}

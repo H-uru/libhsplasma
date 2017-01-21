@@ -19,8 +19,6 @@
 #include <PRP/Message/proEventData.h>
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(FacingEventData, proFacingEventData)
 
 PY_PROPERTY(plKey, FacingEventData, facer, getFacer, setFacer)
@@ -50,5 +48,3 @@ PY_PLASMA_TYPE_INIT(FacingEventData) {
 }
 
 PY_PLASMA_IFC_METHODS(FacingEventData, proFacingEventData)
-
-}

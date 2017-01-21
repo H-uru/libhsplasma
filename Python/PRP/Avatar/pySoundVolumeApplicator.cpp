@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plAGApplicator.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(SoundVolumeApplicator, plSoundVolumeApplicator)
 
 PY_PROPERTY(unsigned int, SoundVolumeApplicator, index, getIndex, setIndex)
@@ -45,5 +43,3 @@ PY_PLASMA_TYPE_INIT(SoundVolumeApplicator) {
 }
 
 PY_PLASMA_IFC_METHODS(SoundVolumeApplicator, plSoundVolumeApplicator)
-
-}

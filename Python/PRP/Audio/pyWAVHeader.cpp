@@ -19,8 +19,6 @@
 #include <PRP/Audio/plSoundBuffer.h>
 #include "Stream/pyStream.h"
 
-extern "C" {
-
 PY_PLASMA_DEALLOC(WAVHeader)
 PY_PLASMA_NEW(WAVHeader, plWAVHeader)
 
@@ -98,5 +96,3 @@ PY_PLASMA_TYPE_INIT(WAVHeader) {
 }
 
 PY_PLASMA_IFC_METHODS(WAVHeader, plWAVHeader)
-
-}

@@ -19,8 +19,6 @@
 #include <PRP/Animation/hsKeys.h>
 #include "Math/pyGeometry3.h"
 
-extern "C" {
-
 PY_PLASMA_EMPTY_INIT(Point3Key)
 PY_PLASMA_NEW(Point3Key, hsPoint3Key)
 
@@ -50,5 +48,3 @@ PY_PLASMA_TYPE_INIT(Point3Key) {
 }
 
 PY_PLASMA_IFC_METHODS(Point3Key, hsPoint3Key)
-
-}

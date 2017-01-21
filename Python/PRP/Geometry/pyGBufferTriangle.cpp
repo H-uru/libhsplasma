@@ -20,8 +20,6 @@
 #include "Math/pyGeometry3.h"
 #include "Stream/pyStream.h"
 
-extern "C" {
-
 PY_PLASMA_VALUE_DEALLOC(GBufferTriangle)
 PY_PLASMA_EMPTY_INIT(GBufferTriangle)
 PY_PLASMA_VALUE_NEW(GBufferTriangle, plGBufferTriangle)
@@ -97,5 +95,3 @@ PY_PLASMA_TYPE_INIT(GBufferTriangle) {
 }
 
 PY_PLASMA_VALUE_IFC_METHODS(GBufferTriangle, plGBufferTriangle)
-
-}

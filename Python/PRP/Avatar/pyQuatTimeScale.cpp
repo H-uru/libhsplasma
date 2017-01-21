@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plQuatChannel.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(QuatTimeScale, plQuatTimeScale)
 
 PY_PLASMA_TYPE(QuatTimeScale, plQuatTimeScale, "plQuatTimeScale wrapper")
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(QuatTimeScale) {
 }
 
 PY_PLASMA_IFC_METHODS(QuatTimeScale, plQuatTimeScale)
-
-}

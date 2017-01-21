@@ -18,8 +18,6 @@
 
 #include <Stream/hsStream.h>
 
-extern "C" {
-
 PY_PLASMA_NEW(FileStream, hsFileStream)
 
 PY_METHOD_VA(FileStream, open,
@@ -78,5 +76,3 @@ PY_PLASMA_TYPE_INIT(FileStream) {
 }
 
 PY_PLASMA_IFC_METHODS(FileStream, hsFileStream)
-
-}

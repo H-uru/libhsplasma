@@ -18,8 +18,6 @@
 
 #include <PRP/GUI/pfGUIControlHandlers.h>
 
-extern "C" {
-
 PY_PLASMA_NEW(GUIPythonScriptProc, pfGUIPythonScriptProc)
 
 PY_PLASMA_TYPE(GUIPythonScriptProc, pfGUIPythonScriptProc,
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(GUIPythonScriptProc) {
 }
 
 PY_PLASMA_IFC_METHODS(GUIPythonScriptProc, pfGUIPythonScriptProc)
-
-}

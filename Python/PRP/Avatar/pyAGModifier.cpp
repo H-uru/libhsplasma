@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plAGModifier.h>
 #include "PRP/Modifier/pyModifier.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(AGModifier, plAGModifier)
 
 PY_PROPERTY(ST::string, AGModifier, channelName, getChannelName, setChannelName)
@@ -48,5 +46,3 @@ PY_PLASMA_TYPE_INIT(AGModifier) {
 }
 
 PY_PLASMA_IFC_METHODS(AGModifier, plAGModifier)
-
-};

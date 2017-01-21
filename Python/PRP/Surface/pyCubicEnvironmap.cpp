@@ -20,8 +20,6 @@
 #include "PRP/pyCreatable.h"
 #include "pyBitmap.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(CubicEnvironmap, plCubicEnvironmap)
 
 #define CEM_FACE(propName, faceName)                                    \
@@ -71,5 +69,3 @@ PY_PLASMA_TYPE_INIT(CubicEnvironmap) {
 }
 
 PY_PLASMA_IFC_METHODS(CubicEnvironmap, plCubicEnvironmap)
-
-}

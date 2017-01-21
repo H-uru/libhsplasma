@@ -20,8 +20,6 @@
 #include "pyModifier.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(ResponderModifier, plResponderModifier)
 
 PY_METHOD_VA(ResponderModifier, addState,
@@ -111,5 +109,3 @@ PY_PLASMA_TYPE_INIT(ResponderModifier) {
 }
 
 PY_PLASMA_IFC_METHODS(ResponderModifier, plResponderModifier)
-
-}

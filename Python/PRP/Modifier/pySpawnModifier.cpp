@@ -20,8 +20,6 @@
 #include "pyModifier.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(SpawnModifier, plSpawnModifier)
 
 PY_PLASMA_TYPE(SpawnModifier, plSpawnModifier, "plSpawnModifier wrapper")
@@ -37,5 +35,3 @@ PY_PLASMA_TYPE_INIT(SpawnModifier) {
 }
 
 PY_PLASMA_IFC_METHODS(SpawnModifier, plSpawnModifier)
-
-}

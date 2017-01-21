@@ -22,8 +22,6 @@
 #include "pyKeys.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_EMPTY_INIT(LeafController)
 PY_PLASMA_NEW(LeafController, plLeafController)
 
@@ -162,5 +160,3 @@ PY_PLASMA_TYPE_INIT(LeafController) {
 }
 
 PY_PLASMA_IFC_METHODS(LeafController, plLeafController)
-
-}

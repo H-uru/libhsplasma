@@ -21,8 +21,6 @@
 #include "PRP/pyCreatable.h"
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(SceneObject, plSceneObject)
 
 PY_METHOD_NOARGS(SceneObject, clearInterfaces,
@@ -161,5 +159,3 @@ PY_PLASMA_TYPE_INIT(SceneObject) {
 }
 
 PY_PLASMA_IFC_METHODS(SceneObject, plSceneObject)
-
-}

@@ -19,8 +19,6 @@
 #include <PRP/Geometry/plClusterGroup.h>
 #include "Stream/pyStream.h"
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(LODDist, "Cannot create plLODDist objects from Python")
 
 PY_METHOD_VA(LODDist, read,
@@ -86,5 +84,3 @@ PY_PLASMA_TYPE_INIT(LODDist) {
 }
 
 PY_PLASMA_IFC_METHODS(LODDist, plLODDist)
-
-}

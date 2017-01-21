@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plMatrixChannel.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(MatrixConstant, plMatrixConstant)
 
 PY_PLASMA_TYPE(MatrixConstant, plMatrixConstant, "plMatrixConstant wrapper")
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(MatrixConstant) {
 }
 
 PY_PLASMA_IFC_METHODS(MatrixConstant, plMatrixConstant)
-
-}

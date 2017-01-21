@@ -19,8 +19,6 @@
 #include <PRP/Light/plDirectionalLightInfo.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(DirectionalLightInfo, plDirectionalLightInfo)
 
 PY_PLASMA_TYPE(DirectionalLightInfo, plDirectionalLightInfo,
@@ -37,5 +35,3 @@ PY_PLASMA_TYPE_INIT(DirectionalLightInfo) {
 }
 
 PY_PLASMA_IFC_METHODS(DirectionalLightInfo, plDirectionalLightInfo)
-
-}

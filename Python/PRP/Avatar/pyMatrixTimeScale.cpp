@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plMatrixChannel.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(MatrixTimeScale, plMatrixTimeScale)
 
 PY_PLASMA_TYPE(MatrixTimeScale, plMatrixTimeScale, "plMatrixTimeScale wrapper")
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(MatrixTimeScale) {
 }
 
 PY_PLASMA_IFC_METHODS(MatrixTimeScale, plMatrixTimeScale)
-
-}

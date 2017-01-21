@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plQuatChannel.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(QuatChannelApplicator, plQuatChannelApplicator)
 
 PY_PLASMA_TYPE(QuatChannelApplicator, plQuatChannelApplicator,
@@ -37,5 +35,3 @@ PY_PLASMA_TYPE_INIT(QuatChannelApplicator) {
 }
 
 PY_PLASMA_IFC_METHODS(QuatChannelApplicator, plQuatChannelApplicator)
-
-}

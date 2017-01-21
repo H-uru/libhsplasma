@@ -20,8 +20,6 @@
 #include "pyController.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(RotController, "plRotController is abstract")
 
 PY_PROPERTY_RO(RotController, type, getType)
@@ -48,5 +46,3 @@ PY_PLASMA_TYPE_INIT(RotController) {
 }
 
 PY_PLASMA_IFC_METHODS(RotController, plRotController)
-
-}

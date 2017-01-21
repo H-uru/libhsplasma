@@ -19,8 +19,6 @@
 #include <PRP/Message/plArmatureEffectMsg.h>
 #include "pyMessage.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(ArmatureEffectStateMsg, plArmatureEffectStateMsg)
 
 PY_PROPERTY(int8_t, ArmatureEffectStateMsg, surface, getSurface, setSurface)
@@ -47,5 +45,3 @@ PY_PLASMA_TYPE_INIT(ArmatureEffectStateMsg) {
 }
 
 PY_PLASMA_IFC_METHODS(ArmatureEffectStateMsg, plArmatureEffectStateMsg)
-
-}

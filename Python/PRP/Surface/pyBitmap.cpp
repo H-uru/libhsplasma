@@ -20,8 +20,6 @@
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(Bitmap, "plBitmap is abstract")
 
 PY_METHOD_VA(Bitmap, setConfig,
@@ -145,5 +143,3 @@ PY_PLASMA_TYPE_INIT(Bitmap) {
 }
 
 PY_PLASMA_IFC_METHODS(Bitmap, plBitmap)
-
-}

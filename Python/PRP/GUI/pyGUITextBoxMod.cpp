@@ -18,8 +18,6 @@
 #include "pyGUITextBoxMod.h"
 #include "PRP/GUI/pyGUIControlMod.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(GUITextBoxMod, pfGUITextBoxMod)
 
 PY_PROPERTY(ST::string, GUITextBoxMod, text, getText, setText)
@@ -31,7 +29,7 @@ static PyGetSetDef pyGUITextBoxMod_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PY_PLASMA_TYPE(GUITextBoxMod, pfGUITextBoxMod, "pfGUITextBoxMod wrapper");
+PY_PLASMA_TYPE(GUITextBoxMod, pfGUITextBoxMod, "pfGUITextBoxMod wrapper")
 
 PY_PLASMA_TYPE_INIT(GUITextBoxMod) {
     pyGUITextBoxMod_Type.tp_new = pyGUITextBoxMod_new;
@@ -49,5 +47,3 @@ PY_PLASMA_TYPE_INIT(GUITextBoxMod) {
 }
 
 PY_PLASMA_IFC_METHODS(GUITextBoxMod, pfGUITextBoxMod)
-
-}

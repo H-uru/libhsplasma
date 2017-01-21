@@ -21,8 +21,6 @@
 #include "pyEventData.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(NotifyMsg, plNotifyMsg)
 
 PY_METHOD_NOARGS(NotifyMsg, clearEvents, "Remove all event objects") {
@@ -111,5 +109,3 @@ PY_PLASMA_TYPE_INIT(NotifyMsg) {
 }
 
 PY_PLASMA_IFC_METHODS(NotifyMsg, plNotifyMsg)
-
-}

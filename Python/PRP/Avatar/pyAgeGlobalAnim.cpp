@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plAGAnim.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(AgeGlobalAnim, plAgeGlobalAnim)
 
 PY_PROPERTY(ST::string, AgeGlobalAnim, globalVarName, getGlobalVarName, setGlobalVarName)
@@ -44,5 +42,3 @@ PY_PLASMA_TYPE_INIT(AgeGlobalAnim) {
 }
 
 PY_PLASMA_IFC_METHODS(AgeGlobalAnim, plAgeGlobalAnim)
-
-}

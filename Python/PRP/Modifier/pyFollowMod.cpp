@@ -20,8 +20,6 @@
 #include "PRP/Modifier/pyModifier.h"
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(FollowMod, plFollowMod)
 
 PY_PROPERTY(plFollowMod::FollowLeaderType, FollowMod, leaderType, getLeaderType,
@@ -62,5 +60,3 @@ PY_PLASMA_TYPE_INIT(FollowMod) {
 }
 
 PY_PLASMA_IFC_METHODS(FollowMod, plFollowMod)
-
-}

@@ -20,8 +20,6 @@
 #include "pyBitmap.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(RenderTarget, plRenderTarget)
 
 PY_PROPERTY(unsigned short, RenderTarget, width, getWidth, setWidth)
@@ -94,5 +92,3 @@ PY_PLASMA_TYPE_INIT(RenderTarget) {
 }
 
 PY_PLASMA_IFC_METHODS(RenderTarget, plRenderTarget)
-
-}

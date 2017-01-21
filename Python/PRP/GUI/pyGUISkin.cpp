@@ -19,8 +19,6 @@
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/KeyedObject/pyKeyedObject.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(GUISkin, pfGUISkin)
 
 PY_PROPERTY(plKey, GUISkin, texture, getTexture, setTexture)
@@ -34,7 +32,7 @@ static PyGetSetDef pyGUISkin_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PY_PLASMA_TYPE(GUISkin, pfGUISkin, "pfGUISkin wrapper");
+PY_PLASMA_TYPE(GUISkin, pfGUISkin, "pfGUISkin wrapper")
 
 PY_PLASMA_TYPE_INIT(GUISkin) {
     pyGUISkin_Type.tp_new = pyGUISkin_new;
@@ -64,5 +62,3 @@ PY_PLASMA_TYPE_INIT(GUISkin) {
 }
 
 PY_PLASMA_IFC_METHODS(GUISkin, pfGUISkin)
-
-}

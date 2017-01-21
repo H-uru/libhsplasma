@@ -20,8 +20,6 @@
 #include "pyVolumeIsect.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(SoftVolumeSimple, plSoftVolumeSimple)
 
 PY_PROPERTY_CREATABLE(plVolumeIsect, VolumeIsect, SoftVolumeSimple, volume,
@@ -48,5 +46,3 @@ PY_PLASMA_TYPE_INIT(SoftVolumeSimple) {
 }
 
 PY_PLASMA_IFC_METHODS(SoftVolumeSimple, plSoftVolumeSimple)
-
-}

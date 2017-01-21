@@ -20,8 +20,6 @@
 #include "pyLeafController.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_EMPTY_INIT(SimpleScaleController)
 PY_PLASMA_NEW(SimpleScaleController, plSimpleScaleController)
 
@@ -49,5 +47,3 @@ PY_PLASMA_TYPE_INIT(SimpleScaleController) {
 }
 
 PY_PLASMA_IFC_METHODS(SimpleScaleController, plSimpleScaleController)
-
-}

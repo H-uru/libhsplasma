@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plAGApplicator.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(LightDiffuseApplicator, plLightDiffuseApplicator)
 
 PY_PLASMA_TYPE(LightDiffuseApplicator, plLightDiffuseApplicator,
@@ -37,5 +35,3 @@ PY_PLASMA_TYPE_INIT(LightDiffuseApplicator) {
 }
 
 PY_PLASMA_IFC_METHODS(LightDiffuseApplicator, plLightDiffuseApplicator)
-
-}

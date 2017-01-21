@@ -20,8 +20,6 @@
 #include "pyConditionalObject.h"
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(AnimationEventConditionalObject, plAnimationEventConditionalObject)
 
 PY_PROPERTY(CallbackEvent, AnimationEventConditionalObject, action, getAction, setAction)
@@ -48,5 +46,3 @@ PY_PLASMA_TYPE_INIT(AnimationEventConditionalObject) {
 }
 
 PY_PLASMA_IFC_METHODS(AnimationEventConditionalObject, plAnimationEventConditionalObject)
-
-};

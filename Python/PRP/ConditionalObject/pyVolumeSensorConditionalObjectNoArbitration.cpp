@@ -18,8 +18,6 @@
 
 #include <PRP/ConditionalObject/plVolumeSensorConditionalObject.h>
 
-extern "C" {
-
 PY_PLASMA_NEW(VolumeSensorConditionalObjectNoArbitration,
               plVolumeSensorConditionalObjectNoArbitration)
 
@@ -39,5 +37,3 @@ PY_PLASMA_TYPE_INIT(VolumeSensorConditionalObjectNoArbitration) {
 
 PY_PLASMA_IFC_METHODS(VolumeSensorConditionalObjectNoArbitration,
                       plVolumeSensorConditionalObjectNoArbitration)
-
-};

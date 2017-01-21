@@ -21,8 +21,6 @@
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(InterfaceInfoModifier, plInterfaceInfoModifier)
 
 PY_METHOD_NOARGS(InterfaceInfoModifier, clearIntfKeys, "Remove all interface keys") {
@@ -98,5 +96,3 @@ PY_PLASMA_TYPE_INIT(InterfaceInfoModifier) {
 }
 
 PY_PLASMA_IFC_METHODS(InterfaceInfoModifier, plInterfaceInfoModifier)
-
-}

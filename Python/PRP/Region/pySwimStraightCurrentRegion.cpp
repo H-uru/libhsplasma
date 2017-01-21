@@ -19,8 +19,6 @@
 #include "PRP/KeyedObject/pyKey.h"
 #include <PRP/Region/plSwimRegion.h>
 
-extern "C" {
-
 PY_PLASMA_NEW(SwimStraightCurrentRegion, plSwimStraightCurrentRegion)
 
 PY_PROPERTY(float, SwimStraightCurrentRegion, nearDist, getNearDist, setNearDist)
@@ -53,5 +51,3 @@ PY_PLASMA_TYPE_INIT(SwimStraightCurrentRegion) {
 }
 
 PY_PLASMA_IFC_METHODS(SwimStraightCurrentRegion, plSwimStraightCurrentRegion);
-
-}

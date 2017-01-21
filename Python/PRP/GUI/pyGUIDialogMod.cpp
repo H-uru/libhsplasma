@@ -20,8 +20,6 @@
 #include "PRP/Modifier/pyModifier.h"
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(GUIDialogMod, pfGUIDialogMod)
 
 PY_METHOD_VA(GUIDialogMod, addControl,
@@ -97,7 +95,7 @@ static PyGetSetDef pyGUIDialogMod_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PY_PLASMA_TYPE(GUIDialogMod, pfGUIDialogMod, "pfGUIDialogMod wrapper");
+PY_PLASMA_TYPE(GUIDialogMod, pfGUIDialogMod, "pfGUIDialogMod wrapper")
 
 PY_PLASMA_TYPE_INIT(GUIDialogMod) {
     pyGUIDialogMod_Type.tp_new = pyGUIDialogMod_new;
@@ -112,5 +110,3 @@ PY_PLASMA_TYPE_INIT(GUIDialogMod) {
 }
 
 PY_PLASMA_IFC_METHODS(GUIDialogMod, pfGUIDialogMod)
-
-}

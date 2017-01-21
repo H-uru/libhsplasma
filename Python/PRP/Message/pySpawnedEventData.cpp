@@ -19,8 +19,6 @@
 #include <PRP/Message/proEventData.h>
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(SpawnedEventData, proSpawnedEventData)
 
 PY_PROPERTY(plKey, SpawnedEventData, spawner, getSpawner, setSpawner)
@@ -46,5 +44,3 @@ PY_PLASMA_TYPE_INIT(SpawnedEventData) {
 }
 
 PY_PLASMA_IFC_METHODS(SpawnedEventData, proSpawnedEventData)
-
-}

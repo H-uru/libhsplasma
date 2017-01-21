@@ -20,8 +20,6 @@
 #include "PRP/pyCreatable.h"
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(SimulationInterface, plSimulationInterface)
 
 PY_PROPERTY(plKey, SimulationInterface, physical, getPhysical, setPhysical)
@@ -73,5 +71,3 @@ PY_PLASMA_TYPE_INIT(SimulationInterface) {
 }
 
 PY_PLASMA_IFC_METHODS(SimulationInterface, plSimulationInterface)
-
-}

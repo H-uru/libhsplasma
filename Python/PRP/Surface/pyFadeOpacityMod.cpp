@@ -19,8 +19,6 @@
 #include <PRP/Surface/plFadeOpacityMod.h>
 #include "PRP/Modifier/pyModifier.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(FadeOpacityMod, plFadeOpacityMod)
 
 PY_PROPERTY(float, FadeOpacityMod, fadeUp, getFadeUp, setFadeUp)
@@ -64,5 +62,3 @@ PY_PLASMA_TYPE_INIT(FadeOpacityMod) {
 }
 
 PY_PLASMA_IFC_METHODS(FadeOpacityMod, plFadeOpacityMod)
-
-}

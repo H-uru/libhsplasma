@@ -18,8 +18,6 @@
 
 #include <PRP/Message/proEventData.h>
 
-extern "C" {
-
 PY_PLASMA_NEW(ResponderStateEventData, proResponderStateEventData)
 
 PY_PROPERTY(int, ResponderStateEventData, state, getState, setState)
@@ -44,5 +42,3 @@ PY_PLASMA_TYPE_INIT(ResponderStateEventData) {
 }
 
 PY_PLASMA_IFC_METHODS(ResponderStateEventData, proResponderStateEventData)
-
-}

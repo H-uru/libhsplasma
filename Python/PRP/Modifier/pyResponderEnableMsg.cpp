@@ -20,8 +20,6 @@
 #include "PRP/Message/pyMessage.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(ResponderEnableMsg, plResponderEnableMsg)
 
 PY_PROPERTY(bool, ResponderEnableMsg, enable, getEnable, setEnable)
@@ -45,5 +43,3 @@ PY_PLASMA_TYPE_INIT(ResponderEnableMsg) {
 }
 
 PY_PLASMA_IFC_METHODS(ResponderEnableMsg, plResponderEnableMsg)
-
-}

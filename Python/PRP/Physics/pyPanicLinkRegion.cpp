@@ -19,8 +19,6 @@
 #include <PRP/Physics/plCollisionDetector.h>
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(PanicLinkRegion, plPanicLinkRegion)
 
 PY_PROPERTY(bool, PanicLinkRegion, playLinkOutAnim, getPlayLinkOutAnim, setPlayLinkOutAnim)
@@ -44,5 +42,3 @@ PY_PLASMA_TYPE_INIT(PanicLinkRegion) {
 }
 
 PY_PLASMA_IFC_METHODS(PanicLinkRegion, plPanicLinkRegion)
-
-};

@@ -20,8 +20,6 @@
 #include "PRP/pyCreatable.h"
 #include "PRP/KeyedObject/pyKeyedObject.h"
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(SynchedObject, "plSynchedObject is abstract")
 
 PY_METHOD_VA(SynchedObject, setExclude,
@@ -176,5 +174,3 @@ PY_PLASMA_TYPE_INIT(SynchedObject) {
 }
 
 PY_PLASMA_IFC_METHODS(SynchedObject, plSynchedObject)
-
-}

@@ -20,8 +20,6 @@
 #include "pyModifier.h"
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(ExcludeRegionModifier, plExcludeRegionModifier)
 
 PY_METHOD_VA(ExcludeRegionModifier, addSafePoint,
@@ -108,5 +106,3 @@ PY_PLASMA_TYPE_INIT(ExcludeRegionModifier) {
 }
 
 PY_PLASMA_IFC_METHODS(ExcludeRegionModifier, plExcludeRegionModifier)
-
-};

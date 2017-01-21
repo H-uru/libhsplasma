@@ -20,8 +20,6 @@
 #include "PRP/KeyedObject/pyKey.h"
 #include "Math/pyMatrix.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(PostEffectMod, plPostEffectMod)
 
 PY_PROPERTY(float, PostEffectMod, hither, getHither, setHither)
@@ -43,7 +41,7 @@ static PyGetSetDef pyPostEffectMod_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PY_PLASMA_TYPE(PostEffectMod, plPostEffectMod, "plPostEffectMod wrapper");
+PY_PLASMA_TYPE(PostEffectMod, plPostEffectMod, "plPostEffectMod wrapper")
 
 PY_PLASMA_TYPE_INIT(PostEffectMod) {
     pyPostEffectMod_Type.tp_new = pyPostEffectMod_new;
@@ -57,5 +55,3 @@ PY_PLASMA_TYPE_INIT(PostEffectMod) {
 }
 
 PY_PLASMA_IFC_METHODS(PostEffectMod, plPostEffectMod)
-
-}

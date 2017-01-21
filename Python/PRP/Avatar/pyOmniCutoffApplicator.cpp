@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plAGApplicator.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(OmniCutoffApplicator, plOmniCutoffApplicator)
 
 PY_PLASMA_TYPE(OmniCutoffApplicator, plOmniCutoffApplicator,
@@ -37,5 +35,3 @@ PY_PLASMA_TYPE_INIT(OmniCutoffApplicator) {
 }
 
 PY_PLASMA_IFC_METHODS(OmniCutoffApplicator, plOmniCutoffApplicator)
-
-}

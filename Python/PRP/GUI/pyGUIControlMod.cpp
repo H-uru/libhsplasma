@@ -22,8 +22,6 @@
 #include "pyGUIControlHandlers.h"
 
 /* pyGUIColorScheme */
-extern "C" {
-
 PY_PLASMA_NEW(GUIColorScheme, pfGUIColorScheme)
 
 PY_PROPERTY(hsColorRGBA, GUIColorScheme, foreColor, getForeColor, setForeColor)
@@ -47,7 +45,7 @@ static PyGetSetDef pyGUIColorScheme_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PY_PLASMA_TYPE(GUIColorScheme, pfGUIColorScheme, "pfGUIColorScheme wrapper");
+PY_PLASMA_TYPE(GUIColorScheme, pfGUIColorScheme, "pfGUIColorScheme wrapper")
 
 PY_PLASMA_TYPE_INIT(GUIColorScheme) {
     pyGUIColorScheme_Type.tp_new = pyGUIColorScheme_new;
@@ -66,11 +64,8 @@ PY_PLASMA_TYPE_INIT(GUIColorScheme) {
 
 PY_PLASMA_IFC_METHODS(GUIColorScheme, pfGUIColorScheme)
 
-}
 
 /* pyGUIControlMod */
-extern "C" {
-
 PY_PLASMA_NEW(GUIControlMod, pfGUIControlMod)
 
 PY_METHOD_NOARGS(GUIControlMod, clearSoundIndices, "Remove all sound indices from the control") {
@@ -154,7 +149,7 @@ static PyGetSetDef pyGUIControlMod_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PY_PLASMA_TYPE(GUIControlMod, pfGUIControlMod, "pfGUIControlMod wrapper");
+PY_PLASMA_TYPE(GUIControlMod, pfGUIControlMod, "pfGUIControlMod wrapper")
 
 PY_PLASMA_TYPE_INIT(GUIControlMod) {
     pyGUIControlMod_Type.tp_new = pyGUIControlMod_new;
@@ -179,5 +174,3 @@ PY_PLASMA_TYPE_INIT(GUIControlMod) {
 }
 
 PY_PLASMA_IFC_METHODS(GUIControlMod, pfGUIControlMod)
-
-}

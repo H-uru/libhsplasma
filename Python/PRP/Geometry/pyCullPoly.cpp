@@ -20,8 +20,6 @@
 #include <Math/hsGeometry3.h>
 #include "Math/pyGeometry3.h"
 
-extern "C" {
-
 PY_PLASMA_VALUE_DEALLOC(CullPoly)
 PY_PLASMA_EMPTY_INIT(CullPoly)
 PY_PLASMA_VALUE_NEW(CullPoly, plCullPoly)
@@ -92,5 +90,3 @@ PY_PLASMA_TYPE_INIT(CullPoly) {
 }
 
 PY_PLASMA_VALUE_IFC_METHODS(CullPoly, plCullPoly)
-
-}

@@ -18,8 +18,6 @@
 #include "pyGUIValueCtrl.h"
 #include "PRP/GUI/pyGUIControlMod.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(GUIValueCtrl, pfGUIValueCtrl)
 
 PY_PROPERTY(float, GUIValueCtrl, min, getMin, setMin)
@@ -33,7 +31,7 @@ static PyGetSetDef pyGUIValueCtrl_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PY_PLASMA_TYPE(GUIValueCtrl, pfGUIValueCtrl, "pfGUIValueCtrl wrapper");
+PY_PLASMA_TYPE(GUIValueCtrl, pfGUIValueCtrl, "pfGUIValueCtrl wrapper")
 
 PY_PLASMA_TYPE_INIT(GUIValueCtrl) {
     pyGUIValueCtrl_Type.tp_new = pyGUIValueCtrl_new;
@@ -47,5 +45,3 @@ PY_PLASMA_TYPE_INIT(GUIValueCtrl) {
 }
 
 PY_PLASMA_IFC_METHODS(GUIValueCtrl, pfGUIValueCtrl)
-
-}

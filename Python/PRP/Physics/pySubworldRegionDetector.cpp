@@ -19,8 +19,6 @@
 #include <PRP/Physics/plCollisionDetector.h>
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(SubworldRegionDetector, plSubworldRegionDetector)
 
 PY_PROPERTY(plKey, SubworldRegionDetector, subworld, getSubworld, setSubworld)
@@ -47,5 +45,3 @@ PY_PLASMA_TYPE_INIT(SubworldRegionDetector) {
 }
 
 PY_PLASMA_IFC_METHODS(SubworldRegionDetector, plSubworldRegionDetector)
-
-};

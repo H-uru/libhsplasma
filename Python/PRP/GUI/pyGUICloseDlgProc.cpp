@@ -18,8 +18,6 @@
 
 #include <PRP/GUI/pfGUIControlHandlers.h>
 
-extern "C" {
-
 PY_PLASMA_NEW(GUICloseDlgProc, pfGUICloseDlgProc)
 
 PY_PLASMA_TYPE(GUICloseDlgProc, pfGUICloseDlgProc, "pfGUICloseDlgProc wrapper")
@@ -35,5 +33,3 @@ PY_PLASMA_TYPE_INIT(GUICloseDlgProc) {
 }
 
 PY_PLASMA_IFC_METHODS(GUICloseDlgProc, pfGUICloseDlgProc)
-
-}

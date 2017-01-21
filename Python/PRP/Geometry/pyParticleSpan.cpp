@@ -18,8 +18,6 @@
 
 #include <PRP/Geometry/plIcicle.h>
 
-extern "C" {
-
 PY_PLASMA_NEW(ParticleSpan, plParticleSpan)
 
 PY_PLASMA_TYPE(ParticleSpan, plParticleSpan, "plParticleSpan wrapper")
@@ -35,5 +33,3 @@ PY_PLASMA_TYPE_INIT(ParticleSpan) {
 }
 
 PY_PLASMA_IFC_METHODS(ParticleSpan, plParticleSpan)
-
-}

@@ -22,8 +22,6 @@
 #include "Stream/pyStream.h"
 #include "Math/pyMatrix.h"
 
-extern "C" {
-
 PY_PLASMA_DEALLOC(Span)
 PY_PLASMA_EMPTY_INIT(Span)
 PY_PLASMA_NEW(Span, plSpan)
@@ -231,5 +229,3 @@ PY_PLASMA_TYPE_INIT(Span) {
 }
 
 PY_PLASMA_IFC_METHODS(Span, plSpan)
-
-}

@@ -19,8 +19,6 @@
 #include <PRP/Geometry/plIcicle.h>
 #include "pyGBufferGroup.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(Icicle, plIcicle)
 
 PY_GETSET_GETTER_DECL(Icicle, sortData) {
@@ -89,5 +87,3 @@ PY_PLASMA_TYPE_INIT(Icicle) {
 }
 
 PY_PLASMA_IFC_METHODS(Icicle, plIcicle)
-
-}

@@ -19,8 +19,6 @@
 #include <PRP/Message/plSoundMsg.h>
 #include "pyMessageWithCallbacks.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(SoundMsg, plSoundMsg)
 
 PY_METHOD_VA(SoundMsg, getCmd,
@@ -122,5 +120,3 @@ PY_PLASMA_TYPE_INIT(SoundMsg) {
 }
 
 PY_PLASMA_IFC_METHODS(SoundMsg, plSoundMsg)
-
-};

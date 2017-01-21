@@ -19,8 +19,6 @@
 #include <PRP/Surface/plLayerAnimation.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(LayerSDLAnimation, plLayerSDLAnimation)
 
 PY_PROPERTY(ST::string, LayerSDLAnimation, varName, getVarName, setVarName)
@@ -44,5 +42,3 @@ PY_PLASMA_TYPE_INIT(LayerSDLAnimation) {
 }
 
 PY_PLASMA_IFC_METHODS(LayerSDLAnimation, plLayerSDLAnimation)
-
-}

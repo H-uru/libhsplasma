@@ -18,8 +18,6 @@
 
 #include <PRP/Message/proEventData.h>
 
-extern "C" {
-
 PY_PLASMA_NEW(CallbackEventData, proCallbackEventData)
 
 PY_PROPERTY(int, CallbackEventData, callbackEventType, getCallbackEventType,
@@ -44,5 +42,3 @@ PY_PLASMA_TYPE_INIT(CallbackEventData) {
 }
 
 PY_PLASMA_IFC_METHODS(CallbackEventData, proCallbackEventData)
-
-}

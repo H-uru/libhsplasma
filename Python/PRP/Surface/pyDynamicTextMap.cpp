@@ -20,8 +20,6 @@
 #include "pyBitmap.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(DynamicTextMap, plDynamicTextMap)
 
 PY_GETSET_GETTER_DECL(DynamicTextMap, initBuffer) {
@@ -84,5 +82,3 @@ PY_PLASMA_TYPE_INIT(DynamicTextMap) {
 }
 
 PY_PLASMA_IFC_METHODS(DynamicTextMap, plDynamicTextMap)
-
-}

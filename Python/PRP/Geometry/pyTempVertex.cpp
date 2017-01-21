@@ -19,8 +19,6 @@
 #include "Math/pyGeometry3.h"
 #include "Sys/pyColor.h"
 
-extern "C" {
-
 PY_PLASMA_VALUE_DEALLOC(TempVertex)
 PY_PLASMA_VALUE_NEW(TempVertex, plGeometrySpan::TempVertex)
 
@@ -128,5 +126,3 @@ PY_PLASMA_TYPE_INIT(TempVertex) {
 }
 
 PY_PLASMA_VALUE_IFC_METHODS(TempVertex, plGeometrySpan::TempVertex)
-
-};

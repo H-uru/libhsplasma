@@ -19,8 +19,6 @@
 #include <PRP/Animation/plKeyControllers.hpp>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_EMPTY_INIT(Matrix44Controller)
 PY_PLASMA_NEW(Matrix44Controller, plMatrix44Controller)
 
@@ -39,5 +37,3 @@ PY_PLASMA_TYPE_INIT(Matrix44Controller) {
 }
 
 PY_PLASMA_IFC_METHODS(Matrix44Controller, plMatrix44Controller)
-
-}

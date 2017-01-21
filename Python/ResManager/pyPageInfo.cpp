@@ -20,8 +20,6 @@
 #include "Stream/pyStream.h"
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_DEALLOC(PageInfo)
 PY_PLASMA_EMPTY_INIT(PageInfo)
 PY_PLASMA_NEW(PageInfo, plPageInfo)
@@ -143,5 +141,3 @@ PY_PLASMA_TYPE_INIT(PageInfo) {
 }
 
 PY_PLASMA_IFC_METHODS(PageInfo, plPageInfo)
-
-}

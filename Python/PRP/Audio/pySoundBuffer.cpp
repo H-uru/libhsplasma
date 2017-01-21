@@ -20,8 +20,6 @@
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(SoundBuffer, plSoundBuffer)
 
 PY_PROPERTY_PROXY(plWAVHeader, SoundBuffer, header, getHeader)
@@ -85,5 +83,3 @@ PY_PLASMA_TYPE_INIT(SoundBuffer) {
 }
 
 PY_PLASMA_IFC_METHODS(SoundBuffer, plSoundBuffer)
-
-}

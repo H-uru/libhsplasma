@@ -20,8 +20,6 @@
 #include "PRP/pyCreatable.h"
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(Sound, "plSound is abstract")
 
 PY_PROPERTY(unsigned char, Sound, type, getType, setType)
@@ -102,5 +100,3 @@ PY_PLASMA_TYPE_INIT(Sound) {
 }
 
 PY_PLASMA_IFC_METHODS(Sound, plSound)
-
-}

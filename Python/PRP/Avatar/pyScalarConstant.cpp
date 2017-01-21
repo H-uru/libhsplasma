@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plScalarChannel.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(ScalarConstant, plScalarConstant)
 
 PY_PLASMA_TYPE(ScalarConstant, plScalarConstant, "plScalarConstant wrapper")
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(ScalarConstant) {
 }
 
 PY_PLASMA_IFC_METHODS(ScalarConstant, plScalarConstant)
-
-}

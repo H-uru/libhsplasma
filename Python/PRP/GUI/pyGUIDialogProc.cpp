@@ -18,8 +18,6 @@
 
 #include <PRP/GUI/pfGUIControlHandlers.h>
 
-extern "C" {
-
 PY_PLASMA_NEW(GUIDialogProc, pfGUIDialogProc)
 
 PY_PLASMA_TYPE(GUIDialogProc, pfGUIDialogProc, "pfGUIDialogProc wrapper")
@@ -35,5 +33,3 @@ PY_PLASMA_TYPE_INIT(GUIDialogProc) {
 }
 
 PY_PLASMA_IFC_METHODS(GUIDialogProc, pfGUIDialogProc)
-
-}

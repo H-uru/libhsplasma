@@ -22,8 +22,6 @@
 #include "PRP/Misc/pyAgeLinkInfo.h"
 #include <PRP/Modifier/pyPythonFileMod.h>
 
-extern "C" {
-
 PY_PLASMA_NEW(LinkToAgeMsg, plLinkToAgeMsg)
 
 PY_GETSET_GETTER_DECL(LinkToAgeMsg, ageLink) {
@@ -65,5 +63,3 @@ PY_PLASMA_TYPE_INIT(LinkToAgeMsg) {
 }
 
 PY_PLASMA_IFC_METHODS(LinkToAgeMsg, plLinkToAgeMsg)
-
-}

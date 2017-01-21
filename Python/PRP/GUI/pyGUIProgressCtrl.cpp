@@ -19,8 +19,6 @@
 #include "PRP/GUI/pyGUIValueCtrl.h"
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(GUIProgressCtrl, pfGUIProgressCtrl)
 
 PY_METHOD_VA(GUIProgressCtrl, addAnimKey,
@@ -85,7 +83,7 @@ static PyGetSetDef pyGUIProgressCtrl_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PY_PLASMA_TYPE(GUIProgressCtrl, pfGUIProgressCtrl, "pfGUIProgressCtrl wrapper");
+PY_PLASMA_TYPE(GUIProgressCtrl, pfGUIProgressCtrl, "pfGUIProgressCtrl wrapper")
 
 PY_PLASMA_TYPE_INIT(GUIProgressCtrl) {
     pyGUIProgressCtrl_Type.tp_new = pyGUIProgressCtrl_new;
@@ -107,5 +105,3 @@ PY_PLASMA_TYPE_INIT(GUIProgressCtrl) {
 }
 
 PY_PLASMA_IFC_METHODS(GUIProgressCtrl, pfGUIProgressCtrl)
-
-}

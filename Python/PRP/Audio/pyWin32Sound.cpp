@@ -20,8 +20,6 @@
 #include "pySound.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(Win32Sound, "plWin32Sound is abstract")
 
 PY_PROPERTY(unsigned char, Win32Sound, channel, getChannel, setChannel)
@@ -48,5 +46,3 @@ PY_PLASMA_TYPE_INIT(Win32Sound) {
 }
 
 PY_PLASMA_IFC_METHODS(Win32Sound, plWin32Sound)
-
-}

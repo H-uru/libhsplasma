@@ -20,8 +20,6 @@
 #include "pyDetectorModifier.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(CollisionDetector, "plCollisionDetector is abstract")
 
 PY_PROPERTY(unsigned char, CollisionDetector, type, getType, setType)
@@ -52,5 +50,3 @@ PY_PLASMA_TYPE_INIT(CollisionDetector) {
 }
 
 PY_PLASMA_IFC_METHODS(CollisionDetector, plCollisionDetector)
-
-};

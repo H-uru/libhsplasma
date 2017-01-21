@@ -20,8 +20,6 @@
 #include "KeyedObject/pyKey.h"
 #include "KeyedObject/pyKeyedObject.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(SceneNode, plSceneNode)
 
 PY_METHOD_NOARGS(SceneNode, clear, "Removes all objects from the Scene Node") {
@@ -170,5 +168,3 @@ PY_PLASMA_TYPE_INIT(SceneNode) {
 }
 
 PY_PLASMA_IFC_METHODS(SceneNode, plSceneNode)
-
-}

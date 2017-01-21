@@ -19,8 +19,6 @@
 #include <PRP/Animation/plTMController.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_EMPTY_INIT(CompoundController)
 PY_PLASMA_NEW(CompoundController, plCompoundController)
 
@@ -65,5 +63,3 @@ PY_PLASMA_TYPE_INIT(CompoundController) {
 }
 
 PY_PLASMA_IFC_METHODS(CompoundController, plCompoundController)
-
-}

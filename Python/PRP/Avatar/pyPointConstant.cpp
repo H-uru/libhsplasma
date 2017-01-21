@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plPointChannel.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(PointConstant, plPointConstant)
 
 PY_PLASMA_TYPE(PointConstant, plPointConstant, "plPointConstant wrapper")
@@ -36,5 +34,3 @@ PY_PLASMA_TYPE_INIT(PointConstant) {
 }
 
 PY_PLASMA_IFC_METHODS(PointConstant, plPointConstant)
-
-}

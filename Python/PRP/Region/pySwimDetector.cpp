@@ -17,8 +17,6 @@
 #include "pySimpleRegionSensor.h"
 #include <PRP/Region/plSimpleRegionSensor.h>
 
-extern "C" {
-
 PY_PLASMA_NEW(SwimDetector, plSwimDetector)
 
 PY_PLASMA_TYPE(SwimDetector, plSwimDetector, "plSwimDetector wrapper")
@@ -34,5 +32,3 @@ PY_PLASMA_TYPE_INIT(SwimDetector) {
 }
 
 PY_PLASMA_IFC_METHODS(SwimDetector, plSwimDetector);
-
-}

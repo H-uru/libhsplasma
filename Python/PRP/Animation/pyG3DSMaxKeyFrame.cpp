@@ -19,8 +19,6 @@
 #include <PRP/Animation/hsKeys.h>
 #include "Math/pyGeometry3.h"
 
-extern "C" {
-
 PY_PLASMA_EMPTY_INIT(G3DSMaxKeyFrame)
 PY_PLASMA_NEW(G3DSMaxKeyFrame, hsG3DSMaxKeyFrame)
 
@@ -46,5 +44,3 @@ PY_PLASMA_TYPE_INIT(G3DSMaxKeyFrame) {
 }
 
 PY_PLASMA_IFC_METHODS(G3DSMaxKeyFrame, hsG3DSMaxKeyFrame)
-
-}

@@ -19,8 +19,6 @@
 #include <PRP/Geometry/plSpanTemplate.h>
 #include "Math/pyGeometry3.h"
 
-extern "C" {
-
 PY_PLASMA_DEALLOC(SpanTemplateVertex)
 PY_PLASMA_EMPTY_INIT(SpanTemplateVertex)
 PY_PLASMA_NEW(SpanTemplateVertex, plSpanTemplate::Vertex)
@@ -125,5 +123,3 @@ PY_PLASMA_TYPE_INIT(SpanTemplateVertex) {
 }
 
 PY_PLASMA_IFC_METHODS(SpanTemplateVertex, plSpanTemplate::Vertex)
-
-}

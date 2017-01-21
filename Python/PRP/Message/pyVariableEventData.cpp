@@ -19,8 +19,6 @@
 #include <PRP/Message/proEventData.h>
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(VariableEventData, proVariableEventData)
 
 PY_PROPERTY(ST::string, VariableEventData, name, getName, setName)
@@ -51,5 +49,3 @@ PY_PLASMA_TYPE_INIT(VariableEventData) {
 }
 
 PY_PLASMA_IFC_METHODS(VariableEventData, proVariableEventData)
-
-}

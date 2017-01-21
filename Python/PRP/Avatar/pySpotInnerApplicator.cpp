@@ -19,8 +19,6 @@
 #include <PRP/Avatar/plAGApplicator.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(SpotInnerApplicator, plSpotInnerApplicator)
 
 PY_PLASMA_TYPE(SpotInnerApplicator, plSpotInnerApplicator,
@@ -37,5 +35,3 @@ PY_PLASMA_TYPE_INIT(SpotInnerApplicator) {
 }
 
 PY_PLASMA_IFC_METHODS(SpotInnerApplicator, plSpotInnerApplicator)
-
-}

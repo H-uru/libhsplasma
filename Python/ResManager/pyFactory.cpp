@@ -19,8 +19,6 @@
 #include <ResManager/plFactory.h>
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW_MSG(Factory, "plFactory cannot be constructed")
 
 PY_METHOD_STATIC_VA(Factory, ClassName,
@@ -1141,6 +1139,4 @@ PY_PLASMA_TYPE_INIT(Factory) {
 
     Py_INCREF(&pyFactory_Type);
     return (PyObject*)&pyFactory_Type;
-}
-
 }

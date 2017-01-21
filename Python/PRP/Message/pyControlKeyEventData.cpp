@@ -19,8 +19,6 @@
 #include <PRP/Message/proEventData.h>
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(ControlKeyEventData, proControlKeyEventData)
 
 PY_PROPERTY(int, ControlKeyEventData, controlKey, getControlKey, setControlKey)
@@ -47,5 +45,3 @@ PY_PLASMA_TYPE_INIT(ControlKeyEventData) {
 }
 
 PY_PLASMA_IFC_METHODS(ControlKeyEventData, proControlKeyEventData)
-
-}

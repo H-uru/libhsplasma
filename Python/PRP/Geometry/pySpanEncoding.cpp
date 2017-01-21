@@ -19,8 +19,6 @@
 #include <PRP/Geometry/plSpanInstance.h>
 #include "Stream/pyStream.h"
 
-extern "C" {
-
 PY_PLASMA_DEALLOC(SpanEncoding)
 PY_PLASMA_EMPTY_INIT(SpanEncoding)
 PY_PLASMA_NEW(SpanEncoding, plSpanEncoding)
@@ -105,5 +103,3 @@ PY_PLASMA_TYPE_INIT(SpanEncoding) {
 }
 
 PY_PLASMA_IFC_METHODS(SpanEncoding, plSpanEncoding)
-
-}

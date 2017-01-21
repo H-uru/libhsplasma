@@ -21,8 +21,6 @@
 #include "PRP/Message/pyEventCallbackMsg.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(AnimTimeConvert, plAnimTimeConvert)
 
 PY_METHOD_VA(AnimTimeConvert, addCallback,
@@ -172,5 +170,3 @@ PY_PLASMA_TYPE_INIT(AnimTimeConvert) {
 }
 
 PY_PLASMA_IFC_METHODS(AnimTimeConvert, plAnimTimeConvert)
-
-}

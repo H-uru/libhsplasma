@@ -20,8 +20,6 @@
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/pyCreatable.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(Shader, plShader)
 
 PY_GETSET_GETTER_DECL(Shader, constants) {
@@ -126,5 +124,3 @@ PY_PLASMA_TYPE_INIT(Shader) {
 }
 
 PY_PLASMA_IFC_METHODS(Shader, plShader)
-
-}

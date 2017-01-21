@@ -18,8 +18,6 @@
 
 #include <PRP/Animation/hsKeys.h>
 
-extern "C" {
-
 PY_PLASMA_EMPTY_INIT(ScalarKey)
 PY_PLASMA_NEW(ScalarKey, hsScalarKey)
 
@@ -49,5 +47,3 @@ PY_PLASMA_TYPE_INIT(ScalarKey) {
 }
 
 PY_PLASMA_IFC_METHODS(ScalarKey, hsScalarKey)
-
-}

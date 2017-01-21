@@ -20,8 +20,6 @@
 #include "pyConditionalObject.h"
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(ORConditionalObject, plORConditionalObject)
 
 PY_METHOD_VA(ORConditionalObject, addChild,
@@ -95,5 +93,3 @@ PY_PLASMA_TYPE_INIT(ORConditionalObject) {
 }
 
 PY_PLASMA_IFC_METHODS(ORConditionalObject, plORConditionalObject)
-
-};

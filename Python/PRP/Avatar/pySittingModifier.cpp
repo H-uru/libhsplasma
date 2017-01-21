@@ -20,8 +20,6 @@
 #include "PRP/Modifier/pyModifier.h"
 #include "PRP/KeyedObject/pyKey.h"
 
-extern "C" {
-
 PY_PLASMA_NEW(SittingModifier, plSittingModifier)
 
 PY_METHOD_VA(SittingModifier, addNotifyKey,
@@ -103,5 +101,3 @@ PY_PLASMA_TYPE_INIT(SittingModifier) {
 }
 
 PY_PLASMA_IFC_METHODS(SittingModifier, plSittingModifier)
-
-};
