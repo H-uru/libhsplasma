@@ -55,13 +55,13 @@ For PyHSPlasma
 
 - `Python 2.6+ or 3.0+ <http://www.python.org/>`_
 
-You will also need a C++ compiler with at least some C++11 support.
+You will also need CMake and a C++ compiler with at least some C++11 support.
 The following compiler versions are currently supported (others may work,
 but are currently untested):
 
 - GCC 4.6 or later
 - Clang 3.0 or later
-- Microsoft Visual C++ 2010 or later
+- Microsoft Visual C++ 2013 or later
 
 
 Win32/64 Special Considerations
