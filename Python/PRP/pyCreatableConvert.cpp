@@ -182,6 +182,7 @@
 #include "PRP/Avatar/pyAGMasterMod.h"
 #include "PRP/Avatar/pyAGModifier.h"
 #include "PRP/Avatar/pyATCAnim.h"
+#include "PRP/Avatar/pyLadderModifier.h"
 #include "PRP/Avatar/pyMultistageBehMod.h"
 #include "PRP/Avatar/pySittingModifier.h"
 #include "PRP/Audio/pyAudible.h"
@@ -515,6 +516,8 @@ PyObject* ICreate(plCreatable* pCre)
         case kGUIValueCtrl: pyGUIValueCtrl_FromGUIValueCtrl(pfGUIValueCtrl::Convert(pCre));
         case kImageLibMod: pyImageLibMod_FromImageLibMod(plImageLibMod::Convert(pCre));
         case kPostEffectMod: pyPostEffectMod_FromPostEffectMod(plPostEffectMod::Convert(pCre));
+        case kAvLadderMod: pyAvLadderMod_FromAvLadderMod(plAvLadderMod::Convert(pCre));
+        case kLadderModifier: pyLadderModifier_FromLadderModifier(plLadderModifier::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (pCre->ClassInstance(kMessage))
