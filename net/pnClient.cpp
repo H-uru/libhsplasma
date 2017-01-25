@@ -30,10 +30,8 @@ void pnClient::run()
 
 uint32_t pnClient::nextTransId() {
     static uint32_t s_transId = 0;
-    static hsMutex s_tidMutex;
+    static std::mutex s_tidMutex;
 
-    s_tidMutex.lock();
-    uint32_t tid = ++s_transId;
-    s_tidMutex.unlock();
-    return tid;
+    std::lock_guard<std::mutex> lock(s_tidMutex);
+    return ++s_transId;
 }

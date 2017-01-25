@@ -18,6 +18,7 @@
 #define _PLRESMANAGER_H
 
 #include <functional>
+#include <mutex>
 
 #include "PlasmaDefs.h"
 #include "Util/PlasmaVersions.h"
@@ -27,7 +28,6 @@
 #include "plKeyCollector.h"
 #include "PRP/plPageInfo.h"
 #include "plAgeInfo.h"
-#include "Sys/hsThread.h"
 
 /** Callback to indicate the progress of the current load operation */
 typedef std::function<void (plPageInfo *page, size_t curObj, size_t maxObjs)> LoadProgressCallback;
@@ -51,7 +51,7 @@ struct plPageStream {
  */
 class PLASMA_DLL plResManager {
 private:
-    hsMutex fResMgrMutex;
+    std::mutex fResMgrMutex;
 
 protected:
     PlasmaVer fPlasmaVer;
