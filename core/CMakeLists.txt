@@ -677,7 +677,6 @@ set(STREAM_HEADERS
 
 set(SYS_SOURCES
     Sys/hsColor.cpp
-    Sys/hsSemaphore.cpp
     Sys/hsThread.cpp
     Sys/plUnifiedTime.cpp
     Sys/plUuid.cpp
@@ -685,7 +684,6 @@ set(SYS_SOURCES
 set(SYS_HEADERS
     Sys/Platform.h
     Sys/hsColor.h
-    Sys/hsSemaphore.h
     Sys/hsThread.h
     Sys/plUnifiedTime.h
     Sys/plUuid.h
