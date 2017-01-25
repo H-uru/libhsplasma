@@ -22,17 +22,20 @@
 #include <cstring>
 
 void doHelp() {
-    printf("Usage: PyPack -x filename.pak [-o outdir]\n");
-    printf("       PyPack -c [options] [source.pyc ...] filename.pak\n");
-    printf("       PyPack -a [options] [source.pyc ...] filename.pak\n\n");
-    printf("Actions:  -x    Extract a PAK file\n");
-    printf("          -c    Create a PAK file and add the .pyc files to it\n");
-    printf("          -a    Add .pyc files to an existing PAK file\n");
-    printf("          -o    Change the output path (for extracting only)\n\n");
-    printf("Options:  -uru  Use Prime/PotS mode\n");
-    printf("          -live Use MOUL mode (the encryption key should follow)\n");
-    printf("          -eoa  Use Eoa/Hex Isle mode\n");
-    printf("          -n    Don't use encryption\n\n");
+    puts("Usage: PyPack -x filename.pak [-o outdir]");
+    puts("       PyPack -c [options] [source.pyc ...] filename.pak");
+    puts("       PyPack -a [options] [source.pyc ...] filename.pak");
+    puts("");
+    puts("Actions:  -x    Extract a PAK file");
+    puts("          -c    Create a PAK file and add the .pyc files to it");
+    puts("          -a    Add .pyc files to an existing PAK file");
+    puts("          -o    Change the output path (for extracting only)");
+    puts("");
+    puts("Options:  -uru  Use Prime/PotS mode");
+    puts("          -live Use MOUL mode (the encryption key should follow)");
+    puts("          -eoa  Use Eoa/Hex Isle mode");
+    puts("          -n    Don't use encryption");
+    puts("");
 }
 
 enum Action { kInvalid, kCreate, kExtract, kAdd };
@@ -78,7 +81,7 @@ bool parseKey(const char* buf, unsigned int& val) {
     return true;
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char* argv[]) {
     Action action = kInvalid;
     ST::string pakfile, outdir;
     std::list<ST::string> infiles;
@@ -106,14 +109,15 @@ int main(int argc, char** argv) {
             eType = plEncryptedStream::kEncDroid;
             i++;
             if (strlen(argv[i]) != 32) {
-                fprintf(stderr, "Error:  key must be exactly 32 Hex characters, in little-endian byte order.\n");
-                fprintf(stderr, "Example:  To use the key { 0x01234567, 0x89ABCDEF, 0x01234567, 0x89ABCDEF } :\n"
-                                "    PyPack -c -live 0123456789ABCDEF0123456789ABCDEF Filename.pyc Filename.pak\n");
+                fputs("Error:  key must be exactly 32 Hex characters, in little-endian byte order.\n", stderr);
+                fputs("Example:  To use the key { 0x01234567, 0x89ABCDEF, 0x01234567, 0x89ABCDEF } :\n", stderr);
+                fputs("    PyPack -c -live 0123456789ABCDEF0123456789ABCDEF Filename.pyc Filename.pak\n", stderr);
                 return 1;
             }
-            for (size_t j=0; j<4; j++)
+            for (size_t j=0; j<4; j++) {
                 if (!parseKey(&argv[i][j*8], uruKey[j]))
                     return 1;
+            }
         } else if (strcmp(argv[i], "-eoa") == 0) {
             eType = plEncryptedStream::kEncAES;
         } else {
@@ -132,7 +136,7 @@ int main(int argc, char** argv) {
     if (action == kCreate) {
         uint32_t offs = 0, baseOffs = 4;
         pakObjects.resize(infiles.size());
-        std::list<ST::string>::iterator it = infiles.begin();;
+        std::list<ST::string>::iterator it = infiles.begin();
         for (size_t i=0; it!=infiles.end(); i++, it++) {
             ST::string name = *it;
             if (name.after_last('.').to_lower() != "pyc") {

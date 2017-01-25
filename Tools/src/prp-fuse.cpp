@@ -360,7 +360,7 @@ static fuse_operations prp_oper = {
     NULL,                   /* fgetattr */
 };
 
-static void printUsage(char* progName)
+static void printUsage(const char* progName)
 {
     fprintf(stderr, "Usage: %s <prp-file> [fuse options] <mount-point>\n", progName);
 }

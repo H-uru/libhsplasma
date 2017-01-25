@@ -18,21 +18,23 @@
 #include "Debug/hsExceptions.hpp"
 #include "Debug/plDebug.h"
 #include "Stream/hsStdioStream.h"
+#include <string_theory/stdio>
 #include <string.h>
 #include <time.h>
 #include <sys/stat.h>
 
 void doHelp() {
-    printf("Usage: PageList filename.prp\n\n");
+    puts("Usage: PageList filename.prp");
+    puts("");
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char* argv[]) {
     if (argc < 2) {
         doHelp();
         return 0;
     }
 
-    std::vector<ST::string> fFiles;
+    std::vector<ST::string> files;
 
     plDebug::Init(plDebug::kDLAll);
     plResManager rm;
@@ -45,36 +47,38 @@ int main(int argc, char** argv) {
                 return 0;
             }
         } else {
-            fFiles.push_back(argv[i]);
+            files.push_back(argv[i]);
         }
     }
 
-    for (size_t i=0; i<fFiles.size(); i++) {
+    for (size_t i=0; i<files.size(); i++) {
         try {
-            page = rm.ReadPage(fFiles[i], true);
+            page = rm.ReadPage(files[i], true);
         } catch (hsException& e) {
-            fprintf(stderr, "%s:%lu: %s\n", e.File(), e.Line(), e.what());
+            ST::printf(stderr, "{}:{}: {}\n", e.File(), e.Line(), e.what());
             return 1;
         } catch (std::exception& e) {
-            fprintf(stderr, "PrcExtract Exception: %s\n", e.what());
+            ST::printf(stderr, "PrcExtract Exception: {}\n", e.what());
             return 1;
         } catch (...) {
-            fprintf(stderr, "Undefined error!\n");
+            fputs("Undefined error!\n", stderr);
             return 1;
         }
 
         std::vector<short> types = rm.getTypes(page->getLocation());
 
-        printf("%s :: %s\n", page->getAge().c_str(), page->getPage().c_str());
+        ST::printf("{} :: {}\n", page->getAge(), page->getPage());
 
-        for (unsigned int f = 0; f < types.size(); f++) {
-            printf("|---[%04X] %s\n", types[f], pdUnifiedTypeMap::ClassName(types[f]));
+        for (size_t f = 0; f < types.size(); f++) {
+            ST::printf("|---[{04X}] {}\n", types[f], pdUnifiedTypeMap::ClassName(types[f]));
 
             std::vector<plKey> mykeys = rm.getKeys(page->getLocation(), types[f]);
 
-            for (unsigned int ks = 0; ks < mykeys.size(); ks++) {
-                printf("|    |--- %s\n", mykeys[ks]->getName().c_str());
+            for (size_t ks = 0; ks < mykeys.size(); ks++) {
+                printf("|    |--- {}\n", mykeys[ks]->getName());
             }
         }
     }
+
+    return 0;
 }

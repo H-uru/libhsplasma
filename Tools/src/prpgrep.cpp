@@ -19,6 +19,7 @@
 #include <Stream/pfPrcHelper.h>
 #include <Stream/hsRAMStream.h>
 #include <PRP/KeyedObject/hsKeyedObject.h>
+#include <string_theory/stdio>
 #include <list>
 
 static char lnbuf[4096];
@@ -53,7 +54,7 @@ ST::string GetLine(hsStream* S) {
     return ST::null;
 }
 
-void DoSearch(hsStream* S, const char* pattern, const char* filename, plKey key) {
+void DoSearch(hsStream* S, const ST::string& pattern, const ST::string& filename, plKey key) {
     unsigned int ln = 1;
     lnbuf_ptr = &lnbuf[4096];
     while (!S->eof()) {
@@ -63,40 +64,40 @@ void DoSearch(hsStream* S, const char* pattern, const char* filename, plKey key)
             const char* txtout = text.c_str();
             while (*txtout == ' ' || *txtout == '\t')
                 txtout++;
-            printf("%s:[%s]%s:%u: %s\n", filename,
-                   pdUnifiedTypeMap::ClassName(key->getType()),
-                   key->getName().c_str(), ln, txtout);
+            ST::printf("{}:[{}]{}:{}: {}\n", filename,
+                       pdUnifiedTypeMap::ClassName(key->getType()),
+                       key->getName(), ln, txtout);
         }
         ln++;
     }
 }
 
 void doHelp(const char* progname) {
-    fprintf(stderr, "Usage: %s pattern file1 [file2 [...]]\n\n", progname);
+    ST::printf("Usage: {} pattern file1 [file2 [...]]\n\n", progname);
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char* argv[]) {
     if (argc < 3) {
         doHelp(argv[0]);
         return 1;
     }
 
     const char* pattern = argv[1];
-    std::list<const char*> files;
+    std::list<ST::string> files;
     for (int i=2; i<argc; i++)
         files.push_back(argv[i]);
 
     plResManager mgr;
-    std::list<const char*>::iterator it;
+    std::list<ST::string>::iterator it;
     for (it = files.begin(); it != files.end(); it++) {
         plPageInfo* page;
         try {
             page = mgr.ReadPage(*it);
         } catch (hsException& ex) {
-            fprintf(stderr, "Error reading %s: %s\n", *it, ex.what());
+            ST::printf(stderr, "Error reading {}: {}\n", *it, ex.what());
             continue;
         } catch (...) {
-            fprintf(stderr, "Undefined error reading %s\n", *it);
+            ST::printf(stderr, "Undefined error reading {}\n", *it);
             continue;
         }
 

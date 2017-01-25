@@ -14,35 +14,41 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include <cstring>
+#include <cstdlib>
 #include <exception>
 #include <vector>
+#include <memory>
 #include <string_theory/format>
+#include <string_theory/stdio>
 #include "Stream/plEncryptedStream.h"
 
 enum EncrMethod { emNone, emDecrypt, emTea, emAes, emDroid };
 
 void doHelp() {
-    printf("Plasma File Encryption/Decryption Utility 1.0\n"
-           "by Michael Hansen\n\n");
-    printf("Usage:  PlasmaCrypt action [options] Filename [...]\n\n");
-    printf("Actions:  decrypt Decrypt the source file(s)\n"
-           "          xtea    Encrypt with xTea (Uru) encryption\n"
-           "          aes     Encrypt with AES (Myst V) encryption\n"
-           "          droid   Encrypt with NTD (Uru Live) encryption\n\n");
-    printf("Note: Decryption method is automatically determined.\n\n");
-    printf("Options:  -noreplace  Store output in a different file instead of replacing\n"
-           "                      the original.\n"
-           "          -key        Specify the Key to use for decryption, instead of the\n"
-           "                      default.  For droid encryption, this must always be\n"
-           "                      present.  This should be entered as 32 hex digits, in\n"
-           "                      network (big-endian) byte order.\n"
-           "                      NOTE:  This option is not available for AES encryption.\n"
-           "          -verbose    Give more output chatter.\n"
-           "          -quiet      Give less output chatter.\n"
-           "          -help       Displays this help screen\n\n");
+    puts("Plasma File Encryption/Decryption Utility 1.0");
+    puts("by Michael Hansen");
+    puts("");
+    puts("Usage:  PlasmaCrypt action [options] Filename [...]");
+    puts("");
+    puts("Actions:  decrypt Decrypt the source file(s)");
+    puts("          xtea    Encrypt with xTea (Uru) encryption");
+    puts("          aes     Encrypt with AES (Myst V) encryption");
+    puts("          droid   Encrypt with NTD (Uru Live) encryption");
+    puts("");
+    puts("Note: Decryption method is automatically determined.");
+    puts("");
+    puts("Options:  -noreplace  Store output in a different file instead of replacing");
+    puts("                      the original.");
+    puts("          -key        Specify the Key to use for decryption, instead of the");
+    puts("                      default.  For droid encryption, this must always be");
+    puts("                      present.  This should be entered as 32 hex digits, in");
+    puts("                      network (big-endian) byte order.");
+    puts("                      NOTE:  This option is not available for AES encryption.");
+    puts("          -verbose    Give more output chatter.");
+    puts("          -quiet      Give less output chatter.");
+    puts("          -help       Displays this help screen");
+    puts("");
 }
 
 ST::string getNextOutFile(const ST::string& filename) {
@@ -86,7 +92,7 @@ bool parseKey(const char* buf, unsigned int& val) {
     return true;
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char* argv[]) {
     if (argc < 2) {
         doHelp();
         return 1;
@@ -107,8 +113,8 @@ int main(int argc, char** argv) {
         doHelp();
         return 0;
     } else {
-        fprintf(stderr, "Unrecognized action.\nSee -help for available "
-                        "options and encryption methods.\n");
+        fputs("Unrecognized action.\n", stderr);
+        fputs("See -help for available options and encryption methods.\n", stderr);
         return 1;
     }
 
@@ -118,7 +124,8 @@ int main(int argc, char** argv) {
     std::vector<ST::string> files;
     for (int i=2; i<argc; i++) {
         if (argv[i][0] == '-') {
-            if (argv[i][1] == '-') argv[i]++;
+            if (argv[i][1] == '-')
+                argv[i]++;
             if (strcmp(argv[i], "-help") == 0) {
                 doHelp();
                 return 0;
@@ -131,18 +138,19 @@ int main(int argc, char** argv) {
             else if (strcmp(argv[i], "-key") == 0) {
                 i++;
                 if (strlen(argv[i]) != 32) {
-                    fprintf(stderr, "Error:  key must be exactly 32 Hex characters, in network byte order.\n");
-                    fprintf(stderr, "Example:  To use the key { 0x01234567, 0x89ABCDEF, 0x01234567, 0x89ABCDEF } :\n"
-                                    "    PlasmaCrypt encrypt droid -key 0123456789ABCDEF0123456789ABCDEF Filename.sdl\n");
+                    fputs("Error:  key must be exactly 32 Hex characters, in network byte order.\n", stderr);
+                    fputs("Example:  To use the key { 0x01234567, 0x89ABCDEF, 0x01234567, 0x89ABCDEF } :\n", stderr);
+                    fputs("    PlasmaCrypt encrypt droid -key 0123456789ABCDEF0123456789ABCDEF Filename.sdl\n", stderr);
                     return 1;
                 }
-                for (size_t j=0; j<4; j++)
+                for (size_t j=0; j<4; j++) {
                     if (!parseKey(&argv[i][j*8], uruKey[j]))
                         return 1;
+                }
                 haveKey = true;
             } else {
-                fprintf(stderr, "Error: Unrecognized option %s\n", argv[i]);
-                fprintf(stderr, "See -help for list of accepted options\n");
+                ST::printf(stderr, "Error: Unrecognized option {}\n", argv[i]);
+                fputs("See -help for list of accepted options\n", stderr);
                 return 1;
             }
         } else {
@@ -160,63 +168,62 @@ int main(int argc, char** argv) {
             try {
                 if (!plEncryptedStream::IsFileEncrypted(files[i])) {
                     if (verbosity >= 0)
-                        printf("File %s not encrypted -- skipping!\n", files[i].c_str());
+                        ST::printf("File {} not encrypted -- skipping!\n", files[i]);
                     continue;
                 } else {
                     SF.open(files[i], fmRead, plEncryptedStream::kEncAuto);
                     if (SF.getEncType() == plEncryptedStream::kEncDroid && !haveKey) {
-                        fprintf(stderr, "Error: Droid key not set!\n");
+                        fputs("Error: Droid key not set!\n", stderr);
                         SF.close();
                         return 1;
                     }
                     if (SF.getEncType() == plEncryptedStream::kEncAES && haveKey && verbosity >= 0)
-                        printf("Warning: Ignoring key for AES decryption\n");
+                        fputs("Warning: Ignoring key for AES decryption\n", stderr);
                 }
             } catch (std::exception& e) {
                 if (verbosity >= 0)
-                    fprintf(stderr, "Error opening %s: %s\n", files[i].c_str(), e.what());
+                    ST::printf(stderr, "Error opening {}: {}\n", files[i], e.what());
                 continue;
             } catch (...) {
                 if (verbosity >= 0)
-                    fprintf(stderr, "Undefined error opening %s\n", files[i].c_str());
+                    ST::printf(stderr, "Undefined error opening {}\n", files[i]);
                 continue;
             }
-            unsigned int dataSize = SF.size();
-            uint8_t* buf = new uint8_t[dataSize];
-            SF.read(dataSize, buf);
+            uint32_t dataSize = SF.size();
+            std::unique_ptr<uint8_t[]> buf(new uint8_t[dataSize]);
+            SF.read(dataSize, buf.get());
             SF.close();
 
             hsFileStream DF;
             outFileName = doReplace ? files[i] : getNextOutFile(files[i]);
             if (verbosity >= 1)
-                printf("Decrypting %s...\n", outFileName.c_str());
+                ST::printf("Decrypting {}...\n", outFileName);
             DF.open(outFileName, fmCreate);
-            DF.write(dataSize, buf);
+            DF.write(dataSize, buf.get());
             DF.close();
-            delete[] buf;
             nFiles++;
         } else {
             hsFileStream SF;
             try {
                 if (plEncryptedStream::IsFileEncrypted(files[i])) {
                     if (verbosity >= 0)
-                        printf("File %s already encrypted -- skipping!\n", files[i].c_str());
+                        ST::printf("File {} already encrypted -- skipping!\n", files[i]);
                     continue;
                 } else {
                     SF.open(files[i], fmRead);
                 }
             } catch (std::exception& e) {
                 if (verbosity >= 0)
-                    fprintf(stderr, "Error opening %s: %s\n", files[i].c_str(), e.what());
+                    ST::printf(stderr, "Error opening {}: {}\n", files[i], e.what());
                 continue;
             } catch (...) {
                 if (verbosity >= 0)
-                    fprintf(stderr, "Undefined error opening %s\n", files[i].c_str());
+                    ST::printf(stderr, "Undefined error opening {}\n", files[i]);
                 continue;
             }
-            unsigned int dataSize = SF.size();
-            uint8_t* buf = new uint8_t[dataSize];
-            SF.read(dataSize, buf);
+            uint32_t dataSize = SF.size();
+            std::unique_ptr<uint8_t[]> buf(new uint8_t[dataSize]);
+            SF.read(dataSize, buf.get());
             SF.close();
 
             plEncryptedStream DF;
@@ -228,28 +235,28 @@ int main(int argc, char** argv) {
             if (method == emDroid)
                 eType = plEncryptedStream::kEncDroid;
             if (method == emDroid && !haveKey) {
-                fprintf(stderr, "Error: Droid key not set!\n");
+                fputs("Error: Droid key not set!\n", stderr);
                 return 1;
             }
             if (method == emAes && haveKey && verbosity >= 0)
-                printf("Warning: Ignoring key for AES encryption\n");
+                fputs("Warning: Ignoring key for AES encryption\n", stderr);
             if (haveKey)
                 DF.setKey(uruKey);
             outFileName = doReplace ? files[i] : getNextOutFile(files[i]);
             if (verbosity >= 1)
-                printf("Encrypting %s...\n", outFileName.c_str());
+                ST::printf("Encrypting {}...\n", outFileName);
             DF.open(outFileName, fmCreate, eType);
-            DF.write(dataSize, buf);
+            DF.write(dataSize, buf.get());
             DF.close();
-            delete[] buf;
             nFiles++;
         }
     }
 
-    if (nFiles > 0)
-        if (verbosity >= 0)
-            printf("Successfully %s %d files!\n",
-                   (method == emDecrypt ? "decrypted" : "encrypted"), nFiles);
+    if (nFiles > 0) {
+        if (verbosity >= 0) {
+            ST::printf("Successfully {} {} files!\n",
+                       (method == emDecrypt ? "decrypted" : "encrypted"), nFiles);
+        }
+    }
     return 0;
 }
-

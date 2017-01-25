@@ -19,14 +19,17 @@
 #include <Debug/hsExceptions.hpp>
 #include <PRP/plPageInfo.h>
 #include <PRP/plCreatable.h>
+#include <string_theory/stdio>
 #include <cstring>
 
 void doHelp(const char* exename) {
-    printf("Usage: %s infile [options]\n\n", exename);
-    printf("Options:\n");
-    printf("\t-o file  Write output to `file`\n");
-    printf("\t-v ver   Select output version (prime, pots, moul, eoa, hex, universal)\n");
-    printf("\t--help   Display this help and then exit\n\n");
+    ST::printf("Usage: {} infile [options]\n", exename);
+    puts("");
+    puts("Options:");
+    puts("\t-o file  Write output to `file`");
+    puts("\t-v ver   Select output version (prime, pots, moul, eoa, hex, universal)");
+    puts("\t--help   Display this help and then exit");
+    puts("");
 }
 
 int main(int argc, char* argv[]) {
@@ -56,23 +59,23 @@ int main(int argc, char* argv[]) {
             else if (ver == "universal")
                 outVer = PlasmaVer::pvUniversal;
             else {
-                fprintf(stderr, "Error: unrecognized version: %s\n", ver.c_str());
+                ST::printf(stderr, "Error: unrecognized version: {}\n", ver);
                 return 1;
             }
         } else if (strcmp(argv[i], "-?") == 0 || strcmp(argv[i], "--help") == 0) {
             doHelp(argv[0]);
             return 0;
         } else if (argv[i][0] == '-') {
-            fprintf(stderr, "Warning: unrecognized option %s\n", argv[i]);
+            ST::printf(stderr, "Warning: unrecognized option {}\n", argv[i]);
         } else {
             if (inputFile.is_empty())
                 inputFile = argv[i];
             else
-                fprintf(stderr, "Warning: ignoring extra parameter %s\n", argv[i]);
+                ST::printf(stderr, "Warning: ignoring extra parameter {}\n", argv[i]);
         }
     }
     if (outVer == PlasmaVer::pvUnknown) {
-        fprintf(stderr, "Warning: Unspecified version.  Defaulting to PotS\n");
+        fputs("Warning: Unspecified version.  Defaulting to PotS\n", stderr);
         outVer = PlasmaVer::pvPots;
     }
 
@@ -81,7 +84,7 @@ int main(int argc, char* argv[]) {
     rm.setVer(outVer, true);
     hsFileStream S;
     if (!S.open(inputFile, fmRead)) {
-        fprintf(stderr, "Error opening input file\n");
+        fputs("Error opening input file\n", stderr);
         return 1;
     }
     pfPrcParser prc;
@@ -110,14 +113,14 @@ int main(int argc, char* argv[]) {
             }
         }
     } catch (hsException& e) {
-        fprintf(stderr, "%s:%lu: %s\n", e.File(), e.Line(), e.what());
+        ST::printf(stderr, "{}:{}: {}\n", e.File(), e.Line(), e.what());
         return 1;
     } catch (std::exception& e) {
-        fprintf(stderr, "Caught Exception: %s\n", e.what());
+        ST::printf(stderr, "Caught Exception: {}\n", e.what());
         return 1;
     }
 
-    printf("Successfully compiled %s!\n", inputFile.c_str());
+    ST::printf("Successfully compiled {}!\n", inputFile);
 
     return 0;
 }
