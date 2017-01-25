@@ -18,7 +18,21 @@
 #define _PYCLOTHINGITEM_H
 
 #include "PyPlasma.h"
+#include "PRP/Avatar/plClothingItem.h"
 
-PY_WRAP_PLASMA(ClothingItem, class plClothingItem);
+PY_WRAP_PLASMA(ClothingItem, class plClothingItem)
+
+/* Python property helpers */
+inline PyObject* pyPlasma_convert(plClothingItem::Tilesets value) { return PyInt_FromLong((long)value); }
+inline PyObject* pyPlasma_convert(plClothingItem::Types value) { return PyInt_FromLong((long)value); }
+inline PyObject* pyPlasma_convert(plClothingItem::Groups value) { return PyInt_FromLong((long)value); }
+
+template <> inline int pyPlasma_check<plClothingItem::Tilesets>(PyObject* value) { return PyInt_Check(value); }
+template <> inline int pyPlasma_check<plClothingItem::Types>(PyObject* value) { return PyInt_Check(value); }
+template <> inline int pyPlasma_check<plClothingItem::Groups>(PyObject* value) { return PyInt_Check(value); }
+
+template <> inline plClothingItem::Tilesets pyPlasma_get(PyObject* value) { return (plClothingItem::Tilesets)PyInt_AsLong(value); }
+template <> inline plClothingItem::Types pyPlasma_get(PyObject* value) { return (plClothingItem::Types)PyInt_AsLong(value); }
+template <> inline plClothingItem::Groups pyPlasma_get(PyObject* value) { return (plClothingItem::Groups)PyInt_AsLong(value); }
 
 #endif
