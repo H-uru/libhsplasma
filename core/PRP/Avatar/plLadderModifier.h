@@ -49,13 +49,12 @@ public:
     };
 
 protected:
-    bool fGoingUp, fEnabled, fAvatarInBox, fAvatarMounting;
+    bool fGoingUp, fEnabled;
     int fType, fLoops;
     hsVector3 fLadderView;
 
 public:
-    plAvLadderMod() : fGoingUp(false), fEnabled(true), fAvatarInBox(false),
-                      fAvatarMounting(false), fType(kBig), fLoops(0) { }
+    plAvLadderMod() : fGoingUp(false), fEnabled(true), fType(kBig), fLoops(0) { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
