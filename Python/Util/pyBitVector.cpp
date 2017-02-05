@@ -272,12 +272,4 @@ PyObject* pyBitVector_FromBitVector(class hsBitVector& vec) {
     bv->fPyOwned = false;
     return (PyObject*)bv;
 }
-
-hsBitVector* pyBitVector_AsBitVector(PyObject* value)
-{
-	if (pyBitVector_Check(value))
-	{
-		return ((pyBitVector*)value)->fThis;
-	}
-}
 }

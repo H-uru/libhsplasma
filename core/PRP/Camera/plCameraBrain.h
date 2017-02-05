@@ -92,8 +92,8 @@ public:
 	float getZoomRate() const { return fZoomRate; }
 	float getZoomMax() const { return fZoomMax; }
 	float getZoomMin() const { return fZoomMin; }
-	hsBitVector getFlags() const { return fFlags; }
-	hsBitVector getEoAFlags() const { return fEoaFlags; }
+    bool getFlag(size_t prop) const { return fFlags.get(prop); };
+    bool getEoaFlag(size_t prop) const { return fEoaFlags.get(prop); };
 
 	void setVelocity(float velocity) { fVelocity = velocity; }
 	void setAcceleration(float acceleration) { fAccel = acceleration; }
@@ -108,8 +108,9 @@ public:
 	void setZoomRate(float zoomRate) { fZoomRate = zoomRate; }
 	void setZoomMax(float zoomMax) { fZoomMax = zoomMax; }
 	void setZoomMin(float zoomMin) { fZoomMin = zoomMin; }
-	void setFlags(hsBitVector flags) { fFlags = flags; }
-	void setEoAFlags(hsBitVector eoaFlags) { fEoaFlags = eoaFlags; }
+    void setFlag(size_t prop, bool value) { fFlags.set(prop, value); };
+    void setEoaFlag(size_t prop, bool value) { fEoaFlags.set(prop, value); };
+
 
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
