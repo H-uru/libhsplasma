@@ -16,6 +16,7 @@
 
 #include <string.h>
 #include <sys/stat.h>
+#include <string_theory/exceptions>
 #include "hsStream.h"
 #include "Sys/Platform.h"
 #include "Debug/plDebug.h"
@@ -96,7 +97,15 @@ ST::string hsStream::readStr(size_t len) {
     char* buf = result.create_writable_buffer(len);
     read(len * sizeof(char), buf);
     buf[len] = 0;
-    return result;
+
+    try {
+        return result;
+    } catch (ST::unicode_error&) {
+        fprintf(stderr, "WARNING: String \"%s\" contained invalid unicode characters.\n"
+                "Treating as Latin-1 instead.  If you save this file, the string will be\n"
+                "converted to UTF-8!\n", buf);
+        return ST::string::from_latin_1(result);
+    }
 }
 
 ST::string hsStream::readSafeStr() {
@@ -132,7 +141,15 @@ ST::string hsStream::readSafeStr() {
         }
         buf[size] = 0;
     }
-    return result;
+
+    try {
+        return result;
+    } catch (ST::unicode_error&) {
+        fprintf(stderr, "WARNING: String \"%s\" contained invalid unicode characters.\n"
+                "Treating as Latin-1 instead.  If you save this file, the string will be \n"
+                "converted to UTF-8!\n", buf);
+        return ST::string::from_latin_1(result);
+    }
 }
 
 ST::string hsStream::readSafeWStr() {
