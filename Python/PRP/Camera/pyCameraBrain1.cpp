@@ -14,356 +14,155 @@
 * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <PyPlasma.h>
-#include <Math/pyGeometry3.h>
-#include <Util/pyBitVector.h>
-#include <PRP/Camera/plCameraBrain.h>
-#include "PRP/pyCreatable.h"
 #include "pyCameraBrain.h"
 
-extern "C" {
+#include <PRP/Camera/plCameraBrain.h>
+#include <Math/pyGeometry3.h>
+#include <Util/pyBitVector.h>
+#include "PRP/KeyedObject/pyKeyedObject.h"
+#include "PRP/pyCreatable.h"
 
-	static PyObject* pyCameraBrain1_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-		pyCameraBrain1* self = (pyCameraBrain1*)type->tp_alloc(type, 0);
-		if (self != NULL) {
-			self->fThis = new plCameraBrain1();
-			self->fPyOwned = true;
-		}
-		return (PyObject*)self;
-	}
+/* pyCameraBrain */
 
-	static PyObject* pyCameraBrain1_getVelocity(pyCameraBrain1* self, void*)
-	{
-		return PyFloat_FromDouble(self->fThis->getVelocity());
-	}
+PY_PLASMA_NEW(CameraBrain, plCameraBrain)
 
-	static PyObject* pyCameraBrain1_getAcceleration(pyCameraBrain1* self, void*)
-	{
-		return PyFloat_FromDouble(self->fThis->getAcceleration());
-	}
+PY_PLASMA_TYPE(CameraBrain, plCameraBrain, "plCameraBrain wrapper")
 
-	static PyObject* pyCameraBrain1_getDeceleration(pyCameraBrain1* self, void*)
-	{
-		return PyFloat_FromDouble(self->fThis->getDeceleration());
-	}
+PY_PLASMA_TYPE_INIT(CameraBrain) {
+    pyCameraBrain_Type.tp_new = pyCameraBrain_new;
+    pyCameraBrain_Type.tp_base = &pyKeyedObject_Type;
+    if (PyType_CheckAndReady(&pyCameraBrain_Type) < 0)
+        return NULL;
 
-	static PyObject* pyCameraBrain1_getPOAVelocity(pyCameraBrain1* self, void*)
-	{
-		return PyFloat_FromDouble(self->fThis->getPOAVelocity());
-	}
-
-	static PyObject* pyCameraBrain1_getPOAAcceleration(pyCameraBrain1* self, void*)
-	{
-		return PyFloat_FromDouble(self->fThis->getPOAAcceleration());
-	}
-
-	static PyObject* pyCameraBrain1_getPOADeceleration(pyCameraBrain1* self, void*)
-	{
-		return PyFloat_FromDouble(self->fThis->getPOADeceleration());
-	}
-
-	static PyObject* pyCameraBrain1_getPOAOffset(pyCameraBrain1* self, void*)
-	{
-		return pyVector3_FromVector3(self->fThis->getPOAOffset());
-	}
-
-	static PyObject* pyCameraBrain1_getXPanLimit(pyCameraBrain1* self, void*)
-	{
-		return PyFloat_FromDouble(self->fThis->getXPanLimit());
-	}
-
-	static PyObject* pyCameraBrain1_getZPanLimit(pyCameraBrain1* self, void*)
-	{
-		return PyFloat_FromDouble(self->fThis->getZPanLimit());
-	}
-
-	static PyObject* pyCameraBrain1_getPanSpeed(pyCameraBrain1* self, void*)
-	{
-		return PyFloat_FromDouble(self->fThis->getPanSpeed());
-	}
-
-	static PyObject* pyCameraBrain1_getZoomRate(pyCameraBrain1* self, void*)
-	{
-		return PyFloat_FromDouble(self->fThis->getZoomRate());
-	}
-
-	static PyObject* pyCameraBrain1_getZoomMin(pyCameraBrain1* self, void*)
-	{
-		return PyFloat_FromDouble(self->fThis->getZoomMin());
-	}
-
-	static PyObject* pyCameraBrain1_getZoomMax(pyCameraBrain1* self, void*)
-	{
-		return PyFloat_FromDouble(self->fThis->getZoomMax());
-	}
-
-	static PyObject* pyCameraBrain1_getFlags(pyCameraBrain1* self, void*)
-	{
-		return pyBitVector_FromBitVector(self->fThis->getFlags());
-	}
-
-	static PyObject* pyCameraBrain1_getEoAFlags(pyCameraBrain1* self, void*)
-	{
-		return pyBitVector_FromBitVector(self->fThis->getEoAFlags());
-	}
-
-	static int pyCameraBrain1_setVelocity(pyCameraBrain1* self, PyObject* value, void*)
-	{
-		if (value == NULL || !PyFloat_Check(value)) {
-				PyErr_SetString(PyExc_TypeError, "camera velocity should be a float");
-				return -1;
-		}
-		self->fThis->setVelocity(PyFloat_AsDouble(value));
-		return 0;
-	}
-	
-	static int pyCameraBrain1_setAcceleration(pyCameraBrain1* self, PyObject* value, void*)
-	{
-		if (value == NULL || !PyFloat_Check(value)) {
-			PyErr_SetString(PyExc_TypeError, "camera acceleration should be a float");
-			return -1;
-		}
-		self->fThis->setAcceleration(PyFloat_AsDouble(value));
-		return 0;
-	}
-
-	static int pyCameraBrain1_setDeceleration(pyCameraBrain1* self, PyObject* value, void*)
-	{
-		if (value == NULL || !PyFloat_Check(value)) {
-			PyErr_SetString(PyExc_TypeError, "camera deceleration should be a float");
-			return -1;
-		}
-		self->fThis->setDeceleration(PyFloat_AsDouble(value));
-		return 0;
-	}
-
-	static int pyCameraBrain1_setPOAVelocity(pyCameraBrain1* self, PyObject* value, void*)
-	{
-		if (value == NULL || !PyFloat_Check(value)) {
-			PyErr_SetString(PyExc_TypeError, "camera POAvelocity should be a float");
-			return -1;
-		}
-		self->fThis->setVelocity(PyFloat_AsDouble(value));
-		return 0;
-	}
-
-	static int pyCameraBrain1_setPOAAcceleration(pyCameraBrain1* self, PyObject* value, void*)
-	{
-		if (value == NULL || !PyFloat_Check(value)) {
-			PyErr_SetString(PyExc_TypeError, "camera POAacceleration should be a float");
-			return -1;
-		}
-		self->fThis->setAcceleration(PyFloat_AsDouble(value));
-		return 0;
-	}
-
-	static int pyCameraBrain1_setPOADeceleration(pyCameraBrain1* self, PyObject* value, void*)
-	{
-		if (value == NULL || !PyFloat_Check(value)) {
-			PyErr_SetString(PyExc_TypeError, "camera POAdeceleration should be a float");
-			return -1;
-		}
-		self->fThis->setDeceleration(PyFloat_AsDouble(value));
-		return 0;
-	}
-
-	static int pyCameraBrain1_setPOAOffset(pyCameraBrain1* self, PyObject* value, void*)
-	{
-		if (value == NULL || !pyVector3_Check(value)) {
-			PyErr_SetString(PyExc_TypeError, "camera POAOffset should be a vector3");
-			return -1;
-		}
-		self->fThis->setPOAOffset(*(pyVector3_AsVector3(value)));
-		return 0;
-	}
-
-	static int pyCameraBrain1_setXPanLimit(pyCameraBrain1* self, PyObject* value, void*)
-	{
-		if (value == NULL || !PyFloat_Check(value)) {
-			PyErr_SetString(PyExc_TypeError, "camera XPanLimit should be a float");
-			return -1;
-		}
-		self->fThis->setXPanLimit(PyFloat_AsDouble(value));
-		return 0;
-	}
-
-	static int pyCameraBrain1_setZPanLimit(pyCameraBrain1* self, PyObject* value, void*)
-	{
-		if (value == NULL || !PyFloat_Check(value)) {
-			PyErr_SetString(PyExc_TypeError, "camera ZPanLimit should be a float");
-			return -1;
-		}
-		self->fThis->setXPanLimit(PyFloat_AsDouble(value));
-		return 0;
-	}
-
-	static int pyCameraBrain1_setPanSpeed(pyCameraBrain1* self, PyObject* value, void*)
-	{
-		if (value == NULL || !PyFloat_Check(value)) {
-			PyErr_SetString(PyExc_TypeError, "camera panspeed should be a float");
-			return -1;
-		}
-		self->fThis->setPanSpeed(PyFloat_AsDouble(value));
-		return 0;
-	}
-
-	static int pyCameraBrain1_setZoomRate(pyCameraBrain1* self, PyObject* value, void*)
-	{
-		if (value == NULL || !PyFloat_Check(value)) {
-			PyErr_SetString(PyExc_TypeError, "camera zoomrate should be a float");
-			return -1;
-		}
-		self->fThis->setZoomRate(PyFloat_AsDouble(value));
-		return 0;
-	}
-
-	static int pyCameraBrain1_setZoomMax(pyCameraBrain1* self, PyObject* value, void*)
-	{
-		if (value == NULL || !PyFloat_Check(value)) {
-			PyErr_SetString(PyExc_TypeError, "camera zoommax should be a float");
-			return -1;
-		}
-		self->fThis->setZoomMax(PyFloat_AsDouble(value));
-		return 0;
-	}
-
-	static int pyCameraBrain1_setZoomMin(pyCameraBrain1* self, PyObject* value, void*)
-	{
-		if (value == NULL || !PyFloat_Check(value)) {
-			PyErr_SetString(PyExc_TypeError, "camera zoommin should be a float");
-			return -1;
-		}
-		self->fThis->setZoomMin(PyFloat_AsDouble(value));
-		return 0;
-	}
-
-	static int pyCameraBrain1_setFlags(pyCameraBrain1* self, PyObject* value, void*)
-	{
-		if (value == NULL || !pyBitVector_Check(value)) {
-			PyErr_SetString(PyExc_TypeError, "camera flags should be a bitvector");
-			return -1;
-		}
-		self->fThis->setFlags(*(pyBitVector_AsBitVector(value)));
-		return 0;
-	}
-
-	static int pyCameraBrain1_setEoAFlags(pyCameraBrain1* self, PyObject* value, void*)
-	{
-		if (value == NULL || !pyBitVector_Check(value)) {
-			PyErr_SetString(PyExc_TypeError, "camera EoAflags should be a bitvector");
-			return -1;
-		}
-		self->fThis->setEoAFlags(*(pyBitVector_AsBitVector(value)));
-		return 0;
-	}
-
-	static PyGetSetDef pyCameraBrain1_GetSet[] = {
-		{ _pycs("velocity"), (getter)pyCameraBrain1_getVelocity,
-		(setter)pyCameraBrain1_setVelocity, NULL, NULL },
-		{ _pycs("acceleration"), (getter)pyCameraBrain1_getAcceleration,
-		(setter)pyCameraBrain1_setAcceleration, NULL, NULL },
-	{ _pycs("deceleration"), (getter)pyCameraBrain1_getDeceleration,
-		(setter)pyCameraBrain1_setDeceleration, NULL, NULL },
-		{ _pycs("poaVelocity"), (getter)pyCameraBrain1_getPOAVelocity,
-		(setter)pyCameraBrain1_setPOAVelocity, NULL, NULL },
-		{ _pycs("poaAcceleration"), (getter)pyCameraBrain1_getPOAAcceleration,
-		(setter)pyCameraBrain1_setPOAAcceleration, NULL, NULL },
-		{ _pycs("poaDeceleration"), (getter)pyCameraBrain1_getPOADeceleration,
-		(setter)pyCameraBrain1_setPOADeceleration, NULL, NULL },
-		{ _pycs("poaOffset"), (getter)pyCameraBrain1_getPOAOffset,
-		(setter)pyCameraBrain1_setPOAOffset, NULL, NULL },
-		{ _pycs("xPanLimit"), (getter)pyCameraBrain1_getXPanLimit,
-		(setter)pyCameraBrain1_setXPanLimit, NULL, NULL },
-		{ _pycs("zPanLimit"), (getter)pyCameraBrain1_getZPanLimit,
-		(setter)pyCameraBrain1_setZPanLimit, NULL, NULL },
-		{ _pycs("panSpeed"), (getter)pyCameraBrain1_getPanSpeed,
-		(setter)pyCameraBrain1_setPanSpeed, NULL, NULL },
-		{ _pycs("zoomRate"), (getter)pyCameraBrain1_getZoomRate,
-		(setter)pyCameraBrain1_setZoomRate, NULL, NULL },
-		{ _pycs("zoomMax"), (getter)pyCameraBrain1_getZoomMax,
-		(setter)pyCameraBrain1_setZoomMax, NULL, NULL },
-		{ _pycs("zoomMin"), (getter)pyCameraBrain1_getZoomMin,
-		(setter)pyCameraBrain1_setZoomMin, NULL, NULL },
-		{ _pycs("flags"), (getter)pyCameraBrain1_getFlags,
-		(setter)pyCameraBrain1_setFlags, NULL, NULL },
-		{ _pycs("eoaFLags"), (getter)pyCameraBrain1_getEoAFlags,
-		(setter)pyCameraBrain1_setEoAFlags, NULL, NULL },
-	};
-
-	PyTypeObject pyCameraBrain1_Type = {
-		PyVarObject_HEAD_INIT(NULL, 0)
-		"PyHSPlasma.plCameraBrain1",     /* tp_name */
-		sizeof(pyCameraBrain1),          /* tp_basicsize */
-		0,                                  /* tp_itemsize */
-
-		NULL,                               /* tp_dealloc */
-		NULL,                               /* tp_print */
-		NULL,                               /* tp_getattr */
-		NULL,                               /* tp_setattr */
-		NULL,                               /* tp_compare */
-		NULL,                               /* tp_repr */
-		NULL,                               /* tp_as_number */
-		NULL,                               /* tp_as_sequence */
-		NULL,                               /* tp_as_mapping */
-		NULL,                               /* tp_hash */
-		NULL,                               /* tp_call */
-		NULL,                               /* tp_str */
-		NULL,                               /* tp_getattro */
-		NULL,                               /* tp_setattro */
-		NULL,                               /* tp_as_buffer */
-
-		Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-		"plCameraBrain1 wrapper",        /* tp_doc */
-
-		NULL,                               /* tp_traverse */
-		NULL,                               /* tp_clear */
-		NULL,                               /* tp_richcompare */
-		0,                                  /* tp_weaklistoffset */
-		NULL,                               /* tp_iter */
-		NULL,                               /* tp_iternext */
-
-		NULL,          /* tp_methods */
-		NULL,                               /* tp_members */
-		pyCameraBrain1_GetSet,           /* tp_getset */
-		NULL,                               /* tp_base */
-		NULL,                               /* tp_dict */
-		NULL,                               /* tp_descr_get */
-		NULL,                               /* tp_descr_set */
-		0,                                  /* tp_dictoffset */
-
-		NULL,                               /* tp_init */
-		NULL,                               /* tp_alloc */
-		pyCameraBrain1_new,              /* tp_new */
-		NULL,                               /* tp_free */
-		NULL,                               /* tp_is_gc */
-
-		NULL,                               /* tp_bases */
-		NULL,                               /* tp_mro */
-		NULL,                               /* tp_cache */
-		NULL,                               /* tp_subclasses */
-		NULL,                               /* tp_weaklist */
-
-		NULL,                               /* tp_del */
-		TP_VERSION_TAG_INIT                 /* tp_version_tag */
-		TP_FINALIZE_INIT                    /* tp_finalize */
-	};
-
-	int pyCameraBrain_Check(PyObject* obj) {
-		if (obj->ob_type == &pyCameraBrain1_Type
-			|| PyType_IsSubtype(obj->ob_type, &pyCameraBrain1_Type))
-			return 1;
-		return 0;
-	}
-
-	PyObject* pyCameraBrain1_FromCameraBrain1Convert(class plCameraBrain1* atc) {
-		if (atc == NULL) {
-			Py_INCREF(Py_None);
-			return Py_None;
-		}
-		pyCameraBrain1* pyobj = PyObject_New(pyCameraBrain1, &pyCameraBrain1_Type);
-		pyobj->fThis = atc;
-		pyobj->fPyOwned = false;
-		return (PyObject*)pyobj;
-	}
-
+    Py_INCREF(&pyCameraBrain_Type);
+    return (PyObject*)&pyCameraBrain_Type;
 }
+
+PY_PLASMA_IFC_METHODS(CameraBrain, plCameraBrain)
+
+
+/* pyCameraBrain1 */
+
+PY_PLASMA_NEW(CameraBrain1, plCameraBrain1)
+
+PY_METHOD_VA(CameraBrain1, getFlags, "Params: flag") {
+    Py_ssize_t idx;
+    if (!PyArg_ParseTuple(args, "n", &idx)) {
+        PyErr_SetString(PyExc_TypeError, "getFlag expects an int");
+        return NULL;
+    }
+    return pyPlasma_convert(self->fThis->getFlags().get((size_t)idx));
+}
+
+PY_METHOD_VA(CameraBrain1, getEoAFlags, "Params: flag") {
+    Py_ssize_t idx;
+    if (!PyArg_ParseTuple(args, "n", &idx)) {
+        PyErr_SetString(PyExc_TypeError, "getEoAFlags expects an int");
+        return NULL;
+    }
+    return pyPlasma_convert(self->fThis->getEoAFlags().get((size_t)idx));
+}
+
+PY_METHOD_VA(CameraBrain1, setFlags, "Params: flag, value") {
+    Py_ssize_t idx, value;
+    if (!PyArg_ParseTuple(args, "nn", &idx, &value)) {
+        PyErr_SetString(PyExc_TypeError, "setFlags expects int, bool");
+        return NULL;
+    }
+    self->fThis->getFlags().set(idx, value != 0);
+    Py_RETURN_NONE;
+}
+
+PY_METHOD_VA(CameraBrain1, setEoAFlags, "Params: flag, value") {
+    Py_ssize_t idx, value;
+    if (!PyArg_ParseTuple(args, "nn", &idx, &value)) {
+        PyErr_SetString(PyExc_TypeError, "setEoAFlags expects int, bool");
+        return NULL;
+    }
+    self->fThis->getEoAFlags().set(idx, value != 0);
+    Py_RETURN_NONE;
+}
+
+static PyMethodDef pyCameraBrain1_Methods[] = {
+    pyCameraBrain1_getFlags_method,
+    pyCameraBrain1_getEoAFlags_method,
+    pyCameraBrain1_setFlags_method,
+    pyCameraBrain1_setEoAFlags_method,
+    PY_METHOD_TERMINATOR
+};
+
+PY_PROPERTY(float, CameraBrain1, velocity, getVelocity, setVelocity)
+PY_PROPERTY(float, CameraBrain1, acceleration, getAcceleration, setAcceleration)
+PY_PROPERTY(float, CameraBrain1, deceleration, getDeceleration, setDeceleration)
+PY_PROPERTY(float, CameraBrain1, poaVelocity, getPOAVelocity, setPOAVelocity)
+PY_PROPERTY(float, CameraBrain1, poaAcceleration, getPOAAcceleration, setPOAAcceleration)
+PY_PROPERTY(float, CameraBrain1, poaDeceleration, getPOADeceleration, setPOADeceleration)
+PY_PROPERTY(hsVector3, CameraBrain1, poaOffset, getPOAOffset, setPOAOffset)
+PY_PROPERTY(float, CameraBrain1, xPanLimit, getXPanLimit, setXPanLimit)
+PY_PROPERTY(float, CameraBrain1, zPanLimit, getZPanLimit, setZPanLimit)
+PY_PROPERTY(float, CameraBrain1, panSpeed, getPanSpeed, setPanSpeed)
+PY_PROPERTY(float, CameraBrain1, zoomRate, getZoomRate, setZoomRate)
+PY_PROPERTY(float, CameraBrain1, zoomMax, getZoomMax, setZoomMax)
+PY_PROPERTY(float, CameraBrain1, zoomMin, getZoomMin, setZoomMin)
+
+
+static PyGetSetDef pyCameraBrain1_GetSet[] = {
+    pyCameraBrain1_velocity_getset,
+    pyCameraBrain1_acceleration_getset,
+    pyCameraBrain1_deceleration_getset,
+    pyCameraBrain1_poaVelocity_getset,
+    pyCameraBrain1_poaAcceleration_getset,
+    pyCameraBrain1_poaDeceleration_getset,
+    pyCameraBrain1_poaOffset_getset,
+    pyCameraBrain1_xPanLimit_getset,
+    pyCameraBrain1_zPanLimit_getset,
+    pyCameraBrain1_panSpeed_getset,
+    pyCameraBrain1_zoomRate_getset,
+    pyCameraBrain1_zoomMax_getset,
+    pyCameraBrain1_zoomMin_getset,
+    PY_GETSET_TERMINATOR
+};
+
+PY_PLASMA_TYPE(CameraBrain1, plCameraBrain1, "plCameraBrain1 wrapper")
+
+PY_PLASMA_TYPE_INIT(CameraBrain1) {
+    pyCameraBrain1_Type.tp_new = pyCameraBrain1_new;
+    pyCameraBrain1_Type.tp_methods = pyCameraBrain1_Methods;
+    pyCameraBrain1_Type.tp_getset = pyCameraBrain1_GetSet;
+    pyCameraBrain1_Type.tp_base = &pyCameraBrain_Type;
+    if (PyType_CheckAndReady(&pyCameraBrain1_Type) < 0)
+        return NULL;
+
+    /* Konstants */
+    PY_TYPE_ADD_CONST(CameraBrain1, "kCutPos", plCameraBrain1::kCutPos);
+    PY_TYPE_ADD_CONST(CameraBrain1, "kCutPosOnce", plCameraBrain1::kCutPosOnce);
+    PY_TYPE_ADD_CONST(CameraBrain1, "kCutPOA", plCameraBrain1::kCutPOA);
+    PY_TYPE_ADD_CONST(CameraBrain1, "kCutPOAOnce", plCameraBrain1::kCutPOAOnce);
+    PY_TYPE_ADD_CONST(CameraBrain1, "kAnimateFOV", plCameraBrain1::kAnimateFOV);
+    PY_TYPE_ADD_CONST(CameraBrain1, "kFollowLocalAvatar", plCameraBrain1::kFollowLocalAvatar);
+    PY_TYPE_ADD_CONST(CameraBrain1, "kPanicVelocity", plCameraBrain1::kPanicVelocity);
+    PY_TYPE_ADD_CONST(CameraBrain1, "kRailComponent", plCameraBrain1::kRailComponent);
+    PY_TYPE_ADD_CONST(CameraBrain1, "kSubject", plCameraBrain1::kSubject);
+    PY_TYPE_ADD_CONST(CameraBrain1, "kCircleTarget", plCameraBrain1::kCircleTarget);
+    PY_TYPE_ADD_CONST(CameraBrain1, "kMaintainLOS", plCameraBrain1::kMaintainLOS);
+    PY_TYPE_ADD_CONST(CameraBrain1, "kZoomEnabled", plCameraBrain1::kZoomEnabled);
+    PY_TYPE_ADD_CONST(CameraBrain1, "kIsTransitionCamera", plCameraBrain1::kIsTransitionCamera);
+    PY_TYPE_ADD_CONST(CameraBrain1, "kWorldspacePOA", plCameraBrain1::kWorldspacePOA);
+    PY_TYPE_ADD_CONST(CameraBrain1, "kWorldspacePos", plCameraBrain1::kWorldspacePos);
+    PY_TYPE_ADD_CONST(CameraBrain1, "kCutPosWhilePan", plCameraBrain1::kCutPosWhilePan);
+    PY_TYPE_ADD_CONST(CameraBrain1, "kCutPOAWhilePan", plCameraBrain1::kCutPOAWhilePan);
+    PY_TYPE_ADD_CONST(CameraBrain1, "kNonPhys", plCameraBrain1::kNonPhys);
+    PY_TYPE_ADD_CONST(CameraBrain1, "kNeverAnimateFOV", plCameraBrain1::kNeverAnimateFOV);
+    PY_TYPE_ADD_CONST(CameraBrain1, "kIgnoreSubworldMovement", plCameraBrain1::kIgnoreSubworldMovement);
+    PY_TYPE_ADD_CONST(CameraBrain1, "kFalling", plCameraBrain1::kFalling);
+    PY_TYPE_ADD_CONST(CameraBrain1, "kRunning", plCameraBrain1::kRunning);
+    PY_TYPE_ADD_CONST(CameraBrain1, "kVerticalWhenFalling", plCameraBrain1::kVerticalWhenFalling);
+    PY_TYPE_ADD_CONST(CameraBrain1, "kSpeedUpWhenRunning", plCameraBrain1::kSpeedUpWhenRunning);
+    PY_TYPE_ADD_CONST(CameraBrain1, "kFallingStopped", plCameraBrain1::kFallingStopped);
+    PY_TYPE_ADD_CONST(CameraBrain1, "kBeginFalling", plCameraBrain1::kBeginFalling);
+
+    Py_INCREF(&pyCameraBrain1_Type);
+    return (PyObject*)&pyCameraBrain1_Type;
+}
+
+PY_PLASMA_IFC_METHODS(CameraBrain1, plCameraBrain1)

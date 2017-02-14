@@ -17,18 +17,9 @@
 #ifndef _PYCAMERABRAIN_H
 #define _PYCAMERABRAIN_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plCameraBrain1* fThis;
-    bool fPyOwned;
-} pyCameraBrain1;
-
-extern PyTypeObject pyCameraBrain1_Type;
-PyObject* Init_pyCameraBrain1_Type();
-int pyCameraBrain1_Check(PyObject* obj);
-PyObject* pyCameraBrain1_FromCameraBrain1Convert(class plCameraBrain1* cb1);
-}
+PY_WRAP_PLASMA(CameraBrain, class plCameraBrain)
+PY_WRAP_PLASMA(CameraBrain1, class plCameraBrain1)
 
 #endif
