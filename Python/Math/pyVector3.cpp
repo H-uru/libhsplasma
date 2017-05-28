@@ -380,4 +380,12 @@ PyObject* pyVector3_FromVector3(const hsVector3& vec) {
     pv->fThis = new hsVector3(vec);
     return (PyObject*)pv;
 }
+
+hsVector3* pyVector3_AsVector3(PyObject* value)
+{
+	if(pyVector3_Check(value))
+	{
+		return ((pyVector3*)value)->fThis;
+	}
+}
 }
