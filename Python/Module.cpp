@@ -142,6 +142,7 @@
 #include "PRP/Particle/pyParticleSystem.h"
 #include "PRP/Physics/pyCollisionDetector.h"
 #include "PRP/Physics/pyDetectorModifier.h"
+#include "PRP/Physics/pyHKSubWorld.h"
 #include "PRP/Physics/pyObjectInVolumeDetector.h"
 #include "PRP/Physics/pyPhysical.h"
 #include "PRP/Region/pyBounds.h"
@@ -740,6 +741,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plSimpleParticleGenerator", Init_pySimpleParticleGenerator_Type());
     PyModule_AddObject(module, "plParticleEmitter", Init_pyParticleEmitter_Type());
     PyModule_AddObject(module, "plParticleSystem", Init_pyParticleSystem_Type());
+    PyModule_AddObject(module, "plHKSubWorld", Init_pyHKSubWorld_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());
