@@ -181,7 +181,7 @@ set(PRP_CAMERA_SRCS
 )
 
 set(PRP_CAMERA_HDRS
-    PRP/Camera/pyCameraBrain1.cpp
+    PRP/Camera/pyCameraBrain.cpp
 )
 
 set(PRP_COND_SRCS
