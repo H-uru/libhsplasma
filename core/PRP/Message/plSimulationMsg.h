@@ -60,6 +60,10 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    plKey getWorldKey() const { return fWorldKey; }
+    void setWorldKey(const plKey& worldKey) { fWorldKey = worldKey; }
 };
 
 #endif

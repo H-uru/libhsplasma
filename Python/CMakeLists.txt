@@ -367,8 +367,10 @@ set(PRP_MSG_SOURCES
     PRP/Message/pyPickedEventData.cpp
     PRP/Message/pyResponderMsg.cpp
     PRP/Message/pyResponderStateEventData.cpp
+    PRP/Message/pySimulationMsg.cpp
     PRP/Message/pySoundMsg.cpp
     PRP/Message/pySpawnedEventData.cpp
+    PRP/Message/pySubWorldMsg.cpp
     PRP/Message/pySwimMsg.cpp
     PRP/Message/pyTimerCallbackMsg.cpp
     PRP/Message/pyVariableEventData.cpp
@@ -387,6 +389,7 @@ set(PRP_MSG_HEADERS
     PRP/Message/pyMessageWithCallbacks.h
     PRP/Message/pyMsgForwarder.h
     PRP/Message/pyNotifyMsg.h
+    PRP/Message/pySimulationMsg.h
     PRP/Message/pySoundMsg.h
     PRP/Message/pySwimMsg.h
     PRP/Message/pyResponderMsg.h

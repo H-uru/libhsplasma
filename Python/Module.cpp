@@ -113,6 +113,7 @@
 #include "PRP/Message/pyMsgForwarder.h"
 #include "PRP/Message/pyNotifyMsg.h"
 #include "PRP/Message/pyResponderMsg.h"
+#include "PRP/Message/pySimulationMsg.h"
 #include "PRP/Message/pySoundMsg.h"
 #include "PRP/Message/pySwimMsg.h"
 #include "PRP/Message/pyTimerCallbackMsg.h"
@@ -840,6 +841,8 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plParticleScaleMaxApplicator", Init_pyParticleScaleMaxApplicator_Type());
     PyModule_AddObject(module, "plParticleVelMinApplicator", Init_pyParticleVelMinApplicator_Type());
     PyModule_AddObject(module, "plParticleVelMaxApplicator", Init_pyParticleVelMaxApplicator_Type());
+    PyModule_AddObject(module, "plSimulationMsg", Init_pySimulationMsg_Type());
+    PyModule_AddObject(module, "plSubWorldMsg", Init_pySubWorldMsg_Type());
 
 #if PY_MAJOR_VERSION >= 3
     return module;

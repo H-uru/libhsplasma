@@ -243,6 +243,7 @@
 #include "PRP/Message/pyNotifyMsg.h"
 #include "PRP/Message/pyLinkToAgeMsg.h"
 #include "PRP/Message/pyResponderMsg.h"
+#include "PRP/Message/pySimulationMsg.h"
 #include "PRP/Message/pySoundMsg.h"
 #include "PRP/Message/pySwimMsg.h"
 #include "PRP/Message/pyTimerCallbackMsg.h"
@@ -574,6 +575,8 @@ PyObject* ICreate(plCreatable* pCre)
         case kSimpleParticleGenerator: return pySimpleParticleGenerator_FromSimpleParticleGenerator(plSimpleParticleGenerator::Convert(pCre));
         case kParticleEmitter: return pyParticleEmitter_FromParticleEmitter(plParticleEmitter::Convert(pCre));
         case kParticleSystem: return pyParticleSystem_FromParticleSystem(plParticleSystem::Convert(pCre));
+        case kSimulationMsg: return pySimulationMsg_FromSimulationMsg(plSimulationMsg::Convert(pCre));
+        case kSubWorldMsg: return pySubWorldMsg_FromSubWorldMsg(plSubWorldMsg::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (pCre->ClassInstance(kMessage))
