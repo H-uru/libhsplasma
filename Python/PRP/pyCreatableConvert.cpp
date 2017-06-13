@@ -521,6 +521,8 @@ PyObject* ICreate(plCreatable* pCre)
         case kLadderModifier: return pyLadderModifier_FromLadderModifier(plLadderModifier::Convert(pCre));
         case kCameraBrain: return pyCameraBrain_FromCameraBrain(plCameraBrain::Convert(pCre));
         case kCameraBrain1: return pyCameraBrain1_FromCameraBrain1(plCameraBrain1::Convert(pCre));
+        case kCameraBrain1_Avatar: return pyCameraBrain1_Avatar_FromCameraBrain1_Avatar(plCameraBrain1_Avatar::Convert(pCre));
+        case kCameraBrain1_FirstPerson: return pyCameraBrain1_FirstPerson_FromCameraBrain1_FirstPerson(plCameraBrain1_FirstPerson::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (pCre->ClassInstance(kMessage))

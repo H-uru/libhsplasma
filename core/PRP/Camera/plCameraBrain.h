@@ -135,6 +135,10 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    hsVector3 getOffset() const { return fOffset; }
+    void setOffset(const hsVector3& offset) { fOffset = offset; }
 };
 
 

@@ -166,3 +166,47 @@ PY_PLASMA_TYPE_INIT(CameraBrain1) {
 }
 
 PY_PLASMA_IFC_METHODS(CameraBrain1, plCameraBrain1)
+
+/* pyCameraBrain1_Avatar */
+
+PY_PLASMA_NEW(CameraBrain1_Avatar, plCameraBrain1_Avatar)
+
+PY_PROPERTY(hsVector3, CameraBrain1_Avatar, offset, getOffset, setOffset)
+
+static PyGetSetDef pyCameraBrain1_Avatar_GetSet[] = {
+    pyCameraBrain1_Avatar_offset_getset,
+    PY_GETSET_TERMINATOR
+};
+
+PY_PLASMA_TYPE(CameraBrain1_Avatar, plCameraBrain1_Avatar, "plCameraBrain1_Avatar wrapper")
+
+PY_PLASMA_TYPE_INIT(CameraBrain1_Avatar) {
+    pyCameraBrain1_Avatar_Type.tp_new = pyCameraBrain1_Avatar_new;
+    pyCameraBrain1_Avatar_Type.tp_getset = pyCameraBrain1_Avatar_GetSet;
+    pyCameraBrain1_Avatar_Type.tp_base = &pyCameraBrain1_Type;
+    if (PyType_CheckAndReady(&pyCameraBrain1_Avatar_Type) < 0)
+        return NULL;
+
+    Py_INCREF(&pyCameraBrain1_Avatar_Type);
+    return (PyObject*)&pyCameraBrain1_Avatar_Type;
+}
+
+PY_PLASMA_IFC_METHODS(CameraBrain1_Avatar, plCameraBrain1_Avatar)
+
+/* pyCameraBrain1_FirstPerson */
+
+PY_PLASMA_NEW(CameraBrain1_FirstPerson, plCameraBrain1_FirstPerson)
+
+PY_PLASMA_TYPE(CameraBrain1_FirstPerson, plCameraBrain1_FirstPerson, "plCameraBrain1_FirstPerson wrapper")
+
+PY_PLASMA_TYPE_INIT(CameraBrain1_FirstPerson) {
+    pyCameraBrain1_FirstPerson_Type.tp_new = pyCameraBrain1_FirstPerson_new;
+    pyCameraBrain1_FirstPerson_Type.tp_base = &pyCameraBrain1_Avatar_Type;
+    if (PyType_CheckAndReady(&pyCameraBrain1_FirstPerson_Type) < 0)
+        return NULL;
+
+    Py_INCREF(&pyCameraBrain1_FirstPerson_Type);
+    return (PyObject*)&pyCameraBrain1_FirstPerson_Type;
+}
+
+PY_PLASMA_IFC_METHODS(CameraBrain1_FirstPerson, plCameraBrain1_FirstPerson)
