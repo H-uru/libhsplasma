@@ -62,6 +62,11 @@ void plCameraRegionDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
+void plCameraRegionDetector::delMessage(size_t idx) {
+    delete fMessages[idx];
+    fMessages.erase(fMessages.begin() + idx);
+}
+
 void plCameraRegionDetector::clearMessages() {
     for (auto msg = fMessages.begin(); msg != fMessages.end(); ++msg)
         delete *msg;

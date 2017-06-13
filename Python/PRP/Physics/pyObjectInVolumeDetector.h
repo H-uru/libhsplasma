@@ -21,5 +21,6 @@
 
 PY_WRAP_PLASMA(ObjectInVolumeDetector, class plObjectInVolumeDetector);
 PY_WRAP_PLASMA(ObjectInVolumeAndFacingDetector, class plObjectInVolumeAndFacingDetector);
+PY_WRAP_PLASMA(CameraRegionDetector, class plCameraRegionDetector);
 
 #endif

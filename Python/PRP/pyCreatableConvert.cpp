@@ -527,6 +527,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kCameraBrain1_Fixed: return pyCameraBrain1_Fixed_FromCameraBrain1_Fixed(plCameraBrain1_Fixed::Convert(pCre));
         case kCameraBrain1_Circle: return pyCameraBrain1_Circle_FromCameraBrain1_Circle(plCameraBrain1_Circle::Convert(pCre));
         case kCameraMsg: return pyCameraMsg_FromCameraMsg(plCameraMsg::Convert(pCre));
+        case kCameraRegionDetector: return pyCameraRegionDetector_FromCameraRegionDetector(plCameraRegionDetector::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (pCre->ClassInstance(kMessage))

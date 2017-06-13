@@ -450,6 +450,7 @@ set(PRP_OBJ_HDRS
 )
 
 set(PRP_PHYS_SRCS
+    PRP/Physics/pyCameraRegionDetector.cpp
     PRP/Physics/pyCollisionDetector.cpp
     PRP/Physics/pyDetectorModifier.cpp
     PRP/Physics/pyGenericPhysical.cpp
