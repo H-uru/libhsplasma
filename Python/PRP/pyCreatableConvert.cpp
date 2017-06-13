@@ -229,6 +229,7 @@
 #include "PRP/Light/pyShadowMaster.h"
 #include "PRP/Message/pyAnimCmdMsg.h"
 #include "PRP/Message/pyArmatureEffectMsg.h"
+#include "PRP/Message/pyCameraMsg.h"
 #include "PRP/Message/pyCursorChangeMsg.h"
 #include "PRP/Message/pyEnableMsg.h"
 #include "PRP/Message/pyEventCallbackMsg.h"
@@ -525,6 +526,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kCameraBrain1_FirstPerson: return pyCameraBrain1_FirstPerson_FromCameraBrain1_FirstPerson(plCameraBrain1_FirstPerson::Convert(pCre));
         case kCameraBrain1_Fixed: return pyCameraBrain1_Fixed_FromCameraBrain1_Fixed(plCameraBrain1_Fixed::Convert(pCre));
         case kCameraBrain1_Circle: return pyCameraBrain1_Circle_FromCameraBrain1_Circle(plCameraBrain1_Circle::Convert(pCre));
+        case kCameraMsg: return pyCameraMsg_FromCameraMsg(plCameraMsg::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (pCre->ClassInstance(kMessage))

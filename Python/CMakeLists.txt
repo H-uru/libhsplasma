@@ -337,6 +337,7 @@ set(PRP_MSG_SRCS
     PRP/Message/pyArmatureEffectMsg.cpp
     PRP/Message/pyBookEventData.cpp
     PRP/Message/pyCallbackEventData.cpp
+    PRP/Message/pyCameraMsg.cpp
     PRP/Message/pyClickDragEventData.cpp
     PRP/Message/pyClimbingBlockerHitEventData.cpp
     PRP/Message/pyCollisionEventData.cpp
@@ -370,6 +371,7 @@ set(PRP_MSG_SRCS
 set(PRP_MSG_HDRS
     PRP/Message/pyAnimCmdMsg.h
     PRP/Message/pyArmatureEffectMsg.h
+    PRP/Message/pyCameraMsg.h
     PRP/Message/pyCursorChangeMsg.h
     PRP/Message/pyEnableMsg.h
     PRP/Message/pyEventCallbackMsg.h

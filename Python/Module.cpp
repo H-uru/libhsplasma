@@ -98,6 +98,7 @@
 #include "PRP/Light/pyShadowMaster.h"
 #include "PRP/Message/pyAnimCmdMsg.h"
 #include "PRP/Message/pyArmatureEffectMsg.h"
+#include "PRP/Message/pyCameraMsg.h"
 #include "PRP/Message/pyCursorChangeMsg.h"
 #include "PRP/Message/pyEnableMsg.h"
 #include "PRP/Message/pyEventCallbackMsg.h"
@@ -539,6 +540,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plCullPoly", Init_pyCullPoly_Type());
     PyModule_AddObject(module, "plSpawnPointInfo", Init_pySpawnPointInfo_Type());
     PyModule_AddObject(module, "plFixedWaterState7", Init_pyFixedWaterState7_Type());
+    PyModule_AddObject(module, "plCameraConfig", Init_pyCameraConfig_Type());
 
     /* Creatables */
     PyModule_AddObject(module, "plCreatable", Init_pyCreatable_Type());
@@ -788,6 +790,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plConvexIsect", Init_pyConvexIsect_Type());
     PyModule_AddObject(module, "plSoundMsg", Init_pySoundMsg_Type());
     PyModule_AddObject(module, "plSwimMsg", Init_pySwimMsg_Type());
+    PyModule_AddObject(module, "plCameraMsg", Init_pyCameraMsg_Type());
     PyModule_AddObject(module, "plAvLadderMod", Init_pyAvLadderMod_Type());
     PyModule_AddObject(module, "plLadderModifier", Init_pyLadderModifier_Type());
 
