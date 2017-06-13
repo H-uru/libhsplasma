@@ -161,6 +161,10 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    plKey getTargetPoint() const { return fTargetPoint; }
+    void setTargetPoint(const plKey& targetPoint) { fTargetPoint = targetPoint; }
 };
 
 
@@ -194,6 +198,21 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    unsigned int getCircleFlags() const { return fCircleFlags; }
+    hsVector3 getCenter() const { return fCenter; }
+    float getRadius() const { return fRadius; }
+    plKey getCenterObject() const { return fCenterObject; }
+    plKey getPOAObject() const { return fPOAObject; }
+    float getCirPerSec() const { return fCirPerSec; }
+
+    void setCircleFlags(unsigned int flags) { fCircleFlags = flags; }
+    void setCenter(const hsVector3& center) { fCenter = center; }
+    void setRadius(float radius) { fRadius = radius; }
+    void setCenterObject(const plKey& center) { fCenterObject = center; }
+    void setPOAObject(const plKey& poa) { fPOAObject = poa; }
+    void setCirPerSec(float cirPerSec) { fCirPerSec = cirPerSec; }
 };
 
 #endif

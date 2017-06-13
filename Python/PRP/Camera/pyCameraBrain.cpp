@@ -19,6 +19,7 @@
 #include <PRP/Camera/plCameraBrain.h>
 #include <Math/pyGeometry3.h>
 #include <Util/pyBitVector.h>
+#include "PRP/KeyedObject/pyKey.h"
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/pyCreatable.h"
 
@@ -210,3 +211,73 @@ PY_PLASMA_TYPE_INIT(CameraBrain1_FirstPerson) {
 }
 
 PY_PLASMA_IFC_METHODS(CameraBrain1_FirstPerson, plCameraBrain1_FirstPerson)
+
+/* pyCameraBrain1_Fixed */
+
+PY_PLASMA_NEW(CameraBrain1_Fixed, plCameraBrain1_Fixed)
+
+PY_PROPERTY(plKey, CameraBrain1_Fixed, targetPoint, getTargetPoint, setTargetPoint)
+
+static PyGetSetDef pyCameraBrain1_Fixed_GetSet[] = {
+    pyCameraBrain1_Fixed_targetPoint_getset,
+    PY_GETSET_TERMINATOR
+};
+
+PY_PLASMA_TYPE(CameraBrain1_Fixed, plCameraBrain1_Fixed, "plCameraBrain1_Fixed wrapper")
+
+PY_PLASMA_TYPE_INIT(CameraBrain1_Fixed) {
+    pyCameraBrain1_Fixed_Type.tp_new = pyCameraBrain1_Fixed_new;
+    pyCameraBrain1_Fixed_Type.tp_getset = pyCameraBrain1_Fixed_GetSet;
+    pyCameraBrain1_Fixed_Type.tp_base = &pyCameraBrain1_Type;
+    if (PyType_CheckAndReady(&pyCameraBrain1_Fixed_Type) < 0)
+        return NULL;
+
+    Py_INCREF(&pyCameraBrain1_Fixed_Type);
+    return (PyObject*)&pyCameraBrain1_Fixed_Type;
+}
+
+PY_PLASMA_IFC_METHODS(CameraBrain1_Fixed, plCameraBrain1_Fixed)
+
+/* pyCameraBrain1_Circle */
+
+PY_PLASMA_NEW(CameraBrain1_Circle, plCameraBrain1_Circle)
+
+PY_PROPERTY(unsigned int, CameraBrain1_Circle, circleFlags, getCircleFlags, setCircleFlags)
+PY_PROPERTY(hsVector3, CameraBrain1_Circle, center, getCenter, setCenter)
+PY_PROPERTY(float, CameraBrain1_Circle, radius, getRadius, setRadius)
+PY_PROPERTY(plKey, CameraBrain1_Circle, centerObject, getCenterObject, setCenterObject)
+PY_PROPERTY(plKey, CameraBrain1_Circle, poaObject, getPOAObject, setPOAObject)
+PY_PROPERTY(float, CameraBrain1_Circle, cirPerSec, getCirPerSec, setCirPerSec)
+
+static PyGetSetDef pyCameraBrain1_Circle_GetSet[] = {
+    pyCameraBrain1_Circle_circleFlags_getset,
+    pyCameraBrain1_Circle_center_getset,
+    pyCameraBrain1_Circle_radius_getset,
+    pyCameraBrain1_Circle_centerObject_getset,
+    pyCameraBrain1_Circle_poaObject_getset,
+    pyCameraBrain1_Circle_cirPerSec_getset,
+    PY_GETSET_TERMINATOR
+};
+
+PY_PLASMA_TYPE(CameraBrain1_Circle, plCameraBrain1_Circle, "plCameraBrain1_Circle wrapper")
+
+PY_PLASMA_TYPE_INIT(CameraBrain1_Circle) {
+    pyCameraBrain1_Circle_Type.tp_new = pyCameraBrain1_Circle_new;
+    pyCameraBrain1_Circle_Type.tp_getset = pyCameraBrain1_Circle_GetSet;
+    pyCameraBrain1_Circle_Type.tp_base = &pyCameraBrain1_Fixed_Type;
+    if (PyType_CheckAndReady(&pyCameraBrain1_Circle_Type) < 0)
+        return NULL;
+
+    PY_TYPE_ADD_CONST(CameraBrain1_Circle, "kLagged", plCameraBrain1_Circle::kLagged);
+    PY_TYPE_ADD_CONST(CameraBrain1_Circle, "kAbsoluteLag", plCameraBrain1_Circle::kAbsoluteLag);
+    PY_TYPE_ADD_CONST(CameraBrain1_Circle, "kFarthest", plCameraBrain1_Circle::kFarthest);
+    PY_TYPE_ADD_CONST(CameraBrain1_Circle, "kTargetted", plCameraBrain1_Circle::kTargetted);
+    PY_TYPE_ADD_CONST(CameraBrain1_Circle, "kHasCenterObject", plCameraBrain1_Circle::kHasCenterObject);
+    PY_TYPE_ADD_CONST(CameraBrain1_Circle, "kPOAObject", plCameraBrain1_Circle::kPOAObject);
+    PY_TYPE_ADD_CONST(CameraBrain1_Circle, "kCircleLocalAvatar", plCameraBrain1_Circle::kCircleLocalAvatar);
+
+    Py_INCREF(&pyCameraBrain1_Circle_Type);
+    return (PyObject*)&pyCameraBrain1_Circle_Type;
+}
+
+PY_PLASMA_IFC_METHODS(CameraBrain1_Circle, plCameraBrain1_Circle)

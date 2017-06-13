@@ -699,6 +699,8 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plCameraBrain1", Init_pyCameraBrain1_Type());
     PyModule_AddObject(module, "plCameraBrain1_Avatar", Init_pyCameraBrain1_Avatar_Type());
     PyModule_AddObject(module, "plCameraBrain1_FirstPerson", Init_pyCameraBrain1_FirstPerson_Type());
+    PyModule_AddObject(module, "plCameraBrain1_Fixed", Init_pyCameraBrain1_Fixed_Type());
+    PyModule_AddObject(module, "plCameraBrain1_Circle", Init_pyCameraBrain1_Circle_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());
