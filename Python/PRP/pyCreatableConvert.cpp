@@ -173,6 +173,7 @@
 #include "PRP/Animation/pyController.h"
 #include "PRP/Animation/pyKeys.h"
 #include "PRP/Animation/pyLeafController.h"
+#include "PRP/Animation/pyLineFollowMod.h"
 #include "PRP/Animation/pyPosController.h"
 #include "PRP/Animation/pyRotController.h"
 #include "PRP/Animation/pyScaleController.h"
@@ -532,6 +533,8 @@ PyObject* ICreate(plCreatable* pCre)
         case kCameraRegionDetector: return pyCameraRegionDetector_FromCameraRegionDetector(plCameraRegionDetector::Convert(pCre));
         case kCameraModifier: return pyCameraModifier_FromCameraModifier(plCameraModifier::Convert(pCre));
         case kAnimPath: return pyAnimPath_FromAnimPath(plAnimPath::Convert(pCre));
+        case kLineFollowMod: return pyLineFollowMod_FromLineFollowMod(plLineFollowMod::Convert(pCre));
+        case kRailCameraMod: return pyRailCameraMod_FromRailCameraMod(plRailCameraMod::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (pCre->ClassInstance(kMessage))

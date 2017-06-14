@@ -53,6 +53,7 @@ set(PRP_ANIM_SRCS
     PRP/Animation/pyG3DSMaxKeyFrame.cpp
     PRP/Animation/pyKeyFrame.cpp
     PRP/Animation/pyLeafController.cpp
+    PRP/Animation/pyLineFollowMod.cpp
     PRP/Animation/pyMatrix33Controller.cpp
     PRP/Animation/pyMatrix33Key.cpp
     PRP/Animation/pyMatrix44Controller.cpp
@@ -82,6 +83,7 @@ set(PRP_ANIM_HDRS
     PRP/Animation/pyController.h
     PRP/Animation/pyKeys.h
     PRP/Animation/pyLeafController.h
+    PRP/Animation/pyLineFollowMod.h
     PRP/Animation/pyPosController.h
     PRP/Animation/pyRotController.h
     PRP/Animation/pyScaleController.h

@@ -35,6 +35,7 @@
 #include "PRP/Animation/pyController.h"
 #include "PRP/Animation/pyKeys.h"
 #include "PRP/Animation/pyLeafController.h"
+#include "PRP/Animation/pyLineFollowMod.h"
 #include "PRP/Animation/pyPosController.h"
 #include "PRP/Animation/pyRotController.h"
 #include "PRP/Animation/pyScaleController.h"
@@ -707,6 +708,8 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plCameraBrain1_Circle", Init_pyCameraBrain1_Circle_Type());
     PyModule_AddObject(module, "plCameraRegionDetector", Init_pyCameraRegionDetector_Type());
     PyModule_AddObject(module, "plCameraModifier", Init_pyCameraModifier_Type());
+    PyModule_AddObject(module, "plLineFollowMod", Init_pyLineFollowMod_Type());
+    PyModule_AddObject(module, "plRailCameraMod", Init_pyRailCameraMod_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());
