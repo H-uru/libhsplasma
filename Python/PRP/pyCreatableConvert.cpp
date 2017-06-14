@@ -167,6 +167,7 @@
 
 // Incude all their Python equivalents
 #include "PRP/pySceneNode.h"
+#include "PRP/Animation/pyAnimPath.h"
 #include "PRP/Animation/pyAnimTimeConvert.h"
 #include "PRP/Animation/pyATCEaseCurves.h"
 #include "PRP/Animation/pyController.h"
@@ -530,6 +531,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kCameraMsg: return pyCameraMsg_FromCameraMsg(plCameraMsg::Convert(pCre));
         case kCameraRegionDetector: return pyCameraRegionDetector_FromCameraRegionDetector(plCameraRegionDetector::Convert(pCre));
         case kCameraModifier: return pyCameraModifier_FromCameraModifier(plCameraModifier::Convert(pCre));
+        case kAnimPath: return pyAnimPath_FromAnimPath(plAnimPath::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (pCre->ClassInstance(kMessage))

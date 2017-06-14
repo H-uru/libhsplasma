@@ -29,6 +29,7 @@
 
 #include "PRP/pyCreatable.h"
 #include "PRP/pySceneNode.h"
+#include "PRP/Animation/pyAnimPath.h"
 #include "PRP/Animation/pyAnimTimeConvert.h"
 #include "PRP/Animation/pyATCEaseCurves.h"
 #include "PRP/Animation/pyController.h"
@@ -794,6 +795,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plSoundMsg", Init_pySoundMsg_Type());
     PyModule_AddObject(module, "plSwimMsg", Init_pySwimMsg_Type());
     PyModule_AddObject(module, "plCameraMsg", Init_pyCameraMsg_Type());
+    PyModule_AddObject(module, "plAnimPath", Init_pyAnimPath_Type());
     PyModule_AddObject(module, "plAvLadderMod", Init_pyAvLadderMod_Type());
     PyModule_AddObject(module, "plLadderModifier", Init_pyLadderModifier_Type());
 

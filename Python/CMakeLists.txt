@@ -41,6 +41,7 @@ set(MATH_HDRS
 set(PRP_ANIM_SRCS
     PRP/Animation/pyATCEaseCurve.cpp
     PRP/Animation/pyAnimTimeConvert.cpp
+    PRP/Animation/pyAnimPath.cpp
     PRP/Animation/pyCompoundController.cpp
     PRP/Animation/pyCompoundPosController.cpp
     PRP/Animation/pyCompoundRotController.cpp
@@ -76,6 +77,7 @@ set(PRP_ANIM_SRCS
 )
 set(PRP_ANIM_HDRS
     PRP/Animation/pyATCEaseCurves.h
+    PRP/Animation/pyAnimPath.h
     PRP/Animation/pyAnimTimeConvert.h
     PRP/Animation/pyController.h
     PRP/Animation/pyKeys.h
