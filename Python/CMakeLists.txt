@@ -178,10 +178,12 @@ set(PRP_AVTR_HDRS
 
 set(PRP_CAMERA_SRCS
     PRP/Camera/pyCameraBrain.h
+    PRP/Camera/pyCameraModifier.h
 )
 
 set(PRP_CAMERA_HDRS
     PRP/Camera/pyCameraBrain.cpp
+    PRP/Camera/pyCameraModifier.cpp
 )
 
 set(PRP_COND_SRCS

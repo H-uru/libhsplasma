@@ -54,6 +54,7 @@
 #include "PRP/Audio/pyWin32Sound.h"
 #include "PRP/Audio/pyWin32StaticSound.h"
 #include "PRP/Camera/pyCameraBrain.h"
+#include "PRP/Camera/pyCameraModifier.h"
 #include "PRP/ConditionalObject/pyActivatorConditionalObject.h"
 #include "PRP/ConditionalObject/pyAnimationEventConditionalObject.h"
 #include "PRP/ConditionalObject/pyBooleanConditionalObject.h"
@@ -704,6 +705,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plCameraBrain1_Fixed", Init_pyCameraBrain1_Fixed_Type());
     PyModule_AddObject(module, "plCameraBrain1_Circle", Init_pyCameraBrain1_Circle_Type());
     PyModule_AddObject(module, "plCameraRegionDetector", Init_pyCameraRegionDetector_Type());
+    PyModule_AddObject(module, "plCameraModifier", Init_pyCameraModifier_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());
