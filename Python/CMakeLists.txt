@@ -41,6 +41,7 @@ set(MATH_HDRS
 set(PRP_ANIM_SRCS
     PRP/Animation/pyATCEaseCurve.cpp
     PRP/Animation/pyAnimTimeConvert.cpp
+    PRP/Animation/pyAnimPath.cpp
     PRP/Animation/pyCompoundController.cpp
     PRP/Animation/pyCompoundPosController.cpp
     PRP/Animation/pyCompoundRotController.cpp
@@ -52,6 +53,7 @@ set(PRP_ANIM_SRCS
     PRP/Animation/pyG3DSMaxKeyFrame.cpp
     PRP/Animation/pyKeyFrame.cpp
     PRP/Animation/pyLeafController.cpp
+    PRP/Animation/pyLineFollowMod.cpp
     PRP/Animation/pyMatrix33Controller.cpp
     PRP/Animation/pyMatrix33Key.cpp
     PRP/Animation/pyMatrix44Controller.cpp
@@ -76,10 +78,12 @@ set(PRP_ANIM_SRCS
 )
 set(PRP_ANIM_HDRS
     PRP/Animation/pyATCEaseCurves.h
+    PRP/Animation/pyAnimPath.h
     PRP/Animation/pyAnimTimeConvert.h
     PRP/Animation/pyController.h
     PRP/Animation/pyKeys.h
     PRP/Animation/pyLeafController.h
+    PRP/Animation/pyLineFollowMod.h
     PRP/Animation/pyPosController.h
     PRP/Animation/pyRotController.h
     PRP/Animation/pyScaleController.h
@@ -174,6 +178,16 @@ set(PRP_AVTR_HDRS
     PRP/Avatar/pyLadderModifier.h
     PRP/Avatar/pyMultistageBehMod.h
     PRP/Avatar/pySittingModifier.h
+)
+
+set(PRP_CAMERA_SRCS
+    PRP/Camera/pyCameraBrain.h
+    PRP/Camera/pyCameraModifier.h
+)
+
+set(PRP_CAMERA_HDRS
+    PRP/Camera/pyCameraBrain.cpp
+    PRP/Camera/pyCameraModifier.cpp
 )
 
 set(PRP_COND_SRCS
@@ -329,6 +343,7 @@ set(PRP_MSG_SRCS
     PRP/Message/pyArmatureEffectMsg.cpp
     PRP/Message/pyBookEventData.cpp
     PRP/Message/pyCallbackEventData.cpp
+    PRP/Message/pyCameraMsg.cpp
     PRP/Message/pyClickDragEventData.cpp
     PRP/Message/pyClimbingBlockerHitEventData.cpp
     PRP/Message/pyCollisionEventData.cpp
@@ -362,6 +377,7 @@ set(PRP_MSG_SRCS
 set(PRP_MSG_HDRS
     PRP/Message/pyAnimCmdMsg.h
     PRP/Message/pyArmatureEffectMsg.h
+    PRP/Message/pyCameraMsg.h
     PRP/Message/pyCursorChangeMsg.h
     PRP/Message/pyEnableMsg.h
     PRP/Message/pyEventCallbackMsg.h
@@ -440,6 +456,7 @@ set(PRP_OBJ_HDRS
 )
 
 set(PRP_PHYS_SRCS
+    PRP/Physics/pyCameraRegionDetector.cpp
     PRP/Physics/pyCollisionDetector.cpp
     PRP/Physics/pyDetectorModifier.cpp
     PRP/Physics/pyGenericPhysical.cpp
@@ -598,6 +615,7 @@ add_library(PyHSPlasma SHARED
           ${PRP_ANIM_SRCS} ${PRP_ANIM_HDRS}
           ${PRP_AUD_SRCS}  ${PRP_AUD_HDRS}
           ${PRP_AVTR_SRCS} ${PRP_AVTR_HDRS}
+          ${PRP_CAMERA_SRCS} ${PRP_CAMERA_HDRS}
           ${PRP_COND_SRCS} ${PRP_COND_HDRS}
           ${PRP_GEOM_SRCS} ${PRP_GEOM_HDRS}
           ${PRP_GUI_SRCS}  ${PRP_GUI_HDRS}
@@ -650,6 +668,7 @@ source_group("Math" FILES ${MATH_HDRS} ${MATH_SRCS})
 source_group("PRP\\Animation" FILES ${PRP_ANIM_HDRS} ${PRP_ANIM_SRCS})
 source_group("PRP\\Audio" FILES ${PRP_AUD_HDRS} ${PRP_AUD_SRCS})
 source_group("PRP\\Avatar" FILES ${PRP_AVTR_HDRS} ${PRP_AVTR_SRCS})
+source_group("PRP\\Camera" FILES ${PRP_CAMERA_SRCS} ${PRP_CAMERA_HDRS})
 source_group("PRP\\ConditionalObject" FILES ${PRP_COND_SRCS} ${PRP_COND_HDRS})
 source_group("PRP\\Geometry" FILES ${PRP_GEOM_HDRS} ${PRP_GEOM_SRCS})
 source_group("PRP\\GUI" FILES ${PRP_GUI_HDRS} ${PRP_GUI_SRCS})

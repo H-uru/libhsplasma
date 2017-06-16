@@ -241,10 +241,21 @@ void plCameraModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
+void plCameraModifier::delTrans(size_t idx) {
+    delete fTrans[idx];
+    fTrans.erase(fTrans.begin() + idx);
+}
+
 void plCameraModifier::clearTrans() {
     for (auto trans = fTrans.begin(); trans != fTrans.end(); ++trans)
         delete *trans;
     fTrans.clear();
+}
+
+void plCameraModifier::delMessage(size_t idx) {
+    delete fMessageQueue[idx];
+    fMessageQueue.erase(fMessageQueue.begin() + idx);
+    fSenderQueue.erase(fSenderQueue.begin() + idx);
 }
 
 void plCameraModifier::clearMessageQueue() {
@@ -252,6 +263,11 @@ void plCameraModifier::clearMessageQueue() {
         delete *msg;
     fMessageQueue.clear();
     fSenderQueue.clear();
+}
+
+void plCameraModifier::delFOVInstruction(size_t idx) {
+    delete fFOVInstructions[idx];
+    fFOVInstructions.erase(fFOVInstructions.begin() + idx);
 }
 
 void plCameraModifier::clearFOVInstructions() {

@@ -46,6 +46,29 @@ public:
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
+
+public:
+    hsVector3 getOffset() const { return fOffset; }
+    float getAccel() const { return fAccel; }
+    float getDecel() const { return fDecel; }
+    float getVel() const { return fVel; }
+    float getFPAccel() const { return fFPAccel; }
+    float getFPDecel() const { return fFPDecel; }
+    float getFPVel() const { return fFPVel; }
+    float getFOVw() const { return fFOVw; }
+    float getFOVh() const { return fFOVh; }
+    bool getWorldspace() const { return fWorldspace; }
+
+    void setOffset(const hsVector3& offset) { fOffset = offset; }
+    void setAccel(float accel) { fAccel = accel; }
+    void setDecel(float decel) { fDecel = decel; }
+    void setVel(float vel) { fVel = vel; }
+    void setFPAccel(float fpAccel) { fFPAccel = fpAccel; }
+    void setFPDecel(float fpDecel) { fFPDecel = fpDecel; }
+    void setFPVel(float fpVel) { fFPVel = fpVel; }
+    void setFOVw(float fovW) { fFOVw = fovW; }
+    void setFOVh(float fovH) { fFOVh = fovH; }
+    void setWorldspace(bool worldspace) { fWorldspace = worldspace; }
 };
 
 
@@ -82,6 +105,23 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    bool getCmd(size_t idx) const { return fCmd.get(idx); }
+    void setCmd(size_t idx, bool value=true) { fCmd.set(idx, value); }
+
+    plKey getNewCam() const { return fNewCam; }
+    plKey getTriggerer() const { return fTriggerer; }
+    double getTransTime() const { return fTransTime; }
+    const plCameraConfig& getConfig() const { return fConfig; }
+    plCameraConfig& getConfig() { return fConfig; }
+    bool getActivated() const { return fActivated; }
+
+    void setNewCam(const plKey& newCam) { fNewCam = newCam; }
+    void setTriggerer(const plKey& triggerer) { fTriggerer = triggerer; }
+    void setTransTime(double time) { fTransTime = time; }
+    void setConfig(const plCameraConfig& config) { fConfig = config; }
+    void setActivated(bool activated) { fActivated = activated; }
 };
 
 #endif

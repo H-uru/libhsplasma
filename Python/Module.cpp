@@ -29,11 +29,13 @@
 
 #include "PRP/pyCreatable.h"
 #include "PRP/pySceneNode.h"
+#include "PRP/Animation/pyAnimPath.h"
 #include "PRP/Animation/pyAnimTimeConvert.h"
 #include "PRP/Animation/pyATCEaseCurves.h"
 #include "PRP/Animation/pyController.h"
 #include "PRP/Animation/pyKeys.h"
 #include "PRP/Animation/pyLeafController.h"
+#include "PRP/Animation/pyLineFollowMod.h"
 #include "PRP/Animation/pyPosController.h"
 #include "PRP/Animation/pyRotController.h"
 #include "PRP/Animation/pyScaleController.h"
@@ -53,6 +55,8 @@
 #include "PRP/Audio/pySoundBuffer.h"
 #include "PRP/Audio/pyWin32Sound.h"
 #include "PRP/Audio/pyWin32StaticSound.h"
+#include "PRP/Camera/pyCameraBrain.h"
+#include "PRP/Camera/pyCameraModifier.h"
 #include "PRP/ConditionalObject/pyActivatorConditionalObject.h"
 #include "PRP/ConditionalObject/pyAnimationEventConditionalObject.h"
 #include "PRP/ConditionalObject/pyBooleanConditionalObject.h"
@@ -97,6 +101,7 @@
 #include "PRP/Light/pyShadowMaster.h"
 #include "PRP/Message/pyAnimCmdMsg.h"
 #include "PRP/Message/pyArmatureEffectMsg.h"
+#include "PRP/Message/pyCameraMsg.h"
 #include "PRP/Message/pyCursorChangeMsg.h"
 #include "PRP/Message/pyEnableMsg.h"
 #include "PRP/Message/pyEventCallbackMsg.h"
@@ -538,6 +543,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plCullPoly", Init_pyCullPoly_Type());
     PyModule_AddObject(module, "plSpawnPointInfo", Init_pySpawnPointInfo_Type());
     PyModule_AddObject(module, "plFixedWaterState7", Init_pyFixedWaterState7_Type());
+    PyModule_AddObject(module, "plCameraConfig", Init_pyCameraConfig_Type());
 
     /* Creatables */
     PyModule_AddObject(module, "plCreatable", Init_pyCreatable_Type());
@@ -694,6 +700,16 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plSwimStraightCurrentRegion", Init_pySwimStraightCurrentRegion_Type());
     PyModule_AddObject(module, "plSimpleRegionSensor", Init_pySimpleRegionSensor_Type());
     PyModule_AddObject(module, "plSwimDetector", Init_pySwimDetector_Type());
+    PyModule_AddObject(module, "plCameraBrain", Init_pyCameraBrain_Type());
+    PyModule_AddObject(module, "plCameraBrain1", Init_pyCameraBrain1_Type());
+    PyModule_AddObject(module, "plCameraBrain1_Avatar", Init_pyCameraBrain1_Avatar_Type());
+    PyModule_AddObject(module, "plCameraBrain1_FirstPerson", Init_pyCameraBrain1_FirstPerson_Type());
+    PyModule_AddObject(module, "plCameraBrain1_Fixed", Init_pyCameraBrain1_Fixed_Type());
+    PyModule_AddObject(module, "plCameraBrain1_Circle", Init_pyCameraBrain1_Circle_Type());
+    PyModule_AddObject(module, "plCameraRegionDetector", Init_pyCameraRegionDetector_Type());
+    PyModule_AddObject(module, "plCameraModifier", Init_pyCameraModifier_Type());
+    PyModule_AddObject(module, "plLineFollowMod", Init_pyLineFollowMod_Type());
+    PyModule_AddObject(module, "plRailCameraMod", Init_pyRailCameraMod_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());
@@ -781,6 +797,8 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plConvexIsect", Init_pyConvexIsect_Type());
     PyModule_AddObject(module, "plSoundMsg", Init_pySoundMsg_Type());
     PyModule_AddObject(module, "plSwimMsg", Init_pySwimMsg_Type());
+    PyModule_AddObject(module, "plCameraMsg", Init_pyCameraMsg_Type());
+    PyModule_AddObject(module, "plAnimPath", Init_pyAnimPath_Type());
     PyModule_AddObject(module, "plAvLadderMod", Init_pyAvLadderMod_Type());
     PyModule_AddObject(module, "plLadderModifier", Init_pyLadderModifier_Type());
 

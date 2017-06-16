@@ -167,11 +167,13 @@
 
 // Incude all their Python equivalents
 #include "PRP/pySceneNode.h"
+#include "PRP/Animation/pyAnimPath.h"
 #include "PRP/Animation/pyAnimTimeConvert.h"
 #include "PRP/Animation/pyATCEaseCurves.h"
 #include "PRP/Animation/pyController.h"
 #include "PRP/Animation/pyKeys.h"
 #include "PRP/Animation/pyLeafController.h"
+#include "PRP/Animation/pyLineFollowMod.h"
 #include "PRP/Animation/pyPosController.h"
 #include "PRP/Animation/pyRotController.h"
 #include "PRP/Animation/pyScaleController.h"
@@ -190,6 +192,8 @@
 #include "PRP/Audio/pySoundBuffer.h"
 #include "PRP/Audio/pyWin32Sound.h"
 #include "PRP/Audio/pyWin32StaticSound.h"
+#include "PRP/Camera/pyCameraBrain.h"
+#include "PRP/Camera/pyCameraModifier.h"
 #include "PRP/ConditionalObject/pyActivatorConditionalObject.h"
 #include "PRP/ConditionalObject/pyAnimationEventConditionalObject.h"
 #include "PRP/ConditionalObject/pyBooleanConditionalObject.h"
@@ -228,6 +232,7 @@
 #include "PRP/Light/pyShadowMaster.h"
 #include "PRP/Message/pyAnimCmdMsg.h"
 #include "PRP/Message/pyArmatureEffectMsg.h"
+#include "PRP/Message/pyCameraMsg.h"
 #include "PRP/Message/pyCursorChangeMsg.h"
 #include "PRP/Message/pyEnableMsg.h"
 #include "PRP/Message/pyEventCallbackMsg.h"
@@ -518,6 +523,18 @@ PyObject* ICreate(plCreatable* pCre)
         case kPostEffectMod: return pyPostEffectMod_FromPostEffectMod(plPostEffectMod::Convert(pCre));
         case kAvLadderMod: return pyAvLadderMod_FromAvLadderMod(plAvLadderMod::Convert(pCre));
         case kLadderModifier: return pyLadderModifier_FromLadderModifier(plLadderModifier::Convert(pCre));
+        case kCameraBrain: return pyCameraBrain_FromCameraBrain(plCameraBrain::Convert(pCre));
+        case kCameraBrain1: return pyCameraBrain1_FromCameraBrain1(plCameraBrain1::Convert(pCre));
+        case kCameraBrain1_Avatar: return pyCameraBrain1_Avatar_FromCameraBrain1_Avatar(plCameraBrain1_Avatar::Convert(pCre));
+        case kCameraBrain1_FirstPerson: return pyCameraBrain1_FirstPerson_FromCameraBrain1_FirstPerson(plCameraBrain1_FirstPerson::Convert(pCre));
+        case kCameraBrain1_Fixed: return pyCameraBrain1_Fixed_FromCameraBrain1_Fixed(plCameraBrain1_Fixed::Convert(pCre));
+        case kCameraBrain1_Circle: return pyCameraBrain1_Circle_FromCameraBrain1_Circle(plCameraBrain1_Circle::Convert(pCre));
+        case kCameraMsg: return pyCameraMsg_FromCameraMsg(plCameraMsg::Convert(pCre));
+        case kCameraRegionDetector: return pyCameraRegionDetector_FromCameraRegionDetector(plCameraRegionDetector::Convert(pCre));
+        case kCameraModifier: return pyCameraModifier_FromCameraModifier(plCameraModifier::Convert(pCre));
+        case kAnimPath: return pyAnimPath_FromAnimPath(plAnimPath::Convert(pCre));
+        case kLineFollowMod: return pyLineFollowMod_FromLineFollowMod(plLineFollowMod::Convert(pCre));
+        case kRailCameraMod: return pyRailCameraMod_FromRailCameraMod(plRailCameraMod::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (pCre->ClassInstance(kMessage))

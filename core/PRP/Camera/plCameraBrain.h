@@ -79,6 +79,38 @@ public:
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
+    float getVelocity() const { return fVelocity; }
+    float getAcceleration() const { return fAccel; }
+    float getDeceleration() const { return fDecel; }
+    float getPOAVelocity() const { return fPOAVelocity; }
+    float getPOAAcceleration() const { return fPOAAccel; }
+    float getPOADeceleration() const { return fPOADecel; }
+    hsVector3 getPOAOffset() const { return fPOAOffset; }
+    float getXPanLimit() const { return fXPanLimit; }
+    float getZPanLimit() const { return fZPanLimit; }
+    float getPanSpeed() const { return fPanSpeed; }
+    float getZoomRate() const { return fZoomRate; }
+    float getZoomMax() const { return fZoomMax; }
+    float getZoomMin() const { return fZoomMin; }
+    const hsBitVector& getFlags() const { return fFlags; }
+    hsBitVector& getFlags() { return fFlags; }
+    const hsBitVector& getEoAFlags() const { return fEoaFlags; }
+    hsBitVector& getEoAFlags() { return fEoaFlags; }
+
+    void setVelocity(float velocity) { fVelocity = velocity; }
+    void setAcceleration(float acceleration) { fAccel = acceleration; }
+    void setDeceleration(float deceleration) { fDecel = deceleration; }
+    void setPOAVelocity(float poaVelocity) { fPOAVelocity = poaVelocity; }
+    void setPOAAcceleration(float poaAcceleration) { fPOAAccel = poaAcceleration; }
+    void setPOADeceleration(float poaDeceleration) { fPOADecel = poaDeceleration; }
+    void setPOAOffset(hsVector3 poaOffset) { fPOAOffset = poaOffset; }
+    void setXPanLimit(float xPanLimit) { fXPanLimit = xPanLimit; }
+    void setZPanLimit(float zPanLimit) { fZPanLimit = zPanLimit; }
+    void setPanSpeed(float panSpeed) { fPanSpeed = panSpeed; }
+    void setZoomRate(float zoomRate) { fZoomRate = zoomRate; }
+    void setZoomMax(float zoomMax) { fZoomMax = zoomMax; }
+    void setZoomMin(float zoomMin) { fZoomMin = zoomMin; }
+
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
@@ -103,6 +135,10 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    hsVector3 getOffset() const { return fOffset; }
+    void setOffset(const hsVector3& offset) { fOffset = offset; }
 };
 
 
@@ -125,6 +161,10 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    plKey getTargetPoint() const { return fTargetPoint; }
+    void setTargetPoint(const plKey& targetPoint) { fTargetPoint = targetPoint; }
 };
 
 
@@ -158,6 +198,21 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    unsigned int getCircleFlags() const { return fCircleFlags; }
+    hsVector3 getCenter() const { return fCenter; }
+    float getRadius() const { return fRadius; }
+    plKey getCenterObject() const { return fCenterObject; }
+    plKey getPOAObject() const { return fPOAObject; }
+    float getCirPerSec() const { return fCirPerSec; }
+
+    void setCircleFlags(unsigned int flags) { fCircleFlags = flags; }
+    void setCenter(const hsVector3& center) { fCenter = center; }
+    void setRadius(float radius) { fRadius = radius; }
+    void setCenterObject(const plKey& center) { fCenterObject = center; }
+    void setPOAObject(const plKey& poa) { fPOAObject = poa; }
+    void setCirPerSec(float cirPerSec) { fCirPerSec = cirPerSec; }
 };
 
 #endif

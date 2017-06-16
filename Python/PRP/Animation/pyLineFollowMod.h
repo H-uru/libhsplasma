@@ -14,13 +14,28 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _PY_OBJECTINVOLUMEDETECTOR_H
-#define _PY_OBJECTINVOLUMEDETECTOR_H
+#ifndef _PY_LINEFOLLOWMOD_H
+#define _PY_LINEFOLLOWMOD_H
 
 #include "PyPlasma.h"
+#include <PRP/Animation/plLineFollowMod.h>
 
-PY_WRAP_PLASMA(ObjectInVolumeDetector, class plObjectInVolumeDetector);
-PY_WRAP_PLASMA(ObjectInVolumeAndFacingDetector, class plObjectInVolumeAndFacingDetector);
-PY_WRAP_PLASMA(CameraRegionDetector, class plCameraRegionDetector);
+PY_WRAP_PLASMA(LineFollowMod, plLineFollowMod)
+PY_WRAP_PLASMA(RailCameraMod, plRailCameraMod)
+
+/* Python property helpers */
+inline PyObject* pyPlasma_convert(plLineFollowMod::FollowMode value) {
+    return PyInt_FromLong((long)value);
+}
+
+template <>
+inline int pyPlasma_check<plLineFollowMod::FollowMode>(PyObject* value) {
+    return PyInt_Check(value);
+}
+
+template <>
+inline plLineFollowMod::FollowMode pyPlasma_get(PyObject* value) {
+    return (plLineFollowMod::FollowMode)PyInt_AsLong(value);
+}
 
 #endif

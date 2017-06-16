@@ -14,13 +14,18 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _PY_OBJECTINVOLUMEDETECTOR_H
-#define _PY_OBJECTINVOLUMEDETECTOR_H
+#ifndef _PYCAMERAMSG_H
+#define _PYCAMERAMSG_H
 
 #include "PyPlasma.h"
+#include <PRP/Message/plCameraMsg.h>
 
-PY_WRAP_PLASMA(ObjectInVolumeDetector, class plObjectInVolumeDetector);
-PY_WRAP_PLASMA(ObjectInVolumeAndFacingDetector, class plObjectInVolumeAndFacingDetector);
-PY_WRAP_PLASMA(CameraRegionDetector, class plCameraRegionDetector);
+PY_WRAP_PLASMA(CameraConfig, plCameraConfig)
+PY_WRAP_PLASMA(CameraMsg, plCameraMsg)
+
+/* Helpers for Python properties */
+inline PyObject* pyPlasma_convert(plCameraConfig* value) { return pyCameraConfig_FromCameraConfig(value); }
+template <> inline int pyPlasma_check<plCameraConfig>(PyObject* value) { return pyCameraConfig_Check(value); }
+template <> inline plCameraConfig* pyPlasma_get(PyObject* value) { return ((pyCameraConfig*)value)->fThis; }
 
 #endif

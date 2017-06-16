@@ -19,6 +19,7 @@
 
 #include "PRP/Modifier/plModifier.h"
 #include "PRP/Message/plCameraMsg.h"
+#include <tuple>
 
 class PLASMA_DLL plCameraModifier : public plSingleModifier {
     CREATABLE(plCameraModifier, kCameraModifier, plSingleModifier)
@@ -39,6 +40,29 @@ public:
         void write(hsStream* S, plResManager* mgr);
         void prcWrite(pfPrcHelper* prc);
         void prcParse(const pfPrcTag* tag, plResManager* mgr);
+
+    public:
+        plKey getTransTo() const { return fTransTo; }
+        bool getCutPos() const { return fCutPos; }
+        bool getCutPOA() const { return fCutPOA; }
+        bool getIgnore() const { return fIgnore; }
+        float getAccel() const { return fAccel; }
+        float getDecel() const { return fDecel; }
+        float getVelocity() const { return fVelocity; }
+        float getPOAAccel() const { return fPOAAccel; }
+        float getPOADecel() const { return fPOADecel; }
+        float getPOAVelocity() const { return fPOAVelocity; }
+
+        void setTransTo(const plKey& transTo) { fTransTo = transTo; }
+        void setCutPos(bool cutPos) { fCutPos = cutPos; }
+        void setCutPOA(bool cutPOA) { fCutPOA = cutPOA; }
+        void setIgnore(bool ignore) { fIgnore = ignore; }
+        void setAccel(float accel) { fAccel = accel; }
+        void setDecel(float decel) { fDecel = decel; }
+        void setVelocity(float velocity) { fVelocity = velocity; }
+        void setPOAAccel(float poaAccel) { fPOAAccel = poaAccel; }
+        void setPOADecel(float poaDecel) { fPOADecel = poaDecel; }
+        void setPOAVelocity(float poaVelocity) { fPOAVelocity = poaVelocity; }
     };
 
 protected:
@@ -66,8 +90,49 @@ protected:
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
+    hsVector3 getFrom() const { return fFrom; }
+    hsVector3 getAt() const { return fAt; }
+    plKey getBrain() const { return fBrain; }
+    float getFOVw() const { return fFOVw; }
+    float getFOVh() const { return fFOVh; }
+    bool getAnimated() const { return fAnimated; }
+    bool getStartAnimOnPush() const { return fStartAnimOnPush; }
+    bool getStopAnimOnPop() const { return fStopAnimOnPop; }
+    bool getResetAnimOnPop() const { return fResetAnimOnPop; }
+
+    void setFrom(const hsVector3& from) { fFrom = from; }
+    void setAt(const hsVector3& at) { fAt = at; }
+    void setBrain(const plKey& brain) { fBrain = brain; }
+    void setFOVw(float fovW) { fFOVw = fovW; }
+    void setFOVh(float fovH) { fFOVh = fovH; }
+    void setAnimated(bool animated) { fAnimated = animated; }
+    void setStartAnimOnPush(bool startOnPush) { fStartAnimOnPush = startOnPush; }
+    void setStopAnimOnPop(bool stopOnPop) { fStopAnimOnPop = stopOnPop; }
+    void setResetAnimOnPop(bool resetOnPop) { fResetAnimOnPop = resetOnPop; }
+
+    const std::vector<CamTrans*>& getTrans() const { return fTrans; }
+    std::vector<CamTrans*>& getTrans() { return fTrans; }
+    void addTrans(CamTrans* trans) { fTrans.push_back(trans); }
+    void delTrans(size_t idx);
     void clearTrans();
+
+    std::tuple<plMessage*, plKey> getMessage(size_t idx) {
+        return std::make_tuple(fMessageQueue[idx], fSenderQueue[idx]);
+    }
+
+    void addMessage(plMessage* msg, const plKey& sender=plKey()) {
+        fMessageQueue.push_back(msg);
+        fSenderQueue.push_back(sender);
+    }
+
+    void delMessage(size_t idx);
     void clearMessageQueue();
+    size_t getMessageQueueSize() const { return fMessageQueue.size(); }
+
+    const std::vector<plCameraMsg*>& getFOVInstructions() const { return fFOVInstructions; }
+    std::vector<plCameraMsg*>& getFOVInstructions() { return fFOVInstructions; }
+    void addFOVInstruction(plCameraMsg* msg) { fFOVInstructions.push_back(msg); }
+    void delFOVInstruction(size_t idx);
     void clearFOVInstructions();
 };
 

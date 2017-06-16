@@ -45,6 +45,10 @@ protected:
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
+    const std::vector<plCameraMsg*>& getMessages() const { return fMessages; }
+    std::vector<plCameraMsg*>& getMessages() { return fMessages; }
+    void addMessage(plCameraMsg* msg) { fMessages.push_back(msg); }
+    void delMessage(size_t idx);
     void clearMessages();
 };
 

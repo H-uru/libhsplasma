@@ -14,13 +14,13 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _PY_OBJECTINVOLUMEDETECTOR_H
-#define _PY_OBJECTINVOLUMEDETECTOR_H
+#ifndef _PY_CAMERAMODIFIER_H
+#define _PY_CAMERAMODIFIER_H
 
 #include "PyPlasma.h"
+#include <PRP/Camera/plCameraModifier.h>
 
-PY_WRAP_PLASMA(ObjectInVolumeDetector, class plObjectInVolumeDetector);
-PY_WRAP_PLASMA(ObjectInVolumeAndFacingDetector, class plObjectInVolumeAndFacingDetector);
-PY_WRAP_PLASMA(CameraRegionDetector, class plCameraRegionDetector);
+PY_WRAP_PLASMA(CamTrans, plCameraModifier::CamTrans)
+PY_WRAP_PLASMA(CameraModifier, plCameraModifier)
 
 #endif
