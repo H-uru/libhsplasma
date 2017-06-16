@@ -1,7 +1,7 @@
 include_directories(${PROJECT_SOURCE_DIR}/core)
 
 try_compile(DIRENT_IS_CONST ${PROJECT_BINARY_DIR}
-            ${PROJECT_SOURCE_DIR}/Misc/cmake_CheckDirent.cpp
+            ${PROJECT_SOURCE_DIR}/cmake/check_dirent.cpp
             OUTPUT_VARIABLE OUTPUT)
 if(DIRENT_IS_CONST)
     add_definitions("-DDIRENT_IS_CONST")

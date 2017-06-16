@@ -24,9 +24,8 @@ if(MSVC)
     set(CMAKE_C_FLAGS "/wd4996 /wd4244 /wd4251 ${CMAKE_C_FLAGS}")
 endif()
 
-# Python is disabled by default because most projects don't need it
-# Tools are still enabled because they're fast and occasionally useful
-option(ENABLE_PYTHON "Build HSPlasma Python integration" OFF)
+# Turn everything on by default
+option(ENABLE_PYTHON "Build HSPlasma Python integration" ON)
 option(ENABLE_TOOLS "Build the HSPlasma tools" ON)
 option(ENABLE_NET "Build HSPlasmaNet" ON)
 option(ENABLE_PHYSX "Build with PhysX Support" ON)

@@ -20,22 +20,22 @@ endif(PHYSX_FOUND AND ENABLE_PHYSX)
 
 add_definitions(-DBUILD_PLASMA_DLL)
 
-set(DEBUG_SRCS
+set(DEBUG_SOURCES
     Debug/plDebug.cpp
 )
-set(DEBUG_HDRS
+set(DEBUG_HEADERS
     Debug/hsExceptions.hpp
     Debug/plDebug.h
 )
 
-set(MATH_SRCS
+set(MATH_SOURCES
     Math/hsAffineParts.cpp
     Math/hsGeometry3.cpp
     Math/hsMatrix33.cpp
     Math/hsMatrix44.cpp
     Math/hsQuat.cpp
 )
-set(MATH_HDRS
+set(MATH_HEADERS
     Math/hsAffineParts.h
     Math/hsGeometry3.h
     Math/hsMatrix33.h
@@ -43,7 +43,7 @@ set(MATH_HDRS
     Math/hsQuat.h
 )
 
-set(PRP_ANIM_SRCS
+set(PRP_ANIM_SOURCES
     PRP/Animation/hsKeys.cpp
     PRP/Animation/pfObjectFlocker.cpp
     PRP/Animation/plATCEaseCurves.cpp
@@ -61,7 +61,7 @@ set(PRP_ANIM_SRCS
     PRP/Animation/plTMController.cpp
     PRP/Animation/plViewFaceModifier.cpp
 )
-set(PRP_ANIM_HDRS
+set(PRP_ANIM_HEADERS
     PRP/Animation/hsKeys.h
     PRP/Animation/pfObjectFlocker.h
     PRP/Animation/plATCEaseCurves.h
@@ -81,7 +81,7 @@ set(PRP_ANIM_HDRS
     PRP/Animation/plViewFaceModifier.h
 )
 
-set(PRP_AUD_SRCS
+set(PRP_AUDIO_SOURCES
     PRP/Audio/plAudible.cpp
     PRP/Audio/plCrossfade.cpp
     PRP/Audio/plDirectMusicSound.cpp
@@ -92,7 +92,7 @@ set(PRP_AUD_SRCS
     PRP/Audio/plWin32Sound.cpp
     PRP/Audio/plWin32StaticSound.cpp
 )
-set(PRP_AUD_HDRS
+set(PRP_AUDIO_HEADERS
     PRP/Audio/plAudible.h
     PRP/Audio/plCrossfade.h
     PRP/Audio/plDirectMusicSound.h
@@ -104,7 +104,7 @@ set(PRP_AUD_HDRS
     PRP/Audio/plWin32StaticSound.h
 )
 
-set(PRP_AVTR_SRCS
+set(PRP_AVATAR_SOURCES
     PRP/Avatar/plAGAnim.cpp
     PRP/Avatar/plAGApplicator.cpp
     PRP/Avatar/plAGChannel.cpp
@@ -130,7 +130,7 @@ set(PRP_AVTR_SRCS
     PRP/Avatar/plSeekPointMod.cpp
     PRP/Avatar/plSittingModifier.cpp
 )
-set(PRP_AVTR_HDRS
+set(PRP_AVATAR_HEADERS
     PRP/Avatar/plAGAnim.h
     PRP/Avatar/plAGApplicator.h
     PRP/Avatar/plAGChannel.h
@@ -157,16 +157,16 @@ set(PRP_AVTR_HDRS
     PRP/Avatar/plSittingModifier.h
 )
 
-set(PRP_CMRA_SRCS
+set(PRP_CAMERA_SOURCES
     PRP/Camera/plCameraBrain.cpp
     PRP/Camera/plCameraModifier.cpp
 )
-set(PRP_CMRA_HDRS
+set(PRP_CAMERA_HEADERS
     PRP/Camera/plCameraBrain.h
     PRP/Camera/plCameraModifier.h
 )
 
-set(PRP_COND_SRCS
+set(PRP_COND_SOURCES
     PRP/ConditionalObject/plActivatorConditionalObject.cpp
     PRP/ConditionalObject/plAnimationEventConditionalObject.cpp
     PRP/ConditionalObject/plBooleanConditionalObject.cpp
@@ -176,7 +176,7 @@ set(PRP_COND_SRCS
     PRP/ConditionalObject/plKeyPressConditionalObject.cpp
     PRP/ConditionalObject/plVolumeSensorConditionalObject.cpp
 )
-set(PRP_COND_HDRS
+set(PRP_COND_HEADERS
     PRP/ConditionalObject/plActivatorConditionalObject.h
     PRP/ConditionalObject/plAnimationEventConditionalObject.h
     PRP/ConditionalObject/plBooleanConditionalObject.h
@@ -188,7 +188,7 @@ set(PRP_COND_HDRS
     PRP/ConditionalObject/plVolumeSensorConditionalObject.h
 )
 
-set(PRP_GEOM_SRCS
+set(PRP_GEOM_SOURCES
     PRP/Geometry/plCluster.cpp
     PRP/Geometry/plClusterGroup.cpp
     PRP/Geometry/plCullPoly.cpp
@@ -209,7 +209,7 @@ set(PRP_GEOM_SRCS
     PRP/Geometry/plVertCoder.cpp
     PRP/Geometry/plVertexSpan.cpp
 )
-set(PRP_GEOM_HDRS
+set(PRP_GEOM_HEADERS
     PRP/Geometry/hsGDeviceRef.hpp
     PRP/Geometry/plCluster.h
     PRP/Geometry/plClusterGroup.h
@@ -232,7 +232,7 @@ set(PRP_GEOM_HDRS
     PRP/Geometry/plVertexSpan.h
 )
 
-set(PRP_GUI_SRCS
+set(PRP_GUI_SOURCES
     PRP/GUI/pfGUIButtonMod.cpp
     PRP/GUI/pfGUICheckBoxCtrl.cpp
     PRP/GUI/pfGUIControlHandlers.cpp
@@ -251,7 +251,7 @@ set(PRP_GUI_SRCS
     PRP/GUI/pfGUIValueCtrl.cpp
     PRP/GUI/plImageLibMod.cpp
 )
-set(PRP_GUI_HDRS
+set(PRP_GUI_HEADERS
     PRP/GUI/pfGUIButtonMod.h
     PRP/GUI/pfGUICheckBoxCtrl.h
     PRP/GUI/pfGUIControlHandlers.h
@@ -272,14 +272,14 @@ set(PRP_GUI_HDRS
     PRP/GUI/plImageLibMod.h
 )
 
-set(PRP_KEY_SRCS
+set(PRP_KEYOBJ_SOURCES
     PRP/KeyedObject/hsKeyedObject.cpp
     PRP/KeyedObject/plKey.cpp
     PRP/KeyedObject/plLoadMask.cpp
     PRP/KeyedObject/plLocation.cpp
     PRP/KeyedObject/plUoid.cpp
 )
-set(PRP_KEY_HDRS
+set(PRP_KEYOBJ_HEADERS
     PRP/KeyedObject/hsKeyedObject.h
     PRP/KeyedObject/plKey.h
     PRP/KeyedObject/plLoadMask.h
@@ -287,14 +287,14 @@ set(PRP_KEY_HDRS
     PRP/KeyedObject/plUoid.h
 )
 
-set(PRP_LIT_SRCS
+set(PRP_LIGHT_SOURCES
     PRP/Light/plDirectionalLightInfo.cpp
     PRP/Light/plLightInfo.cpp
     PRP/Light/plOmniLightInfo.cpp
     PRP/Light/plShadowCaster.cpp
     PRP/Light/plShadowMaster.cpp
 )
-set(PRP_LIT_HDRS
+set(PRP_LIGHT_HEADERS
     PRP/Light/plDirectionalLightInfo.h
     PRP/Light/plLightInfo.h
     PRP/Light/plOmniLightInfo.h
@@ -302,7 +302,7 @@ set(PRP_LIT_HDRS
     PRP/Light/plShadowMaster.h
 )
 
-set(PRP_MSG_SRCS
+set(PRP_MSG_SOURCES
     PRP/Message/pfKIMsg.cpp
     PRP/Message/plAccountUpdateMsg.cpp
     PRP/Message/plAnimCmdMsg.cpp
@@ -339,7 +339,7 @@ set(PRP_MSG_SRCS
     PRP/Message/plTransitionMsg.cpp
     PRP/Message/proEventData.cpp
 )
-set(PRP_MSG_HDRS
+set(PRP_MSG_HEADERS
     PRP/Message/pfKIMsg.h
     PRP/Message/plAccountUpdateMsg.h
     PRP/Message/plAnimCmdMsg.h
@@ -377,19 +377,19 @@ set(PRP_MSG_HDRS
     PRP/Message/proEventData.h
 )
 
-set(PRP_MISC_SRCS
+set(PRP_MISC_SOURCES
     PRP/Misc/plAgeLinkInfo.cpp
     PRP/Misc/plFogEnvironment.cpp
     PRP/Misc/plSpawnPointInfo.cpp
 )
-set(PRP_MISC_HDRS
+set(PRP_MISC_HEADERS
     PRP/Misc/plAgeLinkInfo.h
     PRP/Misc/plFogEnvironment.h
     PRP/Misc/plRenderLevel.h
     PRP/Misc/plSpawnPointInfo.h
 )
 
-set(PRP_MOD_SRCS
+set(PRP_MOD_SOURCES
     PRP/Modifier/plAliasModifier.cpp
     PRP/Modifier/plAnimEventModifier.cpp
     PRP/Modifier/plAxisAnimModifier.cpp
@@ -411,7 +411,7 @@ set(PRP_MOD_SRCS
     PRP/Modifier/plResponderModifier.cpp
     PRP/Modifier/plSpawnModifier.cpp
 )
-set(PRP_MOD_HDRS
+set(PRP_MOD_HEADERS
     PRP/Modifier/plAliasModifier.h
     PRP/Modifier/plAnimEventModifier.h
     PRP/Modifier/plAxisAnimModifier.h
@@ -434,7 +434,7 @@ set(PRP_MOD_HDRS
     PRP/Modifier/plSpawnModifier.h
 )
 
-set(PRP_NMSG_SRCS
+set(PRP_NETMSG_SOURCES
     PRP/NetMessage/plClientGuid.cpp
     PRP/NetMessage/plNetGroupId.cpp
     PRP/NetMessage/plNetMessage.cpp
@@ -453,7 +453,7 @@ set(PRP_NMSG_SRCS
     PRP/NetMessage/plNetMsgStreamedObject.cpp
     PRP/NetMessage/plNetSharedState.cpp
 )
-set(PRP_NMSG_HDRS
+set(PRP_NETMSG_HEADERS
     PRP/NetMessage/plClientGuid.h
     PRP/NetMessage/plNetGroupId.h
     PRP/NetMessage/plNetMessage.h
@@ -473,7 +473,7 @@ set(PRP_NMSG_HDRS
     PRP/NetMessage/plNetSharedState.h
 )
 
-set(PRP_OBJ_SRCS
+set(PRP_OBJ_SOURCES
     PRP/Object/plAudioInterface.cpp
     PRP/Object/plCoordinateInterface.cpp
     PRP/Object/plDrawInterface.cpp
@@ -482,7 +482,7 @@ set(PRP_OBJ_SRCS
     PRP/Object/plSimulationInterface.cpp
     PRP/Object/plSynchedObject.cpp
 )
-set(PRP_OBJ_HDRS
+set(PRP_OBJ_HEADERS
     PRP/Object/plAudioInterface.h
     PRP/Object/plCoordinateInterface.h
     PRP/Object/plDrawInterface.h
@@ -492,14 +492,14 @@ set(PRP_OBJ_HDRS
     PRP/Object/plSynchedObject.h
 )
 
-set(PRP_PRTL_SRCS
+set(PRP_PARTICLE_SOURCES
     PRP/Particle/plBoundInterface.cpp
     PRP/Particle/plParticleEffect.cpp
     PRP/Particle/plParticleEmitter.cpp
     PRP/Particle/plParticleGenerator.cpp
     PRP/Particle/plParticleSystem.cpp
 )
-set(PRP_PRTL_HDRS
+set(PRP_PARTICLE_HEADERS
     PRP/Particle/plBoundInterface.h
     PRP/Particle/plParticleApplicator.hpp
     PRP/Particle/plParticleEffect.h
@@ -508,7 +508,7 @@ set(PRP_PRTL_HDRS
     PRP/Particle/plParticleSystem.h
 )
 
-set(PRP_PHYS_SRCS
+set(PRP_PHYS_SOURCES
     PRP/Physics/plCollisionDetector.cpp
     PRP/Physics/plDetectorModifier.cpp
     PRP/Physics/plGenericPhysical.cpp
@@ -519,7 +519,7 @@ set(PRP_PHYS_SRCS
     PRP/Physics/plPXPhysical.cpp
     PRP/Physics/plVehicleModifier.cpp
 )
-set(PRP_PHYS_HDRS
+set(PRP_PHYS_HEADERS
     PRP/Physics/plCollisionDetector.h
     PRP/Physics/plDetectorModifier.h
     PRP/Physics/plGenericPhysical.h
@@ -530,7 +530,7 @@ set(PRP_PHYS_HDRS
     PRP/Physics/plVehicleModifier.h
 )
 
-set(PRP_RGN_SRCS
+set(PRP_REGION_SOURCES
     PRP/Region/hsBounds.cpp
     PRP/Region/plConvexVolume.cpp
     PRP/Region/plHardRegion.cpp
@@ -542,7 +542,7 @@ set(PRP_RGN_SRCS
     PRP/Region/plVisRegion.cpp
     PRP/Region/plVolumeIsect.cpp
 )
-set(PRP_RGN_HDRS
+set(PRP_REGION_HEADERS
     PRP/Region/hsBounds.h
     PRP/Region/plConvexVolume.h
     PRP/Region/plHardRegion.h
@@ -556,7 +556,7 @@ set(PRP_RGN_HDRS
     PRP/Region/plVolumeIsect.h
 )
 
-set(PRP_SRFC_SRCS
+set(PRP_SURFACE_SOURCES
     PRP/Surface/hsGMatState.cpp
     PRP/Surface/hsGMaterial.cpp
     PRP/Surface/plBitmap.cpp
@@ -581,7 +581,7 @@ set(PRP_SRFC_SRCS
     PRP/Surface/plShader.cpp
     PRP/Surface/plWaveSet.cpp
 )
-set(PRP_SRFC_HDRS
+set(PRP_SURFACE_HEADERS
     PRP/Surface/hsGMatState.h
     PRP/Surface/hsGMaterial.h
     PRP/Surface/plBitmap.h
@@ -607,27 +607,27 @@ set(PRP_SRFC_HDRS
     PRP/Surface/plWaveSet.h
 )
 
-set(PRP_SRCS
+set(PRP_SOURCES
     PRP/plCreatable.cpp
     PRP/plCreatableListHelper.cpp
     PRP/plPageInfo.cpp
     PRP/plSceneNode.cpp
 )
-set(PRP_HDRS
+set(PRP_HEADERS
     PRP/plCreatable.h
     PRP/plCreatableListHelper.h
     PRP/plPageInfo.h
     PRP/plSceneNode.h
 )
 
-set(RESMGR_SRCS
+set(RESMGR_SOURCES
     ResManager/pdUnifiedTypeMap.cpp
     ResManager/plAgeInfo.cpp
     ResManager/plFactory.cpp
     ResManager/plKeyCollector.cpp
     ResManager/plResManager.cpp
 )
-set(RESMGR_HDRS
+set(RESMGR_HEADERS
     ResManager/pdUnifiedTypeMap.h
     ResManager/plAgeInfo.h
     ResManager/plFactory.h
@@ -635,7 +635,7 @@ set(RESMGR_HDRS
     ResManager/plResManager.h
 )
 
-set(SDL_SRCS
+set(SDL_SOURCES
     SDL/plNetGameServerState.cpp
     SDL/plSDL.cpp
     SDL/plSDLMgr.cpp
@@ -643,7 +643,7 @@ set(SDL_SRCS
     SDL/plStateDescriptor.cpp
     SDL/plStateVariable.cpp
 )
-set(SDL_HDRS
+set(SDL_HEADERS
     SDL/plNetGameServerState.h
     SDL/plSDL.h
     SDL/plSDLMgr.h
@@ -652,7 +652,7 @@ set(SDL_HDRS
     SDL/plStateVariable.h
 )
 
-set(STREAM_SRCS
+set(STREAM_SOURCES
     Stream/hsElfStream.cpp
     Stream/hsRAMStream.cpp
     Stream/hsStdioStream.cpp
@@ -663,7 +663,7 @@ set(STREAM_SRCS
     Stream/pfSizedStream.cpp
     Stream/plEncryptedStream.cpp
 )
-set(STREAM_HDRS
+set(STREAM_HEADERS
     Stream/hsElfStream.h
     Stream/hsRAMStream.h
     Stream/hsStdioStream.h
@@ -675,18 +675,18 @@ set(STREAM_HDRS
     Stream/plEncryptedStream.h
 )
 
-set(SYS_SRCS
+set(SYS_SOURCES
     Sys/hsColor.cpp
     Sys/hsSemaphore.cpp
     Sys/plUnifiedTime.cpp
     Sys/plUuid.cpp
 )
 if(CMAKE_USE_WIN32_THREADS_INIT)
-    set(SYS_SRCS ${SYS_SRCS} Sys/hsThread_win32.cpp)
+    set(SYS_SOURCES ${SYS_SOURCES} Sys/hsThread_win32.cpp)
 else(CMAKE_USE_WIN32_THREADS_INIT)
-    set(SYS_SRCS ${SYS_SRCS} Sys/hsThread_pthread.cpp)
+    set(SYS_SOURCES ${SYS_SOURCES} Sys/hsThread_pthread.cpp)
 endif(CMAKE_USE_WIN32_THREADS_INIT)
-set(SYS_HDRS
+set(SYS_HEADERS
     Sys/Platform.h
     Sys/hsColor.h
     Sys/hsSemaphore.h
@@ -695,7 +695,7 @@ set(SYS_HDRS
     Sys/plUuid.h
 )
 
-set(UTIL_SRCS
+set(UTIL_SOURCES
     Util/PlasmaVersions.cpp
     Util/hs3DDevice.cpp
     Util/hsBitVector.cpp
@@ -706,7 +706,7 @@ set(UTIL_SRCS
     Util/plMD5.cpp
     Util/plZlib.cpp
 )
-set(UTIL_HDRS
+set(UTIL_HEADERS
     Util/PlasmaVersions.h
     Util/hs3DDevice.h
     Util/hsBitVector.h
@@ -718,14 +718,14 @@ set(UTIL_HDRS
     Util/plZlib.h
 )
 
-set(VAULT_SRCS
+set(VAULT_SOURCES
     Vault/plServerGuid.cpp
     Vault/plVaultNode.cpp
     Vault/plVaultNodeRef.cpp
     Vault/plVaultNodeTypes.cpp
     Vault/plVaultStore.cpp
 )
-set(VAULT_HDRS
+set(VAULT_HEADERS
     Vault/plServerGuid.h
     Vault/plVaultNode.h
     Vault/plVaultNodeRef.h
@@ -733,17 +733,17 @@ set(VAULT_HDRS
     Vault/plVaultStore.h
 )
 
-set(PLASMA_HDRS
+set(PLASMA_HEADERS
     PlasmaDefs.h
     ${PROJECT_BINARY_DIR}/PlasmaConfig.h
 )
 
-set(RIJNDAEL
+set(RIJNDAEL_SOURCES
     3rdPartyLibs/rijndael.cpp
     3rdPartyLibs/rijndael.h
 )
 
-set(SQUISH
+set(SQUISH_SOURCES
     3rdPartyLibs/squish/alpha.cpp
     3rdPartyLibs/squish/alpha.h
     3rdPartyLibs/squish/clusterfit.cpp
@@ -765,36 +765,36 @@ set(SQUISH
 )
 
 add_library(HSPlasma
-            ${DEBUG_SRCS}    ${DEBUG_HDRS}
-            ${MATH_SRCS}     ${MATH_HDRS}
-            ${PRP_ANIM_SRCS} ${PRP_ANIM_HDRS}
-            ${PRP_AUD_SRCS}  ${PRP_AUD_HDRS}
-            ${PRP_AVTR_SRCS} ${PRP_AVTR_HDRS}
-            ${PRP_CMRA_SRCS} ${PRP_CMRA_HDRS}
-            ${PRP_COND_SRCS} ${PRP_COND_HDRS}
-            ${PRP_GEOM_SRCS} ${PRP_GEOM_HDRS}
-            ${PRP_GUI_SRCS}  ${PRP_GUI_HDRS}
-            ${PRP_KEY_SRCS}  ${PRP_KEY_HDRS}
-            ${PRP_LIT_SRCS}  ${PRP_LIT_HDRS}
-            ${PRP_MISC_SRCS} ${PRP_MISC_HDRS}
-            ${PRP_MOD_SRCS}  ${PRP_MOD_HDRS}
-            ${PRP_MSG_SRCS}  ${PRP_MSG_HDRS}
-            ${PRP_NMSG_SRCS} ${PRP_NMSG_HDRS}
-            ${PRP_OBJ_SRCS}  ${PRP_OBJ_HDRS}
-            ${PRP_PRTL_SRCS} ${PRP_PRTL_HDRS}
-            ${PRP_PHYS_SRCS} ${PRP_PHYS_HDRS}
-            ${PRP_RGN_SRCS}  ${PRP_RGN_HDRS}
-            ${PRP_SRFC_SRCS} ${PRP_SRFC_HDRS}
-            ${PRP_SRCS}      ${PRP_HDRS}
-            ${RESMGR_SRCS}   ${RESMGR_HDRS}
-            ${SDL_SRCS}      ${SDL_HDRS}
-            ${STREAM_SRCS}   ${STREAM_HDRS}
-            ${SYS_SRCS}      ${SYS_HDRS}
-            ${UTIL_SRCS}     ${UTIL_HDRS}
-            ${VAULT_SRCS}    ${VAULT_HDRS}
-                             ${PLASMA_HDRS}
-            ${RIJNDAEL}
-            ${SQUISH}
+            ${DEBUG_SOURCES}        ${DEBUG_HEADERS}
+            ${MATH_SOURCES}         ${MATH_HEADERS}
+            ${PRP_ANIM_SOURCES}     ${PRP_ANIM_HEADERS}
+            ${PRP_AUDIO_SOURCES}    ${PRP_AUDIO_HEADERS}
+            ${PRP_AVATAR_SOURCES}   ${PRP_AVATAR_HEADERS}
+            ${PRP_CAMERA_SOURCES}   ${PRP_CAMERA_HEADERS}
+            ${PRP_COND_SOURCES}     ${PRP_COND_HEADERS}
+            ${PRP_GEOM_SOURCES}     ${PRP_GEOM_HEADERS}
+            ${PRP_GUI_SOURCES}      ${PRP_GUI_HEADERS}
+            ${PRP_KEYOBJ_SOURCES}   ${PRP_KEYOBJ_HEADERS}
+            ${PRP_LIGHT_SOURCES}    ${PRP_LIGHT_HEADERS}
+            ${PRP_MISC_SOURCES}     ${PRP_MISC_HEADERS}
+            ${PRP_MOD_SOURCES}      ${PRP_MOD_HEADERS}
+            ${PRP_MSG_SOURCES}      ${PRP_MSG_HEADERS}
+            ${PRP_NETMSG_SOURCES}   ${PRP_NETMSG_HEADERS}
+            ${PRP_OBJ_SOURCES}      ${PRP_OBJ_HEADERS}
+            ${PRP_PARTICLE_SOURCES} ${PRP_PARTICLE_HEADERS}
+            ${PRP_PHYS_SOURCES}     ${PRP_PHYS_HEADERS}
+            ${PRP_REGION_SOURCES}   ${PRP_REGION_HEADERS}
+            ${PRP_SURFACE_SOURCES}  ${PRP_SURFACE_HEADERS}
+            ${PRP_SOURCES}          ${PRP_HEADERS}
+            ${RESMGR_SOURCES}       ${RESMGR_HEADERS}
+            ${SDL_SOURCES}          ${SDL_HEADERS}
+            ${STREAM_SOURCES}       ${STREAM_HEADERS}
+            ${SYS_SOURCES}          ${SYS_HEADERS}
+            ${UTIL_SOURCES}         ${UTIL_HEADERS}
+            ${VAULT_SOURCES}        ${VAULT_HEADERS}
+                                    ${PLASMA_HEADERS}
+            ${RIJNDAEL_SOURCES}
+            ${SQUISH_SOURCES}
 )
 target_link_libraries(HSPlasma ${PNG_LIBRARIES} ${JPEG_LIBRARIES} ${ZLIB_LIBRARIES}
                       ${CMAKE_THREAD_LIBS_INIT} ${STRING_THEORY_LIBRARIES})
@@ -812,61 +812,61 @@ install(TARGETS HSPlasma
         ARCHIVE DESTINATION lib
 )
 install(FILES HSPlasmaConfig.cmake DESTINATION share/cmake/HSPlasma)
-install(FILES ${DEBUG_HDRS} DESTINATION include/HSPlasma/Debug)
-install(FILES ${MATH_HDRS} DESTINATION include/HSPlasma/Math)
-install(FILES ${PRP_ANIM_HDRS} DESTINATION include/HSPlasma/PRP/Animation)
-install(FILES ${PRP_AUD_HDRS} DESTINATION include/HSPlasma/PRP/Audio)
-install(FILES ${PRP_AVTR_HDRS} DESTINATION include/HSPlasma/PRP/Avatar)
-install(FILES ${PRP_CMRA_HDRS} DESTINATION include/HSPlasma/PRP/Camera)
-install(FILES ${PRP_COND_HDRS} DESTINATION include/HSPlasma/PRP/ConditionalObject)
-install(FILES ${PRP_GEOM_HDRS} DESTINATION include/HSPlasma/PRP/Geometry)
-install(FILES ${PRP_GUI_HDRS} DESTINATION include/HSPlasma/PRP/GUI)
-install(FILES ${PRP_KEY_HDRS} DESTINATION include/HSPlasma/PRP/KeyedObject)
-install(FILES ${PRP_LIT_HDRS} DESTINATION include/HSPlasma/PRP/Light)
-install(FILES ${PRP_MSG_HDRS} DESTINATION include/HSPlasma/PRP/Message)
-install(FILES ${PRP_MISC_HDRS} DESTINATION include/HSPlasma/PRP/Misc)
-install(FILES ${PRP_MOD_HDRS} DESTINATION include/HSPlasma/PRP/Modifier)
-install(FILES ${PRP_NMSG_HDRS} DESTINATION include/HSPlasma/PRP/NetMessage)
-install(FILES ${PRP_OBJ_HDRS} DESTINATION include/HSPlasma/PRP/Object)
-install(FILES ${PRP_PRTL_HDRS} DESTINATION include/HSPlasma/PRP/Particle)
-install(FILES ${PRP_PHYS_HDRS} DESTINATION include/HSPlasma/PRP/Physics)
-install(FILES ${PRP_RGN_HDRS} DESTINATION include/HSPlasma/PRP/Region)
-install(FILES ${PRP_SRFC_HDRS} DESTINATION include/HSPlasma/PRP/Surface)
-install(FILES ${PRP_HDRS} DESTINATION include/HSPlasma/PRP)
-install(FILES ${RESMGR_HDRS} DESTINATION include/HSPlasma/ResManager)
-install(FILES ${SDL_HDRS} DESTINATION include/HSPlasma/SDL)
-install(FILES ${STREAM_HDRS} DESTINATION include/HSPlasma/Stream)
-install(FILES ${SYS_HDRS} DESTINATION include/HSPlasma/Sys)
-install(FILES ${UTIL_HDRS} DESTINATION include/HSPlasma/Util)
-install(FILES ${VAULT_HDRS} DESTINATION include/HSPlasma/Vault)
-install(FILES ${PLASMA_HDRS} DESTINATION include/HSPlasma)
+install(FILES ${DEBUG_HEADERS} DESTINATION include/HSPlasma/Debug)
+install(FILES ${MATH_HEADERS} DESTINATION include/HSPlasma/Math)
+install(FILES ${PRP_ANIM_HEADERS} DESTINATION include/HSPlasma/PRP/Animation)
+install(FILES ${PRP_AUDIO_HEADERS} DESTINATION include/HSPlasma/PRP/Audio)
+install(FILES ${PRP_AVATAR_HEADERS} DESTINATION include/HSPlasma/PRP/Avatar)
+install(FILES ${PRP_CAMERA_HEADERS} DESTINATION include/HSPlasma/PRP/Camera)
+install(FILES ${PRP_COND_HEADERS} DESTINATION include/HSPlasma/PRP/ConditionalObject)
+install(FILES ${PRP_GEOM_HEADERS} DESTINATION include/HSPlasma/PRP/Geometry)
+install(FILES ${PRP_GUI_HEADERS} DESTINATION include/HSPlasma/PRP/GUI)
+install(FILES ${PRP_KEYOBJ_HEADERS} DESTINATION include/HSPlasma/PRP/KeyedObject)
+install(FILES ${PRP_LIGHT_HEADERS} DESTINATION include/HSPlasma/PRP/Light)
+install(FILES ${PRP_MSG_HEADERS} DESTINATION include/HSPlasma/PRP/Message)
+install(FILES ${PRP_MISC_HEADERS} DESTINATION include/HSPlasma/PRP/Misc)
+install(FILES ${PRP_MOD_HEADERS} DESTINATION include/HSPlasma/PRP/Modifier)
+install(FILES ${PRP_NETMSG_HEADERS} DESTINATION include/HSPlasma/PRP/NetMessage)
+install(FILES ${PRP_OBJ_HEADERS} DESTINATION include/HSPlasma/PRP/Object)
+install(FILES ${PRP_PARTICLE_HEADERS} DESTINATION include/HSPlasma/PRP/Particle)
+install(FILES ${PRP_PHYS_HEADERS} DESTINATION include/HSPlasma/PRP/Physics)
+install(FILES ${PRP_REGION_HEADERS} DESTINATION include/HSPlasma/PRP/Region)
+install(FILES ${PRP_SURFACE_HEADERS} DESTINATION include/HSPlasma/PRP/Surface)
+install(FILES ${PRP_HEADERS} DESTINATION include/HSPlasma/PRP)
+install(FILES ${RESMGR_HEADERS} DESTINATION include/HSPlasma/ResManager)
+install(FILES ${SDL_HEADERS} DESTINATION include/HSPlasma/SDL)
+install(FILES ${STREAM_HEADERS} DESTINATION include/HSPlasma/Stream)
+install(FILES ${SYS_HEADERS} DESTINATION include/HSPlasma/Sys)
+install(FILES ${UTIL_HEADERS} DESTINATION include/HSPlasma/Util)
+install(FILES ${VAULT_HEADERS} DESTINATION include/HSPlasma/Vault)
+install(FILES ${PLASMA_HEADERS} DESTINATION include/HSPlasma)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libhsplasma.pc DESTINATION lib/pkgconfig)
 
 # Visual studio source grouping
-source_group("Debug" FILES ${DEBUG_HDRS} ${DEBUG_SRCS})
-source_group("Math" FILES ${MATH_HDRS} ${MATH_SRCS})
-source_group("PRP\\Animation" FILES ${PRP_ANIM_HDRS} ${PRP_ANIM_SRCS})
-source_group("PRP\\Audio" FILES ${PRP_AUD_HDRS} ${PRP_AUD_SRCS})
-source_group("PRP\\Avatar" FILES ${PRP_AVTR_HDRS} ${PRP_AVTR_SRCS})
-source_group("PRP\\Camera" FILES ${PRP_CMRA_HDRS} ${PRP_CMRA_SRCS})
-source_group("PRP\\ConditionalObject" FILES ${PRP_COND_HDRS} ${PRP_COND_SRCS})
-source_group("PRP\\Geometry" FILES ${PRP_GEOM_HDRS} ${PRP_GEOM_SRCS})
-source_group("PRP\\GUI" FILES ${PRP_GUI_HDRS} ${PRP_GUI_SRCS})
-source_group("PRP\\KeyedObject" FILES ${PRP_KEY_HDRS} ${PRP_KEY_SRCS})
-source_group("PRP\\Light" FILES ${PRP_LIT_HDRS} ${PRP_LIT_SRCS})
-source_group("PRP\\Message" FILES ${PRP_MSG_HDRS} ${PRP_MSG_SRCS})
-source_group("PRP\\Misc" FILES ${PRP_MISC_HDRS} ${PRP_MISC_SRCS})
-source_group("PRP\\Modifier" FILES ${PRP_MOD_HDRS} ${PRP_MOD_SRCS})
-source_group("PRP\\NetMessage" FILES ${PRP_NMSG_HDRS} ${PRP_NMSG_SRCS})
-source_group("PRP\\Object" FILES ${PRP_OBJ_HDRS} ${PRP_OBJ_SRCS})
-source_group("PRP\\Particle" FILES ${PRP_PRTL_HDRS} ${PRP_PRTL_SRCS})
-source_group("PRP\\Physics" FILES ${PRP_PHYS_HDRS} ${PRP_PHYS_SRCS})
-source_group("PRP\\Region" FILES ${PRP_RGN_HDRS} ${PRP_RGN_SRCS})
-source_group("PRP\\Surface" FILES ${PRP_SRFC_HDRS} ${PRP_SRFC_SRCS})
-source_group("PRP" FILES ${PRP_HDRS} ${PRP_SRCS})
-source_group("ResManager" FILES ${RESMGR_HDRS} ${RESMGR_SRCS})
-source_group("SDL" FILES ${SDL_HDRS} ${SDL_SRCS})
-source_group("Stream" FILES ${STREAM_HDRS} ${STREAM_SRCS})
-source_group("Sys" FILES ${SYS_HDRS} ${SYS_SRCS})
-source_group("Util" FILES ${UTIL_HDRS} ${UTIL_SRCS})
-source_group("Vault" FILES ${VAULT_HDRS} ${VAULT_SRCS})
+source_group("Debug" FILES ${DEBUG_HEADERS} ${DEBUG_SOURCES})
+source_group("Math" FILES ${MATH_HEADERS} ${MATH_SOURCES})
+source_group("PRP\\Animation" FILES ${PRP_ANIM_HEADERS} ${PRP_ANIM_SOURCES})
+source_group("PRP\\Audio" FILES ${PRP_AUDIO_HEADERS} ${PRP_AUDIO_SOURCES})
+source_group("PRP\\Avatar" FILES ${PRP_AVATAR_HEADERS} ${PRP_AVATAR_SOURCES})
+source_group("PRP\\Camera" FILES ${PRP_CAMERA_HEADERS} ${PRP_CAMERA_SOURCES})
+source_group("PRP\\ConditionalObject" FILES ${PRP_COND_HEADERS} ${PRP_COND_SOURCES})
+source_group("PRP\\Geometry" FILES ${PRP_GEOM_HEADERS} ${PRP_GEOM_SOURCES})
+source_group("PRP\\GUI" FILES ${PRP_GUI_HEADERS} ${PRP_GUI_SOURCES})
+source_group("PRP\\KeyedObject" FILES ${PRP_KEYOBJ_HEADERS} ${PRP_KEYOBJ_SOURCES})
+source_group("PRP\\Light" FILES ${PRP_LIGHT_HEADERS} ${PRP_LIGHT_SOURCES})
+source_group("PRP\\Message" FILES ${PRP_MSG_HEADERS} ${PRP_MSG_SOURCES})
+source_group("PRP\\Misc" FILES ${PRP_MISC_HEADERS} ${PRP_MISC_SOURCES})
+source_group("PRP\\Modifier" FILES ${PRP_MOD_HEADERS} ${PRP_MOD_SOURCES})
+source_group("PRP\\NetMessage" FILES ${PRP_NETMSG_HEADERS} ${PRP_NETMSG_SOURCES})
+source_group("PRP\\Object" FILES ${PRP_OBJ_HEADERS} ${PRP_OBJ_SOURCES})
+source_group("PRP\\Particle" FILES ${PRP_PARTICLE_HEADERS} ${PRP_PARTICLE_SOURCES})
+source_group("PRP\\Physics" FILES ${PRP_PHYS_HEADERS} ${PRP_PHYS_SOURCES})
+source_group("PRP\\Region" FILES ${PRP_REGION_HEADERS} ${PRP_REGION_SOURCES})
+source_group("PRP\\Surface" FILES ${PRP_SURFACE_HEADERS} ${PRP_SURFACE_SOURCES})
+source_group("PRP" FILES ${PRP_HEADERS} ${PRP_SOURCES})
+source_group("ResManager" FILES ${RESMGR_HEADERS} ${RESMGR_SOURCES})
+source_group("SDL" FILES ${SDL_HEADERS} ${SDL_SOURCES})
+source_group("Stream" FILES ${STREAM_HEADERS} ${STREAM_SOURCES})
+source_group("Sys" FILES ${SYS_HEADERS} ${SYS_SOURCES})
+source_group("Util" FILES ${UTIL_HEADERS} ${UTIL_SOURCES})
+source_group("Vault" FILES ${VAULT_HEADERS} ${VAULT_SOURCES})
