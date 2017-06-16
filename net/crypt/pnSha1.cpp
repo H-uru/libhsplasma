@@ -17,9 +17,15 @@
 #include "pnSha1.h"
 #include "pnNetMsg.h"
 #include "Debug/hsExceptions.hpp"
-#include <openssl/sha.h>
+#include <openssl/evp.h>
 #include <string_theory/format>
+#include <memory>
 #include <cstring>
+
+static struct _pnSha1_Static_Initializer {
+    // Ensure digest names are available to EVP APIs below
+    _pnSha1_Static_Initializer() { OpenSSL_add_all_digests(); }
+} _pnSha1_Static_Init;
 
 void pnSha1Hash::fromString(const ST::string& src)
 {
@@ -55,14 +61,48 @@ void pnSha1Hash::swapBytes()
 pnSha1Hash pnSha1Hash::Sha0(const void* src, size_t len)
 {
     pnSha1Hash hash;
-    SHA((const unsigned char*)src, len, (unsigned char*)hash.fData);
+    const EVP_MD* sha0_md = EVP_get_digestbyname("sha");
+    if (!sha0_md) {
+        throw hsNotImplementedException(__FILE__, __LINE__,
+                        "SHA0 support unavailable in OpenSSL");
+    }
+
+    unsigned int out_len = EVP_MD_size(sha0_md);
+    if (out_len != sizeof(hash.fData)) {
+        throw hsBadParamException(__FILE__, __LINE__,
+                        "SHA0 digest size doesn't match expected size");
+    }
+
+    EVP_MD_CTX* sha_ctx = EVP_MD_CTX_create();
+    EVP_DigestInit_ex(sha_ctx, sha0_md, NULL);
+    EVP_DigestUpdate(sha_ctx, src, len);
+    EVP_DigestFinal_ex(sha_ctx, reinterpret_cast<unsigned char *>(hash.fData), &out_len);
+    EVP_MD_CTX_destroy(sha_ctx);
+
     return hash;
 }
 
 pnSha1Hash pnSha1Hash::Sha1(const void* src, size_t len)
 {
     pnSha1Hash hash;
-    SHA1((const unsigned char*)src, len, (unsigned char*)hash.fData);
+    const EVP_MD* sha1_md = EVP_get_digestbyname("sha1");
+    if (!sha1_md) {
+        throw hsNotImplementedException(__FILE__, __LINE__,
+                        "SHA1 support unavailable in OpenSSL");
+    }
+
+    unsigned int out_len = EVP_MD_size(sha1_md);
+    if (out_len != sizeof(hash.fData)) {
+        throw hsBadParamException(__FILE__, __LINE__,
+                        "SHA1 digest size doesn't match expected size");
+    }
+
+    EVP_MD_CTX* sha1_ctx = EVP_MD_CTX_create();
+    EVP_DigestInit_ex(sha1_ctx, sha1_md, NULL);
+    EVP_DigestUpdate(sha1_ctx, src, len);
+    EVP_DigestFinal_ex(sha1_ctx, reinterpret_cast<unsigned char *>(hash.fData), &out_len);
+    EVP_MD_CTX_destroy(sha1_ctx);
+
     return hash;
 }
 
