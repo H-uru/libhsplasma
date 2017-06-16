@@ -23,62 +23,62 @@ endif()
 
 add_definitions(-DBUILD_PLASMANET_DLL)
 
-set(PN_AUTH_SRCS
+set(PN_AUTH_SOURCES
     auth/AuthMessages.cpp
     auth/pnAuthClient.cpp
     auth/pnVaultNode.cpp
 )
-set(PN_AUTH_HDRS
+set(PN_AUTH_HEADERS
     auth/AuthMessages.h
     auth/pnAuthClient.h
     auth/pnVaultNode.h
     auth/pnVaultNodeTypes.hpp
 )
 
-set(PN_CRYPT_SRCS
+set(PN_CRYPT_SOURCES
     crypt/pnBigInteger.cpp
     crypt/pnRC4.cpp
     crypt/pnSha1.cpp
 )
-set(PN_CRYPT_HDRS
+set(PN_CRYPT_HEADERS
     crypt/pnBigInteger.h
     crypt/pnRC4.h
     crypt/pnSha1.h
 )
 
-set(PN_FILE_SRCS
+set(PN_FILE_SOURCES
     file/pnFileClient.cpp
 )
-set(PN_FILE_HDRS
+set(PN_FILE_HEADERS
     file/FileMessages.h
     file/pnFileClient.h
 )
 
-set(PN_GAME_SRCS
+set(PN_GAME_SOURCES
     game/GameMessages.cpp
     game/pnGameClient.cpp
 )
-set(PN_GAME_HDRS
+set(PN_GAME_HEADERS
     game/GameMessages.h
     game/pnGameClient.h
 )
 
-set(PN_GATE_SRCS
+set(PN_GATE_SOURCES
     gate/GateKeeperMessages.cpp
     gate/pnGateKeeperClient.cpp
 )
-set(PN_GATE_HDRS
+set(PN_GATE_HEADERS
     gate/GateKeeperMessages.h
     gate/pnGateKeeperClient.h
 )
 
-set(PN_SRCS
+set(PN_SOURCES
     pnClient.cpp
     pnNetMsg.cpp
     pnSocket.cpp
     pnSocketInterface.cpp
 )
-set(PN_HDRS
+set(PN_HEADERS
     Protocol.h
     pnClient.h
     pnNetMsg.h
@@ -87,12 +87,12 @@ set(PN_HDRS
 )
 
 add_library(HSPlasmaNet
-            ${PN_AUTH_SRCS}  ${PN_AUTH_HDRS}
-            ${PN_CRYPT_SRCS} ${PN_CRYPT_HDRS}
-            ${PN_FILE_SRCS}  ${PN_FILE_HDRS}
-            ${PN_GAME_SRCS}  ${PN_GAME_HDRS}
-            ${PN_GATE_SRCS}  ${PN_GATE_HDRS}
-            ${PN_SRCS}       ${PN_HDRS}
+            ${PN_AUTH_SOURCES}  ${PN_AUTH_HEADERS}
+            ${PN_CRYPT_SOURCES} ${PN_CRYPT_HEADERS}
+            ${PN_FILE_SOURCES}  ${PN_FILE_HEADERS}
+            ${PN_GAME_SOURCES}  ${PN_GAME_HEADERS}
+            ${PN_GATE_SOURCES}  ${PN_GATE_HEADERS}
+            ${PN_SOURCES}       ${PN_HEADERS}
 )
 target_link_libraries(HSPlasmaNet HSPlasma ${STRING_THEORY_LIBRARIES})
 if(NOT ${CMAKE_SYSTEM_NAME} MATCHES "SunOS")
@@ -113,18 +113,18 @@ install(TARGETS HSPlasmaNet
         ARCHIVE DESTINATION lib
 )
 install(FILES HSPlasmaNetConfig.cmake DESTINATION share/cmake/HSPlasmaNet)
-install(FILES ${PN_AUTH_HDRS} DESTINATION include/HSPlasmaNet/auth)
-install(FILES ${PN_CRYPT_HDRS} DESTINATION include/HSPlasmaNet/crypt)
-install(FILES ${PN_FILE_HDRS} DESTINATION include/HSPlasmaNet/file)
-install(FILES ${PN_GAME_HDRS} DESTINATION include/HSPlasmaNet/game)
-install(FILES ${PN_GATE_HDRS} DESTINATION include/HSPlasmaNet/gate)
-install(FILES ${PN_HDRS} DESTINATION include/HSPlasmaNet)
+install(FILES ${PN_AUTH_HEADERS} DESTINATION include/HSPlasmaNet/auth)
+install(FILES ${PN_CRYPT_HEADERS} DESTINATION include/HSPlasmaNet/crypt)
+install(FILES ${PN_FILE_HEADERS} DESTINATION include/HSPlasmaNet/file)
+install(FILES ${PN_GAME_HEADERS} DESTINATION include/HSPlasmaNet/game)
+install(FILES ${PN_GATE_HEADERS} DESTINATION include/HSPlasmaNet/gate)
+install(FILES ${PN_HEADERS} DESTINATION include/HSPlasmaNet)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libhsplasmanet.pc DESTINATION lib/pkgconfig)
 
 # Visual studio source grouping
-source_group("auth" FILES ${PN_AUTH_SRCS} ${PN_AUTH_HDRS})
-source_group("crypt" FILES ${PN_CRYPT_SRCS} ${PN_CRYPT_HDRS})
-source_group("file" FILES ${PN_FILE_SRCS} ${PN_FILE_HDRS})
-source_group("game" FILES ${PN_GAME_SRCS} ${PN_GAME_HDRS})
-source_group("gate" FILES ${PN_GATE_SRCS} ${PN_GATE_HDRS})
-source_group("gate" FILES ${PN_GATE_SRCS} ${PN_GATE_HDRS})
+source_group("auth" FILES ${PN_AUTH_SOURCES} ${PN_AUTH_HEADERS})
+source_group("crypt" FILES ${PN_CRYPT_SOURCES} ${PN_CRYPT_HEADERS})
+source_group("file" FILES ${PN_FILE_SOURCES} ${PN_FILE_HEADERS})
+source_group("game" FILES ${PN_GAME_SOURCES} ${PN_GAME_HEADERS})
+source_group("gate" FILES ${PN_GATE_SOURCES} ${PN_GATE_HEADERS})
+source_group("gate" FILES ${PN_GATE_SOURCES} ${PN_GATE_HEADERS})
