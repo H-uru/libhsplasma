@@ -169,7 +169,6 @@ void plCameraBrain1::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-
 /* plCameraBrain1_Avatar */
 void plCameraBrain1_Avatar::read(hsStream* S, plResManager* mgr) {
     plCameraBrain1::read(S, mgr);

@@ -53,6 +53,7 @@
 #include "PRP/Audio/pySoundBuffer.h"
 #include "PRP/Audio/pyWin32Sound.h"
 #include "PRP/Audio/pyWin32StaticSound.h"
+#include "PRP/Camera/pyCameraBrain.h"
 #include "PRP/ConditionalObject/pyActivatorConditionalObject.h"
 #include "PRP/ConditionalObject/pyAnimationEventConditionalObject.h"
 #include "PRP/ConditionalObject/pyBooleanConditionalObject.h"
@@ -783,6 +784,8 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plSwimMsg", Init_pySwimMsg_Type());
     PyModule_AddObject(module, "plAvLadderMod", Init_pyAvLadderMod_Type());
     PyModule_AddObject(module, "plLadderModifier", Init_pyLadderModifier_Type());
+
+    PyModule_AddObject(module, "plCameraBrain1", Init_pyCameraBrain1_Type());
 
 #if PY_MAJOR_VERSION >= 3
     return module;
