@@ -21,6 +21,7 @@
 #include <vector>
 #include <cstring>
 #include <time.h>
+#include <memory>
 
 /* Sum file structures and operations */
 struct SumEntry {
