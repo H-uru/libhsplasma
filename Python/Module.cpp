@@ -33,6 +33,7 @@
 #include "PRP/Animation/pyAnimTimeConvert.h"
 #include "PRP/Animation/pyATCEaseCurves.h"
 #include "PRP/Animation/pyController.h"
+#include "PRP/Animation/pyFilterCoordInterface.h"
 #include "PRP/Animation/pyKeys.h"
 #include "PRP/Animation/pyLeafController.h"
 #include "PRP/Animation/pyLineFollowMod.h"
@@ -743,6 +744,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plParticleEmitter", Init_pyParticleEmitter_Type());
     PyModule_AddObject(module, "plParticleSystem", Init_pyParticleSystem_Type());
     PyModule_AddObject(module, "plHKSubWorld", Init_pyHKSubWorld_Type());
+    PyModule_AddObject(module, "plFilterCoordInterface", Init_pyFilterCoordInterface_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());

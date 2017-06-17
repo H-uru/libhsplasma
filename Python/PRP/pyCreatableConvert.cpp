@@ -171,6 +171,7 @@
 #include "PRP/Animation/pyAnimTimeConvert.h"
 #include "PRP/Animation/pyATCEaseCurves.h"
 #include "PRP/Animation/pyController.h"
+#include "PRP/Animation/pyFilterCoordInterface.h"
 #include "PRP/Animation/pyKeys.h"
 #include "PRP/Animation/pyLeafController.h"
 #include "PRP/Animation/pyLineFollowMod.h"
@@ -577,6 +578,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kParticleSystem: return pyParticleSystem_FromParticleSystem(plParticleSystem::Convert(pCre));
         case kSimulationMsg: return pySimulationMsg_FromSimulationMsg(plSimulationMsg::Convert(pCre));
         case kSubWorldMsg: return pySubWorldMsg_FromSubWorldMsg(plSubWorldMsg::Convert(pCre));
+        case kFilterCoordInterface: return pyFilterCoordInterface_FromFilterCoordInterface(plFilterCoordInterface::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (pCre->ClassInstance(kMessage))

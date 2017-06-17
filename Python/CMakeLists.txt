@@ -49,6 +49,7 @@ set(PRP_ANIM_SOURCES
     PRP/Animation/pyConstAccelEaseCurve.cpp
     PRP/Animation/pyController.cpp
     PRP/Animation/pyEaseController.cpp
+    PRP/Animation/pyFilterCoordInterface.cpp
     PRP/Animation/pyG3DSMaxKeyFrame.cpp
     PRP/Animation/pyKeyFrame.cpp
     PRP/Animation/pyLeafController.cpp
@@ -80,6 +81,7 @@ set(PRP_ANIM_HEADERS
     PRP/Animation/pyAnimPath.h
     PRP/Animation/pyAnimTimeConvert.h
     PRP/Animation/pyController.h
+    PRP/Animation/pyFilterCoordInterface.h
     PRP/Animation/pyKeys.h
     PRP/Animation/pyLeafController.h
     PRP/Animation/pyLineFollowMod.h
