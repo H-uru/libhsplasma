@@ -514,6 +514,7 @@ set(PRP_REGION_SOURCES
     PRP/Region/pyBoundsConvert.cpp
     PRP/Region/pyConvexIsect.cpp
     PRP/Region/pyConvexVolume.cpp
+    PRP/Region/pyRidingAnimatedPhysicalDetector.cpp
     PRP/Region/pySimpleRegionSensor.cpp
     PRP/Region/pySoftVolumeComplex.cpp
     PRP/Region/pySoftVolumeIntersect.cpp

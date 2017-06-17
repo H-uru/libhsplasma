@@ -21,5 +21,6 @@
 
 PY_WRAP_PLASMA(SwimDetector, class plSwimDetector);
 PY_WRAP_PLASMA(SimpleRegionSensor, class plSimpleRegionSensor);
+PY_WRAP_PLASMA(RidingAnimatedPhysicalDetector, class plRidingAnimatedPhysicalDetector)
 
 #endif

@@ -579,6 +579,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kSimulationMsg: return pySimulationMsg_FromSimulationMsg(plSimulationMsg::Convert(pCre));
         case kSubWorldMsg: return pySubWorldMsg_FromSubWorldMsg(plSubWorldMsg::Convert(pCre));
         case kFilterCoordInterface: return pyFilterCoordInterface_FromFilterCoordInterface(plFilterCoordInterface::Convert(pCre));
+        case kRidingAnimatedPhysicalDetector: return pyRidingAnimatedPhysicalDetector_FromRidingAnimatedPhysicalDetector(plRidingAnimatedPhysicalDetector::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (pCre->ClassInstance(kMessage))

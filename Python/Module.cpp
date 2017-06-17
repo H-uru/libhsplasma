@@ -745,6 +745,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plParticleSystem", Init_pyParticleSystem_Type());
     PyModule_AddObject(module, "plHKSubWorld", Init_pyHKSubWorld_Type());
     PyModule_AddObject(module, "plFilterCoordInterface", Init_pyFilterCoordInterface_Type());
+    PyModule_AddObject(module, "plRidingAnimatedPhysicalDetector", Init_pyRidingAnimatedPhysicalDetector_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());
