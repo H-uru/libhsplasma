@@ -244,6 +244,7 @@
 #include "PRP/Message/pyNotifyMsg.h"
 #include "PRP/Message/pyLinkToAgeMsg.h"
 #include "PRP/Message/pyResponderMsg.h"
+#include "PRP/Message/pyRideAnimatedPhysMsg.h"
 #include "PRP/Message/pySimulationMsg.h"
 #include "PRP/Message/pySoundMsg.h"
 #include "PRP/Message/pySwimMsg.h"
@@ -580,6 +581,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kSubWorldMsg: return pySubWorldMsg_FromSubWorldMsg(plSubWorldMsg::Convert(pCre));
         case kFilterCoordInterface: return pyFilterCoordInterface_FromFilterCoordInterface(plFilterCoordInterface::Convert(pCre));
         case kRidingAnimatedPhysicalDetector: return pyRidingAnimatedPhysicalDetector_FromRidingAnimatedPhysicalDetector(plRidingAnimatedPhysicalDetector::Convert(pCre));
+        case kRideAnimatedPhysMsg: return pyRideAnimatedPhysMsg_FromRideAnimatedPhysMsg(plRideAnimatedPhysMsg::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (pCre->ClassInstance(kMessage))
