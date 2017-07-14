@@ -48,7 +48,7 @@ void pfGUIDialogMod::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fRenderMod);
     char name_buf[128];
     memset(name_buf, 0, sizeof(name_buf));
-    strncpy(name_buf, fName.c_str(), sizeof(name_buf));
+    strncpy(name_buf, fName.c_str(), sizeof(name_buf) - 1);
     S->write(128, name_buf);
 
     S->writeInt(fControls.size());
