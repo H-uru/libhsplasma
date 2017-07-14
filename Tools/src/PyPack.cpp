@@ -140,7 +140,7 @@ int main(int argc, char* argv[]) {
         for (size_t i=0; it!=infiles.end(); i++, it++) {
             ST::string name = *it;
             if (name.after_last('.').to_lower() != "pyc") {
-                plDebug::Error("Unsupported format: {}\n", name);
+                plDebug::Error("Unsupported format: {}", name);
                 return 1;
             }
             if (name.find(PATHSEP) >= 0)
@@ -150,7 +150,7 @@ int main(int argc, char* argv[]) {
             pakObjects[i].fFilename = name + ".py";
             hsFileStream S;
             if (!S.open(*it, fmRead)) {
-                plDebug::Error("Cannot open file {}\n", *it);
+                plDebug::Error("Cannot open file {}", *it);
                 return 1;
             }
             pakObjects[i].fSize = S.size() - 8;
@@ -199,7 +199,7 @@ int main(int argc, char* argv[]) {
         } else {
             IS = new plEncryptedStream(PlasmaVer::pvPrime);
             if (!((plEncryptedStream*)IS)->open(pakfile, fmRead, eType)) {
-                plDebug::Error("Cannot open file {}\n", pakfile);
+                plDebug::Error("Cannot open file {}", pakfile);
                 return 1;
             }
             ((plEncryptedStream*)IS)->setKey(uruKey);
@@ -236,7 +236,7 @@ int main(int argc, char* argv[]) {
         for (size_t i=oldObjCount; it!=infiles.end(); i++, it++) {
             ST::string name = *it;
             if (name.after_last('.').to_lower() != "pyc") {
-                plDebug::Error("Unsupported format: {}\n", name);
+                plDebug::Error("Unsupported format: {}", name);
                 return 1;
             }
             if (name.find(PATHSEP) >= 0)
@@ -246,7 +246,7 @@ int main(int argc, char* argv[]) {
             pakObjects[i].fFilename = name + ".py";
             hsFileStream S;
             if (!S.open(*it, fmRead)) {
-                plDebug::Error("Cannot open file {}\n", *it);
+                plDebug::Error("Cannot open file {}", *it);
                 return 1;
             }
             pakObjects[i].fSize = S.size() - 8;
@@ -282,14 +282,14 @@ int main(int argc, char* argv[]) {
         if (eType == plEncryptedStream::kEncNone || !plEncryptedStream::IsFileEncrypted(pakfile)) {
             IS = new hsFileStream(PlasmaVer::pvPrime);
             if (!((hsFileStream*)IS)->open(pakfile, fmRead)) {
-                plDebug::Error("Cannot open file {}\n", pakfile);
+                plDebug::Error("Cannot open file {}", pakfile);
                 return 1;
             }
             eType = plEncryptedStream::kEncNone;
         } else {
             IS = new plEncryptedStream(PlasmaVer::pvPrime);
             if (!((plEncryptedStream*)IS)->open(pakfile, fmRead, eType)) {
-                plDebug::Error("Cannot open file {}\n", pakfile);
+                plDebug::Error("Cannot open file {}", pakfile);
                 return 1;
             }
             ((plEncryptedStream*)IS)->setKey(uruKey);
