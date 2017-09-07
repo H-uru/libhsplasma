@@ -21,8 +21,8 @@
 #include "Stream/pfPrcParser.h"
 #include <map>
 
-#define BVMASK 0x1F
-#define BVMULT 0x20
+#define BIT_VEC_MASK 0x1F
+#define BIT_VEC_WORD 0x20
 
 /**
  * \brief Stores an array (vector) of bits.
@@ -51,18 +51,18 @@ public:
 
     class PLASMA_DLL Bit {
     private:
-        hsBitVector* fVector;
-        unsigned int fOffset;
+        hsBitVector& fVector;
+        size_t fOffset;
 
     public:
         /** Constructs the Bit class */
-        Bit(hsBitVector* vec, unsigned int off) : fVector(vec), fOffset(off) { }
+        Bit(hsBitVector& vec, size_t off) : fVector(vec), fOffset(off) { }
 
         /** Behave like a bool rvalue */
-        operator bool() const { return fVector->get(fOffset); }
+        operator bool() const { return fVector.get(fOffset); }
 
         /** Negation operator */
-        bool operator!() const { return !fVector->get(fOffset); }
+        bool operator!() const { return !fVector.get(fOffset); }
 
         /** Comparison operator */
         bool operator==(bool value) const;
@@ -72,49 +72,45 @@ public:
     };
 
 private:
-    uint32_t* fBits;
-    size_t fNumVectors;
-    std::map<unsigned int, char*> fBitNames;
+    std::vector<uint32_t> fBits;
+    std::map<size_t, ST::string> fBitNames;
 
 public:
     /** Constructs an empty bit vector */
-    hsBitVector() : fBits(NULL), fNumVectors(0) { }
+    hsBitVector() { }
 
     /** Copy constructor */
-    hsBitVector(const hsBitVector& init);
-
-    /** Destructor */
-    ~hsBitVector();
+    hsBitVector(const hsBitVector& init) : fBits(init.fBits) { }
 
     /** Returns the value of bit \a idx */
-    bool get(unsigned int idx) const;
+    bool get(size_t idx) const;
 
     /** Set the value of bit \a idx to \a b */
-    void set(unsigned int idx, bool b);
+    void set(size_t idx, bool b);
 
     /** Return the number of available bits. */
-    size_t size() const { return fNumVectors*BVMULT; }
+    size_t size() const { return fBits.size() * BIT_VEC_WORD; }
 
     /** Return the value of bit \a idx, for const hsBitVectors */
-    bool operator[](unsigned int idx) const { return get(idx); }
+    bool operator[](size_t idx) const { return get(idx); }
 
-    /** Return a Bit class referencing bit \a idx */
-    Bit operator[](unsigned int idx) { return hsBitVector::Bit(this, idx); }
+    /** Return a mutable reference to bit \a idx */
+    Bit operator[](size_t idx) { return Bit(*this, idx); }
 
     /** Assignment operator, copies the value of \a cpy */
     hsBitVector& operator=(const hsBitVector& cpy);
 
     /** Returns true if the bit vector is empty (all zeroes) */
-    bool isEmpty() const { return (fNumVectors == 0); }
+    bool isEmpty() const { return fBits.empty(); }
 
     /** Clears the bit vector (set to all zeroes) */
-    void clear();
+    void clear() { fBits.clear(); }
 
     /** Sets the bit at \a idx to true */
-    void setBit(unsigned int idx) { set(idx, true); }
+    void setBit(size_t idx) { set(idx, true); }
 
     /** Sets the bit at \a idx to false */
-    void clearBit(unsigned int idx) { set(idx, false); }
+    void clearBit(size_t idx) { set(idx, false); }
 
     /**
      * Clean up extra space in the bit vector.  This is called automatically
@@ -126,20 +122,20 @@ public:
      * Returns the name of bit \a idx.  If no name has been assigned with
      * setName(), this function returns a string of \a idx.
      */
-    const char* getName(unsigned int idx);
+    ST::string getName(size_t idx);
 
     /**
      * Returns the bit index corresponding to bit name \a name.  \a name can
      * be either a name assigned with setName() or an integer, like getName()
      * returns.
      */
-    unsigned int getValue(const char* name);
+    size_t getValue(const ST::string& name);
 
     /**
      * Sets the name of bit \a idx to \a name, for use in getName() and
      * PyPlasma's overloaded [] operator.
      */
-    void setName(unsigned int idx, const char* name);
+    void setName(size_t idx, const ST::string& name) { fBitNames[idx] = name; }
 
     /** Read this bit vector from a stream */
     void read(hsStream* S);
