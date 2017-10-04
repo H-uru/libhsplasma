@@ -292,6 +292,7 @@ int main(int argc, char* argv[]) {
                 }
                 delPaths.push_back(argv[i]);
             } else if (strcmp(argv[i], "-c") == 0) {
+                mode = kModeManual;
                 s_createFile = true;
             } else if (strcmp(argv[i], "-y") == 0) {
                 s_autoYes = true;
