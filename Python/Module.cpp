@@ -711,6 +711,8 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plCameraModifier", Init_pyCameraModifier_Type());
     PyModule_AddObject(module, "plLineFollowMod", Init_pyLineFollowMod_Type());
     PyModule_AddObject(module, "plRailCameraMod", Init_pyRailCameraMod_Type());
+    PyModule_AddObject(module, "plAvLadderMod", Init_pyAvLadderMod_Type());
+    PyModule_AddObject(module, "plLadderModifier", Init_pyLadderModifier_Type());
     PyModule_AddObject(module, "plFogEnvironment", Init_pyFogEnvironment_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
@@ -801,8 +803,6 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plSwimMsg", Init_pySwimMsg_Type());
     PyModule_AddObject(module, "plCameraMsg", Init_pyCameraMsg_Type());
     PyModule_AddObject(module, "plAnimPath", Init_pyAnimPath_Type());
-    PyModule_AddObject(module, "plAvLadderMod", Init_pyAvLadderMod_Type());
-    PyModule_AddObject(module, "plLadderModifier", Init_pyLadderModifier_Type());
 
 #if PY_MAJOR_VERSION >= 3
     return module;
