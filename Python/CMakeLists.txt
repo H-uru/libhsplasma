@@ -396,11 +396,13 @@ set(PRP_MSG_HEADERS
 set(PRP_MISC_SOURCES
     PRP/Misc/pyAgeInfoStruct.cpp
     PRP/Misc/pyAgeLinkStruct.cpp
+    PRP/Misc/pyFogEnvironment.cpp
     PRP/Misc/pyRenderLevel.cpp
     PRP/Misc/pySpawnPointInfo.cpp
 )
 set(PRP_MISC_HEADERS
     PRP/Misc/pyAgeLinkInfo.h
+    PRP/Misc/pyFogEnvironment.h
     PRP/Misc/pyRenderLevel.h
     PRP/Misc/pySpawnPointInfo.h
 )
