@@ -42,6 +42,20 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    unsigned char getType() const { return fType; }
+    void setType(unsigned char type) { fType = type; }
+
+    float getStart() const { return fStart; }
+    float getEnd() const { return fEnd; }
+    float getDensity() const { return fDensity; }
+    void setStart(float start) { fStart = start; }
+    void setEnd(float end) { fEnd = end; }
+    void setDensity(float density) { fDensity = density; }
+
+    hsColorRGBA getColor() const { return fColor; }
+    void setColor(const hsColorRGBA& color) { fColor = color; }
 };
 
 #endif

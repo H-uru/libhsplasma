@@ -118,6 +118,7 @@
 #include "PRP/Message/pyTimerCallbackMsg.h"
 #include "PRP/Misc/pyRenderLevel.h"
 #include "PRP/Misc/pyAgeLinkInfo.h"
+#include "PRP/Misc/pyFogEnvironment.h"
 #include "PRP/Misc/pySpawnPointInfo.h"
 #include "PRP/Modifier/pyExcludeRegionModifier.h"
 #include "PRP/Modifier/pyFollowMod.h"
@@ -710,6 +711,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plCameraModifier", Init_pyCameraModifier_Type());
     PyModule_AddObject(module, "plLineFollowMod", Init_pyLineFollowMod_Type());
     PyModule_AddObject(module, "plRailCameraMod", Init_pyRailCameraMod_Type());
+    PyModule_AddObject(module, "plFogEnvironment", Init_pyFogEnvironment_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());

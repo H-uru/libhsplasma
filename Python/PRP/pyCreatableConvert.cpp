@@ -248,6 +248,7 @@
 #include "PRP/Message/pyTimerCallbackMsg.h"
 #include "PRP/Misc/pyRenderLevel.h"
 #include "PRP/Misc/pyAgeLinkInfo.h"
+#include "PRP/Misc/pyFogEnvironment.h"
 #include "PRP/Modifier/pyExcludeRegionModifier.h"
 #include "PRP/Modifier/pyFollowMod.h"
 #include "PRP/Modifier/pyInterfaceInfoModifier.h"
@@ -535,6 +536,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kAnimPath: return pyAnimPath_FromAnimPath(plAnimPath::Convert(pCre));
         case kLineFollowMod: return pyLineFollowMod_FromLineFollowMod(plLineFollowMod::Convert(pCre));
         case kRailCameraMod: return pyRailCameraMod_FromRailCameraMod(plRailCameraMod::Convert(pCre));
+        case kFogEnvironment: return pyFogEnvironment_FromFogEnvironment(plFogEnvironment::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (pCre->ClassInstance(kMessage))
