@@ -27,7 +27,7 @@ void plController::WriteController(hsStream* S, plResManager* mgr, plController*
     switch (controller->ClassIndex()) {
     case kLeafController:
         if (S->getVer().isUruSP()) {
-            plLeafController* toWrite = ((plLeafController*)controller)->ExpandToKeyController();
+            plController* toWrite = ((plLeafController*)controller)->EncapsulateKeyController();
             mgr->WriteCreatable(S, toWrite);
             delete toWrite;
         } else {

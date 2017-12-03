@@ -16,6 +16,9 @@
 
 #include "plLeafController.h"
 #include "plKeyControllers.hpp"
+#include "plPosController.h"
+#include "plRotController.h"
+#include "plScaleController.h"
 #include "Debug/plDebug.h"
 
 /* plLeafController */
@@ -435,6 +438,29 @@ plLeafController* plLeafController::CompactToLeafController() const {
     if (hasEaseControllers())
         plDebug::Warning("Warning: Throwing away {} Ease Controllers", fEaseControllers.size());
     return ctrl;
+}
+
+plController* plLeafController::EncapsulateKeyController() const {
+    plLeafController* expanded = ExpandToKeyController();
+    switch (expanded->ClassIndex()) {
+    case kPoint3Controller: {
+        plSimplePosController* pos = new plSimplePosController();
+        pos->setPosition(plPoint3Controller::Convert(expanded));
+        return pos;
+    }
+    case kScaleValueController: {
+        plSimpleScaleController* scale = new plSimpleScaleController();
+        scale->setValue(plScaleValueController::Convert(expanded));
+        return scale;
+    }
+    case kQuatController: {
+        plSimpleRotController* rot = new plSimpleRotController();
+        rot->setRot(plQuatController::Convert(expanded));
+        return rot;
+    }
+    default:
+        return expanded;
+    }
 }
 
 void plLeafController::setKeys(const std::vector<hsKeyFrame*>& keys, unsigned int type) {
