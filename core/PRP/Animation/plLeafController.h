@@ -49,6 +49,7 @@ protected:
 public:
     plLeafController* ExpandToKeyController() const;
     plLeafController* CompactToLeafController() const;
+    plController* EncapsulateKeyController() const;
 
     bool hasKeys() const { return !fKeys.empty(); }
     bool hasEaseControllers() const { return !fEaseControllers.empty(); }
