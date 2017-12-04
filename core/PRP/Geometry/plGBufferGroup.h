@@ -18,7 +18,6 @@
 #define _PLGBUFFERGROUP_H
 
 #include "Math/hsGeometry3.h"
-#include "hsGDeviceRef.hpp"
 #include "plVertCoder.h"
 
 class PLASMA_DLL plGBufferCell {

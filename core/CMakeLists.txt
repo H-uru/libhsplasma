@@ -210,7 +210,6 @@ set(PRP_GEOM_SOURCES
     PRP/Geometry/plVertexSpan.cpp
 )
 set(PRP_GEOM_HEADERS
-    PRP/Geometry/hsGDeviceRef.hpp
     PRP/Geometry/plCluster.h
     PRP/Geometry/plClusterGroup.h
     PRP/Geometry/plCullPoly.h

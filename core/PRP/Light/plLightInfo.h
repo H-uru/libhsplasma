@@ -21,7 +21,6 @@
 #include "Util/hsBitVector.h"
 #include "Sys/hsColor.h"
 #include "Math/hsMatrix44.h"
-#include "PRP/Geometry/hsGDeviceRef.hpp"
 
 class PLASMA_DLL plLightInfo : public plObjInterface {
     CREATABLE(plLightInfo, kLightInfo, plObjInterface)
