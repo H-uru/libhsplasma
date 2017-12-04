@@ -19,134 +19,83 @@
 
 /* hsBitVector::Bit */
 bool hsBitVector::Bit::operator==(bool value) const {
-    return fVector->get(fOffset) == value;
+    return fVector.get(fOffset) == value;
 }
 
 hsBitVector::Bit& hsBitVector::Bit::operator=(bool value) {
-    fVector->set(fOffset, value);
+    fVector.set(fOffset, value);
     return *this;
 }
 
 
 /* hsBiVector */
-hsBitVector::hsBitVector(const hsBitVector& init)
-           : fNumVectors(init.fNumVectors) {
-    fBits = new uint32_t[fNumVectors];
-    memcpy(fBits, init.fBits, fNumVectors * sizeof(uint32_t));
-}
-
-hsBitVector::~hsBitVector() {
-    delete[] fBits;
-
-    std::map<unsigned int, char*>::iterator it;
-    for (it = fBitNames.begin(); it != fBitNames.end(); it++)
-        delete[] it->second;
-}
-
-bool hsBitVector::get(unsigned int idx) const {
-    if ((idx / BVMULT) >= fNumVectors)
+bool hsBitVector::get(size_t idx) const {
+    if ((idx / BIT_VEC_WORD) >= fBits.size())
         return false;
-    return (fBits[idx / BVMULT] & (1 << (idx & BVMASK))) != 0;
+    return (fBits[idx / BIT_VEC_WORD] & (1 << (idx & BIT_VEC_MASK))) != 0;
 }
 
-void hsBitVector::set(unsigned int idx, bool b) {
-    if ((idx / BVMULT) >= fNumVectors) {
-        size_t oldNumVectors = fNumVectors;
-        fNumVectors = (idx / BVMULT) + 1;
-        uint32_t* newBits = new uint32_t[fNumVectors];
-        if (fBits != NULL) {
-            for (size_t i=0; i<oldNumVectors; i++)
-                newBits[i] = fBits[i];
-            for (size_t i=oldNumVectors; i<fNumVectors; i++)
-                newBits[i] = 0;
-            delete[] fBits;
-        } else {
-            memset(newBits, 0, sizeof(uint32_t)*fNumVectors);
-        }
-        fBits = newBits;
-    }
-    if (b) fBits[idx / BVMULT] |=  (1 << (idx & BVMASK));
-    else   fBits[idx / BVMULT] &= ~(1 << (idx & BVMASK));
+void hsBitVector::set(size_t idx, bool b) {
+    if ((idx / BIT_VEC_WORD) >= fBits.size())
+        fBits.resize((idx / BIT_VEC_WORD) + 1, 0);
+
+    if (b)
+        fBits[idx / BIT_VEC_WORD] |=  (1 << (idx & BIT_VEC_MASK));
+    else
+        fBits[idx / BIT_VEC_WORD] &= ~(1 << (idx & BIT_VEC_MASK));
 }
 
 hsBitVector& hsBitVector::operator=(const hsBitVector& cpy) {
-    delete[] fBits;
-    fNumVectors = cpy.fNumVectors;
-    fBits = new uint32_t[fNumVectors];
-    memcpy(fBits, cpy.fBits, fNumVectors * sizeof(uint32_t));
+    fBits = cpy.fBits;
     return *this;
 }
 
-void hsBitVector::clear() {
-    delete[] fBits;
-    fBits = NULL;
-    fNumVectors = 0;
-}
-
 void hsBitVector::compact() {
-    size_t newNumVectors = fNumVectors;
-    while (newNumVectors > 0 && fBits[newNumVectors-1] == 0)
-        newNumVectors--;
-    if (newNumVectors < fNumVectors) {
-        if (newNumVectors == 0) {
-            clear();
-        } else {
-            uint32_t* newBits = new uint32_t[newNumVectors];
-            memcpy(newBits, fBits, sizeof(uint32_t)*newNumVectors);
-            delete[] fBits;
-            fBits = newBits;
-            fNumVectors = newNumVectors;
-        }
-    }
+    size_t newSize = fBits.size();
+    while (newSize > 0 && fBits[newSize-1] == 0)
+        newSize--;
+    if (newSize < fBits.size())
+        fBits.resize(newSize);
 }
 
-const char* hsBitVector::getName(unsigned int idx) {
-    static char tempName[11];
-    if (fBitNames.count(idx) > 0) {
+ST::string hsBitVector::getName(size_t idx) {
+    if (fBitNames.count(idx) > 0)
         return fBitNames[idx];
-    } else {
-        snprintf(tempName, 11, "%u", idx);
-        return tempName;
-    }
+    else
+        return ST::string::from_uint(idx);
 }
 
-unsigned int hsBitVector::getValue(const char* name) {
-    std::map<unsigned int, char*>::iterator i;
-    for (i = fBitNames.begin(); i != fBitNames.end(); i++) {
-        if (strcmp(i->second, name) == 0)
-            return i->first;
+size_t hsBitVector::getValue(const ST::string& name) {
+    for (const auto& bit : fBitNames) {
+        if (bit.second == name)
+            return bit.first;
     }
-    return ST::string(name).to_uint();
-}
-
-void hsBitVector::setName(unsigned int idx, const char* name) {
-    if (fBitNames.find(idx) != fBitNames.end())
-        delete[] fBitNames[idx];
-    fBitNames[idx] = new char[strlen(name)+1];
-    strcpy(fBitNames[idx], name);
+    return name.to_uint();
 }
 
 void hsBitVector::read(hsStream* S) {
-    fNumVectors = S->readInt();
-    delete[] fBits;
-    fBits = (fNumVectors > 0) ? new uint32_t[fNumVectors] : NULL;
-    for (size_t i=0; i<fNumVectors; i++)
+    size_t count = S->readInt();
+    fBits.resize(count);
+    for (size_t i = 0; i < count; ++i)
         fBits[i] = S->readInt();
 }
 
 void hsBitVector::write(hsStream* S) {
-#ifndef DEBUG
-    // don't modify the written objects, we might want to compare them
+#ifdef DEBUG
+    /* Don't modify the written objects.  We might want to compare them
+     * to test round-tripping files through libhsplasma. */
+#else
     compact();
 #endif
-    S->writeInt(fNumVectors);
-    for (size_t i=0; i<fNumVectors; i++)
-        S->writeInt(fBits[i]);
+
+    S->writeInt(fBits.size());
+    for (uint32_t bit : fBits)
+        S->writeInt(bit);
 }
 
 void hsBitVector::prcWrite(pfPrcHelper* prc) {
     prc->writeTagNoBreak("hsBitVector");
-    for (size_t i=0; i<size(); i++) {
+    for (size_t i = 0; i < size(); ++i) {
         if (get(i)) {
             prc->directWrite(getName(i));
             prc->directWrite(" ");
@@ -160,6 +109,6 @@ void hsBitVector::prcParse(const pfPrcTag* tag) {
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
     std::list<ST::string> flags = tag->getContents();
-    for (auto flag = flags.begin(); flag != flags.end(); ++flag)
-        setBit(getValue(flag->c_str()));
+    for (const auto& flag : flags)
+        setBit(getValue(flag.c_str()));
 }
