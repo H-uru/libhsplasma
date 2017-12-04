@@ -111,17 +111,15 @@ pnSocket::pnSocket(int handle)
 
 ST::string pnSocket::getRemoteIpStr() const
 {
-    static hsMutex ipStrMutex;
+    static std::mutex ipStrMutex;
 
     sockaddr_in addr;
     socklen_t slen = sizeof(addr);
-    ipStrMutex.lock();
+    std::lock_guard<std::mutex> lock(ipStrMutex);
     const char* str = "???.???.???.???";
     if (getpeername(fSockHandle, (sockaddr*)&addr, &slen) >= 0)
         str = inet_ntoa(addr.sin_addr);
-    ST::string result(str);
-    ipStrMutex.unlock();
-    return result;
+    return str;
 }
 
 bool pnSocket::connect(const char* address, unsigned short port)
@@ -295,13 +293,12 @@ bool pnSocket::waitForData(unsigned int utimeout)
 
 unsigned long pnSocket::GetAddress(const char* addrName)
 {
-    static hsMutex addrMutex;
-    addrMutex.lock();
+    static std::mutex addrMutex;
+    std::lock_guard<std::mutex> lock(addrMutex);
     hostent* host = gethostbyname(addrName);
     unsigned long numAddr = 0;
     if (host != NULL && host->h_addr_list != NULL)
         numAddr = ntohl(*(unsigned long*)host->h_addr_list[0]);
-    addrMutex.unlock();
     return numAddr;
 }
 

@@ -292,16 +292,17 @@ bool pnAuthClient::Dispatch::dispatch(pnSocket* sock)
         {
             hsRAMStream rs(PlasmaVer::pvMoul);
             rs.copyFrom(msgbuf[2].fData, msgbuf[1].fUint);
-            fReceiver->fResMgr->lock();
             plCreatable* pCre = NULL;
-            try {
-                pCre = fReceiver->fResMgr->ReadCreatable(&rs, true, msgbuf[1].fUint);
-            } catch (hsException& ex) {
-                plDebug::Error("Error reading propagated message: {}\n", ex.what());
-                delete pCre;
-                pCre = NULL;
+            {
+                std::lock_guard<plResManager> resMgrLock(*fReceiver->fResMgr);
+                try {
+                    pCre = fReceiver->fResMgr->ReadCreatable(&rs, true, msgbuf[1].fUint);
+                } catch (hsException& ex) {
+                    plDebug::Error("Error reading propagated message: {}\n", ex.what());
+                    delete pCre;
+                    pCre = NULL;
+                }
             }
-            fReceiver->fResMgr->unlock();
             if (pCre != NULL) {
                 fReceiver->onPropagateMessage(pCre);
                 if (fDeleteMsgs)
@@ -1065,9 +1066,10 @@ void pnAuthClient::propagateMessage(plCreatable* pCre)
     msgparm_t* msg = NCAllocMessage(desc);
     msg[0].fUint = pCre->ClassIndex(PlasmaVer::pvMoul);
     hsRAMStream rs(PlasmaVer::pvMoul);
-    fResMgr->lock();
-    fResMgr->WriteCreatable(&rs, pCre);
-    fResMgr->unlock();
+    {
+        std::lock_guard<plResManager> resMgrLock(*fResMgr);
+        fResMgr->WriteCreatable(&rs, pCre);
+    }
     msg[1].fUint = rs.size();
     msg[2].fData = new uint8_t[msg[1].fUint];
     rs.copyTo(msg[2].fData, msg[1].fUint);

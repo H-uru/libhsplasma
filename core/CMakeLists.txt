@@ -677,19 +677,13 @@ set(STREAM_HEADERS
 
 set(SYS_SOURCES
     Sys/hsColor.cpp
-    Sys/hsSemaphore.cpp
+    Sys/hsThread.cpp
     Sys/plUnifiedTime.cpp
     Sys/plUuid.cpp
 )
-if(CMAKE_USE_WIN32_THREADS_INIT)
-    set(SYS_SOURCES ${SYS_SOURCES} Sys/hsThread_win32.cpp)
-else(CMAKE_USE_WIN32_THREADS_INIT)
-    set(SYS_SOURCES ${SYS_SOURCES} Sys/hsThread_pthread.cpp)
-endif(CMAKE_USE_WIN32_THREADS_INIT)
 set(SYS_HEADERS
     Sys/Platform.h
     Sys/hsColor.h
-    Sys/hsSemaphore.h
     Sys/hsThread.h
     Sys/plUnifiedTime.h
     Sys/plUuid.h

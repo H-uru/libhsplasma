@@ -29,7 +29,7 @@ enum ECryptAlgorithm {
 class PLASMANET_DLL pnRC4Socket : public pnSocket {
 protected:
     RC4_KEY fSend, fRecv;
-    hsMutex fSendLock, fRecvLock;
+    std::mutex fSendLock, fRecvLock;
     bool fEncrypted;
 
 public:

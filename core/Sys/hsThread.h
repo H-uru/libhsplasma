@@ -17,63 +17,36 @@
 #ifndef _HSTHREAD_H
 #define _HSTHREAD_H
 
-#include "../PlasmaDefs.h"
-
-#ifdef _WIN32
-#  define WIN32_LEAN_AND_MEAN
-#  include <windows.h>
-#  define S_THREADSTART DWORD WINAPI s_threadstart(LPVOID)
-#else
-#  define S_THREADSTART void* s_threadstart(void*)
-#endif
-
-class PLASMA_DLL hsThreadCondition {
-protected:
-    void* fConditionData;
-
-public:
-    hsThreadCondition();
-    ~hsThreadCondition();
-
-    void wait();
-    void signal();
-};
-
-class PLASMA_DLL hsMutex {
-protected:
-    void* fMutexData;
-
-public:
-    hsMutex();
-    ~hsMutex();
-
-    void lock();
-    void unlock();
-
-private:
-    friend class hsThread;
-};
+#include "PlasmaDefs.h"
+#include <mutex>
+#include <thread>
 
 class PLASMA_DLL hsThread {
 private:
-    void* fThreadData;
-    hsThreadCondition fFinishCondition;
+    enum {
+        kStatePending,
+        kStateRunning,
+        kStateFinished,
+    };
+
+    int fState;
+    std::mutex fMutex;
+    std::thread fThreadHandle;
 
 public:
     hsThread();
     virtual ~hsThread();
-    virtual void destroy();
+    virtual void destroy() { }
 
     void start();
     void wait();
-    bool isFinished() const;
-    void terminate();
+    bool isFinished();
 
 protected:
     virtual void run() = 0;
 
 private:
-    static S_THREADSTART;
+    static void threadEntry(hsThread* self);
 };
 
 #endif

@@ -17,6 +17,7 @@
 #include "pnRC4.h"
 #include "Debug/plDebug.h"
 #include <cstring>
+#include <memory>
 
 void pnRC4Socket::init(size_t keySize, const unsigned char* keyData)
 {
@@ -35,12 +36,10 @@ long pnRC4Socket::send(const void* buf, size_t size)
     if (!fEncrypted) {
         sSize = pnSocket::send(buf, size);
     } else {
-        unsigned char* cBuf = new unsigned char[size];
-        fSendLock.lock();
-        RC4(&fSend, size, (const unsigned char*)buf, cBuf);
-        sSize = pnSocket::send(cBuf, size);
-        fSendLock.unlock();
-        delete[] cBuf;
+        std::unique_ptr<unsigned char[]> cBuf(new unsigned char[size]);
+        std::lock_guard<std::mutex> sendLock(fSendLock);
+        RC4(&fSend, size, (const unsigned char*)buf, cBuf.get());
+        sSize = pnSocket::send(cBuf.get(), size);
     }
     return sSize;
 }
@@ -57,23 +56,19 @@ long pnRC4Socket::recv(void* buf, size_t size)
                 rSize += srSize;
         }
     } else {
-        fRecvLock.lock();
+        std::lock_guard<std::mutex> recvLock(fRecvLock);
         while (rSize < size) {
             long srSize = pnSocket::recv((uint8_t*)buf+rSize, size-rSize);
-            if (srSize < 0) {
-                fRecvLock.unlock();
+            if (srSize < 0)
                 return (srSize);
-            } else {
+            else
                 rSize += srSize;
-            }
         }
         if (rSize > 0) {
-            unsigned char* cBuf = new unsigned char[rSize];
-            RC4(&fRecv, rSize, (const unsigned char*)buf, cBuf);
-            memcpy(buf, cBuf, rSize);
-            delete[] cBuf;
+            std::unique_ptr<unsigned char> cBuf(new unsigned char[rSize]);
+            RC4(&fRecv, rSize, (const unsigned char*)buf, cBuf.get());
+            memcpy(buf, cBuf.get(), rSize);
         }
-        fRecvLock.unlock();
     }
 
     return rSize;
