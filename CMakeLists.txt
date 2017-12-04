@@ -2,6 +2,8 @@ project(libhsplasma)
 cmake_minimum_required(VERSION 2.8.9)   # For Python module features
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
 
+option(ENABLE_SSE2 "Build with SSE2 CPU instructions" ON)
+
 set(CMAKE_C_FLAGS_DEBUG "-DDEBUG ${CMAKE_C_FLAGS_DEBUG}")
 set(CMAKE_CXX_FLAGS_DEBUG "-DDEBUG ${CMAKE_CXX_FLAGS_DEBUG}")
 if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX OR
@@ -9,6 +11,10 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX OR
     set(WARNING_FLAGS "-Wall -Wextra -Wno-unused-parameter")
     set(CMAKE_CXX_FLAGS "-std=c++0x ${WARNING_FLAGS} ${CMAKE_CXX_FLAGS}")
     set(CMAKE_C_FLAGS "${WARNING_FLAGS} ${CMAKE_C_FLAGS}")
+    if(ENABLE_SSE2)
+        set(CMAKE_CXX_FLAGS "-msse2 ${CMAKE_CXX_FLAGS}")
+        set(CMAKE_C_FLAGS "-msse2 ${CMAKE_C_FLAGS}")
+    endif()
 endif()
 
 if(APPLE)

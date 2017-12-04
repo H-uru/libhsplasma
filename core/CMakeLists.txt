@@ -751,11 +751,18 @@ set(SQUISH_SOURCES
     3rdPartyLibs/squish/maths.h
     3rdPartyLibs/squish/rangefit.cpp
     3rdPartyLibs/squish/rangefit.h
+    3rdPartyLibs/squish/simd.h
+    3rdPartyLibs/squish/simd_float.h
+    3rdPartyLibs/squish/simd_sse.h
     3rdPartyLibs/squish/singlecolourfit.cpp
     3rdPartyLibs/squish/singlecolourfit.h
     3rdPartyLibs/squish/squish.cpp
     3rdPartyLibs/squish/squish.h
 )
+
+if(ENABLE_SSE2)
+    add_definitions(-DSQUISH_USE_SSE=2)
+endif()
 
 add_library(HSPlasma
             ${DEBUG_SOURCES}        ${DEBUG_HEADERS}
