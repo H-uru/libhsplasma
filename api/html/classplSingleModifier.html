@@ -9,6 +9,12 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -20,7 +26,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libHSPlasma
    </div>
-   <div id="projectbrief">Cross-platformPlasmaenginedataandnetworklibrary</div>
+   <div id="projectbrief">Cross-platform Plasma engine data and network library</div>
   </td>
  </tr>
  </tbody>
@@ -52,51 +58,71 @@ $(function() {
 <div class="dynheader">
 Inheritance diagram for plSingleModifier:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="classplSingleModifier.png" usemap="#plSingleModifier_map" alt=""/>
-  <map id="plSingleModifier_map" name="plSingleModifier_map">
-<area href="classplModifier.html" alt="plModifier" shape="rect" coords="0,168,153,192"/>
-<area href="classplSynchedObject.html" alt="plSynchedObject" shape="rect" coords="0,112,153,136"/>
-<area href="classhsKeyedObject.html" title="The base class for any top-level PRP object. " alt="hsKeyedObject" shape="rect" coords="0,56,153,80"/>
-<area href="classplCreatable.html" alt="plCreatable" shape="rect" coords="0,0,153,24"/>
-<area href="classpfGUIControlMod.html" alt="pfGUIControlMod" shape="rect" coords="163,280,316,304"/>
-<area href="classpfGUIDialogMod.html" alt="pfGUIDialogMod" shape="rect" coords="163,336,316,360"/>
-<area href="classpfObjectFlocker.html" alt="pfObjectFlocker" shape="rect" coords="163,392,316,416"/>
-<area href="classplAGModifier.html" alt="plAGModifier" shape="rect" coords="163,448,316,472"/>
-<area href="classplAliasModifier.html" alt="plAliasModifier" shape="rect" coords="163,504,316,528"/>
-<area href="classplAnimEventModifier.html" alt="plAnimEventModifier" shape="rect" coords="163,560,316,584"/>
-<area href="classplAvLadderMod.html" title="Defines a movement-driven Ladder modifier. " alt="plAvLadderMod" shape="rect" coords="163,616,316,640"/>
-<area href="classplAxisAnimModifier.html" alt="plAxisAnimModifier" shape="rect" coords="163,672,316,696"/>
-<area href="classplBlower.html" alt="plBlower" shape="rect" coords="163,728,316,752"/>
-<area href="classplCameraModifier.html" alt="plCameraModifier" shape="rect" coords="163,784,316,808"/>
-<area href="classplCrossfade.html" alt="plCrossfade" shape="rect" coords="163,840,316,864"/>
-<area href="classplDetectorModifier.html" alt="plDetectorModifier" shape="rect" coords="163,896,316,920"/>
-<area href="classplDistOpacityMod.html" alt="plDistOpacityMod" shape="rect" coords="163,952,316,976"/>
-<area href="classplEAXEffect.html" alt="plEAXEffect" shape="rect" coords="163,1008,316,1032"/>
-<area href="classplEAXListenerMod.html" alt="plEAXListenerMod" shape="rect" coords="163,1064,316,1088"/>
-<area href="classplElevatorModifier.html" alt="plElevatorModifier" shape="rect" coords="163,1120,316,1144"/>
-<area href="classplExcludeRegionModifier.html" alt="plExcludeRegionModifier" shape="rect" coords="163,1176,316,1200"/>
-<area href="classplFadeOpacityMod.html" alt="plFadeOpacityMod" shape="rect" coords="163,1232,316,1256"/>
-<area href="classplFollowMod.html" alt="plFollowMod" shape="rect" coords="163,1288,316,1312"/>
-<area href="classplGameMarkerModifier.html" alt="plGameMarkerModifier" shape="rect" coords="163,1344,316,1368"/>
-<area href="classplImageLibMod.html" alt="plImageLibMod" shape="rect" coords="163,1400,316,1424"/>
-<area href="classplInterfaceInfoModifier.html" alt="plInterfaceInfoModifier" shape="rect" coords="163,1456,316,1480"/>
-<area href="classplLadderModifier.html" title="Defines a clickable Ladder modifier. " alt="plLadderModifier" shape="rect" coords="163,1512,316,1536"/>
-<area href="classplLogicModBase.html" alt="plLogicModBase" shape="rect" coords="163,1568,316,1592"/>
-<area href="classplMorphSequence.html" alt="plMorphSequence" shape="rect" coords="163,1624,316,1648"/>
-<area href="classplMultistageBehMod.html" alt="plMultistageBehMod" shape="rect" coords="163,1680,316,1704"/>
-<area href="classplNodeRegionModifier.html" alt="plNodeRegionModifier" shape="rect" coords="163,1736,316,1760"/>
-<area href="classplNPCSpawnMod.html" alt="plNPCSpawnMod" shape="rect" coords="163,1792,316,1816"/>
-<area href="classplPostEffectMod.html" alt="plPostEffectMod" shape="rect" coords="163,1848,316,1872"/>
-<area href="classplRandomCommandMod.html" alt="plRandomCommandMod" shape="rect" coords="163,1904,316,1928"/>
-<area href="classplResponderModifier.html" alt="plResponderModifier" shape="rect" coords="163,1960,316,1984"/>
-<area href="classplSimpleRegionSensor.html" alt="plSimpleRegionSensor" shape="rect" coords="163,2016,316,2040"/>
-<area href="classplSittingModifier.html" alt="plSittingModifier" shape="rect" coords="163,2072,316,2096"/>
-<area href="classplStereizer.html" alt="plStereizer" shape="rect" coords="163,2128,316,2152"/>
-<area href="classplVehicleModifier.html" alt="plVehicleModifier" shape="rect" coords="163,2184,316,2208"/>
-<area href="classplViewFaceModifier.html" alt="plViewFaceModifier" shape="rect" coords="163,2240,316,2264"/>
+<div class="center"><img src="classplSingleModifier__inherit__graph.png" border="0" usemap="#plSingleModifier_inherit__map" alt="Inheritance graph"/></div>
+<map name="plSingleModifier_inherit__map" id="plSingleModifier_inherit__map">
+<area shape="rect" id="node6" href="classpfGUIControlMod.html" title="pfGUIControlMod" alt="" coords="830,183,963,209"/>
+<area shape="rect" id="node15" href="classpfGUIDialogMod.html" title="pfGUIDialogMod" alt="" coords="833,233,961,260"/>
+<area shape="rect" id="node16" href="classpfObjectFlocker.html" title="pfObjectFlocker" alt="" coords="835,284,959,311"/>
+<area shape="rect" id="node17" href="classplAGModifier.html" title="plAGModifier" alt="" coords="844,335,949,361"/>
+<area shape="rect" id="node18" href="classplAliasModifier.html" title="plAliasModifier" alt="" coords="837,385,956,412"/>
+<area shape="rect" id="node19" href="classplAnimEventModifier.html" title="plAnimEventModifier" alt="" coords="818,436,975,463"/>
+<area shape="rect" id="node20" href="classplAvLadderMod.html" title="Defines a movement&#45;driven Ladder modifier. " alt="" coords="836,487,957,513"/>
+<area shape="rect" id="node21" href="classplAxisAnimModifier.html" title="plAxisAnimModifier" alt="" coords="823,537,971,564"/>
+<area shape="rect" id="node22" href="classplBlower.html" title="plBlower" alt="" coords="857,588,936,615"/>
+<area shape="rect" id="node23" href="classplCameraModifier.html" title="plCameraModifier" alt="" coords="828,639,965,665"/>
+<area shape="rect" id="node24" href="classplCrossfade.html" title="plCrossfade" alt="" coords="847,689,946,716"/>
+<area shape="rect" id="node25" href="classplDetectorModifier.html" title="plDetectorModifier" alt="" coords="825,740,968,767"/>
+<area shape="rect" id="node26" href="classplDistOpacityMod.html" title="plDistOpacityMod" alt="" coords="828,791,965,817"/>
+<area shape="rect" id="node27" href="classplEAXEffect.html" title="plEAXEffect" alt="" coords="848,841,945,868"/>
+<area shape="rect" id="node28" href="classplEAXListenerMod.html" title="plEAXListenerMod" alt="" coords="827,892,966,919"/>
+<area shape="rect" id="node29" href="classplElevatorModifier.html" title="plElevatorModifier" alt="" coords="827,943,967,969"/>
+<area shape="rect" id="node30" href="classplExcludeRegionModifier.html" title="plExcludeRegionModifier" alt="" coords="806,993,987,1020"/>
+<area shape="rect" id="node31" href="classplFadeOpacityMod.html" title="plFadeOpacityMod" alt="" coords="826,1044,967,1071"/>
+<area shape="rect" id="node32" href="classplFollowMod.html" title="plFollowMod" alt="" coords="845,1095,948,1121"/>
+<area shape="rect" id="node33" href="classplGameMarkerModifier.html" title="plGameMarkerModifier" alt="" coords="811,1145,982,1172"/>
+<area shape="rect" id="node34" href="classplImageLibMod.html" title="plImageLibMod" alt="" coords="836,1196,957,1223"/>
+<area shape="rect" id="node35" href="classplInterfaceInfoModifier.html" title="plInterfaceInfoModifier" alt="" coords="812,1247,981,1273"/>
+<area shape="rect" id="node36" href="classplLadderModifier.html" title="Defines a clickable Ladder modifier. " alt="" coords="831,1297,962,1324"/>
+<area shape="rect" id="node37" href="classplLogicModBase.html" title="plLogicModBase" alt="" coords="833,1348,960,1375"/>
+<area shape="rect" id="node38" href="classplMorphSequence.html" title="plMorphSequence" alt="" coords="828,1399,965,1425"/>
+<area shape="rect" id="node39" href="classplMultistageBehMod.html" title="plMultistageBehMod" alt="" coords="819,1449,974,1476"/>
+<area shape="rect" id="node40" href="classplNodeRegionModifier.html" title="plNodeRegionModifier" alt="" coords="815,1500,979,1527"/>
+<area shape="rect" id="node41" href="classplNPCSpawnMod.html" title="plNPCSpawnMod" alt="" coords="831,1551,962,1577"/>
+<area shape="rect" id="node42" href="classplPostEffectMod.html" title="plPostEffectMod" alt="" coords="833,1601,960,1628"/>
+<area shape="rect" id="node43" href="classplRandomCommandMod.html" title="plRandomCommandMod" alt="" coords="805,1652,988,1679"/>
+<area shape="rect" id="node44" href="classplResponderModifier.html" title="plResponderModifier" alt="" coords="819,1703,974,1729"/>
+<area shape="rect" id="node45" href="classplSimpleRegionSensor.html" title="plSimpleRegionSensor" alt="" coords="813,1753,980,1780"/>
+<area shape="rect" id="node46" href="classplSittingModifier.html" title="plSittingModifier" alt="" coords="833,1804,961,1831"/>
+<area shape="rect" id="node47" href="classplStereizer.html" title="plStereizer" alt="" coords="851,1855,943,1881"/>
+<area shape="rect" id="node48" href="classplVehicleModifier.html" title="plVehicleModifier" alt="" coords="830,1905,963,1932"/>
+<area shape="rect" id="node49" href="classplViewFaceModifier.html" title="plViewFaceModifier" alt="" coords="823,1956,970,1983"/>
+<area shape="rect" id="node2" href="classplModifier.html" title="plModifier" alt="" coords="496,1069,583,1096"/>
+<area shape="rect" id="node3" href="classplSynchedObject.html" title="plSynchedObject" alt="" coords="317,1069,448,1096"/>
+<area shape="rect" id="node4" href="classhsKeyedObject.html" title="The base class for any top&#45;level PRP object. " alt="" coords="151,1069,269,1096"/>
+<area shape="rect" id="node5" href="classplCreatable.html" title="plCreatable" alt="" coords="5,1069,103,1096"/>
+<area shape="rect" id="node7" href="classpfGUIButtonMod.html" title="pfGUIButtonMod" alt="" coords="1050,5,1179,32"/>
+<area shape="rect" id="node8" href="classpfGUICheckBoxCtrl.html" title="pfGUICheckBoxCtrl" alt="" coords="1041,56,1188,83"/>
+<area shape="rect" id="node9" href="classpfGUIClickMapCtrl.html" title="pfGUIClickMapCtrl" alt="" coords="1044,107,1185,133"/>
+<area shape="rect" id="node10" href="classpfGUIDragBarCtrl.html" title="pfGUIDragBarCtrl" alt="" coords="1047,157,1182,184"/>
+<area shape="rect" id="node11" href="classpfGUIDraggableMod.html" title="pfGUIDraggableMod" alt="" coords="1038,208,1191,235"/>
+<area shape="rect" id="node12" href="classpfGUIDynDisplayCtrl.html" title="pfGUIDynDisplayCtrl" alt="" coords="1036,259,1193,285"/>
+<area shape="rect" id="node13" href="classpfGUIEditBoxMod.html" title="pfGUIEditBoxMod" alt="" coords="1047,309,1183,336"/>
+<area shape="rect" id="node14" href="classpfGUIListBoxMod.html" title="pfGUIListBoxMod" alt="" coords="1047,360,1182,387"/>
 </map>
- </div></div>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for plSingleModifier:</div>
+<div class="dyncontent">
+<div class="center"><img src="classplSingleModifier__coll__graph.png" border="0" usemap="#plSingleModifier_coll__map" alt="Collaboration graph"/></div>
+<map name="plSingleModifier_coll__map" id="plSingleModifier_coll__map">
+<area shape="rect" id="node2" href="classplModifier.html" title="plModifier" alt="" coords="108,261,195,288"/>
+<area shape="rect" id="node3" href="classplSynchedObject.html" title="plSynchedObject" alt="" coords="86,185,217,212"/>
+<area shape="rect" id="node4" href="classhsKeyedObject.html" title="The base class for any top&#45;level PRP object. " alt="" coords="5,81,124,108"/>
+<area shape="rect" id="node5" href="classplCreatable.html" title="plCreatable" alt="" coords="16,5,113,32"/>
+<area shape="rect" id="node7" href="classhsBitVector.html" title="Stores an array (vector) of bits. " alt="" coords="219,261,315,288"/>
+<area shape="rect" id="node8" href="classplKey.html" title="Describes and points to an hsKeyedObject. " alt="" coords="339,261,398,288"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>

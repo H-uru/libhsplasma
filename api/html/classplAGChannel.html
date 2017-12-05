@@ -9,6 +9,12 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -20,7 +26,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libHSPlasma
    </div>
-   <div id="projectbrief">Cross-platformPlasmaenginedataandnetworklibrary</div>
+   <div id="projectbrief">Cross-platform Plasma engine data and network library</div>
   </td>
  </tr>
  </tbody>
@@ -52,37 +58,44 @@ $(function() {
 <div class="dynheader">
 Inheritance diagram for plAGChannel:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="classplAGChannel.png" usemap="#plAGChannel_map" alt=""/>
-  <map id="plAGChannel_map" name="plAGChannel_map">
-<area href="classplCreatable.html" alt="plCreatable" shape="rect" coords="627,0,826,24"/>
-<area href="classplMatrixChannel.html" alt="plMatrixChannel" shape="rect" coords="0,112,199,136"/>
-<area href="classplPointChannel.html" alt="plPointChannel" shape="rect" coords="418,112,617,136"/>
-<area href="classplQuatChannel.html" alt="plQuatChannel" shape="rect" coords="836,112,1035,136"/>
-<area href="classplScalarChannel.html" alt="plScalarChannel" shape="rect" coords="1254,112,1453,136"/>
-<area href="classplMatrixBlend.html" alt="plMatrixBlend" shape="rect" coords="209,168,408,192"/>
-<area href="classplMatrixConstant.html" alt="plMatrixConstant" shape="rect" coords="209,224,408,248"/>
-<area href="classplMatrixControllerCacheChannel.html" alt="plMatrixControllerCacheChannel" shape="rect" coords="209,280,408,304"/>
-<area href="classplMatrixControllerChannel.html" alt="plMatrixControllerChannel" shape="rect" coords="209,336,408,360"/>
-<area href="classplMatrixTimeScale.html" alt="plMatrixTimeScale" shape="rect" coords="209,392,408,416"/>
-<area href="classplQuatPointCombine.html" alt="plQuatPointCombine" shape="rect" coords="209,448,408,472"/>
-<area href="classplPointBlend.html" alt="plPointBlend" shape="rect" coords="627,168,826,192"/>
-<area href="classplPointConstant.html" alt="plPointConstant" shape="rect" coords="627,224,826,248"/>
-<area href="classplPointControllerCacheChannel.html" alt="plPointControllerCacheChannel" shape="rect" coords="627,280,826,304"/>
-<area href="classplPointControllerChannel.html" alt="plPointControllerChannel" shape="rect" coords="627,336,826,360"/>
-<area href="classplPointTimeScale.html" alt="plPointTimeScale" shape="rect" coords="627,392,826,416"/>
-<area href="classplQuatBlend.html" alt="plQuatBlend" shape="rect" coords="1045,168,1244,192"/>
-<area href="classplQuatConstant.html" alt="plQuatConstant" shape="rect" coords="1045,224,1244,248"/>
-<area href="classplQuatTimeScale.html" alt="plQuatTimeScale" shape="rect" coords="1045,280,1244,304"/>
-<area href="classplATCChannel.html" alt="plATCChannel" shape="rect" coords="1463,168,1662,192"/>
-<area href="classplScalarBlend.html" alt="plScalarBlend" shape="rect" coords="1463,224,1662,248"/>
-<area href="classplScalarConstant.html" alt="plScalarConstant" shape="rect" coords="1463,280,1662,304"/>
-<area href="classplScalarControllerCacheChannel.html" alt="plScalarControllerCacheChannel" shape="rect" coords="1463,336,1662,360"/>
-<area href="classplScalarControllerChannel.html" alt="plScalarControllerChannel" shape="rect" coords="1463,392,1662,416"/>
-<area href="classplScalarSDLChannel.html" alt="plScalarSDLChannel" shape="rect" coords="1463,448,1662,472"/>
-<area href="classplScalarTimeScale.html" alt="plScalarTimeScale" shape="rect" coords="1463,504,1662,528"/>
+<div class="center"><img src="classplAGChannel__inherit__graph.png" border="0" usemap="#plAGChannel_inherit__map" alt="Inheritance graph"/></div>
+<map name="plAGChannel_inherit__map" id="plAGChannel_inherit__map">
+<area shape="rect" id="node3" href="classplMatrixChannel.html" title="plMatrixChannel" alt="" coords="305,157,433,184"/>
+<area shape="rect" id="node10" href="classplPointChannel.html" title="plPointChannel" alt="" coords="309,436,429,463"/>
+<area shape="rect" id="node16" href="classplQuatChannel.html" title="plQuatChannel" alt="" coords="310,588,429,615"/>
+<area shape="rect" id="node20" href="classplScalarChannel.html" title="plScalarChannel" alt="" coords="306,841,433,868"/>
+<area shape="rect" id="node2" href="classplCreatable.html" title="plCreatable" alt="" coords="5,487,103,513"/>
+<area shape="rect" id="node4" href="classplMatrixBlend.html" title="plMatrixBlend" alt="" coords="541,5,653,32"/>
+<area shape="rect" id="node5" href="classplMatrixConstant.html" title="plMatrixConstant" alt="" coords="531,56,664,83"/>
+<area shape="rect" id="node6" href="classplMatrixControllerCacheChannel.html" title="plMatrixControllerCacheChannel" alt="" coords="481,107,713,133"/>
+<area shape="rect" id="node7" href="classplMatrixControllerChannel.html" title="plMatrixControllerChannel" alt="" coords="501,157,693,184"/>
+<area shape="rect" id="node8" href="classplMatrixTimeScale.html" title="plMatrixTimeScale" alt="" coords="526,208,669,235"/>
+<area shape="rect" id="node9" href="classplQuatPointCombine.html" title="plQuatPointCombine" alt="" coords="519,259,675,285"/>
+<area shape="rect" id="node11" href="classplPointBlend.html" title="plPointBlend" alt="" coords="545,309,649,336"/>
+<area shape="rect" id="node12" href="classplPointConstant.html" title="plPointConstant" alt="" coords="535,360,660,387"/>
+<area shape="rect" id="node13" href="classplPointControllerCacheChannel.html" title="plPointControllerCacheChannel" alt="" coords="485,411,709,437"/>
+<area shape="rect" id="node14" href="classplPointControllerChannel.html" title="plPointControllerChannel" alt="" coords="505,461,689,488"/>
+<area shape="rect" id="node15" href="classplPointTimeScale.html" title="plPointTimeScale" alt="" coords="530,512,665,539"/>
+<area shape="rect" id="node17" href="classplQuatBlend.html" title="plQuatBlend" alt="" coords="546,563,649,589"/>
+<area shape="rect" id="node18" href="classplQuatConstant.html" title="plQuatConstant" alt="" coords="536,613,659,640"/>
+<area shape="rect" id="node19" href="classplQuatTimeScale.html" title="plQuatTimeScale" alt="" coords="531,664,664,691"/>
+<area shape="rect" id="node21" href="classplATCChannel.html" title="plATCChannel" alt="" coords="542,715,653,741"/>
+<area shape="rect" id="node22" href="classplScalarBlend.html" title="plScalarBlend" alt="" coords="542,765,653,792"/>
+<area shape="rect" id="node23" href="classplScalarConstant.html" title="plScalarConstant" alt="" coords="531,816,663,843"/>
+<area shape="rect" id="node24" href="classplScalarControllerCacheChannel.html" title="plScalarControllerCacheChannel" alt="" coords="482,867,713,893"/>
+<area shape="rect" id="node25" href="classplScalarControllerChannel.html" title="plScalarControllerChannel" alt="" coords="502,917,693,944"/>
+<area shape="rect" id="node26" href="classplScalarSDLChannel.html" title="plScalarSDLChannel" alt="" coords="521,968,673,995"/>
+<area shape="rect" id="node27" href="classplScalarTimeScale.html" title="plScalarTimeScale" alt="" coords="526,1019,669,1045"/>
 </map>
- </div></div>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for plAGChannel:</div>
+<div class="dyncontent">
+<div class="center"><img src="classplAGChannel__coll__graph.png" border="0" usemap="#plAGChannel_coll__map" alt="Collaboration graph"/></div>
+<map name="plAGChannel_coll__map" id="plAGChannel_coll__map">
+<area shape="rect" id="node2" href="classplCreatable.html" title="plCreatable" alt="" coords="10,5,107,32"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>

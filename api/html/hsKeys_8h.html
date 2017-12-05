@@ -9,6 +9,12 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -20,7 +26,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libHSPlasma
    </div>
-   <div id="projectbrief">Cross-platformPlasmaenginedataandnetworklibrary</div>
+   <div id="projectbrief">Cross-platform Plasma engine data and network library</div>
   </td>
  </tr>
  </tbody>
@@ -51,6 +57,50 @@ $(function() {
 <div class="textblock"><code>#include &quot;<a class="el" href="hsMatrix33_8h.html">Math/hsMatrix33.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="hsMatrix44_8h.html">Math/hsMatrix44.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="hsAffineParts_8h.html">Math/hsAffineParts.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for hsKeys.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="hsKeys_8h__incl.png" border="0" usemap="#core_2PRP_2Animation_2hsKeys_8h" alt=""/></div>
+<map name="core_2PRP_2Animation_2hsKeys_8h" id="core_2PRP_2Animation_2hsKeys_8h">
+<area shape="rect" id="node2" href="hsMatrix33_8h.html" title="Math/hsMatrix33.h" alt="" coords="145,244,288,271"/>
+<area shape="rect" id="node23" href="hsMatrix44_8h.html" title="Math/hsMatrix44.h" alt="" coords="273,169,416,196"/>
+<area shape="rect" id="node25" href="hsAffineParts_8h.html" title="Math/hsAffineParts.h" alt="" coords="381,95,535,121"/>
+<area shape="rect" id="node3" href="pfPrcHelper_8h.html" title="Stream/pfPrcHelper.h" alt="" coords="319,319,479,345"/>
+<area shape="rect" id="node17" href="pfPrcParser_8h.html" title="Stream/pfPrcParser.h" alt="" coords="138,319,295,345"/>
+<area shape="rect" id="node4" href="hsStream_8h.html" title="hsStream.h" alt="" coords="310,468,406,495"/>
+<area shape="rect" id="node9" href="PlasmaVersions_8h.html" title="Util/PlasmaVersions.h" alt="" coords="589,543,753,569"/>
+<area shape="rect" id="node10" href="PlasmaDefs_8h.html" title="PlasmaDefs.h" alt="" coords="559,617,671,644"/>
+<area shape="rect" id="node13" href="Platform_8h.html" title="Sys/Platform.h" alt="" coords="778,543,895,569"/>
+<area shape="rect" id="node14" href="hsExceptions_8hpp.html" title="Debug/hsExceptions.hpp" alt="" coords="331,543,513,569"/>
+<area shape="rect" id="node18" href="hsTokenStream_8h.html" title="hsTokenStream.h" alt="" coords="19,393,153,420"/>
+<area shape="rect" id="node24" href="hsGeometry3_8h.html" title="hsGeometry3.h" alt="" coords="414,244,537,271"/>
+<area shape="rect" id="node26" href="hsQuat_8h.html" title="hsQuat.h" alt="" coords="494,169,574,196"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="hsKeys_8h__dep__incl.png" border="0" usemap="#core_2PRP_2Animation_2hsKeys_8hdep" alt=""/></div>
+<map name="core_2PRP_2Animation_2hsKeys_8hdep" id="core_2PRP_2Animation_2hsKeys_8hdep">
+<area shape="rect" id="node2" href="plController_8h.html" title="core/PRP/Animation\l/plController.h" alt="" coords="868,95,1019,136"/>
+<area shape="rect" id="node3" href="plLeafController_8h.html" title="core/PRP/Animation\l/plLeafController.h" alt="" coords="180,184,331,225"/>
+<area shape="rect" id="node12" href="plMatrixChannel_8h.html" title="core/PRP/Avatar/plMatrix\lChannel.h" alt="" coords="355,184,537,225"/>
+<area shape="rect" id="node13" href="plPointChannel_8h.html" title="core/PRP/Avatar/plPointChannel.h" alt="" coords="561,191,800,218"/>
+<area shape="rect" id="node14" href="plQuatChannel_8h.html" title="core/PRP/Avatar/plQuatChannel.h" alt="" coords="825,191,1062,218"/>
+<area shape="rect" id="node15" href="plScalarChannel_8h.html" title="core/PRP/Avatar/plScalar\lChannel.h" alt="" coords="1086,184,1267,225"/>
+<area shape="rect" id="node16" href="plParticleSystem_8h.html" title="core/PRP/Particle/plParticle\lSystem.h" alt="" coords="1291,184,1486,225"/>
+<area shape="rect" id="node17" href="plLayerAnimation_8h.html" title="core/PRP/Surface/plLayer\lAnimation.h" alt="" coords="1510,184,1694,225"/>
+<area shape="rect" id="node4" href="plKeyControllers_8hpp.html" title="core/PRP/Animation\l/plKeyControllers.hpp" alt="" coords="175,273,336,315"/>
+<area shape="rect" id="node5" href="plPosController_8h.html" title="core/PRP/Animation\l/plPosController.h" alt="" coords="5,363,156,404"/>
+<area shape="rect" id="node10" href="plRotController_8h.html" title="core/PRP/Animation\l/plRotController.h" alt="" coords="180,363,331,404"/>
+<area shape="rect" id="node11" href="plScaleController_8h.html" title="core/PRP/Animation\l/plScaleController.h" alt="" coords="355,363,505,404"/>
+<area shape="rect" id="node6" href="plTMController_8h.html" title="core/PRP/Animation\l/plTMController.h" alt="" coords="180,452,331,493"/>
+<area shape="rect" id="node7" href="plAnimPath_8h.html" title="core/PRP/Animation\l/plAnimPath.h" alt="" coords="180,541,331,583"/>
+<area shape="rect" id="node8" href="plLineFollowMod_8h.html" title="core/PRP/Animation\l/plLineFollowMod.h" alt="" coords="75,631,225,672"/>
+<area shape="rect" id="node9" href="plDynaRippleMgr_8h.html" title="core/PRP/Surface/plDynaRipple\lMgr.h" alt="" coords="249,631,472,672"/>
+<area shape="rect" id="node18" href="plLayerMovie_8h.html" title="core/PRP/Surface/plLayer\lMovie.h" alt="" coords="1510,273,1694,315"/>
+</map>
+</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>

@@ -9,6 +9,12 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -20,7 +26,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libHSPlasma
    </div>
-   <div id="projectbrief">Cross-platformPlasmaenginedataandnetworklibrary</div>
+   <div id="projectbrief">Cross-platform Plasma engine data and network library</div>
   </td>
  </tr>
  </tbody>
@@ -52,27 +58,38 @@ $(function() {
 <div class="dynheader">
 Inheritance diagram for plConditionalObject:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="classplConditionalObject.png" usemap="#plConditionalObject_map" alt=""/>
-  <map id="plConditionalObject_map" name="plConditionalObject_map">
-<area href="classhsKeyedObject.html" title="The base class for any top-level PRP object. " alt="hsKeyedObject" shape="rect" coords="0,56,270,80"/>
-<area href="classplCreatable.html" alt="plCreatable" shape="rect" coords="0,0,270,24"/>
-<area href="classplActivatorConditionalObject.html" alt="plActivatorConditionalObject" shape="rect" coords="280,168,550,192"/>
-<area href="classplANDConditionalObject.html" alt="plANDConditionalObject" shape="rect" coords="280,224,550,248"/>
-<area href="classplAnimationEventConditionalObject.html" alt="plAnimationEventConditionalObject" shape="rect" coords="280,280,550,304"/>
-<area href="classplControlEventConditionalObject.html" alt="plControlEventConditionalObject" shape="rect" coords="280,336,550,360"/>
-<area href="classplFacingConditionalObject.html" alt="plFacingConditionalObject" shape="rect" coords="280,392,550,416"/>
-<area href="classplKeyPressConditionalObject.html" alt="plKeyPressConditionalObject" shape="rect" coords="280,448,550,472"/>
-<area href="classplLocalPlayerInBoxConditionalObject.html" alt="plLocalPlayerInBoxConditionalObject" shape="rect" coords="280,504,550,528"/>
-<area href="classplLocalPlayerIntersectPlaneConditionalObject.html" alt="plLocalPlayerIntersectPlaneConditionalObject" shape="rect" coords="280,560,550,584"/>
-<area href="classplObjectInBoxConditionalObject.html" alt="plObjectInBoxConditionalObject" shape="rect" coords="280,616,550,640"/>
-<area href="classplObjectIntersectPlaneConditionalObject.html" alt="plObjectIntersectPlaneConditionalObject" shape="rect" coords="280,672,550,696"/>
-<area href="classplORConditionalObject.html" alt="plORConditionalObject" shape="rect" coords="280,728,550,752"/>
-<area href="classplPickedConditionalObject.html" alt="plPickedConditionalObject" shape="rect" coords="280,784,550,808"/>
-<area href="classplPythonFileModConditionalObject.html" alt="plPythonFileModConditionalObject" shape="rect" coords="280,840,550,864"/>
-<area href="classplVolumeSensorConditionalObject.html" alt="plVolumeSensorConditionalObject" shape="rect" coords="280,896,550,920"/>
+<div class="center"><img src="classplConditionalObject__inherit__graph.png" border="0" usemap="#plConditionalObject_inherit__map" alt="Inheritance graph"/></div>
+<map name="plConditionalObject_inherit__map" id="plConditionalObject_inherit__map">
+<area shape="rect" id="node4" href="classplActivatorConditionalObject.html" title="plActivatorConditionalObject" alt="" coords="533,45,742,71"/>
+<area shape="rect" id="node7" href="classplANDConditionalObject.html" title="plANDConditionalObject" alt="" coords="548,95,727,122"/>
+<area shape="rect" id="node8" href="classplAnimationEventConditionalObject.html" title="plAnimationEventConditional\lObject" alt="" coords="531,147,743,188"/>
+<area shape="rect" id="node9" href="classplControlEventConditionalObject.html" title="plControlEventConditional\lObject" alt="" coords="541,212,733,253"/>
+<area shape="rect" id="node10" href="classplFacingConditionalObject.html" title="plFacingConditionalObject" alt="" coords="542,278,733,305"/>
+<area shape="rect" id="node11" href="classplKeyPressConditionalObject.html" title="plKeyPressConditionalObject" alt="" coords="533,329,742,355"/>
+<area shape="rect" id="node12" href="classplLocalPlayerInBoxConditionalObject.html" title="plLocalPlayerInBoxConditional\lObject" alt="" coords="527,380,747,421"/>
+<area shape="rect" id="node13" href="classplLocalPlayerIntersectPlaneConditionalObject.html" title="plLocalPlayerIntersectPlane\lConditionalObject" alt="" coords="536,445,739,487"/>
+<area shape="rect" id="node14" href="classplObjectInBoxConditionalObject.html" title="plObjectInBoxConditional\lObject" alt="" coords="544,511,731,552"/>
+<area shape="rect" id="node15" href="classplObjectIntersectPlaneConditionalObject.html" title="plObjectIntersectPlaneConditional\lObject" alt="" coords="516,576,759,617"/>
+<area shape="rect" id="node16" href="classplORConditionalObject.html" title="plORConditionalObject" alt="" coords="553,642,721,669"/>
+<area shape="rect" id="node17" href="classplPickedConditionalObject.html" title="plPickedConditionalObject" alt="" coords="541,693,734,719"/>
+<area shape="rect" id="node18" href="classplPythonFileModConditionalObject.html" title="plPythonFileModConditional\lObject" alt="" coords="536,744,739,785"/>
+<area shape="rect" id="node19" href="classplVolumeSensorConditionalObject.html" title="plVolumeSensorConditional\lObject" alt="" coords="537,809,738,851"/>
+<area shape="rect" id="node2" href="classhsKeyedObject.html" title="The base class for any top&#45;level PRP object. " alt="" coords="151,421,269,447"/>
+<area shape="rect" id="node3" href="classplCreatable.html" title="plCreatable" alt="" coords="5,421,103,447"/>
+<area shape="rect" id="node5" href="classplActivatorActivatorConditionalObject.html" title="plActivatorActivatorConditional\lObject" alt="" coords="807,5,1033,47"/>
+<area shape="rect" id="node6" href="classplVolActivatorConditionalObject.html" title="plVolActivatorConditional\lObject" alt="" coords="827,71,1013,112"/>
+<area shape="rect" id="node20" href="classplVolumeSensorConditionalObjectNoArbitration.html" title="plVolumeSensorConditional\lObjectNoArbitration" alt="" coords="819,809,1021,851"/>
 </map>
- </div></div>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for plConditionalObject:</div>
+<div class="dyncontent">
+<div class="center"><img src="classplConditionalObject__coll__graph.png" border="0" usemap="#plConditionalObject_coll__map" alt="Collaboration graph"/></div>
+<map name="plConditionalObject_coll__map" id="plConditionalObject_coll__map">
+<area shape="rect" id="node2" href="classhsKeyedObject.html" title="The base class for any top&#45;level PRP object. " alt="" coords="21,80,140,107"/>
+<area shape="rect" id="node3" href="classplCreatable.html" title="plCreatable" alt="" coords="32,5,129,32"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>

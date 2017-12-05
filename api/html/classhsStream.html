@@ -9,6 +9,12 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -20,7 +26,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libHSPlasma
    </div>
-   <div id="projectbrief">Cross-platformPlasmaenginedataandnetworklibrary</div>
+   <div id="projectbrief">Cross-platform Plasma engine data and network library</div>
   </td>
  </tr>
  </tbody>
@@ -51,21 +57,28 @@ $(function() {
 <div class="dynheader">
 Inheritance diagram for hsStream:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="classhsStream.png" usemap="#hsStream_map" alt=""/>
-  <map id="hsStream_map" name="hsStream_map">
-<area href="classhsFileStream.html" alt="hsFileStream" shape="rect" coords="64,56,183,80"/>
-<area href="classhsRAMStream.html" alt="hsRAMStream" shape="rect" coords="193,56,312,80"/>
-<area href="classpfSizedStream.html" alt="pfSizedStream" shape="rect" coords="322,56,441,80"/>
-<area href="classplEncryptedStream.html" alt="plEncryptedStream" shape="rect" coords="451,56,570,80"/>
-<area href="classhsElfStream.html" alt="hsElfStream" shape="rect" coords="0,112,119,136"/>
-<area href="classhsStdioStream.html" alt="hsStdioStream" shape="rect" coords="129,112,248,136"/>
+<div class="center"><img src="classhsStream__inherit__graph.png" border="0" usemap="#hsStream_inherit__map" alt="Inheritance graph"/></div>
+<map name="hsStream_inherit__map" id="hsStream_inherit__map">
+<area shape="rect" id="node2" href="classhsFileStream.html" title="hsFileStream" alt="" coords="69,80,176,107"/>
+<area shape="rect" id="node5" href="classhsRAMStream.html" title="hsRAMStream" alt="" coords="200,80,312,107"/>
+<area shape="rect" id="node6" href="classpfSizedStream.html" title="pfSizedStream" alt="" coords="336,80,453,107"/>
+<area shape="rect" id="node7" href="classplEncryptedStream.html" title="plEncryptedStream" alt="" coords="477,80,624,107"/>
+<area shape="rect" id="node3" href="classhsElfStream.html" title="hsElfStream" alt="" coords="5,155,107,181"/>
+<area shape="rect" id="node4" href="classhsStdioStream.html" title="hsStdioStream" alt="" coords="131,155,248,181"/>
 </map>
- </div></div>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for hsStream:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhsStream__coll__graph.png" border="0" usemap="#hsStream_coll__map" alt="Collaboration graph"/></div>
+<map name="hsStream_coll__map" id="hsStream_coll__map">
+<area shape="rect" id="node2" href="classPlasmaVer.html" title="PlasmaVer" alt="" coords="5,5,96,32"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a735bd18bccc5860124760d01e3c03be3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhsStream.html#a735bd18bccc5860124760d01e3c03be3">hsStream</a> (int pv=<a class="el" href="classPlasmaVer.html#a53bde9b60ee8b0597c874e849e669c4fa711410ac7134a1608a6c88401ef37d91">PlasmaVer::pvUnknown</a>)</td></tr>
+<tr class="memitem:a735bd18bccc5860124760d01e3c03be3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhsStream.html#a735bd18bccc5860124760d01e3c03be3">hsStream</a> (int pv=<a class="el" href="classPlasmaVer.html#a67bdb5cbd563faaf2b958c8d10e65854a711410ac7134a1608a6c88401ef37d91">PlasmaVer::pvUnknown</a>)</td></tr>
 <tr class="separator:a735bd18bccc5860124760d01e3c03be3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3dde669e298c96643fc97a6117e4464d"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhsStream.html#a3dde669e298c96643fc97a6117e4464d">~hsStream</a> ()</td></tr>
 <tr class="separator:a3dde669e298c96643fc97a6117e4464d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -169,7 +182,7 @@ Protected Attributes</h2></td></tr>
           <td class="memname">hsStream::hsStream </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>pv</em> = <code><a class="el" href="classPlasmaVer.html#a53bde9b60ee8b0597c874e849e669c4fa711410ac7134a1608a6c88401ef37d91">PlasmaVer::pvUnknown</a></code></td><td>)</td>
+          <td class="paramname"><em>pv</em> = <code><a class="el" href="classPlasmaVer.html#a67bdb5cbd563faaf2b958c8d10e65854a711410ac7134a1608a6c88401ef37d91">PlasmaVer::pvUnknown</a></code></td><td>)</td>
           <td></td>
         </tr>
       </table>

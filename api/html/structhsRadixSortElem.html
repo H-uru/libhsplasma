@@ -9,6 +9,12 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -20,7 +26,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libHSPlasma
    </div>
-   <div id="projectbrief">Cross-platformPlasmaenginedataandnetworklibrary</div>
+   <div id="projectbrief">Cross-platform Plasma engine data and network library</div>
   </td>
  </tr>
  </tbody>
@@ -47,18 +53,25 @@ $(function() {
 <div class="contents">
 
 <p><code>#include &lt;hsRadixSort.h&gt;</code></p>
+<div class="dynheader">
+Collaboration diagram for hsRadixSortElem:</div>
+<div class="dyncontent">
+<div class="center"><img src="structhsRadixSortElem__coll__graph.png" border="0" usemap="#hsRadixSortElem_coll__map" alt="Collaboration graph"/></div>
+<map name="hsRadixSortElem_coll__map" id="hsRadixSortElem_coll__map">
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a92be7b4c12a1e2fe3e49c88fd346d56e"><td class="memItemLeft" >union {</td></tr>
-<tr class="memitem:a2f574a5a08fef89bc3c2a46ec1390968"><td class="memItemLeft" >&#160;&#160;&#160;int&#160;&#160;&#160;<a class="el" href="structhsRadixSortElem.html#a1ebe550cd970931e06e64e978c2c603f">fSigned</a></td></tr>
-<tr class="separator:a2f574a5a08fef89bc3c2a46ec1390968"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4d1a1609dd05c861f660b306ddb80e4"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structhsRadixSortElem.html#a15377ba4a89c34ebcccbbbfce5617020">fUnsigned</a></td></tr>
-<tr class="separator:af4d1a1609dd05c861f660b306ddb80e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad1e6841d2b3aead84cbfc32ee5193dc"><td class="memItemLeft" >&#160;&#160;&#160;float&#160;&#160;&#160;<a class="el" href="structhsRadixSortElem.html#a2eb68fbea6eee3ee3a0c91e26644d193">fFloat</a></td></tr>
-<tr class="separator:aad1e6841d2b3aead84cbfc32ee5193dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92be7b4c12a1e2fe3e49c88fd346d56e"><td class="memItemLeft" valign="top">}&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhsRadixSortElem.html#a92be7b4c12a1e2fe3e49c88fd346d56e">fKey</a></td></tr>
-<tr class="separator:a92be7b4c12a1e2fe3e49c88fd346d56e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d84fc725e5045cdd15123e735a00e32"><td class="memItemLeft" >union {</td></tr>
+<tr class="memitem:a206108155371bc3033c703db2834dfe6"><td class="memItemLeft" >&#160;&#160;&#160;int&#160;&#160;&#160;<a class="el" href="structhsRadixSortElem.html#a1ebe550cd970931e06e64e978c2c603f">fSigned</a></td></tr>
+<tr class="separator:a206108155371bc3033c703db2834dfe6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adade6c4b4c681d9dd3a59367c019ec9d"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structhsRadixSortElem.html#a15377ba4a89c34ebcccbbbfce5617020">fUnsigned</a></td></tr>
+<tr class="separator:adade6c4b4c681d9dd3a59367c019ec9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afac59d4a31fd89552520363da218fc68"><td class="memItemLeft" >&#160;&#160;&#160;float&#160;&#160;&#160;<a class="el" href="structhsRadixSortElem.html#a2eb68fbea6eee3ee3a0c91e26644d193">fFloat</a></td></tr>
+<tr class="separator:afac59d4a31fd89552520363da218fc68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d84fc725e5045cdd15123e735a00e32"><td class="memItemLeft" valign="top">}&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhsRadixSortElem.html#a6d84fc725e5045cdd15123e735a00e32">fKey</a></td></tr>
+<tr class="separator:a6d84fc725e5045cdd15123e735a00e32"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac378ba57a1c9329c66b6b38aed20a6c5"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhsRadixSortElem.html#ac378ba57a1c9329c66b6b38aed20a6c5">fData</a></td></tr>
 <tr class="separator:ac378ba57a1c9329c66b6b38aed20a6c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af49c6787d17de579c046112c3f5c3255"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structhsRadixSortElem.html">hsRadixSortElem</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhsRadixSortElem.html#af49c6787d17de579c046112c3f5c3255">fNext</a></td></tr>
@@ -93,8 +106,8 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a92be7b4c12a1e2fe3e49c88fd346d56e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92be7b4c12a1e2fe3e49c88fd346d56e">&#9670;&nbsp;</a></span>fKey</h2>
+<a id="a6d84fc725e5045cdd15123e735a00e32"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d84fc725e5045cdd15123e735a00e32">&#9670;&nbsp;</a></span>fKey</h2>
 
 <div class="memitem">
 <div class="memproto">

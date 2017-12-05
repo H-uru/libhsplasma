@@ -9,6 +9,12 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -20,7 +26,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libHSPlasma
    </div>
-   <div id="projectbrief">Cross-platformPlasmaenginedataandnetworklibrary</div>
+   <div id="projectbrief">Cross-platform Plasma engine data and network library</div>
   </td>
  </tr>
  </tbody>
@@ -53,28 +59,48 @@ $(function() {
 <div class="dynheader">
 Inheritance diagram for pfGUIControlMod:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="classpfGUIControlMod.png" usemap="#pfGUIControlMod_map" alt=""/>
-  <map id="pfGUIControlMod_map" name="pfGUIControlMod_map">
-<area href="classplSingleModifier.html" alt="plSingleModifier" shape="rect" coords="0,224,135,248"/>
-<area href="classplModifier.html" alt="plModifier" shape="rect" coords="0,168,135,192"/>
-<area href="classplSynchedObject.html" alt="plSynchedObject" shape="rect" coords="0,112,135,136"/>
-<area href="classhsKeyedObject.html" title="The base class for any top-level PRP object. " alt="hsKeyedObject" shape="rect" coords="0,56,135,80"/>
-<area href="classplCreatable.html" alt="plCreatable" shape="rect" coords="0,0,135,24"/>
-<area href="classpfGUIButtonMod.html" alt="pfGUIButtonMod" shape="rect" coords="145,336,280,360"/>
-<area href="classpfGUICheckBoxCtrl.html" alt="pfGUICheckBoxCtrl" shape="rect" coords="145,392,280,416"/>
-<area href="classpfGUIClickMapCtrl.html" alt="pfGUIClickMapCtrl" shape="rect" coords="145,448,280,472"/>
-<area href="classpfGUIDragBarCtrl.html" alt="pfGUIDragBarCtrl" shape="rect" coords="145,504,280,528"/>
-<area href="classpfGUIDraggableMod.html" alt="pfGUIDraggableMod" shape="rect" coords="145,560,280,584"/>
-<area href="classpfGUIDynDisplayCtrl.html" alt="pfGUIDynDisplayCtrl" shape="rect" coords="145,616,280,640"/>
-<area href="classpfGUIEditBoxMod.html" alt="pfGUIEditBoxMod" shape="rect" coords="145,672,280,696"/>
-<area href="classpfGUIListBoxMod.html" alt="pfGUIListBoxMod" shape="rect" coords="145,728,280,752"/>
-<area href="classpfGUIMultiLineEditCtrl.html" alt="pfGUIMultiLineEditCtrl" shape="rect" coords="145,784,280,808"/>
-<area href="classpfGUIRadioGroupCtrl.html" alt="pfGUIRadioGroupCtrl" shape="rect" coords="145,840,280,864"/>
-<area href="classpfGUITextBoxMod.html" alt="pfGUITextBoxMod" shape="rect" coords="145,896,280,920"/>
-<area href="classpfGUIValueCtrl.html" alt="pfGUIValueCtrl" shape="rect" coords="145,952,280,976"/>
+<div class="center"><img src="classpfGUIControlMod__inherit__graph.png" border="0" usemap="#pfGUIControlMod_inherit__map" alt="Inheritance graph"/></div>
+<map name="pfGUIControlMod_inherit__map" id="pfGUIControlMod_inherit__map">
+<area shape="rect" id="node7" href="classpfGUIButtonMod.html" title="pfGUIButtonMod" alt="" coords="1005,5,1135,32"/>
+<area shape="rect" id="node9" href="classpfGUICheckBoxCtrl.html" title="pfGUICheckBoxCtrl" alt="" coords="997,56,1143,83"/>
+<area shape="rect" id="node10" href="classpfGUIClickMapCtrl.html" title="pfGUIClickMapCtrl" alt="" coords="999,107,1141,133"/>
+<area shape="rect" id="node11" href="classpfGUIDragBarCtrl.html" title="pfGUIDragBarCtrl" alt="" coords="1003,157,1137,184"/>
+<area shape="rect" id="node12" href="classpfGUIDraggableMod.html" title="pfGUIDraggableMod" alt="" coords="993,208,1147,235"/>
+<area shape="rect" id="node13" href="classpfGUIDynDisplayCtrl.html" title="pfGUIDynDisplayCtrl" alt="" coords="991,259,1149,285"/>
+<area shape="rect" id="node14" href="classpfGUIEditBoxMod.html" title="pfGUIEditBoxMod" alt="" coords="1002,309,1138,336"/>
+<area shape="rect" id="node15" href="classpfGUIListBoxMod.html" title="pfGUIListBoxMod" alt="" coords="1003,360,1137,387"/>
+<area shape="rect" id="node16" href="classpfGUIMultiLineEditCtrl.html" title="pfGUIMultiLineEditCtrl" alt="" coords="987,411,1153,437"/>
+<area shape="rect" id="node17" href="classpfGUIRadioGroupCtrl.html" title="pfGUIRadioGroupCtrl" alt="" coords="991,461,1149,488"/>
+<area shape="rect" id="node18" href="classpfGUITextBoxMod.html" title="pfGUITextBoxMod" alt="" coords="1001,512,1139,539"/>
+<area shape="rect" id="node19" href="classpfGUIValueCtrl.html" title="pfGUIValueCtrl" alt="" coords="1011,563,1129,589"/>
+<area shape="rect" id="node2" href="classplSingleModifier.html" title="plSingleModifier" alt="" coords="631,284,757,311"/>
+<area shape="rect" id="node3" href="classplModifier.html" title="plModifier" alt="" coords="496,284,583,311"/>
+<area shape="rect" id="node4" href="classplSynchedObject.html" title="plSynchedObject" alt="" coords="317,284,448,311"/>
+<area shape="rect" id="node5" href="classhsKeyedObject.html" title="The base class for any top&#45;level PRP object. " alt="" coords="151,284,269,311"/>
+<area shape="rect" id="node6" href="classplCreatable.html" title="plCreatable" alt="" coords="5,284,103,311"/>
+<area shape="rect" id="node8" href="classpfGUIMenuItem.html" title="pfGUIMenuItem" alt="" coords="1222,5,1346,32"/>
+<area shape="rect" id="node20" href="classpfGUIKnobCtrl.html" title="pfGUIKnobCtrl" alt="" coords="1227,512,1341,539"/>
+<area shape="rect" id="node21" href="classpfGUIProgressCtrl.html" title="pfGUIProgressCtrl" alt="" coords="1215,563,1353,589"/>
+<area shape="rect" id="node22" href="classpfGUIUpDownPairMod.html" title="pfGUIUpDownPairMod" alt="" coords="1201,613,1367,640"/>
 </map>
- </div></div>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for pfGUIControlMod:</div>
+<div class="dyncontent">
+<div class="center"><img src="classpfGUIControlMod__coll__graph.png" border="0" usemap="#pfGUIControlMod_coll__map" alt="Collaboration graph"/></div>
+<map name="pfGUIControlMod_coll__map" id="pfGUIControlMod_coll__map">
+<area shape="rect" id="node2" href="classplSingleModifier.html" title="plSingleModifier" alt="" coords="960,80,1087,107"/>
+<area shape="rect" id="node3" href="classplModifier.html" title="plModifier" alt="" coords="699,32,786,59"/>
+<area shape="rect" id="node4" href="classplSynchedObject.html" title="plSynchedObject" alt="" coords="487,32,617,59"/>
+<area shape="rect" id="node5" href="classhsKeyedObject.html" title="The base class for any top&#45;level PRP object. " alt="" coords="183,5,302,32"/>
+<area shape="rect" id="node6" href="classplCreatable.html" title="plCreatable" alt="" coords="5,5,103,32"/>
+<area shape="rect" id="node8" href="classhsBitVector.html" title="Stores an array (vector) of bits. " alt="" coords="695,83,791,109"/>
+<area shape="rect" id="node9" href="classplKey.html" title="Describes and points to an hsKeyedObject. " alt="" coords="713,152,772,179"/>
+<area shape="rect" id="node10" href="classpfGUIColorScheme.html" title="pfGUIColorScheme" alt="" coords="951,237,1096,264"/>
+<area shape="rect" id="node12" href="classpfGUICtrlProcWriteableObject.html" title="pfGUICtrlProcWriteableObject" alt="" coords="916,339,1131,365"/>
+<area shape="rect" id="node13" href="classpfGUICtrlProcObject.html" title="pfGUICtrlProcObject" alt="" coords="667,339,819,365"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>

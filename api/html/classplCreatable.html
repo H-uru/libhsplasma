@@ -9,6 +9,12 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -20,7 +26,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libHSPlasma
    </div>
-   <div id="projectbrief">Cross-platformPlasmaenginedataandnetworklibrary</div>
+   <div id="projectbrief">Cross-platform Plasma engine data and network library</div>
   </td>
  </tr>
  </tbody>
@@ -51,36 +57,58 @@ $(function() {
 <div class="dynheader">
 Inheritance diagram for plCreatable:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="classplCreatable.png" usemap="#plCreatable_map" alt=""/>
-  <map id="plCreatable_map" name="plCreatable_map">
-<area href="classhsKeyedObject.html" title="The base class for any top-level PRP object. " alt="hsKeyedObject" shape="rect" coords="180,56,350,80"/>
-<area href="classplAGApplicator.html" alt="plAGApplicator" shape="rect" coords="180,112,350,136"/>
-<area href="classplAGChannel.html" alt="plAGChannel" shape="rect" coords="180,168,350,192"/>
-<area href="classplAgeInfoStruct.html" alt="plAgeInfoStruct" shape="rect" coords="180,224,350,248"/>
-<area href="classplAgeLinkStruct.html" alt="plAgeLinkStruct" shape="rect" coords="180,280,350,304"/>
-<area href="classplAnimPath.html" alt="plAnimPath" shape="rect" coords="180,336,350,360"/>
-<area href="classplAnimStage.html" alt="plAnimStage" shape="rect" coords="180,392,350,416"/>
-<area href="classplAnimTimeConvert.html" alt="plAnimTimeConvert" shape="rect" coords="180,448,350,472"/>
-<area href="classplArmatureBrain.html" alt="plArmatureBrain" shape="rect" coords="180,504,350,528"/>
-<area href="classplATCEaseCurve.html" alt="plATCEaseCurve" shape="rect" coords="180,560,350,584"/>
-<area href="classplAvTask.html" alt="plAvTask" shape="rect" coords="180,616,350,640"/>
-<area href="classplClientGuid.html" alt="plClientGuid" shape="rect" coords="180,672,350,696"/>
-<area href="classplController.html" alt="plController" shape="rect" coords="180,728,350,752"/>
-<area href="classplConvexVolume.html" alt="plConvexVolume" shape="rect" coords="180,784,350,808"/>
-<area href="classplCreatableListHelper.html" alt="plCreatableListHelper" shape="rect" coords="180,840,350,864"/>
-<area href="classplCreatableStub.html" title="Stores the contents of a Creatable without actually parsing it. " alt="plCreatableStub" shape="rect" coords="180,896,350,920"/>
-<area href="classplMessage.html" alt="plMessage" shape="rect" coords="180,952,350,976"/>
-<area href="classplMorphDelta.html" alt="plMorphDelta" shape="rect" coords="180,1008,350,1032"/>
-<area href="classplNetMessage.html" alt="plNetMessage" shape="rect" coords="180,1064,350,1088"/>
-<area href="classplNetMsgMemberInfoHelper.html" alt="plNetMsgMemberInfoHelper" shape="rect" coords="180,1120,350,1144"/>
-<area href="classplNetMsgStreamHelper.html" alt="plNetMsgStreamHelper" shape="rect" coords="180,1176,350,1200"/>
-<area href="classplParticleEmitter.html" alt="plParticleEmitter" shape="rect" coords="180,1232,350,1256"/>
-<area href="classplParticleGenerator.html" alt="plParticleGenerator" shape="rect" coords="180,1288,350,1312"/>
-<area href="classplSpaceTree.html" alt="plSpaceTree" shape="rect" coords="180,1344,350,1368"/>
-<area href="classplVolumeIsect.html" alt="plVolumeIsect" shape="rect" coords="180,1400,350,1424"/>
+<div class="center"><img src="classplCreatable__inherit__graph.png" border="0" usemap="#plCreatable_inherit__map" alt="Inheritance graph"/></div>
+<map name="plCreatable_inherit__map" id="plCreatable_inherit__map">
+<area shape="rect" id="node2" href="classhsKeyedObject.html" title="The base class for any top&#45;level PRP object. " alt="" coords="193,563,312,589"/>
+<area shape="rect" id="node26" href="classplAGApplicator.html" title="plAGApplicator" alt="" coords="193,613,312,640"/>
+<area shape="rect" id="node27" href="classplAGChannel.html" title="plAGChannel" alt="" coords="199,664,306,691"/>
+<area shape="rect" id="node28" href="classplAgeInfoStruct.html" title="plAgeInfoStruct" alt="" coords="191,715,314,741"/>
+<area shape="rect" id="node29" href="classplAgeLinkStruct.html" title="plAgeLinkStruct" alt="" coords="191,765,315,792"/>
+<area shape="rect" id="node30" href="classplAnimPath.html" title="plAnimPath" alt="" coords="205,816,301,843"/>
+<area shape="rect" id="node31" href="classplAnimStage.html" title="plAnimStage" alt="" coords="200,867,305,893"/>
+<area shape="rect" id="node32" href="classplAnimTimeConvert.html" title="plAnimTimeConvert" alt="" coords="177,917,329,944"/>
+<area shape="rect" id="node33" href="classplArmatureBrain.html" title="plArmatureBrain" alt="" coords="188,968,317,995"/>
+<area shape="rect" id="node34" href="classplATCEaseCurve.html" title="plATCEaseCurve" alt="" coords="189,1019,316,1045"/>
+<area shape="rect" id="node35" href="classplAvTask.html" title="plAvTask" alt="" coords="213,1069,292,1096"/>
+<area shape="rect" id="node36" href="classplClientGuid.html" title="plClientGuid" alt="" coords="201,1120,304,1147"/>
+<area shape="rect" id="node37" href="classplController.html" title="plController" alt="" coords="203,1171,302,1197"/>
+<area shape="rect" id="node38" href="classplConvexVolume.html" title="plConvexVolume" alt="" coords="187,1221,319,1248"/>
+<area shape="rect" id="node39" href="classplCreatableListHelper.html" title="plCreatableListHelper" alt="" coords="171,1272,334,1299"/>
+<area shape="rect" id="node40" href="classplCreatableStub.html" title="Stores the contents of a Creatable without actually parsing it. " alt="" coords="189,1323,316,1349"/>
+<area shape="rect" id="node41" href="classplMessage.html" title="plMessage" alt="" coords="207,1373,298,1400"/>
+<area shape="rect" id="node42" href="classplMorphDelta.html" title="plMorphDelta" alt="" coords="198,1424,307,1451"/>
+<area shape="rect" id="node43" href="classplNetMessage.html" title="plNetMessage" alt="" coords="195,1475,310,1501"/>
+<area shape="rect" id="node44" href="classplNetMsgMemberInfoHelper.html" title="plNetMsgMemberInfoHelper" alt="" coords="151,1525,355,1552"/>
+<area shape="rect" id="node45" href="classplNetMsgStreamHelper.html" title="plNetMsgStreamHelper" alt="" coords="166,1576,339,1603"/>
+<area shape="rect" id="node46" href="classplParticleEmitter.html" title="plParticleEmitter" alt="" coords="187,1627,318,1653"/>
+<area shape="rect" id="node47" href="classplParticleGenerator.html" title="plParticleGenerator" alt="" coords="179,1677,326,1704"/>
+<area shape="rect" id="node48" href="classplSpaceTree.html" title="plSpaceTree" alt="" coords="203,1728,303,1755"/>
+<area shape="rect" id="node49" href="classplVolumeIsect.html" title="plVolumeIsect" alt="" coords="195,1779,310,1805"/>
+<area shape="rect" id="node3" href="classhsKeyedObjectStub.html" title="Stores the stub of an hsKeyedObject class. " alt="" coords="410,5,558,32"/>
+<area shape="rect" id="node4" href="classpfGUISkin.html" title="pfGUISkin" alt="" coords="441,56,527,83"/>
+<area shape="rect" id="node5" href="classplArmatureEffect.html" title="plArmatureEffect" alt="" coords="418,107,550,133"/>
+<area shape="rect" id="node6" href="classplArmatureEffectsMgr.html" title="plArmatureEffectsMgr" alt="" coords="403,157,565,184"/>
+<area shape="rect" id="node7" href="classplAudible.html" title="plAudible" alt="" coords="443,208,525,235"/>
+<area shape="rect" id="node8" href="classplBitmap.html" title="Abstract base class for all renderable surface textures. " alt="" coords="443,259,525,285"/>
+<area shape="rect" id="node9" href="classplCameraBrain.html" title="plCameraBrain" alt="" coords="425,309,543,336"/>
+<area shape="rect" id="node10" href="classplClothingBase.html" title="plClothingBase" alt="" coords="424,360,544,387"/>
+<area shape="rect" id="node11" href="classplClothingItem.html" title="Describes a wearable Clothing Item for avatars. " alt="" coords="425,411,543,437"/>
+<area shape="rect" id="node12" href="classplClusterGroup.html" title="plClusterGroup" alt="" coords="425,461,543,488"/>
+<area shape="rect" id="node13" href="classplConditionalObject.html" title="plConditionalObject" alt="" coords="409,512,559,539"/>
+<area shape="rect" id="node14" href="classplDrawable.html" title="plDrawable" alt="" coords="436,563,532,589"/>
+<area shape="rect" id="node15" href="classplFogEnvironment.html" title="plFogEnvironment" alt="" coords="414,613,554,640"/>
+<area shape="rect" id="node16" href="classplFont.html" title="plFont" alt="" coords="453,664,515,691"/>
+<area shape="rect" id="node17" href="classplMorphDataSet.html" title="plMorphDataSet" alt="" coords="421,715,547,741"/>
+<area shape="rect" id="node18" href="classplMsgForwarder.html" title="plMsgForwarder" alt="" coords="421,765,547,792"/>
+<area shape="rect" id="node19" href="classplParticleEffect.html" title="plParticleEffect" alt="" coords="425,816,543,843"/>
+<area shape="rect" id="node20" href="classplPhysicalSndGroup.html" title="plPhysicalSndGroup" alt="" coords="409,867,559,893"/>
+<area shape="rect" id="node21" href="classplSceneNode.html" title="plSceneNode" alt="" coords="431,917,537,944"/>
+<area shape="rect" id="node22" href="classplShader.html" title="plShader" alt="" coords="445,968,523,995"/>
+<area shape="rect" id="node23" href="classplSharedMesh.html" title="plSharedMesh" alt="" coords="427,1019,541,1045"/>
+<area shape="rect" id="node24" href="classplSoundBuffer.html" title="plSoundBuffer" alt="" coords="427,1069,541,1096"/>
+<area shape="rect" id="node25" href="classplSynchedObject.html" title="plSynchedObject" alt="" coords="419,1120,549,1147"/>
 </map>
- </div></div>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>

@@ -9,6 +9,12 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -20,7 +26,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libHSPlasma
    </div>
-   <div id="projectbrief">Cross-platformPlasmaenginedataandnetworklibrary</div>
+   <div id="projectbrief">Cross-platform Plasma engine data and network library</div>
   </td>
  </tr>
  </tbody>
@@ -51,12 +57,19 @@ $(function() {
 <div class="dynheader">
 Inheritance diagram for pnRC4Socket:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="classpnRC4Socket.png" usemap="#pnRC4Socket_map" alt=""/>
-  <map id="pnRC4Socket_map" name="pnRC4Socket_map">
-<area href="classpnSocket.html" alt="pnSocket" shape="rect" coords="0,0,88,24"/>
+<div class="center"><img src="classpnRC4Socket__inherit__graph.png" border="0" usemap="#pnRC4Socket_inherit__map" alt="Inheritance graph"/></div>
+<map name="pnRC4Socket_inherit__map" id="pnRC4Socket_inherit__map">
+<area shape="rect" id="node2" href="classpnSocket.html" title="pnSocket" alt="" coords="17,5,100,32"/>
 </map>
- </div></div>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for pnRC4Socket:</div>
+<div class="dyncontent">
+<div class="center"><img src="classpnRC4Socket__coll__graph.png" border="0" usemap="#pnRC4Socket_coll__map" alt="Collaboration graph"/></div>
+<map name="pnRC4Socket_coll__map" id="pnRC4Socket_coll__map">
+<area shape="rect" id="node2" href="classpnSocket.html" title="pnSocket" alt="" coords="17,5,100,32"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -114,10 +127,10 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:aaecdb464b97aebc6ae421f84536adf37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa6f0dfba232a8740211ede091d82bb0"><td class="memItemLeft" align="right" valign="top">RC4_KEY&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpnRC4Socket.html#afa6f0dfba232a8740211ede091d82bb0">fRecv</a></td></tr>
 <tr class="separator:afa6f0dfba232a8740211ede091d82bb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a41b07795c59a43c6bdfde1c1464bfc6f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhsMutex.html">hsMutex</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpnRC4Socket.html#a41b07795c59a43c6bdfde1c1464bfc6f">fSendLock</a></td></tr>
-<tr class="separator:a41b07795c59a43c6bdfde1c1464bfc6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa567caba976d7db17049cf293cf6cc3b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhsMutex.html">hsMutex</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpnRC4Socket.html#aa567caba976d7db17049cf293cf6cc3b">fRecvLock</a></td></tr>
-<tr class="separator:aa567caba976d7db17049cf293cf6cc3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a1108b7354bae4e03e29daab67f4a3a"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpnRC4Socket.html#a4a1108b7354bae4e03e29daab67f4a3a">fSendLock</a></td></tr>
+<tr class="separator:a4a1108b7354bae4e03e29daab67f4a3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad371839c844124119b4942090f2addd4"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpnRC4Socket.html#ad371839c844124119b4942090f2addd4">fRecvLock</a></td></tr>
+<tr class="separator:ad371839c844124119b4942090f2addd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06163effeda8b6e1c2a213fa687f55f7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpnRC4Socket.html#a06163effeda8b6e1c2a213fa687f55f7">fEncrypted</a></td></tr>
 <tr class="separator:a06163effeda8b6e1c2a213fa687f55f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classpnSocket"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classpnSocket')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classpnSocket.html">pnSocket</a></td></tr>
@@ -356,8 +369,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="aa567caba976d7db17049cf293cf6cc3b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa567caba976d7db17049cf293cf6cc3b">&#9670;&nbsp;</a></span>fRecvLock</h2>
+<a id="ad371839c844124119b4942090f2addd4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad371839c844124119b4942090f2addd4">&#9670;&nbsp;</a></span>fRecvLock</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -366,7 +379,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classhsMutex.html">hsMutex</a> pnRC4Socket::fRecvLock</td>
+          <td class="memname">std::mutex pnRC4Socket::fRecvLock</td>
         </tr>
       </table>
   </td>
@@ -400,8 +413,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a41b07795c59a43c6bdfde1c1464bfc6f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a41b07795c59a43c6bdfde1c1464bfc6f">&#9670;&nbsp;</a></span>fSendLock</h2>
+<a id="a4a1108b7354bae4e03e29daab67f4a3a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a1108b7354bae4e03e29daab67f4a3a">&#9670;&nbsp;</a></span>fSendLock</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -410,7 +423,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classhsMutex.html">hsMutex</a> pnRC4Socket::fSendLock</td>
+          <td class="memname">std::mutex pnRC4Socket::fSendLock</td>
         </tr>
       </table>
   </td>

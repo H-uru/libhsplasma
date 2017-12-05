@@ -9,6 +9,12 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -20,7 +26,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libHSPlasma
    </div>
-   <div id="projectbrief">Cross-platformPlasmaenginedataandnetworklibrary</div>
+   <div id="projectbrief">Cross-platform Plasma engine data and network library</div>
   </td>
  </tr>
  </tbody>
@@ -50,30 +56,37 @@ $(function() {
 <div class="dynheader">
 Inheritance diagram for plController:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="classplController.png" usemap="#plController_map" alt=""/>
-  <map id="plController_map" name="plController_map">
-<area href="classplCreatable.html" alt="plCreatable" shape="rect" coords="676,0,835,24"/>
-<area href="classplCompoundController.html" alt="plCompoundController" shape="rect" coords="0,112,159,136"/>
-<area href="classplLeafController.html" alt="plLeafController" shape="rect" coords="169,112,328,136"/>
-<area href="classplPosController.html" alt="plPosController" shape="rect" coords="507,112,666,136"/>
-<area href="classplRotController.html" alt="plRotController" shape="rect" coords="845,112,1004,136"/>
-<area href="classplScaleController.html" alt="plScaleController" shape="rect" coords="1183,112,1342,136"/>
-<area href="classplTMController.html" alt="plTMController" shape="rect" coords="1352,112,1511,136"/>
-<area href="classplEaseController.html" alt="plEaseController" shape="rect" coords="338,168,497,192"/>
-<area href="classplMatrix33Controller.html" alt="plMatrix33Controller" shape="rect" coords="338,224,497,248"/>
-<area href="classplMatrix44Controller.html" alt="plMatrix44Controller" shape="rect" coords="338,280,497,304"/>
-<area href="classplPoint3Controller.html" alt="plPoint3Controller" shape="rect" coords="338,336,497,360"/>
-<area href="classplQuatController.html" alt="plQuatController" shape="rect" coords="338,392,497,416"/>
-<area href="classplScalarController.html" alt="plScalarController" shape="rect" coords="338,448,497,472"/>
-<area href="classplScaleValueController.html" alt="plScaleValueController" shape="rect" coords="338,504,497,528"/>
-<area href="classplCompoundPosController.html" alt="plCompoundPosController" shape="rect" coords="676,168,835,192"/>
-<area href="classplSimplePosController.html" alt="plSimplePosController" shape="rect" coords="676,224,835,248"/>
-<area href="classplCompoundRotController.html" alt="plCompoundRotController" shape="rect" coords="1014,168,1173,192"/>
-<area href="classplSimpleRotController.html" alt="plSimpleRotController" shape="rect" coords="1014,224,1173,248"/>
-<area href="classplSimpleScaleController.html" alt="plSimpleScaleController" shape="rect" coords="1183,168,1342,192"/>
+<div class="center"><img src="classplController__inherit__graph.png" border="0" usemap="#plController_inherit__map" alt="Inheritance graph"/></div>
+<map name="plController_inherit__map" id="plController_inherit__map">
+<area shape="rect" id="node3" href="classplCompoundController.html" title="plCompoundController" alt="" coords="297,157,465,184"/>
+<area shape="rect" id="node4" href="classplLeafController.html" title="plLeafController" alt="" coords="318,208,445,235"/>
+<area shape="rect" id="node12" href="classplPosController.html" title="plPosController" alt="" coords="321,411,442,437"/>
+<area shape="rect" id="node15" href="classplRotController.html" title="plRotController" alt="" coords="322,461,441,488"/>
+<area shape="rect" id="node18" href="classplScaleController.html" title="plScaleController" alt="" coords="315,512,448,539"/>
+<area shape="rect" id="node20" href="classplTMController.html" title="plTMController" alt="" coords="323,563,440,589"/>
+<area shape="rect" id="node2" href="classplCreatable.html" title="plCreatable" alt="" coords="5,436,103,463"/>
+<area shape="rect" id="node5" href="classplEaseController.html" title="plEaseController" alt="" coords="544,5,673,32"/>
+<area shape="rect" id="node6" href="classplMatrix33Controller.html" title="plMatrix33Controller" alt="" coords="531,56,686,83"/>
+<area shape="rect" id="node7" href="classplMatrix44Controller.html" title="plMatrix44Controller" alt="" coords="531,107,686,133"/>
+<area shape="rect" id="node8" href="classplPoint3Controller.html" title="plPoint3Controller" alt="" coords="539,157,678,184"/>
+<area shape="rect" id="node9" href="classplQuatController.html" title="plQuatController" alt="" coords="544,208,673,235"/>
+<area shape="rect" id="node10" href="classplScalarController.html" title="plScalarController" alt="" coords="539,259,678,285"/>
+<area shape="rect" id="node11" href="classplScaleValueController.html" title="plScaleValueController" alt="" coords="524,309,693,336"/>
+<area shape="rect" id="node13" href="classplCompoundPosController.html" title="plCompoundPosController" alt="" coords="513,360,704,387"/>
+<area shape="rect" id="node14" href="classplSimplePosController.html" title="plSimplePosController" alt="" coords="525,411,692,437"/>
+<area shape="rect" id="node16" href="classplCompoundRotController.html" title="plCompoundRotController" alt="" coords="514,461,703,488"/>
+<area shape="rect" id="node17" href="classplSimpleRotController.html" title="plSimpleRotController" alt="" coords="527,512,691,539"/>
+<area shape="rect" id="node19" href="classplSimpleScaleController.html" title="plSimpleScaleController" alt="" coords="519,563,698,589"/>
 </map>
- </div></div>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for plController:</div>
+<div class="dyncontent">
+<div class="center"><img src="classplController__coll__graph.png" border="0" usemap="#plController_coll__map" alt="Collaboration graph"/></div>
+<map name="plController_coll__map" id="plController_coll__map">
+<area shape="rect" id="node2" href="classplCreatable.html" title="plCreatable" alt="" coords="6,5,103,32"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>

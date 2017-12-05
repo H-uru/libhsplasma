@@ -9,6 +9,12 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -20,7 +26,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libHSPlasma
    </div>
-   <div id="projectbrief">Cross-platformPlasmaenginedataandnetworklibrary</div>
+   <div id="projectbrief">Cross-platform Plasma engine data and network library</div>
   </td>
  </tr>
  </tbody>
@@ -50,29 +56,47 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="pnNetMsg_8h.html">../pnNetMsg.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for GameMessages.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="GameMessages_8h__incl.png" border="0" usemap="#net_2game_2GameMessages_8h" alt=""/></div>
+<map name="net_2game_2GameMessages_8h" id="net_2game_2GameMessages_8h">
+<area shape="rect" id="node2" href="pnNetMsg_8h.html" title="../pnNetMsg.h" alt="" coords="587,80,698,107"/>
+<area shape="rect" id="node3" href="PlasmaDefs_8h.html" title="PlasmaDefs.h" alt="" coords="71,603,183,629"/>
+<area shape="rect" id="node6" href="Protocol_8h.html" title="Protocol.h" alt="" coords="518,155,605,181"/>
+<area shape="rect" id="node7" href="plUuid_8h.html" title="Sys/plUuid.h" alt="" coords="550,229,653,256"/>
+<area shape="rect" id="node8" href="pfPrcHelper_8h.html" title="Stream/pfPrcHelper.h" alt="" coords="431,304,591,331"/>
+<area shape="rect" id="node19" href="pfPrcParser_8h.html" title="Stream/pfPrcParser.h" alt="" coords="615,304,772,331"/>
+<area shape="rect" id="node9" href="hsStream_8h.html" title="hsStream.h" alt="" coords="547,453,643,480"/>
+<area shape="rect" id="node14" href="PlasmaVersions_8h.html" title="Util/PlasmaVersions.h" alt="" coords="105,528,269,555"/>
+<area shape="rect" id="node15" href="Platform_8h.html" title="Sys/Platform.h" alt="" coords="344,528,461,555"/>
+<area shape="rect" id="node16" href="hsExceptions_8hpp.html" title="Debug/hsExceptions.hpp" alt="" coords="579,528,762,555"/>
+<area shape="rect" id="node20" href="hsTokenStream_8h.html" title="hsTokenStream.h" alt="" coords="707,379,842,405"/>
+</map>
+</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a25e50be5c73e0b2fab54944e68dd48c2"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
-&#160;&#160;<a class="el" href="GameMessages_8h.html#a25e50be5c73e0b2fab54944e68dd48c2a20a482f7491710c2ccb9b3c38125a348">kCli2Game_PingRequest</a>, 
-<a class="el" href="GameMessages_8h.html#a25e50be5c73e0b2fab54944e68dd48c2aae41505e29dade780eb0c082287e8585">kCli2Game_JoinAgeRequest</a>, 
-<a class="el" href="GameMessages_8h.html#a25e50be5c73e0b2fab54944e68dd48c2a80a8993d1f6f227c2fe7377b370fc504">kCli2Game_PropagateBuffer</a>, 
-<a class="el" href="GameMessages_8h.html#a25e50be5c73e0b2fab54944e68dd48c2a23f03f98364946de6eb820e3b5228aa1">kCli2Game_GameMgrMsg</a>, 
-<br />
-&#160;&#160;<a class="el" href="GameMessages_8h.html#a25e50be5c73e0b2fab54944e68dd48c2a397e28966dd080854e971624a8ca7e1e">kCli2Game_LastMessage</a>
-<br />
- }</td></tr>
-<tr class="separator:a25e50be5c73e0b2fab54944e68dd48c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97f905ac94bfebd46e50e32c7389e6eb"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
-&#160;&#160;<a class="el" href="GameMessages_8h.html#a97f905ac94bfebd46e50e32c7389e6eba14fa3c3e5baf3a2b4c284e53fd51d8d9">kGame2Cli_PingReply</a>, 
-<a class="el" href="GameMessages_8h.html#a97f905ac94bfebd46e50e32c7389e6eba07ca8d0f51780f77e55f4d1d075982d7">kGame2Cli_JoinAgeReply</a>, 
-<a class="el" href="GameMessages_8h.html#a97f905ac94bfebd46e50e32c7389e6eba25cb6c1a586e0a8c49e3d6ec1669df0b">kGame2Cli_PropagateBuffer</a>, 
-<a class="el" href="GameMessages_8h.html#a97f905ac94bfebd46e50e32c7389e6eba55f4b7c35a6e221f6b8825cbfdf10fd3">kGame2Cli_GameMgrMsg</a>, 
+&#160;&#160;<a class="el" href="GameMessages_8h.html#a97f905ac94bfebd46e50e32c7389e6eba20a482f7491710c2ccb9b3c38125a348">kCli2Game_PingRequest</a>, 
+<a class="el" href="GameMessages_8h.html#a97f905ac94bfebd46e50e32c7389e6ebaae41505e29dade780eb0c082287e8585">kCli2Game_JoinAgeRequest</a>, 
+<a class="el" href="GameMessages_8h.html#a97f905ac94bfebd46e50e32c7389e6eba80a8993d1f6f227c2fe7377b370fc504">kCli2Game_PropagateBuffer</a>, 
+<a class="el" href="GameMessages_8h.html#a97f905ac94bfebd46e50e32c7389e6eba23f03f98364946de6eb820e3b5228aa1">kCli2Game_GameMgrMsg</a>, 
 <br />
-&#160;&#160;<a class="el" href="GameMessages_8h.html#a97f905ac94bfebd46e50e32c7389e6ebaef6cab2f5fd8bb8fa164469f8b7c95f3">kGame2Cli_LastMessage</a>
+&#160;&#160;<a class="el" href="GameMessages_8h.html#a97f905ac94bfebd46e50e32c7389e6eba397e28966dd080854e971624a8ca7e1e">kCli2Game_LastMessage</a>
 <br />
  }</td></tr>
 <tr class="separator:a97f905ac94bfebd46e50e32c7389e6eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b29769343da78881f442e657eb62b6e"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
+&#160;&#160;<a class="el" href="GameMessages_8h.html#a9b29769343da78881f442e657eb62b6ea14fa3c3e5baf3a2b4c284e53fd51d8d9">kGame2Cli_PingReply</a>, 
+<a class="el" href="GameMessages_8h.html#a9b29769343da78881f442e657eb62b6ea07ca8d0f51780f77e55f4d1d075982d7">kGame2Cli_JoinAgeReply</a>, 
+<a class="el" href="GameMessages_8h.html#a9b29769343da78881f442e657eb62b6ea25cb6c1a586e0a8c49e3d6ec1669df0b">kGame2Cli_PropagateBuffer</a>, 
+<a class="el" href="GameMessages_8h.html#a9b29769343da78881f442e657eb62b6ea55f4b7c35a6e221f6b8825cbfdf10fd3">kGame2Cli_GameMgrMsg</a>, 
+<br />
+&#160;&#160;<a class="el" href="GameMessages_8h.html#a9b29769343da78881f442e657eb62b6eaef6cab2f5fd8bb8fa164469f8b7c95f3">kGame2Cli_LastMessage</a>
+<br />
+ }</td></tr>
+<tr class="separator:a9b29769343da78881f442e657eb62b6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -82,27 +106,6 @@ Functions</h2></td></tr>
 <tr class="separator:ab117be3b68de44f559ec1c0df8c6372c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="a25e50be5c73e0b2fab54944e68dd48c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a25e50be5c73e0b2fab54944e68dd48c2">&#9670;&nbsp;</a></span>anonymous enum</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">anonymous enum</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a25e50be5c73e0b2fab54944e68dd48c2a20a482f7491710c2ccb9b3c38125a348"></a>kCli2Game_PingRequest&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a25e50be5c73e0b2fab54944e68dd48c2aae41505e29dade780eb0c082287e8585"></a>kCli2Game_JoinAgeRequest&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a25e50be5c73e0b2fab54944e68dd48c2a80a8993d1f6f227c2fe7377b370fc504"></a>kCli2Game_PropagateBuffer&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a25e50be5c73e0b2fab54944e68dd48c2a23f03f98364946de6eb820e3b5228aa1"></a>kCli2Game_GameMgrMsg&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a25e50be5c73e0b2fab54944e68dd48c2a397e28966dd080854e971624a8ca7e1e"></a>kCli2Game_LastMessage&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-</div>
-</div>
 <a id="a97f905ac94bfebd46e50e32c7389e6eb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a97f905ac94bfebd46e50e32c7389e6eb">&#9670;&nbsp;</a></span>anonymous enum</h2>
 
@@ -115,11 +118,32 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a97f905ac94bfebd46e50e32c7389e6eba14fa3c3e5baf3a2b4c284e53fd51d8d9"></a>kGame2Cli_PingReply&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a97f905ac94bfebd46e50e32c7389e6eba07ca8d0f51780f77e55f4d1d075982d7"></a>kGame2Cli_JoinAgeReply&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a97f905ac94bfebd46e50e32c7389e6eba25cb6c1a586e0a8c49e3d6ec1669df0b"></a>kGame2Cli_PropagateBuffer&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a97f905ac94bfebd46e50e32c7389e6eba55f4b7c35a6e221f6b8825cbfdf10fd3"></a>kGame2Cli_GameMgrMsg&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a97f905ac94bfebd46e50e32c7389e6ebaef6cab2f5fd8bb8fa164469f8b7c95f3"></a>kGame2Cli_LastMessage&#160;</td><td class="fielddoc"></td></tr>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a97f905ac94bfebd46e50e32c7389e6eba20a482f7491710c2ccb9b3c38125a348"></a>kCli2Game_PingRequest&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a97f905ac94bfebd46e50e32c7389e6ebaae41505e29dade780eb0c082287e8585"></a>kCli2Game_JoinAgeRequest&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a97f905ac94bfebd46e50e32c7389e6eba80a8993d1f6f227c2fe7377b370fc504"></a>kCli2Game_PropagateBuffer&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a97f905ac94bfebd46e50e32c7389e6eba23f03f98364946de6eb820e3b5228aa1"></a>kCli2Game_GameMgrMsg&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a97f905ac94bfebd46e50e32c7389e6eba397e28966dd080854e971624a8ca7e1e"></a>kCli2Game_LastMessage&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="a9b29769343da78881f442e657eb62b6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b29769343da78881f442e657eb62b6e">&#9670;&nbsp;</a></span>anonymous enum</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">anonymous enum</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a9b29769343da78881f442e657eb62b6ea14fa3c3e5baf3a2b4c284e53fd51d8d9"></a>kGame2Cli_PingReply&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a9b29769343da78881f442e657eb62b6ea07ca8d0f51780f77e55f4d1d075982d7"></a>kGame2Cli_JoinAgeReply&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a9b29769343da78881f442e657eb62b6ea25cb6c1a586e0a8c49e3d6ec1669df0b"></a>kGame2Cli_PropagateBuffer&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a9b29769343da78881f442e657eb62b6ea55f4b7c35a6e221f6b8825cbfdf10fd3"></a>kGame2Cli_GameMgrMsg&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a9b29769343da78881f442e657eb62b6eaef6cab2f5fd8bb8fa164469f8b7c95f3"></a>kGame2Cli_LastMessage&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>

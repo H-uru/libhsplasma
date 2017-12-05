@@ -9,6 +9,12 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -20,7 +26,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libHSPlasma
    </div>
-   <div id="projectbrief">Cross-platformPlasmaenginedataandnetworklibrary</div>
+   <div id="projectbrief">Cross-platform Plasma engine data and network library</div>
   </td>
  </tr>
  </tbody>
@@ -53,23 +59,67 @@ $(function() {
 <div class="dynheader">
 Inheritance diagram for plSynchedObject:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="classplSynchedObject.png" usemap="#plSynchedObject_map" alt=""/>
-  <map id="plSynchedObject_map" name="plSynchedObject_map">
-<area href="classhsKeyedObject.html" title="The base class for any top-level PRP object. " alt="hsKeyedObject" shape="rect" coords="0,56,109,80"/>
-<area href="classplCreatable.html" alt="plCreatable" shape="rect" coords="0,0,109,24"/>
-<area href="classhsGMaterial.html" alt="hsGMaterial" shape="rect" coords="119,168,228,192"/>
-<area href="classplAGAnim.html" alt="plAGAnim" shape="rect" coords="119,224,228,248"/>
-<area href="classplClothingOutfit.html" alt="plClothingOutfit" shape="rect" coords="119,280,228,304"/>
-<area href="classplDynaDecalMgr.html" alt="plDynaDecalMgr" shape="rect" coords="119,336,228,360"/>
-<area href="classplLayerInterface.html" alt="plLayerInterface" shape="rect" coords="119,392,228,416"/>
-<area href="classplModifier.html" alt="plModifier" shape="rect" coords="119,448,228,472"/>
-<area href="classplObjInterface.html" alt="plObjInterface" shape="rect" coords="119,504,228,528"/>
-<area href="classplPhysical.html" alt="plPhysical" shape="rect" coords="119,560,228,584"/>
-<area href="classplSceneObject.html" alt="plSceneObject" shape="rect" coords="119,616,228,640"/>
-<area href="classplSound.html" alt="plSound" shape="rect" coords="119,672,228,696"/>
+<div class="center"><img src="classplSynchedObject__inherit__graph.png" border="0" usemap="#plSynchedObject_inherit__map" alt="Inheritance graph"/></div>
+<map name="plSynchedObject_inherit__map" id="plSynchedObject_inherit__map">
+<area shape="rect" id="node4" href="classhsGMaterial.html" title="hsGMaterial" alt="" coords="511,31,611,57"/>
+<area shape="rect" id="node5" href="classplAGAnim.html" title="plAGAnim" alt="" coords="517,81,604,108"/>
+<area shape="rect" id="node10" href="classplClothingOutfit.html" title="plClothingOutfit" alt="" coords="499,157,623,184"/>
+<area shape="rect" id="node11" href="classplDynaDecalMgr.html" title="plDynaDecalMgr" alt="" coords="496,208,625,235"/>
+<area shape="rect" id="node19" href="classplLayerInterface.html" title="plLayerInterface" alt="" coords="497,309,625,336"/>
+<area shape="rect" id="node22" href="classplModifier.html" title="plModifier" alt="" coords="517,461,604,488"/>
+<area shape="rect" id="node29" href="classplObjInterface.html" title="plObjInterface" alt="" coords="503,943,618,969"/>
+<area shape="rect" id="node44" href="classplPhysical.html" title="plPhysical" alt="" coords="517,993,605,1020"/>
+<area shape="rect" id="node46" href="classplSceneObject.html" title="plSceneObject" alt="" coords="503,1044,618,1071"/>
+<area shape="rect" id="node47" href="classplSound.html" title="plSound" alt="" coords="523,1424,598,1451"/>
+<area shape="rect" id="node2" href="classhsKeyedObject.html" title="The base class for any top&#45;level PRP object. " alt="" coords="151,385,269,412"/>
+<area shape="rect" id="node3" href="classplCreatable.html" title="plCreatable" alt="" coords="5,385,103,412"/>
+<area shape="rect" id="node6" href="classplAgeGlobalAnim.html" title="plAgeGlobalAnim" alt="" coords="692,5,827,32"/>
+<area shape="rect" id="node7" href="classplATCAnim.html" title="plATCAnim" alt="" coords="713,56,805,83"/>
+<area shape="rect" id="node8" href="classplAGAnimBink.html" title="plAGAnimBink" alt="" coords="911,19,1027,45"/>
+<area shape="rect" id="node9" href="classplEmoteAnim.html" title="plEmoteAnim" alt="" coords="913,69,1024,96"/>
+<area shape="rect" id="node12" href="classplDynaBulletMgr.html" title="plDynaBulletMgr" alt="" coords="694,107,825,133"/>
+<area shape="rect" id="node13" href="classplDynaFootMgr.html" title="plDynaFootMgr" alt="" coords="699,157,819,184"/>
+<area shape="rect" id="node14" href="classplDynaRippleMgr.html" title="plDynaRippleMgr" alt="" coords="693,208,826,235"/>
+<area shape="rect" id="node15" href="classplDynaPuddleMgr.html" title="plDynaPuddleMgr" alt="" coords="901,132,1037,159"/>
+<area shape="rect" id="node16" href="classplDynaRippleVSMgr.html" title="plDynaRippleVSMgr" alt="" coords="893,183,1044,209"/>
+<area shape="rect" id="node17" href="classplDynaTorpedoMgr.html" title="plDynaTorpedoMgr" alt="" coords="897,233,1040,260"/>
+<area shape="rect" id="node18" href="classplDynaWakeMgr.html" title="plDynaWakeMgr" alt="" coords="905,284,1033,311"/>
+<area shape="rect" id="node20" href="classplLayer.html" title="plLayer" alt="" coords="724,259,795,285"/>
+<area shape="rect" id="node21" href="classplLayerAnimationBase.html" title="plLayerAnimationBase" alt="" coords="675,309,844,336"/>
+<area shape="rect" id="node23" href="classplAGMasterMod.html" title="plAGMasterMod" alt="" coords="697,360,821,387"/>
+<area shape="rect" id="node24" href="classplGrassShaderMod.html" title="plGrassShaderMod" alt="" coords="688,411,831,437"/>
+<area shape="rect" id="node25" href="classplMultiModifier.html" title="plMultiModifier" alt="" coords="700,461,819,488"/>
+<area shape="rect" id="node26" href="classplParticleSystem.html" title="plParticleSystem" alt="" coords="694,512,825,539"/>
+<area shape="rect" id="node27" href="classplSingleModifier.html" title="plSingleModifier" alt="" coords="696,563,823,589"/>
+<area shape="rect" id="node28" href="classplSpawnMod.html" title="plSpawnMod" alt="" coords="707,613,811,640"/>
+<area shape="rect" id="node30" href="classplAudioInterface.html" title="plAudioInterface" alt="" coords="695,664,824,691"/>
+<area shape="rect" id="node31" href="classplBoundInterface.html" title="plBoundInterface" alt="" coords="693,715,826,741"/>
+<area shape="rect" id="node32" href="classplCoordinateInterface.html" title="plCoordinateInterface" alt="" coords="678,765,841,792"/>
+<area shape="rect" id="node33" href="classplDrawInterface.html" title="plDrawInterface" alt="" coords="696,816,823,843"/>
+<area shape="rect" id="node34" href="classplHKSubWorld.html" title="plHKSubWorld" alt="" coords="702,867,817,893"/>
+<area shape="rect" id="node35" href="classplLightInfo.html" title="plLightInfo" alt="" coords="714,917,805,944"/>
+<area shape="rect" id="node36" href="classplOccluder.html" title="plOccluder" alt="" coords="714,968,805,995"/>
+<area shape="rect" id="node37" href="classplPrintShape.html" title="plPrintShape" alt="" coords="707,1019,811,1045"/>
+<area shape="rect" id="node38" href="classplRegionBase.html" title="plRegionBase" alt="" coords="704,1069,815,1096"/>
+<area shape="rect" id="node39" href="classplRelevanceRegion.html" title="plRelevanceRegion" alt="" coords="687,1120,832,1147"/>
+<area shape="rect" id="node40" href="classplShadowMaster.html" title="plShadowMaster" alt="" coords="695,1171,824,1197"/>
+<area shape="rect" id="node41" href="classplSimulationInterface.html" title="plSimulationInterface" alt="" coords="678,1221,841,1248"/>
+<area shape="rect" id="node42" href="classplSwimRegionInterface.html" title="plSwimRegionInterface" alt="" coords="673,1272,845,1299"/>
+<area shape="rect" id="node43" href="classplVisRegion.html" title="plVisRegion" alt="" coords="710,1323,809,1349"/>
+<area shape="rect" id="node45" href="classplGenericPhysical.html" title="plGenericPhysical" alt="" coords="690,1373,829,1400"/>
+<area shape="rect" id="node48" href="classplDirectMusicSound.html" title="plDirectMusicSound" alt="" coords="684,1424,835,1451"/>
+<area shape="rect" id="node49" href="classplWin32Sound.html" title="plWin32Sound" alt="" coords="702,1475,817,1501"/>
 </map>
- </div></div>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for plSynchedObject:</div>
+<div class="dyncontent">
+<div class="center"><img src="classplSynchedObject__coll__graph.png" border="0" usemap="#plSynchedObject_coll__map" alt="Collaboration graph"/></div>
+<map name="plSynchedObject_coll__map" id="plSynchedObject_coll__map">
+<area shape="rect" id="node2" href="classhsKeyedObject.html" title="The base class for any top&#45;level PRP object. " alt="" coords="5,81,124,108"/>
+<area shape="rect" id="node3" href="classplCreatable.html" title="plCreatable" alt="" coords="16,5,113,32"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>

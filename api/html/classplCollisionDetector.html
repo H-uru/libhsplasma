@@ -9,6 +9,12 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -20,7 +26,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libHSPlasma
    </div>
-   <div id="projectbrief">Cross-platformPlasmaenginedataandnetworklibrary</div>
+   <div id="projectbrief">Cross-platform Plasma engine data and network library</div>
   </td>
  </tr>
  </tbody>
@@ -53,22 +59,36 @@ $(function() {
 <div class="dynheader">
 Inheritance diagram for plCollisionDetector:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="classplCollisionDetector.png" usemap="#plCollisionDetector_map" alt=""/>
-  <map id="plCollisionDetector_map" name="plCollisionDetector_map">
-<area href="classplDetectorModifier.html" alt="plDetectorModifier" shape="rect" coords="346,280,567,304"/>
-<area href="classplSingleModifier.html" alt="plSingleModifier" shape="rect" coords="346,224,567,248"/>
-<area href="classplModifier.html" alt="plModifier" shape="rect" coords="346,168,567,192"/>
-<area href="classplSynchedObject.html" alt="plSynchedObject" shape="rect" coords="346,112,567,136"/>
-<area href="classhsKeyedObject.html" title="The base class for any top-level PRP object. " alt="hsKeyedObject" shape="rect" coords="346,56,567,80"/>
-<area href="classplCreatable.html" alt="plCreatable" shape="rect" coords="346,0,567,24"/>
-<area href="classplObjectInVolumeDetector.html" alt="plObjectInVolumeDetector" shape="rect" coords="115,392,336,416"/>
-<area href="classplPanicLinkRegion.html" alt="plPanicLinkRegion" shape="rect" coords="346,392,567,416"/>
-<area href="classplSubworldRegionDetector.html" alt="plSubworldRegionDetector" shape="rect" coords="577,392,798,416"/>
-<area href="classplCameraRegionDetector.html" alt="plCameraRegionDetector" shape="rect" coords="0,448,221,472"/>
-<area href="classplObjectInVolumeAndFacingDetector.html" alt="plObjectInVolumeAndFacingDetector" shape="rect" coords="231,448,452,472"/>
+<div class="center"><img src="classplCollisionDetector__inherit__graph.png" border="0" usemap="#plCollisionDetector_inherit__map" alt="Inheritance graph"/></div>
+<map name="plCollisionDetector_inherit__map" id="plCollisionDetector_inherit__map">
+<area shape="rect" id="node8" href="classplObjectInVolumeDetector.html" title="plObjectInVolumeDetector" alt="" coords="111,528,304,555"/>
+<area shape="rect" id="node11" href="classplPanicLinkRegion.html" title="plPanicLinkRegion" alt="" coords="329,528,467,555"/>
+<area shape="rect" id="node12" href="classplSubworldRegionDetector.html" title="plSubworldRegionDetector" alt="" coords="491,528,686,555"/>
+<area shape="rect" id="node2" href="classplDetectorModifier.html" title="plDetectorModifier" alt="" coords="327,379,469,405"/>
+<area shape="rect" id="node3" href="classplSingleModifier.html" title="plSingleModifier" alt="" coords="335,304,461,331"/>
+<area shape="rect" id="node4" href="classplModifier.html" title="plModifier" alt="" coords="355,229,441,256"/>
+<area shape="rect" id="node5" href="classplSynchedObject.html" title="plSynchedObject" alt="" coords="333,155,463,181"/>
+<area shape="rect" id="node6" href="classhsKeyedObject.html" title="The base class for any top&#45;level PRP object. " alt="" coords="339,80,457,107"/>
+<area shape="rect" id="node7" href="classplCreatable.html" title="plCreatable" alt="" coords="349,5,447,32"/>
+<area shape="rect" id="node9" href="classplCameraRegionDetector.html" title="plCameraRegionDetector" alt="" coords="5,610,191,637"/>
+<area shape="rect" id="node10" href="classplObjectInVolumeAndFacingDetector.html" title="plObjectInVolumeAndFacing\lDetector" alt="" coords="215,603,418,644"/>
 </map>
- </div></div>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for plCollisionDetector:</div>
+<div class="dyncontent">
+<div class="center"><img src="classplCollisionDetector__coll__graph.png" border="0" usemap="#plCollisionDetector_coll__map" alt="Collaboration graph"/></div>
+<map name="plCollisionDetector_coll__map" id="plCollisionDetector_coll__map">
+<area shape="rect" id="node2" href="classplDetectorModifier.html" title="plDetectorModifier" alt="" coords="340,443,483,469"/>
+<area shape="rect" id="node3" href="classplSingleModifier.html" title="plSingleModifier" alt="" coords="220,352,347,379"/>
+<area shape="rect" id="node4" href="classplModifier.html" title="plModifier" alt="" coords="108,261,195,288"/>
+<area shape="rect" id="node5" href="classplSynchedObject.html" title="plSynchedObject" alt="" coords="86,185,217,212"/>
+<area shape="rect" id="node6" href="classhsKeyedObject.html" title="The base class for any top&#45;level PRP object. " alt="" coords="5,81,124,108"/>
+<area shape="rect" id="node7" href="classplCreatable.html" title="plCreatable" alt="" coords="16,5,113,32"/>
+<area shape="rect" id="node9" href="classhsBitVector.html" title="Stores an array (vector) of bits. " alt="" coords="219,261,315,288"/>
+<area shape="rect" id="node10" href="classplKey.html" title="Describes and points to an hsKeyedObject. " alt="" coords="382,261,441,288"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>

@@ -9,6 +9,12 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -20,7 +26,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libHSPlasma
    </div>
-   <div id="projectbrief">Cross-platformPlasmaenginedataandnetworklibrary</div>
+   <div id="projectbrief">Cross-platform Plasma engine data and network library</div>
   </td>
  </tr>
  </tbody>
@@ -53,42 +59,67 @@ $(function() {
 <div class="dynheader">
 Inheritance diagram for plMessage:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="classplMessage.png" usemap="#plMessage_map" alt=""/>
-  <map id="plMessage_map" name="plMessage_map">
-<area href="classplCreatable.html" alt="plCreatable" shape="rect" coords="0,0,159,24"/>
-<area href="classpfKIMsg.html" alt="pfKIMsg" shape="rect" coords="169,112,328,136"/>
-<area href="classplAccountUpdateMsg.html" alt="plAccountUpdateMsg" shape="rect" coords="169,168,328,192"/>
-<area href="classplArmatureEffectStateMsg.html" alt="plArmatureEffectStateMsg" shape="rect" coords="169,224,328,248"/>
-<area href="classplAvatarInputStateMsg.html" alt="plAvatarInputStateMsg" shape="rect" coords="169,280,328,304"/>
-<area href="classplAvatarMsg.html" alt="plAvatarMsg" shape="rect" coords="169,336,328,360"/>
-<area href="classplCameraMsg.html" alt="plCameraMsg" shape="rect" coords="169,392,328,416"/>
-<area href="classplClimbMsg.html" alt="plClimbMsg" shape="rect" coords="169,448,328,472"/>
-<area href="classplConsoleMsg.html" alt="plConsoleMsg" shape="rect" coords="169,504,328,528"/>
-<area href="classplCrossfadeMsg.html" alt="plCrossfadeMsg" shape="rect" coords="169,560,328,584"/>
-<area href="classplCursorChangeMsg.html" alt="plCursorChangeMsg" shape="rect" coords="169,616,328,640"/>
-<area href="classplEnableMsg.html" alt="plEnableMsg" shape="rect" coords="169,672,328,696"/>
-<area href="classplEventCallbackMsg.html" alt="plEventCallbackMsg" shape="rect" coords="169,728,328,752"/>
-<area href="classplEventCallbackSetupMsg.html" alt="plEventCallbackSetupMsg" shape="rect" coords="169,784,328,808"/>
-<area href="classplExcludeRegionMsg.html" alt="plExcludeRegionMsg" shape="rect" coords="169,840,328,864"/>
-<area href="classplInputIfaceMgrMsg.html" alt="plInputIfaceMgrMsg" shape="rect" coords="169,896,328,920"/>
-<area href="classplLinkEffectsTriggerMsg.html" alt="plLinkEffectsTriggerMsg" shape="rect" coords="169,952,328,976"/>
-<area href="classplLinkInDoneMsg.html" alt="plLinkInDoneMsg" shape="rect" coords="169,1008,328,1032"/>
-<area href="classplLinkingMgrMsg.html" alt="plLinkingMgrMsg" shape="rect" coords="169,1064,328,1088"/>
-<area href="classplLinkToAgeMsg.html" alt="plLinkToAgeMsg" shape="rect" coords="169,1120,328,1144"/>
-<area href="classplLoadCloneMsg.html" alt="plLoadCloneMsg" shape="rect" coords="169,1176,328,1200"/>
-<area href="classplMessageWithCallbacks.html" alt="plMessageWithCallbacks" shape="rect" coords="169,1232,328,1256"/>
-<area href="classplNotifyMsg.html" alt="plNotifyMsg" shape="rect" coords="169,1288,328,1312"/>
-<area href="classplPseudoLinkEffectMsg.html" alt="plPseudoLinkEffectMsg" shape="rect" coords="169,1344,328,1368"/>
-<area href="classplResponderEnableMsg.html" alt="plResponderEnableMsg" shape="rect" coords="169,1400,328,1424"/>
-<area href="classplResponderMsg.html" alt="plResponderMsg" shape="rect" coords="169,1456,328,1480"/>
-<area href="classplRideAnimatedPhysMsg.html" alt="plRideAnimatedPhysMsg" shape="rect" coords="169,1512,328,1536"/>
-<area href="classplServerReplyMsg.html" alt="plServerReplyMsg" shape="rect" coords="169,1568,328,1592"/>
-<area href="classplSimulationMsg.html" alt="plSimulationMsg" shape="rect" coords="169,1624,328,1648"/>
-<area href="classplSwimMsg.html" alt="plSwimMsg" shape="rect" coords="169,1680,328,1704"/>
-<area href="classplTimerCallbackMsg.html" alt="plTimerCallbackMsg" shape="rect" coords="169,1736,328,1760"/>
+<div class="center"><img src="classplMessage__inherit__graph.png" border="0" usemap="#plMessage_inherit__map" alt="Inheritance graph"/></div>
+<map name="plMessage_inherit__map" id="plMessage_inherit__map">
+<area shape="rect" id="node3" href="classpfKIMsg.html" title="pfKIMsg" alt="" coords="348,5,423,32"/>
+<area shape="rect" id="node4" href="classplAccountUpdateMsg.html" title="plAccountUpdateMsg" alt="" coords="306,56,465,83"/>
+<area shape="rect" id="node5" href="classplArmatureEffectStateMsg.html" title="plArmatureEffectStateMsg" alt="" coords="289,107,481,133"/>
+<area shape="rect" id="node6" href="classplAvatarInputStateMsg.html" title="plAvatarInputStateMsg" alt="" coords="301,157,470,184"/>
+<area shape="rect" id="node7" href="classplAvatarMsg.html" title="plAvatarMsg" alt="" coords="334,208,437,235"/>
+<area shape="rect" id="node17" href="classplCameraMsg.html" title="plCameraMsg" alt="" coords="330,259,441,285"/>
+<area shape="rect" id="node18" href="classplClimbMsg.html" title="plClimbMsg" alt="" coords="336,309,435,336"/>
+<area shape="rect" id="node19" href="classplConsoleMsg.html" title="plConsoleMsg" alt="" coords="329,360,441,387"/>
+<area shape="rect" id="node20" href="classplCrossfadeMsg.html" title="plCrossfadeMsg" alt="" coords="323,411,448,437"/>
+<area shape="rect" id="node21" href="classplCursorChangeMsg.html" title="plCursorChangeMsg" alt="" coords="310,461,461,488"/>
+<area shape="rect" id="node22" href="classplEnableMsg.html" title="plEnableMsg" alt="" coords="333,512,437,539"/>
+<area shape="rect" id="node23" href="classplEventCallbackMsg.html" title="plEventCallbackMsg" alt="" coords="309,563,462,589"/>
+<area shape="rect" id="node24" href="classplEventCallbackSetupMsg.html" title="plEventCallbackSetupMsg" alt="" coords="290,613,481,640"/>
+<area shape="rect" id="node25" href="classplExcludeRegionMsg.html" title="plExcludeRegionMsg" alt="" coords="308,664,463,691"/>
+<area shape="rect" id="node26" href="classplInputIfaceMgrMsg.html" title="plInputIfaceMgrMsg" alt="" coords="311,715,460,741"/>
+<area shape="rect" id="node27" href="classplLinkEffectsTriggerMsg.html" title="plLinkEffectsTriggerMsg" alt="" coords="298,765,473,792"/>
+<area shape="rect" id="node28" href="classplLinkInDoneMsg.html" title="plLinkInDoneMsg" alt="" coords="319,816,452,843"/>
+<area shape="rect" id="node29" href="classplLinkingMgrMsg.html" title="plLinkingMgrMsg" alt="" coords="320,867,451,893"/>
+<area shape="rect" id="node30" href="classplLinkToAgeMsg.html" title="plLinkToAgeMsg" alt="" coords="322,917,449,944"/>
+<area shape="rect" id="node31" href="classplLoadCloneMsg.html" title="plLoadCloneMsg" alt="" coords="321,968,449,995"/>
+<area shape="rect" id="node33" href="classplMessageWithCallbacks.html" title="plMessageWithCallbacks" alt="" coords="293,1019,477,1045"/>
+<area shape="rect" id="node37" href="classplNotifyMsg.html" title="plNotifyMsg" alt="" coords="335,1069,435,1096"/>
+<area shape="rect" id="node38" href="classplPseudoLinkEffectMsg.html" title="plPseudoLinkEffectMsg" alt="" coords="300,1120,471,1147"/>
+<area shape="rect" id="node39" href="classplResponderEnableMsg.html" title="plResponderEnableMsg" alt="" coords="299,1171,471,1197"/>
+<area shape="rect" id="node40" href="classplResponderMsg.html" title="plResponderMsg" alt="" coords="321,1221,449,1248"/>
+<area shape="rect" id="node42" href="classplRideAnimatedPhysMsg.html" title="plRideAnimatedPhysMsg" alt="" coords="294,1272,477,1299"/>
+<area shape="rect" id="node43" href="classplServerReplyMsg.html" title="plServerReplyMsg" alt="" coords="316,1323,455,1349"/>
+<area shape="rect" id="node44" href="classplSimulationMsg.html" title="plSimulationMsg" alt="" coords="320,1373,451,1400"/>
+<area shape="rect" id="node48" href="classplSwimMsg.html" title="plSwimMsg" alt="" coords="337,1424,433,1451"/>
+<area shape="rect" id="node49" href="classplTimerCallbackMsg.html" title="plTimerCallbackMsg" alt="" coords="308,1475,463,1501"/>
+<area shape="rect" id="node2" href="classplCreatable.html" title="plCreatable" alt="" coords="5,740,103,767"/>
+<area shape="rect" id="node8" href="classplArmatureUpdateMsg.html" title="plArmatureUpdateMsg" alt="" coords="537,81,705,108"/>
+<area shape="rect" id="node9" href="classplAvatarSetTypeMsg.html" title="plAvatarSetTypeMsg" alt="" coords="544,132,697,159"/>
+<area shape="rect" id="node10" href="classplAvatarStealthModeMsg.html" title="plAvatarStealthModeMsg" alt="" coords="529,183,712,209"/>
+<area shape="rect" id="node11" href="classplAvBrainGenericMsg.html" title="plAvBrainGenericMsg" alt="" coords="541,233,701,260"/>
+<area shape="rect" id="node12" href="classplAvTaskMsg.html" title="plAvTaskMsg" alt="" coords="568,284,673,311"/>
+<area shape="rect" id="node16" href="classplAvTaskSeekDoneMsg.html" title="plAvTaskSeekDoneMsg" alt="" coords="535,335,706,361"/>
+<area shape="rect" id="node13" href="classplAvPopBrainMsg.html" title="plAvPopBrainMsg" alt="" coords="765,233,899,260"/>
+<area shape="rect" id="node14" href="classplAvPushBrainMsg.html" title="plAvPushBrainMsg" alt="" coords="761,284,903,311"/>
+<area shape="rect" id="node15" href="classplAvSeekMsg.html" title="plAvSeekMsg" alt="" coords="778,335,886,361"/>
+<area shape="rect" id="node32" href="classplLoadAvatarMsg.html" title="plLoadAvatarMsg" alt="" coords="554,943,687,969"/>
+<area shape="rect" id="node34" href="classplAnimCmdMsg.html" title="plAnimCmdMsg" alt="" coords="559,993,683,1020"/>
+<area shape="rect" id="node35" href="classplSoundMsg.html" title="plSoundMsg" alt="" coords="571,1044,671,1071"/>
+<area shape="rect" id="node36" href="classplTransitionMsg.html" title="plTransitionMsg" alt="" coords="559,1095,682,1121"/>
+<area shape="rect" id="node41" href="classplOneShotMsg.html" title="plOneShotMsg" alt="" coords="563,1221,678,1248"/>
+<area shape="rect" id="node45" href="classplSimStateMsg.html" title="plSimStateMsg" alt="" coords="561,1348,680,1375"/>
+<area shape="rect" id="node47" href="classplSubWorldMsg.html" title="plSubWorldMsg" alt="" coords="560,1399,681,1425"/>
+<area shape="rect" id="node46" href="classplSimSuppressMsg.html" title="plSimSuppressMsg" alt="" coords="760,1348,904,1375"/>
 </map>
- </div></div>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for plMessage:</div>
+<div class="dyncontent">
+<div class="center"><img src="classplMessage__coll__graph.png" border="0" usemap="#plMessage_coll__map" alt="Collaboration graph"/></div>
+<map name="plMessage_coll__map" id="plMessage_coll__map">
+<area shape="rect" id="node2" href="classplCreatable.html" title="plCreatable" alt="" coords="5,95,103,121"/>
+<area shape="rect" id="node4" href="classplKey.html" title="Describes and points to an hsKeyedObject. " alt="" coords="143,5,202,32"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>

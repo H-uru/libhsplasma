@@ -9,6 +9,12 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -20,7 +26,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libHSPlasma
    </div>
-   <div id="projectbrief">Cross-platformPlasmaenginedataandnetworklibrary</div>
+   <div id="projectbrief">Cross-platform Plasma engine data and network library</div>
   </td>
  </tr>
  </tbody>
@@ -51,6 +57,74 @@ $(function() {
 <div class="textblock"><code>#include &quot;<a class="el" href="hsStream_8h.html">hsStream.h</a>&quot;</code><br />
 <code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;queue&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for hsTokenStream.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="hsTokenStream_8h__incl.png" border="0" usemap="#core_2Stream_2hsTokenStream_8h" alt=""/></div>
+<map name="core_2Stream_2hsTokenStream_8h" id="core_2Stream_2hsTokenStream_8h">
+<area shape="rect" id="node2" href="hsStream_8h.html" title="hsStream.h" alt="" coords="374,80,470,107"/>
+<area shape="rect" id="node7" href="PlasmaVersions_8h.html" title="Util/PlasmaVersions.h" alt="" coords="280,155,444,181"/>
+<area shape="rect" id="node8" href="PlasmaDefs_8h.html" title="PlasmaDefs.h" alt="" coords="370,229,482,256"/>
+<area shape="rect" id="node11" href="Platform_8h.html" title="Sys/Platform.h" alt="" coords="570,155,687,181"/>
+<area shape="rect" id="node12" href="hsExceptions_8hpp.html" title="Debug/hsExceptions.hpp" alt="" coords="712,155,895,181"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="hsTokenStream_8h__dep__incl.png" border="0" usemap="#core_2Stream_2hsTokenStream_8hdep" alt=""/></div>
+<map name="core_2Stream_2hsTokenStream_8hdep" id="core_2Stream_2hsTokenStream_8hdep">
+<area shape="rect" id="node2" href="pfPrcParser_8h.html" title="core/Stream/pfPrcParser.h" alt="" coords="5962,80,6152,107"/>
+<area shape="rect" id="node3" href="hsGeometry3_8h.html" title="core/Math/hsGeometry3.h" alt="" coords="2896,162,3087,189"/>
+<area shape="rect" id="node8" href="hsMatrix44_8h.html" title="core/Math/hsMatrix44.h" alt="" coords="5428,251,5603,278"/>
+<area shape="rect" id="node10" href="plSpanInstance_8h.html" title="core/PRP/Geometry/plSpan\lInstance.h" alt="" coords="5756,333,5952,375"/>
+<area shape="rect" id="node39" href="hsMatrix33_8h.html" title="core/Math/hsMatrix33.h" alt="" coords="6095,162,6270,189"/>
+<area shape="rect" id="node40" href="plEAXEffects_8h.html" title="core/PRP/Audio/plEAXEffects.h" alt="" coords="5582,162,5801,189"/>
+<area shape="rect" id="node41" href="pfGUIControlHandlers_8h.html" title="core/PRP/GUI/pfGUIControl\lHandlers.h" alt="" coords="5825,155,6020,196"/>
+<area shape="rect" id="node42" href="plLoadMask_8h.html" title="core/PRP/KeyedObject\l/plLoadMask.h" alt="" coords="6294,155,6460,196"/>
+<area shape="rect" id="node43" href="plLocation_8h.html" title="core/PRP/KeyedObject\l/plLocation.h" alt="" coords="6484,155,6649,196"/>
+<area shape="rect" id="node44" href="plSpawnPointInfo_8h.html" title="core/PRP/Misc/plSpawnPoint\lInfo.h" alt="" coords="6674,155,6878,196"/>
+<area shape="rect" id="node45" href="plNetSharedState_8h.html" title="core/PRP/NetMessage\l/plNetSharedState.h" alt="" coords="6902,155,7065,196"/>
+<area shape="rect" id="node46" href="hsGMatState_8h.html" title="core/PRP/Surface/hsGMatState.h" alt="" coords="7090,162,7320,189"/>
+<area shape="rect" id="node47" href="hsColor_8h.html" title="core/Sys/hsColor.h" alt="" coords="4184,251,4325,278"/>
+<area shape="rect" id="node48" href="plUnifiedTime_8h.html" title="core/Sys/plUnifiedTime.h" alt="" coords="5156,162,5340,189"/>
+<area shape="rect" id="node49" href="plUuid_8h.html" title="core/Sys/plUuid.h" alt="" coords="7344,162,7479,189"/>
+<area shape="rect" id="node50" href="hsBitVector_8h.html" title="core/Util/hsBitVector.h" alt="" coords="308,162,475,189"/>
+<area shape="rect" id="node4" href="hsAffineParts_8h.html" title="core/Math/hsAffineParts.h" alt="" coords="909,341,1096,367"/>
+<area shape="rect" id="node5" href="hsQuat_8h.html" title="core/Math/hsQuat.h" alt="" coords="844,251,992,278"/>
+<area shape="rect" id="node6" href="plGenericPhysical_8h.html" title="core/PRP/Physics/plGeneric\lPhysical.h" alt="" coords="656,333,855,375"/>
+<area shape="rect" id="node7" href="plStateVariable_8h.html" title="core/SDL/plStateVariable.h" alt="" coords="4157,341,4352,367"/>
+<area shape="rect" id="node9" href="plViewFaceModifier_8h.html" title="core/PRP/Animation\l/plViewFaceModifier.h" alt="" coords="5134,333,5297,375"/>
+<area shape="rect" id="node11" href="plGeometrySpan_8h.html" title="core/PRP/Geometry/plGeometry\lSpan.h" alt="" coords="4657,333,4886,375"/>
+<area shape="rect" id="node12" href="pfGUIControlMod_8h.html" title="core/PRP/GUI/pfGUIControl\lMod.h" alt="" coords="5321,333,5516,375"/>
+<area shape="rect" id="node13" href="plVolumeIsect_8h.html" title="core/PRP/Region/plVolume\lIsect.h" alt="" coords="5540,333,5732,375"/>
+<area shape="rect" id="node14" href="plRenderTarget_8h.html" title="core/PRP/Surface/plRender\lTarget.h" alt="" coords="2468,333,2662,375"/>
+<area shape="rect" id="node15" href="plStereizer_8h.html" title="core/PRP/Animation\l/plStereizer.h" alt="" coords="2594,244,2744,285"/>
+<area shape="rect" id="node16" href="plSound_8h.html" title="core/PRP/Audio/plSound.h" alt="" coords="5780,251,5968,278"/>
+<area shape="rect" id="node17" href="plEAXListenerMod_8h.html" title="core/PRP/Audio/plEAXListener\lMod.h" alt="" coords="2768,244,2983,285"/>
+<area shape="rect" id="node18" href="plArmatureMod_8h.html" title="core/PRP/Avatar/plArmature\lMod.h" alt="" coords="3008,244,3210,285"/>
+<area shape="rect" id="node19" href="plLadderModifier_8h.html" title="core/PRP/Avatar/plLadder\lModifier.h" alt="" coords="3235,244,3420,285"/>
+<area shape="rect" id="node20" href="plCameraBrain_8h.html" title="core/PRP/Camera/plCamera\lBrain.h" alt="" coords="71,244,272,285"/>
+<area shape="rect" id="node21" href="plSpanTemplate_8h.html" title="core/PRP/Geometry/plSpan\lTemplate.h" alt="" coords="3496,244,3692,285"/>
+<area shape="rect" id="node22" href="plCullPoly_8h.html" title="core/PRP/Geometry/plCull\lPoly.h" alt="" coords="297,244,486,285"/>
+<area shape="rect" id="node23" href="plGBufferGroup_8h.html" title="core/PRP/Geometry/plGBuffer\lGroup.h" alt="" coords="3717,244,3930,285"/>
+<area shape="rect" id="node24" href="plSpaceTree_8h.html" title="core/PRP/Geometry/plSpace\lTree.h" alt="" coords="1849,333,2052,375"/>
+<area shape="rect" id="node25" href="plMorphDelta_8h.html" title="core/PRP/Geometry/plMorph\lDelta.h" alt="" coords="3955,244,4159,285"/>
+<area shape="rect" id="node26" href="pfGUIKnobCtrl_8h.html" title="core/PRP/GUI/pfGUIKnobCtrl.h" alt="" coords="4400,251,4616,278"/>
+<area shape="rect" id="node27" href="plAvSeekMsg_8h.html" title="core/PRP/Message/plAvSeek\lMsg.h" alt="" coords="4640,244,4844,285"/>
+<area shape="rect" id="node28" href="plCameraMsg_8h.html" title="core/PRP/Message/plCamera\lMsg.h" alt="" coords="511,244,718,285"/>
+<area shape="rect" id="node29" href="proEventData_8h.html" title="core/PRP/Message/proEvent\lData.h" alt="" coords="4869,244,5072,285"/>
+<area shape="rect" id="node30" href="plParticleGenerator_8h.html" title="core/PRP/Particle/plParticle\lGenerator.h" alt="" coords="1068,244,1262,285"/>
+<area shape="rect" id="node31" href="plHKSubWorld_8h.html" title="core/PRP/Physics/plHKSub\lWorld.h" alt="" coords="1287,244,1478,285"/>
+<area shape="rect" id="node32" href="plVehicleModifier_8h.html" title="core/PRP/Physics/plVehicle\lModifier.h" alt="" coords="1502,244,1697,285"/>
+<area shape="rect" id="node33" href="hsBounds_8h.html" title="core/PRP/Region/hsBounds.h" alt="" coords="5198,251,5404,278"/>
+<area shape="rect" id="node34" href="plConvexVolume_8h.html" title="core/PRP/Region/plConvex\lVolume.h" alt="" coords="1721,244,1913,285"/>
+<area shape="rect" id="node35" href="plRegionBase_8hpp.html" title="core/PRP/Region/plRegion\lBase.hpp" alt="" coords="2038,244,2225,285"/>
+<area shape="rect" id="node36" href="plDynaDecalMgr_8h.html" title="core/PRP/Surface/plDynaDecal\lMgr.h" alt="" coords="2249,244,2468,285"/>
+<area shape="rect" id="node37" href="plFixedWaterState6_8h.html" title="core/PRP/Surface/plFixed\lWaterState6.h" alt="" coords="2746,333,2928,375"/>
+<area shape="rect" id="node38" href="plFixedWaterState7_8h.html" title="core/PRP/Surface/plFixed\lWaterState7.h" alt="" coords="3286,333,3468,375"/>
+</map>
+</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>

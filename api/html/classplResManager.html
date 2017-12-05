@@ -9,6 +9,12 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -20,7 +26,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libHSPlasma
    </div>
-   <div id="projectbrief">Cross-platformPlasmaenginedataandnetworklibrary</div>
+   <div id="projectbrief">Cross-platform Plasma engine data and network library</div>
   </td>
  </tr>
  </tbody>
@@ -52,10 +58,22 @@ $(function() {
  <a href="classplResManager.html#details">More...</a></p>
 
 <p><code>#include &lt;plResManager.h&gt;</code></p>
+<div class="dynheader">
+Collaboration diagram for plResManager:</div>
+<div class="dyncontent">
+<div class="center"><img src="classplResManager__coll__graph.png" border="0" usemap="#plResManager_coll__map" alt="Collaboration graph"/></div>
+<map name="plResManager_coll__map" id="plResManager_coll__map">
+<area shape="rect" id="node3" href="classplPageInfo.html" title="plPageInfo" alt="" coords="58,199,149,225"/>
+<area shape="rect" id="node4" href="classplKeyCollector.html" title="This class is used internally by the plResManager as a storage backend for plKeys. " alt="" coords="225,288,341,315"/>
+<area shape="rect" id="node6" href="classplAgeInfo.html" title="plAgeInfo" alt="" coords="419,199,503,225"/>
+<area shape="rect" id="node8" href="structplAgeInfo_1_1PageEntry.html" title="plAgeInfo::PageEntry" alt="" coords="382,5,539,32"/>
+<area shape="rect" id="node9" href="classPlasmaVer.html" title="PlasmaVer" alt="" coords="581,288,671,315"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aaffabc7669a3b71fbf7bf999e0745741"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classplResManager.html#aaffabc7669a3b71fbf7bf999e0745741">plResManager</a> (<a class="el" href="classPlasmaVer.html">PlasmaVer</a> pv=<a class="el" href="classPlasmaVer.html#a53bde9b60ee8b0597c874e849e669c4fa711410ac7134a1608a6c88401ef37d91">PlasmaVer::pvUnknown</a>)</td></tr>
+<tr class="memitem:aaffabc7669a3b71fbf7bf999e0745741"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classplResManager.html#aaffabc7669a3b71fbf7bf999e0745741">plResManager</a> (<a class="el" href="classPlasmaVer.html">PlasmaVer</a> pv=<a class="el" href="classPlasmaVer.html#a67bdb5cbd563faaf2b958c8d10e65854a711410ac7134a1608a6c88401ef37d91">PlasmaVer::pvUnknown</a>)</td></tr>
 <tr class="separator:aaffabc7669a3b71fbf7bf999e0745741"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc9b2e181ab2e4b246acb72382e05b4f"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classplResManager.html#abc9b2e181ab2e4b246acb72382e05b4f">~plResManager</a> ()</td></tr>
 <tr class="separator:abc9b2e181ab2e4b246acb72382e05b4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -190,7 +208,7 @@ Protected Attributes</h2></td></tr>
           <td class="memname">plResManager::plResManager </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classPlasmaVer.html">PlasmaVer</a>&#160;</td>
-          <td class="paramname"><em>pv</em> = <code><a class="el" href="classPlasmaVer.html#a53bde9b60ee8b0597c874e849e669c4fa711410ac7134a1608a6c88401ef37d91">PlasmaVer::pvUnknown</a></code></td><td>)</td>
+          <td class="paramname"><em>pv</em> = <code><a class="el" href="classPlasmaVer.html#a67bdb5cbd563faaf2b958c8d10e65854a711410ac7134a1608a6c88401ef37d91">PlasmaVer::pvUnknown</a></code></td><td>)</td>
           <td></td>
         </tr>
       </table>

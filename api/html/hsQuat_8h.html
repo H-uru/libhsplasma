@@ -9,6 +9,12 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -20,7 +26,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libHSPlasma
    </div>
-   <div id="projectbrief">Cross-platformPlasmaenginedataandnetworklibrary</div>
+   <div id="projectbrief">Cross-platform Plasma engine data and network library</div>
   </td>
  </tr>
  </tbody>
@@ -49,6 +55,52 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="hsGeometry3_8h.html">hsGeometry3.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for hsQuat.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="hsQuat_8h__incl.png" border="0" usemap="#core_2Math_2hsQuat_8h" alt=""/></div>
+<map name="core_2Math_2hsQuat_8h" id="core_2Math_2hsQuat_8h">
+<area shape="rect" id="node2" href="hsGeometry3_8h.html" title="hsGeometry3.h" alt="" coords="298,80,421,107"/>
+<area shape="rect" id="node3" href="hsStream_8h.html" title="Stream/hsStream.h" alt="" coords="349,304,495,331"/>
+<area shape="rect" id="node15" href="pfPrcHelper_8h.html" title="Stream/pfPrcHelper.h" alt="" coords="279,155,439,181"/>
+<area shape="rect" id="node17" href="pfPrcParser_8h.html" title="Stream/pfPrcParser.h" alt="" coords="463,155,621,181"/>
+<area shape="rect" id="node8" href="PlasmaVersions_8h.html" title="Util/PlasmaVersions.h" alt="" coords="280,379,444,405"/>
+<area shape="rect" id="node9" href="PlasmaDefs_8h.html" title="PlasmaDefs.h" alt="" coords="370,453,482,480"/>
+<area shape="rect" id="node12" href="Platform_8h.html" title="Sys/Platform.h" alt="" coords="570,379,687,405"/>
+<area shape="rect" id="node13" href="hsExceptions_8hpp.html" title="Debug/hsExceptions.hpp" alt="" coords="712,379,895,405"/>
+<area shape="rect" id="node18" href="hsTokenStream_8h.html" title="hsTokenStream.h" alt="" coords="531,229,665,256"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="hsQuat_8h__dep__incl.png" border="0" usemap="#core_2Math_2hsQuat_8hdep" alt=""/></div>
+<map name="core_2Math_2hsQuat_8hdep" id="core_2Math_2hsQuat_8hdep">
+<area shape="rect" id="node2" href="hsAffineParts_8h.html" title="core/Math/hsAffineParts.h" alt="" coords="1317,87,1503,114"/>
+<area shape="rect" id="node21" href="plGenericPhysical_8h.html" title="core/PRP/Physics/plGeneric\lPhysical.h" alt="" coords="1528,80,1727,121"/>
+<area shape="rect" id="node22" href="plStateVariable_8h.html" title="core/SDL/plStateVariable.h" alt="" coords="1751,87,1946,114"/>
+<area shape="rect" id="node3" href="hsKeys_8h.html" title="core/PRP/Animation\l/hsKeys.h" alt="" coords="1088,169,1239,211"/>
+<area shape="rect" id="node9" href="plAnimPath_8h.html" title="core/PRP/Animation\l/plAnimPath.h" alt="" coords="1337,705,1488,747"/>
+<area shape="rect" id="node4" href="plController_8h.html" title="core/PRP/Animation\l/plController.h" alt="" coords="809,259,960,300"/>
+<area shape="rect" id="node5" href="plLeafController_8h.html" title="core/PRP/Animation\l/plLeafController.h" alt="" coords="5,348,156,389"/>
+<area shape="rect" id="node14" href="plMatrixChannel_8h.html" title="core/PRP/Avatar/plMatrix\lChannel.h" alt="" coords="180,348,363,389"/>
+<area shape="rect" id="node15" href="plPointChannel_8h.html" title="core/PRP/Avatar/plPointChannel.h" alt="" coords="387,355,625,382"/>
+<area shape="rect" id="node16" href="plQuatChannel_8h.html" title="core/PRP/Avatar/plQuatChannel.h" alt="" coords="650,355,887,382"/>
+<area shape="rect" id="node17" href="plScalarChannel_8h.html" title="core/PRP/Avatar/plScalar\lChannel.h" alt="" coords="911,348,1093,389"/>
+<area shape="rect" id="node18" href="plParticleSystem_8h.html" title="core/PRP/Particle/plParticle\lSystem.h" alt="" coords="1117,348,1311,389"/>
+<area shape="rect" id="node19" href="plLayerAnimation_8h.html" title="core/PRP/Surface/plLayer\lAnimation.h" alt="" coords="1335,348,1519,389"/>
+<area shape="rect" id="node6" href="plKeyControllers_8hpp.html" title="core/PRP/Animation\l/plKeyControllers.hpp" alt="" coords="1081,437,1243,479"/>
+<area shape="rect" id="node7" href="plPosController_8h.html" title="core/PRP/Animation\l/plPosController.h" alt="" coords="1019,527,1169,568"/>
+<area shape="rect" id="node12" href="plRotController_8h.html" title="core/PRP/Animation\l/plRotController.h" alt="" coords="1193,527,1344,568"/>
+<area shape="rect" id="node13" href="plScaleController_8h.html" title="core/PRP/Animation\l/plScaleController.h" alt="" coords="1368,527,1519,568"/>
+<area shape="rect" id="node8" href="plTMController_8h.html" title="core/PRP/Animation\l/plTMController.h" alt="" coords="1281,616,1432,657"/>
+<area shape="rect" id="node10" href="plLineFollowMod_8h.html" title="core/PRP/Animation\l/plLineFollowMod.h" alt="" coords="1232,795,1383,836"/>
+<area shape="rect" id="node11" href="plDynaRippleMgr_8h.html" title="core/PRP/Surface/plDynaRipple\lMgr.h" alt="" coords="1407,795,1629,836"/>
+<area shape="rect" id="node20" href="plLayerMovie_8h.html" title="core/PRP/Surface/plLayer\lMovie.h" alt="" coords="1335,437,1519,479"/>
+<area shape="rect" id="node23" href="plStateDataRecord_8h.html" title="core/SDL/plStateDataRecord.h" alt="" coords="1741,177,1957,203"/>
+<area shape="rect" id="node24" href="plNetGameServerState_8h.html" title="core/SDL/plNetGameServer\lState.h" alt="" coords="1749,259,1948,300"/>
+</map>
+</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>

@@ -9,6 +9,12 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -20,7 +26,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libHSPlasma
    </div>
-   <div id="projectbrief">Cross-platformPlasmaenginedataandnetworklibrary</div>
+   <div id="projectbrief">Cross-platform Plasma engine data and network library</div>
   </td>
  </tr>
  </tbody>
@@ -660,9 +666,6 @@ $(function() {
 <li>fCompressionType
 : <a class="el" href="structplBitmap_1_1DirectXInfo.html#a07e55fb8fbce85e98ad2e6000ae79fe9">plBitmap::DirectXInfo</a>
 , <a class="el" href="classplBitmap.html#a2fb4af7c0b1d8fd5299ca09cb677e55f">plBitmap</a>
-</li>
-<li>fConditionData
-: <a class="el" href="classhsThreadCondition.html#a00e56915db079d2a1e14baff11e87ae2">hsThreadCondition</a>
 </li>
 <li>fConditionList
 : <a class="el" href="classplLogicModifier.html#aac61d7073a1a0fd095ff9076d4ea7c2e">plLogicModifier</a>
@@ -1798,7 +1801,7 @@ $(function() {
 : <a class="el" href="classhsAffineParts.html#a2976d5e1c95b1655a1826e0ecebb076c">hsAffineParts</a>
 </li>
 <li>fKey
-: <a class="el" href="structhsRadixSortElem.html#a92be7b4c12a1e2fe3e49c88fd346d56e">hsRadixSortElem</a>
+: <a class="el" href="structhsRadixSortElem.html#a6d84fc725e5045cdd15123e735a00e32">hsRadixSortElem</a>
 , <a class="el" href="classproVariableEventData.html#af2759261ac09a1e642f0a8f482e73018">proVariableEventData</a>
 </li>
 <li>fKeyList
@@ -2280,10 +2283,7 @@ $(function() {
 , <a class="el" href="structplGeometrySpan_1_1TempVertex.html#a0b8aadf09fe691b9240b80f51ca1d90e">plGeometrySpan::TempVertex</a>
 </li>
 <li>fMultiSampleCaps
-: <a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#aae7d899086dd0c6312d3b2c2cc5b5913">plDDSurface::plDDPixelFormat</a>
-</li>
-<li>fMutexData
-: <a class="el" href="classhsMutex.html#a58fab6084726953b1bf47638294f37b1">hsMutex</a>
+: <a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#ab7770083f2934126fcd279733292cfaf">plDDSurface::plDDPixelFormat</a>
 </li>
 <li>fMyCursor
 : <a class="el" href="classplLogicModifier.html#a0326897ea99aa1779ec22902ae08f83e">plLogicModifier</a>
@@ -2828,7 +2828,7 @@ $(function() {
 : <a class="el" href="classpnRC4Socket.html#afa6f0dfba232a8740211ede091d82bb0">pnRC4Socket</a>
 </li>
 <li>fRecvLock
-: <a class="el" href="classpnRC4Socket.html#aa567caba976d7db17049cf293cf6cc3b">pnRC4Socket</a>
+: <a class="el" href="classpnRC4Socket.html#ad371839c844124119b4942090f2addd4">pnRC4Socket</a>
 </li>
 <li>fRefDir
 : <a class="el" href="classplParticleWindEffect.html#a176e716482527feb6b3d6e1d39029e77">plParticleWindEffect</a>
@@ -2908,7 +2908,7 @@ $(function() {
 : <a class="el" href="classplMultistageBehMod.html#a9e68390e8a6fc2caaa877b3b300de98d">plMultistageBehMod</a>
 </li>
 <li>fRight
-: <a class="el" href="classplRenderTarget.html#a2ab7b6f6fe1b64491d0bcd4af816c26b">plRenderTarget</a>
+: <a class="el" href="classplRenderTarget.html#a72d7453bf7efa263501c7bee09d18da0">plRenderTarget</a>
 </li>
 <li>fRightKern
 : <a class="el" href="classplFont_1_1plCharacter.html#a428884540aa4c8bf35ff096cd6a98e48">plFont::plCharacter</a>
@@ -3048,7 +3048,7 @@ $(function() {
 : <a class="el" href="classplCameraModifier.html#a565f619fc378f168b071c3703090e189">plCameraModifier</a>
 </li>
 <li>fSendLock
-: <a class="el" href="classpnRC4Socket.html#a41b07795c59a43c6bdfde1c1464bfc6f">pnRC4Socket</a>
+: <a class="el" href="classpnRC4Socket.html#a4a1108b7354bae4e03e29daab67f4a3a">pnRC4Socket</a>
 </li>
 <li>fSeparationRadius
 : <a class="el" href="structpfObjectFlocker_1_1pfFlock.html#a62ff1888b9c10ab9a2730942bd96719f">pfObjectFlocker::pfFlock</a>
@@ -3487,7 +3487,7 @@ $(function() {
 </li>
 <li>fTop
 : <a class="el" href="classplCylinderIsect.html#a2fdca589bd0d05b9bcf5d43a0623e538">plCylinderIsect</a>
-, <a class="el" href="classplRenderTarget.html#aa076fc4ace875ab5b80812482354292b">plRenderTarget</a>
+, <a class="el" href="classplRenderTarget.html#ab62a1aa65b2dc09a73e0c76bab016e81">plRenderTarget</a>
 </li>
 <li>fTopLogic
 : <a class="el" href="classplLadderModifier.html#aece8b3cc55a939e88c552a7cfe8d268a">plLadderModifier</a>

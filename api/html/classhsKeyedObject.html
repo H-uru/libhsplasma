@@ -9,6 +9,12 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -20,7 +26,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libHSPlasma
    </div>
-   <div id="projectbrief">Cross-platformPlasmaenginedataandnetworklibrary</div>
+   <div id="projectbrief">Cross-platform Plasma engine data and network library</div>
   </td>
  </tr>
  </tbody>
@@ -54,35 +60,66 @@ $(function() {
 <div class="dynheader">
 Inheritance diagram for hsKeyedObject:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="classhsKeyedObject.png" usemap="#hsKeyedObject_map" alt=""/>
-  <map id="hsKeyedObject_map" name="hsKeyedObject_map">
-<area href="classplCreatable.html" alt="plCreatable" shape="rect" coords="0,0,136,24"/>
-<area href="classhsKeyedObjectStub.html" title="Stores the stub of an hsKeyedObject class. " alt="hsKeyedObjectStub" shape="rect" coords="146,112,282,136"/>
-<area href="classpfGUISkin.html" alt="pfGUISkin" shape="rect" coords="146,168,282,192"/>
-<area href="classplArmatureEffect.html" alt="plArmatureEffect" shape="rect" coords="146,224,282,248"/>
-<area href="classplArmatureEffectsMgr.html" alt="plArmatureEffectsMgr" shape="rect" coords="146,280,282,304"/>
-<area href="classplAudible.html" alt="plAudible" shape="rect" coords="146,336,282,360"/>
-<area href="classplBitmap.html" title="Abstract base class for all renderable surface textures. " alt="plBitmap" shape="rect" coords="146,392,282,416"/>
-<area href="classplCameraBrain.html" alt="plCameraBrain" shape="rect" coords="146,448,282,472"/>
-<area href="classplClothingBase.html" alt="plClothingBase" shape="rect" coords="146,504,282,528"/>
-<area href="classplClothingItem.html" title="Describes a wearable Clothing Item for avatars. " alt="plClothingItem" shape="rect" coords="146,560,282,584"/>
-<area href="classplClusterGroup.html" alt="plClusterGroup" shape="rect" coords="146,616,282,640"/>
-<area href="classplConditionalObject.html" alt="plConditionalObject" shape="rect" coords="146,672,282,696"/>
-<area href="classplDrawable.html" alt="plDrawable" shape="rect" coords="146,728,282,752"/>
-<area href="classplFogEnvironment.html" alt="plFogEnvironment" shape="rect" coords="146,784,282,808"/>
-<area href="classplFont.html" alt="plFont" shape="rect" coords="146,840,282,864"/>
-<area href="classplMorphDataSet.html" alt="plMorphDataSet" shape="rect" coords="146,896,282,920"/>
-<area href="classplMsgForwarder.html" alt="plMsgForwarder" shape="rect" coords="146,952,282,976"/>
-<area href="classplParticleEffect.html" alt="plParticleEffect" shape="rect" coords="146,1008,282,1032"/>
-<area href="classplPhysicalSndGroup.html" alt="plPhysicalSndGroup" shape="rect" coords="146,1064,282,1088"/>
-<area href="classplSceneNode.html" alt="plSceneNode" shape="rect" coords="146,1120,282,1144"/>
-<area href="classplShader.html" alt="plShader" shape="rect" coords="146,1176,282,1200"/>
-<area href="classplSharedMesh.html" alt="plSharedMesh" shape="rect" coords="146,1232,282,1256"/>
-<area href="classplSoundBuffer.html" alt="plSoundBuffer" shape="rect" coords="146,1288,282,1312"/>
-<area href="classplSynchedObject.html" alt="plSynchedObject" shape="rect" coords="146,1344,282,1368"/>
+<div class="center"><img src="classhsKeyedObject__inherit__graph.png" border="0" usemap="#hsKeyedObject_inherit__map" alt="Inheritance graph"/></div>
+<map name="hsKeyedObject_inherit__map" id="hsKeyedObject_inherit__map">
+<area shape="rect" id="node3" href="classhsKeyedObjectStub.html" title="Stores the stub of an hsKeyedObject class. " alt="" coords="325,31,473,57"/>
+<area shape="rect" id="node4" href="classpfGUISkin.html" title="pfGUISkin" alt="" coords="355,81,442,108"/>
+<area shape="rect" id="node5" href="classplArmatureEffect.html" title="plArmatureEffect" alt="" coords="333,132,465,159"/>
+<area shape="rect" id="node7" href="classplArmatureEffectsMgr.html" title="plArmatureEffectsMgr" alt="" coords="317,183,480,209"/>
+<area shape="rect" id="node8" href="classplAudible.html" title="plAudible" alt="" coords="357,233,440,260"/>
+<area shape="rect" id="node11" href="classplBitmap.html" title="Abstract base class for all renderable surface textures. " alt="" coords="358,284,439,311"/>
+<area shape="rect" id="node15" href="classplCameraBrain.html" title="plCameraBrain" alt="" coords="339,360,458,387"/>
+<area shape="rect" id="node18" href="classplClothingBase.html" title="plClothingBase" alt="" coords="339,492,459,519"/>
+<area shape="rect" id="node19" href="classplClothingItem.html" title="Describes a wearable Clothing Item for avatars. " alt="" coords="339,543,458,569"/>
+<area shape="rect" id="node20" href="classplClusterGroup.html" title="plClusterGroup" alt="" coords="339,593,458,620"/>
+<area shape="rect" id="node21" href="classplConditionalObject.html" title="plConditionalObject" alt="" coords="323,644,474,671"/>
+<area shape="rect" id="node36" href="classplDrawable.html" title="plDrawable" alt="" coords="351,695,447,721"/>
+<area shape="rect" id="node38" href="classplFogEnvironment.html" title="plFogEnvironment" alt="" coords="329,745,469,772"/>
+<area shape="rect" id="node39" href="classplFont.html" title="plFont" alt="" coords="367,796,430,823"/>
+<area shape="rect" id="node40" href="classplMorphDataSet.html" title="plMorphDataSet" alt="" coords="335,847,462,873"/>
+<area shape="rect" id="node41" href="classplMsgForwarder.html" title="plMsgForwarder" alt="" coords="336,897,461,924"/>
+<area shape="rect" id="node42" href="classplParticleEffect.html" title="plParticleEffect" alt="" coords="339,948,458,975"/>
+<area shape="rect" id="node44" href="classplPhysicalSndGroup.html" title="plPhysicalSndGroup" alt="" coords="323,999,474,1025"/>
+<area shape="rect" id="node45" href="classplSceneNode.html" title="plSceneNode" alt="" coords="345,1049,452,1076"/>
+<area shape="rect" id="node46" href="classplShader.html" title="plShader" alt="" coords="359,1100,438,1127"/>
+<area shape="rect" id="node47" href="classplSharedMesh.html" title="plSharedMesh" alt="" coords="342,1151,455,1177"/>
+<area shape="rect" id="node48" href="classplSoundBuffer.html" title="plSoundBuffer" alt="" coords="342,1201,455,1228"/>
+<area shape="rect" id="node49" href="classplSynchedObject.html" title="plSynchedObject" alt="" coords="333,1252,464,1279"/>
+<area shape="rect" id="node2" href="classplCreatable.html" title="plCreatable" alt="" coords="5,695,103,721"/>
+<area shape="rect" id="node6" href="classplArmatureEffectFootSound.html" title="plArmatureEffectFootSound" alt="" coords="549,5,749,32"/>
+<area shape="rect" id="node9" href="classplAudibleNull.html" title="plAudibleNull" alt="" coords="595,56,704,83"/>
+<area shape="rect" id="node10" href="classplWinAudible.html" title="plWinAudible" alt="" coords="595,107,703,133"/>
+<area shape="rect" id="node12" href="classplCubicEnvironmap.html" title="plCubicEnvironmap" alt="" coords="575,157,723,184"/>
+<area shape="rect" id="node13" href="classplMipmap.html" title="plMipmap" alt="" coords="606,208,693,235"/>
+<area shape="rect" id="node14" href="classplRenderTarget.html" title="plRenderTarget" alt="" coords="590,259,709,285"/>
+<area shape="rect" id="node16" href="classplCameraBrain1.html" title="plCameraBrain1" alt="" coords="586,309,713,336"/>
+<area shape="rect" id="node17" href="classplCameraBrain__M5.html" title="plCameraBrain_M5" alt="" coords="577,360,722,387"/>
+<area shape="rect" id="node22" href="classplActivatorConditionalObject.html" title="plActivatorConditionalObject" alt="" coords="545,411,754,437"/>
+<area shape="rect" id="node23" href="classplANDConditionalObject.html" title="plANDConditionalObject" alt="" coords="560,461,739,488"/>
+<area shape="rect" id="node24" href="classplAnimationEventConditionalObject.html" title="plAnimationEventConditional\lObject" alt="" coords="543,513,755,554"/>
+<area shape="rect" id="node25" href="classplControlEventConditionalObject.html" title="plControlEventConditional\lObject" alt="" coords="553,578,745,619"/>
+<area shape="rect" id="node26" href="classplFacingConditionalObject.html" title="plFacingConditionalObject" alt="" coords="554,644,745,671"/>
+<area shape="rect" id="node27" href="classplKeyPressConditionalObject.html" title="plKeyPressConditionalObject" alt="" coords="545,695,754,721"/>
+<area shape="rect" id="node28" href="classplLocalPlayerInBoxConditionalObject.html" title="plLocalPlayerInBoxConditional\lObject" alt="" coords="539,746,759,787"/>
+<area shape="rect" id="node29" href="classplLocalPlayerIntersectPlaneConditionalObject.html" title="plLocalPlayerIntersectPlane\lConditionalObject" alt="" coords="548,811,751,853"/>
+<area shape="rect" id="node30" href="classplObjectInBoxConditionalObject.html" title="plObjectInBoxConditional\lObject" alt="" coords="556,877,743,918"/>
+<area shape="rect" id="node31" href="classplObjectIntersectPlaneConditionalObject.html" title="plObjectIntersectPlaneConditional\lObject" alt="" coords="528,942,771,983"/>
+<area shape="rect" id="node32" href="classplORConditionalObject.html" title="plORConditionalObject" alt="" coords="565,1008,733,1035"/>
+<area shape="rect" id="node33" href="classplPickedConditionalObject.html" title="plPickedConditionalObject" alt="" coords="553,1059,746,1085"/>
+<area shape="rect" id="node34" href="classplPythonFileModConditionalObject.html" title="plPythonFileModConditional\lObject" alt="" coords="548,1110,751,1151"/>
+<area shape="rect" id="node35" href="classplVolumeSensorConditionalObject.html" title="plVolumeSensorConditional\lObject" alt="" coords="549,1175,750,1217"/>
+<area shape="rect" id="node37" href="classplDrawableSpans.html" title="plDrawableSpans" alt="" coords="582,1241,717,1268"/>
+<area shape="rect" id="node43" href="classplParticleCollisionEffect.html" title="plParticleCollisionEffect" alt="" coords="562,1292,737,1319"/>
 </map>
- </div></div>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for hsKeyedObject:</div>
+<div class="dyncontent">
+<div class="center"><img src="classhsKeyedObject__coll__graph.png" border="0" usemap="#hsKeyedObject_coll__map" alt="Collaboration graph"/></div>
+<map name="hsKeyedObject_coll__map" id="hsKeyedObject_coll__map">
+<area shape="rect" id="node2" href="classplCreatable.html" title="plCreatable" alt="" coords="16,5,113,32"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>

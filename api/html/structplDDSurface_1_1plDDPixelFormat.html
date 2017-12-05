@@ -9,6 +9,12 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -20,7 +26,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libHSPlasma
    </div>
-   <div id="projectbrief">Cross-platformPlasmaenginedataandnetworklibrary</div>
+   <div id="projectbrief">Cross-platform Plasma engine data and network library</div>
   </td>
  </tr>
  </tbody>
@@ -68,64 +74,64 @@ Public Attributes</h2></td></tr>
 <tr class="separator:ae2aeb68686e3447a9721e3d78c55e709"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aed9b9a634b51fda7297dfeb45a91bbd3"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#aed9b9a634b51fda7297dfeb45a91bbd3">fFourCC</a></td></tr>
 <tr class="separator:aed9b9a634b51fda7297dfeb45a91bbd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5811c832961760071e7a45509da5f8d"><td class="memItemLeft" >union {</td></tr>
-<tr class="memitem:a6c59b38b0de4135daaa90edc402ec17b"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#a22cbfd34f2c1db86fd8bb856a8294238">fBitDepth</a></td></tr>
-<tr class="separator:a6c59b38b0de4135daaa90edc402ec17b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a92ef47b7bdd4dee80a30b03d75fb8c"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#a6004dafe3e4da4452d920b803a816e27">fBitCount</a></td></tr>
-<tr class="separator:a1a92ef47b7bdd4dee80a30b03d75fb8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5811c832961760071e7a45509da5f8d"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:ae5811c832961760071e7a45509da5f8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1efe1adeb725e22fb61594e862edf220"><td class="memItemLeft" >union {</td></tr>
-<tr class="memitem:a2c50ea16a8692a1afc68b6e019d47615"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#a8081398b9b5a45f673d542f15a173c46">fRBitMask</a></td></tr>
-<tr class="separator:a2c50ea16a8692a1afc68b6e019d47615"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae8d2b7aac1fe813c7a9e855d29f77fbd"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#aa9c12dd21cbb40b20e3e5fcb57d40bdd">fYBitMask</a></td></tr>
-<tr class="separator:ae8d2b7aac1fe813c7a9e855d29f77fbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:accfddc37c67545a998ba5132d3bbfd14"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#af4fff28b0c41e12bc62ab198300041e2">fStencilBitDepth</a></td></tr>
-<tr class="separator:accfddc37c67545a998ba5132d3bbfd14"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9eac76796dc989ef71ec293cfaa05c36"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#a3004e5b1f10d0e7c22c2b953b978fd18">fLuminanceBitMask</a></td></tr>
-<tr class="separator:a9eac76796dc989ef71ec293cfaa05c36"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c0e23d7ff12720fb7afb6ff83d71ffd"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#aff20d6d0c25b62db1082963773bd5aef">fBumpDuBitMask</a></td></tr>
-<tr class="separator:a6c0e23d7ff12720fb7afb6ff83d71ffd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afefe15de08ecf6f1e9ddf61216d02c72"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#a0df1fc18768edf104c647ed5a508c20c">fOperations</a></td></tr>
-<tr class="separator:afefe15de08ecf6f1e9ddf61216d02c72"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1efe1adeb725e22fb61594e862edf220"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:a1efe1adeb725e22fb61594e862edf220"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4343688740359207a81a9818078c55e6"><td class="memItemLeft" >union {</td></tr>
-<tr class="memitem:a01424ac1542121b3c13ef70897d06d38"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#aee84b74e3c9d5b7aeb3622ce9b62a42b">fGBitMask</a></td></tr>
-<tr class="separator:a01424ac1542121b3c13ef70897d06d38"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad1262b7f61c52866b5b75ae30bbaa247"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#a38a230f5dc719318fc115ddf06452b18">fUBitMask</a></td></tr>
-<tr class="separator:ad1262b7f61c52866b5b75ae30bbaa247"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e42b565e9b9c351763b18d938a5646b"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#a7115cc88439e6565e45e4e6075c65f5e">fZBitMask</a></td></tr>
-<tr class="separator:a5e42b565e9b9c351763b18d938a5646b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a561fe4bd9008362af4b6937f4d510b88"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#a2824f25313f731e5de6bd98b4cc2fd41">fBumpDvBitMask</a></td></tr>
-<tr class="separator:a561fe4bd9008362af4b6937f4d510b88"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd3241ba1ac17b42bdd65be0178dc896"><td class="memItemLeft" >&#160;&#160;&#160;struct {</td></tr>
-<tr class="memitem:afebfea0190d6a36ef673ff801bab855f"><td class="memItemLeft" >&#160;&#160;&#160;&#160;&#160;&#160;unsigned short&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#ab8bb960ad1abcebd043f1c141fb796a2">fFlipMSTypes</a></td></tr>
-<tr class="separator:afebfea0190d6a36ef673ff801bab855f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afcc4f91b9f30ecc13ccb002dc7f58466"><td class="memItemLeft" >&#160;&#160;&#160;&#160;&#160;&#160;unsigned short&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#aa7afae27c35e619ef5ae40c081262a07">fBltMSTypes</a></td></tr>
-<tr class="separator:afcc4f91b9f30ecc13ccb002dc7f58466"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd3241ba1ac17b42bdd65be0178dc896"><td class="memItemLeft" valign="top">&#160;&#160;&#160;}&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#aae7d899086dd0c6312d3b2c2cc5b5913">fMultiSampleCaps</a></td></tr>
-<tr class="separator:acd3241ba1ac17b42bdd65be0178dc896"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4343688740359207a81a9818078c55e6"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:a4343688740359207a81a9818078c55e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ca78a20bcba606ca40ede562dc22625"><td class="memItemLeft" >union {</td></tr>
-<tr class="memitem:a5d5d95ad219d0d49a93239dee909003a"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#a0bb07a126bea1bb9be036c6b3aad3887">fBBitMask</a></td></tr>
-<tr class="separator:a5d5d95ad219d0d49a93239dee909003a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a68f82ab5eb15fe84de82c993f30080f9"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#ae32c258a543bb2df72f8dc8a20246719">fVBitMask</a></td></tr>
-<tr class="separator:a68f82ab5eb15fe84de82c993f30080f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ace6c76e9ae9ddd016ebec6bf753d3d4f"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#a22ef0f26108fba293dceb7710d5bf512">fStencilBitMask</a></td></tr>
-<tr class="separator:ace6c76e9ae9ddd016ebec6bf753d3d4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ae8d57eb01b1af2a38b6adcfa090abc"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#afb0b65590e585fcca47d6743036f2fe2">fBumpLuminanceBitMask</a></td></tr>
-<tr class="separator:a8ae8d57eb01b1af2a38b6adcfa090abc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ca78a20bcba606ca40ede562dc22625"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:a4ca78a20bcba606ca40ede562dc22625"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92579d67a994f73f75f5822900ada9e2"><td class="memItemLeft" >union {</td></tr>
-<tr class="memitem:a7395d98bee1c1b2fd268a2b37b35d9cd"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#ac57dfa776d6c89e68cb1c4906931e551">fAlphaBitMask</a></td></tr>
-<tr class="separator:a7395d98bee1c1b2fd268a2b37b35d9cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a08b085b657263569e788ad2d62c6fde3"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#acd7a09a9a9ee9feb1bfa8b8ce0ee72a2">fColorZBitMask</a></td></tr>
-<tr class="separator:a08b085b657263569e788ad2d62c6fde3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92579d67a994f73f75f5822900ada9e2"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:a92579d67a994f73f75f5822900ada9e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d641348c52e1eae0d897cfc85ae381c"><td class="memItemLeft" >union {</td></tr>
+<tr class="memitem:a48dd352bacac01a763783d359e5dcde4"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#a22cbfd34f2c1db86fd8bb856a8294238">fBitDepth</a></td></tr>
+<tr class="separator:a48dd352bacac01a763783d359e5dcde4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac29fde326b251f026908034c83676a64"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#a6004dafe3e4da4452d920b803a816e27">fBitCount</a></td></tr>
+<tr class="separator:ac29fde326b251f026908034c83676a64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d641348c52e1eae0d897cfc85ae381c"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a1d641348c52e1eae0d897cfc85ae381c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b5b652bbb21b95d2f7e297da24d37bd"><td class="memItemLeft" >union {</td></tr>
+<tr class="memitem:a5eae650d6de0f76c738f16cd1bf095cb"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#a8081398b9b5a45f673d542f15a173c46">fRBitMask</a></td></tr>
+<tr class="separator:a5eae650d6de0f76c738f16cd1bf095cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4db93600e77458ab000fb2d82f4e9022"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#aa9c12dd21cbb40b20e3e5fcb57d40bdd">fYBitMask</a></td></tr>
+<tr class="separator:a4db93600e77458ab000fb2d82f4e9022"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c7f00dcdf93f57c68dc69c7e3323fdf"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#af4fff28b0c41e12bc62ab198300041e2">fStencilBitDepth</a></td></tr>
+<tr class="separator:a4c7f00dcdf93f57c68dc69c7e3323fdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84a1f28d6a026000b50f6236aedef700"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#a3004e5b1f10d0e7c22c2b953b978fd18">fLuminanceBitMask</a></td></tr>
+<tr class="separator:a84a1f28d6a026000b50f6236aedef700"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa92e8336a0cf64fb9653e69bd81b7ce9"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#aff20d6d0c25b62db1082963773bd5aef">fBumpDuBitMask</a></td></tr>
+<tr class="separator:aa92e8336a0cf64fb9653e69bd81b7ce9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf9485dc93dd97f28335173873a5c01d"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#a0df1fc18768edf104c647ed5a508c20c">fOperations</a></td></tr>
+<tr class="separator:abf9485dc93dd97f28335173873a5c01d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b5b652bbb21b95d2f7e297da24d37bd"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a1b5b652bbb21b95d2f7e297da24d37bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11183446ff51a3d1f4040663b590c6c6"><td class="memItemLeft" >union {</td></tr>
+<tr class="memitem:aced7e5d122892a1d1d02746a2d633410"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#aee84b74e3c9d5b7aeb3622ce9b62a42b">fGBitMask</a></td></tr>
+<tr class="separator:aced7e5d122892a1d1d02746a2d633410"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ecb3dbc904b0059bf2e485f0a2b98b7"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#a38a230f5dc719318fc115ddf06452b18">fUBitMask</a></td></tr>
+<tr class="separator:a3ecb3dbc904b0059bf2e485f0a2b98b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abcf65d5b75cc4c324e773f8c06811e44"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#a7115cc88439e6565e45e4e6075c65f5e">fZBitMask</a></td></tr>
+<tr class="separator:abcf65d5b75cc4c324e773f8c06811e44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53abb64f0c95c32ac5de3226b7ea8142"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#a2824f25313f731e5de6bd98b4cc2fd41">fBumpDvBitMask</a></td></tr>
+<tr class="separator:a53abb64f0c95c32ac5de3226b7ea8142"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad493622f2f55f536d17b07972fd89804"><td class="memItemLeft" >&#160;&#160;&#160;struct {</td></tr>
+<tr class="memitem:a2e87a54cf3f67d89a8cb965d2e71955b"><td class="memItemLeft" >&#160;&#160;&#160;&#160;&#160;&#160;unsigned short&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#ab8bb960ad1abcebd043f1c141fb796a2">fFlipMSTypes</a></td></tr>
+<tr class="separator:a2e87a54cf3f67d89a8cb965d2e71955b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af83f3457641d5b94ab4ba9f49132db0e"><td class="memItemLeft" >&#160;&#160;&#160;&#160;&#160;&#160;unsigned short&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#aa7afae27c35e619ef5ae40c081262a07">fBltMSTypes</a></td></tr>
+<tr class="separator:af83f3457641d5b94ab4ba9f49132db0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad493622f2f55f536d17b07972fd89804"><td class="memItemLeft" valign="top">&#160;&#160;&#160;}&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#ab7770083f2934126fcd279733292cfaf">fMultiSampleCaps</a></td></tr>
+<tr class="separator:ad493622f2f55f536d17b07972fd89804"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11183446ff51a3d1f4040663b590c6c6"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a11183446ff51a3d1f4040663b590c6c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a448a140c91a13b63c3a0afbcaee48bb7"><td class="memItemLeft" >union {</td></tr>
+<tr class="memitem:ac30b0a097388e349eb8299a1ce501265"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#a0bb07a126bea1bb9be036c6b3aad3887">fBBitMask</a></td></tr>
+<tr class="separator:ac30b0a097388e349eb8299a1ce501265"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa23b66896c857a12e22ada453597321f"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#ae32c258a543bb2df72f8dc8a20246719">fVBitMask</a></td></tr>
+<tr class="separator:aa23b66896c857a12e22ada453597321f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf51c21b2b23f9369006c1c0ccc5565c"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#a22ef0f26108fba293dceb7710d5bf512">fStencilBitMask</a></td></tr>
+<tr class="separator:aaf51c21b2b23f9369006c1c0ccc5565c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6aa58f4d8b11d9657a72481ac1fd79b6"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#afb0b65590e585fcca47d6743036f2fe2">fBumpLuminanceBitMask</a></td></tr>
+<tr class="separator:a6aa58f4d8b11d9657a72481ac1fd79b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a448a140c91a13b63c3a0afbcaee48bb7"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a448a140c91a13b63c3a0afbcaee48bb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d06049713df9dd86e1f8cf40b2d19d9"><td class="memItemLeft" >union {</td></tr>
+<tr class="memitem:a2bc0da6983469da947f46609fa14bef0"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#ac57dfa776d6c89e68cb1c4906931e551">fAlphaBitMask</a></td></tr>
+<tr class="separator:a2bc0da6983469da947f46609fa14bef0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b0c462bc7f30c309ff353c6ad91b5d5"><td class="memItemLeft" >&#160;&#160;&#160;unsigned int&#160;&#160;&#160;<a class="el" href="structplDDSurface_1_1plDDPixelFormat.html#acd7a09a9a9ee9feb1bfa8b8ce0ee72a2">fColorZBitMask</a></td></tr>
+<tr class="separator:a9b0c462bc7f30c309ff353c6ad91b5d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d06049713df9dd86e1f8cf40b2d19d9"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a4d06049713df9dd86e1f8cf40b2d19d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a3880df04f15e9e737c0badc0a28bdd05"></a>
@@ -183,8 +189,8 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="ae5811c832961760071e7a45509da5f8d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae5811c832961760071e7a45509da5f8d">&#9670;&nbsp;</a></span>@114</h2>
+<a id="a1d641348c52e1eae0d897cfc85ae381c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d641348c52e1eae0d897cfc85ae381c">&#9670;&nbsp;</a></span>@115</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -197,8 +203,8 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a1efe1adeb725e22fb61594e862edf220"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1efe1adeb725e22fb61594e862edf220">&#9670;&nbsp;</a></span>@116</h2>
+<a id="a1b5b652bbb21b95d2f7e297da24d37bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b5b652bbb21b95d2f7e297da24d37bd">&#9670;&nbsp;</a></span>@117</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -211,8 +217,8 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a4343688740359207a81a9818078c55e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4343688740359207a81a9818078c55e6">&#9670;&nbsp;</a></span>@118</h2>
+<a id="a11183446ff51a3d1f4040663b590c6c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11183446ff51a3d1f4040663b590c6c6">&#9670;&nbsp;</a></span>@119</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -225,8 +231,8 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a4ca78a20bcba606ca40ede562dc22625"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4ca78a20bcba606ca40ede562dc22625">&#9670;&nbsp;</a></span>@120</h2>
+<a id="a448a140c91a13b63c3a0afbcaee48bb7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a448a140c91a13b63c3a0afbcaee48bb7">&#9670;&nbsp;</a></span>@121</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -239,8 +245,8 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a92579d67a994f73f75f5822900ada9e2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92579d67a994f73f75f5822900ada9e2">&#9670;&nbsp;</a></span>@122</h2>
+<a id="a4d06049713df9dd86e1f8cf40b2d19d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d06049713df9dd86e1f8cf40b2d19d9">&#9670;&nbsp;</a></span>@123</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -449,8 +455,8 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="aae7d899086dd0c6312d3b2c2cc5b5913"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aae7d899086dd0c6312d3b2c2cc5b5913">&#9670;&nbsp;</a></span>fMultiSampleCaps</h2>
+<a id="ab7770083f2934126fcd279733292cfaf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7770083f2934126fcd279733292cfaf">&#9670;&nbsp;</a></span>fMultiSampleCaps</h2>
 
 <div class="memitem">
 <div class="memproto">

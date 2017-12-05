@@ -9,6 +9,12 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -20,7 +26,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libHSPlasma
    </div>
-   <div id="projectbrief">Cross-platformPlasmaenginedataandnetworklibrary</div>
+   <div id="projectbrief">Cross-platform Plasma engine data and network library</div>
   </td>
  </tr>
  </tbody>
@@ -51,6 +57,69 @@ $(function() {
 <div class="contents">
 <div class="textblock"><code>#include &quot;PlasmaConfig.h&quot;</code><br />
 <code>#include &lt;stdint.h&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for PlasmaDefs.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="PlasmaDefs_8h__incl.png" border="0" usemap="#core_2PlasmaDefs_8h" alt=""/></div>
+<map name="core_2PlasmaDefs_8h" id="core_2PlasmaDefs_8h">
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="PlasmaDefs_8h__dep__incl.png" border="0" usemap="#core_2PlasmaDefs_8hdep" alt=""/></div>
+<map name="core_2PlasmaDefs_8hdep" id="core_2PlasmaDefs_8hdep">
+<area shape="rect" id="node2" href="hsGDeviceRef_8hpp.html" title="core/PRP/Geometry/hsGDevice\lRef.hpp" alt="" coords="454,80,677,121"/>
+<area shape="rect" id="node6" href="plLocation_8h.html" title="core/PRP/KeyedObject\l/plLocation.h" alt="" coords="2603,423,2768,464"/>
+<area shape="rect" id="node10" href="plResManager_8h.html" title="core/ResManager/plResManager.h" alt="" coords="2743,609,2982,635"/>
+<area shape="rect" id="node11" href="proEventData_8h.html" title="core/PRP/Message/proEvent\lData.h" alt="" coords="1377,691,1580,732"/>
+<area shape="rect" id="node16" href="plRenderLevel_8h.html" title="core/PRP/Misc/plRenderLevel.h" alt="" coords="89,87,309,114"/>
+<area shape="rect" id="node18" href="pdUnifiedTypeMap_8h.html" title="core/ResManager/pdUnified\lTypeMap.h" alt="" coords="2981,169,3179,211"/>
+<area shape="rect" id="node20" href="hsStream_8h.html" title="core/Stream/hsStream.h" alt="" coords="1669,177,1848,203"/>
+<area shape="rect" id="node36" href="plServerGuid_8h.html" title="core/Vault/plServerGuid.h" alt="" coords="144,259,331,285"/>
+<area shape="rect" id="node38" href="hsThread_8h.html" title="core/Sys/hsThread.h" alt="" coords="3351,87,3505,114"/>
+<area shape="rect" id="node39" href="pnClient_8h.html" title="net/pnClient.h" alt="" coords="3662,177,3775,203"/>
+<area shape="rect" id="node41" href="hsRadixSort_8h.html" title="core/Util/hsRadixSort.h" alt="" coords="3767,87,3937,114"/>
+<area shape="rect" id="node42" href="PlasmaVersions_8h.html" title="core/Util/PlasmaVersions.h" alt="" coords="2825,87,3021,114"/>
+<area shape="rect" id="node43" href="plZlib_8h.html" title="core/Util/plZlib.h" alt="" coords="1324,177,1455,203"/>
+<area shape="rect" id="node44" href="pnNetMsg_8h.html" title="net/pnNetMsg.h" alt="" coords="3502,177,3626,203"/>
+<area shape="rect" id="node47" href="Protocol_8h.html" title="net/Protocol.h" alt="" coords="3580,87,3692,114"/>
+<area shape="rect" id="node48" href="pnBigInteger_8h.html" title="net/crypt/pnBigInteger.h" alt="" coords="3961,87,4140,114"/>
+<area shape="rect" id="node49" href="pnSha1_8h.html" title="net/crypt/pnSha1.h" alt="" coords="4164,87,4308,114"/>
+<area shape="rect" id="node50" href="pnSocketInterface_8h.html" title="net/pnSocketInterface.h" alt="" coords="3310,430,3487,457"/>
+<area shape="rect" id="node3" href="plGBufferGroup_8h.html" title="core/PRP/Geometry/plGBuffer\lGroup.h" alt="" coords="252,512,465,553"/>
+<area shape="rect" id="node5" href="plLightInfo_8h.html" title="core/PRP/Light/plLightInfo.h" alt="" coords="328,177,528,203"/>
+<area shape="rect" id="node4" href="plDrawableSpans_8h.html" title="core/PRP/Geometry/plDrawable\lSpans.h" alt="" coords="111,601,337,643"/>
+<area shape="rect" id="node7" href="plUoid_8h.html" title="core/PRP/KeyedObject\l/plUoid.h" alt="" coords="2448,512,2613,553"/>
+<area shape="rect" id="node8" href="plNetGroupId_8h.html" title="core/PRP/NetMessage\l/plNetGroupId.h" alt="" coords="2637,512,2800,553"/>
+<area shape="rect" id="node9" href="plPageInfo_8h.html" title="core/PRP/plPageInfo.h" alt="" coords="2261,519,2424,546"/>
+<area shape="rect" id="node13" href="plOneShotCallbacks_8h.html" title="core/PRP/Message/plOneShot\lCallbacks.h" alt="" coords="2757,691,2968,732"/>
+<area shape="rect" id="node14" href="plCreatable_8h.html" title="core/PRP/plCreatable.h" alt="" coords="3136,698,3307,725"/>
+<area shape="rect" id="node12" href="plNotifyMsg_8h.html" title="core/PRP/Message/plNotify\lMsg.h" alt="" coords="1381,780,1577,821"/>
+<area shape="rect" id="node15" href="pnAuthClient_8h.html" title="net/auth/pnAuthClient.h" alt="" coords="3392,787,3568,814"/>
+<area shape="rect" id="node17" href="plClusterGroup_8h.html" title="core/PRP/Geometry/plCluster\lGroup.h" alt="" coords="93,169,304,211"/>
+<area shape="rect" id="node19" href="plFactory_8h.html" title="core/ResManager/plFactory.h" alt="" coords="2977,259,3183,285"/>
+<area shape="rect" id="node21" href="hsGeometry3_8h.html" title="core/Math/hsGeometry3.h" alt="" coords="1383,430,1574,457"/>
+<area shape="rect" id="node22" href="plVertCoder_8h.html" title="core/PRP/Geometry/plVert\lCoder.h" alt="" coords="489,423,679,464"/>
+<area shape="rect" id="node23" href="plSDLMgr_8h.html" title="core/SDL/plSDLMgr.h" alt="" coords="2029,259,2184,285"/>
+<area shape="rect" id="node24" href="hsElfStream_8h.html" title="core/Stream/hsElfStream.h" alt="" coords="2502,259,2698,285"/>
+<area shape="rect" id="node25" href="hsRAMStream_8h.html" title="core/Stream/hsRAMStream.h" alt="" coords="406,259,613,285"/>
+<area shape="rect" id="node27" href="hsStdioStream_8h.html" title="core/Stream/hsStdioStream.h" alt="" coords="738,259,950,285"/>
+<area shape="rect" id="node28" href="hsTokenStream_8h.html" title="core/Stream/hsTokenStream.h" alt="" coords="2209,259,2426,285"/>
+<area shape="rect" id="node29" href="pfPrcParser_8h.html" title="core/Stream/pfPrcParser.h" alt="" coords="2223,341,2412,367"/>
+<area shape="rect" id="node30" href="pfPrcHelper_8h.html" title="core/Stream/pfPrcHelper.h" alt="" coords="2436,341,2628,367"/>
+<area shape="rect" id="node31" href="pfSizedStream_8h.html" title="core/Stream/pfSizedStream.h" alt="" coords="974,259,1186,285"/>
+<area shape="rect" id="node32" href="plEncryptedStream_8h.html" title="core/Stream/plEncryptedStream.h" alt="" coords="1210,259,1451,285"/>
+<area shape="rect" id="node33" href="hs3DDevice_8h.html" title="core/Util/hs3DDevice.h" alt="" coords="1476,259,1647,285"/>
+<area shape="rect" id="node34" href="plDDSurface_8h.html" title="core/Util/plDDSurface.h" alt="" coords="1671,259,1846,285"/>
+<area shape="rect" id="node35" href="plMD5_8h.html" title="core/Util/plMD5.h" alt="" coords="1870,259,2005,285"/>
+<area shape="rect" id="node26" href="plNetMsgStream_8h.html" title="core/PRP/NetMessage\l/plNetMsgStream.h" alt="" coords="391,333,553,375"/>
+<area shape="rect" id="node37" href="plVaultNode_8h.html" title="core/Vault/plVaultNode.h" alt="" coords="146,341,329,367"/>
+<area shape="rect" id="node40" href="pnSocket_8h.html" title="net/pnSocket.h" alt="" coords="3369,259,3487,285"/>
+<area shape="rect" id="node45" href="AuthMessages_8h.html" title="net/auth/AuthMessages.h" alt="" coords="3789,259,3976,285"/>
+<area shape="rect" id="node46" href="GameMessages_8h.html" title="net/game/GameMessages.h" alt="" coords="3563,259,3765,285"/>
+</map>
+</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>

@@ -9,6 +9,12 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -20,7 +26,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libHSPlasma
    </div>
-   <div id="projectbrief">Cross-platformPlasmaenginedataandnetworklibrary</div>
+   <div id="projectbrief">Cross-platform Plasma engine data and network library</div>
   </td>
  </tr>
  </tbody>
@@ -53,6 +59,52 @@ $(function() {
 <code>#include &lt;sys/time.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="pfPrcHelper_8h.html">Stream/pfPrcHelper.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="pfPrcParser_8h.html">Stream/pfPrcParser.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for plUnifiedTime.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="plUnifiedTime_8h__incl.png" border="0" usemap="#core_2Sys_2plUnifiedTime_8h" alt=""/></div>
+<map name="core_2Sys_2plUnifiedTime_8h" id="core_2Sys_2plUnifiedTime_8h">
+<area shape="rect" id="node4" href="pfPrcHelper_8h.html" title="Stream/pfPrcHelper.h" alt="" coords="189,80,349,107"/>
+<area shape="rect" id="node17" href="pfPrcParser_8h.html" title="Stream/pfPrcParser.h" alt="" coords="373,80,531,107"/>
+<area shape="rect" id="node5" href="hsStream_8h.html" title="hsStream.h" alt="" coords="364,229,460,256"/>
+<area shape="rect" id="node9" href="PlasmaVersions_8h.html" title="Util/PlasmaVersions.h" alt="" coords="185,304,349,331"/>
+<area shape="rect" id="node10" href="PlasmaDefs_8h.html" title="PlasmaDefs.h" alt="" coords="275,379,387,405"/>
+<area shape="rect" id="node13" href="Platform_8h.html" title="Sys/Platform.h" alt="" coords="475,304,592,331"/>
+<area shape="rect" id="node14" href="hsExceptions_8hpp.html" title="Debug/hsExceptions.hpp" alt="" coords="617,304,799,331"/>
+<area shape="rect" id="node18" href="hsTokenStream_8h.html" title="hsTokenStream.h" alt="" coords="450,155,585,181"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="plUnifiedTime_8h__dep__incl.png" border="0" usemap="#core_2Sys_2plUnifiedTime_8hdep" alt=""/></div>
+<map name="core_2Sys_2plUnifiedTime_8hdep" id="core_2Sys_2plUnifiedTime_8hdep">
+<area shape="rect" id="node2" href="plNetMessage_8h.html" title="core/PRP/NetMessage\l/plNetMessage.h" alt="" coords="827,80,990,121"/>
+<area shape="rect" id="node4" href="plNetMsgGameMessage_8h.html" title="core/PRP/NetMessage\l/plNetMsgGameMessage.h" alt="" coords="117,259,311,300"/>
+<area shape="rect" id="node16" href="plStateVariable_8h.html" title="core/SDL/plStateVariable.h" alt="" coords="1701,87,1895,114"/>
+<area shape="rect" id="node19" href="plVaultNode_8h.html" title="core/Vault/plVaultNode.h" alt="" coords="2151,87,2333,114"/>
+<area shape="rect" id="node22" href="pnVaultNode_8h.html" title="net/auth/pnVaultNode.h" alt="" coords="2381,177,2556,203"/>
+<area shape="rect" id="node25" href="plVaultNodeRef_8h.html" title="core/Vault/plVaultNodeRef.h" alt="" coords="1919,87,2122,114"/>
+<area shape="rect" id="node3" href="plNetMsgStream_8h.html" title="core/PRP/NetMessage\l/plNetMsgStream.h" alt="" coords="221,169,383,211"/>
+<area shape="rect" id="node9" href="plNetMsgGroupOwner_8h.html" title="core/PRP/NetMessage\l/plNetMsgGroupOwner.h" alt="" coords="594,169,773,211"/>
+<area shape="rect" id="node10" href="plNetMsgInitialAgeStateSent_8h.html" title="core/PRP/NetMessage\l/plNetMsgInitialAgeStateSent.h" alt="" coords="797,169,1021,211"/>
+<area shape="rect" id="node11" href="plNetMsgObject_8h.html" title="core/PRP/NetMessage\l/plNetMsgObject.h" alt="" coords="407,169,570,211"/>
+<area shape="rect" id="node12" href="plNetMsgMembersList_8h.html" title="core/PRP/NetMessage\l/plNetMsgMembersList.h" alt="" coords="1045,169,1228,211"/>
+<area shape="rect" id="node13" href="plNetMsgPlayerPage_8h.html" title="core/PRP/NetMessage\l/plNetMsgPlayerPage.h" alt="" coords="1253,169,1423,211"/>
+<area shape="rect" id="node14" href="plNetMsgRelevanceRegions_8h.html" title="core/PRP/NetMessage\l/plNetMsgRelevanceRegions.h" alt="" coords="1448,169,1665,211"/>
+<area shape="rect" id="node15" href="plNetMsgRoomsList_8h.html" title="core/PRP/NetMessage\l/plNetMsgRoomsList.h" alt="" coords="29,169,196,211"/>
+<area shape="rect" id="node6" href="plNetMsgStreamedObject_8h.html" title="core/PRP/NetMessage\l/plNetMsgStreamedObject.h" alt="" coords="387,259,591,300"/>
+<area shape="rect" id="node5" href="plNetMsgLoadClone_8h.html" title="core/PRP/NetMessage\l/plNetMsgLoadClone.h" alt="" coords="173,348,340,389"/>
+<area shape="rect" id="node7" href="plNetMsgSDLState_8h.html" title="core/PRP/NetMessage\l/plNetMsgSDLState.h" alt="" coords="386,348,549,389"/>
+<area shape="rect" id="node8" href="plNetMsgSharedState_8h.html" title="core/PRP/NetMessage\l/plNetMsgSharedState.h" alt="" coords="573,348,751,389"/>
+<area shape="rect" id="node17" href="plStateDataRecord_8h.html" title="core/SDL/plStateDataRecord.h" alt="" coords="1690,177,1906,203"/>
+<area shape="rect" id="node18" href="plNetGameServerState_8h.html" title="core/SDL/plNetGameServer\lState.h" alt="" coords="1699,259,1897,300"/>
+<area shape="rect" id="node20" href="plVaultNodeTypes_8h.html" title="core/Vault/plVaultNodeTypes.h" alt="" coords="2138,177,2357,203"/>
+<area shape="rect" id="node21" href="plVaultStore_8h.html" title="core/Vault/plVaultStore.h" alt="" coords="1931,177,2113,203"/>
+<area shape="rect" id="node23" href="pnAuthClient_8h.html" title="net/auth/pnAuthClient.h" alt="" coords="2267,266,2443,293"/>
+<area shape="rect" id="node24" href="pnVaultNodeTypes_8hpp.html" title="net/auth/pnVaultNodeTypes.hpp" alt="" coords="2468,266,2696,293"/>
+</map>
+</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>

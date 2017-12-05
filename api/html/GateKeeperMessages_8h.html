@@ -9,6 +9,12 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -20,7 +26,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libHSPlasma
    </div>
-   <div id="projectbrief">Cross-platformPlasmaenginedataandnetworklibrary</div>
+   <div id="projectbrief">Cross-platform Plasma engine data and network library</div>
   </td>
  </tr>
  </tbody>
@@ -50,21 +56,39 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="pnNetMsg_8h.html">../pnNetMsg.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for GateKeeperMessages.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="GateKeeperMessages_8h__incl.png" border="0" usemap="#net_2gate_2GateKeeperMessages_8h" alt=""/></div>
+<map name="net_2gate_2GateKeeperMessages_8h" id="net_2gate_2GateKeeperMessages_8h">
+<area shape="rect" id="node2" href="pnNetMsg_8h.html" title="../pnNetMsg.h" alt="" coords="587,80,698,107"/>
+<area shape="rect" id="node3" href="PlasmaDefs_8h.html" title="PlasmaDefs.h" alt="" coords="71,603,183,629"/>
+<area shape="rect" id="node6" href="Protocol_8h.html" title="Protocol.h" alt="" coords="518,155,605,181"/>
+<area shape="rect" id="node7" href="plUuid_8h.html" title="Sys/plUuid.h" alt="" coords="550,229,653,256"/>
+<area shape="rect" id="node8" href="pfPrcHelper_8h.html" title="Stream/pfPrcHelper.h" alt="" coords="431,304,591,331"/>
+<area shape="rect" id="node19" href="pfPrcParser_8h.html" title="Stream/pfPrcParser.h" alt="" coords="615,304,772,331"/>
+<area shape="rect" id="node9" href="hsStream_8h.html" title="hsStream.h" alt="" coords="547,453,643,480"/>
+<area shape="rect" id="node14" href="PlasmaVersions_8h.html" title="Util/PlasmaVersions.h" alt="" coords="105,528,269,555"/>
+<area shape="rect" id="node15" href="Platform_8h.html" title="Sys/Platform.h" alt="" coords="344,528,461,555"/>
+<area shape="rect" id="node16" href="hsExceptions_8hpp.html" title="Debug/hsExceptions.hpp" alt="" coords="579,528,762,555"/>
+<area shape="rect" id="node20" href="hsTokenStream_8h.html" title="hsTokenStream.h" alt="" coords="707,379,842,405"/>
+</map>
+</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a9b29769343da78881f442e657eb62b6e"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="GateKeeperMessages_8h.html#a9b29769343da78881f442e657eb62b6ea0fec18e36a45a96781197e725b0e0fe4">kCli2GateKeeper_PingRequest</a>, 
-<a class="el" href="GateKeeperMessages_8h.html#a9b29769343da78881f442e657eb62b6eae36e330e511752bc3033de79669d5a1f">kCli2GateKeeper_FileSrvIpAddressRequest</a>, 
-<a class="el" href="GateKeeperMessages_8h.html#a9b29769343da78881f442e657eb62b6eaa63cc760235ff8cf8dda48f37bc0d4d6">kCli2GateKeeper_AuthSrvIpAddressRequest</a>, 
-<a class="el" href="GateKeeperMessages_8h.html#a9b29769343da78881f442e657eb62b6ea2da1e7a88f9cca2d7b7df68c133cf5a0">kCli2GateKeeper_LastMessage</a>
- }</td></tr>
-<tr class="separator:a9b29769343da78881f442e657eb62b6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e8054db89feba236b2235d16d0bd1ad"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="GateKeeperMessages_8h.html#a1e8054db89feba236b2235d16d0bd1ada44c2f3fbb8fd5f2bc272f72afd06359a">kGateKeeper2Cli_PingReply</a>, 
-<a class="el" href="GateKeeperMessages_8h.html#a1e8054db89feba236b2235d16d0bd1ada05c6d8c3dc5c40a5f8f8b635784090ec">kGateKeeper2Cli_FileSrvIpAddressReply</a>, 
-<a class="el" href="GateKeeperMessages_8h.html#a1e8054db89feba236b2235d16d0bd1ada637e43449ce6849c7a9ca9f274c4a509">kGateKeeper2Cli_AuthSrvIpAddressReply</a>, 
-<a class="el" href="GateKeeperMessages_8h.html#a1e8054db89feba236b2235d16d0bd1adac90b1f391a57326b6db14adfedb5dbf0">kGateKeeper2Cli_LastMessage</a>
+<tr class="memitem:a1e8054db89feba236b2235d16d0bd1ad"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="GateKeeperMessages_8h.html#a1e8054db89feba236b2235d16d0bd1ada0fec18e36a45a96781197e725b0e0fe4">kCli2GateKeeper_PingRequest</a>, 
+<a class="el" href="GateKeeperMessages_8h.html#a1e8054db89feba236b2235d16d0bd1adae36e330e511752bc3033de79669d5a1f">kCli2GateKeeper_FileSrvIpAddressRequest</a>, 
+<a class="el" href="GateKeeperMessages_8h.html#a1e8054db89feba236b2235d16d0bd1adaa63cc760235ff8cf8dda48f37bc0d4d6">kCli2GateKeeper_AuthSrvIpAddressRequest</a>, 
+<a class="el" href="GateKeeperMessages_8h.html#a1e8054db89feba236b2235d16d0bd1ada2da1e7a88f9cca2d7b7df68c133cf5a0">kCli2GateKeeper_LastMessage</a>
  }</td></tr>
 <tr class="separator:a1e8054db89feba236b2235d16d0bd1ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f79453548dc20926be4b5a000ecbd66"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="GateKeeperMessages_8h.html#a4f79453548dc20926be4b5a000ecbd66a44c2f3fbb8fd5f2bc272f72afd06359a">kGateKeeper2Cli_PingReply</a>, 
+<a class="el" href="GateKeeperMessages_8h.html#a4f79453548dc20926be4b5a000ecbd66a05c6d8c3dc5c40a5f8f8b635784090ec">kGateKeeper2Cli_FileSrvIpAddressReply</a>, 
+<a class="el" href="GateKeeperMessages_8h.html#a4f79453548dc20926be4b5a000ecbd66a637e43449ce6849c7a9ca9f274c4a509">kGateKeeper2Cli_AuthSrvIpAddressReply</a>, 
+<a class="el" href="GateKeeperMessages_8h.html#a4f79453548dc20926be4b5a000ecbd66ac90b1f391a57326b6db14adfedb5dbf0">kGateKeeper2Cli_LastMessage</a>
+ }</td></tr>
+<tr class="separator:a4f79453548dc20926be4b5a000ecbd66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -74,26 +98,6 @@ Functions</h2></td></tr>
 <tr class="separator:a9205adf891406b9b3f1f152e673fc982"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="a9b29769343da78881f442e657eb62b6e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9b29769343da78881f442e657eb62b6e">&#9670;&nbsp;</a></span>anonymous enum</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">anonymous enum</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a9b29769343da78881f442e657eb62b6ea0fec18e36a45a96781197e725b0e0fe4"></a>kCli2GateKeeper_PingRequest&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a9b29769343da78881f442e657eb62b6eae36e330e511752bc3033de79669d5a1f"></a>kCli2GateKeeper_FileSrvIpAddressRequest&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a9b29769343da78881f442e657eb62b6eaa63cc760235ff8cf8dda48f37bc0d4d6"></a>kCli2GateKeeper_AuthSrvIpAddressRequest&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a9b29769343da78881f442e657eb62b6ea2da1e7a88f9cca2d7b7df68c133cf5a0"></a>kCli2GateKeeper_LastMessage&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-</div>
-</div>
 <a id="a1e8054db89feba236b2235d16d0bd1ad"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1e8054db89feba236b2235d16d0bd1ad">&#9670;&nbsp;</a></span>anonymous enum</h2>
 
@@ -106,10 +110,30 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a1e8054db89feba236b2235d16d0bd1ada44c2f3fbb8fd5f2bc272f72afd06359a"></a>kGateKeeper2Cli_PingReply&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a1e8054db89feba236b2235d16d0bd1ada05c6d8c3dc5c40a5f8f8b635784090ec"></a>kGateKeeper2Cli_FileSrvIpAddressReply&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a1e8054db89feba236b2235d16d0bd1ada637e43449ce6849c7a9ca9f274c4a509"></a>kGateKeeper2Cli_AuthSrvIpAddressReply&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a1e8054db89feba236b2235d16d0bd1adac90b1f391a57326b6db14adfedb5dbf0"></a>kGateKeeper2Cli_LastMessage&#160;</td><td class="fielddoc"></td></tr>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a1e8054db89feba236b2235d16d0bd1ada0fec18e36a45a96781197e725b0e0fe4"></a>kCli2GateKeeper_PingRequest&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1e8054db89feba236b2235d16d0bd1adae36e330e511752bc3033de79669d5a1f"></a>kCli2GateKeeper_FileSrvIpAddressRequest&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1e8054db89feba236b2235d16d0bd1adaa63cc760235ff8cf8dda48f37bc0d4d6"></a>kCli2GateKeeper_AuthSrvIpAddressRequest&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1e8054db89feba236b2235d16d0bd1ada2da1e7a88f9cca2d7b7df68c133cf5a0"></a>kCli2GateKeeper_LastMessage&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="a4f79453548dc20926be4b5a000ecbd66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f79453548dc20926be4b5a000ecbd66">&#9670;&nbsp;</a></span>anonymous enum</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">anonymous enum</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a4f79453548dc20926be4b5a000ecbd66a44c2f3fbb8fd5f2bc272f72afd06359a"></a>kGateKeeper2Cli_PingReply&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a4f79453548dc20926be4b5a000ecbd66a05c6d8c3dc5c40a5f8f8b635784090ec"></a>kGateKeeper2Cli_FileSrvIpAddressReply&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a4f79453548dc20926be4b5a000ecbd66a637e43449ce6849c7a9ca9f274c4a509"></a>kGateKeeper2Cli_AuthSrvIpAddressReply&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a4f79453548dc20926be4b5a000ecbd66ac90b1f391a57326b6db14adfedb5dbf0"></a>kGateKeeper2Cli_LastMessage&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>

@@ -9,6 +9,12 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -20,7 +26,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libHSPlasma
    </div>
-   <div id="projectbrief">Cross-platformPlasmaenginedataandnetworklibrary</div>
+   <div id="projectbrief">Cross-platform Plasma engine data and network library</div>
   </td>
  </tr>
  </tbody>
@@ -52,17 +58,28 @@ $(function() {
 <div class="dynheader">
 Inheritance diagram for plRenderTarget:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="classplRenderTarget.png" usemap="#plRenderTarget_map" alt=""/>
-  <map id="plRenderTarget_map" name="plRenderTarget_map">
-<area href="classplBitmap.html" title="Abstract base class for all renderable surface textures. " alt="plBitmap" shape="rect" coords="71,112,203,136"/>
-<area href="classhsKeyedObject.html" title="The base class for any top-level PRP object. " alt="hsKeyedObject" shape="rect" coords="71,56,203,80"/>
-<area href="classplCreatable.html" alt="plCreatable" shape="rect" coords="71,0,203,24"/>
-<area href="classplCubicRenderTarget.html" alt="plCubicRenderTarget" shape="rect" coords="0,224,132,248"/>
-<area href="classplDynamicCamMap.html" alt="plDynamicCamMap" shape="rect" coords="142,224,274,248"/>
-<area href="classplDynamicEnvMap.html" alt="plDynamicEnvMap" shape="rect" coords="0,280,132,304"/>
+<div class="center"><img src="classplRenderTarget__inherit__graph.png" border="0" usemap="#plRenderTarget_inherit__map" alt="Inheritance graph"/></div>
+<map name="plRenderTarget_inherit__map" id="plRenderTarget_inherit__map">
+<area shape="rect" id="node5" href="classplCubicRenderTarget.html" title="plCubicRenderTarget" alt="" coords="5,304,160,331"/>
+<area shape="rect" id="node7" href="classplDynamicCamMap.html" title="plDynamicCamMap" alt="" coords="184,304,333,331"/>
+<area shape="rect" id="node2" href="classplBitmap.html" title="Abstract base class for all renderable surface textures. " alt="" coords="130,155,211,181"/>
+<area shape="rect" id="node3" href="classhsKeyedObject.html" title="The base class for any top&#45;level PRP object. " alt="" coords="111,80,230,107"/>
+<area shape="rect" id="node4" href="classplCreatable.html" title="plCreatable" alt="" coords="122,5,219,32"/>
+<area shape="rect" id="node6" href="classplDynamicEnvMap.html" title="plDynamicEnvMap" alt="" coords="11,379,154,405"/>
 </map>
- </div></div>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for plRenderTarget:</div>
+<div class="dyncontent">
+<div class="center"><img src="classplRenderTarget__coll__graph.png" border="0" usemap="#plRenderTarget_coll__map" alt="Collaboration graph"/></div>
+<map name="plRenderTarget_coll__map" id="plRenderTarget_coll__map">
+<area shape="rect" id="node2" href="classplBitmap.html" title="Abstract base class for all renderable surface textures. " alt="" coords="212,171,293,197"/>
+<area shape="rect" id="node3" href="classhsKeyedObject.html" title="The base class for any top&#45;level PRP object. " alt="" coords="5,81,124,108"/>
+<area shape="rect" id="node4" href="classplCreatable.html" title="plCreatable" alt="" coords="16,5,113,32"/>
+<area shape="rect" id="node5" href="structplBitmap_1_1UncompressedInfo.html" title="plBitmap::UncompressedInfo" alt="" coords="147,81,358,108"/>
+<area shape="rect" id="node6" href="structplBitmap_1_1DirectXInfo.html" title="plBitmap::DirectXInfo" alt="" coords="382,81,545,108"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>

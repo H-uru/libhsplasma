@@ -9,6 +9,12 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -20,7 +26,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libHSPlasma
    </div>
-   <div id="projectbrief">Cross-platformPlasmaenginedataandnetworklibrary</div>
+   <div id="projectbrief">Cross-platform Plasma engine data and network library</div>
   </td>
  </tr>
  </tbody>
@@ -51,6 +57,42 @@ $(function() {
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="PlasmaDefs_8h.html">PlasmaDefs.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="plUuid_8h.html">Sys/plUuid.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for Protocol.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="Protocol_8h__incl.png" border="0" usemap="#net_2Protocol_8h" alt=""/></div>
+<map name="net_2Protocol_8h" id="net_2Protocol_8h">
+<area shape="rect" id="node2" href="PlasmaDefs_8h.html" title="PlasmaDefs.h" alt="" coords="71,453,183,480"/>
+<area shape="rect" id="node5" href="plUuid_8h.html" title="Sys/plUuid.h" alt="" coords="226,80,329,107"/>
+<area shape="rect" id="node6" href="pfPrcHelper_8h.html" title="Stream/pfPrcHelper.h" alt="" coords="197,155,357,181"/>
+<area shape="rect" id="node17" href="pfPrcParser_8h.html" title="Stream/pfPrcParser.h" alt="" coords="409,155,567,181"/>
+<area shape="rect" id="node7" href="hsStream_8h.html" title="hsStream.h" alt="" coords="335,304,431,331"/>
+<area shape="rect" id="node12" href="PlasmaVersions_8h.html" title="Util/PlasmaVersions.h" alt="" coords="439,379,603,405"/>
+<area shape="rect" id="node13" href="Platform_8h.html" title="Sys/Platform.h" alt="" coords="679,379,796,405"/>
+<area shape="rect" id="node14" href="hsExceptions_8hpp.html" title="Debug/hsExceptions.hpp" alt="" coords="821,379,1003,405"/>
+<area shape="rect" id="node18" href="hsTokenStream_8h.html" title="hsTokenStream.h" alt="" coords="421,229,555,256"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="Protocol_8h__dep__incl.png" border="0" usemap="#net_2Protocol_8hdep" alt=""/></div>
+<map name="net_2Protocol_8hdep" id="net_2Protocol_8hdep">
+<area shape="rect" id="node2" href="pnNetMsg_8h.html" title="net/pnNetMsg.h" alt="" coords="551,80,675,107"/>
+<area shape="rect" id="node12" href="pnVaultNode_8h.html" title="net/auth/pnVaultNode.h" alt="" coords="160,80,335,107"/>
+<area shape="rect" id="node14" href="pnClient_8h.html" title="net/pnClient.h" alt="" coords="623,229,736,256"/>
+<area shape="rect" id="node3" href="AuthMessages_8h.html" title="net/auth/AuthMessages.h" alt="" coords="1087,155,1274,181"/>
+<area shape="rect" id="node4" href="pnAuthClient_8h.html" title="net/auth/pnAuthClient.h" alt="" coords="209,304,385,331"/>
+<area shape="rect" id="node5" href="GameMessages_8h.html" title="net/game/GameMessages.h" alt="" coords="605,155,807,181"/>
+<area shape="rect" id="node6" href="pnGameClient_8h.html" title="net/game/pnGameClient.h" alt="" coords="409,304,603,331"/>
+<area shape="rect" id="node7" href="GateKeeperMessages_8h.html" title="net/gate/GateKeeperMessages.h" alt="" coords="831,155,1063,181"/>
+<area shape="rect" id="node8" href="pnGateKeeperClient_8h.html" title="net/gate/pnGateKeeperClient.h" alt="" coords="627,304,849,331"/>
+<area shape="rect" id="node9" href="pnSocket_8h.html" title="net/pnSocket.h" alt="" coords="461,155,580,181"/>
+<area shape="rect" id="node10" href="pnRC4_8h.html" title="net/crypt/pnRC4.h" alt="" coords="461,229,599,256"/>
+<area shape="rect" id="node11" href="pnFileClient_8h.html" title="net/file/pnFileClient.h" alt="" coords="873,304,1032,331"/>
+<area shape="rect" id="node13" href="pnVaultNodeTypes_8hpp.html" title="net/auth/pnVaultNodeTypes.hpp" alt="" coords="5,155,233,181"/>
+</map>
+</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
