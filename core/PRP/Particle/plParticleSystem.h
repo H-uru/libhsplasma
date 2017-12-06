@@ -37,10 +37,10 @@ public:
 
 protected:
     plKey fMaterial;
-    unsigned int fXTiles, fYTiles;
+    uint32_t fXTiles, fYTiles;
     hsVector3 fAccel;
     float fPreSim, fDrag, fWindMult;
-    unsigned int fMaxTotalParticles, fNumValidEmitters, fMaxEmitters;
+    uint32_t fMaxTotalParticles, fNumValidEmitters;
     std::vector<plParticleEmitter*> fEmitters;
     std::vector<plKey> fForces, fEffects, fConstraints;
     std::vector<plKey> fPermaLights;
@@ -52,11 +52,11 @@ protected:
 
 public:
     plParticleSystem()
-        : fXTiles(0), fYTiles(0), fPreSim(0.0f), fDrag(0.0f), fWindMult(0.0f),
-          fMaxTotalParticles(0), fNumValidEmitters(0), fMaxEmitters(0),
-          fAmbientCtl(NULL), fDiffuseCtl(NULL), fOpacityCtl(NULL),
-          fWidthCtl(NULL), fHeightCtl(NULL) { }
-    virtual ~plParticleSystem();
+        : fXTiles(), fYTiles(), fPreSim(), fDrag(), fWindMult(),
+          fMaxTotalParticles(), fNumValidEmitters(),
+          fAmbientCtl(), fDiffuseCtl(), fOpacityCtl(), fWidthCtl(),
+          fHeightCtl() { }
+    ~plParticleSystem() HS_OVERRIDE;
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -67,36 +67,38 @@ protected:
 
 public:
     plKey getMaterial() const { return fMaterial; }
-    unsigned int getXTiles() const { return fXTiles; }
-    unsigned int getYTiles() const { return fYTiles; }
+    uint32_t getXTiles() const { return fXTiles; }
+    uint32_t getYTiles() const { return fYTiles; }
     hsVector3 getAccel() const { return fAccel; }
     float getPreSim() const { return fPreSim; }
     float getDrag() const { return fDrag; }
     float getWindMult() const { return fWindMult; }
-    unsigned int getMaxTotalParticles() const { return fMaxTotalParticles; }
+    uint32_t getMaxTotalParticles() const { return fMaxTotalParticles; }
     plController* getAmbientCtl() const { return fAmbientCtl; }
     plController* getDiffuseCtl() const { return fDiffuseCtl; }
     plController* getOpacityCtl() const { return fOpacityCtl; }
     plController* getWidthCtl() const { return fWidthCtl; }
     plController* getHeightCtl() const { return fHeightCtl; }
 
-    void setMaterial(plKey mat) { fMaterial = mat; }
-    void setTiles(unsigned int xtiles, unsigned int ytiles) { fXTiles = xtiles; fYTiles = ytiles; }
+    void setMaterial(const plKey& mat) { fMaterial = mat; }
+    void setTiles(uint32_t xtiles, uint32_t ytiles) { fXTiles = xtiles; fYTiles = ytiles; }
+    void setXTiles(uint32_t xtiles) { fXTiles = xtiles; }
+    void setYTiles(uint32_t ytiles) { fYTiles = ytiles; }
     void setAccel(const hsVector3& accel) { fAccel = accel; }
     void setPreSim(float preSim) { fPreSim = preSim; }
     void setDrag(float drag) { fDrag = drag; }
     void setWindMult(float windMult) { fWindMult = windMult; }
-    void setMaxTotalParticles(unsigned int max) { fMaxTotalParticles = max; }
+    void setMaxTotalParticles(uint32_t max) { fMaxTotalParticles = max; }
     void setAmbientCtl(plController* ctl);
     void setDiffuseCtl(plController* ctl);
     void setOpacityCtl(plController* ctl);
     void setWidthCtl(plController* ctl);
     void setHeightCtl(plController* ctl);
 
-    unsigned int getNumValidEmitters() const { return fNumValidEmitters; }
-    unsigned int getMaxEmitters() const { return fMaxEmitters; }
+    uint32_t getNumValidEmitters() const { return fNumValidEmitters; }
+    uint32_t getMaxEmitters() const { return fEmitters.size(); }
     plParticleEmitter* getEmitter(size_t idx) const { return fEmitters[idx]; }
-    void allocEmitters(unsigned int max);
+    void allocEmitters(size_t max);
     void setEmitter(size_t idx, plParticleEmitter* emitter);
     void addEmitter(plParticleEmitter* emitter);
     void delEmitter(size_t idx);

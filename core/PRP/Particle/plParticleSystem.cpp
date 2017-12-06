@@ -17,8 +17,8 @@
 #include "plParticleSystem.h"
 
 plParticleSystem::~plParticleSystem() {
-    for (auto emi = fEmitters.begin(); emi != fEmitters.end(); ++emi)
-        delete *emi;
+    for (auto emitter : fEmitters)
+        delete emitter;
     delete fAmbientCtl;
     delete fDiffuseCtl;
     delete fOpacityCtl;
@@ -39,22 +39,20 @@ void plParticleSystem::read(hsStream* S, plResManager* mgr) {
     fXTiles = S->readInt();
     fYTiles = S->readInt();
     fMaxTotalParticles = S->readInt();
-    fMaxEmitters = S->readInt();
+    uint32_t maxEmitters = S->readInt();
     fPreSim = S->readFloat();
     fAccel.read(S);
     fDrag = S->readFloat();
     fWindMult = S->readFloat();
     fNumValidEmitters = S->readInt();
 
-    for (auto emi = fEmitters.begin(); emi != fEmitters.end(); ++emi)
-        delete *emi;
-    fEmitters.resize(fMaxEmitters);
-    if (fNumValidEmitters > fMaxEmitters)
+    for (auto emitter : fEmitters)
+        delete emitter;
+    fEmitters.resize(maxEmitters, nullptr);
+    if (fNumValidEmitters > maxEmitters)
         throw hsBadParamException(__FILE__, __LINE__);
     for (size_t i=0; i<fNumValidEmitters; i++)
         fEmitters[i] = plParticleEmitter::Convert(mgr->ReadCreatable(S));
-    for (size_t i=fNumValidEmitters; i<fMaxEmitters; i++)
-        fEmitters[i] = NULL;
 
     fForces.resize(S->readInt());
     for (size_t i=0; i<fForces.size(); i++)
@@ -84,11 +82,16 @@ void plParticleSystem::write(hsStream* S, plResManager* mgr) {
     S->writeInt(fXTiles);
     S->writeInt(fYTiles);
     S->writeInt(fMaxTotalParticles);
-    S->writeInt(fMaxEmitters);
+    S->writeInt(fEmitters.size());
     S->writeFloat(fPreSim);
     fAccel.write(S);
     S->writeFloat(fDrag);
     S->writeFloat(fWindMult);
+
+    if (fNumValidEmitters > fEmitters.size()) {
+        throw hsBadParamException(__FILE__, __LINE__,
+                "Cannot have more valid emitters than total emitters");
+    }
     S->writeInt(fNumValidEmitters);
     for (size_t i=0; i<fNumValidEmitters; i++)
         mgr->WriteCreatable(S, fEmitters[i]);
@@ -165,7 +168,7 @@ void plParticleSystem::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("XTiles", fXTiles);
     prc->writeParam("YTiles", fYTiles);
     prc->writeParam("MaxTotalParticles", fMaxTotalParticles);
-    prc->writeParam("MaxEmitters", fMaxEmitters);
+    prc->writeParam("MaxEmitters", fEmitters.size());
     prc->writeParam("PreSim", fPreSim);
     prc->writeParam("Drag", fDrag);
     prc->writeParam("WindMult", fWindMult);
@@ -175,6 +178,10 @@ void plParticleSystem::IPrcWrite(pfPrcHelper* prc) {
     fAccel.prcWrite(prc);
     prc->closeTag();
 
+    if (fNumValidEmitters > fEmitters.size()) {
+        throw hsBadParamException(__FILE__, __LINE__,
+                "Cannot have more valid emitters than total emitters");
+    }
     prc->writeSimpleTag("Emitters");
     for (size_t i=0; i<fNumValidEmitters; i++)
         fEmitters[i]->prcWrite(prc);
@@ -222,7 +229,10 @@ void plParticleSystem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fXTiles = tag->getParam("XTiles", "0").to_uint();
         fYTiles = tag->getParam("YTiles", "0").to_uint();
         fMaxTotalParticles = tag->getParam("MaxTotalParticles", "0").to_uint();
-        fMaxEmitters = tag->getParam("MaxEmitters", "0").to_uint();
+        uint32_t maxEmitters = tag->getParam("MaxEmitters", "0").to_uint();
+        for (auto emitter : fEmitters)
+            delete emitter;
+        fEmitters.resize(maxEmitters, nullptr);
         fPreSim = tag->getParam("PreSim", "0").to_float();
         fDrag = tag->getParam("Drag", "0").to_float();
         fWindMult = tag->getParam("WindMult", "0").to_float();
@@ -230,11 +240,8 @@ void plParticleSystem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fAccel.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "Emitters") {
-        for (auto emi = fEmitters.begin(); emi != fEmitters.end(); ++emi)
-            delete *emi;
-        fEmitters.resize(fMaxEmitters);
         fNumValidEmitters = tag->countChildren();
-        if (fNumValidEmitters > fMaxEmitters)
+        if (fNumValidEmitters > fEmitters.size())
             throw pfPrcParseException(__FILE__, __LINE__, "Too many particle emitters");
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fNumValidEmitters; i++) {
@@ -299,17 +306,14 @@ void plParticleSystem::setHeightCtl(plController* ctl) {
     fHeightCtl = ctl;
 }
 
-void plParticleSystem::allocEmitters(unsigned int max) {
-    for (size_t i=max; i<fMaxEmitters; i++)
-        // When max < fMaxEmitters
+void plParticleSystem::allocEmitters(size_t max) {
+    for (size_t i = max; i < fEmitters.size(); ++i) {
+        // When max < fEmitters.size()
         delete fEmitters[i];
-    fEmitters.resize(max);
-    for (size_t i=fMaxEmitters; i<max; i++)
-        // When fMaxEmitters < max
-        fEmitters[i] = NULL;
-    fMaxEmitters = max;
-    if (fNumValidEmitters > fMaxEmitters)
-        fNumValidEmitters = fMaxEmitters;
+    }
+    fEmitters.resize(max, nullptr);
+    if (fNumValidEmitters > max)
+        fNumValidEmitters = max;
 }
 
 void plParticleSystem::setEmitter(size_t idx, plParticleEmitter* emitter) {
@@ -319,25 +323,22 @@ void plParticleSystem::setEmitter(size_t idx, plParticleEmitter* emitter) {
 
 void plParticleSystem::addEmitter(plParticleEmitter* emitter) {
     fNumValidEmitters++;
-    if (fNumValidEmitters > fMaxEmitters) {
-        fMaxEmitters = fNumValidEmitters;
-        fEmitters.resize(fMaxEmitters);
-    }
-    fEmitters[fNumValidEmitters-1] = emitter;
+    if (fNumValidEmitters > fEmitters.size())
+        fEmitters.resize(fNumValidEmitters);
+    fEmitters[fNumValidEmitters - 1] = emitter;
 }
 
 void plParticleSystem::delEmitter(size_t idx) {
     delete fEmitters[idx];
-    for (size_t i=idx; i<fMaxEmitters-1; i++)
-        fEmitters[i] = fEmitters[i+1];
-    fEmitters[fMaxEmitters-1] = NULL;
+    for (size_t i = idx; i < fEmitters.size() - 1; ++i)
+        fEmitters[i] = fEmitters[i + 1];
+    fEmitters[fEmitters.size() - 1] = nullptr;
     fNumValidEmitters--;
 }
 
 void plParticleSystem::clearEmitters() {
-    for (auto emi = fEmitters.begin(); emi != fEmitters.end(); ++emi)
-        delete *emi;
+    for (auto emitter : fEmitters)
+        delete emitter;
     fEmitters.clear();
     fNumValidEmitters = 0;
-    fMaxEmitters = 0;
 }

@@ -31,7 +31,7 @@ protected:
 
 public:
     plBoundInterface() : fBounds(NULL) { }
-    virtual ~plBoundInterface();
+    ~plBoundInterface() HS_OVERRIDE;
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

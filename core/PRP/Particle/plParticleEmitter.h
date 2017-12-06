@@ -51,14 +51,14 @@ public:
     };
 
 protected:
-    unsigned int fMiscFlags, fSpanIndex, fMaxParticles;
+    uint32_t fMiscFlags, fSpanIndex, fMaxParticles;
     plParticleGenerator* fGenerator;
     hsColorRGBA fColor;
 
 public:
-    plParticleEmitter() : fMiscFlags(0), fSpanIndex(0), fMaxParticles(0),
-                          fGenerator(NULL) { }
-    virtual ~plParticleEmitter();
+    plParticleEmitter() : fMiscFlags(), fSpanIndex(), fMaxParticles(),
+                          fGenerator() { }
+    ~plParticleEmitter() HS_OVERRIDE;
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -68,7 +68,17 @@ protected:
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
+    uint32_t getMiscFlags() const { return fMiscFlags; }
+    uint32_t getSpanIndex() const { return fSpanIndex; }
+    uint32_t getMaxParticles() const { return fMaxParticles; }
+    plParticleGenerator* getGenerator() const { return fGenerator; }
+    hsColorRGBA getColor() const { return fColor; }
+
+    void setMiscFlags(uint32_t flags) { fMiscFlags = flags; }
+    void setSpanIndex(uint32_t index) { fSpanIndex = index; }
+    void setMaxParticles(uint32_t particles) { fMaxParticles = particles; }
     void setGenerator(plParticleGenerator* generator);
+    void setColor(const hsColorRGBA &color) { fColor = color; }
 };
 
 #endif

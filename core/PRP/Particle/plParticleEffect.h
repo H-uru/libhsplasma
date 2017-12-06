@@ -39,6 +39,10 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    plKey getSceneObj() const { return fSceneObj; }
+    void setSceneObj(const plKey& obj) { fSceneObj = obj; }
 };
 
 
@@ -56,7 +60,7 @@ protected:
     float fBounce, fFriction;
 
 public:
-    plParticleCollisionEffectBounce() : fBounce(0.0f), fFriction(0.0f) { }
+    plParticleCollisionEffectBounce() : fBounce(), fFriction() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -64,6 +68,13 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    float getBounce() const { return fBounce; }
+    float getFriction() const { return fFriction; }
+
+    void setBounce(float bounce) { fBounce = bounce; }
+    void setFriction(float friction) { fFriction = friction; }
 };
 
 
@@ -81,7 +92,7 @@ protected:
     float fLength, fIgnoreZ;
 
 public:
-    plParticleFadeOutEffect() : fLength(0.0f), fIgnoreZ(0.0f) { }
+    plParticleFadeOutEffect() : fLength(), fIgnoreZ() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -89,6 +100,13 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    float getLength() const { return fLength; }
+    float getIgnoreZ() const { return fIgnoreZ; }
+
+    void setLength(float length) { fLength = length; }
+    void setIgnoreZ(float iz) { fIgnoreZ = iz; }
 };
 
 
@@ -100,7 +118,7 @@ protected:
     float fLength, fIgnoreZ;
 
 public:
-    plParticleFadeVolumeEffect() : fLength(0.0f), fIgnoreZ(0.0f) { }
+    plParticleFadeVolumeEffect() : fLength(), fIgnoreZ() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -108,6 +126,13 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    float getLength() const { return fLength; }
+    float getIgnoreZ() const { return fIgnoreZ; }
+
+    void setLength(float length) { fLength = length; }
+    void setIgnoreZ(float iz) { fIgnoreZ = iz; }
 };
 
 
@@ -123,10 +148,10 @@ protected:
 
 public:
     plParticleFlockEffect()
-        : fInfAvgRadSq(0.0f), fInfRepRadSq(0.0f), fAvgVelStr(0.0f),
-          fRepDirStr(0.0f), fGoalOrbitStr(0.0f), fGoalChaseStr(0.0f),
-          fGoalDistSq(0.0f), fFullChaseDistSq(0.0f), fMaxOrbitSpeed(0.0f),
-          fMaxChaseSpeed(0.0f), fMaxParticles(0.0f) { }
+        : fInfAvgRadSq(), fInfRepRadSq(), fAvgVelStr(),
+          fRepDirStr(), fGoalOrbitStr(), fGoalChaseStr(),
+          fGoalDistSq(), fFullChaseDistSq(), fMaxOrbitSpeed(),
+          fMaxChaseSpeed(), fMaxParticles() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -134,6 +159,35 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    hsVector3 getTargetOffset() const { return fTargetOffset; }
+    hsVector3 getDissenterTarget() const { return fDissenterTarget; }
+    float getInfAvgRadSq() const { return fInfAvgRadSq; }
+    float getInfRepRadSq() const { return fInfRepRadSq; }
+    float getAvgVelStr() const { return fAvgVelStr; }
+    float getRepDirStr() const { return fRepDirStr; }
+    float getGoalOrbitStr() const { return fGoalOrbitStr; }
+    float getGoalChaseStr() const { return fGoalChaseStr; }
+    float getGoalDistSq() const { return fGoalDistSq; }
+    float getFullChaseDistSq() const { return fFullChaseDistSq; }
+    float getMaxOrbitSpeed() const { return fMaxOrbitSpeed; }
+    float getMaxChaseSpeed() const { return fMaxChaseSpeed; }
+    float getMaxParticles() const { return fMaxParticles; }
+
+    void setTargetOffset(const hsVector3& offset) { fTargetOffset = offset; }
+    void setDissenterTarget(const hsVector3& target) { fDissenterTarget = target; }
+    void setInfAvgRadSq(float radsq) { fInfAvgRadSq = radsq; }
+    void setInfRepRadSq(float radsq) { fInfRepRadSq = radsq; }
+    void setAvgVelStr(float str) { fAvgVelStr = str; }
+    void setRepDirStr(float str) { fRepDirStr = str; }
+    void setGoalOrbitStr(float str) { fGoalOrbitStr = str; }
+    void setGoalChaseStr(float str) { fGoalChaseStr = str; }
+    void setGoalDistSq(float distsq) { fGoalDistSq = distsq; }
+    void setFullChaseDistSq(float distsq) { fFullChaseDistSq = distsq; }
+    void setMaxOrbitSpeed(float speed) { fMaxOrbitSpeed = speed; }
+    void setMaxChaseSpeed(float speed) { fMaxChaseSpeed = speed; }
+    void setMaxParticles(float maxParticles) { fMaxParticles = maxParticles; }
 };
 
 
@@ -153,7 +207,7 @@ protected:
 
 public:
     plParticleWindEffect()
-        : fStrength(0.0f), fConstancy(0.0f), fSwirl(0.0f), fHorizontal(false) { }
+        : fStrength(), fConstancy(), fSwirl(), fHorizontal() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -161,6 +215,21 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    float getStrength() const { return fStrength; }
+    float getConstancy() const { return fConstancy; }
+    float getSwirl() const { return fSwirl; }
+    bool isHorizontal() const { return fHorizontal; }
+    hsVector3 getRefDir() const { return fRefDir; }
+    hsVector3 getDir() const { return fDir; }
+
+    void setStrength(float strength) { fStrength = strength; }
+    void setConstancy(float constancy) { fConstancy = constancy; }
+    void setSwirl(float swirl) { fSwirl = swirl; }
+    void setHorizontal(bool horiz) { fHorizontal = horiz; }
+    void setRefDir(const hsVector3& dir) { fRefDir = dir; }
+    void setDir(const hsVector3& dir) { fDir = dir; }
 };
 
 
@@ -172,7 +241,7 @@ protected:
     float fSpeed;
 
 public:
-    plParticleLocalWind() : fSpeed(0.0f) { }
+    plParticleLocalWind() : fSpeed() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -180,6 +249,13 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    hsVector3 getScale() const { return fScale; }
+    float getSpeed() const { return fSpeed; }
+
+    void setScale(const hsVector3& scale) { fScale = scale; }
+    void setSpeed(float speed) { fSpeed = speed; }
 };
 
 
@@ -190,7 +266,7 @@ protected:
     float fFreqMin, fFreqMax, fFreqRate;
 
 public:
-    plParticleUniformWind() : fFreqMin(0.0f), fFreqMax(0.0f), fFreqRate(0.0f) { }
+    plParticleUniformWind() : fFreqMin(), fFreqMax(), fFreqRate() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -198,6 +274,15 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    float getFreqMin() const { return fFreqMin; }
+    float getFreqMax() const { return fFreqMax; }
+    float getFreqRate() const { return fFreqRate; }
+
+    void setFreqMin(float fmin) { fFreqMin = fmin; }
+    void setFreqMax(float fmax) { fFreqMax = fmax; }
+    void setFreqRate(float rate) { fFreqRate = rate; }
 };
 
 #endif
