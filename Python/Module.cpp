@@ -134,11 +134,18 @@
 #include "PRP/Object/pyObjInterface.h"
 #include "PRP/Object/pySceneObject.h"
 #include "PRP/Object/pySynchedObject.h"
+#include "PRP/Particle/pyBoundInterface.h"
+#include "PRP/Particle/pyParticleApplicator.h"
+#include "PRP/Particle/pyParticleEffect.h"
+#include "PRP/Particle/pyParticleEmitter.h"
+#include "PRP/Particle/pyParticleGenerator.h"
+#include "PRP/Particle/pyParticleSystem.h"
 #include "PRP/Physics/pyCollisionDetector.h"
 #include "PRP/Physics/pyDetectorModifier.h"
 #include "PRP/Physics/pyObjectInVolumeDetector.h"
 #include "PRP/Physics/pyPhysical.h"
 #include "PRP/Region/pyBounds.h"
+#include "PRP/Region/pyConvexVolume.h"
 #include "PRP/Region/pySimpleRegionSensor.h"
 #include "PRP/Region/pySoftVolume.h"
 #include "PRP/Region/pySwimRegion.h"
@@ -714,6 +721,25 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plAvLadderMod", Init_pyAvLadderMod_Type());
     PyModule_AddObject(module, "plLadderModifier", Init_pyLadderModifier_Type());
     PyModule_AddObject(module, "plFogEnvironment", Init_pyFogEnvironment_Type());
+    PyModule_AddObject(module, "plConvexVolume", Init_pyConvexVolume_Type());
+    PyModule_AddObject(module, "plBoundInterface", Init_pyBoundInterface_Type());
+    PyModule_AddObject(module, "plParticleEffect", Init_pyParticleEffect_Type());
+    PyModule_AddObject(module, "plParticleCollisionEffect", Init_pyParticleCollisionEffect_Type());
+    PyModule_AddObject(module, "plParticleCollisionEffectBeat", Init_pyParticleCollisionEffectBeat_Type());
+    PyModule_AddObject(module, "plParticleCollisionEffectBounce", Init_pyParticleCollisionEffectBounce_Type());
+    PyModule_AddObject(module, "plParticleCollisionEffectDie", Init_pyParticleCollisionEffectDie_Type());
+    PyModule_AddObject(module, "plParticleFadeOutEffect", Init_pyParticleFadeOutEffect_Type());
+    PyModule_AddObject(module, "plParticleFadeVolumeEffect", Init_pyParticleFadeVolumeEffect_Type());
+    PyModule_AddObject(module, "plParticleFlockEffect", Init_pyParticleFlockEffect_Type());
+    PyModule_AddObject(module, "plParticleFollowSystemEffect", Init_pyParticleFollowSystemEffect_Type());
+    PyModule_AddObject(module, "plParticleWindEffect", Init_pyParticleWindEffect_Type());
+    PyModule_AddObject(module, "plParticleLocalWind", Init_pyParticleLocalWind_Type());
+    PyModule_AddObject(module, "plParticleUniformWind", Init_pyParticleUniformWind_Type());
+    PyModule_AddObject(module, "plParticleGenerator", Init_pyParticleGenerator_Type());
+    PyModule_AddObject(module, "plOneTimeParticleGenerator", Init_pyOneTimeParticleGenerator_Type());
+    PyModule_AddObject(module, "plSimpleParticleGenerator", Init_pySimpleParticleGenerator_Type());
+    PyModule_AddObject(module, "plParticleEmitter", Init_pyParticleEmitter_Type());
+    PyModule_AddObject(module, "plParticleSystem", Init_pyParticleSystem_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());
@@ -803,6 +829,15 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plSwimMsg", Init_pySwimMsg_Type());
     PyModule_AddObject(module, "plCameraMsg", Init_pyCameraMsg_Type());
     PyModule_AddObject(module, "plAnimPath", Init_pyAnimPath_Type());
+    PyModule_AddObject(module, "plParticleApplicator", Init_pyParticleApplicator_Type());
+    PyModule_AddObject(module, "plParticleAngleApplicator", Init_pyParticleAngleApplicator_Type());
+    PyModule_AddObject(module, "plParticleLifeMinApplicator", Init_pyParticleLifeMinApplicator_Type());
+    PyModule_AddObject(module, "plParticleLifeMaxApplicator", Init_pyParticleLifeMaxApplicator_Type());
+    PyModule_AddObject(module, "plParticlePPSApplicator", Init_pyParticlePPSApplicator_Type());
+    PyModule_AddObject(module, "plParticleScaleMinApplicator", Init_pyParticleScaleMinApplicator_Type());
+    PyModule_AddObject(module, "plParticleScaleMaxApplicator", Init_pyParticleScaleMaxApplicator_Type());
+    PyModule_AddObject(module, "plParticleVelMinApplicator", Init_pyParticleVelMinApplicator_Type());
+    PyModule_AddObject(module, "plParticleVelMaxApplicator", Init_pyParticleVelMaxApplicator_Type());
 
 #if PY_MAJOR_VERSION >= 3
     return module;

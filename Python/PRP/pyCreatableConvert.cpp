@@ -263,11 +263,18 @@
 #include "PRP/Object/pyObjInterface.h"
 #include "PRP/Object/pySceneObject.h"
 #include "PRP/Object/pySynchedObject.h"
+#include "PRP/Particle/pyBoundInterface.h"
+#include "PRP/Particle/pyParticleApplicator.h"
+#include "PRP/Particle/pyParticleEffect.h"
+#include "PRP/Particle/pyParticleEmitter.h"
+#include "PRP/Particle/pyParticleGenerator.h"
+#include "PRP/Particle/pyParticleSystem.h"
 #include "PRP/Physics/pyCollisionDetector.h"
 #include "PRP/Physics/pyDetectorModifier.h"
 #include "PRP/Physics/pyObjectInVolumeDetector.h"
 #include "PRP/Physics/pyPhysical.h"
 #include "PRP/Region/pyBounds.h"
+#include "PRP/Region/pyConvexVolume.h"
 #include "PRP/Region/pySimpleRegionSensor.h"
 #include "PRP/Region/pySoftVolume.h"
 #include "PRP/Region/pySwimRegion.h"
@@ -537,6 +544,34 @@ PyObject* ICreate(plCreatable* pCre)
         case kLineFollowMod: return pyLineFollowMod_FromLineFollowMod(plLineFollowMod::Convert(pCre));
         case kRailCameraMod: return pyRailCameraMod_FromRailCameraMod(plRailCameraMod::Convert(pCre));
         case kFogEnvironment: return pyFogEnvironment_FromFogEnvironment(plFogEnvironment::Convert(pCre));
+        case kConvexVolume: return pyConvexVolume_FromConvexVolume(plConvexVolume::Convert(pCre));
+        case kBoundInterface: return pyBoundInterface_FromBoundInterface(plBoundInterface::Convert(pCre));
+        case kParticleApplicator: return pyParticleApplicator_FromParticleApplicator(plParticleApplicator::Convert(pCre));
+        case kParticleAngleApplicator: return pyParticleAngleApplicator_FromParticleAngleApplicator(plParticleAngleApplicator::Convert(pCre));
+        case kParticleLifeMinApplicator: return pyParticleLifeMinApplicator_FromParticleLifeMinApplicator(plParticleLifeMinApplicator::Convert(pCre));
+        case kParticleLifeMaxApplicator: return pyParticleLifeMaxApplicator_FromParticleLifeMaxApplicator(plParticleLifeMaxApplicator::Convert(pCre));
+        case kParticlePPSApplicator: return pyParticlePPSApplicator_FromParticlePPSApplicator(plParticlePPSApplicator::Convert(pCre));
+        case kParticleScaleMinApplicator: return pyParticleScaleMinApplicator_FromParticleScaleMinApplicator(plParticleScaleMinApplicator::Convert(pCre));
+        case kParticleScaleMaxApplicator: return pyParticleScaleMaxApplicator_FromParticleScaleMaxApplicator(plParticleScaleMaxApplicator::Convert(pCre));
+        case kParticleVelMinApplicator: return pyParticleVelMinApplicator_FromParticleVelMinApplicator(plParticleVelMinApplicator::Convert(pCre));
+        case kParticleVelMaxApplicator: return pyParticleVelMaxApplicator_FromParticleVelMaxApplicator(plParticleVelMaxApplicator::Convert(pCre));
+        case kParticleEffect: return pyParticleEffect_FromParticleEffect(plParticleEffect::Convert(pCre));
+        case kParticleCollisionEffect: return pyParticleCollisionEffect_FromParticleCollisionEffect(plParticleCollisionEffect::Convert(pCre));
+        case kParticleCollisionEffectBeat: return pyParticleCollisionEffectBeat_FromParticleCollisionEffectBeat(plParticleCollisionEffectBeat::Convert(pCre));
+        case kParticleCollisionEffectBounce: return pyParticleCollisionEffectBounce_FromParticleCollisionEffectBounce(plParticleCollisionEffectBounce::Convert(pCre));
+        case kParticleCollisionEffectDie: return pyParticleCollisionEffectDie_FromParticleCollisionEffectDie(plParticleCollisionEffectDie::Convert(pCre));
+        case kParticleFadeOutEffect: return pyParticleFadeOutEffect_FromParticleFadeOutEffect(plParticleFadeOutEffect::Convert(pCre));
+        case kParticleFadeVolumeEffect: return pyParticleFadeVolumeEffect_FromParticleFadeVolumeEffect(plParticleFadeVolumeEffect::Convert(pCre));
+        case kParticleFlockEffect: return pyParticleFlockEffect_FromParticleFlockEffect(plParticleFlockEffect::Convert(pCre));
+        case kParticleFollowSystemEffect: return pyParticleFollowSystemEffect_FromParticleFollowSystemEffect(plParticleFollowSystemEffect::Convert(pCre));
+        case kParticleWindEffect: return pyParticleWindEffect_FromParticleWindEffect(plParticleWindEffect::Convert(pCre));
+        case kParticleLocalWind: return pyParticleLocalWind_FromParticleLocalWind(plParticleLocalWind::Convert(pCre));
+        case kParticleUniformWind: return pyParticleUniformWind_FromParticleUniformWind(plParticleUniformWind::Convert(pCre));
+        case kParticleGenerator: return pyParticleGenerator_FromParticleGenerator(plParticleGenerator::Convert(pCre));
+        case kOneTimeParticleGenerator: return pyOneTimeParticleGenerator_FromOneTimeParticleGenerator(plOneTimeParticleGenerator::Convert(pCre));
+        case kSimpleParticleGenerator: return pySimpleParticleGenerator_FromSimpleParticleGenerator(plSimpleParticleGenerator::Convert(pCre));
+        case kParticleEmitter: return pyParticleEmitter_FromParticleEmitter(plParticleEmitter::Convert(pCre));
+        case kParticleSystem: return pyParticleSystem_FromParticleSystem(plParticleSystem::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (pCre->ClassInstance(kMessage))
