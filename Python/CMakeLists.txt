@@ -456,6 +456,29 @@ set(PRP_OBJ_HEADERS
     PRP/Object/pySynchedObject.h
 )
 
+set(PRP_PARTICLE_SOURCES
+    PRP/Particle/pyBoundInterface.cpp
+    PRP/Particle/pyOneTimeParticleGenerator.cpp
+    PRP/Particle/pyParticleApplicator.cpp
+    PRP/Particle/pyParticleCollisionEffect.cpp
+    PRP/Particle/pyParticleEffect.cpp
+    PRP/Particle/pyParticleEmitter.cpp
+    PRP/Particle/pyParticleFadeEffect.cpp
+    PRP/Particle/pyParticleFlockEffect.cpp
+    PRP/Particle/pyParticleGenerator.cpp
+    PRP/Particle/pyParticleSystem.cpp
+    PRP/Particle/pyParticleWindEffect.cpp
+    PRP/Particle/pySimpleParticleGenerator.cpp
+)
+set(PRP_PARTICLE_HEADERS
+    PRP/Particle/pyBoundInterface.h
+    PRP/Particle/pyParticleApplicator.h
+    PRP/Particle/pyParticleEffect.h
+    PRP/Particle/pyParticleEmitter.h
+    PRP/Particle/pyParticleGenerator.h
+    PRP/Particle/pyParticleSystem.h
+)
+
 set(PRP_PHYS_SOURCES
     PRP/Physics/pyCameraRegionDetector.cpp
     PRP/Physics/pyCollisionDetector.cpp
@@ -483,6 +506,7 @@ set(PRP_REGION_SOURCES
     PRP/Region/pyBoundsOriented.cpp
     PRP/Region/pyBoundsConvert.cpp
     PRP/Region/pyConvexIsect.cpp
+    PRP/Region/pyConvexVolume.cpp
     PRP/Region/pySimpleRegionSensor.cpp
     PRP/Region/pySoftVolumeComplex.cpp
     PRP/Region/pySoftVolumeIntersect.cpp
@@ -499,6 +523,7 @@ set(PRP_REGION_SOURCES
 )
 set(PRP_REGION_HEADERS
     PRP/Region/pyBounds.h
+    PRP/Region/pyConvexVolume.h
     PRP/Region/pySimpleRegionSensor.h
     PRP/Region/pySoftVolume.h
     PRP/Region/pySwimRegion.h
@@ -626,6 +651,7 @@ add_library(PyHSPlasma SHARED
             ${PRP_MISC_SOURCES}     ${PRP_MISC_HEADERS}
             ${PRP_MOD_SOURCES}      ${PRP_MOD_HEADERS}
             ${PRP_OBJ_SOURCES}      ${PRP_OBJ_HEADERS}
+            ${PRP_PARTICLE_SOURCES} ${PRP_PARTICLE_HEADERS}
             ${PRP_PHYS_SOURCES}     ${PRP_PHYS_HEADERS}
             ${PRP_REGION_SOURCES}   ${PRP_REGION_HEADERS}
             ${PRP_SURFACE_SOURCES}  ${PRP_SURFACE_HEADERS}

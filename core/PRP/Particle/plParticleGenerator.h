@@ -30,17 +30,14 @@ class PLASMA_DLL plOneTimeParticleGenerator : public plParticleGenerator {
               plParticleGenerator)
 
 protected:
-    unsigned int fCount;
-    hsVector3* fPosition;
-    hsVector3* fDirection;
+    std::vector<hsVector3> fPosition;
+    std::vector<hsVector3> fDirection;
     float fXSize, fYSize, fScaleMin, fScaleMax, fPartRadsPerSecRange;
 
 public:
     plOneTimeParticleGenerator()
-        : fCount(0), fPosition(NULL), fDirection(NULL), fXSize(0.0f),
-          fYSize(0.0f), fScaleMin(0.0f), fScaleMax(0.0f),
-          fPartRadsPerSecRange(0.0f) { }
-    virtual ~plOneTimeParticleGenerator();
+        : fXSize(), fYSize(), fScaleMin(), fScaleMax(),
+          fPartRadsPerSecRange() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -50,7 +47,21 @@ protected:
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
-    void clearParticles();
+    const std::vector<hsVector3>& getPosition() const { return fPosition; }
+    const std::vector<hsVector3>& getDirection() const { return fDirection; }
+    float getXSize() const { return fXSize; }
+    float getYSize() const { return fYSize; }
+    float getScaleMin() const { return fScaleMin; }
+    float getScaleMax() const { return fScaleMax; }
+    float getPartRadsPerSecRange() const { return fPartRadsPerSecRange; }
+
+    void setPosition(const std::vector<hsVector3>& pos) { fPosition = pos; }
+    void setDirection(const std::vector<hsVector3>& dir) { fDirection = dir; }
+    void setXSize(float size) { fXSize = size; }
+    void setYSize(float size) { fYSize = size; }
+    void setScaleMin(float min) { fScaleMin = min; }
+    void setScaleMax(float max) { fScaleMax = max; }
+    void setPartRadsPerSecRange(float range) { fPartRadsPerSecRange = range; }
 };
 
 
@@ -66,22 +77,19 @@ public:
 
 protected:
     float fParticlesPerSecond;
-    unsigned int fNumSources;
-    hsVector3* fInitPos;
-    float* fInitPitch;
-    float* fInitYaw;
+    std::vector<hsVector3> fInitPos;
+    std::vector<float> fInitPitch;
+    std::vector<float> fInitYaw;
     float fAngleRange, fVelMin, fVelMax, fXSize, fYSize, fScaleMin, fScaleMax;
     float fGenLife, fPartLifeMin, fPartLifeMax, fPartMassRange;
     float fPartRadsPerSecRange;
 
 public:
     plSimpleParticleGenerator()
-        : fParticlesPerSecond(0.0f), fNumSources(0), fInitPos(NULL),
-          fInitPitch(NULL), fInitYaw(NULL), fAngleRange(0.0f), fVelMin(0.0f),
-          fVelMax(0.0f), fXSize(0.0f), fYSize(0.0f), fScaleMin(0.0f),
-          fScaleMax(0.0f), fGenLife(0.0f), fPartLifeMin(0.0f),
-          fPartLifeMax(0.0f),fPartMassRange(0.0f), fPartRadsPerSecRange(0.0f) { }
-    virtual ~plSimpleParticleGenerator();
+        : fParticlesPerSecond(), fAngleRange(), fVelMin(), fVelMax(),
+          fXSize(), fYSize(), fScaleMin(), fScaleMax(), fGenLife(),
+          fPartLifeMin(), fPartLifeMax(), fPartMassRange(),
+          fPartRadsPerSecRange() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -91,7 +99,39 @@ protected:
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
-    void clearSources();
+    float getParticlesPerSecond() const { return fParticlesPerSecond; }
+    const std::vector<hsVector3>& getInitPos() const { return fInitPos; }
+    const std::vector<float>& getInitPitch() const { return fInitPitch; }
+    const std::vector<float>& getInitYaw() const { return fInitYaw; }
+    float getAngleRange() const { return fAngleRange; }
+    float getVelMin() const { return fVelMin; }
+    float getVelMax() const { return fVelMax; }
+    float getXSize() const { return fXSize; }
+    float getYSize() const { return fYSize; }
+    float getScaleMin() const { return fScaleMin; }
+    float getScaleMax() const { return fScaleMax; }
+    float getGenLife() const { return fGenLife; }
+    float getPartLifeMin() const { return fPartLifeMin; }
+    float getPartLifeMax() const { return fPartLifeMax; }
+    float getPartMassRange() const { return fPartMassRange; }
+    float getPartRadsPerSecRange() const { return fPartRadsPerSecRange; }
+
+    void setParticlesPerSecond(float pps) { fParticlesPerSecond = pps; }
+    void setInitPos(const std::vector<hsVector3>& pos) { fInitPos = pos; }
+    void setInitPitch(const std::vector<float>& pitch) { fInitPitch = pitch; }
+    void setInitYaw(const std::vector<float>& yaw) { fInitYaw = yaw; }
+    void setAngleRange(float range) { fAngleRange = range; }
+    void setVelMin(float vel) { fVelMin = vel; }
+    void setVelMax(float vel) { fVelMax = vel; }
+    void setXSize(float size) { fXSize = size; }
+    void setYSize(float size) { fYSize = size; }
+    void setScaleMin(float scale) { fScaleMin = scale; }
+    void setScaleMax(float scale) { fScaleMax = scale; }
+    void setGenLife(float life) { fGenLife = life; }
+    void setPartLifeMin(float life) { fPartLifeMin = life; }
+    void setPartLifeMax(float life) { fPartLifeMax = life; }
+    void setPartMassRange(float range) { fPartMassRange = range; }
+    void setPartRadsPerSecRange(float range) { fPartRadsPerSecRange = range; }
 };
 
 #endif

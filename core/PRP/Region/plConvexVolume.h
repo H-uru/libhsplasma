@@ -33,6 +33,10 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    const std::vector<hsPlane3>& getLocalPlanes() const { return fLocalPlanes; }
+    void setLocalPlanes(const std::vector<hsPlane3>& planes) { fLocalPlanes = planes; }
 };
 
 #endif
