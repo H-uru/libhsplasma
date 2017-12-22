@@ -186,7 +186,7 @@ int main(int argc, char* argv[]) {
 
         std::vector<short> types = rm.getTypes(loc);
       #ifdef _WIN32
-        CreateDirectoryW(getOutputDir(filename, page).to_wchar(), NULL);
+        CreateDirectoryW(getOutputDir(filename, page).to_wchar().data(), NULL);
       #else
         mkdir(getOutputDir(filename, page).c_str(), S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH);
       #endif
@@ -257,7 +257,7 @@ int main(int argc, char* argv[]) {
       #ifdef _WIN32
         ST::string pattern = ST::format("{}*.po", getOutputDir(filename, page));
         WIN32_FIND_DATAW fd;
-        HANDLE fr = FindFirstFileW(pattern.to_wchar(), &fd);
+        HANDLE fr = FindFirstFileW(pattern.to_wchar().data(), &fd);
         if (fr != NULL) {
             do {
                 ST::string po_file = getOutputDir(filename, page) + fd.cFileName;
@@ -352,16 +352,16 @@ int main(int argc, char* argv[]) {
       #ifdef _WIN32
         ST::string pattern = ST::format("{}*.po", getOutputDir(filename, page));
         WIN32_FIND_DATAW rfd;
-        HANDLE rfr = FindFirstFileW(pattern.to_wchar(), &rfd);
+        HANDLE rfr = FindFirstFileW(pattern.to_wchar().data(), &rfd);
         if (rfr != NULL) {
             do {
                 ST::string po_file = getOutputDir(filename, page) + rfd.cFileName;
-                DeleteFileW(po_file.to_wchar());
+                DeleteFileW(po_file.to_wchar().data());
             } while (FindNextFileW(rfr, &rfd));
             FindClose(rfr);
         }
-        RemoveDirectoryW(getOutputDir(filename, page).to_wchar());
-        DeleteFileW(filename.to_wchar());
+        RemoveDirectoryW(getOutputDir(filename, page).to_wchar().data());
+        DeleteFileW(filename.to_wchar().data());
       #else
         dirent** rdes;
         unsigned int nEntries = scandir(getOutputDir(filename, page).c_str(), &rdes, &selAll, &alphasort);

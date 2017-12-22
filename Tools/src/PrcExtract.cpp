@@ -119,7 +119,7 @@ int main(int argc, char* argv[]) {
         outDir = getOutputDir(fFiles[i], page);
         outFile = outDir + filenameConvert(fFiles[i]);
       #ifdef _WIN32
-        CreateDirectoryW(outDir.to_wchar(), NULL);
+        CreateDirectoryW(outDir.to_wchar().data(), NULL);
       #else
         mkdir(outDir.c_str(), S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH);
       #endif
