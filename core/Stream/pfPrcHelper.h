@@ -52,8 +52,10 @@ public:
     void writeParam(const char* name, const char* value);
     void writeParam(const char* name, int value);
     void writeParam(const char* name, long value);
+    void writeParam(const char* name, long long value);
     void writeParam(const char* name, unsigned int value);
     void writeParam(const char* name, unsigned long value);
+    void writeParam(const char* name, unsigned long long value);
     void writeParam(const char* name, float value);
     void writeParam(const char* name, double value);
     void writeParam(const char* name, bool value);
