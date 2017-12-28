@@ -151,8 +151,9 @@ void plPageInfo::write(hsStream* S) {
         S->writeShort(6);
         S->writeShort(fClassList.size());
         for (size_t i=0; i<fClassList.size(); i++) {
-            S->writeShort(pdUnifiedTypeMap::MappedToPlasma(fClassList[i], S->getVer()));
-            S->writeShort(pdUnifiedTypeMap::ClassVersion(fClassList[i], S->getVer()));
+            short typeIdx = pdUnifiedTypeMap::MappedToPlasma(fClassList[i], S->getVer());
+            S->writeShort(typeIdx);
+            S->writeShort(pdUnifiedTypeMap::ClassVersion(typeIdx, S->getVer()));
         }
         fLocation.write(S);
         S->writeSafeStr(getAge());
@@ -161,8 +162,9 @@ void plPageInfo::write(hsStream* S) {
         S->writeShort(9);
         S->writeShort(fClassList.size());
         for (size_t i=0; i<fClassList.size(); i++) {
-            S->writeShort(pdUnifiedTypeMap::MappedToPlasma(fClassList[i], S->getVer()));
-            S->writeShort(pdUnifiedTypeMap::ClassVersion(fClassList[i], S->getVer()));
+            short typeIdx = pdUnifiedTypeMap::MappedToPlasma(fClassList[i], S->getVer());
+            S->writeShort(typeIdx);
+            S->writeShort(pdUnifiedTypeMap::ClassVersion(typeIdx, S->getVer()));
         }
         fLocation.write(S);
         S->writeSafeStr(getAge());
@@ -191,8 +193,9 @@ void plPageInfo::write(hsStream* S) {
     if (S->getVer().isMoul()) {
         S->writeShort(fClassList.size());
         for (size_t i=0; i<fClassList.size(); i++) {
-            S->writeShort(pdUnifiedTypeMap::MappedToPlasma(fClassList[i], S->getVer()));
-            S->writeShort(pdUnifiedTypeMap::ClassVersion(fClassList[i], S->getVer()));
+            short typeIdx = pdUnifiedTypeMap::MappedToPlasma(fClassList[i], S->getVer());
+            S->writeShort(typeIdx);
+            S->writeShort(pdUnifiedTypeMap::ClassVersion(typeIdx, S->getVer()));
         }
     }
 }
