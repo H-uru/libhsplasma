@@ -171,6 +171,7 @@
 #include "PRP/Animation/pyAnimTimeConvert.h"
 #include "PRP/Animation/pyATCEaseCurves.h"
 #include "PRP/Animation/pyController.h"
+#include "PRP/Animation/pyFilterCoordInterface.h"
 #include "PRP/Animation/pyKeys.h"
 #include "PRP/Animation/pyLeafController.h"
 #include "PRP/Animation/pyLineFollowMod.h"
@@ -243,6 +244,8 @@
 #include "PRP/Message/pyNotifyMsg.h"
 #include "PRP/Message/pyLinkToAgeMsg.h"
 #include "PRP/Message/pyResponderMsg.h"
+#include "PRP/Message/pyRideAnimatedPhysMsg.h"
+#include "PRP/Message/pySimulationMsg.h"
 #include "PRP/Message/pySoundMsg.h"
 #include "PRP/Message/pySwimMsg.h"
 #include "PRP/Message/pyTimerCallbackMsg.h"
@@ -271,6 +274,7 @@
 #include "PRP/Particle/pyParticleSystem.h"
 #include "PRP/Physics/pyCollisionDetector.h"
 #include "PRP/Physics/pyDetectorModifier.h"
+#include "PRP/Physics/pyHKSubWorld.h"
 #include "PRP/Physics/pyObjectInVolumeDetector.h"
 #include "PRP/Physics/pyPhysical.h"
 #include "PRP/Region/pyBounds.h"
@@ -385,6 +389,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kAgeGlobalAnim: return pyAgeGlobalAnim_FromAgeGlobalAnim(plAgeGlobalAnim::Convert(pCre));
         case kATCAnim: return pyATCAnim_FromATCAnim(plATCAnim::Convert(pCre));
         case kSubworldRegionDetector: return pySubworldRegionDetector_FromSubworldRegionDetector(plSubworldRegionDetector::Convert(pCre));
+        case kHKSubWorld: return pyHKSubWorld_FromHKSubWorld(plHKSubWorld::Convert(pCre));
         case kPanicLinkRegion: return pyPanicLinkRegion_FromPanicLinkRegion(plPanicLinkRegion::Convert(pCre));
         case kEmoteAnim: return pyEmoteAnim_FromEmoteAnim(plEmoteAnim::Convert(pCre));
         case kAGAnimBink: return pyAGAnimBink_FromAGAnimBink(plAGAnimBink::Convert(pCre));
@@ -572,6 +577,11 @@ PyObject* ICreate(plCreatable* pCre)
         case kSimpleParticleGenerator: return pySimpleParticleGenerator_FromSimpleParticleGenerator(plSimpleParticleGenerator::Convert(pCre));
         case kParticleEmitter: return pyParticleEmitter_FromParticleEmitter(plParticleEmitter::Convert(pCre));
         case kParticleSystem: return pyParticleSystem_FromParticleSystem(plParticleSystem::Convert(pCre));
+        case kSimulationMsg: return pySimulationMsg_FromSimulationMsg(plSimulationMsg::Convert(pCre));
+        case kSubWorldMsg: return pySubWorldMsg_FromSubWorldMsg(plSubWorldMsg::Convert(pCre));
+        case kFilterCoordInterface: return pyFilterCoordInterface_FromFilterCoordInterface(plFilterCoordInterface::Convert(pCre));
+        case kRidingAnimatedPhysicalDetector: return pyRidingAnimatedPhysicalDetector_FromRidingAnimatedPhysicalDetector(plRidingAnimatedPhysicalDetector::Convert(pCre));
+        case kRideAnimatedPhysMsg: return pyRideAnimatedPhysMsg_FromRideAnimatedPhysMsg(plRideAnimatedPhysMsg::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (pCre->ClassInstance(kMessage))

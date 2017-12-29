@@ -46,6 +46,13 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    unsigned int getFilterMask() const { return fFilterMask; }
+    const hsMatrix44& getRefParentLocalToWorld() const { return fRefParentLocalToWorld; }
+
+    void setFilterMask(unsigned int mask) { fFilterMask = mask; }
+    void setRefParentLocalToWorld(const hsMatrix44& xform) { fRefParentLocalToWorld = xform; }
 };
 
 #endif

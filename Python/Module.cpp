@@ -33,6 +33,7 @@
 #include "PRP/Animation/pyAnimTimeConvert.h"
 #include "PRP/Animation/pyATCEaseCurves.h"
 #include "PRP/Animation/pyController.h"
+#include "PRP/Animation/pyFilterCoordInterface.h"
 #include "PRP/Animation/pyKeys.h"
 #include "PRP/Animation/pyLeafController.h"
 #include "PRP/Animation/pyLineFollowMod.h"
@@ -113,6 +114,8 @@
 #include "PRP/Message/pyMsgForwarder.h"
 #include "PRP/Message/pyNotifyMsg.h"
 #include "PRP/Message/pyResponderMsg.h"
+#include "PRP/Message/pyRideAnimatedPhysMsg.h"
+#include "PRP/Message/pySimulationMsg.h"
 #include "PRP/Message/pySoundMsg.h"
 #include "PRP/Message/pySwimMsg.h"
 #include "PRP/Message/pyTimerCallbackMsg.h"
@@ -142,6 +145,7 @@
 #include "PRP/Particle/pyParticleSystem.h"
 #include "PRP/Physics/pyCollisionDetector.h"
 #include "PRP/Physics/pyDetectorModifier.h"
+#include "PRP/Physics/pyHKSubWorld.h"
 #include "PRP/Physics/pyObjectInVolumeDetector.h"
 #include "PRP/Physics/pyPhysical.h"
 #include "PRP/Region/pyBounds.h"
@@ -740,6 +744,9 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plSimpleParticleGenerator", Init_pySimpleParticleGenerator_Type());
     PyModule_AddObject(module, "plParticleEmitter", Init_pyParticleEmitter_Type());
     PyModule_AddObject(module, "plParticleSystem", Init_pyParticleSystem_Type());
+    PyModule_AddObject(module, "plHKSubWorld", Init_pyHKSubWorld_Type());
+    PyModule_AddObject(module, "plFilterCoordInterface", Init_pyFilterCoordInterface_Type());
+    PyModule_AddObject(module, "plRidingAnimatedPhysicalDetector", Init_pyRidingAnimatedPhysicalDetector_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());
@@ -838,6 +845,9 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plParticleScaleMaxApplicator", Init_pyParticleScaleMaxApplicator_Type());
     PyModule_AddObject(module, "plParticleVelMinApplicator", Init_pyParticleVelMinApplicator_Type());
     PyModule_AddObject(module, "plParticleVelMaxApplicator", Init_pyParticleVelMaxApplicator_Type());
+    PyModule_AddObject(module, "plSimulationMsg", Init_pySimulationMsg_Type());
+    PyModule_AddObject(module, "plSubWorldMsg", Init_pySubWorldMsg_Type());
+    PyModule_AddObject(module, "plRideAnimatedPhysMsg", Init_pyRideAnimatedPhysMsg_Type());
 
 #if PY_MAJOR_VERSION >= 3
     return module;

@@ -35,6 +35,13 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    bool getEntering() const { return fEntering; }
+    plKey getRegion() const { return fRegion; }
+
+    void setEntering(bool entering) { fEntering = entering; }
+    void setRegion(const plKey& region) { fRegion = region; }
 };
 
 #endif

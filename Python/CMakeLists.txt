@@ -49,6 +49,7 @@ set(PRP_ANIM_SOURCES
     PRP/Animation/pyConstAccelEaseCurve.cpp
     PRP/Animation/pyController.cpp
     PRP/Animation/pyEaseController.cpp
+    PRP/Animation/pyFilterCoordInterface.cpp
     PRP/Animation/pyG3DSMaxKeyFrame.cpp
     PRP/Animation/pyKeyFrame.cpp
     PRP/Animation/pyLeafController.cpp
@@ -80,6 +81,7 @@ set(PRP_ANIM_HEADERS
     PRP/Animation/pyAnimPath.h
     PRP/Animation/pyAnimTimeConvert.h
     PRP/Animation/pyController.h
+    PRP/Animation/pyFilterCoordInterface.h
     PRP/Animation/pyKeys.h
     PRP/Animation/pyLeafController.h
     PRP/Animation/pyLineFollowMod.h
@@ -367,8 +369,11 @@ set(PRP_MSG_SOURCES
     PRP/Message/pyPickedEventData.cpp
     PRP/Message/pyResponderMsg.cpp
     PRP/Message/pyResponderStateEventData.cpp
+    PRP/Message/pyRideAnimatedPhysMsg.cpp
+    PRP/Message/pySimulationMsg.cpp
     PRP/Message/pySoundMsg.cpp
     PRP/Message/pySpawnedEventData.cpp
+    PRP/Message/pySubWorldMsg.cpp
     PRP/Message/pySwimMsg.cpp
     PRP/Message/pyTimerCallbackMsg.cpp
     PRP/Message/pyVariableEventData.cpp
@@ -387,6 +392,8 @@ set(PRP_MSG_HEADERS
     PRP/Message/pyMessageWithCallbacks.h
     PRP/Message/pyMsgForwarder.h
     PRP/Message/pyNotifyMsg.h
+    PRP/Message/pyRideAnimatedPhysMsg.h
+    PRP/Message/pySimulationMsg.h
     PRP/Message/pySoundMsg.h
     PRP/Message/pySwimMsg.h
     PRP/Message/pyResponderMsg.h
@@ -484,6 +491,7 @@ set(PRP_PHYS_SOURCES
     PRP/Physics/pyCollisionDetector.cpp
     PRP/Physics/pyDetectorModifier.cpp
     PRP/Physics/pyGenericPhysical.cpp
+    PRP/Physics/pyHKSubWorld.cpp
     PRP/Physics/pyObjectInVolumeDetector.cpp
     PRP/Physics/pyObjectInVolumeAndFacingDetector.cpp
     PRP/Physics/pyPanicLinkRegion.cpp
@@ -495,6 +503,7 @@ set(PRP_PHYS_SOURCES
 set(PRP_PHYS_HEADERS
     PRP/Physics/pyCollisionDetector.h
     PRP/Physics/pyDetectorModifier.h
+    PRP/Physics/pyHKSubWorld.h
     PRP/Physics/pyObjectInVolumeDetector.h
     PRP/Physics/pyPhysical.h
 )
@@ -507,6 +516,7 @@ set(PRP_REGION_SOURCES
     PRP/Region/pyBoundsConvert.cpp
     PRP/Region/pyConvexIsect.cpp
     PRP/Region/pyConvexVolume.cpp
+    PRP/Region/pyRidingAnimatedPhysicalDetector.cpp
     PRP/Region/pySimpleRegionSensor.cpp
     PRP/Region/pySoftVolumeComplex.cpp
     PRP/Region/pySoftVolumeIntersect.cpp

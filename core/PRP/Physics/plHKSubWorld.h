@@ -24,15 +24,22 @@ class PLASMA_DLL plHKSubWorld : public plObjInterface {
     CREATABLE(plHKSubWorld, kHKSubWorld, plObjInterface)
 
 private:
-    hsVector3 fPosition;
+    hsVector3 fGravity;
 
 public:
+    plHKSubWorld() : fGravity(0.f, 0.f, -32.174049f) { }
+
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    const hsVector3& getGravity() const { return fGravity; }
+    hsVector3& getGravity() { return fGravity; }
+    void setGravity(const hsVector3& gravity) { fGravity = gravity; }
 };
 
 #endif
