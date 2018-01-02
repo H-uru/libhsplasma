@@ -63,6 +63,7 @@ struct pySequenceFastRef
 
     // String -> Unicode
     #define PyString_FromString(str) PyUnicode_DecodeUTF8((str), strlen((str)), NULL)
+    #define PyString_FromStringAndSize(str, len) PyUnicode_DecodeUTF8((str), (len), NULL)
     #define PyAnyString_FromSTString PyUnicode_FromSTString
 
     // Py_TPFLAGS_CHECKTYPES is no longer used in Py3k

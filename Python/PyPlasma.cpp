@@ -19,7 +19,7 @@
 #include <unordered_set>
 
 PyObject* PyString_FromSTString(const ST::string& str) {
-    return PyString_FromString(str.c_str());
+    return PyString_FromStringAndSize(str.c_str(), str.size());
 }
 
 PyObject* PyUnicode_FromSTString(const ST::string& str) {
