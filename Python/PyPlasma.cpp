@@ -50,6 +50,6 @@ int PyType_CheckAndReady(PyTypeObject* type)
     if (result == 0)
         init_bases.insert(type);
     else
-        ST::printf(stderr, "WARN: Failed to ready {}", type->tp_name);
+        ST::printf(stderr, "WARN: Failed to ready {}\n", type->tp_name);
     return result;
 }
