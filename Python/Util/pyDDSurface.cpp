@@ -77,10 +77,19 @@ PY_METHOD_VA(DDSurface, setFromMipmap,
     Py_RETURN_NONE;
 }
 
-PY_METHOD_NOARGS(DDSurface, createMipmap,
+PY_METHOD_VA(DDSurface, createMipmap,
+    "Params: Mipmap name\n"
     "Create a new plMipmap from this plDDSurface")
 {
-    return ICreate(self->fThis->createMipmap());
+    const char* name = "";
+    if (!PyArg_ParseTuple(args, "|s", &name)) {
+        PyErr_SetString(PyExc_TypeError, "createMipmap expects a string");
+        return NULL;
+    }
+
+    plMipmap* mm = self->fThis->createMipmap();
+    mm->init(name);
+    return ICreate(mm);
 }
 
 PY_METHOD_VA(DDSurface, calcBufferSize,
