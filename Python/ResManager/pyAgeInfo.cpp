@@ -69,7 +69,7 @@ PY_METHOD_VA(AgeInfo, getPage,
     try {
         plAgeInfo::PageEntry pe = self->fThis->getPage(idx);
         return Py_BuildValue("sii", pe.fName.c_str(), pe.fSeqSuffix, pe.fLoadFlags);
-    } catch (hsOutOfBoundsException) {
+    } catch (const hsOutOfBoundsException&) {
         PyErr_SetString(PyExc_IndexError, "page index out of range");
         return NULL;
     }
@@ -99,7 +99,7 @@ PY_METHOD_VA(AgeInfo, getCommonPage,
     try {
         plAgeInfo::PageEntry pe = self->fThis->getCommonPage(idx, (PlasmaVer)version);
         return Py_BuildValue("sii", pe.fName.c_str(), pe.fSeqSuffix, pe.fLoadFlags);
-    } catch (hsOutOfBoundsException) {
+    } catch (const hsOutOfBoundsException&) {
         PyErr_SetString(PyExc_IndexError, "common page index out of range");
         return NULL;
     }
@@ -147,7 +147,7 @@ PY_METHOD_VA(AgeInfo, getPageFilename,
     }
     try {
         return pyPlasma_convert(self->fThis->getPageFilename((size_t)idx, (PlasmaVer)version));
-    } catch (hsOutOfBoundsException) {
+    } catch (const hsOutOfBoundsException&) {
         PyErr_SetString(PyExc_IndexError, "page index out of range");
         return NULL;
     }
@@ -164,7 +164,7 @@ PY_METHOD_VA(AgeInfo, getCommonPageFilename,
     }
     try {
         return pyPlasma_convert(self->fThis->getCommonPageFilename((size_t)idx, (PlasmaVer)version));
-    } catch (hsOutOfBoundsException) {
+    } catch (const hsOutOfBoundsException&) {
         PyErr_SetString(PyExc_IndexError, "common page index out of range");
         return NULL;
     }
@@ -181,7 +181,7 @@ PY_METHOD_VA(AgeInfo, getPageLoc,
     }
     try {
         return pyLocation_FromLocation(self->fThis->getPageLoc((size_t)idx, (PlasmaVer)ver));
-    } catch (hsOutOfBoundsException) {
+    } catch (const hsOutOfBoundsException&) {
         PyErr_SetString(PyExc_IndexError, "page index out of range");
         return NULL;
     }
@@ -198,7 +198,7 @@ PY_METHOD_VA(AgeInfo, getCommonPageLoc,
     }
     try {
         return pyLocation_FromLocation(self->fThis->getCommonPageLoc((size_t)idx, (PlasmaVer)ver));
-    } catch (hsOutOfBoundsException) {
+    } catch (const hsOutOfBoundsException&) {
         PyErr_SetString(PyExc_IndexError, "page index out of range");
         return NULL;
     }
