@@ -27,6 +27,7 @@ static int sockError();
 #   include <wspiapi.h>
 
     typedef char* sockbuf_t;
+    typedef const char* const_sockbuf_t;
 
     static WSADATA s_wsadata;
 
@@ -55,6 +56,7 @@ static int sockError();
 #   define closesocket ::close
 #   define ioctlsocket ::ioctl
     typedef void* sockbuf_t;
+    typedef const void* const_sockbuf_t;
 
     static int sockError()
     { return errno; }
@@ -236,7 +238,7 @@ void pnSocket::unlink()
 
 long pnSocket::send(const void* buffer, size_t size)
 {
-    long count = ::send(fSockHandle, (const sockbuf_t)buffer, size, 0);
+    long count = ::send(fSockHandle, (const_sockbuf_t)buffer, size, 0);
     if (count == -1) {
         plDebug::Error("Send failed: {}", getSockErrorStr());
         close();
