@@ -16,6 +16,7 @@
 
 #include "pnGateKeeperClient.h"
 #include "GateKeeperMessages.h"
+#include "Stream/hsRAMStream.h"
 #include "Debug/plDebug.h"
 #include "crypt/pnBigInteger.h"
 #include "crypt/pnSha1.h"
@@ -106,18 +107,18 @@ void pnGateKeeperClient::disconnect()
 
 ENetError pnGateKeeperClient::performConnect()
 {
-    uint8_t connectHeader[51];  // ConnectHeader + GateKeeperConnectHeader
+    hsRAMStream connectHeader;
     /* Begin ConnectHeader */
-    *(uint8_t* )(connectHeader     ) = kConnTypeCliToGateKeeper;
-    *(uint16_t*)(connectHeader +  1) = 31;
-    *(uint32_t*)(connectHeader +  3) = fBuildId;
-    *(uint32_t*)(connectHeader +  7) = fBuildType;
-    *(uint32_t*)(connectHeader + 11) = fBranchId;
-    fProductId.write(connectHeader + 15);
+    connectHeader.writeByte(kConnTypeCliToGateKeeper);
+    connectHeader.writeShort(31);
+    connectHeader.writeInt(fBuildId);
+    connectHeader.writeInt(fBuildType);
+    connectHeader.writeInt(fBranchId);
+    fProductId.write(&connectHeader);
     /* Begin GateKeeperConnectHeader */
-    *(uint32_t*)(connectHeader + 31) = 20;
-    memset(connectHeader + 35, 0, 16);
-    fSock->send(connectHeader, 51);
+    connectHeader.writeInt(20);
+    plUuid::Null.write(&connectHeader);
+    fSock->send(connectHeader.data(), connectHeader.size());
 
     if (!fSock->isConnected()) {
         delete fSock;
@@ -138,11 +139,11 @@ ENetError pnGateKeeperClient::performConnect()
         serverSeed.getData(y_data, 64);
     }
 
-    uint8_t cryptHeader[66];
-    *(uint8_t*)(cryptHeader    ) = kNetCliCli2SrvConnect;
-    *(uint8_t*)(cryptHeader + 1) = 66;
-    memcpy(cryptHeader + 2, y_data, 64);
-    fSock->send(cryptHeader, 66);
+    hsRAMStream cryptHeader;
+    cryptHeader.writeByte(kNetCliCli2SrvConnect);
+    cryptHeader.writeByte(66);
+    cryptHeader.write(64, y_data);
+    fSock->send(cryptHeader.data(), cryptHeader.size());
 
     uint8_t msg, len;
     if (fSock->recv(&msg, 1) <= 0 || fSock->recv(&len, 1) <= 0) {

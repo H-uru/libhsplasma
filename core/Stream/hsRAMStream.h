@@ -19,17 +19,15 @@
 
 #include "hsStream.h"
 
-#define BLOCKSIZE 4096  // Common block size on x86 machines
-
 class PLASMA_DLL hsRAMStream : public hsStream {
 protected:
     uint8_t* fData;
     uint32_t fSize, fMax, fPos;
 
 public:
-    hsRAMStream(int pv = PlasmaVer::pvUnknown)
-        : hsStream(pv), fData(NULL), fSize(0), fMax(0), fPos(0) { }
-    virtual ~hsRAMStream();
+    explicit hsRAMStream(int pv = PlasmaVer::pvUnknown)
+        : hsStream(pv), fData(), fSize(), fMax(), fPos() { }
+    ~hsRAMStream() HS_OVERRIDE;
 
     void stealFrom(void* data, size_t size);
     void copyFrom(const void* data, size_t size);
@@ -46,6 +44,8 @@ public:
 
     size_t read(size_t size, void* buf) HS_OVERRIDE;
     size_t write(size_t size, const void* buf) HS_OVERRIDE;
+
+    const uint8_t* data() const { return fData; }
 
     virtual void resize(uint32_t newsize);
 };

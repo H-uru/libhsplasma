@@ -48,7 +48,7 @@ configure_file(${PROJECT_SOURCE_DIR}/cmake/PlasmaConfig.h.in
                ${PROJECT_BINARY_DIR}/PlasmaConfig.h)
 include_directories(${PROJECT_BINARY_DIR})
 
-find_package(string_theory 1.5 REQUIRED)
+find_package(string_theory 2.0 REQUIRED)
 add_definitions(-DST_NO_2_0_DEPRECATION)
 
 add_subdirectory(core)

@@ -16,6 +16,7 @@
 
 #include "pnFileClient.h"
 #include "FileMessages.h"
+#include "Stream/hsRAMStream.h"
 #include "Debug/plDebug.h"
 #include <cstring>
 
@@ -222,19 +223,19 @@ void pnFileClient::disconnect()
 
 ENetError pnFileClient::performConnect()
 {
-    uint8_t connectHeader[43];  // ConnectHeader + FileConnectHeader
+    hsRAMStream connectHeader;
     /* Begin ConnectHeader */
-    *(uint8_t* )(connectHeader     ) = kConnTypeCliToFile;
-    *(uint16_t*)(connectHeader +  1) = 31;
-    *(uint32_t*)(connectHeader +  3) = 0;
-    *(uint32_t*)(connectHeader +  7) = fBuildType;
-    *(uint32_t*)(connectHeader + 11) = fBranchId;
-    fProductId.write(connectHeader + 15);
+    connectHeader.writeByte(kConnTypeCliToFile);
+    connectHeader.writeShort(31);
+    connectHeader.writeInt(0);
+    connectHeader.writeInt(fBuildType);
+    connectHeader.writeInt(fBranchId);
+    fProductId.write(&connectHeader);
     /* Begin FileConnectHeader */
-    *(uint32_t*)(connectHeader + 31) = 12;
-    *(uint32_t*)(connectHeader + 35) = 0;
-    *(uint32_t*)(connectHeader + 39) = 0;
-    fSock->send(connectHeader, 43);
+    connectHeader.writeInt(12);
+    connectHeader.writeInt(0);
+    connectHeader.writeInt(0);
+    fSock->send(connectHeader.data(), connectHeader.size());
 
     if (!fSock->isConnected()) {
         delete fSock;

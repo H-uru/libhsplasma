@@ -65,7 +65,7 @@ long pnRC4Socket::recv(void* buf, size_t size)
                 rSize += srSize;
         }
         if (rSize > 0) {
-            std::unique_ptr<unsigned char> cBuf(new unsigned char[rSize]);
+            std::unique_ptr<unsigned char[]> cBuf(new unsigned char[rSize]);
             RC4(&fRecv, rSize, (const unsigned char*)buf, cBuf.get());
             memcpy(buf, cBuf.get(), rSize);
         }

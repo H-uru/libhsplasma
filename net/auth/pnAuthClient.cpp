@@ -248,14 +248,14 @@ bool pnAuthClient::Dispatch::dispatch(pnSocket* sock)
             pnNetGameScore* scores = new pnNetGameScore[scoreCount];
             const uint8_t* buf = msgbuf[3].fData;
             for (size_t i=0; i<scoreCount; i++) {
-                scores[i].fScoreId     = *(uint32_t*)(buf     );
-                scores[i].fOwnerId     = *(uint32_t*)(buf +  4);
-                scores[i].fCreatedTime = *(uint32_t*)(buf +  8);
-                scores[i].fGameType    = *(uint32_t*)(buf + 12);
-                scores[i].fValue       = *(int32_t* )(buf + 16);
-                size_t strDataSize     = *(uint32_t*)(buf + 20);
-                scores[i].fGameName    = ST::string::from_utf16((const char16_t*)(buf + 24));
-                buf += 24 + strDataSize;
+                scores[i].fScoreId     = NCReadBuffer<uint32_t>(buf);
+                scores[i].fOwnerId     = NCReadBuffer<uint32_t>(buf);
+                scores[i].fCreatedTime = NCReadBuffer<uint32_t>(buf);
+                scores[i].fGameType    = NCReadBuffer<uint32_t>(buf);
+                scores[i].fValue       = NCReadBuffer<int32_t>(buf);
+                size_t strDataSize     = NCReadBuffer<uint32_t>(buf);
+                scores[i].fGameName    = ST::string::from_utf16((const char16_t*)buf);
+                buf += strDataSize;
             }
             fReceiver->onScoreGetScoresReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
                             scoreCount, scores);
@@ -277,11 +277,11 @@ bool pnAuthClient::Dispatch::dispatch(pnSocket* sock)
             pnNetGameRank* ranks = new pnNetGameRank[rankCount];
             const uint8_t* buf = msgbuf[3].fData;
             for (size_t i=0; i<rankCount; i++) {
-                ranks[i].fRank     = *(uint32_t*)(buf    );
-                ranks[i].fScore    = *(uint32_t*)(buf + 4);
-                size_t strDataSize = *(uint32_t*)(buf + 8);
-                ranks[i].fName     = ST::string::from_utf16((const char16_t*)(buf + 12));
-                buf += 12 + strDataSize;
+                ranks[i].fRank     = NCReadBuffer<uint32_t>(buf);
+                ranks[i].fScore    = NCReadBuffer<uint32_t>(buf);
+                size_t strDataSize = NCReadBuffer<uint32_t>(buf);
+                ranks[i].fName     = ST::string::from_utf16((const char16_t*)buf);
+                buf += strDataSize;
             }
             fReceiver->onScoreGetRanksReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
                             rankCount, ranks);
@@ -373,18 +373,18 @@ void pnAuthClient::disconnect()
 
 ENetError pnAuthClient::performConnect()
 {
-    uint8_t connectHeader[51];  // ConnectHeader + AuthConnectHeader
+    hsRAMStream connectHeader;
     /* Begin ConnectHeader */
-    *(uint8_t* )(connectHeader     ) = kConnTypeCliToAuth;
-    *(uint16_t*)(connectHeader +  1) = 31;
-    *(uint32_t*)(connectHeader +  3) = fBuildId;
-    *(uint32_t*)(connectHeader +  7) = fBuildType;
-    *(uint32_t*)(connectHeader + 11) = fBranchId;
-    fProductId.write(connectHeader + 15);
+    connectHeader.writeByte(kConnTypeCliToAuth);
+    connectHeader.writeShort(31);
+    connectHeader.writeInt(fBuildId);
+    connectHeader.writeInt(fBuildType);
+    connectHeader.writeInt(fBranchId);
+    fProductId.write(&connectHeader);
     /* Begin AuthConnectHeader */
-    *(uint32_t*)(connectHeader + 31) = 20;
-    memset(connectHeader + 35, 0, 16);
-    fSock->send(connectHeader, 51);
+    connectHeader.writeInt(20);
+    plUuid::Null.write(&connectHeader);
+    fSock->send(connectHeader.data(), connectHeader.size());
 
     if (!fSock->isConnected()) {
         delete fSock;
@@ -405,11 +405,11 @@ ENetError pnAuthClient::performConnect()
         serverSeed.getData(y_data, 64);
     }
 
-    uint8_t cryptHeader[66];
-    *(uint8_t*)(cryptHeader    ) = kNetCliCli2SrvConnect;
-    *(uint8_t*)(cryptHeader + 1) = 66;
-    memcpy(cryptHeader + 2, y_data, 64);
-    fSock->send(cryptHeader, 66);
+    hsRAMStream cryptHeader;
+    cryptHeader.writeByte(kNetCliCli2SrvConnect);
+    cryptHeader.writeByte(66);
+    cryptHeader.write(64, y_data);
+    fSock->send(cryptHeader.data(), cryptHeader.size());
 
     uint8_t msg, len;
     if (fSock->recv(&msg, 1) <= 0 || fSock->recv(&len, 1) <= 0) {
