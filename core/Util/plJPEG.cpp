@@ -18,12 +18,6 @@
 #include "Debug/plDebug.h"
 #include <cstring>
 
-#if defined(HAVE_BOOLEAN)
-# define JPEG_boolean boolean
-#else
-typedef int JPEG_boolean;
-#endif
-
 extern "C" {
 #include <jerror.h>
 }
@@ -45,7 +39,7 @@ typedef struct {
     struct jpeg_source_mgr pub;
     hsStream* stream;
     JOCTET* buffer;
-    JPEG_boolean start_of_stream;
+    boolean start_of_stream;
 } jpeg_hsStream_source;
 
 METHODDEF(void) init_hsStream_source(j_decompress_ptr dinfo) {
@@ -53,7 +47,7 @@ METHODDEF(void) init_hsStream_source(j_decompress_ptr dinfo) {
     src->start_of_stream = TRUE;
 }
 
-METHODDEF(JPEG_boolean) hsStream_fill_input_buffer(j_decompress_ptr dinfo) {
+METHODDEF(boolean) hsStream_fill_input_buffer(j_decompress_ptr dinfo) {
     jpeg_hsStream_source* src = (jpeg_hsStream_source*)dinfo->src;
     size_t nbytes = INPUT_BUF_SIZE;
 

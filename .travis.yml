@@ -1,0 +1,46 @@
+language: cpp
+
+matrix:
+  include:
+    - os: linux
+      dist: trusty
+      compiler: gcc
+      env: PYTHON_VER=2.7
+      addons:
+        apt:
+          packages:
+            - cmake
+            - libpng12-dev
+            - zlib1g-dev
+            - libjpeg-turbo8-dev
+            - python2.7-dev
+    - os: linux
+      dist: trusty
+      compiler: gcc
+      env: PYTHON_VER=3.4
+      addons:
+        apt:
+          packages:
+            - cmake
+            - libpng12-dev
+            - zlib1g-dev
+            - libjpeg-turbo8-dev
+            - python3.4-dev
+    - os: osx
+      osx_image: xcode8.3
+      compiler: clang
+      env: PYTHON_VER=2.7 CMAKE_EXTRA_ARGS="-DOPENSSL_ROOT_DIR=/usr/local/opt/openssl"
+
+script:
+  - mkdir -p build_deps && cd build_deps
+  - git clone https://github.com/zrax/string_theory
+  - mkdir -p string_theory/build && cd string_theory/build
+  - cmake -DCMAKE_BUILD_TYPE=Debug -DST_BUILD_TESTS=OFF
+      -DCMAKE_INSTALL_PREFIX="${TRAVIS_BUILD_DIR}/build_deps/prefix" ..
+  - make -j2 && make install
+  - cd "${TRAVIS_BUILD_DIR}"
+  - mkdir -p build && cd build
+  - cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_PREFIX_PATH="${TRAVIS_BUILD_DIR}/build_deps/prefix"
+      -DPython_ADDITIONAL_VERSIONS=${PYTHON_VER} -DENABLE_PYTHON=ON -DENABLE_TOOLS=ON
+      -DENABLE_NET=ON -DENABLE_PHYSX=OFF ${CMAKE_EXTRA_ARGS} ..
+  - make -j2
