@@ -92,6 +92,8 @@ static PyMethodDef pyCameraBrain1_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
+PY_PROPERTY(plKey, CameraBrain1, subject, getSubject, setSubject)
+PY_PROPERTY(plKey, CameraBrain1, rail, getRail, setRail)
 PY_PROPERTY(float, CameraBrain1, velocity, getVelocity, setVelocity)
 PY_PROPERTY(float, CameraBrain1, acceleration, getAcceleration, setAcceleration)
 PY_PROPERTY(float, CameraBrain1, deceleration, getDeceleration, setDeceleration)
@@ -108,6 +110,8 @@ PY_PROPERTY(float, CameraBrain1, zoomMin, getZoomMin, setZoomMin)
 
 
 static PyGetSetDef pyCameraBrain1_GetSet[] = {
+    pyCameraBrain1_subject_getset,
+    pyCameraBrain1_rail_getset,
     pyCameraBrain1_velocity_getset,
     pyCameraBrain1_acceleration_getset,
     pyCameraBrain1_deceleration_getset,
