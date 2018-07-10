@@ -1,0 +1,64 @@
+version: '{build}'
+
+environment:
+  global:
+    PREFIX_VERSION: 20180708
+
+  matrix:
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
+      VisualStudioVersion: 12.0
+      CMAKE_GENERATOR: Visual Studio 12 2013
+      PYTHON_PREFIX: C:\Python27
+      CMAKE_PARAMS: -DPYTHON_INCLUDE_DIR=C:/Python27/include
+        -DPYTHON_LIBRARY=C:/Python27/libs/python27.lib
+        -DPYTHON_EXECUTABLE=C:/Python27/python.exe
+      PREFIX_TARGET: vc2013-x86-static
+      DIST_SUFFIX: '%PREFIX_TARGET%-py27'
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      VisualStudioVersion: 14.0
+      CMAKE_GENERATOR: Visual Studio 14 2015
+      PYTHON_PREFIX: C:\Python36
+      CMAKE_PARAMS: -DPYTHON_INCLUDE_DIR=C:/Python36/include
+        -DPYTHON_LIBRARY=C:/Python36/libs/python36.lib
+        -DPYTHON_EXECUTABLE=C:/Python36/python.exe
+      PREFIX_TARGET: vc2015-x86-static
+      DIST_SUFFIX: '%PREFIX_TARGET%-py36'
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      VisualStudioVersion: 15.0
+      CMAKE_GENERATOR: Visual Studio 15 2017 Win64
+      PYTHON_PREFIX: C:\Python36-x64
+      CMAKE_PARAMS: -DPYTHON_INCLUDE_DIR=C:/Python36-x64/include
+        -DPYTHON_LIBRARY=C:/Python36-x64/libs/python36.lib
+        -DPYTHON_EXECUTABLE=C:/Python36-x64/python.exe
+      PREFIX_TARGET: vc2017-x64-static
+      DIST_SUFFIX: '%PREFIX_TARGET%-py36'
+
+before_build:
+  # Download prefix libs
+  - mkdir build_deps && cd build_deps
+  - curl -LO https://github.com/H-uru/PlasmaPrefix/releases/download/%PREFIX_VERSION%/prefix-%PREFIX_TARGET%.zip
+  - cmake -E tar xf prefix-%PREFIX_TARGET%.zip --format=zip
+
+build_script:
+  - cd "%APPVEYOR_BUILD_FOLDER%"
+  - mkdir build && cd build
+  - cmake -G "%CMAKE_GENERATOR%" -DCMAKE_PREFIX_PATH="%APPVEYOR_BUILD_FOLDER%/build_deps/prefix-%PREFIX_TARGET%"
+      -DCMAKE_INSTALL_PREFIX="%APPVEYOR_BUILD_FOLDER%/dist/libhsplasma-%DIST_SUFFIX%"
+      -DENABLE_PYTHON=ON -DENABLE_NET=ON -DENABLE_TOOLS=ON -DENABLE_PHYSX=OFF
+      %CMAKE_PARAMS% ..
+  - cmake --build . --config Release
+
+after_build:
+  - cmake --build . --config Release --target INSTALL
+  - cd "%APPVEYOR_BUILD_FOLDER%\dist"
+  - cmake -E tar cf libhsplasma-%DIST_SUFFIX%.zip --format=zip libhsplasma-%DIST_SUFFIX%
+
+test_script:
+  # Basic import test
+  - cd "%APPVEYOR_BUILD_FOLDER%\dist\libhsplasma-%DIST_SUFFIX%\bin"
+  - "%PYTHON_PREFIX%\\python.exe -c \"import PyHSPlasma; print(dir(PyHSPlasma))\""
+
+artifacts:
+  - path: dist\libhsplasma-*.zip
