@@ -79,6 +79,8 @@ public:
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
+    plKey getSubject() const { return fSubject; }
+    plKey getRail() const { return fRail; }
     float getVelocity() const { return fVelocity; }
     float getAcceleration() const { return fAccel; }
     float getDeceleration() const { return fDecel; }
@@ -97,6 +99,8 @@ public:
     const hsBitVector& getEoAFlags() const { return fEoaFlags; }
     hsBitVector& getEoAFlags() { return fEoaFlags; }
 
+    void setSubject(const plKey& subject) { fSubject = subject; }
+    void setRail(const plKey& rail) { fRail = rail; }
     void setVelocity(float velocity) { fVelocity = velocity; }
     void setAcceleration(float acceleration) { fAccel = acceleration; }
     void setDeceleration(float deceleration) { fDecel = deceleration; }
