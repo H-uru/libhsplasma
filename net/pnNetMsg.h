@@ -22,6 +22,7 @@
 #include "Sys/plUuid.h"
 #include <string_theory/string>
 #include <cstdlib>
+#include <cstring>
 
 enum ENetMsgFieldType {
     kFieldInteger, kFieldFloat, kFieldString, kFieldData, kFieldPtr,
