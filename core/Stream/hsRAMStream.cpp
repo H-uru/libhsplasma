@@ -17,13 +17,15 @@
 #include "hsRAMStream.h"
 #include <cstring>
 
+#define BLOCKSIZE 4096  // Common block size on x86 machines
+
 hsRAMStream::~hsRAMStream() {
     delete[] fData;
 }
 
 void hsRAMStream::stealFrom(void* data, size_t size) {
     fSize = size;
-    fMax = ((size / BLOCKSIZE) * BLOCKSIZE) + (size % BLOCKSIZE ? BLOCKSIZE : 0);
+    fMax = size;
     fPos = 0;
     delete[] fData;
     fData = (uint8_t*)data;
@@ -52,9 +54,13 @@ size_t hsRAMStream::read(size_t size, void* buf) {
     return size;
 }
 
+static size_t _blockalign(size_t size) {
+    return ((size / BLOCKSIZE) * BLOCKSIZE) + (size % BLOCKSIZE ? BLOCKSIZE : 0);
+}
+
 size_t hsRAMStream::write(size_t size, const void* buf) {
     if (size + fPos > fMax) {
-        size_t newSize = (fMax == 0) ? BLOCKSIZE : fMax * 2;
+        size_t newSize = (fMax == 0) ? BLOCKSIZE : _blockalign(fMax * 2);
         while (newSize < (size + fPos))
             newSize *= 2;
         resize(newSize);

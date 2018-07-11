@@ -46,6 +46,42 @@ typedef union {
     uint8_t* fData;
 } msgparm_t;
 
+// More work is needed to clean this up, but it's better than generating
+// a bunch of unaligned reads and writes.
+template <typename T>
+T NCReadBuffer(const uint8_t*& buffer) {
+    T result;
+    memcpy(&result, buffer, sizeof(result));
+    buffer += sizeof(result);
+    return result;
+}
+
+template <typename T>
+void NCWriteBuffer(uint8_t*& buffer, T value) {
+    memcpy(buffer, &value, sizeof(value));
+    buffer += sizeof(value);
+}
+
+template <size_t fixedSize>
+ST::string NCReadUtf16(const uint8_t*& buffer)
+{
+    char16_t u16buf[fixedSize];
+    memcpy(u16buf, buffer, sizeof(u16buf));
+    buffer += sizeof(u16buf);
+    u16buf[fixedSize-1] = 0;
+    return ST::string::from_utf16(u16buf);
+}
+
+template <size_t fixedSize>
+void NCWriteUtf16(uint8_t*& buffer, const ST::string& str)
+{
+    memset(buffer, 0, fixedSize * sizeof(char16_t));
+    const ST::utf16_buffer u16buf = str.to_utf16();
+    const size_t chars = (u16buf.size() > fixedSize - 1) ? fixedSize - 1 : u16buf.size();
+    memcpy(buffer, u16buf.data(), chars * sizeof(char16_t));
+    buffer += fixedSize * sizeof(char16_t);
+}
+
 #define MAKE_NETMSG(name) \
     static pnNetMsg name = { \
         k##name, #name, \

@@ -89,36 +89,35 @@ void pnVaultNode::setModifyNow() {
 }
 
 static uint64_t readU64(const unsigned char*& buffer, size_t& size) {
-    uint64_t v = *(uint64_t*)buffer;
-    buffer += sizeof(uint64_t);
+    uint64_t v = NCReadBuffer<uint64_t>(buffer);
     size -= sizeof(uint64_t);
     return v;
 }
 
 static uint32_t readU32(const unsigned char*& buffer, size_t& size) {
-    uint32_t v = *(uint32_t*)buffer;
-    buffer += sizeof(uint32_t);
+    uint32_t v = NCReadBuffer<uint32_t>(buffer);
     size -= sizeof(uint32_t);
     return v;
 }
 
 static int32_t readS32(const unsigned char*& buffer, size_t& size) {
-    int32_t v = *(int32_t*)buffer;
-    buffer += sizeof(int32_t);
+    int32_t v = NCReadBuffer<int32_t>(buffer);
     size -= sizeof(int32_t);
     return v;
 }
 
 static plUuid readUuid(const unsigned char*& buffer, size_t& size) {
-    plUuid v = *(plUuid*)buffer;
-    buffer += sizeof(plUuid);
+    plUuid v = NCReadBuffer<plUuid>(buffer);
     size -= sizeof(plUuid);
     return v;
 }
 
 static ST::string readString(const unsigned char*& buffer, size_t& size) {
     size_t len = readU32(buffer, size);
-    ST::string v = ST::string::from_utf16((char16_t*)buffer, (len-1) / sizeof(char16_t));
+    ST::utf16_buffer u16buf;
+    u16buf.allocate(len / sizeof(char16_t));
+    memcpy(u16buf.data(), buffer, len);
+    ST::string v = ST::string::from_utf16(u16buf.data(), (len-1) / sizeof(char16_t));
     buffer += len;
     size -= len;
     return v;
@@ -214,26 +213,22 @@ void pnVaultNode::read(const unsigned char* buffer, size_t size) {
 }
 
 static void writeU64(uint64_t v, unsigned char*& buffer, size_t& size) {
-    *(uint64_t*)buffer = v;
-    buffer += sizeof(uint64_t);
+    NCWriteBuffer<uint64_t>(buffer, v);
     size -= sizeof(uint64_t);
 }
 
 static void writeU32(uint32_t v, unsigned char*& buffer, size_t& size) {
-    *(uint32_t*)buffer = v;
-    buffer += sizeof(uint32_t);
+    NCWriteBuffer<uint32_t>(buffer, v);
     size -= sizeof(uint32_t);
 }
 
 static void writeS32(int32_t v, unsigned char*& buffer, size_t& size) {
-    *(int32_t*)buffer = v;
-    buffer += sizeof(int32_t);
+    NCWriteBuffer<int32_t>(buffer, v);
     size -= sizeof(int32_t);
 }
 
 static void writeUuid(const plUuid& v, unsigned char*& buffer, size_t& size) {
-    *(plUuid*)buffer = v;
-    buffer += sizeof(plUuid);
+    NCWriteBuffer<plUuid>(buffer, v);
     size -= sizeof(plUuid);
 }
 
@@ -553,18 +548,18 @@ void pnVaultNode::setBlob(size_t which, const plVaultBlob& value)
 /* pnVaultNodeRef */
 void pnVaultNodeRef::read(const unsigned char* buffer)
 {
-    fParent = *(uint32_t*)(buffer     );
-    fChild  = *(uint32_t*)(buffer +  4);
-    fOwner  = *(uint32_t*)(buffer +  8);
-    fSeen   = *(uint8_t* )(buffer + 12);
+    fParent = NCReadBuffer<uint32_t>(buffer);
+    fChild  = NCReadBuffer<uint32_t>(buffer);
+    fOwner  = NCReadBuffer<uint32_t>(buffer);
+    fSeen   = NCReadBuffer<uint8_t>(buffer);
 }
 
-void pnVaultNodeRef::write(const unsigned char* buffer)
+void pnVaultNodeRef::write(unsigned char* buffer)
 {
-    *(uint32_t*)(buffer     ) = fParent;
-    *(uint32_t*)(buffer +  4) = fChild;
-    *(uint32_t*)(buffer +  8) = fOwner;
-    *(uint8_t* )(buffer + 12) = fSeen;
+    NCWriteBuffer<uint32_t>(buffer, fParent);
+    NCWriteBuffer<uint32_t>(buffer, fChild);
+    NCWriteBuffer<uint32_t>(buffer, fOwner);
+    NCWriteBuffer<uint8_t>(buffer, fSeen);
 }
 
 bool pnVaultNodeRef::operator==(const pnVaultNodeRef& ref)

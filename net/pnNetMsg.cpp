@@ -73,7 +73,7 @@ char16_t* NCCopyString(const ST::string& string)
 {
     ST::utf16_buffer wstr = string.to_utf16();
     char16_t* alloc = new char16_t[wstr.size() + 1];
-    memcpy(alloc, wstr.data(), wstr.size() + 1);
+    memcpy(alloc, wstr.data(), (wstr.size() + 1) * sizeof(char16_t));
     return alloc;
 }
 
@@ -166,29 +166,15 @@ void pnNetAgeInfo::read(const unsigned char* buffer)
     fAgeInstanceId.read(buffer);
     buffer += 16;
 
-    fAgeFilename = ST::string::from_utf16((const char16_t*)buffer);
-    buffer += 64 * sizeof(char16_t);
+    fAgeFilename = NCReadUtf16<64>(buffer);
+    fAgeInstanceName = NCReadUtf16<64>(buffer);
+    fAgeUserName = NCReadUtf16<64>(buffer);
+    fDescription = NCReadUtf16<1024>(buffer);
 
-    fAgeInstanceName = ST::string::from_utf16((const char16_t*)buffer);
-    buffer += 64 * sizeof(char16_t);
-
-    fAgeUserName = ST::string::from_utf16((const char16_t*)buffer);
-    buffer += 64 * sizeof(char16_t);
-
-    fDescription = ST::string::from_utf16((const char16_t*)buffer);
-    buffer += 1024 * sizeof(char16_t);
-
-    fSequenceNumber = *(uint32_t*)buffer;
-    buffer += sizeof(uint32_t);
-
-    fLanguage = *(uint32_t*)buffer;
-    buffer += sizeof(uint32_t);
-
-    fPopulation = *(uint32_t*)buffer;
-    buffer += sizeof(uint32_t);
-
-    fCurrPopulation = *(uint32_t*)buffer;
-    buffer += sizeof(uint32_t);
+    fSequenceNumber = NCReadBuffer<uint32_t>(buffer);
+    fLanguage = NCReadBuffer<uint32_t>(buffer);
+    fPopulation = NCReadBuffer<uint32_t>(buffer);
+    fCurrPopulation = NCReadBuffer<uint32_t>(buffer);
 }
 
 void pnNetAgeInfo::write(unsigned char* buffer)
@@ -196,37 +182,15 @@ void pnNetAgeInfo::write(unsigned char* buffer)
     fAgeInstanceId.write(buffer);
     buffer += 16;
 
-    ST::utf16_buffer wsbuf = fAgeFilename.to_utf16();
-    memcpy(buffer, wsbuf.data(), (wsbuf.size() >= 64 ? 63 : wsbuf.size()) * sizeof(char16_t));
-    buffer[63 * sizeof(char16_t)] = 0;
-    buffer += 64 * sizeof(char16_t);
+    NCWriteUtf16<64>(buffer, fAgeFilename);
+    NCWriteUtf16<64>(buffer, fAgeInstanceName);
+    NCWriteUtf16<64>(buffer, fAgeUserName);
+    NCWriteUtf16<1024>(buffer, fDescription);
 
-    wsbuf = fAgeInstanceName.to_utf16();
-    memcpy(buffer, wsbuf.data(), (wsbuf.size() >= 64 ? 63 : wsbuf.size()) * sizeof(char16_t));
-    buffer[63 * sizeof(char16_t)] = 0;
-    buffer += 64 * sizeof(char16_t);
-
-    wsbuf = fAgeUserName.to_utf16();
-    memcpy(buffer, wsbuf.data(), (wsbuf.size() >= 64 ? 63 : wsbuf.size()) * sizeof(char16_t));
-    buffer[63 * sizeof(char16_t)] = 0;
-    buffer += 64 * sizeof(char16_t);
-
-    wsbuf = fDescription.to_utf16();
-    memcpy(buffer, wsbuf.data(), (wsbuf.size() >= 1024 ? 1023 : wsbuf.size()) * sizeof(char16_t));
-    buffer[1023 * sizeof(char16_t)] = 0;
-    buffer += 1024 * sizeof(char16_t);
-
-    *(uint32_t*)buffer = fSequenceNumber;
-    buffer += sizeof(uint32_t);
-
-    *(uint32_t*)buffer = fLanguage;
-    buffer += sizeof(uint32_t);
-
-    *(uint32_t*)buffer = fPopulation;
-    buffer += sizeof(uint32_t);
-
-    *(uint32_t*)buffer = fCurrPopulation;
-    buffer += sizeof(uint32_t);
+    NCWriteBuffer<uint32_t>(buffer, fSequenceNumber);
+    NCWriteBuffer<uint32_t>(buffer, fLanguage);
+    NCWriteBuffer<uint32_t>(buffer, fPopulation);
+    NCWriteBuffer<uint32_t>(buffer, fCurrPopulation);
 }
 
 

@@ -31,14 +31,6 @@ plUuid::plUuid(unsigned int data1, unsigned short data2, unsigned short data3,
     memcpy(fData4, data4, sizeof(fData4));
 }
 
-plUuid& plUuid::operator=(const plUuid& init) {
-    fData1 = init.fData1;
-    fData2 = init.fData2;
-    fData3 = init.fData3;
-    memcpy(fData4, init.fData4, sizeof(fData4));
-    return *this;
-}
-
 bool plUuid::operator==(const plUuid& other) const {
     if (fData1 != other.fData1 || fData2 != other.fData2 || fData3 != other.fData3)
         return false;
@@ -59,13 +51,13 @@ void plUuid::read(hsStream* S) {
 }
 
 void plUuid::read(const unsigned char* buffer) {
-    fData1 = *(unsigned int*  )(buffer    );
-    fData2 = *(unsigned short*)(buffer + 4);
-    fData3 = *(unsigned short*)(buffer + 6);
-    memcpy(fData4, buffer + 8, 8);
+    memcpy(&fData1, buffer,     sizeof(fData1));
+    memcpy(&fData2, buffer + 4, sizeof(fData2));
+    memcpy(&fData3, buffer + 6, sizeof(fData3));
+    memcpy(fData4,  buffer + 8, sizeof(fData4));
 }
 
-void plUuid::write(hsStream* S) {
+void plUuid::write(hsStream* S) const {
     S->writeInt(fData1);
     S->writeShort(fData2);
     S->writeShort(fData3);
@@ -73,10 +65,10 @@ void plUuid::write(hsStream* S) {
 }
 
 void plUuid::write(unsigned char* buffer) const {
-    *(unsigned int*  )(buffer    ) = fData1;
-    *(unsigned short*)(buffer + 4) = fData2;
-    *(unsigned short*)(buffer + 6) = fData3;
-    memcpy(buffer + 8, fData4, 8);
+    memcpy(buffer,     &fData1, sizeof(fData1));
+    memcpy(buffer + 4, &fData2, sizeof(fData2));
+    memcpy(buffer + 6, &fData3, sizeof(fData3));
+    memcpy(buffer + 8, fData4,  sizeof(fData4));
 }
 
 void plUuid::prcWrite(pfPrcHelper* prc) {

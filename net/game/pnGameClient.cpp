@@ -136,19 +136,19 @@ void pnGameClient::disconnect()
 
 ENetError pnGameClient::performConnect()
 {
-    uint8_t connectHeader[67];  // ConnectHeader + GameConnectHeader
+    hsRAMStream connectHeader;
     /* Begin ConnectHeader */
-    *(uint8_t* )(connectHeader     ) = kConnTypeCliToGame;
-    *(uint16_t*)(connectHeader +  1) = 31;
-    *(uint32_t*)(connectHeader +  3) = fBuildId;
-    *(uint32_t*)(connectHeader +  7) = fBuildType;
-    *(uint32_t*)(connectHeader + 11) = fBranchId;
-    fProductId.write(connectHeader + 15);
+    connectHeader.writeByte(kConnTypeCliToGame);
+    connectHeader.writeShort(31);
+    connectHeader.writeInt(fBuildId);
+    connectHeader.writeInt(fBuildType);
+    connectHeader.writeInt(fBranchId);
+    fProductId.write(&connectHeader);
     /* Begin GameConnectHeader */
-    *(uint32_t*)(connectHeader + 31) = 36;
-    fAccountId.write(connectHeader + 35);
-    fAgeId.write(connectHeader + 51);
-    fSock->send(connectHeader, 67);
+    connectHeader.writeInt(36);
+    fAccountId.write(&connectHeader);
+    fAgeId.write(&connectHeader);
+    fSock->send(connectHeader.data(), connectHeader.size());
 
     if (!fSock->isConnected()) {
         delete fSock;
@@ -169,11 +169,11 @@ ENetError pnGameClient::performConnect()
         serverSeed.getData(y_data, 64);
     }
 
-    uint8_t cryptHeader[66];
-    *(uint8_t*)(cryptHeader    ) = kNetCliCli2SrvConnect;
-    *(uint8_t*)(cryptHeader + 1) = 66;
-    memcpy(cryptHeader + 2, y_data, 64);
-    fSock->send(cryptHeader, 66);
+    hsRAMStream cryptHeader;
+    cryptHeader.writeByte(kNetCliCli2SrvConnect);
+    cryptHeader.writeByte(66);
+    cryptHeader.write(64, y_data);
+    fSock->send(cryptHeader.data(), cryptHeader.size());
 
     uint8_t msg, len;
     if (fSock->recv(&msg, 1) <= 0 || fSock->recv(&len, 1) <= 0) {

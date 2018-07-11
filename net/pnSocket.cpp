@@ -378,14 +378,11 @@ static void SendBasic(unsigned char*& buf, const msgparm_t& data,
     // Also works for floats and doubles
     if (count == 0) {
         if (size == 1) {
-            *(uint8_t*)buf = (uint8_t)data.fUint;
-            buf += sizeof(uint8_t);
+            NCWriteBuffer<uint8_t>(buf, data.fUint);
         } else if (size == 2) {
-            *(uint16_t*)buf = (uint16_t)data.fUint;
-            buf += sizeof(uint16_t);
+            NCWriteBuffer<uint16_t>(buf, data.fUint);
         } else if (size == 4) {
-            *(uint32_t*)buf = data.fUint;
-            buf += sizeof(uint32_t);
+            NCWriteBuffer<uint32_t>(buf, data.fUint);
         }
 
 #ifdef COMMDEBUG
