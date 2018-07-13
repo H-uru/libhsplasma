@@ -17,12 +17,35 @@
 #ifndef _PLATFORM_H
 #define _PLATFORM_H
 
-#define ENDSWAP16(val) \
-    ((val & 0x00FF) << 8 | (val & 0xFF00) >> 8)
+#include <cstdint>
 
-#define ENDSWAP32(val) \
-    ((val & 0x000000FF) << 24 | (val & 0x0000FF00) << 8 | \
-     (val & 0x00FF0000) >> 8  | (val & 0xFF000000) >> 24)
+#ifdef _MSC_VER
+    #define ENDSWAP16(val) _byteswap_ushort(val)
+    #define ENDSWAP32(val) _byteswap_ulong(val)
+    #define ENDSWAP64(val) _byteswap_uint64(val)
+#elif defined(__llvm__) || (defined(__GNUC__) && ((__GNUC__ * 100) + __GNUC_MINOR__) >= 408)
+    #define ENDSWAP16(val) __builtin_bswap16(val)
+    #define ENDSWAP32(val) __builtin_bswap32(val)
+    #define ENDSWAP64(val) __builtin_bswap64(val)
+#else
+    inline uint16_t ENDSWAP16(uint16_t val) {
+        return ((val & 0x00FFU) << 8 | (val & 0xFF00U) >> 8);
+    }
+    inline uint32_t ENDSWAP32(uint32_t val) {
+        return ((val & 0x000000FFU) << 24 | (val & 0x0000FF00U) << 8 |
+                (val & 0x00FF0000U) >> 8  | (val & 0xFF000000U) >> 24);
+    }
+    inline uint64_t ENDSWAP64(uint64_t val) {
+        return ((val & UINT64_C(0x00000000000000FF)) << 56 |
+                (val & UINT64_C(0x000000000000FF00)) << 40 |
+                (val & UINT64_C(0x0000000000FF0000)) << 24 |
+                (val & UINT64_C(0x00000000FF000000)) << 8  |
+                (val & UINT64_C(0x000000FF00000000)) >> 8  |
+                (val & UINT64_C(0x0000FF0000000000)) >> 24 |
+                (val & UINT64_C(0x00FF000000000000)) >> 40 |
+                (val & UINT64_C(0xFF00000000000000)) >> 56 );
+    }
+#endif
 
 inline float ENDSWAPF(float val) {
     union {
@@ -55,6 +78,8 @@ inline double ENDSWAPD(double val) {
     #define BESWAP16(val) (val)
     #define LESWAP32(val) ENDSWAP32(val)
     #define BESWAP32(val) (val)
+    #define LESWAP64(val) ENDSWAP64(val)
+    #define BESWAP64(val) (val)
     #define LESWAPF(val)  ENDSWAPF(val)
     #define BESWAPF(val)  (val)
     #define LESWAPD(val)  ENDSWAPD(val)
@@ -64,6 +89,8 @@ inline double ENDSWAPD(double val) {
     #define BESWAP16(val) ENDSWAP16(val)
     #define LESWAP32(val) (val)
     #define BESWAP32(val) ENDSWAP32(val)
+    #define LESWAP64(val) (val)
+    #define BESWAP64(val) ENDSWAP64(val)
     #define LESWAPF(val)  (val)
     #define BESWAPF(val)  ENDSWAPF(val)
     #define LESWAPD(val)  (val)
