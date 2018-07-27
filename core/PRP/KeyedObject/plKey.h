@@ -254,7 +254,7 @@ public:
  * plKey's members, with the addition of Exists() and isLoaded(), which
  * are direct members of the plKey container.
  */
-class PLASMA_DLL plKey HS_FINAL_CLASS {
+class PLASMA_DLL plKey HS_FINAL {
 private:
     plKeyData* fKeyData;
 

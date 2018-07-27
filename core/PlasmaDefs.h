@@ -50,13 +50,13 @@
 #endif
 
 #ifdef HAVE_OVERRIDE
-  #define HS_OVERRIDE     override
-  #define HS_FINAL        override final    // Add both to satisfy -Wsuggest-override
-  #define HS_FINAL_CLASS  final
+  #define HS_OVERRIDE       override
+  #define HS_FINAL          final
+  #define HS_FINAL_OVERRIDE override final  // Prefer both to satisfy -Wsuggest-override
 #else
   #define HS_OVERRIDE
   #define HS_FINAL
-  #define HS_FINAL_CLASS
+  #define HS_FINAL_OVERRIDE
 #endif
 
 #ifdef HAVE_NOEXCEPT

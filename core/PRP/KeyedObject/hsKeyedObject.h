@@ -91,15 +91,15 @@ public:
     hsKeyedObjectStub() : fStub(NULL) { }
     virtual ~hsKeyedObjectStub();
 
-    short ClassIndex() const HS_FINAL { return fStub->ClassIndex(); }
-    const char* ClassName() const HS_FINAL { return "hsKeyedObjectStub"; }
-    bool isStub() const HS_FINAL { return true; }
+    short ClassIndex() const HS_FINAL_OVERRIDE { return fStub->ClassIndex(); }
+    const char* ClassName() const HS_FINAL_OVERRIDE { return "hsKeyedObjectStub"; }
+    bool isStub() const HS_FINAL_OVERRIDE { return true; }
 
-    void write(hsStream* S, plResManager* mgr) HS_FINAL;
+    void write(hsStream* S, plResManager* mgr) HS_FINAL_OVERRIDE;
 
 protected:
-    void IPrcWrite(pfPrcHelper* prc) HS_FINAL;
-    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_FINAL;
+    void IPrcWrite(pfPrcHelper* prc) HS_FINAL_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_FINAL_OVERRIDE;
 
 public:
     /** Returns the underlying plCreatableStub object of this stub */

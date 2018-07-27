@@ -155,8 +155,8 @@ public:
 
     virtual ~plCreatableStub();
 
-    short ClassIndex() const HS_FINAL { return fClassIdx; }
-    bool isStub() const HS_FINAL { return true; }
+    short ClassIndex() const HS_FINAL_OVERRIDE { return fClassIdx; }
+    bool isStub() const HS_FINAL_OVERRIDE { return true; }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
