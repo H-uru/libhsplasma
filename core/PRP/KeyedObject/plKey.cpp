@@ -149,21 +149,25 @@ std::vector<plKey> hsOrderKeys(const std::vector<plKey>& keys) {
     // std::sort cannot be used here, since hsKeyedObject::orderAfter does
     // not provide strict weak ordering, which is required for std::sort
     // to work correctly.  Instead, we perform a stable topological sort.
+    // TODO: This algorithm could probably be more efficient.
     std::vector<plKey> result;
     result.reserve(keys.size());
     std::list<plKey> input = std::list<plKey>(keys.begin(), keys.end());
 
-    while (input.size() > 1) {
+    while (!input.empty()) {
         auto lowest = input.begin();
         auto iter = lowest;
-        while (++iter != input.end()) {
-            if (lowest->orderAfter(*iter))
+        while (iter != input.end()) {
+            if (lowest->orderAfter(*iter)) {
                 lowest = iter;
+                iter = input.begin();
+            } else {
+                ++iter;
+            }
         }
         result.push_back(*lowest);
         input.erase(lowest);
     }
-    result.push_back(input.front());
 
     return result;
 }
