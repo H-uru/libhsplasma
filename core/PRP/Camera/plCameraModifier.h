@@ -80,10 +80,12 @@ public:
                          fFOVw(45.0f), fFOVh(33.75f), fAnimated(false),
                          fStartAnimOnPush(false), fStopAnimOnPop(false),
                          fResetAnimOnPop(false) { }
-    virtual ~plCameraModifier();
+    ~plCameraModifier() HS_OVERRIDE;
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+
+    bool orderAfter(const hsKeyedObject* other) const HS_OVERRIDE;
 
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;

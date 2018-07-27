@@ -135,3 +135,12 @@ ST::string plKey::toString() const {
         return "NULL";
     return fKeyData->getUoid().toString();
 }
+
+bool plKey::orderAfter(const plKey& other) const {
+    if (!Exists() || !other.Exists())
+        return false;
+    if (!isLoaded() || !other.isLoaded())
+        return false;
+
+    return fKeyData->getObj()->orderAfter(other.fKeyData->getObj());
+}
