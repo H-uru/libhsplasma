@@ -27,13 +27,17 @@ PyObject* PyUnicode_FromSTString(const ST::string& str) {
 }
 
 ST::string PyAnyString_AsSTString(PyObject* str) {
+    char *buffer;
+    Py_ssize_t size;
     if (PyUnicode_Check(str)) {
         PyObject* utfStr = PyUnicode_AsUTF8String(str);
-        ST::string plstr = PyBytes_AsString(utfStr);
+        PyBytes_AsStringAndSize(utfStr, &buffer, &size);
+        ST::string plstr(buffer, size, ST::assume_valid);
         Py_XDECREF(utfStr);
         return plstr;
     } else {
-        return PyBytes_AsString(str);
+        PyBytes_AsStringAndSize(str, &buffer, &size);
+        return ST::string(buffer, size);
     }
 }
 
