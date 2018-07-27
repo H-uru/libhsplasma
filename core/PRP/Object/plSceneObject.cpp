@@ -56,6 +56,9 @@ void plSceneObject::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fCoordIntf);
     mgr->writeKey(S, fAudioIntf);
 
+    fInterfaces = hsOrderKeys(fInterfaces);
+    fModifiers = hsOrderKeys(fModifiers);
+
     S->writeInt(fInterfaces.size());
     for (size_t i=0; i<fInterfaces.size(); i++)
         mgr->writeKey(S, fInterfaces[i]);

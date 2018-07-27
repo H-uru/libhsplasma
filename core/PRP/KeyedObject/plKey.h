@@ -346,4 +346,7 @@ public:
     bool orderAfter(const plKey& other) const;
 };
 
+/** Order a vector of keys for writing in the correct load order. */
+std::vector<plKey> hsOrderKeys(const std::vector<plKey>& keys);
+
 #endif
