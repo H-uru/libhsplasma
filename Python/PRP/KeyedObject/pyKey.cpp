@@ -153,6 +153,22 @@ PY_METHOD_NOARGS(Key, isLoaded, "Returns True if the key is loaded") {
     return pyPlasma_convert(self->fThis->isLoaded());
 }
 
+PY_METHOD_VA(Key, orderAfter,
+    "Params: otherKey\n"
+    "Returns True if the key should be ordered after otherKey")
+{
+    pyKey* otherKey;
+    if (!PyArg_ParseTuple(args, "O", &otherKey)) {
+        PyErr_SetString(PyExc_TypeError, "orderAfter expects a plKey");
+        return NULL;
+    }
+    if (!pyKey_Check((PyObject*)otherKey)) {
+        PyErr_SetString(PyExc_TypeError, "orderAfter expects a plKey");
+        return NULL;
+    }
+    return pyPlasma_convert(self->fThis->orderAfter(*otherKey->fThis));
+}
+
 static PyMethodDef pyKey_Methods[] = {
     pyKey_read_method,
     pyKey_write_method,
@@ -160,6 +176,7 @@ static PyMethodDef pyKey_Methods[] = {
     pyKey_writeUoid_method,
     pyKey_exists_method,
     pyKey_isLoaded_method,
+    pyKey_orderAfter_method,
     PY_METHOD_TERMINATOR
 };
 
