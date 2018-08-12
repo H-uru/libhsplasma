@@ -45,7 +45,7 @@ protected:
    hsAffineParts fParts;
 
 public:
-    plAnimPath() : fController(NULL), fTMController(NULL) { }
+    plAnimPath() : fAnimPathFlags(), fMinDistSq(), fLength(), fController(), fTMController() { }
     virtual ~plAnimPath();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
