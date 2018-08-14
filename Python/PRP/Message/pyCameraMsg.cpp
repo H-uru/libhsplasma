@@ -155,6 +155,8 @@ PY_PLASMA_TYPE_INIT(CameraMsg) {
     PY_TYPE_ADD_CONST(CameraMsg, "kUpdateCameras", plCameraMsg::kUpdateCameras);
     PY_TYPE_ADD_CONST(CameraMsg, "kResponderSetThirdPerson",
                      plCameraMsg::kResponderSetThirdPerson);
+    PY_TYPE_ADD_CONST(CameraMsg, "kResponderUndoThirdPerson",
+                     plCameraMsg::kResponderUndoThirdPerson);
     PY_TYPE_ADD_CONST(CameraMsg, "kNonPhysOn", plCameraMsg::kNonPhysOn);
     PY_TYPE_ADD_CONST(CameraMsg, "kNonPhysOff", plCameraMsg::kNonPhysOff);
     PY_TYPE_ADD_CONST(CameraMsg, "kResetPanning", plCameraMsg::kResetPanning);
