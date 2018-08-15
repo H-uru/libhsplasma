@@ -33,6 +33,27 @@ PY_PLASMA_INIT_DECL(KeyedObject) {
 
 PY_PLASMA_NEW_MSG(KeyedObject, "hsKeyedObject is abstract")
 
+PY_METHOD_VA(KeyedObject, orderAfter,
+    "Params: otherObj\n"
+    "Returns True if this object be ordered after otherObj")
+{
+    pyKeyedObject* other;
+    if (!PyArg_ParseTuple(args, "O", &other)) {
+        PyErr_SetString(PyExc_TypeError, "orderAfter expects a hsKeyedObject");
+        return NULL;
+    }
+    if (!pyKeyedObject_Check((PyObject*)other)) {
+        PyErr_SetString(PyExc_TypeError, "orderAfter expects a hsKeyedObject");
+        return NULL;
+    }
+    return pyPlasma_convert(self->fThis->orderAfter(other->fThis));
+}
+
+static PyMethodDef pyKeyedObject_Methods[] = {
+    pyKeyedObject_orderAfter_method,
+    PY_METHOD_TERMINATOR
+};
+
 PY_GETSET_GETTER_DECL(KeyedObject, key) {
     if (self->fThis->getKey().Exists()) {
         return pyKey_FromKey(self->fThis->getKey());
@@ -53,6 +74,7 @@ PY_PLASMA_TYPE(KeyedObject, hsKeyedObject, "hsKeyedObject wrapper")
 PY_PLASMA_TYPE_INIT(KeyedObject) {
     pyKeyedObject_Type.tp_init = pyKeyedObject___init__;
     pyKeyedObject_Type.tp_new = pyKeyedObject_new;
+    pyKeyedObject_Type.tp_methods = pyKeyedObject_Methods;
     pyKeyedObject_Type.tp_getset = pyKeyedObject_GetSet;
     pyKeyedObject_Type.tp_base = &pyCreatable_Type;
     if (PyType_CheckAndReady(&pyKeyedObject_Type) < 0)

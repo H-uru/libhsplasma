@@ -47,6 +47,15 @@ public:
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
+    /**
+     * Determine if this object's key should be ordered after the specified
+     * object's key (for use in plKey list sorting).
+     * Important Note:  This is not a strict ordering -- that is, if
+     * key A is not ordered after key B, it does not necessarily imply that
+     * key B should be ordered after key A.
+     */
+    virtual bool orderAfter(const hsKeyedObject* other) const { return false; }
+
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;

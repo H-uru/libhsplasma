@@ -135,3 +135,39 @@ ST::string plKey::toString() const {
         return "NULL";
     return fKeyData->getUoid().toString();
 }
+
+bool plKey::orderAfter(const plKey& other) const {
+    if (!Exists() || !other.Exists())
+        return false;
+    if (!isLoaded() || !other.isLoaded())
+        return false;
+
+    return fKeyData->getObj()->orderAfter(other.fKeyData->getObj());
+}
+
+std::vector<plKey> hsOrderKeys(const std::vector<plKey>& keys) {
+    // std::sort cannot be used here, since hsKeyedObject::orderAfter does
+    // not provide strict weak ordering, which is required for std::sort
+    // to work correctly.  Instead, we perform a stable topological sort.
+    // TODO: This algorithm could probably be more efficient.
+    std::vector<plKey> result;
+    result.reserve(keys.size());
+    std::list<plKey> input = std::list<plKey>(keys.begin(), keys.end());
+
+    while (!input.empty()) {
+        auto lowest = input.begin();
+        auto iter = lowest;
+        while (iter != input.end()) {
+            if (lowest->orderAfter(*iter)) {
+                lowest = iter;
+                iter = input.begin();
+            } else {
+                ++iter;
+            }
+        }
+        result.push_back(*lowest);
+        input.erase(lowest);
+    }
+
+    return result;
+}

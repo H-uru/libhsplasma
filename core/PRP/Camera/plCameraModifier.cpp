@@ -155,6 +155,15 @@ void plCameraModifier::write(hsStream* S, plResManager* mgr) {
     S->writeBool(fResetAnimOnPop);
 }
 
+bool plCameraModifier::orderAfter(const hsKeyedObject* other) const {
+    // No strong association between plCameraModifier and plAGMasterMod,
+    // so just ensure this is always sorted after all plAGMasterMods
+    // TODO: Improve this if possible
+    if (other->getKey()->getType() == kAGMasterMod)
+        return true;
+    return plSingleModifier::orderAfter(other);
+}
+
 void plCameraModifier::IPrcWrite(pfPrcHelper* prc) {
     hsKeyedObject::IPrcWrite(prc);
 

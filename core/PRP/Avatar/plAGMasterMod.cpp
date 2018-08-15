@@ -74,6 +74,15 @@ void plAGMasterMod::write(hsStream* S, plResManager* mgr) {
     }
 }
 
+bool plAGMasterMod::orderAfter(const hsKeyedObject* other) const {
+    // This should be ordered after the plAGModifier of the same name
+    if (other->getKey()->getType() == kAGModifier
+            && other->getKey()->getName() == getKey()->getName()) {
+        return true;
+    }
+    return plModifier::orderAfter(other);
+}
+
 void plAGMasterMod::IPrcWrite(pfPrcHelper* prc) {
     plSynchedObject::IPrcWrite(prc);
 

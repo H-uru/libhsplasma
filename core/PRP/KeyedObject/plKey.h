@@ -139,6 +139,9 @@ public:
     /** Returns a pointer to the object referenced by this key */
     class hsKeyedObject* getObj() { return fObjPtr; }
 
+    /** Returns a const pointer to the object referenced by this key */
+    const class hsKeyedObject* getObj() const { return fObjPtr; }
+
     /** Sets the object referenced by this key. */
     void setObj(class hsKeyedObject* obj);
 
@@ -236,7 +239,7 @@ public:
      */
     void addCallback(AfterLoadCallback callback);
 
-     /** Remove all callbacks, without executing */
+    /** Remove all callbacks, without executing */
     void clearCallbacks() { fCallbacks.clear(); }
 };
 
@@ -332,6 +335,18 @@ public:
      * \sa plUoid::toString()
      */
     ST::string toString() const;
+
+    /**
+     * Determine if this key should be ordered after the specified key.
+     * Important Note:  This only works if both keys' referenced objects
+     * are loaded.  Also, this is not a strict ordering -- that is, if
+     * key A is not ordered after key B, it does not necessarily imply that
+     * key B should be ordered after key A.
+     */
+    bool orderAfter(const plKey& other) const;
 };
+
+/** Order a vector of keys for writing in the correct load order. */
+std::vector<plKey> hsOrderKeys(const std::vector<plKey>& keys);
 
 #endif
