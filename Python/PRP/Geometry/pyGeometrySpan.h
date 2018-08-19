@@ -18,16 +18,7 @@
 #define _PYGEOMETRYSPAN_H
 
 #include "PyPlasma.h"
-#include <memory>
 
-typedef struct {
-    PyObject_HEAD
-    std::shared_ptr<class plGeometrySpan> fThis;
-} pyGeometrySpan;
-
-extern PyTypeObject pyGeometrySpan_Type;
-PyObject* Init_pyGeometrySpan_Type();
-int pyGeometrySpan_Check(PyObject* obj);
-PyObject* pyGeometrySpan_FromGeometrySpan(const std::shared_ptr<class plGeometrySpan>& span);
+PY_WRAP_PLASMA(GeometrySpan, class plGeometrySpan);
 
 #endif

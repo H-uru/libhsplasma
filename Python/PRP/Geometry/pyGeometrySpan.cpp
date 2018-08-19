@@ -21,16 +21,7 @@
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/Region/pyBounds.h"
 
-PY_PLASMA_DEALLOC_DECL(GeometrySpan) {
-    Py_TYPE(self)->tp_free(self);
-}
-
-PY_PLASMA_NEW_DECL(GeometrySpan) {
-    pyGeometrySpan* self = (pyGeometrySpan*)type->tp_alloc(type, 0);
-    if (self != NULL)
-        self->fThis.reset(new plGeometrySpan);
-    return (PyObject*)self;
-}
+PY_PLASMA_NEW(GeometrySpan, plGeometrySpan)
 
 PY_METHOD_VA(GeometrySpan, addPermaLight,
     "Params: light\n"
@@ -235,7 +226,6 @@ static PyGetSetDef pyGeometrySpan_GetSet[] = {
 PY_PLASMA_TYPE(GeometrySpan, plGeometrySpan, "plGeometrySpan wrapper")
 
 PY_PLASMA_TYPE_INIT(GeometrySpan) {
-    pyGeometrySpan_Type.tp_dealloc = pyGeometrySpan_dealloc;
     pyGeometrySpan_Type.tp_new = pyGeometrySpan_new;
     pyGeometrySpan_Type.tp_methods = pyGeometrySpan_Methods;
     pyGeometrySpan_Type.tp_getset = pyGeometrySpan_GetSet;
@@ -279,17 +269,4 @@ PY_PLASMA_TYPE_INIT(GeometrySpan) {
     return (PyObject*)&pyGeometrySpan_Type;
 }
 
-int pyGeometrySpan_Check(PyObject* obj) {
-    if (obj->ob_type == &pyGeometrySpan_Type
-        || PyType_IsSubtype(obj->ob_type, &pyGeometrySpan_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyGeometrySpan_FromGeometrySpan(const std::shared_ptr<plGeometrySpan>& span) {
-    if (span == NULL)
-        Py_RETURN_NONE;
-    pyGeometrySpan* pspan = PyObject_New(pyGeometrySpan, &pyGeometrySpan_Type);
-    pspan->fThis = span;
-    return (PyObject*)pspan;
-}
+PY_PLASMA_IFC_METHODS(GeometrySpan, plGeometrySpan)

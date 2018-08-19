@@ -348,7 +348,7 @@ PY_METHOD_VA(DrawableSpans, buildDIIndex,
         return NULL;
     }
 
-    std::vector<std::shared_ptr<plGeometrySpan> > spans(seq.size());
+    std::vector<plGeometrySpan*> spans(seq.size());
     for (size_t i = 0; i < spans.size(); ++i) {
         PyObject* o = seq.get(i);
         if (pyGeometrySpan_Check(o))
@@ -374,6 +374,7 @@ PY_METHOD_VA(DrawableSpans, addSourceSpan,
         PyErr_SetString(PyExc_TypeError, "addSourceSpan expects a plGeometrySpan");
         return NULL;
     }
+    span->fPyOwned = false;
     return pyPlasma_convert(self->fThis->addSourceSpan(span->fThis));
 }
 

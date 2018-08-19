@@ -25,7 +25,6 @@
 #include "plSpaceTree.h"
 #include "plIcicle.h"
 #include "plGeometrySpan.h"
-#include <memory>
 #include <vector>
 #include <list>
 
@@ -121,7 +120,7 @@ protected:
     unsigned int fProps, fCriteria;
     unsigned int fRenderLevel;
     plKey fSceneNode;
-    std::vector< std::shared_ptr<plGeometrySpan> > fSourceSpans;
+    std::vector<plGeometrySpan*> fSourceSpans;
 
 public:
     plDrawableSpans() : fSpaceTree(NULL), fProps(0), fCriteria(0), fRenderLevel(0) { }
@@ -205,11 +204,11 @@ public:
 
     void composeGeometry(bool clearspans=true, bool calcbounds=false);
     void decomposeGeometry(bool clearcolors=false);
-    size_t buildDIIndex(const std::vector<std::shared_ptr<plGeometrySpan> >& spans);
+    size_t buildDIIndex(const std::vector<plGeometrySpan*>& spans);
 
-    const std::vector<std::shared_ptr<plGeometrySpan> > getSourceSpans() const { return fSourceSpans; }
-    std::vector<std::shared_ptr<plGeometrySpan> > getSourceSpans() { return fSourceSpans; }
-    size_t addSourceSpan(const std::shared_ptr<plGeometrySpan>& span);
+    const std::vector<plGeometrySpan*> getSourceSpans() const { return fSourceSpans; }
+    std::vector<plGeometrySpan*> getSourceSpans() { return fSourceSpans; }
+    size_t addSourceSpan(plGeometrySpan* span);
 };
 
 #endif
