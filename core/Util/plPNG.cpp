@@ -158,8 +158,8 @@ void plPNG::DecompressPNG(hsStream* S, void* buf, size_t size) {
         channels += 1;
     }
 
-    // Plasma uses BGR for DirectX (TODO: Does HSPlasma need this?)
-    //png_set_bgr(pi.fPngReader);
+    // Plasma uses BGR for DirectX
+    png_set_bgr(pi.fPngReader);
 
     std::unique_ptr<png_bytep[]> rows(new png_bytep[pngHeight]);
     const unsigned int stride = pngWidth * depth * channels / 8;
@@ -182,8 +182,8 @@ void plPNG::CompressPNG(hsStream* S, const void* buf, size_t size,
                  PNG_COLOR_TYPE_RGB_ALPHA, PNG_INTERLACE_NONE,
                  PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
 
-    // Plasma uses BGR for DirectX (TODO: Does HSPlasma need this?)
-    //png_set_bgr(pi.fPngWriter);
+    // Plasma uses BGR for DirectX
+    png_set_bgr(pi.fPngWriter);
 
     png_write_info(pi.fPngWriter, pi.fPngInfo);
 
