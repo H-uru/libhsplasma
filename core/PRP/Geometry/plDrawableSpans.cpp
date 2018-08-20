@@ -101,7 +101,7 @@ void plDrawableSpans::read(hsStream* S, plResManager* mgr) {
     if (fSourceSpans.size() > 0 && !S->getVer().isUniversal())
         plDebug::Debug("Reading deprecated SourceSpans");
     for (size_t i=0; i<fSourceSpans.size(); i++) {
-        fSourceSpans[i].reset(new plGeometrySpan());
+        fSourceSpans[i] = new plGeometrySpan();
         fSourceSpans[i]->read(S);
         if (fSpans[i]->getMaterialIdx() == 0xFFFFFFFF)
             fSourceSpans[i]->setMaterial(NULL);
@@ -437,7 +437,7 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fSourceSpans.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fSourceSpans.size(); i++) {
-            fSourceSpans[i].reset(new plGeometrySpan());
+            fSourceSpans[i] = new plGeometrySpan();
             fSourceSpans[i]->prcParse(tag);
             if (fSpans[i]->getMaterialIdx() == 0xFFFFFFFF)
                 fSourceSpans[i]->setMaterial(NULL);
@@ -728,7 +728,7 @@ void plDrawableSpans::composeGeometry(bool clearspans, bool calcbounds) {
         delete *span;
 
     for (size_t i=0; i<fSourceSpans.size(); i++) {
-        plGeometrySpan* span = fSourceSpans[i].get();
+        plGeometrySpan* span = fSourceSpans[i];
         unsigned int format = span->getFormat();
         plGBufferGroup* group = groups[format].first;
         if (!group) {
@@ -823,7 +823,7 @@ void plDrawableSpans::composeGeometry(bool clearspans, bool calcbounds) {
 void plDrawableSpans::decomposeGeometry(bool clearcolors) {
     for (size_t i=0; i<fIcicles.size(); i++) {
         plIcicle* icicle = fIcicles[i];
-        std::shared_ptr<plGeometrySpan> span(new plGeometrySpan());
+        plGeometrySpan* span = new plGeometrySpan();
         plGBufferGroup* group = fGroups[icicle->getGroupIdx()];
 
         span->setLocalToWorld(icicle->getLocalToWorld());
@@ -887,7 +887,7 @@ void plDrawableSpans::decomposeGeometry(bool clearcolors) {
     }
 }
 
-size_t plDrawableSpans::buildDIIndex(const std::vector<std::shared_ptr<plGeometrySpan> >& spans) {
+size_t plDrawableSpans::buildDIIndex(const std::vector<plGeometrySpan*>& spans) {
     plDISpanIndex di_idx;
     for (size_t i=0; i<spans.size(); ++i) {
         auto span_f = std::find(fSourceSpans.begin(), fSourceSpans.end(), spans[i]);
@@ -901,7 +901,7 @@ size_t plDrawableSpans::buildDIIndex(const std::vector<std::shared_ptr<plGeometr
     return result;
 }
 
-size_t plDrawableSpans::addSourceSpan(const std::shared_ptr<plGeometrySpan>& span)
+size_t plDrawableSpans::addSourceSpan(plGeometrySpan* span)
 {
     fSourceSpans.push_back(span);
     return fSourceSpans.size() - 1;
