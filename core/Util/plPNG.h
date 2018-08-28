@@ -30,10 +30,6 @@ public:
 
 class PLASMA_DLL plPNG {
 private:
-    png_structp fPngReader;
-    png_structp fPngWriter;
-    png_infop   fPngInfo;
-    png_infop   fEndInfo;
 
 public:
     static void DecompressPNG(hsStream* S, void* buf, size_t size);
@@ -41,12 +37,7 @@ public:
                             uint32_t width, uint32_t height, int pixelSize);
 
 private:
-    plPNG() : fPngReader(), fPngWriter(), fPngInfo(), fEndInfo() { }
-    ~plPNG();
-
-    static plPNG& Instance();
-    static plPNG& InitReader();
-    static plPNG& InitWriter();
+    plPNG() = delete;
 };
 
 #endif
