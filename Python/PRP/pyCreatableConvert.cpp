@@ -50,8 +50,8 @@
 #include "PRP/Avatar/plPointChannel.h"
 #include "PRP/Avatar/plQuatChannel.h"
 #include "PRP/Avatar/plScalarChannel.h"
-#include "PRP/Avatar/plSittingModifier.h"
 #include "PRP/Avatar/plSeekPointMod.h"
+#include "PRP/Avatar/plSittingModifier.h"
 #include "PRP/Camera/plCameraBrain.h"
 #include "PRP/Camera/plCameraModifier.h"
 #include "PRP/ConditionalObject/plActivatorConditionalObject.h"
@@ -187,6 +187,7 @@
 #include "PRP/Avatar/pyATCAnim.h"
 #include "PRP/Avatar/pyLadderModifier.h"
 #include "PRP/Avatar/pyMultistageBehMod.h"
+#include "PRP/Avatar/pySeekPointMod.h"
 #include "PRP/Avatar/pySittingModifier.h"
 #include "PRP/Audio/pyAudible.h"
 #include "PRP/Audio/pySound.h"
@@ -388,6 +389,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kAGMasterMod: return pyAGMasterMod_FromAGMasterMod(plAGMasterMod::Convert(pCre));
         case kAgeGlobalAnim: return pyAgeGlobalAnim_FromAgeGlobalAnim(plAgeGlobalAnim::Convert(pCre));
         case kATCAnim: return pyATCAnim_FromATCAnim(plATCAnim::Convert(pCre));
+        case kSeekPointMod: return pySeekPointMod_FromSeekPointMod(plSeekPointMod::Convert(pCre));
         case kSubworldRegionDetector: return pySubworldRegionDetector_FromSubworldRegionDetector(plSubworldRegionDetector::Convert(pCre));
         case kHKSubWorld: return pyHKSubWorld_FromHKSubWorld(plHKSubWorld::Convert(pCre));
         case kPanicLinkRegion: return pyPanicLinkRegion_FromPanicLinkRegion(plPanicLinkRegion::Convert(pCre));

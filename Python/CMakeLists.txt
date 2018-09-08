@@ -173,6 +173,7 @@ set(PRP_AVATAR_SOURCES
     PRP/Avatar/pyScalarControllerChannel.cpp
     PRP/Avatar/pyScalarSDLChannel.cpp
     PRP/Avatar/pyScalarTimeScale.cpp
+    PRP/Avatar/pySeekPointMod.cpp
     PRP/Avatar/pySittingModifier.cpp
     PRP/Avatar/pySoundVolumeApplicator.cpp
     PRP/Avatar/pySpotInnerApplicator.cpp
@@ -187,6 +188,7 @@ set(PRP_AVATAR_HEADERS
     PRP/Avatar/pyATCAnim.h
     PRP/Avatar/pyLadderModifier.h
     PRP/Avatar/pyMultistageBehMod.h
+    PRP/Avatar/pySeekPointMod.h
     PRP/Avatar/pySittingModifier.h
 )
 
