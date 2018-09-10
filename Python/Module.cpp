@@ -50,6 +50,7 @@
 #include "PRP/Avatar/pyClothingItem.h"
 #include "PRP/Avatar/pyLadderModifier.h"
 #include "PRP/Avatar/pyMultistageBehMod.h"
+#include "PRP/Avatar/pySeekPointMod.h"
 #include "PRP/Avatar/pySittingModifier.h"
 #include "PRP/Audio/pyAudible.h"
 #include "PRP/Audio/pySound.h"
@@ -695,6 +696,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plImageLibMod", Init_pyImageLibMod_Type());
     PyModule_AddObject(module, "plWaveSetBase", Init_pyWaveSetBase_Type());
     PyModule_AddObject(module, "plWaveSet7", Init_pyWaveSet7_Type());
+    PyModule_AddObject(module, "plSeekPointMod", Init_pySeekPointMod_Type());
     PyModule_AddObject(module, "plSoftVolume", Init_pySoftVolume_Type());
     PyModule_AddObject(module, "plSoftVolumeSimple", Init_pySoftVolumeSimple_Type());
     PyModule_AddObject(module, "plSoftVolumeComplex", Init_pySoftVolumeComplex_Type());
