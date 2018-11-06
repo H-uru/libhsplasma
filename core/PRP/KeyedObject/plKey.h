@@ -254,7 +254,7 @@ public:
  * plKey's members, with the addition of Exists() and isLoaded(), which
  * are direct members of the plKey container.
  */
-class PLASMA_DLL plKey {
+class PLASMA_DLL plKey HS_FINAL {
 private:
     plKeyData* fKeyData;
 
@@ -280,7 +280,7 @@ public:
      * the object yourself.  However, if the object is registered with the
      * plResManager, you should not delete the object.
      */
-    virtual ~plKey();
+    ~plKey();
 
     /** Allows for *(plKey) usage as a pointer. */
     plKeyData& operator*() const { return *fKeyData; }
@@ -292,10 +292,10 @@ public:
     operator plKeyData*() const { return fKeyData; }
 
     /** Copies and refs the key data in other */
-    virtual plKey& operator=(const plKey& other);
+    plKey& operator=(const plKey& other);
 
     /** Refs the key data and stores it in this key */
-    virtual plKey& operator=(plKeyData* other);
+    plKey& operator=(plKeyData* other);
 
     /** Returns true if the keys point to the same plKeyData */
     bool operator==(const plKey& other) const { return fKeyData == other.fKeyData; }
