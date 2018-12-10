@@ -231,10 +231,9 @@ PY_METHOD_NOARGS(Mipmap, extractColorData,
     "Extract an RGB color buffer from a JPEG mipmap")
 {
     size_t dataSize = self->fThis->getWidth() * self->fThis->getHeight() * 3;
-    char* data = new char[dataSize];
+    PyObject* buf = PyBytes_FromStringAndSize(NULL, dataSize);
+    char* data = PyBytes_AS_STRING(buf);
     self->fThis->extractColorData(data, dataSize);
-    PyObject* buf = PyBytes_FromStringAndSize(data, dataSize);
-    delete[] data;
     return buf;
 }
 
@@ -242,10 +241,9 @@ PY_METHOD_NOARGS(Mipmap, extractAlphaData,
     "Extract an alpha intensity buffer from a JPEG mipmap")
 {
     size_t dataSize = self->fThis->getWidth() * self->fThis->getHeight() * 1;
-    char* data = new char[dataSize];
+    PyObject* buf = PyBytes_FromStringAndSize(NULL, dataSize);
+    char* data = PyBytes_AS_STRING(buf);
     self->fThis->extractAlphaData(data, dataSize);
-    PyObject* buf = PyBytes_FromStringAndSize(data, dataSize);
-    delete[] data;
     return buf;
 }
 
@@ -271,16 +269,15 @@ PY_METHOD_VA(Mipmap, DecompressImage,
         return NULL;
     }
     size_t size = self->fThis->GetUncompressedSize(level);
-    unsigned char* buf = new unsigned char[size];
+    PyObject* img = PyBytes_FromStringAndSize(NULL, size);
+    char* buf = PyBytes_AS_STRING(img);
     try {
         self->fThis->DecompressImage(level, buf, size);
     } catch (const hsBadParamException& ex) {
         PyErr_SetString(PyExc_RuntimeError, ex.what());
-        delete[] buf;
+        Py_DECREF(img);
         return NULL;
     }
-    PyObject* img = PyBytes_FromStringAndSize((char*)buf, size);
-    delete[] buf;
     return img;
 }
 

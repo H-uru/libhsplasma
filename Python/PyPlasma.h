@@ -73,12 +73,14 @@ struct pySequenceFastRef
     #undef PyBytes_FromStringAndSize
     #undef PyBytes_AsStringAndSize
     #undef PyBytes_AsString
+    #undef PyBytes_AS_STRING
 
     #define PyAnyString_FromSTString PyString_FromSTString
     #define PyBytes_Check(ob) PyString_Check(ob)
     #define PyBytes_FromStringAndSize(v, len) PyString_FromStringAndSize(v, len)
     #define PyBytes_AsStringAndSize(obj, buf, len) PyString_AsStringAndSize(obj, buf, len)
     #define PyBytes_AsString PyString_AsString
+    #define PyBytes_AS_STRING PyString_AS_STRING
 #else
     #error Your Python version is too old.  Only 2.6 and later are supported
 #endif
