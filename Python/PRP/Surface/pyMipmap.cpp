@@ -142,7 +142,12 @@ PY_METHOD_VA(Mipmap, setLevel,
         PyErr_SetString(PyExc_TypeError, "setLevel expects int, binary string");
         return NULL;
     }
-    self->fThis->setLevelData(level, (const void*)data, dataSize);
+    try {
+        self->fThis->setLevelData(level, (const void*)data, dataSize);
+    } catch (const hsBadParamException& ex) {
+        PyErr_SetString(PyExc_RuntimeError, ex.what());
+        return NULL;
+    }
     Py_RETURN_NONE;
 }
 
@@ -156,7 +161,12 @@ PY_METHOD_VA(Mipmap, setImageJPEG,
         PyErr_SetString(PyExc_TypeError, "setImageJPEG expects a binary string");
         return NULL;
     }
-    self->fThis->setImageJPEG((const void*)data, dataSize);
+    try {
+        self->fThis->setImageJPEG((const void*)data, dataSize);
+    } catch (const hsBadParamException& ex) {
+        PyErr_SetString(PyExc_RuntimeError, ex.what());
+        return NULL;
+    }
     Py_RETURN_NONE;
 }
 
@@ -170,7 +180,12 @@ PY_METHOD_VA(Mipmap, setAlphaJPEG,
         PyErr_SetString(PyExc_TypeError, "setAlphaJPEG expects a binary string");
         return NULL;
     }
-    self->fThis->setAlphaJPEG((const void*)data, dataSize);
+    try {
+        self->fThis->setAlphaJPEG((const void*)data, dataSize);
+    } catch (const hsBadParamException& ex) {
+        PyErr_SetString(PyExc_RuntimeError, ex.what());
+        return NULL;
+    }
     Py_RETURN_NONE;
 }
 
@@ -186,7 +201,7 @@ PY_METHOD_VA(Mipmap, setColorData,
     }
     try {
         self->fThis->setColorData((const void*)data, dataSize);
-    } catch (hsBadParamException& ex) {
+    } catch (const hsBadParamException& ex) {
         PyErr_SetString(PyExc_RuntimeError, ex.what());
         return NULL;
     }
@@ -205,7 +220,7 @@ PY_METHOD_VA(Mipmap, setAlphaData,
     }
     try {
         self->fThis->setAlphaData((const void*)data, dataSize);
-    } catch (hsBadParamException& ex) {
+    } catch (const hsBadParamException& ex) {
         PyErr_SetString(PyExc_RuntimeError, ex.what());
         return NULL;
     }
@@ -216,10 +231,9 @@ PY_METHOD_NOARGS(Mipmap, extractColorData,
     "Extract an RGB color buffer from a JPEG mipmap")
 {
     size_t dataSize = self->fThis->getWidth() * self->fThis->getHeight() * 3;
-    char* data = new char[dataSize];
+    PyObject* buf = PyBytes_FromStringAndSize(NULL, dataSize);
+    char* data = PyBytes_AS_STRING(buf);
     self->fThis->extractColorData(data, dataSize);
-    PyObject* buf = PyBytes_FromStringAndSize(data, dataSize);
-    delete[] data;
     return buf;
 }
 
@@ -227,10 +241,9 @@ PY_METHOD_NOARGS(Mipmap, extractAlphaData,
     "Extract an alpha intensity buffer from a JPEG mipmap")
 {
     size_t dataSize = self->fThis->getWidth() * self->fThis->getHeight() * 1;
-    char* data = new char[dataSize];
+    PyObject* buf = PyBytes_FromStringAndSize(NULL, dataSize);
+    char* data = PyBytes_AS_STRING(buf);
     self->fThis->extractAlphaData(data, dataSize);
-    PyObject* buf = PyBytes_FromStringAndSize(data, dataSize);
-    delete[] data;
     return buf;
 }
 
@@ -256,10 +269,15 @@ PY_METHOD_VA(Mipmap, DecompressImage,
         return NULL;
     }
     size_t size = self->fThis->GetUncompressedSize(level);
-    unsigned char* buf = new unsigned char[size];
-    self->fThis->DecompressImage(level, buf, size);
-    PyObject* img = PyBytes_FromStringAndSize((char*)buf, size);
-    delete[] buf;
+    PyObject* img = PyBytes_FromStringAndSize(NULL, size);
+    char* buf = PyBytes_AS_STRING(img);
+    try {
+        self->fThis->DecompressImage(level, buf, size);
+    } catch (const hsBadParamException& ex) {
+        PyErr_SetString(PyExc_RuntimeError, ex.what());
+        Py_DECREF(img);
+        return NULL;
+    }
     return img;
 }
 
@@ -278,7 +296,7 @@ PY_METHOD_VA(Mipmap, CompressImage,
     } catch (hsBadParamException& ex) {
         PyErr_SetString(PyExc_RuntimeError, ex.what());
         return NULL;
-    } catch (hsNotImplementedException& ex) {
+    } catch (const hsNotImplementedException& ex) {
         PyErr_SetString(PyExc_NotImplementedError, ex.what());
         return NULL;
     }
