@@ -54,7 +54,7 @@ public:
      * key A is not ordered after key B, it does not necessarily imply that
      * key B should be ordered after key A.
      */
-    virtual bool orderAfter(const hsKeyedObject* other) const { return false; }
+    virtual bool orderAfter(const hsKeyedObject*) const { return false; }
 
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
