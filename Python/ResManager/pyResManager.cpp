@@ -161,22 +161,33 @@ PY_METHOD_VA(ResManager, ReadPage,
     "Reads an entire PRP file and returns the plPageInfo for it")
 {
     const char* filename;
+    pyStream* prxStream;
+    pyStream* prmStream = NULL;
     int stub = false;
-    if (!PyArg_ParseTuple(args, "s|i", &filename, &stub)) {
-        PyErr_SetString(PyExc_TypeError, "ReadPage expects a string");
-        return NULL;
-    }
-    plPageInfo* page = NULL;
-    try {
-        page = self->fThis->ReadPage(filename, (stub != 0));
-    } catch (...) {
-        PyErr_SetString(PyExc_IOError, "Error reading page");
-        return NULL;
-    }
-    if (page == NULL) {
-        Py_RETURN_NONE;
+    if (PyArg_ParseTuple(args, "s|i", &filename, &stub)) {
+        try {
+            return pyPageInfo_FromPageInfo(self->fThis->ReadPage(filename, (stub != 0)));
+        } catch (...) {
+            PyErr_SetString(PyExc_IOError, "Error reading page");
+            return NULL;
+        }
+    } else if (PyErr_Clear(), PyArg_ParseTuple(args, "O|Oi", &prxStream, &prmStream, &stub)) {
+        if (!pyStream_Check((PyObject*)prxStream) || (prmStream && !pyStream_Check((PyObject*)prmStream))) {
+            PyErr_SetString(PyExc_TypeError, "ReadPage expects a string or stream");
+            return NULL;
+        }
+
+        hsStream* prxS = prxStream->fThis;
+        hsStream* prmS = prmStream ? prmStream->fThis : NULL;
+        try {
+            return pyPageInfo_FromPageInfo(self->fThis->ReadPage(prxS, prmS, (stub != 0)));
+        } catch (...) {
+            PyErr_SetString(PyExc_IOError, "Error reading page");
+            return NULL;
+        }
     } else {
-        return pyPageInfo_FromPageInfo(page);
+        PyErr_SetString(PyExc_TypeError, "ReadPage expects a string or stream");
+        return NULL;
     }
 }
 
