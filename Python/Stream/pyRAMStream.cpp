@@ -42,10 +42,9 @@ static PyMethodDef pyRAMStream_Methods[] = {
 };
 
 PY_GETSET_GETTER_DECL(RAMStream, buffer) {
-    char* buf = new char[self->fThis->size()];
-    self->fThis->copyTo(buf, self->fThis->size());
-    PyObject* bufObj = PyBytes_FromStringAndSize(buf, self->fThis->size());
-    delete[] buf;
+    PyObject* bufObj = PyBytes_FromStringAndSize(NULL, self->fThis->size());
+    char* data = PyBytes_AS_STRING(bufObj);
+    self->fThis->copyTo(data, self->fThis->size());
     return bufObj;
 }
 

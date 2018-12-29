@@ -94,14 +94,13 @@ PY_METHOD_VA(Stream, read,
         PyErr_SetString(PyExc_TypeError, "read expects an int");
         return NULL;
     }
-    char* buf = new char[size];
+    PyObject* bufObj = PyBytes_FromStringAndSize(NULL, size);
     try {
+        char* buf = PyBytes_AS_STRING(bufObj);
         self->fThis->read((size_t)size, buf);
-        PyObject* data = PyBytes_FromStringAndSize(buf, size);
-        delete[] buf;
-        return data;
+        return bufObj;
     } catch (...) {
-        delete[] buf;
+        Py_DECREF(bufObj);
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
         return NULL;
     }
