@@ -185,22 +185,38 @@ PY_METHOD_VA(ResManager, WritePage,
     "Writes an entire page to a PRP file")
 {
     const char* filename;
+    pyStream* stream;
     pyPageInfo* page;
-    if (!PyArg_ParseTuple(args, "sO", &filename, &page)) {
-        PyErr_SetString(PyExc_TypeError, "WritePage expects string, plPageInfo");
+    if (PyArg_ParseTuple(args, "sO", &filename, &page)) {
+        if (!pyPageInfo_Check((PyObject*)page)) {
+            PyErr_SetString(PyExc_TypeError, "WritePage expects string or hsStream, plPageInfo");
+            return NULL;
+        }
+
+        try {
+            self->fThis->WritePage(filename, page->fThis);
+            Py_RETURN_NONE;
+        } catch (...) {
+            PyErr_SetString(PyExc_IOError, "Error writing page");
+            return NULL;
+        }
+    } else if (PyErr_Clear(), PyArg_ParseTuple(args, "OO", &stream, &page)) {
+        if (!pyPageInfo_Check((PyObject*)page) || !pyStream_Check((PyObject*)stream)) {
+            PyErr_SetString(PyExc_TypeError, "WritePage expects string or hsStream, plPageInfo");
+            return NULL;
+        }
+
+        try {
+            self->fThis->WritePage(stream->fThis, page->fThis);
+            Py_RETURN_NONE;
+        } catch (...) {
+            PyErr_SetString(PyExc_IOError, "Error writing page");
+            return NULL;
+        }
+    } else {
+        PyErr_SetString(PyExc_TypeError, "WritePage expects string or hsStream, plPageInfo");
         return NULL;
     }
-    if (!pyPageInfo_Check((PyObject*)page)) {
-        PyErr_SetString(PyExc_TypeError, "WritePage expects string, plPageInfo");
-        return NULL;
-    }
-    try {
-        self->fThis->WritePage(filename, page->fThis);
-    } catch (...) {
-        PyErr_SetString(PyExc_IOError, "Error writing page");
-        return NULL;
-    }
-    Py_RETURN_NONE;
 }
 
 PY_METHOD_VA(ResManager, FindPage,

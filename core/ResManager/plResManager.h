@@ -180,6 +180,12 @@ public:
     void WritePage(const ST::string& filename, plPageInfo* page);
 
     /**
+     * Write the specified page to an arbitrary stream
+     * \sa WritePagePrc(), WriteAge(), WriteAgePrc()
+     */
+    void WritePage(hsStream* S, plPageInfo* page);
+
+    /**
      * Write the specified page to a PRC document
      * \sa WritePage(), WriteAge(), WriteAgePrc()
      */

@@ -204,8 +204,13 @@ plPageInfo* plResManager::ReadPagePrc(const pfPrcTag* root) {
 }
 
 void plResManager::WritePage(const ST::string& filename, plPageInfo* page) {
-    hsFileStream* S = new hsFileStream();
-    S->open(filename, fmWrite);
+    hsFileStream S;
+    S.open(filename, fmWrite);
+    WritePage(&S, page);
+    S.close();
+}
+
+void plResManager::WritePage(hsStream* S, plPageInfo* page) {
     S->setVer(getVer());
     std::vector<short> types = keys.getTypes(page->getLocation());
     page->setClassList(types);
@@ -220,8 +225,6 @@ void plResManager::WritePage(const ST::string& filename, plPageInfo* page) {
     else
         page->setChecksum(S->pos() - page->getDataStart());
     page->writeSums(S);
-    S->close();
-    delete S;
 }
 
 void plResManager::WritePagePrc(pfPrcHelper* prc, plPageInfo* page) {
