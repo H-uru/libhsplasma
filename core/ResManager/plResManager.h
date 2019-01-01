@@ -167,6 +167,15 @@ public:
     plPageInfo* ReadPage(const ST::string& filename, bool stub = false);
 
     /**
+     * Read a Page from an arbitrary stream and register it with the ResManager.
+     * \param prxS stream containing the page header and keyring.
+     * \param prmS stream containing the keyed object data.
+     * \return a pointer to the plPageInfo describing the page.
+     * \sa ReadPageRaw(), ReadPagePrc(), ReadAge(), ReadAgePrc()
+     */
+    plPageInfo* ReadPage(hsStream* prxS, hsStream* prmS = NULL, bool stub = false);
+
+    /**
      * Parse a page from a PRC data source, and register it with the ResManager.
      * \return a pointer to the plPageInfo describing the page.
      * \sa ReadPage(), ReadPageRaw(), ReadAge(), ReadAgePrc()
@@ -178,6 +187,12 @@ public:
      * \sa WritePagePrc(), WriteAge(), WriteAgePrc()
      */
     void WritePage(const ST::string& filename, plPageInfo* page);
+
+    /**
+     * Write the specified page to an arbitrary stream
+     * \sa WritePagePrc(), WriteAge(), WriteAgePrc()
+     */
+    void WritePage(hsStream* S, plPageInfo* page);
 
     /**
      * Write the specified page to a PRC document

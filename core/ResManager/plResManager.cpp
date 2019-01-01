@@ -156,33 +156,42 @@ plPageInfo* plResManager::ReadPage(const ST::string& filename, bool stub) {
         }
     }
 
-    hsFileStream* S = new hsFileStream();
-    if (!S->open(file, fmRead))
-        throw hsFileReadException(__FILE__, __LINE__, file.c_str());
+    if (packed) {
+        hsFileStream prpS;
+        if (!prpS.open(file, fmRead))
+            throw hsFileReadException(__FILE__, __LINE__, file.c_str());
+        // hsFileStream destructor closes the file
+        return ReadPage(&prpS, &prpS, stub);
+    } else {
+        hsFileStream prxS;
+        if (!prxS.open(file, fmRead))
+            throw hsFileReadException(__FILE__, __LINE__, file.c_str());
+        file = file.before_last('.') + ".prm";
+        hsFileStream prmS;
+        if (!prmS.open(file, fmRead))
+            throw hsFileReadException(__FILE__, __LINE__, file.c_str());
+        // hsFileStream destructor closes the file
+        return ReadPage(&prxS, &prmS, stub);
+    }
+}
+
+plPageInfo* plResManager::ReadPage(hsStream* prxS, hsStream* prmS, bool stub) {
     plPageInfo* page = new plPageInfo();
-    page->read(S);
+    page->read(prxS);
 
     const plLocation& loc = page->getLocation();
     UnloadPage(loc);
 
     pages.push_back(page);
-    setVer(S->getVer(), true);
-    S->seek(page->getIndexStart());
-    ReadKeyring(S, loc);
-    if (!packed) {
-        S->close();
-        delete S;
-        file = file.before_last('.') + ".prm";
-        S = new hsFileStream();
-        S->setVer(getVer());
-        if (!S->open(file, fmRead))
-            throw hsFileReadException(__FILE__, __LINE__, file.c_str());
-    }
+    setVer(prxS->getVer(), true);
+    prxS->seek(page->getIndexStart());
+    ReadKeyring(prxS, loc);
+
+    if (!prmS)
+        prmS = prxS;
     mustStub = stub;
-    page->setNumObjects(ReadObjects(S, loc));
+    page->setNumObjects(ReadObjects(prmS, loc));
     mustStub = false;
-    S->close();
-    delete S;
     return page;
 }
 
@@ -204,8 +213,13 @@ plPageInfo* plResManager::ReadPagePrc(const pfPrcTag* root) {
 }
 
 void plResManager::WritePage(const ST::string& filename, plPageInfo* page) {
-    hsFileStream* S = new hsFileStream();
-    S->open(filename, fmWrite);
+    hsFileStream S;
+    S.open(filename, fmWrite);
+    WritePage(&S, page);
+    S.close();
+}
+
+void plResManager::WritePage(hsStream* S, plPageInfo* page) {
     S->setVer(getVer());
     std::vector<short> types = keys.getTypes(page->getLocation());
     page->setClassList(types);
@@ -220,8 +234,6 @@ void plResManager::WritePage(const ST::string& filename, plPageInfo* page) {
     else
         page->setChecksum(S->pos() - page->getDataStart());
     page->writeSums(S);
-    S->close();
-    delete S;
 }
 
 void plResManager::WritePagePrc(pfPrcHelper* prc, plPageInfo* page) {
