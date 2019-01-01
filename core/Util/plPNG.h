@@ -21,10 +21,15 @@
 
 #include <png.h>
 
-class PLASMA_DLL hsPNGException : public hsException {
+class hsPNGException : public hsException {
 public:
-    hsPNGException(const char* file, unsigned long line,
-                   const char* message = NULL) throw();
+    inline hsPNGException(const char* file, unsigned long line,
+                          const char* message = nullptr) HS_NOEXCEPT
+        : hsException(ST_LITERAL("libPNG error"), file, line)
+    {
+        if (message != nullptr)
+            fWhat += ST_LITERAL(": ") + message;
+    }
 };
 
 

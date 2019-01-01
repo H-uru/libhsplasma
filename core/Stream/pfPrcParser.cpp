@@ -171,24 +171,3 @@ pfPrcTag* pfPrcParser::readTag(hsTokenStream* tok) {
     delete childPtr;
     return tag;
 }
-
-
-/* pfPrcParseException */
-pfPrcParseException::pfPrcParseException(const char* file, unsigned long line,
-                                         const char* msg) HS_NOEXCEPT
-                   : hsException(file, line) {
-    if (msg == NULL) {
-        fWhat = "Unknown Parse Error";
-    } else {
-        fWhat = ST::string("Parse Error: ") + msg;
-    }
-}
-
-/* pfPrcTagException */
-pfPrcTagException::pfPrcTagException(const char* file, unsigned long line,
-                                     const ST::string& tag) HS_NOEXCEPT
-                 : pfPrcParseException(file, line, NULL) {
-    fWhat = "Unexpected tag";
-    if (!tag.is_empty())
-        fWhat += ": " + tag;
-}

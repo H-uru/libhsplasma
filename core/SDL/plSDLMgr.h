@@ -43,10 +43,17 @@ public:
     void write(hsStream* S);
 };
 
-class PLASMA_DLL plSDLParseException : public hsException {
+class plSDLParseException : public hsException {
 public:
-    plSDLParseException(const char* file, unsigned long line,
-                        const char* msg) HS_NOEXCEPT;
+    inline plSDLParseException(const char* file, unsigned long line,
+                               const char* msg) HS_NOEXCEPT
+        : hsException(file, line)
+    {
+        if (msg == nullptr)
+            fWhat = ST_LITERAL("Unknown SDL Parse Error");
+        else
+            fWhat = ST_LITERAL("SDL Error: ") + msg;
+    }
 };
 
 #endif

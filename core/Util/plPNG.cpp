@@ -22,16 +22,6 @@
 /* Don't know why this isn't provided by libpng itself... */
 #define PNG_SIG_LENGTH (8)
 
-/* hsPNGException */
-hsPNGException::hsPNGException(const char* file, unsigned long line,
-                               const char* message) throw()
-              : hsException(file, line) {
-    fWhat = ST_LITERAL("libPNG error");
-    if (message != NULL)
-        fWhat += ST_LITERAL(": ") + message;
-}
-
-
 /* libpng helpers */
 static void pl_png_read(png_structp png, png_bytep data, png_size_t size) {
     hsStream* S = reinterpret_cast<hsStream*>(png_get_io_ptr(png));

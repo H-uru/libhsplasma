@@ -70,17 +70,30 @@ private:
 };
 
 
-class PLASMA_DLL pfPrcParseException : public hsException {
+class pfPrcParseException : public hsException {
 public:
-    pfPrcParseException(const char* file, unsigned long line,
-                        const char* msg) HS_NOEXCEPT;
+    inline pfPrcParseException(const char* file, unsigned long line,
+                               const char* msg) HS_NOEXCEPT
+        : hsException(file, line)
+    {
+        if (msg == nullptr)
+            fWhat = ST_LITERAL("Unknown Parse Error");
+        else
+            fWhat = ST_LITERAL("Parse Error: ") + msg;
+    }
 };
 
 
-class PLASMA_DLL pfPrcTagException : public pfPrcParseException {
+class pfPrcTagException : public pfPrcParseException {
 public:
-    pfPrcTagException(const char* file, unsigned long line,
-                      const ST::string& tag) HS_NOEXCEPT;
+    inline pfPrcTagException(const char* file, unsigned long line,
+                             const ST::string& tag) HS_NOEXCEPT
+        : pfPrcParseException(file, line, nullptr)
+    {
+        fWhat = ST_LITERAL("Unexpected tag");
+        if (!tag.is_empty())
+            fWhat += ST_LITERAL(": ") + tag;
+    }
 };
 
 #endif
