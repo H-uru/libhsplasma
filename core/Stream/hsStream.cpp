@@ -441,23 +441,3 @@ time_t hsFileStream::getModTime() const {
     fstat(fileno(F), &stbuf);
     return stbuf.st_mtime;
 }
-
-
-/* hsFileReadException */
-hsFileReadException::hsFileReadException(const char* file,
-                     unsigned long line, const char* filename) HS_NOEXCEPT
-                   : hsException(file, line) {
-    fWhat = "Error reading file";
-    if (filename != NULL)
-        fWhat += ST::string(": ") + filename;
-}
-
-
-/* hsFileWriteException */
-hsFileWriteException::hsFileWriteException(const char* file,
-                      unsigned long line, const char* filename) HS_NOEXCEPT
-                    : hsException(file, line) {
-    fWhat = "Error writing to file";
-    if (filename != NULL)
-        fWhat += ST::string(": ") + filename;
-}

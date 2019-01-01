@@ -311,14 +311,3 @@ void plSDLMgr::write(hsStream* S) {
     for (size_t i=0; i<fDescriptors.size(); i++)
         fDescriptors[i]->write(S);
 }
-
-
-/* plSDLParseException */
-plSDLParseException::plSDLParseException(const char* file, unsigned long line,
-                                         const char* msg) HS_NOEXCEPT
-                   : hsException(file, line) {
-    if (msg == NULL)
-        fWhat = "Unknown SDL Parse Error";
-    else
-        fWhat = ST::string("SDL Error: ") + msg;
-}

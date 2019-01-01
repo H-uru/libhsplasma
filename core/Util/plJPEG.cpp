@@ -22,16 +22,6 @@ extern "C" {
 #include <jerror.h>
 }
 
-/* hsJPEGException */
-hsJPEGException::hsJPEGException(const char* file, unsigned long line,
-                                 const char* message) HS_NOEXCEPT
-               : hsException(file, line) {
-    fWhat = "libJPEG error";
-    if (message != NULL)
-        fWhat += ST::string(": ") + message;
-}
-
-
 #define INPUT_BUF_SIZE  4096
 
 /* hsStream JPEG source -- modelled after IJG's stdio src */

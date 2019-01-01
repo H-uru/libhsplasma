@@ -20,72 +20,71 @@
 #include <string_theory/string>
 #include <exception>
 
-class PLASMA_DLL hsException : public std::exception {
+class hsException : public std::exception {
 protected:
     ST::string fWhat;
     const char* fFile;
     unsigned long fLine;
 
 public:
-    hsException(const char* file, unsigned long line) HS_NOEXCEPT
+    inline hsException(const char* file, unsigned long line) HS_NOEXCEPT
         : fWhat("Undefined Plasma Exception"), fFile(file), fLine(line) { }
-    virtual ~hsException() HS_NOEXCEPT { }
+    inline virtual ~hsException() HS_NOEXCEPT { }
 
-    hsException& operator=(const hsException& other) HS_NOEXCEPT {
+    inline hsException& operator=(const hsException& other) HS_NOEXCEPT {
         fWhat = other.fWhat;
         return *this;
     }
 
-    const char* what() const HS_NOEXCEPT HS_OVERRIDE { return fWhat.c_str(); }
-    const char* File() const HS_NOEXCEPT { return fFile; }
-    unsigned long Line() const HS_NOEXCEPT { return fLine; }
+    inline const char* what() const HS_NOEXCEPT HS_OVERRIDE { return fWhat.c_str(); }
+    inline const char* File() const HS_NOEXCEPT { return fFile; }
+    inline unsigned long Line() const HS_NOEXCEPT { return fLine; }
 
 protected:
-    hsException(const ST::string& w, const char* file, unsigned long line) HS_NOEXCEPT
+    inline hsException(const ST::string& w, const char* file, unsigned long line) HS_NOEXCEPT
         : fWhat(w), fFile(file), fLine(line) { }
 };
 
-class PLASMA_DLL hsNotImplementedException : public hsException {
+class hsNotImplementedException : public hsException {
 public:
-    hsNotImplementedException(const char* file, unsigned long line,
-                              const ST::string& feature = ST::null) HS_NOEXCEPT
+    inline hsNotImplementedException(const char* file, unsigned long line,
+                                     const ST::string& feature = ST::null) HS_NOEXCEPT
         : hsException(file, line)
     {
         if (feature.is_empty())
-            fWhat = "Not implemented";
+            fWhat = ST_LITERAL("Not implemented");
         else
-            fWhat = ST::string("`") + feature + "' not implemented";
+            fWhat = ST_LITERAL("`") + feature + ST_LITERAL("' not implemented");
     }
 };
 
-class PLASMA_DLL hsBadParamException : public hsException {
+class hsBadParamException : public hsException {
 public:
-    hsBadParamException(const char* file, unsigned long line,
-                        const ST::string& details = ST::null) HS_NOEXCEPT
-        : hsException(file, line)
+    inline hsBadParamException(const char* file, unsigned long line,
+                               const ST::string& details = ST::null) HS_NOEXCEPT
+        : hsException(ST_LITERAL("Bad parameter"), file, line)
     {
-        fWhat = "Bad parameter";
         if (!details.is_empty())
-            fWhat += ST::string(": ") + details;
+            fWhat += ST_LITERAL(": ") + details;
     }
 };
 
-class PLASMA_DLL hsOutOfBoundsException : public hsException {
+class hsOutOfBoundsException : public hsException {
 public:
-    hsOutOfBoundsException(const char* file, unsigned long line) HS_NOEXCEPT
-        : hsException(file, line) { fWhat = "Out of bounds"; }
+    inline hsOutOfBoundsException(const char* file, unsigned long line) HS_NOEXCEPT
+        : hsException(ST_LITERAL("Out of bounds"), file, line) { }
 };
 
-class PLASMA_DLL hsBadVersionException : public hsException {
+class hsBadVersionException : public hsException {
 public:
-    hsBadVersionException(const char* file, unsigned long line) HS_NOEXCEPT
-        : hsException(file, line) { fWhat = "Unknown Plasma version"; }
+    inline hsBadVersionException(const char* file, unsigned long line) HS_NOEXCEPT
+        : hsException(ST_LITERAL("Unknown Plasma version"), file, line) { }
 };
 
-class PLASMA_DLL hsVersionMismatchException : public hsException {
+class hsVersionMismatchException : public hsException {
 public:
-    hsVersionMismatchException(const char* file, unsigned long line) HS_NOEXCEPT
-        : hsException(file, line) { fWhat = "Plasma Versions don't match"; }
+    inline hsVersionMismatchException(const char* file, unsigned long line) HS_NOEXCEPT
+        : hsException(ST_LITERAL("Plasma Versions don't match"), file, line) { }
 };
 
 #endif
