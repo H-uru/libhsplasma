@@ -27,22 +27,42 @@ PY_METHOD_VA(EncryptedStream, open,
     "Encryption is: kEncNone, kEncXtea, kEncAES, kEncDroid, kEncAuto")
 {
     const char* filename;
+    pyStream* stream;
     int mode, encryption;
 
-    if (!PyArg_ParseTuple(args, "sii", &filename, &mode, &encryption)) {
-        PyErr_SetString(PyExc_TypeError, "open expects string, int, int");
-        return NULL;
-    }
-    try {
-        if (!self->fThis->open(filename, (FileMode)mode,
-                               (plEncryptedStream::EncryptionType)encryption)) {
+    if (PyArg_ParseTuple(args, "sii", &filename, &mode, &encryption)) {
+        try {
+            if (!self->fThis->open(filename, (FileMode)mode,
+                                   (plEncryptedStream::EncryptionType)encryption)) {
+                PyErr_SetString(PyExc_IOError, "Error opening file");
+                return NULL;
+            }
+            Py_INCREF(self);
+            return (PyObject*)self;
+        } catch (...) {
             PyErr_SetString(PyExc_IOError, "Error opening file");
             return NULL;
         }
-        Py_INCREF(self);
-        return (PyObject*)self;
-    } catch (...) {
-        PyErr_SetString(PyExc_IOError, "Error opening file");
+    } else if (PyErr_Clear(), PyArg_ParseTuple(args, "Oii", &stream, &mode, &encryption)) {
+        if (!pyStream_Check((PyObject*)stream)) {
+            PyErr_SetString(PyExc_TypeError, "open expects string or stream, int, int");
+            return NULL;
+        }
+
+        try {
+            if (!self->fThis->open(stream->fThis, (FileMode)mode,
+                                   (plEncryptedStream::EncryptionType)encryption)) {
+                PyErr_SetString(PyExc_IOError, "Error opening stream");
+                return NULL;
+            }
+            Py_INCREF(self);
+            return (PyObject*)self;
+        } catch (...) {
+            PyErr_SetString(PyExc_IOError, "Error opening stream");
+            return NULL;
+        }
+    } else {
+        PyErr_SetString(PyExc_TypeError, "open expects string or stream, int, int");
         return NULL;
     }
 }
