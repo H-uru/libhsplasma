@@ -26,15 +26,20 @@ void plAgeInfo::readFromFile(const ST::string& filename) {
     if (dot >= 0)
         fName = fName.left(dot);
 
-    hsStream* S;
     if (plEncryptedStream::IsFileEncrypted(filename)) {
-        S = new plEncryptedStream();
-        ((plEncryptedStream*)S)->open(filename, fmRead, plEncryptedStream::kEncAuto);
+        plEncryptedStream S;
+        S.open(filename, fmRead, plEncryptedStream::kEncAuto);
+        readFromStream(&S);
+        S.close();
     } else {
-        S = new hsFileStream();
-        ((hsFileStream*)S)->open(filename, fmRead);
+        hsFileStream S;
+        S.open(filename, fmRead);
+        readFromStream(&S);
+        S.close();
     }
+}
 
+void plAgeInfo::readFromStream(hsStream* S) {
     while (!S->eof()) {
         ST::string ln = S->readLine();
         std::vector<ST::string> parts = ln.split('=', 1);
@@ -62,25 +67,28 @@ void plAgeInfo::readFromFile(const ST::string& filename) {
             addPage(page);
         }
     }
-
-    delete S;
 }
 
-void plAgeInfo::writeToFile(const ST::string& filename, PlasmaVer ver) {
-    hsStream* S;
+void plAgeInfo::writeToFile(const ST::string& filename, PlasmaVer ver) const {
     if (ver.isUniversal()) {
-        S = new hsFileStream();
-        ((hsFileStream*)S)->open(filename, fmCreate);
+        hsFileStream S;
+        S.open(filename, fmCreate);
+        writeToStream(&S, ver);
+        S.close();
     } else {
-        S = new plEncryptedStream();
+        plEncryptedStream S;
         plEncryptedStream::EncryptionType eType = plEncryptedStream::kEncAuto;
         if (ver.isNewPlasma())
             eType = plEncryptedStream::kEncAES;
         else
             eType = plEncryptedStream::kEncXtea;
-        ((plEncryptedStream*)S)->open(filename, fmCreate, eType);
+        S.open(filename, fmCreate, eType);
+        writeToStream(&S, ver);
+        S.close();
     }
+}
 
+void plAgeInfo::writeToStream(hsStream* S, PlasmaVer) const {
     S->writeLine(ST::format("StartDateTime={_010}", fStartDateTime), true);
     S->writeLine(ST::format("DayLength={f}", fDayLength), true);
     S->writeLine(ST::format("MaxCapacity={}", fMaxCapacity), true);
@@ -99,8 +107,6 @@ void plAgeInfo::writeToFile(const ST::string& filename, PlasmaVer ver) {
                          fPages[i].fName,
                          fPages[i].fSeqSuffix), true);
     }
-
-    delete S;
 }
 
 void plAgeInfo::prcWrite(pfPrcHelper* prc) {
