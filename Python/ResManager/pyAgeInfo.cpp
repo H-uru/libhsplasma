@@ -33,8 +33,13 @@ PY_METHOD_VA(AgeInfo, readFromFile,
         PyErr_SetString(PyExc_TypeError, "readFromFile expects a string");
         return NULL;
     }
-    self->fThis->readFromFile(filename);
-    Py_RETURN_NONE;
+    try {
+        self->fThis->readFromFile(filename);
+        Py_RETURN_NONE;
+    } catch (const hsException& ex) {
+        PyErr_SetString(PyExc_IOError, ex.what());
+        return NULL;
+    }
 }
 
 PY_METHOD_VA(AgeInfo, readFromStream,
@@ -60,8 +65,13 @@ PY_METHOD_VA(AgeInfo, writeToFile,
         PyErr_SetString(PyExc_TypeError, "writeToFile expects string, int");
         return NULL;
     }
-    self->fThis->writeToFile(filename, (PlasmaVer)version);
-    Py_RETURN_NONE;
+    try {
+        self->fThis->writeToFile(filename, (PlasmaVer)version);
+        Py_RETURN_NONE;
+    } catch (const hsException& ex) {
+        PyErr_SetString(PyExc_IOError, ex.what());
+        return NULL;
+    }
 }
 
 PY_METHOD_VA(AgeInfo, writeToStream,
