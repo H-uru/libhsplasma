@@ -37,6 +37,19 @@ PY_METHOD_VA(AgeInfo, readFromFile,
     Py_RETURN_NONE;
 }
 
+PY_METHOD_VA(AgeInfo, readFromStream,
+    "Params: stream\n"
+    "Reads the AgeInfo from an arbitrary stream")
+{
+    pyStream* stream;
+    if (!PyArg_ParseTuple(args, "O", &stream) || !pyStream_Check((PyObject*)stream)) {
+        PyErr_SetString(PyExc_TypeError, "readFromStream expects an hsStream");
+        return NULL;
+    }
+    self->fThis->readFromStream(stream->fThis);
+    Py_RETURN_NONE;
+}
+
 PY_METHOD_VA(AgeInfo, writeToFile,
     "Params: filename, version\n"
     "Write the AgeInfo to a .age file")
@@ -48,6 +61,20 @@ PY_METHOD_VA(AgeInfo, writeToFile,
         return NULL;
     }
     self->fThis->writeToFile(filename, (PlasmaVer)version);
+    Py_RETURN_NONE;
+}
+
+PY_METHOD_VA(AgeInfo, writeToStream,
+    "Params: stream, version\n"
+    "Write the AgeInfo to an arbitrary stream")
+{
+    pyStream* stream;
+    int version;
+    if (!PyArg_ParseTuple(args, "Oi", &stream, &version) || !pyStream_Check((PyObject*)stream)) {
+        PyErr_SetString(PyExc_TypeError, "writeToStream expects hsStream, int");
+        return NULL;
+    }
+    self->fThis->writeToStream(stream->fThis, (PlasmaVer)version);
     Py_RETURN_NONE;
 }
 
@@ -206,7 +233,9 @@ PY_METHOD_VA(AgeInfo, getCommonPageLoc,
 
 static PyMethodDef pyAgeInfo_Methods[] = {
     pyAgeInfo_readFromFile_method,
+    pyAgeInfo_readFromStream_method,
     pyAgeInfo_writeToFile_method,
+    pyAgeInfo_writeToStream_method,
     pyAgeInfo_getNumPages_method,
     pyAgeInfo_getPage_method,
     pyAgeInfo_getNumCommonPages_method,
