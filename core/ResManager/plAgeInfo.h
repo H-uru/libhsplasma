@@ -59,7 +59,9 @@ public:
                   fLingerTime(180), fSeqPrefix(0), fReleaseVersion(0) { }
 
     void readFromFile(const ST::string& filename);
-    void writeToFile(const ST::string& filename, PlasmaVer ver);
+    void readFromStream(hsStream* S);
+    void writeToFile(const ST::string& filename, PlasmaVer ver) const;
+    void writeToStream(hsStream* S) const;
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
 

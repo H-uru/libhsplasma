@@ -33,7 +33,25 @@ PY_METHOD_VA(AgeInfo, readFromFile,
         PyErr_SetString(PyExc_TypeError, "readFromFile expects a string");
         return NULL;
     }
-    self->fThis->readFromFile(filename);
+    try {
+        self->fThis->readFromFile(filename);
+        Py_RETURN_NONE;
+    } catch (const hsException& ex) {
+        PyErr_SetString(PyExc_IOError, ex.what());
+        return NULL;
+    }
+}
+
+PY_METHOD_VA(AgeInfo, readFromStream,
+    "Params: stream\n"
+    "Reads the AgeInfo from an arbitrary stream")
+{
+    pyStream* stream;
+    if (!PyArg_ParseTuple(args, "O", &stream) || !pyStream_Check((PyObject*)stream)) {
+        PyErr_SetString(PyExc_TypeError, "readFromStream expects an hsStream");
+        return NULL;
+    }
+    self->fThis->readFromStream(stream->fThis);
     Py_RETURN_NONE;
 }
 
@@ -47,7 +65,25 @@ PY_METHOD_VA(AgeInfo, writeToFile,
         PyErr_SetString(PyExc_TypeError, "writeToFile expects string, int");
         return NULL;
     }
-    self->fThis->writeToFile(filename, (PlasmaVer)version);
+    try {
+        self->fThis->writeToFile(filename, (PlasmaVer)version);
+        Py_RETURN_NONE;
+    } catch (const hsException& ex) {
+        PyErr_SetString(PyExc_IOError, ex.what());
+        return NULL;
+    }
+}
+
+PY_METHOD_VA(AgeInfo, writeToStream,
+    "Params: stream\n"
+    "Write the AgeInfo to an arbitrary stream")
+{
+    pyStream* stream;
+    if (!PyArg_ParseTuple(args, "O", &stream) || !pyStream_Check((PyObject*)stream)) {
+        PyErr_SetString(PyExc_TypeError, "writeToStream expects an hsStream");
+        return NULL;
+    }
+    self->fThis->writeToStream(stream->fThis);
     Py_RETURN_NONE;
 }
 
@@ -206,7 +242,9 @@ PY_METHOD_VA(AgeInfo, getCommonPageLoc,
 
 static PyMethodDef pyAgeInfo_Methods[] = {
     pyAgeInfo_readFromFile_method,
+    pyAgeInfo_readFromStream_method,
     pyAgeInfo_writeToFile_method,
+    pyAgeInfo_writeToStream_method,
     pyAgeInfo_getNumPages_method,
     pyAgeInfo_getPage_method,
     pyAgeInfo_getNumCommonPages_method,
