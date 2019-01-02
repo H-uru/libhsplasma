@@ -75,16 +75,15 @@ PY_METHOD_VA(AgeInfo, writeToFile,
 }
 
 PY_METHOD_VA(AgeInfo, writeToStream,
-    "Params: stream, version\n"
+    "Params: stream\n"
     "Write the AgeInfo to an arbitrary stream")
 {
     pyStream* stream;
-    int version;
-    if (!PyArg_ParseTuple(args, "Oi", &stream, &version) || !pyStream_Check((PyObject*)stream)) {
-        PyErr_SetString(PyExc_TypeError, "writeToStream expects hsStream, int");
+    if (!PyArg_ParseTuple(args, "O", &stream) || !pyStream_Check((PyObject*)stream)) {
+        PyErr_SetString(PyExc_TypeError, "writeToStream expects an hsStream");
         return NULL;
     }
-    self->fThis->writeToStream(stream->fThis, (PlasmaVer)version);
+    self->fThis->writeToStream(stream->fThis);
     Py_RETURN_NONE;
 }
 

@@ -61,7 +61,7 @@ public:
     void readFromFile(const ST::string& filename);
     void readFromStream(hsStream* S);
     void writeToFile(const ST::string& filename, PlasmaVer ver) const;
-    void writeToStream(hsStream* S, PlasmaVer) const;
+    void writeToStream(hsStream* S) const;
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
 

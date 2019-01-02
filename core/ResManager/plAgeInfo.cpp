@@ -73,7 +73,7 @@ void plAgeInfo::writeToFile(const ST::string& filename, PlasmaVer ver) const {
     if (ver.isUniversal()) {
         hsFileStream S;
         S.open(filename, fmCreate);
-        writeToStream(&S, ver);
+        writeToStream(&S);
         S.close();
     } else {
         plEncryptedStream S;
@@ -83,12 +83,12 @@ void plAgeInfo::writeToFile(const ST::string& filename, PlasmaVer ver) const {
         else
             eType = plEncryptedStream::kEncXtea;
         S.open(filename, fmCreate, eType);
-        writeToStream(&S, ver);
+        writeToStream(&S);
         S.close();
     }
 }
 
-void plAgeInfo::writeToStream(hsStream* S, PlasmaVer) const {
+void plAgeInfo::writeToStream(hsStream* S) const {
     S->writeLine(ST::format("StartDateTime={_010}", fStartDateTime), true);
     S->writeLine(ST::format("DayLength={f}", fDayLength), true);
     S->writeLine(ST::format("MaxCapacity={}", fMaxCapacity), true);
