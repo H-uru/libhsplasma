@@ -408,10 +408,10 @@ void plGenericPhysical::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 void plGenericPhysical::IReadHKPhysical(hsStream* S, plResManager* mgr) {
     fPos.read(S);
-    float rad = S->readFloat();
-    hsVector3 axis;
-    axis.read(S);
-    fRot = hsQuat(rad, axis);
+    fRot.W = S->readFloat();
+    fRot.X = S->readFloat();
+    fRot.Y = S->readFloat();
+    fRot.Z = S->readFloat();
 
     unsigned int hMemberGroup, hReportGroup, hCollideGroup;
     fMass = S->readFloat();
