@@ -37,22 +37,12 @@
 #endif
 
 #include <cstdint>
+#include <cstddef>
 
-#ifdef HAVE_OVERRIDE
-  #define HS_OVERRIDE       override
-  #define HS_FINAL          final
-  #define HS_FINAL_OVERRIDE override final  // Prefer both to satisfy -Wsuggest-override
-#else
-  #define HS_OVERRIDE
-  #define HS_FINAL
-  #define HS_FINAL_OVERRIDE
-#endif
-
-#ifdef HAVE_NOEXCEPT
-  #define HS_NOEXCEPT noexcept
-#else
-  #define HS_NOEXCEPT throw()
-#endif
+#define HS_OVERRIDE         override
+#define HS_FINAL            final
+#define HS_FINAL_OVERRIDE   override final  // Prefer both to satisfy -Wsuggest-override
+#define HS_NOEXCEPT         noexcept
 
 enum CallbackEvent {
     kStart, kStop, kReverse, kTime, kLoop, kBegin, kEnd, kEventEnd,
@@ -91,5 +81,11 @@ enum ControlEventCode {
     S_SET_WALK_BACK_LB_MODE, S_SET_CURSOR_UPWARD, S_SET_LADDER_CONTROL,
     S_CLEAR_LADDER_CONTROL, END_CONTROLS
 };
+
+template <typename T, size_t Size>
+constexpr size_t hsArraySize(T (&)[Size])
+{
+    return Size;
+}
 
 #endif

@@ -42,10 +42,6 @@ option(ENABLE_NET "Build HSPlasmaNet" ON)
 option(ENABLE_PHYSX "Build with PhysX Support" ON)
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 
-try_compile(HAVE_OVERRIDE ${PROJECT_BINARY_DIR}
-            ${PROJECT_SOURCE_DIR}/cmake/check_override.cpp)
-try_compile(HAVE_NOEXCEPT ${PROJECT_BINARY_DIR}
-            ${PROJECT_SOURCE_DIR}/cmake/check_noexcept.cpp)
 try_compile(NEED_SIZE_T_OVERLOAD ${PROJECT_BINARY_DIR}
             ${PROJECT_SOURCE_DIR}/cmake/check_size_t_overload.cpp)
 

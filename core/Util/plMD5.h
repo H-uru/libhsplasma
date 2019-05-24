@@ -24,13 +24,13 @@ public:
 public:
     plMD5Hash();
     plMD5Hash(const char* hex) { fromHex(hex); }
-    bool operator==(const plMD5Hash& cmp);
-    bool operator!=(const plMD5Hash& cmp);
+    bool operator==(const plMD5Hash& cmp) const;
+    bool operator!=(const plMD5Hash& cmp) const;
 
     ST::string toHex() const;
     void fromHex(const char* hex);
     void read(hsStream* S);
-    void write(hsStream* S);
+    void write(hsStream* S) const;
 };
 
 class PLASMA_DLL plMD5 {

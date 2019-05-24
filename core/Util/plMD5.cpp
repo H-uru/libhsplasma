@@ -53,11 +53,11 @@ plMD5Hash::plMD5Hash() {
     fHash[3] = 0x7e42f8ec;
 }
 
-bool plMD5Hash::operator==(const plMD5Hash& cmp) {
+bool plMD5Hash::operator==(const plMD5Hash& cmp) const {
     return memcmp(fHash, cmp.fHash, sizeof(fHash)) == 0;
 }
 
-bool plMD5Hash::operator!=(const plMD5Hash& cmp) {
+bool plMD5Hash::operator!=(const plMD5Hash& cmp) const {
     return memcmp(fHash, cmp.fHash, sizeof(fHash)) != 0;
 }
 
@@ -105,7 +105,7 @@ void plMD5Hash::read(hsStream* S) {
     fHash[3] = S->readInt();
 }
 
-void plMD5Hash::write(hsStream* S) {
+void plMD5Hash::write(hsStream* S) const {
     S->writeInt(fHash[0]);
     S->writeInt(fHash[1]);
     S->writeInt(fHash[2]);
