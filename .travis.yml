@@ -3,7 +3,7 @@ language: cpp
 matrix:
   include:
     - os: linux
-      dist: trusty
+      dist: xenial
       compiler: gcc
       env: PYTHON_VER=2.7
       addons:
@@ -15,9 +15,9 @@ matrix:
             - libjpeg-turbo8-dev
             - python2.7-dev
     - os: linux
-      dist: trusty
+      dist: xenial
       compiler: gcc
-      env: PYTHON_VER=3.4
+      env: PYTHON_VER=3.5
       addons:
         apt:
           packages:
@@ -25,7 +25,7 @@ matrix:
             - libpng12-dev
             - zlib1g-dev
             - libjpeg-turbo8-dev
-            - python3.4-dev
+            - python3.5-dev
     - os: osx
       osx_image: xcode8.3
       compiler: clang
