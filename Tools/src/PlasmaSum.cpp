@@ -21,51 +21,13 @@
 #include <time.h>
 #include <memory>
 
-#include "Util/plMD5.h"
+#include "Util/hsSumFile.h"
 #include "Stream/plEncryptedStream.h"
 
-/* Sum file structures and operations */
-struct SumEntry {
-    ST::string fPath;
-    plMD5Hash fHash;
-    time_t fTimestamp;
-    unsigned int fUnknown;
-
-    SumEntry() : fTimestamp(0), fUnknown(0) { }
-};
-
-struct SumFile {
-    unsigned int fUnknown;
-    std::vector<SumEntry> fEntries;
-
-    SumFile() : fUnknown() { }
-
-    void read(hsStream* S) {
-        fEntries.resize(S->readInt());
-        fUnknown = S->readInt();
-        for (size_t i = 0; i < fEntries.size(); ++i) {
-            fEntries[i].fPath = S->readSafeStr();
-            fEntries[i].fHash.read(S);
-            fEntries[i].fTimestamp = S->readInt();
-            fEntries[i].fUnknown = S->readInt();
-        }
-    }
-
-    void write(hsStream* S) const {
-        S->writeInt(fEntries.size());
-        S->writeInt(fUnknown);
-        for (const SumEntry& entry : fEntries) {
-            S->writeSafeStr(entry.fPath);
-            entry.fHash.write(S);
-            S->writeInt(entry.fTimestamp);
-            S->writeInt(entry.fUnknown);
-        }
-    }
-};
-
-static void PrintFile(const SumEntry& file, char op) {
+static void PrintFile(const hsSumFile::FileInfo& file, char op) {
     char buf[32];
-    struct tm* tbuf = localtime(&file.fTimestamp);
+    auto timestamp = static_cast<time_t>(file.fTimestamp);
+    struct tm* tbuf = localtime(&timestamp);
     strftime(buf, hsArraySize(buf), "%Y/%m/%d %H:%M:%S", tbuf);
     ST::printf("{c} {}  {}  {}\n", op, file.fHash.toHex(), buf, file.fPath);
 }
@@ -173,52 +135,52 @@ static bool UpdateSums(const ST::string& filename) {
     bool isUpdated = false;
     ST::printf("{}:\n", filename);
     try {
-        SumFile sum;
+        hsSumFile sum;
         plEncryptedStream S;
-        plEncryptedStream::EncryptionType eType = plEncryptedStream::kEncXtea;
         if (!S.open(filename, fmRead, plEncryptedStream::kEncAuto)) {
             ST::printf(stderr, "Could not open file {}\n", filename);
             return false;
         }
-        eType = S.getEncType();
+        plEncryptedStream::EncryptionType eType = S.getEncType();
         sum.read(&S);
         S.close();
 
-        auto it = sum.fEntries.begin();
-        while (it != sum.fEntries.end()) {
-            std::unique_ptr<hsFileStream> IS = FindFilePath(it->fPath, cdUp(filename));
+        // This should be a copy, since we're going to modify the files list
+        std::vector<hsSumFile::FileInfo> files = sum.getFiles();
+        for (const hsSumFile::FileInfo& file : files) {
+            std::unique_ptr<hsFileStream> IS = FindFilePath(file.fPath, cdUp(filename));
             if (!IS) {
-                if (s_autoYes) {
-                    PrintFile(*it, '-');
-                    it = sum.fEntries.erase(it);
-                    isUpdated = true;
-                } else {
+                bool removeFile = s_autoYes;
+                if (!s_autoYes) {
                     ST::printf(stderr, "File {} not found.  Remove it? [y/N] ",
-                               it->fPath);
+                               file.fPath);
                     char buf[256];
                     fgets(buf, hsArraySize(buf), stdin);
+                    removeFile = (strcmp(buf, "y\n") == 0 || strcmp(buf, "Y\n") == 0);
+                }
 
-                    if (strcmp(buf, "y\n") == 0 || strcmp(buf, "Y\n") == 0) {
-                        PrintFile(*it, '-');
-                        it = sum.fEntries.erase(it);
-                        isUpdated = true;
-                    } else {
-                        PrintFile(*it, '!');
-                        ++it;
-                    }
+                if (removeFile) {
+                    PrintFile(file, '-');
+                    sum.removeFile(file.fPath);
+                    isUpdated = true;
+                } else {
+                    PrintFile(file, '!');
                 }
                 continue;
             }
-            plMD5Hash hash = plMD5::hashStream(IS.get());
-            it->fTimestamp = IS->getModTime();
-            if (it->fHash != hash) {
-                it->fHash = hash;
-                PrintFile(*it, '*');
+
+            switch (sum.updateFile(file.fPath, IS.get(), IS->getModTime())) {
+            case hsSumFile::kUpdated:
+                PrintFile(file, '*');
                 isUpdated = true;
-            } else {
-                PrintFile(*it, ' ');
+                break;
+            case hsSumFile::kNotNeeded:
+                PrintFile(file, ' ');
+                break;
+            default:
+                fputs("Unexpected update response\n", stderr);
+                break;
             }
-            ++it;
         }
 
         if (isUpdated) {
@@ -233,7 +195,7 @@ static bool UpdateSums(const ST::string& filename) {
     } catch (const hsException& e) {
         ST::printf(stderr, "{}:{}: {}\n", e.File(), e.Line(), e.what());
     } catch (...) {
-        fputs("An unknown error occured\n", stderr);
+        fputs("An unknown error occurred\n", stderr);
     }
     return isUpdated;
 }
@@ -333,12 +295,12 @@ int main(int argc, char* argv[]) {
                     ST::printf(stderr, "Could not open file {}\n", fn);
                     continue;
                 }
-                SumFile sum;
+                hsSumFile sum;
                 sum.read(&S);
                 S.close();
 
-                for (const SumEntry& entry : sum.fEntries)
-                    PrintFile(entry, ' ');
+                for (const hsSumFile::FileInfo& file : sum.getFiles())
+                    PrintFile(file, ' ');
                 printf("\n");
             } catch (const hsException& e) {
                 ST::printf(stderr, "{}:{}: {}\n", e.File(), e.Line(), e.what());
@@ -358,7 +320,7 @@ int main(int argc, char* argv[]) {
         const ST::string sumFile = sumFiles.front();
         try {
             bool isUpdated = false;
-            SumFile sum;
+            hsSumFile sum;
             plEncryptedStream S;
             plEncryptedStream::EncryptionType eType = plEncryptedStream::kEncXtea;
             if (!s_createFile) {
@@ -374,20 +336,14 @@ int main(int argc, char* argv[]) {
             }
 
             for (const ST::string& path : delPaths) {
-                bool found = false;
-                auto it = sum.fEntries.begin();
-                while (it != sum.fEntries.end()) {
-                    if (it->fPath == path) {
-                        PrintFile(*it, '-');
-                        it = sum.fEntries.erase(it);
-                        found = true;
-                        isUpdated = true;
-                    } else {
-                        ++it;
-                    }
-                }
-                if (!found)
+                hsSumFile::FileInfo file = sum.findFile(path);
+                if (!file.isValid()) {
                     ST::printf(stderr, "Warning: path '{}' not found\n", path);
+                } else {
+                    sum.removeFile(path);
+                    PrintFile(file, '-');
+                    isUpdated = true;
+                }
             }
 
             for (const ST::string& path : addPaths) {
@@ -397,28 +353,21 @@ int main(int argc, char* argv[]) {
                     continue;
                 }
 
-                SumEntry newEntry;
-                newEntry.fPath = GetInternalName(path);
-                newEntry.fHash = plMD5::hashStream(IS.get());
-                newEntry.fTimestamp = IS->getModTime();
-                bool found = false;
-                for (SumEntry& entry : sum.fEntries) {
-                    if (entry.fPath == path) {
-                        found = true;
-                        if (entry.fHash != newEntry.fHash) {
-                            PrintFile(entry, '*');
-                            entry.fHash = newEntry.fHash;
-                            entry.fTimestamp = newEntry.fTimestamp;
-                            isUpdated = true;
-                        } else {
-                            PrintFile(entry, ' ');
-                        }
-                    }
-                }
-                if (!found) {
-                    PrintFile(newEntry, '+');
-                    sum.fEntries.push_back(newEntry);
+                ST::string sumPath = GetInternalName(path);
+                auto result = sum.updateFile(sumPath, IS.get(), IS->getModTime());
+                hsSumFile::FileInfo file = sum.findFile(sumPath);
+                switch (result) {
+                case hsSumFile::kNotNeeded:
+                    PrintFile(file, ' ');
+                    break;
+                case hsSumFile::kUpdated:
+                    PrintFile(file, '*');
                     isUpdated = true;
+                    break;
+                case hsSumFile::kAdded:
+                    PrintFile(file, '+');
+                    isUpdated = true;
+                    break;
                 }
             }
 
