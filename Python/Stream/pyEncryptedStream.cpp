@@ -93,7 +93,6 @@ PY_METHOD_VA(EncryptedStream, setKey,
             return NULL;
         }
         key[i] = pyPlasma_get<int>(k);
-        Py_DECREF(k);
     }
     self->fThis->setKey((unsigned int*)key);
     Py_RETURN_NONE;
