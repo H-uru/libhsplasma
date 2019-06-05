@@ -17,8 +17,6 @@
 #ifndef _PLASMA_CONFIG_H
 #define _PLASMA_CONFIG_H
 
-#cmakedefine HAVE_OVERRIDE
-#cmakedefine HAVE_NOEXCEPT
 #cmakedefine NEED_SIZE_T_OVERLOAD
 
 #endif

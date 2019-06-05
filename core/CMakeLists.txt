@@ -693,6 +693,7 @@ set(UTIL_SOURCES
     Util/hs3DDevice.cpp
     Util/hsBitVector.cpp
     Util/hsRadixSort.cpp
+    Util/hsSumFile.cpp
     Util/plDDSurface.cpp
     Util/plJPEG.cpp
     Util/plPNG.cpp
@@ -704,6 +705,7 @@ set(UTIL_HEADERS
     Util/hs3DDevice.h
     Util/hsBitVector.h
     Util/hsRadixSort.h
+    Util/hsSumFile.h
     Util/plDDSurface.h
     Util/plJPEG.h
     Util/plPNG.h
