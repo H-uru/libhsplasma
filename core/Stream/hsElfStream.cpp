@@ -43,10 +43,9 @@ ST::string hsElfStream::readLine() {
     unsigned short segSize = segHead ^ (p & 0xFFFF);
 
     ST::char_buffer line;
-    char* ln = line.create_writable_buffer(segSize);
-    read(segSize, ln);
-    ln[segSize] = 0;
-    decipher((unsigned char*)ln, segSize, (p & 0xFF));
+    line.allocate(segSize);
+    read(segSize, line.data());
+    decipher((unsigned char*)line.data(), segSize, (p & 0xFF));
     return line;
 }
 
@@ -56,10 +55,8 @@ void hsElfStream::writeLine(const ST::string& ln, bool winEOL) {
     unsigned short segSize = ln.size();
 
     // Note: winEOL is ignored here
-    ST::char_buffer buffer;
-    char* lnWrite = buffer.create_writable_buffer(ln.size());
-    memcpy(lnWrite, ln.c_str(), ln.size() + 1);
-    encipher((unsigned char*)lnWrite, segSize, (p & 0xFF));
+    ST::char_buffer buffer = ln.to_utf8();
+    encipher((unsigned char*)buffer.data(), segSize, (p & 0xFF));
     writeShort(segSize ^ (p & 0xFFFF));
-    write(segSize, lnWrite);
+    write(segSize, buffer.data());
 }

@@ -118,10 +118,9 @@ ST::string pnSocket::getRemoteIpStr() const
     sockaddr_in addr;
     socklen_t slen = sizeof(addr);
     std::lock_guard<std::mutex> lock(ipStrMutex);
-    const char* str = "???.???.???.???";
     if (getpeername(fSockHandle, (sockaddr*)&addr, &slen) >= 0)
-        str = inet_ntoa(addr.sin_addr);
-    return str;
+        return inet_ntoa(addr.sin_addr);
+    return "???.???.???.???";
 }
 
 bool pnSocket::connect(const char* address, unsigned short port)
@@ -314,8 +313,8 @@ ST::string pnSocket::recvString(size_t maxlen)
 
     if (size > 0) {
         ST::utf16_buffer str;
-        char16_t* buf = str.create_writable_buffer(size);
-        recv(buf, size * sizeof(char16_t));
+        str.allocate(size);
+        recv(str.data(), size * sizeof(char16_t));
         return ST::string::from_utf16(str);
     } else {
         return ST::string();

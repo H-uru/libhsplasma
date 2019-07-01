@@ -70,12 +70,11 @@ ST::string plMD5Hash::toHex() const {
     hc.hash32[3] = LESWAP32(fHash[3]);
 
     ST::char_buffer result;
-    char *buf = result.create_writable_buffer(32);
+    result.allocate(32);
     for (size_t i=0; i<16; i++) {
-        buf[(2*i)    ] = kHexTable[(hc.hash8[i] & 0xF0) >> 4];
-        buf[(2*i) + 1] = kHexTable[(hc.hash8[i] & 0x0F)     ];
+        result[(2*i)    ] = kHexTable[(hc.hash8[i] & 0xF0) >> 4];
+        result[(2*i) + 1] = kHexTable[(hc.hash8[i] & 0x0F)     ];
     }
-    buf[32] = 0;
     return result;
 }
 

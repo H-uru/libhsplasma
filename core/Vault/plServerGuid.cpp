@@ -49,10 +49,13 @@ ST::string plServerGuid::toString() const {
 }
 
 plServerGuid plServerGuid::FromString(const ST::string& str) {
+    if (str.size() != 16)
+        throw hsBadParamException(__FILE__, __LINE__, "Invalid plServerGuid string length");
+
     plServerGuid guid;
     for (size_t i=0; i<8; i++) {
-        char x = str.char_at((2*i)  );
-        char y = str.char_at((2*i)+1);
+        char x = str[(2*i)  ];
+        char y = str[(2*i)+1];
         if (x >= '0' && x <= '9')
             guid[i] = x - '0';
         else if (x >= 'A' && x <= 'F')

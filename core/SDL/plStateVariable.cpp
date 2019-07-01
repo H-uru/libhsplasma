@@ -517,25 +517,25 @@ void plSimpleStateVariable::SetFromDefault() {
     for (size_t i=0; i<fDescriptor->getCount(); i++) {
         switch (fDescriptor->getType()) {
         case plVarDescriptor::kInt:
-            if (def.is_empty())
+            if (def.empty())
                 fInt[i] = 0;
             else
                 fInt[i] = def.to_int();
             break;
         case plVarDescriptor::kUint:
-            if (def.is_empty())
+            if (def.empty())
                 fUint[i] = 0;
             else
                 fUint[i] = def.to_uint();
             break;
         case plVarDescriptor::kFloat:
-            if (def.is_empty())
+            if (def.empty())
                 fFloat[i] = 0.0f;
             else
                 fFloat[i] = def.to_float();
             break;
         case plVarDescriptor::kBool:
-            if (def.is_empty())
+            if (def.empty())
                 fBool[i] = false;
             else
                 fBool[i] = def.to_bool();
@@ -550,7 +550,7 @@ void plSimpleStateVariable::SetFromDefault() {
             fCreatable[i] = NULL;
             break;
         case plVarDescriptor::kDouble:
-            if (def.is_empty())
+            if (def.empty())
                 fDouble[i] = 0.0;
             else
                 fDouble[i] = def.to_double();
@@ -559,19 +559,19 @@ void plSimpleStateVariable::SetFromDefault() {
             fTime[i].toCurrentTime();
             break;
         case plVarDescriptor::kByte:
-            if (def.is_empty())
+            if (def.empty())
                 fByte[i] = 0;
             else
                 fByte[i] = def.to_uint();
             break;
         case plVarDescriptor::kChar:
-            if (def.is_empty())
+            if (def.empty())
                 fChar[i] = 0;
             else
                 fChar[i] = def.to_uint();
             break;
         case plVarDescriptor::kShort:
-            if (def.is_empty())
+            if (def.empty())
                 fShort[i] = 0;
             else
                 fShort[i] = def.to_int();
@@ -580,7 +580,7 @@ void plSimpleStateVariable::SetFromDefault() {
             break;
         case plVarDescriptor::kVector3:
         case plVarDescriptor::kPoint3:
-            if (def.is_empty()) {
+            if (def.empty()) {
                 fVector[i] = hsVector3(0.0f, 0.0f, 0.0f);
             } else {
                 ST::string parse = def;
@@ -599,7 +599,7 @@ void plSimpleStateVariable::SetFromDefault() {
             throw hsNotImplementedException(__FILE__, __LINE__, def);
             break;
         case plVarDescriptor::kQuaternion:
-            if (def.is_empty()) {
+            if (def.empty()) {
                 fQuat[i] = hsQuat(0.0f, 0.0f, 0.0f, 0.0f);
             } else {
                 ST::string parse = def;
@@ -614,7 +614,7 @@ void plSimpleStateVariable::SetFromDefault() {
             }
             break;
         case plVarDescriptor::kRGB8:
-            if (def.is_empty()) {
+            if (def.empty()) {
                 fColor32[i] = hsColor32(0xFF000000);
             } else {
                 ST::string parse = def;
@@ -627,7 +627,7 @@ void plSimpleStateVariable::SetFromDefault() {
             }
             break;
         case plVarDescriptor::kRGBA8:
-            if (def.is_empty()) {
+            if (def.empty()) {
                 fColor32[i] = hsColor32(0xFF000000);
             } else {
                 ST::string parse = def;
@@ -662,7 +662,7 @@ bool plSimpleStateVariable::isDefault(bool secondChance) const {
     for (size_t i=0; i<fDescriptor->getCount(); i++) {
         switch (fDescriptor->getType()) {
         case plVarDescriptor::kInt:
-            if (def.is_empty()) {
+            if (def.empty()) {
                 if (fInt[i] != 0)
                     return false;
             } else {
@@ -671,7 +671,7 @@ bool plSimpleStateVariable::isDefault(bool secondChance) const {
             }
             break;
         case plVarDescriptor::kUint:
-            if (def.is_empty()) {
+            if (def.empty()) {
                 if (fUint[i] != 0)
                     return false;
             } else {
@@ -680,7 +680,7 @@ bool plSimpleStateVariable::isDefault(bool secondChance) const {
             }
             break;
         case plVarDescriptor::kFloat:
-            if (def.is_empty()) {
+            if (def.empty()) {
                 if (fFloat[i] != 0.0f)
                     return false;
             } else {
@@ -689,7 +689,7 @@ bool plSimpleStateVariable::isDefault(bool secondChance) const {
             }
             break;
         case plVarDescriptor::kBool:
-            if (def.is_empty() || def == "false") {
+            if (def.empty() || def == "false") {
                 if (fBool[i] != false)
                     return false;
             } else if (def == "true") {
@@ -713,7 +713,7 @@ bool plSimpleStateVariable::isDefault(bool secondChance) const {
                 return false;
             break;
         case plVarDescriptor::kDouble:
-            if (def.is_empty()) {
+            if (def.empty()) {
                 if (fDouble[i] != 0.0)
                     return false;
             } else {
@@ -725,7 +725,7 @@ bool plSimpleStateVariable::isDefault(bool secondChance) const {
             return false;
             break;
         case plVarDescriptor::kByte:
-            if (def.is_empty()) {
+            if (def.empty()) {
                 if (fByte[i] != 0)
                     return false;
             } else {
@@ -734,7 +734,7 @@ bool plSimpleStateVariable::isDefault(bool secondChance) const {
             }
             break;
         case plVarDescriptor::kChar:
-            if (def.is_empty()) {
+            if (def.empty()) {
                 if (fChar[i] != 0)
                     return false;
             } else {
@@ -743,7 +743,7 @@ bool plSimpleStateVariable::isDefault(bool secondChance) const {
             }
             break;
         case plVarDescriptor::kShort:
-            if (def.is_empty()) {
+            if (def.empty()) {
                 if (fShort[i] != 0)
                     return false;
             } else {
@@ -756,7 +756,7 @@ bool plSimpleStateVariable::isDefault(bool secondChance) const {
             break;
         case plVarDescriptor::kVector3:
         case plVarDescriptor::kPoint3:
-            if (def.is_empty()) {
+            if (def.empty()) {
                 if (fVector[i] == hsVector3(0.0f, 0.0f, 0.0f))
                     return false;
             } else {
@@ -779,7 +779,7 @@ bool plSimpleStateVariable::isDefault(bool secondChance) const {
             throw hsNotImplementedException(__FILE__, __LINE__);
             break;
         case plVarDescriptor::kQuaternion:
-            if (def.is_empty()) {
+            if (def.empty()) {
                 if (fQuat[i] != hsQuat(0.0f, 0.0f, 0.0f, 0.0f))
                     return false;
             } else {
@@ -798,7 +798,7 @@ bool plSimpleStateVariable::isDefault(bool secondChance) const {
             }
             break;
         case plVarDescriptor::kRGB8:
-            if (def.is_empty()) {
+            if (def.empty()) {
                 if (fColor32[i] != hsColor32(0xFF000000))
                     return false;
             } else {
@@ -815,7 +815,7 @@ bool plSimpleStateVariable::isDefault(bool secondChance) const {
             }
             break;
         case plVarDescriptor::kRGBA8:
-            if (def.is_empty()) {
+            if (def.empty()) {
                 if (fColor32[i] != hsColor32(0xFF000000))
                     return false;
             } else {

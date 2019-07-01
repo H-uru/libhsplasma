@@ -74,7 +74,7 @@ void hsTokenStream::getLine() {
     while (end < line.size()) {
         beg = end;
         if (fInComment == -1) {
-            while (beg < line.size() && getCharType(line.char_at(beg)) == kCharNone)
+            while (beg < line.size() && getCharType(line[beg]) == kCharNone)
                 beg++;
         }
         for (auto mark = fStringMarkers.begin(); mark != fStringMarkers.end(); ++mark) {
@@ -94,7 +94,7 @@ void hsTokenStream::getLine() {
             }
         }
         if (fInComment == -1) {
-            while (beg < line.size() && getCharType(line.char_at(beg)) == kCharNone)
+            while (beg < line.size() && getCharType(line[beg]) == kCharNone)
                 beg++;
         }
         end = beg;
@@ -109,8 +109,8 @@ void hsTokenStream::getLine() {
                 }
             }
         } else {
-            tokType = getCharType(line.char_at(beg));
-            while (end < line.size() && getCharType(line.char_at(end)) == tokType) {
+            tokType = getCharType(line[beg]);
+            while (end < line.size() && getCharType(line[end]) == tokType) {
                 end++;
                 if (tokType == kCharDelim) break; // Only return one Delimiter
             }
