@@ -22,13 +22,11 @@
 struct PLASMA_DLL hsQuat {
     float X, Y, Z, W;
 
-    hsQuat() : X(0.0f), Y(0.0f), Z(0.0f), W(1.0f) { }
+    hsQuat() : X(), Y(), Z(), W() { }
     hsQuat(float _x, float _y, float _z, float _w) : X(_x), Y(_y), Z(_z), W(_w) { }
     hsQuat(float rad, const hsVector3& axis);
 
     static hsQuat Identity() { return hsQuat(0.0f, 0.0f, 0.0f, 1.0f); }
-
-    hsQuat& operator=(const hsQuat& cpy);
 
     bool operator==(const hsQuat& other) const
     { return (X == other.X) && (Y == other.Y) && (Z == other.Z) && (W == other.W); }

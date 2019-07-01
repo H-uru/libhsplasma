@@ -24,14 +24,6 @@ hsQuat::hsQuat(float rad, const hsVector3& axis) {
     Z = sin(rad * 0.5f) * axis.Z;
 }
 
-hsQuat& hsQuat::operator=(const hsQuat& cpy) {
-    X = cpy.X;
-    Y = cpy.Y;
-    Z = cpy.Z;
-    W = cpy.W;
-    return *this;
-}
-
 void hsQuat::read(hsStream* S) {
     X = S->readFloat();
     Y = S->readFloat();

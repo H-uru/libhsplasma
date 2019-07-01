@@ -25,10 +25,7 @@ public:
     unsigned int fVtxStart, fColorStart, fLength;
 
 public:
-    plGBufferCell() : fVtxStart(0), fColorStart(0), fLength(0) { }
-    plGBufferCell(const plGBufferCell& init)
-        : fVtxStart(init.fVtxStart), fColorStart(init.fColorStart),
-          fLength(init.fLength) { }
+    plGBufferCell() : fVtxStart(), fColorStart(), fLength() { }
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -43,10 +40,7 @@ public:
     hsVector3 fCenter;
 
 public:
-    plGBufferTriangle() : fIndex1(0), fIndex2(0), fIndex3(0), fSpanIndex(0) { }
-    plGBufferTriangle(const plGBufferTriangle& init)
-        : fIndex1(init.fIndex1), fIndex2(init.fIndex2), fIndex3(init.fIndex3),
-          fSpanIndex(init.fSpanIndex), fCenter(init.fCenter) { }
+    plGBufferTriangle() : fIndex1(), fIndex2(), fIndex3(), fSpanIndex() { }
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -110,6 +104,9 @@ public:
         setFormat(fmt);
     }
     ~plGBufferGroup();
+
+    plGBufferGroup(const plGBufferGroup&) = delete;
+    plGBufferGroup& operator=(const plGBufferGroup&) = delete;
 
     void read(hsStream* S);
     void write(hsStream* S);
