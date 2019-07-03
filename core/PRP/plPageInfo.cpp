@@ -76,7 +76,7 @@ void plPageInfo::read(hsStream* S) {
                 S->readShort());
 
         fAge = S->readSafeStr();
-        if (fAge.is_empty()) {
+        if (fAge.empty()) {
             locflags = 0;
             S->skip(-4);
             fAge = S->readSafeStr();

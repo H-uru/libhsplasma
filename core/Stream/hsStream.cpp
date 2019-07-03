@@ -94,22 +94,20 @@ bool hsStream::readBool() {
 
 ST::string hsStream::readStr(size_t len) {
     ST::char_buffer result;
-    char* buf = result.create_writable_buffer(len);
-    read(len * sizeof(char), buf);
-    buf[len] = 0;
+    result.allocate(len);
+    read(len * sizeof(char), result.data());
 
     try {
         return result;
     } catch (ST::unicode_error&) {
         fprintf(stderr, "WARNING: String \"%s\" contained invalid unicode characters.\n"
                 "Treating as Latin-1 instead.  If you save this file, the string will be\n"
-                "converted to UTF-8!\n", buf);
+                "converted to UTF-8!\n", result.data());
         return ST::string::from_latin_1(result);
     }
 }
 
 ST::string hsStream::readSafeStr() {
-    char* buf;
     uint16_t ssInfo = readShort();
     if (ssInfo == 0) {
         if (ver < MAKE_VERSION(2, 0, 63, 5) && readShort() != 0) {
@@ -120,26 +118,23 @@ ST::string hsStream::readSafeStr() {
 
     ST::char_buffer result;
     if (ver.isUniversal()) {
-        buf = result.create_writable_buffer(ssInfo);
-        read(ssInfo, buf);
-        buf[ssInfo] = 0;
+        result.allocate(ssInfo);
+        read(ssInfo, result.data());
     } else if (ver.isNewPlasma()) {
-        buf = result.create_writable_buffer(ssInfo);
-        read(ssInfo, buf);
+        result.allocate(ssInfo);
+        read(ssInfo, result.data());
         for (size_t i=0; i<ssInfo; i++)
-            buf[i] ^= eoaStrKey[i%8];
-        buf[ssInfo] = 0;
+            result[i] ^= eoaStrKey[i%8];
     } else {
         if (!(ssInfo & 0xF000))
             readShort(); // Discarded
         uint16_t size = (ssInfo & 0x0FFF);
-        buf = result.create_writable_buffer(size);
-        read(size, buf);
-        if ((size > 0) && (buf[0] & 0x80)) {
+        result.allocate(size);
+        read(size, result.data());
+        if ((size > 0) && (result.front() & 0x80)) {
             for (size_t i=0; i<size; i++)
-                buf[i] = ~buf[i];
+                result[i] = ~result[i];
         }
-        buf[size] = 0;
     }
 
     try {
@@ -147,7 +142,7 @@ ST::string hsStream::readSafeStr() {
     } catch (ST::unicode_error&) {
         fprintf(stderr, "WARNING: String \"%s\" contained invalid unicode characters.\n"
                 "Treating as Latin-1 instead.  If you save this file, the string will be \n"
-                "converted to UTF-8!\n", buf);
+                "converted to UTF-8!\n", result.data());
         return ST::string::from_latin_1(result);
     }
 }
@@ -155,26 +150,22 @@ ST::string hsStream::readSafeStr() {
 ST::string hsStream::readSafeWStr() {
     uint16_t ssInfo = readShort();
     ST::utf16_buffer result;
-    char16_t* buf;
     if (ver.isUniversal()) {
-        buf = result.create_writable_buffer(ssInfo);
+        result.allocate(ssInfo);
         for (size_t i=0; i<ssInfo; i++)
-            buf[i] = readShort() & 0xFFFF;
+            result[i] = readShort();
         readShort();    // Terminator
-        buf[ssInfo] = 0;
     } else if (ver.isNewPlasma()) {
-        buf = result.create_writable_buffer(ssInfo);
+        result.allocate(ssInfo);
         for (size_t i=0; i<ssInfo; i++)
-            buf[i] = (readShort() ^ eoaStrKey[i%8]) & 0xFFFF;
+            result[i] = readShort() ^ eoaStrKey[i%8];
         readShort();    // Terminator
-        buf[ssInfo] = 0;
     } else {
         uint16_t size = (ssInfo & 0x0FFF);
-        buf = result.create_writable_buffer(size);
+        result.allocate(size);
         for (size_t i=0; i<size; i++)
-            buf[i] = (~readShort()) & 0xFFFF;
+            result[i] = ~readShort();
         readShort();    // Terminator
-        buf[size] = 0;
     }
     return result;
 }
@@ -272,13 +263,13 @@ void hsStream::writeSafeStr(const ST::string& str) {
         writeShort(ssInfo);
         wbuf = new char[ssInfo];
         for (size_t i=0; i<ssInfo; i++)
-            wbuf[i] = str.char_at(i) ^ eoaStrKey[i%8];
+            wbuf[i] = str[i] ^ eoaStrKey[i%8];
     } else {
         ssInfo &= 0x0FFF;
         writeShort(ssInfo | 0xF000);
         wbuf = new char[ssInfo];
         for (size_t i=0; i<ssInfo; i++)
-            wbuf[i] = ~str.char_at(i);
+            wbuf[i] = ~str[i];
     }
     write(ssInfo, wbuf);
     delete[] wbuf;
@@ -298,7 +289,7 @@ void hsStream::writeSafeWStr(const ST::string& str) {
     } else if (ver.isNewPlasma()) {
         writeShort(ssInfo);
         for (size_t i=0; i<ssInfo; i++)
-            writeShort(buf.data()[i] ^ eoaStrKey[i%8]);
+            writeShort(buf[i] ^ eoaStrKey[i%8]);
         writeShort(0);  // Terminator
     } else {
         ssInfo &= 0x0FFF;

@@ -42,7 +42,7 @@ public:
         FileInfo(const ST::string& path, const plMD5Hash& hash, uint32_t timestamp)
             : fPath(path), fHash(hash), fTimestamp(timestamp), fUnknown() { }
 
-        bool isValid() const { return !fPath.is_empty(); }
+        bool isValid() const { return !fPath.empty(); }
     };
 
     hsSumFile() : fUnknown() { }

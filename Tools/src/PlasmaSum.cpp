@@ -33,12 +33,10 @@ static void PrintFile(const hsSumFile::FileInfo& file, char op) {
 }
 
 static ST::string FixSlashes(const ST::string& src) {
-    if (src.is_empty())
+    if (src.empty())
         return src;
 
-    ST::char_buffer dest;
-    dest.allocate(src.size());
-    memcpy(dest.data(), src.c_str(), src.size());
+    ST::char_buffer dest = src.to_utf8();
     for (auto pc = dest.begin(); pc != dest.end(); ++pc) {
         if (*pc == '/' || *pc == '\\')
             *pc = PATHSEP;
@@ -57,7 +55,7 @@ static ST::string cdUp(ST::string path) {
 #endif
 
     // Not very robust, but it works for one level of parent scanning
-    if (path.is_empty())
+    if (path.empty())
         return ST_LITERAL(".." PATHSEPSTR);
 
     // Strip the ending slash, if necessary, and then go up one dir
@@ -69,12 +67,12 @@ static ST::string cdUp(ST::string path) {
         return up + PATHSEPSTR;
     } else {
         // Relative path specified
-        return up.is_empty() ? ST::null : up + PATHSEPSTR;
+        return up.empty() ? ST::null : up + PATHSEPSTR;
     }
 }
 
 static std::unique_ptr<hsFileStream> FindFilePath(ST::string path, ST::string base) {
-    if (path.is_empty())
+    if (path.empty())
         return nullptr;
 
     // Scan first from the provided path:

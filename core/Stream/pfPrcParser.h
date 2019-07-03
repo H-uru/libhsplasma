@@ -91,7 +91,7 @@ public:
         : pfPrcParseException(file, line, nullptr)
     {
         fWhat = ST_LITERAL("Unexpected tag");
-        if (!tag.is_empty())
+        if (!tag.empty())
             fWhat += ST_LITERAL(": ") + tag;
     }
 };
