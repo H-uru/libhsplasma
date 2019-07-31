@@ -26,14 +26,6 @@ plasma_tool(prpmod)
 plasma_tool(prpgrep)
 plasma_tool(PlasmaSum)
 
-if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    option(ENABLE_PRP_FUSE "Enable the prp-fuse tool. EXPERIMENTAL!" OFF)
-    if(ENABLE_PRP_FUSE)
-        plasma_tool(prp-fuse)
-        target_link_libraries(prp-fuse fuse)
-    endif(ENABLE_PRP_FUSE)
-endif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-
 install(PROGRAMS ${CMAKE_CURRENT_SOURCE_DIR}/eoaedit
                  ${CMAKE_CURRENT_SOURCE_DIR}/uruedit
         DESTINATION bin
