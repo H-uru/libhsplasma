@@ -24,7 +24,8 @@ PY_PLASMA_NEW(ActivatorActivatorConditionalObject, plActivatorActivatorCondition
 PY_PLASMA_TYPE(ActivatorActivatorConditionalObject, plActivatorActivatorConditionalObject,
                "plActivatorActivatorConditionalObject wrapper")
 
-PY_PLASMA_TYPE_INIT(ActivatorActivatorConditionalObject) {
+PY_PLASMA_TYPE_INIT(ActivatorActivatorConditionalObject)
+{
     pyActivatorActivatorConditionalObject_Type.tp_new = pyActivatorActivatorConditionalObject_new;
     pyActivatorActivatorConditionalObject_Type.tp_base = &pyActivatorConditionalObject_Type;
     if (PyType_CheckAndReady(&pyActivatorActivatorConditionalObject_Type) < 0)

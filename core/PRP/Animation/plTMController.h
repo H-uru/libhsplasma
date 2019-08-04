@@ -21,7 +21,8 @@
 #include "plRotController.h"
 #include "plScaleController.h"
 
-class PLASMA_DLL plTMController : public plController {
+class PLASMA_DLL plTMController : public plController
+{
     CREATABLE(plTMController, kTMController, plController)
 
 protected:
@@ -30,9 +31,8 @@ protected:
     plScaleController* fScaleController;
 
 public:
-    plTMController()
-        : fPosController(NULL), fRotController(NULL), fScaleController(NULL) { }
-    virtual ~plTMController();
+    plTMController() : fPosController(), fRotController(), fScaleController() { }
+    ~plTMController();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

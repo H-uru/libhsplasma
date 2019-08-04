@@ -109,7 +109,8 @@ static PyMethodDef pyCluster_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(Cluster, instances) {
+PY_GETSET_GETTER_DECL(Cluster, instances)
+{
     PyObject* list = PyTuple_New(self->fThis->getInstances().size());
     for (size_t i=0; i<self->fThis->getInstances().size(); i++)
         PyTuple_SET_ITEM(list, i, pySpanInstance_FromSpanInstance(self->fThis->getInstances()[i]));
@@ -131,7 +132,8 @@ static PyGetSetDef pyCluster_GetSet[] = {
 
 PY_PLASMA_TYPE(Cluster, plCluster, "plCluster wrapper")
 
-PY_PLASMA_TYPE_INIT(Cluster) {
+PY_PLASMA_TYPE_INIT(Cluster)
+{
     pyCluster_Type.tp_dealloc = pyCluster_dealloc;
     pyCluster_Type.tp_init = pyCluster___init__;
     pyCluster_Type.tp_new = pyCluster_new;

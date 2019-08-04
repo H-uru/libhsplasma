@@ -24,7 +24,8 @@ PY_PLASMA_NEW(ScalarControllerCacheChannel, plScalarControllerCacheChannel)
 PY_PLASMA_TYPE(ScalarControllerCacheChannel, plScalarControllerCacheChannel,
                "plScalarControllerCacheChannel wrapper")
 
-PY_PLASMA_TYPE_INIT(ScalarControllerCacheChannel) {
+PY_PLASMA_TYPE_INIT(ScalarControllerCacheChannel)
+{
     pyScalarControllerCacheChannel_Type.tp_new = pyScalarControllerCacheChannel_new;
     pyScalarControllerCacheChannel_Type.tp_base = &pyScalarChannel_Type;
     if (PyType_CheckAndReady(&pyScalarControllerCacheChannel_Type) < 0)

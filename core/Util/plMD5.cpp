@@ -18,7 +18,8 @@
 #include <cstring>
 
 /* plMD5Hash */
-typedef union {
+typedef union
+{
     unsigned int hash32[4];
     unsigned char hash8[16];
 } HashConvert;
@@ -28,7 +29,8 @@ static const char kHexTable[16] = {
     '8', '9', 'a', 'b', 'c', 'd', 'e', 'f',
 };
 
-static int charToHex(char ch) {
+static int charToHex(char ch)
+{
     switch (ch) {
         case '0':   return 0;   case '1':   return 1;
         case '2':   return 2;   case '3':   return 3;
@@ -45,7 +47,8 @@ static int charToHex(char ch) {
     }
 }
 
-plMD5Hash::plMD5Hash() {
+plMD5Hash::plMD5Hash()
+{
     // Empty hash
     fHash[0] = 0xd98c1dd4;
     fHash[1] = 0x04b2008f;
@@ -53,15 +56,18 @@ plMD5Hash::plMD5Hash() {
     fHash[3] = 0x7e42f8ec;
 }
 
-bool plMD5Hash::operator==(const plMD5Hash& cmp) const {
+bool plMD5Hash::operator==(const plMD5Hash& cmp) const
+{
     return memcmp(fHash, cmp.fHash, sizeof(fHash)) == 0;
 }
 
-bool plMD5Hash::operator!=(const plMD5Hash& cmp) const {
+bool plMD5Hash::operator!=(const plMD5Hash& cmp) const
+{
     return memcmp(fHash, cmp.fHash, sizeof(fHash)) != 0;
 }
 
-ST::string plMD5Hash::toHex() const {
+ST::string plMD5Hash::toHex() const
+{
     // Little-endian byte order
     HashConvert hc;
     hc.hash32[0] = LESWAP32(fHash[0]);
@@ -78,7 +84,8 @@ ST::string plMD5Hash::toHex() const {
     return result;
 }
 
-void plMD5Hash::fromHex(const char* hex) {
+void plMD5Hash::fromHex(const char* hex)
+{
     HashConvert hc;
 
     if (strlen(hex) != 32)
@@ -97,14 +104,16 @@ void plMD5Hash::fromHex(const char* hex) {
     fHash[3] = LESWAP32(hc.hash32[3]);
 }
 
-void plMD5Hash::read(hsStream* S) {
+void plMD5Hash::read(hsStream* S)
+{
     fHash[0] = S->readInt();
     fHash[1] = S->readInt();
     fHash[2] = S->readInt();
     fHash[3] = S->readInt();
 }
 
-void plMD5Hash::write(hsStream* S) const {
+void plMD5Hash::write(hsStream* S) const
+{
     S->writeInt(fHash[0]);
     S->writeInt(fHash[1]);
     S->writeInt(fHash[2]);
@@ -173,7 +182,8 @@ const unsigned char plMD5::kPadArray[64] = {
     a = ROTL(a, s); \
     a += b;
 
-plMD5::plMD5() {
+plMD5::plMD5()
+{
     // Initialize context state
     fA = 0x67452301;
     fB = 0xefcdab89;
@@ -181,7 +191,8 @@ plMD5::plMD5() {
     fD = 0x10325476;
 }
 
-void plMD5::processBlock(const unsigned char* block) {
+void plMD5::processBlock(const unsigned char* block)
+{
     // Expand 64-byte input into 16 little-endian DWords
     unsigned int x[16];
     for (size_t i=0; i<16; i++) {
@@ -271,7 +282,8 @@ void plMD5::processBlock(const unsigned char* block) {
     fD += d;
 }
 
-plMD5Hash plMD5::hashStream(hsStream* S) {
+plMD5Hash plMD5::hashStream(hsStream* S)
+{
     plMD5 ctx;
     size_t size = S->size();
     unsigned char buf[64];
@@ -310,7 +322,8 @@ plMD5Hash plMD5::hashStream(hsStream* S) {
     return hash;
 }
 
-plMD5Hash plMD5::hashFile(const char* filename) {
+plMD5Hash plMD5::hashFile(const char* filename)
+{
     hsFileStream S;
     S.open(filename, fmRead);
     plMD5Hash hash = hashStream(&S);
@@ -318,7 +331,8 @@ plMD5Hash plMD5::hashFile(const char* filename) {
     return hash;
 }
 
-plMD5Hash plMD5::hashString(const ST::string& str) {
+plMD5Hash plMD5::hashString(const ST::string& str)
+{
     plMD5 ctx;
     size_t size = str.size();
     unsigned char buf[64];

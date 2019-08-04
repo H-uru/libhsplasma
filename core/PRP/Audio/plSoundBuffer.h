@@ -19,7 +19,8 @@
 
 #include "PRP/KeyedObject/hsKeyedObject.h"
 
-class PLASMA_DLL plWAVHeader {
+class PLASMA_DLL plWAVHeader
+{
 public:
     enum { kPCMFormatTag = 0x1 };
 
@@ -29,8 +30,9 @@ protected:
     unsigned short fBlockAlign, fBitsPerSample;
 
 public:
-    plWAVHeader() : fFormatTag(0), fNumChannels(0), fNumSamplesPerSec(0),
-                    fAvgBytesPerSec(0), fBlockAlign(0), fBitsPerSample(0) { }
+    plWAVHeader()
+        : fFormatTag(), fNumChannels(), fNumSamplesPerSec(), fAvgBytesPerSec(),
+          fBlockAlign(), fBitsPerSample() { }
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -54,7 +56,8 @@ public:
 };
 
 
-class PLASMA_DLL plSoundBuffer : public hsKeyedObject {
+class PLASMA_DLL plSoundBuffer : public hsKeyedObject
+{
     CREATABLE(plSoundBuffer, kSoundBuffer, hsKeyedObject)
 
 public:
@@ -74,8 +77,8 @@ protected:
     unsigned int fFlags;
 
 public:
-    plSoundBuffer() : fDataLength(0), fData(NULL), fFlags(0) { }
-    virtual ~plSoundBuffer();
+    plSoundBuffer() : fDataLength(), fData(), fFlags() { }
+    ~plSoundBuffer();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

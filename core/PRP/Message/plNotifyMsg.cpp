@@ -16,12 +16,14 @@
 
 #include "plNotifyMsg.h"
 
-plNotifyMsg::~plNotifyMsg() {
+plNotifyMsg::~plNotifyMsg()
+{
     for (auto event = fEvents.begin(); event != fEvents.end(); ++event)
         delete *event;
 }
 
-void plNotifyMsg::read(hsStream* S, plResManager* mgr) {
+void plNotifyMsg::read(hsStream* S, plResManager* mgr)
+{
     plMessage::read(S, mgr);
     fType = S->readInt();
     fState = S->readFloat();
@@ -36,7 +38,8 @@ void plNotifyMsg::read(hsStream* S, plResManager* mgr) {
         fEvents[i] = proEventData::Read(S, mgr);
 }
 
-void plNotifyMsg::write(hsStream* S, plResManager* mgr) {
+void plNotifyMsg::write(hsStream* S, plResManager* mgr)
+{
     plMessage::write(S, mgr);
     S->writeInt(fType);
     S->writeFloat(fState);
@@ -50,7 +53,8 @@ void plNotifyMsg::write(hsStream* S, plResManager* mgr) {
         fEvents[i]->write(S, mgr);
 }
 
-void plNotifyMsg::IPrcWrite(pfPrcHelper* prc) {
+void plNotifyMsg::IPrcWrite(pfPrcHelper* prc)
+{
     plMessage::IPrcWrite(prc);
 
     prc->startTag("NotifyParams");
@@ -65,7 +69,8 @@ void plNotifyMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plNotifyMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plNotifyMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "NotifyParams") {
         fType = tag->getParam("Type", "0").to_int();
         fState = tag->getParam("State", "0").to_float();
@@ -83,12 +88,14 @@ void plNotifyMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plNotifyMsg::delEvent(size_t idx) {
+void plNotifyMsg::delEvent(size_t idx)
+{
     delete fEvents[idx];
     fEvents.erase(fEvents.begin() + idx);
 }
 
-void plNotifyMsg::clearEvents() {
+void plNotifyMsg::clearEvents()
+{
     for (auto event = fEvents.begin(); event != fEvents.end(); ++event)
         delete *event;
     fEvents.clear();

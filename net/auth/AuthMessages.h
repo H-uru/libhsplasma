@@ -16,7 +16,8 @@
 
 #include "../pnNetMsg.h"
 
-enum {  /* Client -> Server */
+enum /* Client -> Server */
+{
     kCli2Auth_PingRequest, kCli2Auth_ClientRegisterRequest,
     kCli2Auth_ClientSetCCRLevel, kCli2Auth_AcctLoginRequest,
     kCli2Auth_AcctSetEulaVersion, kCli2Auth_AcctSetDataRequest,
@@ -48,7 +49,8 @@ enum {  /* Client -> Server */
     kCli2Auth_LastExMessage,
 };
 
-enum {  /* Server -> Client */
+enum /* Server -> Client */
+{
     kAuth2Cli_PingReply, kAuth2Cli_ServerAddr, kAuth2Cli_NotifyNewBuild,
     kAuth2Cli_ClientRegisterReply, kAuth2Cli_AcctLoginReply, kAuth2Cli_AcctData,
     kAuth2Cli_AcctPlayerInfo, kAuth2Cli_AcctSetPlayerReply,

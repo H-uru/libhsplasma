@@ -19,11 +19,13 @@
 
 #include "plNetMessage.h"
 
-class PLASMA_DLL plNetMsgRoomsList : public plNetMessage {
+class PLASMA_DLL plNetMsgRoomsList : public plNetMessage
+{
     CREATABLE(plNetMsgRoomsList, kNetMsgRoomsList, plNetMessage)
 
 public:
-    struct PLASMA_DLL Room {
+    struct PLASMA_DLL Room
+    {
         plLocation fLocation;
         ST::string fName;
     };
@@ -48,11 +50,13 @@ public:
 };
 
 
-class PLASMA_DLL plNetMsgPagingRoom : public plNetMsgRoomsList {
+class PLASMA_DLL plNetMsgPagingRoom : public plNetMsgRoomsList
+{
     CREATABLE(plNetMsgPagingRoom, kNetMsgPagingRoom, plNetMsgRoomsList)
 
 public:
-    enum PageFlags {
+    enum PageFlags
+    {
         kPagingOut = 0x1,
         kResetList = 0x2,
         kRequestState = 0x4,
@@ -63,7 +67,7 @@ private:
     unsigned char fPageFlags;
 
 public:
-    plNetMsgPagingRoom() : fPageFlags(0) { }
+    plNetMsgPagingRoom() : fPageFlags() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -78,7 +82,8 @@ public:
 };
 
 
-class PLASMA_DLL plNetMsgGameStateRequest : public plNetMsgRoomsList {
+class PLASMA_DLL plNetMsgGameStateRequest : public plNetMsgRoomsList
+{
     CREATABLE(plNetMsgGameStateRequest, kNetMsgGameStateRequest, plNetMsgRoomsList)
 };
 

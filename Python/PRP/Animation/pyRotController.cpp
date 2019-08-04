@@ -31,7 +31,8 @@ static PyGetSetDef pyRotController_GetSet[] = {
 
 PY_PLASMA_TYPE(RotController, plRotController, "plRotController wrapper")
 
-PY_PLASMA_TYPE_INIT(RotController) {
+PY_PLASMA_TYPE_INIT(RotController)
+{
     pyRotController_Type.tp_new = pyRotController_new;
     pyRotController_Type.tp_getset = pyRotController_GetSet;
     pyRotController_Type.tp_base = &pyController_Type;

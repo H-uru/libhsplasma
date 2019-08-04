@@ -32,11 +32,13 @@ template <> inline plLocation pyPlasma_get(PyObject* value) { return *((pyLocati
 inline PyObject* pyPlasma_convert(const plKey& value) { return pyKey_FromKey(value); }
 
 template <>
-inline int pyPlasma_check<plKey>(PyObject* value) {
+inline int pyPlasma_check<plKey>(PyObject* value)
+{
     return value == Py_None || pyKey_Check(value);
 }
 
-template <> inline plKey pyPlasma_get(PyObject* value) {
+template <> inline plKey pyPlasma_get(PyObject* value)
+{
     if (value == Py_None)
         return plKey();
     return *((pyKey*)value)->fThis;

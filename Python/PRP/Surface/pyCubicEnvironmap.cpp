@@ -23,10 +23,12 @@
 PY_PLASMA_NEW(CubicEnvironmap, plCubicEnvironmap)
 
 #define CEM_FACE(propName, faceName)                                    \
-    PY_GETSET_GETTER_DECL(CubicEnvironmap, propName) {                  \
+    PY_GETSET_GETTER_DECL(CubicEnvironmap, propName)                    \
+    {                                                                   \
         return ICreate(self->fThis->getFace(plCubicEnvironmap::Faces::k##faceName##Face)); \
     }                                                                   \
-    PY_GETSET_SETTER_DECL(CubicEnvironmap, propName) {                  \
+    PY_GETSET_SETTER_DECL(CubicEnvironmap, propName)                    \
+    {                                                                   \
         PY_PROPERTY_CHECK_NULL(propName)                                \
         if (!pyMipmap_Check(value)) {                                   \
             PyErr_SetString(PyExc_TypeError, #propName " expected type plMipmap"); \
@@ -57,7 +59,8 @@ static PyGetSetDef pyCubicEnvironmap_GetSet[] = {
 
 PY_PLASMA_TYPE(CubicEnvironmap, plCubicEnvironmap, "plCubicEnvironmap wrapper")
 
-PY_PLASMA_TYPE_INIT(CubicEnvironmap) {
+PY_PLASMA_TYPE_INIT(CubicEnvironmap)
+{
     pyCubicEnvironmap_Type.tp_new = pyCubicEnvironmap_new;
     pyCubicEnvironmap_Type.tp_getset = pyCubicEnvironmap_GetSet;
     pyCubicEnvironmap_Type.tp_base = &pyBitmap_Type;

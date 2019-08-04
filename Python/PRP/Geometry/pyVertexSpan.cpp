@@ -39,7 +39,8 @@ static PyGetSetDef pyVertexSpan_GetSet[] = {
 
 PY_PLASMA_TYPE(VertexSpan, plVertexSpan, "plVertexSpan wrapper")
 
-PY_PLASMA_TYPE_INIT(VertexSpan) {
+PY_PLASMA_TYPE_INIT(VertexSpan)
+{
     pyVertexSpan_Type.tp_new = pyVertexSpan_new;
     pyVertexSpan_Type.tp_getset = pyVertexSpan_GetSet;
     pyVertexSpan_Type.tp_base = &pySpan_Type;

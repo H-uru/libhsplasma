@@ -23,7 +23,8 @@
 PY_WRAP_PLASMA(GMatState, class hsGMatState);
 
 /* Python property helpers */
-inline PyObject* pyPlasma_convert(hsGMatState* value) {
+inline PyObject* pyPlasma_convert(hsGMatState* value)
+{
     return pyGMatState_FromGMatState(value);
 }
 

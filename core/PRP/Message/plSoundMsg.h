@@ -20,11 +20,13 @@
 #include "plMessageWithCallbacks.h"
 #include "Util/hsBitVector.h"
 
-class PLASMA_DLL plSoundMsg : public plMessageWithCallbacks {
+class PLASMA_DLL plSoundMsg : public plMessageWithCallbacks
+{
     CREATABLE(plSoundMsg, kSoundMsg, plMessageWithCallbacks)
 
 public:
-    enum ModCmds {
+    enum ModCmds
+    {
         kPlay, kStop, kSetLooping, kUnSetLooping, kSetBegin, kToggleState,
         kAddCallbacks, kRemoveCallbacks, kGetStatus, kNumSounds, kStatusReply,
         kGoToTime, kSetVolume, kSetTalkIcon, kClearTalkIcon, kSetFadeIn,

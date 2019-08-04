@@ -31,7 +31,8 @@ static PyGetSetDef pyPosController_GetSet[] = {
 
 PY_PLASMA_TYPE(PosController, plPosController, "plPosController wrapper")
 
-PY_PLASMA_TYPE_INIT(PosController) {
+PY_PLASMA_TYPE_INIT(PosController)
+{
     pyPosController_Type.tp_new = pyPosController_new;
     pyPosController_Type.tp_getset = pyPosController_GetSet;
     pyPosController_Type.tp_base = &pyController_Type;

@@ -23,7 +23,8 @@ PY_PLASMA_NEW(Win32StaticSound, plWin32StaticSound)
 
 PY_PLASMA_TYPE(Win32StaticSound, plWin32StaticSound, "plWin32StaticSound wrapper")
 
-PY_PLASMA_TYPE_INIT(Win32StaticSound) {
+PY_PLASMA_TYPE_INIT(Win32StaticSound)
+{
     pyWin32StaticSound_Type.tp_new = pyWin32StaticSound_new;
     pyWin32StaticSound_Type.tp_base = &pyWin32Sound_Type;
     if (PyType_CheckAndReady(&pyWin32StaticSound_Type) < 0)

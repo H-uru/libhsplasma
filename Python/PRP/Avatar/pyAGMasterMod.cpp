@@ -35,7 +35,8 @@ PY_METHOD_VA(AGMasterMod, addPrivateAnim,
     Py_RETURN_NONE;
 }
 
-PY_METHOD_NOARGS(AGMasterMod, clearPrivateAnims, "Removes all animation keys") {
+PY_METHOD_NOARGS(AGMasterMod, clearPrivateAnims, "Removes all animation keys")
+{
     self->fThis->clearPrivateAnims();
     Py_RETURN_NONE;
 }
@@ -66,7 +67,8 @@ PY_METHOD_VA(AGMasterMod, addEoaKey,
     Py_RETURN_NONE;
 }
 
-PY_METHOD_NOARGS(AGMasterMod, clearEoaKeys, "Removes all EoA keys") {
+PY_METHOD_NOARGS(AGMasterMod, clearEoaKeys, "Removes all EoA keys")
+{
     self->fThis->clearEoaKeys();
     Py_RETURN_NONE;
 }
@@ -94,7 +96,8 @@ static PyMethodDef pyAGMasterMod_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(AGMasterMod, privateAnims) {
+PY_GETSET_GETTER_DECL(AGMasterMod, privateAnims)
+{
     const std::vector<plKey>& anims = self->fThis->getPrivateAnims();
     PyObject* tup = PyTuple_New(anims.size());
     for (size_t i = 0; i < anims.size(); ++i)
@@ -106,7 +109,8 @@ PY_PROPERTY_SETTER_MSG(AGMasterMod, privateAnims,
                        "To add privateAnims, use addPrivateAnim()")
 PY_PROPERTY_GETSET_DECL(AGMasterMod, privateAnims)
 
-PY_GETSET_GETTER_DECL(AGMasterMod, eoaKeys) {
+PY_GETSET_GETTER_DECL(AGMasterMod, eoaKeys)
+{
     const std::vector<plKey>& keys = self->fThis->getEoaKeys();
     PyObject* tup = PyTuple_New(keys.size());
     for (size_t i = 0; i < keys.size(); ++i)
@@ -134,7 +138,8 @@ static PyGetSetDef pyAGMasterMod_GetSet[] = {
 
 PY_PLASMA_TYPE(AGMasterMod, plAGMasterMod, "plAGMasterMod wrapper")
 
-PY_PLASMA_TYPE_INIT(AGMasterMod) {
+PY_PLASMA_TYPE_INIT(AGMasterMod)
+{
     pyAGMasterMod_Type.tp_new = pyAGMasterMod_new;
     pyAGMasterMod_Type.tp_methods = pyAGMasterMod_Methods;
     pyAGMasterMod_Type.tp_getset = pyAGMasterMod_GetSet;

@@ -19,7 +19,8 @@
 
 #include "PRP/Modifier/plModifier.h"
 
-class PLASMA_DLL plAGMasterMod : public plModifier {
+class PLASMA_DLL plAGMasterMod : public plModifier
+{
     CREATABLE(plAGMasterMod, kAGMasterMod, plModifier)
 
 protected:
@@ -29,7 +30,7 @@ protected:
     plKey fMsgForwarder;
 
 public:
-    plAGMasterMod() : fIsGrouped(false), fIsGroupMaster(false) { }
+    plAGMasterMod() : fIsGrouped(), fIsGroupMaster() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

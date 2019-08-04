@@ -28,12 +28,14 @@ PyObject* ICreateBounds(const class hsBounds&);
 
 /* Python property helpers */
 #define PY_PROPERTY_BOUNDS_READ(myType, name, getter)                   \
-    PY_GETSET_GETTER_DECL(myType, name) {                               \
+    PY_GETSET_GETTER_DECL(myType, name)                                 \
+    {                                                                   \
         return ICreateBounds(self->fThis->getter());                    \
     }
 
 #define PY_PROPERTY_BOUNDS_WRITE(pyType, myType, name, setter)          \
-    PY_GETSET_SETTER_DECL(myType, name) {                               \
+    PY_GETSET_SETTER_DECL(myType, name)                                 \
+    {                                                                   \
         PY_PROPERTY_CHECK_NULL(name)                                    \
         if (!py##pyType##_Check(value)) {                               \
             PyErr_SetString(PyExc_TypeError, #name " expected type hs" #pyType); \

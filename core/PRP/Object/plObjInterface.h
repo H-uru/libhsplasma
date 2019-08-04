@@ -20,7 +20,8 @@
 #include "Util/hsBitVector.h"
 #include "plSynchedObject.h"
 
-class PLASMA_DLL plObjInterface : public plSynchedObject {
+class PLASMA_DLL plObjInterface : public plSynchedObject
+{
     CREATABLE(plObjInterface, kObjInterface, plSynchedObject)
 
 public:
@@ -31,7 +32,8 @@ protected:
     hsBitVector fProps;
 
 public:
-    plObjInterface() {
+    plObjInterface()
+    {
         fProps.setName(kDisable, "kDisable");
     }
 

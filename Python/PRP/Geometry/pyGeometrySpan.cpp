@@ -51,7 +51,8 @@ PY_METHOD_VA(GeometrySpan, delPermaLight,
     Py_RETURN_NONE;
 }
 
-PY_METHOD_NOARGS(GeometrySpan, clearPermaLight, "Clears all permalights") {
+PY_METHOD_NOARGS(GeometrySpan, clearPermaLight, "Clears all permalights")
+{
     self->fThis->clearPermaLights();
     Py_RETURN_NONE;
 }
@@ -84,7 +85,8 @@ PY_METHOD_VA(GeometrySpan, delPermaProj,
     Py_RETURN_NONE;
 }
 
-PY_METHOD_VA(GeometrySpan, clearPermaProj, "Clears all permaprojs") {
+PY_METHOD_VA(GeometrySpan, clearPermaProj, "Clears all permaprojs")
+{
     self->fThis->clearPermaProjs();
     Py_RETURN_NONE;
 }
@@ -99,14 +101,16 @@ static PyMethodDef pyGeometrySpan_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(GeometrySpan, indices) {
+PY_GETSET_GETTER_DECL(GeometrySpan, indices)
+{
     PyObject* list = PyTuple_New(self->fThis->getIndices().size());
     for (size_t i = 0; i < self->fThis->getIndices().size(); ++i)
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getIndices()[i]));
     return list;
 }
 
-PY_GETSET_SETTER_DECL(GeometrySpan, indices) {
+PY_GETSET_SETTER_DECL(GeometrySpan, indices)
+{
     PY_PROPERTY_CHECK_NULL(indices)
     pySequenceFastRef seq(value);
     if (!seq.isSequence()) {
@@ -129,7 +133,8 @@ PY_GETSET_SETTER_DECL(GeometrySpan, indices) {
 
 PY_PROPERTY_GETSET_DECL(GeometrySpan, indices)
 
-PY_GETSET_GETTER_DECL(GeometrySpan, vertices) {
+PY_GETSET_GETTER_DECL(GeometrySpan, vertices)
+{
     std::vector<plGeometrySpan::TempVertex> verts = self->fThis->getVertices();
     PyObject* list = PyTuple_New(verts.size());
     for (size_t i = 0; i < verts.size(); ++i)
@@ -137,7 +142,8 @@ PY_GETSET_GETTER_DECL(GeometrySpan, vertices) {
     return list;
 }
 
-PY_GETSET_SETTER_DECL(GeometrySpan, vertices) {
+PY_GETSET_SETTER_DECL(GeometrySpan, vertices)
+{
     PY_PROPERTY_CHECK_NULL(vertices)
     pySequenceFastRef seq(value);
     if (!seq.isSequence()) {
@@ -160,7 +166,8 @@ PY_GETSET_SETTER_DECL(GeometrySpan, vertices) {
 
 PY_PROPERTY_GETSET_DECL(GeometrySpan, vertices)
 
-PY_GETSET_GETTER_DECL(GeometrySpan, permaLights) {
+PY_GETSET_GETTER_DECL(GeometrySpan, permaLights)
+{
     const std::vector<plKey>& lights = self->fThis->getPermaLights();
     PyObject* tup = PyTuple_New(lights.size());
     for (size_t i = 0; i < lights.size(); ++i)
@@ -171,7 +178,8 @@ PY_GETSET_GETTER_DECL(GeometrySpan, permaLights) {
 PY_PROPERTY_SETTER_MSG(GeometrySpan, permaLights, "To add PermaLights, use addPermaLight")
 PY_PROPERTY_GETSET_DECL(GeometrySpan, permaLights)
 
-PY_GETSET_GETTER_DECL(GeometrySpan, permaProjs) {
+PY_GETSET_GETTER_DECL(GeometrySpan, permaProjs)
+{
     const std::vector<plKey>& lights = self->fThis->getPermaProjs();
     PyObject* tup = PyTuple_New(lights.size());
     for (size_t i = 0; i < lights.size(); ++i)
@@ -225,7 +233,8 @@ static PyGetSetDef pyGeometrySpan_GetSet[] = {
 
 PY_PLASMA_TYPE(GeometrySpan, plGeometrySpan, "plGeometrySpan wrapper")
 
-PY_PLASMA_TYPE_INIT(GeometrySpan) {
+PY_PLASMA_TYPE_INIT(GeometrySpan)
+{
     pyGeometrySpan_Type.tp_new = pyGeometrySpan_new;
     pyGeometrySpan_Type.tp_methods = pyGeometrySpan_Methods;
     pyGeometrySpan_Type.tp_getset = pyGeometrySpan_GetSet;

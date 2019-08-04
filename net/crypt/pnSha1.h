@@ -20,7 +20,8 @@
 #include "PlasmaDefs.h"
 #include <string_theory/string>
 
-struct PLASMANET_DLL pnSha1Hash {
+struct PLASMANET_DLL pnSha1Hash
+{
     unsigned int fData[5];
 
     void fromString(const ST::string& src);

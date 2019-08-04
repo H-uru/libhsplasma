@@ -19,14 +19,15 @@
 
 #include "PRP/Object/plObjInterface.h"
 
-class PLASMA_DLL plPrintShape : public plObjInterface {
+class PLASMA_DLL plPrintShape : public plObjInterface
+{
     CREATABLE(plPrintShape, kPrintShape, plObjInterface)
 
 protected:
     float fWidth, fLength, fHeight;
 
 public:
-    plPrintShape() : fWidth(0.0f), fLength(0.0f), fHeight(0.0f) { }
+    plPrintShape() : fWidth(), fLength(), fHeight() { }
 
     void read(hsStream* S, plResManager* mgr)HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -37,7 +38,8 @@ protected:
 };
 
 
-class PLASMA_DLL plActivePrintShape : public plPrintShape {
+class PLASMA_DLL plActivePrintShape : public plPrintShape
+{
     CREATABLE(plActivePrintShape, kActivePrintShape, plPrintShape)
 
 protected:

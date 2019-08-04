@@ -23,11 +23,13 @@
 #include "Math/hsMatrix44.h"
 #include "plParticleGenerator.h"
 
-class PLASMA_DLL plParticleEmitter : public plCreatable {
+class PLASMA_DLL plParticleEmitter : public plCreatable
+{
     CREATABLE(plParticleEmitter, kParticleEmitter, plCreatable)
 
 public:
-    enum {
+    enum
+    {
         kMatIsEmissive = 0x1,
         kNormalUp = 0x10,
         kNormalVelUpVel = 0x20,
@@ -56,9 +58,9 @@ protected:
     hsColorRGBA fColor;
 
 public:
-    plParticleEmitter() : fMiscFlags(), fSpanIndex(), fMaxParticles(),
-                          fGenerator() { }
-    ~plParticleEmitter() HS_OVERRIDE;
+    plParticleEmitter()
+        : fMiscFlags(), fSpanIndex(), fMaxParticles(), fGenerator() { }
+    ~plParticleEmitter();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -78,7 +80,7 @@ public:
     void setSpanIndex(uint32_t index) { fSpanIndex = index; }
     void setMaxParticles(uint32_t particles) { fMaxParticles = particles; }
     void setGenerator(plParticleGenerator* generator);
-    void setColor(const hsColorRGBA &color) { fColor = color; }
+    void setColor(const hsColorRGBA& color) { fColor = color; }
 };
 
 #endif

@@ -29,11 +29,13 @@
  * direction specified.
  */
 
-class PLASMA_DLL plAvLadderMod : public plSingleModifier {
+class PLASMA_DLL plAvLadderMod : public plSingleModifier
+{
     CREATABLE(plAvLadderMod, kAvLadderMod, plSingleModifier)
 
 public:
-    enum TypeField {
+    enum TypeField
+    {
         /**
         * Ladder is of arbitrary length
         * \sa setLoops()
@@ -54,7 +56,7 @@ protected:
     hsVector3 fLadderView;
 
 public:
-    plAvLadderMod() : fGoingUp(false), fEnabled(true), fType(kBig), fLoops(0) { }
+    plAvLadderMod() : fGoingUp(), fEnabled(true), fType(kBig), fLoops() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -109,7 +111,8 @@ public:
 * the ladder.
 */
 
-class PLASMA_DLL plLadderModifier : public plSingleModifier {
+class PLASMA_DLL plLadderModifier : public plSingleModifier
+{
     CREATABLE(plLadderModifier, kLadderModifier, plSingleModifier)
 
 protected:

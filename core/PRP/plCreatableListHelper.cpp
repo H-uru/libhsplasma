@@ -18,7 +18,8 @@
 #include "Util/plZlib.h"
 #include "Stream/hsRAMStream.h"
 
-void plCreatableListHelper::read(hsStream* S, plResManager* mgr) {
+void plCreatableListHelper::read(hsStream* S, plResManager* mgr)
+{
     fFlags = S->readByte();
     fFlags &= ~kWritten;
 
@@ -46,7 +47,8 @@ void plCreatableListHelper::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plCreatableListHelper::write(hsStream* S, plResManager* mgr) {
+void plCreatableListHelper::write(hsStream* S, plResManager* mgr)
+{
     hsRAMStream ram;
 
     ram.writeShort(fCreatables.size());
@@ -78,7 +80,8 @@ void plCreatableListHelper::write(hsStream* S, plResManager* mgr) {
     delete[] buffer;
 }
 
-void plCreatableListHelper::IPrcWrite(pfPrcHelper* prc) {
+void plCreatableListHelper::IPrcWrite(pfPrcHelper* prc)
+{
     prc->startTag("CreatableList");
     prc->writeParamHex("Flags", fFlags);
     prc->endTag(false);
@@ -94,7 +97,8 @@ void plCreatableListHelper::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plCreatableListHelper::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plCreatableListHelper::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "CreatableList") {
         fFlags = tag->getParam("Flags", "0").to_uint();
 
@@ -113,7 +117,8 @@ void plCreatableListHelper::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plCreatableListHelper::clearCreatables() {
+void plCreatableListHelper::clearCreatables()
+{
     for (auto it = fCreatables.begin(); it != fCreatables.end(); ++it)
         delete it->second;
 }

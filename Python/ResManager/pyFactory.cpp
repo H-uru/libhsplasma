@@ -78,7 +78,8 @@ PY_PLASMA_TYPE(Factory, plFactory, "Creatable Factory")
 #define ADD_CREATABLE(class) \
     PY_TYPE_ADD_CONST(Factory, #class, class)
 
-PY_PLASMA_TYPE_INIT(Factory) {
+PY_PLASMA_TYPE_INIT(Factory)
+{
     pyFactory_Type.tp_new = pyFactory_new;
     pyFactory_Type.tp_methods = pyFactory_Methods;
     if (PyType_CheckAndReady(&pyFactory_Type) < 0)

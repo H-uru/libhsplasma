@@ -21,14 +21,15 @@
 
 class plClusterGroup;
 
-class PLASMA_DLL plCluster {
+class PLASMA_DLL plCluster
+{
 protected:
     std::vector<plSpanInstance*> fInstances;
     plSpanEncoding fEncoding;
     plClusterGroup* fGroup;   // Not owned by the cluster
 
 public:
-    plCluster() { }
+    plCluster() : fGroup() { }
     ~plCluster();
 
     void read(hsStream* S, class plClusterGroup* group);

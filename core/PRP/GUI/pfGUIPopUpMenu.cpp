@@ -18,7 +18,8 @@
 #include <cstring>
 
 pfGUIPopUpMenu::pfGUIPopUpMenu()
-              : fMargin(4), fAlignment(kAlignDownRight) {
+    : fMargin(4), fAlignment(kAlignDownRight)
+{
     fFlags.setName(kStayOpenAfterClick, "kStayOpenAfterClick");
     fFlags.setName(kModalOutsideMenus, "kModalOutsideMenus");
     fFlags.setName(kOpenSubMenusOnHover, "kOpenSubMenusOnHover");
@@ -26,12 +27,14 @@ pfGUIPopUpMenu::pfGUIPopUpMenu()
     fFlags[kModalOutsideMenus] = true;
 }
 
-pfGUIPopUpMenu::~pfGUIPopUpMenu() {
+pfGUIPopUpMenu::~pfGUIPopUpMenu()
+{
     for (auto item = fMenuItems.begin(); item != fMenuItems.end(); ++item)
         delete item->fHandler;
 }
 
-void pfGUIPopUpMenu::read(hsStream* S, plResManager* mgr) {
+void pfGUIPopUpMenu::read(hsStream* S, plResManager* mgr)
+{
     pfGUIDialogMod::read(S, mgr);
 
     fMargin = S->readShort();
@@ -51,7 +54,8 @@ void pfGUIPopUpMenu::read(hsStream* S, plResManager* mgr) {
     fAlignment = (Alignment)S->readByte();
 }
 
-void pfGUIPopUpMenu::write(hsStream* S, plResManager* mgr) {
+void pfGUIPopUpMenu::write(hsStream* S, plResManager* mgr)
+{
     pfGUIDialogMod::write(S, mgr);
 
     S->writeShort(fMargin);
@@ -71,7 +75,8 @@ void pfGUIPopUpMenu::write(hsStream* S, plResManager* mgr) {
     S->writeByte(fAlignment);
 }
 
-void pfGUIPopUpMenu::IPrcWrite(pfPrcHelper* prc) {
+void pfGUIPopUpMenu::IPrcWrite(pfPrcHelper* prc)
+{
     pfGUIDialogMod::IPrcWrite(prc);
 
     prc->startTag("PopUpParams");
@@ -108,7 +113,8 @@ void pfGUIPopUpMenu::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void pfGUIPopUpMenu::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void pfGUIPopUpMenu::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "PopUpParams") {
         fMargin = tag->getParam("Margin", "0").to_uint();
         fAlignment = (Alignment)tag->getParam("Alignment", "0").to_int();
@@ -150,7 +156,8 @@ void pfGUIPopUpMenu::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void pfGUIPopUpMenu::addItem(const ST::string& name, pfGUICtrlProcWriteableObject* handler,
-                             plKey subMenu, float yoffs) {
+                             plKey subMenu, float yoffs)
+{
     pfMenuItem item;
     item.fName = name;
     item.fHandler = handler;
@@ -159,12 +166,14 @@ void pfGUIPopUpMenu::addItem(const ST::string& name, pfGUICtrlProcWriteableObjec
     fMenuItems.push_back(item);
 }
 
-void pfGUIPopUpMenu::delItem(size_t idx) {
+void pfGUIPopUpMenu::delItem(size_t idx)
+{
     delete fMenuItems[idx].fHandler;
     fMenuItems.erase(fMenuItems.begin() + idx);
 }
 
-void pfGUIPopUpMenu::moveItem(size_t from, size_t to) {
+void pfGUIPopUpMenu::moveItem(size_t from, size_t to)
+{
     if (from == to)
         return;
 
@@ -179,7 +188,8 @@ void pfGUIPopUpMenu::moveItem(size_t from, size_t to) {
     fMenuItems[to] = item;
 }
 
-void pfGUIPopUpMenu::clearItems() {
+void pfGUIPopUpMenu::clearItems()
+{
     for (auto item = fMenuItems.begin(); item != fMenuItems.end(); ++item)
         delete item->fHandler;
     fMenuItems.clear();

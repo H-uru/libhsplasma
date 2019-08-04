@@ -21,12 +21,14 @@
 #include "plFixedWaterState6.h"
 #include "plFixedWaterState7.h"
 
-class PLASMA_DLL plWaveSetBase : public plMultiModifier {
+class PLASMA_DLL plWaveSetBase : public plMultiModifier
+{
     CREATABLE(plWaveSetBase, kWaveSetBase, plMultiModifier)
 };
 
 
-class PLASMA_DLL plWaveSet6 : public plWaveSetBase {
+class PLASMA_DLL plWaveSet6 : public plWaveSetBase
+{
     CREATABLE(plWaveSet6, kWaveSet6, plWaveSetBase)
 
 public:
@@ -39,7 +41,8 @@ protected:
 };
 
 
-class PLASMA_DLL plWaveSet7 : public plWaveSetBase {
+class PLASMA_DLL plWaveSet7 : public plWaveSetBase
+{
     CREATABLE(plWaveSet7, kWaveSet7, plWaveSetBase)
 
 public:
@@ -52,7 +55,8 @@ protected:
     plKey fEnvMap, fRefObj;
 
 public:
-    plWaveSet7() : fMaxLen(0.0f) {
+    plWaveSet7() : fMaxLen()
+    {
         fFlags.setName(kHasRefObject, "kHasRefObject");
     }
 

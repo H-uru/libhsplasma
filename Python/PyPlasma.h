@@ -96,7 +96,8 @@ struct pySequenceFastRef
 
 /* Use this macro to ensure the layouts of subclass types are consistent */
 #define PY_WRAP_PLASMA(pyType, plType)                          \
-    struct py##pyType {                                         \
+    struct py##pyType                                           \
+    {                                                           \
         PyObject_HEAD                                           \
         plType* fThis;                                          \
         bool fPyOwned;                                          \
@@ -109,7 +110,8 @@ struct pySequenceFastRef
 /* Defines a value-type wrapped class (i.e. those which are copied instead of
  * sharing references) */
 #define PY_WRAP_PLASMA_VALUE(pyType, plType)                    \
-    struct py##pyType {                                         \
+    struct py##pyType                                           \
+    {                                                           \
         PyObject_HEAD                                           \
         plType* fThis;                                          \
     };                                                          \
@@ -119,7 +121,8 @@ struct pySequenceFastRef
     PyObject* py##pyType##_From##pyType(const plType&);
 
 #define PY_PLASMA_CHECK_TYPE(pyType)                                    \
-    int py##pyType##_Check(PyObject* obj) {                             \
+    int py##pyType##_Check(PyObject* obj)                               \
+    {                                                                   \
         if (obj->ob_type == &py##pyType##_Type                          \
             || PyType_IsSubtype(obj->ob_type, &py##pyType##_Type))      \
             return 1;                                                   \
@@ -128,7 +131,8 @@ struct pySequenceFastRef
 
 #define PY_PLASMA_IFC_METHODS(pyType, plType)                           \
     PY_PLASMA_CHECK_TYPE(pyType)                                        \
-    PyObject* py##pyType##_From##pyType(plType* obj) {                  \
+    PyObject* py##pyType##_From##pyType(plType* obj)                    \
+    {                                                                   \
         if (!obj)                                                       \
             Py_RETURN_NONE;                                             \
         py##pyType* pyobj = PyObject_New(py##pyType, &py##pyType##_Type); \
@@ -139,14 +143,16 @@ struct pySequenceFastRef
 
 #define PY_PLASMA_VALUE_IFC_METHODS(pyType, plType)                     \
     PY_PLASMA_CHECK_TYPE(pyType)                                        \
-    PyObject* py##pyType##_From##pyType(const plType& obj) {            \
+    PyObject* py##pyType##_From##pyType(const plType& obj)              \
+    {                                                                   \
         py##pyType* pyobj = PyObject_New(py##pyType, &py##pyType##_Type); \
         pyobj->fThis = new plType(obj);                                 \
         return (PyObject*)pyobj;                                        \
     }
 
 template <class pyType, class plType, typename... ArgsT>
-PyObject* PyPlasma_new(PyTypeObject* type, ArgsT&&... args) {
+PyObject* PyPlasma_new(PyTypeObject* type, ArgsT&&... args)
+{
     pyType* self = (pyType*)type->tp_alloc(type, 0);
     if (self != NULL) {
         self->fThis = new plType(std::forward<ArgsT&&>(args)...);
@@ -156,7 +162,8 @@ PyObject* PyPlasma_new(PyTypeObject* type, ArgsT&&... args) {
 }
 
 template <class pyType, class plType, typename... ArgsT>
-PyObject* PyPlasmaValue_new(PyTypeObject* type, ArgsT&&... args) {
+PyObject* PyPlasmaValue_new(PyTypeObject* type, ArgsT&&... args)
+{
     pyType* self = (pyType*)type->tp_alloc(type, 0);
     if (self != NULL)
         self->fThis = new plType(std::forward<ArgsT&&>(args)...);
@@ -168,7 +175,8 @@ PyObject* PyPlasmaValue_new(PyTypeObject* type, ArgsT&&... args) {
 
 /* The default tp_new implementation */
 #define PY_PLASMA_NEW(pyType, plType)                                   \
-    PY_PLASMA_NEW_DECL(pyType) {                                        \
+    PY_PLASMA_NEW_DECL(pyType)                                          \
+    {                                                                   \
         (void)args;                                                     \
         (void)kwargs;                                                   \
         return PyPlasma_new<py##pyType, plType>(type);                  \
@@ -176,7 +184,8 @@ PyObject* PyPlasmaValue_new(PyTypeObject* type, ArgsT&&... args) {
 
 /* The default tp_new implementation with one or more static arguments */
 #define PY_PLASMA_NEW_VA(pyType, plType, ...)                           \
-    PY_PLASMA_NEW_DECL(pyType) {                                        \
+    PY_PLASMA_NEW_DECL(pyType)                                          \
+    {                                                                   \
         (void)args;                                                     \
         (void)kwargs;                                                   \
         return PyPlasma_new<py##pyType, plType>(type, __VA_ARGS__);     \
@@ -184,7 +193,8 @@ PyObject* PyPlasmaValue_new(PyTypeObject* type, ArgsT&&... args) {
 
 /* The default tp_new implementation for value-type objects */
 #define PY_PLASMA_VALUE_NEW(pyType, plType)                             \
-    PY_PLASMA_NEW_DECL(pyType) {                                        \
+    PY_PLASMA_NEW_DECL(pyType)                                          \
+    {                                                                   \
         (void)args;                                                     \
         (void)kwargs;                                                   \
         return PyPlasmaValue_new<py##pyType, plType>(type);             \
@@ -193,7 +203,8 @@ PyObject* PyPlasmaValue_new(PyTypeObject* type, ArgsT&&... args) {
 /* A tp_new implementation that raises a RuntimeError instead of constructing
  * an object */
 #define PY_PLASMA_NEW_MSG(pyType, message)                              \
-    PY_PLASMA_NEW_DECL(pyType) {                                        \
+    PY_PLASMA_NEW_DECL(pyType)                                          \
+    {                                                                   \
         (void)args;                                                     \
         (void)kwargs;                                                   \
         PyErr_SetString(PyExc_RuntimeError, message);                   \
@@ -208,7 +219,8 @@ PyObject* PyPlasmaValue_new(PyTypeObject* type, ArgsT&&... args) {
 /* The default tp_init implementation for objects which have no need for
  * custom __init__() behavior or additional arguments */
 #define PY_PLASMA_EMPTY_INIT(pyType)                                    \
-    PY_PLASMA_INIT_DECL(pyType) {                                       \
+    PY_PLASMA_INIT_DECL(pyType)                                         \
+    {                                                                   \
         if (!PyArg_ParseTuple(args, ""))                                \
             return -1;                                                  \
         return 0;                                                       \
@@ -219,7 +231,8 @@ PyObject* PyPlasmaValue_new(PyTypeObject* type, ArgsT&&... args) {
 
 /* The default tp_dealloc implementation */
 #define PY_PLASMA_DEALLOC(pyType)                                       \
-    PY_PLASMA_DEALLOC_DECL(pyType) {                                    \
+    PY_PLASMA_DEALLOC_DECL(pyType)                                      \
+    {                                                                   \
         if (((py##pyType*)self)->fPyOwned)                              \
             delete ((py##pyType*)self)->fThis;                          \
         Py_TYPE(self)->tp_free(self);                                   \
@@ -227,7 +240,8 @@ PyObject* PyPlasmaValue_new(PyTypeObject* type, ArgsT&&... args) {
 
 /* The default tp_dealloc implementation for value-type objects */
 #define PY_PLASMA_VALUE_DEALLOC(pyType)                                 \
-    PY_PLASMA_DEALLOC_DECL(pyType) {                                    \
+    PY_PLASMA_DEALLOC_DECL(pyType)                                      \
+    {                                                                   \
         delete ((py##pyType*)self)->fThis;                              \
         Py_TYPE(self)->tp_free(self);                                   \
     }
@@ -319,7 +333,8 @@ template <> inline int pyPlasma_check<ControlEventCode>(PyObject* value) { retur
 template <> inline int pyPlasma_check<plKeyDef>(PyObject* value) { return PyInt_Check(value); }
 
 template <typename T>
-inline T pyPlasma_get(PyObject* value) {
+inline T pyPlasma_get(PyObject* value)
+{
     return T::unimplemented_specialization_for_pyPlasma_get();
 }
 
@@ -367,7 +382,8 @@ template <> inline size_t pyPlasma_get(PyObject* value) { return (size_t)(unsign
 #define PY_GETSET_TERMINATOR { NULL, NULL, NULL, NULL, NULL }
 
 #define PY_PROPERTY_READ(pyType, name, getter)                          \
-    PY_GETSET_GETTER_DECL(pyType, name) {                               \
+    PY_GETSET_GETTER_DECL(pyType, name)                                 \
+    {                                                                   \
         return pyPlasma_convert(self->fThis->getter());                 \
     }
 
@@ -380,7 +396,8 @@ template <> inline size_t pyPlasma_get(PyObject* value) { return (size_t)(unsign
     }
 
 #define PY_PROPERTY_WRITE(type, pyType, name, setter)                   \
-    PY_GETSET_SETTER_DECL(pyType, name) {                               \
+    PY_GETSET_SETTER_DECL(pyType, name)                                 \
+    {                                                                   \
         PY_PROPERTY_CHECK_NULL(name)                                    \
         if (!pyPlasma_check<type>(value)) {                             \
             PyErr_SetString(PyExc_TypeError, #name " expected type " #type); \
@@ -391,7 +408,8 @@ template <> inline size_t pyPlasma_get(PyObject* value) { return (size_t)(unsign
     }
 
 #define PY_PROPERTY_SETTER_MSG(pyType, name, message)                   \
-    PY_GETSET_SETTER_DECL(pyType, name) {                               \
+    PY_GETSET_SETTER_DECL(pyType, name)                                 \
+    {                                                                   \
         (void)self;                                                     \
         (void)value;                                                    \
         PyErr_SetString(PyExc_RuntimeError, message);                   \
@@ -410,12 +428,14 @@ template <> inline size_t pyPlasma_get(PyObject* value) { return (size_t)(unsign
 /* Helpers for properties that have direct-access to a member, rather than
  * using getter/setter functions */
 #define PY_PROPERTY_MEMBER_READ(pyType, name, member)                   \
-    PY_GETSET_GETTER_DECL(pyType, name) {                               \
+    PY_GETSET_GETTER_DECL(pyType, name)                                 \
+    {                                                                   \
         return pyPlasma_convert(self->fThis->member);                   \
     }
 
 #define PY_PROPERTY_MEMBER_WRITE(type, pyType, name, member)            \
-    PY_GETSET_SETTER_DECL(pyType, name) {                               \
+    PY_GETSET_SETTER_DECL(pyType, name)                                 \
+    {                                                                   \
         PY_PROPERTY_CHECK_NULL(name)                                    \
         if (!pyPlasma_check<type>(value)) {                             \
             PyErr_SetString(PyExc_TypeError, #name " expected type " #type); \
@@ -433,12 +453,14 @@ template <> inline size_t pyPlasma_get(PyObject* value) { return (size_t)(unsign
 /* Helpers for properties that proxy an object through a reference, rather
  * than taking a pointer or value and constructing a new object */
 #define PY_PROPERTY_PROXY_READ(pyType, name, getter)                    \
-    PY_GETSET_GETTER_DECL(pyType, name) {                               \
+    PY_GETSET_GETTER_DECL(pyType, name)                                 \
+    {                                                                   \
         return pyPlasma_convert(&self->fThis->getter());                \
     }
 
 #define PY_PROPERTY_PROXY_WRITE(type, pyType, name, getter)             \
-    PY_GETSET_SETTER_DECL(pyType, name) {                               \
+    PY_GETSET_SETTER_DECL(pyType, name)                                 \
+    {                                                                   \
         PY_PROPERTY_CHECK_NULL(name)                                    \
         if (!pyPlasma_check<type>(value)) {                             \
             PyErr_SetString(PyExc_TypeError, #name " expected type " #type); \

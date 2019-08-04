@@ -19,7 +19,8 @@
 
 #include "hsGeometry3.h"
 
-struct PLASMA_DLL hsQuat {
+struct PLASMA_DLL hsQuat
+{
     float X, Y, Z, W;
 
     hsQuat() : X(), Y(), Z(), W() { }
@@ -29,18 +30,27 @@ struct PLASMA_DLL hsQuat {
     static hsQuat Identity() { return hsQuat(0.0f, 0.0f, 0.0f, 1.0f); }
 
     bool operator==(const hsQuat& other) const
-    { return (X == other.X) && (Y == other.Y) && (Z == other.Z) && (W == other.W); }
+    {
+        return (X == other.X) && (Y == other.Y) && (Z == other.Z) && (W == other.W);
+    }
 
     bool operator!=(const hsQuat& other) const
-    { return (X != other.X) || (Y != other.Y) || (Z != other.Z) || (W != other.W); }
+    {
+        return (X != other.X) || (Y != other.Y) || (Z != other.Z) || (W != other.W);
+    }
 
     hsQuat operator+(const hsQuat& rt) const
-    { return hsQuat(X + rt.X, Y + rt.Y, Z + rt.Z, W + rt.W); }
+    {
+        return hsQuat(X + rt.X, Y + rt.Y, Z + rt.Z, W + rt.W);
+    }
 
     hsQuat operator-(const hsQuat& rt) const
-    { return hsQuat(X - rt.X, Y - rt.Y, Z - rt.Z, W - rt.W); }
+    {
+        return hsQuat(X - rt.X, Y - rt.Y, Z - rt.Z, W - rt.W);
+    }
 
-    hsQuat operator*(const hsQuat& rt) const {
+    hsQuat operator*(const hsQuat& rt) const
+    {
         return hsQuat((Y * rt.Z) - (Z * rt.Y) + (Z * rt.X) + (X * rt.Z),
                       (Z * rt.X) - (X * rt.Z) + (Z * rt.Y) + (Y * rt.Z),
                       (X * rt.Y) - (Y * rt.X) + (Z * rt.Y) + (Y * rt.Z),
@@ -48,7 +58,9 @@ struct PLASMA_DLL hsQuat {
     }
 
     hsQuat operator*(float scale) const
-    { return hsQuat(X * scale, Y * scale, Z * scale, W * scale); }
+    {
+        return hsQuat(X * scale, Y * scale, Z * scale, W * scale);
+    }
 
     void read(hsStream* S);
     void write(hsStream* S);

@@ -22,14 +22,15 @@
 
 typedef std::array<hsVector3, 8> hsBounds3Corners;
 
-class PLASMA_DLL hsBounds {
+class PLASMA_DLL hsBounds
+{
 protected:
     int fType;
 
 public:
     virtual const char* ClassName() const { return "hsBounds"; }
 
-    hsBounds() : fType(0) { }
+    hsBounds() : fType() { }
     virtual ~hsBounds() { }
 
     virtual void read(hsStream* S);
@@ -46,9 +47,11 @@ public:
     void setType(int type) { fType = type; }
 };
 
-class PLASMA_DLL hsBounds3 : public hsBounds {
+class PLASMA_DLL hsBounds3 : public hsBounds
+{
 public:
-    enum {
+    enum
+    {
         kCenterValid = 0x1,
         kIsSphere = 0x2
     };
@@ -87,9 +90,11 @@ public:
 };
 
 
-class PLASMA_DLL hsBounds3Ext : public hsBounds3 {
+class PLASMA_DLL hsBounds3Ext : public hsBounds3
+{
 public:
-    enum {
+    enum
+    {
         kAxisAligned = 0x1,
         kSphereSet = 0x2,
         kDistsSet = 0x4,
@@ -108,7 +113,7 @@ protected:
 public:
     const char* ClassName() const HS_OVERRIDE { return "hsBounds3Ext"; }
 
-    hsBounds3Ext() : fExtFlags(0), fRadius(0.0f) { }
+    hsBounds3Ext() : fExtFlags(), fRadius() { }
 
     hsBounds3Ext operator+(const hsBounds3Ext& right) const;
 
@@ -136,7 +141,8 @@ public:
 };
 
 
-class PLASMA_DLL hsBoundsOriented : public hsBounds {
+class PLASMA_DLL hsBoundsOriented : public hsBounds
+{
 protected:
     unsigned int fCenterValid;
     hsVector3 fCenter;
@@ -146,9 +152,9 @@ protected:
 public:
     const char* ClassName() const HS_OVERRIDE { return "hsBoundsOriented"; }
 
-    hsBoundsOriented() : fCenterValid(0), fPlanes(NULL), fNumPlanes(0) { }
+    hsBoundsOriented() : fCenterValid(), fPlanes(), fNumPlanes() { }
     hsBoundsOriented(const hsBoundsOriented&);
-    virtual ~hsBoundsOriented();
+    ~hsBoundsOriented();
 
     void read(hsStream* S) HS_OVERRIDE;
     void write(hsStream* S) HS_OVERRIDE;

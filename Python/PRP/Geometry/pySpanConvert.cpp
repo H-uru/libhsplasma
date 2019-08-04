@@ -20,7 +20,8 @@
 #include <PRP/Geometry/plIcicle.h>
 #include <typeinfo>
 
-PyObject* ICreateSpan(plSpan* span) {
+PyObject* ICreateSpan(plSpan* span)
+{
     if (typeid(*span) == typeid(plIcicle))
         return pyIcicle_FromIcicle((plIcicle*)span);
     else if (typeid(*span) == typeid(plVertexSpan))

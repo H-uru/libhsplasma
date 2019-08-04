@@ -17,7 +17,8 @@
 #include "pfGUIRadioGroupCtrl.h"
 #include "pfGUICheckBoxCtrl.h"
 
-void pfGUIRadioGroupCtrl::read(hsStream* S, plResManager* mgr) {
+void pfGUIRadioGroupCtrl::read(hsStream* S, plResManager* mgr)
+{
     pfGUIControlMod::read(S, mgr);
 
     fControls.resize(S->readInt());
@@ -27,7 +28,8 @@ void pfGUIRadioGroupCtrl::read(hsStream* S, plResManager* mgr) {
     fDefaultValue = S->readShort();
 }
 
-void pfGUIRadioGroupCtrl::write(hsStream* S, plResManager* mgr) {
+void pfGUIRadioGroupCtrl::write(hsStream* S, plResManager* mgr)
+{
     pfGUIControlMod::write(S, mgr);
 
     S->writeInt(fControls.size());
@@ -37,7 +39,8 @@ void pfGUIRadioGroupCtrl::write(hsStream* S, plResManager* mgr) {
     S->writeShort(fDefaultValue);
 }
 
-void pfGUIRadioGroupCtrl::IPrcWrite(pfPrcHelper* prc) {
+void pfGUIRadioGroupCtrl::IPrcWrite(pfPrcHelper* prc)
+{
     pfGUIControlMod::IPrcWrite(prc);
 
     prc->startTag("Items");
@@ -48,7 +51,8 @@ void pfGUIRadioGroupCtrl::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void pfGUIRadioGroupCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void pfGUIRadioGroupCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Items") {
         fDefaultValue = tag->getParam("Default", "0").to_int();
         fControls.resize(tag->countChildren());

@@ -19,14 +19,17 @@
  */
 #include "plPhysical.h"
 
-class PLASMA_DLL plPXSimDefs {
+class PLASMA_DLL plPXSimDefs
+{
 public:
-    enum Bounds {
+    enum Bounds
+    {
         kBoxBounds = 1, kSphereBounds, kHullBounds, kProxyBounds,
         kExplicitBounds, kCylinderBounds, kNumBounds, kBoundsMax = 0xFF
     };
 
-    enum Group {
+    enum Group
+    {
         kGroupStatic,
         kGroupAvatarBlocker,
         kGroupDynamicBlocker,
@@ -38,7 +41,8 @@ public:
         kGroupMax
     };
 
-    static unsigned int fromGroup(uint8_t group) {
+    static unsigned int fromGroup(uint8_t group)
+    {
         if (group == kGroupStatic) {
             return plSimDefs::kGroupStatic;
         } else if (group == kGroupAvatarBlocker) {
@@ -58,7 +62,8 @@ public:
         throw hsNotImplementedException(__FILE__, __LINE__, ST::format("plPXSimDefs::fromGroup: PhysX group {}", group));
     }
 
-    static uint8_t toGroup(unsigned int group, unsigned int collide) {
+    static uint8_t toGroup(unsigned int group, unsigned int collide)
+    {
         if (collide == (1 << plSimDefs::kGroupAvatar)) {
             return kGroupAvatarBlocker;
         } else if (collide == (1 << plSimDefs::kGroupDynamic)) {
@@ -78,7 +83,8 @@ public:
         throw hsNotImplementedException(__FILE__, __LINE__, ST::format("plPXSimDefs::toGroup: Generic group {}", group));
     }
 
-    static unsigned int getCollideGroup(uint8_t group) {
+    static unsigned int getCollideGroup(uint8_t group)
+    {
         if (group == kGroupAvatarBlocker) {
             return (1 << plSimDefs::kGroupAvatar);
         } else if (group == kGroupDynamicBlocker) {
@@ -88,7 +94,8 @@ public:
         }
     }
 
-    static unsigned int getReportsOn(unsigned int group) {
+    static unsigned int getReportsOn(unsigned int group)
+    {
         unsigned int retGroup = 0;
 
         for (size_t i=0; i<kGroupMax; i++) {
@@ -100,7 +107,8 @@ public:
         return retGroup;
     }
 
-    static unsigned int setReportsOn(unsigned int group) {
+    static unsigned int setReportsOn(unsigned int group)
+    {
         unsigned int retGroup = 0;
 
         for (size_t i=0; i<plSimDefs::kGroupMax; i++) {
@@ -114,10 +122,13 @@ public:
 };
 
 class plGenericPhysical;
-class PLASMA_DLL PXCookedData {
+
+class PLASMA_DLL PXCookedData
+{
 public:
     static void readTriangleMesh(hsStream* S, plGenericPhysical* physical);
     static void readConvexMesh(hsStream* S, plGenericPhysical* physical);
+
 private:
     static unsigned int readOPC(hsStream* S);
     static void readHBM(hsStream* S);

@@ -22,7 +22,8 @@
 
 PY_PLASMA_VALUE_DEALLOC(Location)
 
-PY_PLASMA_INIT_DECL(Location) {
+PY_PLASMA_INIT_DECL(Location)
+{
     int version = PlasmaVer::pvUnknown;
     if (!PyArg_ParseTuple(args, "|i", &version))
         return -1;
@@ -33,18 +34,21 @@ PY_PLASMA_INIT_DECL(Location) {
 
 PY_PLASMA_VALUE_NEW(Location, plLocation)
 
-PY_PLASMA_REPR_DECL(Location) {
+PY_PLASMA_REPR_DECL(Location)
+{
     ST::string repr = ST::format("<plLocation \"{}|{}\">",
                                  self->fThis->getSeqPrefix(),
                                  self->fThis->getPageNum());
     return pyPlasma_convert(repr);
 }
 
-PY_PLASMA_HASH_DECL(Location) {
+PY_PLASMA_HASH_DECL(Location)
+{
     return (long)self->fThis->unparse();
 }
 
-PY_PLASMA_RICHCOMPARE_DECL(Location) {
+PY_PLASMA_RICHCOMPARE_DECL(Location)
+{
     bool result = false;
 
     switch (op) {
@@ -110,12 +114,14 @@ PY_METHOD_VA(Location, write,
     Py_RETURN_NONE;
 }
 
-PY_METHOD_NOARGS(Location, invalidate, "Invalidates the location") {
+PY_METHOD_NOARGS(Location, invalidate, "Invalidates the location")
+{
     self->fThis->invalidate();
     Py_RETURN_NONE;
 }
 
-PY_METHOD_NOARGS(Location, isValid, "Returns True if the location is valid") {
+PY_METHOD_NOARGS(Location, isValid, "Returns True if the location is valid")
+{
     return pyPlasma_convert(self->fThis->isValid());
 }
 
@@ -131,7 +137,8 @@ PY_METHOD_NOARGS(Location, isItinerant,
     return pyPlasma_convert(self->fThis->isItinerant());
 }
 
-PY_METHOD_NOARGS(Location, isVirtual, "Returns True if the location is virtual") {
+PY_METHOD_NOARGS(Location, isVirtual, "Returns True if the location is virtual")
+{
     return pyPlasma_convert(self->fThis->isVirtual());
 }
 
@@ -141,7 +148,8 @@ PY_METHOD_NOARGS(Location, isGlobal,
     return pyPlasma_convert(self->fThis->isGlobal());
 }
 
-PY_METHOD_NOARGS(Location, setVirtual, "Makes the location virtual") {
+PY_METHOD_NOARGS(Location, setVirtual, "Makes the location virtual")
+{
     self->fThis->setVirtual();
     Py_RETURN_NONE;
 }
@@ -195,7 +203,8 @@ static PyGetSetDef pyLocation_GetSet[] = {
 
 PY_PLASMA_TYPE(Location, plLocation, "plLocation wrapper")
 
-PY_PLASMA_TYPE_INIT(Location) {
+PY_PLASMA_TYPE_INIT(Location)
+{
     pyLocation_Type.tp_dealloc = pyLocation_dealloc;
     pyLocation_Type.tp_init = pyLocation___init__;
     pyLocation_Type.tp_new = pyLocation_new;

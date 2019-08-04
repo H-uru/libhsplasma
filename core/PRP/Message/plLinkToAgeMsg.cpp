@@ -19,7 +19,8 @@
 #include "Util/hsBitVector.h"
 
 /* plLinkToAgeMsg */
-void plLinkToAgeMsg::read(hsStream* S, plResManager* mgr) {
+void plLinkToAgeMsg::read(hsStream* S, plResManager* mgr)
+{
     plMessage::read(S, mgr);
 
     if (S->getVer().isUru())
@@ -34,7 +35,8 @@ void plLinkToAgeMsg::read(hsStream* S, plResManager* mgr) {
         fEoaUnknown = S->readByte();
 }
 
-void plLinkToAgeMsg::write(hsStream* S, plResManager* mgr) {
+void plLinkToAgeMsg::write(hsStream* S, plResManager* mgr)
+{
     plMessage::write(S, mgr);
 
     if (S->getVer().isUru())
@@ -45,7 +47,8 @@ void plLinkToAgeMsg::write(hsStream* S, plResManager* mgr) {
         S->writeByte(fEoaUnknown);
 }
 
-void plLinkToAgeMsg::IPrcWrite(pfPrcHelper* prc) {
+void plLinkToAgeMsg::IPrcWrite(pfPrcHelper* prc)
+{
     plMessage::IPrcWrite(prc);
 
     fAgeLink.prcWrite(prc);
@@ -56,7 +59,8 @@ void plLinkToAgeMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plLinkToAgeMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plLinkToAgeMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "plAgeLinkStruct") {
         fAgeLink.prcParse(tag, mgr);
     } else if (tag->getName() == "plAgeLinkEffects") {
@@ -70,7 +74,8 @@ void plLinkToAgeMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plLinkingMgrMsg */
-void plLinkingMgrMsg::read(hsStream* S, plResManager* mgr) {
+void plLinkingMgrMsg::read(hsStream* S, plResManager* mgr)
+{
     plMessage::read(S, mgr);
 
     hsBitVector contents;
@@ -82,7 +87,8 @@ void plLinkingMgrMsg::read(hsStream* S, plResManager* mgr) {
         fCreatables.read(S, mgr);
 }
 
-void plLinkingMgrMsg::write(hsStream* S, plResManager* mgr) {
+void plLinkingMgrMsg::write(hsStream* S, plResManager* mgr)
+{
     plMessage::write(S, mgr);
 
     hsBitVector contents;

@@ -35,7 +35,8 @@ PY_METHOD_VA(WaveSet7, addShore,
     Py_RETURN_NONE;
 }
 
-PY_METHOD_NOARGS(WaveSet7, clearShores, "Remove all shores") {
+PY_METHOD_NOARGS(WaveSet7, clearShores, "Remove all shores")
+{
     self->fThis->clearShores();
     Py_RETURN_NONE;
 }
@@ -70,7 +71,8 @@ PY_METHOD_VA(WaveSet7, addDecal,
     Py_RETURN_NONE;
 }
 
-PY_METHOD_NOARGS(WaveSet7, clearDecals, "Remove all decals") {
+PY_METHOD_NOARGS(WaveSet7, clearDecals, "Remove all decals")
+{
     self->fThis->clearDecals();
     Py_RETURN_NONE;
 }
@@ -102,7 +104,8 @@ static PyMethodDef pyWaveSet7_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(WaveSet7, shores) {
+PY_GETSET_GETTER_DECL(WaveSet7, shores)
+{
     const std::vector<plKey>& shores = self->fThis->getShores();
     PyObject* tuple = PyTuple_New(shores.size());
     for (size_t i = 0; i < shores.size(); ++i)
@@ -113,7 +116,8 @@ PY_GETSET_GETTER_DECL(WaveSet7, shores) {
 PY_PROPERTY_SETTER_MSG(WaveSet7, shores, "To add shores, use addShore")
 PY_PROPERTY_GETSET_DECL(WaveSet7, shores)
 
-PY_GETSET_GETTER_DECL(WaveSet7, decals) {
+PY_GETSET_GETTER_DECL(WaveSet7, decals)
+{
     const std::vector<plKey>& decals = self->fThis->getDecals();
     PyObject* tuple = PyTuple_New(decals.size());
     for (size_t i = 0; i < decals.size(); ++i)
@@ -141,7 +145,8 @@ static PyGetSetDef pyWaveSet7_GetSet[] = {
 
 PY_PLASMA_TYPE(WaveSet7, plWaveSet7, "plWaveSet7 wrapper")
 
-PY_PLASMA_TYPE_INIT(WaveSet7) {
+PY_PLASMA_TYPE_INIT(WaveSet7)
+{
     pyWaveSet7_Type.tp_new = pyWaveSet7_new;
     pyWaveSet7_Type.tp_methods = pyWaveSet7_Methods;
     pyWaveSet7_Type.tp_getset = pyWaveSet7_GetSet;

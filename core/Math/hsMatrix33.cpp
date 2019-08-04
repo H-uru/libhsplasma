@@ -21,26 +21,30 @@
 
 #define DATA(y, x) data[y+(x*3)]
 
-void hsMatrix33::Reset() {
+void hsMatrix33::Reset()
+{
     memset(data, 0, sizeof(data));
     DATA(0, 0) = 1.0f;
     DATA(1, 1) = 1.0f;
     DATA(2, 2) = 1.0f;
 }
 
-void hsMatrix33::read(hsStream* S) {
+void hsMatrix33::read(hsStream* S)
+{
     for (int y=0; y<3; y++)
         for (int x=0; x<3; x++)
             DATA(y, x) = S->readFloat();
 }
 
-void hsMatrix33::write(hsStream* S) {
+void hsMatrix33::write(hsStream* S)
+{
     for (int y=0; y<3; y++)
         for (int x=0; x<3; x++)
             S->writeFloat(DATA(y, x));
 }
 
-void hsMatrix33::prcWrite(pfPrcHelper* prc) {
+void hsMatrix33::prcWrite(pfPrcHelper* prc)
+{
     prc->writeTagNoBreak("hsMatrix33");
     ST::string buf = ST::format("[{f},{f},{f} ; {f},{f},{f} ; {f},{f},{f}]",
         DATA(0, 0), DATA(0, 1), DATA(0, 2),
@@ -50,7 +54,8 @@ void hsMatrix33::prcWrite(pfPrcHelper* prc) {
     prc->closeTagNoBreak();
 }
 
-void hsMatrix33::prcParse(const pfPrcTag* tag) {
+void hsMatrix33::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "hsMatrix33")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 

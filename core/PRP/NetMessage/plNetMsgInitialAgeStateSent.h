@@ -19,7 +19,8 @@
 
 #include "plNetMessage.h"
 
-class PLASMA_DLL plNetMsgInitialAgeStateSent : public plNetMsgServerToClient {
+class PLASMA_DLL plNetMsgInitialAgeStateSent : public plNetMsgServerToClient
+{
     CREATABLE(plNetMsgInitialAgeStateSent, kNetMsgInitialAgeStateSent,
               plNetMsgServerToClient)
 
@@ -27,7 +28,7 @@ private:
     unsigned int fNumInitialStates;
 
 public:
-    plNetMsgInitialAgeStateSent() : fNumInitialStates(0) { }
+    plNetMsgInitialAgeStateSent() : fNumInitialStates() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

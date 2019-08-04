@@ -17,17 +17,20 @@
 #include "plPointChannel.h"
 
 /* plPointConstant */
-void plPointConstant::read(hsStream* S, plResManager* mgr) {
+void plPointConstant::read(hsStream* S, plResManager* mgr)
+{
     plAGChannel::read(S, mgr);
     fResult.read(S);
 }
 
-void plPointConstant::write(hsStream* S, plResManager* mgr) {
+void plPointConstant::write(hsStream* S, plResManager* mgr)
+{
     plAGChannel::write(S, mgr);
     fResult.write(S);
 }
 
-void plPointConstant::IPrcWrite(pfPrcHelper* prc) {
+void plPointConstant::IPrcWrite(pfPrcHelper* prc)
+{
     plAGChannel::IPrcWrite(prc);
 
     prc->writeSimpleTag("Result");
@@ -35,7 +38,8 @@ void plPointConstant::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plPointConstant::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plPointConstant::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Result") {
         if (tag->hasChildren())
             fResult.prcParse(tag->getFirstChild());
@@ -46,21 +50,25 @@ void plPointConstant::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plPointControllerChannel */
-plPointControllerChannel::~plPointControllerChannel() {
+plPointControllerChannel::~plPointControllerChannel()
+{
     delete fController;
 }
 
-void plPointControllerChannel::read(hsStream* S, plResManager* mgr) {
+void plPointControllerChannel::read(hsStream* S, plResManager* mgr)
+{
     plAGChannel::read(S, mgr);
     setController(plController::Convert(mgr->ReadCreatable(S)));
 }
 
-void plPointControllerChannel::write(hsStream* S, plResManager* mgr) {
+void plPointControllerChannel::write(hsStream* S, plResManager* mgr)
+{
     plAGChannel::write(S, mgr);
     plController::WriteController(S, mgr, fController);
 }
 
-void plPointControllerChannel::IPrcWrite(pfPrcHelper* prc) {
+void plPointControllerChannel::IPrcWrite(pfPrcHelper* prc)
+{
     plAGChannel::IPrcWrite(prc);
 
     prc->writeSimpleTag("Controller");
@@ -69,7 +77,8 @@ void plPointControllerChannel::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plPointControllerChannel::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plPointControllerChannel::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Controller") {
         if (tag->hasChildren())
             setController(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
@@ -78,7 +87,8 @@ void plPointControllerChannel::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
     }
 }
 
-void plPointControllerChannel::setController(plController* controller) {
+void plPointControllerChannel::setController(plController* controller)
+{
     delete fController;
     fController = controller;
 }

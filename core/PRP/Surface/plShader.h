@@ -19,16 +19,18 @@
 
 #include "PRP/KeyedObject/hsKeyedObject.h"
 
-class PLASMA_DLL plShaderConst {
+class PLASMA_DLL plShaderConst
+{
 public:
-    union {
+    union
+    {
         struct { float fR, fG, fB, fA; };
         struct { float fX, fY, fZ, fW; };
         float fArray[4];
     };
 
 public:
-    plShaderConst();
+    plShaderConst() : fArray() { }
     plShaderConst(float f1, float f2, float f3, float f4)
         : fX(f1), fY(f2), fZ(f3), fW(f4) { }
     plShaderConst(const plShaderConst& init);
@@ -44,11 +46,13 @@ public:
 };
 
 
-class PLASMA_DLL plShader : public hsKeyedObject {
+class PLASMA_DLL plShader : public hsKeyedObject
+{
     CREATABLE(plShader, kShader, hsKeyedObject)
 
 public:
-    enum plShaderID {
+    enum plShaderID
+    {
         kUnregistered,
         vs_WaveFixedFin6, ps_WaveFixed, vs_CompCosines, ps_CompCosines,
         vs_ShoreLeave6, ps_ShoreLeave6, vs_WaveRip, ps_WaveRip, vs_WaveDec1Lay,
@@ -68,7 +72,7 @@ protected:
     unsigned char fInput, fOutput;
 
 public:
-    plShader() : fID(kUnregistered), fInput(0), fOutput(0) { }
+    plShader() : fID(kUnregistered), fInput(), fOutput() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

@@ -88,7 +88,8 @@ static PyGetSetDef pyGUICtrlProcWriteableObject_GetSet[] = {
 PY_PLASMA_TYPE(GUICtrlProcWriteableObject, pfGUICtrlProcWriteableObject,
                "pfGUICtrlProcWriteableObject wrapper")
 
-PY_PLASMA_TYPE_INIT(GUICtrlProcWriteableObject) {
+PY_PLASMA_TYPE_INIT(GUICtrlProcWriteableObject)
+{
     pyGUICtrlProcWriteableObject_Type.tp_new = pyGUICtrlProcWriteableObject_new;
     pyGUICtrlProcWriteableObject_Type.tp_methods = pyGUICtrlProcWriteableObject_Methods;
     pyGUICtrlProcWriteableObject_Type.tp_getset = pyGUICtrlProcWriteableObject_GetSet;

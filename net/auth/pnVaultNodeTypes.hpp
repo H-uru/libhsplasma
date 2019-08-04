@@ -21,14 +21,16 @@
 
 #define DECLARE_NODE_1(type, nodeType) \
 public: \
-    static type* Convert(pnVaultNode* node) { \
+    static type* Convert(pnVaultNode* node) \
+    { \
         return (node != NULL && node->getNodeType() == nodeType) \
                ? (type*)node : NULL; \
     }
 
 #define DECLARE_NODE_2(type, nodeType, nodeType2) \
 public: \
-    static type* Convert(pnVaultNode* node) { \
+    static type* Convert(pnVaultNode* node) \
+    { \
         return (node != NULL && (node->getNodeType() == nodeType || \
                                  node->getNodeType() == nodeType2)) \
                ? (type*)node : NULL; \
@@ -36,7 +38,8 @@ public: \
 
 #define DECLARE_NODE_3(type, nodeType, nodeType2, nodeType3) \
 public: \
-    static type* Convert(pnVaultNode* node) { \
+    static type* Convert(pnVaultNode* node) \
+    { \
         return (node != NULL && (node->getNodeType() == nodeType || \
                                  node->getNodeType() == nodeType2 || \
                                  node->getNodeType() == nodeType3)) \
@@ -44,48 +47,35 @@ public: \
     }
 
 #define ACCESS_INT32(idx, name) \
-    int32_t get##name() const \
-    { return getInt32(idx); } \
-    void set##name(int32_t value) \
-    { setInt32(idx, value); }
+    int32_t get##name() const { return getInt32(idx); } \
+    void set##name(int32_t value) { setInt32(idx, value); }
 
 #define ACCESS_UINT32(idx, name) \
-    uint32_t get##name() const \
-    { return getUint32(idx); } \
-    void set##name(uint32_t value) \
-    { setUint32(idx, value); }
+    uint32_t get##name() const { return getUint32(idx); } \
+    void set##name(uint32_t value) { setUint32(idx, value); }
 
 #define ACCESS_UUID(idx, name) \
-    plUuid get##name() const \
-    { return getUuid(idx); } \
-    void set##name(const plUuid& value) \
-    { setUuid(idx, value); }
+    plUuid get##name() const { return getUuid(idx); } \
+    void set##name(const plUuid& value) { setUuid(idx, value); }
 
 #define ACCESS_STRING64(idx, name) \
-    ST::string get##name() const \
-    { return getString64(idx); } \
-    void set##name(const ST::string& value) \
-    { setString64(idx, value); }
+    ST::string get##name() const { return getString64(idx); } \
+    void set##name(const ST::string& value) { setString64(idx, value); }
 
 #define ACCESS_ISTRING64(idx, name) \
-    ST::string get##name() const \
-    { return getIString64(idx); } \
-    void set##name(const ST::string& value) \
-    { setIString64(idx, value); }
+    ST::string get##name() const { return getIString64(idx); } \
+    void set##name(const ST::string& value) { setIString64(idx, value); }
 
 #define ACCESS_TEXT(idx, name) \
-    ST::string get##name() const \
-    { return getText(idx); } \
-    void set##name(const ST::string& value) \
-    { setText(idx, value); }
+    ST::string get##name() const { return getText(idx); } \
+    void set##name(const ST::string& value) { setText(idx, value); }
 
 #define ACCESS_BLOB(idx, name) \
-    plVaultBlob get##name() const \
-    { return getBlob(idx); } \
-    void set##name(const plVaultBlob& value) \
-    { setBlob(idx, value); }
+    plVaultBlob get##name() const { return getBlob(idx); } \
+    void set##name(const plVaultBlob& value) { setBlob(idx, value); }
 
-class pnVaultAgeNode : public pnVaultNode {
+class pnVaultAgeNode : public pnVaultNode
+{
     DECLARE_NODE_1(pnVaultAgeNode, plVault::kNodeAge)
 
     ACCESS_UUID(k_1, AgeInstanceGuid)
@@ -93,7 +83,8 @@ class pnVaultAgeNode : public pnVaultNode {
     ACCESS_STRING64(k_1, AgeName);
 };
 
-class pnVaultAgeInfoNode : public pnVaultNode {
+class pnVaultAgeInfoNode : public pnVaultNode
+{
     DECLARE_NODE_1(pnVaultAgeInfoNode, plVault::kNodeAgeInfo)
 
     ACCESS_INT32(k_1, AgeSequenceNumber)
@@ -110,7 +101,8 @@ class pnVaultAgeInfoNode : public pnVaultNode {
     ACCESS_TEXT(k_1, AgeDescription)
 };
 
-class pnVaultAgeLinkNode : public pnVaultNode {
+class pnVaultAgeLinkNode : public pnVaultNode
+{
     DECLARE_NODE_1(pnVaultAgeLinkNode, plVault::kNodeAgeLink)
 
     ACCESS_INT32(k_1, Unlocked)
@@ -118,7 +110,8 @@ class pnVaultAgeLinkNode : public pnVaultNode {
     ACCESS_BLOB(k_1, SpawnPoints)
 };
 
-class pnVaultChronicleNode : public pnVaultNode {
+class pnVaultChronicleNode : public pnVaultNode
+{
     DECLARE_NODE_1(pnVaultChronicleNode, plVault::kNodeChronicle)
 
     ACCESS_INT32(k_1, EntryType)
@@ -126,7 +119,8 @@ class pnVaultChronicleNode : public pnVaultNode {
     ACCESS_TEXT(k_1, EntryValue)
 };
 
-class pnVaultFolderNode : public pnVaultNode {
+class pnVaultFolderNode : public pnVaultNode
+{
     DECLARE_NODE_3(pnVaultFolderNode, plVault::kNodeFolder,
                    plVault::kNodeAgeInfoList, plVault::kNodePlayerInfoList)
 
@@ -134,15 +128,18 @@ class pnVaultFolderNode : public pnVaultNode {
     ACCESS_STRING64(k_1, FolderName)
 };
 
-class pnVaultAgeInfoListNode : public pnVaultFolderNode {
+class pnVaultAgeInfoListNode : public pnVaultFolderNode
+{
     DECLARE_NODE_1(pnVaultAgeInfoListNode, plVault::kNodeAgeInfoList)
 };
 
-class pnVaultPlayerInfoListNode : public pnVaultFolderNode {
+class pnVaultPlayerInfoListNode : public pnVaultFolderNode
+{
     DECLARE_NODE_1(pnVaultPlayerInfoListNode, plVault::kNodePlayerInfoList)
 };
 
-class pnVaultImageNode : public pnVaultNode {
+class pnVaultImageNode : public pnVaultNode
+{
     DECLARE_NODE_1(pnVaultImageNode, plVault::kNodeImage)
 
     ACCESS_INT32(k_1, ImageType)
@@ -150,14 +147,16 @@ class pnVaultImageNode : public pnVaultNode {
     ACCESS_BLOB(k_1, ImageData)
 };
 
-class pnVaultMarkerGameNode : public pnVaultNode {
+class pnVaultMarkerGameNode : public pnVaultNode
+{
     DECLARE_NODE_1(pnVaultMarkerGameNode, plVault::kNodeMarkerList)
 
     ACCESS_UUID(k_1, GameGuid)
     ACCESS_STRING64(k_5, OwnerName)
 };
 
-class pnVaultMarkerNode : public pnVaultNode {
+class pnVaultMarkerNode : public pnVaultNode
+{
     DECLARE_NODE_1(pnVaultMarkerNode, plVault::kNodeMarker)
 
     ACCESS_INT32(k_1, GPSTorans)
@@ -169,7 +168,8 @@ class pnVaultMarkerNode : public pnVaultNode {
     ACCESS_TEXT(k_1, MarkerText)
 };
 
-class pnVaultPlayerInfoNode : public pnVaultNode {
+class pnVaultPlayerInfoNode : public pnVaultNode
+{
     DECLARE_NODE_1(pnVaultPlayerInfoNode, plVault::kNodePlayerInfo)
 
     ACCESS_INT32(k_1, Online)
@@ -180,7 +180,8 @@ class pnVaultPlayerInfoNode : public pnVaultNode {
     ACCESS_ISTRING64(k_1, PlayerName)
 };
 
-class pnVaultPlayerNode : public pnVaultNode {
+class pnVaultPlayerNode : public pnVaultNode
+{
     DECLARE_NODE_1(pnVaultPlayerNode, plVault::kNodePlayer)
 
     ACCESS_INT32(k_1, Disabled)
@@ -192,7 +193,8 @@ class pnVaultPlayerNode : public pnVaultNode {
     ACCESS_ISTRING64(k_1, PlayerName)
 };
 
-class pnVaultSDLNode : public pnVaultNode {
+class pnVaultSDLNode : public pnVaultNode
+{
     DECLARE_NODE_1(pnVaultSDLNode, plVault::kNodeSDL)
 
     ACCESS_INT32(k_1, SDLIdent)
@@ -200,13 +202,15 @@ class pnVaultSDLNode : public pnVaultNode {
     ACCESS_BLOB(k_1, SDLData)
 };
 
-class pnVaultSystemNode : public pnVaultNode {
+class pnVaultSystemNode : public pnVaultNode
+{
     DECLARE_NODE_1(pnVaultSystemNode, plVault::kNodeSystem)
 
     ACCESS_INT32(k_1, CCRStatus)
 };
 
-class pnVaultTextNoteNode : public pnVaultNode {
+class pnVaultTextNoteNode : public pnVaultNode
+{
     DECLARE_NODE_1(pnVaultTextNoteNode, plVault::kNodeTextNote)
 
     ACCESS_INT32(k_1, NoteType)

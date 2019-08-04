@@ -20,7 +20,8 @@
 #include "plModifier.h"
 #include "PRP/Message/plMessage.h"
 
-class PLASMA_DLL plAnimEventModifier : public plSingleModifier {
+class PLASMA_DLL plAnimEventModifier : public plSingleModifier
+{
     CREATABLE(plAnimEventModifier, kAnimEventModifier, plSingleModifier)
 
 protected:
@@ -29,8 +30,8 @@ protected:
     bool fDisabled;
 
 public:
-    plAnimEventModifier() : fCallback(NULL), fDisabled(false) { }
-    virtual ~plAnimEventModifier();
+    plAnimEventModifier() : fCallback(), fDisabled() { }
+    ~plAnimEventModifier();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

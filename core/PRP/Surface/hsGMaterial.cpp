@@ -16,7 +16,8 @@
 
 #include "hsGMaterial.h"
 
-void hsGMaterial::read(hsStream* S, plResManager* mgr) {
+void hsGMaterial::read(hsStream* S, plResManager* mgr)
+{
     plSynchedObject::read(S, mgr);
 
     fLoadFlags = S->readInt();
@@ -30,7 +31,8 @@ void hsGMaterial::read(hsStream* S, plResManager* mgr) {
         fPiggyBacks[i] = mgr->readKey(S);
 }
 
-void hsGMaterial::write(hsStream* S, plResManager* mgr) {
+void hsGMaterial::write(hsStream* S, plResManager* mgr)
+{
     plSynchedObject::write(S, mgr);
 
     S->writeInt(fLoadFlags);
@@ -44,7 +46,8 @@ void hsGMaterial::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fPiggyBacks[i]);
 }
 
-void hsGMaterial::IPrcWrite(pfPrcHelper* prc) {
+void hsGMaterial::IPrcWrite(pfPrcHelper* prc)
+{
     plSynchedObject::IPrcWrite(prc);
 
     prc->startTag("MaterialParams");
@@ -62,7 +65,8 @@ void hsGMaterial::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void hsGMaterial::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void hsGMaterial::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "MaterialParams") {
         fLoadFlags = tag->getParam("LoadFlags", "0").to_uint();
         fCompFlags = tag->getParam("CompFlags", "0").to_uint();

@@ -16,7 +16,8 @@
 
 #include "plSceneNode.h"
 
-void plSceneNode::read(hsStream* S, plResManager* mgr) {
+void plSceneNode::read(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::read(S, mgr);
 
     fSceneObjects.resize(S->readInt());
@@ -27,7 +28,8 @@ void plSceneNode::read(hsStream* S, plResManager* mgr) {
         fPoolObjects[i] = mgr->readKey(S);
 }
 
-void plSceneNode::write(hsStream* S, plResManager* mgr) {
+void plSceneNode::write(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::write(S, mgr);
 
     S->writeInt(fSceneObjects.size());
@@ -38,7 +40,8 @@ void plSceneNode::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fPoolObjects[i]);
 }
 
-void plSceneNode::IPrcWrite(pfPrcHelper* prc) {
+void plSceneNode::IPrcWrite(pfPrcHelper* prc)
+{
     hsKeyedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("SceneObjects");
@@ -51,7 +54,8 @@ void plSceneNode::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plSceneNode::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plSceneNode::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "SceneObjects") {
         fSceneObjects.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();

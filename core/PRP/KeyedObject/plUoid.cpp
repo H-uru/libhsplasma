@@ -21,13 +21,15 @@
 #include <stdlib.h>
 #include <string_theory/format>
 
-bool plUoid::operator==(const plUoid& other) const {
+bool plUoid::operator==(const plUoid& other) const
+{
     return (location == other.location) && (classType == other.classType) &&
            (objName == other.objName) && (clonePlayerID == other.clonePlayerID) &&
            (cloneID == other.cloneID);
 }
 
-bool plUoid::operator<(const plUoid& other) const {
+bool plUoid::operator<(const plUoid& other) const
+{
     if (location == other.location) {
         if (classType == other.classType) {
             if (objName == other.objName) {
@@ -42,7 +44,8 @@ bool plUoid::operator<(const plUoid& other) const {
     return location < other.location;
 }
 
-void plUoid::read(hsStream* S) {
+void plUoid::read(hsStream* S)
+{
     unsigned char contents = 0;
     if (S->getVer() < MAKE_VERSION(2, 0, 63, 0) && S->getVer().isValid()) {
         contents = kHasCloneIDs;
@@ -72,7 +75,8 @@ void plUoid::read(hsStream* S) {
     }
 }
 
-void plUoid::write(hsStream* S) {
+void plUoid::write(hsStream* S)
+{
     unsigned char contents = 0;
     if (!S->getVer().isSafeVer())
         S->setVer(PlasmaVer::GetSafestVersion(S->getVer()));
@@ -104,7 +108,8 @@ void plUoid::write(hsStream* S) {
         loadMask.write(S);
 }
 
-void plUoid::prcWrite(pfPrcHelper* prc) {
+void plUoid::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("plKey");
     prc->writeParam("Name", objName);
     prc->writeParam("Type", plFactory::ClassName(classType));
@@ -120,7 +125,8 @@ void plUoid::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plUoid::prcParse(const pfPrcTag* tag) {
+void plUoid::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "plKey")
         throw hsBadParamException(__FILE__, __LINE__, "Tag name mismatch");
 
@@ -132,7 +138,8 @@ void plUoid::prcParse(const pfPrcTag* tag) {
     clonePlayerID = tag->getParam("ClonePlayerID", "0").to_uint();
 }
 
-ST::string plUoid::toString() const {
+ST::string plUoid::toString() const
+{
     return ST::format("{}[{_04X}]{}", location.toString(),
                       classType, objName);
 }

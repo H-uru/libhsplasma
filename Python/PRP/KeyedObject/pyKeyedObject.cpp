@@ -20,7 +20,8 @@
 #include "pyKey.h"
 #include "PRP/pyCreatable.h"
 
-PY_PLASMA_INIT_DECL(KeyedObject) {
+PY_PLASMA_INIT_DECL(KeyedObject)
+{
     const char* name = "";
     if (!PyArg_ParseTuple(args, "|s", &name)) {
         PyErr_SetString(PyExc_TypeError, "__init__ expects an optional string");
@@ -54,7 +55,8 @@ static PyMethodDef pyKeyedObject_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(KeyedObject, key) {
+PY_GETSET_GETTER_DECL(KeyedObject, key)
+{
     if (self->fThis->getKey().Exists()) {
         return pyKey_FromKey(self->fThis->getKey());
     } else {
@@ -71,7 +73,8 @@ static PyGetSetDef pyKeyedObject_GetSet[] = {
 
 PY_PLASMA_TYPE(KeyedObject, hsKeyedObject, "hsKeyedObject wrapper")
 
-PY_PLASMA_TYPE_INIT(KeyedObject) {
+PY_PLASMA_TYPE_INIT(KeyedObject)
+{
     pyKeyedObject_Type.tp_init = pyKeyedObject___init__;
     pyKeyedObject_Type.tp_new = pyKeyedObject_new;
     pyKeyedObject_Type.tp_methods = pyKeyedObject_Methods;

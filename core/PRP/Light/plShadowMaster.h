@@ -20,11 +20,13 @@
 #include "PRP/Object/plObjInterface.h"
 #include "plLightInfo.h"
 
-class PLASMA_DLL plShadowMaster : public plObjInterface {
+class PLASMA_DLL plShadowMaster : public plObjInterface
+{
     CREATABLE(plShadowMaster, kShadowMaster, plObjInterface)
 
 public:
-    enum DrawProperties {
+    enum DrawProperties
+    {
         kDisable, kSelfShadow, kNumProps
     };
 
@@ -33,8 +35,9 @@ protected:
     unsigned int fMaxSize, fMinSize;
 
 public:
-    plShadowMaster() : fAttenDist(0.0f), fMaxDist(0.0f), fMinDist(0.0f),
-                       fPower(0.0f), fMaxSize(0), fMinSize(0) {
+    plShadowMaster()
+        : fAttenDist(), fMaxDist(), fMinDist(), fPower(), fMaxSize(), fMinSize()
+    {
         fProps.setName(kDisable, "kDisable");
         fProps.setName(kSelfShadow, "kSelfShadow");
     }
@@ -65,12 +68,14 @@ public:
 };
 
 
-class PLASMA_DLL plPointShadowMaster : public plShadowMaster {
+class PLASMA_DLL plPointShadowMaster : public plShadowMaster
+{
     CREATABLE(plPointShadowMaster, kPointShadowMaster, plShadowMaster)
 };
 
 
-class PLASMA_DLL plDirectShadowMaster : public plShadowMaster {
+class PLASMA_DLL plDirectShadowMaster : public plShadowMaster
+{
     CREATABLE(plDirectShadowMaster, kDirectShadowMaster, plShadowMaster)
 };
 

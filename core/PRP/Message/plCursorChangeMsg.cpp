@@ -16,19 +16,22 @@
 
 #include "plCursorChangeMsg.h"
 
-void plCursorChangeMsg::read(hsStream* S, plResManager* mgr) {
+void plCursorChangeMsg::read(hsStream* S, plResManager* mgr)
+{
     plMessage::read(S, mgr);
     fType = S->readInt();
     fPriority = S->readInt();
 }
 
-void plCursorChangeMsg::write(hsStream* S, plResManager* mgr) {
+void plCursorChangeMsg::write(hsStream* S, plResManager* mgr)
+{
     plMessage::write(S, mgr);
     S->writeInt(fType);
     S->writeInt(fPriority);
 }
 
-void plCursorChangeMsg::IPrcWrite(pfPrcHelper* prc) {
+void plCursorChangeMsg::IPrcWrite(pfPrcHelper* prc)
+{
     plMessage::IPrcWrite(prc);
     prc->startTag("CursorChange");
     prc->writeParam("Type", fType);
@@ -36,7 +39,8 @@ void plCursorChangeMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plCursorChangeMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plCursorChangeMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "CursorChange") {
         fType = tag->getParam("Type", "0").to_int();
         fPriority = tag->getParam("Priority", "0").to_int();

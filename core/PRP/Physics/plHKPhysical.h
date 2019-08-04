@@ -19,14 +19,17 @@
  */
 #include "plPhysical.h"
 
-class PLASMA_DLL plHKSimDefs {
+class PLASMA_DLL plHKSimDefs
+{
 public:
-    enum Bounds {
+    enum Bounds
+    {
         kBoxBounds = 1, kSphereBounds, kHullBounds, kProxyBounds,
         kExplicitBounds, kNumBounds, kBoundsMax = 0xFF
     };
 
-    enum Group {
+    enum Group
+    {
         kGroupWTFAhnonay = 1, // 0x2, seen on TreePlane in Sphere02 and on OfficeDoorBoardBlocker, PhysBoard02 in Cleft
         kGroupWTFTeledahn = 2, // 0x4, CollideGroup Slave Cave kickables
         kGroupClickable = 17, // 0x20000 Av, I doubt this is really about clickables... it is also set on "OuterSphere" and cones in the city, regions (like the weight detector plate) in Garrison, member group for the avatar physicals, ...
@@ -39,8 +42,10 @@ public:
         kGroupAvatar = 27, // 0x8000000
         kGroupMax
     };
+
 private:
-    static unsigned int fromGroup(unsigned int group) {
+    static unsigned int fromGroup(unsigned int group)
+    {
         if (group == kGroupDynamic)
             return plSimDefs::kGroupDynamic;
         else if (group == kGroupStatic)
@@ -53,7 +58,8 @@ private:
         throw hsNotImplementedException(__FILE__, __LINE__, ST::format("plHKSimDefs::fromGroup: Havok group {}", group));
     }
 
-    static unsigned int toGroup(unsigned int group) {
+    static unsigned int toGroup(unsigned int group)
+    {
         if (group == plSimDefs::kGroupStatic)
             return kGroupStatic;
         else if (group == plSimDefs::kGroupAvatar)
@@ -66,7 +72,8 @@ private:
         throw hsNotImplementedException(__FILE__, __LINE__, ST::format("plHKSimDefs::fromGroup: Generic group {}", group));
     }
 
-    static unsigned int getBitshiftGroup(unsigned int group) {
+    static unsigned int getBitshiftGroup(unsigned int group)
+    {
         unsigned int retGroup = 0;
 
         for (size_t i=kGroupFirstProper; i<kGroupMax; i++) {
@@ -78,7 +85,8 @@ private:
         return retGroup;
     }
 
-    static unsigned int setBitshiftGroup(unsigned int group) {
+    static unsigned int setBitshiftGroup(unsigned int group)
+    {
         unsigned int retGroup = 0;
 
         for (size_t i=0; i<plSimDefs::kGroupMax; i++) {
@@ -89,8 +97,10 @@ private:
 
         return retGroup;
     }
+
 public:
-    static unsigned int getMemGroup(unsigned int group) {
+    static unsigned int getMemGroup(unsigned int group)
+    {
         // Havok stores the member group as bitflag... with only one bit set though. Find out which one.
         unsigned int maskedGroup = group & ~((1u << kGroupWTFAhnonay) | (1u << kGroupWTFTeledahn)); // ignore these weird bits
         if (maskedGroup == 0) // not a member of anything
@@ -104,19 +114,22 @@ public:
         throw hsNotImplementedException(__FILE__, __LINE__, ST::format("plHKSimDefs::fromGroup: Havok member group 0x{_08X}", group));
     }
 
-    static unsigned int setMemGroup(plGenericPhysical* physical) {
+    static unsigned int setMemGroup(plGenericPhysical* physical)
+    {
         const unsigned int group = physical->getMemberGroup();
         if (group == plSimDefs::kGroupLOSOnly)
             return 0; // not a member of anything
         return 1 << toGroup(group); // Havor stores the member group as bitflag, so convert it to one
     }
 
-    static unsigned int getRepGroup(unsigned int group, unsigned int member) {
+    static unsigned int getRepGroup(unsigned int group, unsigned int member)
+    {
         unsigned int retGroup = getBitshiftGroup(group);
         return retGroup;
     }
 
-    static unsigned int setRepGroup(plGenericPhysical* physical) {
+    static unsigned int setRepGroup(plGenericPhysical* physical)
+    {
         unsigned int retGroup = setBitshiftGroup(physical->getReportGroup());
         /* Problem with the animated flag:
          * city harbor: rgnShell_BeamDetector01 and Garrison grsnExterior: RgnJCCaveUnoccupied are identical in everything that matters, but the former has the animated flag, the latter does not. */
@@ -129,12 +142,14 @@ public:
         return retGroup;
     }
 
-    static unsigned int getColGroup(unsigned int group, unsigned int member) {
+    static unsigned int getColGroup(unsigned int group, unsigned int member)
+    {
         unsigned int retGroup = getBitshiftGroup(group);
         return retGroup;
     }
 
-    static unsigned int setColGroup(plGenericPhysical* physical) {
+    static unsigned int setColGroup(plGenericPhysical* physical)
+    {
         unsigned int retGroup = setBitshiftGroup(physical->getCollideGroup());
 
         /* Try to get the animated flag back. This is correct for all Cyan ages, but not for some fan ages. */
@@ -158,5 +173,4 @@ public:
 
         return retGroup;
     }
-
 };

@@ -24,17 +24,20 @@ PY_WRAP_PLASMA(AGAnim, class plAGAnim);
 PY_WRAP_PLASMA(AgeGlobalAnim, class plAgeGlobalAnim);
 
 /* Python property helpers */
-inline PyObject* pyPlasma_convert(plAGAnim::BodyUsage value) {
+inline PyObject* pyPlasma_convert(plAGAnim::BodyUsage value)
+{
     return PyInt_FromLong((long)value);
 }
 
 template <>
-inline int pyPlasma_check<plAGAnim::BodyUsage>(PyObject* value) {
+inline int pyPlasma_check<plAGAnim::BodyUsage>(PyObject* value)
+{
     return PyInt_Check(value);
 }
 
 template <>
-inline plAGAnim::BodyUsage pyPlasma_get(PyObject* value) {
+inline plAGAnim::BodyUsage pyPlasma_get(PyObject* value)
+{
     return (plAGAnim::BodyUsage)PyInt_AsLong(value);
 }
 

@@ -16,7 +16,8 @@
 
 #include "plTransitionMsg.h"
 
-void plTransitionMsg::read(hsStream* S, plResManager* mgr) {
+void plTransitionMsg::read(hsStream* S, plResManager* mgr)
+{
     plMessageWithCallbacks::read(S, mgr);
 
     fEffect = S->readInt();
@@ -24,7 +25,8 @@ void plTransitionMsg::read(hsStream* S, plResManager* mgr) {
     fHoldUntilNext = S->readInt();
 }
 
-void plTransitionMsg::write(hsStream* S, plResManager* mgr) {
+void plTransitionMsg::write(hsStream* S, plResManager* mgr)
+{
     plMessageWithCallbacks::write(S, mgr);
 
     S->writeInt(fEffect);
@@ -32,7 +34,8 @@ void plTransitionMsg::write(hsStream* S, plResManager* mgr) {
     S->writeInt(fHoldUntilNext);
 }
 
-void plTransitionMsg::IPrcWrite(pfPrcHelper* prc) {
+void plTransitionMsg::IPrcWrite(pfPrcHelper* prc)
+{
     plMessageWithCallbacks::IPrcWrite(prc);
 
     prc->startTag("TransitionParams");
@@ -42,7 +45,8 @@ void plTransitionMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plTransitionMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plTransitionMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "TimerCallback") {
         fEffect = tag->getParam("Effect", "0").to_uint();
         fLengthInSecs = tag->getParam("Length", "0").to_float();

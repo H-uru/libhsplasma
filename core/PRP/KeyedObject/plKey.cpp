@@ -21,23 +21,27 @@
 #include "Debug/plDebug.h"
 
 /* plKeyData */
-void plKeyData::read(hsStream* S) {
+void plKeyData::read(hsStream* S)
+{
     fUoid.read(S);
     fFileOff = S->readInt();
     fObjSize = S->readInt();
 }
 
-void plKeyData::write(hsStream* S) {
+void plKeyData::write(hsStream* S)
+{
     fUoid.write(S);
     S->writeInt(fFileOff);
     S->writeInt(fObjSize);
 }
 
-void plKeyData::prcWriteUoid(pfPrcHelper* prc) {
+void plKeyData::prcWriteUoid(pfPrcHelper* prc)
+{
     fUoid.prcWrite(prc);
 }
 
-plKeyData* plKeyData::PrcParse(const pfPrcTag* tag) {
+plKeyData* plKeyData::PrcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "plKey")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
@@ -50,14 +54,16 @@ plKeyData* plKeyData::PrcParse(const pfPrcTag* tag) {
     }
 }
 
-void plKeyData::UnRef() {
+void plKeyData::UnRef()
+{
     if (--fRefCnt == 0) {
         //plDebug::Debug("Key %s no longer in use, deleting...", toString());
         delete this;
     }
 }
 
-void plKeyData::setObj(class hsKeyedObject* obj) {
+void plKeyData::setObj(class hsKeyedObject* obj)
+{
     if (obj == fObjPtr)
         return;
 
@@ -74,12 +80,14 @@ void plKeyData::setObj(class hsKeyedObject* obj) {
     }
 }
 
-void plKeyData::deleteObj() {
+void plKeyData::deleteObj()
+{
     delete fObjPtr;
     fObjPtr = 0;
 }
 
-void plKeyData::addCallback(AfterLoadCallback callback) {
+void plKeyData::addCallback(AfterLoadCallback callback)
+{
     if (fObjPtr != NULL)
         callback(fObjPtr);
     else
@@ -87,22 +95,26 @@ void plKeyData::addCallback(AfterLoadCallback callback) {
 }
 
 /* plKey */
-plKey::plKey(const plKey& init) : fKeyData(init.fKeyData) {
+plKey::plKey(const plKey& init) : fKeyData(init.fKeyData)
+{
     if (fKeyData != NULL)
         fKeyData->Ref();
 }
 
-plKey::plKey(plKeyData* init) : fKeyData(init) {
+plKey::plKey(plKeyData* init) : fKeyData(init)
+{
     if (fKeyData != NULL)
         fKeyData->Ref();
 }
 
-plKey::~plKey() {
+plKey::~plKey()
+{
     if (fKeyData != NULL)
         fKeyData->UnRef();
 }
 
-plKey& plKey::operator=(const plKey& other) {
+plKey& plKey::operator=(const plKey& other)
+{
     if (fKeyData != other.fKeyData) {
         if (other.fKeyData != NULL)
             other->Ref();
@@ -113,7 +125,8 @@ plKey& plKey::operator=(const plKey& other) {
     return *this;
 }
 
-plKey& plKey::operator=(plKeyData* other) {
+plKey& plKey::operator=(plKeyData* other)
+{
     if (fKeyData != other) {
         if (other != NULL)
             other->Ref();
@@ -124,19 +137,22 @@ plKey& plKey::operator=(plKeyData* other) {
     return *this;
 }
 
-bool plKey::isLoaded() const {
+bool plKey::isLoaded() const
+{
     if (!Exists())
         return true;
     return fKeyData->getObj() != NULL;
 }
 
-ST::string plKey::toString() const {
+ST::string plKey::toString() const
+{
     if (!Exists())
         return "NULL";
     return fKeyData->getUoid().toString();
 }
 
-bool plKey::orderAfter(const plKey& other) const {
+bool plKey::orderAfter(const plKey& other) const
+{
     if (!Exists() || !other.Exists())
         return false;
     if (!isLoaded() || !other.isLoaded())
@@ -145,7 +161,8 @@ bool plKey::orderAfter(const plKey& other) const {
     return fKeyData->getObj()->orderAfter(other.fKeyData->getObj());
 }
 
-std::vector<plKey> hsOrderKeys(const std::vector<plKey>& keys) {
+std::vector<plKey> hsOrderKeys(const std::vector<plKey>& keys)
+{
     // std::sort cannot be used here, since hsKeyedObject::orderAfter does
     // not provide strict weak ordering, which is required for std::sort
     // to work correctly.  Instead, we perform a stable topological sort.

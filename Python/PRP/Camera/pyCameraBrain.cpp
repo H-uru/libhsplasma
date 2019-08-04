@@ -29,7 +29,8 @@ PY_PLASMA_NEW(CameraBrain, plCameraBrain)
 
 PY_PLASMA_TYPE(CameraBrain, plCameraBrain, "plCameraBrain wrapper")
 
-PY_PLASMA_TYPE_INIT(CameraBrain) {
+PY_PLASMA_TYPE_INIT(CameraBrain)
+{
     pyCameraBrain_Type.tp_new = pyCameraBrain_new;
     pyCameraBrain_Type.tp_base = &pyKeyedObject_Type;
     if (PyType_CheckAndReady(&pyCameraBrain_Type) < 0)
@@ -46,7 +47,8 @@ PY_PLASMA_IFC_METHODS(CameraBrain, plCameraBrain)
 
 PY_PLASMA_NEW(CameraBrain1, plCameraBrain1)
 
-PY_METHOD_VA(CameraBrain1, getFlags, "Params: flag") {
+PY_METHOD_VA(CameraBrain1, getFlags, "Params: flag")
+{
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "getFlag expects an int");
@@ -55,7 +57,8 @@ PY_METHOD_VA(CameraBrain1, getFlags, "Params: flag") {
     return pyPlasma_convert(self->fThis->getFlags().get((size_t)idx));
 }
 
-PY_METHOD_VA(CameraBrain1, getEoAFlags, "Params: flag") {
+PY_METHOD_VA(CameraBrain1, getEoAFlags, "Params: flag")
+{
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "getEoAFlags expects an int");
@@ -64,7 +67,8 @@ PY_METHOD_VA(CameraBrain1, getEoAFlags, "Params: flag") {
     return pyPlasma_convert(self->fThis->getEoAFlags().get((size_t)idx));
 }
 
-PY_METHOD_VA(CameraBrain1, setFlags, "Params: flag, value") {
+PY_METHOD_VA(CameraBrain1, setFlags, "Params: flag, value")
+{
     Py_ssize_t idx, value;
     if (!PyArg_ParseTuple(args, "nn", &idx, &value)) {
         PyErr_SetString(PyExc_TypeError, "setFlags expects int, bool");
@@ -74,7 +78,8 @@ PY_METHOD_VA(CameraBrain1, setFlags, "Params: flag, value") {
     Py_RETURN_NONE;
 }
 
-PY_METHOD_VA(CameraBrain1, setEoAFlags, "Params: flag, value") {
+PY_METHOD_VA(CameraBrain1, setEoAFlags, "Params: flag, value")
+{
     Py_ssize_t idx, value;
     if (!PyArg_ParseTuple(args, "nn", &idx, &value)) {
         PyErr_SetString(PyExc_TypeError, "setEoAFlags expects int, bool");
@@ -130,7 +135,8 @@ static PyGetSetDef pyCameraBrain1_GetSet[] = {
 
 PY_PLASMA_TYPE(CameraBrain1, plCameraBrain1, "plCameraBrain1 wrapper")
 
-PY_PLASMA_TYPE_INIT(CameraBrain1) {
+PY_PLASMA_TYPE_INIT(CameraBrain1)
+{
     pyCameraBrain1_Type.tp_new = pyCameraBrain1_new;
     pyCameraBrain1_Type.tp_methods = pyCameraBrain1_Methods;
     pyCameraBrain1_Type.tp_getset = pyCameraBrain1_GetSet;
@@ -185,7 +191,8 @@ static PyGetSetDef pyCameraBrain1_Avatar_GetSet[] = {
 
 PY_PLASMA_TYPE(CameraBrain1_Avatar, plCameraBrain1_Avatar, "plCameraBrain1_Avatar wrapper")
 
-PY_PLASMA_TYPE_INIT(CameraBrain1_Avatar) {
+PY_PLASMA_TYPE_INIT(CameraBrain1_Avatar)
+{
     pyCameraBrain1_Avatar_Type.tp_new = pyCameraBrain1_Avatar_new;
     pyCameraBrain1_Avatar_Type.tp_getset = pyCameraBrain1_Avatar_GetSet;
     pyCameraBrain1_Avatar_Type.tp_base = &pyCameraBrain1_Type;
@@ -202,9 +209,11 @@ PY_PLASMA_IFC_METHODS(CameraBrain1_Avatar, plCameraBrain1_Avatar)
 
 PY_PLASMA_NEW(CameraBrain1_FirstPerson, plCameraBrain1_FirstPerson)
 
-PY_PLASMA_TYPE(CameraBrain1_FirstPerson, plCameraBrain1_FirstPerson, "plCameraBrain1_FirstPerson wrapper")
+PY_PLASMA_TYPE(CameraBrain1_FirstPerson, plCameraBrain1_FirstPerson,
+               "plCameraBrain1_FirstPerson wrapper")
 
-PY_PLASMA_TYPE_INIT(CameraBrain1_FirstPerson) {
+PY_PLASMA_TYPE_INIT(CameraBrain1_FirstPerson)
+{
     pyCameraBrain1_FirstPerson_Type.tp_new = pyCameraBrain1_FirstPerson_new;
     pyCameraBrain1_FirstPerson_Type.tp_base = &pyCameraBrain1_Avatar_Type;
     if (PyType_CheckAndReady(&pyCameraBrain1_FirstPerson_Type) < 0)
@@ -229,7 +238,8 @@ static PyGetSetDef pyCameraBrain1_Fixed_GetSet[] = {
 
 PY_PLASMA_TYPE(CameraBrain1_Fixed, plCameraBrain1_Fixed, "plCameraBrain1_Fixed wrapper")
 
-PY_PLASMA_TYPE_INIT(CameraBrain1_Fixed) {
+PY_PLASMA_TYPE_INIT(CameraBrain1_Fixed)
+{
     pyCameraBrain1_Fixed_Type.tp_new = pyCameraBrain1_Fixed_new;
     pyCameraBrain1_Fixed_Type.tp_getset = pyCameraBrain1_Fixed_GetSet;
     pyCameraBrain1_Fixed_Type.tp_base = &pyCameraBrain1_Type;
@@ -265,7 +275,8 @@ static PyGetSetDef pyCameraBrain1_Circle_GetSet[] = {
 
 PY_PLASMA_TYPE(CameraBrain1_Circle, plCameraBrain1_Circle, "plCameraBrain1_Circle wrapper")
 
-PY_PLASMA_TYPE_INIT(CameraBrain1_Circle) {
+PY_PLASMA_TYPE_INIT(CameraBrain1_Circle)
+{
     pyCameraBrain1_Circle_Type.tp_new = pyCameraBrain1_Circle_new;
     pyCameraBrain1_Circle_Type.tp_getset = pyCameraBrain1_Circle_GetSet;
     pyCameraBrain1_Circle_Type.tp_base = &pyCameraBrain1_Fixed_Type;

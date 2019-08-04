@@ -17,12 +17,14 @@
 #include "plCluster.h"
 #include "plClusterGroup.h"
 
-plCluster::~plCluster() {
+plCluster::~plCluster()
+{
     for (auto inst = fInstances.begin(); inst != fInstances.end(); ++inst)
         delete *inst;
 }
 
-void plCluster::read(hsStream* S, plClusterGroup* group) {
+void plCluster::read(hsStream* S, plClusterGroup* group)
+{
     fEncoding.read(S);
     fGroup = group;
     unsigned int numVerts = fGroup->getTemplate().getNumVerts();
@@ -34,14 +36,16 @@ void plCluster::read(hsStream* S, plClusterGroup* group) {
     }
 }
 
-void plCluster::write(hsStream* S) {
+void plCluster::write(hsStream* S)
+{
     fEncoding.write(S);
     S->writeInt(fInstances.size());
     for (size_t i=0; i<fInstances.size(); i++)
         fInstances[i]->write(S);
 }
 
-void plCluster::prcWrite(pfPrcHelper* prc) {
+void plCluster::prcWrite(pfPrcHelper* prc)
+{
     prc->writeSimpleTag("plCluster");
 
     prc->writeSimpleTag("Encoding");
@@ -56,7 +60,8 @@ void plCluster::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plCluster::prcParse(const pfPrcTag* tag, plClusterGroup* group) {
+void plCluster::prcParse(const pfPrcTag* tag, plClusterGroup* group)
+{
     if (tag->getName() != "plCluster")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
@@ -83,12 +88,14 @@ void plCluster::prcParse(const pfPrcTag* tag, plClusterGroup* group) {
     }
 }
 
-void plCluster::delInstance(size_t idx) {
+void plCluster::delInstance(size_t idx)
+{
     delete fInstances[idx];
     fInstances.erase(fInstances.begin() + idx);
 }
 
-void plCluster::clearInstances() {
+void plCluster::clearInstances()
+{
     for (auto inst = fInstances.begin(); inst != fInstances.end(); ++inst)
         delete *inst;
     fInstances.clear();

@@ -19,20 +19,23 @@
 
 #include "PRP/Modifier/plModifier.h"
 
-class PLASMA_DLL pfObjectFlocker : public plSingleModifier {
+class PLASMA_DLL pfObjectFlocker : public plSingleModifier
+{
     CREATABLE(pfObjectFlocker, kObjectFlocker, plSingleModifier)
 
 public:
-    struct PLASMA_DLL pfFlock {
+    struct PLASMA_DLL pfFlock
+    {
         float fGoalWeight, fRandomWeight;
         float fSeparationWeight, fSeparationRadius;
         float fCohesionWeight, fCohesionRadius;
         float fMaxForce, fMaxSpeed, fMinSpeed;
 
-        pfFlock() : fGoalWeight(8.0f), fRandomWeight(12.0f),
-                    fSeparationWeight(12.0f), fSeparationRadius(5.0f),
-                    fCohesionWeight(8.0f), fCohesionRadius(9.0f),
-                    fMaxForce(10.0f), fMaxSpeed(5.0f), fMinSpeed(4.0f) { }
+        pfFlock()
+            : fGoalWeight(8.0f), fRandomWeight(12.0f), fSeparationWeight(12.0f),
+              fSeparationRadius(5.0f), fCohesionWeight(8.0f),
+              fCohesionRadius(9.0f), fMaxForce(10.0f), fMaxSpeed(5.0f),
+              fMinSpeed(4.0f) { }
     };
 
 protected:
@@ -42,8 +45,8 @@ protected:
     pfFlock fFlock;
 
 public:
-    pfObjectFlocker() : fNumBoids(0), fUseTargetRotation(false),
-                        fRandomizeAnimationStart(false) { }
+    pfObjectFlocker()
+        : fNumBoids(), fUseTargetRotation(), fRandomizeAnimationStart() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

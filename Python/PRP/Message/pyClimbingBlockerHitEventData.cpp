@@ -31,7 +31,8 @@ static PyGetSetDef pyClimbingBlockerHitEventData_GetSet[] = {
 PY_PLASMA_TYPE(ClimbingBlockerHitEventData, proClimbingBlockerHitEventData,
                "proClimbingBlockerHitEventData wrapper")
 
-PY_PLASMA_TYPE_INIT(ClimbingBlockerHitEventData) {
+PY_PLASMA_TYPE_INIT(ClimbingBlockerHitEventData)
+{
     pyClimbingBlockerHitEventData_Type.tp_new = pyClimbingBlockerHitEventData_new;
     pyClimbingBlockerHitEventData_Type.tp_getset = pyClimbingBlockerHitEventData_GetSet;
     pyClimbingBlockerHitEventData_Type.tp_base = &pyEventData_Type;

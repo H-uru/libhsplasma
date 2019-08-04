@@ -17,11 +17,13 @@
 #include "plScaleController.h"
 
 /* plSimpleScaleController */
-plSimpleScaleController::~plSimpleScaleController() {
+plSimpleScaleController::~plSimpleScaleController()
+{
     delete fValue;
 }
 
-void plSimpleScaleController::read(hsStream* S, plResManager* mgr) {
+void plSimpleScaleController::read(hsStream* S, plResManager* mgr)
+{
     if (S->readInt() != 0) {
         setValue(new plScaleValueController());
         fValue->read(S, mgr);
@@ -30,7 +32,8 @@ void plSimpleScaleController::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plSimpleScaleController::write(hsStream* S, plResManager* mgr) {
+void plSimpleScaleController::write(hsStream* S, plResManager* mgr)
+{
     if (fValue != NULL) {
         S->writeInt(1);
         fValue->write(S, mgr);
@@ -39,7 +42,8 @@ void plSimpleScaleController::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plSimpleScaleController::IPrcWrite(pfPrcHelper* prc) {
+void plSimpleScaleController::IPrcWrite(pfPrcHelper* prc)
+{
     if (fValue != NULL) {
         fValue->prcWrite(prc);
     } else {
@@ -49,7 +53,8 @@ void plSimpleScaleController::IPrcWrite(pfPrcHelper* prc) {
     }
 }
 
-void plSimpleScaleController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plSimpleScaleController::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "plScaleValueController") {
         if (!tag->getParam("NULL", "false").to_bool()) {
             setValue(new plScaleValueController());
@@ -62,7 +67,8 @@ void plSimpleScaleController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) 
     }
 }
 
-void plSimpleScaleController::setValue(plScaleValueController* value) {
+void plSimpleScaleController::setValue(plScaleValueController* value)
+{
     delete fValue;
     fValue = value;
 }

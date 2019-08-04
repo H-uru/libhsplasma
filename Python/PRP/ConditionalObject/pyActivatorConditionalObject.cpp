@@ -63,7 +63,8 @@ static PyMethodDef pyActivatorConditionalObject_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(ActivatorConditionalObject, activators) {
+PY_GETSET_GETTER_DECL(ActivatorConditionalObject, activators)
+{
     plActivatorConditionalObject* act = self->fThis;
     PyObject* activators = PyTuple_New(act->getActivators().size());
     for (size_t i = 0; i < act->getActivators().size(); ++i)
@@ -83,7 +84,8 @@ static PyGetSetDef pyActivatorConditionalObject_GetSet[] = {
 PY_PLASMA_TYPE(ActivatorConditionalObject, plActivatorConditionalObject,
                "plActivatorConditionalObject wrapper")
 
-PY_PLASMA_TYPE_INIT(ActivatorConditionalObject) {
+PY_PLASMA_TYPE_INIT(ActivatorConditionalObject)
+{
     pyActivatorConditionalObject_Type.tp_new = pyActivatorConditionalObject_new;
     pyActivatorConditionalObject_Type.tp_methods = pyActivatorConditionalObject_Methods;
     pyActivatorConditionalObject_Type.tp_getset = pyActivatorConditionalObject_GetSet;

@@ -81,7 +81,8 @@ static PyGetSetDef pyWAVHeader_GetSet[] = {
 
 PY_PLASMA_TYPE(WAVHeader, plWAVHeader, "plWAVHeader wrapper")
 
-PY_PLASMA_TYPE_INIT(WAVHeader) {
+PY_PLASMA_TYPE_INIT(WAVHeader)
+{
     pyWAVHeader_Type.tp_dealloc = pyWAVHeader_dealloc;
     pyWAVHeader_Type.tp_new = pyWAVHeader_new;
     pyWAVHeader_Type.tp_methods = pyWAVHeader_Methods;

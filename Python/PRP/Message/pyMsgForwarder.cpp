@@ -67,7 +67,8 @@ static PyMethodDef pyMsgForwarder_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(MsgForwarder, forwardKeys) {
+PY_GETSET_GETTER_DECL(MsgForwarder, forwardKeys)
+{
     PyObject* list = PyTuple_New(self->fThis->getForwardKeys().size());
     for (size_t i=0; i<self->fThis->getForwardKeys().size(); i++)
         PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getForwardKeys()[i]));
@@ -84,7 +85,8 @@ static PyGetSetDef pyMsgForwarder_GetSet[] = {
 
 PY_PLASMA_TYPE(MsgForwarder, plMsgForwarder, "plMsgForwarder wrapper")
 
-PY_PLASMA_TYPE_INIT(MsgForwarder) {
+PY_PLASMA_TYPE_INIT(MsgForwarder)
+{
     pyMsgForwarder_Type.tp_new = pyMsgForwarder_new;
     pyMsgForwarder_Type.tp_methods = pyMsgForwarder_Methods;
     pyMsgForwarder_Type.tp_getset = pyMsgForwarder_GetSet;

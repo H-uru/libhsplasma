@@ -17,19 +17,22 @@
 #include "plConditionalObject.h"
 
 /* plConditionalObject */
-void plConditionalObject::read(hsStream* S, plResManager* mgr) {
+void plConditionalObject::read(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::read(S, mgr);
     fSatisfied = S->readBool();
     fToggle = S->readBool();
 }
 
-void plConditionalObject::write(hsStream* S, plResManager* mgr) {
+void plConditionalObject::write(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::write(S, mgr);
     S->writeBool(fSatisfied);
     S->writeBool(fToggle);
 }
 
-void plConditionalObject::IPrcWrite(pfPrcHelper* prc) {
+void plConditionalObject::IPrcWrite(pfPrcHelper* prc)
+{
     hsKeyedObject::IPrcWrite(prc);
     prc->startTag("ConditionFlags");
     prc->writeParam("satisfied", fSatisfied);
@@ -37,7 +40,8 @@ void plConditionalObject::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "ConditionFlags") {
         fSatisfied = tag->getParam("satisfied", "false").to_bool();
         fToggle = tag->getParam("toggle", "false").to_bool();

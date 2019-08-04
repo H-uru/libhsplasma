@@ -28,14 +28,16 @@ PY_PROPERTY(bool, RenderTarget, proportionalViewport, getProportionalViewport,
             setProportionalViewport)
 
 #define RT_PROPERTY_VIEWPORT(direction) \
-    PY_GETSET_GETTER_DECL(RenderTarget, viewport##direction) {          \
+    PY_GETSET_GETTER_DECL(RenderTarget, viewport##direction)            \
+    {                                                                   \
         plRenderTarget* rt = self->fThis;                               \
         if (rt->getProportionalViewport())                              \
             return pyPlasma_convert(rt->getProportionalViewport##direction()); \
         else                                                            \
             return pyPlasma_convert(rt->getAbsoluteViewport##direction()); \
     }                                                                   \
-    PY_GETSET_SETTER_DECL(RenderTarget, viewport##direction) {          \
+    PY_GETSET_SETTER_DECL(RenderTarget, viewport##direction)            \
+    {                                                                   \
         PY_PROPERTY_CHECK_NULL(viewport##direction)                     \
         plRenderTarget* rt = self->fThis;                               \
         if (rt->getProportionalViewport()) {                            \
@@ -80,7 +82,8 @@ static PyGetSetDef pyRenderTarget_GetSet[] = {
 
 PY_PLASMA_TYPE(RenderTarget, plRenderTarget, "plRenderTarget wrapper")
 
-PY_PLASMA_TYPE_INIT(RenderTarget) {
+PY_PLASMA_TYPE_INIT(RenderTarget)
+{
     pyRenderTarget_Type.tp_new = pyRenderTarget_new;
     pyRenderTarget_Type.tp_getset = pyRenderTarget_GetSet;
     pyRenderTarget_Type.tp_base = &pyBitmap_Type;

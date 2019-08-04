@@ -19,8 +19,10 @@
 
 #include "PRP/plCreatable.h"
 
-namespace plSDL {
-    enum ContentsFlags {
+namespace plSDL
+{
+    enum ContentsFlags
+    {
         kHasUoid = 0x1,
         kHasNotificationInfo = 0x2,
         kHasTimeStamp = 0x4,

@@ -16,7 +16,8 @@
 
 #include "plPhysicalSndGroup.h"
 
-void plPhysicalSndGroup::read(hsStream* S, plResManager* mgr) {
+void plPhysicalSndGroup::read(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::read(S, mgr);
 
     fGroup = S->readInt();
@@ -28,7 +29,8 @@ void plPhysicalSndGroup::read(hsStream* S, plResManager* mgr) {
         fSlideSounds[i] = mgr->readKey(S);
 }
 
-void plPhysicalSndGroup::write(hsStream* S, plResManager* mgr) {
+void plPhysicalSndGroup::write(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::write(S, mgr);
 
     S->writeInt(fGroup);
@@ -40,7 +42,8 @@ void plPhysicalSndGroup::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fSlideSounds[i]);
 }
 
-void plPhysicalSndGroup::IPrcWrite(pfPrcHelper* prc) {
+void plPhysicalSndGroup::IPrcWrite(pfPrcHelper* prc)
+{
     hsKeyedObject::IPrcWrite(prc);
 
     prc->startTag("SoundGroupParams");
@@ -58,7 +61,8 @@ void plPhysicalSndGroup::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plPhysicalSndGroup::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plPhysicalSndGroup::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "SoundGroupParams") {
         fGroup = tag->getParam("Group", "0").to_uint();
     } else if (tag->getName() == "ImpactSounds") {

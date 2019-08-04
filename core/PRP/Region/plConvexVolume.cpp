@@ -16,26 +16,30 @@
 
 #include "plConvexVolume.h"
 
-void plConvexVolume::read(hsStream* S, plResManager* mgr) {
+void plConvexVolume::read(hsStream* S, plResManager* mgr)
+{
     fLocalPlanes.resize(S->readInt());
     for (size_t i=0; i<fLocalPlanes.size(); i++)
         fLocalPlanes[i].read(S);
 }
 
-void plConvexVolume::write(hsStream* S, plResManager* mgr) {
+void plConvexVolume::write(hsStream* S, plResManager* mgr)
+{
     S->writeInt(fLocalPlanes.size());
     for (size_t i=0; i<fLocalPlanes.size(); i++)
         fLocalPlanes[i].write(S);
 }
 
-void plConvexVolume::IPrcWrite(pfPrcHelper* prc) {
+void plConvexVolume::IPrcWrite(pfPrcHelper* prc)
+{
     prc->writeSimpleTag("Planes");
     for (size_t i=0; i<fLocalPlanes.size(); i++)
         fLocalPlanes[i].prcWrite(prc);
     prc->closeTag();
 }
 
-void plConvexVolume::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plConvexVolume::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Planes") {
         fLocalPlanes.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();

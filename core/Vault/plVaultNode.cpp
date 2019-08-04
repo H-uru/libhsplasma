@@ -19,26 +19,31 @@
 #include <cstring>
 
 /* plVaultBlob */
-plVaultBlob::BlobData::~BlobData() {
+plVaultBlob::BlobData::~BlobData()
+{
     delete[] fData;
 }
 
-void plVaultBlob::BlobData::unRef() {
+void plVaultBlob::BlobData::unRef()
+{
     if (--fRefs == 0)
         delete this;
 }
 
-plVaultBlob::plVaultBlob(const plVaultBlob& init) : fBlob(init.fBlob) {
+plVaultBlob::plVaultBlob(const plVaultBlob& init) : fBlob(init.fBlob)
+{
     if (fBlob != NULL)
         fBlob->ref();
 }
 
-plVaultBlob::~plVaultBlob() {
+plVaultBlob::~plVaultBlob()
+{
     if (fBlob != NULL)
         fBlob->unRef();
 }
 
-plVaultBlob& plVaultBlob::operator=(const plVaultBlob& init) {
+plVaultBlob& plVaultBlob::operator=(const plVaultBlob& init)
+{
     if (fBlob != NULL)
         fBlob->unRef();
     fBlob = init.fBlob;
@@ -47,7 +52,8 @@ plVaultBlob& plVaultBlob::operator=(const plVaultBlob& init) {
     return *this;
 }
 
-void plVaultBlob::read(hsStream* S) {
+void plVaultBlob::read(hsStream* S)
+{
     if (fBlob != NULL)
         fBlob->unRef();
 
@@ -57,12 +63,14 @@ void plVaultBlob::read(hsStream* S) {
     S->read(fBlob->fSize, fBlob->fData);
 }
 
-void plVaultBlob::write(hsStream* S) {
+void plVaultBlob::write(hsStream* S)
+{
     S->writeInt(fBlob->fSize);
     S->write(fBlob->fSize, fBlob->fData);
 }
 
-void plVaultBlob::setData(size_t size, const unsigned char* data) {
+void plVaultBlob::setData(size_t size, const unsigned char* data)
+{
     if (fBlob != NULL)
         fBlob->unRef();
 
@@ -75,8 +83,9 @@ void plVaultBlob::setData(size_t size, const unsigned char* data) {
 
 /* plVaultNode */
 plVaultNode::plVaultNode()
-           : fNodeID(0), fOwner(0), fGroup(0), fCreator(0), fNodeType(0),
-             fPermissions(plVault::kDefaultPermissions) {
+    : fNodeID(), fOwner(), fGroup(), fCreator(), fNodeType(),
+      fPermissions(plVault::kDefaultPermissions)
+{
     fInt32[0] = 0;
     fInt32[1] = 0;
     fInt32[2] = 0;
@@ -87,7 +96,8 @@ plVaultNode::plVaultNode()
     fUInt32[3] = 0;
 }
 
-void plVaultNode::copy(const plVaultNode& init) {
+void plVaultNode::copy(const plVaultNode& init)
+{
     fFields = init.fFields;
     fNodeID = init.fNodeID;
     fOwner = init.fOwner;
@@ -124,7 +134,8 @@ void plVaultNode::copy(const plVaultNode& init) {
     fText[1] = init.fText[1];
 }
 
-void plVaultNode::makeField(unsigned int field) {
+void plVaultNode::makeField(unsigned int field)
+{
     fFields[field] = true;
     switch (field) {
     case kFieldNodeID:
@@ -231,7 +242,8 @@ void plVaultNode::makeField(unsigned int field) {
     }
 }
 
-void plVaultNode::read(hsStream* S) {
+void plVaultNode::read(hsStream* S)
+{
     fFields.read(S);
 
     fNodeID = S->readInt();
@@ -319,7 +331,8 @@ void plVaultNode::read(hsStream* S) {
         fGuid2.read(S);
 }
 
-void plVaultNode::write(hsStream* S) {
+void plVaultNode::write(hsStream* S)
+{
     fFields.write(S);
 
     S->writeInt(fNodeID);
@@ -407,334 +420,406 @@ void plVaultNode::write(hsStream* S) {
         fGuid2.write(S);
 }
 
-unsigned int plVaultNode::getNodeID() const {
+unsigned int plVaultNode::getNodeID() const
+{
     return fFields[kFieldNodeID] ? fNodeID : 0;
 }
 
-unsigned int plVaultNode::getOwner() const {
+unsigned int plVaultNode::getOwner() const
+{
     return fFields[kFieldOwner] ? fOwner : 0;
 }
 
-unsigned int plVaultNode::getGroup() const {
+unsigned int plVaultNode::getGroup() const
+{
     return fFields[kFieldGroup] ? fGroup : 0;
 }
 
-unsigned int plVaultNode::getCreator() const {
+unsigned int plVaultNode::getCreator() const
+{
     return fFields[kFieldCreator] ? fCreator : 0;
 }
 
-unsigned int plVaultNode::getNodeType() const {
+unsigned int plVaultNode::getNodeType() const
+{
     return fFields[kFieldNodeType] ? fNodeType : 0;
 }
 
-unsigned int plVaultNode::getPermissions() const {
+unsigned int plVaultNode::getPermissions() const
+{
     return fFields[kFieldPermissions] ? fPermissions : 0;
 }
 
-plUnifiedTime plVaultNode::getAutoTime() const {
+plUnifiedTime plVaultNode::getAutoTime() const
+{
     return fFields[kFieldAutoTime] ? fAutoTime : plUnifiedTime();
 }
 
-plUnifiedTime plVaultNode::getModifyTime() const {
+plUnifiedTime plVaultNode::getModifyTime() const
+{
     return fFields[kFieldModifyTime] ? fModifyTime : plUnifiedTime();
 }
 
-plUnifiedTime plVaultNode::getCreateAgeTime() const {
+plUnifiedTime plVaultNode::getCreateAgeTime() const
+{
     return fFields[kFieldCreateAgeTime] ? fCreateAgeTime : plUnifiedTime();
 }
 
-plServerGuid plVaultNode::getCreateAgeGuid() const {
+plServerGuid plVaultNode::getCreateAgeGuid() const
+{
     return fFields[kFieldCreateAgeGuid] ? fCreateAgeGuid : plServerGuid();
 }
 
-plServerGuid plVaultNode::getGuid1() const {
+plServerGuid plVaultNode::getGuid1() const
+{
     return fFields[kFieldGuid_1] ? fGuid1 : plServerGuid();
 }
 
-plServerGuid plVaultNode::getGuid2() const {
+plServerGuid plVaultNode::getGuid2() const
+{
     return fFields[kFieldGuid_2] ? fGuid2 : plServerGuid();
 }
 
-ST::string plVaultNode::getCreateAgeName() const {
+ST::string plVaultNode::getCreateAgeName() const
+{
     return fFields[kFieldCreateAgeName] ? fCreateAgeName : "";
 }
 
-int plVaultNode::getInt32_1() const {
+int plVaultNode::getInt32_1() const
+{
     return fFields[kFieldInt32_1] ? fInt32[0] : 0;
 }
 
-int plVaultNode::getInt32_2() const {
+int plVaultNode::getInt32_2() const
+{
     return fFields[kFieldInt32_2] ? fInt32[1] : 0;
 }
 
-int plVaultNode::getInt32_3() const {
+int plVaultNode::getInt32_3() const
+{
     return fFields[kFieldInt32_3] ? fInt32[2] : 0;
 }
 
-int plVaultNode::getInt32_4() const {
+int plVaultNode::getInt32_4() const
+{
     return fFields[kFieldInt32_4] ? fInt32[3] : 0;
 }
 
-unsigned int plVaultNode::getUInt32_1() const {
+unsigned int plVaultNode::getUInt32_1() const
+{
     return fFields[kFieldUInt32_1] ? fUInt32[0] : 0;
 }
 
-unsigned int plVaultNode::getUInt32_2() const {
+unsigned int plVaultNode::getUInt32_2() const
+{
     return fFields[kFieldUInt32_2] ? fUInt32[1] : 0;
 }
 
-unsigned int plVaultNode::getUInt32_3() const {
+unsigned int plVaultNode::getUInt32_3() const
+{
     return fFields[kFieldUInt32_3] ? fUInt32[2] : 0;
 }
 
-unsigned int plVaultNode::getUInt32_4() const {
+unsigned int plVaultNode::getUInt32_4() const
+{
     return fFields[kFieldUInt32_4] ? fUInt32[3] : 0;
 }
 
-ST::string plVaultNode::getString64_1() const {
+ST::string plVaultNode::getString64_1() const
+{
     return fFields[kFieldString64_1] ? fString64[0] : "";
 }
 
-ST::string plVaultNode::getString64_2() const {
+ST::string plVaultNode::getString64_2() const
+{
     return fFields[kFieldString64_2] ? fString64[1] : "";
 }
 
-ST::string plVaultNode::getString64_3() const {
+ST::string plVaultNode::getString64_3() const
+{
     return fFields[kFieldString64_3] ? fString64[2] : "";
 }
 
-ST::string plVaultNode::getString64_4() const {
+ST::string plVaultNode::getString64_4() const
+{
     return fFields[kFieldString64_4] ? fString64[3] : "";
 }
 
-ST::string plVaultNode::getString64_5() const {
+ST::string plVaultNode::getString64_5() const
+{
     return fFields[kFieldString64_5] ? fString64[4] : "";
 }
 
-ST::string plVaultNode::getString64_6() const {
+ST::string plVaultNode::getString64_6() const
+{
     return fFields[kFieldString64_6] ? fString64[5] : "";
 }
 
-ST::string plVaultNode::getIString64_1() const {
+ST::string plVaultNode::getIString64_1() const
+{
     return fFields[kFieldIString64_1] ? fIString64[0] : "";
 }
 
-ST::string plVaultNode::getIString64_2() const {
+ST::string plVaultNode::getIString64_2() const
+{
     return fFields[kFieldIString64_2] ? fIString64[1] : "";
 }
 
-ST::string plVaultNode::getText_1() const {
+ST::string plVaultNode::getText_1() const
+{
     return fFields[kFieldText_1] ? fText[0] : "";
 }
 
-ST::string plVaultNode::getText_2() const {
+ST::string plVaultNode::getText_2() const
+{
     return fFields[kFieldText_2] ? fText[1] : "";
 }
 
-plVaultBlob plVaultNode::getBlob_1() const {
+plVaultBlob plVaultNode::getBlob_1() const
+{
     return fFields[kFieldBlob_1] ? fBlob1 : plVaultBlob();
 }
 
-plVaultBlob plVaultNode::getBlob_2() const {
+plVaultBlob plVaultNode::getBlob_2() const
+{
     return fFields[kFieldBlob_2] ? fBlob2 : plVaultBlob();
 }
 
-void plVaultNode::setNodeID(unsigned int id) {
+void plVaultNode::setNodeID(unsigned int id)
+{
     fFields[kFieldNodeID] = true;
     fNodeID = id;
 }
 
-void plVaultNode::setOwner(unsigned int id) {
+void plVaultNode::setOwner(unsigned int id)
+{
     fFields[kFieldOwner] = true;
     fOwner = id;
 }
 
-void plVaultNode::setGroup(unsigned int id) {
+void plVaultNode::setGroup(unsigned int id)
+{
     fFields[kFieldGroup] = true;
     fGroup = id;
 }
 
-void plVaultNode::setCreator(unsigned int id) {
+void plVaultNode::setCreator(unsigned int id)
+{
     fFields[kFieldCreator] = true;
     fCreator = id;
 }
 
-void plVaultNode::setNodeType(unsigned int type) {
+void plVaultNode::setNodeType(unsigned int type)
+{
     fFields[kFieldNodeType] = true;
     fNodeType = type;
 }
 
-void plVaultNode::setPermissions(unsigned int permissions) {
+void plVaultNode::setPermissions(unsigned int permissions)
+{
     fFields[kFieldPermissions] = true;
     fPermissions = permissions;
 }
 
-void plVaultNode::setAutoTime(const plUnifiedTime& time) {
+void plVaultNode::setAutoTime(const plUnifiedTime& time)
+{
     fFields[kFieldAutoTime] = true;
     fAutoTime = time;
 }
 
-void plVaultNode::setModifyTime(const plUnifiedTime& time) {
+void plVaultNode::setModifyTime(const plUnifiedTime& time)
+{
     fFields[kFieldModifyTime] = true;
     fModifyTime = time;
 }
 
-void plVaultNode::setCreateAgeTime(const plUnifiedTime& time) {
+void plVaultNode::setCreateAgeTime(const plUnifiedTime& time)
+{
     fFields[kFieldCreateAgeTime] = true;
     fCreateAgeTime = time;
 }
 
-void plVaultNode::setCreateAgeGuid(const plServerGuid& guid) {
+void plVaultNode::setCreateAgeGuid(const plServerGuid& guid)
+{
     fFields[kFieldCreateAgeGuid] = true;
     fCreateAgeGuid = guid;
 }
 
-void plVaultNode::setGuid1(const plServerGuid& guid) {
+void plVaultNode::setGuid1(const plServerGuid& guid)
+{
     fFields[kFieldGuid_1] = true;
     fGuid1 = guid;
 }
 
-void plVaultNode::setGuid2(const plServerGuid& guid) {
+void plVaultNode::setGuid2(const plServerGuid& guid)
+{
     fFields[kFieldGuid_2] = true;
     fGuid2 = guid;
 }
 
-void plVaultNode::setCreateAgeName(const ST::string& name) {
+void plVaultNode::setCreateAgeName(const ST::string& name)
+{
     fFields[kFieldCreateAgeName] = true;
     fCreateAgeName = name;
 }
 
-void plVaultNode::setInt32_1(int value) {
+void plVaultNode::setInt32_1(int value)
+{
     fFields[kFieldInt32_1] = true;
     fInt32[0] = value;
 }
 
-void plVaultNode::setInt32_2(int value) {
+void plVaultNode::setInt32_2(int value)
+{
     fFields[kFieldInt32_2] = true;
     fInt32[1] = value;
 }
 
-void plVaultNode::setInt32_3(int value) {
+void plVaultNode::setInt32_3(int value)
+{
     fFields[kFieldInt32_3] = true;
     fInt32[2] = value;
 }
 
-void plVaultNode::setInt32_4(int value) {
+void plVaultNode::setInt32_4(int value)
+{
     fFields[kFieldInt32_4] = true;
     fInt32[3] = value;
 }
 
-void plVaultNode::setUInt32_1(unsigned int value) {
+void plVaultNode::setUInt32_1(unsigned int value)
+{
     fFields[kFieldUInt32_1] = true;
     fUInt32[0] = value;
 }
 
-void plVaultNode::setUInt32_2(unsigned int value) {
+void plVaultNode::setUInt32_2(unsigned int value)
+{
     fFields[kFieldUInt32_2] = true;
     fUInt32[1] = value;
 }
 
-void plVaultNode::setUInt32_3(unsigned int value) {
+void plVaultNode::setUInt32_3(unsigned int value)
+{
     fFields[kFieldUInt32_3] = true;
     fUInt32[2] = value;
 }
 
-void plVaultNode::setUInt32_4(unsigned int value) {
+void plVaultNode::setUInt32_4(unsigned int value)
+{
     fFields[kFieldUInt32_4] = true;
     fUInt32[3] = value;
 }
 
-void plVaultNode::setString64_1(const ST::string& value) {
+void plVaultNode::setString64_1(const ST::string& value)
+{
     fFields[kFieldString64_1] = true;
     fString64[0] = value;
 }
 
-void plVaultNode::setString64_2(const ST::string& value) {
+void plVaultNode::setString64_2(const ST::string& value)
+{
     fFields[kFieldString64_2] = true;
     fString64[1] = value;
 }
 
-void plVaultNode::setString64_3(const ST::string& value) {
+void plVaultNode::setString64_3(const ST::string& value)
+{
     fFields[kFieldString64_3] = true;
     fString64[2] = value;
 }
 
-void plVaultNode::setString64_4(const ST::string& value) {
+void plVaultNode::setString64_4(const ST::string& value)
+{
     fFields[kFieldString64_4] = true;
     fString64[3] = value;
 }
 
-void plVaultNode::setString64_5(const ST::string& value) {
+void plVaultNode::setString64_5(const ST::string& value)
+{
     fFields[kFieldString64_5] = true;
     fString64[4] = value;
 }
 
-void plVaultNode::setString64_6(const ST::string& value) {
+void plVaultNode::setString64_6(const ST::string& value)
+{
     fFields[kFieldString64_6] = true;
     fString64[5] = value;
 }
 
-void plVaultNode::setIString64_1(const ST::string& value) {
+void plVaultNode::setIString64_1(const ST::string& value)
+{
     fFields[kFieldIString64_1] = true;
     fIString64[0] = value;
 }
 
-void plVaultNode::setIString64_2(const ST::string& value) {
+void plVaultNode::setIString64_2(const ST::string& value)
+{
     fFields[kFieldIString64_2] = true;
     fIString64[1] = value;
 }
 
-void plVaultNode::setText_1(const ST::string& value) {
+void plVaultNode::setText_1(const ST::string& value)
+{
     fFields[kFieldText_1] = true;
     fText[0] = value;
 }
 
-void plVaultNode::setText_2(const ST::string& value) {
+void plVaultNode::setText_2(const ST::string& value)
+{
     fFields[kFieldText_2] = true;
     fText[1] = value;
 }
 
-void plVaultNode::setBlob_1(const plVaultBlob& value) {
+void plVaultNode::setBlob_1(const plVaultBlob& value)
+{
     fFields[kFieldBlob_1] = true;
     fBlob1 = value;
 }
 
-void plVaultNode::setBlob_2(const plVaultBlob& value) {
+void plVaultNode::setBlob_2(const plVaultBlob& value)
+{
     fFields[kFieldBlob_2] = true;
     fBlob2 = value;
 }
 
-plVaultPlayerNode* plVaultNode::upcastToPlayerNode() const {
+plVaultPlayerNode* plVaultNode::upcastToPlayerNode() const
+{
     return (fNodeType == plVault::kNodePlayer)
          ? (plVaultPlayerNode*)this
          : NULL;
 }
 
-plVaultAgeNode* plVaultNode::upcastToAgeNode() const {
+plVaultAgeNode* plVaultNode::upcastToAgeNode() const
+{
     return (fNodeType == plVault::kNodeAge)
          ? (plVaultAgeNode*)this
          : NULL;
 }
 
-plVaultGameServerNode* plVaultNode::upcastToGameServerNode() const {
+plVaultGameServerNode* plVaultNode::upcastToGameServerNode() const
+{
     return (fNodeType == plVault::kNodeGameServer)
          ? (plVaultGameServerNode*)this
          : NULL;
 }
 
-plVaultAdminNode* plVaultNode::upcastToAdminNode() const {
+plVaultAdminNode* plVaultNode::upcastToAdminNode() const
+{
     return (fNodeType == plVault::kNodeAdmin)
          ? (plVaultAdminNode*)this
          : NULL;
 }
 
-plVaultServerNode* plVaultNode::upcastToServerNode() const {
+plVaultServerNode* plVaultNode::upcastToServerNode() const
+{
     return (fNodeType == plVault::kNodeVaultServer)
          ? (plVaultServerNode*)this
          : NULL;
 }
 
-plVaultFolderNode* plVaultNode::upcastToFolderNode() const {
+plVaultFolderNode* plVaultNode::upcastToFolderNode() const
+{
     return (fNodeType == plVault::kNodeFolder||
             fNodeType == plVault::kNodePlayerInfoList ||
             fNodeType == plVault::kNodeAgeInfoList ||
@@ -743,73 +828,85 @@ plVaultFolderNode* plVaultNode::upcastToFolderNode() const {
          : NULL;
 }
 
-plVaultPlayerInfoNode* plVaultNode::upcastToPlayerInfoNode() const {
+plVaultPlayerInfoNode* plVaultNode::upcastToPlayerInfoNode() const
+{
     return (fNodeType == plVault::kNodePlayerInfo)
          ? (plVaultPlayerInfoNode*)this
          : NULL;
 }
 
-plVaultSystemNode* plVaultNode::upcastToSystemNode() const {
+plVaultSystemNode* plVaultNode::upcastToSystemNode() const
+{
     return (fNodeType == plVault::kNodeSystem)
          ? (plVaultSystemNode*)this
          : NULL;
 }
 
-plVaultImageNode* plVaultNode::upcastToImageNode() const {
+plVaultImageNode* plVaultNode::upcastToImageNode() const
+{
     return (fNodeType == plVault::kNodeImage)
          ? (plVaultImageNode*)this
          : NULL;
 }
 
-plVaultTextNoteNode* plVaultNode::upcastToTextNoteNode() const {
+plVaultTextNoteNode* plVaultNode::upcastToTextNoteNode() const
+{
     return (fNodeType == plVault::kNodeTextNote)
          ? (plVaultTextNoteNode*)this
          : NULL;
 }
 
-plVaultSDLNode* plVaultNode::upcastToSDLNode() const {
+plVaultSDLNode* plVaultNode::upcastToSDLNode() const
+{
     return (fNodeType == plVault::kNodeSDL)
          ? (plVaultSDLNode*)this
          : NULL;
 }
 
-plVaultAgeLinkNode* plVaultNode::upcastToAgeLinkNode() const {
+plVaultAgeLinkNode* plVaultNode::upcastToAgeLinkNode() const
+{
     return (fNodeType == plVault::kNodeAgeLink)
          ? (plVaultAgeLinkNode*)this
          : NULL;
 }
 
-plVaultChronicleNode* plVaultNode::upcastToChronicleNode() const {
+plVaultChronicleNode* plVaultNode::upcastToChronicleNode() const
+{
     return (fNodeType == plVault::kNodeChronicle)
          ? (plVaultChronicleNode*)this
          : NULL;
 }
 
-plVaultPlayerInfoListNode* plVaultNode::upcastToPlayerInfoListNode() const {
+plVaultPlayerInfoListNode* plVaultNode::upcastToPlayerInfoListNode() const
+{
     return (fNodeType == plVault::kNodePlayerInfoList)
          ? (plVaultPlayerInfoListNode*)this
          : NULL;
 }
 
-plVaultMarkerNode* plVaultNode::upcastToMarkerNode() const {
+plVaultMarkerNode* plVaultNode::upcastToMarkerNode() const
+{
     return (fNodeType == plVault::kNodeMarker)
          ? (plVaultMarkerNode*)this
          : NULL;
 }
 
-plVaultAgeInfoNode* plVaultNode::upcastToAgeInfoNode() const {
+plVaultAgeInfoNode* plVaultNode::upcastToAgeInfoNode() const
+{
     return (fNodeType == plVault::kNodeAgeInfo)
          ? (plVaultAgeInfoNode*)this
          : NULL;
 }
 
-plVaultAgeInfoListNode* plVaultNode::upcastToAgeInfoListNode() const {
+plVaultAgeInfoListNode* plVaultNode::upcastToAgeInfoListNode() const
+{
     return (fNodeType == plVault::kNodeAgeInfoList)
          ? (plVaultAgeInfoListNode*)this
          : NULL;
 }
 
-plVaultMarkerListNode* plVaultNode::upcastToMarkerListNode() const {
+plVaultMarkerListNode* plVaultNode::upcastToMarkerListNode() const
+{
     return (fNodeType == plVault::kNodeMarkerList)
          ? (plVaultMarkerListNode*)this
          : NULL;

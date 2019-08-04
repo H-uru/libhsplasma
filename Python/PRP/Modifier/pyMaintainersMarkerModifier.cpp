@@ -33,7 +33,8 @@ static PyGetSetDef pyMaintainersMarkerModifier_GetSet[] = {
 PY_PLASMA_TYPE(MaintainersMarkerModifier, plMaintainersMarkerModifier,
                "plMaintainersMarkerModifier wrapper")
 
-PY_PLASMA_TYPE_INIT(MaintainersMarkerModifier) {
+PY_PLASMA_TYPE_INIT(MaintainersMarkerModifier)
+{
     pyMaintainersMarkerModifier_Type.tp_new = pyMaintainersMarkerModifier_new;
     pyMaintainersMarkerModifier_Type.tp_getset = pyMaintainersMarkerModifier_GetSet;
     pyMaintainersMarkerModifier_Type.tp_base = &pyMultiModifier_Type;

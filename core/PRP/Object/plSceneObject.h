@@ -19,11 +19,12 @@
 
 #include "plSynchedObject.h"
 
-class PLASMA_DLL plSceneObject : public plSynchedObject {
+class PLASMA_DLL plSceneObject : public plSynchedObject
+{
     CREATABLE(plSceneObject, kSceneObject, plSynchedObject)
 
 public:
-    virtual ~plSceneObject() { clearModifiers(); }
+    ~plSceneObject() { clearModifiers(); }
 
     plKey fDrawIntf, fSimIntf, fCoordIntf, fAudioIntf;
     std::vector<plKey> fInterfaces, fModifiers;

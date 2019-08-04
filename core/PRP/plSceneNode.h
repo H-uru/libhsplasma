@@ -20,7 +20,8 @@
 #include "PRP/KeyedObject/hsKeyedObject.h"
 #include "PRP/Object/plSceneObject.h"
 
-class PLASMA_DLL plSceneNode : public hsKeyedObject {
+class PLASMA_DLL plSceneNode : public hsKeyedObject
+{
     CREATABLE(plSceneNode, kSceneNode, hsKeyedObject)
 
 protected:

@@ -19,13 +19,15 @@
 #include "ResManager/pdUnifiedTypeMap.h"
 #include "Debug/plDebug.h"
 
-plPageInfo::plPageInfo(const ST::string& age, const ST::string& page) {
+plPageInfo::plPageInfo(const ST::string& age, const ST::string& page)
+{
     IInit();
     setAge(age);
     setPage(page);
 }
 
-void plPageInfo::IInit() {
+void plPageInfo::IInit()
+{
     fLocation.invalidate();
     fReleaseVersion = 0;
     fChecksum = 0;
@@ -36,7 +38,8 @@ void plPageInfo::IInit() {
     fNumObjects = 0;
 }
 
-void plPageInfo::read(hsStream* S) {
+void plPageInfo::read(hsStream* S)
+{
     short prpVer = S->readShort();
     if (prpVer == -1)
         S->setVer(PlasmaVer::pvUniversal);
@@ -72,8 +75,8 @@ void plPageInfo::read(hsStream* S) {
     if (prpVer >= 1) {
         int location = S->readInt();
         short locflags = (S->getVer().isNewPlasma() ?
-                S->readByte() :
-                S->readShort());
+                                S->readByte() :
+                                S->readShort());
 
         fAge = S->readSafeStr();
         if (fAge.empty()) {
@@ -140,7 +143,8 @@ void plPageInfo::read(hsStream* S) {
                    PlasmaVer::GetVersionName(S->getVer()));
 }
 
-void plPageInfo::write(hsStream* S) {
+void plPageInfo::write(hsStream* S)
+{
     if (S->getVer().isUniversal()) {
         S->writeShort(-1);
         fLocation.write(S);
@@ -200,7 +204,8 @@ void plPageInfo::write(hsStream* S) {
     }
 }
 
-void plPageInfo::writeSums(hsStream* S) {
+void plPageInfo::writeSums(hsStream* S)
+{
     unsigned int pos = S->pos();
     unsigned int offs = fDataStart - 12;
     if (S->getVer().isMoul()) {
@@ -213,7 +218,8 @@ void plPageInfo::writeSums(hsStream* S) {
     S->seek(pos);
 }
 
-void plPageInfo::prcWrite(pfPrcHelper* prc) {
+void plPageInfo::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("Page");
     prc->writeParam("AgeName", fAge);
     prc->writeParam("PageName", fPage);
@@ -221,7 +227,8 @@ void plPageInfo::prcWrite(pfPrcHelper* prc) {
     prc->endTag();
 }
 
-void plPageInfo::prcParse(const pfPrcTag* tag) {
+void plPageInfo::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "Page")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     fAge = tag->getParam("AgeName", "");
@@ -229,7 +236,8 @@ void plPageInfo::prcParse(const pfPrcTag* tag) {
     fLocation.prcParse(tag);
 }
 
-ST::string plPageInfo::getFilename(PlasmaVer ver) const {
+ST::string plPageInfo::getFilename(PlasmaVer ver) const
+{
     if (ver.isNewPlasma())
         return ST::format("{}_{}.prp", fAge, fPage);
     else if (ver < MAKE_VERSION(2, 0, 60, 00))

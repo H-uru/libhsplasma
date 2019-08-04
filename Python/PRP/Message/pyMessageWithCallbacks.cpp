@@ -67,7 +67,8 @@ static PyMethodDef pyMessageWithCallbacks_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(MessageWithCallbacks, callbacks) {
+PY_GETSET_GETTER_DECL(MessageWithCallbacks, callbacks)
+{
     const std::vector<plMessage*>& callbacks = self->fThis->getCallbacks();
     PyObject* tup = PyTuple_New(callbacks.size());
     for (size_t i = 0; i < callbacks.size(); ++i)
@@ -86,7 +87,8 @@ static PyGetSetDef pyMessageWithCallbacks_GetSet[] = {
 PY_PLASMA_TYPE(MessageWithCallbacks, plMessageWithCallbacks,
                "plMessageWithCallbacks wrapper")
 
-PY_PLASMA_TYPE_INIT(MessageWithCallbacks) {
+PY_PLASMA_TYPE_INIT(MessageWithCallbacks)
+{
     pyMessageWithCallbacks_Type.tp_new = pyMessageWithCallbacks_new;
     pyMessageWithCallbacks_Type.tp_methods = pyMessageWithCallbacks_Methods;
     pyMessageWithCallbacks_Type.tp_getset = pyMessageWithCallbacks_GetSet;

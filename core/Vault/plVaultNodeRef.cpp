@@ -16,7 +16,8 @@
 
 #include "plVaultNodeRef.h"
 
-void plVaultNodeRef::read(hsStream* S) {
+void plVaultNodeRef::read(hsStream* S)
+{
     fSaver = S->readInt();
     fParent = S->readInt();
     fChild = S->readInt();
@@ -24,7 +25,8 @@ void plVaultNodeRef::read(hsStream* S) {
     fSeen = S->readBool();
 }
 
-void plVaultNodeRef::write(hsStream* S) {
+void plVaultNodeRef::write(hsStream* S)
+{
     S->writeInt(fSaver);
     S->writeInt(fParent);
     S->writeInt(fChild);

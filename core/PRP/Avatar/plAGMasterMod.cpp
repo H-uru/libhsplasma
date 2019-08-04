@@ -16,7 +16,8 @@
 
 #include "plAGMasterMod.h"
 
-void plAGMasterMod::read(hsStream* S, plResManager* mgr) {
+void plAGMasterMod::read(hsStream* S, plResManager* mgr)
+{
     plSynchedObject::read(S, mgr);
 
     if (S->getVer().isUniversal()) {
@@ -44,7 +45,8 @@ void plAGMasterMod::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plAGMasterMod::write(hsStream* S, plResManager* mgr) {
+void plAGMasterMod::write(hsStream* S, plResManager* mgr)
+{
     plSynchedObject::write(S, mgr);
 
     if (S->getVer().isUniversal()) {
@@ -74,7 +76,8 @@ void plAGMasterMod::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-bool plAGMasterMod::orderAfter(const hsKeyedObject* other) const {
+bool plAGMasterMod::orderAfter(const hsKeyedObject* other) const
+{
     // This should be ordered after the plAGModifier of the same name
     if (other->getKey()->getType() == kAGModifier
             && other->getKey()->getName() == getKey()->getName()) {
@@ -83,7 +86,8 @@ bool plAGMasterMod::orderAfter(const hsKeyedObject* other) const {
     return plModifier::orderAfter(other);
 }
 
-void plAGMasterMod::IPrcWrite(pfPrcHelper* prc) {
+void plAGMasterMod::IPrcWrite(pfPrcHelper* prc)
+{
     plSynchedObject::IPrcWrite(prc);
 
     prc->startTag("Group");
@@ -108,7 +112,8 @@ void plAGMasterMod::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plAGMasterMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAGMasterMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Group") {
         fGroupName = tag->getParam("Name", "");
         fIsGrouped = tag->getParam("IsGrouped", "False").to_bool();
@@ -118,7 +123,7 @@ void plAGMasterMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             if (child->getName() != "MsgForwarder")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             if (child->hasChildren())
-                fMsgForwarder = mgr->prcParseKey(child->getFirstChild());;;;;;;
+                fMsgForwarder = mgr->prcParseKey(child->getFirstChild());
         }
     } else if (tag->getName() == "PrivateAnims") {
         fPrivateAnims.resize(tag->countChildren());

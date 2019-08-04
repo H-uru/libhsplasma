@@ -19,7 +19,8 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plExcludeRegionMsg : public plMessage {
+class PLASMA_DLL plExcludeRegionMsg : public plMessage
+{
     CREATABLE(plExcludeRegionMsg, kExcludeRegionMsg, plMessage)
 
 public:
@@ -30,7 +31,7 @@ protected:
     unsigned int fSynchFlags;
 
 public:
-    plExcludeRegionMsg() : fCmd(0), fSynchFlags(0) { }
+    plExcludeRegionMsg() : fCmd(), fSynchFlags() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

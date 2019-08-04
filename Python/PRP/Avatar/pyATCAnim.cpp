@@ -22,12 +22,14 @@
 
 PY_PLASMA_NEW(ATCAnim, plATCAnim)
 
-PY_METHOD_NOARGS(ATCAnim, clearMarkers, "Remove all named markers from the anim") {
+PY_METHOD_NOARGS(ATCAnim, clearMarkers, "Remove all named markers from the anim")
+{
     self->fThis->getMarkers().clear();
     Py_RETURN_NONE;
 }
 
-PY_METHOD_NOARGS(ATCAnim, clearLoops, "Remove all named loops from the anim") {
+PY_METHOD_NOARGS(ATCAnim, clearLoops, "Remove all named loops from the anim")
+{
     self->fThis->getLoops().clear();
     Py_RETURN_NONE;
 }
@@ -68,7 +70,8 @@ static PyMethodDef pyATCAnim_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(ATCAnim, markers) {
+PY_GETSET_GETTER_DECL(ATCAnim, markers)
+{
     plATCAnim* anim = self->fThis;
     PyObject* dict = PyDict_New();
     for (const auto& mark : anim->getMarkers())
@@ -79,7 +82,8 @@ PY_GETSET_GETTER_DECL(ATCAnim, markers) {
 PY_PROPERTY_SETTER_MSG(ATCAnim, markers, "To add markers, use setMarker()")
 PY_PROPERTY_GETSET_DECL(ATCAnim, markers)
 
-PY_GETSET_GETTER_DECL(ATCAnim, loops) {
+PY_GETSET_GETTER_DECL(ATCAnim, loops)
+{
     plATCAnim* anim = self->fThis;
     PyObject* dict = PyDict_New();
     for (const auto& loop : anim->getLoops()) {
@@ -92,7 +96,8 @@ PY_GETSET_GETTER_DECL(ATCAnim, loops) {
 PY_PROPERTY_SETTER_MSG(ATCAnim, loops, "To add loops, use setLoop()")
 PY_PROPERTY_GETSET_DECL(ATCAnim, loops)
 
-PY_GETSET_GETTER_DECL(ATCAnim, stops) {
+PY_GETSET_GETTER_DECL(ATCAnim, stops)
+{
     plATCAnim* anim = self->fThis;
     PyObject* list = PyTuple_New(anim->getStops().size());
     for (size_t i = 0; i < anim->getStops().size(); i++)
@@ -100,7 +105,8 @@ PY_GETSET_GETTER_DECL(ATCAnim, stops) {
     return list;
 }
 
-PY_GETSET_SETTER_DECL(ATCAnim, stops) {
+PY_GETSET_SETTER_DECL(ATCAnim, stops)
+{
     PY_PROPERTY_CHECK_NULL(stops)
     pySequenceFastRef seq(value);
     if (!seq.isSequence()) {
@@ -158,7 +164,8 @@ static PyGetSetDef pyATCAnim_GetSet[] = {
 
 PY_PLASMA_TYPE(ATCAnim, plATCAnim, "plATCAnim wrapper")
 
-PY_PLASMA_TYPE_INIT(ATCAnim) {
+PY_PLASMA_TYPE_INIT(ATCAnim)
+{
     pyATCAnim_Type.tp_new = pyATCAnim_new;
     pyATCAnim_Type.tp_methods = pyATCAnim_Methods;
     pyATCAnim_Type.tp_getset = pyATCAnim_GetSet;

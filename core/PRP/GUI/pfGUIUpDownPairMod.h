@@ -19,7 +19,8 @@
 
 #include "pfGUIValueCtrl.h"
 
-class PLASMA_DLL pfGUIUpDownPairMod : public pfGUIValueCtrl {
+class PLASMA_DLL pfGUIUpDownPairMod : public pfGUIValueCtrl
+{
     CREATABLE(pfGUIUpDownPairMod, kGUIUpDownPairMod, pfGUIValueCtrl)
 
 protected:

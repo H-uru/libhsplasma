@@ -16,19 +16,22 @@
 
 #include "plSwimMsg.h"
 
-void plSwimMsg::read(hsStream* S, plResManager* mgr) {
+void plSwimMsg::read(hsStream* S, plResManager* mgr)
+{
     plMessage::read(S, mgr);
     fIsEntering = S->readBool();
     fSwimRegion = mgr->readKey(S);
 }
 
-void plSwimMsg::write(hsStream* S, plResManager* mgr) {
+void plSwimMsg::write(hsStream* S, plResManager* mgr)
+{
     plMessage::write(S, mgr);
     S->writeBool(fIsEntering);
     mgr->writeKey(S, fSwimRegion);
 }
 
-void plSwimMsg::IPrcWrite(pfPrcHelper* prc) {
+void plSwimMsg::IPrcWrite(pfPrcHelper* prc)
+{
     plMessage::IPrcWrite(prc);
 
     prc->startTag("SwimMsgParams");
@@ -40,7 +43,8 @@ void plSwimMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plSwimMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plSwimMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "SwimMsgParams") {
         fIsEntering = tag->getParam("IsEntering", "false").to_bool();
     } else if (tag->getName() == "SwimRegion") {

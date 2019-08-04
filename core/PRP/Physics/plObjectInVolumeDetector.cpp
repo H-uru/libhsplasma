@@ -17,12 +17,14 @@
 #include "plObjectInVolumeDetector.h"
 
 /* plCameraRegionDetector */
-plCameraRegionDetector::~plCameraRegionDetector() {
+plCameraRegionDetector::~plCameraRegionDetector()
+{
     for (auto msg = fMessages.begin(); msg != fMessages.end(); ++msg)
         delete *msg;
 }
 
-void plCameraRegionDetector::read(hsStream* S, plResManager* mgr) {
+void plCameraRegionDetector::read(hsStream* S, plResManager* mgr)
+{
     plDetectorModifier::read(S, mgr);
 
     clearMessages();
@@ -31,7 +33,8 @@ void plCameraRegionDetector::read(hsStream* S, plResManager* mgr) {
         fMessages[i] = plCameraMsg::Convert(mgr->ReadCreatable(S));
 }
 
-void plCameraRegionDetector::write(hsStream* S, plResManager* mgr) {
+void plCameraRegionDetector::write(hsStream* S, plResManager* mgr)
+{
     plDetectorModifier::write(S, mgr);
 
     S->writeInt(fMessages.size());
@@ -39,7 +42,8 @@ void plCameraRegionDetector::write(hsStream* S, plResManager* mgr) {
         mgr->WriteCreatable(S, fMessages[i]);
 }
 
-void plCameraRegionDetector::IPrcWrite(pfPrcHelper* prc) {
+void plCameraRegionDetector::IPrcWrite(pfPrcHelper* prc)
+{
     plDetectorModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("Messages");
@@ -48,7 +52,8 @@ void plCameraRegionDetector::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plCameraRegionDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plCameraRegionDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Messages") {
         clearMessages();
         fMessages.resize(tag->countChildren());
@@ -62,12 +67,14 @@ void plCameraRegionDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plCameraRegionDetector::delMessage(size_t idx) {
+void plCameraRegionDetector::delMessage(size_t idx)
+{
     delete fMessages[idx];
     fMessages.erase(fMessages.begin() + idx);
 }
 
-void plCameraRegionDetector::clearMessages() {
+void plCameraRegionDetector::clearMessages()
+{
     for (auto msg = fMessages.begin(); msg != fMessages.end(); ++msg)
         delete *msg;
     fMessages.clear();
@@ -75,19 +82,22 @@ void plCameraRegionDetector::clearMessages() {
 
 
 /* plObjectInVolumeAndFacingDetector */
-void plObjectInVolumeAndFacingDetector::read(hsStream* S, plResManager* mgr) {
+void plObjectInVolumeAndFacingDetector::read(hsStream* S, plResManager* mgr)
+{
     plObjectInVolumeDetector::read(S, mgr);
     fFacingTolerance = S->readFloat();
     fNeedWalkingForward = S->readBool();
 }
 
-void plObjectInVolumeAndFacingDetector::write(hsStream* S, plResManager* mgr) {
+void plObjectInVolumeAndFacingDetector::write(hsStream* S, plResManager* mgr)
+{
     plObjectInVolumeDetector::write(S, mgr);
     S->writeFloat(fFacingTolerance);
     S->writeBool(fNeedWalkingForward);
 }
 
-void plObjectInVolumeAndFacingDetector::IPrcWrite(pfPrcHelper* prc) {
+void plObjectInVolumeAndFacingDetector::IPrcWrite(pfPrcHelper* prc)
+{
     plObjectInVolumeDetector::IPrcWrite(prc);
 
     prc->startTag("FacingParams");
@@ -96,7 +106,8 @@ void plObjectInVolumeAndFacingDetector::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plObjectInVolumeAndFacingDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plObjectInVolumeAndFacingDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "FacingParams") {
         fFacingTolerance = tag->getParam("Tolerance", "0").to_float();
         fNeedWalkingForward = tag->getParam("NeedWalkingForward", "false").to_bool();

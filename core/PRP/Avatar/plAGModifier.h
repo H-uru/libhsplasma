@@ -19,7 +19,8 @@
 
 #include "PRP/Modifier/plModifier.h"
 
-class PLASMA_DLL plAGModifier : public plSingleModifier {
+class PLASMA_DLL plAGModifier : public plSingleModifier
+{
     CREATABLE(plAGModifier, kAGModifier, plSingleModifier)
 
 protected:

@@ -22,7 +22,8 @@
 #include "Math/hsMatrix44.h"
 #include "plCullPoly.h"
 
-class PLASMA_DLL plOccluder : public plObjInterface {
+class PLASMA_DLL plOccluder : public plObjInterface
+{
     CREATABLE(plOccluder, kOccluder, plObjInterface)
 
 protected:
@@ -33,7 +34,7 @@ protected:
     plKey fSceneNode;
 
 public:
-    plOccluder() : fPriority(0.0f) { }
+    plOccluder() : fPriority() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -65,7 +66,8 @@ public:
 };
 
 
-class PLASMA_DLL plMobileOccluder : public plOccluder {
+class PLASMA_DLL plMobileOccluder : public plOccluder
+{
     CREATABLE(plMobileOccluder, kMobileOccluder, plOccluder)
 
 protected:

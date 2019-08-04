@@ -19,14 +19,15 @@
 
 #include "../Sys/plUnifiedTime.h"
 
-class PLASMA_DLL plVaultNodeRef {
+class PLASMA_DLL plVaultNodeRef
+{
 protected:
     unsigned int fSaver, fParent, fChild;
     plUnifiedTime fAutoTime;
     bool fSeen;
 
 public:
-    plVaultNodeRef() : fSaver(0), fParent(0), fChild(0), fSeen(false) { }
+    plVaultNodeRef() : fSaver(), fParent(), fChild(), fSeen() { }
 
     void read(hsStream* S);
     void write(hsStream* S);

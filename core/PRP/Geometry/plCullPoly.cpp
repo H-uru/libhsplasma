@@ -16,7 +16,8 @@
 
 #include "plCullPoly.h"
 
-void plCullPoly::read(hsStream* S) {
+void plCullPoly::read(hsStream* S)
+{
     fFlags = S->readInt();
     fNorm.read(S);
     fDist = S->readFloat();
@@ -28,7 +29,8 @@ void plCullPoly::read(hsStream* S) {
         fVerts[i].read(S);
 }
 
-void plCullPoly::write(hsStream* S) {
+void plCullPoly::write(hsStream* S)
+{
     S->writeInt(fFlags);
     fNorm.write(S);
     S->writeFloat(fDist);
@@ -40,7 +42,8 @@ void plCullPoly::write(hsStream* S) {
         fVerts[i].write(S);
 }
 
-void plCullPoly::prcWrite(pfPrcHelper* prc) {
+void plCullPoly::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("plCullPoly");
     prc->writeParamHex("Flags", fFlags);
     prc->endTag();
@@ -65,7 +68,8 @@ void plCullPoly::prcWrite(pfPrcHelper* prc) {
     prc->closeTag(); // plCullPoly
 }
 
-void plCullPoly::prcParse(const pfPrcTag* tag) {
+void plCullPoly::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "plCullPoly")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     fFlags = tag->getParam("Flags", "0").to_uint();

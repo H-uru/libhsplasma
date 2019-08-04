@@ -41,7 +41,8 @@ static PyGetSetDef pyParticleWindEffect_GetSet[] = {
 
 PY_PLASMA_TYPE(ParticleWindEffect, plParticleWindEffect, "plParticleWindEffect wrapper")
 
-PY_PLASMA_TYPE_INIT(ParticleWindEffect) {
+PY_PLASMA_TYPE_INIT(ParticleWindEffect)
+{
     pyParticleWindEffect_Type.tp_new = pyParticleWindEffect_new;
     pyParticleWindEffect_Type.tp_getset = pyParticleWindEffect_GetSet;
     pyParticleWindEffect_Type.tp_base = &pyParticleEffect_Type;
@@ -69,7 +70,8 @@ static PyGetSetDef pyParticleLocalWind_GetSet[] = {
 
 PY_PLASMA_TYPE(ParticleLocalWind, plParticleLocalWind, "plParticleLocalWind wrapper")
 
-PY_PLASMA_TYPE_INIT(ParticleLocalWind) {
+PY_PLASMA_TYPE_INIT(ParticleLocalWind)
+{
     pyParticleLocalWind_Type.tp_new = pyParticleLocalWind_new;
     pyParticleLocalWind_Type.tp_getset = pyParticleLocalWind_GetSet;
     pyParticleLocalWind_Type.tp_base = &pyParticleWindEffect_Type;
@@ -100,7 +102,8 @@ static PyGetSetDef pyParticleUniformWind_GetSet[] = {
 PY_PLASMA_TYPE(ParticleUniformWind, plParticleUniformWind,
                "plParticleUniformWind wrapper")
 
-PY_PLASMA_TYPE_INIT(ParticleUniformWind) {
+PY_PLASMA_TYPE_INIT(ParticleUniformWind)
+{
     pyParticleUniformWind_Type.tp_new = pyParticleUniformWind_new;
     pyParticleUniformWind_Type.tp_getset = pyParticleUniformWind_GetSet;
     pyParticleUniformWind_Type.tp_base = &pyParticleWindEffect_Type;

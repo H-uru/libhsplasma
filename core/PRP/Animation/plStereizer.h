@@ -20,7 +20,8 @@
 #include "PRP/Modifier/plModifier.h"
 #include "Math/hsGeometry3.h"
 
-class PLASMA_DLL plStereizer : public plSingleModifier {
+class PLASMA_DLL plStereizer : public plSingleModifier
+{
     CREATABLE(plStereizer, kStereizer, plSingleModifier)
 
 public:
@@ -31,8 +32,9 @@ protected:
     hsVector3 fInitPos;
 
 public:
-    plStereizer() : fAmbientDist(0.0f), fTransition(0.0f), fMaxSepDist(0.0f),
-                    fMinSepDist(0.0f), fTanAng(0.0f) {
+    plStereizer()
+        : fAmbientDist(), fTransition(), fMaxSepDist(), fMinSepDist(), fTanAng()
+    {
         fFlags.setName(kLeftChannel, "kLeftChannel");
         fFlags.setName(kHasMaster, "kHasMaster");
     }

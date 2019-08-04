@@ -21,11 +21,13 @@
 #include "Stream/hsRAMStream.h"
 #include "Util/plZlib.h"
 
-class PLASMA_DLL plNetMsgStreamHelper : public plCreatable {
+class PLASMA_DLL plNetMsgStreamHelper : public plCreatable
+{
     CREATABLE(plNetMsgStreamHelper, kNetMsgStreamHelper, plCreatable)
 
 public:
-    enum CompressionType {
+    enum CompressionType
+    {
         kCompressionNone, kCompressionFailed, kCompressionZlib,
         kCompressionDont
     };
@@ -37,9 +39,9 @@ private:
     unsigned char* fStream;
 
 public:
-    plNetMsgStreamHelper() : fUncompressedSize(0), fCompressionType(0),
-                             fStreamLength(0), fStream(NULL) { }
-    virtual ~plNetMsgStreamHelper();
+    plNetMsgStreamHelper()
+        : fUncompressedSize(), fCompressionType(), fStreamLength(), fStream() { }
+    ~plNetMsgStreamHelper();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -63,7 +65,8 @@ private:
 };
 
 
-class PLASMA_DLL plNetMsgStream : public plNetMessage {
+class PLASMA_DLL plNetMsgStream : public plNetMessage
+{
     CREATABLE(plNetMsgStream, kNetMsgStream, plNetMessage)
 
 private:
@@ -71,7 +74,7 @@ private:
     unsigned char fCompressionType;
 
 public:
-    plNetMsgStream() : fCompressionType(0) { }
+    plNetMsgStream() : fCompressionType() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

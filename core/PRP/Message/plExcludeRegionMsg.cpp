@@ -16,7 +16,8 @@
 
 #include "plExcludeRegionMsg.h"
 
-void plExcludeRegionMsg::read(hsStream* S, plResManager* mgr) {
+void plExcludeRegionMsg::read(hsStream* S, plResManager* mgr)
+{
     plMessage::read(S, mgr);
     fCmd = S->readByte();
     if (S->getVer().isUru() || S->getVer().isUniversal())
@@ -25,14 +26,16 @@ void plExcludeRegionMsg::read(hsStream* S, plResManager* mgr) {
         fSynchFlags = 0;
 }
 
-void plExcludeRegionMsg::write(hsStream* S, plResManager* mgr) {
+void plExcludeRegionMsg::write(hsStream* S, plResManager* mgr)
+{
     plMessage::write(S, mgr);
     S->writeByte(fCmd);
     if (S->getVer().isUru() || S->getVer().isUniversal())
         S->writeInt(fSynchFlags);
 }
 
-void plExcludeRegionMsg::IPrcWrite(pfPrcHelper* prc) {
+void plExcludeRegionMsg::IPrcWrite(pfPrcHelper* prc)
+{
     plMessage::IPrcWrite(prc);
 
     prc->startTag("ExcludeParams");
@@ -41,7 +44,8 @@ void plExcludeRegionMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plExcludeRegionMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plExcludeRegionMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "ExcludeParams") {
         fCmd = tag->getParam("Command", "0").to_uint();
         fSynchFlags = tag->getParam("SynchFlags", "0").to_uint();

@@ -57,7 +57,8 @@ PY_METHOD_VA(AffineParts, write,
     Py_RETURN_NONE;
 }
 
-PY_METHOD_NOARGS(AffineParts, reset, "Resets the transform to the identity") {
+PY_METHOD_NOARGS(AffineParts, reset, "Resets the transform to the identity")
+{
     self->fThis->reset();
     Py_RETURN_NONE;
 }
@@ -88,7 +89,8 @@ PyGetSetDef pyAffineParts_GetSet[] = {
 
 PY_PLASMA_TYPE(AffineParts, hsAffineParts, "Plasma 3DS Max AffineParts wrapper");
 
-PY_PLASMA_TYPE_INIT(AffineParts) {
+PY_PLASMA_TYPE_INIT(AffineParts)
+{
     pyAffineParts_Type.tp_dealloc = pyAffineParts_dealloc;
     pyAffineParts_Type.tp_init = pyAffineParts___init__;
     pyAffineParts_Type.tp_new = pyAffineParts_new;

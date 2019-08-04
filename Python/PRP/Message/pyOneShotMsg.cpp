@@ -21,7 +21,8 @@
 
 PY_PLASMA_NEW(OneShotMsg, plOneShotMsg)
 
-PY_METHOD_NOARGS(OneShotMsg, clearCallbacks, "Remove all callbacks") {
+PY_METHOD_NOARGS(OneShotMsg, clearCallbacks, "Remove all callbacks")
+{
     self->fThis->getCallbacks().clearCallbacks();
     Py_RETURN_NONE;
 }
@@ -66,7 +67,8 @@ static PyMethodDef pyOneShotMsg_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(OneShotMsg, callbacks) {
+PY_GETSET_GETTER_DECL(OneShotMsg, callbacks)
+{
     const plOneShotCallbacks& cbs = self->fThis->getCallbacks();
     PyObject* tup = PyTuple_New(cbs.getNumCallbacks());
     for (size_t i = 0; i < cbs.getNumCallbacks(); ++i) {
@@ -87,7 +89,8 @@ static PyGetSetDef pyOneShotMsg_GetSet[] = {
 
 PY_PLASMA_TYPE(OneShotMsg, plOneShotMsg, "plOneShotMsg wrapper")
 
-PY_PLASMA_TYPE_INIT(OneShotMsg) {
+PY_PLASMA_TYPE_INIT(OneShotMsg)
+{
     pyOneShotMsg_Type.tp_new = pyOneShotMsg_new;
     pyOneShotMsg_Type.tp_methods = pyOneShotMsg_Methods;
     pyOneShotMsg_Type.tp_getset = pyOneShotMsg_GetSet;

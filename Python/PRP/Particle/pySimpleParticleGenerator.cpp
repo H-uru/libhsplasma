@@ -21,7 +21,8 @@
 
 PY_PLASMA_NEW(SimpleParticleGenerator, plSimpleParticleGenerator)
 
-PY_GETSET_GETTER_DECL(SimpleParticleGenerator, initPos) {
+PY_GETSET_GETTER_DECL(SimpleParticleGenerator, initPos)
+{
     const auto& pos = self->fThis->getInitPos();
     PyObject* result = PyTuple_New(pos.size());
     for (size_t i = 0; i < pos.size(); ++i)
@@ -29,7 +30,8 @@ PY_GETSET_GETTER_DECL(SimpleParticleGenerator, initPos) {
     return result;
 }
 
-PY_GETSET_SETTER_DECL(SimpleParticleGenerator, initPos) {
+PY_GETSET_SETTER_DECL(SimpleParticleGenerator, initPos)
+{
     PY_PROPERTY_CHECK_NULL(initPos);
     pySequenceFastRef seq(value);
     if (!seq.isSequence()) {
@@ -52,7 +54,8 @@ PY_GETSET_SETTER_DECL(SimpleParticleGenerator, initPos) {
 PY_PROPERTY_GETSET_DECL(SimpleParticleGenerator, initPos)
 
 
-PY_GETSET_GETTER_DECL(SimpleParticleGenerator, initPitch) {
+PY_GETSET_GETTER_DECL(SimpleParticleGenerator, initPitch)
+{
     const auto& pitch = self->fThis->getInitPitch();
     PyObject* result = PyTuple_New(pitch.size());
     for (size_t i = 0; i < pitch.size(); ++i)
@@ -60,7 +63,8 @@ PY_GETSET_GETTER_DECL(SimpleParticleGenerator, initPitch) {
     return result;
 }
 
-PY_GETSET_SETTER_DECL(SimpleParticleGenerator, initPitch) {
+PY_GETSET_SETTER_DECL(SimpleParticleGenerator, initPitch)
+{
     PY_PROPERTY_CHECK_NULL(initPitch);
     pySequenceFastRef seq(value);
     if (!seq.isSequence()) {
@@ -83,7 +87,8 @@ PY_GETSET_SETTER_DECL(SimpleParticleGenerator, initPitch) {
 PY_PROPERTY_GETSET_DECL(SimpleParticleGenerator, initPitch)
 
 
-PY_GETSET_GETTER_DECL(SimpleParticleGenerator, initYaw) {
+PY_GETSET_GETTER_DECL(SimpleParticleGenerator, initYaw)
+{
     const auto& yaw = self->fThis->getInitYaw();
     PyObject* result = PyTuple_New(yaw.size());
     for (size_t i = 0; i < yaw.size(); ++i)
@@ -91,7 +96,8 @@ PY_GETSET_GETTER_DECL(SimpleParticleGenerator, initYaw) {
     return result;
 }
 
-PY_GETSET_SETTER_DECL(SimpleParticleGenerator, initYaw) {
+PY_GETSET_SETTER_DECL(SimpleParticleGenerator, initYaw)
+{
     PY_PROPERTY_CHECK_NULL(initYaw);
     pySequenceFastRef seq(value);
     if (!seq.isSequence()) {
@@ -153,7 +159,8 @@ static PyGetSetDef pySimpleParticleGenerator_GetSet[] = {
 PY_PLASMA_TYPE(SimpleParticleGenerator, plSimpleParticleGenerator,
                "plSimpleParticleGenerator wrapper")
 
-PY_PLASMA_TYPE_INIT(SimpleParticleGenerator) {
+PY_PLASMA_TYPE_INIT(SimpleParticleGenerator)
+{
     pySimpleParticleGenerator_Type.tp_new = pySimpleParticleGenerator_new;
     pySimpleParticleGenerator_Type.tp_getset = pySimpleParticleGenerator_GetSet;
     pySimpleParticleGenerator_Type.tp_base = &pyParticleGenerator_Type;

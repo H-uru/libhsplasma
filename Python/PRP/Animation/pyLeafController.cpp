@@ -25,19 +25,23 @@
 PY_PLASMA_EMPTY_INIT(LeafController)
 PY_PLASMA_NEW(LeafController, plLeafController)
 
-PY_METHOD_NOARGS(LeafController, hasKeys, NULL) {
+PY_METHOD_NOARGS(LeafController, hasKeys, nullptr)
+{
     return pyPlasma_convert(self->fThis->hasKeys());
 }
 
-PY_METHOD_NOARGS(LeafController, hasEaseControllers, NULL) {
+PY_METHOD_NOARGS(LeafController, hasEaseControllers, nullptr)
+{
     return pyPlasma_convert(self->fThis->hasEaseControllers());
 }
 
-PY_METHOD_NOARGS(LeafController, ExpandToKeyController, NULL) {
+PY_METHOD_NOARGS(LeafController, ExpandToKeyController, nullptr)
+{
     return ICreate(self->fThis->ExpandToKeyController());
 }
 
-PY_METHOD_NOARGS(LeafController, CompactToLeafController, NULL) {
+PY_METHOD_NOARGS(LeafController, CompactToLeafController, nullptr)
+{
     return ICreate(self->fThis->CompactToLeafController());
 }
 
@@ -49,7 +53,8 @@ static PyMethodDef pyLeafController_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(LeafController, keys) {
+PY_GETSET_GETTER_DECL(LeafController, keys)
+{
     const std::vector<hsKeyFrame*>& keys = self->fThis->getKeys();
     PyObject* keyTup = PyTuple_New(keys.size());
     for (size_t i=0; i<keys.size(); i++)
@@ -60,7 +65,8 @@ PY_GETSET_GETTER_DECL(LeafController, keys) {
     return tup;
 }
 
-PY_GETSET_SETTER_DECL(LeafController, keys) {
+PY_GETSET_SETTER_DECL(LeafController, keys)
+{
     PY_PROPERTY_CHECK_NULL(keys)
     if (!PyTuple_Check(value) || PyTuple_Size(value) != 2) {
         PyErr_SetString(PyExc_TypeError, "keys should be a tuple of: sequence (keyframes), int");
@@ -102,7 +108,8 @@ PY_GETSET_SETTER_DECL(LeafController, keys) {
 
 PY_PROPERTY_GETSET_DECL(LeafController, keys)
 
-PY_GETSET_GETTER_DECL(LeafController, easeControllers) {
+PY_GETSET_GETTER_DECL(LeafController, easeControllers)
+{
     const std::vector<plEaseController*>& controllers = self->fThis->getEaseControllers();
     PyObject* list = PyTuple_New(controllers.size());
     for (size_t i=0; i<controllers.size(); i++)
@@ -110,7 +117,8 @@ PY_GETSET_GETTER_DECL(LeafController, easeControllers) {
     return list;
 }
 
-PY_GETSET_SETTER_DECL(LeafController, easeControllers) {
+PY_GETSET_SETTER_DECL(LeafController, easeControllers)
+{
     PY_PROPERTY_CHECK_NULL(easeControllers)
     pySequenceFastRef seq(value);
     if (!seq.isSequence()) {
@@ -146,7 +154,8 @@ static PyGetSetDef pyLeafController_GetSet[] = {
 
 PY_PLASMA_TYPE(LeafController, plLeafController, "plLeafController wrapper")
 
-PY_PLASMA_TYPE_INIT(LeafController) {
+PY_PLASMA_TYPE_INIT(LeafController)
+{
     pyLeafController_Type.tp_init = pyLeafController___init__;
     pyLeafController_Type.tp_new = pyLeafController_new;
     pyLeafController_Type.tp_methods = pyLeafController_Methods;

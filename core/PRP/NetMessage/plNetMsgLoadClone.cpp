@@ -16,7 +16,8 @@
 
 #include "plNetMsgLoadClone.h"
 
-void plNetMsgLoadClone::read(hsStream* S, plResManager* mgr) {
+void plNetMsgLoadClone::read(hsStream* S, plResManager* mgr)
+{
     plNetMsgGameMessage::read(S, mgr);
 
     fObject.read(S);
@@ -25,7 +26,8 @@ void plNetMsgLoadClone::read(hsStream* S, plResManager* mgr) {
     fIsInitialState = S->readBool();
 }
 
-void plNetMsgLoadClone::write(hsStream* S, plResManager* mgr) {
+void plNetMsgLoadClone::write(hsStream* S, plResManager* mgr)
+{
     plNetMsgGameMessage::write(S, mgr);
 
     fObject.write(S);
@@ -34,7 +36,8 @@ void plNetMsgLoadClone::write(hsStream* S, plResManager* mgr) {
     S->writeBool(fIsInitialState);
 }
 
-void plNetMsgLoadClone::IPrcWrite(pfPrcHelper* prc) {
+void plNetMsgLoadClone::IPrcWrite(pfPrcHelper* prc)
+{
     plNetMsgGameMessage::IPrcWrite(prc);
 
     prc->startTag("LoadCloneParams");
@@ -48,7 +51,8 @@ void plNetMsgLoadClone::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plNetMsgLoadClone::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plNetMsgLoadClone::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "LoadCloneParams") {
         fIsPlayer = tag->getParam("IsPlayer", "false").to_bool();
         fIsLoading = tag->getParam("IsLoading", "false").to_bool();

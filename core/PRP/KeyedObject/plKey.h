@@ -37,7 +37,8 @@
  * but rather keep it contained in a plKey object, and use plKeyData's members
  * through the plKey's overloaded pointer operators.
  */
-class PLASMA_DLL plKeyData {
+class PLASMA_DLL plKeyData
+{
 private:
     plUoid fUoid;
     class hsKeyedObject* fObjPtr;
@@ -50,8 +51,7 @@ public:
      * Construct key data for an empty object.  The key will need to be
      * filled in with meaningful data before it is useful.
      */
-    plKeyData() : fUoid(), fObjPtr(NULL), fFileOff(0), fObjSize(0),
-                  fRefCnt(0) { }
+    plKeyData() : fObjPtr(), fFileOff(), fObjSize(), fRefCnt() { }
 
     /**
      * Don't ever use this directly (i.e., don't ever allocate plKeyData
@@ -254,13 +254,14 @@ public:
  * plKey's members, with the addition of Exists() and isLoaded(), which
  * are direct members of the plKey container.
  */
-class PLASMA_DLL plKey HS_FINAL {
+class PLASMA_DLL plKey HS_FINAL
+{
 private:
     plKeyData* fKeyData;
 
 public:
     /** Constructs a NULL plKey.  This will return false for Exists() */
-    plKey() : fKeyData(NULL) { }
+    plKey() : fKeyData() { }
 
     /** Copy constructor */
     plKey(const plKey& init);
@@ -311,7 +312,9 @@ public:
 
     /** Provides sorting functionality for STL containers */
     bool operator<(const plKey& other) const
-    { return fKeyData->getUoid() < other->getUoid(); }
+    {
+        return fKeyData->getUoid() < other->getUoid();
+    }
 
     /**
      * Tests to see if the key refers to an object (not NULL key).

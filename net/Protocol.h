@@ -20,7 +20,8 @@
 #include "PlasmaDefs.h"
 #include "Sys/plUuid.h"
 
-enum ENetError {
+enum ENetError
+{
     kNetPending = -1,
     kNetSuccess = 0, kNetErrInternalError, kNetErrTimeout, kNetErrBadServerData,
     kNetErrAgeNotFound, kNetErrConnectFailed, kNetErrDisconnected,
@@ -43,13 +44,15 @@ enum ENetError {
 };
 PLASMANET_DLL const char* GetNetErrorString(int errcode);
 
-enum ENetProtocol {
+enum ENetProtocol
+{
     kNetProtocolNil, kNetProtocolDebug, kNetProtocolCli2Unused_00,
     kNetProtocolCli2Csr, kNetProtocolCli2Auth, kNetProtocolCli2Game,
     kNetProtocolCli2File, kNetProtocolCli2Unused_01,
 };
 
-enum EConnType {
+enum EConnType
+{
     kConnTypeNil, kConnTypeDebug,
     kConnTypeCliToAuth = 10, kConnTypeCliToGame, kConnTypeSrvToAgent,
     kConnTypeSrvToMcp, kConnTypeSrvToVault, kConnTypeSrvToDb,
@@ -58,7 +61,8 @@ enum EConnType {
     kConnTypeCliToGateKeeper,
 };
 
-enum NetCliConnectMsg {
+enum NetCliConnectMsg
+{
     kNetCliCli2SrvConnect, kNetCliSrv2CliEncrypt, kNetCliSrv2CliError,
 };
 

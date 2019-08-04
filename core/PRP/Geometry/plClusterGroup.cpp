@@ -17,24 +17,28 @@
 #include "plClusterGroup.h"
 
 /* plLODDist */
-void plLODDist::read(hsStream* S) {
+void plLODDist::read(hsStream* S)
+{
     fMinDist = S->readFloat();
     fMaxDist = S->readFloat();
 }
 
-void plLODDist::write(hsStream* S) {
+void plLODDist::write(hsStream* S)
+{
     S->writeFloat(fMinDist);
     S->writeFloat(fMaxDist);
 }
 
-void plLODDist::prcWrite(pfPrcHelper* prc) {
+void plLODDist::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("plLODDist");
     prc->writeParam("Min", fMinDist);
     prc->writeParam("Max", fMaxDist);
     prc->endTag(true);
 }
 
-void plLODDist::prcParse(const pfPrcTag* tag) {
+void plLODDist::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "plLODDist")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
@@ -44,12 +48,14 @@ void plLODDist::prcParse(const pfPrcTag* tag) {
 
 
 /* plClusterGroup */
-plClusterGroup::~plClusterGroup() {
+plClusterGroup::~plClusterGroup()
+{
     for (auto cluster = fClusters.begin(); cluster != fClusters.end(); ++cluster)
         delete *cluster;
 }
 
-void plClusterGroup::read(hsStream* S, plResManager* mgr) {
+void plClusterGroup::read(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::read(S, mgr);
 
     fTemplate.read(S);
@@ -74,7 +80,8 @@ void plClusterGroup::read(hsStream* S, plResManager* mgr) {
     fSceneNode = mgr->readKey(S);
 }
 
-void plClusterGroup::write(hsStream* S, plResManager* mgr) {
+void plClusterGroup::write(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::write(S, mgr);
 
     fTemplate.write(S);
@@ -96,7 +103,8 @@ void plClusterGroup::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fSceneNode);
 }
 
-void plClusterGroup::IPrcWrite(pfPrcHelper* prc) {
+void plClusterGroup::IPrcWrite(pfPrcHelper* prc)
+{
     hsKeyedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("Template");
@@ -135,7 +143,8 @@ void plClusterGroup::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plClusterGroup::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plClusterGroup::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Template") {
         if (tag->hasChildren())
             fTemplate.prcParse(tag->getFirstChild());
@@ -178,12 +187,14 @@ void plClusterGroup::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plClusterGroup::delCluster(size_t idx) {
+void plClusterGroup::delCluster(size_t idx)
+{
     delete fClusters[idx];
     fClusters.erase(fClusters.begin() + idx);
 }
 
-void plClusterGroup::clearClusters() {
+void plClusterGroup::clearClusters()
+{
     for (auto cluster = fClusters.begin(); cluster != fClusters.end(); ++cluster)
         delete *cluster;
     fClusters.clear();

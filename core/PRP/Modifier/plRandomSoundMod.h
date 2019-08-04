@@ -19,13 +19,14 @@
 
 #include "plRandomCommandMod.h"
 
-class PLASMA_DLL plRandomSoundModGroup {
+class PLASMA_DLL plRandomSoundModGroup
+{
 protected:
     std::vector<unsigned short> fIndices;
     short fGroupedIdx;
 
 public:
-    plRandomSoundModGroup() : fGroupedIdx(0) { }
+    plRandomSoundModGroup() : fGroupedIdx() { }
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -34,7 +35,8 @@ public:
 };
 
 
-class PLASMA_DLL plRandomSoundMod : public plRandomCommandMod {
+class PLASMA_DLL plRandomSoundMod : public plRandomCommandMod
+{
     CREATABLE(plRandomSoundMod, kRandomSoundMod, plRandomCommandMod)
 
 protected:

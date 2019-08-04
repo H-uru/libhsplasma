@@ -18,17 +18,20 @@
 #include <algorithm>
 
 /* plSingleModifier */
-void plSingleModifier::read(hsStream* S, plResManager* mgr) {
+void plSingleModifier::read(hsStream* S, plResManager* mgr)
+{
     plSynchedObject::read(S, mgr);
     fFlags.read(S);
 }
 
-void plSingleModifier::write(hsStream* S, plResManager* mgr) {
+void plSingleModifier::write(hsStream* S, plResManager* mgr)
+{
     plSynchedObject::write(S, mgr);
     fFlags.write(S);
 }
 
-void plSingleModifier::IPrcWrite(pfPrcHelper* prc) {
+void plSingleModifier::IPrcWrite(pfPrcHelper* prc)
+{
     plSynchedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("ModFlags");
@@ -36,7 +39,8 @@ void plSingleModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plSingleModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plSingleModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "ModFlags") {
         if (tag->hasChildren())
             fFlags.prcParse(tag->getFirstChild());
@@ -47,17 +51,20 @@ void plSingleModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plMultiModifier */
-void plMultiModifier::read(hsStream* S, plResManager* mgr) {
+void plMultiModifier::read(hsStream* S, plResManager* mgr)
+{
     plSynchedObject::read(S, mgr);
     fFlags.read(S);
 }
 
-void plMultiModifier::write(hsStream* S, plResManager* mgr) {
+void plMultiModifier::write(hsStream* S, plResManager* mgr)
+{
     plSynchedObject::write(S, mgr);
     fFlags.write(S);
 }
 
-void plMultiModifier::IPrcWrite(pfPrcHelper* prc) {
+void plMultiModifier::IPrcWrite(pfPrcHelper* prc)
+{
     plSynchedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("ModFlags");
@@ -65,7 +72,8 @@ void plMultiModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plMultiModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plMultiModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "ModFlags") {
         if (tag->hasChildren())
             fFlags.prcParse(tag->getFirstChild());
@@ -74,7 +82,8 @@ void plMultiModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plMultiModifier::removeTarget(plKey target) {
+void plMultiModifier::removeTarget(const plKey& target)
+{
     auto it = std::find(fTargets.begin(), fTargets.end(), target);
 
     if (it == fTargets.end())

@@ -19,24 +19,27 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plSimulationMsg : public plMessage {
+class PLASMA_DLL plSimulationMsg : public plMessage
+{
     CREATABLE(plSimulationMsg, kSimulationMsg, plMessage)
 };
 
 
-class PLASMA_DLL plSimStateMsg : public plSimulationMsg {
+class PLASMA_DLL plSimStateMsg : public plSimulationMsg
+{
     CREATABLE(plSimStateMsg, kSimStateMsg, plSimulationMsg)
 };
 
 
-class PLASMA_DLL plSimSuppressMsg : public plSimStateMsg {
+class PLASMA_DLL plSimSuppressMsg : public plSimStateMsg
+{
     CREATABLE(plSimSuppressMsg, kSimSuppressMsg, plSimStateMsg)
 
 protected:
     bool fSuppress;
 
 public:
-    plSimSuppressMsg() : fSuppress(false) { }
+    plSimSuppressMsg() : fSuppress() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -47,7 +50,8 @@ protected:
 };
 
 
-class PLASMA_DLL plSubWorldMsg : public plSimulationMsg {
+class PLASMA_DLL plSubWorldMsg : public plSimulationMsg
+{
     CREATABLE(plSubWorldMsg, kSubWorldMsg, plSimulationMsg)
 
 protected:

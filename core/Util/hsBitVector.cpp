@@ -18,24 +18,28 @@
 #include <cstring>
 
 /* hsBitVector::Bit */
-bool hsBitVector::Bit::operator==(bool value) const {
+bool hsBitVector::Bit::operator==(bool value) const
+{
     return fVector.get(fOffset) == value;
 }
 
-hsBitVector::Bit& hsBitVector::Bit::operator=(bool value) {
+hsBitVector::Bit& hsBitVector::Bit::operator=(bool value)
+{
     fVector.set(fOffset, value);
     return *this;
 }
 
 
 /* hsBiVector */
-bool hsBitVector::get(size_t idx) const {
+bool hsBitVector::get(size_t idx) const
+{
     if ((idx / BIT_VEC_WORD) >= fBits.size())
         return false;
     return (fBits[idx / BIT_VEC_WORD] & (1 << (idx & BIT_VEC_MASK))) != 0;
 }
 
-void hsBitVector::set(size_t idx, bool b) {
+void hsBitVector::set(size_t idx, bool b)
+{
     if ((idx / BIT_VEC_WORD) >= fBits.size())
         fBits.resize((idx / BIT_VEC_WORD) + 1, 0);
 
@@ -45,12 +49,14 @@ void hsBitVector::set(size_t idx, bool b) {
         fBits[idx / BIT_VEC_WORD] &= ~(1 << (idx & BIT_VEC_MASK));
 }
 
-hsBitVector& hsBitVector::operator=(const hsBitVector& cpy) {
+hsBitVector& hsBitVector::operator=(const hsBitVector& cpy)
+{
     fBits = cpy.fBits;
     return *this;
 }
 
-void hsBitVector::compact() {
+void hsBitVector::compact()
+{
     size_t newSize = fBits.size();
     while (newSize > 0 && fBits[newSize-1] == 0)
         newSize--;
@@ -58,14 +64,16 @@ void hsBitVector::compact() {
         fBits.resize(newSize);
 }
 
-ST::string hsBitVector::getName(size_t idx) {
+ST::string hsBitVector::getName(size_t idx)
+{
     if (fBitNames.count(idx) > 0)
         return fBitNames[idx];
     else
         return ST::string::from_uint(idx);
 }
 
-size_t hsBitVector::getValue(const ST::string& name) {
+size_t hsBitVector::getValue(const ST::string& name)
+{
     for (const auto& bit : fBitNames) {
         if (bit.second == name)
             return bit.first;
@@ -73,14 +81,16 @@ size_t hsBitVector::getValue(const ST::string& name) {
     return name.to_uint();
 }
 
-void hsBitVector::read(hsStream* S) {
+void hsBitVector::read(hsStream* S)
+{
     size_t count = S->readInt();
     fBits.resize(count);
     for (size_t i = 0; i < count; ++i)
         fBits[i] = S->readInt();
 }
 
-void hsBitVector::write(hsStream* S) {
+void hsBitVector::write(hsStream* S)
+{
 #ifdef DEBUG
     /* Don't modify the written objects.  We might want to compare them
      * to test round-tripping files through libhsplasma. */
@@ -93,7 +103,8 @@ void hsBitVector::write(hsStream* S) {
         S->writeInt(bit);
 }
 
-void hsBitVector::prcWrite(pfPrcHelper* prc) {
+void hsBitVector::prcWrite(pfPrcHelper* prc)
+{
     prc->writeTagNoBreak("hsBitVector");
     for (size_t i = 0; i < size(); ++i) {
         if (get(i)) {
@@ -104,7 +115,8 @@ void hsBitVector::prcWrite(pfPrcHelper* prc) {
     prc->closeTagNoBreak();
 }
 
-void hsBitVector::prcParse(const pfPrcTag* tag) {
+void hsBitVector::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "hsBitVector")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 

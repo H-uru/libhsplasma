@@ -23,7 +23,8 @@ PY_WRAP_PLASMA(LODDist, class plLODDist);
 PY_WRAP_PLASMA(ClusterGroup, class plClusterGroup);
 
 /* Python property helpers */
-inline PyObject* pyPlasma_convert(class plLODDist* value) {
+inline PyObject* pyPlasma_convert(class plLODDist* value)
+{
     return pyLODDist_FromLODDist(value);
 }
 

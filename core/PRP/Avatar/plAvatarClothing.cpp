@@ -26,7 +26,8 @@ const char* const plClothingOutfit::TypeNames[] = {
     "LeftFoot", "RightFoot", "Accessory"
 };
 
-void plClothingOutfit::read(hsStream* S, plResManager* mgr) {
+void plClothingOutfit::read(hsStream* S, plResManager* mgr)
+{
     plSynchedObject::read(S, mgr);
 
     fGroup = S->readByte();
@@ -37,7 +38,8 @@ void plClothingOutfit::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plClothingOutfit::write(hsStream* S, plResManager* mgr) {
+void plClothingOutfit::write(hsStream* S, plResManager* mgr)
+{
     plSynchedObject::write(S, mgr);
 
     S->writeByte(fGroup);
@@ -48,7 +50,8 @@ void plClothingOutfit::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plClothingOutfit::IPrcWrite(pfPrcHelper* prc) {
+void plClothingOutfit::IPrcWrite(pfPrcHelper* prc)
+{
     plSynchedObject::IPrcWrite(prc);
 
     prc->startTag("Group");
@@ -70,7 +73,8 @@ void plClothingOutfit::IPrcWrite(pfPrcHelper* prc) {
     }
 }
 
-void plClothingOutfit::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plClothingOutfit::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Group") {
         ST::string grpName = tag->getParam("Type", "");
         fGroup = kClothingGroupNoOptions;
@@ -94,7 +98,8 @@ void plClothingOutfit::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plClothingBase */
-void plClothingBase::read(hsStream* S, plResManager* mgr) {
+void plClothingBase::read(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::read(S, mgr);
 
     fName = S->readSafeStr();
@@ -103,7 +108,8 @@ void plClothingBase::read(hsStream* S, plResManager* mgr) {
     fLayoutName = S->readSafeStr();
 }
 
-void plClothingBase::write(hsStream* S, plResManager* mgr) {
+void plClothingBase::write(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::write(S, mgr);
 
     S->writeSafeStr(fName);
@@ -116,7 +122,8 @@ void plClothingBase::write(hsStream* S, plResManager* mgr) {
     S->writeSafeStr(fLayoutName);
 }
 
-void plClothingBase::IPrcWrite(pfPrcHelper* prc) {
+void plClothingBase::IPrcWrite(pfPrcHelper* prc)
+{
     hsKeyedObject::IPrcWrite(prc);
 
     prc->startTag("ClothingBaseParams");
@@ -129,7 +136,8 @@ void plClothingBase::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plClothingBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plClothingBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "ClothingBaseParams") {
         fName = tag->getParam("Name", "");
         fLayoutName = tag->getParam("Layout", "");

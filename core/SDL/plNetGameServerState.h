@@ -21,9 +21,11 @@
 #include "plStateDataRecord.h"
 #include "Sys/plUuid.h"
 
-class PLASMA_DLL plNetServerSessionInfo {
+class PLASMA_DLL plNetServerSessionInfo
+{
 public:
-    enum {
+    enum
+    {
         kHasServerName = 0x01,
         kHasServerType = 0x02,
         kHasServerAddr = 0x04,
@@ -39,7 +41,7 @@ private:
     plUuid fServerGuid;
 
 public:
-    plNetServerSessionInfo() : fServerType(0), fServerPort(0) { }
+    plNetServerSessionInfo() : fContents(), fServerType(), fServerPort() { }
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -66,9 +68,11 @@ public:
 };
 
 
-class PLASMA_DLL plNetGameServerState {
+class PLASMA_DLL plNetGameServerState
+{
 public:
-    enum Flags {
+    enum Flags
+    {
         kCompressed = 0x1,
         kCompressFailed = 0x2,
         kUnCompressFailed = 0x4,
@@ -101,7 +105,10 @@ public:
     void setFlags(uint32_t flags) { fFlags = flags; }
 
     void setVersion(uint16_t major, uint16_t minor)
-    { fMajorVer = major; fMinorVer = minor; }
+    {
+        fMajorVer = major;
+        fMinorVer = minor;
+    }
 
     size_t numRecords() const { return fRecords.size(); }
     plStateDataRecord* getRecord(size_t idx) const { return fRecords[idx]; }

@@ -16,24 +16,22 @@
 
 #include "plDistOpacityMod.h"
 
-plDistOpacityMod::plDistOpacityMod() {
-    for (size_t i=0; i<4; i++)
-        fDists[i] = 0.0f;
-}
-
-void plDistOpacityMod::read(hsStream* S, plResManager* mgr) {
+void plDistOpacityMod::read(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::read(S, mgr);
     for (size_t i=0; i<4; i++)
         fDists[i] = S->readFloat();
 }
 
-void plDistOpacityMod::write(hsStream* S, plResManager* mgr) {
+void plDistOpacityMod::write(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::write(S, mgr);
     for (size_t i=0; i<4; i++)
         S->writeFloat(fDists[i]);
 }
 
-void plDistOpacityMod::IPrcWrite(pfPrcHelper* prc) {
+void plDistOpacityMod::IPrcWrite(pfPrcHelper* prc)
+{
     plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("DistOpacity");
@@ -44,7 +42,8 @@ void plDistOpacityMod::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plDistOpacityMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plDistOpacityMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "DistOpacity") {
         fDists[0] = tag->getParam("NearTrans", "0").to_float();
         fDists[1] = tag->getParam("NearOpaq", "0").to_float();

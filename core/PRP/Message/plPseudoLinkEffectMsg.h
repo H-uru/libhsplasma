@@ -19,14 +19,16 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plPseudoLinkEffectMsg : public plMessage {
+class PLASMA_DLL plPseudoLinkEffectMsg : public plMessage
+{
     CREATABLE(plPseudoLinkEffectMsg, kPseudoLinkEffectMsg, plMessage)
 
 protected:
     plKey fLinkObjKey, fAvatarKey;
 
 public:
-    plPseudoLinkEffectMsg() {
+    plPseudoLinkEffectMsg()
+    {
         fBCastFlags |= (kNetPropagate | kBCastByExactType);
     }
 

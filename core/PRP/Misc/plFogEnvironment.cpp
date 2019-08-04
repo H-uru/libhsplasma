@@ -20,7 +20,8 @@ const char* const plFogEnvironment::FogTypeNames[] = {
     "Linear", "Exp", "Exp2", "None"
 };
 
-void plFogEnvironment::read(hsStream* S, plResManager* mgr) {
+void plFogEnvironment::read(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::read(S, mgr);
     fType = S->readByte();
     fStart = S->readFloat();
@@ -29,7 +30,8 @@ void plFogEnvironment::read(hsStream* S, plResManager* mgr) {
     fColor.read(S);
 }
 
-void plFogEnvironment::write(hsStream* S, plResManager* mgr) {
+void plFogEnvironment::write(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::write(S, mgr);
     S->writeByte(fType);
     S->writeFloat(fStart);
@@ -38,7 +40,8 @@ void plFogEnvironment::write(hsStream* S, plResManager* mgr) {
     fColor.write(S);
 }
 
-void plFogEnvironment::IPrcWrite(pfPrcHelper* prc) {
+void plFogEnvironment::IPrcWrite(pfPrcHelper* prc)
+{
     hsKeyedObject::IPrcWrite(prc);
 
     prc->startTag("FogParams");
@@ -53,7 +56,8 @@ void plFogEnvironment::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plFogEnvironment::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plFogEnvironment::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "FogParams") {
         ST::string fogTypeName = tag->getParam("Type", "");
         fType = kNoFog;

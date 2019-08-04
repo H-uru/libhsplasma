@@ -22,7 +22,8 @@
 
 PY_PLASMA_VALUE_DEALLOC(ColorRGBA)
 
-PY_PLASMA_INIT_DECL(ColorRGBA) {
+PY_PLASMA_INIT_DECL(ColorRGBA)
+{
     float red = 0.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f;
     PyObject* init = NULL;
     static char* kwlist[] = { _pycs("red"), _pycs("green"), _pycs("blue"),
@@ -48,7 +49,8 @@ PY_PLASMA_INIT_DECL(ColorRGBA) {
 
 PY_PLASMA_VALUE_NEW(ColorRGBA, hsColorRGBA)
 
-PY_PLASMA_REPR_DECL(ColorRGBA) {
+PY_PLASMA_REPR_DECL(ColorRGBA)
+{
     ST::string repr = ST::format("hsColorRGBA({f}, {f}, {f}, {f})",
         self->fThis->r, self->fThis->g, self->fThis->b, self->fThis->a);
     return pyPlasma_convert(repr);
@@ -182,7 +184,8 @@ static PyGetSetDef pyColorRGBA_GetSet[] = {
 
 PY_PLASMA_TYPE(ColorRGBA, hsColorRGBA, "hsColorRGBA wrapper")
 
-PY_PLASMA_TYPE_INIT(ColorRGBA) {
+PY_PLASMA_TYPE_INIT(ColorRGBA)
+{
     pyColorRGBA_Type.tp_dealloc = pyColorRGBA_dealloc;
     pyColorRGBA_Type.tp_init = pyColorRGBA___init__;
     pyColorRGBA_Type.tp_new = pyColorRGBA_new;

@@ -19,7 +19,8 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plEventCallbackMsg : public plMessage {
+class PLASMA_DLL plEventCallbackMsg : public plMessage
+{
     CREATABLE(plEventCallbackMsg, kEventCallbackMsg, plMessage)
 
 protected:
@@ -29,8 +30,7 @@ protected:
 
 public:
     plEventCallbackMsg()
-        : fEventTime(0.0f), fEvent((CallbackEvent)0), fIndex(0),
-          fRepeats(0), fUser(0) { }
+        : fEventTime(), fEvent(), fIndex(), fRepeats(), fUser() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -54,17 +54,18 @@ public:
 };
 
 
-class PLASMA_DLL plEventCallbackSetupMsg : public plMessage {
+class PLASMA_DLL plEventCallbackSetupMsg : public plMessage
+{
     CREATABLE(plEventCallbackSetupMsg, kEventCallbackSetupMsg, plMessage)
 
 public:
-    class PLASMA_DLL plAnimCallbackSetup {
-    public:
+    struct PLASMA_DLL plAnimCallbackSetup
+    {
         ST::string fMarker;
         plKey fReceiver;
         short fUser;
 
-        plAnimCallbackSetup() : fUser(0) { }
+        plAnimCallbackSetup() : fUser() { }
     };
 
 protected:

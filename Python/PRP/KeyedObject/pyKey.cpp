@@ -24,16 +24,19 @@
 PY_PLASMA_VALUE_DEALLOC(Key)
 PY_PLASMA_NEW_MSG(Key, "Cannot construct Keys directly")
 
-PY_PLASMA_REPR_DECL(Key) {
+PY_PLASMA_REPR_DECL(Key)
+{
     ST::string repr = ST::format("<plKey \"{}\">", self->fThis->toString());
     return pyPlasma_convert(repr);
 }
 
-PY_PLASMA_HASH_DECL(Key) {
+PY_PLASMA_HASH_DECL(Key)
+{
     return (Py_hash_t)(plKeyData*)(*self->fThis);
 }
 
-PY_PLASMA_RICHCOMPARE_DECL(Key) {
+PY_PLASMA_RICHCOMPARE_DECL(Key)
+{
     bool result = false;
 
     if (!pyKey_Check((PyObject*)right)) {
@@ -145,11 +148,13 @@ PY_METHOD_VA(Key, writeUoid,
     Py_RETURN_NONE;
 }
 
-PY_METHOD_NOARGS(Key, exists, "Returns True if the key exists") {
+PY_METHOD_NOARGS(Key, exists, "Returns True if the key exists")
+{
     return pyPlasma_convert(self->fThis->Exists());
 }
 
-PY_METHOD_NOARGS(Key, isLoaded, "Returns True if the key is loaded") {
+PY_METHOD_NOARGS(Key, isLoaded, "Returns True if the key is loaded")
+{
     return pyPlasma_convert(self->fThis->isLoaded());
 }
 
@@ -183,17 +188,20 @@ static PyMethodDef pyKey_Methods[] = {
 /* NOTE: Not using standard PY_PROPERTY() wrappers, since the plKey needs to
  * be dereferenced in all the getters/setters below */
 
-PY_GETSET_GETTER_DECL(Key, type) {
+PY_GETSET_GETTER_DECL(Key, type)
+{
     return pyPlasma_convert((*self->fThis)->getType());
 }
 
 PY_PROPERTY_GETSET_RO_DECL(Key, type)
 
-PY_GETSET_GETTER_DECL(Key, name) {
+PY_GETSET_GETTER_DECL(Key, name)
+{
     return pyPlasma_convert((*self->fThis)->getName());
 }
 
-PY_GETSET_SETTER_DECL(Key, name) {
+PY_GETSET_SETTER_DECL(Key, name)
+{
     PY_PROPERTY_CHECK_NULL(name)
     if (!pyPlasma_check<ST::string>(value)) {
         PyErr_SetString(PyExc_TypeError, "name expected type plString");
@@ -205,11 +213,13 @@ PY_GETSET_SETTER_DECL(Key, name) {
 
 PY_PROPERTY_GETSET_DECL(Key, name)
 
-PY_GETSET_GETTER_DECL(Key, location) {
+PY_GETSET_GETTER_DECL(Key, location)
+{
     return pyLocation_FromLocation((*self->fThis)->getLocation());
 }
 
-PY_GETSET_SETTER_DECL(Key, location) {
+PY_GETSET_SETTER_DECL(Key, location)
+{
     PY_PROPERTY_CHECK_NULL(location)
     if (value == Py_None) {
         (*self->fThis)->setLocation(plLocation());
@@ -224,11 +234,13 @@ PY_GETSET_SETTER_DECL(Key, location) {
 
 PY_PROPERTY_GETSET_DECL(Key, location)
 
-PY_GETSET_GETTER_DECL(Key, mask) {
+PY_GETSET_GETTER_DECL(Key, mask)
+{
     return pyPlasma_convert((*self->fThis)->getLoadMask().getMask());
 }
 
-PY_GETSET_SETTER_DECL(Key, mask) {
+PY_GETSET_SETTER_DECL(Key, mask)
+{
     PY_PROPERTY_CHECK_NULL(mask)
     if (!pyPlasma_check<unsigned short>(value)) {
         PyErr_SetString(PyExc_TypeError, "mask expected type unsigned short");
@@ -242,11 +254,13 @@ PY_GETSET_SETTER_DECL(Key, mask) {
 
 PY_PROPERTY_GETSET_DECL(Key, mask)
 
-PY_GETSET_GETTER_DECL(Key, id) {
+PY_GETSET_GETTER_DECL(Key, id)
+{
     return pyPlasma_convert((*self->fThis)->getID());
 }
 
-PY_GETSET_SETTER_DECL(Key, id) {
+PY_GETSET_SETTER_DECL(Key, id)
+{
     PY_PROPERTY_CHECK_NULL(id)
     if (!pyPlasma_check<uint32_t>(value)) {
         PyErr_SetString(PyExc_TypeError, "id expected type uint32_t");
@@ -258,7 +272,8 @@ PY_GETSET_SETTER_DECL(Key, id) {
 
 PY_PROPERTY_GETSET_DECL(Key, id)
 
-PY_GETSET_GETTER_DECL(Key, object) {
+PY_GETSET_GETTER_DECL(Key, object)
+{
     return ICreate((*self->fThis)->getObj());
 }
 
@@ -276,7 +291,8 @@ static PyGetSetDef pyKey_GetSet[] = {
 
 PY_PLASMA_TYPE(Key, plKey, "plKey wrapper")
 
-PY_PLASMA_TYPE_INIT(Key) {
+PY_PLASMA_TYPE_INIT(Key)
+{
     pyKey_Type.tp_dealloc = pyKey_dealloc;
     pyKey_Type.tp_new = pyKey_new;
     pyKey_Type.tp_repr = pyKey_repr;
@@ -293,7 +309,8 @@ PY_PLASMA_TYPE_INIT(Key) {
 
 PY_PLASMA_CHECK_TYPE(Key)
 
-PyObject* pyKey_FromKey(const plKey& key) {
+PyObject* pyKey_FromKey(const plKey& key)
+{
     if (!key.Exists())
         Py_RETURN_NONE;
     pyKey* obj = PyObject_New(pyKey, &pyKey_Type);

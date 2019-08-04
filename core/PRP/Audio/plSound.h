@@ -21,11 +21,13 @@
 #include "Math/hsGeometry3.h"
 #include "plEAXEffects.h"
 
-class PLASMA_DLL plSound : public plSynchedObject {
+class PLASMA_DLL plSound : public plSynchedObject
+{
     CREATABLE(plSound, kSound, plSynchedObject)
 
 public:
-    enum Property {
+    enum Property
+    {
         kPropIs3DSound = 0x1,
         kPropDisableLOD = 0x2,
         kPropLooping = 0x4,
@@ -37,18 +39,21 @@ public:
         kPropIncidental = 0x100
     };
 
-    enum Type {
+    enum Type
+    {
         kStartType = 0,
         kSoundFX = kStartType, kAmbience, kBackgroundMusic, kGUISound,
         kNPCVoices, kNumTypes
     };
 
-    enum StreamType {
+    enum StreamType
+    {
         kNoStream, kStreamFromRAM, kStreamFromDisk, kStreamCompressed
     };
 
 public:
-    class PLASMA_DLL plFadeParams {
+    class PLASMA_DLL plFadeParams
+    {
     public:
         enum Type { kLinear, kLogarithmic, kExponential };
 
@@ -59,8 +64,8 @@ public:
 
     public:
         plFadeParams()
-            : fLengthInSecs(0), fVolStart(0.0f), fVolEnd(0.0f), fType(kLinear),
-              fStopWhenDone(false), fFadeSoftVol(false), fCurrTime(0.0f) { }
+            : fLengthInSecs(), fVolStart(), fVolEnd(), fType(kLinear),
+              fStopWhenDone(), fFadeSoftVol(), fCurrTime() { }
 
         void read(hsStream* S);
         void write(hsStream* S);
@@ -82,10 +87,10 @@ protected:
     ST::string fSubtitleId;
 
 public:
-    plSound() : fType(kStartType), fPriority(0), fPlaying(false), fTime(0.0f),
-                fMaxFalloff(0), fMinFalloff(0), fOuterVol(0), fInnerCone(360),
-                fOuterCone(360), fCurrVolume(0.0f), fDesiredVol(0.0f),
-                fFadedVolume(0.0f), fProperties(0) { }
+    plSound()
+        : fType(kStartType), fPriority(), fPlaying(), fTime(), fMaxFalloff(),
+          fMinFalloff(), fOuterVol(), fInnerCone(360), fOuterCone(360),
+          fCurrVolume(), fDesiredVol(), fFadedVolume(), fProperties() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

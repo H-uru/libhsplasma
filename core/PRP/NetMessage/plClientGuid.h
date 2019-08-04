@@ -20,11 +20,13 @@
 #include "PRP/plCreatable.h"
 #include "Sys/plUuid.h"
 
-class PLASMA_DLL plClientGuid : public plCreatable {
+class PLASMA_DLL plClientGuid : public plCreatable
+{
     CREATABLE(plClientGuid, kClientGuid, plCreatable)
 
 public:
-    enum Flags {
+    enum Flags
+    {
         kAcctUuid = 0x1,
         kPlayerID = 0x2,
         kTempPlayerID = 0x4,
@@ -50,7 +52,7 @@ private:
     ST::string fClientKey;
 
 public:
-    plClientGuid() : fFlags(0) { }
+    plClientGuid() : fFlags() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

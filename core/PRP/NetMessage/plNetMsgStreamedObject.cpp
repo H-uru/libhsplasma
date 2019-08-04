@@ -17,7 +17,8 @@
 #include "plNetMsgStreamedObject.h"
 
 /* plNetMsgStreamedObject */
-void plNetMsgStreamedObject::read(hsStream* S, plResManager* mgr) {
+void plNetMsgStreamedObject::read(hsStream* S, plResManager* mgr)
+{
     plNetMsgObject::read(S, mgr);
 
     plNetMsgStreamHelper helper;
@@ -28,7 +29,8 @@ void plNetMsgStreamedObject::read(hsStream* S, plResManager* mgr) {
     // TODO: Decompression
 }
 
-void plNetMsgStreamedObject::write(hsStream* S, plResManager* mgr) {
+void plNetMsgStreamedObject::write(hsStream* S, plResManager* mgr)
+{
     plNetMsgObject::write(S, mgr);
 
     plNetMsgStreamHelper helper;
@@ -41,7 +43,8 @@ void plNetMsgStreamedObject::write(hsStream* S, plResManager* mgr) {
     delete[] buf;
 }
 
-void plNetMsgStreamedObject::IPrcWrite(pfPrcHelper* prc) {
+void plNetMsgStreamedObject::IPrcWrite(pfPrcHelper* prc)
+{
     plNetMsgObject::IPrcWrite(prc);
 
     plNetMsgStreamHelper helper;
@@ -52,7 +55,8 @@ void plNetMsgStreamedObject::IPrcWrite(pfPrcHelper* prc) {
     delete[] buf;
 }
 
-void plNetMsgStreamedObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plNetMsgStreamedObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "plNetMsgStreamHelper") {
         plNetMsgStreamHelper helper;
         helper.prcParse(tag, mgr);

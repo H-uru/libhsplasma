@@ -19,7 +19,8 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plServerReplyMsg : public plMessage {
+class PLASMA_DLL plServerReplyMsg : public plMessage
+{
     CREATABLE(plServerReplyMsg, kServerReplyMsg, plMessage)
 
 public:

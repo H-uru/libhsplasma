@@ -31,7 +31,8 @@ static PyGetSetDef pyHKSubWorld_GetSet[] = {
 
 PY_PLASMA_TYPE(HKSubWorld, plHKSubWorld, "plHKSubWorld wrapper")
 
-PY_PLASMA_TYPE_INIT(HKSubWorld) {
+PY_PLASMA_TYPE_INIT(HKSubWorld)
+{
     pyHKSubWorld_Type.tp_new = pyHKSubWorld_new;
     pyHKSubWorld_Type.tp_getset = pyHKSubWorld_GetSet;
     pyHKSubWorld_Type.tp_base = &pyObjInterface_Type;

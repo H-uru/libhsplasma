@@ -17,7 +17,8 @@
 #include "plGeometrySpan.h"
 #include "Debug/plDebug.h"
 
-unsigned int plGeometrySpan::CalcVertexSize(unsigned char format) {
+unsigned int plGeometrySpan::CalcVertexSize(unsigned char format)
+{
     unsigned int size = ((format & kUVCountMask) + 2) * 12;
     size += ((format & kSkinWeightMask) >> 4) * sizeof(float);
     if (format & kSkinIndices)
@@ -25,7 +26,8 @@ unsigned int plGeometrySpan::CalcVertexSize(unsigned char format) {
     return size;
 }
 
-void plGeometrySpan::read(hsStream* S) {
+void plGeometrySpan::read(hsStream* S)
+{
     fLocalToWorld.read(S);
     fWorldToLocal.read(S);
     fLocalBounds.read(S);
@@ -97,7 +99,8 @@ void plGeometrySpan::read(hsStream* S) {
     }
 }
 
-void plGeometrySpan::write(hsStream* S) {
+void plGeometrySpan::write(hsStream* S)
+{
     fLocalToWorld.write(S);
     fWorldToLocal.write(S);
     fLocalBounds.write(S);
@@ -142,7 +145,8 @@ void plGeometrySpan::write(hsStream* S) {
     }
 }
 
-void plGeometrySpan::prcWrite(pfPrcHelper* prc) {
+void plGeometrySpan::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("plGeometrySpan");
     prc->writeParam("BaseMatrix", fBaseMatrix);
     prc->writeParam("NumMatrices", fNumMatrices);
@@ -230,7 +234,8 @@ void plGeometrySpan::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();    // plGeometrySpan
 }
 
-void plGeometrySpan::prcParse(const pfPrcTag* tag) {
+void plGeometrySpan::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "plGeometrySpan")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
@@ -360,7 +365,8 @@ void plGeometrySpan::prcParse(const pfPrcTag* tag) {
     }
 }
 
-std::vector<plGeometrySpan::TempVertex> plGeometrySpan::getVertices() const {
+std::vector<plGeometrySpan::TempVertex> plGeometrySpan::getVertices() const
+{
     std::vector<TempVertex> buf(fNumVerts);
 
     const unsigned char* cp = &fVertexData[0];
@@ -396,7 +402,8 @@ std::vector<plGeometrySpan::TempVertex> plGeometrySpan::getVertices() const {
     return buf;
 }
 
-void plGeometrySpan::setVertices(const std::vector<TempVertex>& verts) {
+void plGeometrySpan::setVertices(const std::vector<TempVertex>& verts)
+{
     fVertexData.clear();
     fDiffuseRGBA.clear();
     fSpecularRGBA.clear();

@@ -34,7 +34,8 @@ static PyGetSetDef pyGUISkin_GetSet[] = {
 
 PY_PLASMA_TYPE(GUISkin, pfGUISkin, "pfGUISkin wrapper")
 
-PY_PLASMA_TYPE_INIT(GUISkin) {
+PY_PLASMA_TYPE_INIT(GUISkin)
+{
     pyGUISkin_Type.tp_new = pyGUISkin_new;
     pyGUISkin_Type.tp_getset = pyGUISkin_GetSet;
     pyGUISkin_Type.tp_base = &pyKeyedObject_Type;

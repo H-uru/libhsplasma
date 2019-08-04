@@ -22,14 +22,16 @@
 PY_PLASMA_VALUE_DEALLOC(TempVertex)
 PY_PLASMA_VALUE_NEW(TempVertex, plGeometrySpan::TempVertex)
 
-PY_GETSET_GETTER_DECL(TempVertex, uvs) {
+PY_GETSET_GETTER_DECL(TempVertex, uvs)
+{
     PyObject* list = PyTuple_New(8);
     for (size_t i = 0; i < 8; ++i)
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->fUVs[i]));
     return list;
 }
 
-PY_GETSET_SETTER_DECL(TempVertex, uvs) {
+PY_GETSET_SETTER_DECL(TempVertex, uvs)
+{
     PY_PROPERTY_CHECK_NULL(uvs)
     pySequenceFastRef seq(value);
     if (!seq.isSequence()) {
@@ -50,14 +52,16 @@ PY_GETSET_SETTER_DECL(TempVertex, uvs) {
 
 PY_PROPERTY_GETSET_DECL(TempVertex, uvs)
 
-PY_GETSET_GETTER_DECL(TempVertex, weights) {
+PY_GETSET_GETTER_DECL(TempVertex, weights)
+{
     PyObject* list = PyTuple_New(3);
     for (size_t i = 0; i < 3; ++i)
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->fWeights[i]));
     return list;
 }
 
-PY_GETSET_SETTER_DECL(TempVertex, weights) {
+PY_GETSET_SETTER_DECL(TempVertex, weights)
+{
     PY_PROPERTY_CHECK_NULL(weights)
     pySequenceFastRef seq(value);
     if (!seq.isSequence()) {
@@ -78,11 +82,13 @@ PY_GETSET_SETTER_DECL(TempVertex, weights) {
 
 PY_PROPERTY_GETSET_DECL(TempVertex, weights)
 
-PY_GETSET_GETTER_DECL(TempVertex, color) {
+PY_GETSET_GETTER_DECL(TempVertex, color)
+{
     return pyColor32_FromColor32(hsColor32(self->fThis->fColor));
 }
 
-PY_GETSET_SETTER_DECL(TempVertex, color) {
+PY_GETSET_SETTER_DECL(TempVertex, color)
+{
     PY_PROPERTY_CHECK_NULL(color)
     if (pyColor32_Check(value)) {
         self->fThis->fColor = ((pyColor32*)value)->fThis->color;
@@ -114,7 +120,8 @@ PyGetSetDef pyTempVertex_GetSet[] = {
 
 PY_PLASMA_TYPE(TempVertex, plGeometrySpan.TempVertex, "plGeometrySpan::TempVertex wrapper")
 
-PY_PLASMA_TYPE_INIT(TempVertex) {
+PY_PLASMA_TYPE_INIT(TempVertex)
+{
     pyTempVertex_Type.tp_dealloc = pyTempVertex_dealloc;
     pyTempVertex_Type.tp_new = pyTempVertex_new;
     pyTempVertex_Type.tp_getset = pyTempVertex_GetSet;

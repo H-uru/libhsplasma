@@ -75,10 +75,12 @@ public:\
 #define MAKE_VERSION(plsMaj, plsMin, revMaj, revMin) \
     ((plsMaj << 28) | (plsMin << 24) | (revMaj << 12) | revMin)
 
-class PLASMA_DLL PlasmaVer {
+class PLASMA_DLL PlasmaVer
+{
 public:
     /* These MUST remain in order for version matching to work */
-    enum {
+    enum
+    {
         pvUnknown   = 0,
         pvPrime     = MAKE_VERSION(2, 0, 63, 11),
         pvPots      = MAKE_VERSION(2, 0, 63, 12),
@@ -96,7 +98,8 @@ public:
     PlasmaVer(int version = pvUnknown) : fVersion(version) { }
     void set(int version) { fVersion = version; }
 
-    PlasmaVer& operator=(int version) {
+    PlasmaVer& operator=(int version)
+    {
         fVersion = version;
         return *this;
     }
@@ -120,7 +123,12 @@ public:
     bool isUruSP() const { return (fVersion & MASK_REVMAJ) <= MAKE_VERSION(2, 0, 63, 0) && isValid(); }
     bool isLive() const { return isUru() && !isUruSP(); }
     bool isNewPlasma() const { return (fVersion >= MAKE_VERSION(2, 1, 0, 0)) && !isUniversal(); }
-    bool isSafeVer() const { return fVersion == pvPrime || fVersion == pvPots || fVersion == pvMoul || fVersion == pvEoa || fVersion == pvHex; }
+
+    bool isSafeVer() const
+    {
+        return fVersion == pvPrime || fVersion == pvPots || fVersion == pvMoul
+            || fVersion == pvEoa || fVersion == pvHex;
+    }
 
     static const char* GetVersionName(PlasmaVer ver);
     static PlasmaVer GetSafestVersion(PlasmaVer ver);

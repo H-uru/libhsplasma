@@ -18,14 +18,16 @@
 #include "Debug/plDebug.h"
 #include <cstdarg>
 
-static ST::string xmlUnescape(const ST::string& text) {
+static ST::string xmlUnescape(const ST::string& text)
+{
     return text.replace("&lt;", "<").replace("&gt;", ">")
                .replace("&quot;", "\"").replace("&apos;", "'")
                .replace("&amp;", "&");
 }
 
 /* pfPrcTag */
-pfPrcTag::~pfPrcTag() {
+pfPrcTag::~pfPrcTag()
+{
     /* This can cause a stack overflow if there are lots of tags
      * (e.g., hsGBufferGroup's verts.  For now, use Destroy() */
 
@@ -33,7 +35,8 @@ pfPrcTag::~pfPrcTag() {
     //delete fFirstChild;
 }
 
-pfPrcTag* pfPrcTag::Destroy() {
+pfPrcTag* pfPrcTag::Destroy()
+{
     while (fFirstChild != NULL)
         fFirstChild = fFirstChild->Destroy();
     pfPrcTag* next = fNextSibling;
@@ -41,7 +44,8 @@ pfPrcTag* pfPrcTag::Destroy() {
     return next;
 }
 
-ST::string pfPrcTag::getParam(const ST::string& key, const ST::string& def) const {
+ST::string pfPrcTag::getParam(const ST::string& key, const ST::string& def) const
+{
     std::map<ST::string, ST::string>::const_iterator f = fParams.find(key);
     if (f == fParams.end())
         return def;
@@ -49,12 +53,14 @@ ST::string pfPrcTag::getParam(const ST::string& key, const ST::string& def) cons
         return xmlUnescape(f->second);
 }
 
-bool pfPrcTag::hasParam(const ST::string& key) const {
+bool pfPrcTag::hasParam(const ST::string& key) const
+{
     std::map<ST::string, ST::string>::const_iterator f = fParams.find(key);
     return (f != fParams.end());
 }
 
-size_t pfPrcTag::countChildren() const {
+size_t pfPrcTag::countChildren() const
+{
     const pfPrcTag* childPtr = fFirstChild;
     size_t nChildren = 0;
     while (childPtr != NULL) {
@@ -64,7 +70,8 @@ size_t pfPrcTag::countChildren() const {
     return nChildren;
 }
 
-void pfPrcTag::readHexStream(size_t maxLen, unsigned char* buf) const {
+void pfPrcTag::readHexStream(size_t maxLen, unsigned char* buf) const
+{
     std::list<ST::string> bytes = getContents();
     size_t i=0;
     auto iter = bytes.begin();
@@ -74,12 +81,14 @@ void pfPrcTag::readHexStream(size_t maxLen, unsigned char* buf) const {
 
 
 /* pfPrcParser */
-pfPrcParser::~pfPrcParser() {
+pfPrcParser::~pfPrcParser()
+{
     if (fRootTag != NULL)
         fRootTag->Destroy();
 }
 
-void pfPrcParser::read(hsStream* S) {
+void pfPrcParser::read(hsStream* S)
+{
     hsTokenStream* tok = new hsTokenStream(S);
     std::vector<hsTokenStream::Region> commentMarkers;
     std::vector<hsTokenStream::Region> stringMarkers;
@@ -95,7 +104,8 @@ void pfPrcParser::read(hsStream* S) {
     delete tok;
 }
 
-pfPrcTag* pfPrcParser::readTag(hsTokenStream* tok) {
+pfPrcTag* pfPrcParser::readTag(hsTokenStream* tok)
+{
     if (!tok->hasNext())
         return NULL;
 

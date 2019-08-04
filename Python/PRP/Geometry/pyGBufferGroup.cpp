@@ -21,7 +21,8 @@
 
 PY_PLASMA_DEALLOC(GBufferGroup)
 
-PY_PLASMA_INIT_DECL(GBufferGroup) {
+PY_PLASMA_INIT_DECL(GBufferGroup)
+{
     int fmt;
     if (!PyArg_ParseTuple(args, "i", &fmt))
         return -1;
@@ -247,17 +248,20 @@ PY_METHOD_VA(GBufferGroup, delCells,
     Py_RETURN_NONE;
 }
 
-PY_METHOD_NOARGS(GBufferGroup, clearVertices, "Remove all Vertex buffers") {
+PY_METHOD_NOARGS(GBufferGroup, clearVertices, "Remove all Vertex buffers")
+{
     self->fThis->clearVertices();
     Py_RETURN_NONE;
 }
 
-PY_METHOD_NOARGS(GBufferGroup, clearIndices, "Remove all Face Index buffers") {
+PY_METHOD_NOARGS(GBufferGroup, clearIndices, "Remove all Face Index buffers")
+{
     self->fThis->clearIndices();
     Py_RETURN_NONE;
 }
 
-PY_METHOD_NOARGS(GBufferGroup, clearCells, "Remove all Cell buffers") {
+PY_METHOD_NOARGS(GBufferGroup, clearCells, "Remove all Cell buffers")
+{
     self->fThis->clearCells();
     Py_RETURN_NONE;
 }
@@ -369,7 +373,8 @@ static PyGetSetDef pyGBufferGroup_GetSet[] = {
 
 PY_PLASMA_TYPE(GBufferGroup, plGBufferGroup, "plGBufferGroup wrapper")
 
-PY_PLASMA_TYPE_INIT(GBufferGroup) {
+PY_PLASMA_TYPE_INIT(GBufferGroup)
+{
     pyGBufferGroup_Type.tp_dealloc = pyGBufferGroup_dealloc;
     pyGBufferGroup_Type.tp_init = pyGBufferGroup___init__;
     pyGBufferGroup_Type.tp_new = pyGBufferGroup_new;

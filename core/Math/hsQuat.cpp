@@ -17,28 +17,32 @@
 #include "hsQuat.h"
 #include <cmath>
 
-hsQuat::hsQuat(float rad, const hsVector3& axis) {
+hsQuat::hsQuat(float rad, const hsVector3& axis)
+{
     W = cos(rad * 0.5f);
     X = sin(rad * 0.5f) * axis.X;
     Y = sin(rad * 0.5f) * axis.Y;
     Z = sin(rad * 0.5f) * axis.Z;
 }
 
-void hsQuat::read(hsStream* S) {
+void hsQuat::read(hsStream* S)
+{
     X = S->readFloat();
     Y = S->readFloat();
     Z = S->readFloat();
     W = S->readFloat();
 }
 
-void hsQuat::write(hsStream* S) {
+void hsQuat::write(hsStream* S)
+{
     S->writeFloat(X);
     S->writeFloat(Y);
     S->writeFloat(Z);
     S->writeFloat(W);
 }
 
-void hsQuat::prcWrite(pfPrcHelper* prc) {
+void hsQuat::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("hsQuat");
     prc->writeParam("X", X);
     prc->writeParam("Y", Y);
@@ -47,7 +51,8 @@ void hsQuat::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void hsQuat::prcParse(const pfPrcTag* tag) {
+void hsQuat::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "hsQuat")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 

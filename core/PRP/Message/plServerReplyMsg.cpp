@@ -17,17 +17,20 @@
 #include "plServerReplyMsg.h"
 #include "Debug/plDebug.h"
 
-void plServerReplyMsg::read(hsStream* S, plResManager* mgr) {
+void plServerReplyMsg::read(hsStream* S, plResManager* mgr)
+{
     plMessage::read(S, mgr);
     fType = S->readInt();
 }
 
-void plServerReplyMsg::write(hsStream* S, plResManager* mgr) {
+void plServerReplyMsg::write(hsStream* S, plResManager* mgr)
+{
     plMessage::write(S, mgr);
     S->writeInt(fType);
 }
 
-void plServerReplyMsg::IPrcWrite(pfPrcHelper* prc) {
+void plServerReplyMsg::IPrcWrite(pfPrcHelper* prc)
+{
     plMessage::IPrcWrite(prc);
 
     prc->startTag("ReplyType");
@@ -35,7 +38,8 @@ void plServerReplyMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plServerReplyMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plServerReplyMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "ReplyType") {
         fType = tag->getParam("value", "0").to_int();
     } else {

@@ -23,17 +23,20 @@
 PY_WRAP_PLASMA(BitVector, class hsBitVector)
 
 /* Python property helpers */
-inline PyObject* pyPlasma_convert(hsBitVector* value) {
+inline PyObject* pyPlasma_convert(hsBitVector* value)
+{
     return pyBitVector_FromBitVector(value);
 }
 
 template <>
-inline int pyPlasma_check<hsBitVector>(PyObject* value) {
+inline int pyPlasma_check<hsBitVector>(PyObject* value)
+{
     return pyBitVector_Check(value);
 }
 
 template <>
-inline hsBitVector* pyPlasma_get(PyObject* value) {
+inline hsBitVector* pyPlasma_get(PyObject* value)
+{
     return ((pyBitVector*)value)->fThis;
 }
 

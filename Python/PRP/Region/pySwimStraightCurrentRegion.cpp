@@ -39,7 +39,8 @@ PyGetSetDef pySwimStraightCurrentRegion_GetSet[] = {
 PY_PLASMA_TYPE(SwimStraightCurrentRegion, plSwimStraightCurrentRegion,
                "plSwimStraightCurrentRegion wrapper")
 
-PY_PLASMA_TYPE_INIT(SwimStraightCurrentRegion) {
+PY_PLASMA_TYPE_INIT(SwimStraightCurrentRegion)
+{
     pySwimStraightCurrentRegion_Type.tp_new = pySwimStraightCurrentRegion_new;
     pySwimStraightCurrentRegion_Type.tp_getset = pySwimStraightCurrentRegion_GetSet;
     pySwimStraightCurrentRegion_Type.tp_base = &pySwimRegionInterface_Type;

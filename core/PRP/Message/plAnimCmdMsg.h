@@ -20,11 +20,13 @@
 #include "plMessageWithCallbacks.h"
 #include "Util/hsBitVector.h"
 
-class PLASMA_DLL plAnimCmdMsg : public plMessageWithCallbacks {
+class PLASMA_DLL plAnimCmdMsg : public plMessageWithCallbacks
+{
     CREATABLE(plAnimCmdMsg, kAnimCmdMsg, plMessageWithCallbacks)
 
 public:
-    enum ModCmds {
+    enum ModCmds
+    {
         kContinue, kStop, kSetLooping, kUnSetLooping, kSetBegin, kSetEnd,
         kSetLoopEnd, kSetLoopBegin, kSetSpeed, kGoToTime, kSetBackwards,
         kSetForwards, kToggleState, kAddCallbacks, kRemoveCallbacks,

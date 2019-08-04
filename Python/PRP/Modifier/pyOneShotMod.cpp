@@ -41,7 +41,8 @@ static PyGetSetDef pyOneShotMod_GetSet[] = {
 
 PY_PLASMA_TYPE(OneShotMod, plOneShotMod, "plOneShotMod wrapper")
 
-PY_PLASMA_TYPE_INIT(OneShotMod) {
+PY_PLASMA_TYPE_INIT(OneShotMod)
+{
     pyOneShotMod_Type.tp_new = pyOneShotMod_new;
     pyOneShotMod_Type.tp_getset = pyOneShotMod_GetSet;
     pyOneShotMod_Type.tp_base = &pyMultiModifier_Type;

@@ -24,7 +24,8 @@ PY_PLASMA_NEW(DirectionalLightInfo, plDirectionalLightInfo)
 PY_PLASMA_TYPE(DirectionalLightInfo, plDirectionalLightInfo,
                "plDirectionalLightInfo wrapper")
 
-PY_PLASMA_TYPE_INIT(DirectionalLightInfo) {
+PY_PLASMA_TYPE_INIT(DirectionalLightInfo)
+{
     pyDirectionalLightInfo_Type.tp_new = pyDirectionalLightInfo_new;
     pyDirectionalLightInfo_Type.tp_base = &pyLightInfo_Type;
     if (PyType_CheckAndReady(&pyDirectionalLightInfo_Type) < 0)

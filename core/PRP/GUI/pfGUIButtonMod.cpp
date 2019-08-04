@@ -17,7 +17,8 @@
 #include "pfGUIButtonMod.h"
 
 /* pfGUIButtonMod */
-void pfGUIButtonMod::read(hsStream* S, plResManager* mgr) {
+void pfGUIButtonMod::read(hsStream* S, plResManager* mgr)
+{
     pfGUIControlMod::read(S, mgr);
 
     fAnimationKeys.resize(S->readInt());
@@ -38,7 +39,8 @@ void pfGUIButtonMod::read(hsStream* S, plResManager* mgr) {
     fDraggable = mgr->readKey(S);
 }
 
-void pfGUIButtonMod::write(hsStream* S, plResManager* mgr) {
+void pfGUIButtonMod::write(hsStream* S, plResManager* mgr)
+{
     pfGUIControlMod::write(S, mgr);
 
     S->writeInt(fAnimationKeys.size());
@@ -59,7 +61,8 @@ void pfGUIButtonMod::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fDraggable);
 }
 
-void pfGUIButtonMod::IPrcWrite(pfPrcHelper* prc) {
+void pfGUIButtonMod::IPrcWrite(pfPrcHelper* prc)
+{
     pfGUIControlMod::IPrcWrite(prc);
 
     prc->startTag("Animation");
@@ -85,7 +88,8 @@ void pfGUIButtonMod::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void pfGUIButtonMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void pfGUIButtonMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Animation") {
         fAnimName = tag->getParam("Name", "");
         fAnimationKeys.resize(tag->countChildren());

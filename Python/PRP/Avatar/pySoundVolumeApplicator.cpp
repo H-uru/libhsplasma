@@ -31,7 +31,8 @@ static PyGetSetDef pySoundVolumeApplicator_GetSet[] = {
 PY_PLASMA_TYPE(SoundVolumeApplicator, plSoundVolumeApplicator,
                "plSoundVolumeApplicator wrapper")
 
-PY_PLASMA_TYPE_INIT(SoundVolumeApplicator) {
+PY_PLASMA_TYPE_INIT(SoundVolumeApplicator)
+{
     pySoundVolumeApplicator_Type.tp_new = pySoundVolumeApplicator_new;
     pySoundVolumeApplicator_Type.tp_getset = pySoundVolumeApplicator_GetSet;
     pySoundVolumeApplicator_Type.tp_base = &pyAGApplicator_Type;

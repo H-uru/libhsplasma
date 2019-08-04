@@ -16,7 +16,8 @@
 
 #include "pfGUIDynDisplayCtrl.h"
 
-void pfGUIDynDisplayCtrl::read(hsStream* S, plResManager* mgr) {
+void pfGUIDynDisplayCtrl::read(hsStream* S, plResManager* mgr)
+{
     pfGUIControlMod::read(S, mgr);
 
     fTextMaps.resize(S->readInt());
@@ -34,7 +35,8 @@ void pfGUIDynDisplayCtrl::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void pfGUIDynDisplayCtrl::write(hsStream* S, plResManager* mgr) {
+void pfGUIDynDisplayCtrl::write(hsStream* S, plResManager* mgr)
+{
     pfGUIControlMod::write(S, mgr);
 
     S->writeInt(fTextMaps.size());
@@ -52,7 +54,8 @@ void pfGUIDynDisplayCtrl::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void pfGUIDynDisplayCtrl::IPrcWrite(pfPrcHelper* prc) {
+void pfGUIDynDisplayCtrl::IPrcWrite(pfPrcHelper* prc)
+{
     pfGUIControlMod::IPrcWrite(prc);
 
     prc->writeSimpleTag("TextMaps");
@@ -71,7 +74,8 @@ void pfGUIDynDisplayCtrl::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void pfGUIDynDisplayCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void pfGUIDynDisplayCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "TextMaps") {
         fTextMaps.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();

@@ -98,7 +98,8 @@ PY_METHOD_VA(EncryptedStream, setKey,
     Py_RETURN_NONE;
 }
 
-PY_METHOD_NOARGS(EncryptedStream, getEncType, "Returns the encryption type") {
+PY_METHOD_NOARGS(EncryptedStream, getEncType, "Returns the encryption type")
+{
     return pyPlasma_convert(self->fThis->getEncType());
 }
 
@@ -115,12 +116,14 @@ PY_METHOD_STATIC_VA(EncryptedStream, IsFileEncrypted,
     return pyPlasma_convert(plEncryptedStream::IsFileEncrypted(filename));
 }
 
-PY_METHOD_NOARGS(EncryptedStream, __enter__, NULL) {
+PY_METHOD_NOARGS(EncryptedStream, __enter__, nullptr)
+{
     Py_INCREF(self);
     return (PyObject*)self;
 }
 
-PY_METHOD_VA(EncryptedStream, __exit__, NULL) {
+PY_METHOD_VA(EncryptedStream, __exit__, nullptr)
+{
     self->fThis->close();
     Py_RETURN_NONE;
 }
@@ -137,7 +140,8 @@ static PyMethodDef pyEncryptedStream_Methods[] = {
 
 PY_PLASMA_TYPE(EncryptedStream, plEncryptedStream, "plEncryptedStream wrapper")
 
-PY_PLASMA_TYPE_INIT(EncryptedStream) {
+PY_PLASMA_TYPE_INIT(EncryptedStream)
+{
     pyEncryptedStream_Type.tp_new = pyEncryptedStream_new;
     pyEncryptedStream_Type.tp_methods = pyEncryptedStream_Methods;
     pyEncryptedStream_Type.tp_base = &pyFileStream_Type;

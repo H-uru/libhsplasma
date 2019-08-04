@@ -33,7 +33,8 @@ static PyGetSetDef pySwimMsg_GetSet[] = {
 
 PY_PLASMA_TYPE(SwimMsg, plSwimMsg, "plSwimMsg wrapper")
 
-PY_PLASMA_TYPE_INIT(SwimMsg) {
+PY_PLASMA_TYPE_INIT(SwimMsg)
+{
     pySwimMsg_Type.tp_new = pySwimMsg_new;
     pySwimMsg_Type.tp_getset = pySwimMsg_GetSet;
     pySwimMsg_Type.tp_base = &pyMessage_Type;

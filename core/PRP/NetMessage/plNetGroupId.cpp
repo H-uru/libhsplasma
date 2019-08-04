@@ -16,24 +16,28 @@
 
 #include "plNetGroupId.h"
 
-void plNetGroupId::read(hsStream* S) {
+void plNetGroupId::read(hsStream* S)
+{
     fID.read(S);
     fFlags = S->readByte();
 }
 
-void plNetGroupId::write(hsStream* S) {
+void plNetGroupId::write(hsStream* S)
+{
     fID.write(S);
     S->writeByte(fFlags);
 }
 
-void plNetGroupId::prcWrite(pfPrcHelper* prc) {
+void plNetGroupId::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("plNetGroupId");
     prc->writeParam("Flags", fFlags);
     fID.prcWrite(prc);
     prc->endTag(true);
 }
 
-void plNetGroupId::prcParse(const pfPrcTag* tag) {
+void plNetGroupId::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "plNetGroupId")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 

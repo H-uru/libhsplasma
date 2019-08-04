@@ -52,7 +52,8 @@ static PyGetSetDef pyTMController_GetSet[] = {
 
 PY_PLASMA_TYPE(TMController, plTMController, "plTMController wrapper")
 
-PY_PLASMA_TYPE_INIT(TMController) {
+PY_PLASMA_TYPE_INIT(TMController)
+{
     pyTMController_Type.tp_init = pyTMController___init__;
     pyTMController_Type.tp_new = pyTMController_new;
     pyTMController_Type.tp_methods = pyTMController_Methods;

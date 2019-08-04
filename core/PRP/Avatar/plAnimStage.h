@@ -19,11 +19,13 @@
 
 #include "PRP/plCreatable.h"
 
-class PLASMA_DLL plAnimStage : public plCreatable {
+class PLASMA_DLL plAnimStage : public plCreatable
+{
     CREATABLE(plAnimStage, kAnimStage, plCreatable)
 
 public:
-    enum NotifyType {
+    enum NotifyType
+    {
         kNotifyEnter = 0x1,
         kNotifyLoop = 0x2,
         kNotifyAdvance = 0x4,
@@ -32,7 +34,8 @@ public:
 
     enum PlayType { kPlayNone, kPlayKey, kPlayAuto, kPlayMax };
 
-    enum AdvanceType {
+    enum AdvanceType
+    {
         kAdvanceNone, kAdvanceOnMove, kAdvanceAuto, kAdvanceOnAnyKey,
         kAdvanceMax
     };
@@ -52,11 +55,10 @@ private:
     bool fAttached;
 
 public:
-    plAnimStage() : fForwardType(kPlayNone), fBackType(kPlayNone),
-                    fAdvanceType(kAdvanceNone), fRegressType(kAdvanceNone),
-                    fNotify(0), fLoops(0), fDoAdvanceTo(false), fDoRegressTo(false),
-                    fAdvanceTo(0), fRegressTo(0), fLocalTime(0.0f), fLength(0.0f),
-                    fCurLoop(0), fAttached(false) { }
+    plAnimStage()
+        : fForwardType(), fBackType(), fAdvanceType(), fRegressType(),
+          fNotify(), fLoops(), fDoAdvanceTo(), fDoRegressTo(), fAdvanceTo(),
+          fRegressTo(), fLocalTime(), fLength(), fCurLoop(), fAttached() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -92,10 +94,16 @@ public:
     void setLoops(int loops) { fLoops = loops; }
 
     void setAdvanceTo(bool doAdvance, unsigned int advance = 0)
-    { fDoAdvanceTo = doAdvance; fAdvanceTo = advance; }
+    {
+        fDoAdvanceTo = doAdvance;
+        fAdvanceTo = advance;
+    }
 
     void setRegressTo(bool doRegress, unsigned int regress = 0)
-    { fDoRegressTo = doRegress; fRegressTo = regress; }
+    {
+        fDoRegressTo = doRegress;
+        fRegressTo = regress;
+    }
 
     float getLocalTime() const { return fLocalTime; }
     float getLength() const { return fLength; }

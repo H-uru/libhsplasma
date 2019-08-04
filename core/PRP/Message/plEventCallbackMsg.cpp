@@ -16,7 +16,8 @@
 
 #include "plEventCallbackMsg.h"
 
-void plEventCallbackMsg::read(hsStream* S, plResManager* mgr) {
+void plEventCallbackMsg::read(hsStream* S, plResManager* mgr)
+{
     plMessage::read(S, mgr);
 
     fEventTime = S->readFloat();
@@ -26,7 +27,8 @@ void plEventCallbackMsg::read(hsStream* S, plResManager* mgr) {
     fUser = S->readShort();
 }
 
-void plEventCallbackMsg::write(hsStream* S, plResManager* mgr) {
+void plEventCallbackMsg::write(hsStream* S, plResManager* mgr)
+{
     plMessage::write(S, mgr);
 
     S->writeFloat(fEventTime);
@@ -36,7 +38,8 @@ void plEventCallbackMsg::write(hsStream* S, plResManager* mgr) {
     S->writeShort(fUser);
 }
 
-void plEventCallbackMsg::IPrcWrite(pfPrcHelper* prc) {
+void plEventCallbackMsg::IPrcWrite(pfPrcHelper* prc)
+{
     plMessage::IPrcWrite(prc);
 
     prc->startTag("EventCallback");
@@ -48,7 +51,8 @@ void plEventCallbackMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plEventCallbackMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plEventCallbackMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "EventCallback") {
         fEventTime = tag->getParam("EventTime", "0").to_float();
         fEvent = (CallbackEvent)tag->getParam("Event", "0").to_int();
@@ -60,7 +64,8 @@ void plEventCallbackMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plEventCallbackSetupMsg::read(hsStream* S, plResManager* mgr) {
+void plEventCallbackSetupMsg::read(hsStream* S, plResManager* mgr)
+{
     plMessage::read(S, mgr);
 
     fCallbacks.resize(S->readInt());
@@ -71,7 +76,8 @@ void plEventCallbackSetupMsg::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plEventCallbackSetupMsg::write(hsStream* S, plResManager* mgr) {
+void plEventCallbackSetupMsg::write(hsStream* S, plResManager* mgr)
+{
     plMessage::write(S, mgr);
 
     S->writeInt(fCallbacks.size());
@@ -82,7 +88,8 @@ void plEventCallbackSetupMsg::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plEventCallbackSetupMsg::IPrcWrite(pfPrcHelper* prc) {
+void plEventCallbackSetupMsg::IPrcWrite(pfPrcHelper* prc)
+{
     plMessage::IPrcWrite(prc);
 
     prc->writeSimpleTag("EventCallbackSetups");
@@ -97,7 +104,8 @@ void plEventCallbackSetupMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plEventCallbackSetupMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plEventCallbackSetupMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "EventCallbackSetups") {
         fCallbacks.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();

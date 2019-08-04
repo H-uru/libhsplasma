@@ -30,12 +30,14 @@ PyObject* ICreateGUIControlHandler(class pfGUICtrlProcObject*);
 
 /* Python property helpers */
 #define PY_PROPERTY_GUIPROC_READ(myType, name, getter)                  \
-    PY_GETSET_GETTER_DECL(myType, name) {                               \
+    PY_GETSET_GETTER_DECL(myType, name)                                 \
+    {                                                                   \
         return ICreateGUIControlHandler(self->fThis->getter());         \
     }
 
 #define PY_PROPERTY_GUIPROC_WRITE(pyType, myType, name, setter)         \
-    PY_GETSET_SETTER_DECL(myType, name) {                               \
+    PY_GETSET_SETTER_DECL(myType, name)                                 \
+    {                                                                   \
         if (value == Py_None) {                                         \
             self->fThis->setter(NULL);                                  \
             return 0;                                                   \

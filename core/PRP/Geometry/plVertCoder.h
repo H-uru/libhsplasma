@@ -19,11 +19,13 @@
 
 #include "Stream/hsStream.h"
 
-class PLASMA_DLL plVertCoder {
+class PLASMA_DLL plVertCoder
+{
 public:
     enum { kPosition, kWeight, kUVW, kNumFloatFields = 10 };
 
-    enum Formats {
+    enum Formats
+    {
         kUVCountMask = 0xF,
         kSkinNoWeights = 0x0,
         kSkin1Weight = 0x10,
@@ -37,13 +39,15 @@ public:
     static float FieldScales[kNumFloatFields];
 
 private:
-    struct FloatCode {
+    struct FloatCode
+    {
         float fOffset;
         bool fAllSame;
         unsigned short fCount;
     } fFloats[3][kNumFloatFields];
 
-    struct ByteCode {
+    struct ByteCode
+    {
         unsigned short fCount;
         unsigned char fVal;
         bool fSame;

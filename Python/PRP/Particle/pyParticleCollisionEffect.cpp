@@ -32,7 +32,8 @@ static PyGetSetDef pyParticleCollisionEffect_GetSet[] = {
 PY_PLASMA_TYPE(ParticleCollisionEffect, plParticleCollisionEffect,
                "plParticleCollisionEffect wrapper")
 
-PY_PLASMA_TYPE_INIT(ParticleCollisionEffect) {
+PY_PLASMA_TYPE_INIT(ParticleCollisionEffect)
+{
     pyParticleCollisionEffect_Type.tp_new = pyParticleCollisionEffect_new;
     pyParticleCollisionEffect_Type.tp_getset = pyParticleCollisionEffect_GetSet;
     pyParticleCollisionEffect_Type.tp_base = &pyParticleEffect_Type;
@@ -51,7 +52,8 @@ PY_PLASMA_NEW(ParticleCollisionEffectBeat, plParticleCollisionEffectBeat)
 PY_PLASMA_TYPE(ParticleCollisionEffectBeat, plParticleCollisionEffectBeat,
                "plParticleCollisionEffectBeat wrapper")
 
-PY_PLASMA_TYPE_INIT(ParticleCollisionEffectBeat) {
+PY_PLASMA_TYPE_INIT(ParticleCollisionEffectBeat)
+{
     pyParticleCollisionEffectBeat_Type.tp_new = pyParticleCollisionEffectBeat_new;
     pyParticleCollisionEffectBeat_Type.tp_base = &pyParticleCollisionEffect_Type;
     if (PyType_CheckAndReady(&pyParticleCollisionEffectBeat_Type) < 0)
@@ -79,7 +81,8 @@ static PyGetSetDef pyParticleCollisionEffectBounce_GetSet[] = {
 PY_PLASMA_TYPE(ParticleCollisionEffectBounce, plParticleCollisionEffectBounce,
                "plParticleCollisionEffectBounce wrapper")
 
-PY_PLASMA_TYPE_INIT(ParticleCollisionEffectBounce) {
+PY_PLASMA_TYPE_INIT(ParticleCollisionEffectBounce)
+{
     pyParticleCollisionEffectBounce_Type.tp_new = pyParticleCollisionEffectBounce_new;
     pyParticleCollisionEffectBounce_Type.tp_getset = pyParticleCollisionEffectBounce_GetSet;
     pyParticleCollisionEffectBounce_Type.tp_base = &pyParticleCollisionEffect_Type;
@@ -98,7 +101,8 @@ PY_PLASMA_NEW(ParticleCollisionEffectDie, plParticleCollisionEffectDie)
 PY_PLASMA_TYPE(ParticleCollisionEffectDie, plParticleCollisionEffectDie,
                "plParticleCollisionEffectDie wrapper")
 
-PY_PLASMA_TYPE_INIT(ParticleCollisionEffectDie) {
+PY_PLASMA_TYPE_INIT(ParticleCollisionEffectDie)
+{
     pyParticleCollisionEffectDie_Type.tp_new = pyParticleCollisionEffectDie_new;
     pyParticleCollisionEffectDie_Type.tp_base = &pyParticleCollisionEffect_Type;
     if (PyType_CheckAndReady(&pyParticleCollisionEffectDie_Type) < 0)

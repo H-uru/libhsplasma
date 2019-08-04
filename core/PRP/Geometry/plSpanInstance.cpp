@@ -18,24 +18,28 @@
 #include <string_theory/format>
 
 /* plSpanEncoding */
-void plSpanEncoding::read(hsStream* S) {
+void plSpanEncoding::read(hsStream* S)
+{
     fCode = S->readByte();
     fPosScale = S->readFloat();
 }
 
-void plSpanEncoding::write(hsStream* S) {
+void plSpanEncoding::write(hsStream* S)
+{
     S->writeByte(fCode);
     S->writeFloat(fPosScale);
 }
 
-void plSpanEncoding::prcWrite(pfPrcHelper* prc) {
+void plSpanEncoding::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("plSpanEncoding");
     prc->writeParam("Code", fCode);
     prc->writeParam("PosScale", fPosScale);
     prc->endTag(true);
 }
 
-void plSpanEncoding::prcParse(const pfPrcTag* tag) {
+void plSpanEncoding::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "plSpanEncoding")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
@@ -45,13 +49,15 @@ void plSpanEncoding::prcParse(const pfPrcTag* tag) {
 
 
 /* plSpanInstance */
-plSpanInstance::~plSpanInstance() {
+plSpanInstance::~plSpanInstance()
+{
     delete[] fPosDelta;
     delete[] fCol;
 }
 
 void plSpanInstance::read(hsStream* S, const plSpanEncoding& encoding,
-                          unsigned int numVerts) {
+                          unsigned int numVerts)
+{
     fEncoding = encoding;
     fNumVerts = numVerts;
 
@@ -76,7 +82,8 @@ void plSpanInstance::read(hsStream* S, const plSpanEncoding& encoding,
     }
 }
 
-void plSpanInstance::write(hsStream* S) {
+void plSpanInstance::write(hsStream* S)
+{
     S->write(sizeof(fL2W), fL2W);
     if (fPosDelta != NULL)
         S->write(CalcPosStride(fEncoding) * fNumVerts, fPosDelta);
@@ -84,7 +91,8 @@ void plSpanInstance::write(hsStream* S) {
         S->write(CalcColStride(fEncoding) * fNumVerts, fCol);
 }
 
-void plSpanInstance::prcWrite(pfPrcHelper* prc) {
+void plSpanInstance::prcWrite(pfPrcHelper* prc)
+{
     prc->writeSimpleTag("plSpanInstance");
 
     prc->writeTagNoBreak("Local2World");
@@ -116,7 +124,8 @@ void plSpanInstance::prcWrite(pfPrcHelper* prc) {
 }
 
 void plSpanInstance::prcParse(const pfPrcTag* tag, const plSpanEncoding& encoding,
-                              unsigned int numVerts) {
+                              unsigned int numVerts)
+{
     if (tag->getName() != "plSpanInstance")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
@@ -195,7 +204,8 @@ void plSpanInstance::prcParse(const pfPrcTag* tag, const plSpanEncoding& encodin
     }
 }
 
-unsigned int plSpanInstance::CalcPosStride(const plSpanEncoding& encoding) {
+unsigned int plSpanInstance::CalcPosStride(const plSpanEncoding& encoding)
+{
     switch (encoding.getCode() & plSpanEncoding::kPosMask) {
     case plSpanEncoding::kPos888:
         return 3;
@@ -210,7 +220,8 @@ unsigned int plSpanInstance::CalcPosStride(const plSpanEncoding& encoding) {
     }
 }
 
-unsigned int plSpanInstance::CalcColStride(const plSpanEncoding& encoding) {
+unsigned int plSpanInstance::CalcColStride(const plSpanEncoding& encoding)
+{
     return 0;   // Because of a bug in Cyan's code...
 
     switch (encoding.getCode() & plSpanEncoding::kColMask) {
@@ -229,7 +240,8 @@ unsigned int plSpanInstance::CalcColStride(const plSpanEncoding& encoding) {
     }
 }
 
-std::vector<hsVector3> plSpanInstance::getPosDeltas() const {
+std::vector<hsVector3> plSpanInstance::getPosDeltas() const
+{
     std::vector<hsVector3> verts(fNumVerts);
 
     switch (fEncoding.getCode() & plSpanEncoding::kPosMask) {
@@ -285,7 +297,8 @@ std::vector<hsVector3> plSpanInstance::getPosDeltas() const {
     return verts;
 }
 
-std::vector<unsigned int> plSpanInstance::getColors() const {
+std::vector<unsigned int> plSpanInstance::getColors() const
+{
     std::vector<unsigned int> colors(fNumVerts);
 
     switch (fEncoding.getCode() & plSpanEncoding::kColMask) {
@@ -343,7 +356,8 @@ std::vector<unsigned int> plSpanInstance::getColors() const {
     return colors;
 }
 
-hsMatrix44 plSpanInstance::getLocalToWorld() const {
+hsMatrix44 plSpanInstance::getLocalToWorld() const
+{
     hsMatrix44 l2w;
     l2w(0, 0) = fL2W[0][0];
     l2w(0, 1) = fL2W[0][1];
@@ -360,7 +374,8 @@ hsMatrix44 plSpanInstance::getLocalToWorld() const {
     return l2w;
 }
 
-void plSpanInstance::setPosDeltas(const std::vector<hsVector3>& verts) {
+void plSpanInstance::setPosDeltas(const std::vector<hsVector3>& verts)
+{
     delete[] fPosDelta;
     fNumVerts = verts.size();
     fPosDelta = new unsigned char[fNumVerts * CalcPosStride(fEncoding)];
@@ -411,7 +426,8 @@ void plSpanInstance::setPosDeltas(const std::vector<hsVector3>& verts) {
     }
 }
 
-void plSpanInstance::setColors(const std::vector<unsigned int>& colors) {
+void plSpanInstance::setColors(const std::vector<unsigned int>& colors)
+{
     delete[] fCol;
     // Because of bugs in Cyan's code:
     fCol = NULL;
@@ -471,7 +487,8 @@ void plSpanInstance::setColors(const std::vector<unsigned int>& colors) {
     }
 }
 
-void plSpanInstance::setLocalToWorld(const hsMatrix44& l2w) {
+void plSpanInstance::setLocalToWorld(const hsMatrix44& l2w)
+{
     fL2W[0][0] = l2w(0, 0);
     fL2W[0][1] = l2w(0, 1);
     fL2W[0][2] = l2w(0, 2);

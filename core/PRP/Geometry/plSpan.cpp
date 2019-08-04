@@ -16,7 +16,8 @@
 
 #include "plSpan.h"
 
-uint32_t plSpan::deswizzleGeoFlags(uint32_t flags) {
+uint32_t plSpan::deswizzleGeoFlags(uint32_t flags)
+{
     uint32_t props = (flags & plGeometrySpan::kPropRunTimeLight) << 5;
 
     if (flags & plGeometrySpan::kPropNoShadowCast)
@@ -41,7 +42,8 @@ uint32_t plSpan::deswizzleGeoFlags(uint32_t flags) {
     return props;
 }
 
-uint32_t plSpan::swizzleGeoFlags(uint32_t flags) {
+uint32_t plSpan::swizzleGeoFlags(uint32_t flags)
+{
     uint32_t props = (flags & kPropRunTimeLight) >> 5;
 
     if (flags & kPropNoShadowCast)
@@ -66,7 +68,8 @@ uint32_t plSpan::swizzleGeoFlags(uint32_t flags) {
     return props;
 }
 
-void plSpan::read(hsStream* S) {
+void plSpan::read(hsStream* S)
+{
     fSubType = S->readInt();
     fMaterialIdx = S->readInt();
     fLocalToWorld.read(S);
@@ -85,7 +88,8 @@ void plSpan::read(hsStream* S) {
         fWaterHeight = S->readFloat();
 }
 
-void plSpan::write(hsStream* S) {
+void plSpan::write(hsStream* S)
+{
     S->writeInt(fSubType);
     S->writeInt(fMaterialIdx);
     fLocalToWorld.write(S);
@@ -104,13 +108,15 @@ void plSpan::write(hsStream* S) {
         S->writeFloat(fWaterHeight);
 }
 
-void plSpan::prcWrite(pfPrcHelper* prc) {
+void plSpan::prcWrite(pfPrcHelper* prc)
+{
     prc->writeSimpleTag(ClassName());
     IPrcWrite(prc);
     prc->closeTag();
 }
 
-void plSpan::prcParse(const pfPrcTag* tag) {
+void plSpan::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != ClassName())
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
@@ -121,7 +127,8 @@ void plSpan::prcParse(const pfPrcTag* tag) {
     }
 }
 
-void plSpan::IPrcWrite(pfPrcHelper* prc) {
+void plSpan::IPrcWrite(pfPrcHelper* prc)
+{
     prc->startTag("SpanInfo");
       prc->writeParam("SubType", fSubType);
       prc->writeParam("Material", fMaterialIdx);
@@ -159,7 +166,8 @@ void plSpan::IPrcWrite(pfPrcHelper* prc) {
     }
 }
 
-void plSpan::IPrcParse(const pfPrcTag* tag) {
+void plSpan::IPrcParse(const pfPrcTag* tag)
+{
     if (tag->getName() == "SpanInfo") {
         fSubType = tag->getParam("SubType", "0").to_uint();
         fMaterialIdx = tag->getParam("Material", "0").to_uint();

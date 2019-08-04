@@ -17,17 +17,20 @@
 #include "plNetMsgObject.h"
 
 /* plNetMsgObject */
-void plNetMsgObject::read(hsStream* S, plResManager* mgr) {
+void plNetMsgObject::read(hsStream* S, plResManager* mgr)
+{
     plNetMessage::read(S, mgr);
     fUoid.read(S);
 }
 
-void plNetMsgObject::write(hsStream* S, plResManager* mgr) {
+void plNetMsgObject::write(hsStream* S, plResManager* mgr)
+{
     plNetMessage::write(S, mgr);
     fUoid.write(S);
 }
 
-void plNetMsgObject::IPrcWrite(pfPrcHelper* prc) {
+void plNetMsgObject::IPrcWrite(pfPrcHelper* prc)
+{
     plNetMessage::IPrcWrite(prc);
 
     prc->writeSimpleTag("Object");
@@ -35,7 +38,8 @@ void plNetMsgObject::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plNetMsgObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plNetMsgObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Object") {
         if (tag->hasChildren())
             fUoid.prcParse(tag->getFirstChild());

@@ -27,7 +27,8 @@ const char* plPythonParameter::ValueTypeNames[] = {
     "BlowerComponent", "None"
 };
 
-plPythonParameter& plPythonParameter::operator=(const plPythonParameter& init) {
+plPythonParameter& plPythonParameter::operator=(const plPythonParameter& init)
+{
     fID = init.fID;
     fValueType = init.fValueType;
 
@@ -57,7 +58,8 @@ plPythonParameter& plPythonParameter::operator=(const plPythonParameter& init) {
     return *this;
 }
 
-void plPythonParameter::read(hsStream* S, plResManager* mgr) {
+void plPythonParameter::read(hsStream* S, plResManager* mgr)
+{
     fID = S->readInt();
     fValueType = PlasmaToMapped(S->readInt(), S->getVer());
     if (fValueType > kNone || fValueType == 0)
@@ -93,7 +95,8 @@ void plPythonParameter::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plPythonParameter::write(hsStream* S, plResManager* mgr) {
+void plPythonParameter::write(hsStream* S, plResManager* mgr)
+{
     S->writeInt(fID);
     S->writeInt(MappedToPlasma(fValueType, S->getVer()));
 
@@ -123,7 +126,8 @@ void plPythonParameter::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plPythonParameter::prcWrite(pfPrcHelper* prc) {
+void plPythonParameter::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("plPythonParameter");
 
     prc->writeParam("ID", fID);
@@ -160,7 +164,8 @@ void plPythonParameter::prcWrite(pfPrcHelper* prc) {
     }
 }
 
-void plPythonParameter::prcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plPythonParameter::prcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() != "plPythonParameter")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
@@ -199,7 +204,8 @@ void plPythonParameter::prcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-unsigned int plPythonParameter::PlasmaToMapped(unsigned int type, PlasmaVer ver) {
+unsigned int plPythonParameter::PlasmaToMapped(unsigned int type, PlasmaVer ver)
+{
     if (!ver.isValid())
         throw hsBadVersionException(__FILE__, __LINE__);
     if (ver.isUniversal() || type < 20)
@@ -226,7 +232,8 @@ unsigned int plPythonParameter::PlasmaToMapped(unsigned int type, PlasmaVer ver)
     }
 }
 
-unsigned int plPythonParameter::MappedToPlasma(unsigned int type, PlasmaVer ver) {
+unsigned int plPythonParameter::MappedToPlasma(unsigned int type, PlasmaVer ver)
+{
     if (!ver.isValid())
         throw hsBadVersionException(__FILE__, __LINE__);
     if (ver.isUniversal() || type < 20)
@@ -255,7 +262,8 @@ unsigned int plPythonParameter::MappedToPlasma(unsigned int type, PlasmaVer ver)
 
 
 /* plPythonFileMod */
-void plPythonFileMod::read(hsStream* S, plResManager* mgr) {
+void plPythonFileMod::read(hsStream* S, plResManager* mgr)
+{
     plMultiModifier::read(S, mgr);
     fPythonFile = S->readSafeStr();
 
@@ -268,7 +276,8 @@ void plPythonFileMod::read(hsStream* S, plResManager* mgr) {
         fParameters[i].read(S, mgr);
 }
 
-void plPythonFileMod::write(hsStream* S, plResManager* mgr) {
+void plPythonFileMod::write(hsStream* S, plResManager* mgr)
+{
     plMultiModifier::write(S, mgr);
     S->writeSafeStr(fPythonFile);
 
@@ -281,7 +290,8 @@ void plPythonFileMod::write(hsStream* S, plResManager* mgr) {
         fParameters[i].write(S, mgr);
 }
 
-void plPythonFileMod::IPrcWrite(pfPrcHelper* prc) {
+void plPythonFileMod::IPrcWrite(pfPrcHelper* prc)
+{
     plMultiModifier::IPrcWrite(prc);
 
     prc->startTag("PythonFile");
@@ -300,7 +310,8 @@ void plPythonFileMod::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plPythonFileMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plPythonFileMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if  (tag->getName() == "PythonFile") {
         fPythonFile = tag->getParam("name", "");
     } else if (tag->getName() == "Receivers") {

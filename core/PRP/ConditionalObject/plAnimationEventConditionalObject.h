@@ -19,7 +19,8 @@
 
 #include "plConditionalObject.h"
 
-class PLASMA_DLL plAnimationEventConditionalObject : public plConditionalObject {
+class PLASMA_DLL plAnimationEventConditionalObject : public plConditionalObject
+{
     CREATABLE(plAnimationEventConditionalObject,
               kAnimationEventConditionalObject,
               plConditionalObject)

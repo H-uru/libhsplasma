@@ -19,9 +19,11 @@
 
 #include "Math/hsGeometry3.h"
 
-class PLASMA_DLL plSpanTemplate {
+class PLASMA_DLL plSpanTemplate
+{
 public:
-    enum {
+    enum
+    {
         kPosMask = 0x1,
         kNormMask = 0x2,
         kColorMask = 0x4,
@@ -31,7 +33,8 @@ public:
         kColor2Mask = 0x400
     };
 
-    struct PLASMA_DLL Vertex {
+    struct PLASMA_DLL Vertex
+    {
         hsVector3 fPosition, fNormal;
         unsigned int fColor1, fColor2;
         int fWeightIdx;
@@ -45,8 +48,8 @@ protected:
     unsigned short* fIndices;
 
 public:
-    plSpanTemplate() : fNumVerts(0), fNumTris(0), fFormat(0), fStride(0),
-                       fData(NULL), fIndices(NULL) { }
+    plSpanTemplate()
+        : fNumVerts(), fNumTris(), fFormat(), fStride(), fData(), fIndices() { }
     ~plSpanTemplate();
 
     void read(hsStream* S);

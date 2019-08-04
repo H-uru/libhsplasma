@@ -17,7 +17,8 @@
 #include "plSoftVolume.h"
 
 /* plSoftVolume */
-void plSoftVolume::read(hsStream* S, plResManager* mgr) {
+void plSoftVolume::read(hsStream* S, plResManager* mgr)
+{
     plObjInterface::read(S, mgr);
 
     fListenState = S->readInt();
@@ -25,7 +26,8 @@ void plSoftVolume::read(hsStream* S, plResManager* mgr) {
     fOutsideStrength = S->readFloat();
 }
 
-void plSoftVolume::write(hsStream* S, plResManager* mgr) {
+void plSoftVolume::write(hsStream* S, plResManager* mgr)
+{
     plObjInterface::write(S, mgr);
 
     S->writeInt(fListenState);
@@ -33,7 +35,8 @@ void plSoftVolume::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fOutsideStrength);
 }
 
-void plSoftVolume::IPrcWrite(pfPrcHelper* prc) {
+void plSoftVolume::IPrcWrite(pfPrcHelper* prc)
+{
     plObjInterface::IPrcWrite(prc);
 
     prc->startTag("SoftVolumeParams");
@@ -43,7 +46,8 @@ void plSoftVolume::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plSoftVolume::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plSoftVolume::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "SoftVolumeParams") {
         fListenState = tag->getParam("ListenState", "0").to_uint();
         fInsideStrength = tag->getParam("InsideStrength", "0").to_float();
@@ -55,25 +59,29 @@ void plSoftVolume::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plSoftVolumeSimple */
-plSoftVolumeSimple::~plSoftVolumeSimple() {
+plSoftVolumeSimple::~plSoftVolumeSimple()
+{
     delete fVolume;
 }
 
-void plSoftVolumeSimple::read(hsStream* S, plResManager* mgr) {
+void plSoftVolumeSimple::read(hsStream* S, plResManager* mgr)
+{
     plSoftVolume::read(S, mgr);
 
     fSoftDist = S->readFloat();
     setVolume(plVolumeIsect::Convert(mgr->ReadCreatable(S)));
 }
 
-void plSoftVolumeSimple::write(hsStream* S, plResManager* mgr) {
+void plSoftVolumeSimple::write(hsStream* S, plResManager* mgr)
+{
     plSoftVolume::write(S, mgr);
 
     S->writeFloat(fSoftDist);
     mgr->WriteCreatable(S, fVolume);
 }
 
-void plSoftVolumeSimple::IPrcWrite(pfPrcHelper* prc) {
+void plSoftVolumeSimple::IPrcWrite(pfPrcHelper* prc)
+{
     plSoftVolume::IPrcWrite(prc);
 
     prc->startTag("Volume");
@@ -88,7 +96,8 @@ void plSoftVolumeSimple::IPrcWrite(pfPrcHelper* prc) {
     }
 }
 
-void plSoftVolumeSimple::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plSoftVolumeSimple::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Volume") {
         fSoftDist = tag->getParam("SoftDist", "0").to_float();
         if (tag->hasChildren())
@@ -100,14 +109,16 @@ void plSoftVolumeSimple::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plSoftVolumeSimple::setVolume(plVolumeIsect* vol) {
+void plSoftVolumeSimple::setVolume(plVolumeIsect* vol)
+{
     delete fVolume;
     fVolume = vol;
 }
 
 
 /* plSoftVolumeComplex */
-void plSoftVolumeComplex::read(hsStream* S, plResManager* mgr) {
+void plSoftVolumeComplex::read(hsStream* S, plResManager* mgr)
+{
     plSoftVolume::read(S, mgr);
 
     fSubVolumes.resize(S->readInt());
@@ -115,7 +126,8 @@ void plSoftVolumeComplex::read(hsStream* S, plResManager* mgr) {
         fSubVolumes[i] = mgr->readKey(S);
 }
 
-void plSoftVolumeComplex::write(hsStream* S, plResManager* mgr) {
+void plSoftVolumeComplex::write(hsStream* S, plResManager* mgr)
+{
     plSoftVolume::write(S, mgr);
 
     S->writeInt(fSubVolumes.size());
@@ -123,7 +135,8 @@ void plSoftVolumeComplex::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fSubVolumes[i]);
 }
 
-void plSoftVolumeComplex::IPrcWrite(pfPrcHelper* prc) {
+void plSoftVolumeComplex::IPrcWrite(pfPrcHelper* prc)
+{
     plSoftVolume::IPrcWrite(prc);
 
     prc->writeSimpleTag("SubVolumes");
@@ -132,7 +145,8 @@ void plSoftVolumeComplex::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plSoftVolumeComplex::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plSoftVolumeComplex::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "SubVolumes") {
         fSubVolumes.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();

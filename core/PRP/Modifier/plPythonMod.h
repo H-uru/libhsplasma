@@ -19,29 +19,34 @@
 
 #include "plModifier.h"
 
-struct PLASMA_DLL PY_MATERIAL_ANIM {
+struct PLASMA_DLL PY_MATERIAL_ANIM
+{
     ST::string material_name;
     ST::string note_name;
     plKey modKey;
 };
 
-struct PLASMA_DLL PY_NOTETRACK {
+struct PLASMA_DLL PY_NOTETRACK
+{
     plKey objKey;
     ST::string note_name;
     plKey modKey;
 };
 
-struct PLASMA_DLL PY_SOUND_IDX {
+struct PLASMA_DLL PY_SOUND_IDX
+{
     ST::string sound_name;
     int sound_index;
 };
 
 
-class PLASMA_DLL plPythonMod : public plMultiModifier {
+class PLASMA_DLL plPythonMod : public plMultiModifier
+{
     CREATABLE(plPythonMod, kPythonMod, plMultiModifier)
 
 public:
-    enum func_num {
+    enum func_num
+    {
         kfunc_Init, kfunc_Update, kfunc_Notify, kfunc_AnimAtStart,
         kfunc_AnimAtStop, kfunc_AnimAtTime, kfunc_AnimAtReverse,
         kfunc_Collide, kfunc_AtTimer, kfunc_OnKeyEvent, kfunc_lastone
@@ -56,8 +61,8 @@ protected:
     std::vector<PY_MATERIAL_ANIM> fMaterialAnim;
 
 public:
-    plPythonMod() : fPythonCode(NULL), fPythonSize(0) { }
-    virtual ~plPythonMod();
+    plPythonMod() : fPythonCode(), fPythonSize() { }
+    ~plPythonMod();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

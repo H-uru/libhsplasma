@@ -23,7 +23,8 @@ PY_PLASMA_NEW(QuatTimeScale, plQuatTimeScale)
 
 PY_PLASMA_TYPE(QuatTimeScale, plQuatTimeScale, "plQuatTimeScale wrapper")
 
-PY_PLASMA_TYPE_INIT(QuatTimeScale) {
+PY_PLASMA_TYPE_INIT(QuatTimeScale)
+{
     pyQuatTimeScale_Type.tp_new = pyQuatTimeScale_new;
     pyQuatTimeScale_Type.tp_base = &pyQuatChannel_Type;
     if (PyType_CheckAndReady(&pyQuatTimeScale_Type) < 0)

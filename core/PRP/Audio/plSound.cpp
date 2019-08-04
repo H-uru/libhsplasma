@@ -17,7 +17,8 @@
 #include "plSound.h"
 
 /* plSound::plFadeParams */
-void plSound::plFadeParams::read(hsStream* S) {
+void plSound::plFadeParams::read(hsStream* S)
+{
     fLengthInSecs = S->readFloat();
     fVolStart = S->readFloat();
     fVolEnd = S->readFloat();
@@ -27,7 +28,8 @@ void plSound::plFadeParams::read(hsStream* S) {
     fFadeSoftVol = S->readInt() != 0;
 }
 
-void plSound::plFadeParams::write(hsStream* S) {
+void plSound::plFadeParams::write(hsStream* S)
+{
     S->writeFloat(fLengthInSecs);
     S->writeFloat(fVolStart);
     S->writeFloat(fVolEnd);
@@ -37,7 +39,8 @@ void plSound::plFadeParams::write(hsStream* S) {
     S->writeInt(fFadeSoftVol ? 1 : 0);
 }
 
-void plSound::plFadeParams::prcWrite(pfPrcHelper* prc) {
+void plSound::plFadeParams::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("plFadeParams");
     prc->writeParam("Type", fType);
     prc->writeParam("Length", fLengthInSecs);
@@ -49,7 +52,8 @@ void plSound::plFadeParams::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plSound::plFadeParams::prcParse(const pfPrcTag* tag) {
+void plSound::plFadeParams::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "plFadeParams")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
@@ -64,7 +68,8 @@ void plSound::plFadeParams::prcParse(const pfPrcTag* tag) {
 
 
 /* plSound */
-void plSound::read(hsStream* S, plResManager* mgr) {
+void plSound::read(hsStream* S, plResManager* mgr)
+{
     plSynchedObject::read(S, mgr);
     IRead(S, mgr);
 
@@ -72,20 +77,24 @@ void plSound::read(hsStream* S, plResManager* mgr) {
     //    fSynchFlags |= kLocalOnly;
 }
 
-void plSound::write(hsStream* S, plResManager* mgr) {
+void plSound::write(hsStream* S, plResManager* mgr)
+{
     plSynchedObject::write(S, mgr);
     IWrite(S, mgr);
 }
 
-void plSound::IRead(hsStream* S, plResManager* mgr) {
+void plSound::IRead(hsStream* S, plResManager* mgr)
+{
     fPlaying = S->readBool();
     fTime = S->readDouble();
     fMaxFalloff = S->readInt();
     fMinFalloff = S->readInt();
     fCurrVolume = S->readFloat();
     fDesiredVol = S->readFloat();
-    if (fDesiredVol > 1.0f) fDesiredVol = 1.0f;
-    if (fCurrVolume > 1.0f) fCurrVolume = 1.0f;
+    if (fDesiredVol > 1.0f)
+        fDesiredVol = 1.0f;
+    if (fCurrVolume > 1.0f)
+        fCurrVolume = 1.0f;
     fOuterVol = S->readInt();
     fInnerCone = S->readInt();
     fOuterCone = S->readInt();
@@ -108,7 +117,8 @@ void plSound::IRead(hsStream* S, plResManager* mgr) {
     fSoftOcclusionRegion = mgr->readKey(S);
 }
 
-void plSound::IWrite(hsStream* S, plResManager* mgr) {
+void plSound::IWrite(hsStream* S, plResManager* mgr)
+{
     S->writeBool(fPlaying);
     S->writeDouble(fTime);
     S->writeInt(fMaxFalloff);
@@ -134,7 +144,8 @@ void plSound::IWrite(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fSoftOcclusionRegion);
 }
 
-void plSound::IPrcWrite(pfPrcHelper* prc) {
+void plSound::IPrcWrite(pfPrcHelper* prc)
+{
     plSynchedObject::IPrcWrite(prc);
 
     prc->startTag("SoundParams");
@@ -180,7 +191,8 @@ void plSound::IPrcWrite(pfPrcHelper* prc) {
     fEAXSettings.prcWrite(prc);
 }
 
-void plSound::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plSound::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "SoundParams") {
         fPlaying = tag->getParam("Playing", "false").to_bool();
         fTime = tag->getParam("Time", "0").to_float();

@@ -16,12 +16,14 @@
 
 #include "pfGUITextBoxMod.h"
 
-pfGUITextBoxMod::pfGUITextBoxMod() {
+pfGUITextBoxMod::pfGUITextBoxMod()
+{
     fFlags.setName(kCenterJustify, "kCenterJustify");
     fFlags.setName(kRightJustify, "kRightJustify");
 }
 
-void pfGUITextBoxMod::read(hsStream* S, plResManager* mgr) {
+void pfGUITextBoxMod::read(hsStream* S, plResManager* mgr)
+{
     pfGUIControlMod::read(S, mgr);
 
     int len = S->readInt();
@@ -34,7 +36,8 @@ void pfGUITextBoxMod::read(hsStream* S, plResManager* mgr) {
         fLocalizationPath = ST::null;
 }
 
-void pfGUITextBoxMod::write(hsStream* S, plResManager* mgr) {
+void pfGUITextBoxMod::write(hsStream* S, plResManager* mgr)
+{
     pfGUIControlMod::write(S, mgr);
 
     S->writeInt(fText.size());
@@ -47,7 +50,8 @@ void pfGUITextBoxMod::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void pfGUITextBoxMod::IPrcWrite(pfPrcHelper* prc) {
+void pfGUITextBoxMod::IPrcWrite(pfPrcHelper* prc)
+{
     pfGUIControlMod::IPrcWrite(prc);
 
     prc->writeSimpleTag("Text");
@@ -59,7 +63,8 @@ void pfGUITextBoxMod::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void pfGUITextBoxMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void pfGUITextBoxMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Text") {
         size_t bufLen = tag->getContents().size();
         char* buf = new char[bufLen + 1];

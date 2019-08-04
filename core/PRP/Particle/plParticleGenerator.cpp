@@ -17,7 +17,8 @@
 #include "plParticleGenerator.h"
 
 /* plOneTimeParticleGenerator */
-void plOneTimeParticleGenerator::read(hsStream* S, plResManager* mgr) {
+void plOneTimeParticleGenerator::read(hsStream* S, plResManager* mgr)
+{
     uint32_t count = S->readInt();
     fXSize = S->readFloat();
     fYSize = S->readFloat();
@@ -33,7 +34,8 @@ void plOneTimeParticleGenerator::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plOneTimeParticleGenerator::write(hsStream* S, plResManager* mgr) {
+void plOneTimeParticleGenerator::write(hsStream* S, plResManager* mgr)
+{
     uint32_t count = static_cast<uint32_t>(fPosition.size());
     S->writeInt(count);
     S->writeFloat(fXSize);
@@ -53,7 +55,8 @@ void plOneTimeParticleGenerator::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plOneTimeParticleGenerator::IPrcWrite(pfPrcHelper* prc) {
+void plOneTimeParticleGenerator::IPrcWrite(pfPrcHelper* prc)
+{
     prc->startTag("GeneratorParams");
     prc->writeParam("XSize", fXSize);
     prc->writeParam("YSize", fYSize);
@@ -81,7 +84,8 @@ void plOneTimeParticleGenerator::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plOneTimeParticleGenerator::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plOneTimeParticleGenerator::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "GeneratorParams") {
         fXSize = tag->getParam("XSize", "0").to_float();
         fYSize = tag->getParam("YSize", "0").to_float();
@@ -118,7 +122,8 @@ void plOneTimeParticleGenerator::IPrcParse(const pfPrcTag* tag, plResManager* mg
 
 
 /* plSimpleParticleGenerator */
-void plSimpleParticleGenerator::read(hsStream* S, plResManager* mgr) {
+void plSimpleParticleGenerator::read(hsStream* S, plResManager* mgr)
+{
     fGenLife = S->readFloat();
     fPartLifeMin = S->readFloat();
     fPartLifeMax = S->readFloat();
@@ -145,7 +150,8 @@ void plSimpleParticleGenerator::read(hsStream* S, plResManager* mgr) {
     fPartRadsPerSecRange = S->readFloat();
 }
 
-void plSimpleParticleGenerator::write(hsStream* S, plResManager* mgr) {
+void plSimpleParticleGenerator::write(hsStream* S, plResManager* mgr)
+{
     S->writeFloat(fGenLife);
     S->writeFloat(fPartLifeMin);
     S->writeFloat(fPartLifeMax);
@@ -175,7 +181,8 @@ void plSimpleParticleGenerator::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fPartRadsPerSecRange);
 }
 
-void plSimpleParticleGenerator::IPrcWrite(pfPrcHelper* prc) {
+void plSimpleParticleGenerator::IPrcWrite(pfPrcHelper* prc)
+{
     prc->startTag("ParticleParams");
     prc->writeParam("GenLife", fGenLife);
     prc->writeParam("PartLifeMin", fPartLifeMin);
@@ -212,7 +219,8 @@ void plSimpleParticleGenerator::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plSimpleParticleGenerator::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plSimpleParticleGenerator::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "ParticleParams") {
         fGenLife = tag->getParam("GenLife", "0").to_float();
         fPartLifeMin = tag->getParam("PartLifeMin", "0").to_float();

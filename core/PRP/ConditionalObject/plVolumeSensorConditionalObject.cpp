@@ -17,21 +17,24 @@
 #include "plVolumeSensorConditionalObject.h"
 
 /* plVolumeSensorConditionalObject */
-void plVolumeSensorConditionalObject::read(hsStream* S, plResManager* mgr) {
+void plVolumeSensorConditionalObject::read(hsStream* S, plResManager* mgr)
+{
     plConditionalObject::read(S, mgr);
     fTrigNum = S->readInt();
     fType = S->readInt();
     fFirst = S->readBool();
 }
 
-void plVolumeSensorConditionalObject::write(hsStream* S, plResManager* mgr) {
+void plVolumeSensorConditionalObject::write(hsStream* S, plResManager* mgr)
+{
     plConditionalObject::write(S, mgr);
     S->writeInt(fTrigNum);
     S->writeInt(fType);
     S->writeBool(fFirst);
 }
 
-void plVolumeSensorConditionalObject::IPrcWrite(pfPrcHelper* prc) {
+void plVolumeSensorConditionalObject::IPrcWrite(pfPrcHelper* prc)
+{
     plConditionalObject::IPrcWrite(prc);
     prc->startTag("VolumeSensorParams");
     prc->writeParam("TrigNum", fTrigNum);
@@ -40,7 +43,8 @@ void plVolumeSensorConditionalObject::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plVolumeSensorConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plVolumeSensorConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "VolumeSensorParams") {
         fTrigNum = tag->getParam("TrigNum", "0").to_int();
         fType = tag->getParam("Type", "0").to_int();

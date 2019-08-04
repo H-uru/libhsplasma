@@ -24,12 +24,14 @@
 
 PY_PLASMA_NEW(LinkToAgeMsg, plLinkToAgeMsg)
 
-PY_GETSET_GETTER_DECL(LinkToAgeMsg, ageLink) {
+PY_GETSET_GETTER_DECL(LinkToAgeMsg, ageLink)
+{
     // This cannot be a subclass, since it's an inline member
     return pyAgeLinkStruct_FromAgeLinkStruct(&self->fThis->getAgeLink());
 }
 
-PY_GETSET_SETTER_DECL(LinkToAgeMsg, ageLink) {
+PY_GETSET_SETTER_DECL(LinkToAgeMsg, ageLink)
+{
     PY_PROPERTY_CHECK_NULL(ageLink)
 
     plAgeLinkStruct& als = self->fThis->getAgeLink();
@@ -51,7 +53,8 @@ static PyGetSetDef pyLinkToAgeMsg_GetSet[] = {
 
 PY_PLASMA_TYPE(LinkToAgeMsg, plLinkToAgeMsg, "plLinkToAgeMsg wrapper")
 
-PY_PLASMA_TYPE_INIT(LinkToAgeMsg) {
+PY_PLASMA_TYPE_INIT(LinkToAgeMsg)
+{
     pyLinkToAgeMsg_Type.tp_new = pyLinkToAgeMsg_new;
     pyLinkToAgeMsg_Type.tp_getset = pyLinkToAgeMsg_GetSet;
     pyLinkToAgeMsg_Type.tp_base = &pyMessage_Type;

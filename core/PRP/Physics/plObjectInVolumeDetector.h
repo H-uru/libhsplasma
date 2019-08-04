@@ -20,13 +20,15 @@
 #include "plCollisionDetector.h"
 #include "PRP/Message/plCameraMsg.h"
 
-class PLASMA_DLL plObjectInVolumeDetector : public plCollisionDetector {
+class PLASMA_DLL plObjectInVolumeDetector : public plCollisionDetector
+{
     CREATABLE(plObjectInVolumeDetector, kObjectInVolumeDetector,
               plCollisionDetector)
 };
 
 
-class PLASMA_DLL plCameraRegionDetector : public plObjectInVolumeDetector {
+class PLASMA_DLL plCameraRegionDetector : public plObjectInVolumeDetector
+{
     CREATABLE(plCameraRegionDetector, kCameraRegionDetector,
               plObjectInVolumeDetector)
 
@@ -35,7 +37,7 @@ protected:
 
 public:
     plCameraRegionDetector() { }
-    virtual ~plCameraRegionDetector();
+    ~plCameraRegionDetector();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -53,7 +55,8 @@ public:
 };
 
 
-class PLASMA_DLL plObjectInVolumeAndFacingDetector : public plObjectInVolumeDetector {
+class PLASMA_DLL plObjectInVolumeAndFacingDetector : public plObjectInVolumeDetector
+{
     CREATABLE(plObjectInVolumeAndFacingDetector,
               kObjectInVolumeAndFacingDetector,
               plObjectInVolumeDetector)
@@ -64,7 +67,7 @@ protected:
 
 public:
     plObjectInVolumeAndFacingDetector()
-        : fFacingTolerance(0.0f), fNeedWalkingForward(false) { }
+        : fFacingTolerance(), fNeedWalkingForward() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

@@ -54,7 +54,8 @@ static PyMethodDef pyMultiModifier_Methods[] = {
 
 PY_PLASMA_TYPE(MultiModifier, plMultiModifier, "plMultiModifier wrapper")
 
-PY_PLASMA_TYPE_INIT(MultiModifier) {
+PY_PLASMA_TYPE_INIT(MultiModifier)
+{
     pyMultiModifier_Type.tp_new = pyMultiModifier_new;
     pyMultiModifier_Type.tp_methods = pyMultiModifier_Methods;
     pyMultiModifier_Type.tp_base = &pyModifier_Type;

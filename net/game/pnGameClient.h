@@ -24,12 +24,13 @@
 #include "crypt/pnRC4.h"
 #include "pnSocketInterface.h"
 
-class PLASMANET_DLL pnGameClient : public pnClient {
+class PLASMANET_DLL pnGameClient : public pnClient
+{
 public:
     pnGameClient(plResManager* mgr, bool deleteMsgs = true, bool threaded = true)
-        : fSock(NULL), fResMgr(mgr), fThreaded(threaded), fKeyG(73),
-          fDeleteMsgs(deleteMsgs), fDispatch(NULL) { }
-    virtual ~pnGameClient();
+        : fSock(), fResMgr(mgr), fThreaded(threaded), fKeyG(73),
+          fDeleteMsgs(deleteMsgs), fDispatch() { }
+    ~pnGameClient();
 
     void setKeys(const unsigned char* keyX, const unsigned char* keyN,
                  bool littleEndian = true);
@@ -42,7 +43,9 @@ public:
     void disconnect() HS_OVERRIDE;
 
     bool isConnected() const HS_OVERRIDE
-    { return (fSock != NULL) && fSock->isConnected(); }
+    {
+        return fSock && fSock->isConnected();
+    }
 
 //     virtual void signalStatus() { fSock->signalStatus(); }
 //     virtual void waitForStatus() { fSock->waitForStatus(); }
@@ -76,11 +79,12 @@ private:
     int fKeyG;
     bool fDeleteMsgs;
 
-    class Dispatch : public pnDispatcher {
+    class Dispatch : public pnDispatcher
+    {
     public:
         Dispatch(pnGameClient* self, bool deleteMsgs)
             : fReceiver(self), fDeleteMsgs(deleteMsgs) { }
-        virtual ~Dispatch() { }
+        ~Dispatch() { }
         bool dispatch(pnSocket* sock) HS_OVERRIDE;
 
     private:

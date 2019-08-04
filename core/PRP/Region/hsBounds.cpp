@@ -17,27 +17,32 @@
 #include "hsBounds.h"
 
 /* hsBounds */
-void hsBounds::read(hsStream* S) {
+void hsBounds::read(hsStream* S)
+{
     fType = S->readInt();
 }
 
-void hsBounds::write(hsStream* S) {
+void hsBounds::write(hsStream* S)
+{
     S->writeInt(fType);
 }
 
-void hsBounds::prcWrite(pfPrcHelper* prc) {
+void hsBounds::prcWrite(pfPrcHelper* prc)
+{
     prc->writeSimpleTag(ClassName());
     IPrcWrite(prc);
     prc->closeTag();
 }
 
-void hsBounds::IPrcWrite(pfPrcHelper* prc) {
+void hsBounds::IPrcWrite(pfPrcHelper* prc)
+{
     prc->startTag("BoundsInfo");
     prc->writeParam("Type", fType);
     prc->endTag(true);
 }
 
-void hsBounds::prcParse(const pfPrcTag* tag) {
+void hsBounds::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != ClassName())
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
@@ -48,7 +53,8 @@ void hsBounds::prcParse(const pfPrcTag* tag) {
     }
 }
 
-void hsBounds::IPrcParse(const pfPrcTag* tag) {
+void hsBounds::IPrcParse(const pfPrcTag* tag)
+{
     if (tag->getName() == "BoundsInfo") {
         fType = tag->getParam("Type", "0").to_int();
     } else {
@@ -58,51 +64,70 @@ void hsBounds::IPrcParse(const pfPrcTag* tag) {
 
 
 /* hsBounds3 */
-void hsBounds3::init(const hsVector3& right) {
+void hsBounds3::init(const hsVector3& right)
+{
     fMins = right;
     fMaxs = right;
     fCenter = right;
 }
 
-hsBounds3 hsBounds3::operator+(const hsBounds3& right) const {
+hsBounds3 hsBounds3::operator+(const hsBounds3& right) const
+{
     hsBounds3 result = *this;
     result += right;
     return result;
 }
 
-hsBounds3& hsBounds3::operator+=(const hsBounds3& right) {
-    if (right.fMins.X < fMins.X) fMins.X = right.fMins.X;
-    if (right.fMaxs.X > fMaxs.X) fMaxs.X = right.fMaxs.X;
-    if (right.fMins.Y < fMins.Y) fMins.Y = right.fMins.Y;
-    if (right.fMaxs.Y > fMaxs.Y) fMaxs.Y = right.fMaxs.Y;
-    if (right.fMins.Z < fMins.Z) fMins.Z = right.fMins.Z;
-    if (right.fMaxs.Z > fMaxs.Z) fMaxs.Z = right.fMaxs.Z;
+hsBounds3& hsBounds3::operator+=(const hsBounds3& right)
+{
+    if (right.fMins.X < fMins.X)
+        fMins.X = right.fMins.X;
+    if (right.fMaxs.X > fMaxs.X)
+        fMaxs.X = right.fMaxs.X;
+    if (right.fMins.Y < fMins.Y)
+        fMins.Y = right.fMins.Y;
+    if (right.fMaxs.Y > fMaxs.Y)
+        fMaxs.Y = right.fMaxs.Y;
+    if (right.fMins.Z < fMins.Z)
+        fMins.Z = right.fMins.Z;
+    if (right.fMaxs.Z > fMaxs.Z)
+        fMaxs.Z = right.fMaxs.Z;
     return *this;
 }
 
-hsBounds3& hsBounds3::operator+=(const hsVector3& point) {
-    if (point.X < fMins.X) fMins.X = point.X;
-    if (point.X > fMaxs.X) fMaxs.X = point.X;
-    if (point.Y < fMins.Y) fMins.Y = point.Y;
-    if (point.Y > fMaxs.Y) fMaxs.Y = point.Y;
-    if (point.Z < fMins.Z) fMins.Z = point.Z;
-    if (point.Z > fMaxs.Z) fMaxs.Z = point.Z;
+hsBounds3& hsBounds3::operator+=(const hsVector3& point)
+{
+    if (point.X < fMins.X)
+        fMins.X = point.X;
+    if (point.X > fMaxs.X)
+        fMaxs.X = point.X;
+    if (point.Y < fMins.Y)
+        fMins.Y = point.Y;
+    if (point.Y > fMaxs.Y)
+        fMaxs.Y = point.Y;
+    if (point.Z < fMins.Z)
+        fMins.Z = point.Z;
+    if (point.Z > fMaxs.Z)
+        fMaxs.Z = point.Z;
     return *this;
 }
 
-void hsBounds3::read(hsStream* S) {
+void hsBounds3::read(hsStream* S)
+{
     hsBounds::read(S);
     fMins.read(S);
     fMaxs.read(S);
 }
 
-void hsBounds3::write(hsStream* S) {
+void hsBounds3::write(hsStream* S)
+{
     hsBounds::write(S);
     fMins.write(S);
     fMaxs.write(S);
 }
 
-void hsBounds3::IPrcWrite(pfPrcHelper* prc) {
+void hsBounds3::IPrcWrite(pfPrcHelper* prc)
+{
     hsBounds::IPrcWrite(prc);
     prc->writeSimpleTag("Mins");
     fMins.prcWrite(prc);
@@ -112,7 +137,8 @@ void hsBounds3::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void hsBounds3::IPrcParse(const pfPrcTag* tag) {
+void hsBounds3::IPrcParse(const pfPrcTag* tag)
+{
     if (tag->getName() == "Mins") {
         if (tag->hasChildren())
             fMins.prcParse(tag->getFirstChild());
@@ -124,7 +150,8 @@ void hsBounds3::IPrcParse(const pfPrcTag* tag) {
     }
 }
 
-hsBounds3Corners hsBounds3::getCorners() const {
+hsBounds3Corners hsBounds3::getCorners() const
+{
     hsBounds3Corners corners;
     for (size_t i = 0; i < corners.max_size(); ++i) {
         corners[i].X = (i & 0x01) ? fMins.X : fMaxs.X;
@@ -134,7 +161,8 @@ hsBounds3Corners hsBounds3::getCorners() const {
     return corners;
 }
 
-const hsVector3& hsBounds3::updateCenter() {
+const hsVector3& hsBounds3::updateCenter()
+{
     fCenter.X = (fMins.X + fMaxs.X) / 2.0f;
     fCenter.Y = (fMins.Y + fMaxs.Y) / 2.0f;
     fCenter.Z = (fMins.Z + fMaxs.Z) / 2.0f;
@@ -143,13 +171,15 @@ const hsVector3& hsBounds3::updateCenter() {
 
 
 /* hsBounds3Ext */
-hsBounds3Ext hsBounds3Ext::operator+(const hsBounds3Ext& right) const {
+hsBounds3Ext hsBounds3Ext::operator+(const hsBounds3Ext& right) const
+{
     hsBounds3Ext result = *this;
     result += right;
     return result;
 }
 
-void hsBounds3Ext::read(hsStream* S) {
+void hsBounds3Ext::read(hsStream* S)
+{
     fExtFlags = S->readInt();
     hsBounds3::read(S);
     if (!(fExtFlags & kAxisAligned)) {
@@ -162,7 +192,8 @@ void hsBounds3Ext::read(hsStream* S) {
     }
 }
 
-void hsBounds3Ext::write(hsStream* S) {
+void hsBounds3Ext::write(hsStream* S)
+{
     S->writeInt(fExtFlags);
     hsBounds3::write(S);
     if (!(fExtFlags & kAxisAligned)) {
@@ -175,7 +206,8 @@ void hsBounds3Ext::write(hsStream* S) {
     }
 }
 
-void hsBounds3Ext::IPrcWrite(pfPrcHelper* prc) {
+void hsBounds3Ext::IPrcWrite(pfPrcHelper* prc)
+{
     hsBounds3::IPrcWrite(prc);
     prc->startTag("ExtFlags");
     prc->writeParamHex("value", fExtFlags);
@@ -197,7 +229,8 @@ void hsBounds3Ext::IPrcWrite(pfPrcHelper* prc) {
     }
 }
 
-void hsBounds3Ext::IPrcParse(const pfPrcTag* tag) {
+void hsBounds3Ext::IPrcParse(const pfPrcTag* tag)
+{
     if (tag->getName() == "ExtFlags") {
         fExtFlags = tag->getParam("value", "0").to_uint();
     } else if (tag->getName() == "Corner") {
@@ -221,7 +254,8 @@ void hsBounds3Ext::IPrcParse(const pfPrcTag* tag) {
     }
 }
 
-hsBounds3Corners hsBounds3Ext::getCorners() const {
+hsBounds3Corners hsBounds3Ext::getCorners() const
+{
     if (fExtFlags & kAxisAligned) {
         return hsBounds3::getCorners();
     } else {
@@ -239,7 +273,8 @@ hsBounds3Corners hsBounds3Ext::getCorners() const {
     }
 }
 
-void hsBounds3Ext::unalign() {
+void hsBounds3Ext::unalign()
+{
     fCorner = fMins;
     fExtFlags = 0;
 
@@ -268,18 +303,21 @@ void hsBounds3Ext::unalign() {
 
 /* hsBoundsOriented */
 hsBoundsOriented::hsBoundsOriented(const hsBoundsOriented& src)
-                : hsBounds(src), fCenterValid(src.fCenterValid),
-                  fCenter(src.fCenter), fNumPlanes(src.fNumPlanes) {
+    : hsBounds(src), fCenterValid(src.fCenterValid),
+      fCenter(src.fCenter), fNumPlanes(src.fNumPlanes)
+{
     fPlanes = new hsPlane3[fNumPlanes];
     for (size_t i=0; i<fNumPlanes; i++)
         fPlanes[i] = src.fPlanes[i];
 }
 
-hsBoundsOriented::~hsBoundsOriented() {
+hsBoundsOriented::~hsBoundsOriented()
+{
     delete[] fPlanes;
 }
 
-void hsBoundsOriented::read(hsStream* S) {
+void hsBoundsOriented::read(hsStream* S)
+{
     hsBounds::read(S);
     fCenter.read(S);
     fCenterValid = S->readInt();
@@ -290,7 +328,8 @@ void hsBoundsOriented::read(hsStream* S) {
         fPlanes[i].read(S);
 }
 
-void hsBoundsOriented::write(hsStream* S) {
+void hsBoundsOriented::write(hsStream* S)
+{
     hsBounds::write(S);
     fCenter.write(S);
     S->writeInt(fCenterValid);
@@ -299,7 +338,8 @@ void hsBoundsOriented::write(hsStream* S) {
         fPlanes[i].write(S);
 }
 
-void hsBoundsOriented::IPrcWrite(pfPrcHelper* prc) {
+void hsBoundsOriented::IPrcWrite(pfPrcHelper* prc)
+{
     hsBounds::IPrcWrite(prc);
     prc->startTag("Center");
     prc->writeParam("IsValid", fCenterValid);
@@ -312,7 +352,8 @@ void hsBoundsOriented::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void hsBoundsOriented::IPrcParse(const pfPrcTag* tag) {
+void hsBoundsOriented::IPrcParse(const pfPrcTag* tag)
+{
     if (tag->getName() == "Center") {
         fCenterValid = tag->getParam("IsValid", "false").to_bool();
         if (tag->hasChildren())
@@ -331,7 +372,8 @@ void hsBoundsOriented::IPrcParse(const pfPrcTag* tag) {
     }
 }
 
-void hsBoundsOriented::setPlanes(unsigned int numPlanes, const hsPlane3* planes) {
+void hsBoundsOriented::setPlanes(unsigned int numPlanes, const hsPlane3* planes)
+{
     delete[] fPlanes;
     fNumPlanes = numPlanes;
     if (fNumPlanes > 0) {

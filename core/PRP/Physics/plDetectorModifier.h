@@ -19,7 +19,8 @@
 
 #include "PRP/Modifier/plModifier.h"
 
-class PLASMA_DLL plDetectorModifier : public plSingleModifier {
+class PLASMA_DLL plDetectorModifier : public plSingleModifier
+{
     CREATABLE(plDetectorModifier, kDetectorModifier, plSingleModifier)
 
 protected:
@@ -49,7 +50,8 @@ public:
 };
 
 
-class PLASMA_DLL plPickingDetector : public plDetectorModifier {
+class PLASMA_DLL plPickingDetector : public plDetectorModifier
+{
     CREATABLE(plPickingDetector, kPickingDetector, plDetectorModifier)
 };
 

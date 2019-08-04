@@ -33,7 +33,8 @@ static PyGetSetDef pySubworldRegionDetector_GetSet[] = {
 PY_PLASMA_TYPE(SubworldRegionDetector, plSubworldRegionDetector,
                "plSubworldRegionDetector wrapper")
 
-PY_PLASMA_TYPE_INIT(SubworldRegionDetector) {
+PY_PLASMA_TYPE_INIT(SubworldRegionDetector)
+{
     pySubworldRegionDetector_Type.tp_new = pySubworldRegionDetector_new;
     pySubworldRegionDetector_Type.tp_getset = pySubworldRegionDetector_GetSet;
     pySubworldRegionDetector_Type.tp_base = &pyCollisionDetector_Type;

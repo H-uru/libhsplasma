@@ -20,7 +20,8 @@ const char* plCubicEnvironmap::kFaceNames[kNumFaces] = {
     "Left", "Right", "Front", "Back", "Top", "Bottom"
 };
 
-void plCubicEnvironmap::read(hsStream* S, plResManager* mgr) {
+void plCubicEnvironmap::read(hsStream* S, plResManager* mgr)
+{
     plBitmap::read(S, mgr);
 
     for (int i=0; i<kNumFaces; i++) {
@@ -32,7 +33,8 @@ void plCubicEnvironmap::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plCubicEnvironmap::write(hsStream* S, plResManager* mgr) {
+void plCubicEnvironmap::write(hsStream* S, plResManager* mgr)
+{
     plBitmap::write(S, mgr);
 
     for (int i=0; i<kNumFaces; i++) {
@@ -43,7 +45,8 @@ void plCubicEnvironmap::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plCubicEnvironmap::IPrcWrite(pfPrcHelper* prc) {
+void plCubicEnvironmap::IPrcWrite(pfPrcHelper* prc)
+{
     plBitmap::IPrcWrite(prc);
 
     prc->writeSimpleTag("Faces");
@@ -52,7 +55,8 @@ void plCubicEnvironmap::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plCubicEnvironmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plCubicEnvironmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Faces") {
         if (tag->countChildren() != kNumFaces)
             throw pfPrcParseException(__FILE__, __LINE__, "plCubicEnvironmap expects exactly 6 faces");

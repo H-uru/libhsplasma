@@ -19,9 +19,11 @@
 
 #include "plModifier.h"
 
-struct PLASMA_DLL plPythonParameter {
+struct PLASMA_DLL plPythonParameter
+{
 public:
-    enum {
+    enum
+    {
         kInt = 1, kFloat, kBoolean, kString, kSceneObject, kSceneObjectList,
         kActivator, kResponder, kDynamicText, kGUIDialog, kExcludeRegion,
         kAnimation, kAnimationName, kBehavior, kMaterial, kGUIPopUpMenu,
@@ -36,7 +38,8 @@ public:
     plKey fObjKey;
     ST::string fStrValue;
 
-    union {
+    union
+    {
         int fIntValue;
         float fFloatValue;
         bool fBoolValue;
@@ -60,11 +63,13 @@ public:
 };
 
 
-class PLASMA_DLL plPythonFileMod : public plMultiModifier {
+class PLASMA_DLL plPythonFileMod : public plMultiModifier
+{
     CREATABLE(plPythonFileMod, kPythonFileMod, plMultiModifier)
 
 public:
-    enum func_num {
+    enum func_num
+    {
         kfunc_FirstUpdate, kfunc_Update, kfunc_Notify, kfunc_AtTimer,
         kfunc_OnKeyEvent, kfunc_Load, kfunc_Save, kfunc_GUINotify,
         kfunc_PageLoad, kfunc_ClothingUpdate, kfunc_KIMsg, kfunc_MemberUpdate,

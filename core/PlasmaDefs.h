@@ -44,12 +44,14 @@
 #define HS_FINAL_OVERRIDE   override final  // Prefer both to satisfy -Wsuggest-override
 #define HS_NOEXCEPT         noexcept
 
-enum CallbackEvent {
+enum CallbackEvent
+{
     kStart, kStop, kReverse, kTime, kLoop, kBegin, kEnd, kEventEnd,
     kSingleFrameAdjust, kSingleFrameEval
 };
 
-enum ControlEventCode {
+enum ControlEventCode
+{
     B_CONTROL_ACTION, B_CONTROL_ACTION_MOUSE, B_CONTROL_JUMP,
     B_CONTROL_MOVE_FORWARD, B_CONTROL_MOVE_BACKWARD, B_CONTROL_STRAFE_LEFT,
     B_CONTROL_STRAFE_RIGHT, B_CONTROL_MOVE_UP, B_CONTROL_MOVE_DOWN,

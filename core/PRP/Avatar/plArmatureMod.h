@@ -21,18 +21,19 @@
 #include "plArmatureBrain.h"
 #include "Math/hsGeometry3.h"
 
-class PLASMA_DLL plArmatureModBase : public plAGMasterMod {
+class PLASMA_DLL plArmatureModBase : public plAGMasterMod
+{
     CREATABLE(plArmatureModBase, kArmatureModBase, plAGMasterMod)
 
 protected:
     std::vector<plKey> fMeshKeys;
-    std::vector<std::vector<plKey> > fUnusedBones;
+    std::vector<std::vector<plKey>> fUnusedBones;
     std::vector<plArmatureBrain*> fBrains;
     plKey fDetector;
 
 public:
     plArmatureModBase() { }
-    virtual ~plArmatureModBase();
+    ~plArmatureModBase();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -46,11 +47,13 @@ public:
 };
 
 
-class PLASMA_DLL plArmatureMod : public plArmatureModBase {
+class PLASMA_DLL plArmatureMod : public plArmatureModBase
+{
     CREATABLE(plArmatureMod, kArmatureMod, plArmatureModBase)
 
 public:
-    enum {
+    enum
+    {
         kBoneBaseMale, kBoneBaseFemale, kBoneBaseCritter, kBoneBaseActor,
         kMaxBoneBase
     };
@@ -68,7 +71,7 @@ protected:
     ST::string fFootstepAge, fFootstepPage, fFootstepType;
 
 public:
-    plArmatureMod() : fBodyType(0), fPhysHeight(0.0f), fPhysWidth(0.0f) { }
+    plArmatureMod() : fBodyType(), fPhysHeight(), fPhysWidth() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -79,7 +82,8 @@ protected:
 };
 
 
-class PLASMA_DLL plArmatureLODMod : public plArmatureMod {
+class PLASMA_DLL plArmatureLODMod : public plArmatureMod
+{
     CREATABLE(plArmatureLODMod, kArmatureLODMod, plArmatureMod)
 
 public:

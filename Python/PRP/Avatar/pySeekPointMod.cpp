@@ -31,7 +31,8 @@ PyGetSetDef pySeekPointMod_GetSet[] = {
 
 PY_PLASMA_TYPE(SeekPointMod, plSeekPointMod, "plSeekPointMod wrapper")
 
-PY_PLASMA_TYPE_INIT(SeekPointMod) {
+PY_PLASMA_TYPE_INIT(SeekPointMod)
+{
     pySeekPointMod_Type.tp_new = pySeekPointMod_new;
     pySeekPointMod_Type.tp_base = &pyMultiModifier_Type;
     pySeekPointMod_Type.tp_getset = pySeekPointMod_GetSet;

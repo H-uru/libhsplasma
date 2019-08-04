@@ -16,7 +16,8 @@
 
 #include "plLogicModifier.h"
 
-void plLogicModifier::read(hsStream* S, plResManager* mgr) {
+void plLogicModifier::read(hsStream* S, plResManager* mgr)
+{
     plLogicModBase::read(S, mgr);
 
     size_t count = S->readInt();
@@ -29,7 +30,8 @@ void plLogicModifier::read(hsStream* S, plResManager* mgr) {
         fParent = mgr->readKey(S);
 }
 
-void plLogicModifier::write(hsStream* S, plResManager* mgr) {
+void plLogicModifier::write(hsStream* S, plResManager* mgr)
+{
     plLogicModBase::write(S, mgr);
 
     S->writeInt(fConditionList.size());
@@ -41,7 +43,8 @@ void plLogicModifier::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fParent);
 }
 
-void plLogicModifier::IPrcWrite(pfPrcHelper* prc) {
+void plLogicModifier::IPrcWrite(pfPrcHelper* prc)
+{
     plLogicModBase::IPrcWrite(prc);
 
     prc->writeSimpleTag("Conditions");
@@ -58,7 +61,8 @@ void plLogicModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plLogicModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plLogicModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Conditions") {
         fConditionList.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();

@@ -22,7 +22,8 @@ PY_PLASMA_NEW(GUIDialogProc, pfGUIDialogProc)
 
 PY_PLASMA_TYPE(GUIDialogProc, pfGUIDialogProc, "pfGUIDialogProc wrapper")
 
-PY_PLASMA_TYPE_INIT(GUIDialogProc) {
+PY_PLASMA_TYPE_INIT(GUIDialogProc)
+{
     pyGUIDialogProc_Type.tp_new = pyGUIDialogProc_new;
     pyGUIDialogProc_Type.tp_base = &pyGUICtrlProcObject_Type;
     if (PyType_CheckAndReady(&pyGUIDialogProc_Type) < 0)

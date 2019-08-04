@@ -21,14 +21,16 @@
 #include "plFont.h"
 #include "Sys/hsColor.h"
 
-class PLASMA_DLL plDynamicTextMap : public plMipmap {
+class PLASMA_DLL plDynamicTextMap : public plMipmap
+{
     CREATABLE(plDynamicTextMap, kDynamicTextMap, plMipmap)
 
 public:
     enum Justify { kLeftJustify, kCenter, kRightJustify };
     enum DrawMethods { kImgNoAlpha, kImgBlend, kImgSprite };
 
-    enum FontFlags {
+    enum FontFlags
+    {
         kFontBold = 0x1,
         kFontItalic = 0x2,
         kFontShadowed = 0x4,
@@ -42,9 +44,9 @@ protected:
 
 public:
     plDynamicTextMap()
-        : fVisWidth(0), fVisHeight(0), fHasAlpha(false), fHasBeenCreated(false),
-          fInitBuffer(NULL), fInitBufferLen(0) { }
-    virtual ~plDynamicTextMap();
+        : fVisWidth(), fVisHeight(), fHasAlpha(), fHasBeenCreated(),
+          fInitBuffer(), fInitBufferLen() { }
+    ~plDynamicTextMap();
 
     void Create(unsigned int width, unsigned int height, bool hasAlpha,
                 unsigned int extraWidth, unsigned int extraHeight);

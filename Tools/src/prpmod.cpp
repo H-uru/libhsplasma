@@ -22,7 +22,8 @@
 #include <string_theory/stdio>
 #include <cstring>
 
-void doHelp(const char* prgName) {
+static void doHelp(const char* prgName)
+{
     ST::printf("Usage: {} filename.prp action [options]\n", prgName);
     puts("");
     puts("actions:");
@@ -37,7 +38,9 @@ void doHelp(const char* prgName) {
     puts("");
 }
 
-plKey findObject(plResManager* mgr, const plLocation& loc, const ST::string& name, short type) {
+static plKey findObject(plResManager* mgr, const plLocation& loc,
+                        const ST::string& name, short type)
+{
     std::vector<plKey> keys = mgr->getKeys(loc, type);
     for (std::vector<plKey>::iterator it=keys.begin(); it != keys.end(); it++) {
         if ((*it)->getName() == name)
@@ -46,12 +49,14 @@ plKey findObject(plResManager* mgr, const plLocation& loc, const ST::string& nam
     return plKey();
 }
 
-enum {
+enum
+{
     kActionUnknown, kActionAdd, kActionDel, kActionExtract,
     kActionMask = 0xFF, kModePRC = 0x100
 };
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
     if (argc < 2) {
         doHelp(argv[0]);
         return 1;

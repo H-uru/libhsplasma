@@ -16,7 +16,8 @@
 
 #include "plStereizer.h"
 
-void plStereizer::read(hsStream* S, plResManager* mgr) {
+void plStereizer::read(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::read(S, mgr);
 
     fAmbientDist = S->readFloat();
@@ -27,7 +28,8 @@ void plStereizer::read(hsStream* S, plResManager* mgr) {
     fInitPos.read(S);
 }
 
-void plStereizer::write(hsStream* S, plResManager* mgr) {
+void plStereizer::write(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::write(S, mgr);
 
     S->writeFloat(fAmbientDist);
@@ -38,7 +40,8 @@ void plStereizer::write(hsStream* S, plResManager* mgr) {
     fInitPos.write(S);
 }
 
-void plStereizer::IPrcWrite(pfPrcHelper* prc) {
+void plStereizer::IPrcWrite(pfPrcHelper* prc)
+{
     plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("StereizerParams");
@@ -54,7 +57,8 @@ void plStereizer::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plStereizer::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plStereizer::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "StereizerParams") {
         fAmbientDist = tag->getParam("AmbientDist", "0").to_float();
         fTransition = tag->getParam("Transition", "0").to_float();

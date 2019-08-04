@@ -19,7 +19,8 @@
 
 #include "plConditionalObject.h"
 
-class PLASMA_DLL plVolumeSensorConditionalObject : public plConditionalObject {
+class PLASMA_DLL plVolumeSensorConditionalObject : public plConditionalObject
+{
     CREATABLE(plVolumeSensorConditionalObject,
               kVolumeSensorConditionalObject,
               plConditionalObject)
@@ -32,9 +33,9 @@ protected:
     bool fFirst, fTriggered, fIgnoreExtraEnters;
 
 public:
-    plVolumeSensorConditionalObject() : fTrigNum(-1), fType(kTypeEnter),
-                                        fFirst(false), fTriggered(false),
-                                        fIgnoreExtraEnters(true) { }
+    plVolumeSensorConditionalObject()
+        : fTrigNum(-1), fType(kTypeEnter), fFirst(), fTriggered(),
+          fIgnoreExtraEnters(true) { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -54,7 +55,8 @@ public:
 };
 
 
-class PLASMA_DLL plVolumeSensorConditionalObjectNoArbitration : public plVolumeSensorConditionalObject {
+class PLASMA_DLL plVolumeSensorConditionalObjectNoArbitration : public plVolumeSensorConditionalObject
+{
     CREATABLE(plVolumeSensorConditionalObjectNoArbitration,
               kVolumeSensorConditionalObjectNoArbitration,
               plVolumeSensorConditionalObject)

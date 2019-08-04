@@ -21,11 +21,13 @@
 #include "PRP/Message/plEventCallbackMsg.h"
 #include "plATCEaseCurves.h"
 
-class PLASMA_DLL plAnimTimeConvert : public plCreatable {
+class PLASMA_DLL plAnimTimeConvert : public plCreatable
+{
     CREATABLE(plAnimTimeConvert, kAnimTimeConvert, plCreatable)
 
 public:
-    enum plAnimTimeFlags {
+    enum plAnimTimeFlags
+    {
         kNone = 0,
         kStopped = 0x1,
         kLoop = 0x2,
@@ -50,11 +52,11 @@ protected:
     plATCEaseCurve* fSpeedEaseCurve;
 
 public:
-    plAnimTimeConvert() : fFlags(0), fBegin(0.0f), fEnd(0.0f), fLoopBegin(0.0f),
-                          fLoopEnd(0.0f), fSpeed(1.0f), fCurrentAnimTime(0.0f),
-                          fLastEvalWorldTime(0.0), fEaseInCurve(NULL),
-                          fEaseOutCurve(NULL), fSpeedEaseCurve(NULL) { }
-    virtual ~plAnimTimeConvert();
+    plAnimTimeConvert()
+        : fFlags(), fBegin(), fEnd(), fLoopBegin(), fLoopEnd(), fSpeed(1.0f),
+          fCurrentAnimTime(), fLastEvalWorldTime(), fEaseInCurve(),
+          fEaseOutCurve(), fSpeedEaseCurve() { }
+    ~plAnimTimeConvert();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

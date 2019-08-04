@@ -31,7 +31,8 @@ static PyGetSetDef pyCollisionDetector_GetSet[] = {
 
 PY_PLASMA_TYPE(CollisionDetector, plCollisionDetector, "plCollisionDetector wrapper")
 
-PY_PLASMA_TYPE_INIT(CollisionDetector) {
+PY_PLASMA_TYPE_INIT(CollisionDetector)
+{
     pyCollisionDetector_Type.tp_new = pyCollisionDetector_new;
     pyCollisionDetector_Type.tp_getset = pyCollisionDetector_GetSet;
     pyCollisionDetector_Type.tp_base = &pyDetectorModifier_Type;

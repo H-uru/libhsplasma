@@ -30,29 +30,34 @@
  * clothing manager.
  */
 
-class PLASMA_DLL plClothingItem : public hsKeyedObject {
+class PLASMA_DLL plClothingItem : public hsKeyedObject
+{
     CREATABLE(plClothingItem, kClothingItem, hsKeyedObject)
 
 public:
     enum LODLevels { kLODHigh, kLODMedium, kLODLow, kNumLODLevels };
 
-    enum ClothingLayers {
+    enum ClothingLayers
+    {
         kLayerBase, kLayerSkin, kLayerSkinBlend1, kLayerSkinBlend2,
         kLayerSkinBlend3, kLayerSkinBlend4, kLayerSkinBlend5, kLayerSkinBlend6,
         kLayerTint1, kLayerTint2, kLayerMax
     };
 
-    enum Tilesets {
+    enum Tilesets
+    {
         kSetShirt, kSetFace, kSetShoe, kSetPants, kSetHand, kSetPlayerBook,
         kSetGlasses, kSetKI, kSetEye, kSetBackpack, kMaxTileset
     };
 
-    enum Types {
+    enum Types
+    {
         kTypePants, kTypeShirt, kTypeLeftHand, kTypeRightHand, kTypeFace,
         kTypeHair, kTypeLeftFoot, kTypeRightFoot, kTypeAccessory, kMaxType
     };
 
-    enum Groups {
+    enum Groups
+    {
         kClothingBaseMale, kClothingBaseFemale, kClothingBaseNoOptions,
         kMaxGroup
     };
@@ -71,7 +76,7 @@ private:
 
 public:
     plClothingItem();
-    virtual ~plClothingItem();
+    ~plClothingItem();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -125,13 +130,15 @@ public:
     plKey getMesh(int lodLevel) const { return fMeshes[lodLevel]; }
 
     /** Returns the default first tint color for the item. */
-    hsColorRGBA getDefaultTint1() const {
+    hsColorRGBA getDefaultTint1() const
+    {
         return hsColorRGBA(fDefaultTint1[0] / 255.0f, fDefaultTint1[1] / 255.0f,
                            fDefaultTint1[2] / 255.0f, 1.0f);
     }
 
     /** Returns the default second tint color for the item. */
-    hsColorRGBA getDefaultTint2() const {
+    hsColorRGBA getDefaultTint2() const
+    {
         return hsColorRGBA(fDefaultTint2[0] / 255.0f, fDefaultTint2[1] / 255.0f,
                            fDefaultTint2[2] / 255.0f, 1.0f);
     }
@@ -203,7 +210,9 @@ public:
      * Sets the element name for element number \a element to \a elementName.
      */
     void setElementName(int element, const ST::string& elementName)
-    { fElementNames[element] = elementName; }
+    {
+        fElementNames[element] = elementName;
+    }
 
     /**
      * Returns the element texture for element number \a element, at layer
@@ -211,13 +220,17 @@ public:
      * \sa ClothingLayers
      */
     plKey getElementTexture(int element, int layer) const
-    { return fTextures[element][layer]; }
+    {
+        return fTextures[element][layer];
+    }
 
     /**
      * Returns the element name for element number \a element.
      */
     ST::string getElementName(int element) const
-    { return fElementNames[element]; }
+    {
+        return fElementNames[element];
+    }
 
     /** Remove the specified element from the clothing item. */
     void delElement(int element);

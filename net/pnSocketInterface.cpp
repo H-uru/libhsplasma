@@ -19,11 +19,12 @@
 #include <Sys/hsThread.h>
 #include "pnSocket.h"
 
-class pnThreadHelper : public hsThread {
+class pnThreadHelper : public hsThread
+{
 public:
     pnThreadHelper(pnSocket* sock, pnDispatcher* dispatch)
         : fReceiver(dispatch), fSock(sock) { }
-    virtual ~pnThreadHelper() { }
+    ~pnThreadHelper() { }
 
     void stop()
     {

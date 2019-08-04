@@ -26,11 +26,13 @@
  * static mipmap and environmaps, dynamic text maps, and render targets for
  * animated layers.
  */
-class PLASMA_DLL plBitmap : public hsKeyedObject {
+class PLASMA_DLL plBitmap : public hsKeyedObject
+{
     CREATABLE(plBitmap, kBitmap, hsKeyedObject)
 
 public:
-    enum Flags {
+    enum Flags
+    {
         /** Texture contains a full alpha channel */
         kAlphaChannelFlag = 0x1,
 
@@ -80,7 +82,8 @@ public:
         kIsOrtho = 0x8000
     };
 
-    enum CompressionType {
+    enum CompressionType
+    {
         /** Image data is stored as raw (A)RGB data */
         kUncompressed,
 
@@ -94,7 +97,8 @@ public:
         kPNGCompression,
     };
 
-    enum ColorSpace {
+    enum ColorSpace
+    {
         /** Image has no color space */
         kNoSpace,
 
@@ -108,7 +112,8 @@ public:
         kIndexSpace
     };
 
-    enum DxtType {
+    enum DxtType
+    {
         /** Invalid DXT compression type */
         kDXTError,
 
@@ -128,7 +133,8 @@ public:
         kDXT5
     };
 
-    enum ColorFormat {
+    enum ColorFormat
+    {
         /** 32-bit ARGB color pixels, 8 bits per channel */
         kRGB8888,
 
@@ -159,13 +165,15 @@ public:
 
 protected:
     /** Stores information about a DXT compressed image */
-    struct PLASMA_DLL DirectXInfo {
+    struct PLASMA_DLL DirectXInfo
+    {
         unsigned char fCompressionType; /** DXT compression type */
         unsigned char fBlockSize;       /** DirectX block size */
     };
 
     /** Stores information about non-DXT compressed images */
-    struct PLASMA_DLL UncompressedInfo {
+    struct PLASMA_DLL UncompressedInfo
+    {
         unsigned char fType;            /** Uncompressed image type */
     };
 
@@ -173,15 +181,17 @@ protected:
     unsigned char fSpace;
     unsigned short fFlags;
     unsigned char fCompressionType;
-    union {
+    union
+    {
         DirectXInfo fDXInfo;
         UncompressedInfo fUncompressedInfo;
     };
     unsigned int fLowModTime, fHighModTime;
 
 public:
-    plBitmap() : fPixelSize(0), fSpace(0), fFlags(0), fCompressionType(0),
-                 fLowModTime(0), fHighModTime(0) { }
+    plBitmap()
+        : fPixelSize(), fSpace(), fFlags(), fCompressionType(),
+          fLowModTime(), fHighModTime() { }
 
     /** Set pixel configuration based on color type */
     void setConfig(ColorFormat format);
@@ -250,7 +260,10 @@ public:
 
     /** Set the texture's modification timestamp */
     void setModTime(unsigned int low, unsigned int high)
-    { fLowModTime = low; fHighModTime = high; }
+    {
+        fLowModTime = low;
+        fHighModTime = high;
+    }
 };
 
 #endif

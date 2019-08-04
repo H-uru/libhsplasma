@@ -17,7 +17,8 @@
 #include "plRandomSoundMod.h"
 
 /* plRandomSoundModGroup */
-void plRandomSoundModGroup::read(hsStream* S) {
+void plRandomSoundModGroup::read(hsStream* S)
+{
     fIndices.resize(S->readShort());
     fGroupedIdx = S->readShort();
 
@@ -25,7 +26,8 @@ void plRandomSoundModGroup::read(hsStream* S) {
         fIndices[i] = S->readShort();
 }
 
-void plRandomSoundModGroup::write(hsStream* S) {
+void plRandomSoundModGroup::write(hsStream* S)
+{
     S->writeShort(fIndices.size());
     S->writeShort(fGroupedIdx);
 
@@ -33,7 +35,8 @@ void plRandomSoundModGroup::write(hsStream* S) {
         S->writeShort(fIndices[i]);
 }
 
-void plRandomSoundModGroup::prcWrite(pfPrcHelper* prc) {
+void plRandomSoundModGroup::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("plRandomSoundModGroup");
     prc->writeParam("GroupedIdx", fGroupedIdx);
     prc->endTag();
@@ -47,7 +50,8 @@ void plRandomSoundModGroup::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plRandomSoundModGroup::prcParse(const pfPrcTag* tag) {
+void plRandomSoundModGroup::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "plRandomSoundModGroup")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
@@ -64,7 +68,8 @@ void plRandomSoundModGroup::prcParse(const pfPrcTag* tag) {
 
 
 /* plRandomSoundMod */
-void plRandomSoundMod::read(hsStream* S, plResManager* mgr) {
+void plRandomSoundMod::read(hsStream* S, plResManager* mgr)
+{
     plRandomCommandMod::read(S, mgr);
 
     fGroups.resize(S->readShort());
@@ -72,7 +77,8 @@ void plRandomSoundMod::read(hsStream* S, plResManager* mgr) {
         fGroups[i].read(S);
 }
 
-void plRandomSoundMod::write(hsStream* S, plResManager* mgr) {
+void plRandomSoundMod::write(hsStream* S, plResManager* mgr)
+{
     plRandomCommandMod::write(S, mgr);
 
     S->writeShort(fGroups.size());
@@ -80,7 +86,8 @@ void plRandomSoundMod::write(hsStream* S, plResManager* mgr) {
         fGroups[i].write(S);
 }
 
-void plRandomSoundMod::IPrcWrite(pfPrcHelper* prc) {
+void plRandomSoundMod::IPrcWrite(pfPrcHelper* prc)
+{
     plRandomCommandMod::IPrcWrite(prc);
 
     prc->writeSimpleTag("Groups");
@@ -89,7 +96,8 @@ void plRandomSoundMod::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plRandomSoundMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plRandomSoundMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Groups") {
         fGroups.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();

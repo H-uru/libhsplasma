@@ -18,15 +18,18 @@
 #include <string_theory/stdio>
 #include <unordered_set>
 
-PyObject* PyString_FromSTString(const ST::string& str) {
+PyObject* PyString_FromSTString(const ST::string& str)
+{
     return PyString_FromStringAndSize(str.c_str(), str.size());
 }
 
-PyObject* PyUnicode_FromSTString(const ST::string& str) {
+PyObject* PyUnicode_FromSTString(const ST::string& str)
+{
     return PyUnicode_DecodeUTF8(str.c_str(), str.size(), NULL);
 }
 
-ST::string PyAnyString_AsSTString(PyObject* str) {
+ST::string PyAnyString_AsSTString(PyObject* str)
+{
     char *buffer;
     Py_ssize_t size;
     if (PyUnicode_Check(str)) {

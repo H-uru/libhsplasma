@@ -19,36 +19,42 @@
 
 #include "pfGUIControlMod.h"
 
-class PLASMA_DLL pfGUIClickMapCtrl : public pfGUIControlMod {
+class PLASMA_DLL pfGUIClickMapCtrl : public pfGUIControlMod
+{
     CREATABLE(pfGUIClickMapCtrl, kGUIClickMapCtrl, pfGUIControlMod)
 
 public:
     enum ClickMapFlags { kReportDragging = kDerivedFlagsStart, kReportHovering };
 
 public:
-    pfGUIClickMapCtrl() {
+    pfGUIClickMapCtrl()
+    {
         fFlags.setName(kReportDragging, "kReportDragging");
         fFlags.setName(kReportHovering, "kReportHovering");
     }
 };
 
 
-class PLASMA_DLL pfGUIDragBarCtrl : public pfGUIControlMod {
+class PLASMA_DLL pfGUIDragBarCtrl : public pfGUIControlMod
+{
     CREATABLE(pfGUIDragBarCtrl, kGUIDragBarCtrl, pfGUIControlMod)
 };
 
 
-class PLASMA_DLL pfGUIDraggableMod : public pfGUIControlMod {
+class PLASMA_DLL pfGUIDraggableMod : public pfGUIControlMod
+{
     CREATABLE(pfGUIDraggableMod, kGUIDraggableMod, pfGUIControlMod)
 
 public:
-    enum DraggableFlags {
+    enum DraggableFlags
+    {
         kReportDragging = kDerivedFlagsStart, kHideCursorWhileDragging,
         kAlwaysSnapBackToStart
     };
 
 public:
-    pfGUIDraggableMod() {
+    pfGUIDraggableMod()
+    {
         fFlags.setName(kReportDragging, "kReportDragging");
         fFlags.setName(kHideCursorWhileDragging, "kHideCursorWhileDragging");
         fFlags.setName(kAlwaysSnapBackToStart, "kAlwaysSnapBackToStart");
@@ -56,7 +62,8 @@ public:
 };
 
 
-class PLASMA_DLL pfGUIEditBoxMod : public pfGUIControlMod {
+class PLASMA_DLL pfGUIEditBoxMod : public pfGUIControlMod
+{
     CREATABLE(pfGUIEditBoxMod, kGUIEditBoxMod, pfGUIControlMod)
 };
 

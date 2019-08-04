@@ -20,15 +20,16 @@
 #include "plAvatarMsg.h"
 #include "PRP/Avatar/plAvTask.h"
 
-class PLASMA_DLL plAvTaskMsg : public plAvatarMsg {
+class PLASMA_DLL plAvTaskMsg : public plAvatarMsg
+{
     CREATABLE(plAvTaskMsg, kAvTaskMsg, plAvatarMsg)
 
 private:
     plAvTask* fTask;
 
 public:
-    plAvTaskMsg() : fTask(NULL) { }
-    virtual ~plAvTaskMsg();
+    plAvTaskMsg() : fTask() { }
+    ~plAvTaskMsg();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -43,15 +44,16 @@ public:
 };
 
 
-class PLASMA_DLL plAvPushBrainMsg : public plAvTaskMsg {
+class PLASMA_DLL plAvPushBrainMsg : public plAvTaskMsg
+{
     CREATABLE(plAvPushBrainMsg, kAvPushBrainMsg, plAvTaskMsg)
 
 private:
     plArmatureBrain* fBrain;
 
 public:
-    plAvPushBrainMsg() : fBrain(NULL) { }
-    virtual ~plAvPushBrainMsg();
+    plAvPushBrainMsg() : fBrain() { }
+    ~plAvPushBrainMsg();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -66,7 +68,8 @@ public:
 };
 
 
-class PLASMA_DLL plAvPopBrainMsg : public plAvTaskMsg {
+class PLASMA_DLL plAvPopBrainMsg : public plAvTaskMsg
+{
     CREATABLE(plAvPopBrainMsg, kAvPopBrainMsg, plAvTaskMsg)
 };
 

@@ -49,7 +49,8 @@ static PyGetSetDef pyLayerAnimationBase_GetSet[] = {
 PY_PLASMA_TYPE(LayerAnimationBase, plLayerAnimationBase,
                "plLayerAnimationBase wrapper")
 
-PY_PLASMA_TYPE_INIT(LayerAnimationBase) {
+PY_PLASMA_TYPE_INIT(LayerAnimationBase)
+{
     pyLayerAnimationBase_Type.tp_new = pyLayerAnimationBase_new;
     pyLayerAnimationBase_Type.tp_getset = pyLayerAnimationBase_GetSet;
     pyLayerAnimationBase_Type.tp_base = &pyLayerInterface_Type;

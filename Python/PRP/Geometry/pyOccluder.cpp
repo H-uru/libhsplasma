@@ -24,7 +24,8 @@
 
 PY_PLASMA_NEW(Occluder, plOccluder)
 
-PY_METHOD_NOARGS(Occluder, clearPolys, "Remove all plCullPolys from the occluder") {
+PY_METHOD_NOARGS(Occluder, clearPolys, "Remove all plCullPolys from the occluder")
+{
     self->fThis->clearPolys();
     Py_RETURN_NONE;
 }
@@ -96,7 +97,8 @@ PY_METHOD_VA(Occluder, delVisRegion,
     Py_RETURN_NONE;
 }
 
-PY_GETSET_GETTER_DECL(Occluder, polys) {
+PY_GETSET_GETTER_DECL(Occluder, polys)
+{
     PyObject* list = PyTuple_New(self->fThis->getPolys().size());
     for (size_t i=0; i<self->fThis->getPolys().size(); i++)
         PyTuple_SET_ITEM(list, i, pyCullPoly_FromCullPoly(self->fThis->getPolys()[i]));
@@ -106,7 +108,8 @@ PY_GETSET_GETTER_DECL(Occluder, polys) {
 PY_PROPERTY_SETTER_MSG(Occluder, polys, "To add polys, use addPoly()")
 PY_PROPERTY_GETSET_DECL(Occluder, polys)
 
-PY_GETSET_GETTER_DECL(Occluder, visRegions) {
+PY_GETSET_GETTER_DECL(Occluder, visRegions)
+{
     PyObject* list = PyTuple_New(self->fThis->getVisRegions().size());
     for (size_t i=0; i<self->fThis->getVisRegions().size(); i++)
         PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getVisRegions()[i]));
@@ -141,7 +144,8 @@ static PyGetSetDef pyOccluder_GetSet[] = {
 
 PY_PLASMA_TYPE(Occluder, plOccluder, "plOccluder wrapper")
 
-PY_PLASMA_TYPE_INIT(Occluder) {
+PY_PLASMA_TYPE_INIT(Occluder)
+{
     pyOccluder_Type.tp_new = pyOccluder_new;
     pyOccluder_Type.tp_methods = pyOccluder_Methods;
     pyOccluder_Type.tp_getset = pyOccluder_GetSet;

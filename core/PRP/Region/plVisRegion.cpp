@@ -16,26 +16,30 @@
 
 #include "plVisRegion.h"
 
-plVisRegion::plVisRegion() {
+plVisRegion::plVisRegion()
+{
     fProps.setName(kDisable, "kDisable");
     fProps.setName(kIsNot, "kIsNot");
     fProps.setName(kReplaceNormal, "kReplaceNormal");
     fProps.setName(kDisableNormal, "kDisableNormal");
 }
 
-void plVisRegion::read(hsStream* S, plResManager* mgr) {
+void plVisRegion::read(hsStream* S, plResManager* mgr)
+{
     plObjInterface::read(S, mgr);
     fRegion = mgr->readKey(S);
     fVisMgr = mgr->readKey(S);
 }
 
-void plVisRegion::write(hsStream* S, plResManager* mgr) {
+void plVisRegion::write(hsStream* S, plResManager* mgr)
+{
     plObjInterface::write(S, mgr);
     mgr->writeKey(S, fRegion);
     mgr->writeKey(S, fVisMgr);
 }
 
-void plVisRegion::IPrcWrite(pfPrcHelper* prc) {
+void plVisRegion::IPrcWrite(pfPrcHelper* prc)
+{
     plObjInterface::IPrcWrite(prc);
 
     prc->writeSimpleTag("Region");
@@ -46,7 +50,8 @@ void plVisRegion::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plVisRegion::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plVisRegion::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Region") {
         if (tag->hasChildren())
             fRegion = mgr->prcParseKey(tag->getFirstChild());

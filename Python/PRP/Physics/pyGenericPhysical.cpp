@@ -117,14 +117,16 @@ static PyMethodDef pyGenericPhysical_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(GenericPhysical, verts) {
+PY_GETSET_GETTER_DECL(GenericPhysical, verts)
+{
     PyObject* list = PyTuple_New(self->fThis->getVerts().size());
     for (size_t i=0; i<self->fThis->getVerts().size(); i++)
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getVerts()[i]));
     return list;
 }
 
-PY_GETSET_SETTER_DECL(GenericPhysical, verts) {
+PY_GETSET_SETTER_DECL(GenericPhysical, verts)
+{
     PY_PROPERTY_CHECK_NULL(verts)
     pySequenceFastRef seq(value);
     if (!seq.isSequence()) {
@@ -147,14 +149,16 @@ PY_GETSET_SETTER_DECL(GenericPhysical, verts) {
 
 PY_PROPERTY_GETSET_DECL(GenericPhysical, verts)
 
-PY_GETSET_GETTER_DECL(GenericPhysical, indices) {
+PY_GETSET_GETTER_DECL(GenericPhysical, indices)
+{
     PyObject* list = PyTuple_New(self->fThis->getIndices().size());
     for (size_t i=0; i<self->fThis->getIndices().size(); i++)
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getIndices()[i]));
     return list;
 }
 
-PY_GETSET_SETTER_DECL(GenericPhysical, indices) {
+PY_GETSET_SETTER_DECL(GenericPhysical, indices)
+{
     PY_PROPERTY_CHECK_NULL(indices)
     pySequenceFastRef seq(value);
     if (!seq.isSequence()) {
@@ -200,12 +204,14 @@ PY_PROPERTY(hsVector3, GenericPhysical, offset, getOffset, setOffset)
 PY_PROPERTY(float, GenericPhysical, radius, getRadius, setRadius)
 PY_PROPERTY(float, GenericPhysical, length, getLength, setLength)
 
-PY_GETSET_GETTER_DECL(GenericPhysical, TMDBuffer) {
+PY_GETSET_GETTER_DECL(GenericPhysical, TMDBuffer)
+{
     return PyBytes_FromStringAndSize((const char*)self->fThis->getTMDBuffer(),
                                      self->fThis->getTMDSize());
 }
 
-PY_GETSET_SETTER_DECL(GenericPhysical, TMDBuffer) {
+PY_GETSET_SETTER_DECL(GenericPhysical, TMDBuffer)
+{
     PY_PROPERTY_CHECK_NULL(TMDBuffer)
     if (value == Py_None) {
         self->fThis->setTMDBuffer(0, NULL);
@@ -250,7 +256,8 @@ static PyGetSetDef pyGenericPhysical_GetSet[] = {
 
 PY_PLASMA_TYPE(GenericPhysical, plGenericPhysical, "plGenericPhysical wrapper")
 
-PY_PLASMA_TYPE_INIT(GenericPhysical) {
+PY_PLASMA_TYPE_INIT(GenericPhysical)
+{
     pyGenericPhysical_Type.tp_new = pyGenericPhysical_new;
     pyGenericPhysical_Type.tp_methods = pyGenericPhysical_Methods;
     pyGenericPhysical_Type.tp_getset = pyGenericPhysical_GetSet;

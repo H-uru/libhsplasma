@@ -19,12 +19,14 @@
 
 #include "PRP/KeyedObject/hsKeyedObject.h"
 
-class PLASMA_DLL plArmatureEffect : public hsKeyedObject {
+class PLASMA_DLL plArmatureEffect : public hsKeyedObject
+{
     CREATABLE(plArmatureEffect, kArmatureEffect, hsKeyedObject)
 };
 
 
-class PLASMA_DLL plArmatureEffectFootSound : public plArmatureEffect {
+class PLASMA_DLL plArmatureEffectFootSound : public plArmatureEffect
+{
     CREATABLE(plArmatureEffectFootSound, kArmatureEffectFootSound, plArmatureEffect)
 
 protected:
@@ -40,11 +42,13 @@ protected:
 };
 
 
-class PLASMA_DLL plArmatureEffectsMgr : public hsKeyedObject {
+class PLASMA_DLL plArmatureEffectsMgr : public hsKeyedObject
+{
     CREATABLE(plArmatureEffectsMgr, kArmatureEffectsMgr, hsKeyedObject)
 
 public:
-    enum {
+    enum
+    {
         kFootDirt, kFootPuddle, kFootWater, kFootTile, kFootMetal,
         kFootWoodBridge, kFootRopeLadder, kFootGrass, kFootBrush, kFootHardWood,
         kFootRug, kFootStone, kFootMud, kFootMetalLadder, kFootWoodLadder,

@@ -35,7 +35,8 @@ static PyGetSetDef pyMultiStageEventData_GetSet[] = {
 PY_PLASMA_TYPE(MultiStageEventData, proMultiStageEventData,
                "proMultiStageEventData wrapper")
 
-PY_PLASMA_TYPE_INIT(MultiStageEventData) {
+PY_PLASMA_TYPE_INIT(MultiStageEventData)
+{
     pyMultiStageEventData_Type.tp_new = pyMultiStageEventData_new;
     pyMultiStageEventData_Type.tp_getset = pyMultiStageEventData_GetSet;
     pyMultiStageEventData_Type.tp_base = &pyEventData_Type;

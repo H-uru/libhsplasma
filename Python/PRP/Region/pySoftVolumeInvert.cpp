@@ -22,7 +22,8 @@ PY_PLASMA_NEW(SoftVolumeInvert, plSoftVolumeInvert)
 
 PY_PLASMA_TYPE(SoftVolumeInvert, plSoftVolumeInvert, "plSoftVolumeInvert wrapper")
 
-PY_PLASMA_TYPE_INIT(SoftVolumeInvert) {
+PY_PLASMA_TYPE_INIT(SoftVolumeInvert)
+{
     pySoftVolumeInvert_Type.tp_new = pySoftVolumeInvert_new;
     pySoftVolumeInvert_Type.tp_base = &pySoftVolumeComplex_Type;
     if (PyType_CheckAndReady(&pySoftVolumeInvert_Type) < 0)

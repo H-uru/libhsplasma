@@ -19,11 +19,13 @@
 
 #include "PRP/Modifier/plModifier.h"
 
-class PLASMA_DLL plFadeOpacityMod : public plSingleModifier {
+class PLASMA_DLL plFadeOpacityMod : public plSingleModifier
+{
     CREATABLE(plFadeOpacityMod, kFadeOpacityMod, plSingleModifier)
 
 public:
-    enum {
+    enum
+    {
         kBoundsCenter = 0x1
     };
 
@@ -31,7 +33,8 @@ protected:
     float fFadeUp, fFadeDown;
 
 public:
-    plFadeOpacityMod() : fFadeUp(0.0f), fFadeDown(0.0f) {
+    plFadeOpacityMod() : fFadeUp(), fFadeDown()
+    {
         fFlags.setName(kBoundsCenter, "kBoundsCenter");
     }
 

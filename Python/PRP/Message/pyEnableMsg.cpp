@@ -21,7 +21,8 @@
 
 PY_PLASMA_NEW(EnableMsg, plEnableMsg)
 
-PY_METHOD_VA(EnableMsg, getCmd, "Params: cmd") {
+PY_METHOD_VA(EnableMsg, getCmd, "Params: cmd")
+{
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "getCmd expects an int");
@@ -30,7 +31,8 @@ PY_METHOD_VA(EnableMsg, getCmd, "Params: cmd") {
     return pyPlasma_convert(self->fThis->getCmd().get((size_t)idx));
 }
 
-PY_METHOD_VA(EnableMsg, getType, "Params: type") {
+PY_METHOD_VA(EnableMsg, getType, "Params: type")
+{
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "getType expects an int");
@@ -39,7 +41,8 @@ PY_METHOD_VA(EnableMsg, getType, "Params: type") {
     return pyPlasma_convert(self->fThis->getTypes().get((size_t)idx));
 }
 
-PY_METHOD_VA(EnableMsg, setCmd, "Params: cmd, value") {
+PY_METHOD_VA(EnableMsg, setCmd, "Params: cmd, value")
+{
     Py_ssize_t idx, value;
     if (!PyArg_ParseTuple(args, "nn", &idx, &value)) {
         PyErr_SetString(PyExc_TypeError, "setCmd expects int, bool");
@@ -49,7 +52,8 @@ PY_METHOD_VA(EnableMsg, setCmd, "Params: cmd, value") {
     Py_RETURN_NONE;
 }
 
-PY_METHOD_VA(EnableMsg, setType, "Params: type, value") {
+PY_METHOD_VA(EnableMsg, setType, "Params: type, value")
+{
     Py_ssize_t idx, value;
     if (!PyArg_ParseTuple(args, "nn", &idx, &value)) {
         PyErr_SetString(PyExc_TypeError, "setType expects int, bool");
@@ -69,7 +73,8 @@ static PyMethodDef pyEnableMsg_Methods[] = {
 
 PY_PLASMA_TYPE(EnableMsg, plEnableMsg, "plEnableMsg wrapper")
 
-PY_PLASMA_TYPE_INIT(EnableMsg) {
+PY_PLASMA_TYPE_INIT(EnableMsg)
+{
     pyEnableMsg_Type.tp_new = pyEnableMsg_new;
     pyEnableMsg_Type.tp_methods = pyEnableMsg_Methods;
     pyEnableMsg_Type.tp_base = &pyMessage_Type;

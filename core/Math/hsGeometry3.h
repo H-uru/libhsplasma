@@ -24,11 +24,12 @@
 /**
  * \brief Stores a vector in 3D space.
  */
-struct PLASMA_DLL hsVector3 {
+struct PLASMA_DLL hsVector3
+{
     float X, Y, Z;
 
     /** Construct a vector at the origin [0,0,0] */
-    hsVector3() : X(0.0f), Y(0.0f), Z(0.0f) { }
+    hsVector3() : X(), Y(), Z() { }
 
     /** Construct a vector at [x,y,z] */
     hsVector3(float _x, float _y, float _z) : X(_x), Y(_y), Z(_z) { }
@@ -41,11 +42,15 @@ struct PLASMA_DLL hsVector3 {
 
     /** Returns true if the values of the vectors are identical */
     bool operator==(const hsVector3& other) const
-    { return (X == other.X) && (Y == other.Y) && (Z == other.Z); }
+    {
+        return (X == other.X) && (Y == other.Y) && (Z == other.Z);
+    }
 
     /** Returns true if the values of the vectors are non-identical */
     bool operator!=(const hsVector3& other) const
-    { return (X != other.X) || (Y != other.Y) || (Z != other.Z); }
+    {
+        return (X != other.X) || (Y != other.Y) || (Z != other.Z);
+    }
 
     /** Reads the vector from a stream */
     void read(hsStream* S);
@@ -64,13 +69,16 @@ struct PLASMA_DLL hsVector3 {
      * \f$[x_1,y_1,z_1] + [x_2,y_2,z_2] = [x_1+x_2,y_1+y_2,z_1+z_2]\f$
      */
     hsVector3 operator+(const hsVector3& other) const
-    { return hsVector3(X + other.X, Y + other.Y, Z + other.Z); }
+    {
+        return hsVector3(X + other.X, Y + other.Y, Z + other.Z);
+    }
 
     /**
      * Adds the vectors in place using vector addition:
      * \f$[x_1,y_1,z_1] + [x_2,y_2,z_2] = [x_1+x_2,y_1+y_2,z_1+z_2]\f$
      */
-    hsVector3& operator+=(const hsVector3& other) {
+    hsVector3& operator+=(const hsVector3& other)
+    {
         X += other.X;
         Y += other.Y;
         Z += other.Z;
@@ -82,27 +90,34 @@ struct PLASMA_DLL hsVector3 {
      * \f$[x_1,y_1,z_1] - [x_2,y_2,z_2] = [x_1-x_2,y_1-y_2,z_1-z_2]\f$
      */
     hsVector3 operator-(const hsVector3& other) const
-    { return hsVector3(X - other.X, Y - other.Y, Z - other.Z); }
+    {
+        return hsVector3(X - other.X, Y - other.Y, Z - other.Z);
+    }
 
     /**
      * Multiplies the vector by the scalar factor \a mult:
      * \f$[x,y,z] * mult = [x*mult,y*mult,z*mult]\f$
      */
     hsVector3 operator*(const float mult) const
-    { return hsVector3(X * mult, Y * mult, Z * mult); }
+    {
+        return hsVector3(X * mult, Y * mult, Z * mult);
+    }
 
     /**
      * Multiplies two vectors using the Dot Product:
      * \f$dot = x_1*x_2 + y_1*y_2 + z_1*z_2\f$
      */
     float dotP(const hsVector3& other) const
-    { return (X * other.X) + (Y * other.Y) + (Z * other.Z); }
+    {
+        return (X * other.X) + (Y * other.Y) + (Z * other.Z);
+    }
 
     /**
      * Multiplies two vectors using the Cross Product:
      * \f$[x,y,z] = [(y_1*z_2) - (z_1*y_2),(z_1*x_2) - (x_1*z_2),(x_1*y_2) - (y_1*x_2)]\f$
      */
-    hsVector3 crossP(const hsVector3& other) const {
+    hsVector3 crossP(const hsVector3& other) const
+    {
         return hsVector3((Y * other.Z) - (Z * other.Y),
                          (Z * other.X) - (X * other.Z),
                          (X * other.Y) - (Y * other.X));
@@ -116,7 +131,8 @@ struct PLASMA_DLL hsVector3 {
 /**
  * \brief Describes an infinite plane in 3D space.
  */
-struct PLASMA_DLL hsPlane3 {
+struct PLASMA_DLL hsPlane3
+{
     /** The Normal direction of the plane (should be a unit vector). */
     hsVector3 N;
 
@@ -124,7 +140,7 @@ struct PLASMA_DLL hsPlane3 {
     float W;
 
     /** Constructs a plane at the origin aligned to the X-Y axis plane. */
-    hsPlane3() : N(0.0f, 0.0f, 1.0f), W(0.0f) { }
+    hsPlane3() : N(0.0f, 0.0f, 1.0f), W() { }
 
     /** Constructs a plane at \a w with a normal of \a n. */
     hsPlane3(const hsVector3& n, float w) : N(n), W(w) { }
@@ -146,11 +162,12 @@ struct PLASMA_DLL hsPlane3 {
 /**
  * \brief Stores a point in 2D space.
  */
-struct PLASMA_DLL hsFloatPoint2 {
+struct PLASMA_DLL hsFloatPoint2
+{
     float X, Y;
 
     /** Constructs a point at the origin [0,0] */
-    hsFloatPoint2() : X(0.0f), Y(0.0f) { }
+    hsFloatPoint2() : X(), Y() { }
 };
 
 #endif

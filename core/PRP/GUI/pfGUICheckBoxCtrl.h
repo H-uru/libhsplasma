@@ -19,7 +19,8 @@
 
 #include "pfGUIControlMod.h"
 
-class PLASMA_DLL pfGUICheckBoxCtrl : public pfGUIControlMod {
+class PLASMA_DLL pfGUICheckBoxCtrl : public pfGUIControlMod
+{
     CREATABLE(pfGUICheckBoxCtrl, kGUICheckBoxCtrl, pfGUIControlMod)
 
 protected:
@@ -28,7 +29,7 @@ protected:
     bool fChecked;
 
 public:
-    pfGUICheckBoxCtrl() : fChecked(false) { }
+    pfGUICheckBoxCtrl() : fChecked() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

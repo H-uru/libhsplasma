@@ -21,12 +21,14 @@
 
 // Yeah, I dunno either...
 
-class PLASMA_DLL plSpawnModifier : public plMultiModifier {
+class PLASMA_DLL plSpawnModifier : public plMultiModifier
+{
     CREATABLE(plSpawnModifier, kSpawnModifier, plMultiModifier)
 };
 
 
-class PLASMA_DLL plSpawnMod : public plModifier {
+class PLASMA_DLL plSpawnMod : public plModifier
+{
     CREATABLE(plSpawnMod, kSpawnMod, plModifier)
 
 protected:
@@ -34,7 +36,7 @@ protected:
     ST::string fAge, fPage, fObjName;
 
 public:
-    plSpawnMod() : fBool1(false), fDisableDraw(false) { }
+    plSpawnMod() : fBool1(), fDisableDraw() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

@@ -25,7 +25,8 @@ PY_PLASMA_NEW(Matrix33Controller, plMatrix33Controller)
 PY_PLASMA_TYPE(Matrix33Controller, plMatrix33Controller,
                "plMatrix33Controller wrapper")
 
-PY_PLASMA_TYPE_INIT(Matrix33Controller) {
+PY_PLASMA_TYPE_INIT(Matrix33Controller)
+{
     pyMatrix33Controller_Type.tp_init = pyMatrix33Controller___init__;
     pyMatrix33Controller_Type.tp_new = pyMatrix33Controller_new;
     pyMatrix33Controller_Type.tp_base = &pyLeafController_Type;

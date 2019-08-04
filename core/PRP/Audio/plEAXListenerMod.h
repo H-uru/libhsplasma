@@ -21,7 +21,8 @@
 #include "Math/hsGeometry3.h"
 #include "3rdPartyLibs/AL/EFX-Util.h"
 
-class PLASMA_DLL plEAXListenerMod : public plSingleModifier {
+class PLASMA_DLL plEAXListenerMod : public plSingleModifier
+{
     CREATABLE(plEAXListenerMod, kEAXListenerMod, plSingleModifier)
 
 protected:
@@ -37,16 +38,18 @@ protected:
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 };
 
-class PLASMA_DLL plEAXEffect : public plSingleModifier {
+class PLASMA_DLL plEAXEffect : public plSingleModifier
+{
     CREATABLE(plEAXEffect, kEAXEffect, plSingleModifier)
 };
 
-class PLASMA_DLL plEAXReverbEffect : public plEAXEffect {
+class PLASMA_DLL plEAXReverbEffect : public plEAXEffect
+{
     CREATABLE(plEAXReverbEffect, kEAXReverbEffect, plEAXEffect)
 
 public:
-    class Aperture {
-    public:
+    struct Aperture
+    {
         hsVector3 fX;
         hsVector3 fY;
         hsVector3 fZ;

@@ -35,7 +35,8 @@ PyGetSetDef pySoftVolume_GetSet[] = {
 
 PY_PLASMA_TYPE(SoftVolume, plSoftVolume, "plSoftVolume wrapper")
 
-PY_PLASMA_TYPE_INIT(SoftVolume) {
+PY_PLASMA_TYPE_INIT(SoftVolume)
+{
     pySoftVolume_Type.tp_new = pySoftVolume_new;
     pySoftVolume_Type.tp_getset = pySoftVolume_GetSet;
     pySoftVolume_Type.tp_base = &pyObjInterface_Type;

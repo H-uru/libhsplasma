@@ -36,7 +36,8 @@ static PyGetSetDef pyFollowMod_GetSet [] = {
 
 PY_PLASMA_TYPE(FollowMod, plFollowMod, "plFollowMod wrapper")
 
-PY_PLASMA_TYPE_INIT(FollowMod) {
+PY_PLASMA_TYPE_INIT(FollowMod)
+{
     pyFollowMod_Type.tp_new = pyFollowMod_new;
     pyFollowMod_Type.tp_getset = pyFollowMod_GetSet;
     pyFollowMod_Type.tp_base = &pySingleModifier_Type;

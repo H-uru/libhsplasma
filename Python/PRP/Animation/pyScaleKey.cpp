@@ -25,13 +25,15 @@ PY_PLASMA_NEW(ScaleKey, hsScaleKey)
 PY_PROPERTY_MEMBER(hsVector3, ScaleKey, inTan, fInTan)
 PY_PROPERTY_MEMBER(hsVector3, ScaleKey, outTan, fOutTan)
 
-PY_GETSET_GETTER_DECL(ScaleKey, value) {
+PY_GETSET_GETTER_DECL(ScaleKey, value)
+{
     return Py_BuildValue("OO",
                          pyPlasma_convert(self->fThis->fS),
                          pyPlasma_convert(self->fThis->fQ));
 }
 
-PY_GETSET_SETTER_DECL(ScaleKey, value) {
+PY_GETSET_SETTER_DECL(ScaleKey, value)
+{
     PY_PROPERTY_CHECK_NULL(value)
     if (!PyTuple_Check(value) || PyTuple_Size(value) != 2) {
         PyErr_SetString(PyExc_TypeError, "value should be a tuple (hsVector3, hsQuat)");
@@ -59,7 +61,8 @@ static PyGetSetDef pyScaleKey_GetSet[] = {
 
 PY_PLASMA_TYPE(ScaleKey, hsScaleKey, "hsScaleKey wrapper")
 
-PY_PLASMA_TYPE_INIT(ScaleKey) {
+PY_PLASMA_TYPE_INIT(ScaleKey)
+{
     pyScaleKey_Type.tp_init = pyScaleKey___init__;
     pyScaleKey_Type.tp_new = pyScaleKey_new;
     pyScaleKey_Type.tp_getset = pyScaleKey_GetSet;

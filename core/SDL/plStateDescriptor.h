@@ -26,9 +26,11 @@
  * isValid() function on returned plStateDescriptor objects.
  */
 
-class PLASMA_DLL plVarDescriptor {
+class PLASMA_DLL plVarDescriptor
+{
 public:
-    enum Type {
+    enum Type
+    {
         kNone = 0xFF,
         kInt = 0, kFloat, kBool, kString, kKey, kStateDescriptor, kCreatable,
         kDouble, kTime, kByte, kShort, kAgeTimeOfDay,
@@ -38,7 +40,8 @@ public:
         kUint, kChar, kMatrix44, kBuffer, kAgeTimeElapsed, kGameTimeElapsed
     };
 
-    enum Flags {
+    enum Flags
+    {
         kInternal = 0x1,
         kAlwaysNew = 0x2,
         kVariableLength = 0x4
@@ -54,7 +57,7 @@ protected:
     class plStateDescriptor* fStateDesc;
 
 public:
-    plVarDescriptor() : fCount(0), fType(kNone), fFlags(0), fStateDescVer(-1) { }
+    plVarDescriptor() : fCount(), fType(kNone), fFlags(), fStateDescVer(-1) { }
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -89,7 +92,8 @@ public:
 };
 
 
-class PLASMA_DLL plStateDescriptor {
+class PLASMA_DLL plStateDescriptor
+{
 protected:
     ST::string fName;
     int fVersion;

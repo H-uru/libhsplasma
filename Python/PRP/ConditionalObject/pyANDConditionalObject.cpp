@@ -62,7 +62,8 @@ static PyMethodDef pyANDConditionalObject_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(ANDConditionalObject, children) {
+PY_GETSET_GETTER_DECL(ANDConditionalObject, children)
+{
     PyObject* children = PyTuple_New(self->fThis->getChildren().size());
     for (size_t i = 0; i < self->fThis->getChildren().size(); ++i)
         PyTuple_SET_ITEM(children, i, pyPlasma_convert(self->fThis->getChildren()[i]));
@@ -80,7 +81,8 @@ static PyGetSetDef pyANDConditionalObject_GetSet[] = {
 PY_PLASMA_TYPE(ANDConditionalObject, plANDConditionalObject,
                "plANDConditionalObject wrapper")
 
-PY_PLASMA_TYPE_INIT(ANDConditionalObject) {
+PY_PLASMA_TYPE_INIT(ANDConditionalObject)
+{
     pyANDConditionalObject_Type.tp_new = pyANDConditionalObject_new;
     pyANDConditionalObject_Type.tp_methods = pyANDConditionalObject_Methods;
     pyANDConditionalObject_Type.tp_getset = pyANDConditionalObject_GetSet;

@@ -19,11 +19,13 @@
 
 #include "PRP/KeyedObject/hsKeyedObject.h"
 
-class PLASMA_DLL plSynchedObject : public hsKeyedObject {
+class PLASMA_DLL plSynchedObject : public hsKeyedObject
+{
     CREATABLE(plSynchedObject, kSynchedObject, hsKeyedObject)
 
 public:
-    enum Flags {
+    enum Flags
+    {
         kDontDirty = 0x1,
         kSendReliably = 0x2,
         kHasConstantNetGroup = 0x4,
@@ -35,7 +37,8 @@ public:
         kAllStateIsVolatile = 0x80
     };
 
-    enum SDLSendFlags {
+    enum SDLSendFlags
+    {
         kBCastToClients = 0x1,
         kForceFullSend = 0x2,
         kSkipLocalOwnershipCheck = 0x4,

@@ -17,11 +17,13 @@
 #include "plPythonMod.h"
 
 /* plPythonMod */
-plPythonMod::~plPythonMod() {
+plPythonMod::~plPythonMod()
+{
     delete[] fPythonCode;
 }
 
-void plPythonMod::read(hsStream* S, plResManager* mgr) {
+void plPythonMod::read(hsStream* S, plResManager* mgr)
+{
     plMultiModifier::read(S, mgr);
 
     delete[] fPythonCode;
@@ -62,7 +64,8 @@ void plPythonMod::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plPythonMod::write(hsStream* S, plResManager* mgr) {
+void plPythonMod::write(hsStream* S, plResManager* mgr)
+{
     plMultiModifier::write(S, mgr);
 
     S->writeInt(fPythonSize);
@@ -101,7 +104,8 @@ void plPythonMod::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plPythonMod::IPrcWrite(pfPrcHelper* prc) {
+void plPythonMod::IPrcWrite(pfPrcHelper* prc)
+{
     plMultiModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("PythonCode");
@@ -156,7 +160,8 @@ void plPythonMod::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plPythonMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plPythonMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "PythonCode") {
         delete[] fPythonCode;
         fPythonSize = tag->getContents().size();

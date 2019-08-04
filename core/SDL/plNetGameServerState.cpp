@@ -19,7 +19,8 @@
 #include "Stream/hsRAMStream.h"
 
 /* plNetServerSessionInfo */
-void plNetServerSessionInfo::read(hsStream* S) {
+void plNetServerSessionInfo::read(hsStream* S)
+{
     fContents = S->readByte();
     if (fContents & kHasServerName) {
         uint16_t len = S->readShort();
@@ -37,7 +38,8 @@ void plNetServerSessionInfo::read(hsStream* S) {
         fServerGuid.read(S);
 }
 
-void plNetServerSessionInfo::write(hsStream* S) {
+void plNetServerSessionInfo::write(hsStream* S)
+{
     S->writeByte(fContents);
     if (fContents & kHasServerName) {
         S->writeShort(fServerName.size());
@@ -55,59 +57,71 @@ void plNetServerSessionInfo::write(hsStream* S) {
         fServerGuid.write(S);
 }
 
-void plNetServerSessionInfo::setServerName(const ST::string& name) {
+void plNetServerSessionInfo::setServerName(const ST::string& name)
+{
     fContents |= kHasServerName;
     fServerName = name;
 }
 
-void plNetServerSessionInfo::setServerAddr(const ST::string& addr) {
+void plNetServerSessionInfo::setServerAddr(const ST::string& addr)
+{
     fContents |= kHasServerAddr;
     fServerAddr = addr;
 }
 
-void plNetServerSessionInfo::setServerType(uint8_t type) {
+void plNetServerSessionInfo::setServerType(uint8_t type)
+{
     fContents |= kHasServerType;
     fServerType = type;
 }
 
-void plNetServerSessionInfo::setServerPort(uint16_t port) {
+void plNetServerSessionInfo::setServerPort(uint16_t port)
+{
     fContents |= kHasServerPort;
     fServerPort = port;
 }
 
-void plNetServerSessionInfo::setServerGuid(const plUuid& guid) {
+void plNetServerSessionInfo::setServerGuid(const plUuid& guid)
+{
     fContents |= kHasServerGuid;
     fServerGuid = guid;
 }
 
-void plNetServerSessionInfo::clearServerName() {
+void plNetServerSessionInfo::clearServerName()
+{
     fContents &= ~kHasServerName;
 }
 
-void plNetServerSessionInfo::clearServerAddr() {
+void plNetServerSessionInfo::clearServerAddr()
+{
     fContents &= ~kHasServerAddr;
 }
 
-void plNetServerSessionInfo::clearServerType() {
+void plNetServerSessionInfo::clearServerType()
+{
     fContents &= ~kHasServerType;
 }
 
-void plNetServerSessionInfo::clearServerPort() {
+void plNetServerSessionInfo::clearServerPort()
+{
     fContents &= ~kHasServerPort;
 }
 
-void plNetServerSessionInfo::clearServerGuid() {
+void plNetServerSessionInfo::clearServerGuid()
+{
     fContents &= ~kHasServerGuid;
 }
 
 
 /* plNetGameServerState */
-plNetGameServerState::~plNetGameServerState() {
+plNetGameServerState::~plNetGameServerState()
+{
     for (auto rec = fRecords.begin(); rec != fRecords.end(); ++rec)
         delete *rec;
 }
 
-void plNetGameServerState::read(hsStream* S) {
+void plNetGameServerState::read(hsStream* S)
+{
     fFlags = S->readInt();
     fMajorVer = S->readShort();
     fMinorVer = S->readShort();
@@ -140,7 +154,8 @@ void plNetGameServerState::read(hsStream* S) {
     }
 }
 
-void plNetGameServerState::write(hsStream* S) {
+void plNetGameServerState::write(hsStream* S)
+{
     S->writeInt(fFlags);
     S->writeShort(fMajorVer);
     S->writeShort(fMinorVer);
@@ -169,18 +184,21 @@ void plNetGameServerState::write(hsStream* S) {
     delete[] ubuf;
 }
 
-void plNetGameServerState::addRecord(plStateDataRecord* rec, const plUoid& obj) {
+void plNetGameServerState::addRecord(plStateDataRecord* rec, const plUoid& obj)
+{
     fRecords.push_back(rec);
     fObjects.push_back(obj);
 }
 
-void plNetGameServerState::delRecord(size_t idx) {
+void plNetGameServerState::delRecord(size_t idx)
+{
     delete fRecords[idx];
     fRecords.erase(fRecords.begin() + idx);
     fObjects.erase(fObjects.begin() + idx);
 }
 
-void plNetGameServerState::clearRecords() {
+void plNetGameServerState::clearRecords()
+{
     for (auto rec = fRecords.begin(); rec != fRecords.end(); ++rec)
         delete *rec;
     fRecords.resize(0);

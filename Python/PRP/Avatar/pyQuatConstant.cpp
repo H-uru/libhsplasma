@@ -23,7 +23,8 @@ PY_PLASMA_NEW(QuatConstant, plQuatConstant)
 
 PY_PLASMA_TYPE(QuatConstant, plQuatConstant, "plQuatConstant wrapper")
 
-PY_PLASMA_TYPE_INIT(QuatConstant) {
+PY_PLASMA_TYPE_INIT(QuatConstant)
+{
     pyQuatConstant_Type.tp_new = pyQuatConstant_new;
     pyQuatConstant_Type.tp_base = &pyQuatChannel_Type;
     if (PyType_CheckAndReady(&pyQuatConstant_Type) < 0)

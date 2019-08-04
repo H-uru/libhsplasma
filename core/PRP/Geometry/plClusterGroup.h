@@ -22,12 +22,13 @@
 #include "plCluster.h"
 #include "plSpanTemplate.h"
 
-class PLASMA_DLL plLODDist {
+class PLASMA_DLL plLODDist
+{
 protected:
     float fMinDist, fMaxDist;
 
 public:
-    plLODDist() : fMinDist(0.0f), fMaxDist(0.0f) { }
+    plLODDist() : fMinDist(), fMaxDist() { }
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -41,7 +42,8 @@ public:
     void setMax(float dist) { fMaxDist = dist; }
 };
 
-class PLASMA_DLL plClusterGroup : public hsKeyedObject {
+class PLASMA_DLL plClusterGroup : public hsKeyedObject
+{
     CREATABLE(plClusterGroup, kClusterGroup, hsKeyedObject)
 
 protected:
@@ -54,8 +56,8 @@ protected:
     unsigned int fRenderLevel;
 
 public:
-    plClusterGroup() : fRenderLevel(0) { }
-    virtual ~plClusterGroup();
+    plClusterGroup() : fRenderLevel() { }
+    ~plClusterGroup();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

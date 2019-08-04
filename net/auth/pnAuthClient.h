@@ -25,30 +25,34 @@
 #include "crypt/pnRC4.h"
 #include "pnSocketInterface.h"
 
-struct PLASMANET_DLL pnAuthFileItem {
+struct PLASMANET_DLL pnAuthFileItem
+{
     ST::string fFilename;
     uint32_t fFileSize;
 };
 
-struct PLASMANET_DLL pnNetGameScore {
+struct PLASMANET_DLL pnNetGameScore
+{
     uint32_t fScoreId, fOwnerId;
     uint32_t fCreatedTime, fGameType;
     int32_t fValue;
     ST::string fGameName;
 };
 
-struct PLASMANET_DLL pnNetGameRank {
+struct PLASMANET_DLL pnNetGameRank
+{
     uint32_t fRank;
     int32_t fScore;
     ST::string fName;
 };
 
-class PLASMANET_DLL pnAuthClient : public pnClient {
+class PLASMANET_DLL pnAuthClient : public pnClient
+{
 public:
     pnAuthClient(plResManager* mgr, bool deleteMsgs = true, bool threaded = true)
-        : fSock(NULL), fResMgr(mgr), fDeleteMsgs(deleteMsgs), fThreaded(threaded),
-          fKeyG(41), fDispatch(NULL) { }
-    virtual ~pnAuthClient();
+        : fSock(), fResMgr(mgr), fDeleteMsgs(deleteMsgs), fThreaded(threaded),
+          fKeyG(41), fDispatch() { }
+    ~pnAuthClient();
 
     void setKeys(const unsigned char* keyX, const unsigned char* keyN,
                  bool littleEndian = true);
@@ -60,7 +64,9 @@ public:
     void disconnect() HS_OVERRIDE;
 
     bool isConnected() const HS_OVERRIDE
-    { return (fSock != NULL) && fSock->isConnected(); }
+    {
+        return fSock && fSock->isConnected();
+    }
 
 //     virtual void signalStatus() { fSock->signalStatus(); }
 //     virtual void waitForStatus() { fSock->waitForStatus(); }
@@ -215,11 +221,12 @@ private:
     bool fLittleEndianKeys;
     int fKeyG;
 
-    class Dispatch : public pnDispatcher {
+    class Dispatch : public pnDispatcher
+    {
     public:
         Dispatch(pnAuthClient* self, bool deleteMsgs)
             : fReceiver(self), fDeleteMsgs(deleteMsgs) { }
-        virtual ~Dispatch() { }
+        ~Dispatch() { }
         bool dispatch(pnSocket* sock) HS_OVERRIDE;
 
     private:

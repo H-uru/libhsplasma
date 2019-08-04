@@ -20,7 +20,8 @@
 #include "PRP/KeyedObject/hsKeyedObject.h"
 #include "Sys/hsColor.h"
 
-class PLASMA_DLL plFogEnvironment : public hsKeyedObject {
+class PLASMA_DLL plFogEnvironment : public hsKeyedObject
+{
     CREATABLE(plFogEnvironment, kFogEnvironment, hsKeyedObject)
 
 public:
@@ -34,7 +35,8 @@ protected:
     hsColorRGBA fColor;
 
 public:
-    plFogEnvironment() : fType(kLinearFog), fStart(1.0f), fEnd(1000.0f), fDensity(0.5f) { }
+    plFogEnvironment()
+        : fType(kLinearFog), fStart(1.0f), fEnd(1000.0f), fDensity(0.5f) { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

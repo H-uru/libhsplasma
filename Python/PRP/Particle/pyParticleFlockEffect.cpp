@@ -55,7 +55,8 @@ static PyGetSetDef pyParticleFlockEffect_GetSet[] = {
 PY_PLASMA_TYPE(ParticleFlockEffect, plParticleFlockEffect,
                "plParticleFlockEffect wrapper")
 
-PY_PLASMA_TYPE_INIT(ParticleFlockEffect) {
+PY_PLASMA_TYPE_INIT(ParticleFlockEffect)
+{
     pyParticleFlockEffect_Type.tp_new = pyParticleFlockEffect_new;
     pyParticleFlockEffect_Type.tp_getset = pyParticleFlockEffect_GetSet;
     pyParticleFlockEffect_Type.tp_base = &pyParticleEffect_Type;

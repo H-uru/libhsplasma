@@ -17,7 +17,8 @@
 #include "plNetMessage.h"
 
 /* plNetMessage */
-void plNetMessage::read(hsStream* S, plResManager* mgr) {
+void plNetMessage::read(hsStream* S, plResManager* mgr)
+{
     fFlags = S->readInt();
 
     if ((fFlags & kHasVersion) != 0) {
@@ -38,7 +39,8 @@ void plNetMessage::read(hsStream* S, plResManager* mgr) {
         fAcctUuid.read(S);
 }
 
-void plNetMessage::write(hsStream* S, plResManager* mgr) {
+void plNetMessage::write(hsStream* S, plResManager* mgr)
+{
     S->writeInt(fFlags);
 
     if ((fFlags & kHasVersion) != 0) {
@@ -58,7 +60,8 @@ void plNetMessage::write(hsStream* S, plResManager* mgr) {
         fAcctUuid.write(S);
 }
 
-void plNetMessage::IPrcWrite(pfPrcHelper* prc) {
+void plNetMessage::IPrcWrite(pfPrcHelper* prc)
+{
     prc->startTag("NetMsgParams");
     prc->writeParamHex("Flags", fFlags);
     prc->endTag();
@@ -98,7 +101,8 @@ void plNetMessage::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plNetMessage::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plNetMessage::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "NetMsgParams") {
         fFlags = tag->getParam("Flags", "0").to_uint();
         const pfPrcTag* child = tag->getFirstChild();

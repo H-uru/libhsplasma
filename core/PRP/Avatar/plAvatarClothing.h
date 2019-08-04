@@ -19,16 +19,19 @@
 
 #include "PRP/Object/plSynchedObject.h"
 
-class PLASMA_DLL plClothingOutfit : public plSynchedObject {
+class PLASMA_DLL plClothingOutfit : public plSynchedObject
+{
     CREATABLE(plClothingOutfit, kClothingOutfit, plSynchedObject)
 
 public:
-    enum {
+    enum
+    {
         kClothingGroupMale, kClothingGroupFemale, kClothingGroupNoOptions,
         kMaxClothingGroup
     };
 
-    enum {
+    enum
+    {
         kTypePants, kTypeShirt, kTypeLeftHand, kTypeRightHand, kTypeFace,
         kTypeHair, kTypeLeftFoot, kTypeRightFoot, kTypeAccessory,
         kMaxClothingType
@@ -53,7 +56,8 @@ protected:
 };
 
 
-class PLASMA_DLL plClothingBase : public hsKeyedObject {
+class PLASMA_DLL plClothingBase : public hsKeyedObject
+{
     CREATABLE(plClothingBase, kClothingBase, hsKeyedObject)
 
 protected:

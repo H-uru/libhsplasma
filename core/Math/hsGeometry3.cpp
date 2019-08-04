@@ -18,23 +18,27 @@
 #include <cmath>
 
 /* hsVector3 */
-float hsVector3::magnitude() const {
+float hsVector3::magnitude() const
+{
     return sqrt(X*X + Y*Y + Z*Z);
 }
 
-void hsVector3::read(hsStream* S) {
+void hsVector3::read(hsStream* S)
+{
     X = S->readFloat();
     Y = S->readFloat();
     Z = S->readFloat();
 }
 
-void hsVector3::write(hsStream* S) {
+void hsVector3::write(hsStream* S)
+{
     S->writeFloat(X);
     S->writeFloat(Y);
     S->writeFloat(Z);
 }
 
-void hsVector3::prcWrite(pfPrcHelper* prc) {
+void hsVector3::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("hsVector3");
     prc->writeParam("X", X);
     prc->writeParam("Y", Y);
@@ -42,7 +46,8 @@ void hsVector3::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void hsVector3::prcParse(const pfPrcTag* tag) {
+void hsVector3::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "hsVector3")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
@@ -51,7 +56,8 @@ void hsVector3::prcParse(const pfPrcTag* tag) {
     Z = tag->getParam("Z", "0").to_float();
 }
 
-void hsVector3::normalize() {
+void hsVector3::normalize()
+{
     float length = magnitude();
     if (length == 0.f || std::fabs(length - 1.f) < .0001f)
         return;
@@ -62,17 +68,20 @@ void hsVector3::normalize() {
 
 
 /* hsPlane3 */
-void hsPlane3::read(hsStream* S) {
+void hsPlane3::read(hsStream* S)
+{
     N.read(S);
     W = S->readFloat();
 }
 
-void hsPlane3::write(hsStream* S) {
+void hsPlane3::write(hsStream* S)
+{
     N.write(S);
     S->writeFloat(W);
 }
 
-void hsPlane3::prcWrite(pfPrcHelper* prc) {
+void hsPlane3::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("hsPlane3");
     prc->writeParam("X", N.X);
     prc->writeParam("Y", N.Y);
@@ -81,7 +90,8 @@ void hsPlane3::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void hsPlane3::prcParse(const pfPrcTag* tag) {
+void hsPlane3::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "hsPlane3")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 

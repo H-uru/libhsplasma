@@ -16,7 +16,8 @@
 
 #include "plLightInfo.h"
 
-plLightInfo::plLightInfo() {
+plLightInfo::plLightInfo()
+{
     fProps.setName(kDisable, "kDisable");
     fProps.setName(kLPCastShadows, "kLPCastShadows");
     fProps.setName(kLPMovable, "kLPMovable");
@@ -29,7 +30,8 @@ plLightInfo::plLightInfo() {
     fProps.setName(kLPForceProj, "kLPForceProj");
 }
 
-void plLightInfo::read(hsStream* S, plResManager* mgr) {
+void plLightInfo::read(hsStream* S, plResManager* mgr)
+{
     plObjInterface::read(S, mgr);
 
     fAmbient.read(S);
@@ -51,7 +53,8 @@ void plLightInfo::read(hsStream* S, plResManager* mgr) {
         fVisRegions[i] = mgr->readKey(S);
 }
 
-void plLightInfo::write(hsStream* S, plResManager* mgr) {
+void plLightInfo::write(hsStream* S, plResManager* mgr)
+{
     plObjInterface::write(S, mgr);
 
     fAmbient.write(S);
@@ -71,7 +74,8 @@ void plLightInfo::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fVisRegions[i]);
 }
 
-void plLightInfo::IPrcWrite(pfPrcHelper* prc) {
+void plLightInfo::IPrcWrite(pfPrcHelper* prc)
+{
     plObjInterface::IPrcWrite(prc);
 
     prc->writeSimpleTag("Ambient");
@@ -113,7 +117,8 @@ void plLightInfo::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plLightInfo::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plLightInfo::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Ambient") {
         if (tag->hasChildren())
             fAmbient.prcParse(tag->getFirstChild());

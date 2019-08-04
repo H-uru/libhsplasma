@@ -16,7 +16,8 @@
 
 #include "plFollowMod.h"
 
-void plFollowMod::read(hsStream* S, plResManager* mgr) {
+void plFollowMod::read(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::read(S, mgr);
 
     fLeaderType = plFollowMod::FollowLeaderType(S->readByte());
@@ -24,7 +25,8 @@ void plFollowMod::read(hsStream* S, plResManager* mgr) {
     fLeader = mgr->readKey(S);
 }
 
-void plFollowMod::write(hsStream* S, plResManager* mgr) {
+void plFollowMod::write(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::write(S, mgr);
 
     S->writeByte(fLeaderType);
@@ -32,7 +34,8 @@ void plFollowMod::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fLeader);
 }
 
-void plFollowMod::IPrcWrite(pfPrcHelper* prc) {
+void plFollowMod::IPrcWrite(pfPrcHelper* prc)
+{
     plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("Flags");
@@ -45,7 +48,8 @@ void plFollowMod::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plFollowMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plFollowMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Leader") {
         if (tag->hasChildren())
             fLeader = mgr->prcParseKey(tag->getFirstChild());

@@ -16,21 +16,25 @@
 
 #include "plAGChannel.h"
 
-void plAGChannel::read(hsStream* S, plResManager* mgr) {
+void plAGChannel::read(hsStream* S, plResManager* mgr)
+{
     fName = S->readSafeStr();
 }
 
-void plAGChannel::write(hsStream* S, plResManager* mgr) {
+void plAGChannel::write(hsStream* S, plResManager* mgr)
+{
     S->writeSafeStr(fName);
 }
 
-void plAGChannel::IPrcWrite(pfPrcHelper* prc) {
+void plAGChannel::IPrcWrite(pfPrcHelper* prc)
+{
     prc->startTag("Channel");
     prc->writeParam("Name", fName);
     prc->endTag(true);
 }
 
-void plAGChannel::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAGChannel::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Channel") {
         fName = tag->getParam("Name", "");
     } else {

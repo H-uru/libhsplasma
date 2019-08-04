@@ -24,12 +24,14 @@
 #define CREATABLE(classname, classid, parentclass) \
 public: \
     short ClassIndex() const HS_OVERRIDE { return classid; } \
-    bool ClassInstance(short hClass) const HS_OVERRIDE { \
+    bool ClassInstance(short hClass) const HS_OVERRIDE \
+    { \
         if (hClass == classid) \
             return true; \
         return parentclass::ClassInstance(hClass); \
     } \
-    static classname* Convert(plCreatable* pCre, bool requireValid = true) { \
+    static classname* Convert(plCreatable* pCre, bool requireValid = true) \
+    { \
         if (pCre == NULL) \
             return NULL; \
         bool result = pCre->ClassInstance(classid); \
@@ -47,7 +49,8 @@ public: \
     }
 
 
-class PLASMA_DLL plCreatable {
+class PLASMA_DLL plCreatable
+{
 public:
     plCreatable() { }
     virtual ~plCreatable() { }
@@ -140,7 +143,8 @@ protected:
  * a good idea to use a real Creatable class whenever possible.
  * \sa hsKeyedObjectStub
  */
-class PLASMA_DLL plCreatableStub : public plCreatable {
+class PLASMA_DLL plCreatableStub : public plCreatable
+{
 private:
     short fClassIdx;
     uint8_t* fData;
@@ -148,12 +152,12 @@ private:
 
 public:
     /** Constructs an empty stub.  Only useful for NULL creatables. */
-    plCreatableStub() : fClassIdx((short)0x8000), fData(NULL), fDataLen(0) { }
+    plCreatableStub() : fClassIdx((short)0x8000), fData(), fDataLen() { }
 
     /** Constructs a stub whose type is \a hClass, and size is \a length */
     plCreatableStub(short hClass, size_t length);
 
-    virtual ~plCreatableStub();
+    ~plCreatableStub();
 
     short ClassIndex() const HS_FINAL_OVERRIDE { return fClassIdx; }
     bool isStub() const HS_FINAL_OVERRIDE { return true; }
@@ -187,7 +191,8 @@ public:
  * for plCastedType::Convert(pCre).
  */
 template <class Creatable_T>
-Creatable_T *creatable_cast(plCreatable *pCre, bool requireValid = true) {
+Creatable_T *creatable_cast(plCreatable *pCre, bool requireValid = true)
+{
     return Creatable_T::Convert(pCre, requireValid);
 }
 

@@ -23,7 +23,8 @@ PY_PLASMA_NEW(QuatBlend, plQuatBlend)
 
 PY_PLASMA_TYPE(QuatBlend, plQuatBlend, "plQuatBlend wrapper")
 
-PY_PLASMA_TYPE_INIT(QuatBlend) {
+PY_PLASMA_TYPE_INIT(QuatBlend)
+{
     pyQuatBlend_Type.tp_new = pyQuatBlend_new;
     pyQuatBlend_Type.tp_base = &pyQuatChannel_Type;
     if (PyType_CheckAndReady(&pyQuatBlend_Type) < 0)

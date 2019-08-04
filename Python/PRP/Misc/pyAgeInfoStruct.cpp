@@ -25,11 +25,13 @@ PY_PLASMA_NEW(AgeInfoStruct, plAgeInfoStruct)
 PY_PROPERTY(ST::string, AgeInfoStruct, ageFilename, getAgeFilename, setAgeFilename)
 PY_PROPERTY(ST::string, AgeInfoStruct, ageInstanceName, getAgeInstanceName, setAgeInstanceName)
 
-PY_GETSET_GETTER_DECL(AgeInfoStruct, ageInstanceGuid) {
+PY_GETSET_GETTER_DECL(AgeInfoStruct, ageInstanceGuid)
+{
     return pyPlasma_convert(self->fThis->getAgeInstanceGuid().toString());
 }
 
-PY_GETSET_SETTER_DECL(AgeInfoStruct, ageInstanceGuid) {
+PY_GETSET_SETTER_DECL(AgeInfoStruct, ageInstanceGuid)
+{
     PY_PROPERTY_CHECK_NULL(ageInstanceGuid)
     if (!pyPlasma_check<ST::string>(value)) {
         PyErr_SetString(PyExc_TypeError, "ageInstanceGuid should be a string");
@@ -56,7 +58,8 @@ PyGetSetDef pyAgeInfoStruct_GetSet[] = {
 
 PY_PLASMA_TYPE(AgeInfoStruct, plAgeInfoStruct, "plAgeInfoStruct wrapper")
 
-PY_PLASMA_TYPE_INIT(AgeInfoStruct) {
+PY_PLASMA_TYPE_INIT(AgeInfoStruct)
+{
     pyAgeInfoStruct_Type.tp_new = pyAgeInfoStruct_new;
     pyAgeInfoStruct_Type.tp_getset = pyAgeInfoStruct_GetSet;
     pyAgeInfoStruct_Type.tp_base = &pyCreatable_Type;

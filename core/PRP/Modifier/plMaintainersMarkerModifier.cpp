@@ -20,17 +20,20 @@ static const char* CalibratedLevelNames[] = {
     "Broken", "Repaired", "Calibrated"
 };
 
-void plMaintainersMarkerModifier::read(hsStream* S, plResManager* mgr) {
+void plMaintainersMarkerModifier::read(hsStream* S, plResManager* mgr)
+{
     plMultiModifier::read(S, mgr);
     fCalibrated = S->readInt();
 }
 
-void plMaintainersMarkerModifier::write(hsStream* S, plResManager* mgr) {
+void plMaintainersMarkerModifier::write(hsStream* S, plResManager* mgr)
+{
     plMultiModifier::write(S, mgr);
     S->writeInt(fCalibrated);
 }
 
-void plMaintainersMarkerModifier::IPrcWrite(pfPrcHelper* prc) {
+void plMaintainersMarkerModifier::IPrcWrite(pfPrcHelper* prc)
+{
     plMultiModifier::IPrcWrite(prc);
 
     prc->startTag("Calibration");
@@ -38,7 +41,8 @@ void plMaintainersMarkerModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plMaintainersMarkerModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plMaintainersMarkerModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Calibration") {
         ST::string level = tag->getParam("Level", "Broken");
         fCalibrated = kBroken;

@@ -38,7 +38,8 @@ static PyGetSetDef pyGUIPopUpMenu_GetSet[] = {
 
 PY_PLASMA_TYPE(GUIPopUpMenu, pfGUIPopUpMenu, "pfGUIPopUpMenu wrapper")
 
-PY_PLASMA_TYPE_INIT(GUIPopUpMenu) {
+PY_PLASMA_TYPE_INIT(GUIPopUpMenu)
+{
     pyGUIPopUpMenu_Type.tp_new = pyGUIPopUpMenu_new;
     pyGUIPopUpMenu_Type.tp_getset = pyGUIPopUpMenu_GetSet;
     pyGUIPopUpMenu_Type.tp_base = &pyGUIDialogMod_Type;

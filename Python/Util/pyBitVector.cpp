@@ -23,7 +23,8 @@ PY_PLASMA_DEALLOC(BitVector)
 PY_PLASMA_EMPTY_INIT(BitVector)
 PY_PLASMA_NEW(BitVector, hsBitVector)
 
-PY_PLASMA_SUBSCRIPT_DECL(BitVector) {
+PY_PLASMA_SUBSCRIPT_DECL(BitVector)
+{
     if (pyPlasma_check<ST::string>(key)) {
         ST::string name = pyPlasma_get<ST::string>(key);
         unsigned int idx = self->fThis->getValue(name.c_str());
@@ -37,7 +38,8 @@ PY_PLASMA_SUBSCRIPT_DECL(BitVector) {
     }
 }
 
-PY_PLASMA_ASS_SUBSCRIPT_DECL(BitVector) {
+PY_PLASMA_ASS_SUBSCRIPT_DECL(BitVector)
+{
     if (!pyPlasma_check<bool>(value)) {
         PyErr_SetString(PyExc_TypeError, "BitVector bits should be bools");
         return -1;
@@ -59,11 +61,13 @@ PY_PLASMA_ASS_SUBSCRIPT_DECL(BitVector) {
     }
 }
 
-PY_METHOD_NOARGS(BitVector, isEmpty, "Returns whether the vector is empty") {
+PY_METHOD_NOARGS(BitVector, isEmpty, "Returns whether the vector is empty")
+{
     return pyPlasma_convert(self->fThis->isEmpty());
 }
 
-PY_METHOD_NOARGS(BitVector, clear, "Clears the vector of all bits") {
+PY_METHOD_NOARGS(BitVector, clear, "Clears the vector of all bits")
+{
     self->fThis->clear();
     Py_RETURN_NONE;
 }
@@ -163,7 +167,8 @@ static PyMethodDef pyBitVector_Methods[] = {
 PY_PLASMA_TYPE(BitVector, hsBitVector, "hsBitVector wrapper")
 PY_PLASMA_TYPE_AS_MAPPING(BitVector)
 
-PY_PLASMA_TYPE_INIT(BitVector) {
+PY_PLASMA_TYPE_INIT(BitVector)
+{
     pyBitVector_As_Mapping.mp_subscript = pyBitVector_mp_subscript;
     pyBitVector_As_Mapping.mp_ass_subscript = pyBitVector_mp_ass_subscript;
     pyBitVector_Type.tp_dealloc = pyBitVector_dealloc;

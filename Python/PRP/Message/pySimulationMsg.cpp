@@ -23,7 +23,8 @@ PY_PLASMA_NEW(SimulationMsg, plSimulationMsg)
 
 PY_PLASMA_TYPE(SimulationMsg, plSimulationMsg, "plSimulationMsg wrapper")
 
-PY_PLASMA_TYPE_INIT(SimulationMsg) {
+PY_PLASMA_TYPE_INIT(SimulationMsg)
+{
     pySimulationMsg_Type.tp_new = pySimulationMsg_new;
     pySimulationMsg_Type.tp_base = &pyMessage_Type;
     if (PyType_CheckAndReady(&pySimulationMsg_Type) < 0)

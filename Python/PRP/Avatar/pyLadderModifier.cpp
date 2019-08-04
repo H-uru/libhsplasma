@@ -41,7 +41,8 @@ static PyGetSetDef pyAvLadderMod_GetSet[] = {
 
 PY_PLASMA_TYPE(AvLadderMod, plAvLadderMod, "plAvLadderMod wrapper")
 
-PY_PLASMA_TYPE_INIT(AvLadderMod) {
+PY_PLASMA_TYPE_INIT(AvLadderMod)
+{
     pyAvLadderMod_Type.tp_new = pyAvLadderMod_new;
     pyAvLadderMod_Type.tp_getset = pyAvLadderMod_GetSet;
     pyAvLadderMod_Type.tp_base = &pySingleModifier_Type;
@@ -84,7 +85,8 @@ static PyGetSetDef pyLadderModifier_GetSet[] = {
 
 PY_PLASMA_TYPE(LadderModifier, plLadderModifier, "plLadderModifier wrapper")
 
-PY_PLASMA_TYPE_INIT(LadderModifier) {
+PY_PLASMA_TYPE_INIT(LadderModifier)
+{
     pyLadderModifier_Type.tp_new = pyLadderModifier_new;
     pyLadderModifier_Type.tp_getset = pyLadderModifier_GetSet;
     pyLadderModifier_Type.tp_base = &pySingleModifier_Type;

@@ -20,7 +20,8 @@
 #include "plNetMsgStreamedObject.h"
 #include "SDL/plSDLMgr.h"
 
-class PLASMA_DLL plNetMsgSDLState : public plNetMsgStreamedObject {
+class PLASMA_DLL plNetMsgSDLState : public plNetMsgStreamedObject
+{
     CREATABLE(plNetMsgSDLState, kNetMsgSDLState, plNetMsgStreamedObject)
 
 private:
@@ -30,8 +31,8 @@ private:
     plStateDescriptor* fDescriptor;
 
 public:
-    plNetMsgSDLState() : fIsInitialState(false), fPersistOnServer(false),
-                         fIsAvatarState(false), fDescriptor(NULL) { }
+    plNetMsgSDLState()
+        : fIsInitialState(), fPersistOnServer(), fIsAvatarState(), fDescriptor() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -54,7 +55,8 @@ public:
 };
 
 
-class PLASMA_DLL plNetMsgSDLStateBCast : public plNetMsgSDLState {
+class PLASMA_DLL plNetMsgSDLStateBCast : public plNetMsgSDLState
+{
     CREATABLE(plNetMsgSDLStateBCast, kNetMsgSDLStateBCast, plNetMsgSDLState)
 };
 

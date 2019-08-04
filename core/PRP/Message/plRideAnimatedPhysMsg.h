@@ -19,7 +19,8 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plRideAnimatedPhysMsg : public plMessage {
+class PLASMA_DLL plRideAnimatedPhysMsg : public plMessage
+{
     CREATABLE(plRideAnimatedPhysMsg, kRideAnimatedPhysMsg, plMessage)
 
 private:
@@ -27,7 +28,7 @@ private:
     plKey fRegion;
 
 public:
-    plRideAnimatedPhysMsg() : fEntering(false) { }
+    plRideAnimatedPhysMsg() : fEntering() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* s, plResManager* mgr) HS_OVERRIDE;

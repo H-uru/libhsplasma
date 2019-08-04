@@ -23,7 +23,8 @@ PY_PLASMA_NEW(LayerDepth, plLayerDepth)
 
 PY_PLASMA_TYPE(LayerDepth, plLayerDepth, "plLayerDepth wrapper")
 
-PY_PLASMA_TYPE_INIT(LayerDepth) {
+PY_PLASMA_TYPE_INIT(LayerDepth)
+{
     pyLayerDepth_Type.tp_new = pyLayerDepth_new;
     pyLayerDepth_Type.tp_base = &pyLayer_Type;
     if (PyType_CheckAndReady(&pyLayerDepth_Type) < 0)

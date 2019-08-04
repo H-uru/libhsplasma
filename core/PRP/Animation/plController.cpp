@@ -18,7 +18,8 @@
 #include "plLeafController.h"
 
 /* plController */
-void plController::WriteController(hsStream* S, plResManager* mgr, plController* controller) {
+void plController::WriteController(hsStream* S, plResManager* mgr, plController* controller)
+{
     if (controller == NULL) {
         mgr->WriteCreatable(S, NULL);
         return;
@@ -74,25 +75,29 @@ void plController::WriteController(hsStream* S, plResManager* mgr, plController*
 
 
 /* plCompoundController */
-plCompoundController::~plCompoundController() {
+plCompoundController::~plCompoundController()
+{
     delete fXController;
     delete fYController;
     delete fZController;
 }
 
-void plCompoundController::read(hsStream* S, plResManager* mgr) {
+void plCompoundController::read(hsStream* S, plResManager* mgr)
+{
     setXController(plController::Convert(mgr->ReadCreatable(S)));
     setYController(plController::Convert(mgr->ReadCreatable(S)));
     setZController(plController::Convert(mgr->ReadCreatable(S)));
 }
 
-void plCompoundController::write(hsStream* S, plResManager* mgr) {
+void plCompoundController::write(hsStream* S, plResManager* mgr)
+{
     mgr->WriteCreatable(S, fXController);
     mgr->WriteCreatable(S, fYController);
     mgr->WriteCreatable(S, fZController);
 }
 
-void plCompoundController::IPrcWrite(pfPrcHelper* prc) {
+void plCompoundController::IPrcWrite(pfPrcHelper* prc)
+{
     prc->writeSimpleTag("X");
     if (fXController != NULL) {
         fXController->prcWrite(prc);
@@ -122,7 +127,8 @@ void plCompoundController::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plCompoundController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plCompoundController::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "X") {
         if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").to_bool())
             setXController(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
@@ -137,7 +143,8 @@ void plCompoundController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-plTMController* plCompoundController::convertToTMController() {
+plTMController* plCompoundController::convertToTMController()
+{
     plTMController* tm = new plTMController();
 
     // Position
@@ -187,7 +194,8 @@ plTMController* plCompoundController::convertToTMController() {
     return tm;
 }
 
-void plCompoundController::setController(unsigned int index, plController* controller) {
+void plCompoundController::setController(unsigned int index, plController* controller)
+{
     switch (index) {
     case kPosController:
         delete fXController;
@@ -204,17 +212,20 @@ void plCompoundController::setController(unsigned int index, plController* contr
     }
 }
 
-void plCompoundController::setXController(plController* controller) {
+void plCompoundController::setXController(plController* controller)
+{
     delete fXController;
     fXController = controller;
 }
 
-void plCompoundController::setYController(plController* controller) {
+void plCompoundController::setYController(plController* controller)
+{
     delete fYController;
     fYController = controller;
 }
 
-void plCompoundController::setZController(plController* controller) {
+void plCompoundController::setZController(plController* controller)
+{
     delete fZController;
     fZController = controller;
 }

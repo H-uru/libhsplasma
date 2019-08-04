@@ -19,7 +19,8 @@
 
 #include "plKeyControllers.hpp"
 
-class PLASMA_DLL plScaleController : public plController {
+class PLASMA_DLL plScaleController : public plController
+{
     CREATABLE(plScaleController, kScaleController, plController)
 
 public:
@@ -30,15 +31,16 @@ public:
 };
 
 
-class PLASMA_DLL plSimpleScaleController : public plScaleController {
+class PLASMA_DLL plSimpleScaleController : public plScaleController
+{
     CREATABLE(plSimpleScaleController, kSimpleScaleController, plScaleController)
 
 protected:
     plScaleValueController* fValue;
 
 public:
-    plSimpleScaleController() : fValue(NULL) { }
-    virtual ~plSimpleScaleController();
+    plSimpleScaleController() : fValue() { }
+    ~plSimpleScaleController();
 
     int getType() const HS_OVERRIDE { return kSimple; }
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;

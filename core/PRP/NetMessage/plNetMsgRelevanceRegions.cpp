@@ -16,21 +16,24 @@
 
 #include "plNetMsgRelevanceRegions.h"
 
-void plNetMsgRelevanceRegions::read(hsStream* S, plResManager* mgr) {
+void plNetMsgRelevanceRegions::read(hsStream* S, plResManager* mgr)
+{
     plNetMessage::read(S, mgr);
 
     fRegionsICareAbout.read(S);
     fRegionsImIn.read(S);
 }
 
-void plNetMsgRelevanceRegions::write(hsStream* S, plResManager* mgr) {
+void plNetMsgRelevanceRegions::write(hsStream* S, plResManager* mgr)
+{
     plNetMessage::write(S, mgr);
 
     fRegionsICareAbout.write(S);
     fRegionsImIn.write(S);
 }
 
-void plNetMsgRelevanceRegions::IPrcWrite(pfPrcHelper* prc) {
+void plNetMsgRelevanceRegions::IPrcWrite(pfPrcHelper* prc)
+{
     plNetMessage::IPrcWrite(prc);
 
     prc->writeSimpleTag("RegionsICareAbout");
@@ -42,7 +45,8 @@ void plNetMsgRelevanceRegions::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plNetMsgRelevanceRegions::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plNetMsgRelevanceRegions::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "RegionsICareAbout") {
         if (tag->hasChildren())
             fRegionsICareAbout.prcParse(tag->getFirstChild());
@@ -54,7 +58,8 @@ void plNetMsgRelevanceRegions::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
     }
 }
 
-void plNetMsgRelevanceRegions::setRegion(size_t region, bool in, bool careAbout) {
+void plNetMsgRelevanceRegions::setRegion(size_t region, bool in, bool careAbout)
+{
     fRegionsImIn.set(region, in);
     fRegionsICareAbout.set(region, careAbout);
 }

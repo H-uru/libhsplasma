@@ -17,28 +17,33 @@
 #include "plWaveSet.h"
 
 /* plWaveSet6 */
-void plWaveSet6::read(hsStream* S, plResManager* mgr) {
+void plWaveSet6::read(hsStream* S, plResManager* mgr)
+{
     plMultiModifier::read(S, mgr);
     throw hsNotImplementedException(__FILE__, __LINE__);
 }
 
-void plWaveSet6::write(hsStream* S, plResManager* mgr) {
+void plWaveSet6::write(hsStream* S, plResManager* mgr)
+{
     plMultiModifier::write(S, mgr);
     throw hsNotImplementedException(__FILE__, __LINE__);
 }
 
-void plWaveSet6::IPrcWrite(pfPrcHelper* prc) {
+void plWaveSet6::IPrcWrite(pfPrcHelper* prc)
+{
     plMultiModifier::IPrcWrite(prc);
     prc->writeComment("plWaveSet6 Not Implemented");
 }
 
-void plWaveSet6::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plWaveSet6::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     throw hsNotImplementedException(__FILE__, __LINE__);
 }
 
 
 /* plWaveSet7 */
-void plWaveSet7::read(hsStream* S, plResManager* mgr) {
+void plWaveSet7::read(hsStream* S, plResManager* mgr)
+{
     plMultiModifier::read(S, mgr);
 
     fMaxLen = S->readFloat();
@@ -55,7 +60,8 @@ void plWaveSet7::read(hsStream* S, plResManager* mgr) {
         fRefObj = mgr->readKey(S);
 }
 
-void plWaveSet7::write(hsStream* S, plResManager* mgr) {
+void plWaveSet7::write(hsStream* S, plResManager* mgr)
+{
     plMultiModifier::write(S, mgr);
 
     S->writeFloat(fMaxLen);
@@ -72,7 +78,8 @@ void plWaveSet7::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fRefObj);
 }
 
-void plWaveSet7::IPrcWrite(pfPrcHelper* prc) {
+void plWaveSet7::IPrcWrite(pfPrcHelper* prc)
+{
     plMultiModifier::IPrcWrite(prc);
 
     prc->startTag("WaveSet7Params");
@@ -101,7 +108,8 @@ void plWaveSet7::IPrcWrite(pfPrcHelper* prc) {
     }
 }
 
-void plWaveSet7::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plWaveSet7::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "WaveSet7Params") {
         fMaxLen = tag->getParam("MaxLen", "0").to_float();
     } else if (tag->getName() == "plFixedWaterState7") {

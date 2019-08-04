@@ -19,7 +19,8 @@
 
 #include "plAvBrainGeneric.h"
 
-class PLASMA_DLL plAvBrainCoop : public plAvBrainGeneric {
+class PLASMA_DLL plAvBrainCoop : public plAvBrainGeneric
+{
     CREATABLE(plAvBrainCoop, kAvBrainCoop, plAvBrainGeneric)
 
 private:
@@ -30,8 +31,8 @@ private:
     std::vector<plKey> fRecipients;
 
 public:
-    plAvBrainCoop() : fInitiatorID(0), fInitiatorSerial(0),
-                      fWaitingForClick(false) { }
+    plAvBrainCoop()
+        : fInitiatorID(), fInitiatorSerial(), fWaitingForClick() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

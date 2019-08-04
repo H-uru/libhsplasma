@@ -45,12 +45,14 @@ PY_METHOD_VA(FileStream, open,
     }
 }
 
-PY_METHOD_NOARGS(FileStream, __enter__, NULL) {
+PY_METHOD_NOARGS(FileStream, __enter__, nullptr)
+{
     Py_INCREF(self);
     return (PyObject*)self;
 }
 
-PY_METHOD_VA(FileStream, __exit__, NULL) {
+PY_METHOD_VA(FileStream, __exit__, nullptr)
+{
     self->fThis->close();
     Py_RETURN_NONE;
 }
@@ -64,7 +66,8 @@ static PyMethodDef pyFileStream_Methods[] = {
 
 PY_PLASMA_TYPE(FileStream, hsFileStream, "hsFileStream wrapper")
 
-PY_PLASMA_TYPE_INIT(FileStream) {
+PY_PLASMA_TYPE_INIT(FileStream)
+{
     pyFileStream_Type.tp_new = pyFileStream_new;
     pyFileStream_Type.tp_methods = pyFileStream_Methods;
     pyFileStream_Type.tp_base = &pyStream_Type;

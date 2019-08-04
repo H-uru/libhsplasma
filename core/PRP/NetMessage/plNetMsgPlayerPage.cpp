@@ -16,21 +16,24 @@
 
 #include "plNetMsgPlayerPage.h"
 
-void plNetMsgPlayerPage::read(hsStream* S, plResManager* mgr) {
+void plNetMsgPlayerPage::read(hsStream* S, plResManager* mgr)
+{
     plNetMessage::read(S, mgr);
 
     fUnload = S->readByte();
     fUoid.read(S);
 }
 
-void plNetMsgPlayerPage::write(hsStream* S, plResManager* mgr) {
+void plNetMsgPlayerPage::write(hsStream* S, plResManager* mgr)
+{
     plNetMessage::write(S, mgr);
 
     S->writeByte(fUnload);
     fUoid.write(S);
 }
 
-void plNetMsgPlayerPage::IPrcWrite(pfPrcHelper* prc) {
+void plNetMsgPlayerPage::IPrcWrite(pfPrcHelper* prc)
+{
     plNetMessage::IPrcWrite(prc);
 
     prc->startTag("PlayerPageParams");
@@ -40,7 +43,8 @@ void plNetMsgPlayerPage::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plNetMsgPlayerPage::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plNetMsgPlayerPage::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "PlayerPageParams") {
         fUnload = tag->getParam("Unload", "0").to_uint();
         if (tag->hasChildren())

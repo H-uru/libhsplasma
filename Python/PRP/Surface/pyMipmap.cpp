@@ -20,7 +20,8 @@
 #include "PRP/pyCreatable.h"
 #include "Stream/pyStream.h"
 
-PY_PLASMA_INIT_DECL(Mipmap) {
+PY_PLASMA_INIT_DECL(Mipmap)
+{
     const char* name = "";
     int width, height, numLevels, compType, format;
     int dxtLevel = plBitmap::kDXTError;
@@ -332,7 +333,8 @@ PY_PROPERTY_READ(Mipmap, height, getHeight)
 PY_PROPERTY_SETTER_MSG(Mipmap, height, "To set the height, you must re-create the mipmap object")
 PY_PROPERTY_GETSET_DECL(Mipmap, height)
 
-PY_GETSET_GETTER_DECL(Mipmap, imageData) {
+PY_GETSET_GETTER_DECL(Mipmap, imageData)
+{
     return PyBytes_FromStringAndSize((const char*)self->fThis->getImageData(),
                                      self->fThis->getTotalSize());
 }
@@ -354,7 +356,8 @@ static PyGetSetDef pyMipmap_GetSet[] = {
 
 PY_PLASMA_TYPE(Mipmap, plMipmap, "plMipmap wrapper")
 
-PY_PLASMA_TYPE_INIT(Mipmap) {
+PY_PLASMA_TYPE_INIT(Mipmap)
+{
     pyMipmap_Type.tp_init = pyMipmap___init__;
     pyMipmap_Type.tp_new = pyMipmap_new;
     pyMipmap_Type.tp_methods = pyMipmap_Methods;

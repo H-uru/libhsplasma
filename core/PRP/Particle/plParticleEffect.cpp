@@ -17,24 +17,28 @@
 #include "plParticleEffect.h"
 
 /* plParticleCollisionEffect */
-void plParticleCollisionEffect::read(hsStream* S, plResManager* mgr) {
+void plParticleCollisionEffect::read(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::read(S, mgr);
     fSceneObj = mgr->readKey(S);
 }
 
-void plParticleCollisionEffect::write(hsStream* S, plResManager* mgr) {
+void plParticleCollisionEffect::write(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::write(S, mgr);
     mgr->writeKey(S, fSceneObj);
 }
 
-void plParticleCollisionEffect::IPrcWrite(pfPrcHelper* prc) {
+void plParticleCollisionEffect::IPrcWrite(pfPrcHelper* prc)
+{
     hsKeyedObject::IPrcWrite(prc);
     prc->writeSimpleTag("SceneObject");
     plResManager::PrcWriteKey(prc, fSceneObj);
     prc->closeTag();
 }
 
-void plParticleCollisionEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plParticleCollisionEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "SceneObject") {
         if (tag->hasChildren())
             fSceneObj = mgr->prcParseKey(tag->getFirstChild());
@@ -45,19 +49,22 @@ void plParticleCollisionEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr
 
 
 /* plParticleCollisionEffectBounce */
-void plParticleCollisionEffectBounce::read(hsStream* S, plResManager* mgr) {
+void plParticleCollisionEffectBounce::read(hsStream* S, plResManager* mgr)
+{
     plParticleCollisionEffect::read(S, mgr);
     fBounce = S->readFloat();
     fFriction = S->readFloat();
 }
 
-void plParticleCollisionEffectBounce::write(hsStream* S, plResManager* mgr) {
+void plParticleCollisionEffectBounce::write(hsStream* S, plResManager* mgr)
+{
     plParticleCollisionEffect::write(S, mgr);
     S->writeFloat(fBounce);
     S->writeFloat(fFriction);
 }
 
-void plParticleCollisionEffectBounce::IPrcWrite(pfPrcHelper* prc) {
+void plParticleCollisionEffectBounce::IPrcWrite(pfPrcHelper* prc)
+{
     plParticleCollisionEffect::IPrcWrite(prc);
     prc->startTag("BounceParams");
     prc->writeParam("Bounce", fBounce);
@@ -65,7 +72,8 @@ void plParticleCollisionEffectBounce::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plParticleCollisionEffectBounce::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plParticleCollisionEffectBounce::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "BounceParams") {
         fBounce = tag->getParam("Bounce", "0").to_float();
         fFriction = tag->getParam("Friction", "0").to_float();
@@ -76,19 +84,22 @@ void plParticleCollisionEffectBounce::IPrcParse(const pfPrcTag* tag, plResManage
 
 
 /* plParticleFadeOutEffect */
-void plParticleFadeOutEffect::read(hsStream* S, plResManager* mgr) {
+void plParticleFadeOutEffect::read(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::read(S, mgr);
     fLength = S->readFloat();
     fIgnoreZ = S->readFloat();
 }
 
-void plParticleFadeOutEffect::write(hsStream* S, plResManager* mgr) {
+void plParticleFadeOutEffect::write(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::write(S, mgr);
     S->writeFloat(fLength);
     S->writeFloat(fIgnoreZ);
 }
 
-void plParticleFadeOutEffect::IPrcWrite(pfPrcHelper* prc) {
+void plParticleFadeOutEffect::IPrcWrite(pfPrcHelper* prc)
+{
     hsKeyedObject::IPrcWrite(prc);
     prc->startTag("FadeParams");
     prc->writeParam("Length", fLength);
@@ -96,7 +107,8 @@ void plParticleFadeOutEffect::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plParticleFadeOutEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plParticleFadeOutEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "FadeParams") {
         fLength = tag->getParam("Length", "0").to_float();
         fIgnoreZ = tag->getParam("IgnoreZ", "0").to_float();
@@ -107,19 +119,22 @@ void plParticleFadeOutEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) 
 
 
 /* plParticleFadeVolumeEffect */
-void plParticleFadeVolumeEffect::read(hsStream* S, plResManager* mgr) {
+void plParticleFadeVolumeEffect::read(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::read(S, mgr);
     fLength = S->readFloat();
     fIgnoreZ = S->readBool() ? 1.0f : 0.0f;
 }
 
-void plParticleFadeVolumeEffect::write(hsStream* S, plResManager* mgr) {
+void plParticleFadeVolumeEffect::write(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::write(S, mgr);
     S->writeFloat(fLength);
     S->writeBool(fIgnoreZ != 0.0f);
 }
 
-void plParticleFadeVolumeEffect::IPrcWrite(pfPrcHelper* prc) {
+void plParticleFadeVolumeEffect::IPrcWrite(pfPrcHelper* prc)
+{
     hsKeyedObject::IPrcWrite(prc);
     prc->startTag("FadeParams");
     prc->writeParam("Length", fLength);
@@ -127,7 +142,8 @@ void plParticleFadeVolumeEffect::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plParticleFadeVolumeEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plParticleFadeVolumeEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "FadeParams") {
         fLength = tag->getParam("Length", "0").to_float();
         fIgnoreZ = tag->getParam("IgnoreZ", "0").to_float();
@@ -138,7 +154,8 @@ void plParticleFadeVolumeEffect::IPrcParse(const pfPrcTag* tag, plResManager* mg
 
 
 /* plParticleFlockEffect */
-void plParticleFlockEffect::read(hsStream* S, plResManager* mgr) {
+void plParticleFlockEffect::read(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::read(S, mgr);
 
     fTargetOffset.read(S);
@@ -156,7 +173,8 @@ void plParticleFlockEffect::read(hsStream* S, plResManager* mgr) {
     fMaxParticles = S->readFloat();
 }
 
-void plParticleFlockEffect::write(hsStream* S, plResManager* mgr) {
+void plParticleFlockEffect::write(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::write(S, mgr);
 
     fTargetOffset.write(S);
@@ -174,7 +192,8 @@ void plParticleFlockEffect::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fMaxParticles);
 }
 
-void plParticleFlockEffect::IPrcWrite(pfPrcHelper* prc) {
+void plParticleFlockEffect::IPrcWrite(pfPrcHelper* prc)
+{
     hsKeyedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("TargetOffset");
@@ -199,7 +218,8 @@ void plParticleFlockEffect::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plParticleFlockEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plParticleFlockEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "TargetOffset") {
         if (tag->hasChildren())
             fTargetOffset.prcParse(tag->getFirstChild());
@@ -225,7 +245,8 @@ void plParticleFlockEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plParticleWindEffect */
-void plParticleWindEffect::read(hsStream* S, plResManager* mgr) {
+void plParticleWindEffect::read(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::read(S, mgr);
 
     fStrength = S->readFloat();
@@ -237,7 +258,8 @@ void plParticleWindEffect::read(hsStream* S, plResManager* mgr) {
     fDir.read(S);
 }
 
-void plParticleWindEffect::write(hsStream* S, plResManager* mgr) {
+void plParticleWindEffect::write(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::write(S, mgr);
 
     S->writeFloat(fStrength);
@@ -249,7 +271,8 @@ void plParticleWindEffect::write(hsStream* S, plResManager* mgr) {
     fDir.write(S);
 }
 
-void plParticleWindEffect::IPrcWrite(pfPrcHelper* prc) {
+void plParticleWindEffect::IPrcWrite(pfPrcHelper* prc)
+{
     hsKeyedObject::IPrcWrite(prc);
 
     prc->startTag("WindParams");
@@ -267,7 +290,8 @@ void plParticleWindEffect::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plParticleWindEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plParticleWindEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "WindParams") {
         fStrength = tag->getParam("Strength", "0").to_float();
         fConstancy = tag->getParam("Constancy", "0").to_float();
@@ -286,19 +310,22 @@ void plParticleWindEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plParticleLocalWind */
-void plParticleLocalWind::read(hsStream* S, plResManager* mgr) {
+void plParticleLocalWind::read(hsStream* S, plResManager* mgr)
+{
     plParticleWindEffect::read(S, mgr);
     fScale.read(S);
     fSpeed = S->readFloat();
 }
 
-void plParticleLocalWind::write(hsStream* S, plResManager* mgr) {
+void plParticleLocalWind::write(hsStream* S, plResManager* mgr)
+{
     plParticleWindEffect::write(S, mgr);
     fScale.write(S);
     S->writeFloat(fSpeed);
 }
 
-void plParticleLocalWind::IPrcWrite(pfPrcHelper* prc) {
+void plParticleLocalWind::IPrcWrite(pfPrcHelper* prc)
+{
     plParticleWindEffect::IPrcWrite(prc);
 
     prc->writeSimpleTag("Scale");
@@ -310,7 +337,8 @@ void plParticleLocalWind::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plParticleLocalWind::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plParticleLocalWind::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "LocalWindParams") {
         fSpeed = tag->getParam("Speed", "0").to_float();
     } else if (tag->getName() == "Scale") {
@@ -323,7 +351,8 @@ void plParticleLocalWind::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plParticleUniformWind */
-void plParticleUniformWind::read(hsStream* S, plResManager* mgr) {
+void plParticleUniformWind::read(hsStream* S, plResManager* mgr)
+{
     plParticleWindEffect::read(S, mgr);
 
     fFreqMin = S->readFloat();
@@ -331,7 +360,8 @@ void plParticleUniformWind::read(hsStream* S, plResManager* mgr) {
     fFreqRate = S->readFloat();
 }
 
-void plParticleUniformWind::write(hsStream* S, plResManager* mgr) {
+void plParticleUniformWind::write(hsStream* S, plResManager* mgr)
+{
     plParticleWindEffect::write(S, mgr);
 
     S->writeFloat(fFreqMin);
@@ -339,7 +369,8 @@ void plParticleUniformWind::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fFreqRate);
 }
 
-void plParticleUniformWind::IPrcWrite(pfPrcHelper* prc) {
+void plParticleUniformWind::IPrcWrite(pfPrcHelper* prc)
+{
     plParticleWindEffect::IPrcWrite(prc);
 
     prc->startTag("UniformWindParams");
@@ -349,7 +380,8 @@ void plParticleUniformWind::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plParticleUniformWind::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plParticleUniformWind::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "UniformWindParams") {
         fFreqMin = tag->getParam("FreqMin", "0").to_float();
         fFreqMax = tag->getParam("FreqMax", "0").to_float();

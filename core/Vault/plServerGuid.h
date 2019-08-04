@@ -20,7 +20,8 @@
 #include "../PlasmaDefs.h"
 #include "../Stream/hsStream.h"
 
-class PLASMA_DLL plServerGuid {
+class PLASMA_DLL plServerGuid
+{
 protected:
     unsigned char fGuid[8];
 

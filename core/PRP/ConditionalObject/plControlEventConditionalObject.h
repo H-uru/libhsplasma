@@ -19,7 +19,8 @@
 
 #include "plConditionalObject.h"
 
-class PLASMA_DLL plControlEventConditionalObject : public plConditionalObject {
+class PLASMA_DLL plControlEventConditionalObject : public plConditionalObject
+{
     CREATABLE(plControlEventConditionalObject,
               kControlEventConditionalObject,
               plConditionalObject)
@@ -28,7 +29,7 @@ protected:
     ControlEventCode fControlEvent;
 
 public:
-    plControlEventConditionalObject() : fControlEvent((ControlEventCode)0) { }
+    plControlEventConditionalObject() : fControlEvent() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

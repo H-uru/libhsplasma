@@ -21,7 +21,8 @@
 #include "PRP/Animation/plController.h"
 
 /* Scalar Channels */
-class PLASMA_DLL plScalarChannel : public plAGChannel {
+class PLASMA_DLL plScalarChannel : public plAGChannel
+{
     CREATABLE(plScalarChannel, kScalarChannel, plAGChannel)
 
 protected:
@@ -33,12 +34,14 @@ public:
 };
 
 
-class PLASMA_DLL plScalarBlend : public plScalarChannel {
+class PLASMA_DLL plScalarBlend : public plScalarChannel
+{
     CREATABLE(plScalarBlend, kScalarBlend, plScalarChannel)
 };
 
 
-class PLASMA_DLL plScalarConstant : public plScalarChannel {
+class PLASMA_DLL plScalarConstant : public plScalarChannel
+{
     CREATABLE(plScalarConstant, kScalarConstant, plScalarChannel)
 
 public:
@@ -51,13 +54,15 @@ protected:
 };
 
 
-class PLASMA_DLL plScalarControllerCacheChannel : public plScalarChannel {
+class PLASMA_DLL plScalarControllerCacheChannel : public plScalarChannel
+{
     CREATABLE(plScalarControllerCacheChannel, kScalarControllerCacheChannel,
               plScalarChannel)
 };
 
 
-class PLASMA_DLL plScalarControllerChannel : public plScalarChannel {
+class PLASMA_DLL plScalarControllerChannel : public plScalarChannel
+{
     CREATABLE(plScalarControllerChannel, kScalarControllerChannel,
               plScalarChannel)
 
@@ -65,8 +70,8 @@ protected:
     plController* fController;
 
 public:
-    plScalarControllerChannel() : fController(NULL) { }
-    virtual ~plScalarControllerChannel();
+    plScalarControllerChannel() : fController() { }
+    ~plScalarControllerChannel();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -81,21 +86,25 @@ public:
 };
 
 
-class PLASMA_DLL plScalarTimeScale : public plScalarChannel {
+class PLASMA_DLL plScalarTimeScale : public plScalarChannel
+{
     CREATABLE(plScalarTimeScale, kScalarTimeScale, plScalarChannel)
 };
 
-class PLASMA_DLL plScalarSDLChannel : public plScalarChannel {
+class PLASMA_DLL plScalarSDLChannel : public plScalarChannel
+{
     CREATABLE(plScalarSDLChannel, kScalarSDLChannel, plScalarChannel)
 };
 
-class PLASMA_DLL plATCChannel : public plScalarChannel {
+class PLASMA_DLL plATCChannel : public plScalarChannel
+{
     CREATABLE(plATCChannel, kATCChannel, plScalarChannel)
 };
 
 
 /* Scalar Channel Applicators */
-class PLASMA_DLL plScalarChannelApplicator : public plAGApplicator {
+class PLASMA_DLL plScalarChannelApplicator : public plAGApplicator
+{
     CREATABLE(plScalarChannelApplicator, kScalarChannelApplicator,
               plAGApplicator)
 };

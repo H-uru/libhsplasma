@@ -30,7 +30,8 @@ static PyGetSetDef pyGUIMultiLineEditCtrl_GetSet[] = {
 
 PY_PLASMA_TYPE(GUIMultiLineEditCtrl, pfGUIMultiLineEditCtrl, "pfGUIMultiLineEditCtrl wrapper")
 
-PY_PLASMA_TYPE_INIT(GUIMultiLineEditCtrl) {
+PY_PLASMA_TYPE_INIT(GUIMultiLineEditCtrl)
+{
     pyGUIMultiLineEditCtrl_Type.tp_new = pyGUIMultiLineEditCtrl_new;
     pyGUIMultiLineEditCtrl_Type.tp_getset = pyGUIMultiLineEditCtrl_GetSet;
     pyGUIMultiLineEditCtrl_Type.tp_base = &pyGUIControlMod_Type;

@@ -108,7 +108,8 @@ static PyMethodDef pyMultistageBehMod_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(MultistageBehMod, stages) {
+PY_GETSET_GETTER_DECL(MultistageBehMod, stages)
+{
     PyObject* list = PyTuple_New(self->fThis->getStages().size());
     for (size_t i=0; i<self->fThis->getStages().size(); i++)
         PyTuple_SET_ITEM(list, i, ICreate(self->fThis->getStages()[i]));
@@ -118,7 +119,8 @@ PY_GETSET_GETTER_DECL(MultistageBehMod, stages) {
 PY_PROPERTY_SETTER_MSG(MultistageBehMod, stages, "To add stages, use addStage()")
 PY_PROPERTY_GETSET_DECL(MultistageBehMod, stages)
 
-PY_GETSET_GETTER_DECL(MultistageBehMod, receivers) {
+PY_GETSET_GETTER_DECL(MultistageBehMod, receivers)
+{
     PyObject* list = PyTuple_New(self->fThis->getReceivers().size());
     for (size_t i=0; i<self->fThis->getReceivers().size(); i++)
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getReceivers()[i]));
@@ -144,7 +146,8 @@ static PyGetSetDef pyMultistageBehMod_GetSet[] = {
 
 PY_PLASMA_TYPE(MultistageBehMod, plMultistageBehMod, "plMultistageBehMod wrapper")
 
-PY_PLASMA_TYPE_INIT(MultistageBehMod) {
+PY_PLASMA_TYPE_INIT(MultistageBehMod)
+{
     pyMultistageBehMod_Type.tp_new = pyMultistageBehMod_new;
     pyMultistageBehMod_Type.tp_methods = pyMultistageBehMod_Methods;
     pyMultistageBehMod_Type.tp_getset = pyMultistageBehMod_GetSet;

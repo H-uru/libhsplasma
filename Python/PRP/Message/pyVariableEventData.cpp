@@ -37,7 +37,8 @@ static PyGetSetDef pyVariableEventData_GetSet[] = {
 PY_PLASMA_TYPE(VariableEventData, proVariableEventData,
                "proVariableEventData wrapper")
 
-PY_PLASMA_TYPE_INIT(VariableEventData) {
+PY_PLASMA_TYPE_INIT(VariableEventData)
+{
     pyVariableEventData_Type.tp_new = pyVariableEventData_new;
     pyVariableEventData_Type.tp_getset = pyVariableEventData_GetSet;
     pyVariableEventData_Type.tp_base = &pyEventData_Type;

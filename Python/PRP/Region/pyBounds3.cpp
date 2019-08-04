@@ -34,7 +34,8 @@ static PyGetSetDef pyBounds3_GetSet[] = {
 
 PY_PLASMA_TYPE(Bounds3, hsBounds3, "hsBounds3 wrapper")
 
-PY_PLASMA_TYPE_INIT(Bounds3) {
+PY_PLASMA_TYPE_INIT(Bounds3)
+{
     pyBounds3_Type.tp_new = pyBounds3_new;
     pyBounds3_Type.tp_getset = pyBounds3_GetSet;
     pyBounds3_Type.tp_base = &pyBounds_Type;

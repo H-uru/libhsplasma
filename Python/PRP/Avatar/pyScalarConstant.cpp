@@ -23,7 +23,8 @@ PY_PLASMA_NEW(ScalarConstant, plScalarConstant)
 
 PY_PLASMA_TYPE(ScalarConstant, plScalarConstant, "plScalarConstant wrapper")
 
-PY_PLASMA_TYPE_INIT(ScalarConstant) {
+PY_PLASMA_TYPE_INIT(ScalarConstant)
+{
     pyScalarConstant_Type.tp_new = pyScalarConstant_new;
     pyScalarConstant_Type.tp_base = &pyScalarChannel_Type;
     if (PyType_CheckAndReady(&pyScalarConstant_Type) < 0)

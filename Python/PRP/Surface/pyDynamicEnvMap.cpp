@@ -29,7 +29,8 @@
 
 PY_PLASMA_NEW(DynamicEnvMap, plDynamicEnvMap)
 
-PY_GETSET_GETTER_DECL(DynamicEnvMap, visRegions) {
+PY_GETSET_GETTER_DECL(DynamicEnvMap, visRegions)
+{
     const std::vector<plKey>& keys = self->fThis->getVisRegions();
     PyObject* regionList = PyTuple_New(keys.size());
     for (size_t i=0; i<keys.size(); i++)
@@ -37,7 +38,8 @@ PY_GETSET_GETTER_DECL(DynamicEnvMap, visRegions) {
     return regionList;
 }
 
-PY_GETSET_SETTER_DECL(DynamicEnvMap, visRegions) {
+PY_GETSET_SETTER_DECL(DynamicEnvMap, visRegions)
+{
     PY_PROPERTY_CHECK_NULL(visRegions)
     pySequenceFastRef seq(value);
     if (!seq.isSequence()) {
@@ -59,7 +61,8 @@ PY_GETSET_SETTER_DECL(DynamicEnvMap, visRegions) {
     return 0;
 }
 
-PY_GETSET_GETTER_DECL(DynamicEnvMap, visRegionNames) {
+PY_GETSET_GETTER_DECL(DynamicEnvMap, visRegionNames)
+{
     const std::vector<ST::string>& names = self->fThis->getVisRegionNames();
     PyObject* regionNameList = PyTuple_New(names.size());
     for (size_t i=0; i<names.size(); i++)
@@ -67,7 +70,8 @@ PY_GETSET_GETTER_DECL(DynamicEnvMap, visRegionNames) {
     return regionNameList;
 }
 
-PY_GETSET_SETTER_DECL(DynamicEnvMap, visRegionNames) {
+PY_GETSET_SETTER_DECL(DynamicEnvMap, visRegionNames)
+{
     PY_PROPERTY_CHECK_NULL(visRegionNames)
     pySequenceFastRef seq(value);
     if (!seq.isSequence()) {
@@ -117,7 +121,8 @@ static PyGetSetDef pyDynamicEnvMap_GetSet[] = {
 
 PY_PLASMA_TYPE(DynamicEnvMap, plDynamicEnvMap, "plDynamicEnvMap wrapper")
 
-PY_PLASMA_TYPE_INIT(DynamicEnvMap) {
+PY_PLASMA_TYPE_INIT(DynamicEnvMap)
+{
     pyDynamicEnvMap_Type.tp_new = pyDynamicEnvMap_new;
     pyDynamicEnvMap_Type.tp_getset = pyDynamicEnvMap_GetSet;
     pyDynamicEnvMap_Type.tp_base = &pyCubicRenderTarget_Type;

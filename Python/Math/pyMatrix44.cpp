@@ -22,7 +22,8 @@
 
 PY_PLASMA_VALUE_DEALLOC(Matrix44)
 
-PY_PLASMA_INIT_DECL(Matrix44) {
+PY_PLASMA_INIT_DECL(Matrix44)
+{
     PyObject* init = NULL;
     if (!PyArg_ParseTuple(args, "|O", &init))
         return -1;
@@ -42,7 +43,8 @@ PY_PLASMA_INIT_DECL(Matrix44) {
 
 PY_PLASMA_VALUE_NEW(Matrix44, hsMatrix44)
 
-PY_PLASMA_SUBSCRIPT_DECL(Matrix44) {
+PY_PLASMA_SUBSCRIPT_DECL(Matrix44)
+{
     int i, j;
     if (!PyArg_ParseTuple(key, "ii", &i, &j)) {
         PyErr_SetString(PyExc_TypeError, "Matrix subscript expects int, int");
@@ -51,7 +53,8 @@ PY_PLASMA_SUBSCRIPT_DECL(Matrix44) {
     return pyPlasma_convert((*self->fThis)(i, j));
 }
 
-PY_PLASMA_ASS_SUBSCRIPT_DECL(Matrix44) {
+PY_PLASMA_ASS_SUBSCRIPT_DECL(Matrix44)
+{
     int i, j;
     if (!PyArg_ParseTuple(key, "ii", &i, &j)) {
         PyErr_SetString(PyExc_TypeError, "Matrix subscript expects int, int");
@@ -65,7 +68,8 @@ PY_PLASMA_ASS_SUBSCRIPT_DECL(Matrix44) {
     return 0;
 }
 
-PY_GETSET_GETTER_DECL(Matrix44, mat) {
+PY_GETSET_GETTER_DECL(Matrix44, mat)
+{
     PyObject* t1 = PyTuple_New(4);
     PyObject* t2 = PyTuple_New(4);
     PyObject* t3 = PyTuple_New(4);
@@ -97,7 +101,8 @@ PY_GETSET_GETTER_DECL(Matrix44, mat) {
 
 PY_PROPERTY_GETSET_RO_DECL(Matrix44, mat)
 
-PY_GETSET_GETTER_DECL(Matrix44, glMat) {
+PY_GETSET_GETTER_DECL(Matrix44, glMat)
+{
     PyObject* mat = PyTuple_New(16);
     const float* glmat = self->fThis->glMatrix();
     PyTuple_SET_ITEM(mat, 0, pyPlasma_convert(glmat[0]));
@@ -127,7 +132,8 @@ PyGetSetDef pyMatrix44_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PY_METHOD_STATIC_NOARGS(Matrix44, Identity, "Creates an identity matrix") {
+PY_METHOD_STATIC_NOARGS(Matrix44, Identity, "Creates an identity matrix")
+{
     return pyPlasma_convert(hsMatrix44::Identity());
 }
 
@@ -176,7 +182,8 @@ PY_METHOD_STATIC_VA(Matrix44, ScaleMat,
     return pyPlasma_convert(hsMatrix44::ScaleMat(*vec->fThis));
 }
 
-PY_METHOD_NOARGS(Matrix44, inverse, "Returns the inverse of the matrix") {
+PY_METHOD_NOARGS(Matrix44, inverse, "Returns the inverse of the matrix")
+{
     return pyPlasma_convert(self->fThis->inverse());
 }
 
@@ -370,7 +377,8 @@ PyMethodDef pyMatrix44_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_PLASMA_NB_BINARYFUNC_DECL(Matrix44, multiply) {
+PY_PLASMA_NB_BINARYFUNC_DECL(Matrix44, multiply)
+{
     if (!pyPlasma_check<hsMatrix44>(left) || !pyPlasma_check<hsMatrix44>(right)) {
         PyErr_SetString(PyExc_TypeError, "Multiplication operand is not another matrix");
         return NULL;
@@ -382,7 +390,8 @@ PY_PLASMA_TYPE(Matrix44, hsMatrix44, "hsMatrix44 wrapper")
 PY_PLASMA_TYPE_AS_NUMBER(Matrix44)
 PY_PLASMA_TYPE_AS_MAPPING(Matrix44)
 
-PY_PLASMA_TYPE_INIT(Matrix44) {
+PY_PLASMA_TYPE_INIT(Matrix44)
+{
     pyMatrix44_As_Number.nb_multiply = pyMatrix44_nb_multiply;
     pyMatrix44_As_Mapping.mp_subscript = pyMatrix44_mp_subscript;
     pyMatrix44_As_Mapping.mp_ass_subscript = pyMatrix44_mp_ass_subscript;

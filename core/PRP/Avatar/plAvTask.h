@@ -20,7 +20,8 @@
 #include "PRP/plCreatable.h"
 #include "plArmatureBrain.h"
 
-class PLASMA_DLL plAvTask : public plCreatable {
+class PLASMA_DLL plAvTask : public plCreatable
+{
     CREATABLE(plAvTask, kAvTask, plCreatable)
 
 public:
@@ -32,7 +33,8 @@ protected:
 };
 
 
-class PLASMA_DLL plAvAnimTask : public plAvTask {
+class PLASMA_DLL plAvAnimTask : public plAvTask
+{
     CREATABLE(plAvAnimTask, kAvAnimTask, plAvTask)
 
 private:
@@ -42,8 +44,9 @@ private:
     bool fStart, fLoop, fAttach;
 
 public:
-    plAvAnimTask() : fInitialBlend(0.0f), fTargetBlend(0.0f), fFadeSpeed(0.0f),
-                     fSetTime(0.0f), fStart(false), fLoop(false), fAttach(false) { }
+    plAvAnimTask()
+        : fInitialBlend(), fTargetBlend(), fFadeSpeed(), fSetTime(),
+          fStart(), fLoop(), fAttach() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -54,12 +57,14 @@ protected:
 };
 
 
-class PLASMA_DLL plAvOneShotTask : public plAvTask {
+class PLASMA_DLL plAvOneShotTask : public plAvTask
+{
     CREATABLE(plAvOneShotTask, kAvOneShotTask, plAvTask)
 };
 
 
-class PLASMA_DLL plAvOneShotLinkTask : public plAvOneShotTask {
+class PLASMA_DLL plAvOneShotLinkTask : public plAvOneShotTask
+{
     CREATABLE(plAvOneShotLinkTask, kAvOneShotLinkTask, plAvOneShotTask)
 
 private:
@@ -75,20 +80,22 @@ protected:
 };
 
 
-class PLASMA_DLL plAvSeekTask : public plAvTask {
+class PLASMA_DLL plAvSeekTask : public plAvTask
+{
     CREATABLE(plAvSeekTask, kAvSeekTask, plAvTask)
 };
 
 
-class PLASMA_DLL plAvTaskBrain : public plAvTask {
+class PLASMA_DLL plAvTaskBrain : public plAvTask
+{
     CREATABLE(plAvTaskBrain, kAvTaskBrain, plAvTask)
 
 private:
     plArmatureBrain* fBrain;
 
 public:
-    plAvTaskBrain() : fBrain(NULL) { }
-    virtual ~plAvTaskBrain();
+    plAvTaskBrain() : fBrain() { }
+    ~plAvTaskBrain();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -104,7 +111,8 @@ public:
 
 
 // Yay redundancy
-class PLASMA_DLL plAvTaskSeek : public plAvTask {
+class PLASMA_DLL plAvTaskSeek : public plAvTask
+{
     CREATABLE(plAvTaskSeek, kAvTaskSeek, plAvTask)
 };
 

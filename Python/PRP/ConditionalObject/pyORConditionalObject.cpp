@@ -62,7 +62,8 @@ static PyMethodDef pyORConditionalObject_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(ORConditionalObject, children) {
+PY_GETSET_GETTER_DECL(ORConditionalObject, children)
+{
     PyObject* children = PyTuple_New(self->fThis->getChildren().size());
     for (size_t i = 0; i < self->fThis->getChildren().size(); ++i)
         PyTuple_SET_ITEM(children, i, pyPlasma_convert(self->fThis->getChildren()[i]));
@@ -80,7 +81,8 @@ static PyGetSetDef pyORConditionalObject_GetSet[] = {
 PY_PLASMA_TYPE(ORConditionalObject, plORConditionalObject,
                "plORConditionalObject wrapper")
 
-PY_PLASMA_TYPE_INIT(ORConditionalObject) {
+PY_PLASMA_TYPE_INIT(ORConditionalObject)
+{
     pyORConditionalObject_Type.tp_new = pyORConditionalObject_new;
     pyORConditionalObject_Type.tp_methods = pyORConditionalObject_Methods;
     pyORConditionalObject_Type.tp_getset = pyORConditionalObject_GetSet;

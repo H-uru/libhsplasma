@@ -142,11 +142,13 @@ PY_PROPERTY_MEMBER(unsigned int, DDSurface, srcVBHandle, fSrcVBHandle)
 PY_PROPERTY_MEMBER(unsigned int, DDSurface, alphaDepth, fAlphaDepth)
 
 #define DDCK_PROPERTY(name, member)                                     \
-    PY_GETSET_GETTER_DECL(DDSurface, name) {                            \
+    PY_GETSET_GETTER_DECL(DDSurface, name)                              \
+    {                                                                   \
         return Py_BuildValue("ii", self->fThis->member.fColorSpaceLow,  \
                                    self->fThis->member.fColorSpaceHigh); \
     }                                                                   \
-    PY_GETSET_SETTER_DECL(DDSurface, name) {                            \
+    PY_GETSET_SETTER_DECL(DDSurface, name)                              \
+    {                                                                   \
         PY_PROPERTY_CHECK_NULL(name)                                    \
         if (!PyTuple_Check(value) || PyTuple_GET_SIZE(value) != 2) {    \
             PyErr_SetString(PyExc_TypeError, #name " should be a tuple (int, int)"); \
@@ -190,12 +192,14 @@ PY_PROPERTY_MEMBER(unsigned int, DDSurface, pf_UBitMask, fPixelFormat.fUBitMask)
 PY_PROPERTY_MEMBER(unsigned int, DDSurface, pf_ZBitMask, fPixelFormat.fZBitMask)
 PY_PROPERTY_MEMBER(unsigned int, DDSurface, pf_bumpDvBitMask, fPixelFormat.fBumpDvBitMask)
 
-PY_GETSET_GETTER_DECL(DDSurface, pf_multiSampleCaps) {
+PY_GETSET_GETTER_DECL(DDSurface, pf_multiSampleCaps)
+{
     return Py_BuildValue("ii", self->fThis->fPixelFormat.fMultiSampleCaps.fFlipMSTypes,
                                self->fThis->fPixelFormat.fMultiSampleCaps.fBltMSTypes);
 }
 
-PY_GETSET_SETTER_DECL(DDSurface, pf_multiSampleCaps) {
+PY_GETSET_SETTER_DECL(DDSurface, pf_multiSampleCaps)
+{
     PY_PROPERTY_CHECK_NULL(pf_multiSampleCaps)
     if (!PyTuple_Check(value) || PyTuple_GET_SIZE(value) != 2) {
         PyErr_SetString(PyExc_TypeError, "pf_multiSampleCaps should be a tuple (int, int)");
@@ -221,12 +225,14 @@ PY_PROPERTY_MEMBER(unsigned int, DDSurface, pf_bumpLuminanceBitMask, fPixelForma
 PY_PROPERTY_MEMBER(unsigned int, DDSurface, pf_alphaBitMask, fPixelFormat.fAlphaBitMask)
 PY_PROPERTY_MEMBER(unsigned int, DDSurface, pf_colorZBitMask, fPixelFormat.fColorZBitMask)
 
-PY_GETSET_GETTER_DECL(DDSurface, data) {
+PY_GETSET_GETTER_DECL(DDSurface, data)
+{
     return PyBytes_FromStringAndSize((const char*)self->fThis->getData(),
                                      self->fThis->getDataSize());
 }
 
-PY_GETSET_SETTER_DECL(DDSurface, data) {
+PY_GETSET_SETTER_DECL(DDSurface, data)
+{
     PY_PROPERTY_CHECK_NULL(data)
     if (value == Py_None) {
         self->fThis->setData(0, NULL);
@@ -295,7 +301,8 @@ static PyGetSetDef pyDDSurface_GetSet[] = {
 
 PY_PLASMA_TYPE(DDSurface, plDDSurface, "plDDSurface wrapper")
 
-PY_PLASMA_TYPE_INIT(DDSurface) {
+PY_PLASMA_TYPE_INIT(DDSurface)
+{
     pyDDSurface_Type.tp_dealloc = pyDDSurface_dealloc;
     pyDDSurface_Type.tp_init = pyDDSurface___init__;
     pyDDSurface_Type.tp_new = pyDDSurface_new;

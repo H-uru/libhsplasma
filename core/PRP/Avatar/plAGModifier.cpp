@@ -16,17 +16,20 @@
 
 #include "plAGModifier.h"
 
-void plAGModifier::read(hsStream* S, plResManager* mgr) {
+void plAGModifier::read(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::read(S, mgr);
     fChannelName = S->readSafeStr();
 }
 
-void plAGModifier::write(hsStream* S, plResManager* mgr) {
+void plAGModifier::write(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::write(S, mgr);
     S->writeSafeStr(fChannelName);
 }
 
-void plAGModifier::IPrcWrite(pfPrcHelper* prc) {
+void plAGModifier::IPrcWrite(pfPrcHelper* prc)
+{
     plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("AGModifierParams");
@@ -34,7 +37,8 @@ void plAGModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plAGModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAGModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "AGModifierParams") {
         fChannelName = tag->getParam("ChannelName", "");
     } else {

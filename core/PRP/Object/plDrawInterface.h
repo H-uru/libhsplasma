@@ -19,7 +19,8 @@
 
 #include "plObjInterface.h"
 
-class PLASMA_DLL plDrawInterface : public plObjInterface {
+class PLASMA_DLL plDrawInterface : public plObjInterface
+{
     CREATABLE(plDrawInterface, kDrawInterface, plObjInterface)
 
 protected:
@@ -51,7 +52,8 @@ public:
 };
 
 
-class PLASMA_DLL plInstanceDrawInterface : public plDrawInterface {
+class PLASMA_DLL plInstanceDrawInterface : public plDrawInterface
+{
     CREATABLE(plInstanceDrawInterface, kInstanceDrawInterface, plDrawInterface)
 
 protected:
@@ -59,7 +61,7 @@ protected:
     plKey fDrawable;
 
 public:
-    plInstanceDrawInterface() : fTargetID(0) { }
+    plInstanceDrawInterface() : fTargetID() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

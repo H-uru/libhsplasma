@@ -32,7 +32,8 @@ static PyGetSetDef pySpawnedEventData_GetSet[] = {
 
 PY_PLASMA_TYPE(SpawnedEventData, proSpawnedEventData, "proSpawnedEventData wrapper")
 
-PY_PLASMA_TYPE_INIT(SpawnedEventData) {
+PY_PLASMA_TYPE_INIT(SpawnedEventData)
+{
     pySpawnedEventData_Type.tp_new = pySpawnedEventData_new;
     pySpawnedEventData_Type.tp_getset = pySpawnedEventData_GetSet;
     pySpawnedEventData_Type.tp_base = &pyEventData_Type;

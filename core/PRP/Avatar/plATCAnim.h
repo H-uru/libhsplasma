@@ -20,12 +20,13 @@
 #include "plAGAnim.h"
 #include <map>
 
-class PLASMA_DLL plATCAnim : public plAGAnim {
+class PLASMA_DLL plATCAnim : public plAGAnim
+{
     CREATABLE(plATCAnim, kATCAnim, plAGAnim)
 
 public:
     typedef std::map<ST::string, float> marker_t;
-    typedef std::map<ST::string, std::pair<float, float> > loop_t;
+    typedef std::map<ST::string, std::pair<float, float>> loop_t;
 
 protected:
     float fInitial, fLoopStart, fLoopEnd;
@@ -38,9 +39,9 @@ protected:
     std::vector<float> fStopPoints;
 
 public:
-    plATCAnim() : fInitial(0.0f), fLoopStart(0.0f), fLoopEnd(0.0f),
-                  fAutoStart(false), fLoop(false), fEaseInType(0),
-                  fEaseOutType(0) { }
+    plATCAnim()
+        : fInitial(), fLoopStart(), fLoopEnd(), fAutoStart(), fLoop(),
+          fEaseInType(), fEaseOutType() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -88,21 +89,32 @@ public:
     void setEaseOutMax(float max) { fEaseOutMax = max; }
 
     void setEaseInParams(float length, float min, float max)
-    { fEaseInLength = length; fEaseInMin = min; fEaseInMax = max; }
+    {
+        fEaseInLength = length;
+        fEaseInMin = min;
+        fEaseInMax = max;
+    }
 
     void setEaseOutParams(float length, float min, float max)
-    { fEaseOutLength = length; fEaseOutMin = min; fEaseOutMax = max; }
+    {
+        fEaseOutLength = length;
+        fEaseOutMin = min;
+        fEaseOutMax = max;
+    }
 
     void setMarker(const ST::string& key, float value) { fMarkers[key] = value; }
 
     void setLoop(const ST::string& key, float start, float end)
-    { fLoops[key] = std::pair<float, float>(start, end); }
+    {
+        fLoops[key] = std::make_pair(start, end);
+    }
 
     void setStops(const std::vector<float>& stops) { fStopPoints = stops; }
 };
 
 
-class PLASMA_DLL plEmoteAnim : public plATCAnim {
+class PLASMA_DLL plEmoteAnim : public plATCAnim
+{
     CREATABLE(plEmoteAnim, kEmoteAnim, plATCAnim)
 
 protected:
@@ -129,7 +141,8 @@ public:
     void setFadeOut(float fade) { fFadeOut = fade; }
 };
 
-class PLASMA_DLL plAGAnimBink : public plATCAnim {
+class PLASMA_DLL plAGAnimBink : public plATCAnim
+{
     CREATABLE(plAGAnimBink, kAGAnimBink, plATCAnim)
 
 protected:

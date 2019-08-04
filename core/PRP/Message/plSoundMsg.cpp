@@ -17,9 +17,9 @@
 #include "plSoundMsg.h"
 
 plSoundMsg::plSoundMsg()
-          : fBegin(0.0), fEnd(0.0), fLoop(false), fPlaying(false), fSpeed(0.0f),
-            fTime(0.0), fIndex(-1), fRepeats(0), fNameStr(0), fVolume(0.0f),
-            fFadeType(kLinear) {
+    : fBegin(), fEnd(), fLoop(), fPlaying(), fSpeed(), fTime(), fIndex(-1),
+      fRepeats(), fNameStr(), fVolume(), fFadeType(kLinear)
+{
     fCmd.setName(kPlay, "kPlay");
     fCmd.setName(kStop, "kStop");
     fCmd.setName(kSetLooping, "kSetLooping");
@@ -43,7 +43,8 @@ plSoundMsg::plSoundMsg()
     fCmd.setName(kFastForwardToggle, "kFastForwardToggle");
 }
 
-void plSoundMsg::read(hsStream* S, plResManager* mgr) {
+void plSoundMsg::read(hsStream* S, plResManager* mgr)
+{
     plMessageWithCallbacks::read(S, mgr);
 
     fCmd.read(S);
@@ -60,7 +61,8 @@ void plSoundMsg::read(hsStream* S, plResManager* mgr) {
     fFadeType = (FadeType)S->readByte();
 }
 
-void plSoundMsg::write(hsStream* S, plResManager* mgr) {
+void plSoundMsg::write(hsStream* S, plResManager* mgr)
+{
     plMessageWithCallbacks::write(S, mgr);
 
     fCmd.write(S);
@@ -77,7 +79,8 @@ void plSoundMsg::write(hsStream* S, plResManager* mgr) {
     S->writeByte((uint8_t)fFadeType);
 }
 
-void plSoundMsg::IPrcWrite(pfPrcHelper* prc) {
+void plSoundMsg::IPrcWrite(pfPrcHelper* prc)
+{
     plMessageWithCallbacks::IPrcWrite(prc);
 
     prc->startTag("SoundParams");
@@ -99,7 +102,8 @@ void plSoundMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plSoundMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plSoundMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "SoundParams") {
         fBegin = tag->getParam("Begin", "0").to_float();
         fEnd = tag->getParam("End", "0").to_float();

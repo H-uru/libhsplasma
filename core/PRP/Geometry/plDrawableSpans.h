@@ -28,9 +28,11 @@
 #include <vector>
 #include <list>
 
-class PLASMA_DLL plDISpanIndex {
+class PLASMA_DLL plDISpanIndex
+{
 public:
-    enum {
+    enum
+    {
         kNone = 0x0,
         kMatrixOnly = 0x1,
         kDontTransformSpans = 0x2
@@ -40,18 +42,20 @@ public:
     std::vector<unsigned int> fIndices;
 
 public:
-    plDISpanIndex() : fFlags(0) { }
+    plDISpanIndex() : fFlags() { }
     plDISpanIndex(const plDISpanIndex& init)
         : fFlags(init.fFlags), fIndices(init.fIndices) { }
     plDISpanIndex& operator=(const plDISpanIndex& cpy);
 };
 
 
-class PLASMA_DLL plDrawable : public hsKeyedObject {
+class PLASMA_DLL plDrawable : public hsKeyedObject
+{
     CREATABLE(plDrawable, kDrawable, hsKeyedObject)
 
 public:
-    enum {
+    enum
+    {
         kPropNoDraw = 0x1,
         kPropUNUSED = 0x2,
         kPropSortSpans = 0x4,
@@ -64,14 +68,16 @@ public:
         kPropHasVisLOS = 0x200
     };
 
-    enum {
+    enum
+    {
         kCritStatic = 0x1,
         kCritSortSpans = 0x2,
         kCritSortFaces = 0x8,
         kCritCharacter = 0x10
     };
 
-    enum plDrawableType {
+    enum plDrawableType
+    {
         kNormal = 0x1,
         kNonDrawable = 0x2,
         kEnviron = 0x4,
@@ -87,7 +93,8 @@ public:
         kAllTypes = 0x0000FF
     };
 
-    enum plSubDrawableType {
+    enum plSubDrawableType
+    {
         kSubNormal = 0x1,
         kSubNonDrawable = 0x2,
         kSubEnviron = 0x4,
@@ -102,7 +109,8 @@ public:
 };
 
 
-class PLASMA_DLL plDrawableSpans : public plDrawable {
+class PLASMA_DLL plDrawableSpans : public plDrawable
+{
     CREATABLE(plDrawableSpans, kDrawableSpans, plDrawable)
 
 protected:
@@ -123,8 +131,8 @@ protected:
     std::vector<plGeometrySpan*> fSourceSpans;
 
 public:
-    plDrawableSpans() : fSpaceTree(NULL), fProps(0), fCriteria(0), fRenderLevel(0) { }
-    virtual ~plDrawableSpans();
+    plDrawableSpans() : fSpaceTree(), fProps(), fCriteria(), fRenderLevel() { }
+    ~plDrawableSpans();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

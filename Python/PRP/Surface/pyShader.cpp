@@ -22,14 +22,16 @@
 
 PY_PLASMA_NEW(Shader, plShader)
 
-PY_GETSET_GETTER_DECL(Shader, constants) {
+PY_GETSET_GETTER_DECL(Shader, constants)
+{
     PyObject* list = PyTuple_New(self->fThis->getConsts().size());
     for (size_t i=0; self->fThis->getConsts().size(); i++)
         PyTuple_SET_ITEM(list, i, pyShaderConst_FromShaderConst(self->fThis->getConsts()[i]));
     return list;
 }
 
-PY_GETSET_SETTER_DECL(Shader, constants) {
+PY_GETSET_SETTER_DECL(Shader, constants)
+{
     PY_PROPERTY_CHECK_NULL(consts)
     if (value == Py_None) {
         self->fThis->setConsts(std::vector<plShaderConst>());
@@ -70,7 +72,8 @@ static PyGetSetDef pyShader_GetSet[] = {
 
 PY_PLASMA_TYPE(Shader, plShader, "plShader wrapper")
 
-PY_PLASMA_TYPE_INIT(Shader) {
+PY_PLASMA_TYPE_INIT(Shader)
+{
     pyShader_Type.tp_new = pyShader_new;
     pyShader_Type.tp_getset = pyShader_GetSet;
     pyShader_Type.tp_base = &pyKeyedObject_Type;

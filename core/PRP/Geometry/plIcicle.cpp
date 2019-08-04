@@ -18,8 +18,9 @@
 
 /* plIcicle */
 plIcicle::plIcicle(const plIcicle& init)
-        : plVertexSpan(init), fIBufferIdx(init.fIBufferIdx),
-          fIStartIdx(init.fIStartIdx), fILength(init.fILength) {
+    : plVertexSpan(init), fIBufferIdx(init.fIBufferIdx),
+      fIStartIdx(init.fIStartIdx), fILength(init.fILength)
+{
     if (fProps & kPropFacesSortable) {
         fSortData = new plGBufferTriangle[fILength / 3];
         for (size_t i=0; i<(fILength / 3); i++)
@@ -29,11 +30,13 @@ plIcicle::plIcicle(const plIcicle& init)
     }
 }
 
-plIcicle::~plIcicle() {
+plIcicle::~plIcicle()
+{
     delete[] fSortData;
 }
 
-void plIcicle::read(hsStream* S) {
+void plIcicle::read(hsStream* S)
+{
     plVertexSpan::read(S);
     if (!S->getVer().isHexIsle()) {
         fIBufferIdx = S->readInt();
@@ -50,7 +53,8 @@ void plIcicle::read(hsStream* S) {
     }
 }
 
-void plIcicle::write(hsStream* S) {
+void plIcicle::write(hsStream* S)
+{
     plVertexSpan::write(S);
     if (!S->getVer().isHexIsle()) {
         S->writeInt(fIBufferIdx);
@@ -63,7 +67,8 @@ void plIcicle::write(hsStream* S) {
     }
 }
 
-void plIcicle::IPrcWrite(pfPrcHelper* prc) {
+void plIcicle::IPrcWrite(pfPrcHelper* prc)
+{
     plVertexSpan::IPrcWrite(prc);
     prc->startTag("Icicle");
     prc->writeParam("BufferIdx", fIBufferIdx);
@@ -78,7 +83,8 @@ void plIcicle::IPrcWrite(pfPrcHelper* prc) {
     }
 }
 
-void plIcicle::IPrcParse(const pfPrcTag* tag) {
+void plIcicle::IPrcParse(const pfPrcTag* tag)
+{
     if (tag->getName() == "Icicle") {
         fIBufferIdx = tag->getParam("BufferIdx", "0").to_uint();
         fIStartIdx = tag->getParam("StartIdx", "0").to_uint();
@@ -98,7 +104,8 @@ void plIcicle::IPrcParse(const pfPrcTag* tag) {
     }
 }
 
-void plIcicle::setSortData(const plGBufferTriangle* data) {
+void plIcicle::setSortData(const plGBufferTriangle* data)
+{
     delete[] fSortData;
     if (data == NULL) {
         fProps &= ~kPropFacesSortable;
@@ -113,6 +120,7 @@ void plIcicle::setSortData(const plGBufferTriangle* data) {
 
 
 /* plParticleSpan */
-void plParticleSpan::IPrcParse(const pfPrcTag* tag) {
+void plParticleSpan::IPrcParse(const pfPrcTag* tag)
+{
     throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 }

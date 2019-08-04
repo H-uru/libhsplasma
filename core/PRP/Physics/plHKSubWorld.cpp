@@ -16,17 +16,20 @@
 
 #include "plHKSubWorld.h"
 
-void plHKSubWorld::read(hsStream* S, plResManager* mgr) {
+void plHKSubWorld::read(hsStream* S, plResManager* mgr)
+{
     plObjInterface::read(S, mgr);
     fGravity.read(S);
 }
 
-void plHKSubWorld::write(hsStream* S, plResManager* mgr) {
+void plHKSubWorld::write(hsStream* S, plResManager* mgr)
+{
     plObjInterface::write(S, mgr);
     fGravity.write(S);
 }
 
-void plHKSubWorld::IPrcWrite(pfPrcHelper* prc) {
+void plHKSubWorld::IPrcWrite(pfPrcHelper* prc)
+{
     plObjInterface::IPrcWrite(prc);
 
     prc->writeSimpleTag("Gravity");
@@ -34,7 +37,8 @@ void plHKSubWorld::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plHKSubWorld::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plHKSubWorld::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Position" || tag->getName() == "Gravity") {
         if (tag->hasChildren())
             fGravity.prcParse(tag);

@@ -19,11 +19,13 @@
 
 #include "pfGUIValueCtrl.h"
 
-class PLASMA_DLL pfGUIProgressCtrl : public pfGUIValueCtrl {
+class PLASMA_DLL pfGUIProgressCtrl : public pfGUIValueCtrl
+{
     CREATABLE(pfGUIProgressCtrl, kGUIProgressCtrl, pfGUIValueCtrl)
 
 public:
-    enum ProgressFlags {
+    enum ProgressFlags
+    {
         kReverseValues = kDerivedFlagsStart, kLeftRightOrientation,
         kMapToScreenRange, kTriggerOnlyOnMouseUp, kMapToAnimationRange
     };

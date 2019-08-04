@@ -16,17 +16,20 @@
 
 #include "plAudioInterface.h"
 
-void plAudioInterface::read(hsStream* S, plResManager* mgr) {
+void plAudioInterface::read(hsStream* S, plResManager* mgr)
+{
     plObjInterface::read(S, mgr);
     fAudible = mgr->readKey(S);
 }
 
-void plAudioInterface::write(hsStream* S, plResManager* mgr) {
+void plAudioInterface::write(hsStream* S, plResManager* mgr)
+{
     plObjInterface::write(S, mgr);
     mgr->writeKey(S, fAudible);
 }
 
-void plAudioInterface::IPrcWrite(pfPrcHelper* prc) {
+void plAudioInterface::IPrcWrite(pfPrcHelper* prc)
+{
     plObjInterface::IPrcWrite(prc);
 
     prc->writeSimpleTag("Audible");
@@ -34,7 +37,8 @@ void plAudioInterface::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plAudioInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAudioInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Audible") {
         if (tag->hasChildren())
             fAudible = mgr->prcParseKey(tag->getFirstChild());

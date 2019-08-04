@@ -32,7 +32,8 @@ static PyGetSetDef pyCursorChangeMsg_GetSet[] = {
 
 PY_PLASMA_TYPE(CursorChangeMsg, plCursorChangeMsg, "plCursorChangeMsg wrapper")
 
-PY_PLASMA_TYPE_INIT(CursorChangeMsg) {
+PY_PLASMA_TYPE_INIT(CursorChangeMsg)
+{
     pyCursorChangeMsg_Type.tp_new = pyCursorChangeMsg_new;
     pyCursorChangeMsg_Type.tp_getset = pyCursorChangeMsg_GetSet;
     pyCursorChangeMsg_Type.tp_base = &pyMessage_Type;

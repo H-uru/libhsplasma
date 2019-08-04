@@ -21,11 +21,13 @@
 #include "Sys/plUuid.h"
 #include "plSpawnPointInfo.h"
 
-class PLASMA_DLL plAgeInfoStruct : public plCreatable {
+class PLASMA_DLL plAgeInfoStruct : public plCreatable
+{
     CREATABLE(plAgeInfoStruct, kAgeInfoStruct, plCreatable)
 
 public:
-    enum {
+    enum
+    {
         kHasAgeFilename = 0x1,
         kHasAgeInstanceName = 0x2,
         kHasAgeInstanceGuid = 0x4,
@@ -43,7 +45,7 @@ protected:
     int fAgeSequenceNumber, fAgeLanguage;
 
 public:
-    plAgeInfoStruct() : fFlags(0), fAgeSequenceNumber(0), fAgeLanguage(0) { }
+    plAgeInfoStruct() : fFlags(), fAgeSequenceNumber(), fAgeLanguage() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -91,11 +93,13 @@ public:
 };
 
 
-class PLASMA_DLL plAgeLinkStruct : public plCreatable {
+class PLASMA_DLL plAgeLinkStruct : public plCreatable
+{
     CREATABLE(plAgeLinkStruct, kAgeLinkStruct, plCreatable)
 
 public:
-    enum {
+    enum
+    {
         kHasAgeInfo = 0x1,
         kHasLinkingRules = 0x2,
         kHasSpawnPt_DEAD = 0x4,
@@ -105,7 +109,8 @@ public:
         kHasParentAgeFilename = 0x40
     };
 
-    enum LinkingRules {
+    enum LinkingRules
+    {
         /** Link to public age; Don't remember this link in KI/Vault */
         kBasicLink,
 
@@ -138,7 +143,7 @@ protected:
 
 public:
     plAgeLinkStruct()
-        : fFlags(kHasAgeInfo | kHasSpawnPt), fLinkingRules(0), fAmCCR(0) { }
+        : fFlags(kHasAgeInfo | kHasSpawnPt), fLinkingRules(), fAmCCR() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -180,14 +185,16 @@ public:
 };
 
 
-class PLASMA_DLL plAgeLinkEffects {
+class PLASMA_DLL plAgeLinkEffects
+{
 protected:
     ST::string fLinkInAnimName;
     bool fBool1, fBool2, fBool3, fBool4;
 
 public:
-    plAgeLinkEffects() : fLinkInAnimName("LinkOut"), fBool1(true), fBool2(true),
-                         fBool3(true), fBool4(true) { }
+    plAgeLinkEffects()
+        : fLinkInAnimName("LinkOut"), fBool1(true), fBool2(true),
+          fBool3(true), fBool4(true) { }
 
     void read(hsStream* S);
     void write(hsStream* S);

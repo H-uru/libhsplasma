@@ -16,7 +16,8 @@
 
 #include "plLinkEffectsTriggerMsg.h"
 
-void plLinkEffectsTriggerMsg::read(hsStream* S, plResManager* mgr) {
+void plLinkEffectsTriggerMsg::read(hsStream* S, plResManager* mgr)
+{
     plMessage::read(S, mgr);
 
     fInvisLevel = S->readInt();
@@ -26,7 +27,8 @@ void plLinkEffectsTriggerMsg::read(hsStream* S, plResManager* mgr) {
     fLinkInAnimKey = mgr->readKey(S);
 }
 
-void plLinkEffectsTriggerMsg::write(hsStream* S, plResManager* mgr) {
+void plLinkEffectsTriggerMsg::write(hsStream* S, plResManager* mgr)
+{
     plMessage::write(S, mgr);
 
     S->writeInt(fInvisLevel);
@@ -36,7 +38,8 @@ void plLinkEffectsTriggerMsg::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fLinkInAnimKey);
 }
 
-void plLinkEffectsTriggerMsg::IPrcWrite(pfPrcHelper* prc) {
+void plLinkEffectsTriggerMsg::IPrcWrite(pfPrcHelper* prc)
+{
     plMessage::IPrcWrite(prc);
 
     prc->startTag("LinkEffectsTriggerParams");
@@ -54,7 +57,8 @@ void plLinkEffectsTriggerMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plLinkEffectsTriggerMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plLinkEffectsTriggerMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "LinkEffectsTriggerParams") {
         fInvisLevel = tag->getParam("InvisLevel", "0").to_uint();
         fEffects = tag->getParam("Effects", "0").to_uint();

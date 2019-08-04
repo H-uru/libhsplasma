@@ -20,7 +20,8 @@
 #include "PRP/Modifier/plModifier.h"
 #include "PRP/Message/plMessage.h"
 
-class PLASMA_DLL plCrossfade : public plSingleModifier {
+class PLASMA_DLL plCrossfade : public plSingleModifier
+{
     CREATABLE(plCrossfade, kCrossfade, plSingleModifier)
 
 protected:
@@ -29,9 +30,9 @@ protected:
     bool fRegistered;
 
 public:
-    plCrossfade() : fFirstIdx(0), fSecondIdx(0), fStartType(0), fEndType(0),
-                    fFlags(0), fRegistered(false) { }
-    virtual ~plCrossfade() { }
+    plCrossfade()
+        : fFirstIdx(), fSecondIdx(), fStartType(), fEndType(), fFlags(),
+          fRegistered() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -56,7 +57,8 @@ public:
     void setRegistered(bool registered) { fRegistered = registered; }
 };
 
-class PLASMA_DLL plCrossfadeMsg : public plMessage {
+class PLASMA_DLL plCrossfadeMsg : public plMessage
+{
     CREATABLE(plCrossfadeMsg, kCrossfadeMsg, plMessage)
 };
 

@@ -24,7 +24,8 @@ PY_PLASMA_NEW_MSG(Physical, "plPhysical is abstract")
 
 PY_PLASMA_TYPE(Physical, plPhysical, "plPhysical wrapper")
 
-PY_PLASMA_TYPE_INIT(Physical) {
+PY_PLASMA_TYPE_INIT(Physical)
+{
     pyPhysical_Type.tp_new = pyPhysical_new;
     pyPhysical_Type.tp_base = &pySynchedObject_Type;
     if (PyType_CheckAndReady(&pyPhysical_Type) < 0)

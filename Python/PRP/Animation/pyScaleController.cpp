@@ -31,7 +31,8 @@ static PyGetSetDef pyScaleController_GetSet[] = {
 
 PY_PLASMA_TYPE(ScaleController, plScaleController, "plScaleController wrapper")
 
-PY_PLASMA_TYPE_INIT(ScaleController) {
+PY_PLASMA_TYPE_INIT(ScaleController)
+{
     pyScaleController_Type.tp_new = pyScaleController_new;
     pyScaleController_Type.tp_getset = pyScaleController_GetSet;
     pyScaleController_Type.tp_base = &pyController_Type;

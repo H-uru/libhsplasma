@@ -54,7 +54,8 @@ static PyMethodDef pySingleModifier_Methods[] = {
 
 PY_PLASMA_TYPE(SingleModifier, plSingleModifier, "plSingleModifier wrapper")
 
-PY_PLASMA_TYPE_INIT(SingleModifier) {
+PY_PLASMA_TYPE_INIT(SingleModifier)
+{
     pySingleModifier_Type.tp_new = pySingleModifier_new;
     pySingleModifier_Type.tp_methods = pySingleModifier_Methods;
     pySingleModifier_Type.tp_base = &pyModifier_Type;

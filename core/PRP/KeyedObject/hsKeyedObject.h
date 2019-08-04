@@ -29,7 +29,8 @@
  * Class IDs, hsKeyedObject classes will always be in the < 0x0200 range,
  * whereas non-keyed classes are >= 0x0200.
  */
-class PLASMA_DLL hsKeyedObject : public plCreatable {
+class PLASMA_DLL hsKeyedObject : public plCreatable
+{
     CREATABLE(hsKeyedObject, kKeyedObject, plCreatable)
 
 private:
@@ -83,13 +84,14 @@ public:
  * highly recommended you use this instead of a normal plCreatableStub!
  * \sa plCreatableStub
  */
-class PLASMA_DLL hsKeyedObjectStub : public hsKeyedObject {
+class PLASMA_DLL hsKeyedObjectStub : public hsKeyedObject
+{
 private:
     plCreatableStub* fStub;
 
 public:
-    hsKeyedObjectStub() : fStub(NULL) { }
-    virtual ~hsKeyedObjectStub();
+    hsKeyedObjectStub() : fStub() { }
+    ~hsKeyedObjectStub();
 
     short ClassIndex() const HS_FINAL_OVERRIDE { return fStub->ClassIndex(); }
     const char* ClassName() const HS_FINAL_OVERRIDE { return "hsKeyedObjectStub"; }

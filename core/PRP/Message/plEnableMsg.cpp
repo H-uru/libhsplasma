@@ -16,7 +16,8 @@
 
 #include "plEnableMsg.h"
 
-plEnableMsg::plEnableMsg() {
+plEnableMsg::plEnableMsg()
+{
     fCmd.setName(kDisable, "kDisable");
     fCmd.setName(kEnable, "kEnable");
     fCmd.setName(kDrawable, "kDrawable");
@@ -26,19 +27,22 @@ plEnableMsg::plEnableMsg() {
     fCmd.setName(kByType, "kByType");
 }
 
-void plEnableMsg::read(hsStream* S, plResManager* mgr) {
+void plEnableMsg::read(hsStream* S, plResManager* mgr)
+{
     plMessage::read(S, mgr);
     fCmd.read(S);
     fTypes.read(S);
 }
 
-void plEnableMsg::write(hsStream* S, plResManager* mgr) {
+void plEnableMsg::write(hsStream* S, plResManager* mgr)
+{
     plMessage::write(S, mgr);
     fCmd.write(S);
     fTypes.write(S);
 }
 
-void plEnableMsg::IPrcWrite(pfPrcHelper* prc) {
+void plEnableMsg::IPrcWrite(pfPrcHelper* prc)
+{
     plMessage::IPrcWrite(prc);
 
     prc->writeSimpleTag("Command");
@@ -49,7 +53,8 @@ void plEnableMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plEnableMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plEnableMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Command") {
         if (tag->hasChildren())
             fCmd.prcParse(tag->getFirstChild());

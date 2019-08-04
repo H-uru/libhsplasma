@@ -16,7 +16,8 @@
 
 #include "plAvBrainCoop.h"
 
-void plAvBrainCoop::read(hsStream* S, plResManager* mgr) {
+void plAvBrainCoop::read(hsStream* S, plResManager* mgr)
+{
     plAvBrainGeneric::read(S, mgr);
 
     fInitiatorID = S->readInt();
@@ -39,7 +40,8 @@ void plAvBrainCoop::read(hsStream* S, plResManager* mgr) {
         fRecipients[i] = mgr->readKey(S);
 }
 
-void plAvBrainCoop::write(hsStream* S, plResManager* mgr) {
+void plAvBrainCoop::write(hsStream* S, plResManager* mgr)
+{
     plAvBrainGeneric::write(S, mgr);
 
     S->writeInt(fInitiatorID);
@@ -60,7 +62,8 @@ void plAvBrainCoop::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fRecipients[i]);
 }
 
-void plAvBrainCoop::IPrcWrite(pfPrcHelper* prc) {
+void plAvBrainCoop::IPrcWrite(pfPrcHelper* prc)
+{
     plAvBrainGeneric::IPrcWrite(prc);
 
     prc->startTag("Initiator");
@@ -86,7 +89,8 @@ void plAvBrainCoop::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plAvBrainCoop::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAvBrainCoop::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Initiator") {
         fInitiatorID = tag->getParam("ID", "0").to_uint();
         fInitiatorSerial = tag->getParam("Serial", "0").to_uint();

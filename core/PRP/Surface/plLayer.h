@@ -18,7 +18,8 @@
 
 #include "plLayerInterface.h"
 
-class PLASMA_DLL plLayer : public plLayerInterface {
+class PLASMA_DLL plLayer : public plLayerInterface
+{
     CREATABLE(plLayer, kLayer, plLayerInterface)
 
 public:
@@ -31,7 +32,8 @@ protected:
 };
 
 
-class PLASMA_DLL plLayerDepth : public plLayer {
+class PLASMA_DLL plLayerDepth : public plLayer
+{
     CREATABLE(plLayerDepth, kLayerDepth, plLayer)
 };
 

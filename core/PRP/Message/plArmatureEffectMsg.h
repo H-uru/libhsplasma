@@ -19,7 +19,8 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plArmatureEffectStateMsg : public plMessage {
+class PLASMA_DLL plArmatureEffectStateMsg : public plMessage
+{
     CREATABLE(plArmatureEffectStateMsg, kArmatureEffectStateMsg, plMessage)
 
 protected:
@@ -27,7 +28,7 @@ protected:
     bool fAddSurface;
 
 public:
-    plArmatureEffectStateMsg() : fSurface(0), fAddSurface(false) { }
+    plArmatureEffectStateMsg() : fSurface(), fAddSurface() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

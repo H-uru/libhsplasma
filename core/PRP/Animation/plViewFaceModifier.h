@@ -22,16 +22,19 @@
 #include "Math/hsMatrix44.h"
 #include "PRP/Region/hsBounds.h"
 
-class PLASMA_DLL plViewFaceModifier : public plSingleModifier {
+class PLASMA_DLL plViewFaceModifier : public plSingleModifier
+{
     CREATABLE(plViewFaceModifier, kViewFaceModifier, plSingleModifier)
 
 public:
-    enum plVFFlags {
+    enum plVFFlags
+    {
         kPivotFace, kPivotFavorY, kPivotY, kPivotTumple, kScale, kFaceCam,
         kFaceList, kFacePlay, kFaceObj, kOffset, kOffsetLocal, kMaxBounds
     };
 
-    enum FollowMode {
+    enum FollowMode
+    {
         kFollowCamera, kFollowListener, kFollowPlayer, kFollowObject
     };
 
@@ -42,7 +45,8 @@ protected:
     hsBounds3Ext fMaxBounds;
 
 public:
-    plViewFaceModifier() {
+    plViewFaceModifier()
+    {
         fFlags.setName(kPivotFace, "kPivotFace");
         fFlags.setName(kPivotFavorY, "kPivotFavorY");
         fFlags.setName(kPivotY, "kPivotY");

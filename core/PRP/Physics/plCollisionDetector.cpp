@@ -17,17 +17,20 @@
 #include "plCollisionDetector.h"
 
 /* plCollisionDetector */
-void plCollisionDetector::read(hsStream* S, plResManager* mgr) {
+void plCollisionDetector::read(hsStream* S, plResManager* mgr)
+{
     plDetectorModifier::read(S, mgr);
     fType = S->readByte();
 }
 
-void plCollisionDetector::write(hsStream* S, plResManager* mgr) {
+void plCollisionDetector::write(hsStream* S, plResManager* mgr)
+{
     plDetectorModifier::write(S, mgr);
     S->writeByte(fType);
 }
 
-void plCollisionDetector::IPrcWrite(pfPrcHelper* prc) {
+void plCollisionDetector::IPrcWrite(pfPrcHelper* prc)
+{
     plDetectorModifier::IPrcWrite(prc);
 
     prc->startTag("CollisionType");
@@ -35,7 +38,8 @@ void plCollisionDetector::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plCollisionDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plCollisionDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "CollisionType") {
         fType = tag->getParam("value", "0").to_uint();
     } else {
@@ -45,19 +49,22 @@ void plCollisionDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plSubworldRegionDetector */
-void plSubworldRegionDetector::read(hsStream* S, plResManager* mgr) {
+void plSubworldRegionDetector::read(hsStream* S, plResManager* mgr)
+{
     plDetectorModifier::read(S, mgr);   // <-- Not a bug
     fSub = mgr->readKey(S);
     fOnExit = S->readBool();
 }
 
-void plSubworldRegionDetector::write(hsStream* S, plResManager* mgr) {
+void plSubworldRegionDetector::write(hsStream* S, plResManager* mgr)
+{
     plDetectorModifier::write(S, mgr);  // <-- Not a bug
     mgr->writeKey(S, fSub);
     S->writeBool(fOnExit);
 }
 
-void plSubworldRegionDetector::IPrcWrite(pfPrcHelper* prc) {
+void plSubworldRegionDetector::IPrcWrite(pfPrcHelper* prc)
+{
     plDetectorModifier::IPrcWrite(prc); // <-- Not a bug
 
     prc->startTag("SubworldParams");
@@ -69,7 +76,8 @@ void plSubworldRegionDetector::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plSubworldRegionDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plSubworldRegionDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "SubworldParams") {
         fOnExit = tag->getParam("OnExit", "false").to_bool();
     } else if (tag->getName() == "Subworld") {
@@ -82,17 +90,20 @@ void plSubworldRegionDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
 
 
 /* plPanicLinkRegion */
-void plPanicLinkRegion::read(hsStream* S, plResManager* mgr) {
+void plPanicLinkRegion::read(hsStream* S, plResManager* mgr)
+{
     plCollisionDetector::read(S, mgr);
     fPlayLinkOutAnim = S->readBool();
 }
 
-void plPanicLinkRegion::write(hsStream* S, plResManager* mgr) {
+void plPanicLinkRegion::write(hsStream* S, plResManager* mgr)
+{
     plCollisionDetector::write(S, mgr);
     S->writeBool(fPlayLinkOutAnim);
 }
 
-void plPanicLinkRegion::IPrcWrite(pfPrcHelper* prc) {
+void plPanicLinkRegion::IPrcWrite(pfPrcHelper* prc)
+{
     plCollisionDetector::IPrcWrite(prc);
 
     prc->startTag("PanicLinkParams");
@@ -100,7 +111,8 @@ void plPanicLinkRegion::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plPanicLinkRegion::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plPanicLinkRegion::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "PanicLinkParams") {
         fPlayLinkOutAnim = tag->getParam("PlayLinkOutAnim", "true").to_bool();
     } else {

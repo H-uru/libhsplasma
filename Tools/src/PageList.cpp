@@ -23,12 +23,14 @@
 #include <time.h>
 #include <sys/stat.h>
 
-void doHelp() {
+static void doHelp()
+{
     puts("Usage: PageList filename.prp");
     puts("");
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
     if (argc < 2) {
         doHelp();
         return 0;

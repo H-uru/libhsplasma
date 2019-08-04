@@ -30,7 +30,8 @@ static PyGetSetDef pyAgeGlobalAnim_GetSet[] = {
 
 PY_PLASMA_TYPE(AgeGlobalAnim, plAgeGlobalAnim, "plAgeGlobalAnim wrapper")
 
-PY_PLASMA_TYPE_INIT(AgeGlobalAnim) {
+PY_PLASMA_TYPE_INIT(AgeGlobalAnim)
+{
     pyAgeGlobalAnim_Type.tp_new = pyAgeGlobalAnim_new;
     pyAgeGlobalAnim_Type.tp_getset = pyAgeGlobalAnim_GetSet;
     pyAgeGlobalAnim_Type.tp_base = &pyAGAnim_Type;

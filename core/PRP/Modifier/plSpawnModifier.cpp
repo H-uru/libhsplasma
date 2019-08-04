@@ -17,7 +17,8 @@
 #include "plSpawnModifier.h"
 
 /* plSpawnMod */
-void plSpawnMod::read(hsStream* S, plResManager* mgr) {
+void plSpawnMod::read(hsStream* S, plResManager* mgr)
+{
     plModifier::read(S, mgr);
 
     fAge = S->readSafeStr();
@@ -27,7 +28,8 @@ void plSpawnMod::read(hsStream* S, plResManager* mgr) {
     fDisableDraw = S->readBool();
 }
 
-void plSpawnMod::write(hsStream* S, plResManager* mgr) {
+void plSpawnMod::write(hsStream* S, plResManager* mgr)
+{
     plModifier::write(S, mgr);
 
     S->writeSafeStr(fAge);
@@ -37,7 +39,8 @@ void plSpawnMod::write(hsStream* S, plResManager* mgr) {
     S->writeBool(fDisableDraw);
 }
 
-void plSpawnMod::IPrcWrite(pfPrcHelper* prc) {
+void plSpawnMod::IPrcWrite(pfPrcHelper* prc)
+{
     plModifier::IPrcWrite(prc);
 
     prc->startTag("SpawnParams");
@@ -49,7 +52,8 @@ void plSpawnMod::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plSpawnMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plSpawnMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "SpawnParams") {
         fAge = tag->getParam("Age", "");
         fPage = tag->getParam("Page", "");

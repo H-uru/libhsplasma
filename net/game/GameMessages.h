@@ -16,14 +16,14 @@
 
 #include "../pnNetMsg.h"
 
-enum {
-    /* Client -> Server */
+enum /* Client -> Server */
+{
     kCli2Game_PingRequest, kCli2Game_JoinAgeRequest, kCli2Game_PropagateBuffer,
     kCli2Game_GameMgrMsg, kCli2Game_LastMessage,
 };
 
-enum {
-    /* Server -> Client */
+enum /* Server -> Client */
+{
     kGame2Cli_PingReply, kGame2Cli_JoinAgeReply, kGame2Cli_PropagateBuffer,
     kGame2Cli_GameMgrMsg, kGame2Cli_LastMessage,
 };

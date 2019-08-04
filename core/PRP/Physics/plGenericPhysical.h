@@ -31,11 +31,13 @@
  * provide fully working physical objects for all 3 engines.
  **************/
 
-class PLASMA_DLL plGenericPhysical : public plPhysical {
+class PLASMA_DLL plGenericPhysical : public plPhysical
+{
     CREATABLE(plGenericPhysical, kGenericPhysical, plPhysical)
 
 public:
-    enum PhysType {
+    enum PhysType
+    {
         kPhysNone, kPhysHavok, kPhysODE, kPhysX, kNumPhysTypes
     };
 
@@ -80,7 +82,7 @@ protected:
 
 public:
     plGenericPhysical();
-    virtual ~plGenericPhysical();
+    ~plGenericPhysical();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

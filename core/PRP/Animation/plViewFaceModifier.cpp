@@ -16,7 +16,8 @@
 
 #include "plViewFaceModifier.h"
 
-void plViewFaceModifier::read(hsStream* S, plResManager* mgr) {
+void plViewFaceModifier::read(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::read(S, mgr);
 
     fScale.read(S);
@@ -29,7 +30,8 @@ void plViewFaceModifier::read(hsStream* S, plResManager* mgr) {
         fMaxBounds.read(S);
 }
 
-void plViewFaceModifier::write(hsStream* S, plResManager* mgr) {
+void plViewFaceModifier::write(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::write(S, mgr);
 
     fScale.write(S);
@@ -42,7 +44,8 @@ void plViewFaceModifier::write(hsStream* S, plResManager* mgr) {
         fMaxBounds.write(S);
 }
 
-void plViewFaceModifier::IPrcWrite(pfPrcHelper* prc) {
+void plViewFaceModifier::IPrcWrite(pfPrcHelper* prc)
+{
     plSingleModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("Scale");
@@ -73,7 +76,8 @@ void plViewFaceModifier::IPrcWrite(pfPrcHelper* prc) {
     }
 }
 
-void plViewFaceModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plViewFaceModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Scale") {
         if (tag->hasChildren())
             fScale.prcParse(tag->getFirstChild());

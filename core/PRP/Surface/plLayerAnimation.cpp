@@ -17,7 +17,8 @@
 #include "plLayerAnimation.h"
 
 /* plLayerAnimationBase */
-plLayerAnimationBase::~plLayerAnimationBase() {
+plLayerAnimationBase::~plLayerAnimationBase()
+{
     delete fPreshadeColorCtl;
     delete fRuntimeColorCtl;
     delete fAmbientColorCtl;
@@ -26,7 +27,8 @@ plLayerAnimationBase::~plLayerAnimationBase() {
     delete fTransformCtl;
 }
 
-void plLayerAnimationBase::read(hsStream* S, plResManager* mgr) {
+void plLayerAnimationBase::read(hsStream* S, plResManager* mgr)
+{
     plLayerInterface::read(S, mgr);
 
     setPreshadeCtl(plController::Convert(mgr->ReadCreatable(S)));
@@ -37,7 +39,8 @@ void plLayerAnimationBase::read(hsStream* S, plResManager* mgr) {
     setTransformCtl(plController::Convert(mgr->ReadCreatable(S)));
 }
 
-void plLayerAnimationBase::write(hsStream* S, plResManager* mgr) {
+void plLayerAnimationBase::write(hsStream* S, plResManager* mgr)
+{
     plLayerInterface::write(S, mgr);
 
     plController::WriteController(S, mgr, fPreshadeColorCtl);
@@ -48,7 +51,8 @@ void plLayerAnimationBase::write(hsStream* S, plResManager* mgr) {
     plController::WriteController(S, mgr, fTransformCtl);
 }
 
-void plLayerAnimationBase::IPrcWrite(pfPrcHelper* prc) {
+void plLayerAnimationBase::IPrcWrite(pfPrcHelper* prc)
+{
     plLayerInterface::IPrcWrite(prc);
 
     if (fPreshadeColorCtl != NULL) {
@@ -83,11 +87,13 @@ void plLayerAnimationBase::IPrcWrite(pfPrcHelper* prc) {
     }
 }
 
-void plLayerAnimationBase::prcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plLayerAnimationBase::prcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     plCreatable::prcParse(tag, mgr);
 }
 
-void plLayerAnimationBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plLayerAnimationBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "PreshadeColorCtl") {
         if (tag->hasChildren())
             setPreshadeCtl(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
@@ -111,54 +117,64 @@ void plLayerAnimationBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plLayerAnimationBase::setPreshadeCtl(plController* ctrl) {
+void plLayerAnimationBase::setPreshadeCtl(plController* ctrl)
+{
     delete fPreshadeColorCtl;
     fPreshadeColorCtl = ctrl;
 }
 
-void plLayerAnimationBase::setRuntimeCtl(plController* ctrl) {
+void plLayerAnimationBase::setRuntimeCtl(plController* ctrl)
+{
     delete fRuntimeColorCtl;
     fRuntimeColorCtl = ctrl;
 }
 
-void plLayerAnimationBase::setAmbientCtl(plController* ctrl) {
+void plLayerAnimationBase::setAmbientCtl(plController* ctrl)
+{
     delete fAmbientColorCtl;
     fAmbientColorCtl = ctrl;
 }
 
-void plLayerAnimationBase::setSpecularCtl(plController* ctrl) {
+void plLayerAnimationBase::setSpecularCtl(plController* ctrl)
+{
     delete fSpecularColorCtl;
     fSpecularColorCtl = ctrl;
 }
 
-void plLayerAnimationBase::setOpacityCtl(plController* ctrl) {
+void plLayerAnimationBase::setOpacityCtl(plController* ctrl)
+{
     delete fOpacityCtl;
     fOpacityCtl = ctrl;
 }
 
-void plLayerAnimationBase::setTransformCtl(plController* ctrl) {
+void plLayerAnimationBase::setTransformCtl(plController* ctrl)
+{
     delete fTransformCtl;
     fTransformCtl = ctrl;
 }
 
 
 /* plLayerAnimation */
-void plLayerAnimation::read(hsStream* S, plResManager* mgr) {
+void plLayerAnimation::read(hsStream* S, plResManager* mgr)
+{
     plLayerAnimationBase::read(S, mgr);
     fTimeConvert.read(S, mgr);
 }
 
-void plLayerAnimation::write(hsStream* S, plResManager* mgr) {
+void plLayerAnimation::write(hsStream* S, plResManager* mgr)
+{
     plLayerAnimationBase::write(S, mgr);
     fTimeConvert.write(S, mgr);
 }
 
-void plLayerAnimation::IPrcWrite(pfPrcHelper* prc) {
+void plLayerAnimation::IPrcWrite(pfPrcHelper* prc)
+{
     plLayerAnimationBase::IPrcWrite(prc);
     fTimeConvert.prcWrite(prc);
 }
 
-void plLayerAnimation::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plLayerAnimation::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "plAnimTimeConvert") {
         fTimeConvert.prcParse(tag, mgr);
     } else {
@@ -168,21 +184,24 @@ void plLayerAnimation::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plLayerLinkAnimation */
-void plLayerLinkAnimation::read(hsStream* S, plResManager* mgr) {
+void plLayerLinkAnimation::read(hsStream* S, plResManager* mgr)
+{
     plLayerAnimation::read(S, mgr);
 
     fLinkKey = mgr->readKey(S);
     fLeavingAge = S->readBool();
 }
 
-void plLayerLinkAnimation::write(hsStream* S, plResManager* mgr) {
+void plLayerLinkAnimation::write(hsStream* S, plResManager* mgr)
+{
     plLayerAnimation::write(S, mgr);
 
     mgr->writeKey(S, fLinkKey);
     S->writeBool(fLeavingAge);
 }
 
-void plLayerLinkAnimation::IPrcWrite(pfPrcHelper* prc) {
+void plLayerLinkAnimation::IPrcWrite(pfPrcHelper* prc)
+{
     plLayerAnimation::IPrcWrite(prc);
 
     prc->startTag("LinkTo");
@@ -192,7 +211,8 @@ void plLayerLinkAnimation::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plLayerLinkAnimation::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plLayerLinkAnimation::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "LinkTo") {
         fLeavingAge = tag->getParam("LeavingAge", "false").to_bool();
         if (tag->hasChildren())
@@ -204,17 +224,20 @@ void plLayerLinkAnimation::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plLayerSDLAnimation */
-void plLayerSDLAnimation::read(hsStream* S, plResManager* mgr) {
+void plLayerSDLAnimation::read(hsStream* S, plResManager* mgr)
+{
     plLayerAnimationBase::read(S, mgr);
     fVarName = S->readSafeStr();
 }
 
-void plLayerSDLAnimation::write(hsStream* S, plResManager* mgr) {
+void plLayerSDLAnimation::write(hsStream* S, plResManager* mgr)
+{
     plLayerAnimationBase::write(S, mgr);
     S->writeSafeStr(fVarName);
 }
 
-void plLayerSDLAnimation::IPrcWrite(pfPrcHelper* prc) {
+void plLayerSDLAnimation::IPrcWrite(pfPrcHelper* prc)
+{
     plLayerAnimationBase::IPrcWrite(prc);
 
     prc->startTag("VarName");
@@ -222,7 +245,8 @@ void plLayerSDLAnimation::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plLayerSDLAnimation::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plLayerSDLAnimation::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "VarName") {
         fVarName = tag->getParam("value", "");
     } else {

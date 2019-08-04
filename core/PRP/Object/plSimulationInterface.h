@@ -19,11 +19,13 @@
 
 #include "plObjInterface.h"
 
-class PLASMA_DLL plSimulationInterface : public plObjInterface {
+class PLASMA_DLL plSimulationInterface : public plObjInterface
+{
     CREATABLE(plSimulationInterface, kSimulationInterface, plObjInterface)
 
 public:
-    enum plSimulationProperties {
+    enum plSimulationProperties
+    {
         kDisable, kWeightless, kPinned, kWarp, kUpright, kPassive,
         kRotationForces, kCameraAvoidObject, kPhysAnim, kStartInactive,
         kNoSynchronize, kSuppressed, kNoOwnershipChange, kAvAnimPushable,

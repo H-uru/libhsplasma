@@ -25,7 +25,8 @@
 #include "Stream/hsRAMStream.h"
 #include "3rdPartyLibs/squish/squish.h"
 
-static uint8_t* alloc_aligned(size_t bytes) {
+static uint8_t* alloc_aligned(size_t bytes)
+{
     // Ensure the block is aligned to the processor's likely max access size
     size_t blocks = bytes / sizeof(size_t);
     if (bytes % sizeof(size_t) != 0)
@@ -34,29 +35,33 @@ static uint8_t* alloc_aligned(size_t bytes) {
     return reinterpret_cast<uint8_t*>(new size_t[blocks]);
 }
 
-static void free_aligned(uint8_t*& ptr) {
+static void free_aligned(uint8_t*& ptr)
+{
     delete[] reinterpret_cast<size_t*>(ptr);
     ptr = NULL;
 }
 
 /* plMipmap */
-plMipmap::plMipmap()
-        : fImageData(NULL), fTotalSize(0) {
+plMipmap::plMipmap() : fImageData(), fTotalSize()
+{
     Create(0, 0, 0, kUncompressed, kRGB8888);
 }
 
 plMipmap::plMipmap(uint32_t width, uint32_t height, uint8_t numLevels,
                    uint8_t compType, ColorFormat format, uint8_t dxtLevel)
-        : fImageData(NULL), fTotalSize(0) {
+    : fImageData(), fTotalSize()
+{
     Create(width, height, numLevels, compType, format, dxtLevel);
 }
 
-plMipmap::~plMipmap() {
+plMipmap::~plMipmap()
+{
     free_aligned(fImageData);
 }
 
 void plMipmap::Create(uint32_t width, uint32_t height, uint8_t numLevels,
-                      uint8_t compType, ColorFormat format, uint8_t dxtLevel) {
+                      uint8_t compType, ColorFormat format, uint8_t dxtLevel)
+{
     free_aligned(fImageData);
     fJPEGCache.clear();
     fJAlphaCache.clear();
@@ -105,7 +110,8 @@ void plMipmap::Create(uint32_t width, uint32_t height, uint8_t numLevels,
     memset(fImageData, 0, fTotalSize);
 }
 
-void plMipmap::CopyFrom(plMipmap* src) {
+void plMipmap::CopyFrom(plMipmap* src)
+{
     free_aligned(fImageData);
     fJPEGCache.clear();
     fJAlphaCache.clear();
@@ -135,27 +141,32 @@ void plMipmap::CopyFrom(plMipmap* src) {
     fJAlphaCache = src->fJAlphaCache;
 }
 
-void plMipmap::read(hsStream* S, plResManager* mgr) {
+void plMipmap::read(hsStream* S, plResManager* mgr)
+{
     plBitmap::read(S, mgr);
     IReadMipmap(S);
 }
 
-void plMipmap::write(hsStream* S, plResManager* mgr) {
+void plMipmap::write(hsStream* S, plResManager* mgr)
+{
     plBitmap::write(S, mgr);
     IWriteMipmap(S);
 }
 
-void plMipmap::readData(hsStream* S) {
+void plMipmap::readData(hsStream* S)
+{
     IReadBitmap(S);
     IReadMipmap(S);
 }
 
-void plMipmap::writeData(hsStream* S) {
+void plMipmap::writeData(hsStream* S)
+{
     IWriteBitmap(S);
     IWriteMipmap(S);
 }
 
-void plMipmap::IReadMipmap(hsStream* S) {
+void plMipmap::IReadMipmap(hsStream* S)
+{
     fWidth = S->readInt();
     fHeight = S->readInt();
     fStride = S->readInt();
@@ -193,7 +204,8 @@ void plMipmap::IReadMipmap(hsStream* S) {
     }
 }
 
-void plMipmap::IWriteMipmap(hsStream* S) {
+void plMipmap::IWriteMipmap(hsStream* S)
+{
     S->writeInt(fWidth);
     S->writeInt(fHeight);
     S->writeInt(fStride);
@@ -222,7 +234,8 @@ void plMipmap::IWriteMipmap(hsStream* S) {
     }
 }
 
-void plMipmap::IPrcWrite(pfPrcHelper* prc) {
+void plMipmap::IPrcWrite(pfPrcHelper* prc)
+{
     plBitmap::IPrcWrite(prc);
 
     prc->startTag("Metrics");
@@ -273,7 +286,8 @@ void plMipmap::IPrcWrite(pfPrcHelper* prc) {
     }
 }
 
-void plMipmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plMipmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Metrics") {
         fWidth = tag->getParam("Width", "0").to_uint();
         fHeight = tag->getParam("Height", "0").to_uint();
@@ -321,7 +335,8 @@ void plMipmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-size_t plMipmap::IBuildLevelSizes() {
+size_t plMipmap::IBuildLevelSizes()
+{
     unsigned int curWidth = fWidth;
     unsigned int curStride = fStride;
     unsigned int curHeight = fHeight;
@@ -352,7 +367,8 @@ size_t plMipmap::IBuildLevelSizes() {
     return curOffs;
 }
 
-void plMipmap::IReadRLEImage(hsStream* S, bool alpha) {
+void plMipmap::IReadRLEImage(hsStream* S, bool alpha)
+{
     unsigned int* dataPtr = (unsigned int*)fImageData;
     size_t count;
     if (alpha) {
@@ -376,7 +392,8 @@ void plMipmap::IReadRLEImage(hsStream* S, bool alpha) {
     }
 }
 
-void plMipmap::IWriteRLEImage(hsStream* S, bool alpha) {
+void plMipmap::IWriteRLEImage(hsStream* S, bool alpha)
+{
     unsigned int* dataPtr = (unsigned int*)fImageData;
     unsigned int data;
     size_t count = 0;
@@ -417,7 +434,8 @@ void plMipmap::IWriteRLEImage(hsStream* S, bool alpha) {
     S->writeInt(0);
 }
 
-void plMipmap::IReadJPEGImage(hsStream* S) {
+void plMipmap::IReadJPEGImage(hsStream* S)
+{
     unsigned char rleFlag = S->readByte();
 
     if (rleFlag & kColorDataRLE) {
@@ -435,7 +453,8 @@ void plMipmap::IReadJPEGImage(hsStream* S) {
     }
 }
 
-void plMipmap::IWriteJPEGImage(hsStream* S) {
+void plMipmap::IWriteJPEGImage(hsStream* S)
+{
     unsigned char rleFlag = 0;
     if (!isImageJPEG())
         rleFlag |= kColorDataRLE;
@@ -458,7 +477,8 @@ void plMipmap::IWriteJPEGImage(hsStream* S) {
     }
 }
 
-void plMipmap::IReadRawImage(hsStream* S) {
+void plMipmap::IReadRawImage(hsStream* S)
+{
     uint8_t* dataPtr = fImageData;
     if (fPixelSize == 32) {
         for (size_t i=0; i<fLevelData.size(); i++) {
@@ -480,7 +500,8 @@ void plMipmap::IReadRawImage(hsStream* S) {
     }
 }
 
-void plMipmap::IWriteRawImage(hsStream* S) {
+void plMipmap::IWriteRawImage(hsStream* S)
+{
     uint8_t* dataPtr = fImageData;
     if (fPixelSize == 32) {
         for (size_t i=0; i<fLevelData.size(); i++) {
@@ -502,11 +523,13 @@ void plMipmap::IWriteRawImage(hsStream* S) {
     }
 }
 
-const void* plMipmap::getLevelData(size_t idx) const {
+const void* plMipmap::getLevelData(size_t idx) const
+{
     return fImageData + fLevelData[idx].fOffset;
 }
 
-void plMipmap::setImageData(const void* data, size_t size) {
+void plMipmap::setImageData(const void* data, size_t size)
+{
     if (size != fTotalSize) {
         free_aligned(fImageData);
         fImageData = alloc_aligned(size);
@@ -516,27 +539,31 @@ void plMipmap::setImageData(const void* data, size_t size) {
     memcpy(fImageData, data, fTotalSize);
 }
 
-void plMipmap::setLevelData(size_t idx, const void* data, size_t size) {
+void plMipmap::setLevelData(size_t idx, const void* data, size_t size)
+{
     if (size != fLevelData[idx].fSize)
         throw hsBadParamException(__FILE__, __LINE__, "Image data size mismatch");
     memcpy(fImageData + fLevelData[idx].fOffset, data, fLevelData[idx].fSize);
 }
 
-void plMipmap::setImageJPEG(const void* data, size_t size) {
+void plMipmap::setImageJPEG(const void* data, size_t size)
+{
     fJPEGCache.resize(size);
     if (data != NULL)
         memcpy(fJPEGCache.data(), data, size);
     DecompressImage(0, fImageData, fLevelData[0].fSize);
 }
 
-void plMipmap::setAlphaJPEG(const void* data, size_t size) {
+void plMipmap::setAlphaJPEG(const void* data, size_t size)
+{
     fJAlphaCache.resize(size);
     if (data != NULL)
         memcpy(fJAlphaCache.data(), data, size);
     DecompressImage(0, fImageData, fLevelData[0].fSize);
 }
 
-void plMipmap::setColorData(const void* data, size_t size) {
+void plMipmap::setColorData(const void* data, size_t size)
+{
     if (fCompressionType != kJPEGCompression)
         throw hsBadParamException(__FILE__, __LINE__, "Color/Alpha split only supported on JPEG textures");
     if (size != (fWidth * fHeight * 3))
@@ -552,7 +579,8 @@ void plMipmap::setColorData(const void* data, size_t size) {
     }
 }
 
-void plMipmap::setAlphaData(const void* alpha, size_t size) {
+void plMipmap::setAlphaData(const void* alpha, size_t size)
+{
     if (fCompressionType != kJPEGCompression)
         throw hsBadParamException(__FILE__, __LINE__, "Color/Alpha split only supported on JPEG textures");
     if (size != (fWidth * fHeight * 1))
@@ -566,7 +594,8 @@ void plMipmap::setAlphaData(const void* alpha, size_t size) {
     }
 }
 
-void plMipmap::extractColorData(void* buffer, size_t size) const {
+void plMipmap::extractColorData(void* buffer, size_t size) const
+{
     if (fCompressionType != kJPEGCompression)
         throw hsBadParamException(__FILE__, __LINE__, "Color/Alpha split only supported on JPEG textures");
     if (size != (fWidth * fHeight * 3))
@@ -582,7 +611,8 @@ void plMipmap::extractColorData(void* buffer, size_t size) const {
     }
 }
 
-void plMipmap::extractAlphaData(void* buffer, size_t size) const {
+void plMipmap::extractAlphaData(void* buffer, size_t size) const
+{
     if (fCompressionType != kJPEGCompression)
         throw hsBadParamException(__FILE__, __LINE__, "Color/Alpha split only supported on JPEG textures");
     if (size != (fWidth * fHeight * 1))
@@ -596,12 +626,14 @@ void plMipmap::extractAlphaData(void* buffer, size_t size) const {
     }
 }
 
-size_t plMipmap::GetUncompressedSize(size_t level) const {
+size_t plMipmap::GetUncompressedSize(size_t level) const
+{
     const LevelData& lvl = fLevelData[level];
     return lvl.fHeight * lvl.fWidth * (fPixelSize / 8);
 }
 
-void plMipmap::DecompressImage(size_t level, void* dest, size_t size) {
+void plMipmap::DecompressImage(size_t level, void* dest, size_t size)
+{
     const LevelData& lvl = fLevelData[level];
 
     if (fCompressionType == kJPEGCompression) {
@@ -654,7 +686,8 @@ void plMipmap::DecompressImage(size_t level, void* dest, size_t size) {
     }
 }
 
-void plMipmap::CompressImage(size_t level, void* src, size_t size) {
+void plMipmap::CompressImage(size_t level, void* src, size_t size)
+{
     const LevelData& lvl = fLevelData[level];
 
     if (fCompressionType == kDirectXCompression) {
@@ -677,17 +710,20 @@ void plMipmap::CompressImage(size_t level, void* src, size_t size) {
 }
 
 /* plLODMipmap */
-void plLODMipmap::read(hsStream* S, plResManager* mgr) {
+void plLODMipmap::read(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::read(S, mgr);    // Not a typo
     fBase = mgr->readKey(S);
 }
 
-void plLODMipmap::write(hsStream* S, plResManager* mgr) {
+void plLODMipmap::write(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::write(S, mgr);   // Not a typo
     mgr->writeKey(S, fBase);
 }
 
-void plLODMipmap::IPrcWrite(pfPrcHelper* prc) {
+void plLODMipmap::IPrcWrite(pfPrcHelper* prc)
+{
     hsKeyedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("Base");
@@ -695,7 +731,8 @@ void plLODMipmap::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plLODMipmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plLODMipmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Base") {
         if (tag->hasChildren())
             fBase = mgr->prcParseKey(tag->getFirstChild());

@@ -19,12 +19,14 @@
 
 #include "PRP/Object/plCoordinateInterface.h"
 
-class PLASMA_DLL plFilterCoordInterface : public plCoordinateInterface {
+class PLASMA_DLL plFilterCoordInterface : public plCoordinateInterface
+{
     CREATABLE(plFilterCoordInterface, kFilterCoordInterface,
               plCoordinateInterface)
 
 public:
-    enum {
+    enum
+    {
         kNoRotation = 0x1,
         kNoTransX = 0x2,
         kNoTransY = 0x4,
@@ -38,7 +40,7 @@ protected:
     hsMatrix44 fRefParentLocalToWorld;
 
 public:
-    plFilterCoordInterface() : fFilterMask(0) { }
+    plFilterCoordInterface() : fFilterMask() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

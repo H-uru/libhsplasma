@@ -23,7 +23,8 @@ PY_PLASMA_NEW(LayerAVI, plLayerAVI)
 
 PY_PLASMA_TYPE(LayerAVI, plLayerAVI, "plLayerAVI wrapper")
 
-PY_PLASMA_TYPE_INIT(LayerAVI) {
+PY_PLASMA_TYPE_INIT(LayerAVI)
+{
     pyLayerAVI_Type.tp_new = pyLayerAVI_new;
     pyLayerAVI_Type.tp_base = &pyLayerMovie_Type;
     if (PyType_CheckAndReady(&pyLayerAVI_Type) < 0)

@@ -23,7 +23,8 @@ PY_PLASMA_VALUE_DEALLOC(GBufferVertex)
 PY_PLASMA_EMPTY_INIT(GBufferVertex)
 PY_PLASMA_VALUE_NEW(GBufferVertex, plGBufferVertex)
 
-PY_GETSET_GETTER_DECL(GBufferVertex, skinWeights) {
+PY_GETSET_GETTER_DECL(GBufferVertex, skinWeights)
+{
     PyObject* list = PyTuple_New(3);
     PyTuple_SET_ITEM(list, 0, pyPlasma_convert(self->fThis->fSkinWeights[0]));
     PyTuple_SET_ITEM(list, 1, pyPlasma_convert(self->fThis->fSkinWeights[1]));
@@ -31,7 +32,8 @@ PY_GETSET_GETTER_DECL(GBufferVertex, skinWeights) {
     return list;
 }
 
-PY_GETSET_SETTER_DECL(GBufferVertex, skinWeights) {
+PY_GETSET_SETTER_DECL(GBufferVertex, skinWeights)
+{
     PY_PROPERTY_CHECK_NULL(weights)
     pySequenceFastRef seq(value);
     if (!seq.isSequence()) {
@@ -58,14 +60,16 @@ PY_GETSET_SETTER_DECL(GBufferVertex, skinWeights) {
 
 PY_PROPERTY_GETSET_DECL(GBufferVertex, skinWeights)
 
-PY_GETSET_GETTER_DECL(GBufferVertex, UVWs) {
+PY_GETSET_GETTER_DECL(GBufferVertex, UVWs)
+{
     PyObject* list = PyTuple_New(10);
     for (size_t i=0; i<10; i++)
         PyTuple_SET_ITEM(list, i, pyVector3_FromVector3(self->fThis->fUVWs[i]));
     return list;
 }
 
-PY_GETSET_SETTER_DECL(GBufferVertex, UVWs) {
+PY_GETSET_SETTER_DECL(GBufferVertex, UVWs)
+{
     PY_PROPERTY_CHECK_NULL(UVWs)
     pySequenceFastRef seq(value);
     if (!seq.isSequence()) {
@@ -109,7 +113,8 @@ static PyGetSetDef pyGBufferVertex_GetSet[] = {
 
 PY_PLASMA_TYPE(GBufferVertex, plGBufferVertex, "plGBufferVertex wrapper")
 
-PY_PLASMA_TYPE_INIT(GBufferVertex) {
+PY_PLASMA_TYPE_INIT(GBufferVertex)
+{
     pyGBufferVertex_Type.tp_dealloc = pyGBufferVertex_dealloc;
     pyGBufferVertex_Type.tp_init = pyGBufferVertex___init__;
     pyGBufferVertex_Type.tp_new = pyGBufferVertex_new;

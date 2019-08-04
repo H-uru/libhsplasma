@@ -19,14 +19,15 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plAvatarInputStateMsg : public plMessage {
+class PLASMA_DLL plAvatarInputStateMsg : public plMessage
+{
     CREATABLE(plAvatarInputStateMsg, kAvatarInputStateMsg, plMessage)
 
 protected:
     uint16_t fState;
 
 public:
-    plAvatarInputStateMsg() : fState(0) { }
+    plAvatarInputStateMsg() : fState() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

@@ -20,7 +20,8 @@
 const plFont::plCharacter plFont::kNullChar;
 
 /* plFont::plCharacter */
-void plFont::plCharacter::read(hsStream* S) {
+void plFont::plCharacter::read(hsStream* S)
+{
     fBitmapOffset = S->readInt();
     fHeight = S->readInt();
     fBaseline = S->readInt();
@@ -28,7 +29,8 @@ void plFont::plCharacter::read(hsStream* S) {
     fRightKern = S->readFloat();
 }
 
-void plFont::plCharacter::write(hsStream* S) const {
+void plFont::plCharacter::write(hsStream* S) const
+{
     S->writeInt(fBitmapOffset);
     S->writeInt(fHeight);
     S->writeInt(fBaseline);
@@ -36,7 +38,8 @@ void plFont::plCharacter::write(hsStream* S) const {
     S->writeFloat(fRightKern);
 }
 
-void plFont::plCharacter::prcWrite(pfPrcHelper* prc) const {
+void plFont::plCharacter::prcWrite(pfPrcHelper* prc) const
+{
     prc->startTag("plCharacter");
     prc->writeParam("BitmapOffset", fBitmapOffset);
     prc->writeParam("Height", fHeight);
@@ -46,7 +49,8 @@ void plFont::plCharacter::prcWrite(pfPrcHelper* prc) const {
     prc->endTag(true);
 }
 
-void plFont::plCharacter::prcParse(const pfPrcTag* tag) {
+void plFont::plCharacter::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "plCharacter")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
@@ -63,7 +67,8 @@ plFont::plFont(const plFont& copy)
       : fFace(copy.fFace), fSize(copy.fSize), fBPP(copy.fBPP),
         fFirstChar(copy.fFirstChar), fFlags(copy.fFlags),
         fWidth(copy.fWidth), fHeight(copy.fHeight),
-        fBmpData(NULL), fMaxCharHeight(copy.fMaxCharHeight) {
+        fBmpData(), fMaxCharHeight(copy.fMaxCharHeight)
+{
     fCharacters = copy.fCharacters;
 
     size_t size = (fBPP * fWidth * fHeight) / 8;
@@ -73,11 +78,13 @@ plFont::plFont(const plFont& copy)
     }
 }
 
-plFont::~plFont() {
+plFont::~plFont()
+{
     delete[] fBmpData;
 }
 
-plFont& plFont::operator=(const plFont& copy) {
+plFont& plFont::operator=(const plFont& copy)
+{
     delete[] fBmpData;
 
     fFace = copy.fFace;
@@ -100,17 +107,20 @@ plFont& plFont::operator=(const plFont& copy) {
     return *this;
 }
 
-void plFont::read(hsStream* S, plResManager* mgr) {
+void plFont::read(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::read(S, mgr);
     readP2F(S);
 }
 
-void plFont::write(hsStream* S, plResManager* mgr) {
+void plFont::write(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::write(S, mgr);
     writeP2F(S);
 }
 
-void plFont::IPrcWrite(pfPrcHelper* prc) {
+void plFont::IPrcWrite(pfPrcHelper* prc)
+{
     hsKeyedObject::IPrcWrite(prc);
 
     prc->startTag("FontParams");
@@ -138,7 +148,8 @@ void plFont::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plFont::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plFont::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "FontParams") {
         fFace = tag->getParam("Fontface", "");
         fSize = tag->getParam("Size", "0").to_uint();
@@ -164,7 +175,8 @@ void plFont::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plFont::readP2F(hsStream* S) {
+void plFont::readP2F(hsStream* S)
+{
     char buf[256];
     S->read(256, buf);
     buf[255] = 0;
@@ -192,7 +204,8 @@ void plFont::readP2F(hsStream* S) {
         fCharacters[i].read(S);
 }
 
-void plFont::writeP2F(hsStream* S) const {
+void plFont::writeP2F(hsStream* S) const
+{
     char buf[256];
     strncpy(buf, fFace.c_str(), 256);
     S->write(256, buf);
@@ -212,7 +225,8 @@ void plFont::writeP2F(hsStream* S) const {
         fCharacters[i].write(S);
 }
 
-void plFont::readBitmap(hsStream* S) {
+void plFont::readBitmap(hsStream* S)
+{
     // BITMAPFILEHEADER
     char magic[3];
     S->read(2, magic);
@@ -262,7 +276,8 @@ void plFont::readBitmap(hsStream* S) {
     }
 }
 
-void plFont::writeBitmap(hsStream* S) const {
+void plFont::writeBitmap(hsStream* S) const
+{
     unsigned int lineSize = ((fBPP * fWidth) / 8);
     unsigned int linePad = lineSize % 4 == 0 ? 0 : 4 - (lineSize % 4);
     unsigned int dataSize = lineSize * fHeight;
@@ -315,14 +330,16 @@ void plFont::writeBitmap(hsStream* S) const {
     delete[] bmpDataInv;
 }
 
-void plFont::setBold(bool bold) {
+void plFont::setBold(bool bold)
+{
     if (bold)
         fFlags |= kFontBold;
     else
         fFlags &= ~kFontBold;
 }
 
-void plFont::setItalic(bool italic) {
+void plFont::setItalic(bool italic)
+{
     if (italic)
         fFlags |= kFontItalic;
     else

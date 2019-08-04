@@ -16,7 +16,8 @@
 
 #include "plGameMarkerModifier.h"
 
-void plGameMarkerModifier::read(hsStream* S, plResManager* mgr) {
+void plGameMarkerModifier::read(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::read(S, mgr);
 
     fGreenAnimKey = mgr->readKey(S);
@@ -27,7 +28,8 @@ void plGameMarkerModifier::read(hsStream* S, plResManager* mgr) {
     fHitSoundIdx = S->readShort();
 }
 
-void plGameMarkerModifier::write(hsStream* S, plResManager* mgr) {
+void plGameMarkerModifier::write(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::write(S, mgr);
 
     mgr->writeKey(S, fGreenAnimKey);
@@ -38,7 +40,8 @@ void plGameMarkerModifier::write(hsStream* S, plResManager* mgr) {
     S->writeShort(fHitSoundIdx);
 }
 
-void plGameMarkerModifier::IPrcWrite(pfPrcHelper* prc) {
+void plGameMarkerModifier::IPrcWrite(pfPrcHelper* prc)
+{
     plSingleModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("GreenAnim");
@@ -63,7 +66,8 @@ void plGameMarkerModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plGameMarkerModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plGameMarkerModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "GreenAnim") {
         if (tag->hasChildren())
             fGreenAnimKey = mgr->prcParseKey(tag);

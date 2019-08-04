@@ -20,11 +20,13 @@
 #include "PRP/Object/plSynchedObject.h"
 #include "plAGApplicator.h"
 
-class PLASMA_DLL plAGAnim : public plSynchedObject {
+class PLASMA_DLL plAGAnim : public plSynchedObject
+{
     CREATABLE(plAGAnim, kAGAnim, plSynchedObject)
 
 public:
-    enum BodyUsage {
+    enum BodyUsage
+    {
         kBodyUnknown, kBodyUpper, kBodyFull, kBodyLower, kBodyMax
     };
 
@@ -35,8 +37,8 @@ protected:
     unsigned char fEoaFlag;
 
 public:
-    plAGAnim() : fBlend(0.0f), fStart(0.0f), fEnd(0.0f), fEoaFlag(0) { }
-    virtual ~plAGAnim();
+    plAGAnim() : fBlend(), fStart(), fEnd(), fEoaFlag() { }
+    ~plAGAnim();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -63,7 +65,8 @@ public:
     void setName(const ST::string& name) { fName = name; }
 };
 
-class PLASMA_DLL plAgeGlobalAnim : public plAGAnim {
+class PLASMA_DLL plAgeGlobalAnim : public plAGAnim
+{
     CREATABLE(plAgeGlobalAnim, kAgeGlobalAnim, plAGAnim)
 
 protected:

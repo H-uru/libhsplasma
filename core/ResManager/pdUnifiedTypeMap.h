@@ -22,7 +22,8 @@
 
 #define TYPESPACE_MAX 0x500
 
-class PLASMA_DLL pdUnifiedTypeMap {
+class PLASMA_DLL pdUnifiedTypeMap
+{
 private:
     static const short fUruM2PTable[TYPESPACE_MAX];
     static const short fPotSM2PTable[TYPESPACE_MAX];
@@ -60,7 +61,8 @@ public:
 };
 
 // This is the internal mapped types list:
-typedef enum {
+typedef enum
+{
     kSceneNode, kSceneObject, kKeyedObject, kBitmap, kMipmap, kCubicEnvironmap,
     kLayer, kGMaterial, kParticleSystem, kParticleEffect,
     kParticleCollisionEffectBeat, kParticleFadeVolumeEffect, kBoundInterface,

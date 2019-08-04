@@ -17,28 +17,33 @@
 #include "plAGApplicator.h"
 
 /* plAGApplicator */
-plAGApplicator::~plAGApplicator() {
+plAGApplicator::~plAGApplicator()
+{
     delete fChannel;
 }
 
-void plAGApplicator::read(hsStream* S, plResManager* mgr) {
+void plAGApplicator::read(hsStream* S, plResManager* mgr)
+{
     fEnabled = S->readBool();
     fChannelName = S->readSafeStr();
 }
 
-void plAGApplicator::write(hsStream* S, plResManager* mgr) {
+void plAGApplicator::write(hsStream* S, plResManager* mgr)
+{
     S->writeBool(fEnabled);
     S->writeSafeStr(fChannelName);
 }
 
-void plAGApplicator::IPrcWrite(pfPrcHelper* prc) {
+void plAGApplicator::IPrcWrite(pfPrcHelper* prc)
+{
     prc->startTag("AGApplicatorParams");
     prc->writeParam("Enabled", fEnabled);
     prc->writeParam("ChannelName", fChannelName);
     prc->endTag(true);
 }
 
-void plAGApplicator::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAGApplicator::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "AGApplicatorParams") {
         fEnabled = tag->getParam("Enabled", "false").to_bool();
         fChannelName = tag->getParam("ChannelName", "");
@@ -47,24 +52,28 @@ void plAGApplicator::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plAGApplicator::setChannel(plAGChannel* chan) {
+void plAGApplicator::setChannel(plAGChannel* chan)
+{
     delete fChannel;
     fChannel = chan;
 }
 
 
 /* plSoundVolumeApplicator */
-void plSoundVolumeApplicator::read(hsStream* S, plResManager* mgr) {
+void plSoundVolumeApplicator::read(hsStream* S, plResManager* mgr)
+{
     plAGApplicator::read(S, mgr);
     fIndex = S->readInt();
 }
 
-void plSoundVolumeApplicator::write(hsStream* S, plResManager* mgr) {
+void plSoundVolumeApplicator::write(hsStream* S, plResManager* mgr)
+{
     plAGApplicator::write(S, mgr);
     S->writeInt(fIndex);
 }
 
-void plSoundVolumeApplicator::IPrcWrite(pfPrcHelper* prc) {
+void plSoundVolumeApplicator::IPrcWrite(pfPrcHelper* prc)
+{
     plAGApplicator::IPrcWrite(prc);
 
     prc->startTag("SoundVolumeApplicatorParams");
@@ -72,7 +81,8 @@ void plSoundVolumeApplicator::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plSoundVolumeApplicator::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plSoundVolumeApplicator::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "SoundVolumeApplicatorParams") {
         fIndex = tag->getParam("Index", "0").to_uint();
     } else {

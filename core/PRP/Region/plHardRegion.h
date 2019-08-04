@@ -19,12 +19,14 @@
 
 #include "plRegionBase.hpp"
 
-class PLASMA_DLL plHardRegion : public plRegionBase {
+class PLASMA_DLL plHardRegion : public plRegionBase
+{
     CREATABLE(plHardRegion, kHardRegion, plRegionBase)
 };
 
 
-class PLASMA_DLL plHardRegionComplex : public plHardRegion {
+class PLASMA_DLL plHardRegionComplex : public plHardRegion
+{
     CREATABLE(plHardRegionComplex, kHardRegionComplex, plHardRegion)
 
 protected:
@@ -40,17 +42,20 @@ protected:
 };
 
 
-class PLASMA_DLL plHardRegionIntersect : public plHardRegionComplex {
+class PLASMA_DLL plHardRegionIntersect : public plHardRegionComplex
+{
     CREATABLE(plHardRegionIntersect, kHardRegionIntersect, plHardRegionComplex)
 };
 
 
-class PLASMA_DLL plHardRegionInvert : public plHardRegionComplex {
+class PLASMA_DLL plHardRegionInvert : public plHardRegionComplex
+{
     CREATABLE(plHardRegionInvert, kHardRegionInvert, plHardRegionComplex)
 };
 
 
-class PLASMA_DLL plHardRegionUnion : public plHardRegionComplex {
+class PLASMA_DLL plHardRegionUnion : public plHardRegionComplex
+{
     CREATABLE(plHardRegionUnion, kHardRegionUnion, plHardRegionComplex)
 };
 

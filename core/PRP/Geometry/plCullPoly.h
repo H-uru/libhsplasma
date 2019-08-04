@@ -20,9 +20,11 @@
 #include "Util/hsBitVector.h"
 #include "Math/hsGeometry3.h"
 
-class PLASMA_DLL plCullPoly {
+class PLASMA_DLL plCullPoly
+{
 public:
-    enum {
+    enum
+    {
         kNone,
         kHole = 0x1,
         kTwoSided = 0x2
@@ -35,7 +37,7 @@ protected:
     float fDist, fRadius;
 
 public:
-    plCullPoly() : fFlags(kNone), fDist(0.0f), fRadius(0.0f) { }
+    plCullPoly() : fFlags(kNone), fDist(), fRadius() { }
     plCullPoly(const plCullPoly& init)
         : fFlags(init.fFlags), fVerts(init.fVerts), fNorm(init.fNorm),
           fCenter(init.fCenter), fDist(init.fDist), fRadius(init.fRadius) { }

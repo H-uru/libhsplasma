@@ -16,21 +16,24 @@
 
 #include "plRideAnimatedPhysMsg.h"
 
-void plRideAnimatedPhysMsg::read(hsStream* S, plResManager* mgr) {
+void plRideAnimatedPhysMsg::read(hsStream* S, plResManager* mgr)
+{
     plMessage::read(S, mgr);
 
     fEntering = S->readBool();
     fRegion = mgr->readKey(S);
 }
 
-void plRideAnimatedPhysMsg::write(hsStream* S, plResManager* mgr) {
+void plRideAnimatedPhysMsg::write(hsStream* S, plResManager* mgr)
+{
     plMessage::write(S, mgr);
 
     S->writeBool(fEntering);
     mgr->writeKey(S, fRegion);
 }
 
-void plRideAnimatedPhysMsg::IPrcWrite(pfPrcHelper* prc) {
+void plRideAnimatedPhysMsg::IPrcWrite(pfPrcHelper* prc)
+{
     plMessage::IPrcWrite(prc);
 
     prc->startTag("Region");
@@ -40,7 +43,8 @@ void plRideAnimatedPhysMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plRideAnimatedPhysMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plRideAnimatedPhysMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Region") {
         fEntering = tag->getParam("Entering", "False").to_bool();
         if (tag->hasChildren())

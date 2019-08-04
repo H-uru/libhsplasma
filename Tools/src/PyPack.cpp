@@ -21,7 +21,8 @@
 #include <ctime>
 #include <cstring>
 
-void doHelp() {
+static void doHelp()
+{
     puts("Usage: PyPack -x filename.pak [-o outdir]");
     puts("       PyPack -c [options] [source.pyc ...] filename.pak");
     puts("       PyPack -a [options] [source.pyc ...] filename.pak");
@@ -40,18 +41,21 @@ void doHelp() {
 
 enum Action { kInvalid, kCreate, kExtract, kAdd };
 
-enum PycHeader {
+enum PycHeader
+{
     kPyc22 = 0x0A0DED2D,
     kPyc23 = 0x0A0DF23B,
 };
 
-struct PycObject {
+struct PycObject
+{
     ST::string fFilename;
     uint32_t fOffset, fSize;
     uint8_t* fData;
 };
 
-bool parseKey(const char* buf, unsigned int& val) {
+static bool parseKey(const char* buf, unsigned int& val)
+{
     char kMap[256];
     memset(kMap, -1, 256);
     int i;
@@ -81,7 +85,8 @@ bool parseKey(const char* buf, unsigned int& val) {
     return true;
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
     Action action = kInvalid;
     ST::string pakfile, outdir;
     std::list<ST::string> infiles;

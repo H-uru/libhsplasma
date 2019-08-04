@@ -17,7 +17,8 @@
 #include "plStateDescriptor.h"
 
 /* plVarDescriptor */
-void plVarDescriptor::read(hsStream* S) {
+void plVarDescriptor::read(hsStream* S)
+{
     if (S->readByte() != 3)
         throw hsBadParamException(__FILE__, __LINE__, "Bad plVarDescriptor IO Version");
 
@@ -38,7 +39,8 @@ void plVarDescriptor::read(hsStream* S) {
     }
 }
 
-void plVarDescriptor::write(hsStream* S) {
+void plVarDescriptor::write(hsStream* S)
+{
     S->writeByte(3);
     S->writeSafeStr(fName);
     S->writeShort(fDisplay.size());
@@ -57,34 +59,39 @@ void plVarDescriptor::write(hsStream* S) {
     }
 }
 
-void plVarDescriptor::setStateDesc(plStateDescriptor* desc) {
+void plVarDescriptor::setStateDesc(plStateDescriptor* desc)
+{
     fStateDesc = desc;
     fStateDescType = desc->getName();
     fStateDescVer = desc->getVersion();
 }
 
-void plVarDescriptor::setInternal(bool internal) {
+void plVarDescriptor::setInternal(bool internal)
+{
     if (internal)
         fFlags |= kInternal;
     else
         fFlags &= ~kInternal;
 }
 
-void plVarDescriptor::setAlwaysNew(bool alwaysNew) {
+void plVarDescriptor::setAlwaysNew(bool alwaysNew)
+{
     if (alwaysNew)
         fFlags |= kAlwaysNew;
     else
         fFlags &= ~kAlwaysNew;
 }
 
-void plVarDescriptor::setVariableLength(bool varLength) {
+void plVarDescriptor::setVariableLength(bool varLength)
+{
     if (varLength)
         fFlags |= kVariableLength;
     else
         fFlags &= ~kVariableLength;
 }
 
-plVarDescriptor::Type plVarDescriptor::GetTypeFromString(const ST::string& type, bool isEoa) {
+plVarDescriptor::Type plVarDescriptor::GetTypeFromString(const ST::string& type, bool isEoa)
+{
     ST::string itype = type.to_lower();
     if (isEoa) {
         // These translate differently in Myst5...
@@ -174,12 +181,14 @@ plVarDescriptor::Type plVarDescriptor::GetTypeFromString(const ST::string& type,
 
 
 /* plStateDescriptor */
-plStateDescriptor::~plStateDescriptor() {
+plStateDescriptor::~plStateDescriptor()
+{
     for (auto var = fVariables.begin(); var != fVariables.end(); ++var)
         delete *var;
 }
 
-void plStateDescriptor::read(hsStream* S) {
+void plStateDescriptor::read(hsStream* S)
+{
     if (S->readByte() != 1)
         throw hsBadParamException(__FILE__, __LINE__, "Bad plStateDescriptor IO Version");
     fName = S->readSafeStr();
@@ -194,7 +203,8 @@ void plStateDescriptor::read(hsStream* S) {
     }
 }
 
-void plStateDescriptor::write(hsStream* S) {
+void plStateDescriptor::write(hsStream* S)
+{
     S->writeByte(1);
     S->writeSafeStr(fName);
     S->writeShort(fVersion);
@@ -206,7 +216,8 @@ void plStateDescriptor::write(hsStream* S) {
     }
 }
 
-void plStateDescriptor::prcWrite(pfPrcHelper* prc) {
+void plStateDescriptor::prcWrite(pfPrcHelper* prc)
+{
     for (size_t i=0; i<fVariables.size(); i++) {
         prc->startTag("Variable");
         prc->writeParam("Name", fVariables[i]->getName());
@@ -214,14 +225,16 @@ void plStateDescriptor::prcWrite(pfPrcHelper* prc) {
     }
 }
 
-plVarDescriptor* plStateDescriptor::get(const ST::string& name) {
+plVarDescriptor* plStateDescriptor::get(const ST::string& name)
+{
     for (size_t i=0; i<fVariables.size(); i++)
         if (fVariables[i]->getName() == name)
             return fVariables[i];
     return NULL;
 }
 
-void plStateDescriptor::set(const ST::string& name, plVarDescriptor* var) {
+void plStateDescriptor::set(const ST::string& name, plVarDescriptor* var)
+{
     size_t idx = (size_t)-1;
     for (size_t i=0; i<fVariables.size(); i++)
         if (fVariables[i]->getName() == name)
@@ -233,12 +246,14 @@ void plStateDescriptor::set(const ST::string& name, plVarDescriptor* var) {
     fVariables[idx] = var;
 }
 
-void plStateDescriptor::delVariable(size_t idx) {
+void plStateDescriptor::delVariable(size_t idx)
+{
     delete fVariables[idx];
     fVariables.erase(fVariables.begin() + idx);
 }
 
-void plStateDescriptor::delVariable(const ST::string& name) {
+void plStateDescriptor::delVariable(const ST::string& name)
+{
     for (auto var = fVariables.begin(); var != fVariables.end(); ++var) {
         if ((*var)->getName() == name) {
             delete *var;
@@ -248,7 +263,8 @@ void plStateDescriptor::delVariable(const ST::string& name) {
     }
 }
 
-void plStateDescriptor::clearVariables() {
+void plStateDescriptor::clearVariables()
+{
     for (auto var = fVariables.begin(); var != fVariables.end(); ++var)
         delete *var;
     fVariables.clear();

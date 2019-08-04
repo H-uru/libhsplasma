@@ -17,14 +17,16 @@
 #include "plZlib.h"
 #include <zlib.h>
 
-bool plZlib::Uncompress(uint8_t* bufOut, size_t& bufLenOut, const uint8_t* bufIn, size_t bufLenIn) {
+bool plZlib::Uncompress(uint8_t* bufOut, size_t& bufLenOut, const uint8_t* bufIn, size_t bufLenIn)
+{
     uLongf bufLenOut_zlib = (uLongf)bufLenOut;
     int result = ::uncompress(bufOut, &bufLenOut_zlib, bufIn, bufLenIn);
     bufLenOut = (size_t)bufLenOut_zlib;
     return result == Z_OK;
 }
 
-bool plZlib::Compress(uint8_t*& bufOut, size_t& bufLenOut, const uint8_t* bufIn, size_t bufLenIn) {
+bool plZlib::Compress(uint8_t*& bufOut, size_t& bufLenOut, const uint8_t* bufIn, size_t bufLenIn)
+{
     uLongf bufLenOut_zlib = ::compressBound(bufLenIn);
     bufOut = new uint8_t[bufLenOut_zlib];
     int result = ::compress(bufOut, &bufLenOut_zlib, bufIn, bufLenIn);

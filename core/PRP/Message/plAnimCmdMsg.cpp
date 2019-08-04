@@ -17,8 +17,9 @@
 #include "plAnimCmdMsg.h"
 
 plAnimCmdMsg::plAnimCmdMsg()
-            : fBegin(0.0f), fEnd(0.0f), fLoopBegin(0.0f), fLoopEnd(0.0f),
-              fSpeed(0.0f), fSpeedChangeRate(0.0f), fTime(0.0f) {
+    : fBegin(), fEnd(), fLoopBegin(), fLoopEnd(), fSpeed(), fSpeedChangeRate(),
+      fTime()
+{
     fCmd.setName(kContinue, "kContinue");
     fCmd.setName(kStop, "kStop");
     fCmd.setName(kSetLooping, "kSetLooping");
@@ -48,7 +49,8 @@ plAnimCmdMsg::plAnimCmdMsg()
     fCmd.setName(kGoToPercent, "kGoToPercent");
 }
 
-void plAnimCmdMsg::read(hsStream* S, plResManager* mgr) {
+void plAnimCmdMsg::read(hsStream* S, plResManager* mgr)
+{
     plMessageWithCallbacks::read(S, mgr);
 
     fCmd.read(S);
@@ -80,7 +82,8 @@ void plAnimCmdMsg::read(hsStream* S, plResManager* mgr) {
     fLoopName = S->readSafeStr();
 }
 
-void plAnimCmdMsg::write(hsStream* S, plResManager* mgr) {
+void plAnimCmdMsg::write(hsStream* S, plResManager* mgr)
+{
     plMessageWithCallbacks::write(S, mgr);
 
     fCmd.write(S);
@@ -112,7 +115,8 @@ void plAnimCmdMsg::write(hsStream* S, plResManager* mgr) {
     S->writeSafeStr(fLoopName);
 }
 
-void plAnimCmdMsg::IPrcWrite(pfPrcHelper* prc) {
+void plAnimCmdMsg::IPrcWrite(pfPrcHelper* prc)
+{
     plMessageWithCallbacks::IPrcWrite(prc);
 
     prc->writeSimpleTag("Command");
@@ -135,7 +139,8 @@ void plAnimCmdMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plAnimCmdMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAnimCmdMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Command") {
         if (tag->hasChildren())
             fCmd.prcParse(tag->getFirstChild());

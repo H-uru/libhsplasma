@@ -81,7 +81,8 @@ static PyGetSetDef pyGBufferTriangle_GetSet[] = {
 
 PY_PLASMA_TYPE(GBufferTriangle, plGBufferTriangle, "plGBufferTriangle wrapper")
 
-PY_PLASMA_TYPE_INIT(GBufferTriangle) {
+PY_PLASMA_TYPE_INIT(GBufferTriangle)
+{
     pyGBufferTriangle_Type.tp_dealloc = pyGBufferTriangle_dealloc;
     pyGBufferTriangle_Type.tp_init = pyGBufferTriangle___init__;
     pyGBufferTriangle_Type.tp_new = pyGBufferTriangle_new;

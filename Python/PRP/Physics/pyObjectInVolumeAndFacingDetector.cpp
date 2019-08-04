@@ -34,7 +34,8 @@ static PyGetSetDef pyObjectInVolumeAndFacingDetector_GetSet[] = {
 PY_PLASMA_TYPE(ObjectInVolumeAndFacingDetector, plObjectInVolumeAndFacingDetector,
                "plObjectInVolumeAndFacingDetector wrapper")
 
-PY_PLASMA_TYPE_INIT(ObjectInVolumeAndFacingDetector) {
+PY_PLASMA_TYPE_INIT(ObjectInVolumeAndFacingDetector)
+{
     pyObjectInVolumeAndFacingDetector_Type.tp_new = pyObjectInVolumeAndFacingDetector_new;
     pyObjectInVolumeAndFacingDetector_Type.tp_getset = pyObjectInVolumeAndFacingDetector_GetSet;
     pyObjectInVolumeAndFacingDetector_Type.tp_base = &pyObjectInVolumeDetector_Type;

@@ -19,7 +19,8 @@
 
 #include "hsStream.h"
 
-class PLASMA_DLL hsStdioStream : public hsFileStream {
+class PLASMA_DLL hsStdioStream : public hsFileStream
+{
 protected:
     FILE* Fin;
     FILE* Fout;

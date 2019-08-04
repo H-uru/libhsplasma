@@ -16,7 +16,8 @@
 
 #include "PlasmaVersions.h"
 
-const char* PlasmaVer::GetVersionName(PlasmaVer ver) {
+const char* PlasmaVer::GetVersionName(PlasmaVer ver)
+{
     switch (ver) {
         case pvPrime:
             return "Prime/UU";
@@ -40,7 +41,8 @@ const char* PlasmaVer::GetVersionName(PlasmaVer ver) {
     }
 }
 
-PlasmaVer PlasmaVer::GetSafestVersion(PlasmaVer ver) {
+PlasmaVer PlasmaVer::GetSafestVersion(PlasmaVer ver)
+{
     if (ver <= pvPrime)
         return pvPrime;
     else if (ver == pvPots)

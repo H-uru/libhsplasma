@@ -19,7 +19,8 @@
 
 #include "plModifier.h"
 
-class PLASMA_DLL plMaintainersMarkerModifier : public plMultiModifier {
+class PLASMA_DLL plMaintainersMarkerModifier : public plMultiModifier
+{
     CREATABLE(plMaintainersMarkerModifier, kMaintainersMarkerModifier,
               plMultiModifier)
 

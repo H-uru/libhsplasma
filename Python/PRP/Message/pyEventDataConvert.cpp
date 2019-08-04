@@ -19,7 +19,8 @@
 #include <PRP/Message/proEventData.h>
 #include <typeinfo>
 
-PyObject* ICreateEventData(proEventData* edata) {
+PyObject* ICreateEventData(proEventData* edata)
+{
     if (typeid(edata) == typeid(proCollisionEventData))
         return pyCollisionEventData_FromCollisionEventData((proCollisionEventData*)edata);
     else if (typeid(edata) == typeid(proPickedEventData))

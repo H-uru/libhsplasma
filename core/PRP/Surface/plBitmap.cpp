@@ -35,7 +35,8 @@ const char* plBitmap::kCompressedTypeNames[] = {
 };
 
 
-void plBitmap::setConfig(ColorFormat format) {
+void plBitmap::setConfig(ColorFormat format)
+{
     switch (format) {
     case kRGB8888:
         fPixelSize = 32;
@@ -67,17 +68,20 @@ void plBitmap::setConfig(ColorFormat format) {
     }
 }
 
-void plBitmap::read(hsStream* S, plResManager* mgr) {
+void plBitmap::read(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::read(S, mgr);
     IReadBitmap(S);
 }
 
-void plBitmap::write(hsStream* S, plResManager* mgr) {
+void plBitmap::write(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::write(S, mgr);
     IWriteBitmap(S);
 }
 
-void plBitmap::IReadBitmap(hsStream* S) {
+void plBitmap::IReadBitmap(hsStream* S)
+{
     S->readByte();  // Version == 2
     fPixelSize = S->readByte();
     fSpace = S->readByte();
@@ -93,7 +97,8 @@ void plBitmap::IReadBitmap(hsStream* S) {
     fHighModTime = S->readInt();
 }
 
-void plBitmap::IWriteBitmap(hsStream* S) {
+void plBitmap::IWriteBitmap(hsStream* S)
+{
     S->writeByte(BITMAPVER);
     S->writeByte(fPixelSize);
     S->writeByte(fSpace);
@@ -109,7 +114,8 @@ void plBitmap::IWriteBitmap(hsStream* S) {
     S->writeInt(fHighModTime);
 }
 
-void plBitmap::IPrcWrite(pfPrcHelper* prc) {
+void plBitmap::IPrcWrite(pfPrcHelper* prc)
+{
     hsKeyedObject::IPrcWrite(prc);
 
     prc->startTag("BitmapParams");
@@ -134,7 +140,8 @@ void plBitmap::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plBitmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plBitmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "BitmapParams") {
         fPixelSize = tag->getParam("PixelSize", "0").to_uint();
         fFlags = tag->getParam("Flags", "0").to_uint();

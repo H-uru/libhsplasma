@@ -17,7 +17,8 @@
 #include "plLadderModifier.h"
 
 /* plAvLadderMod */
-void plAvLadderMod::read(hsStream* S, plResManager* mgr) {
+void plAvLadderMod::read(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::read(S, mgr);
 
     fType = S->readInt();
@@ -27,7 +28,8 @@ void plAvLadderMod::read(hsStream* S, plResManager* mgr) {
     fLadderView.read(S);
 }
 
-void plAvLadderMod::write(hsStream* S, plResManager* mgr) {
+void plAvLadderMod::write(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::write(S, mgr);
 
     S->writeInt(fType);
@@ -37,7 +39,8 @@ void plAvLadderMod::write(hsStream* S, plResManager* mgr) {
     fLadderView.write(S);
 }
 
-void plAvLadderMod::IPrcWrite(pfPrcHelper* prc) {
+void plAvLadderMod::IPrcWrite(pfPrcHelper* prc)
+{
     plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("LadderParams");
@@ -52,7 +55,8 @@ void plAvLadderMod::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plAvLadderMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAvLadderMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "LadderParams") {
         fType = tag->getParam("Type", "0").to_int();
         fLoops = tag->getParam("Loops", "0").to_int();
@@ -68,7 +72,8 @@ void plAvLadderMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plLadderModifier */
-void plLadderModifier::read(hsStream* S, plResManager* mgr) {
+void plLadderModifier::read(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::read(S, mgr);
 
     fTopLogic = mgr->readKey(S);
@@ -81,7 +86,8 @@ void plLadderModifier::read(hsStream* S, plResManager* mgr) {
     fBottomPos = mgr->readKey(S);
 }
 
-void plLadderModifier::write(hsStream* S, plResManager* mgr) {
+void plLadderModifier::write(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::write(S, mgr);
 
     mgr->writeKey(S, fTopLogic);
@@ -94,7 +100,8 @@ void plLadderModifier::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fBottomPos);
 }
 
-void plLadderModifier::IPrcWrite(pfPrcHelper* prc) {
+void plLadderModifier::IPrcWrite(pfPrcHelper* prc)
+{
     plSingleModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("TopLogic");
@@ -126,7 +133,8 @@ void plLadderModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plLadderModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plLadderModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "TopLogic") {
         if (tag->hasChildren())
             fTopLogic = mgr->prcParseKey(tag->getFirstChild());

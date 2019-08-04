@@ -22,7 +22,8 @@
 PY_PLASMA_NEW(ParticleApplicator, plParticleApplicator)
 PY_PLASMA_TYPE(ParticleApplicator, plParticleApplicator, "plParticleApplicator wrapper")
 
-PY_PLASMA_TYPE_INIT(ParticleApplicator) {
+PY_PLASMA_TYPE_INIT(ParticleApplicator)
+{
     pyParticleApplicator_Type.tp_new = pyParticleApplicator_new;
     pyParticleApplicator_Type.tp_base = &pyAGApplicator_Type;
     if (PyType_CheckAndReady(&pyParticleApplicator_Type) < 0)
@@ -37,7 +38,8 @@ PY_PLASMA_IFC_METHODS(ParticleApplicator, plParticleApplicator)
 #define PY_ParticleApplicator_Subtype(pyType)                   \
     PY_PLASMA_NEW(pyType, pl##pyType)                           \
     PY_PLASMA_TYPE(pyType, pl##pyType, "pl" #pyType " wrapper") \
-    PY_PLASMA_TYPE_INIT(pyType) {                               \
+    PY_PLASMA_TYPE_INIT(pyType)                                 \
+    {                                                           \
         py##pyType##_Type.tp_new = py##pyType##_new;            \
         py##pyType##_Type.tp_base = &pyParticleApplicator_Type; \
         if (PyType_CheckAndReady(&py##pyType##_Type) < 0)       \

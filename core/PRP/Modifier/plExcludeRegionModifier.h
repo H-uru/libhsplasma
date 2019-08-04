@@ -19,7 +19,8 @@
 
 #include "plModifier.h"
 
-class PLASMA_DLL plExcludeRegionModifier : public plSingleModifier {
+class PLASMA_DLL plExcludeRegionModifier : public plSingleModifier
+{
     CREATABLE(plExcludeRegionModifier, kExcludeRegionModifier, plSingleModifier)
 
 public:
@@ -31,7 +32,8 @@ protected:
     float fSeekTime;
 
 public:
-    plExcludeRegionModifier() : fSeek(false), fSeekTime(0.0f) {
+    plExcludeRegionModifier() : fSeek(), fSeekTime()
+    {
         fFlags.setName(kBlockCameras, "kBlockCameras");
     }
 

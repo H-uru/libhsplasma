@@ -37,7 +37,8 @@ static PyGetSetDef pyPickedEventData_GetSet[] = {
 
 PY_PLASMA_TYPE(PickedEventData, proPickedEventData, "proPickedEventData wrapper")
 
-PY_PLASMA_TYPE_INIT(PickedEventData) {
+PY_PLASMA_TYPE_INIT(PickedEventData)
+{
     pyPickedEventData_Type.tp_new = pyPickedEventData_new;
     pyPickedEventData_Type.tp_getset = pyPickedEventData_GetSet;
     pyPickedEventData_Type.tp_base = &pyEventData_Type;

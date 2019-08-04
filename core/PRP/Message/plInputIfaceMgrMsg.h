@@ -19,7 +19,8 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plInputIfaceMgrMsg : public plMessage {
+class PLASMA_DLL plInputIfaceMgrMsg : public plMessage
+{
     CREATABLE(plInputIfaceMgrMsg, kInputIfaceMgrMsg, plMessage)
 
 private:
@@ -29,7 +30,8 @@ private:
     plKey fAvKey;
 
 public:
-    plInputIfaceMgrMsg() : fCommand(0), fPageID(0) {
+    plInputIfaceMgrMsg() : fCommand(), fPageID()
+    {
         fBCastFlags |= kBCastByExactType;
     }
 

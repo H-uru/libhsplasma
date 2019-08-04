@@ -39,7 +39,8 @@
  * \endcode
  */
 
-class PLASMA_DLL hsBitVector {
+class PLASMA_DLL hsBitVector
+{
 public:
     /**
      * \brief References an individual bit within an hsBitVector.
@@ -49,7 +50,8 @@ public:
      * of the Bit Vector directly, instead of needing the set() method.
      */
 
-    class PLASMA_DLL Bit {
+    class PLASMA_DLL Bit
+    {
     private:
         hsBitVector& fVector;
         size_t fOffset;

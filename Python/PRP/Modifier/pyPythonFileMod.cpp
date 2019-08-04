@@ -79,7 +79,8 @@ static PyMethodDef pyPythonFileMod_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(PythonFileMod, receivers) {
+PY_GETSET_GETTER_DECL(PythonFileMod, receivers)
+{
     PyObject* list = PyTuple_New(self->fThis->getReceivers().size());
     for (size_t i=0; i<self->fThis->getReceivers().size(); i++)
         PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getReceivers()[i]));
@@ -89,7 +90,8 @@ PY_GETSET_GETTER_DECL(PythonFileMod, receivers) {
 PY_PROPERTY_SETTER_MSG(PythonFileMod, receivers, "To add receivers, use addReceiver")
 PY_PROPERTY_GETSET_DECL(PythonFileMod, receivers)
 
-PY_GETSET_GETTER_DECL(PythonFileMod, parameters) {
+PY_GETSET_GETTER_DECL(PythonFileMod, parameters)
+{
     PyObject* list = PyTuple_New(self->fThis->getParameters().size());
     for (size_t i=0; i<self->fThis->getParameters().size(); i++)
         PyTuple_SET_ITEM(list, i, pyPythonParameter_FromPythonParameter(self->fThis->getParameters()[i]));
@@ -110,7 +112,8 @@ static PyGetSetDef pyPythonFileMod_GetSet[] = {
 
 PY_PLASMA_TYPE(PythonFileMod, plPythonFileMod, "plPythonFileMod wrapper")
 
-PY_PLASMA_TYPE_INIT(PythonFileMod) {
+PY_PLASMA_TYPE_INIT(PythonFileMod)
+{
     pyPythonFileMod_Type.tp_new = pyPythonFileMod_new;
     pyPythonFileMod_Type.tp_methods = pyPythonFileMod_Methods;
     pyPythonFileMod_Type.tp_getset = pyPythonFileMod_GetSet;

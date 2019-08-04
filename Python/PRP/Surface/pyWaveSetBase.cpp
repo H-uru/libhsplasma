@@ -22,7 +22,8 @@ PY_PLASMA_NEW_MSG(WaveSetBase, "plWaveSetBase is abstract")
 
 PY_PLASMA_TYPE(WaveSetBase, plWaveSetBase, "plWaveSetBase wrapper")
 
-PY_PLASMA_TYPE_INIT(WaveSetBase) {
+PY_PLASMA_TYPE_INIT(WaveSetBase)
+{
     pyWaveSetBase_Type.tp_new = pyWaveSetBase_new;
     pyWaveSetBase_Type.tp_base = &pyMultiModifier_Type;
     if (PyType_CheckAndReady(&pyWaveSetBase_Type) < 0)

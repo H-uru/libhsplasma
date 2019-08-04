@@ -20,9 +20,11 @@
 #include "Stream/pfPrcHelper.h"
 #include "Stream/pfPrcParser.h"
 
-class PLASMA_DLL hsGMatState {
+class PLASMA_DLL hsGMatState
+{
 public:
-    enum hsGMatBlendFlags {
+    enum hsGMatBlendFlags
+    {
         kBlendTest = 0x1,
         kBlendAlpha = 0x2,
         kBlendMult = 0x4,
@@ -53,13 +55,15 @@ public:
         kBlendAlphaTestHigh = 0x4000000
     };
 
-    enum hsGMatClampFlags {
+    enum hsGMatClampFlags
+    {
         kClampTextureU = 0x1,
         kClampTextureV = 0x2,
         kClampTexture = 0x3
     };
 
-    enum hsGMatShadeFlags {
+    enum hsGMatShadeFlags
+    {
         kShadeSoftShadow = 0x1,
         kShadeNoProjectors = 0x2,
         kShadeEnvironMap = 0x4,
@@ -79,7 +83,8 @@ public:
         kShadeReallyNoFog = 0x20000
     };
 
-    enum hsGMatZFlags {
+    enum hsGMatZFlags
+    {
         kZIncLayer = 0x1,
         kZClearZ = 0x4,
         kZNoZRead = 0x8,
@@ -88,7 +93,8 @@ public:
         kZLODBias = 0x20
     };
 
-    enum hsGMatMiscFlags {
+    enum hsGMatMiscFlags
+    {
         kMiscWireFrame = 0x1,
         kMiscDrawMeshOutlines = 0x2,
         kMiscTwoSided = 0x4,

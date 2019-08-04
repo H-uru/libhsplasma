@@ -173,7 +173,8 @@
 #include "PRP/Surface/pyWaveSet.h"
 
 /* For compatibility with plString's CleanFileName utility */
-static ST::string CleanFileName(const ST::string& fname, bool allowPathChars) {
+static ST::string CleanFileName(const ST::string& fname, bool allowPathChars)
+{
     ST::char_buffer result = fname.to_utf8();
     for (char* bp = result.data(); *bp; bp++) {
         if (*bp == '?' || *bp == '*' || *bp == '<' || *bp == '>' ||
@@ -218,7 +219,8 @@ static PyModuleDef PyHSPlasma_Module = {
 };
 #endif
 
-static void initPyHSPlasma_Constants(PyObject* module) {
+static void initPyHSPlasma_Constants(PyObject* module)
+{
     /* Generic constants */
     PyModule_AddIntConstant(module, "pvUnknown", PlasmaVer::pvUnknown);
     PyModule_AddIntConstant(module, "pvPrime", PlasmaVer::pvPrime);
@@ -438,11 +440,13 @@ static void initPyHSPlasma_Constants(PyObject* module) {
 }
 
 #if PY_MAJOR_VERSION >= 3
-PyMODINIT_FUNC PyInit_PyHSPlasma() {
+PyMODINIT_FUNC PyInit_PyHSPlasma()
+{
     PyObject* module = PyModule_Create(&PyHSPlasma_Module);
 
 #else
-PyMODINIT_FUNC initPyHSPlasma() {
+PyMODINIT_FUNC initPyHSPlasma()
+{
     PyObject* module = Py_InitModule3("PyHSPlasma", PyHSPlasma_Methods,
                                       "libHSPlasma Python Interface Module");
 

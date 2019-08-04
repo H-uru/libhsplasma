@@ -16,11 +16,13 @@
 
 #include "plAnimEventModifier.h"
 
-plAnimEventModifier::~plAnimEventModifier() {
+plAnimEventModifier::~plAnimEventModifier()
+{
     delete fCallback;
 }
 
-void plAnimEventModifier::read(hsStream* S, plResManager* mgr) {
+void plAnimEventModifier::read(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::read(S, mgr);
 
     fReceivers.resize(S->readInt());
@@ -29,7 +31,8 @@ void plAnimEventModifier::read(hsStream* S, plResManager* mgr) {
     setCallback(plMessage::Convert(mgr->ReadCreatable(S)));
 }
 
-void plAnimEventModifier::write(hsStream* S, plResManager* mgr) {
+void plAnimEventModifier::write(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::write(S, mgr);
 
     S->writeInt(fReceivers.size());
@@ -38,7 +41,8 @@ void plAnimEventModifier::write(hsStream* S, plResManager* mgr) {
     mgr->WriteCreatable(S, fCallback);
 }
 
-void plAnimEventModifier::IPrcWrite(pfPrcHelper* prc) {
+void plAnimEventModifier::IPrcWrite(pfPrcHelper* prc)
+{
     plSingleModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("Receivers");
@@ -51,7 +55,8 @@ void plAnimEventModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plAnimEventModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAnimEventModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Receivers") {
         fReceivers.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
@@ -67,7 +72,8 @@ void plAnimEventModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plAnimEventModifier::setCallback(plMessage* callback) {
+void plAnimEventModifier::setCallback(plMessage* callback)
+{
     delete fCallback;
     fCallback = callback;
 }

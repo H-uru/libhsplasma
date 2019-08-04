@@ -34,7 +34,8 @@ static PyGetSetDef pyAGModifier_GetSet[] = {
 
 PY_PLASMA_TYPE(AGModifier, plAGModifier, "plAGModifier wrapper")
 
-PY_PLASMA_TYPE_INIT(AGModifier) {
+PY_PLASMA_TYPE_INIT(AGModifier)
+{
     pyAGModifier_Type.tp_new = pyAGModifier_new;
     pyAGModifier_Type.tp_getset = pyAGModifier_GetSet;
     pyAGModifier_Type.tp_base = &pyModifier_Type;

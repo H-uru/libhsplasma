@@ -19,7 +19,8 @@
 
 #include "plKeyControllers.hpp"
 
-class PLASMA_DLL plPosController : public plController {
+class PLASMA_DLL plPosController : public plController
+{
     CREATABLE(plPosController, kPosController, plController)
 
 public:
@@ -30,15 +31,16 @@ public:
 };
 
 
-class PLASMA_DLL plSimplePosController : public plPosController {
+class PLASMA_DLL plSimplePosController : public plPosController
+{
     CREATABLE(plSimplePosController, kSimplePosController, plPosController)
 
 protected:
     plPoint3Controller* fPosition;
 
 public:
-    plSimplePosController() : fPosition(NULL) { }
-    virtual ~plSimplePosController();
+    plSimplePosController() : fPosition() { }
+    ~plSimplePosController();
 
     int getType() const HS_OVERRIDE { return kSimple; }
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -54,7 +56,8 @@ public:
 };
 
 
-class PLASMA_DLL plCompoundPosController : public plPosController {
+class PLASMA_DLL plCompoundPosController : public plPosController
+{
     CREATABLE(plCompoundPosController, kCompoundPosController, plPosController)
 
 protected:
@@ -65,9 +68,8 @@ protected:
 public:
     enum { kX, kY, kZ, kNumControllers };
 
-    plCompoundPosController()
-        : fXController(NULL), fYController(NULL), fZController(NULL) { }
-    virtual ~plCompoundPosController();
+    plCompoundPosController() : fXController(), fYController(), fZController() { }
+    ~plCompoundPosController();
 
     int getType() const HS_OVERRIDE { return kCompound; }
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -81,7 +83,9 @@ public:
     plScalarController* getX() const { return fXController; }
     plScalarController* getY() const { return fYController; }
     plScalarController* getZ() const { return fZController; }
-    plScalarController* getController(unsigned int index) const {
+
+    plScalarController* getController(unsigned int index) const
+    {
         switch (index)
         {
         case kX:

@@ -16,14 +16,16 @@
 
 #include "pfGUIMultiLineEditCtrl.h"
 
-void pfGUIMultiLineEditCtrl::read(hsStream* S, plResManager* mgr) {
+void pfGUIMultiLineEditCtrl::read(hsStream* S, plResManager* mgr)
+{
     pfGUIControlMod::read(S, mgr);
 
     if (S->readBool())
         fScrollCtrl = mgr->readKey(S);
 }
 
-void pfGUIMultiLineEditCtrl::write(hsStream* S, plResManager* mgr) {
+void pfGUIMultiLineEditCtrl::write(hsStream* S, plResManager* mgr)
+{
     pfGUIControlMod::write(S, mgr);
 
     if (fScrollCtrl.Exists()) {
@@ -34,7 +36,8 @@ void pfGUIMultiLineEditCtrl::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void pfGUIMultiLineEditCtrl::IPrcWrite(pfPrcHelper* prc) {
+void pfGUIMultiLineEditCtrl::IPrcWrite(pfPrcHelper* prc)
+{
     pfGUIControlMod::IPrcWrite(prc);
 
     prc->writeSimpleTag("ScrollControl");
@@ -42,7 +45,8 @@ void pfGUIMultiLineEditCtrl::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void pfGUIMultiLineEditCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void pfGUIMultiLineEditCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "ScrollControl") {
         if (tag->hasChildren())
             fScrollCtrl = mgr->prcParseKey(tag->getFirstChild());

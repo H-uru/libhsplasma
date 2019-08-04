@@ -34,7 +34,7 @@ public:
     static const plUuid Null;
 
     /** Constructs a null UUID, i.e. 00000000-0000-0000-0000-000000000000. */
-    plUuid();
+    plUuid() : fData1(), fData2(), fData3(), fData4() { }
 
     /**
      * Constructs a UUID from the four arguments. The argument \a data4 should

@@ -88,10 +88,12 @@ PyMethodDef pyBounds3Ext_Methods[] = {
 
 /* Backwards compatibility */
 #define BOUNDS_GETSET_AXIS(id)                                          \
-    PY_GETSET_GETTER_DECL(Bounds3Ext, axis##id) {                       \
+    PY_GETSET_GETTER_DECL(Bounds3Ext, axis##id)                         \
+    {                                                                   \
         return pyPlasma_convert(self->fThis->getAxis(id));              \
     }                                                                   \
-    PY_GETSET_SETTER_DECL(Bounds3Ext, axis##id) {                       \
+    PY_GETSET_SETTER_DECL(Bounds3Ext, axis##id)                         \
+    {                                                                   \
         PY_PROPERTY_CHECK_NULL(axis##id)                                \
         if (!pyPlasma_check<hsVector3>(value)) {                        \
             PyErr_SetString(PyExc_TypeError, "axis" #id " expected type hsVector3"); \
@@ -107,11 +109,13 @@ BOUNDS_GETSET_AXIS(1)
 BOUNDS_GETSET_AXIS(2)
 
 #define BOUNDS_GETSET_DIST(id)                                          \
-    PY_GETSET_GETTER_DECL(Bounds3Ext, dist##id) {                       \
+    PY_GETSET_GETTER_DECL(Bounds3Ext, dist##id)                         \
+    {                                                                   \
         hsFloatPoint2 dist = self->fThis->getDist(id);                  \
         return Py_BuildValue("ff", dist.X, dist.Y);                     \
     }                                                                   \
-    PY_GETSET_SETTER_DECL(Bounds3Ext, dist##id) {                       \
+    PY_GETSET_SETTER_DECL(Bounds3Ext, dist##id)                         \
+    {                                                                   \
         PY_PROPERTY_CHECK_NULL(dist##id)                                \
         if (!PyTuple_Check(value) || (PyTuple_Size(value) != 2)) {      \
             PyErr_SetString(PyExc_TypeError, "dist" #id " expected type tuple(float, float)"); \
@@ -154,7 +158,8 @@ static PyGetSetDef pyBounds3Ext_GetSet[] = {
 
 PY_PLASMA_TYPE(Bounds3Ext, hsBounds3Ext, "hsBounds3Ext wrapper")
 
-PY_PLASMA_TYPE_INIT(Bounds3Ext) {
+PY_PLASMA_TYPE_INIT(Bounds3Ext)
+{
     pyBounds3Ext_Type.tp_new = pyBounds3Ext_new;
     pyBounds3Ext_Type.tp_methods = pyBounds3Ext_Methods;
     pyBounds3Ext_Type.tp_getset = pyBounds3Ext_GetSet;

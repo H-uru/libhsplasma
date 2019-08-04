@@ -31,7 +31,8 @@ static PyGetSetDef pyCoopEventData_GetSet[] = {
 
 PY_PLASMA_TYPE(CoopEventData, proCoopEventData, "proCoopEventData wrapper")
 
-PY_PLASMA_TYPE_INIT(CoopEventData) {
+PY_PLASMA_TYPE_INIT(CoopEventData)
+{
     pyCoopEventData_Type.tp_new = pyCoopEventData_new;
     pyCoopEventData_Type.tp_getset = pyCoopEventData_GetSet;
     pyCoopEventData_Type.tp_base = &pyEventData_Type;

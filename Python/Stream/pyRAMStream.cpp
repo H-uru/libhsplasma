@@ -41,14 +41,16 @@ static PyMethodDef pyRAMStream_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(RAMStream, buffer) {
+PY_GETSET_GETTER_DECL(RAMStream, buffer)
+{
     PyObject* bufObj = PyBytes_FromStringAndSize(NULL, self->fThis->size());
     char* data = PyBytes_AS_STRING(bufObj);
     self->fThis->copyTo(data, self->fThis->size());
     return bufObj;
 }
 
-PY_GETSET_SETTER_DECL(RAMStream, buffer) {
+PY_GETSET_SETTER_DECL(RAMStream, buffer)
+{
     if (!PyBytes_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "buffer should be a binary string");
         return -1;
@@ -69,7 +71,8 @@ static PyGetSetDef pyRAMStream_GetSet[] = {
 
 PY_PLASMA_TYPE(RAMStream, hsRAMStream, "hsRAMStream wrapper")
 
-PY_PLASMA_TYPE_INIT(RAMStream) {
+PY_PLASMA_TYPE_INIT(RAMStream)
+{
     pyRAMStream_Type.tp_new = pyRAMStream_new;
     pyRAMStream_Type.tp_methods = pyRAMStream_Methods;
     pyRAMStream_Type.tp_getset = pyRAMStream_GetSet;

@@ -16,19 +16,22 @@
 
 #include "plPseudoLinkEffectMsg.h"
 
-void plPseudoLinkEffectMsg::read(hsStream* S, plResManager* mgr) {
+void plPseudoLinkEffectMsg::read(hsStream* S, plResManager* mgr)
+{
     plMessage::read(S, mgr);
     fLinkObjKey = mgr->readKey(S);
     fAvatarKey = mgr->readKey(S);
 }
 
-void plPseudoLinkEffectMsg::write(hsStream* S, plResManager* mgr) {
+void plPseudoLinkEffectMsg::write(hsStream* S, plResManager* mgr)
+{
     plMessage::write(S, mgr);
     mgr->writeKey(S, fLinkObjKey);
     mgr->writeKey(S, fAvatarKey);
 }
 
-void plPseudoLinkEffectMsg::IPrcWrite(pfPrcHelper* prc) {
+void plPseudoLinkEffectMsg::IPrcWrite(pfPrcHelper* prc)
+{
     plMessage::IPrcWrite(prc);
 
     prc->writeSimpleTag("LinkObject");
@@ -40,7 +43,8 @@ void plPseudoLinkEffectMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plPseudoLinkEffectMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plPseudoLinkEffectMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "LinkObject") {
         if (tag->hasChildren())
             fLinkObjKey = mgr->prcParseKey(tag->getFirstChild());

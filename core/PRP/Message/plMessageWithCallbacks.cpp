@@ -16,12 +16,14 @@
 
 #include "plMessageWithCallbacks.h"
 
-plMessageWithCallbacks::~plMessageWithCallbacks() {
+plMessageWithCallbacks::~plMessageWithCallbacks()
+{
     for (auto cback = fCallbacks.begin(); cback != fCallbacks.end(); ++cback)
         delete *cback;
 }
 
-void plMessageWithCallbacks::read(hsStream* S, plResManager* mgr) {
+void plMessageWithCallbacks::read(hsStream* S, plResManager* mgr)
+{
     plMessage::read(S, mgr);
 
     clearCallbacks();
@@ -33,7 +35,8 @@ void plMessageWithCallbacks::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plMessageWithCallbacks::write(hsStream* S, plResManager* mgr) {
+void plMessageWithCallbacks::write(hsStream* S, plResManager* mgr)
+{
     plMessage::write(S, mgr);
 
     S->writeInt(fCallbacks.size());
@@ -41,7 +44,8 @@ void plMessageWithCallbacks::write(hsStream* S, plResManager* mgr) {
         mgr->WriteCreatable(S, fCallbacks[i]);
 }
 
-void plMessageWithCallbacks::IPrcWrite(pfPrcHelper* prc) {
+void plMessageWithCallbacks::IPrcWrite(pfPrcHelper* prc)
+{
     plMessage::IPrcWrite(prc);
 
     prc->writeSimpleTag("Callbacks");
@@ -50,7 +54,8 @@ void plMessageWithCallbacks::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plMessageWithCallbacks::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plMessageWithCallbacks::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Callbacks") {
         clearCallbacks();
         fCallbacks.resize(tag->countChildren());
@@ -64,12 +69,14 @@ void plMessageWithCallbacks::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plMessageWithCallbacks::delCallback(size_t idx) {
+void plMessageWithCallbacks::delCallback(size_t idx)
+{
     delete fCallbacks[idx];
     fCallbacks.erase(fCallbacks.begin() + idx);
 }
 
-void plMessageWithCallbacks::clearCallbacks() {
+void plMessageWithCallbacks::clearCallbacks()
+{
     for (auto cback = fCallbacks.begin(); cback != fCallbacks.end(); ++cback)
         delete *cback;
     fCallbacks.clear();

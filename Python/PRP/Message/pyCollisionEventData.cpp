@@ -35,7 +35,8 @@ static PyGetSetDef pyCollisionEventData_GetSet[] = {
 PY_PLASMA_TYPE(CollisionEventData, proCollisionEventData,
                "proCollisionEventData wrapper")
 
-PY_PLASMA_TYPE_INIT(CollisionEventData) {
+PY_PLASMA_TYPE_INIT(CollisionEventData)
+{
     pyCollisionEventData_Type.tp_new = pyCollisionEventData_new;
     pyCollisionEventData_Type.tp_getset = pyCollisionEventData_GetSet;
     pyCollisionEventData_Type.tp_base = &pyEventData_Type;

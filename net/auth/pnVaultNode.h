@@ -22,9 +22,11 @@
 #include "Sys/plUuid.h"
 #include "Protocol.h"
 
-class PLASMANET_DLL pnVaultNode {
+class PLASMANET_DLL pnVaultNode
+{
 public:
-    enum {
+    enum
+    {
         kNodeIdx, kCreateTime, kModifyTime, kCreateAgeName, kCreateAgeUuid,
         kCreatorUuid, kCreatorIdx, kNodeType, kInt32_1, kInt32_2, kInt32_3,
         kInt32_4, kUint32_1, kUint32_2, kUint32_3, kUint32_4, kUuid_1, kUuid_2,
@@ -33,7 +35,8 @@ public:
         kBlob_1, kBlob_2, kNumFields,
     };
 
-    enum {
+    enum
+    {
         /* For those who can't handle starting at 0 ;)  */
         k_1, k_2, k_3, k_4, k_5, k_6
     };
@@ -57,8 +60,9 @@ protected:
     plVaultBlob fBlob[2];
 
 public:
-    pnVaultNode() : fFieldMask(0), fDirtyMask(0), fCachedSize(0), fDirtySize(0),
-                    fNodeIdx(0), fNodeType(0) { }
+    pnVaultNode()
+        : fFieldMask(), fDirtyMask(), fCachedSize(), fDirtySize(),
+          fNodeIdx(), fNodeType() { }
     pnVaultNode(const pnVaultNode& init) { copy(init); }
     void copy(const pnVaultNode& init);
     void clear();
@@ -113,7 +117,8 @@ private:
     void IClearField(size_t which, size_t size);
 };
 
-struct PLASMANET_DLL pnVaultNodeRef {
+struct PLASMANET_DLL pnVaultNodeRef
+{
     enum { Stride = 13 };
 
     uint32_t fParent, fChild, fOwner;

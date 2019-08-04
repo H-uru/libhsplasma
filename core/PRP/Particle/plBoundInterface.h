@@ -20,7 +20,8 @@
 #include "PRP/Object/plObjInterface.h"
 #include "PRP/Region/plConvexVolume.h"
 
-class PLASMA_DLL plBoundInterface : public plObjInterface {
+class PLASMA_DLL plBoundInterface : public plObjInterface
+{
     CREATABLE(plBoundInterface, kBoundInterface, plObjInterface)
 
 public:
@@ -30,8 +31,8 @@ protected:
     plConvexVolume* fBounds;
 
 public:
-    plBoundInterface() : fBounds(NULL) { }
-    ~plBoundInterface() HS_OVERRIDE;
+    plBoundInterface() : fBounds() { }
+    ~plBoundInterface();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

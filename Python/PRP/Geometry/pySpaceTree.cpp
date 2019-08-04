@@ -23,7 +23,8 @@
 PY_PLASMA_EMPTY_INIT(SpaceTree)
 PY_PLASMA_NEW(SpaceTree, plSpaceTree)
 
-PY_METHOD_NOARGS(SpaceTree, clear, "Clears the contents of this space tree") {
+PY_METHOD_NOARGS(SpaceTree, clear, "Clears the contents of this space tree")
+{
     self->fThis->clear();
     Py_RETURN_NONE;
 }
@@ -40,7 +41,8 @@ PY_METHOD_VA(SpaceTree, getNode,
     return pySpaceTreeNode_FromSpaceTreeNode(self->fThis->getNode(idx));
 }
 
-PY_METHOD_NOARGS(SpaceTree, getRoot, "Returns the root node") {
+PY_METHOD_NOARGS(SpaceTree, getRoot, "Returns the root node")
+{
     return pySpaceTreeNode_FromSpaceTreeNode(self->fThis->getRoot());
 }
 
@@ -88,7 +90,8 @@ static PyMethodDef pySpaceTree_Methods[] = {
 
 PY_PLASMA_TYPE(SpaceTree, plSpaceTree, "plSpaceTree wrapper")
 
-PY_PLASMA_TYPE_INIT(SpaceTree) {
+PY_PLASMA_TYPE_INIT(SpaceTree)
+{
     pySpaceTree_Type.tp_init = pySpaceTree___init__;
     pySpaceTree_Type.tp_new = pySpaceTree_new;
     pySpaceTree_Type.tp_methods = pySpaceTree_Methods;

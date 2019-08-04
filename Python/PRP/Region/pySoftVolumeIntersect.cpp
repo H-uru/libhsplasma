@@ -23,7 +23,8 @@ PY_PLASMA_NEW(SoftVolumeIntersect, plSoftVolumeIntersect)
 PY_PLASMA_TYPE(SoftVolumeIntersect, plSoftVolumeIntersect,
                "plSoftVolumeIntersect wrapper")
 
-PY_PLASMA_TYPE_INIT(SoftVolumeIntersect) {
+PY_PLASMA_TYPE_INIT(SoftVolumeIntersect)
+{
     pySoftVolumeIntersect_Type.tp_new = pySoftVolumeIntersect_new;
     pySoftVolumeIntersect_Type.tp_base = &pySoftVolumeComplex_Type;
     if (PyType_CheckAndReady(&pySoftVolumeIntersect_Type) < 0)

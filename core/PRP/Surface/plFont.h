@@ -19,19 +19,22 @@
 
 #include "PRP/KeyedObject/hsKeyedObject.h"
 
-class PLASMA_DLL plFont : public hsKeyedObject {
+class PLASMA_DLL plFont : public hsKeyedObject
+{
     CREATABLE(plFont, kFont, hsKeyedObject)
 
 public:
-    class PLASMA_DLL plCharacter {
+    class PLASMA_DLL plCharacter
+    {
     protected:
         unsigned int fBitmapOffset, fHeight;
         int fBaseline;
         float fLeftKern, fRightKern;
 
     public:
-        plCharacter() : fBitmapOffset(0), fHeight(0), fBaseline(0),
-                        fLeftKern(0.0f), fRightKern(0.0f) { }
+        plCharacter() noexcept
+            : fBitmapOffset(), fHeight(), fBaseline(),
+              fLeftKern(), fRightKern() { }
 
         void read(hsStream* S);
         void write(hsStream* S) const;
@@ -50,12 +53,16 @@ public:
         void setBaseline(int baseline) { fBaseline = baseline; }
 
         void setKern(float left, float right)
-        { fLeftKern = left; fRightKern = right; }
+        {
+            fLeftKern = left;
+            fRightKern = right;
+        }
     };
 
     static const plCharacter kNullChar;
 
-    enum Flags {
+    enum Flags
+    {
         kFontBold = 0x1,
         kFontItalic = 0x2
     };
@@ -70,12 +77,15 @@ protected:
     int fMaxCharHeight;
 
 public:
-    plFont() : fSize(0), fBPP(0), fFirstChar(0), fFlags(0), fWidth(0),
-               fHeight(0), fBmpData(NULL), fMaxCharHeight(0) {
+    plFont()
+        : fSize(), fBPP(), fFirstChar(), fFlags(), fWidth(), fHeight(),
+          fBmpData(), fMaxCharHeight()
+    {
         fCharacters.resize(256);
     }
+
     plFont(const plFont& copy);
-    virtual ~plFont();
+    ~plFont();
 
     plFont& operator=(const plFont& copy);
 

@@ -20,7 +20,8 @@
 #include "pfGUIControlMod.h"
 #include "pfGUISkin.h"
 
-class PLASMA_DLL pfGUIListElement {
+class PLASMA_DLL pfGUIListElement
+{
 public:
     enum Types { kText, kPicture, kTreeRoot };
 
@@ -28,7 +29,7 @@ private:
     bool fSelected;
 
 public:
-    pfGUIListElement() : fSelected(false) { }
+    pfGUIListElement() : fSelected() { }
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -41,11 +42,13 @@ public:
 };
 
 
-class PLASMA_DLL pfGUIListBoxMod : public pfGUIControlMod {
+class PLASMA_DLL pfGUIListBoxMod : public pfGUIControlMod
+{
     CREATABLE(pfGUIListBoxMod, kGUIListBoxMod, pfGUIControlMod)
 
 public:
-    enum ListBoxFlags {
+    enum ListBoxFlags
+    {
         kSingleSelect = kDerivedFlagsStart, kDragAndDropCapable,
         kDisableSelection, kDisableKeyActions, kAllowMultipleElementsPerRow,
         kScrollLeftToRight, kAllowMousePassThrough, kGrowLeavesAndProcessOxygen,

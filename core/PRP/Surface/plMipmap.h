@@ -19,14 +19,16 @@
 
 #include "plBitmap.h"
 
-class PLASMA_DLL plMipmap : public plBitmap {
+class PLASMA_DLL plMipmap : public plBitmap
+{
     CREATABLE(plMipmap, kMipmap, plBitmap)
 
 public:
     enum { kColorDataRLE = 0x1, kAlphaDataRLE = 0x2 };
 
 protected:
-    struct PLASMA_DLL LevelData {
+    struct PLASMA_DLL LevelData
+    {
         uint32_t fSize, fOffset;
         uint32_t fWidth, fHeight;
     };
@@ -44,7 +46,7 @@ public:
     plMipmap();
     plMipmap(uint32_t width, uint32_t height, uint8_t numLevels,
              uint8_t compType, ColorFormat format, uint8_t dxtLevel = kDXTError);
-    virtual ~plMipmap();
+    ~plMipmap();
 
     void Create(uint32_t width, uint32_t height, uint8_t numLevels,
                 uint8_t compType, ColorFormat format, uint8_t dxtLevel = kDXTError);
@@ -105,7 +107,8 @@ public:
 };
 
 
-class PLASMA_DLL plLODMipmap : public plMipmap {
+class PLASMA_DLL plLODMipmap : public plMipmap
+{
     CREATABLE(plLODMipmap, kLODMipmap, plMipmap)
 
 private:

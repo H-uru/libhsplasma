@@ -19,7 +19,8 @@
 
 #include "plVaultNode.h"
 
-class PLASMA_DLL plVaultPlayerNode : public plVaultNode {
+class PLASMA_DLL plVaultPlayerNode : public plVaultNode
+{
 public:
     plVaultPlayerNode() { fNodeType = plVault::kNodePlayer; }
     plVaultPlayerNode(const plVaultNode& init);
@@ -39,7 +40,8 @@ public:
     void setAccountUuid(const ST::string& uuid) { setIString64_2(uuid); }
 };
 
-class PLASMA_DLL plVaultAgeNode : public plVaultNode {
+class PLASMA_DLL plVaultAgeNode : public plVaultNode
+{
 public:
     plVaultAgeNode() { fNodeType = plVault::kNodeAge; }
     plVaultAgeNode(const plVaultNode& init);
@@ -49,7 +51,8 @@ public:
     void setAgeInstanceGuid(const plServerGuid& guid) { setString64_1(guid.toString()); }
 };
 
-class PLASMA_DLL plVaultGameServerNode : public plVaultNode {
+class PLASMA_DLL plVaultGameServerNode : public plVaultNode
+{
 public:
     plVaultGameServerNode() { fNodeType = plVault::kNodeGameServer; }
     plVaultGameServerNode(const plVaultNode& init);
@@ -61,19 +64,22 @@ public:
     void setAgeInstanceGuid(const plServerGuid& guid) { setString64_2(guid.toString()); }
 };
 
-class PLASMA_DLL plVaultAdminNode : public plVaultNode {
+class PLASMA_DLL plVaultAdminNode : public plVaultNode
+{
 public:
     plVaultAdminNode() { fNodeType = plVault::kNodeAdmin; }
     plVaultAdminNode(const plVaultNode& init);
 };
 
-class PLASMA_DLL plVaultServerNode : public plVaultNode {
+class PLASMA_DLL plVaultServerNode : public plVaultNode
+{
 public:
     plVaultServerNode() { fNodeType = plVault::kNodeVaultServer; }
     plVaultServerNode(const plVaultNode& init);
 };
 
-class PLASMA_DLL plVaultFolderNode : public plVaultNode {
+class PLASMA_DLL plVaultFolderNode : public plVaultNode
+{
 public:
     plVaultFolderNode() { fNodeType = plVault::kNodeFolder; }
     plVaultFolderNode(const plVaultNode& init);
@@ -85,7 +91,8 @@ public:
     void setFolderName(const ST::string& name) { setString64_1(name); }
 };
 
-class PLASMA_DLL plVaultPlayerInfoNode : public plVaultNode {
+class PLASMA_DLL plVaultPlayerInfoNode : public plVaultNode
+{
 public:
     plVaultPlayerInfoNode() { fNodeType = plVault::kNodePlayerInfo; }
     plVaultPlayerInfoNode(const plVaultNode& init);
@@ -103,7 +110,8 @@ public:
     void setPlayerName(const ST::string& name) { setIString64_1(name); }
 };
 
-class PLASMA_DLL plVaultSystemNode : public plVaultNode {
+class PLASMA_DLL plVaultSystemNode : public plVaultNode
+{
 public:
     plVaultSystemNode() { fNodeType = plVault::kNodeSystem; }
     plVaultSystemNode(const plVaultNode& init);
@@ -113,7 +121,8 @@ public:
     void setCCRStatus(int status) { setInt32_1(status); }
 };
 
-class PLASMA_DLL plVaultImageNode : public plVaultNode {
+class PLASMA_DLL plVaultImageNode : public plVaultNode
+{
 public:
     plVaultImageNode() { fNodeType = plVault::kNodeImage; }
     plVaultImageNode(const plVaultNode& init);
@@ -127,7 +136,8 @@ public:
     void setImageData(const plVaultBlob& data) { setBlob_1(data); }
 };
 
-class PLASMA_DLL plVaultTextNoteNode : public plVaultNode {
+class PLASMA_DLL plVaultTextNoteNode : public plVaultNode
+{
 public:
     plVaultTextNoteNode() { fNodeType = plVault::kNodeTextNote; }
     plVaultTextNoteNode(const plVaultNode& init);
@@ -143,7 +153,8 @@ public:
     void setNoteContents(const plVaultBlob& contents) { setBlob_1(contents); }
 };
 
-class PLASMA_DLL plVaultSDLNode : public plVaultNode {
+class PLASMA_DLL plVaultSDLNode : public plVaultNode
+{
 public:
     plVaultSDLNode() { fNodeType = plVault::kNodeSDL; }
     plVaultSDLNode(const plVaultNode& init);
@@ -155,7 +166,8 @@ public:
     void setSDLData(const plVaultBlob& data) { setBlob_1(data); }
 };
 
-class PLASMA_DLL plVaultAgeLinkNode : public plVaultNode {
+class PLASMA_DLL plVaultAgeLinkNode : public plVaultNode
+{
 public:
     plVaultAgeLinkNode() { fNodeType = plVault::kNodeAgeLink; }
     plVaultAgeLinkNode(const plVaultNode& init);
@@ -169,7 +181,8 @@ public:
     void setSpawnPoints(const plVaultBlob& spawnPoints) { setBlob_1(spawnPoints); }
 };
 
-class PLASMA_DLL plVaultChronicleNode : public plVaultNode {
+class PLASMA_DLL plVaultChronicleNode : public plVaultNode
+{
 public:
     plVaultChronicleNode() { fNodeType = plVault::kNodeChronicle; }
     plVaultChronicleNode(const plVaultNode& init);
@@ -183,13 +196,15 @@ public:
     void setEntryValue(const ST::string& value) { setText_1(value); }
 };
 
-class PLASMA_DLL plVaultPlayerInfoListNode : public plVaultFolderNode {
+class PLASMA_DLL plVaultPlayerInfoListNode : public plVaultFolderNode
+{
 public:
     plVaultPlayerInfoListNode() { fNodeType = plVault::kNodePlayerInfoList; }
     plVaultPlayerInfoListNode(const plVaultNode& init);
 };
 
-class PLASMA_DLL plVaultMarkerNode : public plVaultNode {
+class PLASMA_DLL plVaultMarkerNode : public plVaultNode
+{
 public:
     plVaultMarkerNode() { fNodeType = plVault::kNodeMarker; }
     plVaultMarkerNode(const plVaultNode& init);
@@ -213,7 +228,8 @@ public:
     void setMarkerText(const ST::string& text) { setText_1(text); }
 };
 
-class PLASMA_DLL plVaultAgeInfoNode : public plVaultNode {
+class PLASMA_DLL plVaultAgeInfoNode : public plVaultNode
+{
 public:
     plVaultAgeInfoNode() { fNodeType = plVault::kNodeAgeInfo; }
     plVaultAgeInfoNode(const plVaultNode& init);
@@ -243,13 +259,15 @@ public:
     void setAgeDescription(const ST::string& desc) { setText_1(desc); }
 };
 
-class PLASMA_DLL plVaultAgeInfoListNode : public plVaultFolderNode {
+class PLASMA_DLL plVaultAgeInfoListNode : public plVaultFolderNode
+{
 public:
     plVaultAgeInfoListNode() { fNodeType = plVault::kNodeAgeInfoList; }
     plVaultAgeInfoListNode(const plVaultNode& init);
 };
 
-class PLASMA_DLL plVaultMarkerListNode : public plVaultNode {
+class PLASMA_DLL plVaultMarkerListNode : public plVaultNode
+{
 public:
     plVaultMarkerListNode() { fNodeType = plVault::kNodeMarkerList; }
     plVaultMarkerListNode(const plVaultNode& init);

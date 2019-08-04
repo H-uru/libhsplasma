@@ -17,21 +17,24 @@
 #include "plHardRegionPlanes.h"
 
 /* plHardRegionPlanes::HardPlane */
-void plHardRegionPlanes::HardPlane::read(hsStream* S) {
+void plHardRegionPlanes::HardPlane::read(hsStream* S)
+{
     fNorm.read(S);
     fPos.read(S);
     fWorldNorm.read(S);
     fWorldPos.read(S);
 }
 
-void plHardRegionPlanes::HardPlane::write(hsStream* S) {
+void plHardRegionPlanes::HardPlane::write(hsStream* S)
+{
     fNorm.write(S);
     fPos.write(S);
     fWorldNorm.write(S);
     fWorldPos.write(S);
 }
 
-void plHardRegionPlanes::HardPlane::prcWrite(pfPrcHelper* prc) {
+void plHardRegionPlanes::HardPlane::prcWrite(pfPrcHelper* prc)
+{
     prc->writeSimpleTag("HardPlane");
 
     prc->writeSimpleTag("Normal");
@@ -50,7 +53,8 @@ void plHardRegionPlanes::HardPlane::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plHardRegionPlanes::HardPlane::prcParse(const pfPrcTag* tag) {
+void plHardRegionPlanes::HardPlane::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "HardPlane")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
@@ -75,7 +79,8 @@ void plHardRegionPlanes::HardPlane::prcParse(const pfPrcTag* tag) {
     }
 }
 
-float plHardRegionPlanes::HardPlane::getWorldDist() const {
+float plHardRegionPlanes::HardPlane::getWorldDist() const
+{
     return (fWorldPos.X * fWorldNorm.X) +
            (fWorldPos.Y * fWorldNorm.Y) +
            (fWorldPos.Z * fWorldNorm.Z);
@@ -83,7 +88,8 @@ float plHardRegionPlanes::HardPlane::getWorldDist() const {
 
 
 /* plHardRegionPlanes */
-void plHardRegionPlanes::read(hsStream* S, plResManager* mgr) {
+void plHardRegionPlanes::read(hsStream* S, plResManager* mgr)
+{
     plHardRegion::read(S, mgr);
 
     fPlanes.resize(S->readInt());
@@ -91,7 +97,8 @@ void plHardRegionPlanes::read(hsStream* S, plResManager* mgr) {
         fPlanes[i].read(S);
 }
 
-void plHardRegionPlanes::write(hsStream* S, plResManager* mgr) {
+void plHardRegionPlanes::write(hsStream* S, plResManager* mgr)
+{
     plHardRegion::write(S, mgr);
 
     S->writeInt(fPlanes.size());
@@ -99,7 +106,8 @@ void plHardRegionPlanes::write(hsStream* S, plResManager* mgr) {
         fPlanes[i].write(S);
 }
 
-void plHardRegionPlanes::IPrcWrite(pfPrcHelper* prc) {
+void plHardRegionPlanes::IPrcWrite(pfPrcHelper* prc)
+{
     plHardRegion::IPrcWrite(prc);
 
     prc->writeSimpleTag("Planes");
@@ -108,7 +116,8 @@ void plHardRegionPlanes::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plHardRegionPlanes::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plHardRegionPlanes::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Planes") {
         fPlanes.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();

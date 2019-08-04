@@ -19,7 +19,8 @@
 
 #include "pfGUIControlMod.h"
 
-class PLASMA_DLL pfGUIDialogMod : public plSingleModifier {
+class PLASMA_DLL pfGUIDialogMod : public plSingleModifier
+{
     CREATABLE(pfGUIDialogMod, kGUIDialogMod, plSingleModifier)
 
 public:

@@ -19,7 +19,8 @@
 #include <PRP/Region/hsBounds.h>
 #include <typeinfo>
 
-PyObject* ICreateBounds(const hsBounds& bounds) {
+PyObject* ICreateBounds(const hsBounds& bounds)
+{
     if (typeid(bounds) == typeid(hsBounds3))
         return pyBounds3_FromBounds3((const hsBounds3&)bounds);
     else if (typeid(bounds) == typeid(hsBounds3Ext))

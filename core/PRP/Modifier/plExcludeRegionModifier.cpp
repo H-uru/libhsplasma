@@ -16,7 +16,8 @@
 
 #include "plExcludeRegionModifier.h"
 
-void plExcludeRegionModifier::read(hsStream* S, plResManager* mgr) {
+void plExcludeRegionModifier::read(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::read(S, mgr);
 
     fSafePoints.resize(S->readInt());
@@ -26,7 +27,8 @@ void plExcludeRegionModifier::read(hsStream* S, plResManager* mgr) {
     fSeekTime = S->readFloat();
 }
 
-void plExcludeRegionModifier::write(hsStream* S, plResManager* mgr) {
+void plExcludeRegionModifier::write(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::write(S, mgr);
 
     S->writeInt(fSafePoints.size());
@@ -36,7 +38,8 @@ void plExcludeRegionModifier::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fSeekTime);
 }
 
-void plExcludeRegionModifier::IPrcWrite(pfPrcHelper* prc) {
+void plExcludeRegionModifier::IPrcWrite(pfPrcHelper* prc)
+{
     plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("ExcludeRegionParams");
@@ -50,7 +53,8 @@ void plExcludeRegionModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plExcludeRegionModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plExcludeRegionModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "ExcludeRegionParams") {
         fSeek = tag->getParam("Seek", "false").to_bool();
         fSeekTime = tag->getParam("SeekTime", "0").to_float();

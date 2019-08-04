@@ -20,7 +20,8 @@
 #include "Debug/plDebug.h"
 #include <cstring>
 
-struct FileMsg_Header {
+struct FileMsg_Header
+{
     uint32_t fMsgSize;
     uint32_t fMsgId;
 };

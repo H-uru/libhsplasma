@@ -77,7 +77,8 @@ static PyMethodDef pyEventData_Methods[] = {
 
 PY_PLASMA_TYPE(EventData, proEventData, "proEventData wrapper")
 
-PY_PLASMA_TYPE_INIT(EventData) {
+PY_PLASMA_TYPE_INIT(EventData)
+{
     pyEventData_Type.tp_dealloc = pyEventData_dealloc;
     pyEventData_Type.tp_init = pyEventData___init__;
     pyEventData_Type.tp_new = pyEventData_new;

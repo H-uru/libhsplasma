@@ -20,7 +20,8 @@
 #include "plNetMsgGameMessage.h"
 #include "plNetMsgObject.h"
 
-class PLASMA_DLL plNetMsgLoadClone : public plNetMsgGameMessage {
+class PLASMA_DLL plNetMsgLoadClone : public plNetMsgGameMessage
+{
     CREATABLE(plNetMsgLoadClone, kNetMsgLoadClone, plNetMsgGameMessage)
 
 private:
@@ -29,7 +30,7 @@ private:
 
 public:
     plNetMsgLoadClone()
-        : fIsPlayer(false), fIsLoading(false), fIsInitialState(false) { }
+        : fIsPlayer(), fIsLoading(), fIsInitialState() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

@@ -21,11 +21,13 @@
 #include "PRP/Object/plSceneObject.h"
 #include "plGeometrySpan.h"
 
-class PLASMA_DLL plSharedMesh : public hsKeyedObject {
+class PLASMA_DLL plSharedMesh : public hsKeyedObject
+{
     CREATABLE(plSharedMesh, kSharedMesh, hsKeyedObject)
 
 public:
-    enum {
+    enum
+    {
         kDontSaveMorphState = 0x1,
         kLayer0GlobalToMod = 0x2
     };
@@ -36,8 +38,8 @@ public:
     uint8_t fFlags;
 
 public:
-    plSharedMesh() : fMorphSet(NULL), fFlags(kDontSaveMorphState) { }
-    virtual ~plSharedMesh();
+    plSharedMesh() : fMorphSet(), fFlags(kDontSaveMorphState) { }
+    ~plSharedMesh();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

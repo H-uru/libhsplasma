@@ -182,7 +182,8 @@
 
 plFactory::OverrideFunc plFactory::fOverride;
 
-plCreatable* plFactory::Create(short typeIdx) {
+plCreatable* plFactory::Create(short typeIdx)
+{
     if (typeIdx < 0)
         return NULL;
 
@@ -1255,31 +1256,37 @@ plCreatable* plFactory::Create(short typeIdx) {
     }
 }
 
-plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver) {
+plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver)
+{
     if (typeIdx < 0) return NULL;
     if (!ver.isValid())
         throw hsBadVersionException(__FILE__, __LINE__);
     return Create(pdUnifiedTypeMap::PlasmaToMapped(typeIdx, ver));
 }
 
-plCreatable* plFactory::Create(const char* typeName) {
+plCreatable* plFactory::Create(const char* typeName)
+{
     return Create(pdUnifiedTypeMap::ClassIndex(typeName));
 }
 
-const char* plFactory::ClassName(short typeIdx) {
+const char* plFactory::ClassName(short typeIdx)
+{
     if (typeIdx < 0) return NULL;
     return pdUnifiedTypeMap::ClassName(typeIdx);
 }
 
-const char* plFactory::ClassName(short typeIdx, PlasmaVer ver) {
+const char* plFactory::ClassName(short typeIdx, PlasmaVer ver)
+{
     if (typeIdx < 0) return NULL;
     return pdUnifiedTypeMap::ClassName(typeIdx, ver);
 }
 
-short plFactory::ClassIndex(const char* typeName) {
+short plFactory::ClassIndex(const char* typeName)
+{
     return pdUnifiedTypeMap::ClassIndex(typeName);
 }
 
-short plFactory::ClassVersion(short typeIdx, PlasmaVer ver) {
+short plFactory::ClassVersion(short typeIdx, PlasmaVer ver)
+{
     return pdUnifiedTypeMap::ClassVersion(typeIdx, ver);
 }

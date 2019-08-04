@@ -18,7 +18,8 @@
 #include "SDL/plStateDataRecord.h"
 
 /* plNetMsgSDLState */
-void plNetMsgSDLState::read(hsStream* S, plResManager* mgr) {
+void plNetMsgSDLState::read(hsStream* S, plResManager* mgr)
+{
     plNetMsgStreamedObject::read(S, mgr);
 
     fIsInitialState = S->readBool();
@@ -26,7 +27,8 @@ void plNetMsgSDLState::read(hsStream* S, plResManager* mgr) {
     fIsAvatarState = S->readBool();
 }
 
-void plNetMsgSDLState::write(hsStream* S, plResManager* mgr) {
+void plNetMsgSDLState::write(hsStream* S, plResManager* mgr)
+{
     plNetMsgStreamedObject::write(S, mgr);
 
     S->writeBool(fIsInitialState);
@@ -34,7 +36,8 @@ void plNetMsgSDLState::write(hsStream* S, plResManager* mgr) {
     S->writeBool(fIsAvatarState);
 }
 
-void plNetMsgSDLState::IPrcWrite(pfPrcHelper* prc) {
+void plNetMsgSDLState::IPrcWrite(pfPrcHelper* prc)
+{
     if (fDescriptor != NULL) {
         // We have a loaded descriptor, so we can output actual
         // PRC data, instead of just a hex stream
@@ -62,7 +65,8 @@ void plNetMsgSDLState::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plNetMsgSDLState::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plNetMsgSDLState::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "SDLStateParams") {
         fIsInitialState = tag->getParam("IsInitialState", "false").to_bool();
         fPersistOnServer = tag->getParam("PersistOnServer", "false").to_bool();
@@ -76,7 +80,8 @@ void plNetMsgSDLState::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-bool plNetMsgSDLState::findDescriptor(plSDLMgr* sdl) {
+bool plNetMsgSDLState::findDescriptor(plSDLMgr* sdl)
+{
     hsStream* blob = getStream();
     ST::string descName;
     int descVersion = -1;

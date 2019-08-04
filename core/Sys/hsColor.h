@@ -20,7 +20,8 @@
 #include "Stream/pfPrcHelper.h"
 #include "Stream/pfPrcParser.h"
 
-struct PLASMA_DLL hsColorRGBA {
+struct PLASMA_DLL hsColorRGBA
+{
 public:
     static const hsColorRGBA kBlack;
     static const hsColorRGBA kWhite;
@@ -55,10 +56,13 @@ public:
 };
 
 
-struct PLASMA_DLL hsColor32 {
+struct PLASMA_DLL hsColor32
+{
 public:
-    union {
-        struct {
+    union
+    {
+        struct
+        {
             unsigned char b, g, r, a;
         };
         unsigned int color;

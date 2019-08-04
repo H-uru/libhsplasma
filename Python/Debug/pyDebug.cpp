@@ -104,7 +104,8 @@ static PyMethodDef pyDebug_Methods[] = {
 typedef PyObject pyDebug;
 PY_PLASMA_TYPE(Debug, "plDebug", "Plasma debug logger class")
 
-PY_PLASMA_TYPE_INIT(Debug) {
+PY_PLASMA_TYPE_INIT(Debug)
+{
     pyDebug_Type.tp_new = pyDebug_new;
     pyDebug_Type.tp_methods = pyDebug_Methods;
     if (PyType_CheckAndReady(&pyDebug_Type) < 0)

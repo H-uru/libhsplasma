@@ -28,7 +28,8 @@
 #include "PRP/Geometry/plDrawableSpans.h"
 #include "PRP/Surface/plLayer.h"
 
-void doHelp(const char* myname) {
+static void doHelp(const char* myname)
+{
     ST::printf("Usage: {} filename.prp [options] [objectname ...]\n", myname);
     puts("");
     puts("Options:");
@@ -40,15 +41,17 @@ void doHelp(const char* myname) {
     puts("");
 }
 
-ST::string filenameConvert(const ST::string& filename, const char* ext) {
+static ST::string filenameConvert(const ST::string& filename, const char* ext)
+{
     ST::string basename = filename.before_first('.');
     return basename + ext;
 }
 
-void WriteObj(plSceneObject* obj, hsStream* S, bool doXform);
-void WriteMat(hsGMaterial* mat, hsStream* S);
+static void WriteObj(plSceneObject* obj, hsStream* S, bool doXform);
+static void WriteMat(hsGMaterial* mat, hsStream* S);
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
     if (argc < 2) {
         doHelp(argv[0]);
         return 0;
@@ -154,7 +157,8 @@ int main(int argc, char* argv[]) {
 static size_t s_BaseIndex = 1;
 static size_t s_TexBaseIndex = 1;
 
-void WriteObj(plSceneObject* obj, hsStream* S, bool doXform) {
+static void WriteObj(plSceneObject* obj, hsStream* S, bool doXform)
+{
     if (!obj->getDrawInterface().isLoaded()) {
         plDebug::Warning("Cannot get draw interface for {}", obj->getKey()->getName());
         return;
@@ -252,7 +256,8 @@ void WriteObj(plSceneObject* obj, hsStream* S, bool doXform) {
     }
 }
 
-void WriteMat(hsGMaterial* mat, hsStream* S) {
+static void WriteMat(hsGMaterial* mat, hsStream* S)
+{
     if (mat->getLayers().empty())
         return;
 

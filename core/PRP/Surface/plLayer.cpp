@@ -17,7 +17,8 @@
 #include "plLayer.h"
 
 /* plLayer */
-void plLayer::read(hsStream* S, plResManager* mgr) {
+void plLayer::read(hsStream* S, plResManager* mgr)
+{
     plLayerInterface::read(S, mgr);
     fState.read(S);
     fTransform.read(S);
@@ -38,7 +39,8 @@ void plLayer::read(hsStream* S, plResManager* mgr) {
     fBumpEnvXfm.read(S);
 }
 
-void plLayer::write(hsStream* S, plResManager* mgr) {
+void plLayer::write(hsStream* S, plResManager* mgr)
+{
     plLayerInterface::write(S, mgr);
     fState.write(S);
     fTransform.write(S);
@@ -59,7 +61,8 @@ void plLayer::write(hsStream* S, plResManager* mgr) {
     fBumpEnvXfm.write(S);
 }
 
-void plLayer::IPrcWrite(pfPrcHelper* prc) {
+void plLayer::IPrcWrite(pfPrcHelper* prc)
+{
     plLayerInterface::IPrcWrite(prc);
 
     fState.prcWrite(prc);
@@ -102,7 +105,8 @@ void plLayer::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plLayer::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plLayer::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "hsGMatState") {
         fState.prcParse(tag);
     } else if (tag->getName() == "Transform") {

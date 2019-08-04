@@ -22,7 +22,8 @@
 
 PY_PLASMA_DEALLOC(ResponderModifier_Cmd)
 
-PY_PLASMA_INIT_DECL(ResponderModifier_Cmd) {
+PY_PLASMA_INIT_DECL(ResponderModifier_Cmd)
+{
     pyMessage* msg = NULL;
     int waitOn = -1;
     if (!PyArg_ParseTuple(args, "|Oi", &msg, &waitOn)) {
@@ -57,7 +58,8 @@ static PyGetSetDef pyResponderModifier_Cmd_GetSet[] = {
 PY_PLASMA_TYPE(ResponderModifier_Cmd, plResponderModifier_Cmd,
                "plResponderModifier::plResponderCmd wrapper")
 
-PY_PLASMA_TYPE_INIT(ResponderModifier_Cmd) {
+PY_PLASMA_TYPE_INIT(ResponderModifier_Cmd)
+{
     pyResponderModifier_Cmd_Type.tp_dealloc = pyResponderModifier_Cmd_dealloc;
     pyResponderModifier_Cmd_Type.tp_init = pyResponderModifier_Cmd___init__;
     pyResponderModifier_Cmd_Type.tp_new = pyResponderModifier_Cmd_new;

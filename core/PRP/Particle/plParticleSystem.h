@@ -21,17 +21,20 @@
 #include "PRP/Animation/plController.h"
 #include "plParticleEmitter.h"
 
-class PLASMA_DLL plParticleSystem : public plModifier {
+class PLASMA_DLL plParticleSystem : public plModifier
+{
     CREATABLE(plParticleSystem, kParticleSystem, plModifier)
 
 public:
-    enum EffectType {
+    enum EffectType
+    {
         kEffectForce = 0x1,
         kEffectMisc = 0x2,
         kEffectConstraint = 0x4
     };
 
-    enum MiscFlags {
+    enum MiscFlags
+    {
         kParticleSystemAlwaysUpdate = 0x1
     };
 
@@ -56,7 +59,7 @@ public:
           fMaxTotalParticles(), fNumValidEmitters(),
           fAmbientCtl(), fDiffuseCtl(), fOpacityCtl(), fWidthCtl(),
           fHeightCtl() { }
-    ~plParticleSystem() HS_OVERRIDE;
+    ~plParticleSystem();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

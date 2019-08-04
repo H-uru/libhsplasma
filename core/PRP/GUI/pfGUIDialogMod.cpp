@@ -17,11 +17,13 @@
 #include "pfGUIDialogMod.h"
 #include <cstring>
 
-pfGUIDialogMod::pfGUIDialogMod() : fTagID(0), fVersion(0) {
+pfGUIDialogMod::pfGUIDialogMod() : fTagID(), fVersion()
+{
     fFlags.setName(kModal, "kModal");
 }
 
-void pfGUIDialogMod::read(hsStream* S, plResManager* mgr) {
+void pfGUIDialogMod::read(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::read(S, mgr);
 
     fRenderMod = mgr->readKey(S);
@@ -42,7 +44,8 @@ void pfGUIDialogMod::read(hsStream* S, plResManager* mgr) {
     fSceneNode = mgr->readKey(S);
 }
 
-void pfGUIDialogMod::write(hsStream* S, plResManager* mgr) {
+void pfGUIDialogMod::write(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::write(S, mgr);
 
     mgr->writeKey(S, fRenderMod);
@@ -62,7 +65,8 @@ void pfGUIDialogMod::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fSceneNode);
 }
 
-void pfGUIDialogMod::IPrcWrite(pfPrcHelper* prc) {
+void pfGUIDialogMod::IPrcWrite(pfPrcHelper* prc)
+{
     plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("DialogParams");
@@ -89,7 +93,8 @@ void pfGUIDialogMod::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void pfGUIDialogMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void pfGUIDialogMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "DialogParams") {
         fName = tag->getParam("Name", "");
         fTagID = tag->getParam("TagID", "0").to_uint();

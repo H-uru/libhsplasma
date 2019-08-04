@@ -17,7 +17,8 @@
 #include "Stream/hsStream.h"
 #include <string_theory/string>
 
-class PLASMA_DLL plMD5Hash {
+class PLASMA_DLL plMD5Hash
+{
 public:
     unsigned int fHash[4];
 
@@ -33,7 +34,8 @@ public:
     void write(hsStream* S) const;
 };
 
-class PLASMA_DLL plMD5 {
+class PLASMA_DLL plMD5
+{
 private:
     static const unsigned int kShiftArray[4][4];
     static const unsigned int kBaseArray[64];

@@ -23,7 +23,8 @@
 PY_PLASMA_NEW(ParticleEffect, plParticleEffect)
 PY_PLASMA_TYPE(ParticleEffect, plParticleEffect, "plParticleEffect wrapper")
 
-PY_PLASMA_TYPE_INIT(ParticleEffect) {
+PY_PLASMA_TYPE_INIT(ParticleEffect)
+{
     pyParticleEffect_Type.tp_new = pyParticleEffect_new;
     pyParticleEffect_Type.tp_base = &pyKeyedObject_Type;
     if (PyType_CheckAndReady(&pyParticleEffect_Type) < 0)
@@ -41,7 +42,8 @@ PY_PLASMA_NEW(ParticleFollowSystemEffect, plParticleFollowSystemEffect)
 PY_PLASMA_TYPE(ParticleFollowSystemEffect, plParticleFollowSystemEffect,
                "plParticleFollowSystemEffect wrapper")
 
-PY_PLASMA_TYPE_INIT(ParticleFollowSystemEffect) {
+PY_PLASMA_TYPE_INIT(ParticleFollowSystemEffect)
+{
     pyParticleFollowSystemEffect_Type.tp_new = pyParticleFollowSystemEffect_new;
     pyParticleFollowSystemEffect_Type.tp_base = &pyParticleEffect_Type;
     if (PyType_CheckAndReady(&pyParticleFollowSystemEffect_Type) < 0)

@@ -74,7 +74,8 @@ static PyGetSetDef pySpanEncoding_GetSet[] = {
 
 PY_PLASMA_TYPE(SpanEncoding, plSpanEncoding, "plSpanEncoding wrapper")
 
-PY_PLASMA_TYPE_INIT(SpanEncoding) {
+PY_PLASMA_TYPE_INIT(SpanEncoding)
+{
     pySpanEncoding_Type.tp_dealloc = pySpanEncoding_dealloc;
     pySpanEncoding_Type.tp_init = pySpanEncoding___init__;
     pySpanEncoding_Type.tp_new = pySpanEncoding_new;

@@ -16,11 +16,13 @@
 
 #include "plNPCSpawnMod.h"
 
-plNPCSpawnMod::~plNPCSpawnMod() {
+plNPCSpawnMod::~plNPCSpawnMod()
+{
     delete fNotify;
 }
 
-void plNPCSpawnMod::read(hsStream* S, plResManager* mgr) {
+void plNPCSpawnMod::read(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::read(S, mgr);
 
     fModelName = S->readSafeStr();
@@ -31,7 +33,8 @@ void plNPCSpawnMod::read(hsStream* S, plResManager* mgr) {
         setNotify(plNotifyMsg::Convert(mgr->ReadCreatable(S)));
 }
 
-void plNPCSpawnMod::write(hsStream* S, plResManager* mgr) {
+void plNPCSpawnMod::write(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::write(S, mgr);
 
     S->writeSafeStr(fModelName);
@@ -43,7 +46,8 @@ void plNPCSpawnMod::write(hsStream* S, plResManager* mgr) {
         mgr->WriteCreatable(S, fNotify);
 }
 
-void plNPCSpawnMod::IPrcWrite(pfPrcHelper* prc) {
+void plNPCSpawnMod::IPrcWrite(pfPrcHelper* prc)
+{
     plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("NPCSpawnParams");
@@ -63,7 +67,8 @@ void plNPCSpawnMod::IPrcWrite(pfPrcHelper* prc) {
     }
 }
 
-void plNPCSpawnMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plNPCSpawnMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "NPCSpawnParams") {
         fModelName = tag->getParam("ModelName", "");
         fAccountName = tag->getParam("AccountName", "");
@@ -79,7 +84,8 @@ void plNPCSpawnMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plNPCSpawnMod::setNotify(plNotifyMsg* msg) {
+void plNPCSpawnMod::setNotify(plNotifyMsg* msg)
+{
     delete fNotify;
     fNotify = msg;
 }

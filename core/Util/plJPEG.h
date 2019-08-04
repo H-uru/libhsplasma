@@ -23,7 +23,8 @@ extern "C" {
 #include <jpeglib.h>
 }
 
-class hsJPEGException : public hsException {
+class hsJPEGException : public hsException
+{
 public:
     inline hsJPEGException(const char* file, unsigned long line,
                            const char* message = nullptr) HS_NOEXCEPT
@@ -35,7 +36,8 @@ public:
 };
 
 
-class PLASMA_DLL plJPEG {
+class PLASMA_DLL plJPEG
+{
 private:
     jpeg_compress_struct cinfo;
     jpeg_decompress_struct dinfo;

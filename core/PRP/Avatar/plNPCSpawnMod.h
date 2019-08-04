@@ -20,7 +20,8 @@
 #include "PRP/Modifier/plModifier.h"
 #include "PRP/Message/plNotifyMsg.h"
 
-class PLASMA_DLL plNPCSpawnMod : public plSingleModifier {
+class PLASMA_DLL plNPCSpawnMod : public plSingleModifier
+{
     CREATABLE(plNPCSpawnMod, kNPCSpawnMod, plSingleModifier)
 
 protected:
@@ -29,8 +30,8 @@ protected:
     plNotifyMsg* fNotify;
 
 public:
-    plNPCSpawnMod() : fAutoSpawn(false), fNotify(NULL) { }
-    virtual ~plNPCSpawnMod();
+    plNPCSpawnMod() : fAutoSpawn(), fNotify() { }
+    ~plNPCSpawnMod();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

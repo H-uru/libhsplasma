@@ -20,7 +20,8 @@
 #include "plGBufferGroup.h"
 #include "plVertexSpan.h"
 
-class PLASMA_DLL plIcicle : public plVertexSpan {
+class PLASMA_DLL plIcicle : public plVertexSpan
+{
 protected:
     unsigned int fIBufferIdx, fIStartIdx, fILength;
     plGBufferTriangle* fSortData;
@@ -28,9 +29,9 @@ protected:
 public:
     const char* ClassName() const HS_OVERRIDE { return "plIcicle"; }
 
-    plIcicle() : fIBufferIdx(0), fIStartIdx(0), fILength(0), fSortData(NULL) { }
+    plIcicle() : fIBufferIdx(), fIStartIdx(), fILength(), fSortData() { }
     plIcicle(const plIcicle& init);
-    virtual ~plIcicle();
+    ~plIcicle();
 
     void read(hsStream* S) HS_OVERRIDE;
     void write(hsStream* S) HS_OVERRIDE;
@@ -51,7 +52,8 @@ public:
     void setSortData(const plGBufferTriangle* data);
 };
 
-class PLASMA_DLL plParticleSpan : public plIcicle {
+class PLASMA_DLL plParticleSpan : public plIcicle
+{
 public:
     const char* ClassName() const HS_OVERRIDE { return "plParticleSpan"; }
 

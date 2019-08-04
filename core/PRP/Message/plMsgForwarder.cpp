@@ -16,7 +16,8 @@
 
 #include "plMsgForwarder.h"
 
-void plMsgForwarder::read(hsStream* S, plResManager* mgr) {
+void plMsgForwarder::read(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::read(S, mgr);
 
     fForwardKeys.resize(S->readInt());
@@ -24,7 +25,8 @@ void plMsgForwarder::read(hsStream* S, plResManager* mgr) {
         fForwardKeys[i] = mgr->readKey(S);
 }
 
-void plMsgForwarder::write(hsStream* S, plResManager* mgr) {
+void plMsgForwarder::write(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::write(S, mgr);
 
     S->writeInt(fForwardKeys.size());
@@ -32,7 +34,8 @@ void plMsgForwarder::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fForwardKeys[i]);
 }
 
-void plMsgForwarder::IPrcWrite(pfPrcHelper* prc) {
+void plMsgForwarder::IPrcWrite(pfPrcHelper* prc)
+{
     hsKeyedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("ForwardKeys");
@@ -41,7 +44,8 @@ void plMsgForwarder::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plMsgForwarder::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plMsgForwarder::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "ForwardKeys") {
         fForwardKeys.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();

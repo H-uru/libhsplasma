@@ -16,7 +16,8 @@
 
 #include "plShadowCaster.h"
 
-void plShadowCaster::read(hsStream* S, plResManager* mgr) {
+void plShadowCaster::read(hsStream* S, plResManager* mgr)
+{
     plMultiModifier::read(S, mgr);
 
     fCastFlags = S->readByte();
@@ -25,7 +26,8 @@ void plShadowCaster::read(hsStream* S, plResManager* mgr) {
     fBlurScale = S->readFloat();
 }
 
-void plShadowCaster::write(hsStream* S, plResManager* mgr) {
+void plShadowCaster::write(hsStream* S, plResManager* mgr)
+{
     plMultiModifier::write(S, mgr);
 
     S->writeByte(fCastFlags);
@@ -34,7 +36,8 @@ void plShadowCaster::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fBlurScale);
 }
 
-void plShadowCaster::IPrcWrite(pfPrcHelper* prc) {
+void plShadowCaster::IPrcWrite(pfPrcHelper* prc)
+{
     plMultiModifier::IPrcWrite(prc);
 
     prc->startTag("CastParams");
@@ -45,7 +48,8 @@ void plShadowCaster::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plShadowCaster::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plShadowCaster::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "CastParams") {
         fCastFlags = tag->getParam("Flags", "0").to_uint();
         fBoost = tag->getParam("Boost", "0").to_float();

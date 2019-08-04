@@ -22,11 +22,13 @@
 #include "Sys/hsColor.h"
 #include "Math/hsMatrix44.h"
 
-class PLASMA_DLL plLightInfo : public plObjInterface {
+class PLASMA_DLL plLightInfo : public plObjInterface
+{
     CREATABLE(plLightInfo, kLightInfo, plObjInterface)
 
 public:
-    enum {
+    enum
+    {
         kDisable, kLPObsolete, kLPCastShadows, kLPMovable, kLPHasIncludes,
         kLPIncludesChars, kLP_OBSOLECTE_0, kLPOverAll, kLPHasSpecular,
         kLPShadowOnly, kLPShadowLightGroup, kLPForceProj, kNumProps

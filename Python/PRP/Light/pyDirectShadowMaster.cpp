@@ -24,7 +24,8 @@ PY_PLASMA_NEW(DirectShadowMaster, plDirectShadowMaster)
 PY_PLASMA_TYPE(DirectShadowMaster, plDirectShadowMaster,
                "plDirectShadowMaster wrapper")
 
-PY_PLASMA_TYPE_INIT(DirectShadowMaster) {
+PY_PLASMA_TYPE_INIT(DirectShadowMaster)
+{
     pyDirectShadowMaster_Type.tp_new = pyDirectShadowMaster_new;
     pyDirectShadowMaster_Type.tp_base = &pyShadowMaster_Type;
     if (PyType_CheckAndReady(&pyDirectShadowMaster_Type) < 0)

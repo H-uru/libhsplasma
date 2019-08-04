@@ -20,11 +20,13 @@
 #include "plRegionBase.hpp"
 #include "plVolumeIsect.h"
 
-class PLASMA_DLL plSoftVolume : public plRegionBase {
+class PLASMA_DLL plSoftVolume : public plRegionBase
+{
     CREATABLE(plSoftVolume, kSoftVolume, plRegionBase)
 
 public:
-    enum {
+    enum
+    {
         kListenNone = 0,
         kListenCheck = 0x1,
         kListenPosSet = 0x2,
@@ -37,8 +39,8 @@ protected:
     float fInsideStrength, fOutsideStrength;
 
 public:
-    plSoftVolume() : fListenState(kListenNone), fInsideStrength(0.0f),
-                     fOutsideStrength(0.0f) { }
+    plSoftVolume()
+        : fListenState(kListenNone), fInsideStrength(), fOutsideStrength() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -58,7 +60,8 @@ public:
 };
 
 
-class PLASMA_DLL plSoftVolumeSimple : public plSoftVolume {
+class PLASMA_DLL plSoftVolumeSimple : public plSoftVolume
+{
     CREATABLE(plSoftVolumeSimple, kSoftVolumeSimple, plSoftVolume)
 
 protected:
@@ -66,8 +69,8 @@ protected:
     float fSoftDist;
 
 public:
-    plSoftVolumeSimple() : fVolume(NULL), fSoftDist(0.0f) { }
-    virtual ~plSoftVolumeSimple();
+    plSoftVolumeSimple() : fVolume(), fSoftDist() { }
+    ~plSoftVolumeSimple();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -85,7 +88,8 @@ public:
 };
 
 
-class PLASMA_DLL plSoftVolumeComplex : public plSoftVolume {
+class PLASMA_DLL plSoftVolumeComplex : public plSoftVolume
+{
     CREATABLE(plSoftVolumeComplex, kSoftVolumeComplex, plSoftVolume)
 
 protected:
@@ -108,17 +112,20 @@ public:
 };
 
 
-class PLASMA_DLL plSoftVolumeIntersect : public plSoftVolumeComplex {
+class PLASMA_DLL plSoftVolumeIntersect : public plSoftVolumeComplex
+{
     CREATABLE(plSoftVolumeIntersect, kSoftVolumeIntersect, plSoftVolumeComplex)
 };
 
 
-class PLASMA_DLL plSoftVolumeInvert : public plSoftVolumeComplex {
+class PLASMA_DLL plSoftVolumeInvert : public plSoftVolumeComplex
+{
     CREATABLE(plSoftVolumeInvert, kSoftVolumeInvert, plSoftVolumeComplex)
 };
 
 
-class PLASMA_DLL plSoftVolumeUnion : public plSoftVolumeComplex {
+class PLASMA_DLL plSoftVolumeUnion : public plSoftVolumeComplex
+{
     CREATABLE(plSoftVolumeUnion, kSoftVolumeUnion, plSoftVolumeComplex)
 };
 

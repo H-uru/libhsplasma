@@ -31,14 +31,16 @@ static const int eoaMagic = 0x0D874288;
 const unsigned int* plEncryptedStream::DefaultKey() { return uruKey; }
 
 plEncryptedStream::plEncryptedStream(int pv)
-                 : hsStream(pv), fBase(NULL), fIOwnBase(false) {
+    : hsStream(pv), fBase(), fIOwnBase(false)
+{
     fEKey[0] = uruKey[0];
     fEKey[1] = uruKey[1];
     fEKey[2] = uruKey[2];
     fEKey[3] = uruKey[3];
 }
 
-void plEncryptedStream::TeaDecipher(unsigned int* buf) {
+void plEncryptedStream::TeaDecipher(unsigned int* buf)
+{
     unsigned int second = buf[1], first = buf[0], key = 0xC6EF3720;
 
     for (int i=0; i<32; i++) {
@@ -52,7 +54,8 @@ void plEncryptedStream::TeaDecipher(unsigned int* buf) {
     buf[1] = LESWAP32(second);
 }
 
-void plEncryptedStream::TeaEncipher(unsigned int* buf) {
+void plEncryptedStream::TeaEncipher(unsigned int* buf)
+{
     unsigned int first = LESWAP32(buf[0]), second = LESWAP32(buf[1]), key = 0;
 
     for (int i=0; i<32; i++) {
@@ -66,7 +69,8 @@ void plEncryptedStream::TeaEncipher(unsigned int* buf) {
     buf[0] = first;
 }
 
-void plEncryptedStream::AesDecipher(unsigned char* buffer, int count) {
+void plEncryptedStream::AesDecipher(unsigned char* buffer, int count)
+{
     Rijndael aes;
     aes.init(Rijndael::ECB, Rijndael::Decrypt, eoaKey, Rijndael::Key16Bytes);
     unsigned char* tmpBuf = new unsigned char[count];
@@ -75,7 +79,8 @@ void plEncryptedStream::AesDecipher(unsigned char* buffer, int count) {
     delete[] tmpBuf;
 }
 
-void plEncryptedStream::AesEncipher(unsigned char* buffer, int count) {
+void plEncryptedStream::AesEncipher(unsigned char* buffer, int count)
+{
     Rijndael aes;
     aes.init(Rijndael::ECB, Rijndael::Encrypt, eoaKey, Rijndael::Key16Bytes);
     unsigned char* tmpBuf = new unsigned char[count];
@@ -84,7 +89,8 @@ void plEncryptedStream::AesEncipher(unsigned char* buffer, int count) {
     delete[] tmpBuf;
 }
 
-void plEncryptedStream::DroidDecipher(unsigned int* buf, unsigned int num) {
+void plEncryptedStream::DroidDecipher(unsigned int* buf, unsigned int num)
+{
     unsigned int key = ((52 / num) + 6) * 0x9E3779B9;
     while (key != 0) {
         unsigned int xorkey = (key >> 2) & 3;
@@ -106,7 +112,8 @@ void plEncryptedStream::DroidDecipher(unsigned int* buf, unsigned int num) {
     }
 }
 
-void plEncryptedStream::DroidEncipher(unsigned int* buf, unsigned int num) {
+void plEncryptedStream::DroidEncipher(unsigned int* buf, unsigned int num)
+{
     unsigned int key = 0;
     unsigned int count = (52 / num) + 6;
     while (count != 0) {
@@ -130,7 +137,8 @@ void plEncryptedStream::DroidEncipher(unsigned int* buf, unsigned int num) {
     }
 }
 
-void plEncryptedStream::CryptFlush() {
+void plEncryptedStream::CryptFlush()
+{
     if (fBase == NULL)
         throw hsBadParamException(__FILE__, __LINE__);
 
@@ -147,7 +155,8 @@ void plEncryptedStream::CryptFlush() {
     memset(fLBuffer, 0, 16);
 }
 
-bool plEncryptedStream::IsFileEncrypted(const ST::string& file) {
+bool plEncryptedStream::IsFileEncrypted(const ST::string& file)
+{
     hsFileStream sF;
     if (!sF.open(file, fmRead))
         return false;
@@ -170,9 +179,10 @@ bool plEncryptedStream::IsFileEncrypted(const ST::string& file) {
     }
 }
 
-const char* EncrErr = "File is not encrypted";
+const char EncrErr[] = "File is not encrypted";
 
-bool plEncryptedStream::open(const ST::string& file, FileMode mode, EncryptionType type) {
+bool plEncryptedStream::open(const ST::string& file, FileMode mode, EncryptionType type)
+{
     hsFileStream* S = new hsFileStream(getVer());
     if (S->open(file, mode)) {
         bool result = open(S, mode, type);
@@ -183,7 +193,8 @@ bool plEncryptedStream::open(const ST::string& file, FileMode mode, EncryptionTy
     }
 }
 
-bool plEncryptedStream::open(hsStream* S, FileMode mode, EncryptionType type) {
+bool plEncryptedStream::open(hsStream* S, FileMode mode, EncryptionType type)
+{
     close();
     setVer(S->getVer());
     fBase = S;
@@ -238,7 +249,8 @@ bool plEncryptedStream::open(hsStream* S, FileMode mode, EncryptionType type) {
     return true;
 }
 
-void plEncryptedStream::close() {
+void plEncryptedStream::close()
+{
     if (fBase == NULL)
         return;
 
@@ -263,19 +275,22 @@ void plEncryptedStream::close() {
     fBase = NULL;
 }
 
-void plEncryptedStream::setKey(unsigned int* keys) {
+void plEncryptedStream::setKey(const unsigned int* keys)
+{
     fEKey[0] = keys[0];
     fEKey[1] = keys[1];
     fEKey[2] = keys[2];
     fEKey[3] = keys[3];
 }
 
-void plEncryptedStream::seek(uint32_t pos) {
+void plEncryptedStream::seek(uint32_t pos)
+{
     rewind();
     skip(pos);
 }
 
-void plEncryptedStream::skip(int32_t count) {
+void plEncryptedStream::skip(int32_t count)
+{
     if (count < 0) {
         if (((int32_t)fDataPos + count) < 0)
             throw hsFileReadException(__FILE__, __LINE__, "Seek out of range");
@@ -287,12 +302,14 @@ void plEncryptedStream::skip(int32_t count) {
     }
 }
 
-void plEncryptedStream::rewind() {
+void plEncryptedStream::rewind()
+{
     fBase->seek(fEType == kEncAES ? 8 : 16);
     fDataPos = 0;
 }
 
-size_t plEncryptedStream::read(size_t size, void* buf) {
+size_t plEncryptedStream::read(size_t size, void* buf)
+{
     if (fDataPos + size > fDataSize)
         throw hsFileReadException(__FILE__, __LINE__, "Read past end of stream");
 
@@ -326,7 +343,8 @@ size_t plEncryptedStream::read(size_t size, void* buf) {
     return size;
 }
 
-size_t plEncryptedStream::write(size_t size, const void* buf) {
+size_t plEncryptedStream::write(size_t size, const void* buf)
+{
     size_t szInc = (fEType == kEncAES ? 16 : 8);
     size_t bp = 0, lp = fDataPos % szInc;
     while (bp < size) {

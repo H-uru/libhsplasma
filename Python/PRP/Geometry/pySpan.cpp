@@ -26,7 +26,8 @@ PY_PLASMA_DEALLOC(Span)
 PY_PLASMA_EMPTY_INIT(Span)
 PY_PLASMA_NEW(Span, plSpan)
 
-PY_METHOD_NOARGS(Span, ClassName, "Returns the RTTI Class name of this Span object") {
+PY_METHOD_NOARGS(Span, ClassName, "Returns the RTTI Class name of this Span object")
+{
     return pyPlasma_convert(self->fThis->ClassName());
 }
 
@@ -64,12 +65,14 @@ PY_METHOD_VA(Span, write,
     Py_RETURN_NONE;
 }
 
-PY_METHOD_NOARGS(Span, clearPermaLights, "Remove all Perma Lights from this Span") {
+PY_METHOD_NOARGS(Span, clearPermaLights, "Remove all Perma Lights from this Span")
+{
     self->fThis->clearPermaLights();
     Py_RETURN_NONE;
 }
 
-PY_METHOD_NOARGS(Span, clearPermaProjs, "Remove all Perma Projs from this Span") {
+PY_METHOD_NOARGS(Span, clearPermaProjs, "Remove all Perma Projs from this Span")
+{
     self->fThis->clearPermaProjs();
     Py_RETURN_NONE;
 }
@@ -119,7 +122,8 @@ static PyMethodDef pySpan_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(Span, permaLights) {
+PY_GETSET_GETTER_DECL(Span, permaLights)
+{
     PyObject* list = PyTuple_New(self->fThis->getPermaLights().size());
     for (size_t i=0; i<self->fThis->getPermaLights().size(); i++)
         PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getPermaLights()[i]));
@@ -129,7 +133,8 @@ PY_GETSET_GETTER_DECL(Span, permaLights) {
 PY_PROPERTY_SETTER_MSG(Span, permaLights, "To add permaLights, use addPermaLight()")
 PY_PROPERTY_GETSET_DECL(Span, permaLights)
 
-PY_GETSET_GETTER_DECL(Span, permaProjs) {
+PY_GETSET_GETTER_DECL(Span, permaProjs)
+{
     PyObject* list = PyTuple_New(self->fThis->getPermaProjs().size());
     for (size_t i=0; i<self->fThis->getPermaProjs().size(); i++)
         PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getPermaProjs()[i]));
@@ -182,7 +187,8 @@ static PyGetSetDef pySpan_GetSet[] = {
 
 PY_PLASMA_TYPE(Span, plSpan, "plSpan wrapper")
 
-PY_PLASMA_TYPE_INIT(Span) {
+PY_PLASMA_TYPE_INIT(Span)
+{
     pySpan_Type.tp_dealloc = pySpan_dealloc;
     pySpan_Type.tp_init = pySpan___init__;
     pySpan_Type.tp_new = pySpan_new;

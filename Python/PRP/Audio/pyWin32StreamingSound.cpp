@@ -23,7 +23,8 @@ PY_PLASMA_NEW(Win32StreamingSound, plWin32StreamingSound)
 PY_PLASMA_TYPE(Win32StreamingSound, plWin32StreamingSound,
                "plWin32StreamingSound wrapper")
 
-PY_PLASMA_TYPE_INIT(Win32StreamingSound) {
+PY_PLASMA_TYPE_INIT(Win32StreamingSound)
+{
     pyWin32StreamingSound_Type.tp_new = pyWin32StreamingSound_new;
     pyWin32StreamingSound_Type.tp_base = &pyWin32Sound_Type;
     if (PyType_CheckAndReady(&pyWin32StreamingSound_Type) < 0)

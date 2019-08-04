@@ -31,7 +31,8 @@ static PyGetSetDef pyG3DSMaxKeyFrame_GetSet[] = {
 
 PY_PLASMA_TYPE(G3DSMaxKeyFrame, hsG3DSMaxKeyFrame, "hsG3DSMaxKeyFrame wrapper")
 
-PY_PLASMA_TYPE_INIT(G3DSMaxKeyFrame) {
+PY_PLASMA_TYPE_INIT(G3DSMaxKeyFrame)
+{
     pyG3DSMaxKeyFrame_Type.tp_init = pyG3DSMaxKeyFrame___init__;
     pyG3DSMaxKeyFrame_Type.tp_new = pyG3DSMaxKeyFrame_new;
     pyG3DSMaxKeyFrame_Type.tp_getset = pyG3DSMaxKeyFrame_GetSet;

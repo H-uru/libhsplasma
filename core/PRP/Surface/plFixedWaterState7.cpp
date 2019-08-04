@@ -17,7 +17,8 @@
 #include "plFixedWaterState7.h"
 
 /* plFixedWaterState7::WaveState */
-void plFixedWaterState7::WaveState::read(hsStream* S) {
+void plFixedWaterState7::WaveState::read(hsStream* S)
+{
     fMaxLength = S->readFloat();
     fMinLength = S->readFloat();
     fAmpOverLen = S->readFloat();
@@ -25,7 +26,8 @@ void plFixedWaterState7::WaveState::read(hsStream* S) {
     fAngleDev = S->readFloat();
 }
 
-void plFixedWaterState7::WaveState::write(hsStream* S) {
+void plFixedWaterState7::WaveState::write(hsStream* S)
+{
     S->writeFloat(fMaxLength);
     S->writeFloat(fMinLength);
     S->writeFloat(fAmpOverLen);
@@ -33,7 +35,8 @@ void plFixedWaterState7::WaveState::write(hsStream* S) {
     S->writeFloat(fAngleDev);
 }
 
-void plFixedWaterState7::WaveState::prcWrite(pfPrcHelper* prc) {
+void plFixedWaterState7::WaveState::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("WaveState");
     prc->writeParam("MaxLen", fMaxLength);
     prc->writeParam("MinLen", fMinLength);
@@ -43,7 +46,8 @@ void plFixedWaterState7::WaveState::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plFixedWaterState7::WaveState::prcParse(const pfPrcTag* tag) {
+void plFixedWaterState7::WaveState::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "WaveState")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
@@ -56,7 +60,8 @@ void plFixedWaterState7::WaveState::prcParse(const pfPrcTag* tag) {
 
 
 /* plFixedWaterState7 */
-void plFixedWaterState7::read(hsStream* S) {
+void plFixedWaterState7::read(hsStream* S)
+{
     fGeoState.read(S);
     fTexState.read(S);
     fRippleScale = S->readFloat();
@@ -82,7 +87,8 @@ void plFixedWaterState7::read(hsStream* S) {
     fEnvRadius = S->readFloat();
 }
 
-void plFixedWaterState7::write(hsStream* S) {
+void plFixedWaterState7::write(hsStream* S)
+{
     fGeoState.write(S);
     fTexState.write(S);
     S->writeFloat(fRippleScale);
@@ -108,7 +114,8 @@ void plFixedWaterState7::write(hsStream* S) {
     S->writeFloat(fEnvRadius);
 }
 
-void plFixedWaterState7::prcWrite(pfPrcHelper* prc) {
+void plFixedWaterState7::prcWrite(pfPrcHelper* prc)
+{
     prc->writeSimpleTag("plFixedWaterState7");
 
     prc->writeSimpleTag("GeoState");
@@ -180,7 +187,8 @@ void plFixedWaterState7::prcWrite(pfPrcHelper* prc) {
     prc->closeTag(); // plFixedWaterState7
 }
 
-void plFixedWaterState7::prcParse(const pfPrcTag* tag) {
+void plFixedWaterState7::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "plFixedWaterState7")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 

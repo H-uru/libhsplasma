@@ -20,11 +20,13 @@
 #include "plModifier.h"
 #include "PRP/Message/plNotifyMsg.h"
 
-class PLASMA_DLL plLogicModBase : public plSingleModifier {
+class PLASMA_DLL plLogicModBase : public plSingleModifier
+{
     CREATABLE(plLogicModBase, kLogicModBase, plSingleModifier)
 
 public:
-    enum Flags {
+    enum Flags
+    {
         kLocalElement, kReset, kTriggered, kOneShot, kRequestingTrigger,
         kTypeActivator, kMultiTrigger
     };
@@ -37,7 +39,7 @@ protected:
 
 public:
     plLogicModBase();
-    virtual ~plLogicModBase();
+    ~plLogicModBase();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

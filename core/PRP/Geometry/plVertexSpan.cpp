@@ -16,7 +16,8 @@
 
 #include "plVertexSpan.h"
 
-void plVertexSpan::read(hsStream* S) {
+void plVertexSpan::read(hsStream* S)
+{
     plSpan::read(S);
     fGroupIdx = S->readInt();
     fVBufferIdx = S->readInt();
@@ -26,7 +27,8 @@ void plVertexSpan::read(hsStream* S) {
     fVLength = S->readInt();
 }
 
-void plVertexSpan::write(hsStream* S) {
+void plVertexSpan::write(hsStream* S)
+{
     plSpan::write(S);
     S->writeInt(fGroupIdx);
     S->writeInt(fVBufferIdx);
@@ -36,7 +38,8 @@ void plVertexSpan::write(hsStream* S) {
     S->writeInt(fVLength);
 }
 
-void plVertexSpan::IPrcWrite(pfPrcHelper* prc) {
+void plVertexSpan::IPrcWrite(pfPrcHelper* prc)
+{
     plSpan::IPrcWrite(prc);
     prc->startTag("VertexSpan");
     prc->writeParam("GroupIdx", fGroupIdx);
@@ -48,7 +51,8 @@ void plVertexSpan::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plVertexSpan::IPrcParse(const pfPrcTag* tag) {
+void plVertexSpan::IPrcParse(const pfPrcTag* tag)
+{
     if (tag->getName() == "VertexSpan") {
         fGroupIdx = tag->getParam("GroupIdx", "0").to_uint();
         fVBufferIdx = tag->getParam("BufferIdx", "0").to_uint();

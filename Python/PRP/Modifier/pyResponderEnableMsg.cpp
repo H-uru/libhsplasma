@@ -31,7 +31,8 @@ static PyGetSetDef pyResponderEnableMsg_GetSet[] = {
 
 PY_PLASMA_TYPE(ResponderEnableMsg, plResponderEnableMsg, "plResponderEnableMsg wrapper")
 
-PY_PLASMA_TYPE_INIT(ResponderEnableMsg) {
+PY_PLASMA_TYPE_INIT(ResponderEnableMsg)
+{
     pyResponderEnableMsg_Type.tp_new = pyResponderEnableMsg_new;
     pyResponderEnableMsg_Type.tp_getset = pyResponderEnableMsg_GetSet;
     pyResponderEnableMsg_Type.tp_base = &pyMessage_Type;

@@ -33,7 +33,8 @@ PyGetSetDef pySpawnPointInfo_GetSet[] = {
 
 PY_PLASMA_TYPE(SpawnPointInfo, plSpawnPointInfo, "plSpawnPointInfo wrapper")
 
-PY_PLASMA_TYPE_INIT(SpawnPointInfo) {
+PY_PLASMA_TYPE_INIT(SpawnPointInfo)
+{
     pySpawnPointInfo_Type.tp_new = pySpawnPointInfo_new;
     pySpawnPointInfo_Type.tp_getset = pySpawnPointInfo_GetSet;
     if (PyType_CheckAndReady(&pySpawnPointInfo_Type) < 0)

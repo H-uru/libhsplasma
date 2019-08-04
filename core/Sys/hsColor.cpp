@@ -28,56 +28,65 @@ const hsColorRGBA hsColorRGBA::kCyan    = hsColorRGBA(0.0f, 1.0f, 1.0f, 1.0f);
 const hsColorRGBA hsColorRGBA::kGray    = hsColorRGBA(0.5f, 0.5f, 0.5f, 1.0f);
 const hsColorRGBA hsColorRGBA::kNone    = hsColorRGBA(0.0f, 0.0f, 0.0f, 0.0f);
 
-void hsColorRGBA::set(float red, float green, float blue, float alpha) {
+void hsColorRGBA::set(float red, float green, float blue, float alpha)
+{
     r = red;
     g = green;
     b = blue;
     a = alpha;
 }
 
-void hsColorRGBA::set(const hsColorRGBA& init) {
+void hsColorRGBA::set(const hsColorRGBA& init)
+{
     r = init.r;
     g = init.g;
     b = init.b;
     a = init.a;
 }
 
-bool hsColorRGBA::operator==(const hsColorRGBA& other) const {
+bool hsColorRGBA::operator==(const hsColorRGBA& other) const
+{
     return (r == other.r) && (g == other.g) && (b == other.b) && (a == other.a);
 }
 
-bool hsColorRGBA::operator!=(const hsColorRGBA& other) const {
+bool hsColorRGBA::operator!=(const hsColorRGBA& other) const
+{
     return (r != other.r) || (g != other.g) || (b != other.b) || (a != other.a);
 }
 
-void hsColorRGBA::read(hsStream* S) {
+void hsColorRGBA::read(hsStream* S)
+{
     r = S->readFloat();
     g = S->readFloat();
     b = S->readFloat();
     a = S->readFloat();
 }
 
-void hsColorRGBA::write(hsStream* S) {
+void hsColorRGBA::write(hsStream* S)
+{
     S->writeFloat(r);
     S->writeFloat(g);
     S->writeFloat(b);
     S->writeFloat(a);
 }
 
-void hsColorRGBA::readRGB(hsStream* S) {
+void hsColorRGBA::readRGB(hsStream* S)
+{
     r = S->readFloat();
     g = S->readFloat();
     b = S->readFloat();
     a = 1.0f;
 }
 
-void hsColorRGBA::writeRGB(hsStream* S) {
+void hsColorRGBA::writeRGB(hsStream* S)
+{
     S->writeFloat(r);
     S->writeFloat(g);
     S->writeFloat(b);
 }
 
-void hsColorRGBA::prcWrite(pfPrcHelper* prc) {
+void hsColorRGBA::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("hsColorRGBA");
     prc->writeParam("red", r);
     prc->writeParam("green", g);
@@ -86,7 +95,8 @@ void hsColorRGBA::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void hsColorRGBA::prcParse(const pfPrcTag* tag) {
+void hsColorRGBA::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "hsColorRGBA")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
@@ -98,55 +108,65 @@ void hsColorRGBA::prcParse(const pfPrcTag* tag) {
 
 
 /* hsColor32 */
-bool hsColor32::operator==(const hsColor32& other) const {
+bool hsColor32::operator==(const hsColor32& other) const
+{
     return (color == other.color);
 }
 
-bool hsColor32::operator!=(const hsColor32& other) const {
+bool hsColor32::operator!=(const hsColor32& other) const
+{
     return (color != other.color);
 }
 
-void hsColor32::read32(hsStream* S) {
+void hsColor32::read32(hsStream* S)
+{
     color = S->readInt();
 }
 
-void hsColor32::write32(hsStream* S) {
+void hsColor32::write32(hsStream* S)
+{
     S->writeInt(color);
 }
 
-void hsColor32::readRGB8(hsStream* S) {
+void hsColor32::readRGB8(hsStream* S)
+{
     r = S->readByte();
     g = S->readByte();
     b = S->readByte();
 }
 
-void hsColor32::writeRGB8(hsStream* S) {
+void hsColor32::writeRGB8(hsStream* S)
+{
     S->writeByte(r);
     S->writeByte(g);
     S->writeByte(b);
 }
 
-void hsColor32::readRGBA8(hsStream* S) {
+void hsColor32::readRGBA8(hsStream* S)
+{
     r = S->readByte();
     g = S->readByte();
     b = S->readByte();
     a = S->readByte();
 }
 
-void hsColor32::writeRGBA8(hsStream* S) {
+void hsColor32::writeRGBA8(hsStream* S)
+{
     S->writeByte(r);
     S->writeByte(g);
     S->writeByte(b);
     S->writeByte(a);
 }
 
-void hsColor32::prcWrite(pfPrcHelper* prc) {
+void hsColor32::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("hsColor32");
     prc->writeParamHex("value", color);
     prc->endTag(true);
 }
 
-void hsColor32::prcParse(const pfPrcTag* tag) {
+void hsColor32::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "hsColor32")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 

@@ -20,7 +20,8 @@
 #include "pdUnifiedTypeMap.h"
 #include <functional>
 
-class PLASMA_DLL plFactory {
+class PLASMA_DLL plFactory
+{
 public:
     static class plCreatable* Create(short typeIdx);
     static class plCreatable* Create(short typeIdx, PlasmaVer ver);

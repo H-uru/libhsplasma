@@ -22,9 +22,11 @@
 #include "Math/hsGeometry3.h"
 #include "Math/hsMatrix44.h"
 
-class PLASMA_DLL plSpanEncoding {
+class PLASMA_DLL plSpanEncoding
+{
 public:
-    enum {
+    enum
+    {
         kPosNone = 0,
         kPos888 = 0x1,
         kPos161616 = 0x2,
@@ -46,7 +48,7 @@ protected:
     float fPosScale;
 
 public:
-    plSpanEncoding() : fCode(0), fPosScale(0.0f) { }
+    plSpanEncoding() : fCode(), fPosScale() { }
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -62,7 +64,8 @@ public:
 };
 
 
-class PLASMA_DLL plSpanInstance {
+class PLASMA_DLL plSpanInstance
+{
 protected:
     unsigned char* fPosDelta;
     unsigned char* fCol;
@@ -72,7 +75,7 @@ protected:
     unsigned int fNumVerts;
 
 public:
-    plSpanInstance() : fPosDelta(NULL), fCol(NULL) { }
+    plSpanInstance() : fPosDelta(), fCol(), fL2W(), fNumVerts() { }
     ~plSpanInstance();
 
     void read(hsStream* S, const plSpanEncoding& encoding, unsigned int numVerts);

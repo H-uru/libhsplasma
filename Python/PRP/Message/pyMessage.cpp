@@ -52,7 +52,8 @@ PY_METHOD_VA(Message, delReceiver,
     Py_RETURN_NONE;
 }
 
-PY_METHOD_NOARGS(Message, clearReceivers, "Remove all receivers from the object") {
+PY_METHOD_NOARGS(Message, clearReceivers, "Remove all receivers from the object")
+{
     self->fThis->clearReceivers();
     Py_RETURN_NONE;
 }
@@ -64,7 +65,8 @@ static PyMethodDef pyMessage_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(Message, receivers) {
+PY_GETSET_GETTER_DECL(Message, receivers)
+{
     PyObject* list = PyTuple_New(self->fThis->getReceivers().size());
     for (size_t i=0; i<self->fThis->getReceivers().size(); i++)
         PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getReceivers()[i]));
@@ -88,7 +90,8 @@ static PyGetSetDef pyMessage_GetSet[] = {
 
 PY_PLASMA_TYPE(Message, plMessage, "plMessage wrapper")
 
-PY_PLASMA_TYPE_INIT(Message) {
+PY_PLASMA_TYPE_INIT(Message)
+{
     pyMessage_Type.tp_new = pyMessage_new;
     pyMessage_Type.tp_methods = pyMessage_Methods;
     pyMessage_Type.tp_getset = pyMessage_GetSet;

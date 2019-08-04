@@ -23,19 +23,22 @@
 #define PNG_SIG_LENGTH (8)
 
 /* libpng helpers */
-static void pl_png_read(png_structp png, png_bytep data, png_size_t size) {
+static void pl_png_read(png_structp png, png_bytep data, png_size_t size)
+{
     hsStream* S = reinterpret_cast<hsStream*>(png_get_io_ptr(png));
     S->read(size, reinterpret_cast<uint8_t*>(data));
 }
 
-static void pl_png_write(png_structp png, png_bytep data, png_size_t size) {
+static void pl_png_write(png_structp png, png_bytep data, png_size_t size)
+{
     hsStream* S = reinterpret_cast<hsStream*>(png_get_io_ptr(png));
     S->write(size, reinterpret_cast<const uint8_t*>(data));
 }
 
 
 /* plPNG */
-void plPNG::DecompressPNG(hsStream* S, void* buf, size_t size) {
+void plPNG::DecompressPNG(hsStream* S, void* buf, size_t size)
+{
     png_structp pngReader;
     png_infop   pngInfo;
     png_infop   endInfo;
@@ -118,7 +121,8 @@ void plPNG::DecompressPNG(hsStream* S, void* buf, size_t size) {
 }
 
 void plPNG::CompressPNG(hsStream* S, const void* buf, size_t size,
-                        uint32_t width, uint32_t height, int pixelSize) {
+                        uint32_t width, uint32_t height, int pixelSize)
+{
     png_structp pngWriter;
     png_infop   pngInfo;
 

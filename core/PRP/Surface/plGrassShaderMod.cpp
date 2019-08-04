@@ -17,7 +17,8 @@
 #include "plGrassShaderMod.h"
 
 /* plGrassWave */
-void plGrassWave::read(hsStream* S) {
+void plGrassWave::read(hsStream* S)
+{
     fDistX = S->readFloat();
     fDistY = S->readFloat();
     fDistZ = S->readFloat();
@@ -26,7 +27,8 @@ void plGrassWave::read(hsStream* S) {
     fSpeed = S->readFloat();
 }
 
-void plGrassWave::write(hsStream* S) {
+void plGrassWave::write(hsStream* S)
+{
     S->writeFloat(fDistX);
     S->writeFloat(fDistY);
     S->writeFloat(fDistZ);
@@ -35,7 +37,8 @@ void plGrassWave::write(hsStream* S) {
     S->writeFloat(fSpeed);
 }
 
-void plGrassWave::prcWrite(pfPrcHelper* prc) {
+void plGrassWave::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("plGrassWave");
     prc->writeParam("DistX", fDistX);
     prc->writeParam("DistY", fDistY);
@@ -46,7 +49,8 @@ void plGrassWave::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plGrassWave::prcParse(const pfPrcTag* tag) {
+void plGrassWave::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "plGrassWave")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
@@ -60,7 +64,8 @@ void plGrassWave::prcParse(const pfPrcTag* tag) {
 
 
 /* plGrassShaderMod */
-void plGrassShaderMod::read(hsStream* S, plResManager* mgr) {
+void plGrassShaderMod::read(hsStream* S, plResManager* mgr)
+{
     plModifier::read(S, mgr);
 
     fMaterial = mgr->readKey(S);
@@ -68,7 +73,8 @@ void plGrassShaderMod::read(hsStream* S, plResManager* mgr) {
         fWaves[i].read(S);
 }
 
-void plGrassShaderMod::write(hsStream* S, plResManager* mgr) {
+void plGrassShaderMod::write(hsStream* S, plResManager* mgr)
+{
     plModifier::write(S, mgr);
 
     mgr->writeKey(S, fMaterial);
@@ -76,7 +82,8 @@ void plGrassShaderMod::write(hsStream* S, plResManager* mgr) {
         fWaves[i].write(S);
 }
 
-void plGrassShaderMod::IPrcWrite(pfPrcHelper* prc) {
+void plGrassShaderMod::IPrcWrite(pfPrcHelper* prc)
+{
     plModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("Material");
@@ -89,7 +96,8 @@ void plGrassShaderMod::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plGrassShaderMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plGrassShaderMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Material") {
         if (tag->hasChildren())
             fMaterial = mgr->prcParseKey(tag->getFirstChild());

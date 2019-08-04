@@ -19,7 +19,8 @@
 
 #include "hsStream.h"
 
-class PLASMA_DLL hsRAMStream : public hsStream {
+class PLASMA_DLL hsRAMStream : public hsStream
+{
 protected:
     uint8_t* fData;
     uint32_t fSize, fMax, fPos;

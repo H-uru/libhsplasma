@@ -33,7 +33,8 @@ static PyGetSetDef pyConditionalObject_GetSet[] = {
 
 PY_PLASMA_TYPE(ConditionalObject, plConditionalObject, "plConditionalObject wrapper")
 
-PY_PLASMA_TYPE_INIT(ConditionalObject) {
+PY_PLASMA_TYPE_INIT(ConditionalObject)
+{
     pyConditionalObject_Type.tp_new = pyConditionalObject_new;
     pyConditionalObject_Type.tp_getset = pyConditionalObject_GetSet;
     pyConditionalObject_Type.tp_base = &pyKeyedObject_Type;

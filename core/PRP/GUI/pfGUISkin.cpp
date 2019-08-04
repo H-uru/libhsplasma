@@ -17,21 +17,24 @@
 #include "pfGUISkin.h"
 
 /* pfGUISkin::pfSRect */
-void pfGUISkin::pfSRect::read(hsStream* S) {
+void pfGUISkin::pfSRect::read(hsStream* S)
+{
     fX = S->readShort();
     fY = S->readShort();
     fWidth = S->readShort();
     fHeight = S->readShort();
 }
 
-void pfGUISkin::pfSRect::write(hsStream* S) {
+void pfGUISkin::pfSRect::write(hsStream* S)
+{
     S->writeShort(fX);
     S->writeShort(fY);
     S->writeShort(fWidth);
     S->writeShort(fHeight);
 }
 
-void pfGUISkin::pfSRect::prcWrite(pfPrcHelper* prc) {
+void pfGUISkin::pfSRect::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("pfSRect");
     prc->writeParam("X", fX);
     prc->writeParam("Y", fY);
@@ -40,7 +43,8 @@ void pfGUISkin::pfSRect::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void pfGUISkin::pfSRect::prcParse(const pfPrcTag* tag) {
+void pfGUISkin::pfSRect::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "pfSRect")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     fX = tag->getParam("X", "0").to_uint();
@@ -51,7 +55,8 @@ void pfGUISkin::pfSRect::prcParse(const pfPrcTag* tag) {
 
 
 /* pfGUISkin */
-void pfGUISkin::read(hsStream* S, plResManager* mgr) {
+void pfGUISkin::read(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::read(S, mgr);
 
     fItemMargin = S->readShort();
@@ -65,7 +70,8 @@ void pfGUISkin::read(hsStream* S, plResManager* mgr) {
     fTexture = mgr->readKey(S);
 }
 
-void pfGUISkin::write(hsStream* S, plResManager* mgr) {
+void pfGUISkin::write(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::write(S, mgr);
 
     S->writeShort(fItemMargin);
@@ -77,7 +83,8 @@ void pfGUISkin::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fTexture);
 }
 
-void pfGUISkin::IPrcWrite(pfPrcHelper* prc) {
+void pfGUISkin::IPrcWrite(pfPrcHelper* prc)
+{
     hsKeyedObject::IPrcWrite(prc);
 
     prc->startTag("SkinParams");
@@ -95,7 +102,8 @@ void pfGUISkin::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void pfGUISkin::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void pfGUISkin::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "SkinParams") {
         fItemMargin = tag->getParam("ItemMargin", "0").to_uint();
         fBorderMargin = tag->getParam("BorderMargin", "0").to_uint();

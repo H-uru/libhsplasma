@@ -17,7 +17,8 @@
 #include "plDynaDecalMgr.h"
 
 /* plDynaDecalMgr */
-void plDynaDecalMgr::read(hsStream* S, plResManager* mgr) {
+void plDynaDecalMgr::read(hsStream* S, plResManager* mgr)
+{
     plSynchedObject::read(S, mgr);
 
     fMatPreShade = mgr->readKey(S);
@@ -48,7 +49,8 @@ void plDynaDecalMgr::read(hsStream* S, plResManager* mgr) {
         fNotifies[i] = mgr->readKey(S);
 }
 
-void plDynaDecalMgr::write(hsStream* S, plResManager* mgr) {
+void plDynaDecalMgr::write(hsStream* S, plResManager* mgr)
+{
     plSynchedObject::write(S, mgr);
 
     mgr->writeKey(S, fMatPreShade);
@@ -79,7 +81,8 @@ void plDynaDecalMgr::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fNotifies[i]);
 }
 
-void plDynaDecalMgr::IPrcWrite(pfPrcHelper* prc) {
+void plDynaDecalMgr::IPrcWrite(pfPrcHelper* prc)
+{
     plSynchedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("PreShade");
@@ -128,7 +131,8 @@ void plDynaDecalMgr::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plDynaDecalMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plDynaDecalMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "PreShade") {
         if (tag->hasChildren())
             fMatPreShade = mgr->prcParseKey(tag->getFirstChild());

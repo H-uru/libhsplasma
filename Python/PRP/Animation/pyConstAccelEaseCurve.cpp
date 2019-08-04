@@ -24,7 +24,8 @@ PY_PLASMA_NEW(ConstAccelEaseCurve, plConstAccelEaseCurve)
 PY_PLASMA_TYPE(ConstAccelEaseCurve, plConstAccelEaseCurve,
                "plConstAccelEaseCurve wrapper")
 
-PY_PLASMA_TYPE_INIT(ConstAccelEaseCurve) {
+PY_PLASMA_TYPE_INIT(ConstAccelEaseCurve)
+{
     pyConstAccelEaseCurve_Type.tp_new = pyConstAccelEaseCurve_new;
     pyConstAccelEaseCurve_Type.tp_base = &pyATCEaseCurve_Type;
     if (PyType_CheckAndReady(&pyConstAccelEaseCurve_Type) < 0)

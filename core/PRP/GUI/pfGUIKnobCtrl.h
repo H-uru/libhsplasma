@@ -20,11 +20,13 @@
 #include "pfGUIValueCtrl.h"
 #include "Math/hsGeometry3.h"
 
-class PLASMA_DLL pfGUIKnobCtrl : public pfGUIValueCtrl {
+class PLASMA_DLL pfGUIKnobCtrl : public pfGUIValueCtrl
+{
     CREATABLE(pfGUIKnobCtrl, kGUIKnobCtrl, pfGUIValueCtrl)
 
 public:
-    enum KnobFlags {
+    enum KnobFlags
+    {
         kReverseValues = kDerivedFlagsStart, kLeftRightOrientation,
         kMapToScreenRange, kTriggerOnlyOnMouseUp, kMapToAnimationRange
     };

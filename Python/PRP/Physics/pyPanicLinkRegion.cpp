@@ -30,7 +30,8 @@ static PyGetSetDef pyPanicLinkRegion_GetSet[] = {
 
 PY_PLASMA_TYPE(PanicLinkRegion, plPanicLinkRegion, "plPanicLinkRegion wrapper")
 
-PY_PLASMA_TYPE_INIT(PanicLinkRegion) {
+PY_PLASMA_TYPE_INIT(PanicLinkRegion)
+{
     pyPanicLinkRegion_Type.tp_new = pyPanicLinkRegion_new;
     pyPanicLinkRegion_Type.tp_getset = pyPanicLinkRegion_GetSet;
     pyPanicLinkRegion_Type.tp_base = &pyCollisionDetector_Type;

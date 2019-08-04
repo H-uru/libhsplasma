@@ -21,7 +21,8 @@
 
 PY_PLASMA_VALUE_DEALLOC(Matrix33)
 
-PY_PLASMA_INIT_DECL(Matrix33) {
+PY_PLASMA_INIT_DECL(Matrix33)
+{
     PyObject* init = NULL;
     if (!PyArg_ParseTuple(args, "|O", &init))
         return -1;
@@ -41,7 +42,8 @@ PY_PLASMA_INIT_DECL(Matrix33) {
 
 PY_PLASMA_VALUE_NEW(Matrix33, hsMatrix33)
 
-PY_PLASMA_SUBSCRIPT_DECL(Matrix33) {
+PY_PLASMA_SUBSCRIPT_DECL(Matrix33)
+{
     int i, j;
     if (!PyArg_ParseTuple(key, "ii", &i, &j)) {
         PyErr_SetString(PyExc_TypeError, "Matrix subscript expects int, int");
@@ -50,7 +52,8 @@ PY_PLASMA_SUBSCRIPT_DECL(Matrix33) {
     return pyPlasma_convert((*self->fThis)(i, j));
 }
 
-PY_PLASMA_ASS_SUBSCRIPT_DECL(Matrix33) {
+PY_PLASMA_ASS_SUBSCRIPT_DECL(Matrix33)
+{
     int i, j;
     if (!PyArg_ParseTuple(key, "ii", &i, &j)) {
         PyErr_SetString(PyExc_TypeError, "Matrix subscript expects int, int");
@@ -64,7 +67,8 @@ PY_PLASMA_ASS_SUBSCRIPT_DECL(Matrix33) {
     return 0;
 }
 
-PY_GETSET_GETTER_DECL(Matrix33, mat) {
+PY_GETSET_GETTER_DECL(Matrix33, mat)
+{
     PyObject* t1 = PyTuple_New(3);
     PyObject* t2 = PyTuple_New(3);
     PyObject* t3 = PyTuple_New(3);
@@ -135,7 +139,8 @@ PyMethodDef pyMatrix33_Methods[] = {
 PY_PLASMA_TYPE(Matrix33, hsMatrix33, "hsMatrix33 wrapper");
 PY_PLASMA_TYPE_AS_MAPPING(Matrix33)
 
-PY_PLASMA_TYPE_INIT(Matrix33) {
+PY_PLASMA_TYPE_INIT(Matrix33)
+{
     pyMatrix33_As_Mapping.mp_subscript = pyMatrix33_mp_subscript;
     pyMatrix33_As_Mapping.mp_ass_subscript = pyMatrix33_mp_ass_subscript;
     pyMatrix33_Type.tp_dealloc = pyMatrix33_dealloc;

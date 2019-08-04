@@ -65,7 +65,8 @@ static PyMethodDef pyDetectorModifier_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(DetectorModifier, receivers) {
+PY_GETSET_GETTER_DECL(DetectorModifier, receivers)
+{
     plDetectorModifier* mod = self->fThis;
     PyObject* sequence = PyTuple_New(mod->getReceivers().size());
     for (size_t i = 0; i < mod->getReceivers().size(); ++i)
@@ -88,7 +89,8 @@ static PyGetSetDef pyDetectorModifier_GetSet[] = {
 
 PY_PLASMA_TYPE(DetectorModifier, plDetectorModifier, "plDetectorModifier wrapper")
 
-PY_PLASMA_TYPE_INIT(DetectorModifier) {
+PY_PLASMA_TYPE_INIT(DetectorModifier)
+{
     pyDetectorModifier_Type.tp_new = pyDetectorModifier_new;
     pyDetectorModifier_Type.tp_methods = pyDetectorModifier_Methods;
     pyDetectorModifier_Type.tp_getset = pyDetectorModifier_GetSet;

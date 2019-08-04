@@ -24,7 +24,8 @@ PY_WRAP_PLASMA(SpanTemplateVertex, plSpanTemplate::Vertex);
 PY_WRAP_PLASMA(SpanTemplate, plSpanTemplate);
 
 /* Python property helpers */
-inline PyObject* pyPlasma_convert(plSpanTemplate* value) {
+inline PyObject* pyPlasma_convert(plSpanTemplate* value)
+{
     return pySpanTemplate_FromSpanTemplate(value);
 }
 

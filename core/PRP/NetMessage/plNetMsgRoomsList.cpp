@@ -17,7 +17,8 @@
 #include "plNetMsgRoomsList.h"
 
 /* plNetMsgRoomsList */
-void plNetMsgRoomsList::read(hsStream* S, plResManager* mgr) {
+void plNetMsgRoomsList::read(hsStream* S, plResManager* mgr)
+{
     plNetMessage::read(S, mgr);
 
     size_t count = S->readInt();
@@ -29,7 +30,8 @@ void plNetMsgRoomsList::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plNetMsgRoomsList::write(hsStream* S, plResManager* mgr) {
+void plNetMsgRoomsList::write(hsStream* S, plResManager* mgr)
+{
     plNetMessage::write(S, mgr);
 
     S->writeInt(fRooms.size());
@@ -40,7 +42,8 @@ void plNetMsgRoomsList::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plNetMsgRoomsList::IPrcWrite(pfPrcHelper* prc) {
+void plNetMsgRoomsList::IPrcWrite(pfPrcHelper* prc)
+{
     plNetMessage::IPrcWrite(prc);
 
     prc->writeSimpleTag("Rooms");
@@ -53,7 +56,8 @@ void plNetMsgRoomsList::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plNetMsgRoomsList::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plNetMsgRoomsList::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Rooms") {
         fRooms.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
@@ -70,7 +74,8 @@ void plNetMsgRoomsList::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plNetMsgRoomsList::addRoom(const plLocation& loc, const ST::string& name) {
+void plNetMsgRoomsList::addRoom(const plLocation& loc, const ST::string& name)
+{
     Room rm;
     rm.fLocation = loc;
     rm.fName = name;
@@ -79,17 +84,20 @@ void plNetMsgRoomsList::addRoom(const plLocation& loc, const ST::string& name) {
 
 
 /* plNetMsgPagingRoom */
-void plNetMsgPagingRoom::read(hsStream* S, plResManager* mgr) {
+void plNetMsgPagingRoom::read(hsStream* S, plResManager* mgr)
+{
     plNetMsgRoomsList::read(S, mgr);
     fPageFlags = S->readByte();
 }
 
-void plNetMsgPagingRoom::write(hsStream* S, plResManager* mgr) {
+void plNetMsgPagingRoom::write(hsStream* S, plResManager* mgr)
+{
     plNetMsgRoomsList::write(S, mgr);
     S->writeByte(fPageFlags);
 }
 
-void plNetMsgPagingRoom::IPrcWrite(pfPrcHelper* prc) {
+void plNetMsgPagingRoom::IPrcWrite(pfPrcHelper* prc)
+{
     plNetMsgRoomsList::IPrcWrite(prc);
 
     prc->startTag("PageFlags");
@@ -97,7 +105,8 @@ void plNetMsgPagingRoom::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plNetMsgPagingRoom::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plNetMsgPagingRoom::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "PageFlags") {
         fPageFlags = tag->getParam("value", "0").to_uint();
     } else {

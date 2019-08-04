@@ -19,7 +19,8 @@
 
 #include "plSound.h"
 
-class PLASMA_DLL plDirectMusicSound : public plSound {
+class PLASMA_DLL plDirectMusicSound : public plSound
+{
     CREATABLE(plDirectMusicSound, kDirectMusicSound, plSound)
 
 protected:
@@ -27,7 +28,7 @@ protected:
     ST::string fFileName;
 
 public:
-    plDirectMusicSound() : fUnknown1(0) { }
+    plDirectMusicSound() : fUnknown1() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

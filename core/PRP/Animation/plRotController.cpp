@@ -17,11 +17,13 @@
 #include "plRotController.h"
 
 /* plSimpleRotController */
-plSimpleRotController::~plSimpleRotController() {
+plSimpleRotController::~plSimpleRotController()
+{
     delete fRot;
 }
 
-void plSimpleRotController::read(hsStream* S, plResManager* mgr) {
+void plSimpleRotController::read(hsStream* S, plResManager* mgr)
+{
     if (S->readInt() != 0) {
         setRot(new plQuatController());
         fRot->read(S, mgr);
@@ -30,7 +32,8 @@ void plSimpleRotController::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plSimpleRotController::write(hsStream* S, plResManager* mgr) {
+void plSimpleRotController::write(hsStream* S, plResManager* mgr)
+{
     if (fRot != NULL) {
         S->writeInt(1);
         fRot->write(S, mgr);
@@ -39,7 +42,8 @@ void plSimpleRotController::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plSimpleRotController::IPrcWrite(pfPrcHelper* prc) {
+void plSimpleRotController::IPrcWrite(pfPrcHelper* prc)
+{
     if (fRot != NULL) {
         fRot->prcWrite(prc);
     } else {
@@ -49,7 +53,8 @@ void plSimpleRotController::IPrcWrite(pfPrcHelper* prc) {
     }
 }
 
-void plSimpleRotController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plSimpleRotController::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "plQuatController") {
         if (!tag->getParam("NULL", "false").to_bool()) {
             setRot(new plQuatController());
@@ -62,20 +67,23 @@ void plSimpleRotController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plSimpleRotController::setRot(plQuatController* rot) {
+void plSimpleRotController::setRot(plQuatController* rot)
+{
     delete fRot;
     fRot = rot;
 }
 
 
 /* plCompoundRotController */
-plCompoundRotController::~plCompoundRotController() {
+plCompoundRotController::~plCompoundRotController()
+{
     delete fXController;
     delete fYController;
     delete fZController;
 }
 
-void plCompoundRotController::read(hsStream* S, plResManager* mgr) {
+void plCompoundRotController::read(hsStream* S, plResManager* mgr)
+{
     if (S->readInt() != 0) {
         setX(new plScalarController());
         fXController->read(S, mgr);
@@ -96,7 +104,8 @@ void plCompoundRotController::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plCompoundRotController::write(hsStream* S, plResManager* mgr) {
+void plCompoundRotController::write(hsStream* S, plResManager* mgr)
+{
     if (fXController != NULL) {
         S->writeInt(1);
         fXController->write(S, mgr);
@@ -117,7 +126,8 @@ void plCompoundRotController::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plCompoundRotController::IPrcWrite(pfPrcHelper* prc) {
+void plCompoundRotController::IPrcWrite(pfPrcHelper* prc)
+{
     prc->writeSimpleTag("X");
     if (fXController != NULL) {
         fXController->prcWrite(prc);
@@ -147,7 +157,8 @@ void plCompoundRotController::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plCompoundRotController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plCompoundRotController::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "X") {
         if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").to_bool()) {
             setX(new plScalarController());
@@ -174,7 +185,8 @@ void plCompoundRotController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) 
     }
 }
 
-void plCompoundRotController::setController(unsigned int index, plScalarController* controller) {
+void plCompoundRotController::setController(unsigned int index, plScalarController* controller)
+{
     switch (index) {
     case kX:
         delete fXController;
@@ -191,17 +203,20 @@ void plCompoundRotController::setController(unsigned int index, plScalarControll
     }
 }
 
-void plCompoundRotController::setX(plScalarController* controller) {
+void plCompoundRotController::setX(plScalarController* controller)
+{
     delete fXController;
     fXController = controller;
 }
 
-void plCompoundRotController::setY(plScalarController* controller) {
+void plCompoundRotController::setY(plScalarController* controller)
+{
     delete fYController;
     fYController = controller;
 }
 
-void plCompoundRotController::setZ(plScalarController* controller) {
+void plCompoundRotController::setZ(plScalarController* controller)
+{
     delete fZController;
     fZController = controller;
 }

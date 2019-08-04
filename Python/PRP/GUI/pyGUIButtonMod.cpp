@@ -106,7 +106,8 @@ static PyMethodDef pyGUIButtonMod_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(GUIButtonMod, animationKeys) {
+PY_GETSET_GETTER_DECL(GUIButtonMod, animationKeys)
+{
     PyObject* list = PyTuple_New(self->fThis->getAnimationKeys().size());
     for (size_t i = 0; i<self->fThis->getAnimationKeys().size(); i++)
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getAnimationKeys()[i]));
@@ -115,7 +116,8 @@ PY_GETSET_GETTER_DECL(GUIButtonMod, animationKeys) {
 PY_PROPERTY_SETTER_MSG(GUIButtonMod, animationKeys, "To add animations, use addAnimationKey()")
 PY_PROPERTY_GETSET_DECL(GUIButtonMod, animationKeys)
 
-PY_GETSET_GETTER_DECL(GUIButtonMod, mouseOverKeys) {
+PY_GETSET_GETTER_DECL(GUIButtonMod, mouseOverKeys)
+{
     PyObject* list = PyTuple_New(self->fThis->getMouseOverKeys().size());
     for (size_t i = 0; i<self->fThis->getMouseOverKeys().size(); i++)
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getMouseOverKeys()[i]));
@@ -141,7 +143,8 @@ static PyGetSetDef pyGUIButtonMod_GetSet[] = {
 
 PY_PLASMA_TYPE(GUIButtonMod, pfGUIButtonMod, "pfGUIButtonMod wrapper")
 
-PY_PLASMA_TYPE_INIT(GUIButtonMod) {
+PY_PLASMA_TYPE_INIT(GUIButtonMod)
+{
     pyGUIButtonMod_Type.tp_new = pyGUIButtonMod_new;
     pyGUIButtonMod_Type.tp_methods = pyGUIButtonMod_Methods;
     pyGUIButtonMod_Type.tp_getset = pyGUIButtonMod_GetSet;
@@ -166,7 +169,8 @@ PY_PLASMA_NEW(GUIMenuItem, pfGUIMenuItem)
 
 PY_PLASMA_TYPE(GUIMenuItem, pfGUIMenuItem, "pfGUIMenuItem wrapper")
 
-PY_PLASMA_TYPE_INIT(GUIMenuItem) {
+PY_PLASMA_TYPE_INIT(GUIMenuItem)
+{
     pyGUIMenuItem_Type.tp_new = pyGUIMenuItem_new;
     pyGUIMenuItem_Type.tp_base = &pyGUIButtonMod_Type;
     if (PyType_CheckAndReady(&pyGUIMenuItem_Type) < 0)

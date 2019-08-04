@@ -19,7 +19,8 @@
 #include "Debug/plDebug.h"
 #include <cstring>
 
-unsigned int PXCookedData::readOPC(hsStream* S) {
+unsigned int PXCookedData::readOPC(hsStream* S)
+{
     char tag[4];
     S->read(4, tag);
     if (memcmp(tag, "OPC\x01", 4) != 0) {
@@ -65,7 +66,8 @@ unsigned int PXCookedData::readOPC(hsStream* S) {
     return opcFlags;
 }
 
-void PXCookedData::readHBM(hsStream* S) {
+void PXCookedData::readHBM(hsStream* S)
+{
     unsigned int size = S->readInt(); // size : In theory, we could just skip over this many bytes
     const unsigned int endpos = S->pos()+size;
     unsigned int opcFlags = readOPC(S);
@@ -285,7 +287,8 @@ void PXCookedData::readConvexMesh(hsStream* S, plGenericPhysical* physical)
     }
 }
 
-void PXCookedData::readTriangleMesh(hsStream* S, plGenericPhysical* physical) {
+void PXCookedData::readTriangleMesh(hsStream* S, plGenericPhysical* physical)
+{
     char tag[4];
     // NOTE: PhysX Cooked data always begins with "NXS\x01". This is read in plGenericPhysical
     // to determine if the buffer is cooked or hax'd

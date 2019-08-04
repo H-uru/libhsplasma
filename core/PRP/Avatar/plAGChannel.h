@@ -19,7 +19,8 @@
 
 #include "PRP/plCreatable.h"
 
-class PLASMA_DLL plAGChannel : public plCreatable {
+class PLASMA_DLL plAGChannel : public plCreatable
+{
     CREATABLE(plAGChannel, kAGChannel, plCreatable)
 
 protected:

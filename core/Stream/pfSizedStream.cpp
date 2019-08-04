@@ -18,7 +18,8 @@
 #include "Debug/plDebug.h"
 
 pfSizedStream::pfSizedStream(hsStream* S, uint32_t len)
-        : fBase(S), fLength(len) {
+    : fBase(S), fLength(len)
+{
     if (S != NULL) {
         ver = S->getVer();
 
@@ -32,7 +33,8 @@ pfSizedStream::pfSizedStream(hsStream* S, uint32_t len)
     }
 }
 
-void pfSizedStream::seek(uint32_t pos) {
+void pfSizedStream::seek(uint32_t pos)
+{
     if (pos > fLength) {
         plDebug::Warning("Seek past end of stream. {} requested, {} maximum",
                          pos, fLength);
@@ -41,7 +43,8 @@ void pfSizedStream::seek(uint32_t pos) {
     fBase->seek(fBegin + pos);
 }
 
-void pfSizedStream::skip(int32_t count) {
+void pfSizedStream::skip(int32_t count)
+{
     if (pos() + count > fLength) { // pos() is the index in the sub-stream
         throw hsFileReadException(__FILE__, __LINE__,
                          ST::format("Seek out of range: {} bytes requested, {} available",
@@ -51,7 +54,8 @@ void pfSizedStream::skip(int32_t count) {
     fBase->skip(count);
 }
 
-size_t pfSizedStream::read(size_t size, void* buf) {
+size_t pfSizedStream::read(size_t size, void* buf)
+{
     if (pos() + size > fLength) { // pos() is the index in the sub-stream
         throw hsFileReadException(__FILE__, __LINE__,
                          ST::format("Read past end of sized stream: {} bytes requested, {} available",
@@ -61,7 +65,8 @@ size_t pfSizedStream::read(size_t size, void* buf) {
     return fBase->read(size, buf);
 }
 
-size_t pfSizedStream::write(size_t size, const void* buf) {
+size_t pfSizedStream::write(size_t size, const void* buf)
+{
     if (pos() + size > fLength) { // pos() is the index in the sub-stream
         throw hsFileReadException(__FILE__, __LINE__,
                          ST::format("Write past end of sized stream: {} bytes requested, {} available",

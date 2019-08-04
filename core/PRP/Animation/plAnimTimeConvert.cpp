@@ -17,7 +17,8 @@
 #include "plAnimTimeConvert.h"
 
 /* plAnimTimeConvert */
-plAnimTimeConvert::~plAnimTimeConvert() {
+plAnimTimeConvert::~plAnimTimeConvert()
+{
     delete fEaseInCurve;
     delete fEaseOutCurve;
     delete fSpeedEaseCurve;
@@ -26,7 +27,8 @@ plAnimTimeConvert::~plAnimTimeConvert() {
         delete *msg;
 }
 
-void plAnimTimeConvert::read(hsStream* S, plResManager* mgr) {
+void plAnimTimeConvert::read(hsStream* S, plResManager* mgr)
+{
     fFlags = S->readInt();
     fBegin = S->readFloat();
     fEnd = S->readFloat();
@@ -51,7 +53,8 @@ void plAnimTimeConvert::read(hsStream* S, plResManager* mgr) {
         fStopPoints[i] = S->readFloat();
 }
 
-void plAnimTimeConvert::write(hsStream* S, plResManager* mgr) {
+void plAnimTimeConvert::write(hsStream* S, plResManager* mgr)
+{
     S->writeInt(fFlags);
     S->writeFloat(fBegin);
     S->writeFloat(fEnd);
@@ -74,7 +77,8 @@ void plAnimTimeConvert::write(hsStream* S, plResManager* mgr) {
         S->writeFloat(fStopPoints[i]);
 }
 
-void plAnimTimeConvert::IPrcWrite(pfPrcHelper* prc) {
+void plAnimTimeConvert::IPrcWrite(pfPrcHelper* prc)
+{
     prc->startTag("Params");
     prc->writeParamHex("Flags", fFlags);
     prc->writeParam("Begin", fBegin);
@@ -131,7 +135,8 @@ void plAnimTimeConvert::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plAnimTimeConvert::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAnimTimeConvert::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Params") {
         fFlags = tag->getParam("Flags", "0").to_uint();
         fBegin = tag->getParam("Begin", "0").to_float();
@@ -174,27 +179,32 @@ void plAnimTimeConvert::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plAnimTimeConvert::setEaseInCurve(plATCEaseCurve* curve) {
+void plAnimTimeConvert::setEaseInCurve(plATCEaseCurve* curve)
+{
     delete fEaseInCurve;
     fEaseInCurve = curve;
 }
 
-void plAnimTimeConvert::setEaseOutCurve(plATCEaseCurve* curve) {
+void plAnimTimeConvert::setEaseOutCurve(plATCEaseCurve* curve)
+{
     delete fEaseOutCurve;
     fEaseOutCurve = curve;
 }
 
-void plAnimTimeConvert::setSpeedEaseCurve(plATCEaseCurve* curve) {
+void plAnimTimeConvert::setSpeedEaseCurve(plATCEaseCurve* curve)
+{
     delete fSpeedEaseCurve;
     fSpeedEaseCurve = curve;
 }
 
-void plAnimTimeConvert::delCallback(size_t idx) {
+void plAnimTimeConvert::delCallback(size_t idx)
+{
     delete fCallbackMsgs[idx];
     fCallbackMsgs.erase(fCallbackMsgs.begin() + idx);
 }
 
-void plAnimTimeConvert::clearCallbacks() {
+void plAnimTimeConvert::clearCallbacks()
+{
     for (auto msg = fCallbackMsgs.begin(); msg != fCallbackMsgs.end(); ++msg)
         delete *msg;
     fCallbackMsgs.clear();

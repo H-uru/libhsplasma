@@ -20,7 +20,8 @@
 #include "plDynaDecalMgr.h"
 #include "PRP/Animation/plAnimPath.h"
 
-class PLASMA_DLL plDynaRippleMgr : public plDynaDecalMgr {
+class PLASMA_DLL plDynaRippleMgr : public plDynaDecalMgr
+{
     CREATABLE(plDynaRippleMgr, kDynaRippleMgr, plDynaDecalMgr)
 
 protected:
@@ -36,7 +37,8 @@ protected:
 };
 
 
-class PLASMA_DLL plDynaRippleVSMgr : public plDynaRippleMgr {
+class PLASMA_DLL plDynaRippleVSMgr : public plDynaRippleMgr
+{
     CREATABLE(plDynaRippleVSMgr, kDynaRippleVSMgr, plDynaRippleMgr)
 
 protected:
@@ -52,12 +54,14 @@ protected:
 };
 
 
-class PLASMA_DLL plDynaTorpedoMgr : public plDynaRippleMgr {
+class PLASMA_DLL plDynaTorpedoMgr : public plDynaRippleMgr
+{
     CREATABLE(plDynaTorpedoMgr, kDynaTorpedoMgr, plDynaRippleMgr)
 };
 
 
-class PLASMA_DLL plDynaTorpedoVSMgr : public plDynaTorpedoMgr {
+class PLASMA_DLL plDynaTorpedoVSMgr : public plDynaTorpedoMgr
+{
     CREATABLE(plDynaTorpedoVSMgr, kDynaTorpedoVSMgr, plDynaTorpedoMgr)
 
 protected:
@@ -73,11 +77,13 @@ protected:
 };
 
 
-class PLASMA_DLL plDynaPuddleMgr : public plDynaRippleMgr {
+class PLASMA_DLL plDynaPuddleMgr : public plDynaRippleMgr
+{
     CREATABLE(plDynaPuddleMgr, kDynaPuddleMgr, plDynaRippleMgr)
 };
 
-class PLASMA_DLL plDynaWakeMgr : public plDynaRippleMgr {
+class PLASMA_DLL plDynaWakeMgr : public plDynaRippleMgr
+{
     CREATABLE(plDynaWakeMgr, kDynaWakeMgr, plDynaRippleMgr)
 
 protected:
@@ -86,8 +92,8 @@ protected:
     float fAnimWgt, fVelWgt;
 
 public:
-    plDynaWakeMgr() : fAnimPath(NULL), fAnimWgt(0.0f), fVelWgt(0.0f) { }
-    virtual ~plDynaWakeMgr();
+    plDynaWakeMgr() : fAnimPath(), fAnimWgt(), fVelWgt() { }
+    ~plDynaWakeMgr();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

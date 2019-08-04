@@ -21,7 +21,7 @@
 #include <map>
 #include <vector>
 
-typedef std::map<plLocation, std::map<short, std::vector<plKey> > > keymap_t;
+typedef std::map<plLocation, std::map<short, std::vector<plKey>>> keymap_t;
 
 /**
  * \brief This class is used internally by the plResManager as a storage
@@ -31,7 +31,8 @@ typedef std::map<plLocation, std::map<short, std::vector<plKey> > > keymap_t;
  * the manner that deleting keys from here will cause the associated
  * hsKeyedObject to also be deleted.
  */
-class PLASMA_DLL plKeyCollector {
+class PLASMA_DLL plKeyCollector
+{
 private:
     keymap_t keys;
 

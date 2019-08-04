@@ -19,21 +19,23 @@
 
 #include "../Modifier/plModifier.h"
 
-class PLASMA_DLL plDistOpacityMod : public plSingleModifier {
+class PLASMA_DLL plDistOpacityMod : public plSingleModifier
+{
     CREATABLE(plDistOpacityMod, kDistOpacityMod, plSingleModifier)
 
 protected:
     float fDists[4];
 
 public:
-    enum {
+    enum
+    {
         kNearTrans,
         kNearOpaq,
         kFarOpaq,
         kFarTrans
     };
 
-    plDistOpacityMod();
+    plDistOpacityMod() : fDists() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

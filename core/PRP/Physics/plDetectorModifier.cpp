@@ -17,7 +17,8 @@
 #include "plDetectorModifier.h"
 
 /* plDetectorModifier */
-void plDetectorModifier::read(hsStream* S, plResManager* mgr) {
+void plDetectorModifier::read(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::read(S, mgr);
 
     fReceivers.resize(S->readInt());
@@ -27,7 +28,8 @@ void plDetectorModifier::read(hsStream* S, plResManager* mgr) {
     fProxyKey = mgr->readKey(S);
 }
 
-void plDetectorModifier::write(hsStream* S, plResManager* mgr) {
+void plDetectorModifier::write(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::write(S, mgr);
 
     S->writeInt(fReceivers.size());
@@ -37,7 +39,8 @@ void plDetectorModifier::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fProxyKey);
 }
 
-void plDetectorModifier::IPrcWrite(pfPrcHelper* prc) {
+void plDetectorModifier::IPrcWrite(pfPrcHelper* prc)
+{
     plSingleModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("Receivers");
@@ -53,7 +56,8 @@ void plDetectorModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plDetectorModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plDetectorModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Receivers") {
         fReceivers.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();

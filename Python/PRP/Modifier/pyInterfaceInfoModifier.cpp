@@ -23,7 +23,8 @@
 
 PY_PLASMA_NEW(InterfaceInfoModifier, plInterfaceInfoModifier)
 
-PY_METHOD_NOARGS(InterfaceInfoModifier, clearIntfKeys, "Remove all interface keys") {
+PY_METHOD_NOARGS(InterfaceInfoModifier, clearIntfKeys, "Remove all interface keys")
+{
     self->fThis->clearIntfKeys();
     Py_RETURN_NONE;
 }
@@ -65,7 +66,8 @@ static PyMethodDef pyInterfaceInfoModifier_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(InterfaceInfoModifier, intfKeys) {
+PY_GETSET_GETTER_DECL(InterfaceInfoModifier, intfKeys)
+{
     PyObject* list = PyTuple_New(self->fThis->getIntfKeys().size());
     for (size_t i=0; i<self->fThis->getIntfKeys().size(); i++)
         PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getIntfKeys()[i]));
@@ -83,7 +85,8 @@ static PyGetSetDef pyInterfaceInfoModifier_GetSet[] = {
 PY_PLASMA_TYPE(InterfaceInfoModifier, plInterfaceInfoModifier,
                "plInterfaceInfoModifier wrapper")
 
-PY_PLASMA_TYPE_INIT(InterfaceInfoModifier) {
+PY_PLASMA_TYPE_INIT(InterfaceInfoModifier)
+{
     pyInterfaceInfoModifier_Type.tp_new = pyInterfaceInfoModifier_new;
     pyInterfaceInfoModifier_Type.tp_methods = pyInterfaceInfoModifier_Methods;
     pyInterfaceInfoModifier_Type.tp_getset = pyInterfaceInfoModifier_GetSet;

@@ -17,21 +17,24 @@
 #include "plBooleanConditionalObject.h"
 
 /* plANDConditionalObject */
-void plANDConditionalObject::read(hsStream* S, plResManager* mgr) {
+void plANDConditionalObject::read(hsStream* S, plResManager* mgr)
+{
     plConditionalObject::read(S, mgr);
     fChildren.resize(S->readInt());
     for (size_t i=0; i<fChildren.size(); i++)
         fChildren[i] = mgr->readKey(S);
 }
 
-void plANDConditionalObject::write(hsStream* S, plResManager* mgr) {
+void plANDConditionalObject::write(hsStream* S, plResManager* mgr)
+{
     plConditionalObject::write(S, mgr);
     S->writeInt(fChildren.size());
     for (size_t i=0; i<fChildren.size(); i++)
         mgr->writeKey(S, fChildren[i]);
 }
 
-void plANDConditionalObject::IPrcWrite(pfPrcHelper* prc) {
+void plANDConditionalObject::IPrcWrite(pfPrcHelper* prc)
+{
     plConditionalObject::IPrcWrite(prc);
     prc->writeSimpleTag("Children");
     for (size_t i=0; i<fChildren.size(); i++)
@@ -39,7 +42,8 @@ void plANDConditionalObject::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plANDConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plANDConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Children") {
         fChildren.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
@@ -54,21 +58,24 @@ void plANDConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plORConditionalObject */
-void plORConditionalObject::read(hsStream* S, plResManager* mgr) {
+void plORConditionalObject::read(hsStream* S, plResManager* mgr)
+{
     plConditionalObject::read(S, mgr);
     fChildren.resize(S->readInt());
     for (size_t i=0; i<fChildren.size(); i++)
         fChildren[i] = mgr->readKey(S);
 }
 
-void plORConditionalObject::write(hsStream* S, plResManager* mgr) {
+void plORConditionalObject::write(hsStream* S, plResManager* mgr)
+{
     plConditionalObject::write(S, mgr);
     S->writeInt(fChildren.size());
     for (size_t i=0; i<fChildren.size(); i++)
         mgr->writeKey(S, fChildren[i]);
 }
 
-void plORConditionalObject::IPrcWrite(pfPrcHelper* prc) {
+void plORConditionalObject::IPrcWrite(pfPrcHelper* prc)
+{
     plConditionalObject::IPrcWrite(prc);
     prc->writeSimpleTag("Children");
     for (size_t i=0; i<fChildren.size(); i++)
@@ -76,7 +83,8 @@ void plORConditionalObject::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plORConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plORConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Children") {
         fChildren.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();

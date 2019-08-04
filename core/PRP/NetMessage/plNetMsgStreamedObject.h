@@ -20,7 +20,8 @@
 #include "plNetMsgStream.h"
 #include "plNetMsgObject.h"
 
-class PLASMA_DLL plNetMsgStreamedObject : public plNetMsgObject {
+class PLASMA_DLL plNetMsgStreamedObject : public plNetMsgObject
+{
     CREATABLE(plNetMsgStreamedObject, kNetMsgStreamedObject, plNetMsgObject)
 
 private:
@@ -28,7 +29,7 @@ private:
     unsigned char fCompressionType;
 
 public:
-    plNetMsgStreamedObject() : fCompressionType(0) { }
+    plNetMsgStreamedObject() : fCompressionType() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

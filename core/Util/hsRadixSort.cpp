@@ -16,13 +16,6 @@
 
 #include "hsRadixSort.h"
 
-hsRadixSort::hsRadixSort() {
-    for (int i = 0; i < 256; i++) {
-        fHeads[i] = NULL;
-        fTails[i] = NULL;
-    }
-}
-
 hsRadixSortElem* hsRadixSort::sort(hsRadixSortElem* in, unsigned int flags)
 {
     hsRadixSortElem* res = in;
@@ -75,7 +68,8 @@ hsRadixSortElem* hsRadixSort::sort(hsRadixSortElem* in, unsigned int flags)
     return res;
 }
 
-void hsRadixSort::collapse() {
+void hsRadixSort::collapse()
+{
     hsRadixSortElem* head = NULL;
     hsRadixSortElem* tail = NULL;
 
@@ -97,7 +91,8 @@ void hsRadixSort::collapse() {
     fList = head;
 }
 
-void hsRadixSort::reverse() {
+void hsRadixSort::reverse()
+{
     if (fList && fList->fNext) {
         hsRadixSortElem* next = fList->fNext;
 
@@ -111,7 +106,8 @@ void hsRadixSort::reverse() {
     }
 }
 
-void hsRadixSort::unpackSigned() {
+void hsRadixSort::unpackSigned()
+{
     hsRadixSortElem* head = NULL;
     hsRadixSortElem* tail = NULL;
 
@@ -148,7 +144,8 @@ void hsRadixSort::unpackSigned() {
     fList = head;
 }
 
-void hsRadixSort::unpackFloat() {
+void hsRadixSort::unpackFloat()
+{
     hsRadixSortElem* head = NULL;
     hsRadixSortElem* tail = NULL;
 

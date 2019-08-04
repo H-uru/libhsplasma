@@ -16,7 +16,8 @@
 
 #include "hsAffineParts.h"
 
-void hsAffineParts::read(hsStream* S) {
+void hsAffineParts::read(hsStream* S)
+{
     fI = (!S->getVer().isMoul()) ? S->readInt() : 0;
     fT.read(S);
     fQ.read(S);
@@ -25,7 +26,8 @@ void hsAffineParts::read(hsStream* S) {
     fF = S->readFloat();
 }
 
-void hsAffineParts::write(hsStream* S) {
+void hsAffineParts::write(hsStream* S)
+{
     if (!S->getVer().isMoul())
         S->writeInt(fI);
     fT.write(S);
@@ -35,7 +37,8 @@ void hsAffineParts::write(hsStream* S) {
     S->writeFloat(fF);
 }
 
-void hsAffineParts::prcWrite(pfPrcHelper* prc) {
+void hsAffineParts::prcWrite(pfPrcHelper* prc)
+{
     prc->writeSimpleTag("hsAffineParts");
       prc->startTag("I");
       prc->writeParam("value", fI);
@@ -58,7 +61,8 @@ void hsAffineParts::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void hsAffineParts::prcParse(const pfPrcTag* tag) {
+void hsAffineParts::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "hsAffineParts")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
@@ -87,7 +91,8 @@ void hsAffineParts::prcParse(const pfPrcTag* tag) {
     }
 }
 
-void hsAffineParts::reset() {
+void hsAffineParts::reset()
+{
     fI = 0;
     fT = hsVector3(0.0f, 0.0f, 0.0f);
     fQ = hsQuat(0.0f, 0.0f, 0.0f, 1.0f);

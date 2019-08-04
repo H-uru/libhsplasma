@@ -19,11 +19,13 @@
 
 #include "PRP/Object/plSynchedObject.h"
 
-class PLASMA_DLL hsGMaterial : public plSynchedObject {
+class PLASMA_DLL hsGMaterial : public plSynchedObject
+{
     CREATABLE(hsGMaterial, kGMaterial, plSynchedObject)
 
 public:
-    enum hsGCompFlags {
+    enum hsGCompFlags
+    {
         kCompShaded = 0x1,
         kCompEnvironMap = 0x2,
         kCompProjectOnto = 0x4,
@@ -45,7 +47,7 @@ private:
     unsigned int fCompFlags, fLoadFlags;
 
 public:
-    hsGMaterial() : fCompFlags(0), fLoadFlags(0) { }
+    hsGMaterial() : fCompFlags(), fLoadFlags() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

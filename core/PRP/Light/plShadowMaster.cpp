@@ -17,7 +17,8 @@
 #include "plShadowMaster.h"
 
 /* plShadowMaster */
-void plShadowMaster::read(hsStream* S, plResManager* mgr) {
+void plShadowMaster::read(hsStream* S, plResManager* mgr)
+{
     plObjInterface::read(S, mgr);
 
     fAttenDist = S->readFloat();
@@ -28,7 +29,8 @@ void plShadowMaster::read(hsStream* S, plResManager* mgr) {
     fPower = S->readFloat();
 }
 
-void plShadowMaster::write(hsStream* S, plResManager* mgr) {
+void plShadowMaster::write(hsStream* S, plResManager* mgr)
+{
     plObjInterface::write(S, mgr);
 
     S->writeFloat(fAttenDist);
@@ -39,7 +41,8 @@ void plShadowMaster::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fPower);
 }
 
-void plShadowMaster::IPrcWrite(pfPrcHelper* prc) {
+void plShadowMaster::IPrcWrite(pfPrcHelper* prc)
+{
     plObjInterface::IPrcWrite(prc);
 
     prc->startTag("ShadowParams");
@@ -52,7 +55,8 @@ void plShadowMaster::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plShadowMaster::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plShadowMaster::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "ShadowParams") {
         fAttenDist = tag->getParam("AttenDist", "0").to_float();
         fMaxDist = tag->getParam("MaxDist", "0").to_float();

@@ -16,7 +16,8 @@
 
 #include "plSittingModifier.h"
 
-void plSittingModifier::read(hsStream* S, plResManager* mgr) {
+void plSittingModifier::read(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::read(S, mgr);
 
     fMiscFlags = S->readByte();
@@ -25,7 +26,8 @@ void plSittingModifier::read(hsStream* S, plResManager* mgr) {
         fNotifyKeys[i] = mgr->readKey(S);
 }
 
-void plSittingModifier::write(hsStream* S, plResManager* mgr) {
+void plSittingModifier::write(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::write(S, mgr);
 
     S->writeByte(fMiscFlags);
@@ -34,7 +36,8 @@ void plSittingModifier::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fNotifyKeys[i]);
 }
 
-void plSittingModifier::IPrcWrite(pfPrcHelper* prc) {
+void plSittingModifier::IPrcWrite(pfPrcHelper* prc)
+{
     plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("SittingModParams");
@@ -47,7 +50,8 @@ void plSittingModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plSittingModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plSittingModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "SittingModParams") {
         fMiscFlags = tag->getParam("MiscFlags", "0").to_uint();
     } else if (tag->getName() == "NotifyKeys") {

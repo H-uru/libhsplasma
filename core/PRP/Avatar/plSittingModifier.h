@@ -19,11 +19,13 @@
 
 #include "PRP/Modifier/plModifier.h"
 
-class PLASMA_DLL plSittingModifier : public plSingleModifier {
+class PLASMA_DLL plSittingModifier : public plSingleModifier
+{
     CREATABLE(plSittingModifier, kSittingModifier, plSingleModifier)
 
 public:
-    enum {
+    enum
+    {
         kApproachFront = 0x1,
         kApproachLeft = 0x2,
         kApproachRight = 0x4,
@@ -39,7 +41,7 @@ protected:
     plKey fTriggeredAvatarKey;
 
 public:
-    plSittingModifier() : fMiscFlags(0) { }
+    plSittingModifier() : fMiscFlags() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

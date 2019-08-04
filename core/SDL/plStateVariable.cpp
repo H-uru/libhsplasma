@@ -21,25 +21,29 @@
 #include <cstring>
 
 /* plStateVarNotificationInfo */
-void plStateVarNotificationInfo::read(hsStream* S) {
+void plStateVarNotificationInfo::read(hsStream* S)
+{
     S->readByte();
     fHintString = S->readSafeStr();
 }
 
-void plStateVarNotificationInfo::write(hsStream* S) {
+void plStateVarNotificationInfo::write(hsStream* S)
+{
     S->writeByte(0);
     S->writeSafeStr(fHintString);
 }
 
 
 /* plStateVariable */
-void plStateVariable::read(hsStream* S, plResManager* mgr) {
+void plStateVariable::read(hsStream* S, plResManager* mgr)
+{
     fContents = S->readByte();
     if (fContents & plSDL::kHasNotificationInfo)
         fNotificationInfo.read(S);
 }
 
-void plStateVariable::write(hsStream* S, plResManager* mgr) {
+void plStateVariable::write(hsStream* S, plResManager* mgr)
+{
     S->writeByte(fContents);
     if (fContents & plSDL::kHasNotificationInfo)
         fNotificationInfo.write(S);
@@ -47,17 +51,20 @@ void plStateVariable::write(hsStream* S, plResManager* mgr) {
 
 
 /* plSDStateVariable */
-plSDStateVariable::~plSDStateVariable() {
+plSDStateVariable::~plSDStateVariable()
+{
     for (auto rec = fDataRecList.begin(); rec != fDataRecList.end(); ++rec)
         delete *rec;
 }
 
-void plSDStateVariable::setDescriptor(plVarDescriptor* desc) {
+void plSDStateVariable::setDescriptor(plVarDescriptor* desc)
+{
     fDescriptor = desc;
     resize(fDescriptor->getCount());
 }
 
-void plSDStateVariable::resize(size_t size) {
+void plSDStateVariable::resize(size_t size)
+{
     for (auto rec = fDataRecList.begin(); rec != fDataRecList.end(); ++rec)
         delete *rec;
     fCount = size;
@@ -68,7 +75,8 @@ void plSDStateVariable::resize(size_t size) {
     }
 }
 
-void plSDStateVariable::read(hsStream* S, plResManager* mgr) {
+void plSDStateVariable::read(hsStream* S, plResManager* mgr)
+{
     plStateVariable::read(S, mgr);
 
     S->readByte();
@@ -89,7 +97,8 @@ void plSDStateVariable::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plSDStateVariable::write(hsStream* S, plResManager* mgr) {
+void plSDStateVariable::write(hsStream* S, plResManager* mgr)
+{
     plStateVariable::write(S, mgr);
 
     S->writeByte(0);
@@ -118,7 +127,8 @@ void plSDStateVariable::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plSDStateVariable::SetFromDefault() {
+void plSDStateVariable::SetFromDefault()
+{
     for (size_t i=0; i<fCount; i++) {
         for (size_t j=0; j<fDataRecList[i]->getNumVars(); j++)
             fDataRecList[i]->get(j)->SetFromDefault();
@@ -126,7 +136,8 @@ void plSDStateVariable::SetFromDefault() {
     setDirty(false);
 }
 
-bool plSDStateVariable::isDefault(bool secondChance) const {
+bool plSDStateVariable::isDefault(bool secondChance) const
+{
     if (fCount != fDataRecList.size())
         return false;
     for (size_t i=0; i<fCount; i++) {
@@ -140,7 +151,8 @@ bool plSDStateVariable::isDefault(bool secondChance) const {
 
 
 /* plSimpleStateVariable */
-void plSimpleStateVariable::IDeAlloc() {
+void plSimpleStateVariable::IDeAlloc()
+{
     if (fGenPtr == NULL)
         return;
 
@@ -212,12 +224,14 @@ void plSimpleStateVariable::IDeAlloc() {
     }
 }
 
-void plSimpleStateVariable::setDescriptor(plVarDescriptor* desc) {
+void plSimpleStateVariable::setDescriptor(plVarDescriptor* desc)
+{
     fDescriptor = desc;
     resize(fDescriptor->getCount());
 }
 
-void plSimpleStateVariable::resize(size_t size) {
+void plSimpleStateVariable::resize(size_t size)
+{
     IDeAlloc();
     fCount = size;
     if (fDescriptor == NULL || fCount == 0) {
@@ -293,7 +307,8 @@ void plSimpleStateVariable::resize(size_t size) {
     }
 }
 
-void plSimpleStateVariable::read(hsStream* S, plResManager* mgr) {
+void plSimpleStateVariable::read(hsStream* S, plResManager* mgr)
+{
     plStateVariable::read(S, mgr);
 
     fSimpleVarContents = S->readByte();
@@ -315,7 +330,8 @@ void plSimpleStateVariable::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plSimpleStateVariable::write(hsStream* S, plResManager* mgr) {
+void plSimpleStateVariable::write(hsStream* S, plResManager* mgr)
+{
     plStateVariable::write(S, mgr);
 
     if (isDefault(true))
@@ -341,7 +357,8 @@ void plSimpleStateVariable::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plSimpleStateVariable::IReadData(hsStream* S, plResManager* mgr, size_t idx) {
+void plSimpleStateVariable::IReadData(hsStream* S, plResManager* mgr, size_t idx)
+{
     switch (fDescriptor->getType()) {
     case plVarDescriptor::kInt:
         fInt[idx] = S->readInt();
@@ -424,7 +441,8 @@ void plSimpleStateVariable::IReadData(hsStream* S, plResManager* mgr, size_t idx
     }
 }
 
-void plSimpleStateVariable::IWriteData(hsStream* S, plResManager* mgr, size_t idx) {
+void plSimpleStateVariable::IWriteData(hsStream* S, plResManager* mgr, size_t idx)
+{
     switch (fDescriptor->getType()) {
     case plVarDescriptor::kInt:
         S->writeInt(fInt[idx]);
@@ -509,7 +527,8 @@ void plSimpleStateVariable::IWriteData(hsStream* S, plResManager* mgr, size_t id
     }
 }
 
-void plSimpleStateVariable::SetFromDefault() {
+void plSimpleStateVariable::SetFromDefault()
+{
     if (fDescriptor == NULL)
         throw hsBadParamException(__FILE__, __LINE__);
     ST::string def = fDescriptor->getDefault().to_lower();
@@ -651,7 +670,8 @@ void plSimpleStateVariable::SetFromDefault() {
     setDirty(false);
 }
 
-bool plSimpleStateVariable::isDefault(bool secondChance) const {
+bool plSimpleStateVariable::isDefault(bool secondChance) const
+{
     if (fDescriptor == NULL)
         throw hsBadParamException(__FILE__, __LINE__);
     ST::string def = fDescriptor->getDefault().to_lower();

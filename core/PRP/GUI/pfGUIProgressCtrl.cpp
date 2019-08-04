@@ -16,7 +16,8 @@
 
 #include "pfGUIProgressCtrl.h"
 
-pfGUIProgressCtrl::pfGUIProgressCtrl() {
+pfGUIProgressCtrl::pfGUIProgressCtrl()
+{
     fFlags.setName(kReverseValues, "kReverseValues");
     fFlags.setName(kLeftRightOrientation, "kLeftRightOrientation");
     fFlags.setName(kMapToScreenRange, "kMapToScreenRange");
@@ -24,7 +25,8 @@ pfGUIProgressCtrl::pfGUIProgressCtrl() {
     fFlags.setName(kMapToAnimationRange, "kMapToAnimationRange");
 }
 
-void pfGUIProgressCtrl::read(hsStream* S, plResManager* mgr) {
+void pfGUIProgressCtrl::read(hsStream* S, plResManager* mgr)
+{
     pfGUIValueCtrl::read(S, mgr);
 
     fAnimationKeys.resize(S->readInt());
@@ -34,7 +36,8 @@ void pfGUIProgressCtrl::read(hsStream* S, plResManager* mgr) {
     fAnimName = S->readSafeStr();
 }
 
-void pfGUIProgressCtrl::write(hsStream* S, plResManager* mgr) {
+void pfGUIProgressCtrl::write(hsStream* S, plResManager* mgr)
+{
     pfGUIValueCtrl::write(S, mgr);
 
     S->writeInt(fAnimationKeys.size());
@@ -44,7 +47,8 @@ void pfGUIProgressCtrl::write(hsStream* S, plResManager* mgr) {
     S->writeSafeStr(fAnimName);
 }
 
-void pfGUIProgressCtrl::IPrcWrite(pfPrcHelper* prc) {
+void pfGUIProgressCtrl::IPrcWrite(pfPrcHelper* prc)
+{
     pfGUIValueCtrl::IPrcWrite(prc);
 
     prc->startTag("Animation");
@@ -55,7 +59,8 @@ void pfGUIProgressCtrl::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void pfGUIProgressCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void pfGUIProgressCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Animation") {
         fAnimName = tag->getParam("Name", "");
         fAnimationKeys.resize(tag->countChildren());

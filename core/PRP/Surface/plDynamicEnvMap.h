@@ -19,7 +19,8 @@
 
 #include "plRenderTarget.h"
 
-class PLASMA_DLL plDynamicEnvMap : public plCubicRenderTarget {
+class PLASMA_DLL plDynamicEnvMap : public plCubicRenderTarget
+{
     CREATABLE(plDynamicEnvMap, kDynamicEnvMap, plCubicRenderTarget)
 
 protected:
@@ -34,8 +35,7 @@ protected:
 
 public:
     plDynamicEnvMap()
-        : fHither(0.0f), fYon(0.0f), fFogStart(0.0f), fRefreshRate(0.0f),
-          fIncCharacters(false) { }
+        : fHither(), fYon(), fFogStart(), fRefreshRate(), fIncCharacters() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -107,11 +107,13 @@ public:
 };
 
 
-class PLASMA_DLL plDynamicCamMap : public plRenderTarget {
+class PLASMA_DLL plDynamicCamMap : public plRenderTarget
+{
     CREATABLE(plDynamicCamMap, kDynamicCamMap, plRenderTarget)
 
 public:
-    enum {
+    enum
+    {
         kReflectionCapable = 0x1,
         kReflectionEnabled = 0x2,
         kReflectionMask = kReflectionCapable | kReflectionEnabled
@@ -128,8 +130,7 @@ protected:
 
 public:
     plDynamicCamMap()
-        : fHither(0.0f), fYon(0.0f), fFogStart(0.0f), fRefreshRate(0.0f),
-          fIncCharacters(false) { }
+        : fHither(), fYon(), fFogStart(), fRefreshRate(), fIncCharacters() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

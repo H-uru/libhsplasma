@@ -17,21 +17,24 @@
 #include "plPrintShape.h"
 
 /* plPrintShape */
-void plPrintShape::read(hsStream* S, plResManager* mgr) {
+void plPrintShape::read(hsStream* S, plResManager* mgr)
+{
     plObjInterface::read(S, mgr);
     fWidth = S->readFloat();
     fLength = S->readFloat();
     fHeight = S->readFloat();
 }
 
-void plPrintShape::write(hsStream* S, plResManager* mgr) {
+void plPrintShape::write(hsStream* S, plResManager* mgr)
+{
     plObjInterface::write(S, mgr);
     S->writeFloat(fWidth);
     S->writeFloat(fLength);
     S->writeFloat(fHeight);
 }
 
-void plPrintShape::IPrcWrite(pfPrcHelper* prc) {
+void plPrintShape::IPrcWrite(pfPrcHelper* prc)
+{
     plObjInterface::IPrcWrite(prc);
 
     prc->startTag("Dimensions");
@@ -41,7 +44,8 @@ void plPrintShape::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plPrintShape::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plPrintShape::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Dimensions") {
         fWidth = tag->getParam("Width", "0").to_float();
         fLength = tag->getParam("Length", "0").to_float();
@@ -53,7 +57,8 @@ void plPrintShape::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plActivePrintShape */
-void plActivePrintShape::read(hsStream* S, plResManager* mgr) {
+void plActivePrintShape::read(hsStream* S, plResManager* mgr)
+{
     plPrintShape::read(S, mgr);
 
     fDecalMgrs.resize(S->readInt());
@@ -61,7 +66,8 @@ void plActivePrintShape::read(hsStream* S, plResManager* mgr) {
         fDecalMgrs[i] = mgr->readKey(S);
 }
 
-void plActivePrintShape::write(hsStream* S, plResManager* mgr) {
+void plActivePrintShape::write(hsStream* S, plResManager* mgr)
+{
     plPrintShape::write(S, mgr);
 
     S->writeInt(fDecalMgrs.size());
@@ -69,7 +75,8 @@ void plActivePrintShape::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fDecalMgrs[i]);
 }
 
-void plActivePrintShape::IPrcWrite(pfPrcHelper* prc) {
+void plActivePrintShape::IPrcWrite(pfPrcHelper* prc)
+{
     plPrintShape::IPrcWrite(prc);
 
     prc->writeSimpleTag("DecalMgrs");
@@ -78,7 +85,8 @@ void plActivePrintShape::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plActivePrintShape::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plActivePrintShape::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "DecalMgrs") {
         fDecalMgrs.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();

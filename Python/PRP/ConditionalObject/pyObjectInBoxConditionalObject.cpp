@@ -24,7 +24,8 @@ PY_PLASMA_NEW(ObjectInBoxConditionalObject, plObjectInBoxConditionalObject)
 PY_PLASMA_TYPE(ObjectInBoxConditionalObject, plObjectInBoxConditionalObject,
                "plObjectInBoxConditionalObject wrapper")
 
-PY_PLASMA_TYPE_INIT(ObjectInBoxConditionalObject) {
+PY_PLASMA_TYPE_INIT(ObjectInBoxConditionalObject)
+{
     pyObjectInBoxConditionalObject_Type.tp_new = pyObjectInBoxConditionalObject_new;
     pyObjectInBoxConditionalObject_Type.tp_base = &pyConditionalObject_Type;
     if (PyType_CheckAndReady(&pyObjectInBoxConditionalObject_Type) < 0)

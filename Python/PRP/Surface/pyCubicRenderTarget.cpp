@@ -23,7 +23,8 @@ PY_PLASMA_NEW(CubicRenderTarget, plCubicRenderTarget)
 
 /* These are proxies to render target objects in the CRT, so they cannot be set */
 #define CRT_FACE(propName, faceName)                                    \
-    PY_GETSET_GETTER_DECL(CubicRenderTarget, propName) {                \
+    PY_GETSET_GETTER_DECL(CubicRenderTarget, propName)                  \
+    {                                                                   \
         return ICreate(self->fThis->getFace(plCubicRenderTarget::k##faceName##Face)); \
     }                                                                   \
     PY_PROPERTY_GETSET_RO_DECL(CubicRenderTarget, propName)
@@ -35,7 +36,8 @@ CRT_FACE(backFace, Back)
 CRT_FACE(topFace, Top)
 CRT_FACE(bottomFace, Bottom)
 
-PY_GETSET_GETTER_DECL(CubicRenderTarget, faces) {
+PY_GETSET_GETTER_DECL(CubicRenderTarget, faces)
+{
     PyObject* facesTuple = PyTuple_New(plCubicRenderTarget::kNumFaces);
     for (size_t i = 0; i < plCubicRenderTarget::kNumFaces; ++i) {
         plRenderTarget* rt = self->fThis->getFace(i);
@@ -59,7 +61,8 @@ static PyGetSetDef pyCubicRenderTarget_GetSet[] = {
 
 PY_PLASMA_TYPE(CubicRenderTarget, plCubicRenderTarget, "plCubicRenderTarget wrapper")
 
-PY_PLASMA_TYPE_INIT(CubicRenderTarget) {
+PY_PLASMA_TYPE_INIT(CubicRenderTarget)
+{
     pyCubicRenderTarget_Type.tp_new = pyCubicRenderTarget_new;
     pyCubicRenderTarget_Type.tp_getset = pyCubicRenderTarget_GetSet;
     pyCubicRenderTarget_Type.tp_base = &pyRenderTarget_Type;

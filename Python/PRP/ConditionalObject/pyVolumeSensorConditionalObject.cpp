@@ -36,7 +36,8 @@ static PyGetSetDef pyVolumeSensorConditionalObject_GetSet[] = {
 PY_PLASMA_TYPE(VolumeSensorConditionalObject, plVolumeSensorConditionalObject,
                "plVolumeSensorConditionalObject wrapper")
 
-PY_PLASMA_TYPE_INIT(VolumeSensorConditionalObject) {
+PY_PLASMA_TYPE_INIT(VolumeSensorConditionalObject)
+{
     pyVolumeSensorConditionalObject_Type.tp_new = pyVolumeSensorConditionalObject_new;
     pyVolumeSensorConditionalObject_Type.tp_getset = pyVolumeSensorConditionalObject_GetSet;
     pyVolumeSensorConditionalObject_Type.tp_base = &pyConditionalObject_Type;

@@ -19,12 +19,14 @@
 
 #include "plLightInfo.h"
 
-class PLASMA_DLL plDirectionalLightInfo : public plLightInfo {
+class PLASMA_DLL plDirectionalLightInfo : public plLightInfo
+{
     CREATABLE(plDirectionalLightInfo, kDirectionalLightInfo, plLightInfo)
 };
 
 
-class PLASMA_DLL plLimitedDirLightInfo : public plDirectionalLightInfo {
+class PLASMA_DLL plLimitedDirLightInfo : public plDirectionalLightInfo
+{
     CREATABLE(plLimitedDirLightInfo, kLimitedDirLightInfo,
               plDirectionalLightInfo)
 
@@ -32,7 +34,7 @@ protected:
     float fWidth, fHeight, fDepth;
 
 public:
-    plLimitedDirLightInfo() : fWidth(0.0f), fHeight(0.0f), fDepth(0.0f) { }
+    plLimitedDirLightInfo() : fWidth(), fHeight(), fDepth() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

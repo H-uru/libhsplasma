@@ -16,7 +16,8 @@
 
 #include "plImageLibMod.h"
 
-void plImageLibMod::read(hsStream* S, plResManager* mgr) {
+void plImageLibMod::read(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::read(S, mgr);
 
     fImages.resize(S->readInt());
@@ -24,7 +25,8 @@ void plImageLibMod::read(hsStream* S, plResManager* mgr) {
         fImages[i] = mgr->readKey(S);
 }
 
-void plImageLibMod::write(hsStream* S, plResManager* mgr) {
+void plImageLibMod::write(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::write(S, mgr);
 
     S->writeInt(fImages.size());
@@ -32,7 +34,8 @@ void plImageLibMod::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fImages[i]);
 }
 
-void plImageLibMod::IPrcWrite(pfPrcHelper* prc) {
+void plImageLibMod::IPrcWrite(pfPrcHelper* prc)
+{
     plSingleModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("Images");
@@ -41,7 +44,8 @@ void plImageLibMod::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plImageLibMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plImageLibMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Images") {
         fImages.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();

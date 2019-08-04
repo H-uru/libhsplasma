@@ -20,11 +20,13 @@
 #include "plMessage.h"
 #include "proEventData.h"
 
-class PLASMA_DLL plNotifyMsg : public plMessage {
+class PLASMA_DLL plNotifyMsg : public plMessage
+{
     CREATABLE(plNotifyMsg, kNotifyMsg, plMessage)
 
 public:
-    enum notificationType {
+    enum notificationType
+    {
         kActivator, kVarNotification, kNotifySelf, kResponderFF,
         kResponderChangeState
     };
@@ -35,10 +37,12 @@ protected:
     std::vector<proEventData*> fEvents;
 
 public:
-    plNotifyMsg() : fType(0), fID(0), fState(0.0f) {
+    plNotifyMsg() : fType(), fID(), fState()
+    {
         fBCastFlags |= kNetPropagate;
     }
-    virtual ~plNotifyMsg();
+
+    ~plNotifyMsg();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

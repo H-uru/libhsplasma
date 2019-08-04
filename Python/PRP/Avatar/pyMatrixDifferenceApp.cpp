@@ -24,7 +24,8 @@ PY_PLASMA_NEW(MatrixDifferenceApp, plMatrixDifferenceApp)
 PY_PLASMA_TYPE(MatrixDifferenceApp, plMatrixDifferenceApp,
                "plMatrixDifferenceApp wrapper")
 
-PY_PLASMA_TYPE_INIT(MatrixDifferenceApp) {
+PY_PLASMA_TYPE_INIT(MatrixDifferenceApp)
+{
     pyMatrixDifferenceApp_Type.tp_new = pyMatrixDifferenceApp_new;
     pyMatrixDifferenceApp_Type.tp_base = &pyMatrixChannelApplicator_Type;
     if (PyType_CheckAndReady(&pyMatrixDifferenceApp_Type) < 0)

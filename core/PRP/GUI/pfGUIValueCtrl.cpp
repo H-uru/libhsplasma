@@ -16,7 +16,8 @@
 
 #include "pfGUIValueCtrl.h"
 
-void pfGUIValueCtrl::read(hsStream* S, plResManager* mgr) {
+void pfGUIValueCtrl::read(hsStream* S, plResManager* mgr)
+{
     pfGUIControlMod::read(S, mgr);
 
     fMin = S->readFloat();
@@ -24,7 +25,8 @@ void pfGUIValueCtrl::read(hsStream* S, plResManager* mgr) {
     fStep = S->readFloat();
 }
 
-void pfGUIValueCtrl::write(hsStream* S, plResManager* mgr) {
+void pfGUIValueCtrl::write(hsStream* S, plResManager* mgr)
+{
     pfGUIControlMod::write(S, mgr);
 
     S->writeFloat(fMin);
@@ -32,7 +34,8 @@ void pfGUIValueCtrl::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fStep);
 }
 
-void pfGUIValueCtrl::IPrcWrite(pfPrcHelper* prc) {
+void pfGUIValueCtrl::IPrcWrite(pfPrcHelper* prc)
+{
     pfGUIControlMod::IPrcWrite(prc);
 
     prc->startTag("ValueRange");
@@ -42,7 +45,8 @@ void pfGUIValueCtrl::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void pfGUIValueCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void pfGUIValueCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "ValueRange") {
         fMin = tag->getParam("Min", "0").to_float();
         fMax = tag->getParam("Max", "0").to_float();

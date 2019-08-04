@@ -19,7 +19,8 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plSwimMsg : public plMessage {
+class PLASMA_DLL plSwimMsg : public plMessage
+{
     CREATABLE(plSwimMsg, kSwimMsg, plMessage)
 
 protected:
@@ -27,7 +28,7 @@ protected:
     plKey fSwimRegion;
 
 public:
-    plSwimMsg() : fIsEntering(false) { }
+    plSwimMsg() : fIsEntering() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

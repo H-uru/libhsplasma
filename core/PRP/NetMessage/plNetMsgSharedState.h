@@ -20,7 +20,8 @@
 #include "plNetMsgStreamedObject.h"
 #include "plNetSharedState.h"
 
-class PLASMA_DLL plNetMsgSharedState : public plNetMsgStreamedObject {
+class PLASMA_DLL plNetMsgSharedState : public plNetMsgStreamedObject
+{
     CREATABLE(plNetMsgSharedState, kNetMsgSharedState, plNetMsgStreamedObject)
 
 private:
@@ -28,7 +29,7 @@ private:
     plNetSharedState fState;
 
 public:
-    plNetMsgSharedState() : fLockRequest(0) { }
+    plNetMsgSharedState() : fLockRequest() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -46,7 +47,8 @@ public:
 };
 
 
-class PLASMA_DLL plNetMsgTestAndSet : public plNetMsgSharedState {
+class PLASMA_DLL plNetMsgTestAndSet : public plNetMsgSharedState
+{
     CREATABLE(plNetMsgTestAndSet, kNetMsgTestAndSet, plNetMsgSharedState)
 };
 

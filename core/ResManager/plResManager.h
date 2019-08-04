@@ -35,7 +35,8 @@ typedef std::function<void (plPageInfo *page, size_t curObj, size_t maxObjs)> Lo
 /** Callback to be called before page is unloaded */
 typedef std::function<void (const plLocation& loc)> PageUnloadCallback;
 
-struct plPageStream {
+struct plPageStream
+{
     hsFileStream* stream;
     plPageInfo* page;
 };
@@ -49,7 +50,8 @@ struct plPageStream {
  * handle PRC data and store Age or PRP information.  Most of the
  * top-level file-based operations you'll do will start from here.
  */
-class PLASMA_DLL plResManager {
+class PLASMA_DLL plResManager
+{
 private:
     std::mutex fResMgrMutex;
 

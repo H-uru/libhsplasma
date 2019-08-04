@@ -16,11 +16,13 @@
 
 #include "plLoadAvatarMsg.h"
 
-plLoadAvatarMsg::~plLoadAvatarMsg() {
+plLoadAvatarMsg::~plLoadAvatarMsg()
+{
     delete fInitialTask;
 }
 
-void plLoadAvatarMsg::read(hsStream* S, plResManager* mgr) {
+void plLoadAvatarMsg::read(hsStream* S, plResManager* mgr)
+{
     plLoadCloneMsg::read(S, mgr);
 
     fIsPlayer = S->readBool();
@@ -35,7 +37,8 @@ void plLoadAvatarMsg::read(hsStream* S, plResManager* mgr) {
         fUserStr = S->readSafeStr();
 }
 
-void plLoadAvatarMsg::write(hsStream* S, plResManager* mgr) {
+void plLoadAvatarMsg::write(hsStream* S, plResManager* mgr)
+{
     plLoadCloneMsg::write(S, mgr);
 
     S->writeBool(fIsPlayer);
@@ -52,7 +55,8 @@ void plLoadAvatarMsg::write(hsStream* S, plResManager* mgr) {
         S->writeSafeStr(fUserStr);
 }
 
-void plLoadAvatarMsg::IPrcWrite(pfPrcHelper* prc) {
+void plLoadAvatarMsg::IPrcWrite(pfPrcHelper* prc)
+{
     plLoadCloneMsg::IPrcWrite(prc);
 
     prc->startTag("AvatarParams");
@@ -75,7 +79,8 @@ void plLoadAvatarMsg::IPrcWrite(pfPrcHelper* prc) {
     }
 }
 
-void plLoadAvatarMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plLoadAvatarMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "AvatarParams") {
         fIsPlayer = tag->getParam("IsPlayer", "false").to_bool();
         fUserStr = tag->getParam("UserStr", "");
@@ -91,7 +96,8 @@ void plLoadAvatarMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plLoadAvatarMsg::setInitialTask(plAvTask* task) {
+void plLoadAvatarMsg::setInitialTask(plAvTask* task)
+{
     delete fInitialTask;
     fInitialTask = task;
 }

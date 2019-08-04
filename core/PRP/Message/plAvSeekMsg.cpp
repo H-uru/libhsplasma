@@ -17,7 +17,8 @@
 #include "plAvSeekMsg.h"
 
 /* plAvSeekMsg */
-void plAvSeekMsg::read(hsStream* S, plResManager* mgr) {
+void plAvSeekMsg::read(hsStream* S, plResManager* mgr)
+{
     plAvTaskMsg::read(S, mgr);
 
     fSeekPoint = mgr->readKey(S);
@@ -34,7 +35,8 @@ void plAvSeekMsg::read(hsStream* S, plResManager* mgr) {
     fFinishKey = mgr->readKey(S);
 }
 
-void plAvSeekMsg::write(hsStream* S, plResManager* mgr) {
+void plAvSeekMsg::write(hsStream* S, plResManager* mgr)
+{
     plAvTaskMsg::write(S, mgr);
 
     mgr->writeKey(S, fSeekPoint);
@@ -51,7 +53,8 @@ void plAvSeekMsg::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fFinishKey);
 }
 
-void plAvSeekMsg::IPrcWrite(pfPrcHelper* prc) {
+void plAvSeekMsg::IPrcWrite(pfPrcHelper* prc)
+{
     plAvTaskMsg::IPrcWrite(prc);
 
     prc->startTag("SeekParams");
@@ -80,7 +83,8 @@ void plAvSeekMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plAvSeekMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAvSeekMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "SeekParams") {
         fDuration = tag->getParam("Duration", "0").to_float();
         fSmartSeek = tag->getParam("SmartSeek", "true").to_bool();
@@ -114,7 +118,8 @@ void plAvSeekMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plAvOneShotMsg */
-void plAvOneShotMsg::read(hsStream* S, plResManager* mgr) {
+void plAvOneShotMsg::read(hsStream* S, plResManager* mgr)
+{
     plAvSeekMsg::read(S, mgr);
 
     fAnimName = S->readSafeStr();
@@ -122,7 +127,8 @@ void plAvOneShotMsg::read(hsStream* S, plResManager* mgr) {
     fReversible = S->readBool();
 }
 
-void plAvOneShotMsg::write(hsStream* S, plResManager* mgr) {
+void plAvOneShotMsg::write(hsStream* S, plResManager* mgr)
+{
     plAvSeekMsg::write(S, mgr);
 
     S->writeSafeStr(fAnimName);
@@ -130,7 +136,8 @@ void plAvOneShotMsg::write(hsStream* S, plResManager* mgr) {
     S->writeBool(fReversible);
 }
 
-void plAvOneShotMsg::IPrcWrite(pfPrcHelper* prc) {
+void plAvOneShotMsg::IPrcWrite(pfPrcHelper* prc)
+{
     plAvSeekMsg::IPrcWrite(prc);
 
     prc->startTag("OneShotParams");
@@ -140,7 +147,8 @@ void plAvOneShotMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plAvOneShotMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAvOneShotMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "OneShotParams") {
         fAnimName = tag->getParam("AnimName", "");
         fDrivable = tag->getParam("Drivable", "false").to_bool();

@@ -21,7 +21,8 @@
 
 PY_PLASMA_NEW(OneTimeParticleGenerator, plOneTimeParticleGenerator)
 
-PY_GETSET_GETTER_DECL(OneTimeParticleGenerator, position) {
+PY_GETSET_GETTER_DECL(OneTimeParticleGenerator, position)
+{
     const auto& pos = self->fThis->getPosition();
     PyObject* result = PyTuple_New(pos.size());
     for (size_t i = 0; i < pos.size(); ++i)
@@ -29,7 +30,8 @@ PY_GETSET_GETTER_DECL(OneTimeParticleGenerator, position) {
     return result;
 }
 
-PY_GETSET_SETTER_DECL(OneTimeParticleGenerator, position) {
+PY_GETSET_SETTER_DECL(OneTimeParticleGenerator, position)
+{
     PY_PROPERTY_CHECK_NULL(position);
     pySequenceFastRef seq(value);
     if (!seq.isSequence()) {
@@ -52,7 +54,8 @@ PY_GETSET_SETTER_DECL(OneTimeParticleGenerator, position) {
 PY_PROPERTY_GETSET_DECL(OneTimeParticleGenerator, position)
 
 
-PY_GETSET_GETTER_DECL(OneTimeParticleGenerator, direction) {
+PY_GETSET_GETTER_DECL(OneTimeParticleGenerator, direction)
+{
     const auto& dir = self->fThis->getDirection();
     PyObject* result = PyTuple_New(dir.size());
     for (size_t i = 0; i < dir.size(); ++i)
@@ -60,7 +63,8 @@ PY_GETSET_GETTER_DECL(OneTimeParticleGenerator, direction) {
     return result;
 }
 
-PY_GETSET_SETTER_DECL(OneTimeParticleGenerator, direction) {
+PY_GETSET_SETTER_DECL(OneTimeParticleGenerator, direction)
+{
     PY_PROPERTY_CHECK_NULL(direction);
     pySequenceFastRef seq(value);
     if (!seq.isSequence()) {
@@ -104,7 +108,8 @@ static PyGetSetDef pyOneTimeParticleGenerator_GetSet[] = {
 PY_PLASMA_TYPE(OneTimeParticleGenerator, plOneTimeParticleGenerator,
                "plOneTimeParticleGenerator wrapper")
 
-PY_PLASMA_TYPE_INIT(OneTimeParticleGenerator) {
+PY_PLASMA_TYPE_INIT(OneTimeParticleGenerator)
+{
     pyOneTimeParticleGenerator_Type.tp_new = pyOneTimeParticleGenerator_new;
     pyOneTimeParticleGenerator_Type.tp_getset = pyOneTimeParticleGenerator_GetSet;
     pyOneTimeParticleGenerator_Type.tp_base = &pyParticleGenerator_Type;

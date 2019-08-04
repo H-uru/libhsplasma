@@ -21,20 +21,22 @@
 #include <cstdlib>
 #include <openssl/rc4.h>
 
-enum ECryptAlgorithm {
+enum ECryptAlgorithm
+{
     kCryptSha, kCryptSha1, kCryptMd5, kCryptRc4, kCryptRsa,
     kNumCryptAlgorithms
 };
 
-class PLASMANET_DLL pnRC4Socket : public pnSocket {
+class PLASMANET_DLL pnRC4Socket : public pnSocket
+{
 protected:
     RC4_KEY fSend, fRecv;
     std::mutex fSendLock, fRecvLock;
     bool fEncrypted;
 
 public:
-    pnRC4Socket() : fEncrypted(false) { }
-    pnRC4Socket(int handle) : pnSocket(handle), fEncrypted(false) { }
+    pnRC4Socket() : fEncrypted() { }
+    pnRC4Socket(int handle) : pnSocket(handle), fEncrypted() { }
     void init(size_t keySize, const unsigned char* keyData);
 
     long send(const void* buf, size_t size) HS_OVERRIDE;

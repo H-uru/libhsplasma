@@ -16,26 +16,30 @@
 
 #include "plMorphArray.h"
 
-void plMorphArray::read(hsStream* S, plResManager* mgr) {
+void plMorphArray::read(hsStream* S, plResManager* mgr)
+{
     fDeltas.resize(S->readInt());
     for (size_t i=0; i<fDeltas.size(); i++)
         fDeltas[i].read(S, mgr);
 }
 
-void plMorphArray::write(hsStream* S, plResManager* mgr) {
+void plMorphArray::write(hsStream* S, plResManager* mgr)
+{
     S->writeInt(fDeltas.size());
     for (size_t i=0; i<fDeltas.size(); i++)
         fDeltas[i].write(S, mgr);
 }
 
-void plMorphArray::prcWrite(pfPrcHelper* prc) {
+void plMorphArray::prcWrite(pfPrcHelper* prc)
+{
     prc->writeSimpleTag("plMorphArray");
     for (size_t i=0; i<fDeltas.size(); i++)
         fDeltas[i].prcWrite(prc);
     prc->closeTag();
 }
 
-void plMorphArray::prcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plMorphArray::prcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() != "plMorphArray")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 

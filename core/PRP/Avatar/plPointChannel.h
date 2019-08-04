@@ -21,7 +21,8 @@
 #include "PRP/Animation/plController.h"
 
 /* Point Channels */
-class PLASMA_DLL plPointChannel : public plAGChannel {
+class PLASMA_DLL plPointChannel : public plAGChannel
+{
     CREATABLE(plPointChannel, kPointChannel, plAGChannel)
 
 protected:
@@ -33,12 +34,14 @@ public:
 };
 
 
-class PLASMA_DLL plPointBlend : public plPointChannel {
+class PLASMA_DLL plPointBlend : public plPointChannel
+{
     CREATABLE(plPointBlend, kPointBlend, plPointChannel)
 };
 
 
-class PLASMA_DLL plPointConstant : public plPointChannel {
+class PLASMA_DLL plPointConstant : public plPointChannel
+{
     CREATABLE(plPointConstant, kPointConstant, plPointChannel)
 
 public:
@@ -51,21 +54,23 @@ protected:
 };
 
 
-class PLASMA_DLL plPointControllerCacheChannel : public plPointChannel {
+class PLASMA_DLL plPointControllerCacheChannel : public plPointChannel
+{
     CREATABLE(plPointControllerCacheChannel, kPointControllerCacheChannel,
               plPointChannel)
 };
 
 
-class PLASMA_DLL plPointControllerChannel : public plPointChannel {
+class PLASMA_DLL plPointControllerChannel : public plPointChannel
+{
     CREATABLE(plPointControllerChannel, kPointControllerChannel, plPointChannel)
 
 protected:
     plController* fController;
 
 public:
-    plPointControllerChannel() : fController(NULL) { }
-    virtual ~plPointControllerChannel();
+    plPointControllerChannel() : fController() { }
+    ~plPointControllerChannel();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -80,13 +85,15 @@ public:
 };
 
 
-class PLASMA_DLL plPointTimeScale : public plPointChannel {
+class PLASMA_DLL plPointTimeScale : public plPointChannel
+{
     CREATABLE(plPointTimeScale, kPointTimeScale, plPointChannel)
 };
 
 
 /* Point Channel Applicators */
-class PLASMA_DLL plPointChannelApplicator : public plAGApplicator {
+class PLASMA_DLL plPointChannelApplicator : public plAGApplicator
+{
     CREATABLE(plPointChannelApplicator, kPointChannelApplicator, plAGApplicator)
 };
 

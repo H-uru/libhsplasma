@@ -23,7 +23,8 @@
 #include <string_theory/stdio>
 #include <cstring>
 
-void doHelp(const char* exename) {
+static void doHelp(const char* exename)
+{
     ST::printf("Usage: {} [options] filename\n", exename);
     puts("");
     puts("Options:");
@@ -37,7 +38,8 @@ void doHelp(const char* exename) {
     puts("");
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
     ST::string inputFile, outputFile;
     bool exVtx = false, exTex = false;
     PlasmaVer inVer = PlasmaVer::pvUnknown;

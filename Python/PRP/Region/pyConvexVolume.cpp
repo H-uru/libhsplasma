@@ -22,7 +22,8 @@
 
 PY_PLASMA_NEW(ConvexVolume, plConvexVolume)
 
-PY_GETSET_GETTER_DECL(ConvexVolume, localPlanes) {
+PY_GETSET_GETTER_DECL(ConvexVolume, localPlanes)
+{
     const auto& planes = self->fThis->getLocalPlanes();
     PyObject* result = PyTuple_New(planes.size());
     for (size_t i = 0; i < planes.size(); ++i)
@@ -30,7 +31,8 @@ PY_GETSET_GETTER_DECL(ConvexVolume, localPlanes) {
     return result;
 }
 
-PY_GETSET_SETTER_DECL(ConvexVolume, localPlanes) {
+PY_GETSET_SETTER_DECL(ConvexVolume, localPlanes)
+{
     PY_PROPERTY_CHECK_NULL(localPlanes);
     pySequenceFastRef seq(value);
     if (!seq.isSequence()) {
@@ -59,7 +61,8 @@ static PyGetSetDef pyConvexVolume_GetSet[] = {
 
 PY_PLASMA_TYPE(ConvexVolume, plConvexVolume, "plConvexVolume wrapper")
 
-PY_PLASMA_TYPE_INIT(ConvexVolume) {
+PY_PLASMA_TYPE_INIT(ConvexVolume)
+{
     pyConvexVolume_Type.tp_new = pyConvexVolume_new;
     pyConvexVolume_Type.tp_getset = pyConvexVolume_GetSet;
     pyConvexVolume_Type.tp_base = &pyCreatable_Type;

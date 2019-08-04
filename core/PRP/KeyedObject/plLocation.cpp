@@ -17,23 +17,27 @@
 #include "plLocation.h"
 #include <string_theory/format>
 
-bool plLocation::operator==(const plLocation& other) const {
+bool plLocation::operator==(const plLocation& other) const
+{
     return (fState == other.fState && fPageNum == other.fPageNum
             && fSeqPrefix == other.fSeqPrefix);
 }
 
-bool plLocation::operator!=(const plLocation& other) const {
+bool plLocation::operator!=(const plLocation& other) const
+{
     return (fState != other.fState || fPageNum != other.fPageNum
             || fSeqPrefix != other.fSeqPrefix || fFlags != other.fFlags);
 }
 
-bool plLocation::operator<(const plLocation& other) const {
+bool plLocation::operator<(const plLocation& other) const
+{
     if (fSeqPrefix == other.fSeqPrefix)
         return fPageNum < other.fPageNum;
     return fSeqPrefix < other.fSeqPrefix;
 }
 
-void plLocation::parse(unsigned int id) {
+void plLocation::parse(unsigned int id)
+{
     if (id == 0xFFFFFFFF) {
         fState = kStateInvalid;
         fSeqPrefix = 0;
@@ -65,7 +69,8 @@ void plLocation::parse(unsigned int id) {
         fPageNum = (signed char)(unsigned char)fPageNum;
 }
 
-unsigned int plLocation::unparse() const {
+unsigned int plLocation::unparse() const
+{
     if (fState == kStateInvalid)
         return 0xFFFFFFFF;
     else if (fState == kStateVirtual)
@@ -86,7 +91,8 @@ unsigned int plLocation::unparse() const {
     }
 }
 
-void plLocation::read(hsStream* S) {
+void plLocation::read(hsStream* S)
+{
     setVer(S->getVer());
     if (S->getVer().isUniversal()) {
         fState = S->readByte();
@@ -104,7 +110,8 @@ void plLocation::read(hsStream* S) {
     }
 }
 
-void plLocation::write(hsStream* S) {
+void plLocation::write(hsStream* S)
+{
     if (S->getVer().isValid())
         setVer(S->getVer());
 
@@ -125,7 +132,8 @@ void plLocation::write(hsStream* S) {
     }
 }
 
-void plLocation::prcWrite(pfPrcHelper* prc) {
+void plLocation::prcWrite(pfPrcHelper* prc)
+{
     if (fState == kStateInvalid) {
         prc->writeParam("Location", "INVALID");
     } else if (fState == kStateVirtual) {
@@ -138,7 +146,8 @@ void plLocation::prcWrite(pfPrcHelper* prc) {
     }
 }
 
-void plLocation::prcParse(const pfPrcTag* tag) {
+void plLocation::prcParse(const pfPrcTag* tag)
+{
     ST::string buf = tag->getParam("Location", "INVALID");
     if (buf == "INVALID") {
         fState = kStateInvalid;
@@ -157,30 +166,35 @@ void plLocation::prcParse(const pfPrcTag* tag) {
     fFlags = tag->getParam("LocFlag", "0").to_uint();
 }
 
-void plLocation::invalidate() {
+void plLocation::invalidate()
+{
     fState = kStateInvalid;
     fPageNum = 0;
     fSeqPrefix = 0;
     fFlags = 0;
 }
 
-void plLocation::setVirtual() {
+void plLocation::setVirtual()
+{
     fState = kStateVirtual;
     fPageNum = 0;
     fSeqPrefix = 0;
 }
 
-void plLocation::setPageNum(int pn) {
+void plLocation::setPageNum(int pn)
+{
     fPageNum = pn;
     fState = kStateNormal;
 }
 
-void plLocation::setSeqPrefix(int sp) {
+void plLocation::setSeqPrefix(int sp)
+{
     fSeqPrefix = sp;
     fState = kStateNormal;
 }
 
-void plLocation::set(int pid, unsigned short flags, PlasmaVer pv) {
+void plLocation::set(int pid, unsigned short flags, PlasmaVer pv)
+{
     if (pv.isUniversal())
         throw hsBadParamException(__FILE__, __LINE__, "Universal PRPs don't use encoded locations");
     setVer(pv);
@@ -188,7 +202,8 @@ void plLocation::set(int pid, unsigned short flags, PlasmaVer pv) {
     fFlags = flags;
 }
 
-ST::string plLocation::toString() const {
+ST::string plLocation::toString() const
+{
     if (fState == kStateInvalid)
         return "<INVALID>";
     else if (fState == kStateVirtual)

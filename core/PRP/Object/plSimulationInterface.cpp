@@ -16,7 +16,8 @@
 
 #include "plSimulationInterface.h"
 
-plSimulationInterface::plSimulationInterface() : fUruInt(0) {
+plSimulationInterface::plSimulationInterface() : fUruInt()
+{
     fProps.setName(kDisable, "kDisable");
     fProps.setName(kWeightless, "kWeightless");
     fProps.setName(kPinned, "kPinned");
@@ -33,7 +34,8 @@ plSimulationInterface::plSimulationInterface() : fUruInt(0) {
     fProps.setName(kAvAnimPushable, "kAvAnimPushable");
 }
 
-void plSimulationInterface::read(hsStream* S, plResManager* mgr) {
+void plSimulationInterface::read(hsStream* S, plResManager* mgr)
+{
     plObjInterface::read(S, mgr);
 
     if (S->getVer().isUru()) {
@@ -44,7 +46,8 @@ void plSimulationInterface::read(hsStream* S, plResManager* mgr) {
     fPhysical = mgr->readKey(S);
 }
 
-void plSimulationInterface::write(hsStream* S, plResManager* mgr) {
+void plSimulationInterface::write(hsStream* S, plResManager* mgr)
+{
     plObjInterface::write(S, mgr);
 
     if (S->getVer().isUru()) {
@@ -54,7 +57,8 @@ void plSimulationInterface::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fPhysical);
 }
 
-void plSimulationInterface::IPrcWrite(pfPrcHelper* prc) {
+void plSimulationInterface::IPrcWrite(pfPrcHelper* prc)
+{
     plObjInterface::IPrcWrite(prc);
 
     prc->writeSimpleTag("Physical");
@@ -62,7 +66,8 @@ void plSimulationInterface::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plSimulationInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plSimulationInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Physical") {
         if (tag->hasChildren())
             fPhysical = mgr->prcParseKey(tag->getFirstChild());

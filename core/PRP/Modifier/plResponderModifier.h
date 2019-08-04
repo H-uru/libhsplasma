@@ -20,11 +20,13 @@
 #include "plModifier.h"
 #include "PRP/Message/plMessage.h"
 
-class PLASMA_DLL plResponderModifier : public plSingleModifier {
+class PLASMA_DLL plResponderModifier : public plSingleModifier
+{
     CREATABLE(plResponderModifier, kResponderModifier, plSingleModifier)
 
 public:
-    class PLASMA_DLL plResponderCmd {
+    class PLASMA_DLL plResponderCmd
+    {
     public:
         plMessage* fMsg;
         int8_t fWaitOn;
@@ -34,13 +36,14 @@ public:
         ~plResponderCmd() { delete fMsg; }
     };
 
-    class PLASMA_DLL plResponderState {
+    class PLASMA_DLL plResponderState
+    {
     public:
         std::vector<plResponderCmd*> fCmds;
         int8_t fNumCallbacks, fSwitchToState;
         std::map<int8_t, int8_t> fWaitToCmd;
 
-        plResponderState() : fNumCallbacks(0), fSwitchToState(0) { }
+        plResponderState() : fNumCallbacks(), fSwitchToState() { }
         ~plResponderState();
 
         void addCommand(plMessage* msg, int8_t waitOn);
@@ -48,7 +51,8 @@ public:
         void clearCommands();
     };
 
-    enum {
+    enum
+    {
         kDetectTrigger = 0x1,
         kDetectUnTrigger = 0x2,
         kSkipFFSound = 0x4
@@ -61,8 +65,8 @@ protected:
     unsigned char fFlags;
 
 public:
-    plResponderModifier() : fCurState(0), fEnabled(true), fFlags(0) { }
-    virtual ~plResponderModifier();
+    plResponderModifier() : fCurState(), fEnabled(true), fFlags() { }
+    ~plResponderModifier();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -88,7 +92,8 @@ public:
 };
 
 
-class PLASMA_DLL plResponderEnableMsg : public plMessage {
+class PLASMA_DLL plResponderEnableMsg : public plMessage
+{
     CREATABLE(plResponderEnableMsg, kResponderEnableMsg, plMessage)
 
 protected:

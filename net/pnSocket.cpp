@@ -31,11 +31,9 @@ static int sockError();
 
     static WSADATA s_wsadata;
 
-    static void closeWinsock()
-    { WSACleanup(); }
+    static void closeWinsock() { WSACleanup(); }
 
-    static int sockError()
-    { return WSAGetLastError(); }
+    static int sockError() { return WSAGetLastError(); }
 
 #   ifndef AI_ADDRCONFIG
 #       define AI_ADDRCONFIG 0x0020
@@ -58,8 +56,7 @@ static int sockError();
     typedef void* sockbuf_t;
     typedef const void* const_sockbuf_t;
 
-    static int sockError()
-    { return errno; }
+    static int sockError() { return errno; }
 
 #   define INVALID_SOCKET (-1)
 #endif
@@ -99,14 +96,12 @@ static void initSockets()
 }
 
 /* pnSocket */
-pnSocket::pnSocket()
-        : fSockHandle(-1), fConnected(false)
+pnSocket::pnSocket() : fSockHandle(-1), fConnected()
 {
     initSockets();
 }
 
-pnSocket::pnSocket(int handle)
-        : fSockHandle(handle), fConnected(true)
+pnSocket::pnSocket(int handle) : fSockHandle(handle), fConnected(true)
 {
     initSockets();
 }

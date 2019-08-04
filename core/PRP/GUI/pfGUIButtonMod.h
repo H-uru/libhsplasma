@@ -19,7 +19,8 @@
 
 #include "pfGUIControlMod.h"
 
-class PLASMA_DLL pfGUIButtonMod : public pfGUIControlMod {
+class PLASMA_DLL pfGUIButtonMod : public pfGUIControlMod
+{
     CREATABLE(pfGUIButtonMod, kGUIButtonMod, pfGUIControlMod)
 
 public:
@@ -32,7 +33,7 @@ protected:
     int fNotifyType, fEoaUnknown1, fEoaUnknown2;
 
 public:
-    pfGUIButtonMod() : fNotifyType(0), fEoaUnknown1(0), fEoaUnknown2(0) { }
+    pfGUIButtonMod() : fNotifyType(), fEoaUnknown1(), fEoaUnknown2() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -66,14 +67,16 @@ public:
 };
 
 
-class PLASMA_DLL pfGUIMenuItem : public pfGUIButtonMod {
+class PLASMA_DLL pfGUIMenuItem : public pfGUIButtonMod
+{
     CREATABLE(pfGUIMenuItem, kGUIMenuItem, pfGUIButtonMod)
 
 public:
     enum ItemFlags { kDrawSubMenuArrow = kDerivedFlagsStart, kReportHovers };
 
 public:
-    pfGUIMenuItem() {
+    pfGUIMenuItem()
+    {
         fFlags.setName(kDrawSubMenuArrow, "kDrawSubMenuArrow");
         fFlags.setName(kReportHovers, "kReportHovers");
     }

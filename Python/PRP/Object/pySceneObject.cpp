@@ -107,7 +107,8 @@ PyMethodDef pySceneObject_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(SceneObject, interfaces) {
+PY_GETSET_GETTER_DECL(SceneObject, interfaces)
+{
     PyObject* list = PyTuple_New(self->fThis->getInterfaces().size());
     for (size_t i=0; i<self->fThis->getInterfaces().size(); i++)
         PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getInterfaces()[i]));
@@ -117,7 +118,8 @@ PY_GETSET_GETTER_DECL(SceneObject, interfaces) {
 PY_PROPERTY_SETTER_MSG(SceneObject, interfaces, "To add Interfaces, use addInterface")
 PY_PROPERTY_GETSET_DECL(SceneObject, interfaces)
 
-PY_GETSET_GETTER_DECL(SceneObject, modifiers) {
+PY_GETSET_GETTER_DECL(SceneObject, modifiers)
+{
     PyObject* list = PyTuple_New(self->fThis->getModifiers().size());
     for (size_t i=0; i<self->fThis->getModifiers().size(); i++)
         PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getModifiers()[i]));
@@ -146,7 +148,8 @@ PyGetSetDef pySceneObject_GetSet[] = {
 
 PY_PLASMA_TYPE(SceneObject, plSceneObject, "plSceneObject wrapper")
 
-PY_PLASMA_TYPE_INIT(SceneObject) {
+PY_PLASMA_TYPE_INIT(SceneObject)
+{
     pySceneObject_Type.tp_new = pySceneObject_new;
     pySceneObject_Type.tp_methods = pySceneObject_Methods;
     pySceneObject_Type.tp_getset = pySceneObject_GetSet;

@@ -79,7 +79,8 @@ static PyGetSetDef pyBounds_GetSet[] = {
 
 PY_PLASMA_TYPE(Bounds, hsBounds, "hsBounds wrapper")
 
-PY_PLASMA_TYPE_INIT(Bounds) {
+PY_PLASMA_TYPE_INIT(Bounds)
+{
     pyBounds_Type.tp_dealloc = pyBounds_dealloc;
     pyBounds_Type.tp_init = pyBounds___init__;
     pyBounds_Type.tp_new = pyBounds_new;

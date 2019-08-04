@@ -18,11 +18,13 @@
 #include <cstring>
 
 /* plNetMsgStreamHelper */
-plNetMsgStreamHelper::~plNetMsgStreamHelper() {
+plNetMsgStreamHelper::~plNetMsgStreamHelper()
+{
     delete[] fStream;
 }
 
-void plNetMsgStreamHelper::read(hsStream* S, plResManager* mgr) {
+void plNetMsgStreamHelper::read(hsStream* S, plResManager* mgr)
+{
     fUncompressedSize = S->readInt();
     fCompressionType = S->readByte();
     fStreamLength = S->readInt();
@@ -36,7 +38,8 @@ void plNetMsgStreamHelper::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plNetMsgStreamHelper::write(hsStream* S, plResManager* mgr) {
+void plNetMsgStreamHelper::write(hsStream* S, plResManager* mgr)
+{
     unsigned char* outStream = fStream;
     fUncompressedSize = fStreamLength;
     if (fCompressionType == kCompressionZlib) {
@@ -63,7 +66,8 @@ void plNetMsgStreamHelper::write(hsStream* S, plResManager* mgr) {
         delete[] outStream;
 }
 
-void plNetMsgStreamHelper::IPrcWrite(pfPrcHelper* prc) {
+void plNetMsgStreamHelper::IPrcWrite(pfPrcHelper* prc)
+{
     prc->startTag("Stream");
     prc->writeParam("UncompressedSize", (unsigned long)fUncompressedSize);
     prc->writeParam("CompressionType", fCompressionType);
@@ -72,7 +76,8 @@ void plNetMsgStreamHelper::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plNetMsgStreamHelper::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plNetMsgStreamHelper::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Stream") {
         fUncompressedSize = tag->getParam("UncompressedSize", "0").to_uint();
         fCompressionType = tag->getParam("CompressionType", "0").to_uint();
@@ -86,7 +91,8 @@ void plNetMsgStreamHelper::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plNetMsgStreamHelper::setStream(const unsigned char* stream, unsigned int length) {
+void plNetMsgStreamHelper::setStream(const unsigned char* stream, unsigned int length)
+{
     delete[] fStream;
     fStreamLength = length;
     if (fStreamLength != 0) {
@@ -97,7 +103,8 @@ void plNetMsgStreamHelper::setStream(const unsigned char* stream, unsigned int l
     }
 }
 
-void plNetMsgStreamHelper::decompress(int offset) {
+void plNetMsgStreamHelper::decompress(int offset)
+{
     if (fCompressionType == kCompressionZlib) {
         unsigned char* newStream = new unsigned char[fUncompressedSize];
         fUncompressedSize -= offset;
@@ -117,7 +124,8 @@ void plNetMsgStreamHelper::decompress(int offset) {
 
 
 /* plNetMsgStream */
-void plNetMsgStream::read(hsStream* S, plResManager* mgr) {
+void plNetMsgStream::read(hsStream* S, plResManager* mgr)
+{
     plNetMessage::read(S, mgr);
 
     plNetMsgStreamHelper helper;
@@ -128,7 +136,8 @@ void plNetMsgStream::read(hsStream* S, plResManager* mgr) {
     // TODO: Decompression
 }
 
-void plNetMsgStream::write(hsStream* S, plResManager* mgr) {
+void plNetMsgStream::write(hsStream* S, plResManager* mgr)
+{
     plNetMessage::write(S, mgr);
 
     plNetMsgStreamHelper helper;
@@ -141,7 +150,8 @@ void plNetMsgStream::write(hsStream* S, plResManager* mgr) {
     delete[] buf;
 }
 
-void plNetMsgStream::IPrcWrite(pfPrcHelper* prc) {
+void plNetMsgStream::IPrcWrite(pfPrcHelper* prc)
+{
     plNetMessage::IPrcWrite(prc);
 
     plNetMsgStreamHelper helper;
@@ -152,7 +162,8 @@ void plNetMsgStream::IPrcWrite(pfPrcHelper* prc) {
     delete[] buf;
 }
 
-void plNetMsgStream::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plNetMsgStream::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "plNetMsgStreamHelper") {
         plNetMsgStreamHelper helper;
         helper.prcParse(tag, mgr);

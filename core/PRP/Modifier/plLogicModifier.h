@@ -19,7 +19,8 @@
 
 #include "plLogicModBase.h"
 
-class PLASMA_DLL plLogicModifier : public plLogicModBase {
+class PLASMA_DLL plLogicModifier : public plLogicModBase
+{
     CREATABLE(plLogicModifier, kLogicModifier, plLogicModBase)
 
 protected:
@@ -28,7 +29,7 @@ protected:
     plKey fParent;
 
 public:
-    plLogicModifier() : fMyCursor(0) { }
+    plLogicModifier() : fMyCursor() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

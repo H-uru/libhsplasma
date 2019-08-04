@@ -17,7 +17,8 @@
 #include "plCameraModifier.h"
 
 /* plCameraModifier::CamTrans */
-void plCameraModifier::CamTrans::read(hsStream* S, plResManager* mgr) {
+void plCameraModifier::CamTrans::read(hsStream* S, plResManager* mgr)
+{
     fTransTo = mgr->readKey(S);
     fCutPos = S->readBool();
     fCutPOA = S->readBool();
@@ -30,7 +31,8 @@ void plCameraModifier::CamTrans::read(hsStream* S, plResManager* mgr) {
     fPOADecel = S->readFloat();
 }
 
-void plCameraModifier::CamTrans::write(hsStream* S, plResManager* mgr) {
+void plCameraModifier::CamTrans::write(hsStream* S, plResManager* mgr)
+{
     mgr->writeKey(S, fTransTo);
     S->writeBool(fCutPos);
     S->writeBool(fCutPOA);
@@ -43,7 +45,8 @@ void plCameraModifier::CamTrans::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fPOADecel);
 }
 
-void plCameraModifier::CamTrans::prcWrite(pfPrcHelper* prc) {
+void plCameraModifier::CamTrans::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("CamTrans");
     prc->writeParam("CutPos", fCutPos);
     prc->writeParam("CutPOA", fCutPOA);
@@ -61,7 +64,8 @@ void plCameraModifier::CamTrans::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plCameraModifier::CamTrans::prcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plCameraModifier::CamTrans::prcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() != "CamTrans")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
@@ -88,7 +92,8 @@ void plCameraModifier::CamTrans::prcParse(const pfPrcTag* tag, plResManager* mgr
 
 
 /* plCameraModifier */
-plCameraModifier::~plCameraModifier() {
+plCameraModifier::~plCameraModifier()
+{
     for (auto trans = fTrans.begin(); trans != fTrans.end(); ++trans)
         delete *trans;
     for (auto msg = fMessageQueue.begin(); msg != fMessageQueue.end(); ++msg)
@@ -97,7 +102,8 @@ plCameraModifier::~plCameraModifier() {
         delete *inst;
 }
 
-void plCameraModifier::read(hsStream* S, plResManager* mgr) {
+void plCameraModifier::read(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::read(S, mgr);
 
     clearTrans();
@@ -129,7 +135,8 @@ void plCameraModifier::read(hsStream* S, plResManager* mgr) {
     fResetAnimOnPop = S->readBool();
 }
 
-void plCameraModifier::write(hsStream* S, plResManager* mgr) {
+void plCameraModifier::write(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::write(S, mgr);
 
     mgr->writeKey(S, fBrain);
@@ -155,7 +162,8 @@ void plCameraModifier::write(hsStream* S, plResManager* mgr) {
     S->writeBool(fResetAnimOnPop);
 }
 
-bool plCameraModifier::orderAfter(const hsKeyedObject* other) const {
+bool plCameraModifier::orderAfter(const hsKeyedObject* other) const
+{
     // No strong association between plCameraModifier and plAGMasterMod,
     // so just ensure this is always sorted after all plAGMasterMods
     // TODO: Improve this if possible
@@ -164,7 +172,8 @@ bool plCameraModifier::orderAfter(const hsKeyedObject* other) const {
     return plSingleModifier::orderAfter(other);
 }
 
-void plCameraModifier::IPrcWrite(pfPrcHelper* prc) {
+void plCameraModifier::IPrcWrite(pfPrcHelper* prc)
+{
     hsKeyedObject::IPrcWrite(prc);
 
     prc->startTag("CameraModParams");
@@ -202,7 +211,8 @@ void plCameraModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plCameraModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plCameraModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "CameraModParams") {
         fFOVw = tag->getParam("FOVw", "45").to_float();
         fFOVh = tag->getParam("FOVh", "33.75").to_float();
@@ -250,36 +260,42 @@ void plCameraModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plCameraModifier::delTrans(size_t idx) {
+void plCameraModifier::delTrans(size_t idx)
+{
     delete fTrans[idx];
     fTrans.erase(fTrans.begin() + idx);
 }
 
-void plCameraModifier::clearTrans() {
+void plCameraModifier::clearTrans()
+{
     for (auto trans = fTrans.begin(); trans != fTrans.end(); ++trans)
         delete *trans;
     fTrans.clear();
 }
 
-void plCameraModifier::delMessage(size_t idx) {
+void plCameraModifier::delMessage(size_t idx)
+{
     delete fMessageQueue[idx];
     fMessageQueue.erase(fMessageQueue.begin() + idx);
     fSenderQueue.erase(fSenderQueue.begin() + idx);
 }
 
-void plCameraModifier::clearMessageQueue() {
+void plCameraModifier::clearMessageQueue()
+{
     for (auto msg = fMessageQueue.begin(); msg != fMessageQueue.end(); ++msg)
         delete *msg;
     fMessageQueue.clear();
     fSenderQueue.clear();
 }
 
-void plCameraModifier::delFOVInstruction(size_t idx) {
+void plCameraModifier::delFOVInstruction(size_t idx)
+{
     delete fFOVInstructions[idx];
     fFOVInstructions.erase(fFOVInstructions.begin() + idx);
 }
 
-void plCameraModifier::clearFOVInstructions() {
+void plCameraModifier::clearFOVInstructions()
+{
     for (auto inst = fFOVInstructions.begin(); inst != fFOVInstructions.end(); ++inst)
         delete *inst;
     fFOVInstructions.clear();

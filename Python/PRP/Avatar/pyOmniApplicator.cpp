@@ -23,7 +23,8 @@ PY_PLASMA_NEW(OmniApplicator, plOmniApplicator)
 
 PY_PLASMA_TYPE(OmniApplicator, plOmniApplicator, "plOmniApplicator wrapper")
 
-PY_PLASMA_TYPE_INIT(OmniApplicator) {
+PY_PLASMA_TYPE_INIT(OmniApplicator)
+{
     pyOmniApplicator_Type.tp_new = pyOmniApplicator_new;
     pyOmniApplicator_Type.tp_base = &pyAGApplicator_Type;
     if (PyType_CheckAndReady(&pyOmniApplicator_Type) < 0)

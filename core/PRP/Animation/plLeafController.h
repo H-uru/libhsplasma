@@ -19,7 +19,8 @@
 
 #include "plController.h"
 
-class PLASMA_DLL plLeafController : public plController {
+class PLASMA_DLL plLeafController : public plController
+{
     CREATABLE(plLeafController, kLeafController, plController)
 
 protected:
@@ -28,8 +29,8 @@ protected:
     std::vector<class plEaseController*> fEaseControllers;
 
 public:
-    plLeafController() : fType(0), fUruUnknown(0) { }
-    virtual ~plLeafController();
+    plLeafController() : fType(), fUruUnknown() { }
+    ~plLeafController();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

@@ -21,14 +21,16 @@
 
 PY_PLASMA_VALUE_NEW(BoundsOriented, hsBoundsOriented)
 
-PY_GETSET_GETTER_DECL(BoundsOriented, planes) {
+PY_GETSET_GETTER_DECL(BoundsOriented, planes)
+{
     PyObject* list = PyTuple_New(self->fThis->getNumPlanes());
     for (size_t i=0; i<self->fThis->getNumPlanes(); i++)
         PyTuple_SET_ITEM(list, i, pyPlane3_FromPlane3(self->fThis->getPlanes()[i]));
     return list;
 }
 
-PY_GETSET_SETTER_DECL(BoundsOriented, planes) {
+PY_GETSET_SETTER_DECL(BoundsOriented, planes)
+{
     PY_PROPERTY_CHECK_NULL(planes)
     pySequenceFastRef seq(value);
     if (!seq.isSequence()) {
@@ -63,7 +65,8 @@ static PyGetSetDef pyBoundsOriented_GetSet[] = {
 
 PY_PLASMA_TYPE(BoundsOriented, hsBoundsOriented, "hsBoundsOriented wrapper")
 
-PY_PLASMA_TYPE_INIT(BoundsOriented) {
+PY_PLASMA_TYPE_INIT(BoundsOriented)
+{
     pyBoundsOriented_Type.tp_new = pyBoundsOriented_new;
     pyBoundsOriented_Type.tp_getset = pyBoundsOriented_GetSet;
     pyBoundsOriented_Type.tp_base = &pyBounds_Type;

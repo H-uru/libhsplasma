@@ -17,7 +17,8 @@
 #include "plOmniLightInfo.h"
 
 /* plOmniLightInfo */
-void plOmniLightInfo::read(hsStream* S, plResManager* mgr) {
+void plOmniLightInfo::read(hsStream* S, plResManager* mgr)
+{
     plLightInfo::read(S, mgr);
     fAttenConst = S->readFloat();
     fAttenLinear = S->readFloat();
@@ -25,7 +26,8 @@ void plOmniLightInfo::read(hsStream* S, plResManager* mgr) {
     fAttenCutoff = S->readFloat();
 }
 
-void plOmniLightInfo::write(hsStream* S, plResManager* mgr) {
+void plOmniLightInfo::write(hsStream* S, plResManager* mgr)
+{
     plLightInfo::write(S, mgr);
     S->writeFloat(fAttenConst);
     S->writeFloat(fAttenLinear);
@@ -33,7 +35,8 @@ void plOmniLightInfo::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fAttenCutoff);
 }
 
-void plOmniLightInfo::IPrcWrite(pfPrcHelper* prc) {
+void plOmniLightInfo::IPrcWrite(pfPrcHelper* prc)
+{
     plLightInfo::IPrcWrite(prc);
     prc->startTag("Attensity");
     prc->writeParam("Constant", fAttenConst);
@@ -43,7 +46,8 @@ void plOmniLightInfo::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plOmniLightInfo::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plOmniLightInfo::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Attensity") {
         fAttenConst = tag->getParam("Constant", "0").to_float();
         fAttenLinear = tag->getParam("Linear", "0").to_float();
@@ -57,23 +61,26 @@ void plOmniLightInfo::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 /* plSpotLightInfo */
 plSpotLightInfo::plSpotLightInfo()
-               : fFalloff(0.0f), fSpotInner(0.0f), fSpotOuter(0.0f) { }
+    : fFalloff(), fSpotInner(), fSpotOuter() { }
 
-void plSpotLightInfo::read(hsStream* S, plResManager* mgr) {
+void plSpotLightInfo::read(hsStream* S, plResManager* mgr)
+{
     plOmniLightInfo::read(S, mgr);
     fFalloff = S->readFloat();
     fSpotInner = S->readFloat();
     fSpotOuter = S->readFloat();
 }
 
-void plSpotLightInfo::write(hsStream* S, plResManager* mgr) {
+void plSpotLightInfo::write(hsStream* S, plResManager* mgr)
+{
     plOmniLightInfo::write(S, mgr);
     S->writeFloat(fFalloff);
     S->writeFloat(fSpotInner);
     S->writeFloat(fSpotOuter);
 }
 
-void plSpotLightInfo::IPrcWrite(pfPrcHelper* prc) {
+void plSpotLightInfo::IPrcWrite(pfPrcHelper* prc)
+{
     plOmniLightInfo::IPrcWrite(prc);
     prc->startTag("SpotLight");
     prc->writeParam("Falloff", fFalloff);
@@ -82,7 +89,8 @@ void plSpotLightInfo::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plSpotLightInfo::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plSpotLightInfo::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "SpotLight") {
         fFalloff = tag->getParam("Falloff", "0").to_float();
         fSpotInner = tag->getParam("SpotInner", "0").to_float();

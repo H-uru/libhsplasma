@@ -117,7 +117,8 @@ static PyMethodDef pyCreatable_Methods[] = {
 
 PY_PLASMA_TYPE(Creatable, plCreatable, "plCreatable wrapper")
 
-PY_PLASMA_TYPE_INIT(Creatable) {
+PY_PLASMA_TYPE_INIT(Creatable)
+{
     pyCreatable_Type.tp_dealloc = pyCreatable_dealloc;
     pyCreatable_Type.tp_init = pyCreatable___init__;
     pyCreatable_Type.tp_new = pyCreatable_new;

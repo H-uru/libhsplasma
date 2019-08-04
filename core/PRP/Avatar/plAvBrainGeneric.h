@@ -22,16 +22,19 @@
 #include "plAGAnim.h"
 #include "PRP/Message/plMessage.h"
 
-class PLASMA_DLL plAvBrainGeneric : public plArmatureBrain {
+class PLASMA_DLL plAvBrainGeneric : public plArmatureBrain
+{
     CREATABLE(plAvBrainGeneric, kAvBrainGeneric, plArmatureBrain)
 
 public:
-    enum BrainType {
+    enum BrainType
+    {
         kGeneric, kLadder, kSit, kEmote, kAFK, kNumBrainTypes,
         kNonGeneric = kNumBrainTypes
     };
 
-    enum ExitFlag {
+    enum ExitFlag
+    {
         kExitNormal   = 0,
         kExitAnyTask  = 0x1,
         kExitNewBrain = 0x2,
@@ -39,12 +42,14 @@ public:
         kExitMaxFlag  = 0x8,
     };
 
-    enum MoveMode {
+    enum MoveMode
+    {
         kMoveAbsolute, kMoveRelative, kMoveNormal, kMoveStandstill,
         kMaxMoveMode
     };
 
-    enum Mode {
+    enum Mode
+    {
         kEntering = 1, kNormal, kFadingIn, kFadingOut, kExit, kAbort,
         kMaxMode
     };
@@ -64,11 +69,12 @@ private:
     plKey fRecipient;
 
 public:
-    plAvBrainGeneric() : fCurStage(0), fType(kGeneric), fExitFlags(kExitNormal),
-                         fMode(kNormal), fForward(true), fStartMessage(NULL),
-                         fEndMessage(NULL), fFadeIn(6.0f), fFadeOut(0.0f),
-                         fMoveMode(kMoveAbsolute), fBodyUsage(plAGAnim::kBodyUnknown) { }
-    virtual ~plAvBrainGeneric();
+    plAvBrainGeneric()
+        : fCurStage(), fType(kGeneric), fExitFlags(kExitNormal),
+          fMode(kNormal), fForward(true), fStartMessage(), fEndMessage(),
+          fFadeIn(6.0f), fFadeOut(), fMoveMode(kMoveAbsolute),
+          fBodyUsage(plAGAnim::kBodyUnknown) { }
+    ~plAvBrainGeneric();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

@@ -16,12 +16,14 @@
 
 #include "plSharedMesh.h"
 
-plSharedMesh::~plSharedMesh() {
+plSharedMesh::~plSharedMesh()
+{
     for (auto span = fSpans.begin(); span != fSpans.end(); ++span)
         delete *span;
 }
 
-void plSharedMesh::read(hsStream* S, plResManager* mgr) {
+void plSharedMesh::read(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::read(S, mgr);
 
     clearSpans();
@@ -34,7 +36,8 @@ void plSharedMesh::read(hsStream* S, plResManager* mgr) {
     fFlags = S->readByte();
 }
 
-void plSharedMesh::write(hsStream* S, plResManager* mgr) {
+void plSharedMesh::write(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::write(S, mgr);
 
     S->writeInt(fSpans.size());
@@ -44,7 +47,8 @@ void plSharedMesh::write(hsStream* S, plResManager* mgr) {
     S->writeByte(fFlags);
 }
 
-void plSharedMesh::IPrcWrite(pfPrcHelper* prc) {
+void plSharedMesh::IPrcWrite(pfPrcHelper* prc)
+{
     hsKeyedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("Spans");
@@ -59,7 +63,8 @@ void plSharedMesh::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plSharedMesh::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plSharedMesh::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Spans") {
         clearSpans();
         fSpans.resize(tag->countChildren());
@@ -79,12 +84,14 @@ void plSharedMesh::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plSharedMesh::delSpan(size_t idx) {
+void plSharedMesh::delSpan(size_t idx)
+{
     delete fSpans[idx];
     fSpans.erase(fSpans.begin() + idx);
 }
 
-void plSharedMesh::clearSpans() {
+void plSharedMesh::clearSpans()
+{
     for (auto span = fSpans.begin(); span != fSpans.end(); ++span)
         delete *span;
     fSpans.clear();

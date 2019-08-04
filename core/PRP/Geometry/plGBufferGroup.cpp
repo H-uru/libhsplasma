@@ -18,19 +18,22 @@
 #include <string_theory/format>
 
 /* plGBufferCell */
-void plGBufferCell::read(hsStream* S) {
+void plGBufferCell::read(hsStream* S)
+{
     fVtxStart = S->readInt();
     fColorStart = S->readInt();
     fLength = S->readInt();
 }
 
-void plGBufferCell::write(hsStream* S) {
+void plGBufferCell::write(hsStream* S)
+{
     S->writeInt(fVtxStart);
     S->writeInt(fColorStart);
     S->writeInt(fLength);
 }
 
-void plGBufferCell::prcWrite(pfPrcHelper* prc) {
+void plGBufferCell::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("plGBufferCell");
     prc->writeParam("VertexStart", fVtxStart);
     prc->writeParam("ColorStart", fColorStart);
@@ -38,7 +41,8 @@ void plGBufferCell::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plGBufferCell::prcParse(const pfPrcTag* tag) {
+void plGBufferCell::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "plGBufferCell")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
@@ -49,7 +53,8 @@ void plGBufferCell::prcParse(const pfPrcTag* tag) {
 
 
 /* plGBufferTriangle */
-void plGBufferTriangle::read(hsStream* S) {
+void plGBufferTriangle::read(hsStream* S)
+{
     fIndex1 = S->readShort();
     fIndex2 = S->readShort();
     fIndex3 = S->readShort();
@@ -57,7 +62,8 @@ void plGBufferTriangle::read(hsStream* S) {
     fCenter.read(S);
 }
 
-void plGBufferTriangle::write(hsStream* S) {
+void plGBufferTriangle::write(hsStream* S)
+{
     S->writeShort(fIndex1);
     S->writeShort(fIndex2);
     S->writeShort(fIndex3);
@@ -65,7 +71,8 @@ void plGBufferTriangle::write(hsStream* S) {
     fCenter.write(S);
 }
 
-void plGBufferTriangle::prcWrite(pfPrcHelper* prc) {
+void plGBufferTriangle::prcWrite(pfPrcHelper* prc)
+{
     prc->writeSimpleTag("plGBufferTriangle");
       prc->startTag("Indices");
       prc->writeParam("Index1", fIndex1);
@@ -79,7 +86,8 @@ void plGBufferTriangle::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plGBufferTriangle::prcParse(const pfPrcTag* tag) {
+void plGBufferTriangle::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "plGBufferTriangle")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
@@ -102,7 +110,8 @@ void plGBufferTriangle::prcParse(const pfPrcTag* tag) {
 
 
 /* plGBufferGroup */
-plGBufferGroup::~plGBufferGroup() {
+plGBufferGroup::~plGBufferGroup()
+{
     for (size_t i=0; i<fVertBuffStorage.size(); i++)
         delete[] fVertBuffStorage[i];
     for (size_t i=0; i<fIdxBuffStorage.size(); i++)
@@ -111,7 +120,8 @@ plGBufferGroup::~plGBufferGroup() {
         delete[] fCompGBuffStorage[i];
 }
 
-unsigned int plGBufferGroup::ICalcVertexSize(unsigned int& lStride) {
+unsigned int plGBufferGroup::ICalcVertexSize(unsigned int& lStride)
+{
     lStride = (getNumUVs() + 2) * 12;
     unsigned int numSkinWeights = getSkinWeights();
     if (numSkinWeights > 0) {
@@ -122,7 +132,8 @@ unsigned int plGBufferGroup::ICalcVertexSize(unsigned int& lStride) {
     return lStride + 8;
 }
 
-bool plGBufferGroup::INeedVertRecompression(PlasmaVer ver) const {
+bool plGBufferGroup::INeedVertRecompression(PlasmaVer ver) const
+{
     if ((fGBuffStorageType & kStoreIsDirty) != 0)
         return true;
     if (ver.isHexIsle())
@@ -133,7 +144,8 @@ bool plGBufferGroup::INeedVertRecompression(PlasmaVer ver) const {
         return (fGBuffStorageType & kStoreCompTypeMask) != kStoreCompV1;
 }
 
-void plGBufferGroup::read(hsStream* S) {
+void plGBufferGroup::read(hsStream* S)
+{
     if (S->getVer().isHexIsle()) {
         fFormat = S->readInt();
         S->readByte();
@@ -226,7 +238,8 @@ void plGBufferGroup::read(hsStream* S) {
     }
 }
 
-void plGBufferGroup::write(hsStream* S) {
+void plGBufferGroup::write(hsStream* S)
+{
     fFormat |= kEncoded;
     unsigned int totalSize = 0;
     for (size_t i=0; i<fVertBuffSizes.size(); i++)
@@ -264,7 +277,8 @@ void plGBufferGroup::write(hsStream* S) {
     }
 }
 
-void plGBufferGroup::prcWrite(pfPrcHelper* prc) {
+void plGBufferGroup::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("plGBufferGroup");
     prc->writeParamHex("Format", fFormat);
     prc->endTag();
@@ -329,7 +343,8 @@ void plGBufferGroup::prcWrite(pfPrcHelper* prc) {
     prc->closeTag(); // plGBufferGroup
 }
 
-void plGBufferGroup::prcParse(const pfPrcTag* tag) {
+void plGBufferGroup::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "plGBufferGroup")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     fFormat = tag->getParam("Format", "0").to_uint();
@@ -419,7 +434,8 @@ void plGBufferGroup::prcParse(const pfPrcTag* tag) {
     }
 }
 
-std::vector<plGBufferVertex> plGBufferGroup::getVertices(size_t idx, size_t start, size_t count) const {
+std::vector<plGBufferVertex> plGBufferGroup::getVertices(size_t idx, size_t start, size_t count) const
+{
     std::vector<plGBufferVertex> buf;
 
     unsigned char* cp = fVertBuffStorage[idx] + (fStride * start);
@@ -462,7 +478,9 @@ std::vector<plGBufferVertex> plGBufferGroup::getVertices(size_t idx, size_t star
     return buf;
 }
 
-std::vector<unsigned short> plGBufferGroup::getIndices(size_t idx, size_t start, size_t count, size_t offset) const {
+std::vector<unsigned short> plGBufferGroup::getIndices(size_t idx, size_t start,
+                                                       size_t count, size_t offset) const
+{
     std::vector<unsigned short> buf;
 
     if (count == (size_t)-1)
@@ -473,7 +491,8 @@ std::vector<unsigned short> plGBufferGroup::getIndices(size_t idx, size_t start,
     return buf;
 }
 
-void plGBufferGroup::addVertices(const std::vector<plGBufferVertex>& verts) {
+void plGBufferGroup::addVertices(const std::vector<plGBufferVertex>& verts)
+{
     size_t vtxSize = verts.size() * fStride;
     fVertBuffSizes.push_back(vtxSize);
     fVertBuffStorage.push_back(new unsigned char[vtxSize]);
@@ -518,7 +537,8 @@ void plGBufferGroup::addVertices(const std::vector<plGBufferVertex>& verts) {
     }
 }
 
-void plGBufferGroup::addIndices(const std::vector<unsigned short>& indices) {
+void plGBufferGroup::addIndices(const std::vector<unsigned short>& indices)
+{
     fIdxBuffCounts.push_back(indices.size());
     fIdxBuffStorage.push_back(new unsigned short[indices.size()]);
     size_t idx = fIdxBuffStorage.size() - 1;
@@ -527,25 +547,29 @@ void plGBufferGroup::addIndices(const std::vector<unsigned short>& indices) {
         fIdxBuffStorage[idx][i] = indices[i];
 }
 
-void plGBufferGroup::setFormat(unsigned int format) {
+void plGBufferGroup::setFormat(unsigned int format)
+{
     fFormat = format;
     fStride = ICalcVertexSize(fLiteStride);
     fGBuffStorageType |= kStoreIsDirty;
 }
 
-void plGBufferGroup::setSkinWeights(size_t skinWeights) {
+void plGBufferGroup::setSkinWeights(size_t skinWeights)
+{
     fFormat &= ~kSkinWeightMask;
     fFormat |= (skinWeights << 4) & kSkinWeightMask;
     fGBuffStorageType |= kStoreIsDirty;
 }
 
-void plGBufferGroup::setNumUVs(size_t numUVs) {
+void plGBufferGroup::setNumUVs(size_t numUVs)
+{
     fFormat &= ~kUVCountMask;
     fFormat |= numUVs & kUVCountMask;
     fGBuffStorageType |= kStoreIsDirty;
 }
 
-void plGBufferGroup::setHasSkinIndices(bool hasSI) {
+void plGBufferGroup::setHasSkinIndices(bool hasSI)
+{
     if (hasSI)
         fFormat |= kSkinIndices;
     else
@@ -553,7 +577,8 @@ void plGBufferGroup::setHasSkinIndices(bool hasSI) {
     fGBuffStorageType |= kStoreIsDirty;
 }
 
-void plGBufferGroup::delVertices(size_t idx) {
+void plGBufferGroup::delVertices(size_t idx)
+{
     delete[] fVertBuffStorage[idx];
     delete[] fCompGBuffStorage[idx];
     fVertBuffStorage.erase(fVertBuffStorage.begin() + idx);
@@ -562,13 +587,15 @@ void plGBufferGroup::delVertices(size_t idx) {
     fCompGBuffSizes.erase(fCompGBuffSizes.begin() + idx);
 }
 
-void plGBufferGroup::delIndices(size_t idx) {
+void plGBufferGroup::delIndices(size_t idx)
+{
     delete[] fIdxBuffStorage[idx];
     fIdxBuffStorage.erase(fIdxBuffStorage.begin() + idx);
     fIdxBuffCounts.erase(fIdxBuffCounts.begin() + idx);
 }
 
-void plGBufferGroup::clearVertices() {
+void plGBufferGroup::clearVertices()
+{
     for (size_t i=0; i<fVertBuffStorage.size(); i++)
         delete[] fVertBuffStorage[i];
     for (size_t i=0; i<fCompGBuffStorage.size(); i++)
@@ -579,7 +606,8 @@ void plGBufferGroup::clearVertices() {
     fCompGBuffSizes.clear();
 }
 
-void plGBufferGroup::clearIndices() {
+void plGBufferGroup::clearIndices()
+{
     for (size_t i=0; i<fIdxBuffStorage.size(); i++)
         delete[] fIdxBuffStorage[i];
     fIdxBuffStorage.clear();

@@ -16,21 +16,24 @@
 
 #include "plDirectMusicSound.h"
 
-void plDirectMusicSound::read(hsStream* S, plResManager* mgr) {
+void plDirectMusicSound::read(hsStream* S, plResManager* mgr)
+{
     plSound::read(S, mgr);
 
     fUnknown1 = S->readInt();
     fFileName = S->readSafeStr();
 }
 
-void plDirectMusicSound::write(hsStream* S, plResManager* mgr) {
+void plDirectMusicSound::write(hsStream* S, plResManager* mgr)
+{
     plSound::write(S, mgr);
 
     S->writeInt(fUnknown1);
     S->writeSafeStr(fFileName);
 }
 
-void plDirectMusicSound::IPrcWrite(pfPrcHelper* prc) {
+void plDirectMusicSound::IPrcWrite(pfPrcHelper* prc)
+{
     plSound::IPrcWrite(prc);
 
     prc->startTag("DirectMusicParams");
@@ -39,7 +42,8 @@ void plDirectMusicSound::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plDirectMusicSound::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plDirectMusicSound::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "DirectMusicParams") {
         fFileName = tag->getParam("FileName", "");
         fUnknown1 = tag->getParam("Unknown", "0").to_uint();

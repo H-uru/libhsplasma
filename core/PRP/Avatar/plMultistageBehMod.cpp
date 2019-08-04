@@ -16,12 +16,14 @@
 
 #include "plMultistageBehMod.h"
 
-plMultistageBehMod::~plMultistageBehMod() {
+plMultistageBehMod::~plMultistageBehMod()
+{
     for (auto stage = fStages.begin(); stage != fStages.end(); ++stage)
         delete *stage;
 }
 
-void plMultistageBehMod::read(hsStream* S, plResManager* mgr) {
+void plMultistageBehMod::read(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::read(S, mgr);
 
     fFreezePhys = S->readBool();
@@ -40,7 +42,8 @@ void plMultistageBehMod::read(hsStream* S, plResManager* mgr) {
         fReceivers[i] = mgr->readKey(S);
 }
 
-void plMultistageBehMod::write(hsStream* S, plResManager* mgr) {
+void plMultistageBehMod::write(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::write(S, mgr);
 
     S->writeBool(fFreezePhys);
@@ -56,7 +59,8 @@ void plMultistageBehMod::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fReceivers[i]);
 }
 
-void plMultistageBehMod::IPrcWrite(pfPrcHelper* prc) {
+void plMultistageBehMod::IPrcWrite(pfPrcHelper* prc)
+{
     plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("MultistageBehParams");
@@ -76,7 +80,8 @@ void plMultistageBehMod::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plMultistageBehMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plMultistageBehMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "MultistageBehParams") {
         fFreezePhys = tag->getParam("FreezePhys", "false").to_bool();
         fSmartSeek = tag->getParam("SmartSeek", "false").to_bool();
@@ -102,12 +107,14 @@ void plMultistageBehMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plMultistageBehMod::delStage(size_t idx) {
+void plMultistageBehMod::delStage(size_t idx)
+{
     delete fStages[idx];
     fStages.erase(fStages.begin() + idx);
 }
 
-void plMultistageBehMod::clearStages() {
+void plMultistageBehMod::clearStages()
+{
     for (auto stage = fStages.begin(); stage != fStages.end(); ++stage)
         delete *stage;
     fStages.clear();

@@ -25,7 +25,8 @@ static const int eoaStrKey[8] = {'m','y','s','t','n','e','r','d'};
 
 /* hsStream */
 #define BLOCKSIZE 4096
-void hsStream::writeFrom(hsStream* src) {
+void hsStream::writeFrom(hsStream* src)
+{
     unsigned char buf[BLOCKSIZE];
     for (size_t spos = 0; spos < (src->size() / BLOCKSIZE); spos++) {
         src->read(BLOCKSIZE, buf);
@@ -36,19 +37,22 @@ void hsStream::writeFrom(hsStream* src) {
     write(endsize, buf);
 }
 
-uint8_t hsStream::readByte() {
+uint8_t hsStream::readByte()
+{
     uint8_t v;
     read(sizeof(v), &v);
     return v;
 }
 
-uint16_t hsStream::readShort() {
+uint16_t hsStream::readShort()
+{
     uint16_t v;
     read(sizeof(v), &v);
     return LESWAP16(v);
 }
 
-void hsStream::readShorts(size_t count, uint16_t* buf) {
+void hsStream::readShorts(size_t count, uint16_t* buf)
+{
     read(sizeof(uint16_t) * count, buf);
 #ifdef WORDS_BIGENDIAN
     for (size_t i=0; i<count; i++)
@@ -56,13 +60,15 @@ void hsStream::readShorts(size_t count, uint16_t* buf) {
 #endif
 }
 
-uint32_t hsStream::readInt() {
+uint32_t hsStream::readInt()
+{
     uint32_t v;
     read(sizeof(v), &v);
     return LESWAP32(v);
 }
 
-void hsStream::readInts(size_t count, uint32_t* buf) {
+void hsStream::readInts(size_t count, uint32_t* buf)
+{
     read(sizeof(uint32_t) * count, buf);
 #ifdef WORDS_BIGENDIAN
     for (size_t i=0; i<count; i++)
@@ -70,29 +76,34 @@ void hsStream::readInts(size_t count, uint32_t* buf) {
 #endif
 }
 
-uint32_t hsStream::readIntSwap() {
+uint32_t hsStream::readIntSwap()
+{
     uint32_t v;
     read(sizeof(v), &v);
     return BESWAP32(v);
 }
 
-float hsStream::readFloat() {
+float hsStream::readFloat()
+{
     float v;
     read(sizeof(v), &v);
     return LESWAPF(v);
 }
 
-double hsStream::readDouble() {
+double hsStream::readDouble()
+{
     double v;
     read(sizeof(v), &v);
     return LESWAPD(v);
 }
 
-bool hsStream::readBool() {
+bool hsStream::readBool()
+{
     return readByte() != 0;
 }
 
-ST::string hsStream::readStr(size_t len) {
+ST::string hsStream::readStr(size_t len)
+{
     ST::char_buffer result;
     result.allocate(len);
     read(len * sizeof(char), result.data());
@@ -107,7 +118,8 @@ ST::string hsStream::readStr(size_t len) {
     }
 }
 
-ST::string hsStream::readSafeStr() {
+ST::string hsStream::readSafeStr()
+{
     uint16_t ssInfo = readShort();
     if (ssInfo == 0) {
         if (ver < MAKE_VERSION(2, 0, 63, 5) && readShort() != 0) {
@@ -147,7 +159,8 @@ ST::string hsStream::readSafeStr() {
     }
 }
 
-ST::string hsStream::readSafeWStr() {
+ST::string hsStream::readSafeWStr()
+{
     uint16_t ssInfo = readShort();
     ST::utf16_buffer result;
     if (ver.isUniversal()) {
@@ -170,7 +183,8 @@ ST::string hsStream::readSafeWStr() {
     return result;
 }
 
-ST::string hsStream::readLine() {
+ST::string hsStream::readLine()
+{
     ST::string_stream line;
     char c = readByte();
     while ((c != '\n') && (c != '\r') && !eof()) {
@@ -184,16 +198,19 @@ ST::string hsStream::readLine() {
     return line.to_string();
 }
 
-void hsStream::writeByte(uint8_t v) {
+void hsStream::writeByte(uint8_t v)
+{
     write(sizeof(v), &v);
 }
 
-void hsStream::writeShort(uint16_t v) {
+void hsStream::writeShort(uint16_t v)
+{
     v = LESWAP16(v);
     write(sizeof(v), &v);
 }
 
-void hsStream::writeShorts(size_t count, const uint16_t* buf) {
+void hsStream::writeShorts(size_t count, const uint16_t* buf)
+{
 #ifdef WORDS_BIGENDIAN
     uint16_t* swbuf = new uint16_t[count];
     for (size_t i=0; i<count; i++)
@@ -205,12 +222,14 @@ void hsStream::writeShorts(size_t count, const uint16_t* buf) {
 #endif
 }
 
-void hsStream::writeInt(uint32_t v) {
+void hsStream::writeInt(uint32_t v)
+{
     v = LESWAP32(v);
     write(sizeof(v), &v);
 }
 
-void hsStream::writeInts(size_t count, const uint32_t* buf) {
+void hsStream::writeInts(size_t count, const uint32_t* buf)
+{
 #ifdef WORDS_BIGENDIAN
     uint32_t* swbuf = new uint32_t[count];
     for (size_t i=0; i<count; i++)
@@ -222,31 +241,37 @@ void hsStream::writeInts(size_t count, const uint32_t* buf) {
 #endif
 }
 
-void hsStream::writeIntSwap(uint32_t v) {
+void hsStream::writeIntSwap(uint32_t v)
+{
     v = BESWAP32(v);
     write(sizeof(v), &v);
 }
 
-void hsStream::writeFloat(float v) {
+void hsStream::writeFloat(float v)
+{
     v = LESWAPF(v);
     write(sizeof(v), &v);
 }
 
-void hsStream::writeDouble(double v) {
+void hsStream::writeDouble(double v)
+{
     v = LESWAPD(v);
     write(sizeof(v), &v);
 }
 
-void hsStream::writeBool(bool v) {
+void hsStream::writeBool(bool v)
+{
     char b = v ? 1 : 0;
     write(sizeof(b), &b);
 }
 
-void hsStream::writeStr(const ST::string& str) {
+void hsStream::writeStr(const ST::string& str)
+{
     write(str.size(), str.c_str());
 }
 
-void hsStream::writeSafeStr(const ST::string& str) {
+void hsStream::writeSafeStr(const ST::string& str)
+{
     if (str.size() > 0xFFF)
         plDebug::Warning("SafeString length is excessively long");
 
@@ -275,7 +300,8 @@ void hsStream::writeSafeStr(const ST::string& str) {
     delete[] wbuf;
 }
 
-void hsStream::writeSafeWStr(const ST::string& str) {
+void hsStream::writeSafeWStr(const ST::string& str)
+{
     ST::utf16_buffer buf = str.to_utf16();
     if (buf.size() > 0xFFF)
         plDebug::Warning("SafeWString length is excessively long");
@@ -300,7 +326,8 @@ void hsStream::writeSafeWStr(const ST::string& str) {
     }
 }
 
-void hsStream::writeLine(const ST::string& ln, bool winEOL) {
+void hsStream::writeLine(const ST::string& ln, bool winEOL)
+{
     writeStr(ln);
     if (winEOL)
         writeByte('\r');
@@ -309,7 +336,8 @@ void hsStream::writeLine(const ST::string& ln, bool winEOL) {
 
 
 /* hsFileStream */
-bool hsFileStream::FileExists(const ST::string& file) {
+bool hsFileStream::FileExists(const ST::string& file)
+{
     FILE* eFile = fopen(file.c_str(), "rb");
     bool exist = (eFile != NULL);
     if (exist)
@@ -317,7 +345,8 @@ bool hsFileStream::FileExists(const ST::string& file) {
     return exist;
 }
 
-bool hsFileStream::open(const ST::string& file, FileMode mode) {
+bool hsFileStream::open(const ST::string& file, FileMode mode)
+{
     const char* fms;
     switch (mode) {
     case fmRead:
@@ -346,13 +375,15 @@ bool hsFileStream::open(const ST::string& file, FileMode mode) {
     return false;
 }
 
-void hsFileStream::close() {
+void hsFileStream::close()
+{
     if (F != NULL)
         fclose(F);
     F = NULL;
 }
 
-uint32_t hsFileStream::size() const {
+uint32_t hsFileStream::size() const
+{
     if (F == NULL)
         return 0;
     unsigned int p = ftell(F);
@@ -362,13 +393,15 @@ uint32_t hsFileStream::size() const {
     return sz;
 }
 
-uint32_t hsFileStream::pos() const {
+uint32_t hsFileStream::pos() const
+{
     if (F == NULL)
         return 0;
     return ftell(F);
 }
 
-bool hsFileStream::eof() const {
+bool hsFileStream::eof() const
+{
     if (F == NULL)
         return true;
     int c = fgetc(F);
@@ -376,37 +409,43 @@ bool hsFileStream::eof() const {
     return (c == EOF);
 }
 
-void hsFileStream::seek(uint32_t pos) {
+void hsFileStream::seek(uint32_t pos)
+{
     if (F == NULL)
         return;
     fseek(F, pos, SEEK_SET);
 }
 
-void hsFileStream::skip(int32_t count) {
+void hsFileStream::skip(int32_t count)
+{
     if (F == NULL)
         return;
     fseek(F, count, SEEK_CUR);
 }
 
-void hsFileStream::fastForward() {
+void hsFileStream::fastForward()
+{
     if (F == NULL)
         return;
     fseek(F, 0, SEEK_END);
 }
 
-void hsFileStream::rewind() {
+void hsFileStream::rewind()
+{
     if (F == NULL)
         return;
     fseek(F, 0, SEEK_SET);
 }
 
-void hsFileStream::flush() {
+void hsFileStream::flush()
+{
     if (F == NULL)
         return;
     fflush(F);
 }
 
-size_t hsFileStream::read(size_t size, void* buf) {
+size_t hsFileStream::read(size_t size, void* buf)
+{
     if (F == NULL || fm == fmWrite || fm == fmCreate)
         throw hsFileReadException(__FILE__, __LINE__);
     size_t nread = fread(buf, 1, size, F);
@@ -418,13 +457,15 @@ size_t hsFileStream::read(size_t size, void* buf) {
     return nread;
 }
 
-size_t hsFileStream::write(size_t size, const void* buf) {
+size_t hsFileStream::write(size_t size, const void* buf)
+{
     if (F == NULL || fm == fmRead)
         throw hsFileWriteException(__FILE__, __LINE__);
     return fwrite(buf, 1, size, F);
 }
 
-time_t hsFileStream::getModTime() const {
+time_t hsFileStream::getModTime() const
+{
     if (F == NULL)
         return 0;
 

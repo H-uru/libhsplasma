@@ -29,9 +29,11 @@
  * to find the actual object.  Most notably, plUoid is used by plKey as
  * an identification for the object that hte plKey references.
  */
-class PLASMA_DLL plUoid {
+class PLASMA_DLL plUoid
+{
 private:
-    enum ContentsFlags {
+    enum ContentsFlags
+    {
         kHasCloneIDs  = 0x1,
         kHasLoadMask  = 0x2,
         kHasLoadMask2 = 0x4
@@ -46,7 +48,7 @@ private:
 
 public:
     /** Constructs a new, empty Uoid */
-    plUoid() : classType((short)0x8000), objID(0), clonePlayerID(0), cloneID(0) { }
+    plUoid() : classType((short)0x8000), objID(), clonePlayerID(), cloneID() { }
 
     /**
      * Compares two Uoids by contents.  Only the location, type and name
@@ -123,7 +125,10 @@ public:
 
     /** Sets the Clone IDs for the object (useless) */
     void setCloneIDs(unsigned int clone, unsigned int clonePlayer)
-    { cloneID = clone; clonePlayerID = clonePlayer; }
+    {
+        cloneID = clone;
+        clonePlayerID = clonePlayer;
+    }
 };
 
 #endif

@@ -36,7 +36,8 @@ static PyGetSetDef pyAGApplicator_GetSet[] = {
 
 PY_PLASMA_TYPE(AGApplicator, plAGApplicator, "plAGApplicator wrapper")
 
-PY_PLASMA_TYPE_INIT(AGApplicator) {
+PY_PLASMA_TYPE_INIT(AGApplicator)
+{
     pyAGApplicator_Type.tp_new = pyAGApplicator_new;
     pyAGApplicator_Type.tp_getset = pyAGApplicator_GetSet;
     pyAGApplicator_Type.tp_base = &pyCreatable_Type;

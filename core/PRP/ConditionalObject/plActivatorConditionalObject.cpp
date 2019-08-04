@@ -17,21 +17,24 @@
 #include "plActivatorConditionalObject.h"
 
 /* plActivatorConditionalObject */
-void plActivatorConditionalObject::read(hsStream* S, plResManager* mgr) {
+void plActivatorConditionalObject::read(hsStream* S, plResManager* mgr)
+{
     plConditionalObject::read(S, mgr);
     fActivators.resize(S->readInt());
     for (size_t i=0; i<fActivators.size(); i++)
         fActivators[i] = mgr->readKey(S);
 }
 
-void plActivatorConditionalObject::write(hsStream* S, plResManager* mgr) {
+void plActivatorConditionalObject::write(hsStream* S, plResManager* mgr)
+{
     plConditionalObject::write(S, mgr);
     S->writeInt(fActivators.size());
     for (size_t i=0; i<fActivators.size(); i++)
         mgr->writeKey(S, fActivators[i]);
 }
 
-void plActivatorConditionalObject::IPrcWrite(pfPrcHelper* prc) {
+void plActivatorConditionalObject::IPrcWrite(pfPrcHelper* prc)
+{
     plConditionalObject::IPrcWrite(prc);
     prc->writeSimpleTag("Activators");
     for (size_t i=0; i<fActivators.size(); i++)
@@ -39,7 +42,8 @@ void plActivatorConditionalObject::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plActivatorConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plActivatorConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Activators") {
         fActivators.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();

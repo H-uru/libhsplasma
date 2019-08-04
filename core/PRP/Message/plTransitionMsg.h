@@ -19,7 +19,8 @@
 
 #include "plMessageWithCallbacks.h"
 
-class PLASMA_DLL plTransitionMsg : public plMessageWithCallbacks {
+class PLASMA_DLL plTransitionMsg : public plMessageWithCallbacks
+{
     CREATABLE(plTransitionMsg, kTransitionMsg, plMessageWithCallbacks)
 
 public:
@@ -31,7 +32,8 @@ protected:
     int fHoldUntilNext;
 
 public:
-    plTransitionMsg() : fEffect(0), fLengthInSecs(0.0f), fHoldUntilNext(0) {
+    plTransitionMsg() : fEffect(), fLengthInSecs(), fHoldUntilNext()
+    {
         fBCastFlags |= kBCastByExactType;
     }
 

@@ -20,7 +20,8 @@
 #include "PlasmaDefs.h"
 #include <openssl/bn.h>
 
-class PLASMANET_DLL pnBigInteger {
+class PLASMANET_DLL pnBigInteger
+{
 protected:
     BIGNUM* fValue;
     BN_CTX* fContext;

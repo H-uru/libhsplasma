@@ -18,12 +18,14 @@
 #include <string_theory/format>
 #include <cstring>
 
-plSpanTemplate::~plSpanTemplate() {
+plSpanTemplate::~plSpanTemplate()
+{
     delete[] fData;
     delete[] fIndices;
 }
 
-void plSpanTemplate::read(hsStream* S) {
+void plSpanTemplate::read(hsStream* S)
+{
     delete[] fData;
     delete[] fIndices;
 
@@ -36,7 +38,8 @@ void plSpanTemplate::read(hsStream* S) {
     S->read(fNumTris * 3 * sizeof(unsigned short), fIndices);
 }
 
-void plSpanTemplate::write(hsStream* S) {
+void plSpanTemplate::write(hsStream* S)
+{
     S->writeShort(fNumVerts);
     S->writeShort(fFormat);
     S->writeShort(fNumTris);
@@ -44,7 +47,8 @@ void plSpanTemplate::write(hsStream* S) {
     S->write(fNumTris * 3 * sizeof(unsigned short), fIndices);
 }
 
-void plSpanTemplate::prcWrite(pfPrcHelper* prc) {
+void plSpanTemplate::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("plSpanTemplate");
     prc->writeParam("Format", fFormat);
     prc->endTag();
@@ -104,7 +108,8 @@ void plSpanTemplate::prcWrite(pfPrcHelper* prc) {
     prc->closeTag(); // plSpanTemplate
 }
 
-void plSpanTemplate::prcParse(const pfPrcTag* tag) {
+void plSpanTemplate::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "plSpanTemplate")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
@@ -173,7 +178,8 @@ void plSpanTemplate::prcParse(const pfPrcTag* tag) {
     }
 }
 
-std::vector<plSpanTemplate::Vertex> plSpanTemplate::getVertices() const {
+std::vector<plSpanTemplate::Vertex> plSpanTemplate::getVertices() const
+{
     std::vector<Vertex> verts(fNumVerts);
     unsigned char* dataPtr = fData;
     for (size_t i=0; i<fNumVerts; i++) {
@@ -225,7 +231,8 @@ std::vector<plSpanTemplate::Vertex> plSpanTemplate::getVertices() const {
     return verts;
 }
 
-void plSpanTemplate::setVertices(const std::vector<Vertex>& verts) {
+void plSpanTemplate::setVertices(const std::vector<Vertex>& verts)
+{
     delete[] fData;
     if (verts.empty()) {
         fData = NULL;
@@ -285,7 +292,8 @@ void plSpanTemplate::setVertices(const std::vector<Vertex>& verts) {
     }
 }
 
-void plSpanTemplate::setIndices(unsigned short count, const unsigned short* indices) {
+void plSpanTemplate::setIndices(unsigned short count, const unsigned short* indices)
+{
     delete[] fIndices;
     if (count == 0) {
         fIndices = NULL;
@@ -295,12 +303,14 @@ void plSpanTemplate::setIndices(unsigned short count, const unsigned short* indi
     memcpy(fIndices, indices, count * sizeof(unsigned short));
 }
 
-void plSpanTemplate::setFormat(unsigned short fmt) {
+void plSpanTemplate::setFormat(unsigned short fmt)
+{
     fFormat = fmt;
     fStride = CalcStride(fFormat);
 }
 
-unsigned short plSpanTemplate::CalcStride(unsigned short format) {
+unsigned short plSpanTemplate::CalcStride(unsigned short format)
+{
     unsigned short stride = 0;
     if (format & kPosMask)
         stride = sizeof(float) * 3; //hsPoint3

@@ -38,7 +38,8 @@ static PyGetSetDef pyShadowCaster_GetSet[] = {
 
 PY_PLASMA_TYPE(ShadowCaster, plShadowCaster, "plShadowCaster wrapper")
 
-PY_PLASMA_TYPE_INIT(ShadowCaster) {
+PY_PLASMA_TYPE_INIT(ShadowCaster)
+{
     pyShadowCaster_Type.tp_new = pyShadowCaster_new;
     pyShadowCaster_Type.tp_getset = pyShadowCaster_GetSet;
     pyShadowCaster_Type.tp_base = &pyMultiModifier_Type;

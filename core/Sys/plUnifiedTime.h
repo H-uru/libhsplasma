@@ -32,7 +32,8 @@ int gettimeofday(struct timeval* tv, void* tz);
 #include "Stream/pfPrcHelper.h"
 #include "Stream/pfPrcParser.h"
 
-class PLASMA_DLL plUnifiedTime {
+class PLASMA_DLL plUnifiedTime
+{
 public:
     enum Mode { kGMT, kLocal };
 

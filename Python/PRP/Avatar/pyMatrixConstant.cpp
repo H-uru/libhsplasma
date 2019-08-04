@@ -23,7 +23,8 @@ PY_PLASMA_NEW(MatrixConstant, plMatrixConstant)
 
 PY_PLASMA_TYPE(MatrixConstant, plMatrixConstant, "plMatrixConstant wrapper")
 
-PY_PLASMA_TYPE_INIT(MatrixConstant) {
+PY_PLASMA_TYPE_INIT(MatrixConstant)
+{
     pyMatrixConstant_Type.tp_new = pyMatrixConstant_new;
     pyMatrixConstant_Type.tp_base = &pyMatrixChannel_Type;
     if (PyType_CheckAndReady(&pyMatrixConstant_Type) < 0)

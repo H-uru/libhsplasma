@@ -24,7 +24,8 @@ PY_PLASMA_NEW(Point3Controller, plPoint3Controller)
 
 PY_PLASMA_TYPE(Point3Controller, plPoint3Controller, "plPoint3Controller wrapper")
 
-PY_PLASMA_TYPE_INIT(Point3Controller) {
+PY_PLASMA_TYPE_INIT(Point3Controller)
+{
     pyPoint3Controller_Type.tp_init = pyPoint3Controller___init__;
     pyPoint3Controller_Type.tp_new = pyPoint3Controller_new;
     pyPoint3Controller_Type.tp_base = &pyLeafController_Type;

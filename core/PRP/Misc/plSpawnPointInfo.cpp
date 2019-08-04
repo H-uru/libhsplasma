@@ -17,7 +17,8 @@
 #include "plSpawnPointInfo.h"
 #include "Util/hsBitVector.h"
 
-void plSpawnPointInfo::read(hsStream* S) {
+void plSpawnPointInfo::read(hsStream* S)
+{
     hsBitVector flags;
     flags.read(S);
     if (flags[kHasTitle]) {
@@ -34,7 +35,8 @@ void plSpawnPointInfo::read(hsStream* S) {
     }
 }
 
-void plSpawnPointInfo::write(hsStream* S) {
+void plSpawnPointInfo::write(hsStream* S)
+{
     hsBitVector flags;
     flags[kHasTitle] = true;
     flags[kHasSpawnPt] = true;
@@ -49,7 +51,8 @@ void plSpawnPointInfo::write(hsStream* S) {
     S->writeStr(fCameraStack);
 }
 
-void plSpawnPointInfo::prcWrite(pfPrcHelper* prc) {
+void plSpawnPointInfo::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("plSpawnPointInfo");
     prc->writeParam("Title", fTitle);
     prc->writeParam("SpawnPoint", fSpawnPt);
@@ -57,7 +60,8 @@ void plSpawnPointInfo::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plSpawnPointInfo::prcParse(const pfPrcTag* tag) {
+void plSpawnPointInfo::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "plSpawnPointInfo")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     fTitle = tag->getParam("Title", "");
@@ -65,7 +69,8 @@ void plSpawnPointInfo::prcParse(const pfPrcTag* tag) {
     fCameraStack = tag->getParam("CameraStack", "");
 }
 
-void plSpawnPointInfo::clear() {
+void plSpawnPointInfo::clear()
+{
     fTitle = "";
     fSpawnPt = "";
     fCameraStack = "";

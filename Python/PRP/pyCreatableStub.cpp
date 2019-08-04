@@ -18,7 +18,8 @@
 
 #include <PRP/plCreatable.h>
 
-PY_PLASMA_INIT_DECL(CreatableStub) {
+PY_PLASMA_INIT_DECL(CreatableStub)
+{
     int classId, length;
     if (!PyArg_ParseTuple(args, "ii", &classId, &length)) {
         PyErr_SetString(PyExc_TypeError, "__init__ expects int, int");
@@ -30,14 +31,16 @@ PY_PLASMA_INIT_DECL(CreatableStub) {
     return 0;
 }
 
-PY_PLASMA_NEW_DECL(CreatableStub) {
+PY_PLASMA_NEW_DECL(CreatableStub)
+{
     pyCreatableStub* self = (pyCreatableStub*)type->tp_alloc(type, 0);
     // This will get populated in __init__(classID, size)
     self->fThis = NULL;
     return (PyObject*)self;
 }
 
-PY_METHOD_NOARGS(CreatableStub, getData, "Returns the Creatable's raw data") {
+PY_METHOD_NOARGS(CreatableStub, getData, "Returns the Creatable's raw data")
+{
     return PyBytes_FromStringAndSize((const char*)self->fThis->getData(),
                                      self->fThis->getLength());
 }
@@ -56,7 +59,8 @@ static PyMethodDef pyCreatableStub_Methods[] = {
 
 PY_PLASMA_TYPE(CreatableStub, plCreatableStub, "plCreatableStub wrapper")
 
-PY_PLASMA_TYPE_INIT(CreatableStub) {
+PY_PLASMA_TYPE_INIT(CreatableStub)
+{
     pyCreatableStub_Type.tp_init = pyCreatableStub___init__;
     pyCreatableStub_Type.tp_new = pyCreatableStub_new;
     pyCreatableStub_Type.tp_methods = pyCreatableStub_Methods;

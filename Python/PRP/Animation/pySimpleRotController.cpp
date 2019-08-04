@@ -34,7 +34,8 @@ static PyGetSetDef pySimpleRotController_GetSet[] = {
 PY_PLASMA_TYPE(SimpleRotController, plSimpleRotController,
                "plSimpleRotController wrapper")
 
-PY_PLASMA_TYPE_INIT(SimpleRotController) {
+PY_PLASMA_TYPE_INIT(SimpleRotController)
+{
     pySimpleRotController_Type.tp_init = pySimpleRotController___init__;
     pySimpleRotController_Type.tp_new = pySimpleRotController_new;
     pySimpleRotController_Type.tp_getset = pySimpleRotController_GetSet;

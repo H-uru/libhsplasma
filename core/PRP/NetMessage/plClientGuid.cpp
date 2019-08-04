@@ -16,7 +16,8 @@
 
 #include "plClientGuid.h"
 
-void plClientGuid::read(hsStream* S, plResManager* mgr) {
+void plClientGuid::read(hsStream* S, plResManager* mgr)
+{
     fFlags = S->readShort();
     if ((fFlags & kAcctUuid) != 0)
         fAcctUuid.read(S);
@@ -44,7 +45,8 @@ void plClientGuid::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plClientGuid::write(hsStream* S, plResManager* mgr) {
+void plClientGuid::write(hsStream* S, plResManager* mgr)
+{
     S->writeShort(fFlags);
     if ((fFlags & kAcctUuid) != 0)
         fAcctUuid.write(S);
@@ -72,7 +74,8 @@ void plClientGuid::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plClientGuid::IPrcWrite(pfPrcHelper* prc) {
+void plClientGuid::IPrcWrite(pfPrcHelper* prc)
+{
     prc->startTag("ClientParams");
     prc->writeParamHex("Flags", fFlags);
     prc->endTag();
@@ -128,7 +131,8 @@ void plClientGuid::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plClientGuid::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plClientGuid::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "NetMsgParams") {
         fFlags = tag->getParam("Flags", "0").to_uint();
         const pfPrcTag* child = tag->getFirstChild();

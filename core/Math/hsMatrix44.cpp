@@ -22,7 +22,8 @@
 
 #define DATA(y, x) data[y+(x*4)]
 
-hsMatrix44 hsMatrix44::Identity() {
+hsMatrix44 hsMatrix44::Identity()
+{
     static hsMatrix44 idMat;
     static bool idMatInitialized = false;
     if (!idMatInitialized) {
@@ -32,25 +33,29 @@ hsMatrix44 hsMatrix44::Identity() {
     return idMat;
 }
 
-hsMatrix44 hsMatrix44::TranslateMat(const hsVector3& translate) {
+hsMatrix44 hsMatrix44::TranslateMat(const hsVector3& translate)
+{
     hsMatrix44 tMat;
     tMat.setTranslate(translate);
     return tMat;
 }
 
-hsMatrix44 hsMatrix44::RotateMat(int axis, float angle) {
+hsMatrix44 hsMatrix44::RotateMat(int axis, float angle)
+{
     hsMatrix44 rMat;
     rMat.setRotate(axis, angle);
     return rMat;
 }
 
-hsMatrix44 hsMatrix44::ScaleMat(const hsVector3& scale) {
+hsMatrix44 hsMatrix44::ScaleMat(const hsVector3& scale)
+{
     hsMatrix44 sMat;
     sMat.setScale(scale);
     return sMat;
 }
 
-void hsMatrix44::Reset() {
+void hsMatrix44::Reset()
+{
     memset(data, 0, sizeof(data));
     DATA(0, 0) = 1.0f;
     DATA(1, 1) = 1.0f;
@@ -58,7 +63,8 @@ void hsMatrix44::Reset() {
     DATA(3, 3) = 1.0f;
 }
 
-bool hsMatrix44::IsIdentity() const {
+bool hsMatrix44::IsIdentity() const
+{
     for (int y=0; y<4; y++)
         for (int x=0; x<4; x++)
             if ((x == y && DATA(y, x) != 1.0) ||
@@ -67,7 +73,8 @@ bool hsMatrix44::IsIdentity() const {
     return true;
 }
 
-bool hsMatrix44::operator==(const hsMatrix44& other) const {
+bool hsMatrix44::operator==(const hsMatrix44& other) const
+{
     for (int y=0; y<4; y++)
         for (int x=0; x<4; x++)
             if (DATA(y, x) != other.DATA(y, x))
@@ -75,7 +82,8 @@ bool hsMatrix44::operator==(const hsMatrix44& other) const {
     return true;
 }
 
-hsMatrix44 hsMatrix44::operator*(const hsMatrix44& right) const {
+hsMatrix44 hsMatrix44::operator*(const hsMatrix44& right) const
+{
     hsMatrix44 result;
     for (int y=0; y<4; y++)
         for (int x=0; x<4; x++)
@@ -86,7 +94,8 @@ hsMatrix44 hsMatrix44::operator*(const hsMatrix44& right) const {
     return result;
 }
 
-hsVector3 hsMatrix44::multPoint(const hsVector3& point) const {
+hsVector3 hsMatrix44::multPoint(const hsVector3& point) const
+{
     hsVector3 result;
     result.X = (DATA(0, 0) * point.X) + (DATA(0, 1) * point.Y) +
                (DATA(0, 2) * point.Z) +  DATA(0, 3);
@@ -97,7 +106,8 @@ hsVector3 hsMatrix44::multPoint(const hsVector3& point) const {
     return result;
 }
 
-hsVector3 hsMatrix44::multVector(const hsVector3& vec) const {
+hsVector3 hsMatrix44::multVector(const hsVector3& vec) const
+{
     hsVector3 result;
     result.X = (DATA(0, 0) * vec.X) + (DATA(0, 1) * vec.Y) + (DATA(0, 2) * vec.Z);
     result.Y = (DATA(1, 0) * vec.X) + (DATA(1, 1) * vec.Y) + (DATA(1, 2) * vec.Z);
@@ -105,7 +115,8 @@ hsVector3 hsMatrix44::multVector(const hsVector3& vec) const {
     return result;
 }
 
-hsMatrix44 hsMatrix44::inverse() const {
+hsMatrix44 hsMatrix44::inverse() const
+{
     // This function is intentionally unrolled for performance
     float subDet[4][4];
 
@@ -181,20 +192,23 @@ hsMatrix44 hsMatrix44::inverse() const {
     return result;
 }
 
-hsMatrix44& hsMatrix44::translate(const hsVector3& translate) {
+hsMatrix44& hsMatrix44::translate(const hsVector3& translate)
+{
     DATA(0, 3) += translate.X;
     DATA(1, 3) += translate.Y;
     DATA(2, 3) += translate.Z;
     return (*this);
 }
 
-hsMatrix44& hsMatrix44::rotate(int axis, float angle) {
+hsMatrix44& hsMatrix44::rotate(int axis, float angle)
+{
     hsMatrix44 rMat = RotateMat(axis, angle);
     (*this) = rMat * (*this);
     return (*this);
 }
 
-hsMatrix44& hsMatrix44::scale(const hsVector3& scale) {
+hsMatrix44& hsMatrix44::scale(const hsVector3& scale)
+{
     DATA(0, 0) *= scale.X;
     DATA(0, 1) *= scale.X;
     DATA(0, 2) *= scale.X;
@@ -210,14 +224,16 @@ hsMatrix44& hsMatrix44::scale(const hsVector3& scale) {
     return (*this);
 }
 
-hsMatrix44& hsMatrix44::setTranslate(const hsVector3& translate) {
+hsMatrix44& hsMatrix44::setTranslate(const hsVector3& translate)
+{
     DATA(0, 3) = translate.X;
     DATA(1, 3) = translate.Y;
     DATA(2, 3) = translate.Z;
     return (*this);
 }
 
-hsMatrix44& hsMatrix44::setRotate(int axis, float angle) {
+hsMatrix44& hsMatrix44::setRotate(int axis, float angle)
+{
     // Note: This is only for rotation around the global axes.
     //   You should get Local-To-World coordinates first before using this
     //   function if you want a local axis rotation.
@@ -245,14 +261,16 @@ hsMatrix44& hsMatrix44::setRotate(int axis, float angle) {
     return (*this);
 }
 
-hsMatrix44& hsMatrix44::setScale(const hsVector3& scale) {
+hsMatrix44& hsMatrix44::setScale(const hsVector3& scale)
+{
     DATA(0, 0) = scale.X;
     DATA(1, 1) = scale.Y;
     DATA(2, 2) = scale.Z;
     return (*this);
 }
 
-void hsMatrix44::read(hsStream* S) {
+void hsMatrix44::read(hsStream* S)
+{
     bool hasData = true;
     if (S->getVer().isLive() || S->getVer().isHexIsle())
         hasData = S->readBool();
@@ -266,7 +284,8 @@ void hsMatrix44::read(hsStream* S) {
     }
 }
 
-void hsMatrix44::write(hsStream* S) {
+void hsMatrix44::write(hsStream* S)
+{
     bool hasData = true;
     if (S->getVer().isLive() || S->getVer().isHexIsle()) {
         hasData = !IsIdentity();
@@ -280,7 +299,8 @@ void hsMatrix44::write(hsStream* S) {
     }
 }
 
-void hsMatrix44::prcWrite(pfPrcHelper* prc) {
+void hsMatrix44::prcWrite(pfPrcHelper* prc)
+{
     if (IsIdentity()) {
         prc->startTag("hsMatrix44");
         prc->writeParam("identity", true);
@@ -297,7 +317,8 @@ void hsMatrix44::prcWrite(pfPrcHelper* prc) {
     }
 }
 
-void hsMatrix44::prcParse(const pfPrcTag* tag) {
+void hsMatrix44::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "hsMatrix44")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
@@ -359,7 +380,8 @@ void hsMatrix44::prcParse(const pfPrcTag* tag) {
     }
 }
 
-ST::string hsMatrix44::toString() const {
+ST::string hsMatrix44::toString() const
+{
     return ST::format("[ {5.1f} {5.1f} {5.1f} {5.1f}\n  {5.1f} {5.1f} {5.1f} {5.1f}\n"
                       "  {5.1f} {5.1f} {5.1f} {5.1f}\n  {5.1f} {5.1f} {5.1f} {5.1f} ]",
         DATA(0, 0), DATA(0, 1), DATA(0, 2), DATA(0, 3),

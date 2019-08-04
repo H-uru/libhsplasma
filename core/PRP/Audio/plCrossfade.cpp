@@ -17,7 +17,8 @@
 #include "plCrossfade.h"
 
 /* plCrossfade */
-void plCrossfade::read(hsStream* S, plResManager* mgr) {
+void plCrossfade::read(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::read(S, mgr);
 
     fFirstIdx = S->readShort();
@@ -28,7 +29,8 @@ void plCrossfade::read(hsStream* S, plResManager* mgr) {
     fRegistered = S->readBool();
 }
 
-void plCrossfade::write(hsStream* S, plResManager* mgr) {
+void plCrossfade::write(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::write(S, mgr);
 
     S->writeShort(fFirstIdx);
@@ -39,7 +41,8 @@ void plCrossfade::write(hsStream* S, plResManager* mgr) {
     S->writeBool(fRegistered);
 }
 
-void plCrossfade::IPrcWrite(pfPrcHelper* prc) {
+void plCrossfade::IPrcWrite(pfPrcHelper* prc)
+{
     plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("CrossfadeParams");
@@ -52,7 +55,8 @@ void plCrossfade::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plCrossfade::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plCrossfade::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "CrossfadeParams") {
         fFirstIdx = tag->getParam("First", "0").to_uint();
         fSecondIdx = tag->getParam("Second", "0").to_uint();

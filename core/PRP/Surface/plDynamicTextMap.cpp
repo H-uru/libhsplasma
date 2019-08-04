@@ -18,13 +18,15 @@
 #include "Debug/plDebug.h"
 #include <cstring>
 
-plDynamicTextMap::~plDynamicTextMap() {
+plDynamicTextMap::~plDynamicTextMap()
+{
     delete[] fInitBuffer;
 }
 
 void plDynamicTextMap::Create(unsigned int width, unsigned int height,
                               bool hasAlpha, unsigned int extraWidth,
-                              unsigned int extraHeight) {
+                              unsigned int extraHeight)
+{
     setConfig(kRGB8888);
     fVisWidth = width;
     fVisHeight = height;
@@ -48,7 +50,8 @@ void plDynamicTextMap::Create(unsigned int width, unsigned int height,
     fUncompressedInfo.fType = kRGB8888;
 }
 
-void plDynamicTextMap::read(hsStream* S, plResManager* mgr) {
+void plDynamicTextMap::read(hsStream* S, plResManager* mgr)
+{
     plBitmap::read(S, mgr);
 
     fVisWidth = S->readInt();
@@ -65,7 +68,8 @@ void plDynamicTextMap::read(hsStream* S, plResManager* mgr) {
     Create(fVisWidth, fVisHeight, fHasAlpha, 0, 0);
 }
 
-void plDynamicTextMap::write(hsStream* S, plResManager* mgr) {
+void plDynamicTextMap::write(hsStream* S, plResManager* mgr)
+{
     plBitmap::write(S, mgr);
 
     S->writeInt(fVisWidth);
@@ -77,7 +81,8 @@ void plDynamicTextMap::write(hsStream* S, plResManager* mgr) {
         S->writeInts(fInitBufferLen, (uint32_t*)fInitBuffer);
 }
 
-void plDynamicTextMap::IPrcWrite(pfPrcHelper* prc) {
+void plDynamicTextMap::IPrcWrite(pfPrcHelper* prc)
+{
     plBitmap::IPrcWrite(prc);
 
     prc->startTag("DynTextMapParams");
@@ -97,7 +102,8 @@ void plDynamicTextMap::IPrcWrite(pfPrcHelper* prc) {
     }
 }
 
-void plDynamicTextMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plDynamicTextMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "DynTextMapParams") {
         fVisWidth = tag->getParam("VisWidth", "0").to_uint();
         fVisHeight = tag->getParam("VisHeight", "0").to_uint();
@@ -115,7 +121,8 @@ void plDynamicTextMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plDynamicTextMap::setInitBuffer(const unsigned int* buffer, size_t size) {
+void plDynamicTextMap::setInitBuffer(const unsigned int* buffer, size_t size)
+{
     fInitBufferLen = size;
     delete[] fInitBuffer;
     fInitBuffer = new unsigned int[size];

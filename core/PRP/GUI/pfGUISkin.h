@@ -19,21 +19,24 @@
 
 #include "PRP/KeyedObject/hsKeyedObject.h"
 
-class PLASMA_DLL pfGUISkin : public hsKeyedObject {
+class PLASMA_DLL pfGUISkin : public hsKeyedObject
+{
     CREATABLE(pfGUISkin, kGUISkin, hsKeyedObject)
 
 public:
-    enum Elements {
+    enum Elements
+    {
         kUpLeftCorner, kTopSpan, kUpRightCorner, kRightSpan, kLowerRightCorner,
         kBottomSpan, kLowerLeftCorner, kLeftSpan, kMiddleFill, kSelectedFill,
         kSubMenuArrow, kSelectedSubMenuArrow, kTreeButtonClosed,
         kTreeButtonOpen, kNumElements
     };
 
-    struct PLASMA_DLL pfSRect {
+    struct PLASMA_DLL pfSRect
+    {
         unsigned short fX, fY, fWidth, fHeight;
 
-        pfSRect() : fX(0), fY(0), fWidth(0), fHeight(0) { }
+        pfSRect() : fX(), fY(), fWidth(), fHeight() { }
         void read(hsStream* S);
         void write(hsStream* S);
         void prcWrite(pfPrcHelper* prc);
@@ -47,7 +50,7 @@ protected:
     unsigned short fItemMargin, fBorderMargin;
 
 public:
-    pfGUISkin() : fItemMargin(0), fBorderMargin(0) { }
+    pfGUISkin() : fItemMargin(), fBorderMargin() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

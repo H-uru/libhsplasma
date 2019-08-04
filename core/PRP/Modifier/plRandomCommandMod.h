@@ -20,11 +20,13 @@
 #include "plModifier.h"
 #include "Util/hsBitVector.h"
 
-class PLASMA_DLL plRandomCommandMod : public plSingleModifier {
+class PLASMA_DLL plRandomCommandMod : public plSingleModifier
+{
     CREATABLE(plRandomCommandMod, kRandomCommandMod, plSingleModifier)
 
 public:
-    enum {
+    enum
+    {
         kNormal = 0,
         kNoRepeats = 0x1,
         kCoverall = 0x2,
@@ -41,7 +43,7 @@ protected:
     float fMinDelay, fMaxDelay;
 
 public:
-    plRandomCommandMod() : fState(0), fMode(0), fMinDelay(0.0f), fMaxDelay(0.0f) { }
+    plRandomCommandMod() : fState(), fMode(), fMinDelay(), fMaxDelay() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

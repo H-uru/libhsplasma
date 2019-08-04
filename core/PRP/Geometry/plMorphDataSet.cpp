@@ -16,7 +16,8 @@
 
 #include "plMorphDataSet.h"
 
-void plMorphDataSet::read(hsStream* S, plResManager* mgr) {
+void plMorphDataSet::read(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::read(S, mgr);
 
     fMorphs.resize(S->readInt());
@@ -24,7 +25,8 @@ void plMorphDataSet::read(hsStream* S, plResManager* mgr) {
         fMorphs[i].read(S, mgr);
 }
 
-void plMorphDataSet::write(hsStream* S, plResManager* mgr) {
+void plMorphDataSet::write(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::write(S, mgr);
 
     S->writeInt(fMorphs.size());
@@ -32,7 +34,8 @@ void plMorphDataSet::write(hsStream* S, plResManager* mgr) {
         fMorphs[i].write(S, mgr);
 }
 
-void plMorphDataSet::IPrcWrite(pfPrcHelper* prc) {
+void plMorphDataSet::IPrcWrite(pfPrcHelper* prc)
+{
     hsKeyedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("Morphs");
@@ -41,7 +44,8 @@ void plMorphDataSet::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plMorphDataSet::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plMorphDataSet::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Morphs") {
         fMorphs.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();

@@ -23,17 +23,20 @@ PY_WRAP_PLASMA_VALUE(ColorRGBA, struct hsColorRGBA);
 PY_WRAP_PLASMA_VALUE(Color32, struct hsColor32);
 
 /* Python property helpers */
-inline PyObject* pyPlasma_convert(const hsColorRGBA& value) {
+inline PyObject* pyPlasma_convert(const hsColorRGBA& value)
+{
     return pyColorRGBA_FromColorRGBA(value);
 }
 
 template <>
-inline int pyPlasma_check<hsColorRGBA>(PyObject* value) {
+inline int pyPlasma_check<hsColorRGBA>(PyObject* value)
+{
     return pyColorRGBA_Check(value);
 }
 
 template <>
-inline hsColorRGBA pyPlasma_get(PyObject* value) {
+inline hsColorRGBA pyPlasma_get(PyObject* value)
+{
     return *((pyColorRGBA*)value)->fThis;
 }
 

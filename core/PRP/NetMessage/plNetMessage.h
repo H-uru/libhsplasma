@@ -21,11 +21,13 @@
 #include "Sys/plUnifiedTime.h"
 #include "Sys/plUuid.h"
 
-class PLASMA_DLL plNetMessage : public plCreatable {
+class PLASMA_DLL plNetMessage : public plCreatable
+{
     CREATABLE(plNetMessage, kNetMessage, plCreatable)
 
 public:
-    enum ContentFlags {
+    enum ContentFlags
+    {
         kHasTimeSent = 0x1,
         kHasGameMsgRecvrs = 0x2,
         kEchoBackToSender = 0x4,
@@ -56,8 +58,9 @@ private:
     plUuid fAcctUuid;
 
 public:
-    plNetMessage() : fFlags(0), fProtocolVerMaj(12), fProtocolVerMin(6),
-                     fContext(0), fTransID(0), fPlayerID(0) { }
+    plNetMessage()
+        : fFlags(), fProtocolVerMaj(12), fProtocolVerMin(6), fContext(),
+          fTransID(), fPlayerID() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -82,11 +85,17 @@ public:
     void setTransID(unsigned int transID) { fTransID = transID; }
     void setPlayerID(unsigned int playerID) { fPlayerID = playerID; }
     void setAcctUuid(const plUuid& acctUuid) { fAcctUuid = acctUuid; }
-    void setProtocolVer(unsigned char maj, unsigned char min) { fProtocolVerMaj = maj; fProtocolVerMin = min; }
+
+    void setProtocolVer(unsigned char maj, unsigned char min)
+    {
+        fProtocolVerMaj = maj;
+        fProtocolVerMin = min;
+    }
 };
 
 
-class PLASMA_DLL plNetMsgServerToClient : public plNetMessage {
+class PLASMA_DLL plNetMsgServerToClient : public plNetMessage
+{
     CREATABLE(plNetMsgServerToClient, kNetMsgServerToClient, plNetMessage)
 };
 

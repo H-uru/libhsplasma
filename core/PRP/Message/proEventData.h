@@ -24,16 +24,19 @@
 
 #define EVTDATA(classname, evtType) \
 public:\
-    static classname* Convert(proEventData* evt) { \
+    static classname* Convert(proEventData* evt) \
+    { \
         if (evt != NULL && evt->EventType() == evtType) \
             return (classname*)evt; \
         return NULL; \
     }
 
 
-class PLASMA_DLL proEventData {
+class PLASMA_DLL proEventData
+{
 public:
-    enum eventType {
+    enum eventType
+    {
         kCollision = 1, kPicked, kControlKey, kVariable, kFacing, kContained,
         kActivate, kCallback, kResponderState, kMultiStage, kSpawned,
         kClickDrag, kCoop, kOfferLinkBook, kBook, kClimbingBlockerHit,
@@ -42,7 +45,8 @@ public:
 
     enum dataType { kNumber, kKey, kNotta };
 
-    enum multiStageEventType {
+    enum multiStageEventType
+    {
         kEnterStage = 1, kBeginningOfLoop, kAdvanceNextStage,
         kRegressPrevStage, kNothing
     };
@@ -54,7 +58,7 @@ protected:
     int fEventType;
 
 public:
-    proEventData() : fEventType(0) { }
+    proEventData() : fEventType() { }
     virtual ~proEventData() { }
 
     int EventType() const { return fEventType; }
@@ -74,7 +78,8 @@ protected:
 };
 
 
-class PLASMA_DLL proCollisionEventData : public proEventData {
+class PLASMA_DLL proCollisionEventData : public proEventData
+{
     EVTDATA(proCollisionEventData, kCollision)
 
 protected:
@@ -83,7 +88,8 @@ protected:
     plKey fHittee;
 
 public:
-    proCollisionEventData() : fEnter(false) {
+    proCollisionEventData() : fEnter()
+    {
         fEventType = kCollision;
     }
 
@@ -104,7 +110,8 @@ public:
 };
 
 
-class PLASMA_DLL proPickedEventData : public proEventData {
+class PLASMA_DLL proPickedEventData : public proEventData
+{
     EVTDATA(proPickedEventData, kPicked)
 
 protected:
@@ -114,7 +121,8 @@ protected:
     hsVector3 fHitPoint;
 
 public:
-    proPickedEventData() : fEnabled(false) {
+    proPickedEventData() : fEnabled()
+    {
         fEventType = kPicked;
     }
 
@@ -137,7 +145,8 @@ public:
 };
 
 
-class PLASMA_DLL proControlKeyEventData : public proEventData {
+class PLASMA_DLL proControlKeyEventData : public proEventData
+{
     EVTDATA(proControlKeyEventData, kControlKey)
 
 protected:
@@ -145,7 +154,8 @@ protected:
     bool fDown;
 
 public:
-    proControlKeyEventData(): fControlKey(0), fDown(false) {
+    proControlKeyEventData() : fControlKey(), fDown()
+    {
         fEventType = kControlKey;
     }
 
@@ -164,7 +174,8 @@ public:
 };
 
 
-class PLASMA_DLL proVariableEventData : public proEventData {
+class PLASMA_DLL proVariableEventData : public proEventData
+{
     EVTDATA(proVariableEventData, kVariable)
 
 protected:
@@ -174,7 +185,8 @@ protected:
     plKey fKey;
 
 public:
-    proVariableEventData() : fNumber(0.0f) {
+    proVariableEventData() : fNumber()
+    {
         fEventType = kVariable;
         fDataType = kNotta;
     }
@@ -198,7 +210,8 @@ public:
 };
 
 
-class PLASMA_DLL proFacingEventData : public proEventData {
+class PLASMA_DLL proFacingEventData : public proEventData
+{
     EVTDATA(proFacingEventData, kFacing)
 
 protected:
@@ -208,7 +221,8 @@ protected:
     bool fEnabled;
 
 public:
-    proFacingEventData() : fDot(0.0f), fEnabled(false) {
+    proFacingEventData() : fDot(), fEnabled()
+    {
         fEventType = kFacing;
     }
 
@@ -231,7 +245,8 @@ public:
 };
 
 
-class PLASMA_DLL proContainedEventData : public proEventData {
+class PLASMA_DLL proContainedEventData : public proEventData
+{
     EVTDATA(proContainedEventData, kContained)
 
 protected:
@@ -240,7 +255,8 @@ protected:
     bool fEntering;
 
 public:
-    proContainedEventData() : fEntering(false) {
+    proContainedEventData() : fEntering()
+    {
         fEventType = kContained;
     }
 
@@ -261,14 +277,16 @@ public:
 };
 
 
-class PLASMA_DLL proActivateEventData : public proEventData {
+class PLASMA_DLL proActivateEventData : public proEventData
+{
     EVTDATA(proActivateEventData, kActivate)
 
 protected:
     bool fActive, fActivate;
 
 public:
-    proActivateEventData() : fActive(false), fActivate(false) {
+    proActivateEventData() : fActive(), fActivate()
+    {
         fEventType = kActivate;
     }
 
@@ -287,14 +305,16 @@ public:
 };
 
 
-class PLASMA_DLL proCallbackEventData : public proEventData {
+class PLASMA_DLL proCallbackEventData : public proEventData
+{
     EVTDATA(proCallbackEventData, kCallback)
 
 protected:
     int fCallbackEventType;
 
 public:
-    proCallbackEventData() : fCallbackEventType(0) {
+    proCallbackEventData() : fCallbackEventType()
+    {
         fEventType = kCallback;
     }
 
@@ -310,14 +330,16 @@ public:
 };
 
 
-class PLASMA_DLL proResponderStateEventData : public proEventData {
+class PLASMA_DLL proResponderStateEventData : public proEventData
+{
     EVTDATA(proResponderStateEventData, kResponderState)
 
 protected:
     int fState;
 
 public:
-    proResponderStateEventData() : fState(0) {
+    proResponderStateEventData() : fState()
+    {
         fEventType = kResponderState;
     }
 
@@ -333,7 +355,8 @@ public:
 };
 
 
-class PLASMA_DLL proMultiStageEventData : public proEventData {
+class PLASMA_DLL proMultiStageEventData : public proEventData
+{
     EVTDATA(proMultiStageEventData, kMultiStage)
 
 protected:
@@ -341,7 +364,8 @@ protected:
     plKey fAvatar;
 
 public:
-    proMultiStageEventData() : fStage(0), fEvent(kNothing) {
+    proMultiStageEventData() : fStage(), fEvent(kNothing)
+    {
         fEventType = kMultiStage;
     }
 
@@ -362,7 +386,8 @@ public:
 };
 
 
-class PLASMA_DLL proSpawnedEventData : public proEventData {
+class PLASMA_DLL proSpawnedEventData : public proEventData
+{
     EVTDATA(proSpawnedEventData, kSpawned)
 
 protected:
@@ -387,7 +412,8 @@ public:
 };
 
 
-class PLASMA_DLL proClickDragEventData : public proEventData {
+class PLASMA_DLL proClickDragEventData : public proEventData
+{
     EVTDATA(proClickDragEventData, kClickDrag)
 
 public:
@@ -400,7 +426,8 @@ protected:
 };
 
 
-class PLASMA_DLL proCoopEventData : public proEventData {
+class PLASMA_DLL proCoopEventData : public proEventData
+{
     EVTDATA(proCoopEventData, kCoop)
 
 protected:
@@ -408,7 +435,8 @@ protected:
     unsigned short fSerial;
 
 public:
-    proCoopEventData() : fID(0), fSerial(0) {
+    proCoopEventData() : fID(), fSerial()
+    {
         fEventType = kCoop;
     }
 
@@ -427,7 +455,8 @@ public:
 };
 
 
-class PLASMA_DLL proOfferLinkBookEventData : public proEventData {
+class PLASMA_DLL proOfferLinkBookEventData : public proEventData
+{
     EVTDATA(proOfferLinkBookEventData, kOfferLinkBook)
 
 protected:
@@ -435,7 +464,8 @@ protected:
     int fTargetAge, fOfferee;
 
 public:
-    proOfferLinkBookEventData() : fTargetAge(0), fOfferee(0) {
+    proOfferLinkBookEventData() : fTargetAge(), fOfferee()
+    {
         fEventType = kOfferLinkBook;
     }
 
@@ -456,14 +486,16 @@ public:
 };
 
 
-class PLASMA_DLL proBookEventData : public proEventData {
+class PLASMA_DLL proBookEventData : public proEventData
+{
     EVTDATA(proBookEventData, kBook)
 
 protected:
     unsigned int fEvent, fLinkID;
 
 public:
-    proBookEventData() : fEvent(0), fLinkID(0) {
+    proBookEventData() : fEvent(), fLinkID()
+    {
         fEventType = kBook;
     }
 
@@ -482,7 +514,8 @@ public:
 };
 
 
-class PLASMA_DLL proClimbingBlockerHitEventData : public proEventData {
+class PLASMA_DLL proClimbingBlockerHitEventData : public proEventData
+{
     EVTDATA(proClimbingBlockerHitEventData, kClimbingBlockerHit)
 
 protected:

@@ -22,7 +22,8 @@
 
 PY_PLASMA_VALUE_DEALLOC(Vector3)
 
-PY_PLASMA_INIT_DECL(Vector3) {
+PY_PLASMA_INIT_DECL(Vector3)
+{
     float x = 0.0f, y = 0.0f, z = 0.0f;
     PyObject* init = NULL;
     static char* kwlist[] = { _pycs("X"), _pycs("Y"), _pycs("Z"), NULL };
@@ -50,13 +51,15 @@ PY_PLASMA_INIT_DECL(Vector3) {
 
 PY_PLASMA_VALUE_NEW(Vector3, hsVector3)
 
-PY_PLASMA_REPR_DECL(Vector3) {
+PY_PLASMA_REPR_DECL(Vector3)
+{
     ST::string repr = ST::format("hsVector3({f}, {f}, {f})",
              self->fThis->X, self->fThis->Y, self->fThis->Z);
     return pyPlasma_convert(repr);
 }
 
-PY_PLASMA_NB_BINARYFUNC_DECL(Vector3, add) {
+PY_PLASMA_NB_BINARYFUNC_DECL(Vector3, add)
+{
     if (!pyVector3_Check(left) || !pyVector3_Check(right)) {
         PyErr_SetString(PyExc_TypeError, "Incompatible Types");
         return NULL;
@@ -64,7 +67,8 @@ PY_PLASMA_NB_BINARYFUNC_DECL(Vector3, add) {
     return pyPlasma_convert(pyPlasma_get<hsVector3>(left) + pyPlasma_get<hsVector3>(right));
 }
 
-PY_PLASMA_NB_BINARYFUNC_DECL(Vector3, subtract) {
+PY_PLASMA_NB_BINARYFUNC_DECL(Vector3, subtract)
+{
     if (!pyVector3_Check(left) || !pyVector3_Check(right)) {
         PyErr_SetString(PyExc_TypeError, "Incompatible Types");
         return NULL;
@@ -72,7 +76,8 @@ PY_PLASMA_NB_BINARYFUNC_DECL(Vector3, subtract) {
     return pyPlasma_convert(pyPlasma_get<hsVector3>(left) - pyPlasma_get<hsVector3>(right));
 }
 
-PY_PLASMA_NB_BINARYFUNC_DECL(Vector3, multiply) {
+PY_PLASMA_NB_BINARYFUNC_DECL(Vector3, multiply)
+{
     if (pyVector3_Check(left)) {
         if (pyVector3_Check(right)) {
             PyErr_SetString(PyExc_TypeError, "Vector Multiplication should use dotP and crossP");
@@ -96,32 +101,38 @@ PY_PLASMA_NB_BINARYFUNC_DECL(Vector3, multiply) {
     }
 }
 
-PY_PLASMA_NB_UNARYFUNC_DECL(Vector3, negative) {
+PY_PLASMA_NB_UNARYFUNC_DECL(Vector3, negative)
+{
     return pyPlasma_convert(hsVector3(-(self->fThis->X), -(self->fThis->Y),
                                       -(self->fThis->Z)));
 }
 
-PY_PLASMA_NB_UNARYFUNC_DECL(Vector3, positive) {
+PY_PLASMA_NB_UNARYFUNC_DECL(Vector3, positive)
+{
     return pyPlasma_convert(hsVector3(+(self->fThis->X), +(self->fThis->Y),
                                       +(self->fThis->Z)));
 }
 
-PY_PLASMA_NB_UNARYFUNC_DECL(Vector3, absolute) {
+PY_PLASMA_NB_UNARYFUNC_DECL(Vector3, absolute)
+{
     return pyPlasma_convert(hsVector3(fabs(self->fThis->X),
                                       fabs(self->fThis->Y),
                                       fabs(self->fThis->Z)));
 }
 
-PY_PLASMA_NB_INQUIRY_DECL(Vector3, nonzero) {
+PY_PLASMA_NB_INQUIRY_DECL(Vector3, nonzero)
+{
     return (self->fThis->X != 0.0f) || (self->fThis->Y != 0.0f)
         || (self->fThis->Z != 0.0f);
 }
 
-PY_METHOD_NOARGS(Vector3, magnitude, "Returns the magnitude of the vector") {
+PY_METHOD_NOARGS(Vector3, magnitude, "Returns the magnitude of the vector")
+{
     return pyPlasma_convert(self->fThis->magnitude());
 }
 
-PY_METHOD_NOARGS(Vector3, normalize, "Normalizes the vector") {
+PY_METHOD_NOARGS(Vector3, normalize, "Normalizes the vector")
+{
     self->fThis->normalize();
     Py_RETURN_NONE;
 }
@@ -216,7 +227,8 @@ PyGetSetDef pyVector3_GetSet[] = {
 PY_PLASMA_TYPE(Vector3, hsVector3, "hsVector3/hsPoint3 wrapper")
 PY_PLASMA_TYPE_AS_NUMBER(Vector3)
 
-PY_PLASMA_TYPE_INIT(Vector3) {
+PY_PLASMA_TYPE_INIT(Vector3)
+{
     pyVector3_As_Number.nb_add = pyVector3_nb_add;
     pyVector3_As_Number.nb_subtract = pyVector3_nb_subtract;
     pyVector3_As_Number.nb_multiply = pyVector3_nb_multiply;

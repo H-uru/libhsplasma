@@ -19,7 +19,8 @@
 
 #include "plModifier.h"
 
-class PLASMA_DLL plGameMarkerModifier : public plSingleModifier {
+class PLASMA_DLL plGameMarkerModifier : public plSingleModifier
+{
     CREATABLE(plGameMarkerModifier, kGameMarkerModifier, plSingleModifier)
 
 private:
@@ -27,7 +28,7 @@ private:
     unsigned short fPlaceSoundIdx, fHitSoundIdx;
 
 public:
-    plGameMarkerModifier() : fPlaceSoundIdx(0), fHitSoundIdx(0) { }
+    plGameMarkerModifier() : fPlaceSoundIdx(), fHitSoundIdx() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

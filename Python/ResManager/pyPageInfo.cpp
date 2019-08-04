@@ -24,7 +24,8 @@ PY_PLASMA_DEALLOC(PageInfo)
 PY_PLASMA_EMPTY_INIT(PageInfo)
 PY_PLASMA_NEW(PageInfo, plPageInfo)
 
-PY_METHOD_NOARGS(PageInfo, isValid, "Returns True if the PageInfo is valid") {
+PY_METHOD_NOARGS(PageInfo, isValid, "Returns True if the PageInfo is valid")
+{
     return pyPlasma_convert(self->fThis->isValid());
 }
 
@@ -119,7 +120,8 @@ static PyGetSetDef pyPageInfo_GetSet[] = {
 
 PY_PLASMA_TYPE(PageInfo, plPageInfo, "plPageInfo wrapper")
 
-PY_PLASMA_TYPE_INIT(PageInfo) {
+PY_PLASMA_TYPE_INIT(PageInfo)
+{
     pyPageInfo_Type.tp_dealloc = pyPageInfo_dealloc;
     pyPageInfo_Type.tp_init = pyPageInfo___init__;
     pyPageInfo_Type.tp_new = pyPageInfo_new;

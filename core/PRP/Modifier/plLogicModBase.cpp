@@ -17,7 +17,8 @@
 #include "plLogicModBase.h"
 
 plLogicModBase::plLogicModBase()
-              : fNotify(NULL), fDisabled(false) {
+    : fNotify(), fDisabled()
+{
     fLogicFlags.setName(kLocalElement, "kLocalElement");
     fLogicFlags.setName(kReset, "kReset");
     fLogicFlags.setName(kTriggered, "kTriggered");
@@ -27,13 +28,15 @@ plLogicModBase::plLogicModBase()
     fLogicFlags.setName(kMultiTrigger, "kMultiTrigger");
 }
 
-plLogicModBase::~plLogicModBase() {
+plLogicModBase::~plLogicModBase()
+{
     for (auto cmd = fCommandList.begin(); cmd != fCommandList.end(); ++cmd)
         delete *cmd;
     delete fNotify;
 }
 
-void plLogicModBase::read(hsStream* S, plResManager* mgr) {
+void plLogicModBase::read(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::read(S, mgr);
 
     clearCommands();
@@ -46,7 +49,8 @@ void plLogicModBase::read(hsStream* S, plResManager* mgr) {
     fDisabled = S->readBool();
 }
 
-void plLogicModBase::write(hsStream* S, plResManager* mgr) {
+void plLogicModBase::write(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::write(S, mgr);
 
     S->writeInt(fCommandList.size());
@@ -58,7 +62,8 @@ void plLogicModBase::write(hsStream* S, plResManager* mgr) {
     S->writeBool(fDisabled);
 }
 
-void plLogicModBase::IPrcWrite(pfPrcHelper* prc) {
+void plLogicModBase::IPrcWrite(pfPrcHelper* prc)
+{
     plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("LogicModParams");
@@ -79,7 +84,8 @@ void plLogicModBase::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plLogicModBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plLogicModBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "LogicModParams") {
         fDisabled = tag->getParam("Disabled", "false").to_bool();
     } else if (tag->getName() == "Commands") {
@@ -101,18 +107,21 @@ void plLogicModBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plLogicModBase::delCommand(size_t idx) {
+void plLogicModBase::delCommand(size_t idx)
+{
     delete fCommandList[idx];
     fCommandList.erase(fCommandList.begin() + idx);
 }
 
-void plLogicModBase::clearCommands() {
+void plLogicModBase::clearCommands()
+{
     for (auto cmd = fCommandList.begin(); cmd != fCommandList.end(); ++cmd)
         delete *cmd;
     fCommandList.clear();
 }
 
-void plLogicModBase::setNotify(plNotifyMsg* notify) {
+void plLogicModBase::setNotify(plNotifyMsg* notify)
+{
     delete fNotify;
     fNotify = notify;
 }

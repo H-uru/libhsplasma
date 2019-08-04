@@ -2135,7 +2135,8 @@ const char* pdUnifiedTypeMap::fClassNames[TYPESPACE_MAX] = {
     NULL, NULL, NULL, NULL, NULL, NULL, NULL
 };
 
-const char* pdUnifiedTypeMap::ClassName(short typeIdx) {
+const char* pdUnifiedTypeMap::ClassName(short typeIdx)
+{
     if (typeIdx < 0 || typeIdx >= TYPESPACE_MAX) {
         plDebug::Debug("pdUnifiedTypeMap::ClassName ERR: Got type {_04X}", typeIdx);
         return NULL;
@@ -2144,13 +2145,15 @@ const char* pdUnifiedTypeMap::ClassName(short typeIdx) {
     return fClassNames[typeIdx];
 }
 
-const char* pdUnifiedTypeMap::ClassName(short typeIdx, PlasmaVer ver) {
+const char* pdUnifiedTypeMap::ClassName(short typeIdx, PlasmaVer ver)
+{
     if (!ver.isValid())
         throw hsBadVersionException(__FILE__, __LINE__);
     return ClassName(PlasmaToMapped(typeIdx, ver));
 }
 
-short pdUnifiedTypeMap::ClassIndex(const char* typeName) {
+short pdUnifiedTypeMap::ClassIndex(const char* typeName)
+{
     for (size_t i=0; i<TYPESPACE_MAX; i++)
         if (fClassNames[i] != NULL && strcmp(fClassNames[i], typeName) == 0)
             return i;
@@ -2159,7 +2162,8 @@ short pdUnifiedTypeMap::ClassIndex(const char* typeName) {
     return -1;
 }
 
-short pdUnifiedTypeMap::PlasmaToMapped(short typeIdx, PlasmaVer ver) {
+short pdUnifiedTypeMap::PlasmaToMapped(short typeIdx, PlasmaVer ver)
+{
     if (typeIdx < 0 || typeIdx >= TYPESPACE_MAX) {
         plDebug::Debug("pdUnifiedTypeMap::PlasmaToMapped ERR: Got type {_04X}", typeIdx);
         return -1;
@@ -2185,7 +2189,8 @@ short pdUnifiedTypeMap::PlasmaToMapped(short typeIdx, PlasmaVer ver) {
     }
 }
 
-short pdUnifiedTypeMap::MappedToPlasma(short typeIdx, PlasmaVer ver) {
+short pdUnifiedTypeMap::MappedToPlasma(short typeIdx, PlasmaVer ver)
+{
     if (typeIdx < 0 || typeIdx >= TYPESPACE_MAX) {
         plDebug::Debug("pdUnifiedTypeMap::MappedToPlasma ERR: Got type {_04X}", typeIdx);
         return -1;
@@ -2211,7 +2216,8 @@ short pdUnifiedTypeMap::MappedToPlasma(short typeIdx, PlasmaVer ver) {
     }
 }
 
-short pdUnifiedTypeMap::ClassVersion(short typeIdx, PlasmaVer ver) {
+short pdUnifiedTypeMap::ClassVersion(short typeIdx, PlasmaVer ver)
+{
     if (PlasmaToMapped(typeIdx, ver) < 0)
         return -1;
 
@@ -2227,7 +2233,8 @@ short pdUnifiedTypeMap::ClassVersion(short typeIdx, PlasmaVer ver) {
     };
 }
 
-short pdUnifiedTypeMap::CurrentVersion(short typeIdx) {
+short pdUnifiedTypeMap::CurrentVersion(short typeIdx)
+{
     if (typeIdx < 0 || typeIdx >= TYPESPACE_MAX) {
         plDebug::Debug("pdUnifiedTypeMap::CurrentVersion ERR: Got type {_04X}", typeIdx);
         return -1;
@@ -2236,7 +2243,8 @@ short pdUnifiedTypeMap::CurrentVersion(short typeIdx) {
     return fCurrentVerTable[typeIdx];
 }
 
-void pdUnifiedTypeMap::SetCurrentVersionBase(PlasmaVer ver) {
+void pdUnifiedTypeMap::SetCurrentVersionBase(PlasmaVer ver)
+{
     const short* base;
 
     switch (ver) {
@@ -2258,6 +2266,7 @@ void pdUnifiedTypeMap::SetCurrentVersionBase(PlasmaVer ver) {
     }
 }
 
-void pdUnifiedTypeMap::SetCurrentVersion(short typeIdx, PlasmaVer ver, short clsVer) {
+void pdUnifiedTypeMap::SetCurrentVersion(short typeIdx, PlasmaVer ver, short clsVer)
+{
     fCurrentVerTable[PlasmaToMapped(typeIdx, ver)] = clsVer;
 }

@@ -17,20 +17,21 @@
 #include "hsThread.h"
 #include "Debug/hsExceptions.hpp"
 
-hsThread::hsThread() : fState(kStatePending) { }
-
-hsThread::~hsThread() {
+hsThread::~hsThread()
+{
     wait();
     destroy();
 }
 
-void hsThread::threadEntry(hsThread* self) {
+void hsThread::threadEntry(hsThread* self)
+{
     self->run();
     std::lock_guard<std::mutex> lock(self->fMutex);
     self->fState = kStateFinished;
 }
 
-void hsThread::start() {
+void hsThread::start()
+{
     std::lock_guard<std::mutex> lock(fMutex);
     if (fState == kStateRunning)
         throw hsBadParamException(__FILE__, __LINE__, "Thread already running!");
@@ -44,12 +45,14 @@ void hsThread::start() {
     }
 }
 
-void hsThread::wait() {
+void hsThread::wait()
+{
     if (fThreadHandle.joinable())
         fThreadHandle.join();
 }
 
-bool hsThread::isFinished() {
+bool hsThread::isFinished()
+{
     std::lock_guard<std::mutex> lock(fMutex);
     return fState == kStateFinished;
 }

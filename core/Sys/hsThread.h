@@ -21,9 +21,11 @@
 #include <mutex>
 #include <thread>
 
-class PLASMA_DLL hsThread {
+class PLASMA_DLL hsThread
+{
 private:
-    enum {
+    enum
+    {
         kStatePending,
         kStateRunning,
         kStateFinished,
@@ -34,7 +36,7 @@ private:
     std::thread fThreadHandle;
 
 public:
-    hsThread();
+    hsThread() : fState(kStatePending) { }
     virtual ~hsThread();
     virtual void destroy() { }
 

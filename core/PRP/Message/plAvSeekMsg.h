@@ -20,16 +20,19 @@
 #include "plAvTaskMsg.h"
 #include "Math/hsGeometry3.h"
 
-class PLASMA_DLL plAvSeekMsg : public plAvTaskMsg {
+class PLASMA_DLL plAvSeekMsg : public plAvTaskMsg
+{
     CREATABLE(plAvSeekMsg, kAvSeekMsg, plAvTaskMsg)
 
 public:
-    enum Alignment {
+    enum Alignment
+    {
         kAlignHandle, kAlignHandleAnimEnd, kAlignWorld, kAlignBone,
         kAlignBoneAnimEnd,
     };
 
-    enum {
+    enum
+    {
         kSeekFlagUnForce3rdPersonOnFinish = 0x1,
         kSeekFlagForce3rdPersonOnStart = 0x2,
         kSeekFlagNoWarpOnTimeout = 0x4,
@@ -47,8 +50,9 @@ private:
     plKey fFinishKey;
 
 public:
-    plAvSeekMsg() : fDuration(0.0f), fSmartSeek(true), fNoSeek(false),
-                    fAlignType(kAlignHandle), fFlags(kSeekFlagForce3rdPersonOnStart) { }
+    plAvSeekMsg()
+        : fDuration(), fSmartSeek(true), fNoSeek(false), fAlignType(kAlignHandle),
+          fFlags(kSeekFlagForce3rdPersonOnStart) { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -59,7 +63,8 @@ protected:
 };
 
 
-class PLASMA_DLL plAvOneShotMsg : public plAvSeekMsg {
+class PLASMA_DLL plAvOneShotMsg : public plAvSeekMsg
+{
     CREATABLE(plAvOneShotMsg, kAvOneShotMsg, plAvSeekMsg)
 
 private:
@@ -67,7 +72,7 @@ private:
     bool fDrivable, fReversible;
 
 public:
-    plAvOneShotMsg() : fDrivable(false), fReversible(false) { }
+    plAvOneShotMsg() : fDrivable(), fReversible() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

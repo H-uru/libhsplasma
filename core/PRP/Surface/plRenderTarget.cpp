@@ -17,27 +17,32 @@
 #include "plRenderTarget.h"
 
 /* plRenderTarget */
-void plRenderTarget::read(hsStream* S, plResManager* mgr) {
+void plRenderTarget::read(hsStream* S, plResManager* mgr)
+{
     plBitmap::read(S, mgr);
     IReadRenderTarget(S);
 }
 
-void plRenderTarget::write(hsStream* S, plResManager* mgr) {
+void plRenderTarget::write(hsStream* S, plResManager* mgr)
+{
     plBitmap::write(S, mgr);
     IWriteRenderTarget(S);
 }
 
-void plRenderTarget::readData(hsStream* S) {
+void plRenderTarget::readData(hsStream* S)
+{
     IReadBitmap(S);
     IReadRenderTarget(S);
 }
 
-void plRenderTarget::writeData(hsStream* S) {
+void plRenderTarget::writeData(hsStream* S)
+{
     IWriteBitmap(S);
     IWriteRenderTarget(S);
 }
 
-void plRenderTarget::IReadRenderTarget(hsStream* S) {
+void plRenderTarget::IReadRenderTarget(hsStream* S)
+{
     fWidth = S->readShort();
     fHeight = S->readShort();
     fProportionalViewport = S->readBool();
@@ -56,7 +61,8 @@ void plRenderTarget::IReadRenderTarget(hsStream* S) {
     fStencilDepth = S->readByte();
 }
 
-void plRenderTarget::IWriteRenderTarget(hsStream* S) {
+void plRenderTarget::IWriteRenderTarget(hsStream* S)
+{
     S->writeShort(fWidth);
     S->writeShort(fHeight);
     S->writeBool(fProportionalViewport);
@@ -75,7 +81,8 @@ void plRenderTarget::IWriteRenderTarget(hsStream* S) {
     S->writeByte(fStencilDepth);
 }
 
-void plRenderTarget::IPrcWrite(pfPrcHelper* prc) {
+void plRenderTarget::IPrcWrite(pfPrcHelper* prc)
+{
     plBitmap::IPrcWrite(prc);
 
     prc->startTag("RenderTargetParams");
@@ -101,7 +108,8 @@ void plRenderTarget::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plRenderTarget::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plRenderTarget::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "RenderTargetParams") {
         fWidth = tag->getParam("Width", "0").to_uint();
         fHeight = tag->getParam("Height", "0").to_uint();
@@ -127,7 +135,8 @@ void plRenderTarget::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plCubicRenderTarget */
-void plCubicRenderTarget::read(hsStream* S, plResManager* mgr) {
+void plCubicRenderTarget::read(hsStream* S, plResManager* mgr)
+{
     plRenderTarget::read(S, mgr);
 
     for (size_t i=0; i<6; i++) {
@@ -138,7 +147,8 @@ void plCubicRenderTarget::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plCubicRenderTarget::write(hsStream* S, plResManager* mgr) {
+void plCubicRenderTarget::write(hsStream* S, plResManager* mgr)
+{
     plRenderTarget::write(S, mgr);
 
     for (size_t i=0; i<6; i++) {
@@ -149,7 +159,8 @@ void plCubicRenderTarget::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plCubicRenderTarget::IPrcWrite(pfPrcHelper* prc) {
+void plCubicRenderTarget::IPrcWrite(pfPrcHelper* prc)
+{
     plRenderTarget::IPrcWrite(prc);
 
     prc->writeSimpleTag("Faces");
@@ -158,7 +169,8 @@ void plCubicRenderTarget::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plCubicRenderTarget::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plCubicRenderTarget::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Faces") {
         if (tag->countChildren() != 6)
             throw pfPrcParseException(__FILE__, __LINE__, "CubicRenderTarget expects exactly 6 faces");

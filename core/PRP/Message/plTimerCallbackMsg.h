@@ -19,7 +19,8 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plTimerCallbackMsg : public plMessage {
+class PLASMA_DLL plTimerCallbackMsg : public plMessage
+{
     CREATABLE(plTimerCallbackMsg, kTimerCallbackMsg, plMessage)
 
 protected:
@@ -27,7 +28,7 @@ protected:
     float fTime;
 
 public:
-    plTimerCallbackMsg() : fID(0), fTime(0.0f) { }
+    plTimerCallbackMsg() : fID(), fTime() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

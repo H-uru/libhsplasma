@@ -66,7 +66,8 @@ static PyMethodDef pyExcludeRegionModifier_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(ExcludeRegionModifier, safePoints) {
+PY_GETSET_GETTER_DECL(ExcludeRegionModifier, safePoints)
+{
     const std::vector<plKey>& points = self->fThis->getSafePoints();
     PyObject* tup = PyTuple_New(points.size());
     for (size_t i = 0; i < points.size(); ++i)
@@ -90,7 +91,8 @@ static PyGetSetDef pyExcludeRegionModifier_GetSet[] = {
 PY_PLASMA_TYPE(ExcludeRegionModifier, plExcludeRegionModifier,
                "plExcludeRegionModifier wrapper")
 
-PY_PLASMA_TYPE_INIT(ExcludeRegionModifier) {
+PY_PLASMA_TYPE_INIT(ExcludeRegionModifier)
+{
     pyExcludeRegionModifier_Type.tp_new = pyExcludeRegionModifier_new;
     pyExcludeRegionModifier_Type.tp_methods = pyExcludeRegionModifier_Methods;
     pyExcludeRegionModifier_Type.tp_getset = pyExcludeRegionModifier_GetSet;

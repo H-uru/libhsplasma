@@ -23,7 +23,8 @@ PY_PLASMA_NEW(ClickDragEventData, proClickDragEventData)
 PY_PLASMA_TYPE(ClickDragEventData, proClickDragEventData,
                "proClickDragEventData wrapper")
 
-PY_PLASMA_TYPE_INIT(ClickDragEventData) {
+PY_PLASMA_TYPE_INIT(ClickDragEventData)
+{
     pyClickDragEventData_Type.tp_new = pyClickDragEventData_new;
     pyClickDragEventData_Type.tp_base = &pyEventData_Type;
     if (PyType_CheckAndReady(&pyClickDragEventData_Type) < 0)

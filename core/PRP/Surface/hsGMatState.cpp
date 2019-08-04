@@ -18,7 +18,8 @@
 
 hsGMatState::hsGMatState(unsigned int blend, unsigned int clamp,
                          unsigned int shade, unsigned int Z,
-                         unsigned int misc) {
+                         unsigned int misc)
+{
     fBlendFlags = blend;
     fClampFlags = clamp;
     fShadeFlags = shade;
@@ -26,7 +27,8 @@ hsGMatState::hsGMatState(unsigned int blend, unsigned int clamp,
     fMiscFlags = misc;
 }
 
-void hsGMatState::read(hsStream* S) {
+void hsGMatState::read(hsStream* S)
+{
     fBlendFlags = S->readInt();
     fClampFlags = S->readInt();
     fShadeFlags = S->readInt();
@@ -34,7 +36,8 @@ void hsGMatState::read(hsStream* S) {
     fMiscFlags = S->readInt();
 }
 
-void hsGMatState::write(hsStream* S) {
+void hsGMatState::write(hsStream* S)
+{
     S->writeInt(fBlendFlags);
     S->writeInt(fClampFlags);
     S->writeInt(fShadeFlags);
@@ -42,7 +45,8 @@ void hsGMatState::write(hsStream* S) {
     S->writeInt(fMiscFlags);
 }
 
-void hsGMatState::prcWrite(pfPrcHelper* prc) {
+void hsGMatState::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("hsGMatState");
     prc->writeParamHex("BlendFlags", fBlendFlags);
     prc->writeParamHex("ClampFlags", fClampFlags);
@@ -52,7 +56,8 @@ void hsGMatState::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void hsGMatState::prcParse(const pfPrcTag* tag) {
+void hsGMatState::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "hsGMatState")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 

@@ -27,7 +27,8 @@
  * mostly for use in animations and other movement.
  */
 
-class PLASMA_DLL hsAffineParts {
+class PLASMA_DLL hsAffineParts
+{
 public:
     /**
      * The meaning of this field is currently unknown...  It might be an
@@ -54,7 +55,7 @@ public:
 
 public:
     /** Constructs a default (identity) Affine Transformation */
-    hsAffineParts() : fI(0), fK(1.0f, 1.0f, 1.0f), fF(1.0f) { }
+    hsAffineParts() : fI(), fK(1.0f, 1.0f, 1.0f), fF(1.0f) { }
 
     /** Read the affine parts from a versioned stream */
     void read(hsStream* S);

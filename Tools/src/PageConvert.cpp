@@ -20,7 +20,8 @@
 #include "Debug/hsExceptions.hpp"
 #include "Debug/plDebug.h"
 
-const char* getSuffix(PlasmaVer pv) {
+static const char* getSuffix(PlasmaVer pv)
+{
     switch (pv) {
     case PlasmaVer::pvPrime:       return "prime";
     case PlasmaVer::pvPots:        return "pots";
@@ -32,7 +33,8 @@ const char* getSuffix(PlasmaVer pv) {
     }
 }
 
-const char* getVerName(PlasmaVer pv) {
+static const char* getVerName(PlasmaVer pv)
+{
     switch (pv) {
     case PlasmaVer::pvPrime:       return "Prime";
     case PlasmaVer::pvPots:        return "PotS";
@@ -44,7 +46,8 @@ const char* getVerName(PlasmaVer pv) {
     }
 }
 
-void doHelp() {
+static void doHelp()
+{
     puts("PRP Page Converter 1.0");
     puts("By Michael Hansen");
     puts("");
@@ -60,7 +63,8 @@ void doHelp() {
     puts("");
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
     plResManager rm;
     plDebug::Init(plDebug::kDLAll);
 

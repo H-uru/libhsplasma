@@ -18,7 +18,8 @@
 #include "Debug/hsExceptions.hpp"
 #include <cstring>
 
-plServerGuid::plServerGuid() {
+plServerGuid::plServerGuid()
+{
     fGuid[0] = 0;
     fGuid[1] = 0;
     fGuid[2] = 0;
@@ -29,7 +30,8 @@ plServerGuid::plServerGuid() {
     fGuid[7] = 0;
 }
 
-bool plServerGuid::operator==(const plServerGuid& other) {
+bool plServerGuid::operator==(const plServerGuid& other)
+{
     return (fGuid[0] == other.fGuid[0]) &&
            (fGuid[1] == other.fGuid[1]) &&
            (fGuid[2] == other.fGuid[2]) &&
@@ -40,7 +42,8 @@ bool plServerGuid::operator==(const plServerGuid& other) {
            (fGuid[7] == other.fGuid[7]);
 }
 
-ST::string plServerGuid::toString() const {
+ST::string plServerGuid::toString() const
+{
     char buf[17];
     snprintf(buf, 17, "%02X%02X%02X%02X%02X%02X%02X%02X",
              fGuid[0], fGuid[1], fGuid[2], fGuid[3],
@@ -48,7 +51,8 @@ ST::string plServerGuid::toString() const {
     return ST::string(buf);
 }
 
-plServerGuid plServerGuid::FromString(const ST::string& str) {
+plServerGuid plServerGuid::FromString(const ST::string& str)
+{
     if (str.size() != 16)
         throw hsBadParamException(__FILE__, __LINE__, "Invalid plServerGuid string length");
 
@@ -78,10 +82,12 @@ plServerGuid plServerGuid::FromString(const ST::string& str) {
     return guid;
 }
 
-void plServerGuid::read(hsStream* S) {
+void plServerGuid::read(hsStream* S)
+{
     S->read(8, fGuid);
 }
 
-void plServerGuid::write(hsStream* S) {
+void plServerGuid::write(hsStream* S)
+{
     S->write(8, fGuid);
 }

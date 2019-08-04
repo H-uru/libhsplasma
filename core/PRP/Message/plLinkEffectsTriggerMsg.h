@@ -19,7 +19,8 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plLinkEffectsTriggerMsg : public plMessage {
+class PLASMA_DLL plLinkEffectsTriggerMsg : public plMessage
+{
     CREATABLE(plLinkEffectsTriggerMsg, kLinkEffectsTriggerMsg, plMessage)
 
 private:
@@ -28,7 +29,7 @@ private:
     plKey fLinkKey, fLinkInAnimKey;
 
 public:
-    plLinkEffectsTriggerMsg() : fInvisLevel(0), fEffects(0), fLeavingAge(false) { }
+    plLinkEffectsTriggerMsg() : fInvisLevel(), fEffects(), fLeavingAge() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

@@ -24,24 +24,28 @@
 #include <cstdlib>
 #include <cstring>
 
-enum ENetMsgFieldType {
+enum ENetMsgFieldType
+{
     kFieldInteger, kFieldFloat, kFieldString, kFieldData, kFieldPtr,
     kFieldVarPtr, kFieldRawData, kFieldRawPtr, kFieldRawVarPtr, kFieldVarCount
 };
 
-struct PLASMANET_DLL pnNetMsgField {
+struct PLASMANET_DLL pnNetMsgField
+{
     ENetMsgFieldType fType;
     unsigned int fCount, fSize;
 };
 
-struct PLASMANET_DLL pnNetMsg {
+struct PLASMANET_DLL pnNetMsg
+{
     unsigned int fMsgId;
     const char* const fMsgName;
     size_t fFieldCount;
     const pnNetMsgField* fFields;
 };
 
-typedef union {
+typedef union
+{
     uint32_t fUint;
     char16_t* fString;
     uint8_t* fData;
@@ -50,7 +54,8 @@ typedef union {
 // More work is needed to clean this up, but it's better than generating
 // a bunch of unaligned reads and writes.
 template <typename T>
-T NCReadBuffer(const uint8_t*& buffer) {
+T NCReadBuffer(const uint8_t*& buffer)
+{
     T result;
     memcpy(&result, buffer, sizeof(result));
     buffer += sizeof(result);
@@ -58,7 +63,8 @@ T NCReadBuffer(const uint8_t*& buffer) {
 }
 
 template <typename T>
-void NCWriteBuffer(uint8_t*& buffer, T value) {
+void NCWriteBuffer(uint8_t*& buffer, T value)
+{
     memcpy(buffer, &value, sizeof(value));
     buffer += sizeof(value);
 }
@@ -97,7 +103,8 @@ PLASMANET_DLL size_t NCMessageSize(const msgparm_t* data, const pnNetMsg* msg);
 
 
 /* Other stuff that doesn't really belong anywhere else */
-struct PLASMANET_DLL pnNetAgeInfo {
+struct PLASMANET_DLL pnNetAgeInfo
+{
     enum { Stride = 0x9A0 };
 
     plUuid fAgeInstanceId;

@@ -25,7 +25,8 @@
 
 enum EncrMethod { emNone, emDecrypt, emTea, emAes, emDroid };
 
-void doHelp() {
+static void doHelp()
+{
     puts("Plasma File Encryption/Decryption Utility 1.0");
     puts("by Michael Hansen");
     puts("");
@@ -51,7 +52,8 @@ void doHelp() {
     puts("");
 }
 
-ST::string getNextOutFile(const ST::string& filename) {
+static ST::string getNextOutFile(const ST::string& filename)
+{
     ST::string fn = ST::format("{}.out", filename);
     int i = 0;
     FILE* outFile;
@@ -62,7 +64,8 @@ ST::string getNextOutFile(const ST::string& filename) {
     return fn;
 }
 
-bool parseKey(const char* buf, unsigned int& val) {
+static bool parseKey(const char* buf, unsigned int& val)
+{
     char kMap[256];
     memset(kMap, -1, 256);
     int i;
@@ -92,7 +95,8 @@ bool parseKey(const char* buf, unsigned int& val) {
     return true;
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
     if (argc < 2) {
         doHelp();
         return 1;

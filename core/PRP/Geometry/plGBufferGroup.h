@@ -20,7 +20,8 @@
 #include "Math/hsGeometry3.h"
 #include "plVertCoder.h"
 
-class PLASMA_DLL plGBufferCell {
+class PLASMA_DLL plGBufferCell
+{
 public:
     unsigned int fVtxStart, fColorStart, fLength;
 
@@ -34,7 +35,8 @@ public:
 };
 
 
-class PLASMA_DLL plGBufferTriangle {
+class PLASMA_DLL plGBufferTriangle
+{
 public:
     unsigned short fIndex1, fIndex2, fIndex3, fSpanIndex;
     hsVector3 fCenter;
@@ -49,7 +51,8 @@ public:
 };
 
 
-class PLASMA_DLL plGBufferVertex {
+class PLASMA_DLL plGBufferVertex
+{
 public:
     hsVector3 fPos, fNormal;
     int fSkinIdx;
@@ -58,17 +61,15 @@ public:
     hsVector3 fUVWs[10];
 
 public:
-    plGBufferVertex() : fSkinIdx(0), fColor(0) {
-        fSkinWeights[0] = 0.0f;
-        fSkinWeights[1] = 0.0f;
-        fSkinWeights[2] = 0.0f;
-    }
+    plGBufferVertex() : fSkinIdx(), fSkinWeights(), fColor() { }
 };
 
 
-class PLASMA_DLL plGBufferGroup {
+class PLASMA_DLL plGBufferGroup
+{
 public:
-    enum Formats {
+    enum Formats
+    {
         kUVCountMask = 0xF,
         kSkinNoWeights = 0x0,
         kSkin1Weight = 0x10,
@@ -79,7 +80,8 @@ public:
         kEncoded = 0x80
     };
 
-    enum GeometryStorage {
+    enum GeometryStorage
+    {
         kStoreUncompressed = 0,
         kStoreCompV1 = 0x1,
         kStoreCompV2 = 0x2,
@@ -100,7 +102,8 @@ protected:
     bool INeedVertRecompression(PlasmaVer ver) const;
 
 public:
-    plGBufferGroup(unsigned char fmt) : fGBuffStorageType(kStoreUncompressed) {
+    plGBufferGroup(unsigned char fmt) : fGBuffStorageType(kStoreUncompressed)
+    {
         setFormat(fmt);
     }
     ~plGBufferGroup();

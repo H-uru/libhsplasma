@@ -24,7 +24,8 @@ PY_PLASMA_NEW(LightDiffuseApplicator, plLightDiffuseApplicator)
 PY_PLASMA_TYPE(LightDiffuseApplicator, plLightDiffuseApplicator,
                "plLightDiffuseApplicator wrapper")
 
-PY_PLASMA_TYPE_INIT(LightDiffuseApplicator) {
+PY_PLASMA_TYPE_INIT(LightDiffuseApplicator)
+{
     pyLightDiffuseApplicator_Type.tp_new = pyLightDiffuseApplicator_new;
     pyLightDiffuseApplicator_Type.tp_base = &pyAGApplicator_Type;
     if (PyType_CheckAndReady(&pyLightDiffuseApplicator_Type) < 0)

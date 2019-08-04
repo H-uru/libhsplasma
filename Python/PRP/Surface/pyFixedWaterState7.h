@@ -24,11 +24,13 @@ PY_WRAP_PLASMA(FixedWaterState7, plFixedWaterState7);
 PY_WRAP_PLASMA(WaveState7, plFixedWaterState7::WaveState);
 
 /* Python property helpers */
-inline PyObject* pyPlasma_convert(plFixedWaterState7* value) {
+inline PyObject* pyPlasma_convert(plFixedWaterState7* value)
+{
     return pyFixedWaterState7_FromFixedWaterState7(value);
 }
 
-inline PyObject* pyPlasma_convert(plFixedWaterState7::WaveState* value) {
+inline PyObject* pyPlasma_convert(plFixedWaterState7::WaveState* value)
+{
     return pyWaveState7_FromWaveState7(value);
 }
 
@@ -38,17 +40,20 @@ inline int pyPlasma_check<plFixedWaterState7>(PyObject* value) {
 }
 
 template <>
-inline int pyPlasma_check<plFixedWaterState7::WaveState>(PyObject* value) {
+inline int pyPlasma_check<plFixedWaterState7::WaveState>(PyObject* value)
+{
     return pyWaveState7_Check(value);
 }
 
 template <>
-inline plFixedWaterState7* pyPlasma_get(PyObject* value) {
+inline plFixedWaterState7* pyPlasma_get(PyObject* value)
+{
     return ((pyFixedWaterState7*)value)->fThis;
 }
 
 template <>
-inline plFixedWaterState7::WaveState* pyPlasma_get(PyObject* value) {
+inline plFixedWaterState7::WaveState* pyPlasma_get(PyObject* value)
+{
     return ((pyWaveState7*)value)->fThis;
 }
 

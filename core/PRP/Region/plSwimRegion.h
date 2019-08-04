@@ -19,7 +19,8 @@
 
 #include "PRP/Object/plObjInterface.h"
 
-class PLASMA_DLL plSwimRegionInterface : public plObjInterface {
+class PLASMA_DLL plSwimRegionInterface : public plObjInterface
+{
     CREATABLE(plSwimRegionInterface, kSwimRegionInterface, plObjInterface)
 
 public:
@@ -30,7 +31,7 @@ protected:
 
 public:
     plSwimRegionInterface()
-        : fDownBuoyancy(0.0f), fUpBuoyancy(0.0f), fMaxUpwardVel(0.0f) { }
+        : fDownBuoyancy(), fUpBuoyancy(), fMaxUpwardVel() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -50,7 +51,8 @@ public:
 };
 
 
-class PLASMA_DLL plSwimCircularCurrentRegion : public plSwimRegionInterface {
+class PLASMA_DLL plSwimCircularCurrentRegion : public plSwimRegionInterface
+{
     CREATABLE(plSwimCircularCurrentRegion, kSwimCircularCurrentRegion,
               plSwimRegionInterface)
 
@@ -62,8 +64,8 @@ protected:
 
 public:
     plSwimCircularCurrentRegion()
-        : fRotation(0.0f), fPullNearDistSq(0.0f), fPullFarDistSq(0.0f),
-          fPullNearVel(0.0f), fPullFarVel(0.0f) { }
+        : fRotation(), fPullNearDistSq(), fPullFarDistSq(), fPullNearVel(),
+          fPullFarVel() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -89,7 +91,8 @@ public:
 };
 
 
-class PLASMA_DLL plSwimStraightCurrentRegion : public plSwimRegionInterface {
+class PLASMA_DLL plSwimStraightCurrentRegion : public plSwimRegionInterface
+{
     CREATABLE(plSwimStraightCurrentRegion, kSwimStraightCurrentRegion,
               plSwimRegionInterface)
 
@@ -100,7 +103,7 @@ protected:
 
 public:
     plSwimStraightCurrentRegion()
-        : fNearDist(0.0f), fFarDist(0.0f), fNearVel(0.0f), fFarVel(0.0f) { }
+        : fNearDist(), fFarDist(), fNearVel(), fFarVel() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

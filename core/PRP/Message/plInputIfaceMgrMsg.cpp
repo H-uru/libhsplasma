@@ -16,7 +16,8 @@
 
 #include "plInputIfaceMgrMsg.h"
 
-void plInputIfaceMgrMsg::read(hsStream* S, plResManager* mgr) {
+void plInputIfaceMgrMsg::read(hsStream* S, plResManager* mgr)
+{
     plMessage::read(S, mgr);
 
     fCommand = S->readByte();
@@ -27,7 +28,8 @@ void plInputIfaceMgrMsg::read(hsStream* S, plResManager* mgr) {
     fAvKey = mgr->readKey(S);
 }
 
-void plInputIfaceMgrMsg::write(hsStream* S, plResManager* mgr) {
+void plInputIfaceMgrMsg::write(hsStream* S, plResManager* mgr)
+{
     plMessage::write(S, mgr);
 
     S->writeByte(fCommand);
@@ -38,7 +40,8 @@ void plInputIfaceMgrMsg::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fAvKey);
 }
 
-void plInputIfaceMgrMsg::IPrcWrite(pfPrcHelper* prc) {
+void plInputIfaceMgrMsg::IPrcWrite(pfPrcHelper* prc)
+{
     plMessage::IPrcWrite(prc);
 
     prc->startTag("InputIfaceMgrParams");
@@ -54,7 +57,8 @@ void plInputIfaceMgrMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plInputIfaceMgrMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plInputIfaceMgrMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "InputIfaceMgrParams") {
         fCommand = tag->getParam("Command", "0").to_uint();
         fPageID = tag->getParam("PageID", "0").to_uint();

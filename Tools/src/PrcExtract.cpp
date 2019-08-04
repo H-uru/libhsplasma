@@ -32,7 +32,8 @@
 #endif
 #include <sys/stat.h>
 
-void doHelp() {
+static void doHelp()
+{
     puts("Usage: PrcExtract [options] filename.prp");
     puts("");
     puts("Objects are written to Age_PRC\\filename.prc");
@@ -44,7 +45,8 @@ void doHelp() {
     puts("");
 }
 
-ST::string filenameConvert(const ST::string& filename) {
+static ST::string filenameConvert(const ST::string& filename)
+{
     ST::string name = filename;
     if (name.find_last('.') >= 0)
         name = name.left(name.find_last('.')) + ".prc";
@@ -56,7 +58,8 @@ ST::string filenameConvert(const ST::string& filename) {
         return name;
 }
 
-ST::string getOutputDir(const ST::string& filename, plPageInfo* page) {
+static ST::string getOutputDir(const ST::string& filename, plPageInfo* page)
+{
     ST::string name = filename;
     if (name.find_last(SLASH) >= 0)
         name = name.left(name.find_last(SLASH) + 1);
@@ -65,7 +68,8 @@ ST::string getOutputDir(const ST::string& filename, plPageInfo* page) {
     return name + page->getAge() + "_PRC" SLASH_S;
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
     if (argc < 2) {
         doHelp();
         return 0;

@@ -21,20 +21,23 @@
 #include "PRP/Message/plCameraMsg.h"
 #include <tuple>
 
-class PLASMA_DLL plCameraModifier : public plSingleModifier {
+class PLASMA_DLL plCameraModifier : public plSingleModifier
+{
     CREATABLE(plCameraModifier, kCameraModifier, plSingleModifier)
 
 public:
-    class PLASMA_DLL CamTrans {
+    class PLASMA_DLL CamTrans
+    {
     protected:
         plKey fTransTo;
         bool fCutPos, fCutPOA, fIgnore;
         float fAccel, fDecel, fVelocity, fPOAAccel, fPOADecel, fPOAVelocity;
 
     public:
-        CamTrans() : fCutPos(false), fCutPOA(false), fIgnore(false), fAccel(60.0f),
-                     fDecel(60.0f), fVelocity(60.0f), fPOAAccel(60.0f),
-                     fPOADecel(60.0f), fPOAVelocity(60.0f) { }
+        CamTrans()
+            : fCutPos(), fCutPOA(), fIgnore(), fAccel(60.0f), fDecel(60.0f),
+              fVelocity(60.0f), fPOAAccel(60.0f), fPOADecel(60.0f),
+              fPOAVelocity(60.0f) { }
 
         void read(hsStream* S, plResManager* mgr);
         void write(hsStream* S, plResManager* mgr);
@@ -76,11 +79,10 @@ protected:
     bool fAnimated, fStartAnimOnPush, fStopAnimOnPop, fResetAnimOnPop;
 
 public:
-    plCameraModifier() : fFrom(0.0f, 0.0f, 0.0f), fAt(0.0f, 1.0f, 0.0f),
-                         fFOVw(45.0f), fFOVh(33.75f), fAnimated(false),
-                         fStartAnimOnPush(false), fStopAnimOnPop(false),
-                         fResetAnimOnPop(false) { }
-    ~plCameraModifier() HS_OVERRIDE;
+    plCameraModifier()
+        : fFrom(), fAt(0.0f, 1.0f, 0.0f), fFOVw(45.0f), fFOVh(33.75f),
+          fAnimated(), fStartAnimOnPush(), fStopAnimOnPop(), fResetAnimOnPop() { }
+    ~plCameraModifier();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -118,11 +120,13 @@ public:
     void delTrans(size_t idx);
     void clearTrans();
 
-    std::tuple<plMessage*, plKey> getMessage(size_t idx) {
+    std::tuple<plMessage*, plKey> getMessage(size_t idx)
+    {
         return std::make_tuple(fMessageQueue[idx], fSenderQueue[idx]);
     }
 
-    void addMessage(plMessage* msg, const plKey& sender=plKey()) {
+    void addMessage(plMessage* msg, const plKey& sender=plKey())
+    {
         fMessageQueue.push_back(msg);
         fSenderQueue.push_back(sender);
     }

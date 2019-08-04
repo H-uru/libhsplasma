@@ -20,7 +20,8 @@
 #include "Util/hsBitVector.h"
 #include "Stream/hsStream.h"
 
-class PLASMA_DLL hsG3DDeviceMode {
+class PLASMA_DLL hsG3DDeviceMode
+{
 private:
     unsigned int fFlags;
     unsigned int fWidth;
@@ -31,8 +32,8 @@ private:
     bool fCanRenderToCubics;
 
 public:
-    hsG3DDeviceMode() : fFlags(0), fWidth(0), fHeight(0), fDepth(0),
-                        fCanRenderToCubics(false) { }
+    hsG3DDeviceMode()
+        : fFlags(), fWidth(), fHeight(), fDepth(), fCanRenderToCubics() { }
     virtual ~hsG3DDeviceMode() { }
 
     void read(hsStream* S, int version=11);
@@ -55,18 +56,22 @@ public:
     void setCanRenderToCubics(bool b) { fCanRenderToCubics = b; }
 };
 
-class PLASMA_DLL hsG3DDeviceRecord {
+class PLASMA_DLL hsG3DDeviceRecord
+{
 public:
-    struct FogKnee {
+    struct FogKnee
+    {
         float fFogKnee;
         float fFogKneeVal;
     };
 
-    enum {
+    enum
+    {
         kNone, kDiscarded, kInvalid
     };
 
-    enum DeviceType {
+    enum DeviceType
+    {
         kUnknown,
         kGlide,
         kDirect3D,
@@ -98,11 +103,11 @@ private:
     unsigned char fMaxAnisotropicSamples;
 
 public:
-    hsG3DDeviceRecord() : fRecordVersion(11), fFlags(kInvalid), fDeviceType(0),
-                          fLayersAtOnce(0), fMemoryBytes(0), fZBiasRating(0.0),
-                          fLODBiasRating(0.0), fFogExpApproxStart(0.0),
-                          fFogExp2ApproxStart(0.0), fFogEndBias(0.0),
-                          fAASetting(0), fMaxAnisotropicSamples(0) { }
+    hsG3DDeviceRecord()
+        : fRecordVersion(11), fFlags(kInvalid), fDeviceType(), fLayersAtOnce(),
+          fMemoryBytes(), fZBiasRating(), fLODBiasRating(), fFogExpApproxStart(),
+          fFogExp2ApproxStart(), fFogEndBias(), fAASetting(),
+          fMaxAnisotropicSamples() { }
     virtual ~hsG3DDeviceRecord() { }
 
     void read(hsStream* S);
@@ -149,14 +154,15 @@ public:
     void setMaxAnisotropicSamples(unsigned char aniso) { fMaxAnisotropicSamples = aniso; }
 };
 
-class PLASMA_DLL hsG3DDeviceModeRecord {
+class PLASMA_DLL hsG3DDeviceModeRecord
+{
 private:
     hsG3DDeviceRecord fRecord;
     hsG3DDeviceMode fMode;
     unsigned short fTextureQuality;
 
 public:
-    hsG3DDeviceModeRecord() : fTextureQuality(0) { }
+    hsG3DDeviceModeRecord() : fTextureQuality() { }
     virtual ~hsG3DDeviceModeRecord() { }
 
     void read(hsStream* S);

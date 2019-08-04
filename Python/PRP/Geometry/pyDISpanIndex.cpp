@@ -22,14 +22,16 @@ PY_PLASMA_VALUE_DEALLOC(DISpanIndex)
 PY_PLASMA_EMPTY_INIT(DISpanIndex)
 PY_PLASMA_VALUE_NEW(DISpanIndex, plDISpanIndex)
 
-PY_GETSET_GETTER_DECL(DISpanIndex, indices) {
+PY_GETSET_GETTER_DECL(DISpanIndex, indices)
+{
     PyObject* list = PyTuple_New(self->fThis->fIndices.size());
     for (size_t i=0; i<self->fThis->fIndices.size(); i++)
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->fIndices[i]));
     return list;
 }
 
-PY_GETSET_SETTER_DECL(DISpanIndex, indices) {
+PY_GETSET_SETTER_DECL(DISpanIndex, indices)
+{
     PY_PROPERTY_CHECK_NULL(indices)
     pySequenceFastRef seq(value);
     if (!seq.isSequence()) {
@@ -60,7 +62,8 @@ static PyGetSetDef pyDISpanIndex_GetSet[] = {
 
 PY_PLASMA_TYPE(DISpanIndex, plDISpanIndex, "plDISpanIndex wrapper")
 
-PY_PLASMA_TYPE_INIT(DISpanIndex) {
+PY_PLASMA_TYPE_INIT(DISpanIndex)
+{
     pyDISpanIndex_Type.tp_dealloc = pyDISpanIndex_dealloc;
     pyDISpanIndex_Type.tp_init = pyDISpanIndex___init__;
     pyDISpanIndex_Type.tp_new = pyDISpanIndex_new;

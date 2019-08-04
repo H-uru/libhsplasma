@@ -21,13 +21,16 @@
 #include "Math/hsMatrix44.h"
 #include "Math/hsAffineParts.h"
 
-struct PLASMA_DLL hsKeyFrame {
-    enum {
+struct PLASMA_DLL hsKeyFrame
+{
+    enum
+    {
         kUruUnknown    = 0x1,
         kBezController = 0x2
     };
 
-    enum {
+    enum
+    {
         kUnknownKeyFrame, kPoint3KeyFrame, kBezPoint3KeyFrame, kScalarKeyFrame,
         kBezScalarKeyFrame, kScaleKeyFrame, kBezScaleKeyFrame, kQuatKeyFrame,
         kCompressedQuatKeyFrame32, kCompressedQuatKeyFrame64, k3dsMaxKeyFrame,
@@ -59,7 +62,8 @@ public:
     void setFrameTime(float frame);
 };
 
-struct PLASMA_DLL hsPoint3Key : public hsKeyFrame {
+struct PLASMA_DLL hsPoint3Key : public hsKeyFrame
+{
     hsVector3 fInTan, fOutTan;
     hsVector3 fValue;
 
@@ -71,7 +75,8 @@ struct PLASMA_DLL hsPoint3Key : public hsKeyFrame {
     hsPoint3Key& operator=(const hsKeyFrame& rhs) HS_OVERRIDE;
 };
 
-struct PLASMA_DLL hsScalarKey : public hsKeyFrame {
+struct PLASMA_DLL hsScalarKey : public hsKeyFrame
+{
     float fInTan, fOutTan;
     float fValue;
 
@@ -83,7 +88,8 @@ struct PLASMA_DLL hsScalarKey : public hsKeyFrame {
     hsScalarKey& operator=(const hsKeyFrame& rhs) HS_OVERRIDE;
 };
 
-struct PLASMA_DLL hsScaleKey : public hsKeyFrame {
+struct PLASMA_DLL hsScaleKey : public hsKeyFrame
+{
     hsVector3 fInTan, fOutTan;
 
     // Folding hsScaleKey and hsScaleValue together:
@@ -98,7 +104,8 @@ struct PLASMA_DLL hsScaleKey : public hsKeyFrame {
     hsScaleKey& operator=(const hsKeyFrame& rhs) HS_OVERRIDE;
 };
 
-struct PLASMA_DLL hsQuatKey : public hsKeyFrame {
+struct PLASMA_DLL hsQuatKey : public hsKeyFrame
+{
     hsQuat fValue;
 
     void read(hsStream* S, unsigned int type) HS_OVERRIDE;
@@ -109,7 +116,8 @@ struct PLASMA_DLL hsQuatKey : public hsKeyFrame {
     hsQuatKey& operator=(const hsKeyFrame& rhs) HS_OVERRIDE;
 };
 
-struct PLASMA_DLL hsCompressedQuatKey32 : public hsKeyFrame {
+struct PLASMA_DLL hsCompressedQuatKey32 : public hsKeyFrame
+{
 public:
     enum { kCompQuatNukeX, kCompQuatNukeY, kCompQuatNukeZ, kCompQuatNukeW };
 
@@ -130,7 +138,8 @@ public:
     hsCompressedQuatKey32& operator=(const hsKeyFrame& rhs) HS_OVERRIDE;
 };
 
-struct PLASMA_DLL hsCompressedQuatKey64 : public hsKeyFrame {
+struct PLASMA_DLL hsCompressedQuatKey64 : public hsKeyFrame
+{
 public:
     enum { kCompQuatNukeX, kCompQuatNukeY, kCompQuatNukeZ, kCompQuatNukeW };
 
@@ -152,7 +161,8 @@ public:
     hsCompressedQuatKey64& operator=(const hsKeyFrame& rhs) HS_OVERRIDE;
 };
 
-struct PLASMA_DLL hsG3DSMaxKeyFrame : public hsKeyFrame {
+struct PLASMA_DLL hsG3DSMaxKeyFrame : public hsKeyFrame
+{
     hsAffineParts fValue;
 
     void read(hsStream* S, unsigned int type) HS_OVERRIDE;
@@ -163,7 +173,8 @@ struct PLASMA_DLL hsG3DSMaxKeyFrame : public hsKeyFrame {
     hsG3DSMaxKeyFrame& operator=(const hsKeyFrame& rhs) HS_OVERRIDE;
 };
 
-struct PLASMA_DLL hsMatrix33Key : public hsKeyFrame {
+struct PLASMA_DLL hsMatrix33Key : public hsKeyFrame
+{
     hsMatrix33 fValue;
 
     void read(hsStream* S, unsigned int type) HS_OVERRIDE;
@@ -174,7 +185,8 @@ struct PLASMA_DLL hsMatrix33Key : public hsKeyFrame {
     hsMatrix33Key& operator=(const hsKeyFrame& rhs) HS_OVERRIDE;
 };
 
-struct PLASMA_DLL hsMatrix44Key : public hsKeyFrame {
+struct PLASMA_DLL hsMatrix44Key : public hsKeyFrame
+{
     hsMatrix44 fValue;
 
     void read(hsStream* S, unsigned int type) HS_OVERRIDE;

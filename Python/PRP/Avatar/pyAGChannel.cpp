@@ -30,7 +30,8 @@ static PyGetSetDef pyAGChannel_GetSet[] = {
 
 PY_PLASMA_TYPE(AGChannel, plAGChannel, "plAGChannel wrapper")
 
-PY_PLASMA_TYPE_INIT(AGChannel) {
+PY_PLASMA_TYPE_INIT(AGChannel)
+{
     pyAGChannel_Type.tp_new = pyAGChannel_new;
     pyAGChannel_Type.tp_getset = pyAGChannel_GetSet;
     pyAGChannel_Type.tp_base = &pyCreatable_Type;

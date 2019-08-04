@@ -34,7 +34,8 @@ static PyGetSetDef pyLayerLinkAnimation_GetSet[] = {
 PY_PLASMA_TYPE(LayerLinkAnimation, plLayerLinkAnimation,
                "plLayerLinkAnimation wrapper")
 
-PY_PLASMA_TYPE_INIT(LayerLinkAnimation) {
+PY_PLASMA_TYPE_INIT(LayerLinkAnimation)
+{
     pyLayerLinkAnimation_Type.tp_new = pyLayerLinkAnimation_new;
     pyLayerLinkAnimation_Type.tp_getset = pyLayerLinkAnimation_GetSet;
     pyLayerLinkAnimation_Type.tp_base = &pyLayerAnimation_Type;

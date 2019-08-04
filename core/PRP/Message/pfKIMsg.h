@@ -19,11 +19,13 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL pfKIMsg : public plMessage {
+class PLASMA_DLL pfKIMsg : public plMessage
+{
     CREATABLE(pfKIMsg, kKIMsg, plMessage)
 
 public:
-    enum {
+    enum
+    {
         kHACKChatMsg, kEnterChatMode, kSetChatFadeDelay, kSetTextChatAdminMode,
         kDisableKIandBB, kEnableKIandBB, kYesNoDialog, kAddPlayerDevice,
         kRemovePlayerDevice, kUpgradeKILevel, kDowngradeKILevel, kRateIt,
@@ -44,7 +46,8 @@ public:
         kRegisterImager, kNoCommand
     };
 
-    enum Flags {
+    enum Flags
+    {
         kPrivateMsg = 0x1,
         kAdminMsg = 0x2,
         kDead = 0x4,
@@ -54,7 +57,8 @@ public:
         kChannelMask = 0xFF00
     };
 
-    enum KILevels {
+    enum KILevels
+    {
         kNanoKI, kMicroKI, kNormalKI
     };
 
@@ -66,8 +70,8 @@ protected:
     int fValue;
 
 public:
-    pfKIMsg() : fCommand(kNoCommand), fFlags(0), fPlayerID(0),
-                fDelay(0.0f), fValue(0) {
+    pfKIMsg() : fCommand(kNoCommand), fFlags(), fPlayerID(), fDelay(), fValue()
+    {
         fBCastFlags |= kBCastByExactType;
     }
 

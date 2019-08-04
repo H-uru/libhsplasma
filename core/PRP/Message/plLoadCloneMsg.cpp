@@ -16,11 +16,13 @@
 
 #include "plLoadCloneMsg.h"
 
-plLoadCloneMsg::~plLoadCloneMsg() {
+plLoadCloneMsg::~plLoadCloneMsg()
+{
     delete fTriggerMsg;
 }
 
-void plLoadCloneMsg::read(hsStream* S, plResManager* mgr) {
+void plLoadCloneMsg::read(hsStream* S, plResManager* mgr)
+{
     plMessage::read(S, mgr);
 
     fCloneKey = mgr->readKey(S);
@@ -32,7 +34,8 @@ void plLoadCloneMsg::read(hsStream* S, plResManager* mgr) {
     setTriggerMsg(plMessage::Convert(mgr->ReadCreatable(S)));
 }
 
-void plLoadCloneMsg::write(hsStream* S, plResManager* mgr) {
+void plLoadCloneMsg::write(hsStream* S, plResManager* mgr)
+{
     plMessage::write(S, mgr);
 
     mgr->writeKey(S, fCloneKey);
@@ -44,7 +47,8 @@ void plLoadCloneMsg::write(hsStream* S, plResManager* mgr) {
     mgr->WriteCreatable(S, fTriggerMsg);
 }
 
-void plLoadCloneMsg::IPrcWrite(pfPrcHelper* prc) {
+void plLoadCloneMsg::IPrcWrite(pfPrcHelper* prc)
+{
     plMessage::IPrcWrite(prc);
 
     prc->writeSimpleTag("CloneKey");
@@ -73,7 +77,8 @@ void plLoadCloneMsg::IPrcWrite(pfPrcHelper* prc) {
     }
 }
 
-void plLoadCloneMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plLoadCloneMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "CloneKey") {
         if (tag->hasChildren())
             fCloneKey = mgr->prcParseKey(tag->getFirstChild());
@@ -95,7 +100,8 @@ void plLoadCloneMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plLoadCloneMsg::setTriggerMsg(plMessage* msg) {
+void plLoadCloneMsg::setTriggerMsg(plMessage* msg)
+{
     delete fTriggerMsg;
     fTriggerMsg = msg;
 }

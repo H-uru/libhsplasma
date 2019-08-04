@@ -21,7 +21,8 @@
 
 PY_PLASMA_VALUE_DEALLOC(ShaderConst)
 
-PY_PLASMA_INIT_DECL(ShaderConst) {
+PY_PLASMA_INIT_DECL(ShaderConst)
+{
     float sc[4];
     PyObject* init = NULL;
 
@@ -50,7 +51,8 @@ PY_PLASMA_INIT_DECL(ShaderConst) {
 
 PY_PLASMA_VALUE_NEW(ShaderConst, plShaderConst)
 
-PY_PLASMA_SUBSCRIPT_DECL(ShaderConst) {
+PY_PLASMA_SUBSCRIPT_DECL(ShaderConst)
+{
     if (!pyPlasma_check<size_t>(key)) {
         PyErr_SetString(PyExc_IndexError, "subscript should be an int");
         return NULL;
@@ -58,7 +60,8 @@ PY_PLASMA_SUBSCRIPT_DECL(ShaderConst) {
     return pyPlasma_convert(self->fThis->fArray[pyPlasma_get<size_t>(key)]);
 }
 
-PY_PLASMA_ASS_SUBSCRIPT_DECL(ShaderConst) {
+PY_PLASMA_ASS_SUBSCRIPT_DECL(ShaderConst)
+{
     if (!pyPlasma_check<size_t>(key)) {
         PyErr_SetString(PyExc_IndexError, "subscript should be an int");
         return -1;
@@ -71,7 +74,8 @@ PY_PLASMA_ASS_SUBSCRIPT_DECL(ShaderConst) {
     return 0;
 }
 
-PY_PLASMA_REPR_DECL(ShaderConst) {
+PY_PLASMA_REPR_DECL(ShaderConst)
+{
     ST::string repr = ST::format("plShaderConst({f}, {f}, {f}, {f})",
         self->fThis->fX, self->fThis->fY, self->fThis->fZ, self->fThis->fW);
     return pyPlasma_convert(repr);
@@ -141,7 +145,8 @@ static PyGetSetDef pyShaderConst_GetSet[] = {
 PY_PLASMA_TYPE(ShaderConst, plShaderConst, "plShaderConst wrapper")
 PY_PLASMA_TYPE_AS_MAPPING(ShaderConst)
 
-PY_PLASMA_TYPE_INIT(ShaderConst) {
+PY_PLASMA_TYPE_INIT(ShaderConst)
+{
     pyShaderConst_As_Mapping.mp_subscript = pyShaderConst_mp_subscript;
     pyShaderConst_As_Mapping.mp_ass_subscript = pyShaderConst_mp_ass_subscript;
     pyShaderConst_Type.tp_dealloc = pyShaderConst_dealloc;

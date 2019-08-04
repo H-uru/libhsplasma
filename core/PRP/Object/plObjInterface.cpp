@@ -16,19 +16,22 @@
 
 #include "plObjInterface.h"
 
-void plObjInterface::read(hsStream* S, plResManager* mgr) {
+void plObjInterface::read(hsStream* S, plResManager* mgr)
+{
     plSynchedObject::read(S, mgr);
     fOwner = mgr->readKey(S);
     fProps.read(S);
 }
 
-void plObjInterface::write(hsStream* S, plResManager* mgr) {
+void plObjInterface::write(hsStream* S, plResManager* mgr)
+{
     plSynchedObject::write(S, mgr);
     mgr->writeKey(S, fOwner);
     fProps.write(S);
 }
 
-void plObjInterface::IPrcWrite(pfPrcHelper* prc) {
+void plObjInterface::IPrcWrite(pfPrcHelper* prc)
+{
     plSynchedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("Owner");
@@ -40,7 +43,8 @@ void plObjInterface::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plObjInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plObjInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Owner") {
         if (tag->hasChildren())
             fOwner = mgr->prcParseKey(tag->getFirstChild());

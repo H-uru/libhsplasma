@@ -20,7 +20,8 @@
 #include "PRP/Object/plObjInterface.h"
 #include "Math/hsGeometry3.h"
 
-class PLASMA_DLL plHKSubWorld : public plObjInterface {
+class PLASMA_DLL plHKSubWorld : public plObjInterface
+{
     CREATABLE(plHKSubWorld, kHKSubWorld, plObjInterface)
 
 private:

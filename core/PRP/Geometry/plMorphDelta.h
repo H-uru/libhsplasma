@@ -20,7 +20,8 @@
 #include "PRP/plCreatable.h"
 #include "Math/hsGeometry3.h"
 
-class PLASMA_DLL plVertDelta {
+class PLASMA_DLL plVertDelta
+{
 protected:
     unsigned short fIdx, fPadding;
     hsVector3 fPos, fNorm;
@@ -33,14 +34,15 @@ public:
 };
 
 
-class PLASMA_DLL plMorphSpan {
+class PLASMA_DLL plMorphSpan
+{
 protected:
     std::vector<plVertDelta> fDeltas;
     unsigned short fNumUVWChans;
     hsVector3* fUVWs;
 
 public:
-    plMorphSpan() : fNumUVWChans(0), fUVWs(NULL) { }
+    plMorphSpan() : fNumUVWChans(), fUVWs() { }
     ~plMorphSpan();
 
     void read(hsStream* S);
@@ -50,7 +52,8 @@ public:
 };
 
 
-class PLASMA_DLL plMorphDelta : public plCreatable {
+class PLASMA_DLL plMorphDelta : public plCreatable
+{
     CREATABLE(plMorphDelta, kMorphDelta, plCreatable)
 
 protected:
@@ -58,7 +61,7 @@ protected:
     float fWeight;
 
 public:
-    plMorphDelta() : fWeight(0.0f) { }
+    plMorphDelta() : fWeight() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

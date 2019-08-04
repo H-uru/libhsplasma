@@ -31,7 +31,8 @@ static PyGetSetDef pyGUIListElement_GetSet[] = {
 
 PY_PLASMA_TYPE(GUIListElement, pfGUIListElement, "pfGUIListElement wrapper")
 
-PY_PLASMA_TYPE_INIT(GUIListElement) {
+PY_PLASMA_TYPE_INIT(GUIListElement)
+{
     pyGUIListElement_Type.tp_new = pyGUIListElement_new;
     pyGUIListElement_Type.tp_getset = pyGUIListElement_GetSet;
     if (PyType_CheckAndReady(&pyGUIListElement_Type) < 0)
@@ -61,7 +62,8 @@ static PyGetSetDef pyGUIListBoxMod_GetSet[] = {
 
 PY_PLASMA_TYPE(GUIListBoxMod, pfGUIListBoxMod, "pfGUIListBoxMod wrapper")
 
-PY_PLASMA_TYPE_INIT(GUIListBoxMod) {
+PY_PLASMA_TYPE_INIT(GUIListBoxMod)
+{
     pyGUIListBoxMod_Type.tp_new = pyGUIListBoxMod_new;
     pyGUIListBoxMod_Type.tp_getset = pyGUIListBoxMod_GetSet;
     pyGUIListBoxMod_Type.tp_base = &pyGUIControlMod_Type;

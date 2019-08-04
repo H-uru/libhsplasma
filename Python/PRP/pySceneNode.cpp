@@ -22,7 +22,8 @@
 
 PY_PLASMA_NEW(SceneNode, plSceneNode)
 
-PY_METHOD_NOARGS(SceneNode, clear, "Removes all objects from the Scene Node") {
+PY_METHOD_NOARGS(SceneNode, clear, "Removes all objects from the Scene Node")
+{
     self->fThis->clearSceneObjects();
     self->fThis->clearPoolObjects();
     Py_RETURN_NONE;
@@ -127,7 +128,8 @@ PyMethodDef pySceneNode_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(SceneNode, sceneObjects) {
+PY_GETSET_GETTER_DECL(SceneNode, sceneObjects)
+{
     PyObject* list = PyTuple_New(self->fThis->getSceneObjects().size());
     for (size_t i=0; i<self->fThis->getSceneObjects().size(); i++)
         PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getSceneObjects()[i]));
@@ -137,7 +139,8 @@ PY_GETSET_GETTER_DECL(SceneNode, sceneObjects) {
 PY_PROPERTY_SETTER_MSG(SceneNode, sceneObjects, "To add Scene Objects, use addSceneObjects")
 PY_PROPERTY_GETSET_DECL(SceneNode, sceneObjects)
 
-PY_GETSET_GETTER_DECL(SceneNode, poolObjects) {
+PY_GETSET_GETTER_DECL(SceneNode, poolObjects)
+{
     PyObject* list = PyTuple_New(self->fThis->getPoolObjects().size());
     for (size_t i=0; i<self->fThis->getPoolObjects().size(); i++)
         PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getPoolObjects()[i]));
@@ -155,7 +158,8 @@ PyGetSetDef pySceneNode_GetSet[] = {
 
 PY_PLASMA_TYPE(SceneNode, plSceneNode, "plSceneNode wrapper")
 
-PY_PLASMA_TYPE_INIT(SceneNode) {
+PY_PLASMA_TYPE_INIT(SceneNode)
+{
     pySceneNode_Type.tp_new = pySceneNode_new;
     pySceneNode_Type.tp_methods = pySceneNode_Methods;
     pySceneNode_Type.tp_getset = pySceneNode_GetSet;

@@ -19,12 +19,16 @@
 
 #include "plMipmap.h"
 
-class PLASMA_DLL plCubicEnvironmap : public plBitmap {
+class PLASMA_DLL plCubicEnvironmap : public plBitmap
+{
     CREATABLE(plCubicEnvironmap, kCubicEnvironmap, plBitmap)
 
 public:
-    enum Faces { kLeftFace, kRightFace, kFrontFace, kBackFace,
-                 kTopFace, kBottomFace, kNumFaces };
+    enum Faces
+    {
+        kLeftFace, kRightFace, kFrontFace, kBackFace,
+        kTopFace, kBottomFace, kNumFaces
+    };
 
     static const char* kFaceNames[kNumFaces];
 

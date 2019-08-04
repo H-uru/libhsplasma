@@ -22,7 +22,8 @@
 
 PY_PLASMA_VALUE_DEALLOC(Quat)
 
-PY_PLASMA_INIT_DECL(Quat) {
+PY_PLASMA_INIT_DECL(Quat)
+{
     float x = 0.0f, y = 0.0f, z = 0.0f, w = 0.0f;
     PyObject* init = NULL;
     static char* kwlist[] = { _pycs("X"), _pycs("Y"), _pycs("Z"), _pycs("W"), NULL };
@@ -59,13 +60,15 @@ PY_PLASMA_INIT_DECL(Quat) {
 
 PY_PLASMA_VALUE_NEW(Quat, hsQuat)
 
-PY_PLASMA_REPR_DECL(Quat) {
+PY_PLASMA_REPR_DECL(Quat)
+{
     ST::string repr = ST::format("hsQuat({f}, {f}, {f}, {f})",
              self->fThis->X, self->fThis->Y, self->fThis->Z, self->fThis->W);
     return pyPlasma_convert(repr);
 }
 
-PY_PLASMA_NB_BINARYFUNC_DECL(Quat, add) {
+PY_PLASMA_NB_BINARYFUNC_DECL(Quat, add)
+{
     if (!pyQuat_Check(left) || !pyQuat_Check(right)) {
         PyErr_SetString(PyExc_TypeError, "Incompatible Types");
         return NULL;
@@ -73,7 +76,8 @@ PY_PLASMA_NB_BINARYFUNC_DECL(Quat, add) {
     return pyPlasma_convert(pyPlasma_get<hsQuat>(left) + pyPlasma_get<hsQuat>(right));
 }
 
-PY_PLASMA_NB_BINARYFUNC_DECL(Quat, subtract) {
+PY_PLASMA_NB_BINARYFUNC_DECL(Quat, subtract)
+{
     if (!pyQuat_Check(left) || !pyQuat_Check(right)) {
         PyErr_SetString(PyExc_TypeError, "Incompatible Types");
         return NULL;
@@ -81,7 +85,8 @@ PY_PLASMA_NB_BINARYFUNC_DECL(Quat, subtract) {
     return pyPlasma_convert(pyPlasma_get<hsQuat>(left) - pyPlasma_get<hsQuat>(right));
 }
 
-PY_PLASMA_NB_BINARYFUNC_DECL(Quat, multiply) {
+PY_PLASMA_NB_BINARYFUNC_DECL(Quat, multiply)
+{
     if (pyQuat_Check(left)) {
         if (pyQuat_Check(right)) {
             return pyPlasma_convert(pyPlasma_get<hsQuat>(left) * pyPlasma_get<hsQuat>(right));
@@ -104,33 +109,39 @@ PY_PLASMA_NB_BINARYFUNC_DECL(Quat, multiply) {
     }
 }
 
-PY_PLASMA_NB_UNARYFUNC_DECL(Quat, negative) {
+PY_PLASMA_NB_UNARYFUNC_DECL(Quat, negative)
+{
     return pyPlasma_convert(hsQuat(-(self->fThis->X), -(self->fThis->Y),
                                    -(self->fThis->Z), -(self->fThis->W)));
 }
 
-PY_PLASMA_NB_UNARYFUNC_DECL(Quat, positive) {
+PY_PLASMA_NB_UNARYFUNC_DECL(Quat, positive)
+{
     return pyPlasma_convert(hsQuat(+(self->fThis->X), +(self->fThis->Y),
                                    +(self->fThis->Z), +(self->fThis->W)));
 }
 
-PY_PLASMA_NB_UNARYFUNC_DECL(Quat, absolute) {
+PY_PLASMA_NB_UNARYFUNC_DECL(Quat, absolute)
+{
     return pyPlasma_convert(hsQuat(fabs(self->fThis->X),
                                    fabs(self->fThis->Y),
                                    fabs(self->fThis->Z),
                                    fabs(self->fThis->W)));
 }
 
-PY_PLASMA_NB_INQUIRY_DECL(Quat, nonzero) {
+PY_PLASMA_NB_INQUIRY_DECL(Quat, nonzero)
+{
     return (self->fThis->X != 0.0f) || (self->fThis->Y != 0.0f)
         || (self->fThis->Z != 0.0f) || (self->fThis->W != 0.0f);
 }
 
-PY_METHOD_STATIC_NOARGS(Quat, Identity, "Returns an identity quaternion") {
+PY_METHOD_STATIC_NOARGS(Quat, Identity, "Returns an identity quaternion")
+{
     return pyPlasma_convert(hsQuat::Identity());
 }
 
-PY_METHOD_NOARGS(Quat, conjugate, "Returns the conjugate of the quaternion") {
+PY_METHOD_NOARGS(Quat, conjugate, "Returns the conjugate of the quaternion")
+{
     return pyPlasma_convert(self->fThis->conjugate());
 }
 
@@ -192,7 +203,8 @@ PyGetSetDef pyQuat_GetSet[] = {
 PY_PLASMA_TYPE(Quat, hsQuat, "Plasma Quaternion")
 PY_PLASMA_TYPE_AS_NUMBER(Quat)
 
-PY_PLASMA_TYPE_INIT(Quat) {
+PY_PLASMA_TYPE_INIT(Quat)
+{
     pyQuat_As_Number.nb_add = pyQuat_nb_add;
     pyQuat_As_Number.nb_subtract = pyQuat_nb_subtract;
     pyQuat_As_Number.nb_multiply = pyQuat_nb_multiply;

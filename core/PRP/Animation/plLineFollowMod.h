@@ -20,11 +20,13 @@
 #include "PRP/Modifier/plModifier.h"
 #include "plAnimPath.h"
 
-class PLASMA_DLL plLineFollowMod : public plMultiModifier {
+class PLASMA_DLL plLineFollowMod : public plMultiModifier
+{
     CREATABLE(plLineFollowMod, kLineFollowMod, plMultiModifier)
 
 public:
-    enum FollowMode {
+    enum FollowMode
+    {
         kFollowObject, kFollowListener, kFollowCamera, kFollowLocalAvatar
     };
 
@@ -49,9 +51,10 @@ protected:
     float fOffset, fOffsetClamp, fSpeedClamp;
 
 public:
-    plLineFollowMod() : fFollowMode(kFollowObject), fFollowFlags(0), fPath(NULL),
-                        fOffset(0.0f), fOffsetClamp(0.0f), fSpeedClamp(0.0f) { }
-    virtual ~plLineFollowMod();
+    plLineFollowMod()
+        : fFollowMode(kFollowObject), fFollowFlags(), fPath(), fOffset(),
+          fOffsetClamp(), fSpeedClamp() { }
+    ~plLineFollowMod();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -86,7 +89,8 @@ public:
     void clearStereizers() { fStereizers.clear(); }
 };
 
-class PLASMA_DLL plRailCameraMod : public plLineFollowMod {
+class PLASMA_DLL plRailCameraMod : public plLineFollowMod
+{
     CREATABLE(plRailCameraMod, kRailCameraMod, plLineFollowMod)
 };
 

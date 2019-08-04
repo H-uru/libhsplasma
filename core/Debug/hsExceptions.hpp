@@ -20,7 +20,8 @@
 #include <string_theory/string>
 #include <exception>
 
-class hsException : public std::exception {
+class hsException : public std::exception
+{
 protected:
     ST::string fWhat;
     const char* fFile;
@@ -29,9 +30,9 @@ protected:
 public:
     inline hsException(const char* file, unsigned long line) HS_NOEXCEPT
         : fWhat("Undefined Plasma Exception"), fFile(file), fLine(line) { }
-    inline virtual ~hsException() HS_NOEXCEPT { }
 
-    inline hsException& operator=(const hsException& other) HS_NOEXCEPT {
+    inline hsException& operator=(const hsException& other) HS_NOEXCEPT
+    {
         fWhat = other.fWhat;
         return *this;
     }

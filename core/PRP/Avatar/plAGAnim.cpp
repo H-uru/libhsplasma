@@ -17,12 +17,14 @@
 #include "plAGAnim.h"
 
 /* plAGAnim */
-plAGAnim::~plAGAnim() {
+plAGAnim::~plAGAnim()
+{
     for (auto app = fApps.begin(); app != fApps.end(); ++app)
         delete *app;
 }
 
-void plAGAnim::read(hsStream* S, plResManager* mgr) {
+void plAGAnim::read(hsStream* S, plResManager* mgr)
+{
     plSynchedObject::read(S, mgr);
 
     fName = S->readSafeStr();
@@ -42,7 +44,8 @@ void plAGAnim::read(hsStream* S, plResManager* mgr) {
         fEoaFlag = S->readByte();
 }
 
-void plAGAnim::write(hsStream* S, plResManager* mgr) {
+void plAGAnim::write(hsStream* S, plResManager* mgr)
+{
     plSynchedObject::write(S, mgr);
 
     S->writeSafeStr(fName);
@@ -59,7 +62,8 @@ void plAGAnim::write(hsStream* S, plResManager* mgr) {
         S->writeByte(fEoaFlag);
 }
 
-void plAGAnim::IPrcWrite(pfPrcHelper* prc) {
+void plAGAnim::IPrcWrite(pfPrcHelper* prc)
+{
     plSynchedObject::IPrcWrite(prc);
 
     prc->startTag("AGAnimParams");
@@ -83,7 +87,8 @@ void plAGAnim::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plAGAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAGAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "AGAnimParams") {
         fName = tag->getParam("Name", "");
         fStart = tag->getParam("Start", "0").to_float();
@@ -123,30 +128,35 @@ void plAGAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plAGAnim::clearApplicators() {
+void plAGAnim::clearApplicators()
+{
     for (auto app = fApps.begin(); app != fApps.end(); ++app)
         delete *app;
     fApps.clear();
 }
 
-void plAGAnim::delApplicator(size_t idx) {
+void plAGAnim::delApplicator(size_t idx)
+{
     delete fApps[idx];
     fApps.erase(fApps.begin() + idx);
 }
 
 
 /* plAgeGlobalAnim */
-void plAgeGlobalAnim::read(hsStream* S, plResManager* mgr) {
+void plAgeGlobalAnim::read(hsStream* S, plResManager* mgr)
+{
     plAGAnim::read(S, mgr);
     fGlobalVarName = S->readSafeStr();
 }
 
-void plAgeGlobalAnim::write(hsStream* S, plResManager* mgr) {
+void plAgeGlobalAnim::write(hsStream* S, plResManager* mgr)
+{
     plAGAnim::write(S, mgr);
     S->writeSafeStr(fGlobalVarName);
 }
 
-void plAgeGlobalAnim::IPrcWrite(pfPrcHelper* prc) {
+void plAgeGlobalAnim::IPrcWrite(pfPrcHelper* prc)
+{
     plAGAnim::IPrcWrite(prc);
 
     prc->startTag("AgeGlobalAnimParams");
@@ -154,7 +164,8 @@ void plAgeGlobalAnim::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plAgeGlobalAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAgeGlobalAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "AgeGlobalAnimParams") {
         fGlobalVarName = tag->getParam("GlobalVarName", "");
     } else {

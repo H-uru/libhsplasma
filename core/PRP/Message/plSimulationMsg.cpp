@@ -17,17 +17,20 @@
 #include "plSimulationMsg.h"
 
 /* plSimSuppressMsg */
-void plSimSuppressMsg::read(hsStream* S, plResManager* mgr) {
+void plSimSuppressMsg::read(hsStream* S, plResManager* mgr)
+{
     plMessage::read(S, mgr);
     fSuppress = S->readBool();
 }
 
-void plSimSuppressMsg::write(hsStream* S, plResManager* mgr) {
+void plSimSuppressMsg::write(hsStream* S, plResManager* mgr)
+{
     plMessage::write(S, mgr);
     S->writeBool(fSuppress);
 }
 
-void plSimSuppressMsg::IPrcWrite(pfPrcHelper* prc) {
+void plSimSuppressMsg::IPrcWrite(pfPrcHelper* prc)
+{
     plMessage::IPrcWrite(prc);
 
     prc->startTag("SimSuppressParams");
@@ -35,7 +38,8 @@ void plSimSuppressMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plSimSuppressMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plSimSuppressMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "SimSuppressParams") {
         fSuppress = tag->getParam("Suppress", "false").to_bool();
     } else {
@@ -45,17 +49,20 @@ void plSimSuppressMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plSubWorldMsg */
-void plSubWorldMsg::read(hsStream* S, plResManager* mgr) {
+void plSubWorldMsg::read(hsStream* S, plResManager* mgr)
+{
     plMessage::read(S, mgr);
     fWorldKey = mgr->readKey(S);
 }
 
-void plSubWorldMsg::write(hsStream* S, plResManager* mgr) {
+void plSubWorldMsg::write(hsStream* S, plResManager* mgr)
+{
     plMessage::write(S, mgr);
     mgr->writeKey(S, fWorldKey);
 }
 
-void plSubWorldMsg::IPrcWrite(pfPrcHelper* prc) {
+void plSubWorldMsg::IPrcWrite(pfPrcHelper* prc)
+{
     plMessage::IPrcWrite(prc);
 
     prc->writeSimpleTag("WorldKey");
@@ -63,7 +70,8 @@ void plSubWorldMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plSubWorldMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plSubWorldMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "WorldKey") {
         fWorldKey = mgr->prcParseKey(tag->getFirstChild());
     } else {

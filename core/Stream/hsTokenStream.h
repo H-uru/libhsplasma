@@ -21,9 +21,11 @@
 #include <vector>
 #include <queue>
 
-class PLASMA_DLL hsTokenStream {
+class PLASMA_DLL hsTokenStream
+{
 public:
-    struct PLASMA_DLL Region {
+    struct PLASMA_DLL Region
+    {
         ST::string fStart;
         ST::string fEnd;
 
@@ -45,7 +47,7 @@ protected:
 
 public:
     hsTokenStream(hsStream* stream)
-        : fStream(stream), fIOwnStream(false), fInComment(-1) { }
+        : fStream(stream), fIOwnStream(), fInComment(-1) { }
     hsTokenStream(const ST::string& filename);
     ~hsTokenStream();
 
@@ -59,7 +61,7 @@ public:
 
 protected:
     void getLine();
-    int getCharType(const char ch);
+    int getCharType(char ch);
 };
 
 #endif

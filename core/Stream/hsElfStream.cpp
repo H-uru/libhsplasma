@@ -18,7 +18,8 @@
 #include <cstdlib>
 #include "hsElfStream.h"
 
-void hsElfStream::decipher(unsigned char* v, int size, unsigned char hint) {
+void hsElfStream::decipher(unsigned char* v, int size, unsigned char hint)
+{
     unsigned char key = (v[0] ^ hint) >> 5;
     for (int i=size-1; i>=0; i--) {
         unsigned char a = (v[i] ^ hint);
@@ -28,7 +29,8 @@ void hsElfStream::decipher(unsigned char* v, int size, unsigned char hint) {
     }
 }
 
-void hsElfStream::encipher(unsigned char* v, int size, unsigned char hint) {
+void hsElfStream::encipher(unsigned char* v, int size, unsigned char hint)
+{
     unsigned char key = (v[size-1] & 0xFC) << 3;
     for (int i=0; i<size; i++) {
         unsigned char a = (v[i] << 6) | (v[i] >> 2);
@@ -37,7 +39,8 @@ void hsElfStream::encipher(unsigned char* v, int size, unsigned char hint) {
     }
 }
 
-ST::string hsElfStream::readLine() {
+ST::string hsElfStream::readLine()
+{
     unsigned int p = pos();
     unsigned short segHead = readShort();
     unsigned short segSize = segHead ^ (p & 0xFFFF);
@@ -49,7 +52,8 @@ ST::string hsElfStream::readLine() {
     return line;
 }
 
-void hsElfStream::writeLine(const ST::string& ln, bool winEOL) {
+void hsElfStream::writeLine(const ST::string& ln, bool winEOL)
+{
     // This may or may not work...
     unsigned int p = pos();
     unsigned short segSize = ln.size();

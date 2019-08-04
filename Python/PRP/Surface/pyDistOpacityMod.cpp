@@ -22,10 +22,12 @@
 PY_PLASMA_NEW(DistOpacityMod, plDistOpacityMod)
 
 #define DOM_DISTANCE(propName, distEnum)                                \
-    PY_GETSET_GETTER_DECL(DistOpacityMod, propName) {                   \
+    PY_GETSET_GETTER_DECL(DistOpacityMod, propName)                     \
+    {                                                                   \
         return pyPlasma_convert(self->fThis->getDistance(plDistOpacityMod::distEnum)); \
     }                                                                   \
-    PY_GETSET_SETTER_DECL(DistOpacityMod, propName) {                   \
+    PY_GETSET_SETTER_DECL(DistOpacityMod, propName)                     \
+    {                                                                   \
         PY_PROPERTY_CHECK_NULL(propName)                                \
         if (!pyPlasma_check<float>(value)) {                            \
             PyErr_SetString(PyExc_TypeError, #propName " expected type float"); \
@@ -51,7 +53,8 @@ static PyGetSetDef pyDistOpacityMod_GetSet [] = {
 
 PY_PLASMA_TYPE(DistOpacityMod, plDistOpacityMod, "plDistOpacityMod wrapper")
 
-PY_PLASMA_TYPE_INIT(DistOpacityMod) {
+PY_PLASMA_TYPE_INIT(DistOpacityMod)
+{
     pyDistOpacityMod_Type.tp_new = pyDistOpacityMod_new;
     pyDistOpacityMod_Type.tp_getset = pyDistOpacityMod_GetSet;
     pyDistOpacityMod_Type.tp_base = &pySingleModifier_Type;

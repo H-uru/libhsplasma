@@ -72,7 +72,8 @@ static PyGetSetDef pyLODDist_GetSet[] = {
 
 PY_PLASMA_TYPE(LODDist, plLODDist, "plLODDist wrapper")
 
-PY_PLASMA_TYPE_INIT(LODDist) {
+PY_PLASMA_TYPE_INIT(LODDist)
+{
     pyLODDist_Type.tp_new = pyLODDist_new;
     pyLODDist_Type.tp_methods = pyLODDist_Methods;
     pyLODDist_Type.tp_getset = pyLODDist_GetSet;

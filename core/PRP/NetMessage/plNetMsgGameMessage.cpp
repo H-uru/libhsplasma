@@ -17,11 +17,13 @@
 #include "plNetMsgGameMessage.h"
 
 /* plNetMsgGameMessage */
-plNetMsgGameMessage::~plNetMsgGameMessage() {
+plNetMsgGameMessage::~plNetMsgGameMessage()
+{
     delete fMessage;
 }
 
-void plNetMsgGameMessage::read(hsStream* S, plResManager* mgr) {
+void plNetMsgGameMessage::read(hsStream* S, plResManager* mgr)
+{
     plNetMsgStream::read(S, mgr);
 
     delete fMessage;
@@ -32,7 +34,8 @@ void plNetMsgGameMessage::read(hsStream* S, plResManager* mgr) {
         fDeliveryTime.read(S);
 }
 
-void plNetMsgGameMessage::write(hsStream* S, plResManager* mgr) {
+void plNetMsgGameMessage::write(hsStream* S, plResManager* mgr)
+{
     hsRAMStream* msgStream = getStream();
     msgStream->setVer(S->getVer());
     msgStream->rewind();
@@ -49,7 +52,8 @@ void plNetMsgGameMessage::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plNetMsgGameMessage::IPrcWrite(pfPrcHelper* prc) {
+void plNetMsgGameMessage::IPrcWrite(pfPrcHelper* prc)
+{
     plNetMessage::IPrcWrite(prc);   // Skip raw stream writing
 
     if (fMessage != NULL) {
@@ -67,7 +71,8 @@ void plNetMsgGameMessage::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plNetMsgGameMessage::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plNetMsgGameMessage::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "GameMessage") {
         delete fMessage;
         if (tag->getParam("NULL", "false").to_bool())
@@ -83,14 +88,16 @@ void plNetMsgGameMessage::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plNetMsgGameMessage::setMessage(plMessage* Message) {
+void plNetMsgGameMessage::setMessage(plMessage* Message)
+{
     delete fMessage;
     fMessage = Message;
 }
 
 
 /* plNetMsgGameMessageDirected */
-void plNetMsgGameMessageDirected::read(hsStream* S, plResManager* mgr) {
+void plNetMsgGameMessageDirected::read(hsStream* S, plResManager* mgr)
+{
     plNetMsgGameMessage::read(S, mgr);
 
     unsigned char count = S->readByte();
@@ -99,7 +106,8 @@ void plNetMsgGameMessageDirected::read(hsStream* S, plResManager* mgr) {
         fReceivers[i] = S->readInt();
 }
 
-void plNetMsgGameMessageDirected::write(hsStream* S, plResManager* mgr) {
+void plNetMsgGameMessageDirected::write(hsStream* S, plResManager* mgr)
+{
     plNetMsgGameMessage::write(S, mgr);
 
     S->writeByte(fReceivers.size());
@@ -107,7 +115,8 @@ void plNetMsgGameMessageDirected::write(hsStream* S, plResManager* mgr) {
         S->writeInt(fReceivers[i]);
 }
 
-void plNetMsgGameMessageDirected::IPrcWrite(pfPrcHelper* prc) {
+void plNetMsgGameMessageDirected::IPrcWrite(pfPrcHelper* prc)
+{
     plNetMsgGameMessage::IPrcWrite(prc);
 
     prc->writeSimpleTag("Receivers");
@@ -119,7 +128,8 @@ void plNetMsgGameMessageDirected::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plNetMsgGameMessageDirected::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plNetMsgGameMessageDirected::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Receivers") {
         fReceivers.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();

@@ -35,7 +35,8 @@ static PyGetSetDef pyEmoteAnim_GetSet[] = {
 
 PY_PLASMA_TYPE(EmoteAnim, plEmoteAnim, "plEmoteAnim wrapper")
 
-PY_PLASMA_TYPE_INIT(EmoteAnim) {
+PY_PLASMA_TYPE_INIT(EmoteAnim)
+{
     pyEmoteAnim_Type.tp_new = pyEmoteAnim_new;
     pyEmoteAnim_Type.tp_getset = pyEmoteAnim_GetSet;
     pyEmoteAnim_Type.tp_base = &pyATCAnim_Type;

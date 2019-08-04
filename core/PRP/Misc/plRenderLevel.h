@@ -19,8 +19,10 @@
 
 #include "PlasmaDefs.h"
 
-namespace plRenderLevel {
-    enum {
+namespace plRenderLevel
+{
+    enum
+    {
         kOpaqueMajorLevel = 0x0,
         kFBMajorLevel = 0x1,
         kDefRendMajorLevel = 0x2,
@@ -30,7 +32,8 @@ namespace plRenderLevel {
 
     enum { kMajorShift = 0x1C };
 
-    enum {
+    enum
+    {
         kDefRendMinorLevel = 0x0,
         kOpaqueMinorLevel = 0x0,
         kMinorLevelMask = 0x0FFFFFFF,

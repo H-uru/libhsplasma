@@ -65,7 +65,8 @@ static PyMethodDef pyImageLibMod_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(ImageLibMod, images) {
+PY_GETSET_GETTER_DECL(ImageLibMod, images)
+{
     PyObject* list = PyTuple_New(self->fThis->getImages().size());
     for (size_t i = 0; i<self->fThis->getImages().size(); i++)
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getImages()[i]));
@@ -82,7 +83,8 @@ static PyGetSetDef pyImageLibMod_GetSet[] = {
 
 PY_PLASMA_TYPE(ImageLibMod, pfImageLibMod, "plImageLibMod wrapper")
 
-PY_PLASMA_TYPE_INIT(ImageLibMod) {
+PY_PLASMA_TYPE_INIT(ImageLibMod)
+{
     pyImageLibMod_Type.tp_new = pyImageLibMod_new;
     pyImageLibMod_Type.tp_methods = pyImageLibMod_Methods;
     pyImageLibMod_Type.tp_getset = pyImageLibMod_GetSet;

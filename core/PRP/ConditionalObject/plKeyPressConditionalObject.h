@@ -20,7 +20,8 @@
 #include "plConditionalObject.h"
 #include "Sys/Platform.h"
 
-class PLASMA_DLL plKeyPressConditionalObject : public plConditionalObject {
+class PLASMA_DLL plKeyPressConditionalObject : public plConditionalObject
+{
     CREATABLE(plKeyPressConditionalObject, kKeyPressConditionalObject,
               plConditionalObject)
 
@@ -28,7 +29,7 @@ protected:
     plKeyDef fKeyEvent;
 
 public:
-    plKeyPressConditionalObject() : fKeyEvent((plKeyDef)0) { }
+    plKeyPressConditionalObject() : fKeyEvent() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

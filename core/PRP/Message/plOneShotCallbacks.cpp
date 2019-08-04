@@ -16,7 +16,8 @@
 
 #include "plOneShotCallbacks.h"
 
-void plOneShotCallbacks::read(hsStream* S, plResManager* mgr) {
+void plOneShotCallbacks::read(hsStream* S, plResManager* mgr)
+{
     fCallbacks.resize(S->readInt());
     for (size_t i=0; i<fCallbacks.size(); i++) {
         fCallbacks[i].fMarker = S->readSafeStr();
@@ -25,7 +26,8 @@ void plOneShotCallbacks::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plOneShotCallbacks::write(hsStream* S, plResManager* mgr) {
+void plOneShotCallbacks::write(hsStream* S, plResManager* mgr)
+{
     S->writeInt(fCallbacks.size());
     for (size_t i=0; i<fCallbacks.size(); i++) {
         S->writeSafeStr(fCallbacks[i].fMarker);
@@ -34,7 +36,8 @@ void plOneShotCallbacks::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plOneShotCallbacks::prcWrite(pfPrcHelper* prc) {
+void plOneShotCallbacks::prcWrite(pfPrcHelper* prc)
+{
     prc->writeSimpleTag("plOneShotCallbacks");
     for (size_t i=0; i<fCallbacks.size(); i++) {
         prc->startTag("Callback");
@@ -47,7 +50,8 @@ void plOneShotCallbacks::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plOneShotCallbacks::prcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plOneShotCallbacks::prcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() != "plOneShotCallbacks")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 

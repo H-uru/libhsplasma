@@ -24,9 +24,11 @@
 #include "Math/hsMatrix44.h"
 #include "pfGUIControlHandlers.h"
 
-class PLASMA_DLL pfGUIColorScheme {
+class PLASMA_DLL pfGUIColorScheme
+{
 public:
-    enum FontFlags {
+    enum FontFlags
+    {
         kFontBold = 0x01,
         kFontItalic = 0x02,
         kFontShadowed = 0x04
@@ -70,11 +72,13 @@ public:
 };
 
 
-class PLASMA_DLL pfGUIControlMod : public plSingleModifier {
+class PLASMA_DLL pfGUIControlMod : public plSingleModifier
+{
     CREATABLE(pfGUIControlMod, kGUIControlMod, plSingleModifier)
 
 public:
-    enum {
+    enum
+    {
         kWantsInterest, kInheritProcFromDlg, kIntangible, kXparentBgnd,
         kScaleTextWithResolution, kTakesSpecialKeys, kHasProxy,
         kBetterHitTesting, kDerivedFlagsStart = 0x20
@@ -91,7 +95,7 @@ protected:
 
 public:
     pfGUIControlMod();
-    virtual ~pfGUIControlMod();
+    ~pfGUIControlMod();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

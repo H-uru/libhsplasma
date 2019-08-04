@@ -24,7 +24,8 @@ PY_PLASMA_NEW(MatrixChannelApplicator, plMatrixChannelApplicator)
 PY_PLASMA_TYPE(MatrixChannelApplicator, plMatrixChannelApplicator,
                "plMatrixChannelApplicator wrapper")
 
-PY_PLASMA_TYPE_INIT(MatrixChannelApplicator) {
+PY_PLASMA_TYPE_INIT(MatrixChannelApplicator)
+{
     pyMatrixChannelApplicator_Type.tp_new = pyMatrixChannelApplicator_new;
     pyMatrixChannelApplicator_Type.tp_base = &pyAGApplicator_Type;
     if (PyType_CheckAndReady(&pyMatrixChannelApplicator_Type) < 0)

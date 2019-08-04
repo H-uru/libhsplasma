@@ -19,9 +19,11 @@
 
 #include "PRP/Object/plSynchedObject.h"
 
-class PLASMA_DLL plSimDefs {
+class PLASMA_DLL plSimDefs
+{
 public:
-    enum Bounds {
+    enum Bounds
+    {
         kBoxBounds = 1, kSphereBounds, kHullBounds, kProxyBounds,
         kExplicitBounds, kCylinderBounds, kNumBounds, kBoundsMax = 0xFF
     };
@@ -29,7 +31,8 @@ public:
     /* NOTE - This enum does not match Plasma!
      * It has been created to hold all possible values across versions.
      */
-    enum Group {
+    enum Group
+    {
         kGroupStatic,
         kGroupAvatar,
         kGroupDynamic,
@@ -38,7 +41,8 @@ public:
         kGroupMax
     };
 
-    enum LOSDB {
+    enum LOSDB
+    {
         kLOSDBNone = 0,
         kLOSDBUIBlockers = 0x1,
         kLOSDBUIItems = 0x2,
@@ -56,7 +60,8 @@ public:
     static const char* GroupNames[];
 };
 
-class PLASMA_DLL plPhysical : public plSynchedObject {
+class PLASMA_DLL plPhysical : public plSynchedObject
+{
     CREATABLE(plPhysical, kPhysical, plSynchedObject)
 };
 

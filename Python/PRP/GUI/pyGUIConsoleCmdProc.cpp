@@ -29,7 +29,8 @@ static PyGetSetDef pyGUIConsoleCmdProc_GetSet[] = {
 
 PY_PLASMA_TYPE(GUIConsoleCmdProc, pfGUIConsoleCmdProc, "pfGUIConsoleCmdProc wrapper")
 
-PY_PLASMA_TYPE_INIT(GUIConsoleCmdProc) {
+PY_PLASMA_TYPE_INIT(GUIConsoleCmdProc)
+{
     pyGUIConsoleCmdProc_Type.tp_new = pyGUIConsoleCmdProc_new;
     pyGUIConsoleCmdProc_Type.tp_getset = pyGUIConsoleCmdProc_GetSet;
     pyGUIConsoleCmdProc_Type.tp_base = &pyGUICtrlProcWriteableObject_Type;

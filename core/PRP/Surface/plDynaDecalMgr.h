@@ -20,7 +20,8 @@
 #include "PRP/Object/plSynchedObject.h"
 #include "Math/hsGeometry3.h"
 
-class PLASMA_DLL plDynaDecalMgr : public plSynchedObject {
+class PLASMA_DLL plDynaDecalMgr : public plSynchedObject
+{
     CREATABLE(plDynaDecalMgr, kDynaDecalMgr, plSynchedObject)
 
 protected:
@@ -36,10 +37,9 @@ protected:
 
 public:
     plDynaDecalMgr()
-        : fPartyTime(0.0f), fMaxNumVerts(0), fMaxNumIdx(0),
-          fWaitOnEnable(0), fWetLength(0.0f), fRampEnd(0.0f),
-          fDecayStart(0.0f), fLifeSpan(0.0f), fIntensity(0.0f),
-          fGridSizeU(0.0f), fGridSizeV(0.0f) { }
+        : fPartyTime(), fMaxNumVerts(), fMaxNumIdx(), fWaitOnEnable(),
+          fWetLength(), fRampEnd(), fDecayStart(), fLifeSpan(), fIntensity(),
+          fGridSizeU(), fGridSizeV() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -50,12 +50,14 @@ protected:
 };
 
 
-class PLASMA_DLL plDynaBulletMgr : public plDynaDecalMgr {
+class PLASMA_DLL plDynaBulletMgr : public plDynaDecalMgr
+{
     CREATABLE(plDynaBulletMgr, kDynaBulletMgr, plDynaDecalMgr)
 };
 
 
-class PLASMA_DLL plDynaFootMgr : public plDynaDecalMgr {
+class PLASMA_DLL plDynaFootMgr : public plDynaDecalMgr
+{
     CREATABLE(plDynaFootMgr, kDynaFootMgr, plDynaDecalMgr)
 };
 

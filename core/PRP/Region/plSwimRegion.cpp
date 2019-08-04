@@ -17,21 +17,24 @@
 #include "plSwimRegion.h"
 
 /* plSwimRegionInterface */
-void plSwimRegionInterface::read(hsStream* S, plResManager* mgr) {
+void plSwimRegionInterface::read(hsStream* S, plResManager* mgr)
+{
     plObjInterface::read(S, mgr);
     fDownBuoyancy = S->readFloat();
     fUpBuoyancy = S->readFloat();
     fMaxUpwardVel = S->readFloat();
 }
 
-void plSwimRegionInterface::write(hsStream* S, plResManager* mgr) {
+void plSwimRegionInterface::write(hsStream* S, plResManager* mgr)
+{
     plObjInterface::write(S, mgr);
     S->writeFloat(fDownBuoyancy);
     S->writeFloat(fUpBuoyancy);
     S->writeFloat(fMaxUpwardVel);
 }
 
-void plSwimRegionInterface::IPrcWrite(pfPrcHelper* prc) {
+void plSwimRegionInterface::IPrcWrite(pfPrcHelper* prc)
+{
     plObjInterface::IPrcWrite(prc);
 
     prc->startTag("SwimRegionParams");
@@ -41,7 +44,8 @@ void plSwimRegionInterface::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plSwimRegionInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plSwimRegionInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "SwimRegionParams") {
         fDownBuoyancy = tag->getParam("DownBuoyancy", "0").to_float();
         fUpBuoyancy = tag->getParam("UpBuoyancy", "0").to_float();
@@ -53,7 +57,8 @@ void plSwimRegionInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plSwimCircularCurrentRegion */
-void plSwimCircularCurrentRegion::read(hsStream* S, plResManager* mgr) {
+void plSwimCircularCurrentRegion::read(hsStream* S, plResManager* mgr)
+{
     plSwimRegionInterface::read(S, mgr);
 
     fRotation = S->readFloat();
@@ -64,7 +69,8 @@ void plSwimCircularCurrentRegion::read(hsStream* S, plResManager* mgr) {
     fCurrentObj = mgr->readKey(S);
 }
 
-void plSwimCircularCurrentRegion::write(hsStream* S, plResManager* mgr) {
+void plSwimCircularCurrentRegion::write(hsStream* S, plResManager* mgr)
+{
     plSwimRegionInterface::write(S, mgr);
 
     S->writeFloat(fRotation);
@@ -75,7 +81,8 @@ void plSwimCircularCurrentRegion::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fCurrentObj);
 }
 
-void plSwimCircularCurrentRegion::IPrcWrite(pfPrcHelper* prc) {
+void plSwimCircularCurrentRegion::IPrcWrite(pfPrcHelper* prc)
+{
     plSwimRegionInterface::IPrcWrite(prc);
 
     prc->startTag("CircularCurrent");
@@ -91,7 +98,8 @@ void plSwimCircularCurrentRegion::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plSwimCircularCurrentRegion::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plSwimCircularCurrentRegion::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "CircularCurrent") {
         fRotation = tag->getParam("Rotation", "0").to_float();
         fPullNearDistSq = tag->getParam("PullNearDistSq", "0").to_float();
@@ -108,7 +116,8 @@ void plSwimCircularCurrentRegion::IPrcParse(const pfPrcTag* tag, plResManager* m
 
 
 /* plSwimStraightCurrentRegion */
-void plSwimStraightCurrentRegion::read(hsStream* S, plResManager* mgr) {
+void plSwimStraightCurrentRegion::read(hsStream* S, plResManager* mgr)
+{
     plSwimRegionInterface::read(S, mgr);
 
     fNearDist = S->readFloat();
@@ -118,7 +127,8 @@ void plSwimStraightCurrentRegion::read(hsStream* S, plResManager* mgr) {
     fCurrentObj = mgr->readKey(S);
 }
 
-void plSwimStraightCurrentRegion::write(hsStream* S, plResManager* mgr) {
+void plSwimStraightCurrentRegion::write(hsStream* S, plResManager* mgr)
+{
     plSwimRegionInterface::write(S, mgr);
 
     S->writeFloat(fNearDist);
@@ -128,7 +138,8 @@ void plSwimStraightCurrentRegion::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fCurrentObj);
 }
 
-void plSwimStraightCurrentRegion::IPrcWrite(pfPrcHelper* prc) {
+void plSwimStraightCurrentRegion::IPrcWrite(pfPrcHelper* prc)
+{
     plSwimRegionInterface::IPrcWrite(prc);
 
     prc->startTag("StraightCurrent");
@@ -143,7 +154,8 @@ void plSwimStraightCurrentRegion::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plSwimStraightCurrentRegion::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plSwimStraightCurrentRegion::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "StraightCurrent") {
         fNearDist = tag->getParam("NearDist", "0").to_float();
         fFarDist = tag->getParam("FarDist", "0").to_float();

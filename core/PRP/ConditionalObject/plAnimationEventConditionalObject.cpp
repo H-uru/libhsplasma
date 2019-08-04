@@ -16,19 +16,22 @@
 
 #include "plAnimationEventConditionalObject.h"
 
-void plAnimationEventConditionalObject::read(hsStream* S, plResManager* mgr) {
+void plAnimationEventConditionalObject::read(hsStream* S, plResManager* mgr)
+{
     plConditionalObject::read(S, mgr);
     fTarget = mgr->readKey(S);
     fAction = (CallbackEvent)S->readInt();
 }
 
-void plAnimationEventConditionalObject::write(hsStream* S, plResManager* mgr) {
+void plAnimationEventConditionalObject::write(hsStream* S, plResManager* mgr)
+{
     plConditionalObject::write(S, mgr);
     mgr->writeKey(S, fTarget);
     S->writeInt(fAction);
 }
 
-void plAnimationEventConditionalObject::IPrcWrite(pfPrcHelper* prc) {
+void plAnimationEventConditionalObject::IPrcWrite(pfPrcHelper* prc)
+{
     plConditionalObject::IPrcWrite(prc);
     prc->writeSimpleTag("Target");
     plResManager::PrcWriteKey(prc, fTarget);
@@ -38,7 +41,8 @@ void plAnimationEventConditionalObject::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plAnimationEventConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAnimationEventConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Target") {
         if (tag->hasChildren())
             fTarget = mgr->prcParseKey(tag->getFirstChild());

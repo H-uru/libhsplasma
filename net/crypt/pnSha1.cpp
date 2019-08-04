@@ -22,7 +22,8 @@
 #include <memory>
 #include <cstring>
 
-static struct _pnSha1_Static_Initializer {
+static struct _pnSha1_Static_Initializer
+{
     // Ensure digest names are available to EVP APIs below
     _pnSha1_Static_Initializer() { OpenSSL_add_all_digests(); }
 } _pnSha1_Static_Init;

@@ -19,15 +19,16 @@
 
 #include "plLightInfo.h"
 
-class PLASMA_DLL plOmniLightInfo : public plLightInfo {
+class PLASMA_DLL plOmniLightInfo : public plLightInfo
+{
     CREATABLE(plOmniLightInfo, kOmniLightInfo, plLightInfo)
 
 protected:
     float fAttenConst, fAttenLinear, fAttenQuadratic, fAttenCutoff;
 
 public:
-    plOmniLightInfo() : fAttenConst(0.0f), fAttenLinear(0.0f),
-                        fAttenQuadratic(0.0f), fAttenCutoff(0.0f) { }
+    plOmniLightInfo()
+        : fAttenConst(), fAttenLinear(), fAttenQuadratic(), fAttenCutoff() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -49,7 +50,8 @@ public:
 };
 
 
-class PLASMA_DLL plSpotLightInfo : public plOmniLightInfo {
+class PLASMA_DLL plSpotLightInfo : public plOmniLightInfo
+{
     CREATABLE(plSpotLightInfo, kSpotLightInfo, plOmniLightInfo)
 
 protected:

@@ -23,7 +23,8 @@
 #include "pnSocket.h"
 #include "pnSocketInterface.h"
 
-struct PLASMANET_DLL pnFileManifest {
+struct PLASMANET_DLL pnFileManifest
+{
     ST::string fFilename, fDownloadName;
     plMD5Hash fHash, fCompressedHash;
     uint32_t fFileSize, fCompressedSize, fFlags;
@@ -33,11 +34,12 @@ struct PLASMANET_DLL pnFileManifest {
     size_t calcSize() const;
 };
 
-class PLASMANET_DLL pnFileClient : public pnClient {
+class PLASMANET_DLL pnFileClient : public pnClient
+{
 public:
     pnFileClient(bool threaded=true)
-        : fSock(NULL), fThreaded(threaded), fDispatch(NULL) { }
-    virtual ~pnFileClient();
+        : fSock(), fThreaded(threaded), fDispatch() { }
+    ~pnFileClient();
 
     void setClientInfo(uint32_t buildType, uint32_t branchId, const plUuid& productId);
     ENetError connect(const char* host, short port = 14617) HS_OVERRIDE;
@@ -45,7 +47,9 @@ public:
     void disconnect() HS_OVERRIDE;
 
     bool isConnected() const HS_OVERRIDE
-    { return (fSock != NULL) && fSock->isConnected(); }
+    {
+        return fSock && fSock->isConnected();
+    }
 
 //     virtual void signalStatus() { fSock->signalStatus(); }
 //     virtual void waitForStatus() { fSock->waitForStatus(); }
@@ -73,10 +77,11 @@ protected:
     bool fThreaded;
 
 private:
-    class Dispatch : public pnDispatcher {
+    class Dispatch : public pnDispatcher
+    {
     public:
         Dispatch(pnFileClient* self) : fReceiver(self) { }
-        virtual ~Dispatch() { }
+        ~Dispatch() { }
         bool dispatch(pnSocket* sock) HS_OVERRIDE;
 
     private:

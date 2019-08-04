@@ -24,7 +24,8 @@ PY_PLASMA_NEW(LocalPlayerInBoxConditionalObject, plLocalPlayerInBoxConditionalOb
 PY_PLASMA_TYPE(LocalPlayerInBoxConditionalObject, plLocalPlayerInBoxConditionalObject,
                "plLocalPlayerInBoxConditionalObject wrapper")
 
-PY_PLASMA_TYPE_INIT(LocalPlayerInBoxConditionalObject) {
+PY_PLASMA_TYPE_INIT(LocalPlayerInBoxConditionalObject)
+{
     pyLocalPlayerInBoxConditionalObject_Type.tp_new = pyLocalPlayerInBoxConditionalObject_new;
     pyLocalPlayerInBoxConditionalObject_Type.tp_base = &pyConditionalObject_Type;
     if (PyType_CheckAndReady(&pyLocalPlayerInBoxConditionalObject_Type) < 0)

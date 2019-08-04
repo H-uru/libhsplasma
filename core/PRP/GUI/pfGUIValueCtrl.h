@@ -19,14 +19,15 @@
 
 #include "pfGUIControlMod.h"
 
-class PLASMA_DLL pfGUIValueCtrl : public pfGUIControlMod {
+class PLASMA_DLL pfGUIValueCtrl : public pfGUIControlMod
+{
     CREATABLE(pfGUIValueCtrl, kGUIValueCtrl, pfGUIControlMod)
 
 protected:
     float fMin, fMax, fStep;
 
 public:
-    pfGUIValueCtrl() : fMin(0.0f), fMax(0.0f), fStep(0.0f) { }
+    pfGUIValueCtrl() : fMin(), fMax(), fStep() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

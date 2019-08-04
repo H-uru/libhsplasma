@@ -302,7 +302,8 @@ PY_PROPERTY_CREATABLE(plController, Controller, ParticleSystem, heightCtl,
                       getHeightCtl, setHeightCtl)
 
 
-PY_GETSET_GETTER_DECL(ParticleSystem, forces) {
+PY_GETSET_GETTER_DECL(ParticleSystem, forces)
+{
     const auto& keys = self->fThis->getForces();
     PyObject* result = PyTuple_New(keys.size());
     for (size_t i = 0; i < keys.size(); ++i)
@@ -310,7 +311,8 @@ PY_GETSET_GETTER_DECL(ParticleSystem, forces) {
     return result;
 }
 
-PY_GETSET_SETTER_DECL(ParticleSystem, forces) {
+PY_GETSET_SETTER_DECL(ParticleSystem, forces)
+{
     PY_PROPERTY_CHECK_NULL(forces);
     pySequenceFastRef seq(value);
     if (!seq.isSequence()) {
@@ -333,7 +335,8 @@ PY_GETSET_SETTER_DECL(ParticleSystem, forces) {
 PY_PROPERTY_GETSET_DECL(ParticleSystem, forces)
 
 
-PY_GETSET_GETTER_DECL(ParticleSystem, effects) {
+PY_GETSET_GETTER_DECL(ParticleSystem, effects)
+{
     const auto& keys = self->fThis->getEffects();
     PyObject* result = PyTuple_New(keys.size());
     for (size_t i = 0; i < keys.size(); ++i)
@@ -341,7 +344,8 @@ PY_GETSET_GETTER_DECL(ParticleSystem, effects) {
     return result;
 }
 
-PY_GETSET_SETTER_DECL(ParticleSystem, effects) {
+PY_GETSET_SETTER_DECL(ParticleSystem, effects)
+{
     PY_PROPERTY_CHECK_NULL(effects);
     pySequenceFastRef seq(value);
     if (!seq.isSequence()) {
@@ -364,7 +368,8 @@ PY_GETSET_SETTER_DECL(ParticleSystem, effects) {
 PY_PROPERTY_GETSET_DECL(ParticleSystem, effects)
 
 
-PY_GETSET_GETTER_DECL(ParticleSystem, constraints) {
+PY_GETSET_GETTER_DECL(ParticleSystem, constraints)
+{
     const auto& keys = self->fThis->getConstraints();
     PyObject* result = PyTuple_New(keys.size());
     for (size_t i = 0; i < keys.size(); ++i)
@@ -372,7 +377,8 @@ PY_GETSET_GETTER_DECL(ParticleSystem, constraints) {
     return result;
 }
 
-PY_GETSET_SETTER_DECL(ParticleSystem, constraints) {
+PY_GETSET_SETTER_DECL(ParticleSystem, constraints)
+{
     PY_PROPERTY_CHECK_NULL(constraints);
     pySequenceFastRef seq(value);
     if (!seq.isSequence()) {
@@ -395,7 +401,8 @@ PY_GETSET_SETTER_DECL(ParticleSystem, constraints) {
 PY_PROPERTY_GETSET_DECL(ParticleSystem, constraints)
 
 
-PY_GETSET_GETTER_DECL(ParticleSystem, permaLights) {
+PY_GETSET_GETTER_DECL(ParticleSystem, permaLights)
+{
     const auto& keys = self->fThis->getPermaLights();
     PyObject* result = PyTuple_New(keys.size());
     for (size_t i = 0; i < keys.size(); ++i)
@@ -403,7 +410,8 @@ PY_GETSET_GETTER_DECL(ParticleSystem, permaLights) {
     return result;
 }
 
-PY_GETSET_SETTER_DECL(ParticleSystem, permaLights) {
+PY_GETSET_SETTER_DECL(ParticleSystem, permaLights)
+{
     PY_PROPERTY_CHECK_NULL(permaLights);
     pySequenceFastRef seq(value);
     if (!seq.isSequence()) {
@@ -450,7 +458,8 @@ static PyGetSetDef pyParticleSystem_GetSet[] = {
 
 PY_PLASMA_TYPE(ParticleSystem, plParticleSystem, "plParticleSystem wrapper")
 
-PY_PLASMA_TYPE_INIT(ParticleSystem) {
+PY_PLASMA_TYPE_INIT(ParticleSystem)
+{
     pyParticleSystem_Type.tp_new = pyParticleSystem_new;
     pyParticleSystem_Type.tp_methods = pyParticleSystem_Methods;
     pyParticleSystem_Type.tp_getset = pyParticleSystem_GetSet;

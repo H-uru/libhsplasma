@@ -20,12 +20,14 @@
 #include "plMessage.h"
 #include "plOneShotCallbacks.h"
 
-class PLASMA_DLL plResponderMsg : public plMessage {
+class PLASMA_DLL plResponderMsg : public plMessage
+{
     CREATABLE(plResponderMsg, kResponderMsg, plMessage)
 };
 
 
-class PLASMA_DLL plOneShotMsg : public plResponderMsg {
+class PLASMA_DLL plOneShotMsg : public plResponderMsg
+{
     CREATABLE(plOneShotMsg, kOneShotMsg, plResponderMsg)
 
 protected:

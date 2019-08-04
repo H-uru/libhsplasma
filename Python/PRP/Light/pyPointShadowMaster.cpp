@@ -23,7 +23,8 @@ PY_PLASMA_NEW(PointShadowMaster, plPointShadowMaster)
 
 PY_PLASMA_TYPE(PointShadowMaster, plPointShadowMaster, "plPointShadowMaster wrapper")
 
-PY_PLASMA_TYPE_INIT(PointShadowMaster) {
+PY_PLASMA_TYPE_INIT(PointShadowMaster)
+{
     pyPointShadowMaster_Type.tp_new = pyPointShadowMaster_new;
     pyPointShadowMaster_Type.tp_base = &pyShadowMaster_Type;
     if (PyType_CheckAndReady(&pyPointShadowMaster_Type) < 0)

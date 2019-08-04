@@ -24,11 +24,12 @@
 #include "pnSocketInterface.h"
 
 
-class PLASMANET_DLL pnGateKeeperClient : public pnClient {
+class PLASMANET_DLL pnGateKeeperClient : public pnClient
+{
 public:
     pnGateKeeperClient(bool threaded = true)
-         : fSock(NULL), fThreaded(threaded), fKeyG(4), fDispatch(NULL) { }
-    virtual ~pnGateKeeperClient();
+         : fSock(), fThreaded(threaded), fKeyG(4), fDispatch() { }
+    ~pnGateKeeperClient();
 
     void setKeys(const unsigned char* keyX, const unsigned char* keyN,
                  bool littleEndian = true);
@@ -40,7 +41,9 @@ public:
     void disconnect() HS_OVERRIDE;
 
     bool isConnected() const HS_OVERRIDE
-    { return (fSock != NULL) && fSock->isConnected(); }
+    {
+        return fSock && fSock->isConnected();
+    }
 
 //     virtual void signalStatus() { fSock->signalStatus(); }
 //     virtual void waitForStatus() { fSock->waitForStatus(); }
@@ -68,10 +71,11 @@ private:
     bool fLittleEndianKeys;
     int fKeyG;
 
-    class Dispatch : public pnDispatcher {
+    class Dispatch : public pnDispatcher
+    {
     public:
         Dispatch(pnGateKeeperClient* self) : fReceiver(self) { }
-        virtual ~Dispatch() { }
+        ~Dispatch() { }
         bool dispatch(pnSocket* sock) HS_OVERRIDE;
 
     private:

@@ -54,7 +54,8 @@ PY_METHOD_VA(AnimTimeConvert, delCallback,
     Py_RETURN_NONE;
 }
 
-PY_METHOD_NOARGS(AnimTimeConvert, clearCallbacks, "Delete all callbacks from the object") {
+PY_METHOD_NOARGS(AnimTimeConvert, clearCallbacks, "Delete all callbacks from the object")
+{
     self->fThis->clearCallbacks();
     Py_RETURN_NONE;
 }
@@ -66,14 +67,16 @@ static PyMethodDef pyAnimTimeConvert_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(AnimTimeConvert, stopPoints) {
+PY_GETSET_GETTER_DECL(AnimTimeConvert, stopPoints)
+{
     PyObject* list = PyTuple_New(self->fThis->getStopPoints().size());
     for (size_t i=0; i<self->fThis->getStopPoints().size(); i++)
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getStopPoints()[i]));
     return list;
 }
 
-PY_GETSET_SETTER_DECL(AnimTimeConvert, stopPoints) {
+PY_GETSET_SETTER_DECL(AnimTimeConvert, stopPoints)
+{
     PY_PROPERTY_CHECK_NULL(stops)
     if (value == Py_None) {
         self->fThis->setStopPoints(std::vector<float>());
@@ -99,7 +102,8 @@ PY_GETSET_SETTER_DECL(AnimTimeConvert, stopPoints) {
 
 PY_PROPERTY_GETSET_DECL(AnimTimeConvert, stopPoints)
 
-PY_GETSET_GETTER_DECL(AnimTimeConvert, callbacks) {
+PY_GETSET_GETTER_DECL(AnimTimeConvert, callbacks)
+{
     PyObject* list = PyTuple_New(self->fThis->getCallbacks().size());
     for (size_t i=0; i<self->fThis->getCallbacks().size(); i++)
         PyTuple_SET_ITEM(list, i, ICreate(self->fThis->getCallbacks()[i]));
@@ -146,7 +150,8 @@ static PyGetSetDef pyAnimTimeConvert_GetSet[] = {
 
 PY_PLASMA_TYPE(AnimTimeConvert, plAnimTimeConvert, "plAnimTimeConvert wrapper")
 
-PY_PLASMA_TYPE_INIT(AnimTimeConvert) {
+PY_PLASMA_TYPE_INIT(AnimTimeConvert)
+{
     pyAnimTimeConvert_Type.tp_new = pyAnimTimeConvert_new;
     pyAnimTimeConvert_Type.tp_methods = pyAnimTimeConvert_Methods;
     pyAnimTimeConvert_Type.tp_getset = pyAnimTimeConvert_GetSet;

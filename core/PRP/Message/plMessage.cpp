@@ -16,7 +16,8 @@
 
 #include "plMessage.h"
 
-void plMessage::IMsgRead(hsStream* S, plResManager* mgr) {
+void plMessage::IMsgRead(hsStream* S, plResManager* mgr)
+{
     fSender = mgr->readKey(S);
     fReceivers.resize(S->readInt());
     for (size_t i=0; i<fReceivers.size(); i++)
@@ -28,7 +29,8 @@ void plMessage::IMsgRead(hsStream* S, plResManager* mgr) {
     fBCastFlags = S->readInt();
 }
 
-void plMessage::IMsgWrite(hsStream* S, plResManager* mgr) {
+void plMessage::IMsgWrite(hsStream* S, plResManager* mgr)
+{
     mgr->writeKey(S, fSender);
     S->writeInt(fReceivers.size());
     for (size_t i=0; i<fReceivers.size(); i++)
@@ -38,7 +40,8 @@ void plMessage::IMsgWrite(hsStream* S, plResManager* mgr) {
     S->writeInt(fBCastFlags);
 }
 
-void plMessage::IPrcWrite(pfPrcHelper* prc) {
+void plMessage::IPrcWrite(pfPrcHelper* prc)
+{
     prc->writeSimpleTag("Sender");
     plResManager::PrcWriteKey(prc, fSender);
     prc->closeTag();
@@ -54,7 +57,8 @@ void plMessage::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plMessage::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plMessage::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Sender") {
         if (tag->hasChildren())
             fSender = mgr->prcParseKey(tag->getFirstChild());

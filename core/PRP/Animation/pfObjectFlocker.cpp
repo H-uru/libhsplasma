@@ -17,7 +17,8 @@
 #include "pfObjectFlocker.h"
 
 /* pfObjectFlocker */
-void pfObjectFlocker::read(hsStream* S, plResManager* mgr) {
+void pfObjectFlocker::read(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::read(S, mgr);
 
     S->readByte();
@@ -38,7 +39,8 @@ void pfObjectFlocker::read(hsStream* S, plResManager* mgr) {
     fRandomizeAnimationStart = S->readBool();
 }
 
-void pfObjectFlocker::write(hsStream* S, plResManager* mgr) {
+void pfObjectFlocker::write(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::write(S, mgr);
 
     S->writeByte(1);
@@ -59,7 +61,8 @@ void pfObjectFlocker::write(hsStream* S, plResManager* mgr) {
     S->writeBool(fRandomizeAnimationStart);
 }
 
-void pfObjectFlocker::IPrcWrite(pfPrcHelper* prc) {
+void pfObjectFlocker::IPrcWrite(pfPrcHelper* prc)
+{
     plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("FlockParams");
@@ -85,7 +88,8 @@ void pfObjectFlocker::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void pfObjectFlocker::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void pfObjectFlocker::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "FlockParams") {
         fNumBoids = tag->getParam("NumBoids", "0").to_uint();
         fUseTargetRotation = tag->getParam("UseTargetRotation", "false").to_bool();

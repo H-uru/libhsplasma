@@ -18,10 +18,10 @@
 
 /* plCameraBrain1 */
 plCameraBrain1::plCameraBrain1()
-              : fVelocity(30.0f), fAccel(30.0f), fDecel(30.0f),
-                fPOAVelocity(30.0f), fPOAAccel(30.0f), fPOADecel(30.0f),
-                fXPanLimit(0.0f), fZPanLimit(0.0f), fPanSpeed(0.5f),
-                fZoomRate(0.0f), fZoomMax(0.0f), fZoomMin(0.0f) {
+    : fVelocity(30.0f), fAccel(30.0f), fDecel(30.0f), fPOAVelocity(30.0f),
+      fPOAAccel(30.0f), fPOADecel(30.0f), fXPanLimit(), fZPanLimit(),
+      fPanSpeed(0.5f), fZoomRate(), fZoomMax(), fZoomMin()
+{
     fFlags.setName(kCutPos, "kCutPos");
     fFlags.setName(kCutPosOnce, "kCutPosOnce");
     fFlags.setName(kCutPOA, "kCutPOA");
@@ -50,7 +50,8 @@ plCameraBrain1::plCameraBrain1()
     fFlags.setName(kBeginFalling, "kBeginFalling");
 }
 
-void plCameraBrain1::read(hsStream* S, plResManager* mgr) {
+void plCameraBrain1::read(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::read(S, mgr);
 
     fPOAOffset.read(S);
@@ -74,7 +75,8 @@ void plCameraBrain1::read(hsStream* S, plResManager* mgr) {
     fZoomMax = S->readFloat();
 }
 
-void plCameraBrain1::write(hsStream* S, plResManager* mgr) {
+void plCameraBrain1::write(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::write(S, mgr);
 
     fPOAOffset.write(S);
@@ -98,7 +100,8 @@ void plCameraBrain1::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fZoomMax);
 }
 
-void plCameraBrain1::IPrcWrite(pfPrcHelper* prc) {
+void plCameraBrain1::IPrcWrite(pfPrcHelper* prc)
+{
     hsKeyedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("Subject");
@@ -136,7 +139,8 @@ void plCameraBrain1::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plCameraBrain1::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plCameraBrain1::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Subject") {
         if (tag->hasChildren())
             fSubject = mgr->prcParseKey(tag->getFirstChild());
@@ -171,19 +175,22 @@ void plCameraBrain1::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plCameraBrain1_Avatar */
-void plCameraBrain1_Avatar::read(hsStream* S, plResManager* mgr) {
+void plCameraBrain1_Avatar::read(hsStream* S, plResManager* mgr)
+{
     plCameraBrain1::read(S, mgr);
     fOffset.read(S);
 
     /*fFlags[kCutPOA] = true;*/
 }
 
-void plCameraBrain1_Avatar::write(hsStream* S, plResManager* mgr) {
+void plCameraBrain1_Avatar::write(hsStream* S, plResManager* mgr)
+{
     plCameraBrain1::write(S, mgr);
     fOffset.write(S);
 }
 
-void plCameraBrain1_Avatar::IPrcWrite(pfPrcHelper* prc) {
+void plCameraBrain1_Avatar::IPrcWrite(pfPrcHelper* prc)
+{
     plCameraBrain1::IPrcWrite(prc);
 
     prc->writeSimpleTag("Offset");
@@ -191,7 +198,8 @@ void plCameraBrain1_Avatar::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plCameraBrain1_Avatar::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plCameraBrain1_Avatar::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Offset") {
         if (tag->hasChildren())
             fOffset.prcParse(tag->getFirstChild());
@@ -202,17 +210,20 @@ void plCameraBrain1_Avatar::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plCameraBrain1_Fixed */
-void plCameraBrain1_Fixed::read(hsStream* S, plResManager* mgr) {
+void plCameraBrain1_Fixed::read(hsStream* S, plResManager* mgr)
+{
     plCameraBrain1::read(S, mgr);
     fTargetPoint = mgr->readKey(S);
 }
 
-void plCameraBrain1_Fixed::write(hsStream* S, plResManager* mgr) {
+void plCameraBrain1_Fixed::write(hsStream* S, plResManager* mgr)
+{
     plCameraBrain1::write(S, mgr);
     mgr->writeKey(S, fTargetPoint);
 }
 
-void plCameraBrain1_Fixed::IPrcWrite(pfPrcHelper* prc) {
+void plCameraBrain1_Fixed::IPrcWrite(pfPrcHelper* prc)
+{
     plCameraBrain1::IPrcWrite(prc);
 
     prc->writeSimpleTag("TargetPoint");
@@ -220,7 +231,8 @@ void plCameraBrain1_Fixed::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plCameraBrain1_Fixed::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plCameraBrain1_Fixed::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "TargetPoint") {
         if (tag->hasChildren())
             fTargetPoint = mgr->prcParseKey(tag->getFirstChild());
@@ -231,7 +243,8 @@ void plCameraBrain1_Fixed::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plCameraBrain1_Circle */
-void plCameraBrain1_Circle::read(hsStream* S, plResManager* mgr) {
+void plCameraBrain1_Circle::read(hsStream* S, plResManager* mgr)
+{
     plCameraBrain1::read(S, mgr);
 
     fCircleFlags = S->readInt();
@@ -242,7 +255,8 @@ void plCameraBrain1_Circle::read(hsStream* S, plResManager* mgr) {
     fCirPerSec = S->readFloat();
 }
 
-void plCameraBrain1_Circle::write(hsStream* S, plResManager* mgr) {
+void plCameraBrain1_Circle::write(hsStream* S, plResManager* mgr)
+{
     plCameraBrain1::write(S, mgr);
 
     S->writeInt(fCircleFlags);
@@ -253,7 +267,8 @@ void plCameraBrain1_Circle::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fCirPerSec);
 }
 
-void plCameraBrain1_Circle::IPrcWrite(pfPrcHelper* prc) {
+void plCameraBrain1_Circle::IPrcWrite(pfPrcHelper* prc)
+{
     plCameraBrain1::IPrcWrite(prc);
 
     prc->startTag("CircleParams");
@@ -276,7 +291,8 @@ void plCameraBrain1_Circle::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plCameraBrain1_Circle::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plCameraBrain1_Circle::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "CircleParams") {
         fCircleFlags = tag->getParam("Flags", "0").to_uint();
         fCirPerSec = tag->getParam("CirclesPerSec", "0").to_float();

@@ -35,7 +35,8 @@ static PyGetSetDef pyFilterCoordInterface_GetSet[] = {
 
 PY_PLASMA_TYPE(FilterCoordInterface, plFilterCoordInterface, "plFilterCoordInterface wrapper")
 
-PY_PLASMA_TYPE_INIT(FilterCoordInterface) {
+PY_PLASMA_TYPE_INIT(FilterCoordInterface)
+{
     pyFilterCoordInterface_Type.tp_new = pyFilterCoordInterface_new;
     pyFilterCoordInterface_Type.tp_getset = pyFilterCoordInterface_GetSet;
     pyFilterCoordInterface_Type.tp_base = &pyCoordinateInterface_Type;

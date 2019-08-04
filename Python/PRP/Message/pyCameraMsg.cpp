@@ -51,7 +51,8 @@ static PyGetSetDef pyCameraConfig_GetSet[] = {
 
 PY_PLASMA_TYPE(CameraConfig, plCameraConfig, "plCameraConfig wrapper")
 
-PY_PLASMA_TYPE_INIT(CameraConfig) {
+PY_PLASMA_TYPE_INIT(CameraConfig)
+{
     pyCameraConfig_Type.tp_new = pyCameraConfig_new;
     pyCameraConfig_Type.tp_getset = pyCameraConfig_GetSet;
     if (PyType_CheckAndReady(&pyCameraConfig_Type) < 0)
@@ -67,7 +68,8 @@ PY_PLASMA_IFC_METHODS(CameraConfig, plCameraConfig)
 
 PY_PLASMA_NEW(CameraMsg, plCameraMsg)
 
-PY_METHOD_VA(CameraMsg, getCmd, "Params: idx") {
+PY_METHOD_VA(CameraMsg, getCmd, "Params: idx")
+{
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "getCmd expects an int");
@@ -76,7 +78,8 @@ PY_METHOD_VA(CameraMsg, getCmd, "Params: idx") {
     return pyPlasma_convert(self->fThis->getCmd((size_t)idx));
 }
 
-PY_METHOD_VA(CameraMsg, setCmd, "Params: cmd, value") {
+PY_METHOD_VA(CameraMsg, setCmd, "Params: cmd, value")
+{
     Py_ssize_t idx;
     Py_ssize_t value = 1;
     if (!PyArg_ParseTuple(args, "n|n", &idx, &value)) {
@@ -110,7 +113,8 @@ static PyGetSetDef pyCameraMsg_GetSet[] = {
 
 PY_PLASMA_TYPE(CameraMsg, plCameraMsg, "plCameraMsg wrapper")
 
-PY_PLASMA_TYPE_INIT(CameraMsg) {
+PY_PLASMA_TYPE_INIT(CameraMsg)
+{
     pyCameraMsg_Type.tp_new = pyCameraMsg_new;
     pyCameraMsg_Type.tp_methods = pyCameraMsg_Methods;
     pyCameraMsg_Type.tp_getset = pyCameraMsg_GetSet;

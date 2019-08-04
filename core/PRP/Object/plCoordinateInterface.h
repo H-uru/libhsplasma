@@ -20,11 +20,13 @@
 #include "plObjInterface.h"
 #include "Math/hsMatrix44.h"
 
-class PLASMA_DLL plCoordinateInterface : public plObjInterface {
+class PLASMA_DLL plCoordinateInterface : public plObjInterface
+{
     CREATABLE(plCoordinateInterface, kCoordinateInterface, plObjInterface)
 
 public:
-    enum plCoordinateProperties {
+    enum plCoordinateProperties
+    {
         kDisable, kCanEverDelayTransform, kDelayedTransformEval, kNumProps
     };
 

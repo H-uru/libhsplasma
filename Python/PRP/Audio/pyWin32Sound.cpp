@@ -31,7 +31,8 @@ static PyGetSetDef pyWin32Sound_GetSet[] = {
 
 PY_PLASMA_TYPE(Win32Sound, plWin32Sound, "plWin32Sound wrapper")
 
-PY_PLASMA_TYPE_INIT(Win32Sound) {
+PY_PLASMA_TYPE_INIT(Win32Sound)
+{
     pyWin32Sound_Type.tp_new = pyWin32Sound_new;
     pyWin32Sound_Type.tp_getset = pyWin32Sound_GetSet;
     pyWin32Sound_Type.tp_base = &pySound_Type;

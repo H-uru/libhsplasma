@@ -16,12 +16,14 @@
 
 #include "../pnNetMsg.h"
 
-enum {  /* Client -> Server */
+enum /* Client -> Server */
+{
     kCli2GateKeeper_PingRequest, kCli2GateKeeper_FileSrvIpAddressRequest,
     kCli2GateKeeper_AuthSrvIpAddressRequest, kCli2GateKeeper_LastMessage,
 };
 
-enum {  /* Server -> Client */
+enum /* Server -> Client */
+{
     kGateKeeper2Cli_PingReply, kGateKeeper2Cli_FileSrvIpAddressReply,
     kGateKeeper2Cli_AuthSrvIpAddressReply, kGateKeeper2Cli_LastMessage,
 };

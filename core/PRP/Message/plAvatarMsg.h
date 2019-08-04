@@ -19,16 +19,19 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plAvatarMsg : public plMessage {
+class PLASMA_DLL plAvatarMsg : public plMessage
+{
     CREATABLE(plAvatarMsg, kAvatarMsg, plMessage)
 };
 
 
-class PLASMA_DLL plArmatureUpdateMsg : public plAvatarMsg {
+class PLASMA_DLL plArmatureUpdateMsg : public plAvatarMsg
+{
     CREATABLE(plArmatureUpdateMsg, kArmatureUpdateMsg, plAvatarMsg)
 
 public:
-    plArmatureUpdateMsg() {
+    plArmatureUpdateMsg()
+    {
         fBCastFlags |= kBCastByExactType;
     }
 
@@ -40,14 +43,15 @@ protected:
 };
 
 
-class PLASMA_DLL plAvatarSetTypeMsg : public plAvatarMsg {
+class PLASMA_DLL plAvatarSetTypeMsg : public plAvatarMsg
+{
     CREATABLE(plAvatarSetTypeMsg, kAvatarSetTypeMsg, plAvatarMsg)
 
 private:
     bool fIsPlayer;
 
 public:
-    plAvatarSetTypeMsg() : fIsPlayer(false) { }
+    plAvatarSetTypeMsg() : fIsPlayer() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -58,11 +62,13 @@ protected:
 };
 
 
-class PLASMA_DLL plAvatarStealthModeMsg : public plAvatarMsg {
+class PLASMA_DLL plAvatarStealthModeMsg : public plAvatarMsg
+{
     CREATABLE(plAvatarStealthModeMsg, kAvatarStealthModeMsg, plAvatarMsg)
 
 public:
-    plAvatarStealthModeMsg() {
+    plAvatarStealthModeMsg()
+    {
         fBCastFlags |= kBCastByExactType;
     }
 
@@ -74,11 +80,13 @@ protected:
 };
 
 
-class PLASMA_DLL plAvBrainGenericMsg : public plAvatarMsg {
+class PLASMA_DLL plAvBrainGenericMsg : public plAvatarMsg
+{
     CREATABLE(plAvBrainGenericMsg, kAvBrainGenericMsg, plAvatarMsg)
 
 public:
-    enum Type {
+    enum Type
+    {
         kNextStage, kPrevStage, kGotoStage, kSetLoopCount
     };
 
@@ -89,8 +97,8 @@ private:
 
 public:
     plAvBrainGenericMsg()
-        : fType(0), fWhichStage(0), fSetTime(false), fSetDirection(false),
-          fNewDirection(false), fNewTime(0.0f), fTransitionTime(0.0f) { }
+        : fType(), fWhichStage(), fSetTime(), fSetDirection(), fNewDirection(),
+          fNewTime(), fTransitionTime() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -101,14 +109,15 @@ protected:
 };
 
 
-class PLASMA_DLL plAvTaskSeekDoneMsg : public plAvatarMsg {
+class PLASMA_DLL plAvTaskSeekDoneMsg : public plAvatarMsg
+{
     CREATABLE(plAvTaskSeekDoneMsg, kAvTaskSeekDoneMsg, plAvatarMsg)
 
 private:
     bool fAborted;
 
 public:
-    plAvTaskSeekDoneMsg() : fAborted(false) { }
+    plAvTaskSeekDoneMsg() : fAborted() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

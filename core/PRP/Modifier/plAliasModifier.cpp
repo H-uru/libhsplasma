@@ -16,21 +16,24 @@
 
 #include "plAliasModifier.h"
 
-void plAliasModifier::read(hsStream* S, plResManager* mgr) {
+void plAliasModifier::read(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::read(S, mgr);
 
     size_t len = S->readInt();
     fAlias = S->readStr(len);
 }
 
-void plAliasModifier::write(hsStream* S, plResManager* mgr) {
+void plAliasModifier::write(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::write(S, mgr);
 
     S->writeInt(fAlias.size());
     S->writeStr(fAlias);
 }
 
-void plAliasModifier::IPrcWrite(pfPrcHelper* prc) {
+void plAliasModifier::IPrcWrite(pfPrcHelper* prc)
+{
     plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("Alias");
@@ -38,7 +41,8 @@ void plAliasModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plAliasModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAliasModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Alias") {
         fAlias = tag->getParam("value", "");
     } else {

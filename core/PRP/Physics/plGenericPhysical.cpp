@@ -67,13 +67,12 @@ bool plGenericPhysical::sPhysxWasInit = false;
 #endif
 
 plGenericPhysical::plGenericPhysical()
-                 : fInternalType(kPhysNone), fInternalBuffer(NULL), fInternalSize(0),
-                   fMass(0.0f), fFriction(0.0f), fRestitution(0.0f),
-                   fBounds(plSimDefs::kBoxBounds),
-                   fMemberGroup(plSimDefs::kGroupStatic),
-                   fCollideGroup(0), fReportGroup(0),
-                   fDisableReport(false), fDisableCollide(false), fLOSDBs(0),
-                   fRadius(0.0f), fLength(0.0f), fTMDSize(0), fTMDBuffer(NULL) {
+    : fInternalType(kPhysNone), fInternalBuffer(), fInternalSize(), fMass(),
+      fFriction(), fRestitution(), fBounds(plSimDefs::kBoxBounds),
+      fMemberGroup(plSimDefs::kGroupStatic), fCollideGroup(), fReportGroup(),
+      fDisableReport(), fDisableCollide(), fLOSDBs(), fRadius(), fLength(),
+      fTMDSize(), fTMDBuffer()
+{
     fProps.setName(plSimulationInterface::kDisable, "kDisable");
     fProps.setName(plSimulationInterface::kWeightless, "kWeightless");
     fProps.setName(plSimulationInterface::kPinned, "kPinned");
@@ -90,12 +89,14 @@ plGenericPhysical::plGenericPhysical()
     fProps.setName(plSimulationInterface::kAvAnimPushable, "kAvAnimPushable");
 }
 
-plGenericPhysical::~plGenericPhysical() {
+plGenericPhysical::~plGenericPhysical()
+{
     delete[] fInternalBuffer;
     delete[] fTMDBuffer;
 }
 
-void plGenericPhysical::read(hsStream* S, plResManager* mgr) {
+void plGenericPhysical::read(hsStream* S, plResManager* mgr)
+{
     plSynchedObject::read(S, mgr);
 
     if (S->getVer().isUniversal())
@@ -122,7 +123,8 @@ void plGenericPhysical::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plGenericPhysical::write(hsStream* S, plResManager* mgr) {
+void plGenericPhysical::write(hsStream* S, plResManager* mgr)
+{
     plSynchedObject::write(S, mgr);
 
     if (fIndices.size() % 3 != 0)
@@ -155,7 +157,8 @@ void plGenericPhysical::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plGenericPhysical::IPrcWrite(pfPrcHelper* prc) {
+void plGenericPhysical::IPrcWrite(pfPrcHelper* prc)
+{
     plPhysical::IPrcWrite(prc);
 
     ST::string groups = "";
@@ -284,7 +287,8 @@ void plGenericPhysical::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plGenericPhysical::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plGenericPhysical::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "PhysicalParams") {
         fMass = tag->getParam("Mass", "0").to_float();
         fFriction = tag->getParam("Friction", "0").to_float();
@@ -406,7 +410,8 @@ void plGenericPhysical::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plGenericPhysical::IReadHKPhysical(hsStream* S, plResManager* mgr) {
+void plGenericPhysical::IReadHKPhysical(hsStream* S, plResManager* mgr)
+{
     fPos.read(S);
     float rad = S->readFloat();
     hsVector3 axis;
@@ -485,7 +490,8 @@ void plGenericPhysical::IReadHKPhysical(hsStream* S, plResManager* mgr) {
 #endif
 }
 
-void plGenericPhysical::IReadODEPhysical(hsStream* S, plResManager* mgr) {
+void plGenericPhysical::IReadODEPhysical(hsStream* S, plResManager* mgr)
+{
     fBounds = (plSimDefs::Bounds)S->readInt();
 
     delete[] fTMDBuffer;
@@ -520,7 +526,8 @@ void plGenericPhysical::IReadODEPhysical(hsStream* S, plResManager* mgr) {
     fSceneNode = mgr->readKey(S);
 }
 
-void plGenericPhysical::IReadPXPhysical(hsStream* S, plResManager* mgr) {
+void plGenericPhysical::IReadPXPhysical(hsStream* S, plResManager* mgr)
+{
     fMass = S->readFloat();
     fFriction = S->readFloat();
     fRestitution = S->readFloat();
@@ -593,8 +600,8 @@ void plGenericPhysical::IReadPXPhysical(hsStream* S, plResManager* mgr) {
 #endif
 }
 
-void plGenericPhysical::IWriteHKPhysical(hsStream* S, plResManager* mgr) {
-
+void plGenericPhysical::IWriteHKPhysical(hsStream* S, plResManager* mgr)
+{
     unsigned int memGroup = plHKSimDefs::setMemGroup(this);
     unsigned int repGroup = plHKSimDefs::setRepGroup(this);
     unsigned int colGroup = plHKSimDefs::setColGroup(this);
@@ -647,7 +654,8 @@ void plGenericPhysical::IWriteHKPhysical(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fSoundGroup);
 }
 
-void plGenericPhysical::IWriteODEPhysical(hsStream* S, plResManager* mgr) {
+void plGenericPhysical::IWriteODEPhysical(hsStream* S, plResManager* mgr)
+{
     S->writeInt(fBounds);
 
     if (fBounds == plSimDefs::kExplicitBounds) {
@@ -678,7 +686,8 @@ void plGenericPhysical::IWriteODEPhysical(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fSceneNode);
 }
 
-void plGenericPhysical::IWritePXPhysical(hsStream* S, plResManager* mgr) {
+void plGenericPhysical::IWritePXPhysical(hsStream* S, plResManager* mgr)
+{
     S->writeFloat(fMass);
     S->writeFloat(fFriction);
     if (fRestitution < 0)
@@ -756,15 +765,18 @@ void plGenericPhysical::IWritePXPhysical(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plGenericPhysical::setVerts(size_t numVerts, const hsVector3* verts) {
+void plGenericPhysical::setVerts(size_t numVerts, const hsVector3* verts)
+{
     fVerts = std::vector<hsVector3>(verts, verts + numVerts);
 }
 
-void plGenericPhysical::setIndices(size_t numIndices, const unsigned int* indices) {
+void plGenericPhysical::setIndices(size_t numIndices, const unsigned int* indices)
+{
     fIndices = std::vector<unsigned int>(indices, indices + numIndices);
 }
 
-void plGenericPhysical::setTMDBuffer(size_t tmdSize, const unsigned char* tmdBuffer) {
+void plGenericPhysical::setTMDBuffer(size_t tmdSize, const unsigned char* tmdBuffer)
+{
     delete[] fTMDBuffer;
     if (tmdSize == 0 || tmdBuffer == NULL) {
         fTMDSize = 0;
@@ -775,7 +787,8 @@ void plGenericPhysical::setTMDBuffer(size_t tmdSize, const unsigned char* tmdBuf
     memcpy(fTMDBuffer, tmdBuffer, fTMDSize);
 }
 
-void plGenericPhysical::calcSphereBounds(size_t numPoints, const hsVector3* points) {
+void plGenericPhysical::calcSphereBounds(size_t numPoints, const hsVector3* points)
+{
     hsBounds3 bounds;
     for (size_t i = 0; i < numPoints; ++i)
         bounds += points[i];
@@ -785,7 +798,8 @@ void plGenericPhysical::calcSphereBounds(size_t numPoints, const hsVector3* poin
     fOffset = bounds.updateCenter();
 }
 
-void plGenericPhysical::calcBoxBounds(size_t numPoints, const hsVector3* points) {
+void plGenericPhysical::calcBoxBounds(size_t numPoints, const hsVector3* points)
+{
     fIndices.clear();
     fVerts.clear();
 

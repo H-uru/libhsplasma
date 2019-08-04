@@ -22,9 +22,11 @@
 #include "Stream/pfPrcHelper.h"
 #include "Stream/pfPrcParser.h"
 
-class PLASMA_DLL plLocation {
+class PLASMA_DLL plLocation
+{
 public:
-    enum LocFlags {
+    enum LocFlags
+    {
         kLocalOnly = 0x1,
         kVolatile = 0x2,
         kReserved = 0x4,
@@ -32,7 +34,8 @@ public:
         kItinerant = 0x10
     };
 
-    enum LocState {
+    enum LocState
+    {
         kStateInvalid, kStateNormal, kStateVirtual
     };
 
@@ -44,8 +47,7 @@ protected:
 
 public:
     plLocation(int pv = PlasmaVer::pvUnknown)
-        : fVer(pv), fState(kStateInvalid), fSeqPrefix(0), fPageNum(0),
-          fFlags(0) { }
+        : fVer(pv), fState(kStateInvalid), fSeqPrefix(), fPageNum(), fFlags() { }
 
     PlasmaVer getVer() const { return fVer; }
     void setVer(PlasmaVer pv) { fVer = pv; }

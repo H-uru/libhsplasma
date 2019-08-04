@@ -49,7 +49,8 @@ PY_METHOD_KWARGS(Color32, set,
     Py_RETURN_NONE;
 }
 
-PY_PLASMA_INIT_DECL(Color32) {
+PY_PLASMA_INIT_DECL(Color32)
+{
     PyObject* retn = pyColor32_set(self, args, kwds);
     if (retn == NULL)
         return -1;
@@ -59,7 +60,8 @@ PY_PLASMA_INIT_DECL(Color32) {
 
 PY_PLASMA_VALUE_NEW(Color32, hsColor32)
 
-PY_PLASMA_REPR_DECL(Color32) {
+PY_PLASMA_REPR_DECL(Color32)
+{
     ST::string repr = ST::format("hsColor32({}, {}, {}, {})",
         self->fThis->r, self->fThis->g, self->fThis->b, self->fThis->a);
     return pyPlasma_convert(repr);
@@ -195,7 +197,8 @@ static PyGetSetDef pyColor32_GetSet[] = {
 
 PY_PLASMA_TYPE(Color32, hsColor32, "hsColor32 wrapper")
 
-PY_PLASMA_TYPE_INIT(Color32) {
+PY_PLASMA_TYPE_INIT(Color32)
+{
     pyColor32_Type.tp_dealloc = pyColor32_dealloc;
     pyColor32_Type.tp_init = pyColor32___init__;
     pyColor32_Type.tp_new = pyColor32_new;

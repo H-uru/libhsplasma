@@ -19,7 +19,8 @@
 #include <PRP/GUI/pfGUIControlHandlers.h>
 #include <typeinfo>
 
-PyObject* ICreateGUIControlHandler(pfGUICtrlProcObject* proc) {
+PyObject* ICreateGUIControlHandler(pfGUICtrlProcObject* proc)
+{
     if (proc == NULL)
         Py_RETURN_NONE;
     else if (typeid(*proc) == typeid(pfGUIConsoleCmdProc))

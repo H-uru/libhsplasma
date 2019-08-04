@@ -21,7 +21,8 @@
 #include "PRP/Object/plSceneObject.h"
 #include "Util/hsBitVector.h"
 
-class PLASMA_DLL plModifier : public plSynchedObject {
+class PLASMA_DLL plModifier : public plSynchedObject
+{
     CREATABLE(plModifier, kModifier, plSynchedObject)
 
 public:
@@ -35,11 +36,12 @@ public:
     virtual void addTarget(plKey /*target*/) { }
 
     /** Remove scene object from target list */
-    virtual void removeTarget(plKey /*target*/) { }
+    virtual void removeTarget(const plKey& /*target*/) { }
 };
 
 
-class PLASMA_DLL plSingleModifier : public plModifier {
+class PLASMA_DLL plSingleModifier : public plModifier
+{
     CREATABLE(plSingleModifier, kSingleModifier, plModifier)
 
 protected:
@@ -61,11 +63,12 @@ public:
     size_t getTargetsCount() const HS_OVERRIDE { return fTarget.Exists() ? 1 : 0; }
     plKey getTarget(size_t /*pos*/) const HS_OVERRIDE { return fTarget; }
     void addTarget(plKey target) HS_OVERRIDE { fTarget = target; };
-    void removeTarget(plKey /*target*/) HS_OVERRIDE { fTarget = plKey(); }
+    void removeTarget(const plKey& /*target*/) HS_OVERRIDE { fTarget = plKey(); }
 };
 
 
-class PLASMA_DLL plMultiModifier : public plModifier {
+class PLASMA_DLL plMultiModifier : public plModifier
+{
     CREATABLE(plMultiModifier, kMultiModifier, plModifier)
 
 protected:
@@ -87,12 +90,13 @@ public:
     size_t getTargetsCount() const HS_OVERRIDE { return fTargets.size(); }
     plKey getTarget(size_t pos) const HS_OVERRIDE { return fTargets[pos]; };
     void addTarget(plKey target) HS_OVERRIDE { fTargets.push_back(target); };
-    void removeTarget(plKey target) HS_OVERRIDE;
+    void removeTarget(const plKey& target) HS_OVERRIDE;
 };
 
 
 /* Misc empty modifiers that don't make sense to put elsewhere */
-class PLASMA_DLL plElevatorModifier : public plSingleModifier {
+class PLASMA_DLL plElevatorModifier : public plSingleModifier
+{
     CREATABLE(plElevatorModifier, kElevatorModifier, plSingleModifier)
 };
 

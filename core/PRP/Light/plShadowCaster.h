@@ -20,18 +20,20 @@
 #include "PRP/Modifier/plModifier.h"
 #include "PRP/Geometry/plDrawableSpans.h"
 
-class PLASMA_DLL plShadowCaster : public plMultiModifier {
+class PLASMA_DLL plShadowCaster : public plMultiModifier
+{
     CREATABLE(plShadowCaster, kShadowCaster, plMultiModifier)
 
 public:
-    struct PLASMA_DLL DrawSpan {
-    public:
+    struct PLASMA_DLL DrawSpan
+    {
         plDrawableSpans* fDraw;
         plSpan* fSpan;
         unsigned int fIndex;
     };
 
-    enum {
+    enum
+    {
         kNone = 0,
         kSelfShadow = 0x1,
         kPerspective = 0x2,
@@ -43,8 +45,8 @@ protected:
     float fBoost, fAttenScale, fBlurScale, fMaxOpacity;
 
 public:
-    plShadowCaster() : fCastFlags(0), fBoost(0.0f), fAttenScale(0.0f),
-                       fBlurScale(0.0f), fMaxOpacity(0.0f) { }
+    plShadowCaster()
+        : fCastFlags(), fBoost(), fAttenScale(), fBlurScale(), fMaxOpacity() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

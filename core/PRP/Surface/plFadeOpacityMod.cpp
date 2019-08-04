@@ -16,19 +16,22 @@
 
 #include "plFadeOpacityMod.h"
 
-void plFadeOpacityMod::read(hsStream* S, plResManager* mgr) {
+void plFadeOpacityMod::read(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::read(S, mgr);
     fFadeUp = S->readFloat();
     fFadeDown = S->readFloat();
 }
 
-void plFadeOpacityMod::write(hsStream* S, plResManager* mgr) {
+void plFadeOpacityMod::write(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::write(S, mgr);
     S->writeFloat(fFadeUp);
     S->writeFloat(fFadeDown);
 }
 
-void plFadeOpacityMod::IPrcWrite(pfPrcHelper* prc) {
+void plFadeOpacityMod::IPrcWrite(pfPrcHelper* prc)
+{
     plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("FadeParams");
@@ -37,7 +40,8 @@ void plFadeOpacityMod::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plFadeOpacityMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plFadeOpacityMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "FadeParams") {
         fFadeUp = tag->getParam("Up", "0").to_float();
         fFadeDown = tag->getParam("Down", "0").to_float();

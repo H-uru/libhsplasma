@@ -30,14 +30,16 @@ PY_PROPERTY(ST::string, AnimStage, animName, getAnimName, setAnimName)
 PY_PROPERTY(unsigned char, AnimStage, notify, getNotify, setNotify)
 PY_PROPERTY(int, AnimStage, loops, getLoops, setLoops)
 
-PY_GETSET_GETTER_DECL(AnimStage, advanceTo) {
+PY_GETSET_GETTER_DECL(AnimStage, advanceTo)
+{
     if (self->fThis->doAdvanceTo())
         return pyPlasma_convert(self->fThis->getAdvanceTo());
     else
         Py_RETURN_NONE;
 }
 
-PY_GETSET_SETTER_DECL(AnimStage, advanceTo) {
+PY_GETSET_SETTER_DECL(AnimStage, advanceTo)
+{
     PY_PROPERTY_CHECK_NULL(advanceTo)
     if (value == Py_None) {
         self->fThis->setAdvanceTo(false);
@@ -53,14 +55,16 @@ PY_GETSET_SETTER_DECL(AnimStage, advanceTo) {
 
 PY_PROPERTY_GETSET_DECL(AnimStage, advanceTo)
 
-PY_GETSET_GETTER_DECL(AnimStage, regressTo) {
+PY_GETSET_GETTER_DECL(AnimStage, regressTo)
+{
     if (self->fThis->doRegressTo())
         return pyPlasma_convert(self->fThis->getRegressTo());
     else
         Py_RETURN_NONE;
 }
 
-PY_GETSET_SETTER_DECL(AnimStage, regressTo) {
+PY_GETSET_SETTER_DECL(AnimStage, regressTo)
+{
     PY_PROPERTY_CHECK_NULL(regressTo)
     if (value == Py_None) {
         self->fThis->setRegressTo(false);
@@ -91,7 +95,8 @@ static PyGetSetDef pyAnimStage_GetSet[] = {
 
 PY_PLASMA_TYPE(AnimStage, plAnimStage, "plAnimStage wrapper")
 
-PY_PLASMA_TYPE_INIT(AnimStage) {
+PY_PLASMA_TYPE_INIT(AnimStage)
+{
     pyAnimStage_Type.tp_init = pyAnimStage___init__;
     pyAnimStage_Type.tp_new = pyAnimStage_new;
     pyAnimStage_Type.tp_getset = pyAnimStage_GetSet;

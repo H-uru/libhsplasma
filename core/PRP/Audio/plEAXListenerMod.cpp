@@ -17,7 +17,8 @@
 #include "plEAXListenerMod.h"
 
 /* plEAXListenerMod */
-void plEAXListenerMod::read(hsStream* S, plResManager* mgr) {
+void plEAXListenerMod::read(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::read(S, mgr);
 
     fSoftRegion = mgr->readKey(S);
@@ -45,7 +46,8 @@ void plEAXListenerMod::read(hsStream* S, plResManager* mgr) {
     fListenerProps.ulFlags = S->readInt();
 }
 
-void plEAXListenerMod::write(hsStream* S, plResManager* mgr) {
+void plEAXListenerMod::write(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::write(S, mgr);
 
     mgr->writeKey(S, fSoftRegion);
@@ -73,7 +75,8 @@ void plEAXListenerMod::write(hsStream* S, plResManager* mgr) {
     S->writeInt(fListenerProps.ulFlags);
 }
 
-void plEAXListenerMod::IPrcWrite(pfPrcHelper* prc) {
+void plEAXListenerMod::IPrcWrite(pfPrcHelper* prc)
+{
     plSingleModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("SoftRegion");
@@ -108,7 +111,8 @@ void plEAXListenerMod::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plEAXListenerMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plEAXListenerMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "SoftRegion") {
         if (tag->hasChildren())
             fSoftRegion = mgr->prcParseKey(tag->getFirstChild());
@@ -147,7 +151,8 @@ void plEAXListenerMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plEAXReverbEffect */
-void plEAXReverbEffect::read(hsStream* S, plResManager* mgr) {
+void plEAXReverbEffect::read(hsStream* S, plResManager* mgr)
+{
     plEAXEffect::read(S, mgr);
 
     fSoftRegion = mgr->readKey(S);
@@ -183,7 +188,8 @@ void plEAXReverbEffect::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plEAXReverbEffect::write(hsStream* S, plResManager* mgr) {
+void plEAXReverbEffect::write(hsStream* S, plResManager* mgr)
+{
     plEAXEffect::write(S, mgr);
 
     mgr->writeKey(S, fSoftRegion);
@@ -218,7 +224,8 @@ void plEAXReverbEffect::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plEAXReverbEffect::IPrcWrite(pfPrcHelper* prc) {
+void plEAXReverbEffect::IPrcWrite(pfPrcHelper* prc)
+{
     plEAXEffect::IPrcWrite(prc);
 
     prc->writeSimpleTag("SoftRegion");
@@ -263,7 +270,8 @@ void plEAXReverbEffect::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plEAXReverbEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plEAXReverbEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "SoftRegion") {
         if (tag->hasChildren())
             fSoftRegion = mgr->prcParseKey(tag->getFirstChild());

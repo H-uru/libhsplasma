@@ -19,11 +19,13 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plClimbMsg : public plMessage {
+class PLASMA_DLL plClimbMsg : public plMessage
+{
     CREATABLE(plClimbMsg, kClimbMsg, plMessage)
 
 public:
-    enum Direction {
+    enum Direction
+    {
         kUp = 0x1,
         kDown = 0x2,
         kLeft = 0x4,
@@ -31,7 +33,8 @@ public:
         kCenter = 0x10
     };
 
-    enum Command {
+    enum Command
+    {
         kNoCommand = 0,
         kEnableClimb = 0x1,
         kEnableDismount = 0x2,
@@ -47,7 +50,7 @@ protected:
     plKey fTarget;
 
 public:
-    plClimbMsg() : fCommand(0), fDirection(0), fStatus(false) { }
+    plClimbMsg() : fCommand(), fDirection(), fStatus() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

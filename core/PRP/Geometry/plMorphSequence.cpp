@@ -16,7 +16,8 @@
 
 #include "plMorphSequence.h"
 
-void plMorphSequence::read(hsStream* S, plResManager* mgr) {
+void plMorphSequence::read(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::read(S, mgr);
 
     fMorphs.resize(S->readInt());
@@ -28,7 +29,8 @@ void plMorphSequence::read(hsStream* S, plResManager* mgr) {
         fSharedMeshes[i] = mgr->readKey(S);
 }
 
-void plMorphSequence::write(hsStream* S, plResManager* mgr) {
+void plMorphSequence::write(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::write(S, mgr);
 
     S->writeInt(fMorphs.size());
@@ -40,7 +42,8 @@ void plMorphSequence::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fSharedMeshes[i]);
 }
 
-void plMorphSequence::IPrcWrite(pfPrcHelper* prc) {
+void plMorphSequence::IPrcWrite(pfPrcHelper* prc)
+{
     plSingleModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("Morphs");
@@ -54,7 +57,8 @@ void plMorphSequence::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plMorphSequence::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plMorphSequence::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Morphs") {
         size_t count = tag->countChildren();
         fMorphs.resize(count);

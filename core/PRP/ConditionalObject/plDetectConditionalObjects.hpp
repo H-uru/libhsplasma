@@ -19,25 +19,29 @@
 
 #include "plConditionalObject.h"
 
-class PLASMA_DLL plLocalPlayerInBoxConditionalObject : public plConditionalObject {
+class PLASMA_DLL plLocalPlayerInBoxConditionalObject : public plConditionalObject
+{
     CREATABLE(plLocalPlayerInBoxConditionalObject,
               kLocalPlayerInBoxConditionalObject,
               plConditionalObject)
 };
 
-class PLASMA_DLL plLocalPlayerIntersectPlaneConditionalObject : public plConditionalObject {
+class PLASMA_DLL plLocalPlayerIntersectPlaneConditionalObject : public plConditionalObject
+{
     CREATABLE(plLocalPlayerIntersectPlaneConditionalObject,
               kLocalPlayerIntersectPlaneConditionalObject,
               plConditionalObject)
 };
 
-class PLASMA_DLL plObjectInBoxConditionalObject : public plConditionalObject {
+class PLASMA_DLL plObjectInBoxConditionalObject : public plConditionalObject
+{
     CREATABLE(plObjectInBoxConditionalObject,
               kObjectInBoxConditionalObject,
               plConditionalObject)
 };
 
-class PLASMA_DLL plObjectIntersectPlaneConditionalObject : public plConditionalObject {
+class PLASMA_DLL plObjectIntersectPlaneConditionalObject : public plConditionalObject
+{
     CREATABLE(plObjectIntersectPlaneConditionalObject,
               kObjectIntersectPlaneConditionalObject,
               plConditionalObject)

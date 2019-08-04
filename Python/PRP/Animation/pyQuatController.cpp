@@ -24,7 +24,8 @@ PY_PLASMA_NEW(QuatController, plQuatController)
 
 PY_PLASMA_TYPE(QuatController, plQuatController, "plQuatController wrapper")
 
-PY_PLASMA_TYPE_INIT(QuatController) {
+PY_PLASMA_TYPE_INIT(QuatController)
+{
     pyQuatController_Type.tp_init = pyQuatController___init__;
     pyQuatController_Type.tp_new = pyQuatController_new;
     pyQuatController_Type.tp_base = &pyLeafController_Type;

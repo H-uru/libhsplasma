@@ -17,19 +17,22 @@
 #include "plAvatarInputStateMsg.h"
 #include "Debug/plDebug.h"
 
-void plAvatarInputStateMsg::read(hsStream* S, plResManager* mgr) {
+void plAvatarInputStateMsg::read(hsStream* S, plResManager* mgr)
+{
     plMessage::read(S, mgr);
 
     fState = S->readShort();
 }
 
-void plAvatarInputStateMsg::write(hsStream* S, plResManager* mgr) {
+void plAvatarInputStateMsg::write(hsStream* S, plResManager* mgr)
+{
     plMessage::write(S, mgr);
 
     S->writeShort(fState);
 }
 
-void plAvatarInputStateMsg::IPrcWrite(pfPrcHelper* prc) {
+void plAvatarInputStateMsg::IPrcWrite(pfPrcHelper* prc)
+{
     plMessage::IPrcWrite(prc);
 
     prc->startTag("State");
@@ -37,7 +40,8 @@ void plAvatarInputStateMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plAvatarInputStateMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAvatarInputStateMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "State") {
         fState = tag->getParam("value", "0").to_uint();
     } else {

@@ -22,7 +22,8 @@
 #include <map>
 #include <list>
 
-class PLASMA_DLL plVaultStore {
+class PLASMA_DLL plVaultStore
+{
 protected:
     std::map<unsigned int, plVaultNode> fNodes;
     std::list<plVaultNodeRef> fNodeRefs;

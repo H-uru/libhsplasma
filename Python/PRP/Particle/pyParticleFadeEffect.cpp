@@ -33,7 +33,8 @@ static PyGetSetDef pyParticleFadeOutEffect_GetSet[] = {
 PY_PLASMA_TYPE(ParticleFadeOutEffect, plParticleFadeOutEffect,
                "plParticleFadeOutEffect wrapper")
 
-PY_PLASMA_TYPE_INIT(ParticleFadeOutEffect) {
+PY_PLASMA_TYPE_INIT(ParticleFadeOutEffect)
+{
     pyParticleFadeOutEffect_Type.tp_new = pyParticleFadeOutEffect_new;
     pyParticleFadeOutEffect_Type.tp_getset = pyParticleFadeOutEffect_GetSet;
     pyParticleFadeOutEffect_Type.tp_base = &pyParticleEffect_Type;
@@ -62,7 +63,8 @@ static PyGetSetDef pyParticleFadeVolumeEffect_GetSet[] = {
 PY_PLASMA_TYPE(ParticleFadeVolumeEffect, plParticleFadeVolumeEffect,
                "plParticleFadeVolumeEffect wrapper")
 
-PY_PLASMA_TYPE_INIT(ParticleFadeVolumeEffect) {
+PY_PLASMA_TYPE_INIT(ParticleFadeVolumeEffect)
+{
     pyParticleFadeVolumeEffect_Type.tp_new = pyParticleFadeVolumeEffect_new;
     pyParticleFadeVolumeEffect_Type.tp_getset = pyParticleFadeVolumeEffect_GetSet;
     pyParticleFadeVolumeEffect_Type.tp_base = &pyParticleEffect_Type;

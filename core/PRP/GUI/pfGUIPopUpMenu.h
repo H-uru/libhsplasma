@@ -19,20 +19,24 @@
 
 #include "pfGUIDialogMod.h"
 
-class PLASMA_DLL pfGUIPopUpMenu : public pfGUIDialogMod {
+class PLASMA_DLL pfGUIPopUpMenu : public pfGUIDialogMod
+{
     CREATABLE(pfGUIPopUpMenu, kGUIPopUpMenu, pfGUIDialogMod)
 
 public:
-    enum Alignment {
+    enum Alignment
+    {
         kAlignUpLeft, kAlignUpRight, kAlignDownLeft, kAlignDownRight
     };
 
-    enum MenuFlags {
+    enum MenuFlags
+    {
         kStayOpenAfterClick = kDerivedFlagsStart, kModalOutsideMenus,
         kOpenSubMenusOnHover, kScaleWithResolution
     };
 
-    struct PLASMA_DLL pfMenuItem {
+    struct PLASMA_DLL pfMenuItem
+    {
         ST::string fName;
         pfGUICtrlProcWriteableObject* fHandler;
         plKey fSubMenu;
@@ -48,7 +52,7 @@ protected:
 
 public:
     pfGUIPopUpMenu();
-    virtual ~pfGUIPopUpMenu();
+    ~pfGUIPopUpMenu();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

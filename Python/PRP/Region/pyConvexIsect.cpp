@@ -59,7 +59,8 @@ PyMethodDef pyConvexIsect_Methods[] = {
 
 PY_PLASMA_TYPE(ConvexIsect, plConvexIsect, "plConvexIsect wrapper")
 
-PY_PLASMA_TYPE_INIT(ConvexIsect) {
+PY_PLASMA_TYPE_INIT(ConvexIsect)
+{
     pyConvexIsect_Type.tp_new = pyConvexIsect_new;
     pyConvexIsect_Type.tp_methods = pyConvexIsect_Methods;
     pyConvexIsect_Type.tp_base = &pyVolumeIsect_Type;

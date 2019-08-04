@@ -16,7 +16,8 @@
 
 #include "hsStdioStream.h"
 
-hsStdioStream::hsStdioStream(bool useStdErr) : hsFileStream(PlasmaVer::pvUnknown) {
+hsStdioStream::hsStdioStream(bool useStdErr) : hsFileStream(PlasmaVer::pvUnknown)
+{
     if (useStdErr)
         setFiles(stdin, stderr);
     else
@@ -24,23 +25,28 @@ hsStdioStream::hsStdioStream(bool useStdErr) : hsFileStream(PlasmaVer::pvUnknown
     fm = fmReadWrite;
 }
 
-void hsStdioStream::seek(uint32_t pos) {
+void hsStdioStream::seek(uint32_t pos)
+{
     throw hsNotImplementedException(__FILE__, __LINE__);
 }
 
-void hsStdioStream::skip(int32_t count) {
+void hsStdioStream::skip(int32_t count)
+{
     throw hsNotImplementedException(__FILE__, __LINE__);
 }
 
-void hsStdioStream::flush() {
+void hsStdioStream::flush()
+{
     fflush(Fin);
     fflush(Fout);
 }
 
-size_t hsStdioStream::read(size_t size, void* buf) {
+size_t hsStdioStream::read(size_t size, void* buf)
+{
     return fread(buf, size, 1, Fin);
 }
 
-size_t hsStdioStream::write(size_t size, const void* buf) {
+size_t hsStdioStream::write(size_t size, const void* buf)
+{
     return fwrite(buf, size, 1, Fout);
 }

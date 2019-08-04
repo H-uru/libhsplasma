@@ -31,7 +31,8 @@ static PyGetSetDef pyLayerMovie_GetSet[] = {
 
 PY_PLASMA_TYPE(LayerMovie, plLayerMovie, "plLayerMovie wrapper")
 
-PY_PLASMA_TYPE_INIT(LayerMovie) {
+PY_PLASMA_TYPE_INIT(LayerMovie)
+{
     pyLayerMovie_Type.tp_new = pyLayerMovie_new;
     pyLayerMovie_Type.tp_getset = pyLayerMovie_GetSet;
     pyLayerMovie_Type.tp_base = &pyLayerAnimation_Type;

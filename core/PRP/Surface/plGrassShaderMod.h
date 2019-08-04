@@ -19,14 +19,15 @@
 
 #include "PRP/Modifier/plModifier.h"
 
-class PLASMA_DLL plGrassWave {
+class PLASMA_DLL plGrassWave
+{
 protected:
     float fDistX, fDistY, fDistZ;
     float fDirX, fDirY, fSpeed;
 
 public:
-    plGrassWave() : fDistX(0.0f), fDistY(0.0f), fDistZ(0.0f),
-                    fDirX(0.0f), fDirY(0.0f), fSpeed(0.0f) { }
+    plGrassWave()
+        : fDistX(), fDistY(), fDistZ(), fDirX(), fDirY(), fSpeed() { }
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -35,7 +36,8 @@ public:
 };
 
 
-class PLASMA_DLL plGrassShaderMod : public plModifier {
+class PLASMA_DLL plGrassShaderMod : public plModifier
+{
     CREATABLE(plGrassShaderMod, kGrassShaderMod, plModifier)
 
 public:

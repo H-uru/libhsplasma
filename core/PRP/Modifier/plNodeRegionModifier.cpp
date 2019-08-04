@@ -16,17 +16,20 @@
 
 #include "plNodeRegionModifier.h"
 
-void plNodeRegionModifier::read(hsStream* S, plResManager* mgr) {
+void plNodeRegionModifier::read(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::read(S, mgr);
     fEnabled = S->readBool();
 }
 
-void plNodeRegionModifier::write(hsStream* S, plResManager* mgr) {
+void plNodeRegionModifier::write(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::write(S, mgr);
     S->writeBool(fEnabled);
 }
 
-void plNodeRegionModifier::IPrcWrite(pfPrcHelper* prc) {
+void plNodeRegionModifier::IPrcWrite(pfPrcHelper* prc)
+{
     plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("NodeRegionParams");
@@ -34,7 +37,8 @@ void plNodeRegionModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plNodeRegionModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plNodeRegionModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "NodeRegionParams") {
         fEnabled = tag->getParam("Enabled", "true").to_bool();
     } else {

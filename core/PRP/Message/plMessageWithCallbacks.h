@@ -19,7 +19,8 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plMessageWithCallbacks : public plMessage {
+class PLASMA_DLL plMessageWithCallbacks : public plMessage
+{
     CREATABLE(plMessageWithCallbacks, kMessageWithCallbacks, plMessage)
 
 protected:
@@ -27,7 +28,7 @@ protected:
 
 public:
     plMessageWithCallbacks() { }
-    virtual ~plMessageWithCallbacks();
+    ~plMessageWithCallbacks();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

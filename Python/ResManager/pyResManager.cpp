@@ -26,7 +26,8 @@
 
 PY_PLASMA_DEALLOC(ResManager)
 
-PY_PLASMA_INIT_DECL(ResManager) {
+PY_PLASMA_INIT_DECL(ResManager)
+{
     int version = PlasmaVer::pvUnknown;
     if (!PyArg_ParseTuple(args, "|i", &version))
         return -1;
@@ -421,7 +422,8 @@ PY_METHOD_VA(ResManager, getSceneNode,
     return ICreate(self->fThis->getSceneNode(*loc->fThis));
 }
 
-PY_METHOD_NOARGS(ResManager, getLocations, "Returns a list of all loaded locations") {
+PY_METHOD_NOARGS(ResManager, getLocations, "Returns a list of all loaded locations")
+{
     std::vector<plLocation> locs = self->fThis->getLocations();
     PyObject* list = PyTuple_New(locs.size());
     for (size_t i=0; i<locs.size(); i++)
@@ -638,7 +640,8 @@ static PyMethodDef pyResManager_Methods[] = {
 
 PY_PLASMA_TYPE(ResManager, plResManager, "Resource Manager")
 
-PY_PLASMA_TYPE_INIT(ResManager) {
+PY_PLASMA_TYPE_INIT(ResManager)
+{
     pyResManager_Type.tp_dealloc = pyResManager_dealloc;
     pyResManager_Type.tp_init = pyResManager___init__;
     pyResManager_Type.tp_new = pyResManager_new;

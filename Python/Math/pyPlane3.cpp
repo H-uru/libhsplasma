@@ -22,7 +22,8 @@
 
 PY_PLASMA_VALUE_DEALLOC(Plane3)
 
-PY_PLASMA_INIT_DECL(Plane3) {
+PY_PLASMA_INIT_DECL(Plane3)
+{
     float x = 0.0f, y = 0.0f, z = 0.0f, w = 0.0f;
     PyObject* init = NULL;
     static char* kwlist[] = { _pycs("X"), _pycs("Y"), _pycs("Z"), _pycs("W"), NULL };
@@ -50,7 +51,8 @@ PY_PLASMA_INIT_DECL(Plane3) {
 
 PY_PLASMA_VALUE_NEW(Plane3, hsPlane3)
 
-PY_PLASMA_REPR_DECL(Plane3) {
+PY_PLASMA_REPR_DECL(Plane3)
+{
     ST::string repr = ST::format("hsPlane3({f}, {f}, {f}, {f})",
              self->fThis->N.X, self->fThis->N.Y, self->fThis->N.Z, self->fThis->W);
     return pyPlasma_convert(repr);
@@ -111,7 +113,8 @@ PyGetSetDef pyPlane3_GetSet[] = {
 
 PY_PLASMA_TYPE(Plane3, hsPlane3, "hsPlane3 wrapper")
 
-PY_PLASMA_TYPE_INIT(Plane3) {
+PY_PLASMA_TYPE_INIT(Plane3)
+{
     pyPlane3_Type.tp_dealloc = pyPlane3_dealloc;
     pyPlane3_Type.tp_init = pyPlane3___init__;
     pyPlane3_Type.tp_new = pyPlane3_new;

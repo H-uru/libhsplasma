@@ -33,7 +33,8 @@
   #define DIRENT dirent*
 #endif
 
-void doHelp() {
+static void doHelp()
+{
     puts("Usage: PrpPack [-x|-r] filename.prp");
     puts("       PrpPack [-c] filename.prd");
     puts("");
@@ -60,7 +61,8 @@ void doHelp() {
 
 typedef enum { kCreate, kExtract, kRepack } eDirection;
 
-ST::string filenameConvert(const ST::string& filename, eDirection dir) {
+static ST::string filenameConvert(const ST::string& filename, eDirection dir)
+{
     if (dir == kRepack) {
         fputs("Zrax broke me!\n", stderr);
         abort();
@@ -85,7 +87,8 @@ ST::string filenameConvert(const ST::string& filename, eDirection dir) {
     return newName;
 }
 
-ST::string getOutputDir(const ST::string& filename, plPageInfo* page) {
+static ST::string getOutputDir(const ST::string& filename, plPageInfo* page)
+{
     ST::string odir = filename;
     ST_ssize_t sepLoc = odir.find_last(PATHSEP);
     if (sepLoc < 0)
@@ -95,7 +98,8 @@ ST::string getOutputDir(const ST::string& filename, plPageInfo* page) {
     return odir + ST::format("{}_{}_PRP" PATHSEPSTR, page->getAge(), page->getPage());
 }
 
-ST::string CleanFileName(const ST::string& fname) {
+static ST::string CleanFileName(const ST::string& fname)
+{
     ST::char_buffer result = fname.to_utf8();
     for (char* bp = result.data(); *bp; bp++) {
         if (*bp == '?' || *bp == '*' || *bp == '<' || *bp == '>' ||
@@ -108,16 +112,19 @@ ST::string CleanFileName(const ST::string& fname) {
 }
 
 #ifndef _WIN32
-int selPO(DIRENT de) {
+static int selPO(DIRENT de)
+{
     return strcmp(strrchr(de->d_name, '.'), ".po") == 0;
 }
 
-int selAll(DIRENT de) {
+static int selAll(DIRENT de)
+{
     return 1;
 }
 #endif
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
     if (argc < 2 || argc > 3) {
         doHelp();
         return 0;

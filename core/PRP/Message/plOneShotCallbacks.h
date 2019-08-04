@@ -20,15 +20,17 @@
 #include "PRP/KeyedObject/plKey.h"
 #include "ResManager/plResManager.h"
 
-class PLASMA_DLL plOneShotCallbacks {
+class PLASMA_DLL plOneShotCallbacks
+{
 public:
-    class PLASMA_DLL plOneShotCallback {
+    class PLASMA_DLL plOneShotCallback
+    {
     public:
         ST::string fMarker;
         plKey fReceiver;
         short fUser;
 
-        plOneShotCallback() : fUser(0) { }
+        plOneShotCallback() : fUser() { }
         plOneShotCallback(const ST::string& marker, plKey receiver, short user)
             : fMarker(marker), fReceiver(receiver), fUser(user)
         { }

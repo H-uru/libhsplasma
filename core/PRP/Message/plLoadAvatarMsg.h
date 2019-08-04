@@ -20,7 +20,8 @@
 #include "plLoadCloneMsg.h"
 #include "PRP/Avatar/plAvTask.h"
 
-class PLASMA_DLL plLoadAvatarMsg : public plLoadCloneMsg {
+class PLASMA_DLL plLoadAvatarMsg : public plLoadCloneMsg
+{
     CREATABLE(plLoadAvatarMsg, kLoadAvatarMsg, plLoadCloneMsg)
 
 protected:
@@ -30,8 +31,8 @@ protected:
     ST::string fUserStr;
 
 public:
-    plLoadAvatarMsg() : fInitialTask(NULL) { }
-    virtual ~plLoadAvatarMsg();
+    plLoadAvatarMsg() : fInitialTask() { }
+    ~plLoadAvatarMsg();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

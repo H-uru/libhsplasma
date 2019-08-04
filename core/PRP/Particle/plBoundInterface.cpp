@@ -16,21 +16,25 @@
 
 #include "plBoundInterface.h"
 
-plBoundInterface::~plBoundInterface() {
+plBoundInterface::~plBoundInterface()
+{
     delete fBounds;
 }
 
-void plBoundInterface::read(hsStream* S, plResManager* mgr) {
+void plBoundInterface::read(hsStream* S, plResManager* mgr)
+{
     plObjInterface::read(S, mgr);
     setBounds(plConvexVolume::Convert(mgr->ReadCreatable(S)));
 }
 
-void plBoundInterface::write(hsStream* S, plResManager* mgr) {
+void plBoundInterface::write(hsStream* S, plResManager* mgr)
+{
     plObjInterface::write(S, mgr);
     mgr->WriteCreatable(S, fBounds);
 }
 
-void plBoundInterface::IPrcWrite(pfPrcHelper* prc) {
+void plBoundInterface::IPrcWrite(pfPrcHelper* prc)
+{
     plObjInterface::IPrcWrite(prc);
 
     prc->writeSimpleTag("Bounds");
@@ -38,7 +42,8 @@ void plBoundInterface::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plBoundInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plBoundInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Bounds") {
         if (tag->hasChildren())
             setBounds(plConvexVolume::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
@@ -47,7 +52,8 @@ void plBoundInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plBoundInterface::setBounds(plConvexVolume* bounds) {
+void plBoundInterface::setBounds(plConvexVolume* bounds)
+{
     delete fBounds;
     fBounds = bounds;
 }

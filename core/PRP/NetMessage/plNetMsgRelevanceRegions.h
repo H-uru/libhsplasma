@@ -20,7 +20,8 @@
 #include "plNetMessage.h"
 #include "Util/hsBitVector.h"
 
-class PLASMA_DLL plNetMsgRelevanceRegions : public plNetMessage {
+class PLASMA_DLL plNetMsgRelevanceRegions : public plNetMessage
+{
     CREATABLE(plNetMsgRelevanceRegions, kNetMsgRelevanceRegions, plNetMessage)
 
 private:

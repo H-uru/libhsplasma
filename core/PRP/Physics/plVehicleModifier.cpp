@@ -16,7 +16,8 @@
 
 #include "plVehicleModifier.h"
 
-void plVehicleModifier::read(hsStream* S, plResManager* mgr) {
+void plVehicleModifier::read(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::read(S, mgr);
 
     fRoot = mgr->readKey(S);
@@ -28,7 +29,8 @@ void plVehicleModifier::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plVehicleModifier::write(hsStream* S, plResManager* mgr) {
+void plVehicleModifier::write(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::write(S, mgr);
 
     mgr->writeKey(S, fRoot);
@@ -40,7 +42,8 @@ void plVehicleModifier::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plVehicleModifier::IPrcWrite(pfPrcHelper* prc) {
+void plVehicleModifier::IPrcWrite(pfPrcHelper* prc)
+{
     plSingleModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("Root");
@@ -64,7 +67,8 @@ void plVehicleModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plVehicleModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plVehicleModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Root") {
         fRoot = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "Wheels") {

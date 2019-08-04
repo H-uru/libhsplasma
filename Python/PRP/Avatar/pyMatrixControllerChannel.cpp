@@ -33,7 +33,8 @@ static PyGetSetDef pyMatrixControllerChannel_GetSet[] = {
 PY_PLASMA_TYPE(MatrixControllerChannel, plMatrixControllerChannel,
                "plMatrixControllerChannel wrapper")
 
-PY_PLASMA_TYPE_INIT(MatrixControllerChannel) {
+PY_PLASMA_TYPE_INIT(MatrixControllerChannel)
+{
     pyMatrixControllerChannel_Type.tp_new = pyMatrixControllerChannel_new;
     pyMatrixControllerChannel_Type.tp_getset = pyMatrixControllerChannel_GetSet;
     pyMatrixControllerChannel_Type.tp_base = &pyMatrixChannel_Type;

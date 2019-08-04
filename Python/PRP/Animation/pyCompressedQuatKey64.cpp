@@ -58,7 +58,8 @@ static PyGetSetDef pyCompressedQuatKey64_GetSet[] = {
 PY_PLASMA_TYPE(CompressedQuatKey64, hsCompressedQuatKey64,
                "hsCompressedQuatKey64 wrapper")
 
-PY_PLASMA_TYPE_INIT(CompressedQuatKey64) {
+PY_PLASMA_TYPE_INIT(CompressedQuatKey64)
+{
     pyCompressedQuatKey64_Type.tp_init = pyCompressedQuatKey64___init__;
     pyCompressedQuatKey64_Type.tp_new = pyCompressedQuatKey64_new;
     pyCompressedQuatKey64_Type.tp_methods = pyCompressedQuatKey64_Methods;

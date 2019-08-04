@@ -19,11 +19,13 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plAccountUpdateMsg : public plMessage {
+class PLASMA_DLL plAccountUpdateMsg : public plMessage
+{
     CREATABLE(plAccountUpdateMsg, kAccountUpdateMsg, plMessage)
 
 public:
-    enum {
+    enum
+    {
         kCreatePlayer = 1, kDeletePlayer, kUpgradePlayer, kActivePlayer,
         kChangePassword
     };
@@ -34,7 +36,7 @@ protected:
     unsigned int fPlayer;
 
 public:
-    plAccountUpdateMsg() :  fUpdateType(0), fResult(0), fPlayer(0) { }
+    plAccountUpdateMsg() : fUpdateType(), fResult(), fPlayer() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

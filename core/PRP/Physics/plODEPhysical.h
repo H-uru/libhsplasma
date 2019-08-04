@@ -19,15 +19,18 @@
  */
 #include "plPhysical.h"
 
-class PLASMA_DLL plODESimDefs {
+class PLASMA_DLL plODESimDefs
+{
 public:
-    enum Bounds {
+    enum Bounds
+    {
         kBoxBounds = 1, kSphereBounds, kHullBounds, kProxyBounds,
         kExplicitBounds, kCylinderBounds, kNumBounds, kBoundsMax = 0xFF
     };
 
     /* TODO! */
-    enum Group {
+    enum Group
+    {
         kGroupStatic,
         kGroupAvatarBlocker,
         kGroupDynamicBlocker,

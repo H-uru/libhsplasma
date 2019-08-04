@@ -19,7 +19,8 @@
 
 #include "plConditionalObject.h"
 
-class PLASMA_DLL plFacingConditionalObject : public plConditionalObject {
+class PLASMA_DLL plFacingConditionalObject : public plConditionalObject
+{
     CREATABLE(plFacingConditionalObject, kFacingConditionalObject,
               plConditionalObject)
 
@@ -28,7 +29,7 @@ protected:
     bool fDirectional;
 
 public:
-    plFacingConditionalObject() : fTolerance(0.0f), fDirectional(false) { }
+    plFacingConditionalObject() : fTolerance(), fDirectional() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

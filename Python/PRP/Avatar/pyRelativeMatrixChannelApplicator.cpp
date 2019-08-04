@@ -24,7 +24,8 @@ PY_PLASMA_NEW(RelativeMatrixChannelApplicator, plRelativeMatrixChannelApplicator
 PY_PLASMA_TYPE(RelativeMatrixChannelApplicator, plRelativeMatrixChannelApplicator,
                "plRelativeMatrixChannelApplicator wrapper")
 
-PY_PLASMA_TYPE_INIT(RelativeMatrixChannelApplicator) {
+PY_PLASMA_TYPE_INIT(RelativeMatrixChannelApplicator)
+{
     pyRelativeMatrixChannelApplicator_Type.tp_new = pyRelativeMatrixChannelApplicator_new;
     pyRelativeMatrixChannelApplicator_Type.tp_base = &pyAGApplicator_Type;
     if (PyType_CheckAndReady(&pyRelativeMatrixChannelApplicator_Type) < 0)

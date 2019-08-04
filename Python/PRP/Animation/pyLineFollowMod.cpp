@@ -25,7 +25,8 @@
 
 PY_PLASMA_NEW(LineFollowMod, plLineFollowMod)
 
-PY_METHOD_VA(LineFollowMod, addStereizer, "Params: stereizer") {
+PY_METHOD_VA(LineFollowMod, addStereizer, "Params: stereizer")
+{
     pyKey* stereizer;
     if (!PyArg_ParseTuple(args, "O", &stereizer) || !pyKey_Check((PyObject*)stereizer)) {
         PyErr_SetString(PyExc_TypeError, "addStereizer expects a plKey");
@@ -35,7 +36,8 @@ PY_METHOD_VA(LineFollowMod, addStereizer, "Params: stereizer") {
     Py_RETURN_NONE;
 }
 
-PY_METHOD_VA(LineFollowMod, delStereizer, "Params: idx") {
+PY_METHOD_VA(LineFollowMod, delStereizer, "Params: idx")
+{
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delStereizer expects an int");
@@ -50,7 +52,8 @@ PY_METHOD_VA(LineFollowMod, delStereizer, "Params: idx") {
     }
 }
 
-PY_METHOD_NOARGS(LineFollowMod, clearStereizers, "Removes all stereizers") {
+PY_METHOD_NOARGS(LineFollowMod, clearStereizers, "Removes all stereizers")
+{
     self->fThis->clearStereizers();
     Py_RETURN_NONE;
 }
@@ -71,7 +74,8 @@ PY_PROPERTY(float, LineFollowMod, offset, getOffset, setOffset)
 PY_PROPERTY(float, LineFollowMod, offsetClamp, getOffsetClamp, setOffsetClamp)
 PY_PROPERTY(float, LineFollowMod, speedClamp, getSpeedClamp, setOffsetClamp)
 
-PY_GETSET_GETTER_DECL(LineFollowMod, stereizers) {
+PY_GETSET_GETTER_DECL(LineFollowMod, stereizers)
+{
     const std::vector<plKey>& stereizers = self->fThis->getStereizers();
     PyObject* tup = PyTuple_New(stereizers.size());
     for (size_t i = 0; i < stereizers.size(); ++i)
@@ -96,7 +100,8 @@ static PyGetSetDef pyLineFollowMod_GetSet[] = {
 
 PY_PLASMA_TYPE(LineFollowMod, plLineFollowMod, "plLineFollowMod wrapper")
 
-PY_PLASMA_TYPE_INIT(LineFollowMod) {
+PY_PLASMA_TYPE_INIT(LineFollowMod)
+{
     pyLineFollowMod_Type.tp_new = pyLineFollowMod_new;
     pyLineFollowMod_Type.tp_methods = pyLineFollowMod_Methods;
     pyLineFollowMod_Type.tp_getset = pyLineFollowMod_GetSet;
@@ -132,7 +137,8 @@ PY_PLASMA_NEW(RailCameraMod, plRailCameraMod)
 
 PY_PLASMA_TYPE(RailCameraMod, plRailCameraMod, "plRailCameraMod wrapper")
 
-PY_PLASMA_TYPE_INIT(RailCameraMod) {
+PY_PLASMA_TYPE_INIT(RailCameraMod)
+{
     pyRailCameraMod_Type.tp_new = pyRailCameraMod_new;
     pyRailCameraMod_Type.tp_base = &pyLineFollowMod_Type;
     if (PyType_CheckAndReady(&pyRailCameraMod_Type) < 0)

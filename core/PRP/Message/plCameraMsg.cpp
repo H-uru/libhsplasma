@@ -17,7 +17,8 @@
 #include "plCameraMsg.h"
 
 /* plCameraConfig */
-void plCameraConfig::read(hsStream* S) {
+void plCameraConfig::read(hsStream* S)
+{
     fAccel = S->readFloat();
     fDecel = S->readFloat();
     fVel = S->readFloat();
@@ -30,7 +31,8 @@ void plCameraConfig::read(hsStream* S) {
     fWorldspace = S->readBool();
 }
 
-void plCameraConfig::write(hsStream* S) {
+void plCameraConfig::write(hsStream* S)
+{
     S->writeFloat(fAccel);
     S->writeFloat(fDecel);
     S->writeFloat(fVel);
@@ -43,7 +45,8 @@ void plCameraConfig::write(hsStream* S) {
     S->writeBool(fWorldspace);
 }
 
-void plCameraConfig::prcWrite(pfPrcHelper* prc) {
+void plCameraConfig::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("plCameraConfig");
     prc->writeParam("Worldspace", fWorldspace);
     prc->writeParam("FOVw", fFOVw);
@@ -69,7 +72,8 @@ void plCameraConfig::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plCameraConfig::prcParse(const pfPrcTag* tag) {
+void plCameraConfig::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "plCameraConfig")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
@@ -100,7 +104,8 @@ void plCameraConfig::prcParse(const pfPrcTag* tag) {
 
 
 /* plCameraMsg */
-plCameraMsg::plCameraMsg() : fTransTime(0.0), fActivated(false) {
+plCameraMsg::plCameraMsg() : fTransTime(), fActivated()
+{
     fCmd.setName(kSetSubject, "kSetSubject");
     fCmd.setName(kCameraMod, "kCameraMod");
     fCmd.setName(kSetAsPrimary, "kSetAsPrimary");
@@ -139,7 +144,8 @@ plCameraMsg::plCameraMsg() : fTransTime(0.0), fActivated(false) {
     fCmd.setName(kResetPanning, "kResetPanning");
 }
 
-void plCameraMsg::read(hsStream* S, plResManager* mgr) {
+void plCameraMsg::read(hsStream* S, plResManager* mgr)
+{
     plMessage::read(S, mgr);
 
     fCmd.read(S);
@@ -150,7 +156,8 @@ void plCameraMsg::read(hsStream* S, plResManager* mgr) {
     fConfig.read(S);
 }
 
-void plCameraMsg::write(hsStream* S, plResManager* mgr) {
+void plCameraMsg::write(hsStream* S, plResManager* mgr)
+{
     plMessage::write(S, mgr);
 
     fCmd.write(S);
@@ -161,7 +168,8 @@ void plCameraMsg::write(hsStream* S, plResManager* mgr) {
     fConfig.write(S);
 }
 
-void plCameraMsg::IPrcWrite(pfPrcHelper* prc) {
+void plCameraMsg::IPrcWrite(pfPrcHelper* prc)
+{
     plMessage::IPrcWrite(prc);
 
     prc->writeSimpleTag("Command");
@@ -183,7 +191,8 @@ void plCameraMsg::IPrcWrite(pfPrcHelper* prc) {
     fConfig.prcWrite(prc);
 }
 
-void plCameraMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plCameraMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Command") {
         if (tag->hasChildren())
             fCmd.prcParse(tag->getFirstChild());

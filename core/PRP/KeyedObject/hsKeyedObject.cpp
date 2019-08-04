@@ -18,14 +18,16 @@
 #include "Stream/hsRAMStream.h"
 
 /* hsKeyedObject */
-void hsKeyedObject::init(const ST::string& name) {
+void hsKeyedObject::init(const ST::string& name)
+{
     myKey = new plKeyData();
     myKey->setType(ClassIndex());
     myKey->setName(name);
     myKey->setObj(this);
 }
 
-void hsKeyedObject::read(hsStream* S, plResManager* mgr) {
+void hsKeyedObject::read(hsStream* S, plResManager* mgr)
+{
     if (S->getVer().isMoul())
         myKey = mgr->readKey(S);
     else
@@ -37,18 +39,21 @@ void hsKeyedObject::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void hsKeyedObject::write(hsStream* S, plResManager* mgr) {
+void hsKeyedObject::write(hsStream* S, plResManager* mgr)
+{
     if (S->getVer().isMoul())
         mgr->writeKey(S, myKey);
     else
         mgr->writeUoid(S, myKey);
 }
 
-void hsKeyedObject::IPrcWrite(pfPrcHelper* prc) {
+void hsKeyedObject::IPrcWrite(pfPrcHelper* prc)
+{
     plResManager::PrcWriteKey(prc, myKey);
 }
 
-void hsKeyedObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void hsKeyedObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "plKey") {
         myKey = mgr->prcParseKey(tag);
         if (myKey != NULL)
@@ -58,7 +63,8 @@ void hsKeyedObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void hsKeyedObject::setKey(plKey key) {
+void hsKeyedObject::setKey(plKey key)
+{
     myKey = key;
     if (myKey != NULL)
         myKey->setObj(this);
@@ -66,27 +72,32 @@ void hsKeyedObject::setKey(plKey key) {
 
 
 /* hsKeyedObjectStub */
-hsKeyedObjectStub::~hsKeyedObjectStub() {
+hsKeyedObjectStub::~hsKeyedObjectStub()
+{
     delete fStub;
 }
 
-void hsKeyedObjectStub::write(hsStream* S, plResManager* mgr) {
+void hsKeyedObjectStub::write(hsStream* S, plResManager* mgr)
+{
     fStub->write(S, mgr);
 }
 
-void hsKeyedObjectStub::IPrcWrite(pfPrcHelper* prc) {
+void hsKeyedObjectStub::IPrcWrite(pfPrcHelper* prc)
+{
     hsKeyedObject::IPrcWrite(prc);
     fStub->prcWrite(prc);
 }
 
-void hsKeyedObjectStub::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void hsKeyedObjectStub::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "plCreatableStub")
         fStub->prcParse(tag, mgr);
     else
         hsKeyedObject::IPrcParse(tag, mgr);
 }
 
-void hsKeyedObjectStub::setStub(plCreatableStub* stub) {
+void hsKeyedObjectStub::setStub(plCreatableStub* stub)
+{
     delete fStub;
     fStub = stub;
 }

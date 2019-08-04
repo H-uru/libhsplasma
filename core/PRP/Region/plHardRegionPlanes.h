@@ -19,11 +19,13 @@
 
 #include "plHardRegion.h"
 
-class PLASMA_DLL plHardRegionPlanes : public plHardRegion {
+class PLASMA_DLL plHardRegionPlanes : public plHardRegion
+{
     CREATABLE(plHardRegionPlanes, kHardRegionPlanes, plHardRegion)
 
 public:
-    class PLASMA_DLL HardPlane {
+    class PLASMA_DLL HardPlane
+    {
     public:
         hsVector3 fNorm, fWorldNorm;
         hsVector3 fPos, fWorldPos;

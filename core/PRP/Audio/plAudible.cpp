@@ -17,7 +17,8 @@
 #include "plAudible.h"
 
 /* plWinAudible */
-void plWinAudible::read(hsStream* S, plResManager* mgr) {
+void plWinAudible::read(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::read(S, mgr);
 
     fSoundObjs.resize(S->readInt());
@@ -26,7 +27,8 @@ void plWinAudible::read(hsStream* S, plResManager* mgr) {
     fSceneNode = mgr->readKey(S);
 }
 
-void plWinAudible::write(hsStream* S, plResManager* mgr) {
+void plWinAudible::write(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::write(S, mgr);
 
     S->writeInt(fSoundObjs.size());
@@ -35,7 +37,8 @@ void plWinAudible::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fSceneNode);
 }
 
-void plWinAudible::IPrcWrite(pfPrcHelper* prc) {
+void plWinAudible::IPrcWrite(pfPrcHelper* prc)
+{
     hsKeyedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("SoundObjects");
@@ -47,7 +50,8 @@ void plWinAudible::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plWinAudible::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plWinAudible::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "SoundObjects") {
         fSoundObjs.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();

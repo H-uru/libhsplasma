@@ -22,7 +22,8 @@ PY_PLASMA_NEW(SoftVolumeUnion, plSoftVolumeUnion)
 
 PY_PLASMA_TYPE(SoftVolumeUnion, plSoftVolumeUnion, "plSoftVolumeUnion wrapper")
 
-PY_PLASMA_TYPE_INIT(SoftVolumeUnion) {
+PY_PLASMA_TYPE_INIT(SoftVolumeUnion)
+{
     pySoftVolumeUnion_Type.tp_new = pySoftVolumeUnion_new;
     pySoftVolumeUnion_Type.tp_base = &pySoftVolumeComplex_Type;
     if (PyType_CheckAndReady(&pySoftVolumeUnion_Type) < 0)

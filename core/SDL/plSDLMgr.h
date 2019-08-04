@@ -21,12 +21,14 @@
 #include "Debug/hsExceptions.hpp"
 #include "Stream/hsStream.h"
 
-class PLASMA_DLL plSDLMgr {
+class PLASMA_DLL plSDLMgr
+{
 protected:
     std::vector<plStateDescriptor*> fDescriptors;
 
 private:
-    enum ParseState {
+    enum ParseState
+    {
         kFile, kUruStateDesc, kUruVarLine, kEoaStateDesc, kEoaVarLine
     };
 
@@ -43,7 +45,8 @@ public:
     void write(hsStream* S);
 };
 
-class plSDLParseException : public hsException {
+class plSDLParseException : public hsException
+{
 public:
     inline plSDLParseException(const char* file, unsigned long line,
                                const char* msg) HS_NOEXCEPT

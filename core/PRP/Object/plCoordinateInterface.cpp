@@ -17,7 +17,8 @@
 #include "plCoordinateInterface.h"
 #include "plSceneObject.h"
 
-plCoordinateInterface::plCoordinateInterface() {
+plCoordinateInterface::plCoordinateInterface()
+{
     fLocalToParent.Reset();
     fParentToLocal.Reset();
     fLocalToWorld.Reset();
@@ -33,14 +34,16 @@ static void _childCallback(plCoordinateInterface* self, hsKeyedObject* ko) {
     ci->setParent(self->getKey());
 }
 
-static void _setParentCallback(plCoordinateInterface* self, hsKeyedObject* ko) {
+static void _setParentCallback(plCoordinateInterface* self, hsKeyedObject* ko)
+{
     plSceneObject* child = plSceneObject::Convert(ko);
     plKey childCIkey = child->getCoordInterface();
     if (childCIkey.Exists())
         childCIkey->addCallback(std::bind(&_childCallback, self, std::placeholders::_1));
 }
 
-void plCoordinateInterface::read(hsStream* S, plResManager* mgr) {
+void plCoordinateInterface::read(hsStream* S, plResManager* mgr)
+{
     plObjInterface::read(S, mgr);
 
     fLocalToParent.read(S);
@@ -55,7 +58,8 @@ void plCoordinateInterface::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plCoordinateInterface::write(hsStream* S, plResManager* mgr) {
+void plCoordinateInterface::write(hsStream* S, plResManager* mgr)
+{
     plObjInterface::write(S, mgr);
 
     fLocalToParent.write(S);
@@ -68,7 +72,8 @@ void plCoordinateInterface::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fChildren[i]);
 }
 
-void plCoordinateInterface::IPrcWrite(pfPrcHelper* prc) {
+void plCoordinateInterface::IPrcWrite(pfPrcHelper* prc)
+{
     plObjInterface::IPrcWrite(prc);
 
     prc->writeSimpleTag("LocalToParent");
@@ -90,7 +95,8 @@ void plCoordinateInterface::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plCoordinateInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plCoordinateInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "LocalToParent") {
         if (tag->hasChildren())
             fLocalToParent.prcParse(tag->getFirstChild());

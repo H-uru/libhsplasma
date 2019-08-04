@@ -27,7 +27,8 @@ PY_PROPERTY(ST::string, SoundBuffer, fileName, getFileName, setFileName)
 PY_PROPERTY(unsigned int, SoundBuffer, flags, getFlags, setFlags)
 PY_PROPERTY(size_t, SoundBuffer, dataLength, getDataLength, setDataLength)
 
-PY_GETSET_GETTER_DECL(SoundBuffer, data) {
+PY_GETSET_GETTER_DECL(SoundBuffer, data)
+{
     if (self->fThis->getData() == NULL) {
         Py_RETURN_NONE;
     } else {
@@ -36,7 +37,8 @@ PY_GETSET_GETTER_DECL(SoundBuffer, data) {
     }
 }
 
-PY_GETSET_SETTER_DECL(SoundBuffer, data) {
+PY_GETSET_SETTER_DECL(SoundBuffer, data)
+{
     PY_PROPERTY_CHECK_NULL(data)
     if (value == Py_None) {
         self->fThis->setData(0, NULL);
@@ -65,7 +67,8 @@ static PyGetSetDef pySoundBuffer_GetSet[] = {
 
 PY_PLASMA_TYPE(SoundBuffer, plSoundBuffer, "plSoundBuffer wrapper")
 
-PY_PLASMA_TYPE_INIT(SoundBuffer) {
+PY_PLASMA_TYPE_INIT(SoundBuffer)
+{
     pySoundBuffer_Type.tp_new = pySoundBuffer_new;
     pySoundBuffer_Type.tp_getset = pySoundBuffer_GetSet;
     pySoundBuffer_Type.tp_base = &pyKeyedObject_Type;

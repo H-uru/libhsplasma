@@ -20,15 +20,17 @@
 #include "plNetMessage.h"
 #include "plNetGroupId.h"
 
-class PLASMA_DLL plNetMsgGroupOwner : public plNetMsgServerToClient {
+class PLASMA_DLL plNetMsgGroupOwner : public plNetMsgServerToClient
+{
     CREATABLE(plNetMsgGroupOwner, kNetMsgGroupOwner, plNetMsgServerToClient)
 
 public:
-    struct PLASMA_DLL GroupInfo {
+    struct PLASMA_DLL GroupInfo
+    {
         plNetGroupId fGroupID;
         bool fOwnIt;
 
-        GroupInfo() : fOwnIt(false) { }
+        GroupInfo() : fOwnIt() { }
     };
 
 private:

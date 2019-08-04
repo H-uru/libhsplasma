@@ -80,7 +80,8 @@ static PyGetSetDef pySoundMsg_GetSet[] = {
 
 PY_PLASMA_TYPE(SoundMsg, plSoundMsg, "plSoundMsg wrapper")
 
-PY_PLASMA_TYPE_INIT(SoundMsg) {
+PY_PLASMA_TYPE_INIT(SoundMsg)
+{
     pySoundMsg_Type.tp_new = pySoundMsg_new;
     pySoundMsg_Type.tp_methods = pySoundMsg_Methods;
     pySoundMsg_Type.tp_getset = pySoundMsg_GetSet;

@@ -28,7 +28,8 @@ void pnClient::run()
     fIface->run();
 }
 
-uint32_t pnClient::nextTransId() {
+uint32_t pnClient::nextTransId()
+{
     static uint32_t s_transId = 0;
     static std::mutex s_tidMutex;
 

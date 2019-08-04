@@ -16,17 +16,20 @@
 
 #include "plRelevanceRegion.h"
 
-void plRelevanceRegion::read(hsStream* S, plResManager* mgr) {
+void plRelevanceRegion::read(hsStream* S, plResManager* mgr)
+{
     plObjInterface::read(S, mgr);
     fRegion = mgr->readKey(S);
 }
 
-void plRelevanceRegion::write(hsStream* S, plResManager* mgr) {
+void plRelevanceRegion::write(hsStream* S, plResManager* mgr)
+{
     plObjInterface::write(S, mgr);
     mgr->writeKey(S, fRegion);
 }
 
-void plRelevanceRegion::IPrcWrite(pfPrcHelper* prc) {
+void plRelevanceRegion::IPrcWrite(pfPrcHelper* prc)
+{
     plObjInterface::IPrcWrite(prc);
 
     prc->writeSimpleTag("Region");
@@ -34,7 +37,8 @@ void plRelevanceRegion::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plRelevanceRegion::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plRelevanceRegion::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Region") {
         if (tag->hasChildren())
             fRegion = mgr->prcParseKey(tag->getFirstChild());

@@ -19,11 +19,13 @@
 
 #include "plDetectorModifier.h"
 
-class PLASMA_DLL plCollisionDetector : public plDetectorModifier {
+class PLASMA_DLL plCollisionDetector : public plDetectorModifier
+{
     CREATABLE(plCollisionDetector, kCollisionDetector, plDetectorModifier)
 
 public:
-    enum {
+    enum
+    {
         kTypeEnter = 0x1,
         kTypeExit = 0x2,
         kTypeAny = 0x4,
@@ -36,7 +38,7 @@ protected:
     unsigned char fType;
 
 public:
-    plCollisionDetector() : fType(0) { }
+    plCollisionDetector() : fType() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -51,7 +53,8 @@ public:
 };
 
 
-class PLASMA_DLL plSubworldRegionDetector : public plCollisionDetector {
+class PLASMA_DLL plSubworldRegionDetector : public plCollisionDetector
+{
     CREATABLE(plSubworldRegionDetector, kSubworldRegionDetector,
               plCollisionDetector)
 
@@ -60,7 +63,7 @@ protected:
     bool fOnExit;
 
 public:
-    plSubworldRegionDetector() : fOnExit(false) { }
+    plSubworldRegionDetector() : fOnExit() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -78,7 +81,8 @@ public:
 };
 
 
-class PLASMA_DLL plPanicLinkRegion : public plCollisionDetector {
+class PLASMA_DLL plPanicLinkRegion : public plCollisionDetector
+{
     CREATABLE(plPanicLinkRegion, kPanicLinkRegion, plCollisionDetector)
 
 protected:

@@ -20,9 +20,11 @@
 #include "plSDLMgr.h"
 #include "plStateVariable.h"
 
-class PLASMA_DLL plStateDataRecord {
+class PLASMA_DLL plStateDataRecord
+{
 public:
-    enum Flags {
+    enum Flags
+    {
         kVolatile = 0x1
     };
 
@@ -36,7 +38,7 @@ protected:
     unsigned int fFlags;
 
 public:
-    plStateDataRecord() : fDescriptor(NULL), fFlags(0) { }
+    plStateDataRecord() : fDescriptor(), fFlags() { }
     ~plStateDataRecord();
 
     static void ReadStreamHeader(hsStream* S, ST::string& name, int& version,

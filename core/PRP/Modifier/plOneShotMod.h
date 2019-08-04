@@ -19,7 +19,8 @@
 
 #include "plModifier.h"
 
-class PLASMA_DLL plOneShotMod : public plMultiModifier {
+class PLASMA_DLL plOneShotMod : public plMultiModifier
+{
     CREATABLE(plOneShotMod, kOneShotMod, plMultiModifier)
 
 protected:
@@ -28,8 +29,9 @@ protected:
     float fSeekDuration;
 
 public:
-    plOneShotMod() : fDrivable(false), fReversable(false), fSmartSeek(false),
-                     fNoSeek(true), fSeekDuration(0.0f) { }
+    plOneShotMod()
+        : fDrivable(), fReversable(), fSmartSeek(), fNoSeek(true),
+          fSeekDuration() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

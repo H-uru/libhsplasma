@@ -17,7 +17,8 @@
 #include "plOccluder.h"
 
 /* plOccluder */
-void plOccluder::read(hsStream* S, plResManager* mgr) {
+void plOccluder::read(hsStream* S, plResManager* mgr)
+{
     plObjInterface::read(S, mgr);
 
     fWorldBounds.read(S);
@@ -33,7 +34,8 @@ void plOccluder::read(hsStream* S, plResManager* mgr) {
         fVisRegions[i] = mgr->readKey(S);
 }
 
-void plOccluder::write(hsStream* S, plResManager* mgr) {
+void plOccluder::write(hsStream* S, plResManager* mgr)
+{
     plObjInterface::write(S, mgr);
 
     fWorldBounds.write(S);
@@ -49,7 +51,8 @@ void plOccluder::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fVisRegions[i]);
 }
 
-void plOccluder::IPrcWrite(pfPrcHelper* prc) {
+void plOccluder::IPrcWrite(pfPrcHelper* prc)
+{
     plObjInterface::IPrcWrite(prc);
 
     prc->writeSimpleTag("WorldBounds");
@@ -75,7 +78,8 @@ void plOccluder::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plOccluder::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plOccluder::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "WorldBounds") {
         if (tag->hasChildren())
             fWorldBounds.prcParse(tag->getFirstChild());
@@ -105,7 +109,8 @@ void plOccluder::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plMobileOccluder */
-void plMobileOccluder::read(hsStream* S, plResManager* mgr) {
+void plMobileOccluder::read(hsStream* S, plResManager* mgr)
+{
     plOccluder::read(S, mgr);
 
     fLocalToWorld.read(S);
@@ -113,7 +118,8 @@ void plMobileOccluder::read(hsStream* S, plResManager* mgr) {
     fLocalBounds.read(S);
 }
 
-void plMobileOccluder::write(hsStream* S, plResManager* mgr) {
+void plMobileOccluder::write(hsStream* S, plResManager* mgr)
+{
     plOccluder::write(S, mgr);
 
     fLocalToWorld.write(S);
@@ -121,7 +127,8 @@ void plMobileOccluder::write(hsStream* S, plResManager* mgr) {
     fLocalBounds.write(S);
 }
 
-void plMobileOccluder::IPrcWrite(pfPrcHelper* prc) {
+void plMobileOccluder::IPrcWrite(pfPrcHelper* prc)
+{
     plOccluder::IPrcWrite(prc);
 
     prc->writeSimpleTag("LocalToWorld");
@@ -136,7 +143,8 @@ void plMobileOccluder::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plMobileOccluder::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plMobileOccluder::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "LocalToWorld") {
         if (tag->hasChildren())
             fLocalToWorld.prcParse(tag->getFirstChild());

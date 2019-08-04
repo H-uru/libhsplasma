@@ -33,7 +33,8 @@ PyGetSetDef pyVisRegion_GetSet[] = {
 
 PY_PLASMA_TYPE(VisRegion, plVisRegion, "plVisRegion wrapper")
 
-PY_PLASMA_TYPE_INIT(VisRegion) {
+PY_PLASMA_TYPE_INIT(VisRegion)
+{
     pyVisRegion_Type.tp_new = pyVisRegion_new;
     pyVisRegion_Type.tp_getset = pyVisRegion_GetSet;
     pyVisRegion_Type.tp_base = &pyObjInterface_Type;

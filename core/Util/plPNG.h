@@ -21,7 +21,8 @@
 
 #include <png.h>
 
-class hsPNGException : public hsException {
+class hsPNGException : public hsException
+{
 public:
     inline hsPNGException(const char* file, unsigned long line,
                           const char* message = nullptr) HS_NOEXCEPT
@@ -33,9 +34,8 @@ public:
 };
 
 
-class PLASMA_DLL plPNG {
-private:
-
+class PLASMA_DLL plPNG
+{
 public:
     static void DecompressPNG(hsStream* S, void* buf, size_t size);
     static void CompressPNG(hsStream* S, const void* buf, size_t size,

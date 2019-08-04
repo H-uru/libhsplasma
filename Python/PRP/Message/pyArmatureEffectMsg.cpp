@@ -33,7 +33,8 @@ static PyGetSetDef pyArmatureEffectStateMsg_GetSet[] = {
 PY_PLASMA_TYPE(ArmatureEffectStateMsg, plArmatureEffectStateMsg,
                "plArmatureEffectStateMsg wrapper")
 
-PY_PLASMA_TYPE_INIT(ArmatureEffectStateMsg) {
+PY_PLASMA_TYPE_INIT(ArmatureEffectStateMsg)
+{
     pyArmatureEffectStateMsg_Type.tp_new = pyArmatureEffectStateMsg_new;
     pyArmatureEffectStateMsg_Type.tp_getset = pyArmatureEffectStateMsg_GetSet;
     pyArmatureEffectStateMsg_Type.tp_base = &pyMessage_Type;

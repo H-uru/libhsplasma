@@ -16,19 +16,22 @@
 
 #include "plFilterCoordInterface.h"
 
-void plFilterCoordInterface::read(hsStream* S, plResManager* mgr) {
+void plFilterCoordInterface::read(hsStream* S, plResManager* mgr)
+{
     plCoordinateInterface::read(S, mgr);
     fFilterMask = S->readInt();
     fRefParentLocalToWorld.read(S);
 }
 
-void plFilterCoordInterface::write(hsStream* S, plResManager* mgr) {
+void plFilterCoordInterface::write(hsStream* S, plResManager* mgr)
+{
     plCoordinateInterface::write(S, mgr);
     S->writeInt(fFilterMask);
     fRefParentLocalToWorld.write(S);
 }
 
-void plFilterCoordInterface::IPrcWrite(pfPrcHelper* prc) {
+void plFilterCoordInterface::IPrcWrite(pfPrcHelper* prc)
+{
     plCoordinateInterface::IPrcWrite(prc);
 
     prc->startTag("FilterParams");
@@ -40,7 +43,8 @@ void plFilterCoordInterface::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plFilterCoordInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plFilterCoordInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "FilterParams") {
         fFilterMask = tag->getParam("Mask", "0").to_uint();
     } else if (tag->getName() == "RefParentLocalToWorld") {

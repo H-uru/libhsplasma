@@ -17,19 +17,22 @@
 #include "plDynaRippleMgr.h"
 
 /* plDynaRippleMgr */
-void plDynaRippleMgr::read(hsStream* S, plResManager* mgr) {
+void plDynaRippleMgr::read(hsStream* S, plResManager* mgr)
+{
     plDynaDecalMgr::read(S, mgr);
     fInitUVW.read(S);
     fFinalUVW.read(S);
 }
 
-void plDynaRippleMgr::write(hsStream* S, plResManager* mgr) {
+void plDynaRippleMgr::write(hsStream* S, plResManager* mgr)
+{
     plDynaDecalMgr::write(S, mgr);
     fInitUVW.write(S);
     fFinalUVW.write(S);
 }
 
-void plDynaRippleMgr::IPrcWrite(pfPrcHelper* prc) {
+void plDynaRippleMgr::IPrcWrite(pfPrcHelper* prc)
+{
     plDynaDecalMgr::IPrcWrite(prc);
 
     prc->writeSimpleTag("InitUVW");
@@ -40,7 +43,8 @@ void plDynaRippleMgr::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plDynaRippleMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plDynaRippleMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "InitUVW") {
         if (tag->hasChildren())
             fInitUVW.prcParse(tag->getFirstChild());
@@ -54,17 +58,20 @@ void plDynaRippleMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plDynaRippleVSMgr */
-void plDynaRippleVSMgr::read(hsStream* S, plResManager* mgr) {
+void plDynaRippleVSMgr::read(hsStream* S, plResManager* mgr)
+{
     plDynaRippleMgr::read(S, mgr);
     fWaveSetBase = mgr->readKey(S);
 }
 
-void plDynaRippleVSMgr::write(hsStream* S, plResManager* mgr) {
+void plDynaRippleVSMgr::write(hsStream* S, plResManager* mgr)
+{
     plDynaRippleMgr::write(S, mgr);
     mgr->writeKey(S, fWaveSetBase);
 }
 
-void plDynaRippleVSMgr::IPrcWrite(pfPrcHelper* prc) {
+void plDynaRippleVSMgr::IPrcWrite(pfPrcHelper* prc)
+{
     plDynaRippleMgr::IPrcWrite(prc);
 
     prc->writeSimpleTag("WaveSet");
@@ -72,7 +79,8 @@ void plDynaRippleVSMgr::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plDynaRippleVSMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plDynaRippleVSMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "WaveSet") {
         if (tag->hasChildren())
             fWaveSetBase = mgr->prcParseKey(tag->getFirstChild());
@@ -83,17 +91,20 @@ void plDynaRippleVSMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plDynaTorpedoVSMgr */
-void plDynaTorpedoVSMgr::read(hsStream* S, plResManager* mgr) {
+void plDynaTorpedoVSMgr::read(hsStream* S, plResManager* mgr)
+{
     plDynaTorpedoMgr::read(S, mgr);
     fWaveSetBase = mgr->readKey(S);
 }
 
-void plDynaTorpedoVSMgr::write(hsStream* S, plResManager* mgr) {
+void plDynaTorpedoVSMgr::write(hsStream* S, plResManager* mgr)
+{
     plDynaTorpedoMgr::write(S, mgr);
     mgr->writeKey(S, fWaveSetBase);
 }
 
-void plDynaTorpedoVSMgr::IPrcWrite(pfPrcHelper* prc) {
+void plDynaTorpedoVSMgr::IPrcWrite(pfPrcHelper* prc)
+{
     plDynaTorpedoMgr::IPrcWrite(prc);
 
     prc->writeSimpleTag("WaveSet");
@@ -101,7 +112,8 @@ void plDynaTorpedoVSMgr::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plDynaTorpedoVSMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plDynaTorpedoVSMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "WaveSet") {
         if (tag->hasChildren())
             fWaveSetBase = mgr->prcParseKey(tag->getFirstChild());
@@ -112,11 +124,13 @@ void plDynaTorpedoVSMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plDynaWakeMgr */
-plDynaWakeMgr::~plDynaWakeMgr() {
+plDynaWakeMgr::~plDynaWakeMgr()
+{
     delete fAnimPath;
 }
 
-void plDynaWakeMgr::read(hsStream* S, plResManager* mgr) {
+void plDynaWakeMgr::read(hsStream* S, plResManager* mgr)
+{
     plDynaRippleMgr::read(S, mgr);
 
     fDefaultDir.read(S);
@@ -125,7 +139,8 @@ void plDynaWakeMgr::read(hsStream* S, plResManager* mgr) {
     fVelWgt = S->readFloat();
 }
 
-void plDynaWakeMgr::write(hsStream* S, plResManager* mgr) {
+void plDynaWakeMgr::write(hsStream* S, plResManager* mgr)
+{
     plDynaRippleMgr::write(S, mgr);
 
     fDefaultDir.write(S);
@@ -134,7 +149,8 @@ void plDynaWakeMgr::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fVelWgt);
 }
 
-void plDynaWakeMgr::IPrcWrite(pfPrcHelper* prc) {
+void plDynaWakeMgr::IPrcWrite(pfPrcHelper* prc)
+{
     plDynaRippleMgr::IPrcWrite(prc);
 
     prc->writeSimpleTag("DefaultDir");
@@ -155,7 +171,8 @@ void plDynaWakeMgr::IPrcWrite(pfPrcHelper* prc) {
     }
 }
 
-void plDynaWakeMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plDynaWakeMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "DefaultDir") {
         if (tag->hasChildren())
             fDefaultDir.prcParse(tag->getFirstChild());
@@ -174,7 +191,8 @@ void plDynaWakeMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plDynaWakeMgr::setAnimPath(plAnimPath* path) {
+void plDynaWakeMgr::setAnimPath(plAnimPath* path)
+{
     delete fAnimPath;
     fAnimPath = path;
 }

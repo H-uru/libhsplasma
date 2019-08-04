@@ -54,7 +54,8 @@ static PyGetSetDef pyCamTrans_GetSet[] = {
 
 PY_PLASMA_TYPE(CamTrans, plCameraModifier::CamTrans, "plCameraModifier::CamTrans wrapper")
 
-PY_PLASMA_TYPE_INIT(CamTrans) {
+PY_PLASMA_TYPE_INIT(CamTrans)
+{
     pyCamTrans_Type.tp_new = pyCamTrans_new;
     pyCamTrans_Type.tp_getset = pyCamTrans_GetSet;
     if (PyType_CheckAndReady(&pyCamTrans_Type) < 0)
@@ -70,7 +71,8 @@ PY_PLASMA_IFC_METHODS(CamTrans, plCameraModifier::CamTrans)
 
 PY_PLASMA_NEW(CameraModifier, plCameraModifier)
 
-PY_METHOD_VA(CameraModifier, addTrans, "Params: trans") {
+PY_METHOD_VA(CameraModifier, addTrans, "Params: trans")
+{
     pyCamTrans* trans;
     if (!PyArg_ParseTuple(args, "O", &trans) || !pyCamTrans_Check((PyObject*)trans)) {
         PyErr_SetString(PyExc_TypeError, "addTrans expects a plCameraModifier.CamTrans");
@@ -81,7 +83,8 @@ PY_METHOD_VA(CameraModifier, addTrans, "Params: trans") {
     Py_RETURN_NONE;
 }
 
-PY_METHOD_VA(CameraModifier, delTrans, "Params: idx") {
+PY_METHOD_VA(CameraModifier, delTrans, "Params: idx")
+{
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delTrans expects an int");
@@ -96,12 +99,14 @@ PY_METHOD_VA(CameraModifier, delTrans, "Params: idx") {
     }
 }
 
-PY_METHOD_NOARGS(CameraModifier, clearTrans, "Clears all transitions") {
+PY_METHOD_NOARGS(CameraModifier, clearTrans, "Clears all transitions")
+{
     self->fThis->clearTrans();
     Py_RETURN_NONE;
 }
 
-PY_METHOD_VA(CameraModifier, addMessage, "Params: message, sender") {
+PY_METHOD_VA(CameraModifier, addMessage, "Params: message, sender")
+{
     pyMessage* message;
     pyKey* sender;
     if (!PyArg_ParseTuple(args, "O|O", &message, &sender) ||
@@ -115,7 +120,8 @@ PY_METHOD_VA(CameraModifier, addMessage, "Params: message, sender") {
     Py_RETURN_NONE;
 }
 
-PY_METHOD_VA(CameraModifier, delMessage, "Params: idx") {
+PY_METHOD_VA(CameraModifier, delMessage, "Params: idx")
+{
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delMessage expects an int");
@@ -130,12 +136,14 @@ PY_METHOD_VA(CameraModifier, delMessage, "Params: idx") {
     }
 }
 
-PY_METHOD_NOARGS(CameraModifier, clearMessageQueue, "Clears the message queue") {
+PY_METHOD_NOARGS(CameraModifier, clearMessageQueue, "Clears the message queue")
+{
     self->fThis->clearMessageQueue();
     Py_RETURN_NONE;
 }
 
-PY_METHOD_VA(CameraModifier, addFOVInstruction, "Params: msg") {
+PY_METHOD_VA(CameraModifier, addFOVInstruction, "Params: msg")
+{
     pyCameraMsg* msg;
     if (!PyArg_ParseTuple(args, "O", &msg) || !pyCameraMsg_Check((PyObject*)msg)) {
         PyErr_SetString(PyExc_TypeError, "addFOVInstruction expects a plCameraMsg");
@@ -146,7 +154,8 @@ PY_METHOD_VA(CameraModifier, addFOVInstruction, "Params: msg") {
     Py_RETURN_NONE;
 }
 
-PY_METHOD_VA(CameraModifier, delFOVInstruction, "Params: idx") {
+PY_METHOD_VA(CameraModifier, delFOVInstruction, "Params: idx")
+{
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delFOVInstruction expects an int");
@@ -161,7 +170,8 @@ PY_METHOD_VA(CameraModifier, delFOVInstruction, "Params: idx") {
     }
 }
 
-PY_METHOD_NOARGS(CameraModifier, clearFOVInstructions, "Clears all FOVInstructions") {
+PY_METHOD_NOARGS(CameraModifier, clearFOVInstructions, "Clears all FOVInstructions")
+{
     self->fThis->clearFOVInstructions();
     Py_RETURN_NONE;
 }
@@ -189,7 +199,8 @@ PY_PROPERTY(bool, CameraModifier, startAnimOnPush, getStartAnimOnPush, setStartA
 PY_PROPERTY(bool, CameraModifier, stopAnimOnPop, getStopAnimOnPop, setStopAnimOnPop)
 PY_PROPERTY(bool, CameraModifier, resetAnimOnPop, getResetAnimOnPop, setResetAnimOnPop)
 
-PY_GETSET_GETTER_DECL(CameraModifier, trans) {
+PY_GETSET_GETTER_DECL(CameraModifier, trans)
+{
     const std::vector<plCameraModifier::CamTrans*>& trans = self->fThis->getTrans();
     PyObject* tup = PyTuple_New(trans.size());
     for (size_t i = 0; i < trans.size(); ++i)
@@ -199,7 +210,8 @@ PY_GETSET_GETTER_DECL(CameraModifier, trans) {
 PY_PROPERTY_SETTER_MSG(CameraModifier, trans, "To add transitions, use addTrans()")
 PY_PROPERTY_GETSET_DECL(CameraModifier, trans)
 
-PY_GETSET_GETTER_DECL(CameraModifier, messageQueue) {
+PY_GETSET_GETTER_DECL(CameraModifier, messageQueue)
+{
     PyObject* tup = PyTuple_New(self->fThis->getMessageQueueSize());
     for (size_t i = 0; i < self->fThis->getMessageQueueSize(); ++i) {
         auto msg = self->fThis->getMessage(i);
@@ -212,7 +224,8 @@ PY_GETSET_GETTER_DECL(CameraModifier, messageQueue) {
 PY_PROPERTY_SETTER_MSG(CameraModifier, messageQueue, "To add messages, use addMessage()")
 PY_PROPERTY_GETSET_DECL(CameraModifier, messageQueue)
 
-PY_GETSET_GETTER_DECL(CameraModifier, fovInstructions) {
+PY_GETSET_GETTER_DECL(CameraModifier, fovInstructions)
+{
     const std::vector<plCameraMsg*>& msgs = self->fThis->getFOVInstructions();
     PyObject* tup = PyTuple_New(msgs.size());
     for (size_t i = 0; i < msgs.size(); ++i)
@@ -240,7 +253,8 @@ static PyGetSetDef pyCameraModifier_GetSet[] = {
 
 PY_PLASMA_TYPE(CameraModifier, plCameraModifier, "plCameraModifier wrapper")
 
-PY_PLASMA_TYPE_INIT(CameraModifier) {
+PY_PLASMA_TYPE_INIT(CameraModifier)
+{
     pyCameraModifier_Type.tp_new = pyCameraModifier_new;
     pyCameraModifier_Type.tp_methods = pyCameraModifier_Methods;
     pyCameraModifier_Type.tp_getset = pyCameraModifier_GetSet;

@@ -17,7 +17,8 @@
 #include "plAvTask.h"
 
 /* plAvAnimTask */
-void plAvAnimTask::read(hsStream* S, plResManager* /*mgr*/) {
+void plAvAnimTask::read(hsStream* S, plResManager* /*mgr*/)
+{
     fAnimName = S->readSafeStr();
     fInitialBlend = S->readFloat();
     fTargetBlend = S->readFloat();
@@ -28,7 +29,8 @@ void plAvAnimTask::read(hsStream* S, plResManager* /*mgr*/) {
     fAttach = S->readBool();
 }
 
-void plAvAnimTask::write(hsStream* S, plResManager* /*mgr*/) {
+void plAvAnimTask::write(hsStream* S, plResManager* /*mgr*/)
+{
     S->writeSafeStr(fAnimName);
     S->writeFloat(fInitialBlend);
     S->writeFloat(fTargetBlend);
@@ -39,7 +41,8 @@ void plAvAnimTask::write(hsStream* S, plResManager* /*mgr*/) {
     S->writeBool(fAttach);
 }
 
-void plAvAnimTask::IPrcWrite(pfPrcHelper* prc) {
+void plAvAnimTask::IPrcWrite(pfPrcHelper* prc)
+{
     prc->startTag("AnimTaskParams");
     prc->writeParam("AnimName", fAnimName);
     prc->writeParam("InitialBlend", fInitialBlend);
@@ -52,7 +55,8 @@ void plAvAnimTask::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plAvAnimTask::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAvAnimTask::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "AnimTaskParams") {
         fAnimName = tag->getParam("AnimName", "");
         fInitialBlend = tag->getParam("InitialBlend", "0").to_float();
@@ -69,24 +73,28 @@ void plAvAnimTask::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plAvOneShotLinkTask */
-void plAvOneShotLinkTask::read(hsStream* S, plResManager* /*mgr*/) {
+void plAvOneShotLinkTask::read(hsStream* S, plResManager* /*mgr*/)
+{
     fAnimName = S->readSafeStr();
     fMarkerName = S->readSafeStr();
 }
 
-void plAvOneShotLinkTask::write(hsStream* S, plResManager* /*mgr*/) {
+void plAvOneShotLinkTask::write(hsStream* S, plResManager* /*mgr*/)
+{
     S->writeSafeStr(fAnimName);
     S->writeSafeStr(fMarkerName);
 }
 
-void plAvOneShotLinkTask::IPrcWrite(pfPrcHelper* prc) {
+void plAvOneShotLinkTask::IPrcWrite(pfPrcHelper* prc)
+{
     prc->startTag("OneShotLinkParams");
     prc->writeParam("AnimName", fAnimName);
     prc->writeParam("MarkerName", fMarkerName);
     prc->endTag(true);
 }
 
-void plAvOneShotLinkTask::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAvOneShotLinkTask::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "OneShotLinkParams") {
         fAnimName = tag->getParam("AnimName", "");
         fMarkerName = tag->getParam("MarkerName", "");
@@ -97,19 +105,23 @@ void plAvOneShotLinkTask::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plAvTaskBrain */
-plAvTaskBrain::~plAvTaskBrain() {
+plAvTaskBrain::~plAvTaskBrain()
+{
     delete fBrain;
 }
 
-void plAvTaskBrain::read(hsStream* S, plResManager* mgr) {
+void plAvTaskBrain::read(hsStream* S, plResManager* mgr)
+{
     setBrain(plArmatureBrain::Convert(mgr->ReadCreatable(S)));
 }
 
-void plAvTaskBrain::write(hsStream* S, plResManager* mgr) {
+void plAvTaskBrain::write(hsStream* S, plResManager* mgr)
+{
     mgr->WriteCreatable(S, fBrain);
 }
 
-void plAvTaskBrain::IPrcWrite(pfPrcHelper* prc) {
+void plAvTaskBrain::IPrcWrite(pfPrcHelper* prc)
+{
     if (fBrain != NULL) {
         prc->writeSimpleTag("Brain");
         fBrain->prcWrite(prc);
@@ -121,7 +133,8 @@ void plAvTaskBrain::IPrcWrite(pfPrcHelper* prc) {
     }
 }
 
-void plAvTaskBrain::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAvTaskBrain::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Brain") {
         if (tag->getParam("NULL", "false").to_bool())
             setBrain(NULL);
@@ -132,7 +145,8 @@ void plAvTaskBrain::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plAvTaskBrain::setBrain(plArmatureBrain* brain) {
+void plAvTaskBrain::setBrain(plArmatureBrain* brain)
+{
     delete fBrain;
     fBrain = brain;
 }

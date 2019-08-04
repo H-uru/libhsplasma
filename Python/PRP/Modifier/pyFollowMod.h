@@ -23,17 +23,20 @@
 PY_WRAP_PLASMA(FollowMod, class plFollowMod);
 
 /* Python property helpers */
-inline PyObject* pyPlasma_convert(plFollowMod::FollowLeaderType value) {
+inline PyObject* pyPlasma_convert(plFollowMod::FollowLeaderType value)
+{
     return PyInt_FromLong((long)value);
 }
 
 template <>
-inline int pyPlasma_check<plFollowMod::FollowLeaderType>(PyObject* value) {
+inline int pyPlasma_check<plFollowMod::FollowLeaderType>(PyObject* value)
+{
     return PyInt_Check(value);
 }
 
 template <>
-inline plFollowMod::FollowLeaderType pyPlasma_get(PyObject* value) {
+inline plFollowMod::FollowLeaderType pyPlasma_get(PyObject* value)
+{
     return (plFollowMod::FollowLeaderType)PyInt_AsLong(value);
 }
 

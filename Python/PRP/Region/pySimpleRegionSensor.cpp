@@ -37,7 +37,8 @@ PyGetSetDef pySimpleRegionSensor_GetSet[] = {
 PY_PLASMA_TYPE(SimpleRegionSensor, plSimpleRegionSensor,
                "plSimpleRegionSensor wrapper")
 
-PY_PLASMA_TYPE_INIT(SimpleRegionSensor) {
+PY_PLASMA_TYPE_INIT(SimpleRegionSensor)
+{
     pySimpleRegionSensor_Type.tp_new = pySimpleRegionSensor_new;
     pySimpleRegionSensor_Type.tp_getset = pySimpleRegionSensor_GetSet;
     pySimpleRegionSensor_Type.tp_base = &pySingleModifier_Type;

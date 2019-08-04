@@ -21,7 +21,8 @@
 #include "PRP/Misc/plAgeLinkInfo.h"
 #include "PRP/plCreatableListHelper.h"
 
-class PLASMA_DLL plLinkToAgeMsg : public plMessage {
+class PLASMA_DLL plLinkToAgeMsg : public plMessage
+{
     CREATABLE(plLinkToAgeMsg, kLinkToAgeMsg, plMessage)
 
 protected:
@@ -30,7 +31,7 @@ protected:
     uint8_t fStreamVersion, fEoaUnknown;
 
 public:
-    plLinkToAgeMsg() : fStreamVersion(0), fEoaUnknown(0) { }
+    plLinkToAgeMsg() : fStreamVersion(), fEoaUnknown() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -54,12 +55,14 @@ public:
 };
 
 
-class PLASMA_DLL plLinkInDoneMsg : public plMessage {
+class PLASMA_DLL plLinkInDoneMsg : public plMessage
+{
     CREATABLE(plLinkInDoneMsg, kLinkInDoneMsg, plMessage)
 };
 
 
-class PLASMA_DLL plLinkingMgrMsg : public plMessage {
+class PLASMA_DLL plLinkingMgrMsg : public plMessage
+{
     CREATABLE(plLinkingMgrMsg, kLinkingMgrMsg, plMessage)
 
 protected:
@@ -67,7 +70,7 @@ protected:
     plCreatableListHelper fCreatables;
 
 public:
-    plLinkingMgrMsg() : fLinkingMgrCmd(0) { }
+    plLinkingMgrMsg() : fLinkingMgrCmd() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

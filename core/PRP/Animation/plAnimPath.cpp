@@ -17,12 +17,14 @@
 #include "plAnimPath.h"
 
 /* plAnimPath */
-plAnimPath::~plAnimPath() {
+plAnimPath::~plAnimPath()
+{
     delete fController;
     delete fTMController;
 }
 
-void plAnimPath::read(hsStream* S, plResManager* mgr) {
+void plAnimPath::read(hsStream* S, plResManager* mgr)
+{
     fAnimPathFlags = S->readInt();
 
     delete fController;
@@ -48,7 +50,8 @@ void plAnimPath::read(hsStream* S, plResManager* mgr) {
     fMinDistSq = S->readFloat();
 }
 
-void plAnimPath::write(hsStream* S, plResManager* mgr) {
+void plAnimPath::write(hsStream* S, plResManager* mgr)
+{
     S->writeInt(fAnimPathFlags);
 
     bool useTM = S->getVer().isUruSP();
@@ -82,7 +85,8 @@ void plAnimPath::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fMinDistSq);
 }
 
-void plAnimPath::IPrcWrite(pfPrcHelper* prc) {
+void plAnimPath::IPrcWrite(pfPrcHelper* prc)
+{
     prc->startTag("AnimPathParams");
       prc->writeParamHex("Flags", fAnimPathFlags);
       prc->writeParam("Length", fLength);
@@ -105,7 +109,8 @@ void plAnimPath::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plAnimPath::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAnimPath::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "AnimPathParams") {
         fAnimPathFlags = tag->getParam("Flags", "0").to_uint();
         fLength = tag->getParam("Length", "0").to_float();
@@ -136,14 +141,16 @@ void plAnimPath::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plAnimPath::setController(plCompoundController* controller) {
+void plAnimPath::setController(plCompoundController* controller)
+{
     delete fController;
     delete fTMController;
     fController = controller;
     fTMController = NULL;
 }
 
-void plAnimPath::setTMController(plTMController* controller) {
+void plAnimPath::setTMController(plTMController* controller)
+{
     delete fController;
     delete fTMController;
     fTMController = controller;

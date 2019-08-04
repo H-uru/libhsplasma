@@ -16,19 +16,22 @@
 
 #include "plFacingConditionalObject.h"
 
-void plFacingConditionalObject::read(hsStream* S, plResManager* mgr) {
+void plFacingConditionalObject::read(hsStream* S, plResManager* mgr)
+{
     plConditionalObject::read(S, mgr);
     fTolerance = S->readFloat();
     fDirectional = S->readBool();
 }
 
-void plFacingConditionalObject::write(hsStream* S, plResManager* mgr) {
+void plFacingConditionalObject::write(hsStream* S, plResManager* mgr)
+{
     plConditionalObject::write(S, mgr);
     S->writeFloat(fTolerance);
     S->writeBool(fDirectional);
 }
 
-void plFacingConditionalObject::IPrcWrite(pfPrcHelper* prc) {
+void plFacingConditionalObject::IPrcWrite(pfPrcHelper* prc)
+{
     plConditionalObject::IPrcWrite(prc);
     prc->startTag("FacingParams");
     prc->writeParam("Tolerance", fTolerance);
@@ -36,7 +39,8 @@ void plFacingConditionalObject::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plFacingConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plFacingConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "FacingParams") {
         fTolerance = tag->getParam("Tolerance", "0").to_float();
         fDirectional = tag->getParam("Directional", "false").to_bool();

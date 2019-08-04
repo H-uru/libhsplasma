@@ -24,7 +24,8 @@ PY_PLASMA_NEW(ScalarChannelApplicator, plScalarChannelApplicator)
 PY_PLASMA_TYPE(ScalarChannelApplicator, plScalarChannelApplicator,
                "plScalarChannelApplicator wrapper")
 
-PY_PLASMA_TYPE_INIT(ScalarChannelApplicator) {
+PY_PLASMA_TYPE_INIT(ScalarChannelApplicator)
+{
     pyScalarChannelApplicator_Type.tp_new = pyScalarChannelApplicator_new;
     pyScalarChannelApplicator_Type.tp_base = &pyAGApplicator_Type;
     if (PyType_CheckAndReady(&pyScalarChannelApplicator_Type) < 0)

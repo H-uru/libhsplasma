@@ -23,17 +23,20 @@
 PY_WRAP_PLASMA(AnimTimeConvert, class plAnimTimeConvert);
 
 /* Python property helpers */
-inline PyObject* pyPlasma_convert(plAnimTimeConvert* value) {
+inline PyObject* pyPlasma_convert(plAnimTimeConvert* value)
+{
     return pyAnimTimeConvert_FromAnimTimeConvert(value);
 }
 
 template <>
-inline int pyPlasma_check<plAnimTimeConvert>(PyObject* value) {
+inline int pyPlasma_check<plAnimTimeConvert>(PyObject* value)
+{
     return pyAnimTimeConvert_Check(value);
 }
 
 template <>
-inline plAnimTimeConvert* pyPlasma_get(PyObject* value) {
+inline plAnimTimeConvert* pyPlasma_get(PyObject* value)
+{
     return ((pyAnimTimeConvert*)value)->fThis;
 }
 

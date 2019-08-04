@@ -16,17 +16,20 @@
 
 #include "plNetMsgInitialAgeStateSent.h"
 
-void plNetMsgInitialAgeStateSent::read(hsStream* S, plResManager* mgr) {
+void plNetMsgInitialAgeStateSent::read(hsStream* S, plResManager* mgr)
+{
     plNetMessage::read(S, mgr);
     fNumInitialStates = S->readInt();
 }
 
-void plNetMsgInitialAgeStateSent::write(hsStream* S, plResManager* mgr) {
+void plNetMsgInitialAgeStateSent::write(hsStream* S, plResManager* mgr)
+{
     plNetMessage::write(S, mgr);
     S->writeInt(fNumInitialStates);
 }
 
-void plNetMsgInitialAgeStateSent::IPrcWrite(pfPrcHelper* prc) {
+void plNetMsgInitialAgeStateSent::IPrcWrite(pfPrcHelper* prc)
+{
     plNetMessage::IPrcWrite(prc);
 
     prc->startTag("InitialAgeStateParams");
@@ -34,7 +37,8 @@ void plNetMsgInitialAgeStateSent::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plNetMsgInitialAgeStateSent::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plNetMsgInitialAgeStateSent::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "InitialAgeStateParams") {
         fNumInitialStates = tag->getParam("NumInitialStates", "0").to_uint();
     } else {

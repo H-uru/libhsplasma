@@ -19,7 +19,8 @@
 
 #include "PRP/plCreatable.h"
 
-class PLASMA_DLL plATCEaseCurve : public plCreatable {
+class PLASMA_DLL plATCEaseCurve : public plCreatable
+{
     CREATABLE(plATCEaseCurve, kATCEaseCurve, plCreatable)
 
 private:
@@ -28,8 +29,9 @@ private:
     float fLength, fSpeed;
 
 public:
-    plATCEaseCurve() : fStartSpeed(0.0f), fMinLength(0.0f), fMaxLength(0.0f),
-                       fBeginWorldTime(0.0), fLength(0.0f), fSpeed(0.0f) { }
+    plATCEaseCurve()
+        : fStartSpeed(), fMinLength(), fMaxLength(), fBeginWorldTime(),
+          fLength(), fSpeed() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -56,7 +58,8 @@ public:
 };
 
 
-class PLASMA_DLL plSplineEaseCurve : public plATCEaseCurve {
+class PLASMA_DLL plSplineEaseCurve : public plATCEaseCurve
+{
     CREATABLE(plSplineEaseCurve, kSplineEaseCurve, plATCEaseCurve)
 
 public:
@@ -66,12 +69,7 @@ private:
     float fCoef[4];
 
 public:
-    plSplineEaseCurve() {
-        fCoef[0] = 0.0f;
-        fCoef[1] = 0.0f;
-        fCoef[2] = 0.0f;
-        fCoef[3] = 0.0f;
-    }
+    plSplineEaseCurve() : fCoef() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -86,7 +84,8 @@ public:
 };
 
 
-class PLASMA_DLL plConstAccelEaseCurve : public plATCEaseCurve {
+class PLASMA_DLL plConstAccelEaseCurve : public plATCEaseCurve
+{
     CREATABLE(plConstAccelEaseCurve, kConstAccelEaseCurve, plATCEaseCurve)
 };
 

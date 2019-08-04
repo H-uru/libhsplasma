@@ -107,7 +107,8 @@ PyMethodDef pyDrawInterface_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(DrawInterface, drawables) {
+PY_GETSET_GETTER_DECL(DrawInterface, drawables)
+{
     PyObject* list = PyTuple_New(self->fThis->getNumDrawables());
     for (size_t i=0; i<self->fThis->getNumDrawables(); i++) {
         PyObject* tup = Py_BuildValue("(Oi)",
@@ -123,7 +124,8 @@ PY_GETSET_GETTER_DECL(DrawInterface, drawables) {
 PY_PROPERTY_SETTER_MSG(DrawInterface, drawables, "To add Drawables, use addDrawable")
 PY_PROPERTY_GETSET_DECL(DrawInterface, drawables)
 
-PY_GETSET_GETTER_DECL(DrawInterface, regions) {
+PY_GETSET_GETTER_DECL(DrawInterface, regions)
+{
     PyObject* list = PyTuple_New(self->fThis->getRegions().size());
     for (size_t i=0; i<self->fThis->getRegions().size(); i++)
         PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getRegions()[i]));
@@ -141,7 +143,8 @@ PyGetSetDef pyDrawInterface_GetSet[] = {
 
 PY_PLASMA_TYPE(DrawInterface, plDrawInterface, "plDrawInterface wrapper")
 
-PY_PLASMA_TYPE_INIT(DrawInterface) {
+PY_PLASMA_TYPE_INIT(DrawInterface)
+{
     pyDrawInterface_Type.tp_new = pyDrawInterface_new;
     pyDrawInterface_Type.tp_methods = pyDrawInterface_Methods;
     pyDrawInterface_Type.tp_getset = pyDrawInterface_GetSet;

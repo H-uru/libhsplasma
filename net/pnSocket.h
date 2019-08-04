@@ -23,7 +23,8 @@
 #include <list>
 #include <string_theory/string>
 
-class PLASMANET_DLL pnSocket {
+class PLASMANET_DLL pnSocket
+{
 protected:
     int fSockHandle;
     bool fConnected;

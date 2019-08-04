@@ -19,7 +19,8 @@
 
 #include "pfGUIControlMod.h"
 
-class PLASMA_DLL pfGUIRadioGroupCtrl : public pfGUIControlMod {
+class PLASMA_DLL pfGUIRadioGroupCtrl : public pfGUIControlMod
+{
     CREATABLE(pfGUIRadioGroupCtrl, kGUIRadioGroupCtrl, pfGUIControlMod)
 
 public:
@@ -30,7 +31,8 @@ protected:
     int fDefaultValue;
 
 public:
-    pfGUIRadioGroupCtrl() : fDefaultValue(0) {
+    pfGUIRadioGroupCtrl() : fDefaultValue()
+    {
         fFlags.setName(kAllowNoSelection, "kAllowNoSelection");
     }
 

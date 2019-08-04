@@ -25,19 +25,22 @@
 #define DDPF_SIZE   0x20
 
 /* plDDColorKey */
-void plDDSurface::plDDColorKey::read(hsStream* S) {
+void plDDSurface::plDDColorKey::read(hsStream* S)
+{
     fColorSpaceLow = S->readInt();
     fColorSpaceHigh = S->readInt();
 }
 
-void plDDSurface::plDDColorKey::write(hsStream* S) {
+void plDDSurface::plDDColorKey::write(hsStream* S)
+{
     S->writeInt(fColorSpaceLow);
     S->writeInt(fColorSpaceHigh);
 }
 
 
 /* plDDPixelFormat */
-void plDDSurface::plDDPixelFormat::read(hsStream* S) {
+void plDDSurface::plDDPixelFormat::read(hsStream* S)
+{
     if (S->readInt() != DDPF_SIZE)
         throw hsBadParamException(__FILE__, __LINE__, "Invalid DDPIXELFORMAT size");
 
@@ -54,7 +57,8 @@ void plDDSurface::plDDPixelFormat::read(hsStream* S) {
         throw hsBadParamException(__FILE__, __LINE__, "Unsupported DXT compression type");
 }
 
-void plDDSurface::plDDPixelFormat::write(hsStream* S) {
+void plDDSurface::plDDPixelFormat::write(hsStream* S)
+{
     if (((fFlags & DDPF_FOURCC) != 0) && (fFourCC != FOURCC_DXT1
         && fFourCC != FOURCC_DXT3 && fFourCC != FOURCC_DXT5))
         throw hsBadParamException(__FILE__, __LINE__, "Unsupported DXT compression type");
@@ -71,12 +75,14 @@ void plDDSurface::plDDPixelFormat::write(hsStream* S) {
 
 
 /* plDDSurface */
-plDDSurface::~plDDSurface() {
+plDDSurface::~plDDSurface()
+{
     delete[] fDataBuffer;
     delete[] fLevelSizes;
 }
 
-void plDDSurface::read(hsStream* S) {
+void plDDSurface::read(hsStream* S)
+{
     char dwbuf[4];
     S->read(4, dwbuf);
     if (memcmp(dwbuf, "DDS ", 4) != 0)
@@ -147,7 +153,8 @@ void plDDSurface::read(hsStream* S) {
     }
 }
 
-void plDDSurface::write(hsStream* S) {
+void plDDSurface::write(hsStream* S)
+{
     if (fDataSize != calcTotalBufferSize()) {
         plDebug::Debug("Data format does not match buffer size: {}, {}",
                        fDataSize, calcTotalBufferSize());
@@ -199,7 +206,8 @@ void plDDSurface::write(hsStream* S) {
         S->write(fDataSize, fDataBuffer);
 }
 
-void plDDSurface::setFromMipmap(const plMipmap* img) {
+void plDDSurface::setFromMipmap(const plMipmap* img)
+{
     fFlags = DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH | DDSD_PIXELFORMAT
            | DDSD_LINEARSIZE;
     fCaps = DDSCAPS_TEXTURE;
@@ -275,7 +283,8 @@ void plDDSurface::setFromMipmap(const plMipmap* img) {
     setData(img->getTotalSize(), (const unsigned char*)img->getImageData());
 }
 
-plMipmap* plDDSurface::createMipmap() const {
+plMipmap* plDDSurface::createMipmap() const
+{
     if ((fFlags & DDSD_HEIGHT) == 0 || (fFlags & DDSD_WIDTH) == 0
         || (fFlags & DDSD_PIXELFORMAT) == 0)
         throw hsBadParamException(__FILE__, __LINE__, "DDSurface does not contain required fields");
@@ -340,14 +349,16 @@ plMipmap* plDDSurface::createMipmap() const {
     return tex;
 }
 
-void plDDSurface::setData(size_t size, const unsigned char* data) {
+void plDDSurface::setData(size_t size, const unsigned char* data)
+{
     delete[] fDataBuffer;
     fDataSize = size;
     fDataBuffer = new unsigned char[size];
     memcpy(fDataBuffer, data, size);
 }
 
-size_t plDDSurface::calcBufferSize(unsigned int width, unsigned int height) const {
+size_t plDDSurface::calcBufferSize(unsigned int width, unsigned int height) const
+{
     if ((fFlags & DDSD_HEIGHT) == 0 || (fFlags & DDSD_WIDTH) == 0)
         return 0;
     if ((fFlags & DDSD_PIXELFORMAT) == 0)
@@ -365,7 +376,8 @@ size_t plDDSurface::calcBufferSize(unsigned int width, unsigned int height) cons
     return stride * blocks;
 }
 
-size_t plDDSurface::calcNumLevels() const {
+size_t plDDSurface::calcNumLevels() const
+{
     if ((fFlags & DDSD_HEIGHT) == 0 || (fFlags & DDSD_WIDTH) == 0)
         return 0;
     if (fHeight == 0 || fWidth == 0)
@@ -383,7 +395,8 @@ size_t plDDSurface::calcNumLevels() const {
     return lvl;
 }
 
-size_t plDDSurface::calcTotalBufferSize() const {
+size_t plDDSurface::calcTotalBufferSize() const
+{
     size_t oneBuffer = calcBufferSize(fWidth, fHeight);
     if ((fFlags & DDSD_MIPMAPCOUNT) != 0) {
         unsigned int w = fWidth, h = fHeight;

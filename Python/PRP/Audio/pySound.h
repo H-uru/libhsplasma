@@ -25,7 +25,8 @@
 PY_WRAP_PLASMA(FadeParams, plSound::plFadeParams);
 PY_WRAP_PLASMA(Sound, plSound);
 
-inline PyObject* pyPlasma_convert(plSound::plFadeParams* value) {
+inline PyObject* pyPlasma_convert(plSound::plFadeParams* value)
+{
     return pyFadeParams_FromFadeParams(value);
 }
 

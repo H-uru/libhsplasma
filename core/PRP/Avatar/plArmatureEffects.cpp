@@ -17,7 +17,8 @@
 #include "plArmatureEffects.h"
 #include "Debug/plDebug.h"
 
-void plArmatureEffectFootSound::read(hsStream* S, plResManager* mgr) {
+void plArmatureEffectFootSound::read(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::read(S, mgr);
 
     unsigned char count = S->readByte();
@@ -28,7 +29,8 @@ void plArmatureEffectFootSound::read(hsStream* S, plResManager* mgr) {
         fMods[i] = mgr->readKey(S);
 }
 
-void plArmatureEffectFootSound::write(hsStream* S, plResManager* mgr) {
+void plArmatureEffectFootSound::write(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::write(S, mgr);
 
     if (fMods.size() > plArmatureEffectsMgr::kMaxSurface)
@@ -38,7 +40,8 @@ void plArmatureEffectFootSound::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fMods[i]);
 }
 
-void plArmatureEffectFootSound::IPrcWrite(pfPrcHelper* prc) {
+void plArmatureEffectFootSound::IPrcWrite(pfPrcHelper* prc)
+{
     hsKeyedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("SoundMods");
@@ -47,7 +50,8 @@ void plArmatureEffectFootSound::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plArmatureEffectFootSound::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plArmatureEffectFootSound::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "SoundMods") {
         fMods.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
@@ -69,7 +73,8 @@ const char* const plArmatureEffectsMgr::SurfaceStrings[] = {
     "Swimming", "(none)"
 };
 
-void plArmatureEffectsMgr::read(hsStream* S, plResManager* mgr) {
+void plArmatureEffectsMgr::read(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::read(S, mgr);
 
     fEffects.resize(S->readInt());
@@ -77,7 +82,8 @@ void plArmatureEffectsMgr::read(hsStream* S, plResManager* mgr) {
         fEffects[i] = mgr->readKey(S);
 }
 
-void plArmatureEffectsMgr::write(hsStream* S, plResManager* mgr) {
+void plArmatureEffectsMgr::write(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::write(S, mgr);
 
     S->writeInt(fEffects.size());
@@ -85,7 +91,8 @@ void plArmatureEffectsMgr::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fEffects[i]);
 }
 
-void plArmatureEffectsMgr::IPrcWrite(pfPrcHelper* prc) {
+void plArmatureEffectsMgr::IPrcWrite(pfPrcHelper* prc)
+{
     hsKeyedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("Effects");
@@ -94,7 +101,8 @@ void plArmatureEffectsMgr::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plArmatureEffectsMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plArmatureEffectsMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Effects") {
         fEffects.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();

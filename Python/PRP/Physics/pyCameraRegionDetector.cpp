@@ -22,7 +22,8 @@
 
 PY_PLASMA_NEW(CameraRegionDetector, plCameraRegionDetector)
 
-PY_METHOD_VA(CameraRegionDetector, addMessage, "Params: msg") {
+PY_METHOD_VA(CameraRegionDetector, addMessage, "Params: msg")
+{
     pyCameraMsg* msg;
     if (!PyArg_ParseTuple(args, "O", &msg) || !pyCameraMsg_Check((PyObject*)msg)) {
         PyErr_SetString(PyExc_TypeError, "addMessage expects a plCameraMsg");
@@ -33,7 +34,8 @@ PY_METHOD_VA(CameraRegionDetector, addMessage, "Params: msg") {
     Py_RETURN_NONE;
 }
 
-PY_METHOD_VA(CameraRegionDetector, delMessage, "Params: idx") {
+PY_METHOD_VA(CameraRegionDetector, delMessage, "Params: idx")
+{
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delMessage expects an int");
@@ -48,7 +50,8 @@ PY_METHOD_VA(CameraRegionDetector, delMessage, "Params: idx") {
     }
 }
 
-PY_METHOD_NOARGS(CameraRegionDetector, clearMessages, "Clears the camera message vector") {
+PY_METHOD_NOARGS(CameraRegionDetector, clearMessages, "Clears the camera message vector")
+{
     self->fThis->clearMessages();
     Py_RETURN_NONE;
 }
@@ -60,7 +63,8 @@ static PyMethodDef pyCameraRegionDetector_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(CameraRegionDetector, messages) {
+PY_GETSET_GETTER_DECL(CameraRegionDetector, messages)
+{
     const std::vector<plCameraMsg*>& msgs = self->fThis->getMessages();
     PyObject* tup = PyTuple_New(msgs.size());
     for (size_t i = 0; i < msgs.size(); ++i)
@@ -77,7 +81,8 @@ static PyGetSetDef pyCameraRegionDetector_GetSet[] = {
 
 PY_PLASMA_TYPE(CameraRegionDetector, plCameraRegionDetector, "plCameraRegionDetector wrapper")
 
-PY_PLASMA_TYPE_INIT(CameraRegionDetector) {
+PY_PLASMA_TYPE_INIT(CameraRegionDetector)
+{
     pyCameraRegionDetector_Type.tp_new = pyCameraRegionDetector_new;
     pyCameraRegionDetector_Type.tp_methods = pyCameraRegionDetector_Methods;
     pyCameraRegionDetector_Type.tp_getset = pyCameraRegionDetector_GetSet;

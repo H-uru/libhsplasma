@@ -20,13 +20,15 @@
 #include "Math/hsGeometry3.h"
 #include "Sys/hsColor.h"
 
-class PLASMA_DLL plFixedWaterState6 {
+class PLASMA_DLL plFixedWaterState6
+{
 public:
-    struct PLASMA_DLL WaveState {
+    struct PLASMA_DLL WaveState
+    {
         float fMaxLength, fMinLength, fAmpOverLen, fChop, fAngleDev;
 
-        WaveState() : fMaxLength(0.0f), fMinLength(0.0f), fAmpOverLen(0.0f),
-                      fChop(0.0f), fAngleDev(0.0f) { }
+        WaveState()
+            : fMaxLength(), fMinLength(), fAmpOverLen(), fChop(), fAngleDev() { }
 
         void read(hsStream* S);
         void write(hsStream* S);
@@ -50,9 +52,9 @@ protected:
 
 public:
     plFixedWaterState6()
-        : fRippleScale(0.0f), fWaterHeight(0.0f), fWispiness(0.0f),
-          fEdgeOpac(0.0f), fEdgeRadius(0.0f), fPeriod(0.0f),
-          fFingerLength(0.0f), fEnvRefresh(0.0f), fEnvRadius(0.0f) { }
+        : fRippleScale(), fWaterHeight(), fWispiness(), fEdgeOpac(),
+          fEdgeRadius(), fPeriod(), fFingerLength(), fEnvRefresh(),
+          fEnvRadius() { }
 
     void read(hsStream* S);
     void write(hsStream* S);

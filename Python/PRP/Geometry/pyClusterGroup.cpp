@@ -91,7 +91,8 @@ PY_METHOD_VA(ClusterGroup, delRegion,
     Py_RETURN_NONE;
 }
 
-PY_METHOD_NOARGS(ClusterGroup, clearRegions, "Remove all regions from the group") {
+PY_METHOD_NOARGS(ClusterGroup, clearRegions, "Remove all regions from the group")
+{
     self->fThis->clearRegions();
     Py_RETURN_NONE;
 }
@@ -126,7 +127,8 @@ PY_METHOD_VA(ClusterGroup, delLight,
     Py_RETURN_NONE;
 }
 
-PY_METHOD_NOARGS(ClusterGroup, clearLights, "Remove all lights from the group") {
+PY_METHOD_NOARGS(ClusterGroup, clearLights, "Remove all lights from the group")
+{
     self->fThis->clearLights();
     Py_RETURN_NONE;
 }
@@ -144,7 +146,8 @@ static PyMethodDef pyClusterGroup_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(ClusterGroup, clusters) {
+PY_GETSET_GETTER_DECL(ClusterGroup, clusters)
+{
     PyObject* list = PyTuple_New(self->fThis->getClusters().size());
     for (size_t i=0; i<self->fThis->getClusters().size(); i++)
         PyTuple_SET_ITEM(list, i, pyCluster_FromCluster(self->fThis->getClusters()[i]));
@@ -154,7 +157,8 @@ PY_GETSET_GETTER_DECL(ClusterGroup, clusters) {
 PY_PROPERTY_SETTER_MSG(ClusterGroup, clusters, "To add clusters, use addCluster")
 PY_PROPERTY_GETSET_DECL(ClusterGroup, clusters)
 
-PY_GETSET_GETTER_DECL(ClusterGroup, regions) {
+PY_GETSET_GETTER_DECL(ClusterGroup, regions)
+{
     PyObject* list = PyTuple_New(self->fThis->getRegions().size());
     for (size_t i=0; i<self->fThis->getRegions().size(); i++)
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getRegions()[i]));
@@ -164,7 +168,8 @@ PY_GETSET_GETTER_DECL(ClusterGroup, regions) {
 PY_PROPERTY_SETTER_MSG(ClusterGroup, regions, "To add regions, use addRegion")
 PY_PROPERTY_GETSET_DECL(ClusterGroup, regions)
 
-PY_GETSET_GETTER_DECL(ClusterGroup, lights) {
+PY_GETSET_GETTER_DECL(ClusterGroup, lights)
+{
     PyObject* list = PyTuple_New(self->fThis->getLights().size());
     for (size_t i=0; i<self->fThis->getLights().size(); i++)
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getLights()[i]));
@@ -196,7 +201,8 @@ static PyGetSetDef pyClusterGroup_GetSet[] = {
 
 PY_PLASMA_TYPE(ClusterGroup, plClusterGroup, "pyClusterGroup wrapper")
 
-PY_PLASMA_TYPE_INIT(ClusterGroup) {
+PY_PLASMA_TYPE_INIT(ClusterGroup)
+{
     pyClusterGroup_Type.tp_new = pyClusterGroup_new;
     pyClusterGroup_Type.tp_methods = pyClusterGroup_Methods;
     pyClusterGroup_Type.tp_getset = pyClusterGroup_GetSet;

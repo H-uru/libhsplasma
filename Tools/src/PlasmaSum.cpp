@@ -24,7 +24,8 @@
 #include "Util/hsSumFile.h"
 #include "Stream/plEncryptedStream.h"
 
-static void PrintFile(const hsSumFile::FileInfo& file, char op) {
+static void PrintFile(const hsSumFile::FileInfo& file, char op)
+{
     char buf[32];
     auto timestamp = static_cast<time_t>(file.fTimestamp);
     struct tm* tbuf = localtime(&timestamp);
@@ -32,7 +33,8 @@ static void PrintFile(const hsSumFile::FileInfo& file, char op) {
     ST::printf("{c} {}  {}  {}\n", op, file.fHash.toHex(), buf, file.fPath);
 }
 
-static ST::string FixSlashes(const ST::string& src) {
+static ST::string FixSlashes(const ST::string& src)
+{
     if (src.empty())
         return src;
 
@@ -44,7 +46,8 @@ static ST::string FixSlashes(const ST::string& src) {
     return dest;
 }
 
-static ST::string cdUp(ST::string path) {
+static ST::string cdUp(ST::string path)
+{
     // Check for root paths, we can't go up from there!
 #ifdef _WIN32
     if (path.substr(1) == ":\\")
@@ -71,7 +74,8 @@ static ST::string cdUp(ST::string path) {
     }
 }
 
-static std::unique_ptr<hsFileStream> FindFilePath(ST::string path, ST::string base) {
+static std::unique_ptr<hsFileStream> FindFilePath(ST::string path, ST::string base)
+{
     if (path.empty())
         return nullptr;
 
@@ -101,7 +105,8 @@ static bool s_autoYes = false;
 static bool s_createFile = false;
 static bool s_oldFormat = false;
 
-static ST::string GetInternalName(const ST::string& filename) {
+static ST::string GetInternalName(const ST::string& filename)
+{
     // Different files are stored in different locations; this function
     // will try to guess where to put things based on the file's extension.
     // This is all based on the contents of .sum files included with the
@@ -129,7 +134,8 @@ static ST::string GetInternalName(const ST::string& filename) {
     return ST_LITERAL("dat") + split + name;
 }
 
-static bool UpdateSums(const ST::string& filename) {
+static bool UpdateSums(const ST::string& filename)
+{
     bool isUpdated = false;
     ST::printf("{}:\n", filename);
     try {
@@ -200,7 +206,8 @@ static bool UpdateSums(const ST::string& filename) {
 
 
 /* Main program */
-static void doHelp(const char* progName) {
+static void doHelp(const char* progName)
+{
     ST::printf("Usage: {} [options] sumfile [...]\n", progName);
     puts("");
     puts("Options:");
@@ -216,11 +223,13 @@ static void doHelp(const char* progName) {
     puts("");
 }
 
-enum OperationMode {
+enum OperationMode
+{
     kModeUpdate, kModeList, kModeManual
 };
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
     if (argc < 2) {
         doHelp(argv[0]);
         return 1;

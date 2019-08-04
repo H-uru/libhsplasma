@@ -17,8 +17,9 @@
 #include "pfGUIKnobCtrl.h"
 
 pfGUIKnobCtrl::pfGUIKnobCtrl()
-             : fEoaInt1(0), fEoaInt2(0), fEoaInt3(0), fEoaInt4(0),
-               fEoaFl1(0.0F), fEoaFl2(0.0F), fEoaFl3(0.0F), fEoaFl4(0.0) {
+    : fEoaInt1(), fEoaInt2(), fEoaInt3(), fEoaInt4(),
+      fEoaFl1(), fEoaFl2(), fEoaFl3(), fEoaFl4()
+{
     fFlags.setName(kReverseValues, "kReverseValues");
     fFlags.setName(kLeftRightOrientation, "kLeftRightOrientation");
     fFlags.setName(kMapToScreenRange, "kMapToScreenRange");
@@ -26,7 +27,8 @@ pfGUIKnobCtrl::pfGUIKnobCtrl()
     fFlags.setName(kMapToAnimationRange, "kMapToAnimationRange");
 }
 
-void pfGUIKnobCtrl::read(hsStream* S, plResManager* mgr) {
+void pfGUIKnobCtrl::read(hsStream* S, plResManager* mgr)
+{
     pfGUIValueCtrl::read(S, mgr);
 
     fAnimationKeys.resize(S->readInt());
@@ -49,7 +51,8 @@ void pfGUIKnobCtrl::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void pfGUIKnobCtrl::write(hsStream* S, plResManager* mgr) {
+void pfGUIKnobCtrl::write(hsStream* S, plResManager* mgr)
+{
     pfGUIValueCtrl::write(S, mgr);
 
     S->writeInt(fAnimationKeys.size());
@@ -72,7 +75,8 @@ void pfGUIKnobCtrl::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void pfGUIKnobCtrl::IPrcWrite(pfPrcHelper* prc) {
+void pfGUIKnobCtrl::IPrcWrite(pfPrcHelper* prc)
+{
     pfGUIValueCtrl::IPrcWrite(prc);
 
     prc->startTag("Animation");
@@ -104,7 +108,8 @@ void pfGUIKnobCtrl::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag();
 }
 
-void pfGUIKnobCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void pfGUIKnobCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Animation") {
         fAnimName = tag->getParam("Name", "");
         fAnimationKeys.resize(tag->countChildren());

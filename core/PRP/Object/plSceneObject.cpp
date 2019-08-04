@@ -18,7 +18,8 @@
 #include "PRP/Modifier/plModifier.h"
 #include "Debug/plDebug.h"
 
-void plSceneObject::addTarget(hsKeyedObject* obj) {
+void plSceneObject::addTarget(hsKeyedObject* obj)
+{
     if (obj->isStub()) {
         plDebug::Warning("WARNING:  Adding STUB modifier to SceneObject");
         return;
@@ -28,7 +29,8 @@ void plSceneObject::addTarget(hsKeyedObject* obj) {
     mod->addTarget(getKey());
 }
 
-void plSceneObject::read(hsStream* S, plResManager* mgr) {
+void plSceneObject::read(hsStream* S, plResManager* mgr)
+{
     plSynchedObject::read(S, mgr);
 
     fDrawIntf = mgr->readKey(S);
@@ -48,7 +50,8 @@ void plSceneObject::read(hsStream* S, plResManager* mgr) {
     fSceneNode = mgr->readKey(S);
 }
 
-void plSceneObject::write(hsStream* S, plResManager* mgr) {
+void plSceneObject::write(hsStream* S, plResManager* mgr)
+{
     plSynchedObject::write(S, mgr);
 
     mgr->writeKey(S, fDrawIntf);
@@ -68,7 +71,8 @@ void plSceneObject::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fSceneNode);
 }
 
-void plSceneObject::IPrcWrite(pfPrcHelper* prc) {
+void plSceneObject::IPrcWrite(pfPrcHelper* prc)
+{
     plSynchedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("DrawInterface");
@@ -98,7 +102,8 @@ void plSceneObject::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plSceneObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plSceneObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "DrawInterface") {
         if (tag->hasChildren())
             fDrawIntf = mgr->prcParseKey(tag->getFirstChild());
@@ -134,12 +139,14 @@ void plSceneObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plSceneObject::addModifier(plKey intf) {
+void plSceneObject::addModifier(plKey intf)
+{
     fModifiers.push_back(intf);
     intf->addCallback(std::bind(&plSceneObject::addTarget, this, std::placeholders::_1));
 }
 
-void plSceneObject::delModifier(size_t idx) {
+void plSceneObject::delModifier(size_t idx)
+{
     plKey key = fModifiers[idx];
     fModifiers.erase(fModifiers.begin() + idx);
 
@@ -153,7 +160,8 @@ void plSceneObject::delModifier(size_t idx) {
     }
 }
 
-void plSceneObject::clearModifiers() {
+void plSceneObject::clearModifiers()
+{
     for (size_t i = 0; i < fModifiers.size(); i++) {
         plKey key = fModifiers[i];
         if (key.isLoaded()) {

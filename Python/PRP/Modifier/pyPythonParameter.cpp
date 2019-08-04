@@ -23,7 +23,8 @@
 
 PY_PLASMA_VALUE_DEALLOC(PythonParameter)
 
-PY_PLASMA_INIT_DECL(PythonParameter) {
+PY_PLASMA_INIT_DECL(PythonParameter)
+{
     PyObject* init = NULL;
 
     if (PyArg_ParseTuple(args, "|O", &init)) {
@@ -90,7 +91,8 @@ static PyMethodDef pyPythonParameter_Methods[] = {
 PY_PROPERTY_MEMBER(unsigned int, PythonParameter, id, fID)
 PY_PROPERTY_MEMBER(unsigned int, PythonParameter, valueType, fValueType)
 
-PY_GETSET_GETTER_DECL(PythonParameter, value) {
+PY_GETSET_GETTER_DECL(PythonParameter, value)
+{
     switch (self->fThis->fValueType) {
     case plPythonParameter::kInt:
         return pyPlasma_convert(self->fThis->fIntValue);
@@ -110,7 +112,8 @@ PY_GETSET_GETTER_DECL(PythonParameter, value) {
     }
 }
 
-PY_GETSET_SETTER_DECL(PythonParameter, value) {
+PY_GETSET_SETTER_DECL(PythonParameter, value)
+{
     PY_PROPERTY_CHECK_NULL(value)
 
     switch (self->fThis->fValueType) {
@@ -169,7 +172,8 @@ static PyGetSetDef pyPythonParameter_GetSet[] = {
 
 PY_PLASMA_TYPE(PythonParameter, plPythonParameter, "plPythonParameter wrapper")
 
-PY_PLASMA_TYPE_INIT(PythonParameter) {
+PY_PLASMA_TYPE_INIT(PythonParameter)
+{
     pyPythonParameter_Type.tp_dealloc = pyPythonParameter_dealloc;
     pyPythonParameter_Type.tp_init = pyPythonParameter___init__;
     pyPythonParameter_Type.tp_new = pyPythonParameter_new;

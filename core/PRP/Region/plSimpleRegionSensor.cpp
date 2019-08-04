@@ -17,19 +17,22 @@
 #include "plSimpleRegionSensor.h"
 
 /* plSimpleRegionSensor */
-plSimpleRegionSensor::~plSimpleRegionSensor() {
+plSimpleRegionSensor::~plSimpleRegionSensor()
+{
     delete fEnterMsg;
     delete fExitMsg;
 }
 
-void plSimpleRegionSensor::read(hsStream* S, plResManager* mgr) {
+void plSimpleRegionSensor::read(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::read(S, mgr);
 
     setEnterMsg(S->readBool() ? plMessage::Convert(mgr->ReadCreatable(S)) : NULL);
     setExitMsg(S->readBool() ? plMessage::Convert(mgr->ReadCreatable(S)) : NULL);
 }
 
-void plSimpleRegionSensor::write(hsStream* S, plResManager* mgr) {
+void plSimpleRegionSensor::write(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::write(S, mgr);
 
     if (fEnterMsg != NULL) {
@@ -46,7 +49,8 @@ void plSimpleRegionSensor::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plSimpleRegionSensor::IPrcWrite(pfPrcHelper* prc) {
+void plSimpleRegionSensor::IPrcWrite(pfPrcHelper* prc)
+{
     plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("EnterMsg");
@@ -69,7 +73,8 @@ void plSimpleRegionSensor::IPrcWrite(pfPrcHelper* prc) {
     }
 }
 
-void plSimpleRegionSensor::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plSimpleRegionSensor::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "EnterMsg") {
         if (tag->getParam("NULL", "false").to_bool())
             setEnterMsg(NULL);
@@ -85,26 +90,30 @@ void plSimpleRegionSensor::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plSimpleRegionSensor::setEnterMsg(plMessage* msg) {
+void plSimpleRegionSensor::setEnterMsg(plMessage* msg)
+{
     delete fEnterMsg;
     fEnterMsg = msg;
 }
 
-void plSimpleRegionSensor::setExitMsg(plMessage* msg) {
+void plSimpleRegionSensor::setExitMsg(plMessage* msg)
+{
     delete fExitMsg;
     fExitMsg = msg;
 }
 
 
 /* plSwimDetector */
-void plSwimDetector::read(hsStream* S, plResManager* mgr) {
+void plSwimDetector::read(hsStream* S, plResManager* mgr)
+{
     plSimpleRegionSensor::read(S, mgr);
     S->readByte();
     S->readFloat();
     S->readFloat();
 }
 
-void plSwimDetector::write(hsStream* S, plResManager* mgr) {
+void plSwimDetector::write(hsStream* S, plResManager* mgr)
+{
     plSimpleRegionSensor::write(S, mgr);
     S->writeByte(0);
     S->writeFloat(0.0f);
@@ -113,17 +122,20 @@ void plSwimDetector::write(hsStream* S, plResManager* mgr) {
 
 
 /* plAutoWalkRegion */
-void plAutoWalkRegion::read(hsStream* S, plResManager* mgr) {
+void plAutoWalkRegion::read(hsStream* S, plResManager* mgr)
+{
     plSimpleRegionSensor::read(S, mgr);
     fUnknown = S->readInt();
 }
 
-void plAutoWalkRegion::write(hsStream* S, plResManager* mgr) {
+void plAutoWalkRegion::write(hsStream* S, plResManager* mgr)
+{
     plSimpleRegionSensor::write(S, mgr);
     S->writeInt(fUnknown);
 }
 
-void plAutoWalkRegion::IPrcWrite(pfPrcHelper* prc) {
+void plAutoWalkRegion::IPrcWrite(pfPrcHelper* prc)
+{
     plSimpleRegionSensor::IPrcWrite(prc);
 
     prc->startTag("AutoWalkParams");
@@ -131,7 +143,8 @@ void plAutoWalkRegion::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plAutoWalkRegion::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAutoWalkRegion::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "AutoWalkParams") {
         fUnknown = tag->getParam("Unknown", "0").to_uint();
     } else {

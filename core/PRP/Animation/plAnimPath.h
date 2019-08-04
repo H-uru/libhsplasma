@@ -22,11 +22,13 @@
 #include "Math/hsMatrix44.h"
 #include "plTMController.h"
 
-class PLASMA_DLL plAnimPath : public plCreatable {
+class PLASMA_DLL plAnimPath : public plCreatable
+{
     CREATABLE(plAnimPath, kAnimPath, plCreatable)
 
 public:
-    enum Flags {
+    enum Flags
+    {
         kNone = 0,
         kFavorFwdSearch = 0x1,
         kFavorBwdSearch = 0x2,
@@ -45,8 +47,9 @@ protected:
    hsAffineParts fParts;
 
 public:
-    plAnimPath() : fAnimPathFlags(), fMinDistSq(), fLength(), fController(), fTMController() { }
-    virtual ~plAnimPath();
+    plAnimPath()
+        : fAnimPathFlags(), fMinDistSq(), fLength(), fController(), fTMController() { }
+    ~plAnimPath();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

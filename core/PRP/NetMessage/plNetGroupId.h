@@ -19,9 +19,11 @@
 
 #include "PRP/KeyedObject/plLocation.h"
 
-class PLASMA_DLL plNetGroupId {
+class PLASMA_DLL plNetGroupId
+{
 public:
-    enum {
+    enum
+    {
         kNetGroupConstant = 0x01,
         kNetGroupLocal = 0x02,
     };
@@ -31,7 +33,7 @@ private:
     unsigned char fFlags;
 
 public:
-    plNetGroupId() : fFlags(0) { }
+    plNetGroupId() : fFlags() { }
 
     void read(hsStream* S);
     void write(hsStream* S);

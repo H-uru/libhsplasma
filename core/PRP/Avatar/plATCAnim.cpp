@@ -17,7 +17,8 @@
 #include "plATCAnim.h"
 
 /* plATCAnim */
-void plATCAnim::read(hsStream* S, plResManager* mgr) {
+void plATCAnim::read(hsStream* S, plResManager* mgr)
+{
     plAGAnim::read(S, mgr);
 
     fInitial = S->readFloat();
@@ -55,7 +56,8 @@ void plATCAnim::read(hsStream* S, plResManager* mgr) {
         fStopPoints[i] = S->readFloat();
 }
 
-void plATCAnim::write(hsStream* S, plResManager* mgr) {
+void plATCAnim::write(hsStream* S, plResManager* mgr)
+{
     plAGAnim::write(S, mgr);
 
     S->writeFloat(fInitial);
@@ -92,7 +94,8 @@ void plATCAnim::write(hsStream* S, plResManager* mgr) {
         S->writeFloat(fStopPoints[i]);
 }
 
-void plATCAnim::IPrcWrite(pfPrcHelper* prc) {
+void plATCAnim::IPrcWrite(pfPrcHelper* prc)
+{
     plAGAnim::IPrcWrite(prc);
 
     prc->startTag("ATCAnimParams");
@@ -145,7 +148,8 @@ void plATCAnim::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plATCAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plATCAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "ATCAnimParams") {
         fInitial = tag->getParam("Initial", "0").to_float();
         fAutoStart = tag->getParam("AutoStart", "false").to_bool();
@@ -195,14 +199,16 @@ void plATCAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-float plATCAnim::getMarker(const ST::string& key) const {
+float plATCAnim::getMarker(const ST::string& key) const
+{
     marker_t::const_iterator f = fMarkers.find(key);
     if (f == fMarkers.end())
         throw hsOutOfBoundsException(__FILE__, __LINE__);
     return f->second;
 }
 
-std::pair<float, float> plATCAnim::getLoop(const ST::string& key) const {
+std::pair<float, float> plATCAnim::getLoop(const ST::string& key) const
+{
     loop_t::const_iterator f = fLoops.find(key);
     if (f == fLoops.end())
         throw hsOutOfBoundsException(__FILE__, __LINE__);
@@ -211,7 +217,8 @@ std::pair<float, float> plATCAnim::getLoop(const ST::string& key) const {
 
 
 /* plEmoteAnim */
-void plEmoteAnim::read(hsStream* S, plResManager* mgr) {
+void plEmoteAnim::read(hsStream* S, plResManager* mgr)
+{
     plATCAnim::read(S, mgr);
 
     fFadeIn = S->readFloat();
@@ -219,7 +226,8 @@ void plEmoteAnim::read(hsStream* S, plResManager* mgr) {
     fBodyUsage = (plAGAnim::BodyUsage)S->readByte();
 }
 
-void plEmoteAnim::write(hsStream* S, plResManager* mgr) {
+void plEmoteAnim::write(hsStream* S, plResManager* mgr)
+{
     plATCAnim::write(S, mgr);
 
     S->writeFloat(fFadeIn);
@@ -227,7 +235,8 @@ void plEmoteAnim::write(hsStream* S, plResManager* mgr) {
     S->writeByte((uint8_t)fBodyUsage);
 }
 
-void plEmoteAnim::IPrcWrite(pfPrcHelper* prc) {
+void plEmoteAnim::IPrcWrite(pfPrcHelper* prc)
+{
     plATCAnim::IPrcWrite(prc);
 
     prc->startTag("EmoteAnimParams");
@@ -237,7 +246,8 @@ void plEmoteAnim::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plEmoteAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plEmoteAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "EmoteAnimParams") {
         fFadeIn = tag->getParam("FadeIn", "0").to_float();
         fFadeOut = tag->getParam("FadeOut", "0").to_float();
@@ -249,7 +259,8 @@ void plEmoteAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plAGAnimBink */
-void plAGAnimBink::read(hsStream* S, plResManager* mgr) {
+void plAGAnimBink::read(hsStream* S, plResManager* mgr)
+{
     plATCAnim::read(S, mgr);
 
     fBinkFilename = S->readSafeStr();
@@ -257,7 +268,8 @@ void plAGAnimBink::read(hsStream* S, plResManager* mgr) {
     fSubtitleId = S->readSafeStr();
 }
 
-void plAGAnimBink::write(hsStream* S, plResManager* mgr) {
+void plAGAnimBink::write(hsStream* S, plResManager* mgr)
+{
     plATCAnim::write(S, mgr);
 
     S->writeSafeStr(fBinkFilename);
@@ -265,7 +277,8 @@ void plAGAnimBink::write(hsStream* S, plResManager* mgr) {
     S->writeSafeStr(fSubtitleId);
 }
 
-void plAGAnimBink::IPrcWrite(pfPrcHelper* prc) {
+void plAGAnimBink::IPrcWrite(pfPrcHelper* prc)
+{
     plATCAnim::IPrcWrite(prc);
 
     prc->startTag("BinkParams");
@@ -275,7 +288,8 @@ void plAGAnimBink::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plAGAnimBink::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAGAnimBink::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "BinkParams") {
         fBinkFilename = tag->getParam("BinkFile", "");
         fSgtFilename = tag->getParam("SgtFile", "");

@@ -64,7 +64,8 @@ PyGetSetDef pyObjInterface_GetSet[] = {
 
 PY_PLASMA_TYPE(ObjInterface, plObjInterface, "plObjInterface wrapper")
 
-PY_PLASMA_TYPE_INIT(ObjInterface) {
+PY_PLASMA_TYPE_INIT(ObjInterface)
+{
     pyObjInterface_Type.tp_new = pyObjInterface_new;
     pyObjInterface_Type.tp_methods = pyObjInterface_Methods;
     pyObjInterface_Type.tp_getset = pyObjInterface_GetSet;

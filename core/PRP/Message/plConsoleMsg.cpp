@@ -16,7 +16,8 @@
 
 #include "plConsoleMsg.h"
 
-void plConsoleMsg::read(hsStream* S, plResManager* mgr) {
+void plConsoleMsg::read(hsStream* S, plResManager* mgr)
+{
     plMessage::read(S, mgr);
 
     fCmd = S->readInt();
@@ -24,7 +25,8 @@ void plConsoleMsg::read(hsStream* S, plResManager* mgr) {
     fString = S->readStr(len);
 }
 
-void plConsoleMsg::write(hsStream* S, plResManager* mgr) {
+void plConsoleMsg::write(hsStream* S, plResManager* mgr)
+{
     plMessage::write(S, mgr);
 
     S->writeInt(fCmd);
@@ -32,7 +34,8 @@ void plConsoleMsg::write(hsStream* S, plResManager* mgr) {
     S->writeStr(fString);
 }
 
-void plConsoleMsg::IPrcWrite(pfPrcHelper* prc) {
+void plConsoleMsg::IPrcWrite(pfPrcHelper* prc)
+{
     plMessage::IPrcWrite(prc);
 
     prc->startTag("Command");
@@ -41,7 +44,8 @@ void plConsoleMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plConsoleMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plConsoleMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Command") {
         fCmd = tag->getParam("Type", "0").to_uint();
         fString = tag->getParam("String", "");

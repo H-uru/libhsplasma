@@ -404,7 +404,8 @@ static PyMethodDef pyDrawableSpans_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(DrawableSpans, spans) {
+PY_GETSET_GETTER_DECL(DrawableSpans, spans)
+{
     PyObject* list = PyTuple_New(self->fThis->getNumSpans());
     for (size_t i=0; i<self->fThis->getNumSpans(); i++)
         PyTuple_SET_ITEM(list, i, ICreateSpan(self->fThis->getSpan(i)));
@@ -425,7 +426,8 @@ PY_PROPERTY_SETTER_MSG(DrawableSpans, bufferGroups,
                        "To add BufferGroups, use createBufferGroup()")
 PY_PROPERTY_GETSET_DECL(DrawableSpans, bufferGroups)
 
-PY_GETSET_GETTER_DECL(DrawableSpans, DIIndices) {
+PY_GETSET_GETTER_DECL(DrawableSpans, DIIndices)
+{
     PyObject* list = PyTuple_New(self->fThis->getNumDIIndices());
     for (size_t i=0; i<self->fThis->getNumDIIndices(); i++)
         PyTuple_SET_ITEM(list, i, pyDISpanIndex_FromDISpanIndex(self->fThis->getDIIndex(i)));
@@ -435,7 +437,8 @@ PY_GETSET_GETTER_DECL(DrawableSpans, DIIndices) {
 PY_PROPERTY_SETTER_MSG(DrawableSpans, DIIndices, "To add DI Indices, use addDIIndex()")
 PY_PROPERTY_GETSET_DECL(DrawableSpans, DIIndices)
 
-PY_GETSET_GETTER_DECL(DrawableSpans, localToWorlds) {
+PY_GETSET_GETTER_DECL(DrawableSpans, localToWorlds)
+{
     PyObject* list = PyTuple_New(self->fThis->getNumTransforms());
     for (size_t i=0; i<self->fThis->getNumTransforms(); i++)
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getLocalToWorld(i)));
@@ -446,7 +449,8 @@ PY_PROPERTY_SETTER_MSG(DrawableSpans, localToWorlds,
                        "To add transform matrices, use addTransform()")
 PY_PROPERTY_GETSET_DECL(DrawableSpans, localToWorlds)
 
-PY_GETSET_GETTER_DECL(DrawableSpans, worldToLocals)  {
+PY_GETSET_GETTER_DECL(DrawableSpans, worldToLocals)
+{
     PyObject* list = PyTuple_New(self->fThis->getNumTransforms());
     for (size_t i=0; i<self->fThis->getNumTransforms(); i++)
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getWorldToLocal(i)));
@@ -457,7 +461,8 @@ PY_PROPERTY_SETTER_MSG(DrawableSpans, worldToLocals,
                        "To add transform matrices, use addTransform()")
 PY_PROPERTY_GETSET_DECL(DrawableSpans, worldToLocals)
 
-PY_GETSET_GETTER_DECL(DrawableSpans, localToBones) {
+PY_GETSET_GETTER_DECL(DrawableSpans, localToBones)
+{
     PyObject* list = PyTuple_New(self->fThis->getNumTransforms());
     for (size_t i=0; i<self->fThis->getNumTransforms(); i++)
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getLocalToBone(i)));
@@ -468,7 +473,8 @@ PY_PROPERTY_SETTER_MSG(DrawableSpans, localToBones,
                        "To add transform matrices, use addTransform()")
 PY_PROPERTY_GETSET_DECL(DrawableSpans, localToBones)
 
-PY_GETSET_GETTER_DECL(DrawableSpans, boneToLocals) {
+PY_GETSET_GETTER_DECL(DrawableSpans, boneToLocals)
+{
     PyObject* list = PyTuple_New(self->fThis->getNumTransforms());
     for (size_t i=0; i<self->fThis->getNumTransforms(); i++)
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getBoneToLocal(i)));
@@ -479,7 +485,8 @@ PY_PROPERTY_SETTER_MSG(DrawableSpans, boneToLocals,
                        "To add transform matrices, use addTransform()")
 PY_PROPERTY_GETSET_DECL(DrawableSpans, boneToLocals)
 
-PY_GETSET_GETTER_DECL(DrawableSpans, materials) {
+PY_GETSET_GETTER_DECL(DrawableSpans, materials)
+{
     PyObject* list = PyTuple_New(self->fThis->getMaterials().size());
     for (size_t i=0; i<self->fThis->getMaterials().size(); i++)
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getMaterials()[i]));
@@ -489,7 +496,8 @@ PY_GETSET_GETTER_DECL(DrawableSpans, materials) {
 PY_PROPERTY_SETTER_MSG(DrawableSpans, materials, "To add materials, use addMaterial()")
 PY_PROPERTY_GETSET_DECL(DrawableSpans, materials)
 
-PY_GETSET_GETTER_DECL(DrawableSpans, sourceSpans) {
+PY_GETSET_GETTER_DECL(DrawableSpans, sourceSpans)
+{
     PyObject* list = PyTuple_New(self->fThis->getSourceSpans().size());
     for (size_t i = 0; i < self->fThis->getSourceSpans().size(); ++i)
         PyTuple_SET_ITEM(list, i, pyGeometrySpan_FromGeometrySpan(self->fThis->getSourceSpans()[i]));
@@ -531,7 +539,8 @@ static PyGetSetDef pyDrawableSpans_GetSet[] = {
 
 PY_PLASMA_TYPE(DrawableSpans, plDrawableSpans, "plDrawableSpans wrapper")
 
-PY_PLASMA_TYPE_INIT(DrawableSpans) {
+PY_PLASMA_TYPE_INIT(DrawableSpans)
+{
     pyDrawableSpans_Type.tp_new = pyDrawableSpans_new;
     pyDrawableSpans_Type.tp_methods = pyDrawableSpans_Methods;
     pyDrawableSpans_Type.tp_getset = pyDrawableSpans_GetSet;

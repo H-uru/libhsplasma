@@ -16,14 +16,16 @@
 
 #include "plAvBrainGeneric.h"
 
-plAvBrainGeneric::~plAvBrainGeneric() {
+plAvBrainGeneric::~plAvBrainGeneric()
+{
     for (auto stage = fStages.begin(); stage != fStages.end(); ++stage)
         delete *stage;
     delete fStartMessage;
     delete fEndMessage;
 }
 
-void plAvBrainGeneric::read(hsStream* S, plResManager* mgr) {
+void plAvBrainGeneric::read(hsStream* S, plResManager* mgr)
+{
     plArmatureBrain::read(S, mgr);
 
     clearStages();
@@ -56,7 +58,8 @@ void plAvBrainGeneric::read(hsStream* S, plResManager* mgr) {
     fRecipient = mgr->readKey(S);
 }
 
-void plAvBrainGeneric::write(hsStream* S, plResManager* mgr) {
+void plAvBrainGeneric::write(hsStream* S, plResManager* mgr)
+{
     plArmatureBrain::write(S, mgr);
 
     S->writeInt(fStages.size());
@@ -86,7 +89,8 @@ void plAvBrainGeneric::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fRecipient);
 }
 
-void plAvBrainGeneric::IPrcWrite(pfPrcHelper* prc) {
+void plAvBrainGeneric::IPrcWrite(pfPrcHelper* prc)
+{
     plArmatureBrain::IPrcWrite(prc);
 
     prc->startTag("Stages");
@@ -136,7 +140,8 @@ void plAvBrainGeneric::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plAvBrainGeneric::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAvBrainGeneric::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Stages") {
         fCurStage = tag->getParam("Current", "0").to_int();
         clearStages();
@@ -188,23 +193,27 @@ void plAvBrainGeneric::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plAvBrainGeneric::delStage(size_t idx) {
+void plAvBrainGeneric::delStage(size_t idx)
+{
     delete fStages[idx];
     fStages.erase(fStages.begin() + idx);
 }
 
-void plAvBrainGeneric::clearStages() {
+void plAvBrainGeneric::clearStages()
+{
     for (auto stage = fStages.begin(); stage != fStages.end(); ++stage)
         delete *stage;
     fStages.clear();
 }
 
-void plAvBrainGeneric::setStartMessage(plMessage* msg) {
+void plAvBrainGeneric::setStartMessage(plMessage* msg)
+{
     delete fStartMessage;
     fStartMessage = msg;
 }
 
-void plAvBrainGeneric::setEndMessage(plMessage* msg) {
+void plAvBrainGeneric::setEndMessage(plMessage* msg)
+{
     delete fEndMessage;
     fEndMessage = msg;
 }

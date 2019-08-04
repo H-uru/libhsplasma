@@ -17,7 +17,8 @@
 #include "plATCEaseCurves.h"
 
 /* plATCEaseCurve */
-void plATCEaseCurve::read(hsStream* S, plResManager* ) {
+void plATCEaseCurve::read(hsStream* S, plResManager* )
+{
     fMinLength = S->readFloat();
     fMaxLength = S->readFloat();
     fLength = S->readFloat();
@@ -26,7 +27,8 @@ void plATCEaseCurve::read(hsStream* S, plResManager* ) {
     fBeginWorldTime = S->readDouble();
 }
 
-void plATCEaseCurve::write(hsStream* S, plResManager* ) {
+void plATCEaseCurve::write(hsStream* S, plResManager* )
+{
     S->writeFloat(fMinLength);
     S->writeFloat(fMaxLength);
     S->writeFloat(fLength);
@@ -35,7 +37,8 @@ void plATCEaseCurve::write(hsStream* S, plResManager* ) {
     S->writeDouble(fBeginWorldTime);
 }
 
-void plATCEaseCurve::IPrcWrite(pfPrcHelper* prc) {
+void plATCEaseCurve::IPrcWrite(pfPrcHelper* prc)
+{
     prc->startTag("Lengths");
     prc->writeParam("Min", fMinLength);
     prc->writeParam("Max", fMaxLength);
@@ -49,7 +52,8 @@ void plATCEaseCurve::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plATCEaseCurve::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plATCEaseCurve::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Lengths") {
         fMinLength = tag->getParam("Min", "0").to_float();
         fMaxLength = tag->getParam("Max", "0").to_float();
@@ -65,7 +69,8 @@ void plATCEaseCurve::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plSplineEaseCurve */
-void plSplineEaseCurve::read(hsStream* S, plResManager* mgr) {
+void plSplineEaseCurve::read(hsStream* S, plResManager* mgr)
+{
     plATCEaseCurve::read(S, mgr);
 
     fCoef[0] = S->readFloat();
@@ -74,7 +79,8 @@ void plSplineEaseCurve::read(hsStream* S, plResManager* mgr) {
     fCoef[3] = S->readFloat();
 }
 
-void plSplineEaseCurve::write(hsStream* S, plResManager* mgr) {
+void plSplineEaseCurve::write(hsStream* S, plResManager* mgr)
+{
     plATCEaseCurve::write(S, mgr);
 
     S->writeFloat(fCoef[0]);
@@ -83,7 +89,8 @@ void plSplineEaseCurve::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fCoef[3]);
 }
 
-void plSplineEaseCurve::IPrcWrite(pfPrcHelper* prc) {
+void plSplineEaseCurve::IPrcWrite(pfPrcHelper* prc)
+{
     plATCEaseCurve::IPrcWrite(prc);
 
     prc->writeTagNoBreak("SplineCoefficients");
@@ -92,7 +99,8 @@ void plSplineEaseCurve::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTagNoBreak();
 }
 
-void plSplineEaseCurve::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plSplineEaseCurve::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "SplineCoefficients") {
         std::list<ST::string> coefList = tag->getContents();
         if (coefList.size() != 4)

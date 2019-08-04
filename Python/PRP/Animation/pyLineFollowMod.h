@@ -24,17 +24,20 @@ PY_WRAP_PLASMA(LineFollowMod, plLineFollowMod)
 PY_WRAP_PLASMA(RailCameraMod, plRailCameraMod)
 
 /* Python property helpers */
-inline PyObject* pyPlasma_convert(plLineFollowMod::FollowMode value) {
+inline PyObject* pyPlasma_convert(plLineFollowMod::FollowMode value)
+{
     return PyInt_FromLong((long)value);
 }
 
 template <>
-inline int pyPlasma_check<plLineFollowMod::FollowMode>(PyObject* value) {
+inline int pyPlasma_check<plLineFollowMod::FollowMode>(PyObject* value)
+{
     return PyInt_Check(value);
 }
 
 template <>
-inline plLineFollowMod::FollowMode pyPlasma_get(PyObject* value) {
+inline plLineFollowMod::FollowMode pyPlasma_get(PyObject* value)
+{
     return (plLineFollowMod::FollowMode)PyInt_AsLong(value);
 }
 

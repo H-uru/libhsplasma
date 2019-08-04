@@ -24,7 +24,8 @@ bool plDebug::fIOwnStream = false;
 bool plDebug::fIsExitRegistered = false;
 ST::string plDebug::fDebugFile;
 
-void plDebug::Init(int level, hsStream* stream) {
+void plDebug::Init(int level, hsStream* stream)
+{
     DeInit();
 
     fDebugLevel = level;
@@ -43,7 +44,8 @@ void plDebug::Init(int level, hsStream* stream) {
     }
 }
 
-void plDebug::InitFile(int level, const char* filename) {
+void plDebug::InitFile(int level, const char* filename)
+{
     DeInit();
 
     fDebugLevel = level;
@@ -56,7 +58,8 @@ void plDebug::InitFile(int level, const char* filename) {
     }
 }
 
-void plDebug::DelayInit() {
+void plDebug::DelayInit()
+{
     if (fDebugFile.empty()) {
         // Nobody ever called Init(), so use stderr
         Init(kDLWarning, NULL);
@@ -68,13 +71,15 @@ void plDebug::DelayInit() {
     }
 }
 
-void plDebug::DeInit() {
+void plDebug::DeInit()
+{
     if (fIOwnStream)
         delete fDebugStream;
     fDebugStream = NULL;
 }
 
-void plDebug::WriteLn(const ST::string& line) {
+void plDebug::WriteLn(const ST::string& line)
+{
     if (fDebugStream == NULL)
         DelayInit();
 

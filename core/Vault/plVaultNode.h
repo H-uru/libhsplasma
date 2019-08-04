@@ -21,8 +21,10 @@
 #include "Sys/plUnifiedTime.h"
 #include "Util/hsBitVector.h"
 
-namespace plVault {
-    enum NodeTypes {
+namespace plVault
+{
+    enum NodeTypes
+    {
         kNodeInvalid, kNodeVNodeMgrLow, kNodePlayer, kNodeAge, kNodeGameServer,
         kNodeAdmin, kNodeVaultServer, kNodeCCR, kNodeVNodeMgrHigh = 21,
         kNodeFolder, kNodePlayerInfo, kNodeSystem, kNodeImage, kNodeTextNote,
@@ -31,7 +33,8 @@ namespace plVault {
         kNodeMarkerList, kNodeNumTypes,
     };
 
-    enum StandardNodes {
+    enum StandardNodes
+    {
         kUserDefinedNode, kInboxFolder, kBuddyListFolder, kIgnoreListFolder,
         kPeopleIKnowAboutFolder, kVaultMgrGlobalDataFolder, kChronicleFolder,
         kAvatarOutfitFolder, kAgeTypeJournalFolder, kSubAgesFolder,
@@ -45,16 +48,19 @@ namespace plVault {
         kGameScoresFolder, kLastStandardNode
     };
 
-    enum NoteTypes {
+    enum NoteTypes
+    {
         kNoteGeneric, kNoteCCRPetition, kNoteDevice, kNoteInvite, kNoteVisit,
         kNoteUnVisit, kNumNoteTypes
     };
 
-    enum ImageTypes {
+    enum ImageTypes
+    {
         kNone, kJPEG, kPNG
     };
 
-    enum NodePermissions {
+    enum NodePermissions
+    {
         kOwnerRead = 0x1,
         kOwnerWrite = 0x2,
         kGroupRead = 0x4,
@@ -65,14 +71,16 @@ namespace plVault {
     };
 }
 
-class PLASMA_DLL plVaultBlob {
+class PLASMA_DLL plVaultBlob
+{
 private:
-    struct PLASMA_DLL BlobData {
+    struct PLASMA_DLL BlobData
+    {
         unsigned int fRefs;
         size_t fSize;
         unsigned char* fData;
 
-        BlobData() : fRefs(1), fSize(0), fData(NULL) { }
+        BlobData() : fRefs(1), fSize(), fData() { }
         ~BlobData();
         void ref() { ++fRefs; }
         void unRef();
@@ -80,7 +88,7 @@ private:
     BlobData* fBlob;
 
 public:
-    plVaultBlob() : fBlob(NULL) { }
+    plVaultBlob() : fBlob() { }
     plVaultBlob(const plVaultBlob& init);
     ~plVaultBlob();
 
@@ -94,9 +102,11 @@ public:
     void setData(size_t size, const unsigned char* data);
 };
 
-class PLASMA_DLL plVaultNode {
+class PLASMA_DLL plVaultNode
+{
 public:
-    enum {
+    enum
+    {
         kFieldNodeID, kFieldNodeType, kFieldPermissions, kFieldOwner,
         kFieldGroup, kFieldAutoTime, kFieldCreator, kFieldModifyTime,
         kFieldCreateAgeCoordsBlob, kFieldCreateAgeTime, kFieldCreateAgeName,

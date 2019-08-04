@@ -16,7 +16,8 @@
 
 #include "plRandomCommandMod.h"
 
-void plRandomCommandMod::read(hsStream* S, plResManager* mgr) {
+void plRandomCommandMod::read(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::read(S, mgr);
 
     fMode = S->readByte();
@@ -25,7 +26,8 @@ void plRandomCommandMod::read(hsStream* S, plResManager* mgr) {
     fMaxDelay = S->readFloat();
 }
 
-void plRandomCommandMod::write(hsStream* S, plResManager* mgr) {
+void plRandomCommandMod::write(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::write(S, mgr);
 
     S->writeByte(fMode);
@@ -34,7 +36,8 @@ void plRandomCommandMod::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fMaxDelay);
 }
 
-void plRandomCommandMod::IPrcWrite(pfPrcHelper* prc) {
+void plRandomCommandMod::IPrcWrite(pfPrcHelper* prc)
+{
     plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("RandomCommandParams");
@@ -45,7 +48,8 @@ void plRandomCommandMod::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plRandomCommandMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plRandomCommandMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "RandomCommandParams") {
         fMode = tag->getParam("Mode", "0").to_uint();
         fState = tag->getParam("State", "0").to_uint();

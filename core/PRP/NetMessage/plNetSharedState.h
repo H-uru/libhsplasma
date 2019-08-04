@@ -20,13 +20,16 @@
 #include "Stream/pfPrcHelper.h"
 #include "Stream/pfPrcParser.h"
 
-struct PLASMA_DLL plGenericType {
+struct PLASMA_DLL plGenericType
+{
 public:
-    enum Type {
+    enum Type
+    {
         kInt, kFloat, kBool, kString, kByte, kAny, kUint, kDouble, kNone = 0xFF
     };
 
-    union {
+    union
+    {
         int fInt;
         unsigned int fUint;
         float fFloat;
@@ -47,7 +50,8 @@ public:
 };
 
 
-class PLASMA_DLL plGenericVar {
+class PLASMA_DLL plGenericVar
+{
 private:
     ST::string fName;
     plGenericType fValue;
@@ -76,7 +80,8 @@ public:
 };
 
 
-class PLASMA_DLL plNetSharedState {
+class PLASMA_DLL plNetSharedState
+{
 private:
     ST::string fName;
     std::vector<plGenericVar> fVars;

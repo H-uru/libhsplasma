@@ -18,13 +18,15 @@
 
 const unsigned char plStateDataRecord::kIOVersion = 6;
 
-plStateDataRecord::~plStateDataRecord() {
+plStateDataRecord::~plStateDataRecord()
+{
     for (auto var = fAllVars.begin(); var != fAllVars.end(); ++var)
         delete *var;
 }
 
 void plStateDataRecord::ReadStreamHeader(hsStream* S, ST::string& name,
-                                         int& version, plUoid* objUoid) {
+                                         int& version, plUoid* objUoid)
+{
     unsigned short flag = S->readShort();
     if (!(flag & 0x8000)) {
         name = "";
@@ -44,7 +46,8 @@ void plStateDataRecord::ReadStreamHeader(hsStream* S, ST::string& name,
 }
 
 void plStateDataRecord::WriteStreamHeader(hsStream* S, const ST::string& name,
-                                          int version, plUoid* objUoid) {
+                                          int version, plUoid* objUoid)
+{
     unsigned short flag = 0x8000;
     if (objUoid != NULL)
         flag |= kVolatile;
@@ -56,7 +59,8 @@ void plStateDataRecord::WriteStreamHeader(hsStream* S, const ST::string& name,
         objUoid->write(S);
 }
 
-void plStateDataRecord::read(hsStream* S, plResManager* mgr) {
+void plStateDataRecord::read(hsStream* S, plResManager* mgr)
+{
     fFlags = S->readShort();
     if (S->readByte() != kIOVersion || fDescriptor == NULL)
         throw hsBadParamException(__FILE__, __LINE__);
@@ -89,7 +93,8 @@ void plStateDataRecord::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plStateDataRecord::write(hsStream* S, plResManager* mgr) {
+void plStateDataRecord::write(hsStream* S, plResManager* mgr)
+{
     S->writeShort(fFlags);
     S->writeByte(kIOVersion);
 
@@ -128,7 +133,8 @@ void plStateDataRecord::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plStateDataRecord::prcWrite(pfPrcHelper* prc) {
+void plStateDataRecord::prcWrite(pfPrcHelper* prc)
+{
     for (size_t i=0; i<fAllVars.size(); i++) {
         prc->startTag("Variable");
         prc->writeParam("Name", fAllVars[i]->getDescriptor()->getName());
@@ -231,7 +237,8 @@ void plStateDataRecord::prcWrite(pfPrcHelper* prc) {
     }
 }
 
-void plStateDataRecord::setDescriptor(plStateDescriptor* desc) {
+void plStateDataRecord::setDescriptor(plStateDescriptor* desc)
+{
     fDescriptor = desc;
 
     for (auto var = fAllVars.begin(); var != fAllVars.end(); ++var)
@@ -259,7 +266,8 @@ void plStateDataRecord::setDescriptor(plStateDescriptor* desc) {
     }
 }
 
-plStateVariable* plStateDataRecord::get(const ST::string& name) const {
+plStateVariable* plStateDataRecord::get(const ST::string& name) const
+{
     for (auto var = fAllVars.begin(); var != fAllVars.end(); ++var)
         if ((*var)->getDescriptor()->getName() == name)
             return *var;

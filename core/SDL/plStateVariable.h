@@ -25,7 +25,8 @@
 #include "Sys/plUnifiedTime.h"
 #include "PRP/plCreatable.h"
 
-class PLASMA_DLL plStateVarNotificationInfo {
+class PLASMA_DLL plStateVarNotificationInfo
+{
 protected:
     ST::string fHintString;
 
@@ -35,7 +36,8 @@ public:
 };
 
 
-class PLASMA_DLL plStateVariable {
+class PLASMA_DLL plStateVariable
+{
 protected:
     unsigned char fContents;
     plStateVarNotificationInfo fNotificationInfo;
@@ -44,8 +46,10 @@ protected:
     bool fIsDirty;
 
 public:
-    plStateVariable() : fContents(plSDL::kHasNotificationInfo),
-                        fDescriptor(NULL), fCount(1), fIsDirty(false) { }
+    plStateVariable()
+        : fContents(plSDL::kHasNotificationInfo), fDescriptor(), fCount(1),
+          fIsDirty() { }
+
     virtual ~plStateVariable() { }
 
     virtual void setDescriptor(plVarDescriptor* desc) = 0;
@@ -65,14 +69,15 @@ public:
 };
 
 
-class PLASMA_DLL plSDStateVariable : public plStateVariable {
+class PLASMA_DLL plSDStateVariable : public plStateVariable
+{
 protected:
     std::vector<class plStateDataRecord*> fDataRecList;
     plStateDescriptor* fSDVarDescriptor;
 
 public:
-    plSDStateVariable() { }
-    virtual ~plSDStateVariable();
+    plSDStateVariable() : fSDVarDescriptor() { }
+    ~plSDStateVariable();
 
     void setDescriptor(plVarDescriptor* desc) HS_OVERRIDE;
     void setSDVarDescriptor(plStateDescriptor* desc) { fSDVarDescriptor = desc; }
@@ -88,9 +93,11 @@ public:
 };
 
 
-class PLASMA_DLL plSimpleStateVariable : public plStateVariable {
+class PLASMA_DLL plSimpleStateVariable : public plStateVariable
+{
 protected:
-    union {
+    union
+    {
         void* fGenPtr;
 
         int* fInt;
@@ -115,8 +122,8 @@ protected:
     unsigned char fSimpleVarContents;
 
 public:
-    plSimpleStateVariable() : fGenPtr(NULL), fSimpleVarContents(0) { }
-    virtual ~plSimpleStateVariable() { IDeAlloc(); }
+    plSimpleStateVariable() : fGenPtr(), fSimpleVarContents() { }
+    ~plSimpleStateVariable() { IDeAlloc(); }
 
     void setDescriptor(plVarDescriptor* desc) HS_OVERRIDE;
     void resize(size_t size) HS_OVERRIDE;

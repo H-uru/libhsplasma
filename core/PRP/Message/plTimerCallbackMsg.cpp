@@ -16,19 +16,22 @@
 
 #include "plTimerCallbackMsg.h"
 
-void plTimerCallbackMsg::read(hsStream* S, plResManager* mgr) {
+void plTimerCallbackMsg::read(hsStream* S, plResManager* mgr)
+{
     plMessage::read(S, mgr);
     fID = S->readInt();
     fTime = S->readFloat();
 }
 
-void plTimerCallbackMsg::write(hsStream* S, plResManager* mgr) {
+void plTimerCallbackMsg::write(hsStream* S, plResManager* mgr)
+{
     plMessage::write(S, mgr);
     S->writeInt(fID);
     S->writeFloat(fTime);
 }
 
-void plTimerCallbackMsg::IPrcWrite(pfPrcHelper* prc) {
+void plTimerCallbackMsg::IPrcWrite(pfPrcHelper* prc)
+{
     plMessage::IPrcWrite(prc);
 
     prc->startTag("TimerCallback");
@@ -37,7 +40,8 @@ void plTimerCallbackMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plTimerCallbackMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plTimerCallbackMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "TimerCallback") {
         fID = tag->getParam("ID", "0").to_uint();
         fTime = tag->getParam("Time", "0").to_float();

@@ -194,7 +194,8 @@ PyGetSetDef pyClothingItem_GetSet[] = {
 
 PY_PLASMA_TYPE(ClothingItem, plClothingItem, "plClothingItem wrapper")
 
-PY_PLASMA_TYPE_INIT(ClothingItem) {
+PY_PLASMA_TYPE_INIT(ClothingItem)
+{
     pyClothingItem_Type.tp_new = pyClothingItem_new;
     pyClothingItem_Type.tp_methods = pyClothingItem_Methods;
     pyClothingItem_Type.tp_getset = pyClothingItem_GetSet;

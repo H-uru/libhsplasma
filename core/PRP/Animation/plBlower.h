@@ -19,15 +19,16 @@
 
 #include "PRP/Modifier/plModifier.h"
 
-class PLASMA_DLL plBlower : public plSingleModifier {
+class PLASMA_DLL plBlower : public plSingleModifier
+{
     CREATABLE(plBlower, kBlower, plSingleModifier)
 
 protected:
     float fMasterPower, fDirectRate, fImpulseRate, fSpringKonst;
 
 public:
-    plBlower() : fMasterPower(0.0f), fDirectRate(0.0f), fImpulseRate(0.0f),
-                 fSpringKonst(0.0f) { }
+    plBlower()
+        : fMasterPower(), fDirectRate(), fImpulseRate(), fSpringKonst() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

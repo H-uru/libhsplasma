@@ -23,9 +23,10 @@
 
 class pnSocketInterface;
 
-class PLASMANET_DLL pnClient {
+class PLASMANET_DLL pnClient
+{
 public:
-    pnClient() : fIface(NULL) { }
+    pnClient() : fIface() { }
     virtual ~pnClient();
 
     virtual ENetError connect(const char* host, short port = 14617) = 0;

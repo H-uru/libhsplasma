@@ -25,13 +25,16 @@
 #include "Math/hsGeometry3.h"
 #include "PRP/KeyedObject/plKey.h"
 
-class PLASMA_DLL plGeometrySpan {
+class PLASMA_DLL plGeometrySpan
+{
 public:
-    enum {
+    enum
+    {
         kMaxNumUVChannels = 8
     };
 
-    enum Formats {
+    enum Formats
+    {
         kUVCountMask = 0xF,
         kSkinNoWeights = 0x0,
         kSkin1Weight = 0x10,
@@ -41,7 +44,8 @@ public:
         kSkinIndices = 0x40
     };
 
-    enum Properties {
+    enum Properties
+    {
         kLiteMaterial = 0x0,
         kPropRunTimeLight = 0x1,
         kPropNoPreShade = 0x2,
@@ -62,11 +66,10 @@ public:
         kPropNoShadowCast = 0x8000
     };
 
-    enum {
-        kNoGroupID = 0
-    };
+    enum { kNoGroupID = 0 };
 
-    struct PLASMA_DLL TempVertex {
+    struct PLASMA_DLL TempVertex
+    {
         hsVector3 fPosition, fNormal;
         unsigned int fColor, fSpecularColor;
         hsColorRGBA fMultColor, fAddColor;
@@ -103,9 +106,10 @@ protected:
     std::vector<plKey> fPermaProjs;
 
 public:
-    plGeometrySpan() :fFormat(0), fNumMatrices(0), fBaseMatrix(0), fLocalUVWChans(0),
-        fMaxBoneIdx(0), fPenBoneIdx(0), fMinDist(0.f), fMaxDist(0.f), fWaterHeight(0.f),
-        fProps(0), fNumVerts(0), fNumIndices(0), fDecalLevel(0), fInstanceGroup(0) { }
+    plGeometrySpan()
+        : fFormat(), fNumMatrices(), fBaseMatrix(), fLocalUVWChans(),
+          fMaxBoneIdx(), fPenBoneIdx(), fMinDist(), fMaxDist(), fWaterHeight(),
+          fProps(), fNumVerts(), fNumIndices(), fDecalLevel(), fInstanceGroup() { }
 
     static unsigned int CalcVertexSize(unsigned char format);
 

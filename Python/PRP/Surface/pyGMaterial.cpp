@@ -23,7 +23,8 @@
 
 PY_PLASMA_NEW(GMaterial, hsGMaterial)
 
-PY_METHOD_NOARGS(GMaterial, clearLayers, "Remove all layer keys from the material") {
+PY_METHOD_NOARGS(GMaterial, clearLayers, "Remove all layer keys from the material")
+{
     self->fThis->clearLayers();
     Py_RETURN_NONE;
 }
@@ -105,7 +106,8 @@ static PyMethodDef pyGMaterial_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(GMaterial, layers) {
+PY_GETSET_GETTER_DECL(GMaterial, layers)
+{
     PyObject* list = PyTuple_New(self->fThis->getLayers().size());
     for (size_t i=0; i<self->fThis->getLayers().size(); i++)
         PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getLayers()[i]));
@@ -115,7 +117,8 @@ PY_GETSET_GETTER_DECL(GMaterial, layers) {
 PY_PROPERTY_SETTER_MSG(GMaterial, layers, "To add layers, use addLayer()")
 PY_PROPERTY_GETSET_DECL(GMaterial, layers)
 
-PY_GETSET_GETTER_DECL(GMaterial, piggyBacks) {
+PY_GETSET_GETTER_DECL(GMaterial, piggyBacks)
+{
     PyObject* list = PyTuple_New(self->fThis->getPiggyBacks().size());
     for (size_t i=0; i<self->fThis->getPiggyBacks().size(); i++)
         PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getPiggyBacks()[i]));
@@ -138,7 +141,8 @@ static PyGetSetDef pyGMaterial_GetSet[] = {
 
 PY_PLASMA_TYPE(GMaterial, hsGMaterial, "hsGMaterial wrapper")
 
-PY_PLASMA_TYPE_INIT(GMaterial) {
+PY_PLASMA_TYPE_INIT(GMaterial)
+{
     pyGMaterial_Type.tp_new = pyGMaterial_new;
     pyGMaterial_Type.tp_methods = pyGMaterial_Methods;
     pyGMaterial_Type.tp_getset = pyGMaterial_GetSet;

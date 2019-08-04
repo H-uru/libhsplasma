@@ -20,7 +20,8 @@
 #include "plNetMessage.h"
 #include "PRP/KeyedObject/plUoid.h"
 
-class PLASMA_DLL plNetMsgPlayerPage : public plNetMessage {
+class PLASMA_DLL plNetMsgPlayerPage : public plNetMessage
+{
     CREATABLE(plNetMsgPlayerPage, kNetMsgPlayerPage, plNetMessage)
 
 private:
@@ -28,7 +29,7 @@ private:
     plUoid fUoid;
 
 public:
-    plNetMsgPlayerPage() : fUnload(0) { }
+    plNetMsgPlayerPage() : fUnload() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

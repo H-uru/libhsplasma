@@ -75,7 +75,8 @@ static PyGetSetDef pyFixedWaterState7_GetSet[] = {
 
 PY_PLASMA_TYPE(FixedWaterState7, plFixedWaterState7, "plFixedWaterState7 wrapper")
 
-PY_PLASMA_TYPE_INIT(FixedWaterState7) {
+PY_PLASMA_TYPE_INIT(FixedWaterState7)
+{
     pyFixedWaterState7_Type.tp_new = pyFixedWaterState7_new;
     pyFixedWaterState7_Type.tp_getset = pyFixedWaterState7_GetSet;
     if (PyType_CheckAndReady(&pyFixedWaterState7_Type) < 0)

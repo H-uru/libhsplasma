@@ -16,7 +16,8 @@
 
 #include "hs3DDevice.h"
 
-void hsG3DDeviceMode::read(hsStream* S, int version) {
+void hsG3DDeviceMode::read(hsStream* S, int version)
+{
     fFlags = S->readInt();
     fWidth = S->readInt();
     fHeight = S->readInt();
@@ -35,7 +36,8 @@ void hsG3DDeviceMode::read(hsStream* S, int version) {
     }
 }
 
-void hsG3DDeviceMode::write(hsStream* S, int version) {
+void hsG3DDeviceMode::write(hsStream* S, int version)
+{
     S->writeInt(fFlags);
     S->writeInt(fWidth);
     S->writeInt(fHeight);
@@ -54,7 +56,8 @@ void hsG3DDeviceMode::write(hsStream* S, int version) {
     }
 }
 
-void hsG3DDeviceRecord::read(hsStream* S) {
+void hsG3DDeviceRecord::read(hsStream* S)
+{
     fRecordVersion = S->readInt();
     fFlags = S->readInt();
     fDeviceType = S->readInt();
@@ -98,7 +101,8 @@ void hsG3DDeviceRecord::read(hsStream* S) {
     }
 }
 
-void hsG3DDeviceRecord::write(hsStream* S) {
+void hsG3DDeviceRecord::write(hsStream* S)
+{
     S->writeInt(fRecordVersion);
     S->writeInt(fFlags);
     S->writeInt(fDeviceType);
@@ -141,14 +145,16 @@ void hsG3DDeviceRecord::write(hsStream* S) {
     }
 }
 
-void hsG3DDeviceModeRecord::read(hsStream* S) {
+void hsG3DDeviceModeRecord::read(hsStream* S)
+{
     fRecord.read(S);
     fMode.read(S, fRecord.getVersion());
 
     fTextureQuality = S->readShort();
 }
 
-void hsG3DDeviceModeRecord::write(hsStream* S) {
+void hsG3DDeviceModeRecord::write(hsStream* S)
+{
     fRecord.write(S);
     fMode.write(S, fRecord.getVersion());
 

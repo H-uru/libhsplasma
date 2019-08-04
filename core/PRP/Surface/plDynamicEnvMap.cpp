@@ -17,7 +17,8 @@
 #include "plDynamicEnvMap.h"
 
 /* plDynamicEnvMap */
-void plDynamicEnvMap::read(hsStream* S, plResManager* mgr) {
+void plDynamicEnvMap::read(hsStream* S, plResManager* mgr)
+{
     plCubicRenderTarget::read(S, mgr);
 
     fPos.read(S);
@@ -44,7 +45,8 @@ void plDynamicEnvMap::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plDynamicEnvMap::write(hsStream* S, plResManager* mgr) {
+void plDynamicEnvMap::write(hsStream* S, plResManager* mgr)
+{
     plCubicRenderTarget::write(S, mgr);
 
     fPos.write(S);
@@ -68,7 +70,8 @@ void plDynamicEnvMap::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plDynamicEnvMap::IPrcWrite(pfPrcHelper* prc) {
+void plDynamicEnvMap::IPrcWrite(pfPrcHelper* prc)
+{
     plCubicRenderTarget::IPrcWrite(prc);
 
     prc->startTag("DynamicEnvMapParams");
@@ -102,7 +105,8 @@ void plDynamicEnvMap::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plDynamicEnvMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plDynamicEnvMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "DynamicEnvMapParams") {
         fHither = tag->getParam("Hither", "0").to_float();
         fYon = tag->getParam("Yon", "0").to_float();
@@ -148,7 +152,8 @@ void plDynamicEnvMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plDynamicCamMap */
-void plDynamicCamMap::read(hsStream* S, plResManager* mgr) {
+void plDynamicCamMap::read(hsStream* S, plResManager* mgr)
+{
     plRenderTarget::read(S, mgr);
 
     fHither = S->readFloat();
@@ -180,7 +185,8 @@ void plDynamicCamMap::read(hsStream* S, plResManager* mgr) {
         fMatLayers[i] = mgr->readKey(S);
 }
 
-void plDynamicCamMap::write(hsStream* S, plResManager* mgr) {
+void plDynamicCamMap::write(hsStream* S, plResManager* mgr)
+{
     plRenderTarget::write(S, mgr);
 
     S->writeFloat(fHither);
@@ -212,7 +218,8 @@ void plDynamicCamMap::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fMatLayers[i]);
 }
 
-void plDynamicCamMap::IPrcWrite(pfPrcHelper* prc) {
+void plDynamicCamMap::IPrcWrite(pfPrcHelper* prc)
+{
     plRenderTarget::IPrcWrite(prc);
 
     prc->startTag("DynamicCamMapParams");
@@ -261,7 +268,8 @@ void plDynamicCamMap::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plDynamicCamMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plDynamicCamMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "DynamicCamMapParams") {
         fHither = tag->getParam("Hither", "0").to_float();
         fYon = tag->getParam("Yon", "0").to_float();

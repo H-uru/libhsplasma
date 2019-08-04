@@ -16,7 +16,8 @@
 
 #include "plPostEffectMod.h"
 
-void plPostEffectMod::read(hsStream* S, plResManager* mgr) {
+void plPostEffectMod::read(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::read(S, mgr);
 
     fState.read(S);
@@ -30,7 +31,8 @@ void plPostEffectMod::read(hsStream* S, plResManager* mgr) {
     fDefaultC2W.read(S);
 }
 
-void plPostEffectMod::write(hsStream* S, plResManager* mgr) {
+void plPostEffectMod::write(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::write(S, mgr);
 
     fState.write(S);
@@ -44,7 +46,8 @@ void plPostEffectMod::write(hsStream* S, plResManager* mgr) {
     fDefaultC2W.write(S);
 }
 
-void plPostEffectMod::IPrcWrite(pfPrcHelper* prc) {
+void plPostEffectMod::IPrcWrite(pfPrcHelper* prc)
+{
     plSingleModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("State");
@@ -70,7 +73,8 @@ void plPostEffectMod::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plPostEffectMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plPostEffectMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "State") {
         if (tag->hasChildren())
             fState.prcParse(tag->getFirstChild());

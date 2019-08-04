@@ -23,7 +23,8 @@ PY_PLASMA_NEW(PointTimeScale, plPointTimeScale)
 
 PY_PLASMA_TYPE(PointTimeScale, plPointTimeScale, "plPointTimeScale wrapper")
 
-PY_PLASMA_TYPE_INIT(PointTimeScale) {
+PY_PLASMA_TYPE_INIT(PointTimeScale)
+{
     pyPointTimeScale_Type.tp_new = pyPointTimeScale_new;
     pyPointTimeScale_Type.tp_base = &pyPointChannel_Type;
     if (PyType_CheckAndReady(&pyPointTimeScale_Type) < 0)

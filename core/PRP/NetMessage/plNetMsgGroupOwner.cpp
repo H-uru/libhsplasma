@@ -16,7 +16,8 @@
 
 #include "plNetMsgGroupOwner.h"
 
-void plNetMsgGroupOwner::read(hsStream* S, plResManager* mgr) {
+void plNetMsgGroupOwner::read(hsStream* S, plResManager* mgr)
+{
     plNetMessage::read(S, mgr);
 
     fGroups.resize(S->readInt());
@@ -26,7 +27,8 @@ void plNetMsgGroupOwner::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plNetMsgGroupOwner::write(hsStream* S, plResManager* mgr) {
+void plNetMsgGroupOwner::write(hsStream* S, plResManager* mgr)
+{
     plNetMessage::write(S, mgr);
 
     S->writeInt(fGroups.size());
@@ -36,7 +38,8 @@ void plNetMsgGroupOwner::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plNetMsgGroupOwner::IPrcWrite(pfPrcHelper* prc) {
+void plNetMsgGroupOwner::IPrcWrite(pfPrcHelper* prc)
+{
     plNetMessage::IPrcWrite(prc);
 
     prc->writeSimpleTag("Groups");
@@ -50,7 +53,8 @@ void plNetMsgGroupOwner::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plNetMsgGroupOwner::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plNetMsgGroupOwner::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Groups") {
         fGroups.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();

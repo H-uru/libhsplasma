@@ -33,7 +33,8 @@ static PyGetSetDef pyGUIValueCtrl_GetSet[] = {
 
 PY_PLASMA_TYPE(GUIValueCtrl, pfGUIValueCtrl, "pfGUIValueCtrl wrapper")
 
-PY_PLASMA_TYPE_INIT(GUIValueCtrl) {
+PY_PLASMA_TYPE_INIT(GUIValueCtrl)
+{
     pyGUIValueCtrl_Type.tp_new = pyGUIValueCtrl_new;
     pyGUIValueCtrl_Type.tp_getset = pyGUIValueCtrl_GetSet;
     pyGUIValueCtrl_Type.tp_base = &pyGUIControlMod_Type;

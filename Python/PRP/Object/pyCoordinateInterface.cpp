@@ -67,7 +67,8 @@ PyMethodDef pyCoordinateInterface_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(CoordinateInterface, children) {
+PY_GETSET_GETTER_DECL(CoordinateInterface, children)
+{
     PyObject* list = PyTuple_New(self->fThis->getChildren().size());
     for (size_t i=0; i<self->fThis->getChildren().size(); i++)
         PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getChildren()[i]));
@@ -94,7 +95,8 @@ PyGetSetDef pyCoordinateInterface_GetSet[] = {
 PY_PLASMA_TYPE(CoordinateInterface, plCoordinateInterface,
                "plCoordinateInterface wrapper")
 
-PY_PLASMA_TYPE_INIT(CoordinateInterface) {
+PY_PLASMA_TYPE_INIT(CoordinateInterface)
+{
     pyCoordinateInterface_Type.tp_new = pyCoordinateInterface_new;
     pyCoordinateInterface_Type.tp_methods = pyCoordinateInterface_Methods;
     pyCoordinateInterface_Type.tp_getset = pyCoordinateInterface_GetSet;

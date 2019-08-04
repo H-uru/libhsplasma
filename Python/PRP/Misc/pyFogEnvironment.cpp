@@ -40,7 +40,8 @@ PyGetSetDef pyFogEnvironment_GetSet[] = {
 
 PY_PLASMA_TYPE(FogEnvironment, plFogEnvironment, "plFogEnvironment wrapper")
 
-PY_PLASMA_TYPE_INIT(FogEnvironment) {
+PY_PLASMA_TYPE_INIT(FogEnvironment)
+{
     pyFogEnvironment_Type.tp_new = pyFogEnvironment_new;
     pyFogEnvironment_Type.tp_getset = pyFogEnvironment_GetSet;
     pyFogEnvironment_Type.tp_base = &pyKeyedObject_Type;

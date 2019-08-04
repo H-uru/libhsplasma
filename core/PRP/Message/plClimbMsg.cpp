@@ -16,7 +16,8 @@
 
 #include "plClimbMsg.h"
 
-void plClimbMsg::read(hsStream* S, plResManager* mgr) {
+void plClimbMsg::read(hsStream* S, plResManager* mgr)
+{
     plMessage::read(S, mgr);
 
     fCommand = S->readInt();
@@ -25,7 +26,8 @@ void plClimbMsg::read(hsStream* S, plResManager* mgr) {
     fTarget = mgr->readKey(S);
 }
 
-void plClimbMsg::write(hsStream* S, plResManager* mgr) {
+void plClimbMsg::write(hsStream* S, plResManager* mgr)
+{
     plMessage::write(S, mgr);
 
     S->writeInt(fCommand);
@@ -34,7 +36,8 @@ void plClimbMsg::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fTarget);
 }
 
-void plClimbMsg::IPrcWrite(pfPrcHelper* prc) {
+void plClimbMsg::IPrcWrite(pfPrcHelper* prc)
+{
     plMessage::IPrcWrite(prc);
 
     prc->startTag("ClimbMsgParams");
@@ -48,7 +51,8 @@ void plClimbMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plClimbMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plClimbMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "ClimbMsgParams") {
         fCommand = tag->getParam("Command", "0").to_uint();
         fDirection = tag->getParam("Direction", "0").to_uint();

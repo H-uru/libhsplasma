@@ -17,7 +17,8 @@
 #include "plWin32StaticSound.h"
 
 /* plWin32GroupedSound */
-void plWin32GroupedSound::IRead(hsStream* S, plResManager* mgr) {
+void plWin32GroupedSound::IRead(hsStream* S, plResManager* mgr)
+{
     plWin32Sound::IRead(S, mgr);
 
     fVolumes.resize(S->readShort());
@@ -28,7 +29,8 @@ void plWin32GroupedSound::IRead(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plWin32GroupedSound::IWrite(hsStream* S, plResManager* mgr) {
+void plWin32GroupedSound::IWrite(hsStream* S, plResManager* mgr)
+{
     plWin32Sound::IWrite(S, mgr);
 
     S->writeShort(fVolumes.size());
@@ -38,7 +40,8 @@ void plWin32GroupedSound::IWrite(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plWin32GroupedSound::IPrcWrite(pfPrcHelper* prc) {
+void plWin32GroupedSound::IPrcWrite(pfPrcHelper* prc)
+{
     plWin32Sound::IPrcWrite(prc);
 
     prc->writeSimpleTag("Volumes");
@@ -51,7 +54,8 @@ void plWin32GroupedSound::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plWin32GroupedSound::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plWin32GroupedSound::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Volumes") {
         const pfPrcTag* child = tag->getFirstChild();
         size_t nChildren = tag->countChildren();
@@ -68,14 +72,16 @@ void plWin32GroupedSound::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plWin32GroupedSound::setVolumes(size_t count, uint32_t* positions, float* volumes) {
+void plWin32GroupedSound::setVolumes(size_t count, uint32_t* positions, float* volumes)
+{
     fVolumes = std::vector<float>(volumes, volumes + count);
     fStartPositions = std::vector<uint32_t>(positions, positions + count);
 }
 
 
 /* plWin32LinkSound */
-void plWin32LinkSound::read(hsStream* S, plResManager* mgr) {
+void plWin32LinkSound::read(hsStream* S, plResManager* mgr)
+{
     plSound::read(S, mgr);
     fSynchFlags |= kLocalOnly;
     fProperties |= kPropDontFade;

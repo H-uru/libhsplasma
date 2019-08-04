@@ -21,7 +21,8 @@
 
 PY_PLASMA_NEW(Icicle, plIcicle)
 
-PY_GETSET_GETTER_DECL(Icicle, sortData) {
+PY_GETSET_GETTER_DECL(Icicle, sortData)
+{
     int size = self->fThis->getILength() / 3;
     const plGBufferTriangle* sortData = self->fThis->getSortData();
     if (sortData == NULL) {
@@ -34,7 +35,8 @@ PY_GETSET_GETTER_DECL(Icicle, sortData) {
     }
 }
 
-PY_GETSET_SETTER_DECL(Icicle, sortData) {
+PY_GETSET_SETTER_DECL(Icicle, sortData)
+{
     PY_PROPERTY_CHECK_NULL(sortData)
     if (value == Py_None) {
         self->fThis->setSortData(NULL);
@@ -75,7 +77,8 @@ static PyGetSetDef pyIcicle_GetSet[] = {
 
 PY_PLASMA_TYPE(Icicle, plIcicle, "plIcicle wrapper")
 
-PY_PLASMA_TYPE_INIT(Icicle) {
+PY_PLASMA_TYPE_INIT(Icicle)
+{
     pyIcicle_Type.tp_new = pyIcicle_new;
     pyIcicle_Type.tp_getset = pyIcicle_GetSet;
     pyIcicle_Type.tp_base = &pyVertexSpan_Type;

@@ -17,19 +17,22 @@
 #include "plNetMsgMembersList.h"
 
 /* plNetMsgMemberInfoHelper */
-void plNetMsgMemberInfoHelper::read(hsStream* S, plResManager* mgr) {
+void plNetMsgMemberInfoHelper::read(hsStream* S, plResManager* mgr)
+{
     fFlags = S->readInt();
     fClientGuid.read(S, mgr);
     fAvatarUoid.read(S);
 }
 
-void plNetMsgMemberInfoHelper::write(hsStream* S, plResManager* mgr) {
+void plNetMsgMemberInfoHelper::write(hsStream* S, plResManager* mgr)
+{
     S->writeInt(fFlags);
     fClientGuid.write(S, mgr);
     fAvatarUoid.write(S);
 }
 
-void plNetMsgMemberInfoHelper::IPrcWrite(pfPrcHelper* prc) {
+void plNetMsgMemberInfoHelper::IPrcWrite(pfPrcHelper* prc)
+{
     prc->startTag("MemberInfo");
     prc->writeParamHex("Flags", fFlags);
     prc->endTag();
@@ -45,7 +48,8 @@ void plNetMsgMemberInfoHelper::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plNetMsgMemberInfoHelper::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plNetMsgMemberInfoHelper::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "MemberInfo") {
         fFlags = tag->getParam("Flags", "0").to_uint();
         const pfPrcTag* child = tag->getFirstChild();
@@ -68,7 +72,8 @@ void plNetMsgMemberInfoHelper::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
 
 
 /* plNetMsgMembersList */
-void plNetMsgMembersList::read(hsStream* S, plResManager* mgr) {
+void plNetMsgMembersList::read(hsStream* S, plResManager* mgr)
+{
     plNetMessage::read(S, mgr);
 
     fMembers.resize(S->readShort());
@@ -76,7 +81,8 @@ void plNetMsgMembersList::read(hsStream* S, plResManager* mgr) {
         fMembers[i].read(S, mgr);
 }
 
-void plNetMsgMembersList::write(hsStream* S, plResManager* mgr) {
+void plNetMsgMembersList::write(hsStream* S, plResManager* mgr)
+{
     plNetMessage::write(S, mgr);
 
     S->writeShort(fMembers.size());
@@ -84,7 +90,8 @@ void plNetMsgMembersList::write(hsStream* S, plResManager* mgr) {
         fMembers[i].write(S, mgr);
 }
 
-void plNetMsgMembersList::IPrcWrite(pfPrcHelper* prc) {
+void plNetMsgMembersList::IPrcWrite(pfPrcHelper* prc)
+{
     plNetMessage::IPrcWrite(prc);
 
     prc->writeSimpleTag("Members");
@@ -93,7 +100,8 @@ void plNetMsgMembersList::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plNetMsgMembersList::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plNetMsgMembersList::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Members") {
         fMembers.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
@@ -107,21 +115,24 @@ void plNetMsgMembersList::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 /* plNetMsgMemberUpdate */
-void plNetMsgMemberUpdate::read(hsStream* S, plResManager* mgr) {
+void plNetMsgMemberUpdate::read(hsStream* S, plResManager* mgr)
+{
     plNetMessage::read(S, mgr);
 
     fMemberInfo.read(S, mgr);
     fAddMember = S->readBool();
 }
 
-void plNetMsgMemberUpdate::write(hsStream* S, plResManager* mgr) {
+void plNetMsgMemberUpdate::write(hsStream* S, plResManager* mgr)
+{
     plNetMessage::write(S, mgr);
 
     fMemberInfo.write(S, mgr);
     S->writeBool(fAddMember);
 }
 
-void plNetMsgMemberUpdate::IPrcWrite(pfPrcHelper* prc) {
+void plNetMsgMemberUpdate::IPrcWrite(pfPrcHelper* prc)
+{
     plNetMessage::IPrcWrite(prc);
 
     prc->startTag("MemberUpdate");
@@ -131,7 +142,8 @@ void plNetMsgMemberUpdate::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plNetMsgMemberUpdate::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plNetMsgMemberUpdate::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "MemberUpdate") {
         fAddMember = tag->getParam("AddMember", "false").to_bool();
         const pfPrcTag* child = tag->getFirstChild();

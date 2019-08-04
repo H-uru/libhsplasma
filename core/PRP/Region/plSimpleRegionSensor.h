@@ -20,7 +20,8 @@
 #include "PRP/Modifier/plModifier.h"
 #include "PRP/Message/plMessage.h"
 
-class PLASMA_DLL plSimpleRegionSensor : public plSingleModifier {
+class PLASMA_DLL plSimpleRegionSensor : public plSingleModifier
+{
     CREATABLE(plSimpleRegionSensor, kSimpleRegionSensor, plSingleModifier)
 
 protected:
@@ -28,8 +29,8 @@ protected:
     plMessage* fExitMsg;
 
 public:
-    plSimpleRegionSensor() : fEnterMsg(NULL), fExitMsg(NULL) { }
-    virtual ~plSimpleRegionSensor();
+    plSimpleRegionSensor() : fEnterMsg(), fExitMsg() { }
+    ~plSimpleRegionSensor();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -47,7 +48,8 @@ public:
 };
 
 
-class PLASMA_DLL plSwimDetector : public plSimpleRegionSensor {
+class PLASMA_DLL plSwimDetector : public plSimpleRegionSensor
+{
     CREATABLE(plSwimDetector, kSwimDetector, plSimpleRegionSensor)
 
 public:
@@ -56,14 +58,15 @@ public:
 };
 
 
-class PLASMA_DLL plAutoWalkRegion : public plSimpleRegionSensor {
+class PLASMA_DLL plAutoWalkRegion : public plSimpleRegionSensor
+{
     CREATABLE(plAutoWalkRegion, kAutoWalkRegion, plSimpleRegionSensor)
 
 protected:
     unsigned int fUnknown;
 
 public:
-    plAutoWalkRegion() : fUnknown(0) { }
+    plAutoWalkRegion() : fUnknown() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -74,7 +77,8 @@ protected:
 };
 
 
-class PLASMA_DLL plRidingAnimatedPhysicalDetector : public plSimpleRegionSensor {
+class PLASMA_DLL plRidingAnimatedPhysicalDetector : public plSimpleRegionSensor
+{
     CREATABLE(plRidingAnimatedPhysicalDetector,
               kRidingAnimatedPhysicalDetector,
               plSimpleRegionSensor)

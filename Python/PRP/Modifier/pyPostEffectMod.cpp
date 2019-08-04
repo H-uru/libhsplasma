@@ -43,7 +43,8 @@ static PyGetSetDef pyPostEffectMod_GetSet[] = {
 
 PY_PLASMA_TYPE(PostEffectMod, plPostEffectMod, "plPostEffectMod wrapper")
 
-PY_PLASMA_TYPE_INIT(PostEffectMod) {
+PY_PLASMA_TYPE_INIT(PostEffectMod)
+{
     pyPostEffectMod_Type.tp_new = pyPostEffectMod_new;
     pyPostEffectMod_Type.tp_getset = pyPostEffectMod_GetSet;
     pyPostEffectMod_Type.tp_base = &pySingleModifier_Type;

@@ -76,7 +76,8 @@ static PyGetSetDef pyKeyFrame_GetSet[] = {
 
 PY_PLASMA_TYPE(KeyFrame, hsKeyFrame, "hsKeyFrame wrapper")
 
-PY_PLASMA_TYPE_INIT(KeyFrame) {
+PY_PLASMA_TYPE_INIT(KeyFrame)
+{
     pyKeyFrame_Type.tp_dealloc = pyKeyFrame_dealloc;
     pyKeyFrame_Type.tp_new = pyKeyFrame_new;
     pyKeyFrame_Type.tp_methods = pyKeyFrame_Methods;

@@ -35,7 +35,8 @@ static PyGetSetDef pyPoint3Key_GetSet[] = {
 
 PY_PLASMA_TYPE(Point3Key, hsPoint3Key, "hsPoint3Key wrapper")
 
-PY_PLASMA_TYPE_INIT(Point3Key) {
+PY_PLASMA_TYPE_INIT(Point3Key)
+{
     pyPoint3Key_Type.tp_init = pyPoint3Key___init__;
     pyPoint3Key_Type.tp_new = pyPoint3Key_new;
     pyPoint3Key_Type.tp_getset = pyPoint3Key_GetSet;

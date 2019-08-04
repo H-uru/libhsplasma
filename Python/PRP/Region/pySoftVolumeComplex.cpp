@@ -66,7 +66,8 @@ static PyMethodDef pySoftVolumeComplex_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(SoftVolumeComplex, subVolumes) {
+PY_GETSET_GETTER_DECL(SoftVolumeComplex, subVolumes)
+{
     const std::vector<plKey>& sv = self->fThis->getSubVolumes();
     PyObject* tup = PyTuple_New(sv.size());
     for (size_t i = 0; i < sv.size(); ++i)
@@ -84,7 +85,8 @@ PyGetSetDef pySoftVolumeComplex_GetSet[] = {
 
 PY_PLASMA_TYPE(SoftVolumeComplex, plSoftVolumeComplex, "plSoftVolumeComplex wrapper")
 
-PY_PLASMA_TYPE_INIT(SoftVolumeComplex) {
+PY_PLASMA_TYPE_INIT(SoftVolumeComplex)
+{
     pySoftVolumeComplex_Type.tp_new = pySoftVolumeComplex_new;
     pySoftVolumeComplex_Type.tp_methods = pySoftVolumeComplex_Methods;
     pySoftVolumeComplex_Type.tp_getset = pySoftVolumeComplex_GetSet;

@@ -21,7 +21,8 @@
 #include "Sys/plUnifiedTime.h"
 #include "PRP/Message/plMessage.h"
 
-class PLASMA_DLL plNetMsgGameMessage : public plNetMsgStream {
+class PLASMA_DLL plNetMsgGameMessage : public plNetMsgStream
+{
     CREATABLE(plNetMsgGameMessage, kNetMsgGameMessage, plNetMsgStream)
 
 private:
@@ -29,7 +30,7 @@ private:
     plMessage* fMessage;
 
 public:
-    plNetMsgGameMessage() : fMessage(NULL) { }
+    plNetMsgGameMessage() : fMessage() { }
     ~plNetMsgGameMessage();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -48,7 +49,8 @@ public:
 };
 
 
-class PLASMA_DLL plNetMsgGameMessageDirected : public plNetMsgGameMessage {
+class PLASMA_DLL plNetMsgGameMessageDirected : public plNetMsgGameMessage
+{
     CREATABLE(plNetMsgGameMessageDirected, kNetMsgGameMessageDirected,
               plNetMsgGameMessage)
 

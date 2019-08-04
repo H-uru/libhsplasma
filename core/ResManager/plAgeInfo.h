@@ -22,12 +22,14 @@
 
 /* Loosely based on plAgeDescription */
 
-class PLASMA_DLL plAgeInfo {
+class PLASMA_DLL plAgeInfo
+{
 public:
     enum CommonPages { kTextures, kGlobal, kNumCommonPages };
     static const ST::string kCommonPages[kNumCommonPages];
 
-    enum LoadFlags {
+    enum LoadFlags
+    {
         kPreventAutoLoad = 0x1,
         kLoadIfSDLPresent = 0x2,
         kDontLoadMask = (kPreventAutoLoad | kLoadIfSDLPresent),
@@ -35,14 +37,15 @@ public:
         kIsVolatile = 0x8
     };
 
-    struct PLASMA_DLL PageEntry {
+    struct PLASMA_DLL PageEntry
+    {
         ST::string fName;
         int fSeqSuffix;
         unsigned int fLoadFlags;
 
         PageEntry(const ST::string& name, int seqSuffix, unsigned int loadFlags)
             : fName(name), fSeqSuffix(seqSuffix), fLoadFlags(loadFlags) { }
-        PageEntry() : fSeqSuffix(0), fLoadFlags(0) { }
+        PageEntry() : fSeqSuffix(), fLoadFlags() { }
     };
 
 protected:
@@ -55,8 +58,9 @@ protected:
     std::vector<PageEntry> fPages;
 
 public:
-    plAgeInfo() : fStartDateTime(0), fDayLength(24.0f), fMaxCapacity(-1),
-                  fLingerTime(180), fSeqPrefix(0), fReleaseVersion(0) { }
+    plAgeInfo()
+        : fStartDateTime(), fDayLength(24.0f), fMaxCapacity(-1),
+          fLingerTime(180), fSeqPrefix(), fReleaseVersion() { }
 
     void readFromFile(const ST::string& filename);
     void readFromStream(hsStream* S);

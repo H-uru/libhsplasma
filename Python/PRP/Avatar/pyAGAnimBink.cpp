@@ -34,7 +34,8 @@ static PyGetSetDef pyAGAnimBink_GetSet[] = {
 
 PY_PLASMA_TYPE(AGAnimBink, plAGAnimBink, "plAGAnimBink wrapper")
 
-PY_PLASMA_TYPE_INIT(AGAnimBink) {
+PY_PLASMA_TYPE_INIT(AGAnimBink)
+{
     pyAGAnimBink_Type.tp_new = pyAGAnimBink_new;
     pyAGAnimBink_Type.tp_getset = pyAGAnimBink_GetSet;
     pyAGAnimBink_Type.tp_base = &pyATCAnim_Type;

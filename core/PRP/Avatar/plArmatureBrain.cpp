@@ -17,7 +17,8 @@
 #include "plArmatureBrain.h"
 
 /* plArmatureBrain */
-void plArmatureBrain::read(hsStream* S, plResManager* mgr) {
+void plArmatureBrain::read(hsStream* S, plResManager* mgr)
+{
     // Yay for uselessness
     if (!S->getVer().isNewPlasma()) {
         if (S->readInt() != 0)
@@ -30,7 +31,8 @@ void plArmatureBrain::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plArmatureBrain::write(hsStream* S, plResManager* mgr) {
+void plArmatureBrain::write(hsStream* S, plResManager* mgr)
+{
     if (!S->getVer().isNewPlasma()) {
         S->writeInt(0);
         S->writeBool(false); // actually a null plKey
@@ -42,7 +44,8 @@ void plArmatureBrain::write(hsStream* S, plResManager* mgr) {
 
 
 /* plAvBrainHuman */
-void plAvBrainHuman::read(hsStream* S, plResManager* mgr) {
+void plAvBrainHuman::read(hsStream* S, plResManager* mgr)
+{
     plArmatureBrain::read(S, mgr);
 
     if (S->getVer().isMoul() || S->getVer().isUniversal())
@@ -51,20 +54,23 @@ void plAvBrainHuman::read(hsStream* S, plResManager* mgr) {
         fIsCustomAvatar = false;
 }
 
-void plAvBrainHuman::write(hsStream* S, plResManager* mgr) {
+void plAvBrainHuman::write(hsStream* S, plResManager* mgr)
+{
     plArmatureBrain::write(S, mgr);
 
     if (S->getVer().isMoul() || S->getVer().isUniversal())
         S->writeBool(fIsCustomAvatar);
 }
 
-void plAvBrainHuman::IPrcWrite(pfPrcHelper* prc) {
+void plAvBrainHuman::IPrcWrite(pfPrcHelper* prc)
+{
     prc->startTag("HumanParams");
     prc->writeParam("IsCustomAvatar", fIsCustomAvatar);
     prc->endTag(true);
 }
 
-void plAvBrainHuman::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAvBrainHuman::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "HumanParams") {
         fIsCustomAvatar = tag->getParam("IsCustomAvatar", "false").to_bool();
     } else {

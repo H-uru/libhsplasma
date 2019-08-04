@@ -17,7 +17,8 @@
 #include "plLayerMovie.h"
 
 /* plLayerMovie */
-void plLayerMovie::read(hsStream* S, plResManager* mgr) {
+void plLayerMovie::read(hsStream* S, plResManager* mgr)
+{
     plLayerAnimation::read(S, mgr);
 
     int len = S->readInt();
@@ -31,7 +32,8 @@ void plLayerMovie::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plLayerMovie::write(hsStream* S, plResManager* mgr) {
+void plLayerMovie::write(hsStream* S, plResManager* mgr)
+{
     plLayerAnimation::write(S, mgr);
 
     S->writeInt(fMovieName.size());
@@ -45,7 +47,8 @@ void plLayerMovie::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plLayerMovie::IPrcWrite(pfPrcHelper* prc) {
+void plLayerMovie::IPrcWrite(pfPrcHelper* prc)
+{
     plLayerAnimation::IPrcWrite(prc);
 
     prc->startTag("Movie");
@@ -65,7 +68,8 @@ void plLayerMovie::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plLayerMovie::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plLayerMovie::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Movie") {
         fMovieName = tag->getParam("Name", "");
     } else if (tag->getName() == "EoaKey1") {

@@ -23,7 +23,8 @@ PY_PLASMA_NEW(2WayWinAudible, pl2WayWinAudible)
 
 PY_PLASMA_TYPE(2WayWinAudible, pl2WayWinAudible, "pl2WayWinAudible wrapper")
 
-PY_PLASMA_TYPE_INIT(2WayWinAudible) {
+PY_PLASMA_TYPE_INIT(2WayWinAudible)
+{
     py2WayWinAudible_Type.tp_new = py2WayWinAudible_new;
     py2WayWinAudible_Type.tp_base = &pyWinAudible_Type;
     if (PyType_CheckAndReady(&py2WayWinAudible_Type) < 0)

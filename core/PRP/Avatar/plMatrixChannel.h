@@ -21,7 +21,8 @@
 #include "PRP/Animation/plController.h"
 
 /* Matrix Channels */
-class PLASMA_DLL plMatrixChannel : public plAGChannel {
+class PLASMA_DLL plMatrixChannel : public plAGChannel
+{
     CREATABLE(plMatrixChannel, kMatrixChannel, plAGChannel)
 
 protected:
@@ -33,12 +34,14 @@ public:
 };
 
 
-class PLASMA_DLL plMatrixBlend : public plMatrixChannel {
+class PLASMA_DLL plMatrixBlend : public plMatrixChannel
+{
     CREATABLE(plMatrixBlend, kMatrixBlend, plMatrixChannel)
 };
 
 
-class PLASMA_DLL plMatrixConstant : public plMatrixChannel {
+class PLASMA_DLL plMatrixConstant : public plMatrixChannel
+{
     CREATABLE(plMatrixConstant, kMatrixConstant, plMatrixChannel)
 
 public:
@@ -51,13 +54,15 @@ protected:
 };
 
 
-class PLASMA_DLL plMatrixControllerCacheChannel : public plMatrixChannel {
+class PLASMA_DLL plMatrixControllerCacheChannel : public plMatrixChannel
+{
     CREATABLE(plMatrixControllerCacheChannel, kMatrixControllerCacheChannel,
               plMatrixChannel)
 };
 
 
-class PLASMA_DLL plMatrixControllerChannel : public plMatrixChannel {
+class PLASMA_DLL plMatrixControllerChannel : public plMatrixChannel
+{
     CREATABLE(plMatrixControllerChannel, kMatrixControllerChannel,
               plMatrixChannel)
 
@@ -65,8 +70,8 @@ protected:
     plController* fController;
 
 public:
-    plMatrixControllerChannel() : fController(NULL) { }
-    virtual ~plMatrixControllerChannel();
+    plMatrixControllerChannel() : fController() { }
+    ~plMatrixControllerChannel();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -81,33 +86,39 @@ public:
 };
 
 
-class PLASMA_DLL plMatrixTimeScale : public plMatrixChannel {
+class PLASMA_DLL plMatrixTimeScale : public plMatrixChannel
+{
     CREATABLE(plMatrixTimeScale, kMatrixTimeScale, plMatrixChannel)
 };
 
-class PLASMA_DLL plQuatPointCombine : public plMatrixChannel {
+class PLASMA_DLL plQuatPointCombine : public plMatrixChannel
+{
     CREATABLE(plQuatPointCombine, kQuatPointCombine, plMatrixChannel)
 };
 
 
 /* Matrix Channel Applicators */
-class PLASMA_DLL plMatrixChannelApplicator : public plAGApplicator {
+class PLASMA_DLL plMatrixChannelApplicator : public plAGApplicator
+{
     CREATABLE(plMatrixChannelApplicator, kMatrixChannelApplicator,
               plAGApplicator)
 };
 
-class PLASMA_DLL plMatrixDelayedCorrectionApplicator : public plMatrixChannelApplicator {
+class PLASMA_DLL plMatrixDelayedCorrectionApplicator : public plMatrixChannelApplicator
+{
     CREATABLE(plMatrixDelayedCorrectionApplicator,
               kMatrixDelayedCorrectionApplicator,
               plMatrixChannelApplicator)
 };
 
-class PLASMA_DLL plMatrixDifferenceApp : public plMatrixChannelApplicator {
+class PLASMA_DLL plMatrixDifferenceApp : public plMatrixChannelApplicator
+{
     CREATABLE(plMatrixDifferenceApp, kMatrixDifferenceApp,
               plMatrixChannelApplicator)
 };
 
-class PLASMA_DLL plRelativeMatrixChannelApplicator : public plAGApplicator {
+class PLASMA_DLL plRelativeMatrixChannelApplicator : public plAGApplicator
+{
     CREATABLE(plRelativeMatrixChannelApplicator,
               kRelativeMatrixChannelApplicator,
               plAGApplicator)

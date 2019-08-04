@@ -20,11 +20,13 @@
 #include "PRP/plCreatable.h"
 #include "PRP/KeyedObject/plKey.h"
 
-class PLASMA_DLL plMessage : public plCreatable {
+class PLASMA_DLL plMessage : public plCreatable
+{
     CREATABLE(plMessage, kMessage, plCreatable)
 
 public:
-    enum plBCastFlags {
+    enum plBCastFlags
+    {
         kBCastNone = 0x0,
         kBCastByType = 0x1,
         kBCastUNUSED_0 = 0x2,
@@ -54,7 +56,7 @@ protected:
     unsigned int fBCastFlags;
 
 public:
-    plMessage() : fTimeStamp(0.0), fBCastFlags(kLocalPropagate) { }
+    plMessage() : fTimeStamp(), fBCastFlags(kLocalPropagate) { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE { IMsgRead(S, mgr); }
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE { IMsgWrite(S, mgr); }

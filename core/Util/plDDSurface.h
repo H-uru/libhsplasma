@@ -19,9 +19,11 @@
 
 #include "Stream/hsStream.h"
 
-class PLASMA_DLL plDDSurface {
+class PLASMA_DLL plDDSurface
+{
 public:
-    enum Flags {
+    enum Flags
+    {
         DDSD_CAPS = 0x1,
         DDSD_HEIGHT = 0x2,
         DDSD_WIDTH = 0x4,
@@ -45,7 +47,8 @@ public:
         DDSD_ALL = 0xFFF9EE1,
     };
 
-    enum PixelFormatFlags {
+    enum PixelFormatFlags
+    {
         DDPF_ALPHAPIXELS = 0x1,
         DDPF_ALPHA = 0x2,
         DDPF_FOURCC = 0x4,
@@ -67,7 +70,8 @@ public:
         DDPF_BUMPDUDV = 0x80000,
     };
 
-    enum DDSCaps {
+    enum DDSCaps
+    {
         DDSCAPS_RESERVED1 = 0x1,                // RESERVED
         DDSCAPS_ALPHA = 0x2,
         DDSCAPS_BACKBUFFER = 0x4,
@@ -143,29 +147,34 @@ public:
         DDSCAPS3_OPENSHAREDRESOURCE = 0x8000,
     };
 
-    enum FourCC {
+    enum FourCC
+    {
         FOURCC_DXT1 = 0x31545844,
         FOURCC_DXT3 = 0x33545844,
         FOURCC_DXT5 = 0x35545844,
     };
 
-    struct PLASMA_DLL plDDColorKey {
+    struct PLASMA_DLL plDDColorKey
+    {
         unsigned int fColorSpaceLow, fColorSpaceHigh;
 
-        plDDColorKey() : fColorSpaceLow(0), fColorSpaceHigh(0) { }
+        plDDColorKey() : fColorSpaceLow(), fColorSpaceHigh() { }
 
         void read(hsStream* S);
         void write(hsStream* S);
     };
 
-    struct PLASMA_DLL plDDPixelFormat {
+    struct PLASMA_DLL plDDPixelFormat
+    {
         unsigned int fFlags;
         unsigned int fFourCC;
-        union {
+        union
+        {
             unsigned int fBitDepth;
             unsigned int fBitCount;
         };
-        union {
+        union
+        {
             unsigned int fRBitMask;
             unsigned int fYBitMask;
             unsigned int fStencilBitDepth;
@@ -173,29 +182,34 @@ public:
             unsigned int fBumpDuBitMask;
             unsigned int fOperations;
         };
-        union {
+        union
+        {
             unsigned int fGBitMask;
             unsigned int fUBitMask;
             unsigned int fZBitMask;
             unsigned int fBumpDvBitMask;
-            struct {
+            struct
+            {
                 unsigned short fFlipMSTypes;
                 unsigned short fBltMSTypes;
             } fMultiSampleCaps;
         };
-        union {
+        union
+        {
             unsigned int fBBitMask;
             unsigned int fVBitMask;
             unsigned int fStencilBitMask;
             unsigned int fBumpLuminanceBitMask;
         };
-        union {
+        union
+        {
             unsigned int fAlphaBitMask;
             unsigned int fColorZBitMask;
         };
 
-        plDDPixelFormat() : fFlags(0), fFourCC(0), fBitDepth(0), fRBitMask(0),
-                            fGBitMask(0), fBBitMask(0), fAlphaBitMask(0) { }
+        plDDPixelFormat()
+            : fFlags(), fFourCC(), fBitDepth(), fRBitMask(), fGBitMask(),
+              fBBitMask(), fAlphaBitMask() { }
 
         void read(hsStream* S);
         void write(hsStream* S);
@@ -204,15 +218,18 @@ public:
 public:
     unsigned int fFlags;
     unsigned int fHeight, fWidth;
-    union {
+    union
+    {
         unsigned int fPitch;
         unsigned int fLinearSize;
     };
-    union {
+    union
+    {
         unsigned int fBackBufferCount;
         unsigned int fDepth;
     };
-    union {
+    union
+    {
         unsigned int fMipmapCount;
         unsigned int fZBufferBitDepth;
         unsigned int fRefreshRate;
@@ -231,10 +248,10 @@ private:
     size_t* fLevelSizes;
 
 public:
-    plDDSurface() : fFlags(0), fHeight(0), fWidth(0), fLinearSize(0),
-                    fBackBufferCount(0), fMipmapCount(0), fAlphaDepth(0),
-                    fCaps(0), fCaps2(0), fCaps3(0), fCaps4(0), fTextureStage(0),
-                    fDataSize(0), fDataBuffer(NULL), fLevelSizes(NULL) { }
+    plDDSurface()
+        : fFlags(), fHeight(), fWidth(), fLinearSize(), fBackBufferCount(),
+          fMipmapCount(), fAlphaDepth(), fCaps(), fCaps2(), fCaps3(), fCaps4(),
+          fTextureStage(), fDataSize(), fDataBuffer(), fLevelSizes() { }
     ~plDDSurface();
 
     void read(hsStream* S);

@@ -18,18 +18,21 @@
 #include "Debug/plDebug.h"
 
 plClothingItem::plClothingItem()
-              : fGroup(0), fType(0), fTileset(0), fSortOrder(0) {
+    : fGroup(), fType(), fTileset(), fSortOrder()
+{
     fDefaultTint1[0] = fDefaultTint2[0] = 255;
     fDefaultTint1[1] = fDefaultTint2[1] = 255;
     fDefaultTint1[2] = fDefaultTint2[2] = 255;
 }
 
-plClothingItem::~plClothingItem() {
+plClothingItem::~plClothingItem()
+{
     for (auto tex = fTextures.begin(); tex != fTextures.end(); ++tex)
         delete[] *tex;
 }
 
-void plClothingItem::read(hsStream* S, plResManager* mgr) {
+void plClothingItem::read(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::read(S, mgr);
 
     fItemName = S->readSafeStr();
@@ -73,7 +76,8 @@ void plClothingItem::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plClothingItem::write(hsStream* S, plResManager* mgr) {
+void plClothingItem::write(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::write(S, mgr);
 
     S->writeSafeStr(fItemName);
@@ -119,7 +123,8 @@ void plClothingItem::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plClothingItem::IPrcWrite(pfPrcHelper* prc) {
+void plClothingItem::IPrcWrite(pfPrcHelper* prc)
+{
     hsKeyedObject::IPrcWrite(prc);
 
     prc->startTag("ClothingName");
@@ -179,7 +184,8 @@ void plClothingItem::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plClothingItem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plClothingItem::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "ClothingName") {
         fItemName = tag->getParam("value", "");
     } else if (tag->getName() == "ClosetOptions") {
@@ -252,31 +258,36 @@ void plClothingItem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plClothingItem::setDefaultTint1(const hsColorRGBA& tint) {
+void plClothingItem::setDefaultTint1(const hsColorRGBA& tint)
+{
     fDefaultTint1[0] = tint.r * 255;
     fDefaultTint1[1] = tint.g * 255;
     fDefaultTint1[2] = tint.b * 255;
 }
 
-void plClothingItem::setDefaultTint2(const hsColorRGBA& tint) {
+void plClothingItem::setDefaultTint2(const hsColorRGBA& tint)
+{
     fDefaultTint2[0] = tint.r * 255;
     fDefaultTint2[1] = tint.g * 255;
     fDefaultTint2[2] = tint.b * 255;
 }
 
-void plClothingItem::clearElements() {
+void plClothingItem::clearElements()
+{
     for (auto tex = fTextures.begin(); tex != fTextures.end(); ++tex)
         delete[] *tex;
     fTextures.clear();
     fElementNames.clear();
 }
 
-void plClothingItem::addElement(const ST::string& elementName) {
+void plClothingItem::addElement(const ST::string& elementName)
+{
     fElementNames.push_back(elementName);
     fTextures.push_back(new plKey[kLayerMax]);
 }
 
-void plClothingItem::delElement(int element) {
+void plClothingItem::delElement(int element)
+{
     delete[] fTextures[element];
     fTextures.erase(fTextures.begin() + element);
     fElementNames.erase(fElementNames.begin() + element);

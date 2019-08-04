@@ -41,7 +41,8 @@ PyGetSetDef pySwimCircularCurrentRegion_GetSet[] = {
 PY_PLASMA_TYPE(SwimCircularCurrentRegion, plSwimCircularCurrentRegion,
                "plSwimCircularCurrentRegion wrapper")
 
-PY_PLASMA_TYPE_INIT(SwimCircularCurrentRegion) {
+PY_PLASMA_TYPE_INIT(SwimCircularCurrentRegion)
+{
     pySwimCircularCurrentRegion_Type.tp_new = pySwimCircularCurrentRegion_new;
     pySwimCircularCurrentRegion_Type.tp_getset = pySwimCircularCurrentRegion_GetSet;
     pySwimCircularCurrentRegion_Type.tp_base = &pySwimRegionInterface_Type;

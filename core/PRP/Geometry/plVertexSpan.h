@@ -19,7 +19,8 @@
 
 #include "plSpan.h"
 
-class PLASMA_DLL plVertexSpan : public plSpan {
+class PLASMA_DLL plVertexSpan : public plSpan
+{
 public:
     unsigned int fGroupIdx, fVBufferIdx, fCellIdx,
                  fCellOffset, fVStartIdx, fVLength;
@@ -27,8 +28,9 @@ public:
 public:
     const char* ClassName() const HS_OVERRIDE { return "plVertexSpan"; }
 
-    plVertexSpan() : fGroupIdx(0), fVBufferIdx(0), fCellIdx(0), fCellOffset(0),
-                     fVStartIdx(0), fVLength(0) { }
+    plVertexSpan()
+        : fGroupIdx(), fVBufferIdx(), fCellIdx(), fCellOffset(), fVStartIdx(),
+          fVLength(0) { }
 
     void read(hsStream* S) HS_OVERRIDE;
     void write(hsStream* S) HS_OVERRIDE;

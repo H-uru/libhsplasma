@@ -18,7 +18,8 @@
 #include "Util/hsBitVector.h"
 
 /* plAgeInfoStruct */
-void plAgeInfoStruct::read(hsStream* S, plResManager* mgr) {
+void plAgeInfoStruct::read(hsStream* S, plResManager* mgr)
+{
     fFlags = S->readByte();
     if (fFlags & kHasAgeFilename) {
         size_t len = S->readShort();
@@ -47,7 +48,8 @@ void plAgeInfoStruct::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plAgeInfoStruct::write(hsStream* S, plResManager* mgr) {
+void plAgeInfoStruct::write(hsStream* S, plResManager* mgr)
+{
     S->writeByte(fFlags);
     if (fFlags & kHasAgeFilename) {
         S->writeShort(fAgeFilename.size());
@@ -76,12 +78,14 @@ void plAgeInfoStruct::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plAgeInfoStruct::prcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAgeInfoStruct::prcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     clear();
     plCreatable::prcParse(tag, mgr);
 }
 
-void plAgeInfoStruct::IPrcWrite(pfPrcHelper* prc) {
+void plAgeInfoStruct::IPrcWrite(pfPrcHelper* prc)
+{
     if (fFlags & kHasAgeFilename) {
         prc->startTag("AgeFilename");
         prc->writeParam("value", fAgeFilename);
@@ -119,7 +123,8 @@ void plAgeInfoStruct::IPrcWrite(pfPrcHelper* prc) {
     }
 }
 
-void plAgeInfoStruct::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAgeInfoStruct::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "AgeFilename") {
         fFlags |= kHasAgeFilename;
         fAgeFilename = tag->getParam("value", "");
@@ -149,84 +154,98 @@ void plAgeInfoStruct::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plAgeInfoStruct::setAgeFilename(const ST::string& name) {
+void plAgeInfoStruct::setAgeFilename(const ST::string& name)
+{
     fFlags |= kHasAgeFilename;
     fAgeFilename = name;
 }
 
-void plAgeInfoStruct::setAgeInstanceName(const ST::string& name) {
+void plAgeInfoStruct::setAgeInstanceName(const ST::string& name)
+{
     fFlags |= kHasAgeInstanceName;
     fAgeInstanceName = name;
 }
 
-void plAgeInfoStruct::setAgeInstanceGuid(const plUuid& guid) {
+void plAgeInfoStruct::setAgeInstanceGuid(const plUuid& guid)
+{
     fFlags |= kHasAgeInstanceGuid;
     fAgeInstanceGuid = guid;
 }
 
-void plAgeInfoStruct::setAgeUserDefinedName(const ST::string& name) {
+void plAgeInfoStruct::setAgeUserDefinedName(const ST::string& name)
+{
     fFlags |= kHasAgeUserDefinedName;
     fAgeUserDefinedName = name;
 }
 
-void plAgeInfoStruct::setAgeDescription(const ST::string& desc) {
+void plAgeInfoStruct::setAgeDescription(const ST::string& desc)
+{
     fFlags |= kHasAgeDescription;
     fAgeDescription = desc;
 }
 
-void plAgeInfoStruct::setAgeSequenceNumber(int seq) {
+void plAgeInfoStruct::setAgeSequenceNumber(int seq)
+{
     fFlags |= kHasAgeSequenceNumber;
     fAgeSequenceNumber = seq;
 }
 
-void plAgeInfoStruct::setAgeLanguage(int lang) {
+void plAgeInfoStruct::setAgeLanguage(int lang)
+{
     fFlags |= kHasAgeLanguage;
     fAgeLanguage = lang;
 }
 
-void plAgeInfoStruct::clearAgeFilename() {
+void plAgeInfoStruct::clearAgeFilename()
+{
     fAgeFilename = ST::null;
     fFlags &= ~kHasAgeFilename;
 }
 
-void plAgeInfoStruct::clearAgeInstanceName() {
+void plAgeInfoStruct::clearAgeInstanceName()
+{
     fAgeInstanceName = ST::null;
     fFlags &= ~kHasAgeInstanceName;
 }
 
-void plAgeInfoStruct::clearAgeInstanceGuid() {
+void plAgeInfoStruct::clearAgeInstanceGuid()
+{
     fAgeInstanceGuid = plUuid();
     fFlags &= ~kHasAgeInstanceGuid;
 }
 
-void plAgeInfoStruct::clearAgeUserDefinedName() {
+void plAgeInfoStruct::clearAgeUserDefinedName()
+{
     fAgeUserDefinedName = ST::null;
     fFlags &= ~kHasAgeUserDefinedName;
 }
 
-void plAgeInfoStruct::clearAgeDescription() {
+void plAgeInfoStruct::clearAgeDescription()
+{
     fAgeDescription = ST::null;
     fFlags &= ~kHasAgeDescription;
 }
 
-void plAgeInfoStruct::clearAgeSequenceNumber() {
+void plAgeInfoStruct::clearAgeSequenceNumber()
+{
     fAgeSequenceNumber = 0;
     fFlags &= ~kHasAgeSequenceNumber;
 }
 
-void plAgeInfoStruct::clearAgeLanguage() {
+void plAgeInfoStruct::clearAgeLanguage()
+{
     fAgeLanguage = 0;
     fFlags &= ~kHasAgeLanguage;
 }
 
 
 /* plAgeLinkStruct */
-
 const char* plAgeLinkStruct::kLinkingRuleNames[] = {
     "kBasicLink", "kOriginalBook", "kSubAgeBook", "kOwnedBook", "kVisitBook", "kChildAgeBook"
 };
 
-void plAgeLinkStruct::read(hsStream* S, plResManager* mgr) {
+void plAgeLinkStruct::read(hsStream* S, plResManager* mgr)
+{
     if (S->getVer().isUru() || S->getVer().isUniversal()) {
         fFlags = S->readShort();
         if (fFlags & kHasAgeInfo)
@@ -284,7 +303,8 @@ void plAgeLinkStruct::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plAgeLinkStruct::write(hsStream* S, plResManager* mgr) {
+void plAgeLinkStruct::write(hsStream* S, plResManager* mgr)
+{
     if (S->getVer().isUru() || S->getVer().isUniversal()) {
         S->writeShort(fFlags);
         if (fFlags & kHasAgeInfo)
@@ -313,12 +333,14 @@ void plAgeLinkStruct::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plAgeLinkStruct::prcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAgeLinkStruct::prcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     fFlags = 0;
     plCreatable::prcParse(tag, mgr);
 }
 
-void plAgeLinkStruct::IPrcWrite(pfPrcHelper* prc) {
+void plAgeLinkStruct::IPrcWrite(pfPrcHelper* prc)
+{
     if (fFlags & kHasAgeInfo) {
         prc->writeSimpleTag("AgeInfo");
         fAgeInfo.prcWrite(prc);
@@ -346,7 +368,8 @@ void plAgeLinkStruct::IPrcWrite(pfPrcHelper* prc) {
     }
 }
 
-void plAgeLinkStruct::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAgeLinkStruct::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "AgeInfo") {
         fFlags |= kHasAgeInfo;
         if (tag->hasChildren())
@@ -381,53 +404,62 @@ void plAgeLinkStruct::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plAgeLinkStruct::setLinkingRules(signed char rules) {
+void plAgeLinkStruct::setLinkingRules(signed char rules)
+{
     fLinkingRules = rules;
     fFlags |= kHasLinkingRules;
 }
 
-void plAgeLinkStruct::setAmCCR(unsigned char ccr) {
+void plAgeLinkStruct::setAmCCR(unsigned char ccr)
+{
     fAmCCR = ccr;
     fFlags |= kHasAmCCR;
 }
 
-void plAgeLinkStruct::setParentAgeFilename(const ST::string& filename) {
+void plAgeLinkStruct::setParentAgeFilename(const ST::string& filename)
+{
     fParentAgeFilename = filename;
     fFlags |= kHasParentAgeFilename;
 }
 
-void plAgeLinkStruct::setHasAgeInfo(bool has) {
+void plAgeLinkStruct::setHasAgeInfo(bool has)
+{
     if (has)
         fFlags |= kHasAgeInfo;
     else
         fFlags &= ~kHasAgeInfo;
 }
 
-void plAgeLinkStruct::setHasSpawnPoint(bool has) {
+void plAgeLinkStruct::setHasSpawnPoint(bool has)
+{
     if (has)
         fFlags |= kHasSpawnPt;
     else
         fFlags &= ~kHasSpawnPt;
 }
 
-void plAgeLinkStruct::clearLinkingRules() {
+void plAgeLinkStruct::clearLinkingRules()
+{
     fLinkingRules = 0;
     fFlags &= ~kHasLinkingRules;
 }
 
-void plAgeLinkStruct::clearAmCCR() {
+void plAgeLinkStruct::clearAmCCR()
+{
     fAmCCR = 0;
     fFlags &= ~kHasAmCCR;
 }
 
-void plAgeLinkStruct::clearParentAgeFilename() {
+void plAgeLinkStruct::clearParentAgeFilename()
+{
     fParentAgeFilename = ST::null;
     fFlags &= ~kHasParentAgeFilename;
 }
 
 
 /* plAgeLinkEffects */
-void plAgeLinkEffects::read(hsStream* S) {
+void plAgeLinkEffects::read(hsStream* S)
+{
     if (S->getVer().isUniversal()) {
         fLinkInAnimName = S->readSafeStr();
         fBool1 = S->readBool();
@@ -455,7 +487,8 @@ void plAgeLinkEffects::read(hsStream* S) {
     }
 }
 
-void plAgeLinkEffects::write(hsStream* S) {
+void plAgeLinkEffects::write(hsStream* S)
+{
     if (S->getVer().isUniversal()) {
         S->writeSafeStr(fLinkInAnimName);
         S->writeBool(fBool1);
@@ -479,7 +512,8 @@ void plAgeLinkEffects::write(hsStream* S) {
     }
 }
 
-void plAgeLinkEffects::prcWrite(pfPrcHelper* prc) {
+void plAgeLinkEffects::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("plAgeLinkEffects");
     prc->writeParam("LinkInAnimName", fLinkInAnimName);
     prc->writeParam("Bool1", fBool1);
@@ -489,7 +523,8 @@ void plAgeLinkEffects::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plAgeLinkEffects::prcParse(const pfPrcTag* tag) {
+void plAgeLinkEffects::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "plAgeLinkEffects")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 

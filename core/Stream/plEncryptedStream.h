@@ -19,7 +19,8 @@
 
 #include "hsStream.h"
 
-class PLASMA_DLL plEncryptedStream : public hsStream {
+class PLASMA_DLL plEncryptedStream : public hsStream
+{
 public:
     enum EncryptionType { kEncNone, kEncXtea, kEncAES, kEncDroid, kEncAuto };
 
@@ -45,12 +46,12 @@ protected:
 
 public:
     plEncryptedStream(int pv = PlasmaVer::pvUnknown);
-    virtual ~plEncryptedStream() { close(); }
+    ~plEncryptedStream() { close(); }
 
     bool open(const ST::string& file, FileMode mode, EncryptionType type);
     bool open(hsStream* S, FileMode mode, EncryptionType type);
     void close() HS_OVERRIDE;
-    void setKey(unsigned int* keys);
+    void setKey(const unsigned int* keys);
     EncryptionType getEncType() const { return fEType; }
 
     uint32_t size() const HS_OVERRIDE { return fDataSize; }

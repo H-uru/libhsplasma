@@ -16,7 +16,8 @@
 
 #include "plOneShotMod.h"
 
-void plOneShotMod::read(hsStream* S, plResManager* mgr) {
+void plOneShotMod::read(hsStream* S, plResManager* mgr)
+{
     plMultiModifier::read(S, mgr);
 
     fAnimName = S->readSafeStr();
@@ -30,7 +31,8 @@ void plOneShotMod::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plOneShotMod::write(hsStream* S, plResManager* mgr) {
+void plOneShotMod::write(hsStream* S, plResManager* mgr)
+{
     plMultiModifier::write(S, mgr);
 
     S->writeSafeStr(fAnimName);
@@ -41,7 +43,8 @@ void plOneShotMod::write(hsStream* S, plResManager* mgr) {
     S->writeBool(fNoSeek);
 }
 
-void plOneShotMod::IPrcWrite(pfPrcHelper* prc) {
+void plOneShotMod::IPrcWrite(pfPrcHelper* prc)
+{
     plMultiModifier::IPrcWrite(prc);
 
     prc->startTag("Animation");
@@ -54,7 +57,8 @@ void plOneShotMod::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plOneShotMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plOneShotMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Animation") {
         fAnimName = tag->getParam("Name", "");
         fSeekDuration = tag->getParam("SeekDuration", "0").to_float();

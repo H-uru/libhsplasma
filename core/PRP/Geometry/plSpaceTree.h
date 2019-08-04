@@ -22,23 +22,26 @@
 #include "PRP/Region/hsBounds.h"
 #include "Util/hsBitVector.h"
 
-struct PLASMA_DLL plSpaceBuilderNode {
+struct PLASMA_DLL plSpaceBuilderNode
+{
     hsBounds3Ext fBounds;
     plSpaceBuilderNode* fChildren[2];
 
     short fIndex;
     short fDataIndex;
 
-    plSpaceBuilderNode();
+    plSpaceBuilderNode() : fChildren(), fIndex(-1), fDataIndex(-1) { }
     ~plSpaceBuilderNode();
     size_t size() const;
     size_t depth() const;
 };
 
 
-class PLASMA_DLL plSpaceTreeNode {
+class PLASMA_DLL plSpaceTreeNode
+{
 public:
-    enum {
+    enum
+    {
         kNone = 0,
         kIsLeaf = 0x1,
         kDirty = 0x2,
@@ -52,13 +55,14 @@ protected:
     unsigned short fFlags;
     short fParent;
 
-    union {
+    union
+    {
         short fChildren[2];
         short fLeafIndex;
     };
 
 public:
-    plSpaceTreeNode();
+    plSpaceTreeNode() : fFlags(), fParent(-1), fChildren() { }
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -80,7 +84,8 @@ public:
     void setLeafIndex(short idx);
 };
 
-class PLASMA_DLL plSpaceTree : public plCreatable {
+class PLASMA_DLL plSpaceTree : public plCreatable
+{
     CREATABLE(plSpaceTree, kSpaceTree, plCreatable)
 
 protected:
@@ -88,7 +93,7 @@ protected:
     short fRoot, fNumLeaves;
 
 public:
-    plSpaceTree() : fRoot(-1), fNumLeaves(0) { }
+    plSpaceTree() : fRoot(-1), fNumLeaves() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

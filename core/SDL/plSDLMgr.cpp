@@ -21,12 +21,14 @@
 #include <stdarg.h>
 
 /* plSDLMgr */
-plSDLMgr::~plSDLMgr() {
+plSDLMgr::~plSDLMgr()
+{
     for (auto desc = fDescriptors.begin(); desc != fDescriptors.end(); ++desc)
         delete *desc;
 }
 
-void plSDLMgr::ReadDescriptors(const ST::string& filename) {
+void plSDLMgr::ReadDescriptors(const ST::string& filename)
+{
     if (plEncryptedStream::IsFileEncrypted(filename)) {
         plEncryptedStream stream;
         stream.open(filename, fmRead, plEncryptedStream::kEncAuto);
@@ -38,7 +40,8 @@ void plSDLMgr::ReadDescriptors(const ST::string& filename) {
     }
 }
 
-void plSDLMgr::ReadDescriptors(hsStream* fileStream) {
+void plSDLMgr::ReadDescriptors(hsStream* fileStream)
+{
     std::unique_ptr<hsTokenStream> tokStream(new hsTokenStream(fileStream));
     tokStream->setDelimiters("{}[]()=,;");
     std::vector<hsTokenStream::Region> commentMarkers;
@@ -257,13 +260,15 @@ void plSDLMgr::ReadDescriptors(hsStream* fileStream) {
         throw plSDLParseException(__FILE__, __LINE__, "Unexpected End of File");
 }
 
-void plSDLMgr::ClearDescriptors() {
+void plSDLMgr::ClearDescriptors()
+{
     for (size_t i=0; i<fDescriptors.size(); i++)
         delete fDescriptors[i];
     fDescriptors.clear();
 }
 
-plStateDescriptor* plSDLMgr::GetDescriptor(const ST::string& name, int version) {
+plStateDescriptor* plSDLMgr::GetDescriptor(const ST::string& name, int version)
+{
     plStateDescriptor* desc = NULL;
     int hiVersion = 0;
     for (size_t i=0; i<fDescriptors.size(); i++) {
@@ -286,7 +291,8 @@ plStateDescriptor* plSDLMgr::GetDescriptor(const ST::string& name, int version) 
     return desc;
 }
 
-void plSDLMgr::read(hsStream* S) {
+void plSDLMgr::read(hsStream* S)
+{
     ClearDescriptors();
     fDescriptors.resize(S->readShort());
     for (size_t i=0; i<fDescriptors.size(); i++) {
@@ -306,7 +312,8 @@ void plSDLMgr::read(hsStream* S) {
     }
 }
 
-void plSDLMgr::write(hsStream* S) {
+void plSDLMgr::write(hsStream* S)
+{
     S->writeShort(fDescriptors.size());
     for (size_t i=0; i<fDescriptors.size(); i++)
         fDescriptors[i]->write(S);

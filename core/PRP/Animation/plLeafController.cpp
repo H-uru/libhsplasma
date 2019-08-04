@@ -22,12 +22,14 @@
 #include "Debug/plDebug.h"
 
 /* plLeafController */
-plLeafController::~plLeafController() {
+plLeafController::~plLeafController()
+{
     DeallocKeys();
     DeallocControllers();
 }
 
-void plLeafController::read(hsStream* S, plResManager* mgr) {
+void plLeafController::read(hsStream* S, plResManager* mgr)
+{
     if (S->getVer().isUniversal()) {
         if (ClassIndex() == kLeafController) {
             fType = S->readByte();
@@ -68,7 +70,8 @@ void plLeafController::read(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plLeafController::write(hsStream* S, plResManager* mgr) {
+void plLeafController::write(hsStream* S, plResManager* mgr)
+{
     if (S->getVer().isUniversal()) {
         if (ClassIndex() == kLeafController) {
             S->writeByte(fType);
@@ -104,7 +107,8 @@ void plLeafController::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plLeafController::IPrcWrite(pfPrcHelper* prc) {
+void plLeafController::IPrcWrite(pfPrcHelper* prc)
+{
     prc->startTag("Parameters");
     prc->writeParam("Type", hsKeyFrame::TypeNames[fType]);
     if (fUruUnknown != 0)
@@ -126,7 +130,8 @@ void plLeafController::IPrcWrite(pfPrcHelper* prc) {
     }
 }
 
-void plLeafController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plLeafController::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Parameters") {
         ST::string typeStr = tag->getParam("Type", "");
         fType = hsKeyFrame::kUnknownKeyFrame;
@@ -154,7 +159,8 @@ void plLeafController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plLeafController::AllocKeys(unsigned int numKeys, unsigned int type) {
+void plLeafController::AllocKeys(unsigned int numKeys, unsigned int type)
+{
     DeallocKeys();
     fType = type;
     fKeys.resize(numKeys);
@@ -204,26 +210,30 @@ void plLeafController::AllocKeys(unsigned int numKeys, unsigned int type) {
     }
 }
 
-void plLeafController::DeallocKeys() {
+void plLeafController::DeallocKeys()
+{
     for (auto key = fKeys.begin(); key != fKeys.end(); ++key)
         delete *key;
     fKeys.clear();
 }
 
-void plLeafController::AllocControllers(unsigned int numControllers) {
+void plLeafController::AllocControllers(unsigned int numControllers)
+{
     DeallocControllers();
     fEaseControllers.resize(numControllers);
     for (size_t i=0; i<numControllers; i++)
         fEaseControllers[i] = new plEaseController();
 }
 
-void plLeafController::DeallocControllers() {
+void plLeafController::DeallocControllers()
+{
     for (auto ci = fEaseControllers.begin(); ci != fEaseControllers.end(); ++ci)
         delete *ci;
     fEaseControllers.clear();
 }
 
-void plLeafController::IReadUruController(hsStream* S) {
+void plLeafController::IReadUruController(hsStream* S)
+{
     switch (ClassIndex()) {
     case kEaseController:
         if (S->readInt() != 0) {
@@ -281,7 +291,8 @@ void plLeafController::IReadUruController(hsStream* S) {
         fType = fKeys[0]->getType();
 }
 
-void plLeafController::IWriteUruController(hsStream* S) {
+void plLeafController::IWriteUruController(hsStream* S)
+{
     switch (ClassIndex()) {
     case kEaseController:
         if (fKeys.empty()) {
@@ -339,7 +350,8 @@ void plLeafController::IWriteUruController(hsStream* S) {
     }
 }
 
-plLeafController* plLeafController::ExpandToKeyController() const {
+plLeafController* plLeafController::ExpandToKeyController() const
+{
     plLeafController* ctrl = NULL;
     switch (fType) {
     case hsKeyFrame::kPoint3KeyFrame:
@@ -426,7 +438,8 @@ plLeafController* plLeafController::ExpandToKeyController() const {
     return ctrl;
 }
 
-plLeafController* plLeafController::CompactToLeafController() const {
+plLeafController* plLeafController::CompactToLeafController() const
+{
     plLeafController* ctrl = new plLeafController();
     ctrl->fType = fType;
     ctrl->fUruUnknown = fUruUnknown;
@@ -440,7 +453,8 @@ plLeafController* plLeafController::CompactToLeafController() const {
     return ctrl;
 }
 
-plController* plLeafController::EncapsulateKeyController() const {
+plController* plLeafController::EncapsulateKeyController() const
+{
     plLeafController* expanded = ExpandToKeyController();
     switch (expanded->ClassIndex()) {
     case kPoint3Controller: {
@@ -463,14 +477,16 @@ plController* plLeafController::EncapsulateKeyController() const {
     }
 }
 
-void plLeafController::setKeys(const std::vector<hsKeyFrame*>& keys, unsigned int type) {
+void plLeafController::setKeys(const std::vector<hsKeyFrame*>& keys, unsigned int type)
+{
     DeallocKeys();
     AllocKeys(keys.size(), type);
     for (size_t i=0; i<keys.size(); i++)
         *fKeys[i] = *keys[i];
 }
 
-void plLeafController::setEaseControllers(const std::vector<class plEaseController*>& controllers) {
+void plLeafController::setEaseControllers(const std::vector<class plEaseController*>& controllers)
+{
     DeallocControllers();
     AllocControllers(controllers.size());
     for (size_t i=0; i<controllers.size(); i++)

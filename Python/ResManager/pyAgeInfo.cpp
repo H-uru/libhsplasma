@@ -279,7 +279,8 @@ static PyGetSetDef pyAgeInfo_GetSet[] = {
 
 PY_PLASMA_TYPE(AgeInfo, plAgeInfo, "plAgeInfo wrapper")
 
-PY_PLASMA_TYPE_INIT(AgeInfo) {
+PY_PLASMA_TYPE_INIT(AgeInfo)
+{
     pyAgeInfo_Type.tp_dealloc = pyAgeInfo_dealloc;
     pyAgeInfo_Type.tp_init = pyAgeInfo___init__;
     pyAgeInfo_Type.tp_new = pyAgeInfo_new;

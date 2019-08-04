@@ -21,7 +21,8 @@
 #include "PRP/KeyedObject/plUoid.h"
 #include "plNetMessage.h"
 
-class PLASMA_DLL plNetMsgMemberInfoHelper : public plCreatable {
+class PLASMA_DLL plNetMsgMemberInfoHelper : public plCreatable
+{
     CREATABLE(plNetMsgMemberInfoHelper, kNetMsgMemberInfoHelper, plCreatable)
 
 private:
@@ -30,7 +31,7 @@ private:
     plClientGuid fClientGuid;
 
 public:
-    plNetMsgMemberInfoHelper() : fFlags(0) { }
+    plNetMsgMemberInfoHelper() : fFlags() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -50,7 +51,8 @@ public:
 };
 
 
-class PLASMA_DLL plNetMsgMembersList : public plNetMsgServerToClient {
+class PLASMA_DLL plNetMsgMembersList : public plNetMsgServerToClient
+{
     CREATABLE(plNetMsgMembersList, kNetMsgMembersList, plNetMsgServerToClient)
 
 private:
@@ -73,7 +75,8 @@ public:
 };
 
 
-class PLASMA_DLL plNetMsgMemberUpdate : public plNetMsgServerToClient {
+class PLASMA_DLL plNetMsgMemberUpdate : public plNetMsgServerToClient
+{
     CREATABLE(plNetMsgMemberUpdate, kNetMsgMemberUpdate, plNetMsgServerToClient)
 
 private:
@@ -97,7 +100,8 @@ public:
 };
 
 
-class PLASMA_DLL plNetMsgMembersListReq : public plNetMessage {
+class PLASMA_DLL plNetMsgMembersListReq : public plNetMessage
+{
     CREATABLE(plNetMsgMembersListReq, kNetMsgMembersListReq, plNetMessage)
 };
 

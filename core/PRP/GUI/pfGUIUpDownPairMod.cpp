@@ -17,7 +17,8 @@
 #include "pfGUIUpDownPairMod.h"
 #include "pfGUIButtonMod.h"
 
-void pfGUIUpDownPairMod::read(hsStream* S, plResManager* mgr) {
+void pfGUIUpDownPairMod::read(hsStream* S, plResManager* mgr)
+{
     pfGUIValueCtrl::read(S, mgr);
 
     fUpControl = mgr->readKey(S);
@@ -27,7 +28,8 @@ void pfGUIUpDownPairMod::read(hsStream* S, plResManager* mgr) {
     fStep = S->readFloat();
 }
 
-void pfGUIUpDownPairMod::write(hsStream* S, plResManager* mgr) {
+void pfGUIUpDownPairMod::write(hsStream* S, plResManager* mgr)
+{
     pfGUIValueCtrl::write(S, mgr);
 
     mgr->writeKey(S, fUpControl);
@@ -37,7 +39,8 @@ void pfGUIUpDownPairMod::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fStep);
 }
 
-void pfGUIUpDownPairMod::IPrcWrite(pfPrcHelper* prc) {
+void pfGUIUpDownPairMod::IPrcWrite(pfPrcHelper* prc)
+{
     pfGUIValueCtrl::IPrcWrite(prc);
 
     prc->writeSimpleTag("UpControl");
@@ -48,7 +51,8 @@ void pfGUIUpDownPairMod::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void pfGUIUpDownPairMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void pfGUIUpDownPairMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "UpControl") {
         if (tag->hasChildren())
             fUpControl = mgr->prcParseKey(tag->getFirstChild());

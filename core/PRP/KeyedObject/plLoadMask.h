@@ -20,9 +20,11 @@
 #include "Stream/pfPrcHelper.h"
 #include "Stream/pfPrcParser.h"
 
-class PLASMA_DLL plLoadMask {
+class PLASMA_DLL plLoadMask
+{
 protected:
-    union {
+    union
+    {
         unsigned char fQuality[2];
         unsigned short fMask;
     };

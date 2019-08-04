@@ -39,7 +39,8 @@ static PyGetSetDef pyWaveState7_GetSet[] = {
 PY_PLASMA_TYPE(WaveState7, plFixedWaterState7.WaveState,
                "plFixedWaterState7::WaveState wrapper")
 
-PY_PLASMA_TYPE_INIT(WaveState7) {
+PY_PLASMA_TYPE_INIT(WaveState7)
+{
     pyWaveState7_Type.tp_init = pyWaveState7___init__;
     pyWaveState7_Type.tp_new = pyWaveState7_new;
     pyWaveState7_Type.tp_getset = pyWaveState7_GetSet;

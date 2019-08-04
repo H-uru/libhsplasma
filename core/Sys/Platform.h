@@ -47,8 +47,10 @@
     }
 #endif
 
-inline float ENDSWAPF(float val) {
-    union {
+inline float ENDSWAPF(float val)
+{
+    union
+    {
         float fv;
         uint32_t fb;
     } conv;
@@ -57,8 +59,10 @@ inline float ENDSWAPF(float val) {
     return conv.fv;
 }
 
-inline double ENDSWAPD(double val) {
-    union {
+inline double ENDSWAPD(double val)
+{
+    union
+    {
         double fv;
         uint32_t fb[2];
     } conv;
@@ -108,7 +112,8 @@ inline double ENDSWAPD(double val) {
     #define PATHSEPSTR "/"
 #endif
 
-enum plKeyDef {
+enum plKeyDef
+{
     KEY_A = 'A', KEY_B, KEY_C, KEY_D, KEY_E, KEY_F, KEY_G, KEY_H, KEY_I, KEY_J,
     KEY_K, KEY_L, KEY_M, KEY_N, KEY_O, KEY_P, KEY_Q, KEY_R, KEY_S, KEY_T, KEY_U,
     KEY_V, KEY_W, KEY_X, KEY_Y, KEY_Z,

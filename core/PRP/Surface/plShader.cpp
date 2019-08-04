@@ -18,41 +18,43 @@
 #include <cstring>
 
 /* plShaderConst */
-plShaderConst::plShaderConst() {
-    memset(fArray, 0, sizeof(fArray));
-}
-
-plShaderConst::plShaderConst(const plShaderConst& init) {
+plShaderConst::plShaderConst(const plShaderConst& init)
+{
     memcpy(fArray, init.fArray, sizeof(fArray));
 }
 
-plShaderConst& plShaderConst::operator=(const plShaderConst& init) {
+plShaderConst& plShaderConst::operator=(const plShaderConst& init)
+{
     memcpy(fArray, init.fArray, sizeof(fArray));
     return *this;
 }
 
-void plShaderConst::read(hsStream* S) {
+void plShaderConst::read(hsStream* S)
+{
     fArray[0] = S->readFloat();
     fArray[1] = S->readFloat();
     fArray[2] = S->readFloat();
     fArray[3] = S->readFloat();
 }
 
-void plShaderConst::write(hsStream* S) {
+void plShaderConst::write(hsStream* S)
+{
     S->writeFloat(fArray[0]);
     S->writeFloat(fArray[1]);
     S->writeFloat(fArray[2]);
     S->writeFloat(fArray[3]);
 }
 
-void plShaderConst::prcWrite(pfPrcHelper* prc) {
+void plShaderConst::prcWrite(pfPrcHelper* prc)
+{
     prc->writeTagNoBreak("plShaderConst");
     prc->directWrite(ST::format("{f} {f} {f} {f}",
                      fArray[0], fArray[1], fArray[2], fArray[3]));
     prc->closeTagNoBreak();
 }
 
-void plShaderConst::prcParse(const pfPrcTag* tag) {
+void plShaderConst::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "plShaderConst")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     std::list<ST::string> data = tag->getContents();
@@ -67,7 +69,8 @@ void plShaderConst::prcParse(const pfPrcTag* tag) {
 
 
 /* plShader */
-void plShader::read(hsStream* S, plResManager* mgr) {
+void plShader::read(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::read(S, mgr);
 
     fConsts.resize(S->readInt());
@@ -79,7 +82,8 @@ void plShader::read(hsStream* S, plResManager* mgr) {
     fOutput = S->readByte();
 }
 
-void plShader::write(hsStream* S, plResManager* mgr) {
+void plShader::write(hsStream* S, plResManager* mgr)
+{
     hsKeyedObject::write(S, mgr);
 
     S->writeInt(fConsts.size());
@@ -91,7 +95,8 @@ void plShader::write(hsStream* S, plResManager* mgr) {
     S->writeByte(fOutput);
 }
 
-void plShader::IPrcWrite(pfPrcHelper* prc) {
+void plShader::IPrcWrite(pfPrcHelper* prc)
+{
     hsKeyedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("Constants");
@@ -106,7 +111,8 @@ void plShader::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plShader::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plShader::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Constants") {
         const pfPrcTag* child = tag->getFirstChild();
         fConsts.resize(tag->countChildren());

@@ -25,19 +25,22 @@ extern "C" {
 #define INPUT_BUF_SIZE  4096
 
 /* hsStream JPEG source -- modelled after IJG's stdio src */
-typedef struct {
+typedef struct
+{
     struct jpeg_source_mgr pub;
     hsStream* stream;
     JOCTET* buffer;
     boolean start_of_stream;
 } jpeg_hsStream_source;
 
-METHODDEF(void) init_hsStream_source(j_decompress_ptr dinfo) {
+METHODDEF(void) init_hsStream_source(j_decompress_ptr dinfo)
+{
     jpeg_hsStream_source* src = (jpeg_hsStream_source*)dinfo->src;
     src->start_of_stream = TRUE;
 }
 
-METHODDEF(boolean) hsStream_fill_input_buffer(j_decompress_ptr dinfo) {
+METHODDEF(boolean) hsStream_fill_input_buffer(j_decompress_ptr dinfo)
+{
     jpeg_hsStream_source* src = (jpeg_hsStream_source*)dinfo->src;
     size_t nbytes = INPUT_BUF_SIZE;
 
@@ -63,7 +66,8 @@ METHODDEF(boolean) hsStream_fill_input_buffer(j_decompress_ptr dinfo) {
     return TRUE;
 }
 
-METHODDEF(void) hsStream_skip_input_data(j_decompress_ptr dinfo, long num_bytes) {
+METHODDEF(void) hsStream_skip_input_data(j_decompress_ptr dinfo, long num_bytes)
+{
     jpeg_hsStream_source* src = (jpeg_hsStream_source*)dinfo->src;
 
     if (num_bytes > 0) {
@@ -78,7 +82,8 @@ METHODDEF(void) hsStream_skip_input_data(j_decompress_ptr dinfo, long num_bytes)
 
 METHODDEF(void) hsStream_term_source(j_decompress_ptr dinfo) { }
 
-GLOBAL(void) jpeg_hsStream_src(j_decompress_ptr dinfo, hsStream* S) {
+GLOBAL(void) jpeg_hsStream_src(j_decompress_ptr dinfo, hsStream* S)
+{
     jpeg_hsStream_source* src;
 
     if (dinfo->src == NULL) {
@@ -105,12 +110,14 @@ GLOBAL(void) jpeg_hsStream_src(j_decompress_ptr dinfo, hsStream* S) {
 // JPEG error handler for libPlasma
 static char jpeg_error_buf[JMSG_LENGTH_MAX] = { 0 };
 
-METHODDEF(void) plasma_output_message(j_common_ptr cinfo) {
+METHODDEF(void) plasma_output_message(j_common_ptr cinfo)
+{
     (*cinfo->err->format_message)(cinfo, jpeg_error_buf);
     plDebug::Error(jpeg_error_buf);
 }
 
-METHODDEF(void) plasma_error_exit(j_common_ptr cinfo) {
+METHODDEF(void) plasma_error_exit(j_common_ptr cinfo)
+{
     (*cinfo->err->output_message)(cinfo);
     jpeg_destroy(cinfo);
     throw hsJPEGException(__FILE__, __LINE__, jpeg_error_buf);
@@ -118,12 +125,14 @@ METHODDEF(void) plasma_error_exit(j_common_ptr cinfo) {
 
 
 /* plJPEG */
-plJPEG& plJPEG::Instance() {
+plJPEG& plJPEG::Instance()
+{
     static plJPEG s_instance;
     return s_instance;
 }
 
-plJPEG::plJPEG() {
+plJPEG::plJPEG()
+{
     cinfo.err = jpeg_std_error(&jerr);
     dinfo.err = cinfo.err;
     cinfo.err->error_exit = plasma_error_exit;
@@ -133,7 +142,8 @@ plJPEG::plJPEG() {
     jpeg_create_decompress(&dinfo);
 }
 
-plJPEG::~plJPEG() {
+plJPEG::~plJPEG()
+{
     jpeg_destroy_compress(&cinfo);
     jpeg_destroy_decompress(&dinfo);
 }
@@ -143,18 +153,21 @@ struct RAII_JSAMPROW
 {
     JSAMPROW data[_Rows];
 
-    RAII_JSAMPROW(int row_stride) {
+    RAII_JSAMPROW(int row_stride)
+    {
         for (size_t i = 0; i < _Rows; ++i)
             data[i] = new JSAMPLE[row_stride];
     }
 
-    ~RAII_JSAMPROW() {
+    ~RAII_JSAMPROW()
+    {
         for (size_t i = 0; i < _Rows; ++i)
             delete[] data[i];
     }
 };
 
-void plJPEG::DecompressJPEG(hsStream* S, void* buf, size_t size) {
+void plJPEG::DecompressJPEG(hsStream* S, void* buf, size_t size)
+{
     plJPEG& ji = Instance();
 
     jpeg_hsStream_src(&ji.dinfo, S);
@@ -182,6 +195,7 @@ void plJPEG::DecompressJPEG(hsStream* S, void* buf, size_t size) {
     jpeg_finish_decompress(&ji.dinfo);
 }
 
-void plJPEG::CompressJPEG(hsStream* S, void* buf, size_t size) {
+void plJPEG::CompressJPEG(hsStream* S, void* buf, size_t size)
+{
     throw hsNotImplementedException(__FILE__, __LINE__);
 }

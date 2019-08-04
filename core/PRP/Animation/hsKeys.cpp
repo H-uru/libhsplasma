@@ -28,7 +28,8 @@ const char* hsKeyFrame::TypeNames[] = {
     "kMatrix44KeyFrame"
 };
 
-void hsKeyFrame::read(hsStream* S, unsigned int type) {
+void hsKeyFrame::read(hsStream* S, unsigned int type)
+{
     fType = type;
     if (S->getVer().isUruSP()) {
         fFlags = S->readInt();
@@ -47,7 +48,8 @@ void hsKeyFrame::read(hsStream* S, unsigned int type) {
     }
 }
 
-void hsKeyFrame::write(hsStream* S) {
+void hsKeyFrame::write(hsStream* S)
+{
     if (S->getVer().isUruSP()) {
         if (fType == kBezPoint3KeyFrame || fType == kBezScalarKeyFrame ||
             fType == kBezScaleKeyFrame)
@@ -63,7 +65,8 @@ void hsKeyFrame::write(hsStream* S) {
     }
 }
 
-hsKeyFrame& hsKeyFrame::operator=(const hsKeyFrame& rhs) {
+hsKeyFrame& hsKeyFrame::operator=(const hsKeyFrame& rhs)
+{
     fType = rhs.fType;
     fFrame = rhs.fFrame;
     fFrameTime = rhs.fFrameTime;
@@ -72,19 +75,22 @@ hsKeyFrame& hsKeyFrame::operator=(const hsKeyFrame& rhs) {
     return *this;
 }
 
-void hsKeyFrame::setFrame(unsigned int frame) {
+void hsKeyFrame::setFrame(unsigned int frame)
+{
     fFrame = frame;
     fFrameTime = fFrame / 30.0f;
 }
 
-void hsKeyFrame::setFrameTime(float frame) {
+void hsKeyFrame::setFrameTime(float frame)
+{
     fFrameTime = frame;
     fFrame = (unsigned int)floor((fFrameTime * 30.0f) + 0.5f);
 }
 
 
 /* hsPoint3Key */
-void hsPoint3Key::read(hsStream* S, unsigned int type) {
+void hsPoint3Key::read(hsStream* S, unsigned int type)
+{
     hsKeyFrame::read(S, type);
     if (fType == kBezPoint3KeyFrame) {
         fInTan.read(S);
@@ -93,7 +99,8 @@ void hsPoint3Key::read(hsStream* S, unsigned int type) {
     fValue.read(S);
 }
 
-void hsPoint3Key::write(hsStream* S) {
+void hsPoint3Key::write(hsStream* S)
+{
     hsKeyFrame::write(S);
     if (fType == kBezPoint3KeyFrame) {
         fInTan.write(S);
@@ -102,7 +109,8 @@ void hsPoint3Key::write(hsStream* S) {
     fValue.write(S);
 }
 
-void hsPoint3Key::prcWrite(pfPrcHelper* prc) {
+void hsPoint3Key::prcWrite(pfPrcHelper* prc)
+{
     if (fType == kBezPoint3KeyFrame)
         prc->startTag("hsBezPoint3Key");
     else
@@ -127,7 +135,8 @@ void hsPoint3Key::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void hsPoint3Key::prcParse(const pfPrcTag* tag) {
+void hsPoint3Key::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() == "hsBezPoint3Key")
         fType = kBezPoint3KeyFrame;
     else if (tag->getName() == "hsPoint3Key")
@@ -156,7 +165,8 @@ void hsPoint3Key::prcParse(const pfPrcTag* tag) {
     }
 }
 
-hsPoint3Key& hsPoint3Key::operator=(const hsKeyFrame& rhs) {
+hsPoint3Key& hsPoint3Key::operator=(const hsKeyFrame& rhs)
+{
     hsKeyFrame::operator=(rhs);
     if ((rhs.getType() == kPoint3KeyFrame) || (rhs.getType() == kBezPoint3KeyFrame)) {
         const hsPoint3Key* convert = static_cast<const hsPoint3Key*>(&rhs);
@@ -172,7 +182,8 @@ hsPoint3Key& hsPoint3Key::operator=(const hsKeyFrame& rhs) {
 
 
 /* hsScalarKey */
-void hsScalarKey::read(hsStream* S, unsigned int type) {
+void hsScalarKey::read(hsStream* S, unsigned int type)
+{
     hsKeyFrame::read(S, type);
     if (fType == kBezScalarKeyFrame) {
         fInTan = S->readFloat();
@@ -181,7 +192,8 @@ void hsScalarKey::read(hsStream* S, unsigned int type) {
     fValue = S->readFloat();
 }
 
-void hsScalarKey::write(hsStream* S) {
+void hsScalarKey::write(hsStream* S)
+{
     hsKeyFrame::write(S);
     if (fType == kBezScalarKeyFrame) {
         S->writeFloat(fInTan);
@@ -190,7 +202,8 @@ void hsScalarKey::write(hsStream* S) {
     S->writeFloat(fValue);
 }
 
-void hsScalarKey::prcWrite(pfPrcHelper* prc) {
+void hsScalarKey::prcWrite(pfPrcHelper* prc)
+{
     if (fType == kBezScalarKeyFrame)
         prc->startTag("hsBezScalarKey");
     else
@@ -206,7 +219,8 @@ void hsScalarKey::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void hsScalarKey::prcParse(const pfPrcTag* tag) {
+void hsScalarKey::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() == "hsBezScalarKey")
         fType = kBezScalarKeyFrame;
     else if (tag->getName() == "hsScalarKey")
@@ -221,7 +235,8 @@ void hsScalarKey::prcParse(const pfPrcTag* tag) {
     fOutTan = tag->getParam("OutTan", "0").to_float();
 }
 
-hsScalarKey& hsScalarKey::operator=(const hsKeyFrame& rhs) {
+hsScalarKey& hsScalarKey::operator=(const hsKeyFrame& rhs)
+{
     hsKeyFrame::operator=(rhs);
     if ((rhs.getType() == kScalarKeyFrame) || (rhs.getType() == kBezScalarKeyFrame)) {
         const hsScalarKey* convert = static_cast<const hsScalarKey*>(&rhs);
@@ -237,7 +252,8 @@ hsScalarKey& hsScalarKey::operator=(const hsKeyFrame& rhs) {
 
 
 /* hsScaleKey */
-void hsScaleKey::read(hsStream* S, unsigned int type) {
+void hsScaleKey::read(hsStream* S, unsigned int type)
+{
     hsKeyFrame::read(S, type);
     if (fType == kBezScaleKeyFrame) {
         fInTan.read(S);
@@ -247,7 +263,8 @@ void hsScaleKey::read(hsStream* S, unsigned int type) {
     fQ.read(S);
 }
 
-void hsScaleKey::write(hsStream* S) {
+void hsScaleKey::write(hsStream* S)
+{
     hsKeyFrame::write(S);
     if (fType == kBezScaleKeyFrame) {
         fInTan.write(S);
@@ -257,7 +274,8 @@ void hsScaleKey::write(hsStream* S) {
     fQ.write(S);
 }
 
-void hsScaleKey::prcWrite(pfPrcHelper* prc) {
+void hsScaleKey::prcWrite(pfPrcHelper* prc)
+{
     if (fType == kBezScaleKeyFrame)
         prc->startTag("hsBezScaleKey");
     else
@@ -283,7 +301,8 @@ void hsScaleKey::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void hsScaleKey::prcParse(const pfPrcTag* tag) {
+void hsScaleKey::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() == "hsBezScaleKey")
         fType = kBezScaleKeyFrame;
     else if (tag->getName() == "hsScaleKey")
@@ -321,7 +340,8 @@ void hsScaleKey::prcParse(const pfPrcTag* tag) {
     }
 }
 
-hsScaleKey& hsScaleKey::operator=(const hsKeyFrame& rhs) {
+hsScaleKey& hsScaleKey::operator=(const hsKeyFrame& rhs)
+{
     hsKeyFrame::operator=(rhs);
     if ((rhs.getType() == kScaleKeyFrame) || (rhs.getType() == kBezScaleKeyFrame)) {
         const hsScaleKey* convert = static_cast<const hsScaleKey*>(&rhs);
@@ -338,17 +358,20 @@ hsScaleKey& hsScaleKey::operator=(const hsKeyFrame& rhs) {
 
 
 /* hsQuatKey */
-void hsQuatKey::read(hsStream* S, unsigned int type) {
+void hsQuatKey::read(hsStream* S, unsigned int type)
+{
     hsKeyFrame::read(S, type);
     fValue.read(S);
 }
 
-void hsQuatKey::write(hsStream* S) {
+void hsQuatKey::write(hsStream* S)
+{
     hsKeyFrame::write(S);
     fValue.write(S);
 }
 
-void hsQuatKey::prcWrite(pfPrcHelper* prc) {
+void hsQuatKey::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("hsQuatKey");
     prc->writeParam("Frame", fFrame);
     prc->writeParam("FrameTime", fFrameTime);
@@ -357,7 +380,8 @@ void hsQuatKey::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void hsQuatKey::prcParse(const pfPrcTag* tag) {
+void hsQuatKey::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "hsQuatKey")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     fType = kQuatKeyFrame;
@@ -368,7 +392,8 @@ void hsQuatKey::prcParse(const pfPrcTag* tag) {
         fValue.prcParse(tag->getFirstChild());
 }
 
-hsQuatKey& hsQuatKey::operator=(const hsKeyFrame& rhs) {
+hsQuatKey& hsQuatKey::operator=(const hsKeyFrame& rhs)
+{
     hsKeyFrame::operator=(rhs);
     if (rhs.getType() == kQuatKeyFrame) {
         const hsQuatKey* convert = static_cast<const hsQuatKey*>(&rhs);
@@ -385,7 +410,8 @@ hsQuatKey& hsQuatKey::operator=(const hsKeyFrame& rhs) {
 const float hsCompressedQuatKey32::kOneOverRootTwo = 1 / sqrt(2.0f);
 const float hsCompressedQuatKey32::k10BitScaleRange = kOneOverRootTwo * 0x3FF;
 
-hsQuat hsCompressedQuatKey32::getQuat() const {
+hsQuat hsCompressedQuatKey32::getQuat() const
+{
     hsQuat quat;
     switch (fData >> 30) {
     case kCompQuatNukeX:
@@ -416,7 +442,8 @@ hsQuat hsCompressedQuatKey32::getQuat() const {
     return quat;
 }
 
-void hsCompressedQuatKey32::setQuat(const hsQuat& quat, unsigned char format) {
+void hsCompressedQuatKey32::setQuat(const hsQuat& quat, unsigned char format)
+{
     fData = (format & 0x3) << 30;
     switch (format & 0x3) {
     case kCompQuatNukeX:
@@ -442,17 +469,20 @@ void hsCompressedQuatKey32::setQuat(const hsQuat& quat, unsigned char format) {
     }
 }
 
-void hsCompressedQuatKey32::read(hsStream* S, unsigned int type) {
+void hsCompressedQuatKey32::read(hsStream* S, unsigned int type)
+{
     hsKeyFrame::read(S, type);
     fData = S->readInt();
 }
 
-void hsCompressedQuatKey32::write(hsStream* S) {
+void hsCompressedQuatKey32::write(hsStream* S)
+{
     hsKeyFrame::write(S);
     S->writeInt(fData);
 }
 
-void hsCompressedQuatKey32::prcWrite(pfPrcHelper* prc) {
+void hsCompressedQuatKey32::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("hsCompressedQuatKey32");
     prc->writeParam("Frame", fFrame);
     prc->writeParam("FrameTime", fFrameTime);
@@ -462,7 +492,8 @@ void hsCompressedQuatKey32::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void hsCompressedQuatKey32::prcParse(const pfPrcTag* tag) {
+void hsCompressedQuatKey32::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "hsCompressedQuatKey32")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     fType = kCompressedQuatKeyFrame32;
@@ -478,7 +509,8 @@ void hsCompressedQuatKey32::prcParse(const pfPrcTag* tag) {
     }
 }
 
-hsCompressedQuatKey32& hsCompressedQuatKey32::operator=(const hsKeyFrame& rhs) {
+hsCompressedQuatKey32& hsCompressedQuatKey32::operator=(const hsKeyFrame& rhs)
+{
     hsKeyFrame::operator=(rhs);
     if (rhs.getType() == kCompressedQuatKeyFrame32) {
         const hsCompressedQuatKey32* convert = static_cast<const hsCompressedQuatKey32*>(&rhs);
@@ -496,7 +528,8 @@ const float hsCompressedQuatKey64::kOneOverRootTwo = 1 / sqrt(2.0f);
 const float hsCompressedQuatKey64::k20BitScaleRange = kOneOverRootTwo * 0xFFFFF;
 const float hsCompressedQuatKey64::k21BitScaleRange = kOneOverRootTwo * 0x1FFFFF;
 
-hsQuat hsCompressedQuatKey64::getQuat() const {
+hsQuat hsCompressedQuatKey64::getQuat() const
+{
     hsQuat quat;
     switch (fData[0] >> 30) {
     case kCompQuatNukeX:
@@ -527,7 +560,8 @@ hsQuat hsCompressedQuatKey64::getQuat() const {
     return quat;
 }
 
-void hsCompressedQuatKey64::setQuat(const hsQuat& quat, unsigned char format) {
+void hsCompressedQuatKey64::setQuat(const hsQuat& quat, unsigned char format)
+{
     fData[0] = (format & 0x3) << 30;
     fData[1] = 0;
     switch (format & 0x3) {
@@ -558,19 +592,22 @@ void hsCompressedQuatKey64::setQuat(const hsQuat& quat, unsigned char format) {
     }
 }
 
-void hsCompressedQuatKey64::read(hsStream* S, unsigned int type) {
+void hsCompressedQuatKey64::read(hsStream* S, unsigned int type)
+{
     hsKeyFrame::read(S, type);
     fData[0] = S->readInt();
     fData[1] = S->readInt();
 }
 
-void hsCompressedQuatKey64::write(hsStream* S) {
+void hsCompressedQuatKey64::write(hsStream* S)
+{
     hsKeyFrame::write(S);
     S->writeInt(fData[0]);
     S->writeInt(fData[1]);
 }
 
-void hsCompressedQuatKey64::prcWrite(pfPrcHelper* prc) {
+void hsCompressedQuatKey64::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("hsCompressedQuatKey64");
     prc->writeParam("Frame", fFrame);
     prc->writeParam("FrameTime", fFrameTime);
@@ -580,7 +617,8 @@ void hsCompressedQuatKey64::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void hsCompressedQuatKey64::prcParse(const pfPrcTag* tag) {
+void hsCompressedQuatKey64::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "hsCompressedQuatKey64")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     fType = kCompressedQuatKeyFrame64;
@@ -596,7 +634,8 @@ void hsCompressedQuatKey64::prcParse(const pfPrcTag* tag) {
     }
 }
 
-hsCompressedQuatKey64& hsCompressedQuatKey64::operator=(const hsKeyFrame& rhs) {
+hsCompressedQuatKey64& hsCompressedQuatKey64::operator=(const hsKeyFrame& rhs)
+{
     hsKeyFrame::operator=(rhs);
     if (rhs.getType() == kCompressedQuatKeyFrame64) {
         const hsCompressedQuatKey64* convert = static_cast<const hsCompressedQuatKey64*>(&rhs);
@@ -611,17 +650,20 @@ hsCompressedQuatKey64& hsCompressedQuatKey64::operator=(const hsKeyFrame& rhs) {
 
 
 /* hsG3DSMaxKeyFrame */
-void hsG3DSMaxKeyFrame::read(hsStream* S, unsigned int type) {
+void hsG3DSMaxKeyFrame::read(hsStream* S, unsigned int type)
+{
     hsKeyFrame::read(S, type);
     fValue.read(S);
 }
 
-void hsG3DSMaxKeyFrame::write(hsStream* S) {
+void hsG3DSMaxKeyFrame::write(hsStream* S)
+{
     hsKeyFrame::write(S);
     fValue.write(S);
 }
 
-void hsG3DSMaxKeyFrame::prcWrite(pfPrcHelper* prc) {
+void hsG3DSMaxKeyFrame::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("hsG3DSMaxKeyFrame");
     prc->writeParam("Frame", fFrame);
     prc->writeParam("FrameTime", fFrameTime);
@@ -630,7 +672,8 @@ void hsG3DSMaxKeyFrame::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void hsG3DSMaxKeyFrame::prcParse(const pfPrcTag* tag) {
+void hsG3DSMaxKeyFrame::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "hsG3DSMaxKeyFrame")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     fType = k3dsMaxKeyFrame;
@@ -641,7 +684,8 @@ void hsG3DSMaxKeyFrame::prcParse(const pfPrcTag* tag) {
         fValue.prcParse(tag->getFirstChild());
 }
 
-hsG3DSMaxKeyFrame& hsG3DSMaxKeyFrame::operator=(const hsKeyFrame& rhs) {
+hsG3DSMaxKeyFrame& hsG3DSMaxKeyFrame::operator=(const hsKeyFrame& rhs)
+{
     hsKeyFrame::operator=(rhs);
     if (rhs.getType() == k3dsMaxKeyFrame) {
         const hsG3DSMaxKeyFrame* convert = static_cast<const hsG3DSMaxKeyFrame*>(&rhs);
@@ -655,17 +699,20 @@ hsG3DSMaxKeyFrame& hsG3DSMaxKeyFrame::operator=(const hsKeyFrame& rhs) {
 
 
 /* hsMatrix33Key */
-void hsMatrix33Key::read(hsStream* S, unsigned int type) {
+void hsMatrix33Key::read(hsStream* S, unsigned int type)
+{
     hsKeyFrame::read(S, type);
     fValue.read(S);
 }
 
-void hsMatrix33Key::write(hsStream* S) {
+void hsMatrix33Key::write(hsStream* S)
+{
     hsKeyFrame::write(S);
     fValue.write(S);
 }
 
-void hsMatrix33Key::prcWrite(pfPrcHelper* prc) {
+void hsMatrix33Key::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("hsMatrix33Key");
     prc->writeParam("Frame", fFrame);
     prc->writeParam("FrameTime", fFrameTime);
@@ -674,7 +721,8 @@ void hsMatrix33Key::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void hsMatrix33Key::prcParse(const pfPrcTag* tag) {
+void hsMatrix33Key::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "hsMatrix33Key")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     fType = kMatrix33KeyFrame;
@@ -685,7 +733,8 @@ void hsMatrix33Key::prcParse(const pfPrcTag* tag) {
         fValue.prcParse(tag->getFirstChild());
 }
 
-hsMatrix33Key& hsMatrix33Key::operator=(const hsKeyFrame& rhs) {
+hsMatrix33Key& hsMatrix33Key::operator=(const hsKeyFrame& rhs)
+{
     hsKeyFrame::operator=(rhs);
     if (rhs.getType() == kMatrix33KeyFrame) {
         const hsMatrix33Key* convert = static_cast<const hsMatrix33Key*>(&rhs);
@@ -699,17 +748,20 @@ hsMatrix33Key& hsMatrix33Key::operator=(const hsKeyFrame& rhs) {
 
 
 /* hsMatrix44Key */
-void hsMatrix44Key::read(hsStream* S, unsigned int type) {
+void hsMatrix44Key::read(hsStream* S, unsigned int type)
+{
     hsKeyFrame::read(S, type);
     fValue.read(S);
 }
 
-void hsMatrix44Key::write(hsStream* S) {
+void hsMatrix44Key::write(hsStream* S)
+{
     hsKeyFrame::write(S);
     fValue.write(S);
 }
 
-void hsMatrix44Key::prcWrite(pfPrcHelper* prc) {
+void hsMatrix44Key::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("hsMatrix44Key");
     prc->writeParam("Frame", fFrame);
     prc->writeParam("FrameTime", fFrameTime);
@@ -718,7 +770,8 @@ void hsMatrix44Key::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void hsMatrix44Key::prcParse(const pfPrcTag* tag) {
+void hsMatrix44Key::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "hsMatrix44Key")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     fType = kMatrix44KeyFrame;
@@ -730,7 +783,8 @@ void hsMatrix44Key::prcParse(const pfPrcTag* tag) {
         fValue.prcParse(tag->getFirstChild());
 }
 
-hsMatrix44Key& hsMatrix44Key::operator=(const hsKeyFrame& rhs) {
+hsMatrix44Key& hsMatrix44Key::operator=(const hsKeyFrame& rhs)
+{
     hsKeyFrame::operator=(rhs);
     if (rhs.getType() == kMatrix44KeyFrame) {
         const hsMatrix44Key* convert = static_cast<const hsMatrix44Key*>(&rhs);

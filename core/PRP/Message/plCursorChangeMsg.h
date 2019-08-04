@@ -19,11 +19,13 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plCursorChangeMsg : public plMessage {
+class PLASMA_DLL plCursorChangeMsg : public plMessage
+{
     CREATABLE(plCursorChangeMsg, kCursorChangeMsg, plMessage)
 
 public:
-    enum {
+    enum
+    {
         kNoChange, kCursorUp, kCursorLeft, kCursorRight,
         kCursorDown, kCursorPoised, kCursorClicked, kCursorUnClicked,
         kCursorHidden, kCursorOpen, kCursorGrab, kCursorArrow,
@@ -34,7 +36,7 @@ protected:
     int fType, fPriority;
 
 public:
-    plCursorChangeMsg() : fType(kNoChange), fPriority(0) { }
+    plCursorChangeMsg() : fType(kNoChange), fPriority() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

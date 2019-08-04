@@ -25,7 +25,8 @@
 
 PY_PLASMA_NEW_MSG(LightInfo, "plLightInfo is abstract")
 
-PY_METHOD_NOARGS(LightInfo, clearVisRegions, "Remove all VisRegions from the light") {
+PY_METHOD_NOARGS(LightInfo, clearVisRegions, "Remove all VisRegions from the light")
+{
     self->fThis->clearVisRegions();
     Py_RETURN_NONE;
 }
@@ -49,7 +50,8 @@ static PyMethodDef pyLightInfo_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(LightInfo, visRegions) {
+PY_GETSET_GETTER_DECL(LightInfo, visRegions)
+{
     PyObject* list = PyTuple_New(self->fThis->getVisRegions().size());
     for (size_t i=0; i<self->fThis->getVisRegions().size(); i++)
         PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getVisRegions()[i]));
@@ -87,7 +89,8 @@ static PyGetSetDef pyLightInfo_GetSet[] = {
 
 PY_PLASMA_TYPE(LightInfo, plLightInfo, "plLightInfo wrapper")
 
-PY_PLASMA_TYPE_INIT(LightInfo) {
+PY_PLASMA_TYPE_INIT(LightInfo)
+{
     pyLightInfo_Type.tp_new = pyLightInfo_new;
     pyLightInfo_Type.tp_methods = pyLightInfo_Methods;
     pyLightInfo_Type.tp_getset = pyLightInfo_GetSet;

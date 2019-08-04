@@ -18,7 +18,8 @@
 #include "Stream/plEncryptedStream.h"
 #include "Util/hsBitVector.h"
 
-void plVaultStore::ImportFile(const char* filename) {
+void plVaultStore::ImportFile(const char* filename)
+{
     hsStream* S;
     if (plEncryptedStream::IsFileEncrypted(filename)) {
         S = new plEncryptedStream();
@@ -69,7 +70,8 @@ void plVaultStore::ImportFile(const char* filename) {
     delete S;
 }
 
-void plVaultStore::ExportFile(const char* filename, bool encrypt) {
+void plVaultStore::ExportFile(const char* filename, bool encrypt)
+{
     hsStream* S;
     if (encrypt) {
         S = new plEncryptedStream();
@@ -108,7 +110,8 @@ void plVaultStore::ExportFile(const char* filename, bool encrypt) {
     delete S;
 }
 
-plVaultNode plVaultStore::getNode(unsigned int idx) const {
+plVaultNode plVaultStore::getNode(unsigned int idx) const
+{
     std::map<unsigned int, plVaultNode>::const_iterator it = fNodes.find(idx);
     if (it != fNodes.end())
         return it->second;
@@ -116,7 +119,8 @@ plVaultNode plVaultStore::getNode(unsigned int idx) const {
         return plVaultNode();
 }
 
-std::vector<plVaultNode> plVaultStore::getChildren(unsigned int parent) const {
+std::vector<plVaultNode> plVaultStore::getChildren(unsigned int parent) const
+{
     std::list<unsigned int> childIDs;
     for (std::list<plVaultNodeRef>::const_iterator it=fNodeRefs.begin(); it!=fNodeRefs.end(); it++) {
         if ((*it).getParent() == parent)
@@ -129,7 +133,8 @@ std::vector<plVaultNode> plVaultStore::getChildren(unsigned int parent) const {
     return nodes;
 }
 
-std::vector<plVaultNode> plVaultStore::findParents(unsigned int child) const {
+std::vector<plVaultNode> plVaultStore::findParents(unsigned int child) const
+{
     std::list<unsigned int> parentIDs;
     for (std::list<plVaultNodeRef>::const_iterator it=fNodeRefs.begin(); it!=fNodeRefs.end(); it++) {
         if ((*it).getChild() == child)
@@ -143,7 +148,8 @@ std::vector<plVaultNode> plVaultStore::findParents(unsigned int child) const {
     return nodes;
 }
 
-plVaultNode& plVaultStore::addNode(const plVaultNode& node) {
+plVaultNode& plVaultStore::addNode(const plVaultNode& node)
+{
     if (node.getNodeID() == 0) {
         fLastNodeID++;
         fNodes[fLastNodeID] = node;
@@ -159,7 +165,8 @@ plVaultNode& plVaultStore::addNode(const plVaultNode& node) {
     }
 }
 
-void plVaultStore::addRef(unsigned int parent, unsigned int child, unsigned int saver) {
+void plVaultStore::addRef(unsigned int parent, unsigned int child, unsigned int saver)
+{
     plVaultNodeRef ref;
     ref.setParent(parent);
     ref.setChild(child);
@@ -167,7 +174,8 @@ void plVaultStore::addRef(unsigned int parent, unsigned int child, unsigned int 
     fNodeRefs.push_back(ref);
 }
 
-void plVaultStore::delRef(unsigned int parent, unsigned int child) {
+void plVaultStore::delRef(unsigned int parent, unsigned int child)
+{
     for (std::list<plVaultNodeRef>::iterator it=fNodeRefs.begin(); it!=fNodeRefs.end(); it++) {
         if ((*it).getParent() == parent && (*it).getChild() == child) {
             it = fNodeRefs.erase(it);

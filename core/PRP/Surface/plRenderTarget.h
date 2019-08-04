@@ -23,16 +23,20 @@
 #include "Math/hsMatrix44.h"
 #include "Util/hsBitVector.h"
 
-class PLASMA_DLL plRenderTarget : public plBitmap {
+class PLASMA_DLL plRenderTarget : public plBitmap
+{
     CREATABLE(plRenderTarget, kRenderTarget, plBitmap)
 
 protected:
     unsigned short fWidth, fHeight;
-    union {
-        struct {
+    union
+    {
+        struct
+        {
             unsigned short fLeft, fTop, fRight, fBottom;
         } fAbsolute;
-        struct {
+        struct
+        {
             float fLeft, fTop, fRight, fBottom;
         } fProportional;
     } fViewport;
@@ -40,8 +44,9 @@ protected:
     unsigned char fZDepth, fStencilDepth;
 
 public:
-    plRenderTarget() : fWidth(0), fHeight(0), fProportionalViewport(false),
-                       fZDepth(0), fStencilDepth(0) { }
+    plRenderTarget()
+        : fWidth(), fHeight(), fProportionalViewport(), fZDepth(),
+          fStencilDepth() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -89,16 +94,19 @@ public:
 };
 
 
-class PLASMA_DLL plCubicRenderTarget : public plRenderTarget {
+class PLASMA_DLL plCubicRenderTarget : public plRenderTarget
+{
     CREATABLE(plCubicRenderTarget, kCubicRenderTarget, plRenderTarget)
 
 public:
-    enum Faces {
-        kLeftFace, kRightFace, kFrontFace, kBackFace, kTopFace, kBottomFace, kNumFaces
+    enum Faces
+    {
+        kLeftFace, kRightFace, kFrontFace, kBackFace, kTopFace, kBottomFace,
+        kNumFaces
     };
 
 protected:
-    plRenderTarget fFaces[6];
+    plRenderTarget fFaces[kNumFaces];
 
 public:
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;

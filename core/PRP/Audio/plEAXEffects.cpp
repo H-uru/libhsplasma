@@ -17,28 +17,32 @@
 #include "plEAXEffects.h"
 
 /* plEAXSourceSoftSettings */
-void plEAXSourceSoftSettings::reset() {
+void plEAXSourceSoftSettings::reset()
+{
     fOcclusion = 0;
     fOcclusionLFRatio = 0.25f;
     fOcclusionRoomRatio = 1.5f;
     fOcclusionDirectRatio = 1.0f;
 }
 
-void plEAXSourceSoftSettings::read(hsStream* S) {
+void plEAXSourceSoftSettings::read(hsStream* S)
+{
     fOcclusion = S->readShort();
     fOcclusionLFRatio = S->readFloat();
     fOcclusionRoomRatio = S->readFloat();
     fOcclusionDirectRatio = S->readFloat();
 }
 
-void plEAXSourceSoftSettings::write(hsStream* S) {
+void plEAXSourceSoftSettings::write(hsStream* S)
+{
     S->writeShort(fOcclusion);
     S->writeFloat(fOcclusionLFRatio);
     S->writeFloat(fOcclusionRoomRatio);
     S->writeFloat(fOcclusionDirectRatio);
 }
 
-void plEAXSourceSoftSettings::prcWrite(pfPrcHelper* prc) {
+void plEAXSourceSoftSettings::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("plEAXSourceSoftSettings");
       prc->writeParam("Occlusion", fOcclusion);
       prc->writeParam("LFRatio", fOcclusionLFRatio);
@@ -47,7 +51,8 @@ void plEAXSourceSoftSettings::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plEAXSourceSoftSettings::prcParse(const pfPrcTag* tag) {
+void plEAXSourceSoftSettings::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "plEAXSourceSoftSettings")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
@@ -59,7 +64,8 @@ void plEAXSourceSoftSettings::prcParse(const pfPrcTag* tag) {
 
 
 /* plEAXSourceSettings */
-void plEAXSourceSettings::enable(bool en) {
+void plEAXSourceSettings::enable(bool en)
+{
     fEnabled = en;
     if (!fEnabled) {
         fRoom = -1;
@@ -77,7 +83,8 @@ void plEAXSourceSettings::enable(bool en) {
     }
 }
 
-void plEAXSourceSettings::read(hsStream* S) {
+void plEAXSourceSettings::read(hsStream* S)
+{
     enable(S->readBool());
     if (fEnabled) {
         fRoom = S->readShort();
@@ -101,7 +108,8 @@ void plEAXSourceSettings::read(hsStream* S) {
     }
 }
 
-void plEAXSourceSettings::write(hsStream* S) {
+void plEAXSourceSettings::write(hsStream* S)
+{
     S->writeBool(fEnabled);
     if (fEnabled) {
         S->writeShort(fRoom);
@@ -124,7 +132,8 @@ void plEAXSourceSettings::write(hsStream* S) {
     }
 }
 
-void plEAXSourceSettings::prcWrite(pfPrcHelper* prc) {
+void plEAXSourceSettings::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("plEAXSourceSettings");
     if (fEnabled) {
         prc->writeParam("Room", fRoom);
@@ -154,7 +163,8 @@ void plEAXSourceSettings::prcWrite(pfPrcHelper* prc) {
     }
 }
 
-void plEAXSourceSettings::prcParse(const pfPrcTag* tag) {
+void plEAXSourceSettings::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "plEAXSourceSettings")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 

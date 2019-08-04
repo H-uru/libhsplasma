@@ -16,7 +16,8 @@
 
 #include "pfKIMsg.h"
 
-void pfKIMsg::read(hsStream* S, plResManager* mgr) {
+void pfKIMsg::read(hsStream* S, plResManager* mgr)
+{
     plMessage::read(S, mgr);
 
     fCommand = S->readByte();
@@ -28,7 +29,8 @@ void pfKIMsg::read(hsStream* S, plResManager* mgr) {
     fValue = S->readInt();
 }
 
-void pfKIMsg::write(hsStream* S, plResManager* mgr) {
+void pfKIMsg::write(hsStream* S, plResManager* mgr)
+{
     plMessage::write(S, mgr);
 
     S->writeByte(fCommand);
@@ -40,7 +42,8 @@ void pfKIMsg::write(hsStream* S, plResManager* mgr) {
     S->writeInt(fValue);
 }
 
-void pfKIMsg::IPrcWrite(pfPrcHelper* prc) {
+void pfKIMsg::IPrcWrite(pfPrcHelper* prc)
+{
     plMessage::IPrcWrite(prc);
 
     prc->startTag("Parameters");
@@ -60,7 +63,8 @@ void pfKIMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void pfKIMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void pfKIMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Parameters") {
         fCommand = (uint8_t)tag->getParam("Command", "0").to_uint();
         fFlags = tag->getParam("Flags", "0").to_uint();

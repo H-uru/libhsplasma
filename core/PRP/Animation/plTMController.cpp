@@ -16,13 +16,15 @@
 
 #include "plTMController.h"
 
-plTMController::~plTMController() {
+plTMController::~plTMController()
+{
     delete fPosController;
     delete fRotController;
     delete fScaleController;
 }
 
-void plTMController::read(hsStream* S, plResManager* mgr) {
+void plTMController::read(hsStream* S, plResManager* mgr)
+{
     int type = S->readInt();
     if (type == plPosController::kCompound)
         setPosController(new plCompoundPosController());
@@ -46,7 +48,8 @@ void plTMController::read(hsStream* S, plResManager* mgr) {
         fScaleController->read(S, mgr);
 }
 
-void plTMController::write(hsStream* S, plResManager* mgr) {
+void plTMController::write(hsStream* S, plResManager* mgr)
+{
     if (fPosController != NULL) {
         S->writeInt(fPosController->getType());
         fPosController->write(S, mgr);
@@ -69,7 +72,8 @@ void plTMController::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plTMController::IPrcWrite(pfPrcHelper* prc) {
+void plTMController::IPrcWrite(pfPrcHelper* prc)
+{
     prc->writeSimpleTag("Position");
     if (fPosController != NULL) {
         fPosController->prcWrite(prc);
@@ -101,7 +105,8 @@ void plTMController::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plTMController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plTMController::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Position") {
         if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").to_bool()) {
             if (tag->getFirstChild()->getName() == "plSimplePosController")
@@ -135,7 +140,8 @@ void plTMController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-plCompoundController* plTMController::convertToCompoundController() {
+plCompoundController* plTMController::convertToCompoundController()
+{
     plCompoundController* compound = new plCompoundController();
 
     // Position
@@ -175,17 +181,20 @@ plCompoundController* plTMController::convertToCompoundController() {
     return compound;
 }
 
-void plTMController::setPosController(plPosController* controller) {
+void plTMController::setPosController(plPosController* controller)
+{
     delete fPosController;
     fPosController = controller;
 }
 
-void plTMController::setRotController(plRotController* controller) {
+void plTMController::setRotController(plRotController* controller)
+{
     delete fRotController;
     fRotController = controller;
 }
 
-void plTMController::setScaleController(plScaleController* controller) {
+void plTMController::setScaleController(plScaleController* controller)
+{
     delete fScaleController;
     fScaleController = controller;
 }

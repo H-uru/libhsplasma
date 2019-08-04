@@ -23,14 +23,16 @@ PY_PLASMA_DEALLOC(SpanTemplateVertex)
 PY_PLASMA_EMPTY_INIT(SpanTemplateVertex)
 PY_PLASMA_NEW(SpanTemplateVertex, plSpanTemplate::Vertex)
 
-PY_GETSET_GETTER_DECL(SpanTemplateVertex, UVWs) {
+PY_GETSET_GETTER_DECL(SpanTemplateVertex, UVWs)
+{
     PyObject* list = PyTuple_New(10);
     for (size_t i=0; i<10; i++)
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->fUVWs[i]));
     return list;
 }
 
-PY_GETSET_SETTER_DECL(SpanTemplateVertex, UVWs) {
+PY_GETSET_SETTER_DECL(SpanTemplateVertex, UVWs)
+{
     PY_PROPERTY_CHECK_NULL(UVWs)
     pySequenceFastRef seq(value);
     if (!seq.isSequence()) {
@@ -57,14 +59,16 @@ PY_GETSET_SETTER_DECL(SpanTemplateVertex, UVWs) {
 
 PY_PROPERTY_GETSET_DECL(SpanTemplateVertex, UVWs)
 
-PY_GETSET_GETTER_DECL(SpanTemplateVertex, weights) {
+PY_GETSET_GETTER_DECL(SpanTemplateVertex, weights)
+{
     PyObject* list = PyTuple_New(3);
     for (size_t i=0; i<3; i++)
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->fWeights[i]));
     return list;
 }
 
-PY_GETSET_SETTER_DECL(SpanTemplateVertex, weights) {
+PY_GETSET_SETTER_DECL(SpanTemplateVertex, weights)
+{
     PY_PROPERTY_CHECK_NULL(weights)
     pySequenceFastRef seq(value);
     if (!seq.isSequence()) {
@@ -110,7 +114,8 @@ static PyGetSetDef pySpanTemplateVertex_GetSet[] = {
 
 PY_PLASMA_TYPE(SpanTemplateVertex, plSpanTemplateVertex, "plSpanTemplate::Vertex wrapper")
 
-PY_PLASMA_TYPE_INIT(SpanTemplateVertex) {
+PY_PLASMA_TYPE_INIT(SpanTemplateVertex)
+{
     pySpanTemplateVertex_Type.tp_dealloc = pySpanTemplateVertex_dealloc;
     pySpanTemplateVertex_Type.tp_init = pySpanTemplateVertex___init__;
     pySpanTemplateVertex_Type.tp_new = pySpanTemplateVertex_new;

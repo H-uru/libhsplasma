@@ -32,7 +32,8 @@ static PyGetSetDef pyGUIUpDownPairMod_GetSet[] = {
 
 PY_PLASMA_TYPE(GUIUpDownPairMod, pfGUIUpDownPairMod, "pfGUIUpDownPairMod wrapper")
 
-PY_PLASMA_TYPE_INIT(GUIUpDownPairMod) {
+PY_PLASMA_TYPE_INIT(GUIUpDownPairMod)
+{
     pyGUIUpDownPairMod_Type.tp_new = pyGUIUpDownPairMod_new;
     pyGUIUpDownPairMod_Type.tp_getset = pyGUIUpDownPairMod_GetSet;
     pyGUIUpDownPairMod_Type.tp_base = &pyGUIValueCtrl_Type;

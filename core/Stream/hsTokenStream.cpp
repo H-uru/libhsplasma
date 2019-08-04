@@ -19,17 +19,20 @@
 
 /* hsTokenStream */
 hsTokenStream::hsTokenStream(const ST::string& filename)
-             : fIOwnStream(true), fInComment(-1) {
+    : fIOwnStream(true), fInComment(-1)
+{
     fStream = new hsFileStream();
     ((hsFileStream*)fStream)->open(filename, fmRead);
 }
 
-hsTokenStream::~hsTokenStream() {
+hsTokenStream::~hsTokenStream()
+{
     if (fIOwnStream)
         delete fStream;
 }
 
-ST::string hsTokenStream::next() {
+ST::string hsTokenStream::next()
+{
     if (hasNext()) {
         ST::string s = fLineTokens.front();
         fLineTokens.pop();
@@ -38,31 +41,37 @@ ST::string hsTokenStream::next() {
     return "";
 }
 
-bool hsTokenStream::hasNext() {
+bool hsTokenStream::hasNext()
+{
     if (fLineTokens.empty())
         getLine();
     return !(fLineTokens.empty());
 }
 
-ST::string hsTokenStream::peekNext() {
+ST::string hsTokenStream::peekNext()
+{
     if (hasNext())
         return fLineTokens.front();
     return ST::null;
 }
 
-void hsTokenStream::setDelimiters(const char* delims) {
+void hsTokenStream::setDelimiters(const char* delims)
+{
     fDelims = std::vector<char>(delims, delims + strlen(delims));
 }
 
-void hsTokenStream::setCommentMarkers(const std::vector<Region>& comments) {
+void hsTokenStream::setCommentMarkers(const std::vector<Region>& comments)
+{
     fCommentMarkers = comments;
 }
 
-void hsTokenStream::setStringMarkers(const std::vector<Region>& strMarkers) {
+void hsTokenStream::setStringMarkers(const std::vector<Region>& strMarkers)
+{
     fStringMarkers = strMarkers;
 }
 
-void hsTokenStream::getLine() {
+void hsTokenStream::getLine()
+{
     while (!fLineTokens.empty())
         fLineTokens.pop();
     if (fStream->eof())
@@ -124,7 +133,8 @@ void hsTokenStream::getLine() {
         getLine();
 }
 
-int hsTokenStream::getCharType(const char ch) {
+int hsTokenStream::getCharType(char ch)
+{
     if (ch == ' ' || ch == '\t' || ch == '\r' || ch == '\n')
         return kCharNone;
     for (auto dch = fDelims.begin(); dch != fDelims.end(); ++dch) {

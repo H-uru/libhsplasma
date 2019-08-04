@@ -17,7 +17,8 @@
 #include "plDrawInterface.h"
 
 /* plDrawInterface */
-void plDrawInterface::read(hsStream* S, plResManager* mgr) {
+void plDrawInterface::read(hsStream* S, plResManager* mgr)
+{
     plObjInterface::read(S, mgr);
 
     fDrawables.resize(S->readInt());
@@ -31,7 +32,8 @@ void plDrawInterface::read(hsStream* S, plResManager* mgr) {
         fRegions[i] = mgr->readKey(S);
 }
 
-void plDrawInterface::write(hsStream* S, plResManager* mgr) {
+void plDrawInterface::write(hsStream* S, plResManager* mgr)
+{
     plObjInterface::write(S, mgr);
 
     S->writeInt(fDrawables.size());
@@ -44,7 +46,8 @@ void plDrawInterface::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fRegions[i]);
 }
 
-void plDrawInterface::IPrcWrite(pfPrcHelper* prc) {
+void plDrawInterface::IPrcWrite(pfPrcHelper* prc)
+{
     plObjInterface::IPrcWrite(prc);
 
     prc->writeSimpleTag("Drawables");
@@ -62,7 +65,8 @@ void plDrawInterface::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plDrawInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plDrawInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Drawables") {
         fDrawables.resize(tag->countChildren());
         fDrawableKeys.resize(fDrawables.size());
@@ -87,38 +91,44 @@ void plDrawInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plDrawInterface::clearDrawables() {
+void plDrawInterface::clearDrawables()
+{
     fDrawables.clear();
     fDrawableKeys.clear();
 }
 
-void plDrawInterface::addDrawable(plKey draw, int key) {
+void plDrawInterface::addDrawable(plKey draw, int key)
+{
     fDrawables.push_back(draw);
     fDrawableKeys.push_back(key);
 }
 
-void plDrawInterface::delDrawable(size_t idx) {
+void plDrawInterface::delDrawable(size_t idx)
+{
     fDrawables.erase(fDrawables.begin() + idx);
     fDrawableKeys.erase(fDrawableKeys.begin() + idx);
 }
 
 
 /* plInstanceDrawInterface */
-void plInstanceDrawInterface::read(hsStream* S, plResManager* mgr) {
+void plInstanceDrawInterface::read(hsStream* S, plResManager* mgr)
+{
     plDrawInterface::read(S, mgr);
 
     fTargetID = S->readInt();
     fDrawable = mgr->readKey(S);
 }
 
-void plInstanceDrawInterface::write(hsStream* S, plResManager* mgr) {
+void plInstanceDrawInterface::write(hsStream* S, plResManager* mgr)
+{
     plDrawInterface::write(S, mgr);
 
     S->writeInt(fTargetID);
     mgr->writeKey(S, fDrawable);
 }
 
-void plInstanceDrawInterface::IPrcWrite(pfPrcHelper* prc) {
+void plInstanceDrawInterface::IPrcWrite(pfPrcHelper* prc)
+{
     plDrawInterface::IPrcWrite(prc);
 
     prc->startTag("Target");
@@ -128,7 +138,8 @@ void plInstanceDrawInterface::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plInstanceDrawInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plInstanceDrawInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Target") {
         fTargetID = tag->getParam("ID", "0").to_uint();
         if (tag->hasChildren())

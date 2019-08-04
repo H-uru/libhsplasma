@@ -16,19 +16,22 @@
 
 #include "plArmatureEffectMsg.h"
 
-void plArmatureEffectStateMsg::read(hsStream* S, plResManager* mgr) {
+void plArmatureEffectStateMsg::read(hsStream* S, plResManager* mgr)
+{
     plMessage::read(S, mgr);
     fSurface = S->readByte();
     fAddSurface = S->readBool();
 }
 
-void plArmatureEffectStateMsg::write(hsStream* S, plResManager* mgr) {
+void plArmatureEffectStateMsg::write(hsStream* S, plResManager* mgr)
+{
     plMessage::write(S, mgr);
     S->writeByte(fSurface);
     S->writeBool(fAddSurface);
 }
 
-void plArmatureEffectStateMsg::IPrcWrite(pfPrcHelper* prc) {
+void plArmatureEffectStateMsg::IPrcWrite(pfPrcHelper* prc)
+{
     plMessage::IPrcWrite(prc);
 
     prc->startTag("ArmatureEffectState");
@@ -37,7 +40,8 @@ void plArmatureEffectStateMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plArmatureEffectStateMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plArmatureEffectStateMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "ArmatureEffectState") {
         fSurface = tag->getParam("Surface", "0").to_int();
         fAddSurface = tag->getParam("AddSurface", "false").to_bool();

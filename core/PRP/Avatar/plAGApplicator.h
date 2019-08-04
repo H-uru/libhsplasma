@@ -19,7 +19,8 @@
 
 #include "plAGChannel.h"
 
-class PLASMA_DLL plAGApplicator : public plCreatable {
+class PLASMA_DLL plAGApplicator : public plCreatable
+{
     CREATABLE(plAGApplicator, kAGApplicator, plCreatable)
 
 protected:
@@ -28,8 +29,8 @@ protected:
     ST::string fChannelName;
 
 public:
-    plAGApplicator() : fChannel(NULL), fEnabled(true) { }
-    virtual ~plAGApplicator();
+    plAGApplicator() : fChannel(), fEnabled(true) { }
+    ~plAGApplicator();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -50,14 +51,15 @@ public:
 };
 
 
-class PLASMA_DLL plSoundVolumeApplicator : public plAGApplicator {
+class PLASMA_DLL plSoundVolumeApplicator : public plAGApplicator
+{
     CREATABLE(plSoundVolumeApplicator, kSoundVolumeApplicator, plAGApplicator)
 
 protected:
     unsigned int fIndex;
 
 public:
-    plSoundVolumeApplicator() : fIndex(0) { }
+    plSoundVolumeApplicator() : fIndex() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -72,35 +74,43 @@ public:
 };
 
 
-class PLASMA_DLL plLightAmbientApplicator : public plAGApplicator {
+class PLASMA_DLL plLightAmbientApplicator : public plAGApplicator
+{
     CREATABLE(plLightAmbientApplicator, kLightAmbientApplicator, plAGApplicator)
 };
 
-class PLASMA_DLL plLightDiffuseApplicator : public plAGApplicator {
+class PLASMA_DLL plLightDiffuseApplicator : public plAGApplicator
+{
     CREATABLE(plLightDiffuseApplicator, kLightDiffuseApplicator, plAGApplicator)
 };
 
-class PLASMA_DLL plLightSpecularApplicator : public plAGApplicator {
+class PLASMA_DLL plLightSpecularApplicator : public plAGApplicator
+{
     CREATABLE(plLightSpecularApplicator, kLightSpecularApplicator, plAGApplicator)
 };
 
-class PLASMA_DLL plOmniApplicator : public plAGApplicator {
+class PLASMA_DLL plOmniApplicator : public plAGApplicator
+{
     CREATABLE(plOmniApplicator, kOmniApplicator, plAGApplicator)
 };
 
-class PLASMA_DLL plOmniCutoffApplicator : public plAGApplicator {
+class PLASMA_DLL plOmniCutoffApplicator : public plAGApplicator
+{
     CREATABLE(plOmniCutoffApplicator, kOmniCutoffApplicator, plAGApplicator)
 };
 
-class PLASMA_DLL plOmniSqApplicator : public plAGApplicator {
+class PLASMA_DLL plOmniSqApplicator : public plAGApplicator
+{
     CREATABLE(plOmniSqApplicator, kOmniSqApplicator, plAGApplicator)
 };
 
-class PLASMA_DLL plSpotInnerApplicator : public plAGApplicator {
+class PLASMA_DLL plSpotInnerApplicator : public plAGApplicator
+{
     CREATABLE(plSpotInnerApplicator, kSpotInnerApplicator, plAGApplicator)
 };
 
-class PLASMA_DLL plSpotOuterApplicator : public plAGApplicator {
+class PLASMA_DLL plSpotOuterApplicator : public plAGApplicator
+{
     CREATABLE(plSpotOuterApplicator, kSpotOuterApplicator, plAGApplicator)
 };
 

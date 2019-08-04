@@ -24,13 +24,15 @@ float plVertCoder::FieldScales[] = {
    65536.0f, 65536.0f, 65536.0f, 65536.0f, 65536.0f
 };
 
-void plVertCoder::clear() {
+void plVertCoder::clear()
+{
     memset(fFloats, 0, sizeof(fFloats));
     memset(fColors, 0, sizeof(fColors));
 }
 
 void plVertCoder::read(hsStream* S, unsigned char* dest, unsigned char format,
-                       unsigned short numVerts) {
+                       unsigned short numVerts)
+{
     clear();
     for (unsigned short i=0; i<numVerts; i++)
         IDecode(S, dest, format);
@@ -38,13 +40,15 @@ void plVertCoder::read(hsStream* S, unsigned char* dest, unsigned char format,
 
 void plVertCoder::write(hsStream* S, const unsigned char* src,
                         unsigned char format, unsigned int stride,
-                        unsigned short numVerts) {
+                        unsigned short numVerts)
+{
     clear();
     for (unsigned short i=0; i<numVerts; i++)
         IEncode(S, numVerts - i, src, stride, format);
 }
 
-void plVertCoder::IDecode(hsStream* S, unsigned char*& dest, unsigned char format) {
+void plVertCoder::IDecode(hsStream* S, unsigned char*& dest, unsigned char format)
+{
     int i;
 
     // The X, Y, Z coordinates of this vertex
@@ -79,7 +83,8 @@ void plVertCoder::IDecode(hsStream* S, unsigned char*& dest, unsigned char forma
     }
 }
 
-void plVertCoder::IDecodeByte(hsStream* S, int chan, unsigned char* dest) {
+void plVertCoder::IDecodeByte(hsStream* S, int chan, unsigned char* dest)
+{
     if (fColors[chan].fCount == 0) {
         unsigned short count = S->readShort();
         if (count & 0x8000) {
@@ -99,7 +104,8 @@ void plVertCoder::IDecodeByte(hsStream* S, int chan, unsigned char* dest) {
 }
 
 void plVertCoder::IDecodeFloat(hsStream* S, int field, int chan,
-                               unsigned char*& dest) {
+                               unsigned char*& dest)
+{
     if (fFloats[chan][field].fCount == 0) {
         fFloats[chan][field].fOffset = S->readFloat();
         if (S->getVer().isLive())
@@ -115,7 +121,8 @@ void plVertCoder::IDecodeFloat(hsStream* S, int field, int chan,
     fFloats[chan][field].fCount--;
 }
 
-void plVertCoder::IDecodeNormal(hsStream* S, unsigned char*& dest) {
+void plVertCoder::IDecodeNormal(hsStream* S, unsigned char*& dest)
+{
     if (S->getVer().isLive()) {
         ((float*)dest)[0] = ((S->readByte() / 256.0f) - 0.5f) * 2.0f;
         ((float*)dest)[1] = ((S->readByte() / 256.0f) - 0.5f) * 2.0f;
@@ -128,7 +135,8 @@ void plVertCoder::IDecodeNormal(hsStream* S, unsigned char*& dest) {
     dest += sizeof(float) * 3;
 }
 
-void plVertCoder::IDecodeColor(hsStream* S, unsigned char*& dest) {
+void plVertCoder::IDecodeColor(hsStream* S, unsigned char*& dest)
+{
     IDecodeByte(S, 0, dest);
     IDecodeByte(S, 1, dest);
     IDecodeByte(S, 2, dest);
@@ -138,7 +146,8 @@ void plVertCoder::IDecodeColor(hsStream* S, unsigned char*& dest) {
 
 void plVertCoder::IEncode(hsStream* S, unsigned int vertsLeft,
                           const unsigned char*& src, unsigned int stride,
-                          unsigned char format) {
+                          unsigned char format)
+{
     int i;
 
     // The X, Y, Z coordinates of this vertex
@@ -172,7 +181,8 @@ void plVertCoder::IEncode(hsStream* S, unsigned int vertsLeft,
 }
 
 void plVertCoder::IEncodeByte(hsStream* S, unsigned int vertsLeft, int chan,
-                              const unsigned char* src, unsigned int stride) {
+                              const unsigned char* src, unsigned int stride)
+{
     if (fColors[chan].fCount == 0) {
         ICountBytes(vertsLeft, src + chan, stride, fColors[chan].fCount, fColors[chan].fSame);
         unsigned short count = fColors[chan].fCount;
@@ -194,7 +204,8 @@ void plVertCoder::IEncodeByte(hsStream* S, unsigned int vertsLeft, int chan,
 
 void plVertCoder::IEncodeFloat(hsStream* S, unsigned int vertsLeft, int field,
                                int chan, const unsigned char*& src,
-                               unsigned int stride) {
+                               unsigned int stride)
+{
     if (fFloats[chan][field].fCount == 0) {
         ICountFloats(vertsLeft, src, FieldScales[field], stride,
                      fFloats[chan][field].fOffset,
@@ -215,7 +226,8 @@ void plVertCoder::IEncodeFloat(hsStream* S, unsigned int vertsLeft, int field,
     fFloats[chan][field].fCount--;
 }
 
-void plVertCoder::IEncodeNormal(hsStream* S, const unsigned char*& src) {
+void plVertCoder::IEncodeNormal(hsStream* S, const unsigned char*& src)
+{
     if (S->getVer().isLive()) {
         S->writeByte(FloatToByte(((((float*)src)[0] + 1.0f) / 2.0f) * 256.0f));
         S->writeByte(FloatToByte(((((float*)src)[1] + 1.0f) / 2.0f) * 256.0f));
@@ -229,7 +241,8 @@ void plVertCoder::IEncodeNormal(hsStream* S, const unsigned char*& src) {
 }
 
 void plVertCoder::IEncodeColor(hsStream* S, unsigned int vertsLeft,
-                               const unsigned char*& src, unsigned int stride) {
+                               const unsigned char*& src, unsigned int stride)
+{
     IEncodeByte(S, vertsLeft, 0, src, stride);
     IEncodeByte(S, vertsLeft, 1, src, stride);
     IEncodeByte(S, vertsLeft, 2, src, stride);
@@ -238,7 +251,8 @@ void plVertCoder::IEncodeColor(hsStream* S, unsigned int vertsLeft,
 }
 
 void plVertCoder::ICountBytes(unsigned int vertsLeft, const unsigned char* src,
-                              unsigned int stride, unsigned short& len, bool& same) {
+                              unsigned int stride, unsigned short& len, bool& same)
+{
     if (vertsLeft < 4) {
         len = vertsLeft;
         same = false;
@@ -280,7 +294,8 @@ void plVertCoder::ICountBytes(unsigned int vertsLeft, const unsigned char* src,
 
 void plVertCoder::ICountFloats(unsigned int vertsLeft, const unsigned char* src,
                                float quant, unsigned int stride, float& lo,
-                               bool& allSame, unsigned short& count) {
+                               bool& allSame, unsigned short& count)
+{
     lo = floor(((*(float*)src) * quant) + 0.5f) / quant;
     float hi = lo;
     allSame = false;

@@ -22,12 +22,14 @@
 
 PY_PLASMA_NEW(AgeLinkStruct, plAgeLinkStruct)
 
-PY_GETSET_GETTER_DECL(AgeLinkStruct, ageInfo) {
+PY_GETSET_GETTER_DECL(AgeLinkStruct, ageInfo)
+{
     // This cannot be a subclass, since it's an inline member
     return pyAgeInfoStruct_FromAgeInfoStruct(&self->fThis->getAgeInfo());
 }
 
-PY_GETSET_SETTER_DECL(AgeLinkStruct, ageInfo) {
+PY_GETSET_SETTER_DECL(AgeLinkStruct, ageInfo)
+{
     PY_PROPERTY_CHECK_NULL(ageInfo)
 
     plAgeInfoStruct& ais = self->fThis->getAgeInfo();
@@ -47,11 +49,13 @@ PY_GETSET_SETTER_DECL(AgeLinkStruct, ageInfo) {
 
 PY_PROPERTY_GETSET_DECL(AgeLinkStruct, ageInfo)
 
-PY_GETSET_GETTER_DECL(AgeLinkStruct, spawnPoint) {
+PY_GETSET_GETTER_DECL(AgeLinkStruct, spawnPoint)
+{
     return pySpawnPointInfo_FromSpawnPointInfo(&self->fThis->getSpawnPoint());
 }
 
-PY_GETSET_SETTER_DECL(AgeLinkStruct, spawnPoint) {
+PY_GETSET_SETTER_DECL(AgeLinkStruct, spawnPoint)
+{
     PY_PROPERTY_CHECK_NULL(spawnPoint)
 
     plSpawnPointInfo& spi = self->fThis->getSpawnPoint();
@@ -75,7 +79,8 @@ PY_PROPERTY(signed char, AgeLinkStruct, linkingRules, getLinkingRules, setLinkin
 
 PY_PROPERTY_READ(AgeLinkStruct, parentAgeFilename, getParentAgeFilename)
 
-PY_GETSET_SETTER_DECL(AgeLinkStruct, parentAgeFilename) {
+PY_GETSET_SETTER_DECL(AgeLinkStruct, parentAgeFilename)
+{
     PY_PROPERTY_CHECK_NULL(parentAgeFilename)
     if (value == Py_None) {
         self->fThis->clearParentAgeFilename();
@@ -101,7 +106,8 @@ PyGetSetDef pyAgeLinkStruct_GetSet[] = {
 
 PY_PLASMA_TYPE(AgeLinkStruct, plAgeLinkStruct, "plAgeLinkStruct wrapper")
 
-PY_PLASMA_TYPE_INIT(AgeLinkStruct) {
+PY_PLASMA_TYPE_INIT(AgeLinkStruct)
+{
     pyAgeLinkStruct_Type.tp_new = pyAgeLinkStruct_new;
     pyAgeLinkStruct_Type.tp_getset = pyAgeLinkStruct_GetSet;
     pyAgeLinkStruct_Type.tp_base = &pyCreatable_Type;

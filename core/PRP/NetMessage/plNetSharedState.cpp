@@ -17,7 +17,8 @@
 #include "plNetSharedState.h"
 
 /* plGenericType */
-void plGenericType::read(hsStream* S) {
+void plGenericType::read(hsStream* S)
+{
     fType = S->readByte();
     switch (fType) {
     case kString:
@@ -45,7 +46,8 @@ void plGenericType::read(hsStream* S) {
     }
 }
 
-void plGenericType::write(hsStream* S) {
+void plGenericType::write(hsStream* S)
+{
     S->writeByte(fType);
     switch (fType) {
     case kString:
@@ -71,7 +73,8 @@ void plGenericType::write(hsStream* S) {
     }
 }
 
-void plGenericType::prcWrite(pfPrcHelper* prc) {
+void plGenericType::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("plGenericType");
     prc->writeParam("Type", fType);
 
@@ -102,7 +105,8 @@ void plGenericType::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plGenericType::prcParse(const pfPrcTag* tag) {
+void plGenericType::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "plGenericType")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
@@ -137,17 +141,20 @@ void plGenericType::prcParse(const pfPrcTag* tag) {
 
 
 /* plGenericVar */
-void plGenericVar::read(hsStream* S) {
+void plGenericVar::read(hsStream* S)
+{
     fName = S->readSafeStr();
     fValue.read(S);
 }
 
-void plGenericVar::write(hsStream* S) {
+void plGenericVar::write(hsStream* S)
+{
     S->writeSafeStr(fName);
     fValue.write(S);
 }
 
-void plGenericVar::prcWrite(pfPrcHelper* prc) {
+void plGenericVar::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("plGenericVar");
     prc->writeParam("Name", fName);
     prc->endTag();
@@ -155,7 +162,8 @@ void plGenericVar::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plGenericVar::prcParse(const pfPrcTag* tag) {
+void plGenericVar::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "plGenericVar")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
@@ -166,7 +174,8 @@ void plGenericVar::prcParse(const pfPrcTag* tag) {
 
 
 /* plNetSharedState */
-void plNetSharedState::read(hsStream* S) {
+void plNetSharedState::read(hsStream* S)
+{
     unsigned short sz = S->readShort();
     fName = S->readStr(sz);
     size_t count = S->readInt();
@@ -177,7 +186,8 @@ void plNetSharedState::read(hsStream* S) {
         fVars[i].read(S);
 }
 
-void plNetSharedState::write(hsStream* S) {
+void plNetSharedState::write(hsStream* S)
+{
     S->writeShort(fName.size());
     S->writeStr(fName);
     S->writeInt(fVars.size());
@@ -187,7 +197,8 @@ void plNetSharedState::write(hsStream* S) {
         fVars[i].write(S);
 }
 
-void plNetSharedState::prcWrite(pfPrcHelper* prc) {
+void plNetSharedState::prcWrite(pfPrcHelper* prc)
+{
     prc->startTag("plNetSharedState");
     prc->writeParam("Name", fName);
     prc->writeParam("ServerMayDelete", fServerMayDelete);
@@ -199,7 +210,8 @@ void plNetSharedState::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plNetSharedState::prcParse(const pfPrcTag* tag) {
+void plNetSharedState::prcParse(const pfPrcTag* tag)
+{
     if (tag->getName() != "plNetSharedState")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 

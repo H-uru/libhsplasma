@@ -21,14 +21,16 @@
 
 class pnSocket;
 
-class pnDispatcher {
+class pnDispatcher
+{
 public:
     pnDispatcher() { }
     virtual ~pnDispatcher() { }
     virtual bool dispatch(pnSocket* /*sock*/) { return false; }
 };
 
-class pnSocketInterface {
+class pnSocketInterface
+{
 public:
     pnSocketInterface(pnDispatcher* dispatch, pnSocket* sock)
         : fDispatch(dispatch), fSock(sock) { }
@@ -42,22 +44,24 @@ protected:
 
 class pnThreadHelper;
 
-class pnThreadedSocket : public pnSocketInterface {
+class pnThreadedSocket : public pnSocketInterface
+{
 public:
     pnThreadedSocket(pnDispatcher* dispatch, pnSocket* sock)
-        : pnSocketInterface(dispatch, sock), fHelper(0) { }
-    virtual ~pnThreadedSocket();
+        : pnSocketInterface(dispatch, sock), fHelper() { }
+    ~pnThreadedSocket();
     void run() HS_OVERRIDE;
 
 protected:
     pnThreadHelper* fHelper;
 };
 
-class pnPolledSocket : public pnSocketInterface {
+class pnPolledSocket : public pnSocketInterface
+{
 public:
     pnPolledSocket(pnDispatcher* dispatch, pnSocket* sock)
         : pnSocketInterface(dispatch, sock) { }
-    virtual ~pnPolledSocket() { }
+    ~pnPolledSocket() { }
     void run() HS_OVERRIDE;
 };
 

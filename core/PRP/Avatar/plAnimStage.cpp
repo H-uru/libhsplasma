@@ -16,7 +16,8 @@
 
 #include "plAnimStage.h"
 
-void plAnimStage::read(hsStream* S, plResManager* ) {
+void plAnimStage::read(hsStream* S, plResManager* )
+{
     fAnimName = S->readSafeStr();
     fNotify = S->readByte();
     fForwardType = (PlayType)S->readInt();
@@ -30,7 +31,8 @@ void plAnimStage::read(hsStream* S, plResManager* ) {
     fRegressTo = S->readInt();
 }
 
-void plAnimStage::write(hsStream* S, plResManager* ) {
+void plAnimStage::write(hsStream* S, plResManager* )
+{
     S->writeSafeStr(fAnimName);
     S->writeByte(fNotify);
     S->writeInt((uint32_t)fForwardType);
@@ -44,7 +46,8 @@ void plAnimStage::write(hsStream* S, plResManager* ) {
     S->writeInt(fRegressTo);
 }
 
-void plAnimStage::IPrcWrite(pfPrcHelper* prc) {
+void plAnimStage::IPrcWrite(pfPrcHelper* prc)
+{
     prc->startTag("Animation");
     prc->writeParam("Name", fAnimName);
     prc->writeParam("Loops", fLoops);
@@ -69,7 +72,8 @@ void plAnimStage::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plAnimStage::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plAnimStage::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "Animation") {
         fAnimName = tag->getParam("Name", "");
         fLoops = tag->getParam("Loops", "0").to_int();
@@ -90,21 +94,24 @@ void plAnimStage::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plAnimStage::readAux(hsStream* S) {
+void plAnimStage::readAux(hsStream* S)
+{
     fLocalTime = S->readFloat();
     fLength = S->readFloat();
     fCurLoop = S->readInt();
     fAttached = S->readBool();
 }
 
-void plAnimStage::writeAux(hsStream* S) {
+void plAnimStage::writeAux(hsStream* S)
+{
     S->writeFloat(fLocalTime);
     S->writeFloat(fLength);
     S->writeInt(fCurLoop);
     S->writeBool(fAttached);
 }
 
-void plAnimStage::prcWriteAux(pfPrcHelper* prc) {
+void plAnimStage::prcWriteAux(pfPrcHelper* prc)
+{
     prc->startTag("plAnimStage_Aux");
     prc->writeParam("LocalTime", fLocalTime);
     prc->writeParam("Length", fLength);
@@ -113,7 +120,8 @@ void plAnimStage::prcWriteAux(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plAnimStage::prcParseAux(const pfPrcTag* tag) {
+void plAnimStage::prcParseAux(const pfPrcTag* tag)
+{
     if (tag->getName() != "plAnimStage_Aux")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 

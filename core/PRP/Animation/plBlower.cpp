@@ -16,7 +16,8 @@
 
 #include "plBlower.h"
 
-void plBlower::read(hsStream* S, plResManager* mgr) {
+void plBlower::read(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::read(S, mgr);
 
     fMasterPower = S->readFloat();
@@ -25,7 +26,8 @@ void plBlower::read(hsStream* S, plResManager* mgr) {
     fSpringKonst = S->readFloat();
 }
 
-void plBlower::write(hsStream* S, plResManager* mgr) {
+void plBlower::write(hsStream* S, plResManager* mgr)
+{
     plSingleModifier::write(S, mgr);
 
     S->writeFloat(fMasterPower);
@@ -34,7 +36,8 @@ void plBlower::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fSpringKonst);
 }
 
-void plBlower::IPrcWrite(pfPrcHelper* prc) {
+void plBlower::IPrcWrite(pfPrcHelper* prc)
+{
     plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("BlowerParams");
@@ -45,7 +48,8 @@ void plBlower::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void plBlower::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plBlower::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "BlowerParams") {
         fMasterPower = tag->getParam("MasterPower", "0").to_float();
         fDirectRate = tag->getParam("DirectRate", "0").to_float();

@@ -16,7 +16,8 @@
 
 #include "pfGUICheckBoxCtrl.h"
 
-void pfGUICheckBoxCtrl::read(hsStream* S, plResManager* mgr) {
+void pfGUICheckBoxCtrl::read(hsStream* S, plResManager* mgr)
+{
     pfGUIControlMod::read(S, mgr);
 
     fAnimKeys.resize(S->readInt());
@@ -26,7 +27,8 @@ void pfGUICheckBoxCtrl::read(hsStream* S, plResManager* mgr) {
     fChecked = S->readBool();
 }
 
-void pfGUICheckBoxCtrl::write(hsStream* S, plResManager* mgr) {
+void pfGUICheckBoxCtrl::write(hsStream* S, plResManager* mgr)
+{
     pfGUIControlMod::write(S, mgr);
 
     S->writeInt(fAnimKeys.size());
@@ -36,7 +38,8 @@ void pfGUICheckBoxCtrl::write(hsStream* S, plResManager* mgr) {
     S->writeBool(fChecked);
 }
 
-void pfGUICheckBoxCtrl::IPrcWrite(pfPrcHelper* prc) {
+void pfGUICheckBoxCtrl::IPrcWrite(pfPrcHelper* prc)
+{
     pfGUIControlMod::IPrcWrite(prc);
 
     prc->startTag("CheckBoxParams");
@@ -50,7 +53,8 @@ void pfGUICheckBoxCtrl::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void pfGUICheckBoxCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void pfGUICheckBoxCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
+{
     if (tag->getName() == "CheckBoxParams") {
         fAnimName = tag->getParam("AnimName", "");
         fChecked = tag->getParam("Checked", "false").to_bool();

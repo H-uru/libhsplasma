@@ -20,7 +20,8 @@
 #include "plNetMessage.h"
 #include "PRP/KeyedObject/plUoid.h"
 
-class PLASMA_DLL plNetMsgObject : public plNetMessage {
+class PLASMA_DLL plNetMsgObject : public plNetMessage
+{
     CREATABLE(plNetMsgObject, kNetMsgObject, plNetMessage)
 
 private:

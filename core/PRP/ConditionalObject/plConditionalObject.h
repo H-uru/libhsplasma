@@ -20,14 +20,15 @@
 #include "PRP/KeyedObject/hsKeyedObject.h"
 #include "Util/hsBitVector.h"
 
-class PLASMA_DLL plConditionalObject : public hsKeyedObject {
+class PLASMA_DLL plConditionalObject : public hsKeyedObject
+{
     CREATABLE(plConditionalObject, kConditionalObject, hsKeyedObject)
 
 protected:
     bool fSatisfied, fToggle;
 
 public:
-    plConditionalObject() : fSatisfied(false), fToggle(false) { }
+    plConditionalObject() : fSatisfied(), fToggle() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -45,13 +46,15 @@ public:
 };
 
 
-class PLASMA_DLL plPickedConditionalObject : public plConditionalObject {
+class PLASMA_DLL plPickedConditionalObject : public plConditionalObject
+{
     CREATABLE(plPickedConditionalObject, kPickedConditionalObject,
               plConditionalObject)
 };
 
 
-class PLASMA_DLL plPythonFileModConditionalObject : public plConditionalObject {
+class PLASMA_DLL plPythonFileModConditionalObject : public plConditionalObject
+{
     CREATABLE(plPythonFileModConditionalObject,
               kPythonFileModConditionalObject,
               plConditionalObject)
