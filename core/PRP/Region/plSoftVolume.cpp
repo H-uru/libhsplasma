@@ -69,7 +69,7 @@ void plSoftVolumeSimple::read(hsStream* S, plResManager* mgr)
     plSoftVolume::read(S, mgr);
 
     fSoftDist = S->readFloat();
-    setVolume(plVolumeIsect::Convert(mgr->ReadCreatable(S)));
+    setVolume(mgr->ReadCreatableC<plVolumeIsect>(S));
 }
 
 void plSoftVolumeSimple::write(hsStream* S, plResManager* mgr)
@@ -101,7 +101,7 @@ void plSoftVolumeSimple::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
     if (tag->getName() == "Volume") {
         fSoftDist = tag->getParam("SoftDist", "0").to_float();
         if (tag->hasChildren())
-            setVolume(plVolumeIsect::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+            setVolume(mgr->prcParseCreatableC<plVolumeIsect>(tag->getFirstChild()));
         else
             setVolume(nullptr);
     } else {

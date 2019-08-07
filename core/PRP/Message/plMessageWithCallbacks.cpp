@@ -29,7 +29,7 @@ void plMessageWithCallbacks::read(hsStream* S, plResManager* mgr)
     clearCallbacks();
     fCallbacks.resize(S->readInt());
     for (size_t i=0; i<fCallbacks.size(); i++) {
-        fCallbacks[i] = plMessage::Convert(mgr->ReadCreatable(S));
+        fCallbacks[i] = mgr->ReadCreatableC<plMessage>(S);
         if (fCallbacks[i] == nullptr)
             throw hsNotImplementedException(__FILE__, __LINE__, "Callback Message");
     }
@@ -61,7 +61,7 @@ void plMessageWithCallbacks::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         fCallbacks.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fCallbacks.size(); i++) {
-            fCallbacks[i] = plMessage::Convert(mgr->prcParseCreatable(child));
+            fCallbacks[i] = mgr->prcParseCreatableC<plMessage>(child);
             child = child->getNextSibling();
         }
     } else {

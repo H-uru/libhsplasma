@@ -35,7 +35,7 @@ void plAxisAnimModifier::read(hsStream* S, plResManager* mgr)
     fNotificationKey = mgr->readKey(S);
     fAllOrNothing = S->readBool();
 
-    setNotify(plNotifyMsg::Convert(mgr->ReadCreatable(S)));
+    setNotify(mgr->ReadCreatableC<plNotifyMsg>(S));
     size_t len = S->readShort();
     fAnimLabel = S->readStr(len);
 
@@ -194,7 +194,7 @@ void plAxisAnimModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
             fNotificationKey = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "Notify") {
         if (tag->hasChildren())
-            setNotify(plNotifyMsg::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+            setNotify(mgr->prcParseCreatableC<plNotifyMsg>(tag->getFirstChild()));
     } else if (tag->getName() == "EoaUnknowns") {
         // Blah, skip for now
     } else {

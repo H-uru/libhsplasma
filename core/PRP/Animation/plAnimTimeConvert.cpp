@@ -36,9 +36,9 @@ void plAnimTimeConvert::read(hsStream* S, plResManager* mgr)
     fLoopBegin = S->readFloat();
     fSpeed = S->readFloat();
 
-    setEaseInCurve(plATCEaseCurve::Convert(mgr->ReadCreatable(S)));
-    setEaseOutCurve(plATCEaseCurve::Convert(mgr->ReadCreatable(S)));
-    setSpeedEaseCurve(plATCEaseCurve::Convert(mgr->ReadCreatable(S)));
+    setEaseInCurve(mgr->ReadCreatableC<plATCEaseCurve>(S));
+    setEaseOutCurve(mgr->ReadCreatableC<plATCEaseCurve>(S));
+    setSpeedEaseCurve(mgr->ReadCreatableC<plATCEaseCurve>(S));
     fCurrentAnimTime = S->readFloat();
     fLastEvalWorldTime = S->readDouble();
 
@@ -46,7 +46,7 @@ void plAnimTimeConvert::read(hsStream* S, plResManager* mgr)
         delete *msg;
     fCallbackMsgs.resize(S->readInt());
     for (size_t i=0; i<fCallbackMsgs.size(); i++)
-        fCallbackMsgs[i] = plEventCallbackMsg::Convert(mgr->ReadCreatable(S));
+        fCallbackMsgs[i] = mgr->ReadCreatableC<plEventCallbackMsg>(S);
 
     fStopPoints.resize(S->readInt());
     for (size_t i=0; i<fStopPoints.size(); i++)
@@ -146,13 +146,13 @@ void plAnimTimeConvert::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         fSpeed = tag->getParam("Speed", "0").to_float();
     } else if (tag->getName() == "EaseInCurve") {
         if (!tag->getParam("NULL", "false").to_bool() && tag->hasChildren())
-            setSpeedEaseCurve(plATCEaseCurve::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+            setSpeedEaseCurve(mgr->prcParseCreatableC<plATCEaseCurve>(tag->getFirstChild()));
     } else if (tag->getName() == "EaseOutCurve") {
         if (!tag->getParam("NULL", "false").to_bool() && tag->hasChildren())
-            setSpeedEaseCurve(plATCEaseCurve::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+            setSpeedEaseCurve(mgr->prcParseCreatableC<plATCEaseCurve>(tag->getFirstChild()));
     } else if (tag->getName() == "SpeedEaseCurve") {
         if (!tag->getParam("NULL", "false").to_bool() && tag->hasChildren())
-            setSpeedEaseCurve(plATCEaseCurve::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+            setSpeedEaseCurve(mgr->prcParseCreatableC<plATCEaseCurve>(tag->getFirstChild()));
     } else if (tag->getName() == "Times") {
         fCurrentAnimTime = tag->getParam("CurrentAnimTime", "0").to_float();
         fLastEvalWorldTime = tag->getParam("LastEvalWorldTime", "0").to_float();
@@ -162,7 +162,7 @@ void plAnimTimeConvert::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         fCallbackMsgs.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fCallbackMsgs.size(); i++) {
-            fCallbackMsgs[i] = plEventCallbackMsg::Convert(mgr->prcParseCreatable(child));
+            fCallbackMsgs[i] = mgr->prcParseCreatableC<plEventCallbackMsg>(child);
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "StopPoints") {

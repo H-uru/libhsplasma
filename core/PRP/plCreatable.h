@@ -17,8 +17,9 @@
 #ifndef _PLCREATABLE_H
 #define _PLCREATABLE_H
 
+#include "Stream/pfPrcHelper.h"
+#include "Stream/pfPrcParser.h"
 #include "ResManager/pdUnifiedTypeMap.h"
-#include "ResManager/plResManager.h"
 #include <string_theory/format>
 
 #define CREATABLE(classname, classid, parentclass) \
@@ -47,6 +48,8 @@ public: \
         } \
     }
 
+
+class plResManager;
 
 class PLASMA_DLL plCreatable
 {

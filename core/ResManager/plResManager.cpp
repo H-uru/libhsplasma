@@ -215,7 +215,7 @@ plPageInfo* plResManager::ReadPagePrc(const pfPrcTag* root)
 
     const pfPrcTag* tag = root->getFirstChild();
     while (tag) {
-        hsKeyedObject* ko = hsKeyedObject::Convert(prcParseCreatable(tag));
+        hsKeyedObject* ko = prcParseCreatableC<hsKeyedObject>(tag);
         if (ko)
             ko->getKey()->setObj(ko);
         tag = tag->getNextSibling();
@@ -659,7 +659,8 @@ unsigned int plResManager::WriteObjects(hsStream* S, const plLocation& loc)
     return nWritten;
 }
 
-plCreatable* plResManager::ReadCreatable(hsStream* S, bool canStub, int stubLen) {
+plCreatable* plResManager::ReadCreatable(hsStream* S, bool canStub, int stubLen)
+{
     unsigned short type = S->readShort();
     plCreatable* pCre;
     if (mustStub) {
@@ -704,10 +705,13 @@ void plResManager::WriteCreatable(hsStream* S, plCreatable* pCre)
     }
 }
 
-plCreatable* plResManager::prcParseCreatable(const pfPrcTag* tag) {
+plCreatable* plResManager::prcParseCreatable(const pfPrcTag* tag)
+{
     plCreatable* pCre = plFactory::Create(tag->getName().c_str());
     if (pCre)
         pCre->prcParse(tag, this);
+    else
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     return pCre;
 }
 

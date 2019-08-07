@@ -42,9 +42,9 @@ void plLogicModBase::read(hsStream* S, plResManager* mgr)
     clearCommands();
     fCommandList.resize(S->readInt());
     for (size_t i=0; i<fCommandList.size(); i++)
-        fCommandList[i] = plMessage::Convert(mgr->ReadCreatable(S));
+        fCommandList[i] = mgr->ReadCreatableC<plMessage>(S);
 
-    setNotify(plNotifyMsg::Convert(mgr->ReadCreatable(S)));
+    setNotify(mgr->ReadCreatableC<plNotifyMsg>(S));
     fLogicFlags.read(S);
     fDisabled = S->readBool();
 }
@@ -93,12 +93,12 @@ void plLogicModBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         fCommandList.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fCommandList.size(); i++) {
-            fCommandList[i] = plMessage::Convert(mgr->prcParseCreatable(child));
+            fCommandList[i] = mgr->prcParseCreatableC<plMessage>(child);
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "Notify") {
         if (tag->hasChildren())
-            setNotify(plNotifyMsg::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+            setNotify(mgr->prcParseCreatableC<plNotifyMsg>(tag->getFirstChild()));
     } else if (tag->getName() == "LogicFlags") {
         if (tag->hasChildren())
             fLogicFlags.prcParse(tag->getFirstChild());

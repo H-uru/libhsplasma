@@ -28,7 +28,7 @@ void plLoadAvatarMsg::read(hsStream* S, plResManager* mgr)
     fIsPlayer = S->readBool();
     fSpawnPoint = mgr->readKey(S);
     if (S->readBool()) {
-        setInitialTask(plAvTask::Convert(mgr->ReadCreatable(S)));
+        setInitialTask(mgr->ReadCreatableC<plAvTask>(S));
     } else {
         setInitialTask(nullptr);
     }
@@ -86,7 +86,7 @@ void plLoadAvatarMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         fUserStr = tag->getParam("UserStr", "");
     } else if (tag->getName() == "InitialTask") {
         if (tag->hasChildren())
-            setInitialTask(plAvTask::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+            setInitialTask(mgr->prcParseCreatableC<plAvTask>(tag->getFirstChild()));
         else
             setInitialTask(nullptr);
     } else if (tag->getName() == "SpawnPoint") {

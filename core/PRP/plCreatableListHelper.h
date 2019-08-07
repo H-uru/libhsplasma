@@ -18,6 +18,7 @@
 #define _PLCREATABLELISTHELPER_H
 
 #include "plCreatable.h"
+#include "ResManager/plResManager.h"
 
 class PLASMA_DLL plCreatableListHelper : public plCreatable
 {

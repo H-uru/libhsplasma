@@ -18,6 +18,7 @@
 #define _HSKEYEDOBJECT_H
 
 #include "PRP/plCreatable.h"
+#include "ResManager/plResManager.h"
 #include "plKey.h"
 
 /**

@@ -140,7 +140,7 @@ void plDrawableSpans::read(hsStream* S, plResManager* mgr)
         fGroups[i]->read(S);
     }
 
-    setSpaceTree(plSpaceTree::Convert(mgr->ReadCreatable(S)));
+    setSpaceTree(mgr->ReadCreatableC<plSpaceTree>(S));
     fSceneNode = mgr->readKey(S);
 }
 
@@ -511,7 +511,7 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         }
     } else if (tag->getName() == "SpaceTree") {
         if (tag->hasChildren())
-            setSpaceTree(plSpaceTree::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+            setSpaceTree(mgr->prcParseCreatableC<plSpaceTree>(tag->getFirstChild()));
     } else if (tag->getName() == "SceneNode") {
         if (tag->hasChildren())
             fSceneNode = mgr->prcParseKey(tag->getFirstChild());

@@ -16,6 +16,7 @@
 
 #include "pnAuthClient.h"
 #include "AuthMessages.h"
+#include "ResManager/plResManager.h"
 #include "Debug/plDebug.h"
 #include "Stream/hsRAMStream.h"
 #include "crypt/pnBigInteger.h"
@@ -297,7 +298,7 @@ bool pnAuthClient::Dispatch::dispatch(pnSocket* sock)
                 std::lock_guard<plResManager> resMgrLock(*fReceiver->fResMgr);
                 try {
                     pCre = fReceiver->fResMgr->ReadCreatable(&rs, true, msgbuf[1].fUint);
-                } catch (hsException& ex) {
+                } catch (const hsException& ex) {
                     plDebug::Error("Error reading propagated message: {}\n", ex.what());
                     delete pCre;
                     pCre = nullptr;
