@@ -29,7 +29,7 @@ PY_METHOD_VA(AGMasterMod, addPrivateAnim,
     PyObject* key;
     if (!(PyArg_ParseTuple(args, "O", &key) && pyKey_Check(key))) {
         PyErr_SetString(PyExc_TypeError, "addPrivateAnim expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addPrivateAnim(*((pyKey*)key)->fThis);
     Py_RETURN_NONE;
@@ -48,7 +48,7 @@ PY_METHOD_VA(AGMasterMod, delPrivateAnim,
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delPrivateAnim expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delPrivateAnim((size_t)idx);
     Py_RETURN_NONE;
@@ -61,7 +61,7 @@ PY_METHOD_VA(AGMasterMod, addEoaKey,
     PyObject* key;
     if (!(PyArg_ParseTuple(args, "O", &key) && pyKey_Check(key))) {
         PyErr_SetString(PyExc_TypeError, "addEoaKey expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addEoaKey(*((pyKey*)key)->fThis);
     Py_RETURN_NONE;
@@ -80,7 +80,7 @@ PY_METHOD_VA(AGMasterMod, delEoaKey,
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delEoaKey expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delEoaKey((size_t)idx);
     Py_RETURN_NONE;
@@ -145,7 +145,7 @@ PY_PLASMA_TYPE_INIT(AGMasterMod)
     pyAGMasterMod_Type.tp_getset = pyAGMasterMod_GetSet;
     pyAGMasterMod_Type.tp_base = &pySingleModifier_Type;
     if (PyType_CheckAndReady(&pyAGMasterMod_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyAGMasterMod_Type);
     return (PyObject*)&pyAGMasterMod_Type;

@@ -165,7 +165,7 @@ PY_PLASMA_TYPE_INIT(SimpleParticleGenerator)
     pySimpleParticleGenerator_Type.tp_getset = pySimpleParticleGenerator_GetSet;
     pySimpleParticleGenerator_Type.tp_base = &pyParticleGenerator_Type;
     if (PyType_CheckAndReady(&pySimpleParticleGenerator_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pySimpleParticleGenerator_Type);
     return (PyObject*)&pySimpleParticleGenerator_Type;

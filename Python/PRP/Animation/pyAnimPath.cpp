@@ -43,8 +43,8 @@ PY_GETSET_GETTER_DECL(AnimPath, controller)
 }
 PY_GETSET_SETTER_DECL(AnimPath, controller)
 {
-    if (value == NULL || value == Py_None) {
-        self->fThis->setController(NULL);
+    if (value == nullptr || value == Py_None) {
+        self->fThis->setController(nullptr);
         return 0;
     } else if (pyCompoundController_Check(value)) {
         ((pyCompoundController*)value)->fPyOwned = false;
@@ -79,7 +79,7 @@ PY_PLASMA_TYPE_INIT(AnimPath)
     pyAnimPath_Type.tp_getset = pyAnimPath_GetSet;
     pyAnimPath_Type.tp_base = &pyCreatable_Type;
     if (PyType_CheckAndReady(&pyAnimPath_Type) < 0)
-        return NULL;
+        return nullptr;
 
     /* Konstants */
     PY_TYPE_ADD_CONST(AnimPath, "kNone", plAnimPath::kNone);

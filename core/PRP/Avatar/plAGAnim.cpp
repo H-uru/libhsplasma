@@ -103,9 +103,9 @@ void plAGAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
 
             const pfPrcTag* subChild = child->getFirstChild();
-            plAGApplicator* agApp = NULL;
-            plAGChannel* agChan = NULL;
-            while (subChild != NULL) {
+            plAGApplicator* agApp = nullptr;
+            plAGChannel* agChan = nullptr;
+            while (subChild) {
                 if (subChild->getName() == "Applicator") {
                     if (subChild->hasChildren())
                         agApp = plAGApplicator::Convert(mgr->prcParseCreatable(subChild->getFirstChild()));
@@ -117,7 +117,7 @@ void plAGAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
                 }
                 subChild = subChild->getNextSibling();
             }
-            if (agApp == NULL)
+            if (agApp == nullptr)
                 throw pfPrcParseException(__FILE__, __LINE__, "Missing Applicator");
             agApp->setChannel(agChan);
             fApps[i] = agApp;

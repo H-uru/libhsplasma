@@ -31,7 +31,7 @@ public:
         plMessage* fMsg;
         int8_t fWaitOn;
 
-        plResponderCmd(plMessage* msg = NULL, int8_t waitOn = -1)
+        plResponderCmd(plMessage* msg = nullptr, int8_t waitOn = -1)
             : fMsg(msg), fWaitOn(waitOn) { }
         ~plResponderCmd() { delete fMsg; }
     };

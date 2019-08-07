@@ -29,11 +29,11 @@ PY_METHOD_VA(GUIButtonMod, addAnimationKey,
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addAnimationKey expects a plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addAnimationKey expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addAnimationKey(*key->fThis);
     Py_RETURN_NONE;
@@ -46,7 +46,7 @@ PY_METHOD_VA(GUIButtonMod, delAnimationKey,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delAnimationKey expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delAnimationKey(idx);
     Py_RETURN_NONE;
@@ -66,11 +66,11 @@ PY_METHOD_VA(GUIButtonMod, addMouseOverKey,
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addMouseOverKey expects a plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addMouseOverKey expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addMouseOverKey(*key->fThis);
     Py_RETURN_NONE;
@@ -83,7 +83,7 @@ PY_METHOD_VA(GUIButtonMod, delMouseOverKey,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delMouseOverKey expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delMouseOverKey(idx);
     Py_RETURN_NONE;
@@ -150,7 +150,7 @@ PY_PLASMA_TYPE_INIT(GUIButtonMod)
     pyGUIButtonMod_Type.tp_getset = pyGUIButtonMod_GetSet;
     pyGUIButtonMod_Type.tp_base = &pyGUIControlMod_Type;
     if (PyType_CheckAndReady(&pyGUIButtonMod_Type) < 0)
-        return NULL;
+        return nullptr;
 
     /* Konstants */
     PY_TYPE_ADD_CONST(GUIButtonMod, "kNotifyOnUp", pfGUIButtonMod::kNotifyOnUp);
@@ -174,7 +174,7 @@ PY_PLASMA_TYPE_INIT(GUIMenuItem)
     pyGUIMenuItem_Type.tp_new = pyGUIMenuItem_new;
     pyGUIMenuItem_Type.tp_base = &pyGUIButtonMod_Type;
     if (PyType_CheckAndReady(&pyGUIMenuItem_Type) < 0)
-        return NULL;
+        return nullptr;
 
     /* Konstants */
     PY_TYPE_ADD_CONST(GUIMenuItem, "kDrawSubMenuArrow", pfGUIMenuItem::kDrawSubMenuArrow);

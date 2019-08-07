@@ -59,7 +59,7 @@ PY_PLASMA_TYPE_INIT(DistOpacityMod)
     pyDistOpacityMod_Type.tp_getset = pyDistOpacityMod_GetSet;
     pyDistOpacityMod_Type.tp_base = &pySingleModifier_Type;
     if (PyType_CheckAndReady(&pyDistOpacityMod_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyDistOpacityMod_Type);
     return (PyObject*) &pyDistOpacityMod_Type;

@@ -42,7 +42,7 @@ PY_PLASMA_TYPE_INIT(MobileOccluder)
     pyMobileOccluder_Type.tp_getset = pyMobileOccluder_GetSet;
     pyMobileOccluder_Type.tp_base = &pyOccluder_Type;
     if (PyType_CheckAndReady(&pyMobileOccluder_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyMobileOccluder_Type);
     return (PyObject*)&pyMobileOccluder_Type;

@@ -69,7 +69,7 @@ PY_PLASMA_TYPE_INIT(DISpanIndex)
     pyDISpanIndex_Type.tp_new = pyDISpanIndex_new;
     pyDISpanIndex_Type.tp_getset = pyDISpanIndex_GetSet;
     if (PyType_CheckAndReady(&pyDISpanIndex_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(DISpanIndex, "kNone", plDISpanIndex::kNone);
     PY_TYPE_ADD_CONST(DISpanIndex, "kMatrixOnly", plDISpanIndex::kMatrixOnly);

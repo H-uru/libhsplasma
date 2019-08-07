@@ -50,7 +50,7 @@ PY_PLASMA_TYPE_INIT(KeyedObjectStub)
     pyKeyedObjectStub_Type.tp_getset = pyKeyedObjectStub_GetSet;
     pyKeyedObjectStub_Type.tp_base = &pyCreatable_Type;
     if (PyType_CheckAndReady(&pyKeyedObjectStub_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyKeyedObjectStub_Type);
     return (PyObject*)&pyKeyedObjectStub_Type;

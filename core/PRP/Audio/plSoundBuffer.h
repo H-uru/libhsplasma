@@ -99,7 +99,7 @@ public:
     void setFileName(const ST::string& name) { fFileName = name; }
     void setFlags(unsigned int flags) { fFlags = flags; }
     void setData(size_t length, const unsigned char* data);
-    void setDataLength(size_t length) { setData(length, NULL); }
+    void setDataLength(size_t length) { setData(length, nullptr); }
 };
 
 #endif

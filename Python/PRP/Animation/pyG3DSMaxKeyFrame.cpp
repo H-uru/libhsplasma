@@ -38,7 +38,7 @@ PY_PLASMA_TYPE_INIT(G3DSMaxKeyFrame)
     pyG3DSMaxKeyFrame_Type.tp_getset = pyG3DSMaxKeyFrame_GetSet;
     pyG3DSMaxKeyFrame_Type.tp_base = &pyKeyFrame_Type;
     if (PyType_CheckAndReady(&pyG3DSMaxKeyFrame_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyG3DSMaxKeyFrame_Type);
     return (PyObject*)&pyG3DSMaxKeyFrame_Type;

@@ -87,7 +87,7 @@ void pnBigInteger::setBit(size_t bit, bool on)
 
 void pnBigInteger::getData(unsigned char* data, size_t bytes, bool le) const
 {
-    if (bytes != 0 && data != NULL) {
+    if (bytes != 0 && data != nullptr) {
         BN_bn2bin(fValue, data);
         if (le)
             BYTESWAP_BUFFER(data, bytes)
@@ -194,14 +194,14 @@ pnBigInteger pnBigInteger::operator*(const pnBigInteger& num) const
 pnBigInteger pnBigInteger::operator/(const pnBigInteger& num) const
 {
     pnBigInteger r;
-    BN_div(r.fValue, NULL, fValue, num.fValue, fContext);
+    BN_div(r.fValue, nullptr, fValue, num.fValue, fContext);
     return r;
 }
 
 pnBigInteger pnBigInteger::operator%(const pnBigInteger& num) const
 {
     pnBigInteger r;
-    BN_div(NULL, r.fValue, fValue, num.fValue, fContext);
+    BN_div(nullptr, r.fValue, fValue, num.fValue, fContext);
     return r;
 }
 
@@ -274,14 +274,14 @@ pnBigInteger& pnBigInteger::operator*=(const pnBigInteger& num)
 pnBigInteger& pnBigInteger::operator/=(const pnBigInteger& num)
 {
     pnBigInteger left(*this);
-    BN_div(fValue, NULL, left.fValue, num.fValue, fContext);
+    BN_div(fValue, nullptr, left.fValue, num.fValue, fContext);
     return *this;
 }
 
 pnBigInteger& pnBigInteger::operator%=(const pnBigInteger& num)
 {
     pnBigInteger left(*this);
-    BN_div(NULL, fValue, left.fValue, num.fValue, fContext);
+    BN_div(nullptr, fValue, left.fValue, num.fValue, fContext);
     return *this;
 }
 

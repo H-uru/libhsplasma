@@ -21,7 +21,7 @@
 
 PyObject* ICreateGUIControlHandler(pfGUICtrlProcObject* proc)
 {
-    if (proc == NULL)
+    if (proc == nullptr)
         Py_RETURN_NONE;
     else if (typeid(*proc) == typeid(pfGUIConsoleCmdProc))
         return pyGUIConsoleCmdProc_FromGUIConsoleCmdProc((pfGUIConsoleCmdProc*)proc);

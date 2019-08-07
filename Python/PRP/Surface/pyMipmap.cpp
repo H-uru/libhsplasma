@@ -27,7 +27,7 @@ PY_PLASMA_INIT_DECL(Mipmap)
     int dxtLevel = plBitmap::kDXTError;
     static char* kwlist[] = { _pycs("name"), _pycs("width"), _pycs("height"),
                               _pycs("numLevels"), _pycs("compType"),
-                              _pycs("format"), _pycs("dxtLevel"), NULL };
+                              _pycs("format"), _pycs("dxtLevel"), nullptr };
 
     if (PyArg_ParseTupleAndKeywords(args, kwds, "siiiii|i", kwlist,
                                     &name, &width, &height, &numLevels,
@@ -54,11 +54,11 @@ PY_METHOD_VA(Mipmap, readData,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "readData expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "readData expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->readData(stream->fThis);
     Py_RETURN_NONE;
@@ -71,11 +71,11 @@ PY_METHOD_VA(Mipmap, writeData,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "writeData expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "writeData expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->writeData(stream->fThis);
     Py_RETURN_NONE;
@@ -88,7 +88,7 @@ PY_METHOD_VA(Mipmap, getLevelWidth,
     int level;
     if (!PyArg_ParseTuple(args, "i", &level)) {
         PyErr_SetString(PyExc_TypeError, "getLevelWidth expects an int");
-        return NULL;
+        return nullptr;
     }
     return pyPlasma_convert(self->fThis->getLevelWidth(level));
 }
@@ -100,7 +100,7 @@ PY_METHOD_VA(Mipmap, getLevelHeight,
     int level;
     if (!PyArg_ParseTuple(args, "i", &level)) {
         PyErr_SetString(PyExc_TypeError, "getLevelHeight expects an int");
-        return NULL;
+        return nullptr;
     }
     return pyPlasma_convert(self->fThis->getLevelHeight(level));
 }
@@ -112,7 +112,7 @@ PY_METHOD_VA(Mipmap, getLevel,
     int level;
     if (!PyArg_ParseTuple(args, "i", &level)) {
         PyErr_SetString(PyExc_TypeError, "getLevel expects an int");
-        return NULL;
+        return nullptr;
     }
     PyObject* data = PyBytes_FromStringAndSize((const char*)self->fThis->getLevelData(level),
                                                self->fThis->getLevelSize(level));
@@ -127,7 +127,7 @@ PY_METHOD_VA(Mipmap, setRawImage,
     int dataSize;
     if (!PyArg_ParseTuple(args, "s#", &data, &dataSize)) {
         PyErr_SetString(PyExc_TypeError, "setRawImage expects a binary string");
-        return NULL;
+        return nullptr;
     }
     self->fThis->setImageData((const void*)data, dataSize);
     Py_RETURN_NONE;
@@ -141,13 +141,13 @@ PY_METHOD_VA(Mipmap, setLevel,
     int dataSize, level;
     if (!PyArg_ParseTuple(args, "is#", &level, &data, &dataSize)) {
         PyErr_SetString(PyExc_TypeError, "setLevel expects int, binary string");
-        return NULL;
+        return nullptr;
     }
     try {
         self->fThis->setLevelData(level, (const void*)data, dataSize);
     } catch (const hsBadParamException& ex) {
         PyErr_SetString(PyExc_RuntimeError, ex.what());
-        return NULL;
+        return nullptr;
     }
     Py_RETURN_NONE;
 }
@@ -160,13 +160,13 @@ PY_METHOD_VA(Mipmap, setImageJPEG,
     int dataSize;
     if (!PyArg_ParseTuple(args, "s#", &data, &dataSize)) {
         PyErr_SetString(PyExc_TypeError, "setImageJPEG expects a binary string");
-        return NULL;
+        return nullptr;
     }
     try {
         self->fThis->setImageJPEG((const void*)data, dataSize);
     } catch (const hsBadParamException& ex) {
         PyErr_SetString(PyExc_RuntimeError, ex.what());
-        return NULL;
+        return nullptr;
     }
     Py_RETURN_NONE;
 }
@@ -179,13 +179,13 @@ PY_METHOD_VA(Mipmap, setAlphaJPEG,
     int dataSize;
     if (!PyArg_ParseTuple(args, "s#", &data, &dataSize)) {
         PyErr_SetString(PyExc_TypeError, "setAlphaJPEG expects a binary string");
-        return NULL;
+        return nullptr;
     }
     try {
         self->fThis->setAlphaJPEG((const void*)data, dataSize);
     } catch (const hsBadParamException& ex) {
         PyErr_SetString(PyExc_RuntimeError, ex.what());
-        return NULL;
+        return nullptr;
     }
     Py_RETURN_NONE;
 }
@@ -198,13 +198,13 @@ PY_METHOD_VA(Mipmap, setColorData,
     int dataSize;
     if (!PyArg_ParseTuple(args, "s#", &data, &dataSize)) {
         PyErr_SetString(PyExc_TypeError, "setColorData expects a binary string");
-        return NULL;
+        return nullptr;
     }
     try {
         self->fThis->setColorData((const void*)data, dataSize);
     } catch (const hsBadParamException& ex) {
         PyErr_SetString(PyExc_RuntimeError, ex.what());
-        return NULL;
+        return nullptr;
     }
     Py_RETURN_NONE;
 }
@@ -217,13 +217,13 @@ PY_METHOD_VA(Mipmap, setAlphaData,
     int dataSize;
     if (!PyArg_ParseTuple(args, "s#", &data, &dataSize)) {
         PyErr_SetString(PyExc_TypeError, "setAlphaData expects a binary string");
-        return NULL;
+        return nullptr;
     }
     try {
         self->fThis->setAlphaData((const void*)data, dataSize);
     } catch (const hsBadParamException& ex) {
         PyErr_SetString(PyExc_RuntimeError, ex.what());
-        return NULL;
+        return nullptr;
     }
     Py_RETURN_NONE;
 }
@@ -232,7 +232,7 @@ PY_METHOD_NOARGS(Mipmap, extractColorData,
     "Extract an RGB color buffer from a JPEG mipmap")
 {
     size_t dataSize = self->fThis->getWidth() * self->fThis->getHeight() * 3;
-    PyObject* buf = PyBytes_FromStringAndSize(NULL, dataSize);
+    PyObject* buf = PyBytes_FromStringAndSize(nullptr, dataSize);
     char* data = PyBytes_AS_STRING(buf);
     self->fThis->extractColorData(data, dataSize);
     return buf;
@@ -242,7 +242,7 @@ PY_METHOD_NOARGS(Mipmap, extractAlphaData,
     "Extract an alpha intensity buffer from a JPEG mipmap")
 {
     size_t dataSize = self->fThis->getWidth() * self->fThis->getHeight() * 1;
-    PyObject* buf = PyBytes_FromStringAndSize(NULL, dataSize);
+    PyObject* buf = PyBytes_FromStringAndSize(nullptr, dataSize);
     char* data = PyBytes_AS_STRING(buf);
     self->fThis->extractAlphaData(data, dataSize);
     return buf;
@@ -267,17 +267,17 @@ PY_METHOD_VA(Mipmap, DecompressImage,
     int level;
     if (!PyArg_ParseTuple(args, "i", &level)) {
         PyErr_SetString(PyExc_TypeError, "DecompressImage expects an int");
-        return NULL;
+        return nullptr;
     }
     size_t size = self->fThis->GetUncompressedSize(level);
-    PyObject* img = PyBytes_FromStringAndSize(NULL, size);
+    PyObject* img = PyBytes_FromStringAndSize(nullptr, size);
     char* buf = PyBytes_AS_STRING(img);
     try {
         self->fThis->DecompressImage(level, buf, size);
     } catch (const hsBadParamException& ex) {
         PyErr_SetString(PyExc_RuntimeError, ex.what());
         Py_DECREF(img);
-        return NULL;
+        return nullptr;
     }
     return img;
 }
@@ -290,16 +290,16 @@ PY_METHOD_VA(Mipmap, CompressImage,
     char* data;
     if (!PyArg_ParseTuple(args, "is#", &level, &data, &dataSize)) {
         PyErr_SetString(PyExc_TypeError, "CompressImage expects an int and a binary string");
-        return NULL;
+        return nullptr;
     }
     try {
         self->fThis->CompressImage(level, data, dataSize);
     } catch (hsBadParamException& ex) {
         PyErr_SetString(PyExc_RuntimeError, ex.what());
-        return NULL;
+        return nullptr;
     } catch (const hsNotImplementedException& ex) {
         PyErr_SetString(PyExc_NotImplementedError, ex.what());
-        return NULL;
+        return nullptr;
     }
     Py_RETURN_NONE;
 }
@@ -364,7 +364,7 @@ PY_PLASMA_TYPE_INIT(Mipmap)
     pyMipmap_Type.tp_getset = pyMipmap_GetSet;
     pyMipmap_Type.tp_base = &pyBitmap_Type;
     if (PyType_CheckAndReady(&pyMipmap_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyMipmap_Type);
     return (PyObject*)&pyMipmap_Type;

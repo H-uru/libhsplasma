@@ -37,7 +37,7 @@ PY_PLASMA_TYPE_INIT(HKSubWorld)
     pyHKSubWorld_Type.tp_getset = pyHKSubWorld_GetSet;
     pyHKSubWorld_Type.tp_base = &pyObjInterface_Type;
     if (PyType_CheckAndReady(&pyHKSubWorld_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyHKSubWorld_Type);
     return (PyObject*)&pyHKSubWorld_Type;

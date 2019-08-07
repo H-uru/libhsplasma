@@ -42,7 +42,7 @@ PY_METHOD_VA(ATCAnim, setMarker,
     float pos;
     if (!PyArg_ParseTuple(args, "sf", &key, &pos)) {
         PyErr_SetString(PyExc_TypeError, "setMarker expects string, float");
-        return NULL;
+        return nullptr;
     }
     self->fThis->setMarker(key, pos);
     Py_RETURN_NONE;
@@ -56,7 +56,7 @@ PY_METHOD_VA(ATCAnim, setLoop,
     float begin, end;
     if (!PyArg_ParseTuple(args, "sff", &key, &begin, &end)) {
         PyErr_SetString(PyExc_TypeError, "setLoop expects string, float, float");
-        return NULL;
+        return nullptr;
     }
     self->fThis->setLoop(key, begin, end);
     Py_RETURN_NONE;
@@ -171,7 +171,7 @@ PY_PLASMA_TYPE_INIT(ATCAnim)
     pyATCAnim_Type.tp_getset = pyATCAnim_GetSet;
     pyATCAnim_Type.tp_base = &pyAGAnim_Type;
     if (PyType_CheckAndReady(&pyATCAnim_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyATCAnim_Type);
     return (PyObject*)&pyATCAnim_Type;

@@ -80,7 +80,7 @@ void plMatrixControllerChannel::IPrcWrite(pfPrcHelper* prc)
     plAGChannel::IPrcWrite(prc);
 
     prc->writeSimpleTag("Controller");
-    if (fController != NULL)
+    if (fController)
         fController->prcWrite(prc);
     prc->closeTag();
 

@@ -115,7 +115,7 @@ void plSpanTemplate::prcParse(const pfPrcTag* tag)
 
     fFormat = tag->getParam("Format", "0").to_uint();
     const pfPrcTag* child = tag->getFirstChild();
-    while (child != NULL) {
+    while (child) {
         if (child->getName() == "Vertices") {
             fNumVerts = child->countChildren();
             std::vector<Vertex> verts(fNumVerts);
@@ -127,7 +127,7 @@ void plSpanTemplate::prcParse(const pfPrcTag* tag)
                 verts[i].fColor2 = tag->getParam("Color2", "0").to_uint();
                 verts[i].fWeightIdx = tag->getParam("WeightIdx", "0").to_int();
                 const pfPrcTag* subChild = vertChild->getFirstChild();
-                while (subChild != NULL) {
+                while (subChild) {
                     if (subChild->getName() == "Position") {
                         if (subChild->hasChildren())
                             verts[i].fPosition.prcParse(subChild->getFirstChild());
@@ -235,7 +235,7 @@ void plSpanTemplate::setVertices(const std::vector<Vertex>& verts)
 {
     delete[] fData;
     if (verts.empty()) {
-        fData = NULL;
+        fData = nullptr;
         return;
     }
 
@@ -296,7 +296,7 @@ void plSpanTemplate::setIndices(unsigned short count, const unsigned short* indi
 {
     delete[] fIndices;
     if (count == 0) {
-        fIndices = NULL;
+        fIndices = nullptr;
         return;
     }
     fIndices = new unsigned short[count];

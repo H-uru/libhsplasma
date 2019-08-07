@@ -26,7 +26,7 @@ PY_PLASMA_TYPE_INIT(SwimDetector)
     pySwimDetector_Type.tp_new = pySwimDetector_new;
     pySwimDetector_Type.tp_base = &pySimpleRegionSensor_Type;
     if (PyType_CheckAndReady(&pySwimDetector_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pySwimDetector_Type);
     return (PyObject*)&pySwimDetector_Type;

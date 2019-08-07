@@ -40,7 +40,7 @@ PY_PLASMA_TYPE_INIT(AGModifier)
     pyAGModifier_Type.tp_getset = pyAGModifier_GetSet;
     pyAGModifier_Type.tp_base = &pyModifier_Type;
     if (PyType_CheckAndReady(&pyAGModifier_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyAGModifier_Type);
     return (PyObject*)&pyAGModifier_Type;

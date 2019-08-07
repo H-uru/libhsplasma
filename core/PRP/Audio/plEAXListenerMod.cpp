@@ -118,7 +118,7 @@ void plEAXListenerMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
             fSoftRegion = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "ListenerProperties") {
         const pfPrcTag* eax = tag->getFirstChild();
-        if (eax != NULL) {
+        if (eax) {
             if (eax->getName() != "EAXREVERBPROPERTIES")
                 throw pfPrcTagException(__FILE__, __LINE__, eax->getName());
             fListenerProps.ulEnvironment = eax->getParam("Environment", "0").to_uint();
@@ -277,7 +277,7 @@ void plEAXReverbEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
             fSoftRegion = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "ReverbProperties") {
         const pfPrcTag* eax = tag->getFirstChild();
-        if (eax != NULL) {
+        if (eax) {
             if (eax->getName() != "EAXREVERBPROPERTIES")
                 throw pfPrcTagException(__FILE__, __LINE__, eax->getName());
             fListenerProps.ulEnvironment = eax->getParam("Environment", "0").to_uint();

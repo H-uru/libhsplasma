@@ -28,7 +28,7 @@ PY_PLASMA_TYPE_INIT(ScalarConstant)
     pyScalarConstant_Type.tp_new = pyScalarConstant_new;
     pyScalarConstant_Type.tp_base = &pyScalarChannel_Type;
     if (PyType_CheckAndReady(&pyScalarConstant_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyScalarConstant_Type);
     return (PyObject*)&pyScalarConstant_Type;

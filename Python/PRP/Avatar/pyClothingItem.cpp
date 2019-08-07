@@ -31,7 +31,7 @@ PY_METHOD_VA(ClothingItem, getMesh,
     int lod = plClothingItem::kLODHigh;
     if (!PyArg_ParseTuple(args, "i", &lod)) {
         PyErr_SetString(PyExc_TypeError, "getMesh expects int");
-        return NULL;
+        return nullptr;
     }
 
     return pyPlasma_convert(self->fThis->getMesh(lod));
@@ -46,11 +46,11 @@ PY_METHOD_VA(ClothingItem, setMesh,
 
     if (!PyArg_ParseTuple(args, "iO", &lod, &key)) {
         PyErr_SetString(PyExc_TypeError, "setMesh expects int, plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "setMesh expects plKey");
-        return NULL;
+        return nullptr;
     }
 
     self->fThis->setMesh(lod, *(key->fThis));
@@ -64,7 +64,7 @@ PY_METHOD_VA(ClothingItem, getElementTexture,
     int element, layer;
     if (!PyArg_ParseTuple(args, "ii", &element, &layer)) {
         PyErr_SetString(PyExc_TypeError, "getElementTexture expects int, int");
-        return NULL;
+        return nullptr;
     }
 
     return pyPlasma_convert(self->fThis->getElementTexture(element, layer));
@@ -79,11 +79,11 @@ PY_METHOD_VA(ClothingItem, setElementTexture,
 
     if (!PyArg_ParseTuple(args, "iiO", &element, &layer, &key)) {
         PyErr_SetString(PyExc_TypeError, "setElementTexture expects int, int, plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "setElementTexture expects plKey");
-        return NULL;
+        return nullptr;
     }
 
     self->fThis->setElementTexture(element, layer, *(key->fThis));
@@ -97,7 +97,7 @@ PY_METHOD_VA(ClothingItem, getElementName,
     int element;
     if (!PyArg_ParseTuple(args, "i", &element)) {
         PyErr_SetString(PyExc_TypeError, "getElementName expects int");
-        return NULL;
+        return nullptr;
     }
 
     return pyPlasma_convert(self->fThis->getElementName(element));
@@ -111,7 +111,7 @@ PY_METHOD_VA(ClothingItem, setElementName,
     const char* name;
     if (!PyArg_ParseTuple(args, "is", &element, &name)) {
         PyErr_SetString(PyExc_TypeError, "setElementName expects int, string");
-        return NULL;
+        return nullptr;
     }
 
     self->fThis->setElementName(element, name);
@@ -125,7 +125,7 @@ PY_METHOD_VA(ClothingItem, addElement,
     const char* name;
     if (!PyArg_ParseTuple(args, "s", &name)) {
         PyErr_SetString(PyExc_TypeError, "addElement expects a string");
-        return NULL;
+        return nullptr;
     }
 
     self->fThis->addElement(name);
@@ -139,7 +139,7 @@ PY_METHOD_VA(ClothingItem, delElement,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delElement expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delElement(idx);
     Py_RETURN_NONE;
@@ -201,7 +201,7 @@ PY_PLASMA_TYPE_INIT(ClothingItem)
     pyClothingItem_Type.tp_getset = pyClothingItem_GetSet;
     pyClothingItem_Type.tp_base = &pyKeyedObject_Type;
     if (PyType_CheckAndReady(&pyClothingItem_Type) < 0)
-        return NULL;
+        return nullptr;
 
     /* LODLevel Konstants */
     PY_TYPE_ADD_CONST(ClothingItem, "kLODHigh", plClothingItem::kLODHigh);

@@ -66,7 +66,7 @@ const pnNetMsg* GET_Cli2GateKeeper(uint32_t msgId)
         &Cli2GateKeeper_FileSrvIpAddressRequest,
         &Cli2GateKeeper_AuthSrvIpAddressRequest,
     };
-    return (msgId < kCli2GateKeeper_LastMessage ? s_messages[msgId] : NULL);
+    return (msgId < kCli2GateKeeper_LastMessage ? s_messages[msgId] : nullptr);
 }
 
 const pnNetMsg* GET_GateKeeper2Cli(uint32_t msgId)
@@ -76,5 +76,5 @@ const pnNetMsg* GET_GateKeeper2Cli(uint32_t msgId)
         &GateKeeper2Cli_FileSrvIpAddressReply,
         &GateKeeper2Cli_AuthSrvIpAddressReply,
     };
-    return (msgId < kGateKeeper2Cli_LastMessage ? s_messages[msgId] : NULL);
+    return (msgId < kGateKeeper2Cli_LastMessage ? s_messages[msgId] : nullptr);
 }

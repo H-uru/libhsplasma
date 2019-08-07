@@ -31,7 +31,7 @@ PY_METHOD_VA(GenericPhysical, getProperty,
     int prop;
     if (!PyArg_ParseTuple(args, "i", &prop)) {
         PyErr_SetString(PyExc_TypeError, "getProperty expects an int");
-        return NULL;
+        return nullptr;
     }
     return pyPlasma_convert(self->fThis->getProperty(prop));
 }
@@ -43,7 +43,7 @@ PY_METHOD_VA(GenericPhysical, setProperty,
     int prop, value;
     if (!PyArg_ParseTuple(args, "ii", &prop, &value)) {
         PyErr_SetString(PyExc_TypeError, "setProperty expects int, bool");
-        return NULL;
+        return nullptr;
     }
     self->fThis->setProperty(prop, value != 0);
     Py_RETURN_NONE;
@@ -56,12 +56,12 @@ PY_METHOD_VA(GenericPhysical, calcSphereBounds,
     PyObject* pointsObj;
     if (!PyArg_ParseTuple(args, "O", &pointsObj)) {
         PyErr_SetString(PyExc_TypeError, "calcSphereBounds expects a sequence of hsVector3");
-        return NULL;
+        return nullptr;
     }
     pySequenceFastRef points(pointsObj);
     if (!points.isSequence()) {
         PyErr_SetString(PyExc_TypeError, "calcSphereBounds expects a sequence of hsVector3");
-        return NULL;
+        return nullptr;
     }
 
     Py_ssize_t nPoints = points.size();
@@ -70,7 +70,7 @@ PY_METHOD_VA(GenericPhysical, calcSphereBounds,
         PyObject* item = points.get(i);
         if (!pyPlasma_check<hsVector3>(item)) {
             PyErr_SetString(PyExc_TypeError, "calcSphereBounds expects a sequence of hsVector3");
-            return NULL;
+            return nullptr;
         }
         myPoints[i] = pyPlasma_get<hsVector3>(item);
     }
@@ -86,12 +86,12 @@ PY_METHOD_VA(GenericPhysical, calcBoxBounds,
     PyObject* pointsObj;
     if (!PyArg_ParseTuple(args, "O", &pointsObj)) {
         PyErr_SetString(PyExc_TypeError, "calcBoxBounds expects a sequence of hsVector3");
-        return NULL;
+        return nullptr;
     }
     pySequenceFastRef points(pointsObj);
     if (!points.isSequence()) {
         PyErr_SetString(PyExc_TypeError, "calcBoxBounds expects a sequence of hsVector3");
-        return NULL;
+        return nullptr;
     }
 
     Py_ssize_t nPoints = points.size();
@@ -100,7 +100,7 @@ PY_METHOD_VA(GenericPhysical, calcBoxBounds,
         PyObject* item = points.get(i);
         if (!pyPlasma_check<hsVector3>(item)) {
             PyErr_SetString(PyExc_TypeError, "calcBoxBounds expects a sequence of hsVector3");
-            return NULL;
+            return nullptr;
         }
         myPoints[i] = pyPlasma_get<hsVector3>(item);
     }
@@ -137,7 +137,7 @@ PY_GETSET_SETTER_DECL(GenericPhysical, verts)
     std::vector<hsVector3> verts(nVerts);
     for (Py_ssize_t i=0; i<nVerts; i++) {
         PyObject* vert = seq.get(i);
-        if (vert == NULL || !pyPlasma_check<hsVector3>(vert)) {
+        if (vert == nullptr || !pyPlasma_check<hsVector3>(vert)) {
             PyErr_SetString(PyExc_TypeError, "verts should be a sequence of hsVector3s");
             return -1;
         }
@@ -169,7 +169,7 @@ PY_GETSET_SETTER_DECL(GenericPhysical, indices)
     std::vector<unsigned int> indices(nIndices);
     for (Py_ssize_t i=0; i<nIndices; i++) {
         PyObject* idx = seq.get(i);
-        if (idx == NULL || !pyPlasma_check<unsigned int>(idx)) {
+        if (idx == nullptr || !pyPlasma_check<unsigned int>(idx)) {
             PyErr_SetString(PyExc_TypeError, "indices should be a sequence of ints");
             return -1;
         }
@@ -214,7 +214,7 @@ PY_GETSET_SETTER_DECL(GenericPhysical, TMDBuffer)
 {
     PY_PROPERTY_CHECK_NULL(TMDBuffer)
     if (value == Py_None) {
-        self->fThis->setTMDBuffer(0, NULL);
+        self->fThis->setTMDBuffer(0, nullptr);
         return 0;
     } else if (!PyBytes_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "TMDBuffer should be a binary string");
@@ -263,7 +263,7 @@ PY_PLASMA_TYPE_INIT(GenericPhysical)
     pyGenericPhysical_Type.tp_getset = pyGenericPhysical_GetSet;
     pyGenericPhysical_Type.tp_base = &pyPhysical_Type;
     if (PyType_CheckAndReady(&pyGenericPhysical_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyGenericPhysical_Type);
     return (PyObject*)&pyGenericPhysical_Type;

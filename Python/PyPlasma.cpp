@@ -25,7 +25,7 @@ PyObject* PyString_FromSTString(const ST::string& str)
 
 PyObject* PyUnicode_FromSTString(const ST::string& str)
 {
-    return PyUnicode_DecodeUTF8(str.c_str(), str.size(), NULL);
+    return PyUnicode_DecodeUTF8(str.c_str(), str.size(), nullptr);
 }
 
 ST::string PyAnyString_AsSTString(PyObject* str)
@@ -47,7 +47,7 @@ ST::string PyAnyString_AsSTString(PyObject* str)
 int PyType_CheckAndReady(PyTypeObject* type)
 {
     static std::unordered_set<PyTypeObject*> init_bases;
-    if (type->tp_base != NULL && init_bases.find(type->tp_base) == init_bases.end()) {
+    if (type->tp_base && init_bases.find(type->tp_base) == init_bases.end()) {
         ST::printf(stderr, "ERROR: Base {} for type {} is not initialized\n",
                    type->tp_base->tp_name, type->tp_name);
         ST::printf(stderr, "Classes derived from {} WILL NOT WORK CORRECTLY\n",

@@ -28,14 +28,14 @@ hsRadixSortElem* hsRadixSort::sort(hsRadixSortElem* in, unsigned int flags)
 
         for (int i = 0; i < 4; i++) {
             it = fList->fNext;
-            while (it != NULL) {
+            while (it) {
                 key = (fList->fKey.fUnsigned >> (8*i)) & 0xFF;
                 if (fTails[key])
                     fTails[key]->fNext = fList;
                 else
                     fHeads[key] = fList;
 
-                fList->fNext = NULL;
+                fList->fNext = nullptr;
                 fTails[key] = fList;
                 fList = it;
                 it = it->fNext;
@@ -47,7 +47,7 @@ hsRadixSortElem* hsRadixSort::sort(hsRadixSortElem* in, unsigned int flags)
             else
                 fHeads[key] = fList;
 
-            fList->fNext = NULL;
+            fList->fNext = nullptr;
             fTails[key] = fList;
             collapse();
         }
@@ -70,8 +70,8 @@ hsRadixSortElem* hsRadixSort::sort(hsRadixSortElem* in, unsigned int flags)
 
 void hsRadixSort::collapse()
 {
-    hsRadixSortElem* head = NULL;
-    hsRadixSortElem* tail = NULL;
+    hsRadixSortElem* head = nullptr;
+    hsRadixSortElem* tail = nullptr;
 
     for (int i = 0; i < 256; i++) {
         if (fHeads[i]) {
@@ -84,8 +84,8 @@ void hsRadixSort::collapse()
             tail = fTails[i];
         }
 
-        fTails[i] = NULL;
-        fHeads[i] = NULL;
+        fTails[i] = nullptr;
+        fHeads[i] = nullptr;
     }
 
     fList = head;
@@ -96,9 +96,9 @@ void hsRadixSort::reverse()
     if (fList && fList->fNext) {
         hsRadixSortElem* next = fList->fNext;
 
-        fList->fNext = NULL;
-        hsRadixSortElem* nnext = NULL;
-        while ((nnext = next->fNext) != NULL) {
+        fList->fNext = nullptr;
+        hsRadixSortElem* nnext = nullptr;
+        while ((nnext = next->fNext) != nullptr) {
             next->fNext = fList;
             fList = next;
             next = nnext;
@@ -108,8 +108,8 @@ void hsRadixSort::reverse()
 
 void hsRadixSort::unpackSigned()
 {
-    hsRadixSortElem* head = NULL;
-    hsRadixSortElem* tail = NULL;
+    hsRadixSortElem* head = nullptr;
+    hsRadixSortElem* tail = nullptr;
 
     for (int i = 0; i < 128; i++) {
         if (fHeads[i+128]) {
@@ -122,8 +122,8 @@ void hsRadixSort::unpackSigned()
             tail = fTails[i+128];
         }
 
-        fTails[i+128] = NULL;
-        fHeads[i+128] = NULL;
+        fTails[i+128] = nullptr;
+        fHeads[i+128] = nullptr;
     }
 
     for (int i = 0; i < 128; i++) {
@@ -137,8 +137,8 @@ void hsRadixSort::unpackSigned()
             tail = fTails[i];
         }
 
-        fTails[i] = NULL;
-        fHeads[i] = NULL;
+        fTails[i] = nullptr;
+        fHeads[i] = nullptr;
     }
 
     fList = head;
@@ -146,8 +146,8 @@ void hsRadixSort::unpackSigned()
 
 void hsRadixSort::unpackFloat()
 {
-    hsRadixSortElem* head = NULL;
-    hsRadixSortElem* tail = NULL;
+    hsRadixSortElem* head = nullptr;
+    hsRadixSortElem* tail = nullptr;
 
     for (int i = 0; i < 128; i++) {
         if (fHeads[i+128]) {
@@ -160,8 +160,8 @@ void hsRadixSort::unpackFloat()
             tail = fTails[i+128];
         }
 
-        fTails[i+128] = NULL;
-        fHeads[i+128] = NULL;
+        fTails[i+128] = nullptr;
+        fHeads[i+128] = nullptr;
     }
 
     fList = head;
@@ -180,8 +180,8 @@ void hsRadixSort::unpackFloat()
             tail = fTails[i];
         }
 
-        fTails[i] = NULL;
-        fHeads[i] = NULL;
+        fTails[i] = nullptr;
+        fHeads[i] = nullptr;
     }
 
     fList = head;

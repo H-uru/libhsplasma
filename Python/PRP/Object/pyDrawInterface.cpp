@@ -37,11 +37,11 @@ PY_METHOD_VA(DrawInterface, addDrawable,
     int key;
     if (!PyArg_ParseTuple(args, "Oi", &draw, &key)) {
         PyErr_SetString(PyExc_TypeError, "addDrawable expects plKey, int");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)draw)) {
         PyErr_SetString(PyExc_TypeError, "addDrawable expects plKey, int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addDrawable(*draw->fThis, key);
     Py_RETURN_NONE;
@@ -54,7 +54,7 @@ PY_METHOD_VA(DrawInterface, delDrawable,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delDrawable expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delDrawable(idx);
     Py_RETURN_NONE;
@@ -74,11 +74,11 @@ PY_METHOD_VA(DrawInterface, addRegion,
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addRegion expects a plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addRegion expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addRegion(*key->fThis);
     Py_RETURN_NONE;
@@ -91,7 +91,7 @@ PY_METHOD_VA(DrawInterface, delRegion,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delRegion expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delRegion(idx);
     Py_RETURN_NONE;
@@ -114,8 +114,8 @@ PY_GETSET_GETTER_DECL(DrawInterface, drawables)
         PyObject* tup = Py_BuildValue("(Oi)",
             pyKey_FromKey(self->fThis->getDrawable(i)),
             self->fThis->getDrawableKey(i));
-        if (tup == NULL)
-            return NULL;
+        if (tup == nullptr)
+            return nullptr;
         PyTuple_SET_ITEM(list, i, tup);
     }
     return list;
@@ -150,7 +150,7 @@ PY_PLASMA_TYPE_INIT(DrawInterface)
     pyDrawInterface_Type.tp_getset = pyDrawInterface_GetSet;
     pyDrawInterface_Type.tp_base = &pyObjInterface_Type;
     if (PyType_CheckAndReady(&pyDrawInterface_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyDrawInterface_Type);
     return (PyObject*)&pyDrawInterface_Type;

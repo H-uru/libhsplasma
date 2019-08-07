@@ -30,18 +30,18 @@ PY_METHOD_VA(FileStream, open,
 
     if (!PyArg_ParseTuple(args, "si", &filename, &mode)) {
         PyErr_SetString(PyExc_TypeError, "open expects string, int");
-        return NULL;
+        return nullptr;
     }
     try {
         if (!self->fThis->open(filename, (FileMode)mode)) {
             PyErr_SetString(PyExc_IOError, "Error opening file");
-            return NULL;
+            return nullptr;
         }
         Py_INCREF(self);
         return (PyObject*)self;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error opening file");
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -72,7 +72,7 @@ PY_PLASMA_TYPE_INIT(FileStream)
     pyFileStream_Type.tp_methods = pyFileStream_Methods;
     pyFileStream_Type.tp_base = &pyStream_Type;
     if (PyType_CheckAndReady(&pyFileStream_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyFileStream_Type);
     return (PyObject*)&pyFileStream_Type;

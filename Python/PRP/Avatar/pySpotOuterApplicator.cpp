@@ -29,7 +29,7 @@ PY_PLASMA_TYPE_INIT(SpotOuterApplicator)
     pySpotOuterApplicator_Type.tp_new = pySpotOuterApplicator_new;
     pySpotOuterApplicator_Type.tp_base = &pyAGApplicator_Type;
     if (PyType_CheckAndReady(&pySpotOuterApplicator_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pySpotOuterApplicator_Type);
     return (PyObject*)&pySpotOuterApplicator_Type;

@@ -27,7 +27,7 @@ PY_PLASMA_TYPE_INIT(RidingAnimatedPhysicalDetector)
     pyRidingAnimatedPhysicalDetector_Type.tp_new = pyRidingAnimatedPhysicalDetector_new;
     pyRidingAnimatedPhysicalDetector_Type.tp_base = &pySimpleRegionSensor_Type;
     if (PyType_CheckAndReady(&pyRidingAnimatedPhysicalDetector_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyRidingAnimatedPhysicalDetector_Type);
     return (PyObject*)&pyRidingAnimatedPhysicalDetector_Type;

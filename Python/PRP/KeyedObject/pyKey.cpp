@@ -47,7 +47,7 @@ PY_PLASMA_RICHCOMPARE_DECL(Key)
                 result = false;
         } else {
             PyErr_SetString(PyExc_TypeError, "Incompatible types in comparison");
-            return NULL;
+            return nullptr;
         }
     } else {
         switch (op) {
@@ -73,7 +73,7 @@ PY_PLASMA_RICHCOMPARE_DECL(Key)
             break;
         default:
             PyErr_SetString(PyExc_RuntimeError, "Comparison failed");
-            return NULL;
+            return nullptr;
         }
     }
 
@@ -87,11 +87,11 @@ PY_METHOD_VA(Key, read,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     (*self->fThis)->read(stream->fThis);
     Py_RETURN_NONE;
@@ -104,11 +104,11 @@ PY_METHOD_VA(Key, write,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     (*self->fThis)->write(stream->fThis);
     Py_RETURN_NONE;
@@ -121,11 +121,11 @@ PY_METHOD_VA(Key, readUoid,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "readUoid expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "readUoid expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     (*self->fThis)->readUoid(stream->fThis);
     Py_RETURN_NONE;
@@ -138,11 +138,11 @@ PY_METHOD_VA(Key, writeUoid,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "writeUoid expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "writeUoid expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     (*self->fThis)->writeUoid(stream->fThis);
     Py_RETURN_NONE;
@@ -165,11 +165,11 @@ PY_METHOD_VA(Key, orderAfter,
     pyKey* otherKey;
     if (!PyArg_ParseTuple(args, "O", &otherKey)) {
         PyErr_SetString(PyExc_TypeError, "orderAfter expects a plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)otherKey)) {
         PyErr_SetString(PyExc_TypeError, "orderAfter expects a plKey");
-        return NULL;
+        return nullptr;
     }
     return pyPlasma_convert(self->fThis->orderAfter(*otherKey->fThis));
 }
@@ -301,7 +301,7 @@ PY_PLASMA_TYPE_INIT(Key)
     pyKey_Type.tp_methods = pyKey_Methods;
     pyKey_Type.tp_getset = pyKey_GetSet;
     if (PyType_CheckAndReady(&pyKey_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyKey_Type);
     return (PyObject*)&pyKey_Type;

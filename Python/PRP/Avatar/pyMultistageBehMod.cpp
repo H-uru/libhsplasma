@@ -30,11 +30,11 @@ PY_METHOD_VA(MultistageBehMod, addStage,
     pyAnimStage* anim;
     if (!PyArg_ParseTuple(args, "O", &anim)) {
         PyErr_SetString(PyExc_TypeError, "addStage expects a plAnimStage");
-        return NULL;
+        return nullptr;
     }
     if (!pyAnimStage_Check((PyObject*)anim)) {
         PyErr_SetString(PyExc_TypeError, "addStage expects a plAnimStage");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addStage(anim->fThis);
     anim->fPyOwned = false;
@@ -48,7 +48,7 @@ PY_METHOD_VA(MultistageBehMod, delStage,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delStage expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delStage(idx);
     Py_RETURN_NONE;
@@ -68,11 +68,11 @@ PY_METHOD_VA(MultistageBehMod, addReceiver,
     pyKey* rcvr;
     if (!PyArg_ParseTuple(args, "O", &rcvr)) {
         PyErr_SetString(PyExc_TypeError, "addReceiver expects a plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)rcvr)) {
         PyErr_SetString(PyExc_TypeError, "addReceiver expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addReceiver(*rcvr->fThis);
     Py_RETURN_NONE;
@@ -85,7 +85,7 @@ PY_METHOD_VA(MultistageBehMod, delReceiver,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delReceiver expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delReceiver(idx);
     Py_RETURN_NONE;
@@ -153,7 +153,7 @@ PY_PLASMA_TYPE_INIT(MultistageBehMod)
     pyMultistageBehMod_Type.tp_getset = pyMultistageBehMod_GetSet;
     pyMultistageBehMod_Type.tp_base = &pySingleModifier_Type;
     if (PyType_CheckAndReady(&pyMultistageBehMod_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyMultistageBehMod_Type);
     return (PyObject*)&pyMultistageBehMod_Type;

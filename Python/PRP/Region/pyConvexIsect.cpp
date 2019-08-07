@@ -31,7 +31,7 @@ PY_METHOD_VA(ConvexIsect, addPlane,
     if (!PyArg_ParseTuple(args, "OO", &normal, &position) || !pyVector3_Check(normal) ||
         !pyVector3_Check(position)) {
         PyErr_SetString(PyExc_TypeError, "addPlane expects hsVector3, hsVector3");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addPlane(*((pyVector3*)normal)->fThis, *((pyVector3*)position)->fThis);
     Py_RETURN_NONE;
@@ -45,7 +45,7 @@ PY_METHOD_VA(ConvexIsect, transform,
     PyObject* w2l;
     if (!PyArg_ParseTuple(args, "OO", &l2w, &w2l) || !pyMatrix44_Check(l2w) || !pyMatrix44_Check(w2l)) {
         PyErr_SetString(PyExc_TypeError, "transform expects hsMatrix44, hsMatrix44");
-        return NULL;
+        return nullptr;
     }
     self->fThis->transform(*((pyMatrix44*)l2w)->fThis, *((pyMatrix44*)w2l)->fThis);
     Py_RETURN_NONE;
@@ -65,7 +65,7 @@ PY_PLASMA_TYPE_INIT(ConvexIsect)
     pyConvexIsect_Type.tp_methods = pyConvexIsect_Methods;
     pyConvexIsect_Type.tp_base = &pyVolumeIsect_Type;
     if (PyType_CheckAndReady(&pyConvexIsect_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyConvexIsect_Type);
     return (PyObject*)&pyConvexIsect_Type;

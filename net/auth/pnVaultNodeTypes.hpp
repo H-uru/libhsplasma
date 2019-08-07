@@ -23,27 +23,27 @@
 public: \
     static type* Convert(pnVaultNode* node) \
     { \
-        return (node != NULL && node->getNodeType() == nodeType) \
-               ? (type*)node : NULL; \
+        return (node && node->getNodeType() == nodeType) \
+               ? (type*)node : nullptr; \
     }
 
 #define DECLARE_NODE_2(type, nodeType, nodeType2) \
 public: \
     static type* Convert(pnVaultNode* node) \
     { \
-        return (node != NULL && (node->getNodeType() == nodeType || \
-                                 node->getNodeType() == nodeType2)) \
-               ? (type*)node : NULL; \
+        return (node && (node->getNodeType() == nodeType || \
+                         node->getNodeType() == nodeType2)) \
+               ? (type*)node : nullptr; \
     }
 
 #define DECLARE_NODE_3(type, nodeType, nodeType2, nodeType3) \
 public: \
     static type* Convert(pnVaultNode* node) \
     { \
-        return (node != NULL && (node->getNodeType() == nodeType || \
-                                 node->getNodeType() == nodeType2 || \
-                                 node->getNodeType() == nodeType3)) \
-               ? (type*)node : NULL; \
+        return (node && (node->getNodeType() == nodeType || \
+                         node->getNodeType() == nodeType2 || \
+                         node->getNodeType() == nodeType3)) \
+               ? (type*)node : nullptr; \
     }
 
 #define ACCESS_INT32(idx, name) \

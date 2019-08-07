@@ -86,13 +86,13 @@ void pnVaultNode::allClean()
 
 void pnVaultNode::setTimeNow()
 {
-    setCreateTime((uint32_t)time(NULL));
+    setCreateTime((uint32_t)time(nullptr));
     setModifyTime(fCreateTime);
 }
 
 void pnVaultNode::setModifyNow()
 {
-    setModifyTime((uint32_t)time(NULL));
+    setModifyTime((uint32_t)time(nullptr));
 }
 
 static uint64_t readU64(const unsigned char*& buffer, size_t& size)
@@ -468,7 +468,7 @@ void pnVaultNode::setModifyTime(uint32_t modTime)
 
 void pnVaultNode::setCreateAgeName(const ST::string& name)
 {
-    if (fCreateAgeName != NULL) {
+    if (!fCreateAgeName.empty()) {
         size_t oldLen = (fCreateAgeName.to_utf16().size() + 1) * sizeof(char16_t);
         IClearField(kCreateAgeName, oldLen + sizeof(uint32_t));
     }
@@ -522,7 +522,7 @@ void pnVaultNode::setUuid(size_t which, const plUuid& value)
 
 void pnVaultNode::setString64(size_t which, const ST::string& value)
 {
-    if (fString64[which] != NULL) {
+    if (!fString64[which].empty()) {
         size_t oldLen = (fString64[which].to_utf16().size() + 1) * sizeof(char16_t);
         IClearField(kString64_1 + which, oldLen + sizeof(uint32_t));
     }
@@ -534,7 +534,7 @@ void pnVaultNode::setString64(size_t which, const ST::string& value)
 
 void pnVaultNode::setIString64(size_t which, const ST::string& value)
 {
-    if (fIString64[which] != NULL) {
+    if (!fIString64[which].empty()) {
         size_t oldLen = (fIString64[which].to_utf16().size() + 1) * sizeof(char16_t);
         IClearField(kIString64_1 + which, oldLen + sizeof(uint32_t));
     }
@@ -546,7 +546,7 @@ void pnVaultNode::setIString64(size_t which, const ST::string& value)
 
 void pnVaultNode::setText(size_t which, const ST::string& value)
 {
-    if (fText[which] != NULL) {
+    if (!fText[which].empty()) {
         size_t oldLen = (fText[which].to_utf16().size() + 1) * sizeof(char16_t);
         IClearField(kText_1 + which, oldLen + sizeof(uint32_t));
     }

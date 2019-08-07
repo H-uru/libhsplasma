@@ -29,7 +29,7 @@ PY_PLASMA_TYPE_INIT(LightDiffuseApplicator)
     pyLightDiffuseApplicator_Type.tp_new = pyLightDiffuseApplicator_new;
     pyLightDiffuseApplicator_Type.tp_base = &pyAGApplicator_Type;
     if (PyType_CheckAndReady(&pyLightDiffuseApplicator_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyLightDiffuseApplicator_Type);
     return (PyObject*)&pyLightDiffuseApplicator_Type;

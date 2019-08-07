@@ -38,7 +38,7 @@ PY_PLASMA_TYPE_INIT(ParticleCollisionEffect)
     pyParticleCollisionEffect_Type.tp_getset = pyParticleCollisionEffect_GetSet;
     pyParticleCollisionEffect_Type.tp_base = &pyParticleEffect_Type;
     if (PyType_CheckAndReady(&pyParticleCollisionEffect_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyParticleCollisionEffect_Type);
     return (PyObject*)&pyParticleCollisionEffect_Type;
@@ -57,7 +57,7 @@ PY_PLASMA_TYPE_INIT(ParticleCollisionEffectBeat)
     pyParticleCollisionEffectBeat_Type.tp_new = pyParticleCollisionEffectBeat_new;
     pyParticleCollisionEffectBeat_Type.tp_base = &pyParticleCollisionEffect_Type;
     if (PyType_CheckAndReady(&pyParticleCollisionEffectBeat_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyParticleCollisionEffectBeat_Type);
     return (PyObject*)&pyParticleCollisionEffectBeat_Type;
@@ -87,7 +87,7 @@ PY_PLASMA_TYPE_INIT(ParticleCollisionEffectBounce)
     pyParticleCollisionEffectBounce_Type.tp_getset = pyParticleCollisionEffectBounce_GetSet;
     pyParticleCollisionEffectBounce_Type.tp_base = &pyParticleCollisionEffect_Type;
     if (PyType_CheckAndReady(&pyParticleCollisionEffectBounce_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyParticleCollisionEffectBounce_Type);
     return (PyObject*)&pyParticleCollisionEffectBounce_Type;
@@ -106,7 +106,7 @@ PY_PLASMA_TYPE_INIT(ParticleCollisionEffectDie)
     pyParticleCollisionEffectDie_Type.tp_new = pyParticleCollisionEffectDie_new;
     pyParticleCollisionEffectDie_Type.tp_base = &pyParticleCollisionEffect_Type;
     if (PyType_CheckAndReady(&pyParticleCollisionEffectDie_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyParticleCollisionEffectDie_Type);
     return (PyObject*)&pyParticleCollisionEffectDie_Type;

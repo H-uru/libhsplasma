@@ -36,7 +36,7 @@ void plStateDataRecord::ReadStreamHeader(hsStream* S, ST::string& name,
     version = S->readShort();
 
     if (flag & kVolatile) {
-        if (objUoid == NULL) {
+        if (objUoid == nullptr) {
             plUoid tmp;
             tmp.read(S);
         } else {
@@ -49,7 +49,7 @@ void plStateDataRecord::WriteStreamHeader(hsStream* S, const ST::string& name,
                                           int version, plUoid* objUoid)
 {
     unsigned short flag = 0x8000;
-    if (objUoid != NULL)
+    if (objUoid)
         flag |= kVolatile;
     S->writeShort(flag);
     S->writeSafeStr(name);
@@ -62,7 +62,7 @@ void plStateDataRecord::WriteStreamHeader(hsStream* S, const ST::string& name,
 void plStateDataRecord::read(hsStream* S, plResManager* mgr)
 {
     fFlags = S->readShort();
-    if (S->readByte() != kIOVersion || fDescriptor == NULL)
+    if (S->readByte() != kIOVersion || fDescriptor == nullptr)
         throw hsBadParamException(__FILE__, __LINE__);
 
     for (size_t i=0; i<fDescriptor->getNumVars(); i++)
@@ -247,7 +247,7 @@ void plStateDataRecord::setDescriptor(plStateDescriptor* desc)
     fSDVarsList.clear();
     fAllVars.clear();
 
-    if (desc == NULL)
+    if (desc == nullptr)
         return; // allow setting a NULL descriptor and moving on with life
 
     for (size_t i=0; i<fDescriptor->getNumVars(); i++) {
@@ -271,5 +271,5 @@ plStateVariable* plStateDataRecord::get(const ST::string& name) const
     for (auto var = fAllVars.begin(); var != fAllVars.end(); ++var)
         if ((*var)->getDescriptor()->getName() == name)
             return *var;
-    return NULL;
+    return nullptr;
 }

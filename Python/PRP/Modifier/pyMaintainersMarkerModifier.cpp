@@ -39,7 +39,7 @@ PY_PLASMA_TYPE_INIT(MaintainersMarkerModifier)
     pyMaintainersMarkerModifier_Type.tp_getset = pyMaintainersMarkerModifier_GetSet;
     pyMaintainersMarkerModifier_Type.tp_base = &pyMultiModifier_Type;
     if (PyType_CheckAndReady(&pyMaintainersMarkerModifier_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(MaintainersMarkerModifier, "kBroken",
                       plMaintainersMarkerModifier::kBroken);

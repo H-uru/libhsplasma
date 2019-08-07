@@ -68,7 +68,7 @@ PY_PLASMA_TYPE_INIT(ScaleKey)
     pyScaleKey_Type.tp_getset = pyScaleKey_GetSet;
     pyScaleKey_Type.tp_base = &pyKeyFrame_Type;
     if (PyType_CheckAndReady(&pyScaleKey_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyScaleKey_Type);
     return (PyObject*)&pyScaleKey_Type;

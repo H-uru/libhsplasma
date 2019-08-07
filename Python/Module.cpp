@@ -195,7 +195,7 @@ PY_METHOD_GLOBAL_VA(PyHSPlasma, CleanFileName,
     unsigned char allowPathChars = 0;
     if (!PyArg_ParseTuple(args, "s|b", &fname, &allowPathChars)) {
         PyErr_SetString(PyExc_TypeError, "CleanFileName expects a string");
-        return NULL;
+        return nullptr;
     }
     return pyPlasma_convert(CleanFileName(fname, allowPathChars != 0));
 }
@@ -212,10 +212,10 @@ static PyModuleDef PyHSPlasma_Module = {
     "Python libHSPlasma interface module",  /* m_doc */
     0,                          /* m_size */
     PyHSPlasma_Methods,         /* m_methods */
-    NULL,                       /* m_reload */
-    NULL,                       /* m_traverse */
-    NULL,                       /* m_clear */
-    NULL,                       /* m_free */
+    nullptr,                    /* m_reload */
+    nullptr,                    /* m_traverse */
+    nullptr,                    /* m_clear */
+    nullptr,                    /* m_free */
 };
 #endif
 

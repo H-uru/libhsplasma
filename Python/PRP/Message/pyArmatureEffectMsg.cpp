@@ -39,7 +39,7 @@ PY_PLASMA_TYPE_INIT(ArmatureEffectStateMsg)
     pyArmatureEffectStateMsg_Type.tp_getset = pyArmatureEffectStateMsg_GetSet;
     pyArmatureEffectStateMsg_Type.tp_base = &pyMessage_Type;
     if (PyType_CheckAndReady(&pyArmatureEffectStateMsg_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyArmatureEffectStateMsg_Type);
     return (PyObject*)&pyArmatureEffectStateMsg_Type;

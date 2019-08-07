@@ -34,8 +34,8 @@ static msgparm_t AllocBasic(unsigned int size, unsigned int count)
 
 msgparm_t* NCAllocMessage(const pnNetMsg* msg)
 {
-    if (msg == NULL)
-        return NULL;
+    if (msg == nullptr)
+        return nullptr;
 
     msgparm_t* data = new msgparm_t[msg->fFieldCount];
     for (size_t i=0; i<msg->fFieldCount; i++) {
@@ -55,7 +55,7 @@ msgparm_t* NCAllocMessage(const pnNetMsg* msg)
         case kFieldString:
         case kFieldVarCount:
             // Variable array -- to be allocated later
-            data[i].fData = NULL;
+            data[i].fData = nullptr;
             break;
         case kFieldData:
         case kFieldPtr:
@@ -79,7 +79,7 @@ char16_t* NCCopyString(const ST::string& string)
 
 void NCFreeMessage(msgparm_t* data, const pnNetMsg* msg)
 {
-    if (data == NULL)
+    if (data == nullptr)
         return;
 
     for (size_t i=0; i<msg->fFieldCount; i++) {

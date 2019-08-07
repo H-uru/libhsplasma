@@ -36,7 +36,7 @@ void hsRAMStream::stealFrom(void* data, size_t size)
 void hsRAMStream::copyFrom(const void* data, size_t size)
 {
     if (size == 0) {
-        stealFrom(NULL, 0);
+        stealFrom(nullptr, 0);
     } else {
         uint8_t* buffer = new uint8_t[size];
         memcpy(buffer, data, size);
@@ -81,12 +81,12 @@ size_t hsRAMStream::write(size_t size, const void* buf)
 
 void hsRAMStream::resize(uint32_t newsize)
 {
-    uint8_t* newData = NULL;
+    uint8_t* newData = nullptr;
 
     if (newsize != 0) {
         newData = new uint8_t[newsize];
         uint32_t cpysize = 0;
-        if (fData != NULL) {
+        if (fData) {
             cpysize = (newsize < fSize) ? newsize : fSize;
             memcpy(newData, fData, cpysize);
         }

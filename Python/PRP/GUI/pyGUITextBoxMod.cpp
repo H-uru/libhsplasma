@@ -37,7 +37,7 @@ PY_PLASMA_TYPE_INIT(GUITextBoxMod)
     pyGUITextBoxMod_Type.tp_getset = pyGUITextBoxMod_GetSet;
     pyGUITextBoxMod_Type.tp_base = &pyGUIControlMod_Type;
     if (PyType_CheckAndReady(&pyGUITextBoxMod_Type) < 0)
-        return NULL;
+        return nullptr;
 
     /* Konstants */
     PY_TYPE_ADD_CONST(GUITextBoxMod, "kCenterJustify", pfGUITextBoxMod::kCenterJustify);

@@ -30,7 +30,7 @@ void plLoadAvatarMsg::read(hsStream* S, plResManager* mgr)
     if (S->readBool()) {
         setInitialTask(plAvTask::Convert(mgr->ReadCreatable(S)));
     } else {
-        setInitialTask(NULL);
+        setInitialTask(nullptr);
     }
 
     if (S->getVer().isMoul() || S->getVer().isUniversal())
@@ -44,7 +44,7 @@ void plLoadAvatarMsg::write(hsStream* S, plResManager* mgr)
     S->writeBool(fIsPlayer);
     mgr->writeKey(S, fSpawnPoint);
 
-    if (getInitialTask() != NULL) {
+    if (getInitialTask()) {
         S->writeBool(true);
         mgr->WriteCreatable(S, fInitialTask);
     } else {
@@ -68,7 +68,7 @@ void plLoadAvatarMsg::IPrcWrite(pfPrcHelper* prc)
     plResManager::PrcWriteKey(prc, fSpawnPoint);
     prc->closeTag();
 
-    if (getInitialTask() != NULL) {
+    if (getInitialTask()) {
         prc->writeSimpleTag("InitialTask");
         fInitialTask->prcWrite(prc);
         prc->closeTag();
@@ -88,7 +88,7 @@ void plLoadAvatarMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         if (tag->hasChildren())
             setInitialTask(plAvTask::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
         else
-            setInitialTask(NULL);
+            setInitialTask(nullptr);
     } else if (tag->getName() == "SpawnPoint") {
         fSpawnPoint = mgr->prcParseKey(tag->getFirstChild());
     } else {

@@ -30,7 +30,7 @@ PY_PLASMA_TYPE_INIT(ScalarController)
     pyScalarController_Type.tp_new = pyScalarController_new;
     pyScalarController_Type.tp_base = &pyLeafController_Type;
     if (PyType_CheckAndReady(&pyScalarController_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyScalarController_Type);
     return (PyObject*)&pyScalarController_Type;

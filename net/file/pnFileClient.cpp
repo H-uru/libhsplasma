@@ -217,9 +217,9 @@ void pnFileClient::disconnect()
     delete fIface;
     delete fDispatch;
     delete fSock;
-    fIface = NULL;
-    fSock = NULL;
-    fDispatch = NULL;
+    fIface = nullptr;
+    fSock = nullptr;
+    fDispatch = nullptr;
 }
 
 ENetError pnFileClient::performConnect()
@@ -240,7 +240,7 @@ ENetError pnFileClient::performConnect()
 
     if (!fSock->isConnected()) {
         delete fSock;
-        fSock = NULL;
+        fSock = nullptr;
         plDebug::Error("Error establishing File connection");
         return kNetErrConnectFailed;
     }

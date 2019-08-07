@@ -164,7 +164,7 @@ static void WriteObj(plSceneObject* obj, hsStream* S, bool doXform)
         return;
     }
     plDrawInterface* draw = plDrawInterface::Convert(obj->getDrawInterface()->getObj());
-    plCoordinateInterface* coord = NULL;
+    plCoordinateInterface* coord = nullptr;
     if (obj->getCoordInterface().Exists())
         coord = plCoordinateInterface::Convert(obj->getCoordInterface()->getObj());
 
@@ -188,9 +188,9 @@ static void WriteObj(plSceneObject* obj, hsStream* S, bool doXform)
             plKey matKey = span->getMaterials()[ice->getMaterialIdx()];
             if (matKey.Exists()) {
                 hsGMaterial* mat = hsGMaterial::Convert(matKey->getObj(), false);
-                if (mat != NULL && mat->getLayers().size() > 0) {
+                if (mat && mat->getLayers().size() > 0) {
                     plLayerInterface* lay = plLayerInterface::Convert(mat->getLayers()[0]->getObj(), false);
-                    while (lay != NULL && lay->getUnderLay().Exists())
+                    while (lay && lay->getUnderLay().Exists())
                         lay = plLayerInterface::Convert(lay->getUnderLay()->getObj(), false);
                     uvwSrc = lay->getUVWSrc();
                     uvwXform = lay->getTransform();
@@ -200,7 +200,7 @@ static void WriteObj(plSceneObject* obj, hsStream* S, bool doXform)
             for (size_t j = 0; j < verts.size(); j++) {
                 hsVector3 pos;
                 if (doXform) {
-                    if (coord != NULL)
+                    if (coord)
                         pos = coord->getLocalToWorld().multPoint(verts[j].fPos) * 10.0f;
                     else
                         pos = ice->getLocalToWorld().multPoint(verts[j].fPos) * 10.0f;
@@ -264,9 +264,9 @@ static void WriteMat(hsGMaterial* mat, hsStream* S)
     // Obj doesn't support multiple textures, so we just get the texture
     // on the base of the first layer in each material...
     plLayerInterface* lay = plLayerInterface::Convert(mat->getLayers()[0]->getObj(), false);
-    while (lay != NULL && lay->getUnderLay().Exists())
+    while (lay && lay->getUnderLay().Exists())
         lay = plLayerInterface::Convert(lay->getUnderLay()->getObj(), false);
-    if (lay == NULL) {
+    if (lay == nullptr) {
         plDebug::Warning("Cannot get layer for {}", mat->getKey()->getName());
         return;
     }

@@ -126,7 +126,7 @@ PY_PLASMA_TYPE_INIT(TempVertex)
     pyTempVertex_Type.tp_new = pyTempVertex_new;
     pyTempVertex_Type.tp_getset = pyTempVertex_GetSet;
     if (PyType_CheckAndReady(&pyTempVertex_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyTempVertex_Type);
     return (PyObject*)&pyTempVertex_Type;

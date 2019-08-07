@@ -32,11 +32,11 @@ PY_METHOD_VA(ClusterGroup, addCluster,
     pyCluster* cluster;
     if (!PyArg_ParseTuple(args, "O", &cluster)) {
         PyErr_SetString(PyExc_TypeError, "addCluster expects a plCluster");
-        return NULL;
+        return nullptr;
     }
     if (!pyCluster_Check((PyObject*)cluster)) {
         PyErr_SetString(PyExc_TypeError, "addCluster expects a plCluster");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addCluster(cluster->fThis);
     cluster->fPyOwned = false;
@@ -50,7 +50,7 @@ PY_METHOD_VA(ClusterGroup, delCluster,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delCluster expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delCluster(idx);
     Py_RETURN_NONE;
@@ -68,11 +68,11 @@ PY_METHOD_VA(ClusterGroup, addRegion,
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addRegion expects a plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addRegion expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addRegion(*key->fThis);
     Py_RETURN_NONE;
@@ -85,7 +85,7 @@ PY_METHOD_VA(ClusterGroup, delRegion,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delRegion expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delRegion(idx);
     Py_RETURN_NONE;
@@ -104,11 +104,11 @@ PY_METHOD_VA(ClusterGroup, addLight,
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addLight expects a plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addLight expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addLight(*key->fThis);
     Py_RETURN_NONE;
@@ -121,7 +121,7 @@ PY_METHOD_VA(ClusterGroup, delLight,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delLight expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delLight(idx);
     Py_RETURN_NONE;
@@ -208,7 +208,7 @@ PY_PLASMA_TYPE_INIT(ClusterGroup)
     pyClusterGroup_Type.tp_getset = pyClusterGroup_GetSet;
     pyClusterGroup_Type.tp_base = &pyKeyedObject_Type;
     if (PyType_CheckAndReady(&pyClusterGroup_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyClusterGroup_Type);
     return (PyObject*)&pyClusterGroup_Type;

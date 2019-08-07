@@ -173,24 +173,28 @@
 // End type includes
 
 #define ABSTRACT(x) \
-    plDebug::Warning("Warning: Attempted to create abstract class %s", ClassName(x)); \
-    return NULL
+    do { \
+        plDebug::Warning("Warning: Attempted to create abstract class %s", ClassName(x)); \
+        return nullptr; \
+    } while (0)
 
 #define NOTIMPL(x) \
-    plDebug::Warning("Warning: class %s is not implemented", ClassName(x)); \
-    return NULL
+    do { \
+        plDebug::Warning("Warning: class %s is not implemented", ClassName(x)); \
+        return nullptr; \
+    } while (0)
 
 plFactory::OverrideFunc plFactory::fOverride;
 
 plCreatable* plFactory::Create(short typeIdx)
 {
     if (typeIdx < 0)
-        return NULL;
+        return nullptr;
 
     if (fOverride) {
         plCreatable* over_cre;
         over_cre = fOverride(typeIdx);
-        if (over_cre != NULL)
+        if (over_cre)
             return over_cre;
     }
 
@@ -1252,13 +1256,14 @@ plCreatable* plFactory::Create(short typeIdx)
         case kAvBrainRideAnimatedPhysical: return new plAvBrainRideAnimatedPhysical();
 
         // Got an invalid or unsupported ClassIndex //
-        default: return NULL;
+        default: return nullptr;
     }
 }
 
 plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver)
 {
-    if (typeIdx < 0) return NULL;
+    if (typeIdx < 0)
+        return nullptr;
     if (!ver.isValid())
         throw hsBadVersionException(__FILE__, __LINE__);
     return Create(pdUnifiedTypeMap::PlasmaToMapped(typeIdx, ver));
@@ -1271,13 +1276,15 @@ plCreatable* plFactory::Create(const char* typeName)
 
 const char* plFactory::ClassName(short typeIdx)
 {
-    if (typeIdx < 0) return NULL;
+    if (typeIdx < 0)
+        return nullptr;
     return pdUnifiedTypeMap::ClassName(typeIdx);
 }
 
 const char* plFactory::ClassName(short typeIdx, PlasmaVer ver)
 {
-    if (typeIdx < 0) return NULL;
+    if (typeIdx < 0)
+        return nullptr;
     return pdUnifiedTypeMap::ClassName(typeIdx, ver);
 }
 

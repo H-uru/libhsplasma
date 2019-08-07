@@ -92,7 +92,7 @@ void plGBufferTriangle::prcParse(const pfPrcTag* tag)
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
     const pfPrcTag* child = tag->getFirstChild();
-    while (child != NULL) {
+    while (child) {
         if (child->getName() == "Indices") {
             fIndex1 = child->getParam("Index1", "0").to_uint();
             fIndex2 = child->getParam("Index2", "0").to_uint();
@@ -214,7 +214,7 @@ void plGBufferGroup::read(hsStream* S)
                 S->read(colourcount * 8, cData);
             }
             fCompGBuffSizes[i] = 0;
-            fCompGBuffStorage[i] = NULL;
+            fCompGBuffStorage[i] = nullptr;
         }
     }
 
@@ -257,7 +257,7 @@ void plGBufferGroup::write(hsStream* S)
         if (S->getVer().isUniversal()) {
             S->writeInt(fVertBuffSizes[i]);
             S->write(fVertBuffSizes[i], fVertBuffStorage[i]);
-        } else if (INeedVertRecompression(S->getVer()) || fCompGBuffStorage[i] == NULL) {
+        } else if (INeedVertRecompression(S->getVer()) || fCompGBuffStorage[i] == nullptr) {
             coder.write(S, fVertBuffStorage[i], fFormat, fStride, count);
         } else {
             S->write(fCompGBuffSizes[i], fCompGBuffStorage[i]);
@@ -357,7 +357,7 @@ void plGBufferGroup::prcParse(const pfPrcTag* tag)
     fGBuffStorageType = kStoreUncompressed;
 
     const pfPrcTag* child = tag->getFirstChild();
-    while (child != NULL) {
+    while (child) {
         if (child->getName() == "VertexGroup") {
             std::vector<plGBufferVertex> buf;
             buf.resize(child->countChildren());
@@ -367,7 +367,7 @@ void plGBufferGroup::prcParse(const pfPrcTag* tag)
                     throw pfPrcTagException(__FILE__, __LINE__, vtxChild->getName());
 
                 const pfPrcTag* subChild = vtxChild->getFirstChild();
-                while (subChild != NULL) {
+                while (subChild) {
                     if (subChild->getName() == "Position") {
                         if (subChild->hasChildren())
                             buf[i].fPos.prcParse(subChild->getFirstChild());
@@ -497,7 +497,7 @@ void plGBufferGroup::addVertices(const std::vector<plGBufferVertex>& verts)
     fVertBuffSizes.push_back(vtxSize);
     fVertBuffStorage.push_back(new unsigned char[vtxSize]);
     fCompGBuffSizes.push_back(0);
-    fCompGBuffStorage.push_back(NULL);
+    fCompGBuffStorage.push_back(nullptr);
     size_t idx = fVertBuffStorage.size() - 1;
 
     unsigned char* cp = fVertBuffStorage[idx];

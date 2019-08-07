@@ -29,7 +29,7 @@ PY_METHOD_VA(ANDConditionalObject, addChild,
     PyObject* key;
     if (!(PyArg_ParseTuple(args, "O", &key) && pyKey_Check(key))) {
         PyErr_SetString(PyExc_TypeError, "addChild expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addChild(pyPlasma_get<plKey>(key));
     Py_RETURN_NONE;
@@ -49,7 +49,7 @@ PY_METHOD_VA(ANDConditionalObject, delChild,
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delChild expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delChild((size_t)idx);
     Py_RETURN_NONE;
@@ -88,7 +88,7 @@ PY_PLASMA_TYPE_INIT(ANDConditionalObject)
     pyANDConditionalObject_Type.tp_getset = pyANDConditionalObject_GetSet;
     pyANDConditionalObject_Type.tp_base = &pyConditionalObject_Type;
     if (PyType_CheckAndReady(&pyANDConditionalObject_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyANDConditionalObject_Type);
     return (PyObject*)&pyANDConditionalObject_Type;

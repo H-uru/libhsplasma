@@ -30,7 +30,7 @@ PY_PLASMA_TYPE_INIT(Point3Controller)
     pyPoint3Controller_Type.tp_new = pyPoint3Controller_new;
     pyPoint3Controller_Type.tp_base = &pyLeafController_Type;
     if (PyType_CheckAndReady(&pyPoint3Controller_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyPoint3Controller_Type);
     return (PyObject*)&pyPoint3Controller_Type;

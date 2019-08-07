@@ -121,7 +121,7 @@ void plSpan::prcParse(const pfPrcTag* tag)
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
     const pfPrcTag* child = tag->getFirstChild();
-    while (child != NULL) {
+    while (child) {
         IPrcParse(child);
         child = child->getNextSibling();
     }

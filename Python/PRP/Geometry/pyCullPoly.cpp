@@ -82,7 +82,7 @@ PY_PLASMA_TYPE_INIT(CullPoly)
     pyCullPoly_Type.tp_new = pyCullPoly_new;
     pyCullPoly_Type.tp_getset = pyCullPoly_GetSet;
     if (PyType_CheckAndReady(&pyCullPoly_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(CullPoly, "kNone", plCullPoly::kNone);
     PY_TYPE_ADD_CONST(CullPoly, "kHole", plCullPoly::kHole);

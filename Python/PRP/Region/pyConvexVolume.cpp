@@ -67,7 +67,7 @@ PY_PLASMA_TYPE_INIT(ConvexVolume)
     pyConvexVolume_Type.tp_getset = pyConvexVolume_GetSet;
     pyConvexVolume_Type.tp_base = &pyCreatable_Type;
     if (PyType_CheckAndReady(&pyConvexVolume_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyConvexVolume_Type);
     return (PyObject*)&pyConvexVolume_Type;

@@ -29,7 +29,7 @@ PY_PLASMA_TYPE_INIT(ObjectIntersectPlaneConditionalObject)
     pyObjectIntersectPlaneConditionalObject_Type.tp_new = pyObjectIntersectPlaneConditionalObject_new;
     pyObjectIntersectPlaneConditionalObject_Type.tp_base = &pyConditionalObject_Type;
     if (PyType_CheckAndReady(&pyObjectIntersectPlaneConditionalObject_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyObjectIntersectPlaneConditionalObject_Type);
     return (PyObject*)&pyObjectIntersectPlaneConditionalObject_Type;

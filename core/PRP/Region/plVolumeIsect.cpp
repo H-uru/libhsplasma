@@ -217,7 +217,7 @@ void plConvexIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
             fPlanes[i].fWorldDist = planeChild->getParam("WorldDist", "0").to_float();
 
             const pfPrcTag* child = planeChild->getFirstChild();
-            while (child != NULL) {
+            while (child) {
                 if (child->getName() == "Normal") {
                     if (child->hasChildren())
                         fPlanes[i].fNorm.prcParse(child->getFirstChild());
@@ -406,7 +406,7 @@ void plParallelIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
             fPlanes[i].fMax = planeChild->getParam("Max", "0").to_float();
 
             const pfPrcTag* child = planeChild->getFirstChild();
-            while (child != NULL) {
+            while (child) {
                 if (child->getName() == "Normal") {
                     if (child->hasChildren())
                         fPlanes[i].fNorm.prcParse(child->getFirstChild());

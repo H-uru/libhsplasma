@@ -41,7 +41,7 @@ PY_PLASMA_TYPE_INIT(SimpleRotController)
     pySimpleRotController_Type.tp_getset = pySimpleRotController_GetSet;
     pySimpleRotController_Type.tp_base = &pyRotController_Type;
     if (PyType_CheckAndReady(&pySimpleRotController_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pySimpleRotController_Type);
     return (PyObject*)&pySimpleRotController_Type;

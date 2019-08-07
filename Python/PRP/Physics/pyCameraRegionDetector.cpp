@@ -27,7 +27,7 @@ PY_METHOD_VA(CameraRegionDetector, addMessage, "Params: msg")
     pyCameraMsg* msg;
     if (!PyArg_ParseTuple(args, "O", &msg) || !pyCameraMsg_Check((PyObject*)msg)) {
         PyErr_SetString(PyExc_TypeError, "addMessage expects a plCameraMsg");
-        return NULL;
+        return nullptr;
     }
     msg->fPyOwned = false;
     self->fThis->addMessage(msg->fThis);
@@ -39,14 +39,14 @@ PY_METHOD_VA(CameraRegionDetector, delMessage, "Params: idx")
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delMessage expects an int");
-        return NULL;
+        return nullptr;
     }
     if ((size_t)idx < self->fThis->getMessages().size()) {
         self->fThis->delMessage(idx);
         Py_RETURN_NONE;
     } else {
         PyErr_SetNone(PyExc_IndexError);
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -88,7 +88,7 @@ PY_PLASMA_TYPE_INIT(CameraRegionDetector)
     pyCameraRegionDetector_Type.tp_getset = pyCameraRegionDetector_GetSet;
     pyCameraRegionDetector_Type.tp_base = &pyObjectInVolumeDetector_Type;
     if (PyType_CheckAndReady(&pyCameraRegionDetector_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyCameraRegionDetector_Type);
     return (PyObject*)&pyCameraRegionDetector_Type;

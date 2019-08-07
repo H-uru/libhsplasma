@@ -59,7 +59,7 @@ void plVertDelta::prcParse(const pfPrcTag* tag)
     fPadding = tag->getParam("Padding", "0").to_uint();
 
     const pfPrcTag* child = tag->getFirstChild();
-    while (child != NULL) {
+    while (child) {
         if (child->getName() == "Pos") {
             if (child->hasChildren())
                 fPos.prcParse(child->getFirstChild());
@@ -88,7 +88,7 @@ void plMorphSpan::read(hsStream* S)
     if (fNumUVWChans > 0)
         fUVWs = new hsVector3[fNumUVWChans * fDeltas.size()];
     else
-        fUVWs = NULL;
+        fUVWs = nullptr;
 
     for (size_t i=0; i<fDeltas.size(); i++)
         fDeltas[i].read(S);
@@ -132,7 +132,7 @@ void plMorphSpan::prcParse(const pfPrcTag* tag)
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
     const pfPrcTag* child = tag->getFirstChild();
-    while (child != NULL) {
+    while (child) {
         if (child->getName() == "Deltas") {
             fDeltas.resize(child->countChildren());
             const pfPrcTag* subchild = child->getFirstChild();

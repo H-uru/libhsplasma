@@ -69,7 +69,7 @@ public:
         case kScaleController:
             return fZController;
         default:
-            return NULL;
+            return nullptr;
         }
     }
 

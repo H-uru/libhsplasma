@@ -114,7 +114,7 @@ PY_PLASMA_TYPE_INIT(OneTimeParticleGenerator)
     pyOneTimeParticleGenerator_Type.tp_getset = pyOneTimeParticleGenerator_GetSet;
     pyOneTimeParticleGenerator_Type.tp_base = &pyParticleGenerator_Type;
     if (PyType_CheckAndReady(&pyOneTimeParticleGenerator_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyOneTimeParticleGenerator_Type);
     return (PyObject*)&pyOneTimeParticleGenerator_Type;

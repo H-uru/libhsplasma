@@ -47,7 +47,7 @@ PY_PLASMA_TYPE_INIT(AvLadderMod)
     pyAvLadderMod_Type.tp_getset = pyAvLadderMod_GetSet;
     pyAvLadderMod_Type.tp_base = &pySingleModifier_Type;
     if (PyType_CheckAndReady(&pyAvLadderMod_Type) < 0)
-        return NULL;
+        return nullptr;
 
     /* Konstants */
     PY_TYPE_ADD_CONST(AvLadderMod, "kBig", plAvLadderMod::kBig);
@@ -91,7 +91,7 @@ PY_PLASMA_TYPE_INIT(LadderModifier)
     pyLadderModifier_Type.tp_getset = pyLadderModifier_GetSet;
     pyLadderModifier_Type.tp_base = &pySingleModifier_Type;
     if (PyType_CheckAndReady(&pyLadderModifier_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyLadderModifier_Type);
     return (PyObject*)&pyLadderModifier_Type;

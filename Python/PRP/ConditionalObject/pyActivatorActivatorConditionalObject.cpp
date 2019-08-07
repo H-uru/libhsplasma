@@ -29,7 +29,7 @@ PY_PLASMA_TYPE_INIT(ActivatorActivatorConditionalObject)
     pyActivatorActivatorConditionalObject_Type.tp_new = pyActivatorActivatorConditionalObject_new;
     pyActivatorActivatorConditionalObject_Type.tp_base = &pyActivatorConditionalObject_Type;
     if (PyType_CheckAndReady(&pyActivatorActivatorConditionalObject_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyActivatorActivatorConditionalObject_Type);
     return (PyObject*)&pyActivatorActivatorConditionalObject_Type;

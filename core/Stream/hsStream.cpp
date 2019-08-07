@@ -339,7 +339,7 @@ void hsStream::writeLine(const ST::string& ln, bool winEOL)
 bool hsFileStream::FileExists(const ST::string& file)
 {
     FILE* eFile = fopen(file.c_str(), "rb");
-    bool exist = (eFile != NULL);
+    bool exist = (eFile != nullptr);
     if (exist)
         fclose(eFile);
     return exist;
@@ -366,7 +366,7 @@ bool hsFileStream::open(const ST::string& file, FileMode mode)
     }
 
     F = fopen(file.c_str(), fms);
-    if (F != NULL) {
+    if (F) {
         fm = mode;
         return true;
     } else if (mode == fmRead || mode == fmReadWrite) {
@@ -377,14 +377,14 @@ bool hsFileStream::open(const ST::string& file, FileMode mode)
 
 void hsFileStream::close()
 {
-    if (F != NULL)
+    if (F)
         fclose(F);
-    F = NULL;
+    F = nullptr;
 }
 
 uint32_t hsFileStream::size() const
 {
-    if (F == NULL)
+    if (F == nullptr)
         return 0;
     unsigned int p = ftell(F);
     fseek(F, 0, SEEK_END);
@@ -395,14 +395,14 @@ uint32_t hsFileStream::size() const
 
 uint32_t hsFileStream::pos() const
 {
-    if (F == NULL)
+    if (F == nullptr)
         return 0;
     return ftell(F);
 }
 
 bool hsFileStream::eof() const
 {
-    if (F == NULL)
+    if (F == nullptr)
         return true;
     int c = fgetc(F);
     ungetc(c, F);
@@ -411,42 +411,42 @@ bool hsFileStream::eof() const
 
 void hsFileStream::seek(uint32_t pos)
 {
-    if (F == NULL)
+    if (F == nullptr)
         return;
     fseek(F, pos, SEEK_SET);
 }
 
 void hsFileStream::skip(int32_t count)
 {
-    if (F == NULL)
+    if (F == nullptr)
         return;
     fseek(F, count, SEEK_CUR);
 }
 
 void hsFileStream::fastForward()
 {
-    if (F == NULL)
+    if (F == nullptr)
         return;
     fseek(F, 0, SEEK_END);
 }
 
 void hsFileStream::rewind()
 {
-    if (F == NULL)
+    if (F == nullptr)
         return;
     fseek(F, 0, SEEK_SET);
 }
 
 void hsFileStream::flush()
 {
-    if (F == NULL)
+    if (F == nullptr)
         return;
     fflush(F);
 }
 
 size_t hsFileStream::read(size_t size, void* buf)
 {
-    if (F == NULL || fm == fmWrite || fm == fmCreate)
+    if (F == nullptr || fm == fmWrite || fm == fmCreate)
         throw hsFileReadException(__FILE__, __LINE__);
     size_t nread = fread(buf, 1, size, F);
     if (nread != size) {
@@ -459,14 +459,14 @@ size_t hsFileStream::read(size_t size, void* buf)
 
 size_t hsFileStream::write(size_t size, const void* buf)
 {
-    if (F == NULL || fm == fmRead)
+    if (F == nullptr || fm == fmRead)
         throw hsFileWriteException(__FILE__, __LINE__);
     return fwrite(buf, 1, size, F);
 }
 
 time_t hsFileStream::getModTime() const
 {
-    if (F == NULL)
+    if (F == nullptr)
         return 0;
 
     struct stat stbuf;

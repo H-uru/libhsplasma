@@ -41,11 +41,11 @@ PY_METHOD_VA(KeyedObject, orderAfter,
     pyKeyedObject* other;
     if (!PyArg_ParseTuple(args, "O", &other)) {
         PyErr_SetString(PyExc_TypeError, "orderAfter expects a hsKeyedObject");
-        return NULL;
+        return nullptr;
     }
     if (!pyKeyedObject_Check((PyObject*)other)) {
         PyErr_SetString(PyExc_TypeError, "orderAfter expects a hsKeyedObject");
-        return NULL;
+        return nullptr;
     }
     return pyPlasma_convert(self->fThis->orderAfter(other->fThis));
 }
@@ -81,7 +81,7 @@ PY_PLASMA_TYPE_INIT(KeyedObject)
     pyKeyedObject_Type.tp_getset = pyKeyedObject_GetSet;
     pyKeyedObject_Type.tp_base = &pyCreatable_Type;
     if (PyType_CheckAndReady(&pyKeyedObject_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyKeyedObject_Type);
     return (PyObject*)&pyKeyedObject_Type;

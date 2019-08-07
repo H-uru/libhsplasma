@@ -26,7 +26,7 @@ plIcicle::plIcicle(const plIcicle& init)
         for (size_t i=0; i<(fILength / 3); i++)
             fSortData[i] = init.fSortData[i];
     } else {
-        fSortData = NULL;
+        fSortData = nullptr;
     }
 }
 
@@ -49,7 +49,7 @@ void plIcicle::read(hsStream* S)
         for (size_t i=0; i<(fILength / 3); i++)
             fSortData[i].read(S);
     } else {
-        fSortData = NULL;
+        fSortData = nullptr;
     }
 }
 
@@ -107,9 +107,9 @@ void plIcicle::IPrcParse(const pfPrcTag* tag)
 void plIcicle::setSortData(const plGBufferTriangle* data)
 {
     delete[] fSortData;
-    if (data == NULL) {
+    if (data == nullptr) {
         fProps &= ~kPropFacesSortable;
-        fSortData = NULL;
+        fSortData = nullptr;
     } else {
         fProps |= kPropFacesSortable;
         fSortData = new plGBufferTriangle[fILength / 3];

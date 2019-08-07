@@ -33,7 +33,7 @@ PY_METHOD_VA(ParticleSystem, allocEmitters,
     int count;
     if (!PyArg_ParseTuple(args, "i", &count)) {
         PyErr_SetString(PyExc_TypeError, "allocEmitters expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->allocEmitters(count);
     Py_RETURN_NONE;
@@ -46,7 +46,7 @@ PY_METHOD_VA(ParticleSystem, getEmitter,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "getEmitter expects an int");
-        return NULL;
+        return nullptr;
     }
     return ICreate(self->fThis->getEmitter(idx));
 }
@@ -59,11 +59,11 @@ PY_METHOD_VA(ParticleSystem, setEmitter,
     PyObject* emitter;
     if (!PyArg_ParseTuple(args, "iO", &idx, &emitter)) {
         PyErr_SetString(PyExc_TypeError, "setEmitter expects int, plParticleEmitter");
-        return NULL;
+        return nullptr;
     }
     if (!pyParticleEmitter_Check(emitter)) {
         PyErr_SetString(PyExc_TypeError, "setEmitter expects int, plParticleEmitter");
-        return NULL;
+        return nullptr;
     }
     self->fThis->setEmitter(idx, ((pyParticleEmitter*)emitter)->fThis);
     ((pyParticleEmitter*)emitter)->fPyOwned = false;
@@ -84,11 +84,11 @@ PY_METHOD_VA(ParticleSystem, addEmitter,
     PyObject* emitter;
     if (!PyArg_ParseTuple(args, "O", &emitter)) {
         PyErr_SetString(PyExc_TypeError, "addEmitter expects a plParticleEmitter");
-        return NULL;
+        return nullptr;
     }
     if (!pyParticleEmitter_Check(emitter)) {
         PyErr_SetString(PyExc_TypeError, "addEmitter expects a plParticleEmitter");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addEmitter(((pyParticleEmitter*)emitter)->fThis);
     ((pyParticleEmitter*)emitter)->fPyOwned = false;
@@ -102,7 +102,7 @@ PY_METHOD_VA(ParticleSystem, delEmitter,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delEmitter expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delEmitter(idx);
     Py_RETURN_NONE;
@@ -122,11 +122,11 @@ PY_METHOD_VA(ParticleSystem, addForce,
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addForce expects a plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addForce expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addForce(*key->fThis);
     Py_RETURN_NONE;
@@ -139,7 +139,7 @@ PY_METHOD_VA(ParticleSystem, delForce,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delForce expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delForce(idx);
     Py_RETURN_NONE;
@@ -159,11 +159,11 @@ PY_METHOD_VA(ParticleSystem, addEffect,
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addEffect expects a plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addEffect expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addEffect(*key->fThis);
     Py_RETURN_NONE;
@@ -176,7 +176,7 @@ PY_METHOD_VA(ParticleSystem, delEffect,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delEffect expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delEffect(idx);
     Py_RETURN_NONE;
@@ -196,11 +196,11 @@ PY_METHOD_VA(ParticleSystem, addConstraint,
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addConstraint expects a plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addConstraint expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addConstraint(*key->fThis);
     Py_RETURN_NONE;
@@ -213,7 +213,7 @@ PY_METHOD_VA(ParticleSystem, delConstraint,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delConstraint expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delConstraint(idx);
     Py_RETURN_NONE;
@@ -233,11 +233,11 @@ PY_METHOD_VA(ParticleSystem, addPermaLight,
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addPermaLight expects a plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addPermaLight expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addPermaLight(*key->fThis);
     Py_RETURN_NONE;
@@ -250,7 +250,7 @@ PY_METHOD_VA(ParticleSystem, delPermaLight,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delPermaLight expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delPermaLight(idx);
     Py_RETURN_NONE;
@@ -465,7 +465,7 @@ PY_PLASMA_TYPE_INIT(ParticleSystem)
     pyParticleSystem_Type.tp_getset = pyParticleSystem_GetSet;
     pyParticleSystem_Type.tp_base = &pyModifier_Type;
     if (PyType_CheckAndReady(&pyParticleSystem_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(ParticleSystem, "kEffectForce", plParticleSystem::kEffectForce);
     PY_TYPE_ADD_CONST(ParticleSystem, "kEffectMisc", plParticleSystem::kEffectMisc);

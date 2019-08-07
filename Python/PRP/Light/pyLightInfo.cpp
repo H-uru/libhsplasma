@@ -38,7 +38,7 @@ PY_METHOD_VA(LightInfo, addVisRegion,
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key) || !pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addVisRegion expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addVisRegion(*key->fThis);
     Py_RETURN_NONE;
@@ -96,7 +96,7 @@ PY_PLASMA_TYPE_INIT(LightInfo)
     pyLightInfo_Type.tp_getset = pyLightInfo_GetSet;
     pyLightInfo_Type.tp_base = &pyObjInterface_Type;
     if (PyType_CheckAndReady(&pyLightInfo_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(LightInfo, "kLPObsolete", plLightInfo::kLPObsolete);
     PY_TYPE_ADD_CONST(LightInfo, "kLPCastShadows", plLightInfo::kLPCastShadows);

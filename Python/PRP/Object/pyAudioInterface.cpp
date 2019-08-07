@@ -37,7 +37,7 @@ PY_PLASMA_TYPE_INIT(AudioInterface)
     pyAudioInterface_Type.tp_getset = pyAudioInterface_GetSet;
     pyAudioInterface_Type.tp_base = &pyObjInterface_Type;
     if (PyType_CheckAndReady(&pyAudioInterface_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyAudioInterface_Type);
     return (PyObject*)&pyAudioInterface_Type;

@@ -78,7 +78,7 @@ const pnNetMsg* GET_Cli2Game(uint32_t msgId)
         &Cli2Game_PropagateBuffer,
         &Cli2Game_GameMgrMsg,
     };
-    return (msgId < kCli2Game_LastMessage ? s_messages[msgId] : NULL);
+    return (msgId < kCli2Game_LastMessage ? s_messages[msgId] : nullptr);
 }
 
 const pnNetMsg* GET_Game2Cli(uint32_t msgId)
@@ -89,5 +89,5 @@ const pnNetMsg* GET_Game2Cli(uint32_t msgId)
         &Game2Cli_PropagateBuffer,
         &Game2Cli_GameMgrMsg,
     };
-    return (msgId < kGame2Cli_LastMessage ? s_messages[msgId] : NULL);
+    return (msgId < kGame2Cli_LastMessage ? s_messages[msgId] : nullptr);
 }

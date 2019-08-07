@@ -37,7 +37,7 @@ PY_PLASMA_TYPE_INIT(QuatChannel)
     pyQuatChannel_Type.tp_getset = pyQuatChannel_GetSet;
     pyQuatChannel_Type.tp_base = &pyAGChannel_Type;
     if (PyType_CheckAndReady(&pyQuatChannel_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyQuatChannel_Type);
     return (PyObject*)&pyQuatChannel_Type;

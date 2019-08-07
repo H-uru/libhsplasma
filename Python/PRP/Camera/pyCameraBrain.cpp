@@ -34,7 +34,7 @@ PY_PLASMA_TYPE_INIT(CameraBrain)
     pyCameraBrain_Type.tp_new = pyCameraBrain_new;
     pyCameraBrain_Type.tp_base = &pyKeyedObject_Type;
     if (PyType_CheckAndReady(&pyCameraBrain_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyCameraBrain_Type);
     return (PyObject*)&pyCameraBrain_Type;
@@ -52,7 +52,7 @@ PY_METHOD_VA(CameraBrain1, getFlags, "Params: flag")
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "getFlag expects an int");
-        return NULL;
+        return nullptr;
     }
     return pyPlasma_convert(self->fThis->getFlags().get((size_t)idx));
 }
@@ -62,7 +62,7 @@ PY_METHOD_VA(CameraBrain1, getEoAFlags, "Params: flag")
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "getEoAFlags expects an int");
-        return NULL;
+        return nullptr;
     }
     return pyPlasma_convert(self->fThis->getEoAFlags().get((size_t)idx));
 }
@@ -72,7 +72,7 @@ PY_METHOD_VA(CameraBrain1, setFlags, "Params: flag, value")
     Py_ssize_t idx, value;
     if (!PyArg_ParseTuple(args, "nn", &idx, &value)) {
         PyErr_SetString(PyExc_TypeError, "setFlags expects int, bool");
-        return NULL;
+        return nullptr;
     }
     self->fThis->getFlags().set(idx, value != 0);
     Py_RETURN_NONE;
@@ -83,7 +83,7 @@ PY_METHOD_VA(CameraBrain1, setEoAFlags, "Params: flag, value")
     Py_ssize_t idx, value;
     if (!PyArg_ParseTuple(args, "nn", &idx, &value)) {
         PyErr_SetString(PyExc_TypeError, "setEoAFlags expects int, bool");
-        return NULL;
+        return nullptr;
     }
     self->fThis->getEoAFlags().set(idx, value != 0);
     Py_RETURN_NONE;
@@ -142,7 +142,7 @@ PY_PLASMA_TYPE_INIT(CameraBrain1)
     pyCameraBrain1_Type.tp_getset = pyCameraBrain1_GetSet;
     pyCameraBrain1_Type.tp_base = &pyCameraBrain_Type;
     if (PyType_CheckAndReady(&pyCameraBrain1_Type) < 0)
-        return NULL;
+        return nullptr;
 
     /* Konstants */
     PY_TYPE_ADD_CONST(CameraBrain1, "kCutPos", plCameraBrain1::kCutPos);
@@ -197,7 +197,7 @@ PY_PLASMA_TYPE_INIT(CameraBrain1_Avatar)
     pyCameraBrain1_Avatar_Type.tp_getset = pyCameraBrain1_Avatar_GetSet;
     pyCameraBrain1_Avatar_Type.tp_base = &pyCameraBrain1_Type;
     if (PyType_CheckAndReady(&pyCameraBrain1_Avatar_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyCameraBrain1_Avatar_Type);
     return (PyObject*)&pyCameraBrain1_Avatar_Type;
@@ -217,7 +217,7 @@ PY_PLASMA_TYPE_INIT(CameraBrain1_FirstPerson)
     pyCameraBrain1_FirstPerson_Type.tp_new = pyCameraBrain1_FirstPerson_new;
     pyCameraBrain1_FirstPerson_Type.tp_base = &pyCameraBrain1_Avatar_Type;
     if (PyType_CheckAndReady(&pyCameraBrain1_FirstPerson_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyCameraBrain1_FirstPerson_Type);
     return (PyObject*)&pyCameraBrain1_FirstPerson_Type;
@@ -244,7 +244,7 @@ PY_PLASMA_TYPE_INIT(CameraBrain1_Fixed)
     pyCameraBrain1_Fixed_Type.tp_getset = pyCameraBrain1_Fixed_GetSet;
     pyCameraBrain1_Fixed_Type.tp_base = &pyCameraBrain1_Type;
     if (PyType_CheckAndReady(&pyCameraBrain1_Fixed_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyCameraBrain1_Fixed_Type);
     return (PyObject*)&pyCameraBrain1_Fixed_Type;
@@ -281,7 +281,7 @@ PY_PLASMA_TYPE_INIT(CameraBrain1_Circle)
     pyCameraBrain1_Circle_Type.tp_getset = pyCameraBrain1_Circle_GetSet;
     pyCameraBrain1_Circle_Type.tp_base = &pyCameraBrain1_Fixed_Type;
     if (PyType_CheckAndReady(&pyCameraBrain1_Circle_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(CameraBrain1_Circle, "kLagged", plCameraBrain1_Circle::kLagged);
     PY_TYPE_ADD_CONST(CameraBrain1_Circle, "kAbsoluteLag", plCameraBrain1_Circle::kAbsoluteLag);

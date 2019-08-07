@@ -30,7 +30,7 @@ PY_METHOD_VA(DetectorModifier, addReceiver,
     PyObject* receiver;
     if (!(PyArg_ParseTuple(args, "O", &receiver) && pyKey_Check(receiver))) {
         PyErr_SetString(PyExc_TypeError, "addReceiver expects a plKey");
-        return NULL;
+        return nullptr;
     }
 
     self->fThis->addReceiver(pyPlasma_get<plKey>(receiver));
@@ -51,7 +51,7 @@ PY_METHOD_VA(DetectorModifier, delReceiver,
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delReceiver expects an int");
-        return NULL;
+        return nullptr;
     }
 
     self->fThis->delReceiver((size_t)idx);
@@ -96,7 +96,7 @@ PY_PLASMA_TYPE_INIT(DetectorModifier)
     pyDetectorModifier_Type.tp_getset = pyDetectorModifier_GetSet;
     pyDetectorModifier_Type.tp_base = &pySingleModifier_Type;
     if (PyType_CheckAndReady(&pyDetectorModifier_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyDetectorModifier_Type);
     return (PyObject*)&pyDetectorModifier_Type;

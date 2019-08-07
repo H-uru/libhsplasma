@@ -38,11 +38,11 @@ PY_METHOD_STATIC_VA(EventData, Read,
     pyResManager* mgr;
     if (!PyArg_ParseTuple(args, "OO", &stream, &mgr)) {
         PyErr_SetString(PyExc_TypeError, "Read expects hsStream, plResManager");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream) || !pyResManager_Check((PyObject*)mgr)) {
         PyErr_SetString(PyExc_TypeError, "Read expects hsStream, plResManager");
-        return NULL;
+        return nullptr;
     }
     proEventData* evt = proEventData::Read(stream->fThis, mgr->fThis);
     PyObject* pyEvt = pyEventData_FromEventData(evt);
@@ -58,11 +58,11 @@ PY_METHOD_VA(EventData, write,
     pyResManager* mgr;
     if (!PyArg_ParseTuple(args, "OO", &stream, &mgr)) {
         PyErr_SetString(PyExc_TypeError, "write expects hsStream, plResManager");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream) || !pyResManager_Check((PyObject*)mgr)) {
         PyErr_SetString(PyExc_TypeError, "write expects hsStream, plResManager");
-        return NULL;
+        return nullptr;
     }
     self->fThis->write(stream->fThis, mgr->fThis);
     Py_RETURN_NONE;
@@ -84,7 +84,7 @@ PY_PLASMA_TYPE_INIT(EventData)
     pyEventData_Type.tp_new = pyEventData_new;
     pyEventData_Type.tp_methods = pyEventData_Methods;
     if (PyType_CheckAndReady(&pyEventData_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(EventData, "kCollision", proEventData::kCollision);
     PY_TYPE_ADD_CONST(EventData, "kPicked", proEventData::kPicked);

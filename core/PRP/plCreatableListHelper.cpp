@@ -104,7 +104,7 @@ void plCreatableListHelper::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
 
         clearCreatables();
         const pfPrcTag* child = tag->getFirstChild();
-        while (child != NULL) {
+        while (child) {
             if (child->getName() != "Creatable")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             uint16_t id = child->getParam("id", "0").to_uint();

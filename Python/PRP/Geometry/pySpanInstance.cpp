@@ -34,11 +34,11 @@ PY_METHOD_VA(SpanInstance, read,
     int numVerts;
     if (!PyArg_ParseTuple(args, "OOi", &stream, &encoding, &numVerts)) {
         PyErr_SetString(PyExc_TypeError, "read expects hsStream, plSpanEncoding, int");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream) || !pySpanEncoding_Check((PyObject*)encoding)) {
         PyErr_SetString(PyExc_TypeError, "read expects hsStream, plSpanEncoding, int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->read(stream->fThis, *encoding->fThis, numVerts);
     Py_RETURN_NONE;
@@ -51,11 +51,11 @@ PY_METHOD_VA(SpanInstance, write,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->write(stream->fThis);
     Py_RETURN_NONE;
@@ -150,7 +150,7 @@ PY_PLASMA_TYPE_INIT(SpanInstance)
     pySpanInstance_Type.tp_methods = pySpanInstance_Methods;
     pySpanInstance_Type.tp_getset = pySpanInstance_GetSet;
     if (PyType_CheckAndReady(&pySpanInstance_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pySpanInstance_Type);
     return (PyObject*)&pySpanInstance_Type;

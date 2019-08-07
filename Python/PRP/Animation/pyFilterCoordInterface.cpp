@@ -41,7 +41,7 @@ PY_PLASMA_TYPE_INIT(FilterCoordInterface)
     pyFilterCoordInterface_Type.tp_getset = pyFilterCoordInterface_GetSet;
     pyFilterCoordInterface_Type.tp_base = &pyCoordinateInterface_Type;
     if (PyType_CheckAndReady(&pyFilterCoordInterface_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(FilterCoordInterface, "kNoRotation", plFilterCoordInterface::kNoRotation);
     PY_TYPE_ADD_CONST(FilterCoordInterface, "kNoTransX", plFilterCoordInterface::kNoTransX);

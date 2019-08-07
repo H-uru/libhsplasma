@@ -166,7 +166,7 @@ void plDynaDecalMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         fLifeSpan = tag->getParam("LifeSpan", "0").to_float();
 
         const pfPrcTag* child = tag->getFirstChild();
-        while (child != NULL) {
+        while (child) {
             if (child->getName() == "GridSize") {
                 fGridSizeU = child->getParam("U", "0").to_float();
                 fGridSizeV = child->getParam("V", "0").to_float();

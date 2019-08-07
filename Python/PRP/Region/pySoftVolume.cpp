@@ -41,7 +41,7 @@ PY_PLASMA_TYPE_INIT(SoftVolume)
     pySoftVolume_Type.tp_getset = pySoftVolume_GetSet;
     pySoftVolume_Type.tp_base = &pyObjInterface_Type;
     if (PyType_CheckAndReady(&pySoftVolume_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(SoftVolume, "kListenNone", plSoftVolume::kListenNone);
     PY_TYPE_ADD_CONST(SoftVolume, "kListenCheck", plSoftVolume::kListenCheck);

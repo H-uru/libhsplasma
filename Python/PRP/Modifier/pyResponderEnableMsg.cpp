@@ -37,7 +37,7 @@ PY_PLASMA_TYPE_INIT(ResponderEnableMsg)
     pyResponderEnableMsg_Type.tp_getset = pyResponderEnableMsg_GetSet;
     pyResponderEnableMsg_Type.tp_base = &pyMessage_Type;
     if (PyType_CheckAndReady(&pyResponderEnableMsg_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyResponderEnableMsg_Type);
     return (PyObject*)&pyResponderEnableMsg_Type;

@@ -43,7 +43,7 @@ PY_PLASMA_TYPE_INIT(VariableEventData)
     pyVariableEventData_Type.tp_getset = pyVariableEventData_GetSet;
     pyVariableEventData_Type.tp_base = &pyEventData_Type;
     if (PyType_CheckAndReady(&pyVariableEventData_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyVariableEventData_Type);
     return (PyObject*)&pyVariableEventData_Type;

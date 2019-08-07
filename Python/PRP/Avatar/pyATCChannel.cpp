@@ -28,7 +28,7 @@ PY_PLASMA_TYPE_INIT(ATCChannel)
     pyATCChannel_Type.tp_new = pyATCChannel_new;
     pyATCChannel_Type.tp_base = &pyScalarChannel_Type;
     if (PyType_CheckAndReady(&pyATCChannel_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyATCChannel_Type);
     return (PyObject*)&pyATCChannel_Type;

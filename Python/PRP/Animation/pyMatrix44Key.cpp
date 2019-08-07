@@ -38,7 +38,7 @@ PY_PLASMA_TYPE_INIT(Matrix44Key)
     pyMatrix44Key_Type.tp_getset = pyMatrix44Key_GetSet;
     pyMatrix44Key_Type.tp_base = &pyKeyFrame_Type;
     if (PyType_CheckAndReady(&pyMatrix44Key_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyMatrix44Key_Type);
     return (PyObject*)&pyMatrix44Key_Type;

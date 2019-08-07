@@ -38,7 +38,7 @@ PY_PLASMA_TYPE_INIT(GUIUpDownPairMod)
     pyGUIUpDownPairMod_Type.tp_getset = pyGUIUpDownPairMod_GetSet;
     pyGUIUpDownPairMod_Type.tp_base = &pyGUIValueCtrl_Type;
     if (PyType_CheckAndReady(&pyGUIUpDownPairMod_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyGUIUpDownPairMod_Type);
     return (PyObject*)&pyGUIUpDownPairMod_Type;

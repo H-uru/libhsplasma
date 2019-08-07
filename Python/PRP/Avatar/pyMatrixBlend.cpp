@@ -28,7 +28,7 @@ PY_PLASMA_TYPE_INIT(MatrixBlend)
     pyMatrixBlend_Type.tp_new = pyMatrixBlend_new;
     pyMatrixBlend_Type.tp_base = &pyMatrixChannel_Type;
     if (PyType_CheckAndReady(&pyMatrixBlend_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyMatrixBlend_Type);
     return (PyObject*)&pyMatrixBlend_Type;

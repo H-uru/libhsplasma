@@ -28,7 +28,7 @@ PY_PLASMA_TYPE_INIT(PointTimeScale)
     pyPointTimeScale_Type.tp_new = pyPointTimeScale_new;
     pyPointTimeScale_Type.tp_base = &pyPointChannel_Type;
     if (PyType_CheckAndReady(&pyPointTimeScale_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyPointTimeScale_Type);
     return (PyObject*)&pyPointTimeScale_Type;

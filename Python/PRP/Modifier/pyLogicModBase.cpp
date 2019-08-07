@@ -38,11 +38,11 @@ PY_METHOD_VA(LogicModBase, addCommand,
     pyMessage* msg;
     if (!PyArg_ParseTuple(args, "O", &msg)) {
         PyErr_SetString(PyExc_TypeError, "addCommand expects a plMessage");
-        return NULL;
+        return nullptr;
     }
     if (!pyMessage_Check((PyObject*)msg)) {
         PyErr_SetString(PyExc_TypeError, "addCommand expects a plMessage");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addCommand(msg->fThis);
     msg->fPyOwned = false;
@@ -56,7 +56,7 @@ PY_METHOD_VA(LogicModBase, delCommand,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delCommand expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delCommand(idx);
     Py_RETURN_NONE;
@@ -69,7 +69,7 @@ PY_METHOD_VA(LogicModBase, getLogicFlag,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "getLogicFlag expects an int");
-        return NULL;
+        return nullptr;
     }
     return pyPlasma_convert(self->fThis->getLogicFlag(idx));
 }
@@ -81,7 +81,7 @@ PY_METHOD_VA(LogicModBase, setLogicFlag,
     int idx, value;
     if (!PyArg_ParseTuple(args, "ii", &idx, &value)) {
         PyErr_SetString(PyExc_TypeError, "setLogicFlag expects int, bool");
-        return NULL;
+        return nullptr;
     }
     self->fThis->setLogicFlag(idx, value != 0);
     Py_RETURN_NONE;
@@ -127,7 +127,7 @@ PY_PLASMA_TYPE_INIT(LogicModBase)
     pyLogicModBase_Type.tp_getset = pyLogicModBase_GetSet;
     pyLogicModBase_Type.tp_base = &pySingleModifier_Type;
     if (PyType_CheckAndReady(&pyLogicModBase_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(LogicModBase, "kLocalElement", plLogicModBase::kLocalElement);
     PY_TYPE_ADD_CONST(LogicModBase, "kReset", plLogicModBase::kReset);

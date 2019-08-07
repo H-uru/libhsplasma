@@ -30,8 +30,8 @@ PY_METHOD_KWARGS(Color32, set,
     int red = 0, green = 0, blue = 0, alpha = 255, color = 0xFF000000;
 
     static char* kwlist1[] = { _pycs("red"), _pycs("green"), _pycs("blue"),
-                               _pycs("alpha"), NULL };
-    static char* kwlist2[] = { _pycs("color"), NULL };
+                               _pycs("alpha"), nullptr };
+    static char* kwlist2[] = { _pycs("color"), nullptr };
 
     if (PyArg_ParseTupleAndKeywords(args, kwds, "I", kwlist2, &color)) {
         self->fThis->color = color;
@@ -43,7 +43,7 @@ PY_METHOD_KWARGS(Color32, set,
         self->fThis->a = alpha;
     } else {
         PyErr_SetString(PyExc_TypeError, "set expects 0-4 ints");
-        return NULL;
+        return nullptr;
     }
 
     Py_RETURN_NONE;
@@ -52,7 +52,7 @@ PY_METHOD_KWARGS(Color32, set,
 PY_PLASMA_INIT_DECL(Color32)
 {
     PyObject* retn = pyColor32_set(self, args, kwds);
-    if (retn == NULL)
+    if (retn == nullptr)
         return -1;
     Py_DECREF(retn);
     return 0;
@@ -74,11 +74,11 @@ PY_METHOD_VA(Color32, read32,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read32 expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "read32 expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->read32(stream->fThis);
     Py_RETURN_NONE;
@@ -91,11 +91,11 @@ PY_METHOD_VA(Color32, write32,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write32 expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "write32 expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->write32(stream->fThis);
     Py_RETURN_NONE;
@@ -108,11 +108,11 @@ PY_METHOD_VA(Color32, readRGBA8,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "readRGBA8 expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "readRGBA8 expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->readRGBA8(stream->fThis);
     Py_RETURN_NONE;
@@ -125,11 +125,11 @@ PY_METHOD_VA(Color32, writeRGBA8,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "writeRGBA8 expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "writeRGBA8 expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->writeRGBA8(stream->fThis);
     Py_RETURN_NONE;
@@ -142,11 +142,11 @@ PY_METHOD_VA(Color32, readRGB8,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "readRGB8 expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "readRGB8 expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->readRGB8(stream->fThis);
     Py_RETURN_NONE;
@@ -159,11 +159,11 @@ PY_METHOD_VA(Color32, writeRGB8,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "writeRGB8 expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "writeRGB8 expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->writeRGB8(stream->fThis);
     Py_RETURN_NONE;
@@ -206,7 +206,7 @@ PY_PLASMA_TYPE_INIT(Color32)
     pyColor32_Type.tp_methods = pyColor32_Methods;
     pyColor32_Type.tp_getset = pyColor32_GetSet;
     if (PyType_CheckAndReady(&pyColor32_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyColor32_Type);
     return (PyObject*)&pyColor32_Type;

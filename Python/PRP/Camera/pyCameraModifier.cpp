@@ -59,7 +59,7 @@ PY_PLASMA_TYPE_INIT(CamTrans)
     pyCamTrans_Type.tp_new = pyCamTrans_new;
     pyCamTrans_Type.tp_getset = pyCamTrans_GetSet;
     if (PyType_CheckAndReady(&pyCamTrans_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyCamTrans_Type);
     return (PyObject*)&pyCamTrans_Type;
@@ -76,7 +76,7 @@ PY_METHOD_VA(CameraModifier, addTrans, "Params: trans")
     pyCamTrans* trans;
     if (!PyArg_ParseTuple(args, "O", &trans) || !pyCamTrans_Check((PyObject*)trans)) {
         PyErr_SetString(PyExc_TypeError, "addTrans expects a plCameraModifier.CamTrans");
-        return NULL;
+        return nullptr;
     }
     trans->fPyOwned = false;
     self->fThis->addTrans(trans->fThis);
@@ -88,14 +88,14 @@ PY_METHOD_VA(CameraModifier, delTrans, "Params: idx")
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delTrans expects an int");
-        return NULL;
+        return nullptr;
     }
     if ((size_t)idx < self->fThis->getTrans().size()) {
         self->fThis->delTrans(idx);
         Py_RETURN_NONE;
     } else {
         PyErr_SetNone(PyExc_IndexError);
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -111,9 +111,9 @@ PY_METHOD_VA(CameraModifier, addMessage, "Params: message, sender")
     pyKey* sender;
     if (!PyArg_ParseTuple(args, "O|O", &message, &sender) ||
             !pyMessage_Check((PyObject*)message) ||
-            !(sender == NULL || pyKey_Check((PyObject*)sender))) {
+            !(sender == nullptr || pyKey_Check((PyObject*)sender))) {
         PyErr_SetString(PyExc_TypeError, "addMessage expects a plMessage and an optional plKey");
-        return NULL;
+        return nullptr;
     }
     message->fPyOwned = false;
     self->fThis->addMessage(message->fThis, sender ? *sender->fThis : plKey());
@@ -125,14 +125,14 @@ PY_METHOD_VA(CameraModifier, delMessage, "Params: idx")
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delMessage expects an int");
-        return NULL;
+        return nullptr;
     }
     if ((size_t)idx < self->fThis->getMessageQueueSize()) {
         self->fThis->delMessage(idx);
         Py_RETURN_NONE;
     } else {
         PyErr_SetNone(PyExc_IndexError);
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -147,7 +147,7 @@ PY_METHOD_VA(CameraModifier, addFOVInstruction, "Params: msg")
     pyCameraMsg* msg;
     if (!PyArg_ParseTuple(args, "O", &msg) || !pyCameraMsg_Check((PyObject*)msg)) {
         PyErr_SetString(PyExc_TypeError, "addFOVInstruction expects a plCameraMsg");
-        return NULL;
+        return nullptr;
     }
     msg->fPyOwned = false;
     self->fThis->addFOVInstruction(msg->fThis);
@@ -159,14 +159,14 @@ PY_METHOD_VA(CameraModifier, delFOVInstruction, "Params: idx")
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delFOVInstruction expects an int");
-        return NULL;
+        return nullptr;
     }
     if ((size_t)idx < self->fThis->getFOVInstructions().size()) {
         self->fThis->delFOVInstruction(idx);
         Py_RETURN_NONE;
     } else {
         PyErr_SetNone(PyExc_IndexError);
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -260,7 +260,7 @@ PY_PLASMA_TYPE_INIT(CameraModifier)
     pyCameraModifier_Type.tp_getset = pyCameraModifier_GetSet;
     pyCameraModifier_Type.tp_base = &pySingleModifier_Type;
     if (PyType_CheckAndReady(&pyCameraModifier_Type) < 0)
-        return NULL;
+        return nullptr;
 
     /* CamTrans class */
     PyDict_SetItemString(pyCameraModifier_Type.tp_dict, "CamTrans",

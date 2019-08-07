@@ -39,7 +39,7 @@ PY_PLASMA_TYPE_INIT(FacingConditionalObject)
     pyFacingConditionalObject_Type.tp_getset = pyFacingConditionalObject_GetSet;
     pyFacingConditionalObject_Type.tp_base = &pyConditionalObject_Type;
     if (PyType_CheckAndReady(&pyFacingConditionalObject_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyFacingConditionalObject_Type);
     return (PyObject*)&pyFacingConditionalObject_Type;

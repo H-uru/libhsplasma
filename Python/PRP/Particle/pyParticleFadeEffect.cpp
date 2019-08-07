@@ -39,7 +39,7 @@ PY_PLASMA_TYPE_INIT(ParticleFadeOutEffect)
     pyParticleFadeOutEffect_Type.tp_getset = pyParticleFadeOutEffect_GetSet;
     pyParticleFadeOutEffect_Type.tp_base = &pyParticleEffect_Type;
     if (PyType_CheckAndReady(&pyParticleFadeOutEffect_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyParticleFadeOutEffect_Type);
     return (PyObject*)&pyParticleFadeOutEffect_Type;
@@ -69,7 +69,7 @@ PY_PLASMA_TYPE_INIT(ParticleFadeVolumeEffect)
     pyParticleFadeVolumeEffect_Type.tp_getset = pyParticleFadeVolumeEffect_GetSet;
     pyParticleFadeVolumeEffect_Type.tp_base = &pyParticleEffect_Type;
     if (PyType_CheckAndReady(&pyParticleFadeVolumeEffect_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyParticleFadeVolumeEffect_Type);
     return (PyObject*)&pyParticleFadeVolumeEffect_Type;

@@ -141,7 +141,7 @@ void plResManager::PrcWriteKey(pfPrcHelper* prc, hsKeyedObject* ko)
 hsKeyedObject* plResManager::getObject(plKey key) {
     plKey fk = keys.findKey(key);
     if (!fk.Exists())
-        return NULL;
+        return nullptr;
     return fk->getObj();
 }
 
@@ -214,9 +214,9 @@ plPageInfo* plResManager::ReadPagePrc(const pfPrcTag* root)
     page->prcParse(root);
 
     const pfPrcTag* tag = root->getFirstChild();
-    while (tag != NULL) {
+    while (tag) {
         hsKeyedObject* ko = hsKeyedObject::Convert(prcParseCreatable(tag));
-        if (ko != NULL)
+        if (ko)
             ko->getKey()->setObj(ko);
         tag = tag->getNextSibling();
     }
@@ -261,7 +261,7 @@ void plResManager::WritePagePrc(pfPrcHelper* prc, plPageInfo* page)
     for (unsigned int i=0; i<types.size(); i++) {
         std::vector<plKey> kList = keys.getKeys(page->getLocation(), types[i]);
         for (unsigned int j=0; j<kList.size(); j++) {
-            if (kList[j]->getObj() != NULL)
+            if (kList[j]->getObj())
                 kList[j]->getObj()->prcWrite(prc);
         }
     }
@@ -277,7 +277,7 @@ plPageInfo* plResManager::FindPage(const plLocation& loc)
             return *pi;
         pi++;
     }
-    return NULL;
+    return nullptr;
 }
 
 void plResManager::UnloadPage(const plLocation& loc)
@@ -287,7 +287,7 @@ void plResManager::UnloadPage(const plLocation& loc)
 
     for (auto it = pages.begin(); it != pages.end(); it++) {
         if ((*it)->getLocation() == loc) {
-            if (pageUnloadFunc !=  NULL)
+            if (pageUnloadFunc)
                 pageUnloadFunc(loc);
             delete *it;
             pages.erase(it);
@@ -345,7 +345,7 @@ plAgeInfo* plResManager::ReadAge(const ST::string& filename, bool readPages)
             }
         }
 
-        hsFileStream* S = NULL;
+        hsFileStream* S = nullptr;
         std::vector<plPageInfo*> agepages;
 
         for (size_t i=0; i<age->getNumCommonPages(ageVer); i++) {
@@ -437,7 +437,7 @@ plAgeInfo* plResManager::FindAge(const ST::string& name)
             return *ai;
         ai++;
     }
-    return NULL;
+    return nullptr;
 }
 
 void plResManager::UnloadAge(const ST::string& name)
@@ -446,7 +446,7 @@ void plResManager::UnloadAge(const ST::string& name)
     while (pi != pages.end()) {
         if ((*pi)->getAge() == name) {
             const plLocation& loc = (*pi)->getLocation();
-            if (pageUnloadFunc != NULL)
+            if (pageUnloadFunc)
                 pageUnloadFunc(loc);
             keys.delAll(loc);
             delete *pi;
@@ -541,8 +541,8 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc)
         totalKeys += kList.size();
     }
 
-    plPageInfo *page = 0;
-    if (progressFunc != NULL) {
+    plPageInfo *page = nullptr;
+    if (progressFunc) {
         for (size_t i = 0; i < pages.size(); ++i) {
             if (pages[i]->getLocation() == loc)
                 page = pages[i];
@@ -570,7 +570,7 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc)
             pfSizedStream *subStream = new pfSizedStream(S, len);
             try {
                 plCreatable* pCre = ReadCreatable(subStream, true, len);
-                if (pCre != NULL && pCre->isStub()) {
+                if (pCre && pCre->isStub()) {
                     plCreatableStub* stub = (plCreatableStub*)pCre;
                     hsKeyedObjectStub* ko = new hsKeyedObjectStub();
                     hsRAMStream RS(subStream->getVer());
@@ -581,7 +581,7 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc)
                 } else {
                     kList[j]->setObj(hsKeyedObject::Convert(pCre));
                 }
-                if (kList[j]->getObj() != NULL) {
+                if (kList[j]->getObj()) {
                     nRead++;
                     if (!subStream->eof()) {
                         plDebug::Warning("[{_04X}:{}] Size-Read difference: {} bytes left after reading",
@@ -609,7 +609,7 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc)
             delete subStream;
         }
 
-        if (progressFunc != NULL)
+        if (progressFunc)
             progressFunc(page, processedKeys, totalKeys);
     }
 
@@ -629,7 +629,7 @@ unsigned int plResManager::WriteObjects(hsStream* S, const plLocation& loc)
         for (unsigned int j=0; j<kList.size(); j++) {
             kList[j]->setFileOff(S->pos());
             kList[j]->setID(j + 1);
-            if (kList[j]->getObj() != NULL) {
+            if (kList[j]->getObj()) {
                 try {
 #ifdef RMTRACE
                     plDebug::Debug("  * ({}) Writing {} @ 0x{_08X}", j, kList[j].getName(),
@@ -649,7 +649,7 @@ unsigned int plResManager::WriteObjects(hsStream* S, const plLocation& loc)
                                    kList[j].toString());
                 }
             } else {
-                WriteCreatable(S, NULL);
+                WriteCreatable(S, nullptr);
                 plDebug::Warning("Object for {} does not exist", kList[j].toString());
             }
             kList[j]->setObjSize(S->pos() - kList[j]->getFileOff());
@@ -667,7 +667,7 @@ plCreatable* plResManager::ReadCreatable(hsStream* S, bool canStub, int stubLen)
         pCre->read(S, this);
     } else {
         pCre = plFactory::Create(type, S->getVer());
-        if (pCre != NULL) {
+        if (pCre) {
             pCre->read(S, this);
         } else if (type != 0x8000) {
             if (canStub) {
@@ -689,7 +689,7 @@ plCreatable* plResManager::ReadCreatable(hsStream* S, bool canStub, int stubLen)
 
 void plResManager::WriteCreatable(hsStream* S, plCreatable* pCre)
 {
-    if (pCre == NULL) {
+    if (pCre == nullptr) {
         S->writeShort(0x8000);
     } else {
         short classIdx = pCre->ClassIndex(S->getVer());
@@ -706,7 +706,7 @@ void plResManager::WriteCreatable(hsStream* S, plCreatable* pCre)
 
 plCreatable* plResManager::prcParseCreatable(const pfPrcTag* tag) {
     plCreatable* pCre = plFactory::Create(tag->getName().c_str());
-    if (pCre != NULL)
+    if (pCre)
         pCre->prcParse(tag, this);
     return pCre;
 }
@@ -714,8 +714,8 @@ plCreatable* plResManager::prcParseCreatable(const pfPrcTag* tag) {
 plSceneNode* plResManager::getSceneNode(const plLocation& loc)
 {
     std::vector<plKey> kList = keys.getKeys(loc, kSceneNode);
-    if (kList.size() < 1)
-        return NULL;
+    if (kList.empty())
+        return nullptr;
     return plSceneNode::Convert(kList[0]->getObj());
 }
 

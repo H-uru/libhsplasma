@@ -80,7 +80,7 @@ void plCameraModifier::CamTrans::prcParse(const pfPrcTag* tag, plResManager* mgr
     fPOADecel = tag->getParam("POADecel", "0").to_float();
 
     const pfPrcTag* child = tag->getFirstChild();
-    if (child != NULL) {
+    if (child) {
         if (child->getName() == "TransTo") {
             if (child->hasChildren())
                 fTransTo = mgr->prcParseKey(child->getFirstChild());

@@ -28,7 +28,7 @@ PY_PLASMA_TYPE_INIT(QuatBlend)
     pyQuatBlend_Type.tp_new = pyQuatBlend_new;
     pyQuatBlend_Type.tp_base = &pyQuatChannel_Type;
     if (PyType_CheckAndReady(&pyQuatBlend_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyQuatBlend_Type);
     return (PyObject*)&pyQuatBlend_Type;

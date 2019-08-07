@@ -43,7 +43,7 @@ PY_PLASMA_TYPE_INIT(PickedEventData)
     pyPickedEventData_Type.tp_getset = pyPickedEventData_GetSet;
     pyPickedEventData_Type.tp_base = &pyEventData_Type;
     if (PyType_CheckAndReady(&pyPickedEventData_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyPickedEventData_Type);
     return (PyObject*)&pyPickedEventData_Type;

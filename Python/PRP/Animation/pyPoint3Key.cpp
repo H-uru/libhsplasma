@@ -42,7 +42,7 @@ PY_PLASMA_TYPE_INIT(Point3Key)
     pyPoint3Key_Type.tp_getset = pyPoint3Key_GetSet;
     pyPoint3Key_Type.tp_base = &pyKeyFrame_Type;
     if (PyType_CheckAndReady(&pyPoint3Key_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyPoint3Key_Type);
     return (PyObject*)&pyPoint3Key_Type;

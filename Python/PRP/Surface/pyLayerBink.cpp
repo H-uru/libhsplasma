@@ -28,7 +28,7 @@ PY_PLASMA_TYPE_INIT(LayerBink)
     pyLayerBink_Type.tp_new = pyLayerBink_new;
     pyLayerBink_Type.tp_base = &pyLayerMovie_Type;
     if (PyType_CheckAndReady(&pyLayerBink_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyLayerBink_Type);
     return (PyObject*)&pyLayerBink_Type;

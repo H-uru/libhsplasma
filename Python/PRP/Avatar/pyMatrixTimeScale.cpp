@@ -28,7 +28,7 @@ PY_PLASMA_TYPE_INIT(MatrixTimeScale)
     pyMatrixTimeScale_Type.tp_new = pyMatrixTimeScale_new;
     pyMatrixTimeScale_Type.tp_base = &pyMatrixChannel_Type;
     if (PyType_CheckAndReady(&pyMatrixTimeScale_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyMatrixTimeScale_Type);
     return (PyObject*)&pyMatrixTimeScale_Type;

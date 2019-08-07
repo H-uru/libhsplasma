@@ -29,11 +29,11 @@ PY_METHOD_VA(ResponderModifier, addState,
     pyResponderModifier_State* state;
     if (!PyArg_ParseTuple(args, "O", &state)) {
         PyErr_SetString(PyExc_TypeError, "addState expects a plResponderModifier_State");
-        return NULL;
+        return nullptr;
     }
     if (!pyResponderModifier_State_Check((PyObject*)state)) {
         PyErr_SetString(PyExc_TypeError, "addState expects a plResponderModifier_State");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addState(state->fThis);
     state->fPyOwned = false;
@@ -47,7 +47,7 @@ PY_METHOD_VA(ResponderModifier, delState,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delState expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delState(idx);
     Py_RETURN_NONE;
@@ -98,7 +98,7 @@ PY_PLASMA_TYPE_INIT(ResponderModifier)
     pyResponderModifier_Type.tp_getset = pyResponderModifier_GetSet;
     pyResponderModifier_Type.tp_base = &pySingleModifier_Type;
     if (PyType_CheckAndReady(&pyResponderModifier_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(ResponderModifier, "kDetectTrigger",
                       plResponderModifier::kDetectTrigger);

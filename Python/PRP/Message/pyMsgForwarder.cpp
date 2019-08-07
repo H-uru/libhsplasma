@@ -37,11 +37,11 @@ PY_METHOD_VA(MsgForwarder, addForwardKey,
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addForwardKey expects a plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addForwardKey expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addForwardKey(*key->fThis);
     Py_RETURN_NONE;
@@ -54,7 +54,7 @@ PY_METHOD_VA(MsgForwarder, delForwardKey,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delForwardKey expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delForwardKey(idx);
     Py_RETURN_NONE;
@@ -92,7 +92,7 @@ PY_PLASMA_TYPE_INIT(MsgForwarder)
     pyMsgForwarder_Type.tp_getset = pyMsgForwarder_GetSet;
     pyMsgForwarder_Type.tp_base = &pyKeyedObject_Type;
     if (PyType_CheckAndReady(&pyMsgForwarder_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyMsgForwarder_Type);
     return (PyObject*)&pyMsgForwarder_Type;

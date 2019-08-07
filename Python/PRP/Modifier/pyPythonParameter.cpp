@@ -25,10 +25,10 @@ PY_PLASMA_VALUE_DEALLOC(PythonParameter)
 
 PY_PLASMA_INIT_DECL(PythonParameter)
 {
-    PyObject* init = NULL;
+    PyObject* init = nullptr;
 
     if (PyArg_ParseTuple(args, "|O", &init)) {
-        if (init == NULL) {
+        if (init == nullptr) {
             return 0;
         } else if (pyPythonParameter_Check(init)) {
             (*self->fThis) = *(((pyPythonParameter*)init)->fThis);
@@ -54,11 +54,11 @@ PY_METHOD_VA(PythonParameter, read,
     pyResManager* mgr;
     if (!PyArg_ParseTuple(args, "OO", &stream, &mgr)) {
         PyErr_SetString(PyExc_TypeError, "read expects hsStream, plResManager");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream) || !pyResManager_Check((PyObject*)mgr)) {
         PyErr_SetString(PyExc_TypeError, "read expects hsStream, plResManager");
-        return NULL;
+        return nullptr;
     }
     self->fThis->read(stream->fThis, mgr->fThis);
     Py_RETURN_NONE;
@@ -72,11 +72,11 @@ PY_METHOD_VA(PythonParameter, write,
     pyResManager* mgr;
     if (!PyArg_ParseTuple(args, "OO", &stream, &mgr)) {
         PyErr_SetString(PyExc_TypeError, "write expects hsStream, plResManager");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream) || !pyResManager_Check((PyObject*)mgr)) {
         PyErr_SetString(PyExc_TypeError, "write expects hsStream, plResManager");
-        return NULL;
+        return nullptr;
     }
     self->fThis->write(stream->fThis, mgr->fThis);
     Py_RETURN_NONE;
@@ -180,7 +180,7 @@ PY_PLASMA_TYPE_INIT(PythonParameter)
     pyPythonParameter_Type.tp_methods = pyPythonParameter_Methods;
     pyPythonParameter_Type.tp_getset = pyPythonParameter_GetSet;
     if (PyType_CheckAndReady(&pyPythonParameter_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(PythonParameter, "kInt", plPythonParameter::kInt);
     PY_TYPE_ADD_CONST(PythonParameter, "kFloat", plPythonParameter::kFloat);

@@ -28,7 +28,7 @@ PY_PLASMA_TYPE_INIT(2WayWinAudible)
     py2WayWinAudible_Type.tp_new = py2WayWinAudible_new;
     py2WayWinAudible_Type.tp_base = &pyWinAudible_Type;
     if (PyType_CheckAndReady(&py2WayWinAudible_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&py2WayWinAudible_Type);
     return (PyObject*)&py2WayWinAudible_Type;

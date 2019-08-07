@@ -147,7 +147,7 @@ int main(int argc, char* argv[])
                 std::vector<plKey> keys = rm.getKeys(page->getLocation(), objType);
                 bool found = false;
                 for (std::vector<plKey>::iterator it = keys.begin(); it != keys.end(); it++) {
-                    if ((*it)->getName() == objName && (*it)->getObj() != NULL) {
+                    if ((*it)->getName() == objName && (*it)->getObj() != nullptr) {
                         (*it)->getObj()->prcWrite(&prc);
                         found = true;
                         break;

@@ -202,7 +202,7 @@ void plDDSurface::write(hsStream* S)
     S->writeInt(fCaps4);
     S->writeInt(fTextureStage);
 
-    if (fDataBuffer != NULL)
+    if (fDataBuffer)
         S->write(fDataSize, fDataBuffer);
 }
 
@@ -290,7 +290,7 @@ plMipmap* plDDSurface::createMipmap() const
         throw hsBadParamException(__FILE__, __LINE__, "DDSurface does not contain required fields");
 
     unsigned int mipCount = ((fFlags & DDSD_MIPMAPCOUNT) != 0) ? fMipmapCount : 1;
-    plMipmap* tex = NULL;
+    plMipmap* tex = nullptr;
 
     if ((fPixelFormat.fFlags & DDPF_FOURCC) != 0) {
         unsigned int dxtLevel = 0;

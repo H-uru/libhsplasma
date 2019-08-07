@@ -34,7 +34,7 @@ void plNetMsgStreamHelper::read(hsStream* S, plResManager* mgr)
         S->read(fStreamLength, fStream);
         decompress(2);
     } else {
-        fStream = NULL;
+        fStream = nullptr;
     }
 }
 
@@ -43,7 +43,7 @@ void plNetMsgStreamHelper::write(hsStream* S, plResManager* mgr)
     unsigned char* outStream = fStream;
     fUncompressedSize = fStreamLength;
     if (fCompressionType == kCompressionZlib) {
-        unsigned char* tempStream = NULL;
+        unsigned char* tempStream = nullptr;
         if (plZlib::Compress(tempStream, fStreamLength,
                              fStream + 2, fUncompressedSize - 2)) {
             outStream = new unsigned char[fStreamLength + 2];
@@ -99,7 +99,7 @@ void plNetMsgStreamHelper::setStream(const unsigned char* stream, unsigned int l
         fStream = new unsigned char[fStreamLength];
         memcpy(fStream, stream, fStreamLength);
     } else {
-        fStream = NULL;
+        fStream = nullptr;
     }
 }
 

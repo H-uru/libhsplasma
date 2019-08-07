@@ -37,7 +37,7 @@ PY_PLASMA_TYPE_INIT(ClimbingBlockerHitEventData)
     pyClimbingBlockerHitEventData_Type.tp_getset = pyClimbingBlockerHitEventData_GetSet;
     pyClimbingBlockerHitEventData_Type.tp_base = &pyEventData_Type;
     if (PyType_CheckAndReady(&pyClimbingBlockerHitEventData_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyClimbingBlockerHitEventData_Type);
     return (PyObject*)&pyClimbingBlockerHitEventData_Type;

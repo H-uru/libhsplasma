@@ -31,11 +31,11 @@ PY_METHOD_VA(ResponderModifier_State, addCommand,
     int waitOn;
     if (!PyArg_ParseTuple(args, "Oi", &msg, &waitOn)) {
         PyErr_SetString(PyExc_TypeError, "addCommand expects plMessage, int");
-        return NULL;
+        return nullptr;
     }
     if (!pyMessage_Check((PyObject*)msg)) {
         PyErr_SetString(PyExc_TypeError, "addCommand expects plMessage, int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addCommand(msg->fThis, waitOn);
     msg->fPyOwned = false;
@@ -49,7 +49,7 @@ PY_METHOD_VA(ResponderModifier_State, delCommand,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delCommand expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delCommand(idx);
     Py_RETURN_NONE;
@@ -134,7 +134,7 @@ PY_PLASMA_TYPE_INIT(ResponderModifier_State)
     pyResponderModifier_State_Type.tp_methods = pyResponderModifier_State_Methods;
     pyResponderModifier_State_Type.tp_getset = pyResponderModifier_State_GetSet;
     if (PyType_CheckAndReady(&pyResponderModifier_State_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyResponderModifier_State_Type);
     return (PyObject*)&pyResponderModifier_State_Type;

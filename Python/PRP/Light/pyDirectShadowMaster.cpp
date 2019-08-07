@@ -29,7 +29,7 @@ PY_PLASMA_TYPE_INIT(DirectShadowMaster)
     pyDirectShadowMaster_Type.tp_new = pyDirectShadowMaster_new;
     pyDirectShadowMaster_Type.tp_base = &pyShadowMaster_Type;
     if (PyType_CheckAndReady(&pyDirectShadowMaster_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyDirectShadowMaster_Type);
     return (PyObject*)&pyDirectShadowMaster_Type;

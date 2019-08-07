@@ -352,7 +352,7 @@ void plLeafController::IWriteUruController(hsStream* S)
 
 plLeafController* plLeafController::ExpandToKeyController() const
 {
-    plLeafController* ctrl = NULL;
+    plLeafController* ctrl = nullptr;
     switch (fType) {
     case hsKeyFrame::kPoint3KeyFrame:
     case hsKeyFrame::kBezPoint3KeyFrame:
@@ -412,7 +412,7 @@ plLeafController* plLeafController::ExpandToKeyController() const
         }
         break;
     case hsKeyFrame::k3dsMaxKeyFrame:
-        ctrl = NULL;
+        ctrl = nullptr;
         break;
     case hsKeyFrame::kMatrix33KeyFrame:
         ctrl = new plMatrix33Controller();
@@ -433,7 +433,7 @@ plLeafController* plLeafController::ExpandToKeyController() const
     default:
         break;
     }
-    if (ctrl != NULL)
+    if (ctrl)
         ctrl->fType = fType;
     return ctrl;
 }

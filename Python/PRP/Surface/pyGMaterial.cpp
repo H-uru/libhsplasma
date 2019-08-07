@@ -36,11 +36,11 @@ PY_METHOD_VA(GMaterial, addLayer,
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addLayer expects a plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addLayer expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addLayer(*key->fThis);
     Py_RETURN_NONE;
@@ -53,7 +53,7 @@ PY_METHOD_VA(GMaterial, delLayer,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delLayer expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delLayer(idx);
     Py_RETURN_NONE;
@@ -73,11 +73,11 @@ PY_METHOD_VA(GMaterial, addPiggyBack,
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addPiggyBack expects a plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addPiggyBack expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addPiggyBack(*key->fThis);
     Py_RETURN_NONE;
@@ -90,7 +90,7 @@ PY_METHOD_VA(GMaterial, delPiggyBack,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delPiggyBack expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delPiggyBack(idx);
     Py_RETURN_NONE;
@@ -148,7 +148,7 @@ PY_PLASMA_TYPE_INIT(GMaterial)
     pyGMaterial_Type.tp_getset = pyGMaterial_GetSet;
     pyGMaterial_Type.tp_base = &pySynchedObject_Type;
     if (PyType_CheckAndReady(&pyGMaterial_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(GMaterial, "kCompShaded", hsGMaterial::kCompShaded);
     PY_TYPE_ADD_CONST(GMaterial, "kCompEnvironMap", hsGMaterial::kCompEnvironMap);

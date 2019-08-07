@@ -177,7 +177,7 @@ void plEAXSourceSettings::prcParse(const pfPrcTag* tag)
         fOutsideVolHF = tag->getParam("OutsideHF", "0").to_int();
 
         const pfPrcTag* child = tag->getFirstChild();
-        while (child != NULL) {
+        while (child) {
             if (child->getName() == "Effects") {
                 fAirAbsorptionFactor = child->getParam("AirAbsorption", "0").to_float();
                 fRoomRolloffFactor = child->getParam("RoomRolloff", "0").to_float();

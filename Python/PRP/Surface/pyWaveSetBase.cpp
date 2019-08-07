@@ -27,7 +27,7 @@ PY_PLASMA_TYPE_INIT(WaveSetBase)
     pyWaveSetBase_Type.tp_new = pyWaveSetBase_new;
     pyWaveSetBase_Type.tp_base = &pyMultiModifier_Type;
     if (PyType_CheckAndReady(&pyWaveSetBase_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyWaveSetBase_Type);
     return (PyObject*)&pyWaveSetBase_Type;

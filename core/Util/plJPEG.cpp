@@ -86,7 +86,7 @@ GLOBAL(void) jpeg_hsStream_src(j_decompress_ptr dinfo, hsStream* S)
 {
     jpeg_hsStream_source* src;
 
-    if (dinfo->src == NULL) {
+    if (dinfo->src == nullptr) {
         dinfo->src = (struct jpeg_source_mgr*)
             (*dinfo->mem->alloc_small)((j_common_ptr)dinfo, JPOOL_PERMANENT,
                                        sizeof(jpeg_hsStream_source));
@@ -104,7 +104,7 @@ GLOBAL(void) jpeg_hsStream_src(j_decompress_ptr dinfo, hsStream* S)
     src->pub.term_source = hsStream_term_source;
     src->stream = S;
     src->pub.bytes_in_buffer = 0;
-    src->pub.next_input_byte = NULL;
+    src->pub.next_input_byte = nullptr;
 }
 
 // JPEG error handler for libPlasma

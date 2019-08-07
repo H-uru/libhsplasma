@@ -100,7 +100,7 @@ void plArmatureModBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
 
             const pfPrcTag* subchild = child->getFirstChild();
-            while (subchild != NULL) {
+            while (subchild) {
                 if (subchild->getName() == "plKey") {
                     fMeshKeys[i] = mgr->prcParseKey(subchild);
                 } else if (subchild->getName() == "UnusedBones") {
@@ -291,7 +291,7 @@ void plArmatureMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         fPhysHeight = tag->getParam("PhysHeight", "0").to_float();
         fPhysWidth = tag->getParam("PhysWidth", "0").to_float();
         const pfPrcTag* child = tag->getFirstChild();
-        while (child != NULL) {
+        while (child) {
             if (child->getName() == "Mins")
                 fMins.prcParse(child->getFirstChild());
             else if (child->getName() == "Maxs")
@@ -377,7 +377,7 @@ void plArmatureLODMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
 
             const pfPrcTag* subchild = child->getFirstChild();
-            while (subchild != NULL) {
+            while (subchild) {
                 if (subchild->getName() == "plKey") {
                     fMeshKeys[i] = mgr->prcParseKey(subchild);
                 } else if (subchild->getName() == "UnusedBones") {

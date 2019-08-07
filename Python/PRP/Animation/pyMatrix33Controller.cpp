@@ -31,7 +31,7 @@ PY_PLASMA_TYPE_INIT(Matrix33Controller)
     pyMatrix33Controller_Type.tp_new = pyMatrix33Controller_new;
     pyMatrix33Controller_Type.tp_base = &pyLeafController_Type;
     if (PyType_CheckAndReady(&pyMatrix33Controller_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyMatrix33Controller_Type);
     return (PyObject*)&pyMatrix33Controller_Type;

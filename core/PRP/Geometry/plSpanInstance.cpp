@@ -71,23 +71,23 @@ void plSpanInstance::read(hsStream* S, const plSpanEncoding& encoding,
         fPosDelta = new unsigned char[posStride * fNumVerts];
         S->read(posStride * fNumVerts, fPosDelta);
     } else {
-        fPosDelta = NULL;
+        fPosDelta = nullptr;
     }
     unsigned int colStride = CalcColStride(fEncoding);
     if (colStride != 0) {
         fCol = new unsigned char[colStride * fNumVerts];
         S->read(colStride * fNumVerts, fCol);
     } else {
-        fCol = NULL;
+        fCol = nullptr;
     }
 }
 
 void plSpanInstance::write(hsStream* S)
 {
     S->write(sizeof(fL2W), fL2W);
-    if (fPosDelta != NULL)
+    if (fPosDelta)
         S->write(CalcPosStride(fEncoding) * fNumVerts, fPosDelta);
-    if (fCol != NULL)
+    if (fCol)
         S->write(CalcColStride(fEncoding) * fNumVerts, fCol);
 }
 
@@ -133,7 +133,7 @@ void plSpanInstance::prcParse(const pfPrcTag* tag, const plSpanEncoding& encodin
     fNumVerts = numVerts;
 
     const pfPrcTag* child = tag->getFirstChild();
-    while (child != NULL) {
+    while (child) {
         if (child->getName() == "Local2World") {
             std::list<ST::string> contents = child->getContents();
             auto iter = contents.begin();
@@ -430,7 +430,7 @@ void plSpanInstance::setColors(const std::vector<unsigned int>& colors)
 {
     delete[] fCol;
     // Because of bugs in Cyan's code:
-    fCol = NULL;
+    fCol = nullptr;
     return;
 
     // But it would be:

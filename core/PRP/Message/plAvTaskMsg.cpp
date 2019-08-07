@@ -29,14 +29,14 @@ void plAvTaskMsg::read(hsStream* S, plResManager* mgr)
     if (S->readBool())
         setTask(plAvTask::Convert(mgr->ReadCreatable(S)));
     else
-        setTask(NULL);
+        setTask(nullptr);
 }
 
 void plAvTaskMsg::write(hsStream* S, plResManager* mgr)
 {
     plAvatarMsg::write(S, mgr);
 
-    if (fTask != NULL) {
+    if (fTask) {
         S->writeBool(true);
         mgr->WriteCreatable(S, fTask);
     } else {
@@ -48,7 +48,7 @@ void plAvTaskMsg::IPrcWrite(pfPrcHelper* prc)
 {
     plAvatarMsg::IPrcWrite(prc);
 
-    if (fTask != NULL) {
+    if (fTask) {
         prc->writeSimpleTag("Task");
         fTask->prcWrite(prc);
         prc->closeTag();
@@ -63,7 +63,7 @@ void plAvTaskMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
 {
     if (tag->getName() == "Task") {
         if (tag->getParam("NULL", "false").to_bool())
-            setTask(NULL);
+            setTask(nullptr);
         else if (tag->hasChildren())
             setTask(plAvTask::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else {
@@ -100,7 +100,7 @@ void plAvPushBrainMsg::IPrcWrite(pfPrcHelper* prc)
 {
     plAvTaskMsg::IPrcWrite(prc);
 
-    if (fBrain != NULL) {
+    if (fBrain) {
         prc->writeSimpleTag("Brain");
         fBrain->prcWrite(prc);
         prc->closeTag();
@@ -115,7 +115,7 @@ void plAvPushBrainMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
 {
     if (tag->getName() == "Brain") {
         if (tag->getParam("NULL", "false").to_bool())
-            setBrain(NULL);
+            setBrain(nullptr);
         else if (tag->hasChildren())
             setBrain(plArmatureBrain::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else {

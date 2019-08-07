@@ -37,7 +37,7 @@ PY_PLASMA_TYPE_INIT(ActivateEventData)
     pyActivateEventData_Type.tp_getset = pyActivateEventData_GetSet;
     pyActivateEventData_Type.tp_base = &pyEventData_Type;
     if (PyType_CheckAndReady(&pyActivateEventData_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyActivateEventData_Type);
     return (PyObject*)&pyActivateEventData_Type;

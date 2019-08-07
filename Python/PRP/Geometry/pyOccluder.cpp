@@ -37,11 +37,11 @@ PY_METHOD_VA(Occluder, addPoly,
     pyCullPoly* poly;
     if (!PyArg_ParseTuple(args, "O", &poly)) {
         PyErr_SetString(PyExc_TypeError, "addPoly expects a plCullPoly");
-        return NULL;
+        return nullptr;
     }
     if (!pyCullPoly_Check((PyObject*)poly)) {
         PyErr_SetString(PyExc_TypeError, "addPoly expects a plCullPoly");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addPoly(*poly->fThis);
     Py_RETURN_NONE;
@@ -54,7 +54,7 @@ PY_METHOD_VA(Occluder, delPoly,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delPoly expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delPoly(idx);
     Py_RETURN_NONE;
@@ -74,11 +74,11 @@ PY_METHOD_VA(Occluder, addVisRegion,
     pyKey* region;
     if (!PyArg_ParseTuple(args, "O", &region)) {
         PyErr_SetString(PyExc_TypeError, "addVisRegion expects a plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)region)) {
         PyErr_SetString(PyExc_TypeError, "addVisRegion expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addVisRegion(*region->fThis);
     Py_RETURN_NONE;
@@ -91,7 +91,7 @@ PY_METHOD_VA(Occluder, delVisRegion,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delVisRegion expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delVisRegion(idx);
     Py_RETURN_NONE;
@@ -151,7 +151,7 @@ PY_PLASMA_TYPE_INIT(Occluder)
     pyOccluder_Type.tp_getset = pyOccluder_GetSet;
     pyOccluder_Type.tp_base = &pyObjInterface_Type;
     if (PyType_CheckAndReady(&pyOccluder_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyOccluder_Type);
     return (PyObject*)&pyOccluder_Type;

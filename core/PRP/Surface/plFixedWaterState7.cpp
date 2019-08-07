@@ -193,7 +193,7 @@ void plFixedWaterState7::prcParse(const pfPrcTag* tag)
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
     const pfPrcTag* child = tag->getFirstChild();
-    while (child != NULL) {
+    while (child) {
         if (child->getName() == "GeoState") {
             if (child->hasChildren())
                 fGeoState.prcParse(child->getFirstChild());

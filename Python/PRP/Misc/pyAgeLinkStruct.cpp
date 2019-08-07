@@ -112,7 +112,7 @@ PY_PLASMA_TYPE_INIT(AgeLinkStruct)
     pyAgeLinkStruct_Type.tp_getset = pyAgeLinkStruct_GetSet;
     pyAgeLinkStruct_Type.tp_base = &pyCreatable_Type;
     if (PyType_CheckAndReady(&pyAgeLinkStruct_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(AgeLinkStruct, "kBasicLink", plAgeLinkStruct::kBasicLink);
     PY_TYPE_ADD_CONST(AgeLinkStruct, "kOriginalBook", plAgeLinkStruct::kOriginalBook);

@@ -274,7 +274,7 @@ void plGenericPhysical::IPrcWrite(pfPrcHelper* prc)
         }
         prc->closeTag();
 
-        if (fTMDBuffer != NULL) {
+        if (fTMDBuffer) {
             prc->writeSimpleTag("TriMeshDataBuffer");
             for (size_t i=0; i<fTMDSize; i++) {
                 prc->startTag("Face");
@@ -327,7 +327,7 @@ void plGenericPhysical::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
             fSoundGroup = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "Transform") {
         const pfPrcTag* child = tag->getFirstChild();
-        while (child != NULL) {
+        while (child) {
             if (child->getName() == "hsVector3") {
                 fPos.prcParse(child);
             } else if (child->getName() == "hsQuat") {
@@ -346,14 +346,14 @@ void plGenericPhysical::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
             if (bounds == plSimDefs::BoundsNames[i])
                 fBounds = (plSimDefs::Bounds)i;
         const pfPrcTag* child = tag->getFirstChild();
-        while (child != NULL) {
+        while (child) {
             if (child->getName() == "SphereBounds") {
                 fRadius = child->getParam("Radius", "0").to_float();
                 if (child->hasChildren())
                     fOffset.prcParse(child->getFirstChild());
             } else if (child->getName() == "BoxBounds") {
                 const pfPrcTag* subchild = child->getFirstChild();
-                while (subchild != NULL) {
+                while (subchild) {
                     if (subchild->getName() == "Dimensions") {
                         if (subchild->hasChildren())
                             fDimensions.prcParse(subchild->getFirstChild());
@@ -495,7 +495,7 @@ void plGenericPhysical::IReadODEPhysical(hsStream* S, plResManager* mgr)
     fBounds = (plSimDefs::Bounds)S->readInt();
 
     delete[] fTMDBuffer;
-    fTMDBuffer = NULL;
+    fTMDBuffer = nullptr;
 
     if (fBounds == plSimDefs::kExplicitBounds) {
         fVerts.resize(S->readInt());
@@ -550,7 +550,7 @@ void plGenericPhysical::IReadPXPhysical(hsStream* S, plResManager* mgr)
     fProps.read(S);
 
     delete[] fTMDBuffer;
-    fTMDBuffer = NULL;
+    fTMDBuffer = nullptr;
 
     if (fBounds == plSimDefs::kSphereBounds) {
         fRadius = S->readFloat();
@@ -778,9 +778,9 @@ void plGenericPhysical::setIndices(size_t numIndices, const unsigned int* indice
 void plGenericPhysical::setTMDBuffer(size_t tmdSize, const unsigned char* tmdBuffer)
 {
     delete[] fTMDBuffer;
-    if (tmdSize == 0 || tmdBuffer == NULL) {
+    if (tmdSize == 0 || tmdBuffer == nullptr) {
         fTMDSize = 0;
-        fTMDBuffer = NULL;
+        fTMDBuffer = nullptr;
     }
     fTMDSize = tmdSize;
     fTMDBuffer = new unsigned char[fTMDSize];

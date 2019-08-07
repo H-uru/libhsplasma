@@ -168,7 +168,7 @@ void plATCAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         fEaseOutLength = tag->getParam("Length", "0").to_float();
     } else if (tag->getName() == "Markers") {
         const pfPrcTag* child = tag->getFirstChild();
-        while (child != NULL) {
+        while (child) {
             if (child->getName() != "Marker")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             fMarkers[child->getParam("Name", "")] = child->getParam("Pos", "0").to_float();
@@ -176,7 +176,7 @@ void plATCAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         }
     } else if (tag->getName() == "Loops") {
         const pfPrcTag* child = tag->getFirstChild();
-        while (child != NULL) {
+        while (child) {
             if (child->getName() != "Loop")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             ST::string key = child->getParam("Name", "");

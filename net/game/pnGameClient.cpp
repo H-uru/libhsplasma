@@ -29,7 +29,7 @@ bool pnGameClient::Dispatch::dispatch(pnSocket* sock)
 
     sock->recv(&msgId, sizeof(uint16_t));
     const pnNetMsg* msgDesc = GET_Game2Cli(msgId);
-    if (msgDesc == NULL) {
+    if (msgDesc == nullptr) {
         plDebug::Error("Got invalid message ID ({})", msgId);
         return false;
     }
@@ -46,7 +46,7 @@ bool pnGameClient::Dispatch::dispatch(pnSocket* sock)
         {
             hsRAMStream rs(PlasmaVer::pvMoul);
             rs.copyFrom(msgbuf[2].fData, msgbuf[1].fUint);
-            plCreatable* pCre = NULL;
+            plCreatable* pCre = nullptr;
             {
                 std::lock_guard<plResManager> resMgrLock(*fReceiver->fResMgr);
                 try {
@@ -54,10 +54,10 @@ bool pnGameClient::Dispatch::dispatch(pnSocket* sock)
                 } catch (hsException& ex) {
                     plDebug::Error("Error reading propagated message: {}\n", ex.what());
                     delete pCre;
-                    pCre = NULL;
+                    pCre = nullptr;
                 }
             }
-            if (pCre != NULL) {
+            if (pCre) {
                 fReceiver->onPropagateMessage(pCre);
                 if (fDeleteMsgs)
                     delete pCre;
@@ -129,9 +129,9 @@ void pnGameClient::disconnect()
     delete fIface;
     delete fDispatch;
     delete fSock;
-    fIface = NULL;
-    fSock = NULL;
-    fDispatch = NULL;
+    fIface = nullptr;
+    fSock = nullptr;
+    fDispatch = nullptr;
 }
 
 ENetError pnGameClient::performConnect()
@@ -152,7 +152,7 @@ ENetError pnGameClient::performConnect()
 
     if (!fSock->isConnected()) {
         delete fSock;
-        fSock = NULL;
+        fSock = nullptr;
         plDebug::Error("Error establishing Game connection");
         return kNetErrConnectFailed;
     }
@@ -178,7 +178,7 @@ ENetError pnGameClient::performConnect()
     uint8_t msg, len;
     if (fSock->recv(&msg, 1) <= 0 || fSock->recv(&len, 1) <= 0) {
         delete fSock;
-        fSock = NULL;
+        fSock = nullptr;
         plDebug::Error("Error negotiating Game connection");
         return kNetErrConnectFailed;
     }
@@ -195,13 +195,13 @@ ENetError pnGameClient::performConnect()
         uint32_t errorCode;
         fSock->recv(&errorCode, sizeof(uint32_t));
         delete fSock;
-        fSock = NULL;
+        fSock = nullptr;
         plDebug::Error("Error connecting to Game server: {}",
                        GetNetErrorString(errorCode));
         return (ENetError)errorCode;
     } else {
         delete fSock;
-        fSock = NULL;
+        fSock = nullptr;
         plDebug::Error("Got junk response from server");
         return kNetErrConnectFailed;
     }

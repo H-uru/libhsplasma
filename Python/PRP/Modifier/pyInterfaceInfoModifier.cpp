@@ -36,11 +36,11 @@ PY_METHOD_VA(InterfaceInfoModifier, addIntfKey,
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addIntfKey expects a plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addIntfKey expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addIntfKey(*key->fThis);
     Py_RETURN_NONE;
@@ -53,7 +53,7 @@ PY_METHOD_VA(InterfaceInfoModifier, delIntfKey,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delIntfKey expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delIntfKey(idx);
     Py_RETURN_NONE;
@@ -92,7 +92,7 @@ PY_PLASMA_TYPE_INIT(InterfaceInfoModifier)
     pyInterfaceInfoModifier_Type.tp_getset = pyInterfaceInfoModifier_GetSet;
     pyInterfaceInfoModifier_Type.tp_base = &pySingleModifier_Type;
     if (PyType_CheckAndReady(&pyInterfaceInfoModifier_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyInterfaceInfoModifier_Type);
     return (PyObject*)&pyInterfaceInfoModifier_Type;

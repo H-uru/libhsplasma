@@ -62,7 +62,7 @@ PY_PLASMA_TYPE_INIT(SplineEaseCurve)
     pySplineEaseCurve_Type.tp_getset = pySplineEaseCurve_GetSet;
     pySplineEaseCurve_Type.tp_base = &pyATCEaseCurve_Type;
     if (PyType_CheckAndReady(&pySplineEaseCurve_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pySplineEaseCurve_Type);
     return (PyObject*)&pySplineEaseCurve_Type;

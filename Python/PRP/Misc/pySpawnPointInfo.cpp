@@ -38,7 +38,7 @@ PY_PLASMA_TYPE_INIT(SpawnPointInfo)
     pySpawnPointInfo_Type.tp_new = pySpawnPointInfo_new;
     pySpawnPointInfo_Type.tp_getset = pySpawnPointInfo_GetSet;
     if (PyType_CheckAndReady(&pySpawnPointInfo_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pySpawnPointInfo_Type);
     return (PyObject*)&pySpawnPointInfo_Type;

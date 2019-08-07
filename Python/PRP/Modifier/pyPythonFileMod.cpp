@@ -44,11 +44,11 @@ PY_METHOD_VA(PythonFileMod, addReceiver,
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addReceiver expects a plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addReceiver expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addReceiver(*key->fThis);
     Py_RETURN_NONE;
@@ -61,11 +61,11 @@ PY_METHOD_VA(PythonFileMod, addParameter,
     pyPythonParameter* param;
     if (!PyArg_ParseTuple(args, "O", &param)) {
         PyErr_SetString(PyExc_TypeError, "addParameter expects a plPythonParameter");
-        return NULL;
+        return nullptr;
     }
     if (!pyPythonParameter_Check((PyObject*)param)) {
         PyErr_SetString(PyExc_TypeError, "addParameter expects a plPythonParameter");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addParameter(*param->fThis);
     Py_RETURN_NONE;
@@ -119,7 +119,7 @@ PY_PLASMA_TYPE_INIT(PythonFileMod)
     pyPythonFileMod_Type.tp_getset = pyPythonFileMod_GetSet;
     pyPythonFileMod_Type.tp_base = &pyMultiModifier_Type;
     if (PyType_CheckAndReady(&pyPythonFileMod_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyPythonFileMod_Type);
     return (PyObject*)&pyPythonFileMod_Type;

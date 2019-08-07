@@ -139,7 +139,7 @@ void plEncryptedStream::DroidEncipher(unsigned int* buf, unsigned int num)
 
 void plEncryptedStream::CryptFlush()
 {
-    if (fBase == NULL)
+    if (fBase == nullptr)
         throw hsBadParamException(__FILE__, __LINE__);
 
     if (fEType == kEncAES) {
@@ -251,7 +251,7 @@ bool plEncryptedStream::open(hsStream* S, FileMode mode, EncryptionType type)
 
 void plEncryptedStream::close()
 {
-    if (fBase == NULL)
+    if (fBase == nullptr)
         return;
 
     if (fMode == fmWrite || fMode == fmCreate) {
@@ -272,7 +272,7 @@ void plEncryptedStream::close()
 
     if (fIOwnBase)
         delete fBase;
-    fBase = NULL;
+    fBase = nullptr;
 }
 
 void plEncryptedStream::setKey(const unsigned int* keys)

@@ -28,11 +28,11 @@ PY_METHOD_VA(GUIRadioGroupCtrl, addControl,
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addControl expects a plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addControl expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addControl(*key->fThis);
     Py_RETURN_NONE;
@@ -45,7 +45,7 @@ PY_METHOD_VA(GUIRadioGroupCtrl, delControl,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delControl expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delControl(idx);
     Py_RETURN_NONE;
@@ -93,7 +93,7 @@ PY_PLASMA_TYPE_INIT(GUIRadioGroupCtrl)
     pyGUIRadioGroupCtrl_Type.tp_getset = pyGUIRadioGroupCtrl_GetSet;
     pyGUIRadioGroupCtrl_Type.tp_base = &pyGUIControlMod_Type;
     if (PyType_CheckAndReady(&pyGUIRadioGroupCtrl_Type) < 0)
-        return NULL;
+        return nullptr;
 
     /* Konstants */
     PY_TYPE_ADD_CONST(GUIRadioGroupCtrl, "kAllowNoSelection", pfGUIRadioGroupCtrl::kAllowNoSelection);

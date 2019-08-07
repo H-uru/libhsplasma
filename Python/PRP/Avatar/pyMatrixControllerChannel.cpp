@@ -39,7 +39,7 @@ PY_PLASMA_TYPE_INIT(MatrixControllerChannel)
     pyMatrixControllerChannel_Type.tp_getset = pyMatrixControllerChannel_GetSet;
     pyMatrixControllerChannel_Type.tp_base = &pyMatrixChannel_Type;
     if (PyType_CheckAndReady(&pyMatrixControllerChannel_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyMatrixControllerChannel_Type);
     return (PyObject*)&pyMatrixControllerChannel_Type;

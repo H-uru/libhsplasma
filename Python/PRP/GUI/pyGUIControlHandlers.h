@@ -39,7 +39,7 @@ PyObject* ICreateGUIControlHandler(class pfGUICtrlProcObject*);
     PY_GETSET_SETTER_DECL(myType, name)                                 \
     {                                                                   \
         if (value == Py_None) {                                         \
-            self->fThis->setter(NULL);                                  \
+            self->fThis->setter(nullptr);                               \
             return 0;                                                   \
         }                                                               \
         if (!py##pyType##_Check(value)) {                               \

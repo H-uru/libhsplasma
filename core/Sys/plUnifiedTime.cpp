@@ -83,7 +83,7 @@ plUnifiedTime plUnifiedTime::CurrentTime()
 {
     plUnifiedTime time;
     timeval tv;
-    gettimeofday(&tv, NULL);
+    gettimeofday(&tv, nullptr);
     time.fMode = kLocal;
     time.fSecs = tv.tv_sec;
     time.fMicros = tv.tv_usec;
@@ -95,7 +95,7 @@ plUnifiedTime plUnifiedTime::FromString(const char* buf, const char* fmt)
 #ifdef _WIN32
     throw hsNotImplementedException(__FILE__, __LINE__, "strptime");
 #else
-    tm* result = NULL;
+    tm* result = nullptr;
     strptime(buf, fmt, result);
     return plUnifiedTime(result);
 #endif
@@ -335,7 +335,7 @@ int plUnifiedTime::IGetLocalTimeZoneOffset()
 {
     static bool haveOffset = false;
     if (!haveOffset) {
-        time_t secs = time(NULL);
+        time_t secs = time(nullptr);
         fLocalTimeZoneOffset = (unsigned int)difftime(mktime(gmtime(&secs)), secs);
     }
     return fLocalTimeZoneOffset;

@@ -27,7 +27,7 @@ PY_PLASMA_TYPE_INIT(ParticleSpan)
     pyParticleSpan_Type.tp_new = pyParticleSpan_new;
     pyParticleSpan_Type.tp_base = &pyIcicle_Type;
     if (PyType_CheckAndReady(&pyParticleSpan_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyParticleSpan_Type);
     return (PyObject*)&pyParticleSpan_Type;

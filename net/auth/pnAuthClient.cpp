@@ -59,7 +59,7 @@ bool pnAuthClient::Dispatch::dispatch(pnSocket* sock)
 
     sock->recv(&msgId, sizeof(uint16_t));
     const pnNetMsg* msgDesc = GET_Auth2Cli(msgId);
-    if (msgDesc == NULL) {
+    if (msgDesc == nullptr) {
         plDebug::Error("Got invalid message ID ({})", msgId);
         return false;
     }
@@ -292,7 +292,7 @@ bool pnAuthClient::Dispatch::dispatch(pnSocket* sock)
         {
             hsRAMStream rs(PlasmaVer::pvMoul);
             rs.copyFrom(msgbuf[2].fData, msgbuf[1].fUint);
-            plCreatable* pCre = NULL;
+            plCreatable* pCre = nullptr;
             {
                 std::lock_guard<plResManager> resMgrLock(*fReceiver->fResMgr);
                 try {
@@ -300,10 +300,10 @@ bool pnAuthClient::Dispatch::dispatch(pnSocket* sock)
                 } catch (hsException& ex) {
                     plDebug::Error("Error reading propagated message: {}\n", ex.what());
                     delete pCre;
-                    pCre = NULL;
+                    pCre = nullptr;
                 }
             }
-            if (pCre != NULL) {
+            if (pCre) {
                 fReceiver->onPropagateMessage(pCre);
                 if (fDeleteMsgs)
                     delete pCre;
@@ -366,9 +366,9 @@ void pnAuthClient::disconnect()
     delete fIface;
     delete fDispatch;
     delete fSock;
-    fIface = NULL;
-    fSock = NULL;
-    fDispatch = NULL;
+    fIface = nullptr;
+    fSock = nullptr;
+    fDispatch = nullptr;
 }
 
 ENetError pnAuthClient::performConnect()
@@ -388,7 +388,7 @@ ENetError pnAuthClient::performConnect()
 
     if (!fSock->isConnected()) {
         delete fSock;
-        fSock = NULL;
+        fSock = nullptr;
         plDebug::Error("Error establishing Auth connection");
         return kNetErrConnectFailed;
     }
@@ -414,7 +414,7 @@ ENetError pnAuthClient::performConnect()
     uint8_t msg, len;
     if (fSock->recv(&msg, 1) <= 0 || fSock->recv(&len, 1) <= 0) {
         delete fSock;
-        fSock = NULL;
+        fSock = nullptr;
         plDebug::Error("Error negotiating Auth connection");
         return kNetErrConnectFailed;
     }
@@ -431,13 +431,13 @@ ENetError pnAuthClient::performConnect()
         uint32_t errorCode;
         fSock->recv(&errorCode, sizeof(uint32_t));
         delete fSock;
-        fSock = NULL;
+        fSock = nullptr;
         plDebug::Error("Error connecting to Auth server: {}",
                        GetNetErrorString(errorCode));
         return (ENetError)errorCode;
     } else {
         delete fSock;
-        fSock = NULL;
+        fSock = nullptr;
         plDebug::Error("Got junk response from server");
         return kNetErrConnectFailed;
     }
@@ -458,7 +458,7 @@ uint32_t pnAuthClient::sendPingRequest(uint32_t pingTimeMs)
     msg[0].fUint = pingTimeMs;
     msg[1].fUint = transId;
     msg[2].fUint = 0;
-    msg[3].fData = NULL;
+    msg[3].fData = nullptr;
     fSock->sendMsg(msg, desc);
     NCFreeMessage(msg, desc);
     return transId;

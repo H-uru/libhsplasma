@@ -29,7 +29,7 @@ PY_PLASMA_TYPE_INIT(ScalarControllerCacheChannel)
     pyScalarControllerCacheChannel_Type.tp_new = pyScalarControllerCacheChannel_new;
     pyScalarControllerCacheChannel_Type.tp_base = &pyScalarChannel_Type;
     if (PyType_CheckAndReady(&pyScalarControllerCacheChannel_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyScalarControllerCacheChannel_Type);
     return (PyObject*)&pyScalarControllerCacheChannel_Type;

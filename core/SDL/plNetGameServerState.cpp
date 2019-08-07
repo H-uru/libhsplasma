@@ -150,7 +150,7 @@ void plNetGameServerState::read(hsStream* S)
         int descVer;
         plStateDataRecord::ReadStreamHeader(&data, descName, descVer, &fObjects[i]);
         fRecords[i]->setDescriptor(fSDLMgr.GetDescriptor(descName, descVer));
-        fRecords[i]->read(&data, NULL);
+        fRecords[i]->read(&data, nullptr);
     }
 }
 
@@ -167,7 +167,7 @@ void plNetGameServerState::write(hsStream* S)
     for (size_t i=0; i<fRecords.size(); i++) {
         plStateDataRecord::WriteStreamHeader(&data, fRecords[i]->getDescriptor()->getName(),
                                              fRecords[i]->getDescriptor()->getVersion(), &fObjects[i]);
-        fRecords[i]->write(&data, NULL);
+        fRecords[i]->write(&data, nullptr);
     }
 
     size_t uncompLen = data.size();

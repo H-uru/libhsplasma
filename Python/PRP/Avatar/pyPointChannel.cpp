@@ -28,7 +28,7 @@ PY_PLASMA_TYPE_INIT(PointChannel)
     pyPointChannel_Type.tp_new = pyPointChannel_new;
     pyPointChannel_Type.tp_base = &pyAGChannel_Type;
     if (PyType_CheckAndReady(&pyPointChannel_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyPointChannel_Type);
     return (PyObject*)&pyPointChannel_Type;

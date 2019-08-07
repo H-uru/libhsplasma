@@ -171,7 +171,7 @@ int main(int argc, char* argv[])
 
     if ((action & kActionMask) == kActionAdd) {
         hsFileStream in;
-        plCreatable* cre = NULL;
+        plCreatable* cre = nullptr;
 
         if (inFile.ends_with(".prc") || inFile.ends_with(".xml") || (action & kModePRC) != 0) {
             // Add PRC source
@@ -203,9 +203,9 @@ int main(int argc, char* argv[])
             }
         }
 
-        if (cre != NULL) {
+        if (cre) {
             hsKeyedObject* kobj = hsKeyedObject::Convert(cre);
-            if (kobj == NULL) {
+            if (kobj == nullptr) {
                 ST::printf(stderr, "Creatable '{}' is not a keyed object\n",
                            plFactory::ClassName(cre->ClassIndex()));
                 delete cre;
@@ -221,7 +221,7 @@ int main(int argc, char* argv[])
         resMgr.WritePage(prpFile, page);
     } else if ((action & kActionMask) == kActionDel) {
         plKey key = findObject(&resMgr, page->getLocation(), objName, objType);
-        if (!key.Exists() || key->getObj() == NULL) {
+        if (!key.Exists() || key->getObj() == nullptr) {
             ST::printf(stderr, "Could not find {}:{}\n",
                        plFactory::ClassName(objType), objName);
             return 1;
@@ -230,7 +230,7 @@ int main(int argc, char* argv[])
         resMgr.WritePage(prpFile, page);
     } else if ((action & kActionMask) == kActionExtract) {
         plKey key = findObject(&resMgr, page->getLocation(), objName, objType);
-        if (!key.Exists() || key->getObj() == NULL) {
+        if (!key.Exists() || key->getObj() == nullptr) {
             ST::printf(stderr, "Could not find {}:{}\n",
                        plFactory::ClassName(objType), objName);
             return 1;

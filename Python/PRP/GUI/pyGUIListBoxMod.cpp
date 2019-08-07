@@ -36,7 +36,7 @@ PY_PLASMA_TYPE_INIT(GUIListElement)
     pyGUIListElement_Type.tp_new = pyGUIListElement_new;
     pyGUIListElement_Type.tp_getset = pyGUIListElement_GetSet;
     if (PyType_CheckAndReady(&pyGUIListElement_Type) < 0)
-        return NULL;
+        return nullptr;
 
     /* Konstants */
     PY_TYPE_ADD_CONST(GUIListElement, "kText", pfGUIListElement::kText);
@@ -68,7 +68,7 @@ PY_PLASMA_TYPE_INIT(GUIListBoxMod)
     pyGUIListBoxMod_Type.tp_getset = pyGUIListBoxMod_GetSet;
     pyGUIListBoxMod_Type.tp_base = &pyGUIControlMod_Type;
     if (PyType_CheckAndReady(&pyGUIListBoxMod_Type) < 0)
-        return NULL;
+        return nullptr;
 
     /* Konstants */
     PY_TYPE_ADD_CONST(GUIListBoxMod, "kSingleSelect", pfGUIListBoxMod::kSingleSelect);

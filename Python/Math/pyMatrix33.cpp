@@ -23,11 +23,11 @@ PY_PLASMA_VALUE_DEALLOC(Matrix33)
 
 PY_PLASMA_INIT_DECL(Matrix33)
 {
-    PyObject* init = NULL;
+    PyObject* init = nullptr;
     if (!PyArg_ParseTuple(args, "|O", &init))
         return -1;
 
-    if (init != NULL) {
+    if (init) {
         if (pyMatrix33_Check(init)) {
             (*self->fThis) = pyPlasma_get<hsMatrix33>(init);
         } else {
@@ -47,7 +47,7 @@ PY_PLASMA_SUBSCRIPT_DECL(Matrix33)
     int i, j;
     if (!PyArg_ParseTuple(key, "ii", &i, &j)) {
         PyErr_SetString(PyExc_TypeError, "Matrix subscript expects int, int");
-        return NULL;
+        return nullptr;
     }
     return pyPlasma_convert((*self->fThis)(i, j));
 }
@@ -103,11 +103,11 @@ PY_METHOD_VA(Matrix33, read,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->read(stream->fThis);
     Py_RETURN_NONE;
@@ -120,11 +120,11 @@ PY_METHOD_VA(Matrix33, write,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->write(stream->fThis);
     Py_RETURN_NONE;
@@ -150,7 +150,7 @@ PY_PLASMA_TYPE_INIT(Matrix33)
     pyMatrix33_Type.tp_methods = pyMatrix33_Methods;
     pyMatrix33_Type.tp_getset = pyMatrix33_GetSet;
     if (PyType_CheckAndReady(&pyMatrix33_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyMatrix33_Type);
     return (PyObject*)&pyMatrix33_Type;

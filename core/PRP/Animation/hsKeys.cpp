@@ -148,7 +148,7 @@ void hsPoint3Key::prcParse(const pfPrcTag* tag)
     fFrameTime = tag->getParam("FrameTime", "0").to_float();
 
     const pfPrcTag* child = tag->getFirstChild();
-    while (child != NULL) {
+    while (child) {
         if (child->getName() == "Value") {
             if (child->hasChildren())
                 fValue.prcParse(child->getFirstChild());
@@ -314,10 +314,10 @@ void hsScaleKey::prcParse(const pfPrcTag* tag)
     fFrameTime = tag->getParam("FrameTime", "0").to_float();
 
     const pfPrcTag* child = tag->getFirstChild();
-    while (child != NULL) {
+    while (child) {
         if (child->getName() == "Value") {
             const pfPrcTag* subchild = child->getFirstChild();
-            while (subchild != NULL) {
+            while (subchild) {
                 if (subchild->getName() == "hsVector3") {
                     fS.prcParse(subchild);
                 } else if (subchild->getName() == "hsQuat") {

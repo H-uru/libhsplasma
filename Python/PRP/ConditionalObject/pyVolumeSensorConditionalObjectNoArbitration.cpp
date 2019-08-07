@@ -30,7 +30,7 @@ PY_PLASMA_TYPE_INIT(VolumeSensorConditionalObjectNoArbitration)
     pyVolumeSensorConditionalObjectNoArbitration_Type.tp_new = pyVolumeSensorConditionalObjectNoArbitration_new;
     pyVolumeSensorConditionalObjectNoArbitration_Type.tp_base = &pyVolumeSensorConditionalObject_Type;
     if (PyType_CheckAndReady(&pyVolumeSensorConditionalObjectNoArbitration_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyVolumeSensorConditionalObjectNoArbitration_Type);
     return (PyObject*)&pyVolumeSensorConditionalObjectNoArbitration_Type;

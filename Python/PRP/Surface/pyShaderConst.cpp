@@ -24,7 +24,7 @@ PY_PLASMA_VALUE_DEALLOC(ShaderConst)
 PY_PLASMA_INIT_DECL(ShaderConst)
 {
     float sc[4];
-    PyObject* init = NULL;
+    PyObject* init = nullptr;
 
     if (PyArg_ParseTuple(args, "ffff", &sc[0], &sc[1], &sc[2], &sc[3])) {
         self->fThis->fArray[0] = sc[0];
@@ -32,7 +32,7 @@ PY_PLASMA_INIT_DECL(ShaderConst)
         self->fThis->fArray[2] = sc[2];
         self->fThis->fArray[3] = sc[3];
     } else if (PyErr_Clear(), PyArg_ParseTuple(args, "|O", &init)) {
-        if (init == NULL)
+        if (init == nullptr)
             return 0;
         if (pyShaderConst_Check(init)) {
             self->fThis->fArray[0] = ((pyShaderConst*)init)->fThis->fArray[0];
@@ -55,7 +55,7 @@ PY_PLASMA_SUBSCRIPT_DECL(ShaderConst)
 {
     if (!pyPlasma_check<size_t>(key)) {
         PyErr_SetString(PyExc_IndexError, "subscript should be an int");
-        return NULL;
+        return nullptr;
     }
     return pyPlasma_convert(self->fThis->fArray[pyPlasma_get<size_t>(key)]);
 }
@@ -88,11 +88,11 @@ PY_METHOD_VA(ShaderConst, read,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->read(stream->fThis);
     Py_RETURN_NONE;
@@ -105,11 +105,11 @@ PY_METHOD_VA(ShaderConst, write,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->write(stream->fThis);
     Py_RETURN_NONE;
@@ -157,7 +157,7 @@ PY_PLASMA_TYPE_INIT(ShaderConst)
     pyShaderConst_Type.tp_methods = pyShaderConst_Methods;
     pyShaderConst_Type.tp_getset = pyShaderConst_GetSet;
     if (PyType_CheckAndReady(&pyShaderConst_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyShaderConst_Type);
     return (PyObject*)&pyShaderConst_Type;

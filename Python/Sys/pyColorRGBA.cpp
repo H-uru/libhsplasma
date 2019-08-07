@@ -25,15 +25,15 @@ PY_PLASMA_VALUE_DEALLOC(ColorRGBA)
 PY_PLASMA_INIT_DECL(ColorRGBA)
 {
     float red = 0.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f;
-    PyObject* init = NULL;
+    PyObject* init = nullptr;
     static char* kwlist[] = { _pycs("red"), _pycs("green"), _pycs("blue"),
-                              _pycs("alpha"), NULL };
+                              _pycs("alpha"), nullptr };
 
     if (PyArg_ParseTupleAndKeywords(args, kwds, "fff|f", kwlist,
                                     &red, &green, &blue, &alpha)) {
         self->fThis->set(red, green, blue, alpha);
     } else if (PyErr_Clear(), PyArg_ParseTuple(args, "|O", &init)) {
-        if (init == NULL)
+        if (init == nullptr)
             return 0;
         if (pyColorRGBA_Check(init)) {
             self->fThis->set(*((pyColorRGBA*)init)->fThis);
@@ -62,12 +62,12 @@ PY_METHOD_KWARGS(ColorRGBA, set,
 {
     float red = 0.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f;
     static char* kwlist[] = { _pycs("red"), _pycs("green"), _pycs("blue"),
-                              _pycs("alpha"), NULL };
+                              _pycs("alpha"), nullptr };
 
     if (!PyArg_ParseTupleAndKeywords(args, kwds, "|ffff", kwlist,
                                      &red, &green, &blue, &alpha)) {
         PyErr_SetString(PyExc_TypeError, "set expects 0-4 floats");
-        return NULL;
+        return nullptr;
     }
 
     self->fThis->set(red, green, blue, alpha);
@@ -81,11 +81,11 @@ PY_METHOD_VA(ColorRGBA, setFrom,
     pyColorRGBA* from;
     if (!PyArg_ParseTuple(args, "O", &from)) {
         PyErr_SetString(PyExc_TypeError, "setFrom expects an hsColorRGBA");
-        return NULL;
+        return nullptr;
     }
     if (!pyColorRGBA_Check((PyObject*)from)) {
         PyErr_SetString(PyExc_TypeError, "setFrom expects an hsColorRGBA");
-        return NULL;
+        return nullptr;
     }
     self->fThis->set(*from->fThis);
     Py_RETURN_NONE;
@@ -98,11 +98,11 @@ PY_METHOD_VA(ColorRGBA, read,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->read(stream->fThis);
     Py_RETURN_NONE;
@@ -115,11 +115,11 @@ PY_METHOD_VA(ColorRGBA, write,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->write(stream->fThis);
     Py_RETURN_NONE;
@@ -132,11 +132,11 @@ PY_METHOD_VA(ColorRGBA, readRGB,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "readRGB expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "readRGB expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->readRGB(stream->fThis);
     Py_RETURN_NONE;
@@ -149,11 +149,11 @@ PY_METHOD_VA(ColorRGBA, writeRGB,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "writeRGB expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "writeRGB expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->writeRGB(stream->fThis);
     Py_RETURN_NONE;
@@ -193,7 +193,7 @@ PY_PLASMA_TYPE_INIT(ColorRGBA)
     pyColorRGBA_Type.tp_methods = pyColorRGBA_Methods;
     pyColorRGBA_Type.tp_getset = pyColorRGBA_GetSet;
     if (PyType_CheckAndReady(&pyColorRGBA_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(ColorRGBA, "kBlack", hsColorRGBA::kBlack);
     PY_TYPE_ADD_CONST(ColorRGBA, "kWhite", hsColorRGBA::kWhite);

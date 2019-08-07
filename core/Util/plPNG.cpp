@@ -48,19 +48,19 @@ void plPNG::DecompressPNG(hsStream* S, void* buf, size_t size)
     if (!png_check_sig(sig, PNG_SIG_LENGTH))
         throw hsPNGException(__FILE__, __LINE__, "Invalid PNG header");
 
-    pngReader = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+    pngReader = png_create_read_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
     if (!pngReader)
         throw hsPNGException(__FILE__, __LINE__, "Error initializing PNG reader");
 
     pngInfo = png_create_info_struct(pngReader);
     if (!pngInfo) {
-        png_destroy_read_struct(&pngReader, NULL, NULL);
+        png_destroy_read_struct(&pngReader, nullptr, nullptr);
         throw hsPNGException(__FILE__, __LINE__, "Error initializing PNG info structure");
     }
 
     endInfo = png_create_info_struct(pngReader);
     if (!endInfo) {
-        png_destroy_read_struct(&pngReader, &pngInfo, NULL);
+        png_destroy_read_struct(&pngReader, &pngInfo, nullptr);
         throw hsPNGException(__FILE__, __LINE__, "Error initializing PNG info structure");
     }
 
@@ -126,17 +126,17 @@ void plPNG::CompressPNG(hsStream* S, const void* buf, size_t size,
     png_structp pngWriter;
     png_infop   pngInfo;
 
-    pngWriter = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+    pngWriter = png_create_write_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
     if (!pngWriter)
         throw hsPNGException(__FILE__, __LINE__, "Error initializing PNG writer");
 
     pngInfo = png_create_info_struct(pngWriter);
     if (!pngInfo) {
-        png_destroy_write_struct(&pngWriter, NULL);
+        png_destroy_write_struct(&pngWriter, nullptr);
         throw hsPNGException(__FILE__, __LINE__, "Error initializing PNG info structure");
     }
 
-    png_set_write_fn(pngWriter, (png_voidp)S, &pl_png_write, NULL);
+    png_set_write_fn(pngWriter, (png_voidp)S, &pl_png_write, nullptr);
     png_set_IHDR(pngWriter, pngInfo, width, height, 8,
                  PNG_COLOR_TYPE_RGB_ALPHA, PNG_INTERLACE_NONE,
                  PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);

@@ -28,7 +28,7 @@ PY_PLASMA_TYPE_INIT(MatrixConstant)
     pyMatrixConstant_Type.tp_new = pyMatrixConstant_new;
     pyMatrixConstant_Type.tp_base = &pyMatrixChannel_Type;
     if (PyType_CheckAndReady(&pyMatrixConstant_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyMatrixConstant_Type);
     return (PyObject*)&pyMatrixConstant_Type;

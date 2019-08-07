@@ -66,7 +66,7 @@ void plLoadCloneMsg::IPrcWrite(pfPrcHelper* prc)
     prc->writeParam("Loading", fIsLoading);
     prc->endTag(true);
 
-    if (fTriggerMsg != NULL) {
+    if (fTriggerMsg) {
         prc->writeSimpleTag("TriggerMsg");
         fTriggerMsg->prcWrite(prc);
         prc->closeTag();
@@ -92,7 +92,7 @@ void plLoadCloneMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         fIsLoading = tag->getParam("Loading", "0").to_bool();
     } else if (tag->getName() == "TriggerMsg") {
         if (tag->getParam("NULL", "false").to_bool())
-            setTriggerMsg(NULL);
+            setTriggerMsg(nullptr);
         else if (tag->hasChildren())
             setTriggerMsg(plMessage::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else {

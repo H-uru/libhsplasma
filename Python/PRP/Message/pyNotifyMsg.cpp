@@ -36,11 +36,11 @@ PY_METHOD_VA(NotifyMsg, addEvent,
     pyEventData* evt;
     if (!PyArg_ParseTuple(args, "O", &evt)) {
         PyErr_SetString(PyExc_TypeError, "addEvent expects a proEventData");
-        return NULL;
+        return nullptr;
     }
     if (!pyEventData_Check((PyObject*)evt)) {
         PyErr_SetString(PyExc_TypeError, "addEvent expects a proEventData");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addEvent(evt->fThis);
     evt->fPyOwned = false;
@@ -54,7 +54,7 @@ PY_METHOD_VA(NotifyMsg, delEvent,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delEvent expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delEvent(idx);
     Py_RETURN_NONE;
@@ -99,7 +99,7 @@ PY_PLASMA_TYPE_INIT(NotifyMsg)
     pyNotifyMsg_Type.tp_getset = pyNotifyMsg_GetSet;
     pyNotifyMsg_Type.tp_base = &pyMessage_Type;
     if (PyType_CheckAndReady(&pyNotifyMsg_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(NotifyMsg, "kActivator", plNotifyMsg::kActivator);
     PY_TYPE_ADD_CONST(NotifyMsg, "kVarNotification", plNotifyMsg::kVarNotification);

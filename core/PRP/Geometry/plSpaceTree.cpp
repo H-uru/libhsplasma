@@ -29,14 +29,14 @@ plSpaceBuilderNode::~plSpaceBuilderNode()
 
 size_t plSpaceBuilderNode::size() const
 {
-    return 1 + ((fChildren[0] != NULL) ? fChildren[0]->size() : 0)
-             + ((fChildren[1] != NULL) ? fChildren[1]->size() : 0);
+    return 1 + (fChildren[0] ? fChildren[0]->size() : 0)
+             + (fChildren[1] ? fChildren[1]->size() : 0);
 }
 
 size_t plSpaceBuilderNode::depth() const
 {
-    int dep0 = (fChildren[0] != NULL) ? fChildren[0]->depth() : 0;
-    int dep1 = (fChildren[1] != NULL) ? fChildren[1]->depth() : 0;
+    int dep0 = fChildren[0] ? fChildren[0]->depth() : 0;
+    int dep1 = fChildren[1] ? fChildren[1]->depth() : 0;
 
     return 1 + std::max(dep0, dep1);
 }
@@ -169,7 +169,7 @@ void plSpaceTree::clear()
 
 void plSpaceTree::IGatherLeaves(plSpaceBuilderNode* node)
 {
-    if (node->fChildren[0] == NULL) {
+    if (node->fChildren[0] == nullptr) {
         plSpaceTreeNode& leaf = fTree[node->fDataIndex];
         short nodeIdx = node->fDataIndex;
         leaf.setBounds(node->fBounds);
@@ -185,7 +185,7 @@ void plSpaceTree::IGatherLeaves(plSpaceBuilderNode* node)
 
 void plSpaceTree::IMakeTree(plSpaceBuilderNode* node, int target, int curr)
 {
-    if (node->fChildren[0] == NULL) {
+    if (node->fChildren[0] == nullptr) {
         /* Don't include leaves */
         return;
     }

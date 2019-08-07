@@ -77,7 +77,7 @@ void plDynamicTextMap::write(hsStream* S, plResManager* mgr)
     S->writeBool(fHasAlpha);
 
     S->writeInt(fInitBufferLen);
-    if (fInitBuffer != NULL)
+    if (fInitBuffer)
         S->writeInts(fInitBufferLen, (uint32_t*)fInitBuffer);
 }
 
@@ -91,7 +91,7 @@ void plDynamicTextMap::IPrcWrite(pfPrcHelper* prc)
     prc->writeParam("HasAlpha", fHasAlpha);
     prc->endTag(true);
 
-    if (fInitBuffer != NULL) {
+    if (fInitBuffer) {
         prc->writeSimpleTag("InitBuffer");
         prc->writeHexStream(fInitBufferLen, (unsigned char*)fInitBuffer);
         prc->closeTag();
@@ -110,7 +110,7 @@ void plDynamicTextMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         fHasAlpha = tag->getParam("HasAlpha", "false").to_bool();
     } else if (tag->getName() == "InitBuffer") {
         if (tag->getParam("NULL", "false").to_bool()) {
-            fInitBuffer = NULL;
+            fInitBuffer = nullptr;
         } else {
             fInitBufferLen = tag->getContents().size();
             fInitBuffer = new unsigned int[fInitBufferLen];

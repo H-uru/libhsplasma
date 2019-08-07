@@ -120,7 +120,7 @@ PY_PLASMA_TYPE_INIT(GBufferVertex)
     pyGBufferVertex_Type.tp_new = pyGBufferVertex_new;
     pyGBufferVertex_Type.tp_getset = pyGBufferVertex_GetSet;
     if (PyType_CheckAndReady(&pyGBufferVertex_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyGBufferVertex_Type);
     return (PyObject*)&pyGBufferVertex_Type;

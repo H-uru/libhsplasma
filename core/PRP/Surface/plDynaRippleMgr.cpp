@@ -162,7 +162,7 @@ void plDynaWakeMgr::IPrcWrite(pfPrcHelper* prc)
     prc->writeParam("VelWeight", fVelWgt);
     prc->endTag(true);
 
-    if (fAnimPath != NULL) {
+    if (fAnimPath) {
         fAnimPath->prcWrite(prc);
     } else {
         prc->startTag("plAnimPath");
@@ -181,7 +181,7 @@ void plDynaWakeMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         fVelWgt = tag->getParam("VelWeight", "0").to_float();
     } else if (tag->getName() == "plAnimPath") {
         if (tag->getParam("NULL", "false").to_bool()) {
-            setAnimPath(NULL);
+            setAnimPath(nullptr);
         } else {
             if (tag->hasChildren())
                 setAnimPath(plAnimPath::Convert(mgr->prcParseCreatable(tag->getFirstChild())));

@@ -37,11 +37,11 @@ PY_METHOD_VA(CoordinateInterface, addChild,
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addChild expects a plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addChild expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addChild(*key->fThis);
     Py_RETURN_NONE;
@@ -54,7 +54,7 @@ PY_METHOD_VA(CoordinateInterface, delChild,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delChild expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delChild(idx);
     Py_RETURN_NONE;
@@ -102,7 +102,7 @@ PY_PLASMA_TYPE_INIT(CoordinateInterface)
     pyCoordinateInterface_Type.tp_getset = pyCoordinateInterface_GetSet;
     pyCoordinateInterface_Type.tp_base = &pyObjInterface_Type;
     if (PyType_CheckAndReady(&pyCoordinateInterface_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(CoordinateInterface, "kCanEverDelayTransform",
                       plCoordinateInterface::kCanEverDelayTransform);

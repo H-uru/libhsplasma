@@ -40,7 +40,7 @@ PY_PLASMA_TYPE_INIT(RideAnimatedPhysMsg)
     pyRideAnimatedPhysMsg_Type.tp_getset = pyRideAnimatedPhysMsg_GetSet;
     pyRideAnimatedPhysMsg_Type.tp_base = &pyMessage_Type;
     if (PyType_CheckAndReady(&pyRideAnimatedPhysMsg_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyRideAnimatedPhysMsg_Type);
     return (PyObject*)&pyRideAnimatedPhysMsg_Type;

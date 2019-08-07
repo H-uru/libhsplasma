@@ -117,7 +117,7 @@ int main(int argc, char* argv[])
                 prc.exclude(pfPrcHelper::kExcludeTextureData);
                 prc.exclude(pfPrcHelper::kExcludeVertexData);
                 hsKeyedObject* obj = GET_KEY_OBJECT((*ki), hsKeyedObject);
-                if (obj == NULL)
+                if (obj == nullptr)
                     continue;
                 obj->prcWrite(&prc);
                 prcOut.rewind();

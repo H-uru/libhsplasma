@@ -39,7 +39,7 @@ PY_PLASMA_TYPE_INIT(SwimMsg)
     pySwimMsg_Type.tp_getset = pySwimMsg_GetSet;
     pySwimMsg_Type.tp_base = &pyMessage_Type;
     if (PyType_CheckAndReady(&pySwimMsg_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pySwimMsg_Type);
     return (PyObject*)&pySwimMsg_Type;

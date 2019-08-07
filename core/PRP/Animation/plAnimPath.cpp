@@ -37,10 +37,10 @@ void plAnimPath::read(hsStream* S, plResManager* mgr)
     if (useTM) {
         fTMController = new plTMController();
         fTMController->read(S, mgr);
-        fController = NULL;
+        fController = nullptr;
     } else {
         fController = plCompoundController::Convert(mgr->ReadCreatable(S));
-        fTMController = NULL;
+        fTMController = nullptr;
     }
 
     fParts.read(S);
@@ -56,15 +56,15 @@ void plAnimPath::write(hsStream* S, plResManager* mgr)
 
     bool useTM = S->getVer().isUruSP();
     if (S->getVer().isUniversal()) {
-        useTM = (fTMController != NULL);
+        useTM = (fTMController != nullptr);
         S->writeBool(useTM);
     }
 
     if (useTM) {
         plTMController* controller = fTMController;
-        if (controller == NULL && fController != NULL)
+        if (controller == nullptr && fController != nullptr)
             controller = fController->convertToTMController();
-        if (controller == NULL) {
+        if (controller == nullptr) {
             controller = new plTMController();
             controller->write(S, mgr);
             delete controller;
@@ -73,7 +73,7 @@ void plAnimPath::write(hsStream* S, plResManager* mgr)
         }
     } else {
         plCompoundController* controller = fController;
-        if (controller == NULL && fTMController != NULL)
+        if (controller == nullptr && fTMController != nullptr)
             controller = fTMController->convertToCompoundController();
         mgr->WriteCreatable(S, controller);
     }
@@ -94,9 +94,9 @@ void plAnimPath::IPrcWrite(pfPrcHelper* prc)
     prc->endTag(true);
 
     prc->writeSimpleTag("Controller");
-    if (fController != NULL)
+    if (fController)
         fController->prcWrite(prc);
-    if (fTMController != NULL)
+    if (fTMController)
         fTMController->prcWrite(prc);
     prc->closeTag();
     fParts.prcWrite(prc);
@@ -122,10 +122,10 @@ void plAnimPath::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
             if (tag->getFirstChild()->getName() == "plTMController") {
                 fTMController = new plTMController();
                 fTMController->prcParse(tag->getFirstChild(), mgr);
-                fController = NULL;
+                fController = nullptr;
             } else {
                 fController = plCompoundController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
-                fTMController = NULL;
+                fTMController = nullptr;
             }
         }
     } else if (tag->getName() == "hsAffineParts") {
@@ -146,7 +146,7 @@ void plAnimPath::setController(plCompoundController* controller)
     delete fController;
     delete fTMController;
     fController = controller;
-    fTMController = NULL;
+    fTMController = nullptr;
 }
 
 void plAnimPath::setTMController(plTMController* controller)
@@ -154,5 +154,5 @@ void plAnimPath::setTMController(plTMController* controller)
     delete fController;
     delete fTMController;
     fTMController = controller;
-    fController = NULL;
+    fController = nullptr;
 }

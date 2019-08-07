@@ -80,7 +80,7 @@ void plVehicleModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
                 throw pfPrcTagException(__FILE__, __LINE__, wheel->getName());
             fWheels[i].fRadius = wheel->getParam("Radius", "0").to_float();
             const pfPrcTag* wchild = wheel->getFirstChild();
-            while (wchild != NULL) {
+            while (wchild) {
                 if (wchild->getName() == "plKey")
                     fWheels[i].fWheelObj = mgr->prcParseKey(wchild);
                 else if (wchild->getName() == "Position")

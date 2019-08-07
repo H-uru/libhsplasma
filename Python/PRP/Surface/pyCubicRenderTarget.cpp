@@ -67,7 +67,7 @@ PY_PLASMA_TYPE_INIT(CubicRenderTarget)
     pyCubicRenderTarget_Type.tp_getset = pyCubicRenderTarget_GetSet;
     pyCubicRenderTarget_Type.tp_base = &pyRenderTarget_Type;
     if (PyType_CheckAndReady(&pyCubicRenderTarget_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(CubicRenderTarget, "kLeftFace", plCubicRenderTarget::kLeftFace);
     PY_TYPE_ADD_CONST(CubicRenderTarget, "kRightFace", plCubicRenderTarget::kRightFace);

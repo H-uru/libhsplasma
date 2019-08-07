@@ -42,7 +42,7 @@ PY_PLASMA_TYPE_INIT(GBufferCell)
     pyGBufferCell_Type.tp_new = pyGBufferCell_new;
     pyGBufferCell_Type.tp_getset = pyGBufferCell_GetSet;
     if (PyType_CheckAndReady(&pyGBufferCell_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyGBufferCell_Type);
     return (PyObject*)&pyGBufferCell_Type;

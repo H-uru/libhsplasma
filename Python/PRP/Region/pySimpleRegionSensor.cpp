@@ -43,7 +43,7 @@ PY_PLASMA_TYPE_INIT(SimpleRegionSensor)
     pySimpleRegionSensor_Type.tp_getset = pySimpleRegionSensor_GetSet;
     pySimpleRegionSensor_Type.tp_base = &pySingleModifier_Type;
     if (PyType_CheckAndReady(&pySimpleRegionSensor_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pySimpleRegionSensor_Type);
     return (PyObject*)&pySimpleRegionSensor_Type;

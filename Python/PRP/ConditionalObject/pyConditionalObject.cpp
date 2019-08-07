@@ -39,7 +39,7 @@ PY_PLASMA_TYPE_INIT(ConditionalObject)
     pyConditionalObject_Type.tp_getset = pyConditionalObject_GetSet;
     pyConditionalObject_Type.tp_base = &pyKeyedObject_Type;
     if (PyType_CheckAndReady(&pyConditionalObject_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyConditionalObject_Type);
     return (PyObject*)&pyConditionalObject_Type;

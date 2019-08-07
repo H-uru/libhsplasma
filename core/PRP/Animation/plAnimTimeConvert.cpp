@@ -88,7 +88,7 @@ void plAnimTimeConvert::IPrcWrite(pfPrcHelper* prc)
     prc->writeParam("Speed", fSpeed);
     prc->endTag(true);
 
-    if (fEaseInCurve != NULL) {
+    if (fEaseInCurve) {
         prc->writeSimpleTag("EaseInCurve");
         fEaseInCurve->prcWrite(prc);
         prc->closeTag();
@@ -97,7 +97,7 @@ void plAnimTimeConvert::IPrcWrite(pfPrcHelper* prc)
         prc->writeParam("NULL", true);
         prc->endTag(true);
     }
-    if (fEaseOutCurve != NULL) {
+    if (fEaseOutCurve) {
         prc->writeSimpleTag("EaseOutCurve");
         fEaseOutCurve->prcWrite(prc);
         prc->closeTag();
@@ -106,7 +106,7 @@ void plAnimTimeConvert::IPrcWrite(pfPrcHelper* prc)
         prc->writeParam("NULL", true);
         prc->endTag(true);
     }
-    if (fSpeedEaseCurve != NULL) {
+    if (fSpeedEaseCurve) {
         prc->writeSimpleTag("SpeedEaseCurve");
         fSpeedEaseCurve->prcWrite(prc);
         prc->closeTag();

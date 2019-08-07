@@ -38,11 +38,11 @@ PY_METHOD_VA(Span, read,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->read(stream->fThis);
     Py_RETURN_NONE;
@@ -55,11 +55,11 @@ PY_METHOD_VA(Span, write,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->write(stream->fThis);
     Py_RETURN_NONE;
@@ -84,11 +84,11 @@ PY_METHOD_VA(Span, addPermaLight,
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addPermaLight expects a plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addPermaLight expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addPermaLight(*key->fThis);
     Py_RETURN_NONE;
@@ -101,11 +101,11 @@ PY_METHOD_VA(Span, addPermaProj,
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addPermaProj expects a plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addPermaProj expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addPermaProj(*key->fThis);
     Py_RETURN_NONE;
@@ -195,7 +195,7 @@ PY_PLASMA_TYPE_INIT(Span)
     pySpan_Type.tp_methods = pySpan_Methods;
     pySpan_Type.tp_getset = pySpan_GetSet;
     if (PyType_CheckAndReady(&pySpan_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(Span, "kLiteMaterial", plSpan::kLiteMaterial);
     PY_TYPE_ADD_CONST(Span, "kPropNoDraw", plSpan::kPropNoDraw);

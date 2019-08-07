@@ -152,7 +152,7 @@ void plAgeInfo::prcParse(const pfPrcTag* tag)
     fName = tag->getParam("Name", "");
 
     const pfPrcTag* child = tag->getFirstChild();
-    while (child != NULL) {
+    while (child) {
         if (child->getName() == "AgeParams") {
             fStartDateTime = child->getParam("StartDateTime", "0").to_uint();
             fDayLength = child->getParam("DayLength", "0").to_float();

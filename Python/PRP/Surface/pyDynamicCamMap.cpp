@@ -31,7 +31,7 @@ PY_METHOD_VA(DynamicCamMap, addMatLayer,
     PyObject* key;
     if (!(PyArg_ParseTuple(args, "O", &key) && pyKey_Check(key))) {
         PyErr_SetString(PyExc_TypeError, "addMatLayer expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addMatLayer(pyPlasma_get<plKey>(key));
     Py_RETURN_NONE;
@@ -50,7 +50,7 @@ PY_METHOD_VA(DynamicCamMap, delMatLayer,
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delMatLayer expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delMatLayer((size_t)idx);
     Py_RETURN_NONE;
@@ -63,7 +63,7 @@ PY_METHOD_VA(DynamicCamMap, addTargetNode,
     PyObject* key;
     if (!(PyArg_ParseTuple(args, "O", &key) && pyKey_Check(key))) {
         PyErr_SetString(PyExc_TypeError, "addTargetNode expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addTargetNode(pyPlasma_get<plKey>(key));
     Py_RETURN_NONE;
@@ -83,7 +83,7 @@ PY_METHOD_VA(DynamicCamMap, delTargetNode,
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delTargetNode expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delTargetNode((size_t)idx);
     Py_RETURN_NONE;
@@ -96,7 +96,7 @@ PY_METHOD_VA(DynamicCamMap, addVisRegion,
     PyObject* key;
     if (!(PyArg_ParseTuple(args, "O", &key) && pyKey_Check(key))) {
         PyErr_SetString(PyExc_TypeError, "addVisRegion expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addVisRegion(pyPlasma_get<plKey>(key));
     Py_RETURN_NONE;
@@ -116,7 +116,7 @@ PY_METHOD_VA(DynamicCamMap, delVisRegion,
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delVisRegion expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delVisRegion((size_t)idx);
     Py_RETURN_NONE;
@@ -129,7 +129,7 @@ PY_METHOD_VA(DynamicCamMap, addVisRegionName,
     PyObject* name;
     if (!(PyArg_ParseTuple(args, "O", &name) && pyPlasma_check<ST::string>(name))) {
         PyErr_SetString(PyExc_TypeError, "addVisRegionName expects a string");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addVisRegionName(pyPlasma_get<ST::string>(name));
     Py_RETURN_NONE;
@@ -149,7 +149,7 @@ PY_METHOD_VA(DynamicCamMap, delVisRegionName,
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delVisRegionName expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delVisRegionName((size_t)idx);
     Py_RETURN_NONE;
@@ -344,7 +344,7 @@ PY_PLASMA_TYPE_INIT(DynamicCamMap)
     pyDynamicCamMap_Type.tp_getset = pyDynamicCamMap_GetSet;
     pyDynamicCamMap_Type.tp_base = &pyRenderTarget_Type;
     if (PyType_CheckAndReady(&pyDynamicCamMap_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyDynamicCamMap_Type);
     return (PyObject*)&pyDynamicCamMap_Type;

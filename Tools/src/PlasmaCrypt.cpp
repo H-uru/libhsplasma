@@ -57,7 +57,7 @@ static ST::string getNextOutFile(const ST::string& filename)
     ST::string fn = ST::format("{}.out", filename);
     int i = 0;
     FILE* outFile;
-    while ((outFile = fopen(fn.c_str(), "r")) != NULL) {
+    while ((outFile = fopen(fn.c_str(), "r")) != nullptr) {
         fclose(outFile);
         fn = ST::format("{}.out{}", filename, ++i);
     }

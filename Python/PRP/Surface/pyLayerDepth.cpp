@@ -28,7 +28,7 @@ PY_PLASMA_TYPE_INIT(LayerDepth)
     pyLayerDepth_Type.tp_new = pyLayerDepth_new;
     pyLayerDepth_Type.tp_base = &pyLayer_Type;
     if (PyType_CheckAndReady(&pyLayerDepth_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyLayerDepth_Type);
     return (PyObject*)&pyLayerDepth_Type;

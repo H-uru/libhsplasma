@@ -42,7 +42,7 @@ PY_PLASMA_TYPE_INIT(VolumeSensorConditionalObject)
     pyVolumeSensorConditionalObject_Type.tp_getset = pyVolumeSensorConditionalObject_GetSet;
     pyVolumeSensorConditionalObject_Type.tp_base = &pyConditionalObject_Type;
     if (PyType_CheckAndReady(&pyVolumeSensorConditionalObject_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(VolumeSensorConditionalObject, "kTypeEnter",
                       plVolumeSensorConditionalObject::kTypeEnter);

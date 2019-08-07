@@ -28,11 +28,11 @@ PY_METHOD_VA(GUIDynDisplayCtrl, addTextMap,
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addTextMap expects a plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addTextMap expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addTextMap(*key->fThis);
     Py_RETURN_NONE;
@@ -45,7 +45,7 @@ PY_METHOD_VA(GUIDynDisplayCtrl, delTextMap,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delTextMap expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delTextMap(idx);
     Py_RETURN_NONE;
@@ -65,11 +65,11 @@ PY_METHOD_VA(GUIDynDisplayCtrl, addLayer,
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addLayer expects a plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addLayer expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addLayer(*key->fThis);
     Py_RETURN_NONE;
@@ -82,7 +82,7 @@ PY_METHOD_VA(GUIDynDisplayCtrl, delLayer,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delLayer expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delLayer(idx);
     Py_RETURN_NONE;
@@ -102,11 +102,11 @@ PY_METHOD_VA(GUIDynDisplayCtrl, addMaterial,
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addMaterial expects a plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addMaterial expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addMaterial(*key->fThis);
     Py_RETURN_NONE;
@@ -119,7 +119,7 @@ PY_METHOD_VA(GUIDynDisplayCtrl, delMaterial,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delMaterial expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delMaterial(idx);
     Py_RETURN_NONE;
@@ -191,7 +191,7 @@ PY_PLASMA_TYPE_INIT(GUIDynDisplayCtrl)
     pyGUIDynDisplayCtrl_Type.tp_getset = pyGUIDynDisplayCtrl_GetSet;
     pyGUIDynDisplayCtrl_Type.tp_base = &pyGUIControlMod_Type;
     if (PyType_CheckAndReady(&pyGUIDynDisplayCtrl_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyGUIDynDisplayCtrl_Type);
     return (PyObject*)&pyGUIDynDisplayCtrl_Type;

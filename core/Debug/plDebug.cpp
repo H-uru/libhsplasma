@@ -18,7 +18,7 @@
 #include <cstdarg>
 #include <cstdlib>
 
-hsStream* plDebug::fDebugStream = NULL;
+hsStream* plDebug::fDebugStream = nullptr;
 int plDebug::fDebugLevel = kDLWarning;
 bool plDebug::fIOwnStream = false;
 bool plDebug::fIsExitRegistered = false;
@@ -29,7 +29,7 @@ void plDebug::Init(int level, hsStream* stream)
     DeInit();
 
     fDebugLevel = level;
-    if (stream == NULL) {
+    if (stream == nullptr) {
         fDebugStream = new hsStdioStream(true);
         fIOwnStream = true;
     } else {
@@ -62,7 +62,7 @@ void plDebug::DelayInit()
 {
     if (fDebugFile.empty()) {
         // Nobody ever called Init(), so use stderr
-        Init(kDLWarning, NULL);
+        Init(kDLWarning, nullptr);
     } else {
         // Init to the provided filename
         fDebugStream = new hsFileStream();
@@ -75,12 +75,12 @@ void plDebug::DeInit()
 {
     if (fIOwnStream)
         delete fDebugStream;
-    fDebugStream = NULL;
+    fDebugStream = nullptr;
 }
 
 void plDebug::WriteLn(const ST::string& line)
 {
-    if (fDebugStream == NULL)
+    if (fDebugStream == nullptr)
         DelayInit();
 
     fDebugStream->writeLine(line);

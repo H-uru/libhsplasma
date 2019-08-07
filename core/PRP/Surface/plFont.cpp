@@ -102,7 +102,7 @@ plFont& plFont::operator=(const plFont& copy)
         fBmpData = new unsigned char[size];
         memcpy(fBmpData, copy.fBmpData, size);
     } else {
-        fBmpData = NULL;
+        fBmpData = nullptr;
     }
     return *this;
 }
@@ -195,7 +195,7 @@ void plFont::readP2F(hsStream* S)
         fBmpData = new unsigned char[size];
         S->read(size, fBmpData);
     } else {
-        fBmpData = NULL;
+        fBmpData = nullptr;
     }
 
     fFirstChar = S->readShort();

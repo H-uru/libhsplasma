@@ -44,11 +44,11 @@ PY_METHOD_VA(SceneObject, addInterface,
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addInterface expects a plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addInterface expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addInterface(*key->fThis);
     Py_RETURN_NONE;
@@ -61,11 +61,11 @@ PY_METHOD_VA(SceneObject, addModifier,
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addModifier expects a plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addModifier expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addModifier(*key->fThis);
     Py_RETURN_NONE;
@@ -78,7 +78,7 @@ PY_METHOD_VA(SceneObject, delInterface,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delInterface expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delInterface(idx);
     Py_RETURN_NONE;
@@ -91,7 +91,7 @@ PY_METHOD_VA(SceneObject, delModifier,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delModifier expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delModifier(idx);
     Py_RETURN_NONE;
@@ -155,7 +155,7 @@ PY_PLASMA_TYPE_INIT(SceneObject)
     pySceneObject_Type.tp_getset = pySceneObject_GetSet;
     pySceneObject_Type.tp_base = &pySynchedObject_Type;
     if (PyType_CheckAndReady(&pySceneObject_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pySceneObject_Type);
     return (PyObject*)&pySceneObject_Type;

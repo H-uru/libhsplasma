@@ -90,7 +90,7 @@ void plSoundBuffer::read(hsStream* S, plResManager* mgr)
         fData = new unsigned char[fDataLength];
         S->read(fDataLength, fData);
     } else {
-        fData = NULL;
+        fData = nullptr;
     }
 }
 
@@ -98,7 +98,7 @@ void plSoundBuffer::write(hsStream* S, plResManager* mgr)
 {
     hsKeyedObject::write(S, mgr);
 
-    if (fData == NULL)
+    if (fData == nullptr)
         fFlags |= kIsExternal;
     S->writeInt(fFlags);
     S->writeInt(fDataLength);
@@ -123,8 +123,8 @@ void plSoundBuffer::IPrcWrite(pfPrcHelper* prc)
     prc->writeParamHex("Flags", fFlags);
     prc->writeParam("Length", (unsigned long)fDataLength);
     prc->writeParam("Filename", fFileName);
-    prc->endTag(fData == NULL);
-    if (fData != NULL) {
+    prc->endTag(fData == nullptr);
+    if (fData) {
         prc->writeHexStream(fDataLength, fData);
         prc->closeTag();
     }
@@ -152,9 +152,9 @@ void plSoundBuffer::setData(size_t length, const unsigned char* data)
 {
     delete[] fData;
 
-    if (length == 0 || data == NULL) {
+    if (length == 0 || data == nullptr) {
         fDataLength = length;   // Length can be specified with a null datum
-        fData = NULL;
+        fData = nullptr;
     } else {
         fDataLength = length;
         fData = new unsigned char[length];

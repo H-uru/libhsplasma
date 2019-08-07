@@ -42,11 +42,11 @@ PY_METHOD_VA(DrawableSpans, addIcicle,
     pyIcicle* ice;
     if (!PyArg_ParseTuple(args, "O", &ice)) {
         PyErr_SetString(PyExc_TypeError, "addIcicle expects a plIcicle");
-        return NULL;
+        return nullptr;
     }
     if (!pyIcicle_Check((PyObject*)ice)) {
         PyErr_SetString(PyExc_TypeError, "addIcicle expects a plIcicle");
-        return NULL;
+        return nullptr;
     }
     return pyPlasma_convert(self->fThis->addIcicle(*ice->fThis));
 }
@@ -59,7 +59,7 @@ PY_METHOD_VA(DrawableSpans, createBufferGroup,
     int fmt;
     if (!PyArg_ParseTuple(args, "i", &fmt)) {
         PyErr_SetString(PyExc_TypeError, "createBufferGroup expects an int");
-        return NULL;
+        return nullptr;
     }
     return pyPlasma_convert(self->fThis->createBufferGroup(fmt));
 }
@@ -71,7 +71,7 @@ PY_METHOD_VA(DrawableSpans, deleteBufferGroup,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "deleteBufferGroup expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->deleteBufferGroup(idx);
     Py_RETURN_NONE;
@@ -84,11 +84,11 @@ PY_METHOD_VA(DrawableSpans, getVerts,
     pyIcicle* ice;
     if (!PyArg_ParseTuple(args, "O", &ice)) {
         PyErr_SetString(PyExc_TypeError, "getVerts expects a plIcicle");
-        return NULL;
+        return nullptr;
     }
     if (!pyIcicle_Check((PyObject*)ice)) {
         PyErr_SetString(PyExc_TypeError, "getVerts expects a plIcicle");
-        return NULL;
+        return nullptr;
     }
     std::vector<plGBufferVertex> verts = self->fThis->getVerts(ice->fThis);
     PyObject* list = PyTuple_New(verts.size());
@@ -105,11 +105,11 @@ PY_METHOD_VA(DrawableSpans, getIndices,
     pyIcicle* ice;
     if (!PyArg_ParseTuple(args, "O", &ice)) {
         PyErr_SetString(PyExc_TypeError, "getIndices expects a plIcicle");
-        return NULL;
+        return nullptr;
     }
     if (!pyIcicle_Check((PyObject*)ice)) {
         PyErr_SetString(PyExc_TypeError, "getIndices expects a plIcicle");
-        return NULL;
+        return nullptr;
     }
     std::vector<unsigned short> indices = self->fThis->getIndices(ice->fThis);
     PyObject* list = PyTuple_New(indices.size());
@@ -125,7 +125,7 @@ PY_METHOD_VA(DrawableSpans, getCells,
     int buf, idx;
     if (!PyArg_ParseTuple(args, "ii", &buf, &idx)) {
         PyErr_SetString(PyExc_TypeError, "getCells expects int, int");
-        return NULL;
+        return nullptr;
     }
     std::vector<plGBufferCell> cells = self->fThis->getCells(buf, idx);
     PyObject* list = PyTuple_New(cells.size());
@@ -142,19 +142,19 @@ PY_METHOD_VA(DrawableSpans, addVerts,
     PyObject* vlistObj;
     if (!PyArg_ParseTuple(args,  "iO", &buf, &vlistObj)) {
         PyErr_SetString(PyExc_TypeError, "addVerts expects int, sequence(plGBufferVertex)");
-        return NULL;
+        return nullptr;
     }
     pySequenceFastRef vlist(vlistObj);
     if (!vlist.isSequence()) {
         PyErr_SetString(PyExc_TypeError, "addVerts expects int, sequence(plGBufferVertex)");
-        return NULL;
+        return nullptr;
     }
     std::vector<plGBufferVertex> verts(vlist.size());
     for (size_t i=0; i<verts.size(); i++) {
         PyObject* vert = vlist.get(i);
         if (!pyGBufferVertex_Check(vert)) {
             PyErr_SetString(PyExc_TypeError, "addVerts expects a sequence of plGBufferVertexes");
-            return NULL;
+            return nullptr;
         }
         verts[i] = *((pyGBufferVertex*)vert)->fThis;
     }
@@ -170,19 +170,19 @@ PY_METHOD_VA(DrawableSpans, addIndices,
     PyObject* ilistObj;
     if (!PyArg_ParseTuple(args,  "iO", &buf, &ilistObj)) {
         PyErr_SetString(PyExc_TypeError, "addIndices expects int, sequence(int)");
-        return NULL;
+        return nullptr;
     }
     pySequenceFastRef ilist(ilistObj);
     if (!ilist.isSequence()) {
         PyErr_SetString(PyExc_TypeError, "addIndices expects int, sequence(int)");
-        return NULL;
+        return nullptr;
     }
     std::vector<unsigned short> indices(ilist.size());
     for (size_t i=0; i<indices.size(); i++) {
         PyObject* index = ilist.get(i);
         if (!pyPlasma_check<unsigned short>(index)) {
             PyErr_SetString(PyExc_TypeError, "addIndices expects a sequence of ints");
-            return NULL;
+            return nullptr;
         }
         indices[i] = pyPlasma_get<unsigned short>(index);
     }
@@ -198,19 +198,19 @@ PY_METHOD_VA(DrawableSpans, addCells,
     PyObject* clistObj;
     if (!PyArg_ParseTuple(args,  "iO", &buf, &clistObj)) {
         PyErr_SetString(PyExc_TypeError, "addCells expects int, sequence(plGBufferCell)");
-        return NULL;
+        return nullptr;
     }
     pySequenceFastRef clist(clistObj);
     if (!clist.isSequence()) {
         PyErr_SetString(PyExc_TypeError, "addCells expects int, sequence(plGBufferCell)");
-        return NULL;
+        return nullptr;
     }
     std::vector<plGBufferCell> cells(clist.size());
     for (size_t i=0; i<cells.size(); i++) {
         PyObject* cell = clist.get(i);
         if (!pyGBufferCell_Check(cell)) {
             PyErr_SetString(PyExc_TypeError, "addCells expects a sequence of plGBufferCells");
-            return NULL;
+            return nullptr;
         }
         cells[i] = *((pyGBufferCell*)cell)->fThis;
     }
@@ -231,11 +231,11 @@ PY_METHOD_VA(DrawableSpans, addDIIndex,
     pyDISpanIndex* idx;
     if (!PyArg_ParseTuple(args, "O", &idx)) {
         PyErr_SetString(PyExc_TypeError, "addDIIndex expects a plDISpanIndex");
-        return NULL;
+        return nullptr;
     }
     if (!pyDISpanIndex_Check((PyObject*)idx)) {
         PyErr_SetString(PyExc_TypeError, "addDIIndex expects a plDISpanIndex");
-        return NULL;
+        return nullptr;
     }
     return pyPlasma_convert(self->fThis->addDIIndex(*idx->fThis));
 }
@@ -257,12 +257,12 @@ PY_METHOD_VA(DrawableSpans, addTransform,
     pyMatrix44* b2l;
     if (!PyArg_ParseTuple(args, "OOOO", &l2w, &w2l, &l2b, &b2l)) {
         PyErr_SetString(PyExc_TypeError, "addTransform expects 4 hsMatrix44s");
-        return NULL;
+        return nullptr;
     }
     if (!pyMatrix44_Check((PyObject*)l2w) || !pyMatrix44_Check((PyObject*)w2l) ||
         !pyMatrix44_Check((PyObject*)l2b) || !pyMatrix44_Check((PyObject*)b2l)) {
         PyErr_SetString(PyExc_TypeError, "addTransform expects 4 hsMatrix44s");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addTransform(*l2w->fThis, *w2l->fThis, *l2b->fThis, *b2l->fThis);
     Py_RETURN_NONE;
@@ -282,11 +282,11 @@ PY_METHOD_VA(DrawableSpans, addMaterial,
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addMaterial expects a plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addMaterial expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addMaterial(*key->fThis);
     Py_RETURN_NONE;
@@ -314,7 +314,7 @@ PY_METHOD_VA(DrawableSpans, composeGeometry,
     bool calcBounds = false;
     if (!PyArg_ParseTuple(args, "|bb", &clearSpans, &calcBounds)) {
         PyErr_SetString(PyExc_TypeError, "composeGeometry expects two optional bools");
-        return NULL;
+        return nullptr;
     }
     self->fThis->composeGeometry(clearSpans, calcBounds);
     Py_RETURN_NONE;
@@ -327,7 +327,7 @@ PY_METHOD_VA(DrawableSpans, decomposeGeometry,
     bool clearColors = true;
     if (!PyArg_ParseTuple(args, "|b", &clearColors)) {
         PyErr_SetString(PyExc_TypeError, "decomposeGeometry expects an optional bool");
-        return NULL;
+        return nullptr;
     }
     self->fThis->decomposeGeometry(clearColors);
     Py_RETURN_NONE;
@@ -340,12 +340,12 @@ PY_METHOD_VA(DrawableSpans, buildDIIndex,
     PyObject* seqObj;
     if (!PyArg_ParseTuple(args, "O", &seqObj)) {
         PyErr_SetString(PyExc_TypeError, "buildDIIndex expects a sequence of plGeometrySpan");
-        return NULL;
+        return nullptr;
     }
     pySequenceFastRef seq(seqObj);
     if (!seq.isSequence()) {
         PyErr_SetString(PyExc_TypeError, "buildDIIndex expects a sequence of plGeometrySpan");
-        return NULL;
+        return nullptr;
     }
 
     std::vector<plGeometrySpan*> spans(seq.size());
@@ -355,7 +355,7 @@ PY_METHOD_VA(DrawableSpans, buildDIIndex,
             spans[i] = ((pyGeometrySpan*)o)->fThis;
         else {
             PyErr_SetString(PyExc_TypeError, "buildDIIndex expects a sequence of plGeometrySpan");
-            return NULL;
+            return nullptr;
         }
     }
     return pyPlasma_convert(self->fThis->buildDIIndex(spans));
@@ -368,11 +368,11 @@ PY_METHOD_VA(DrawableSpans, addSourceSpan,
     pyGeometrySpan* span;
     if (!PyArg_ParseTuple(args, "O", &span)) {
         PyErr_SetString(PyExc_TypeError, "addSourceSpan expects a plGeometrySpan");
-        return NULL;
+        return nullptr;
     }
     if (!pyGeometrySpan_Check((PyObject*)span)) {
         PyErr_SetString(PyExc_TypeError, "addSourceSpan expects a plGeometrySpan");
-        return NULL;
+        return nullptr;
     }
     span->fPyOwned = false;
     return pyPlasma_convert(self->fThis->addSourceSpan(span->fThis));
@@ -546,7 +546,7 @@ PY_PLASMA_TYPE_INIT(DrawableSpans)
     pyDrawableSpans_Type.tp_getset = pyDrawableSpans_GetSet;
     pyDrawableSpans_Type.tp_base = &pyDrawable_Type;
     if (PyType_CheckAndReady(&pyDrawableSpans_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyDrawableSpans_Type);
     return (PyObject*)&pyDrawableSpans_Type;

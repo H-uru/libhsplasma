@@ -29,7 +29,7 @@ PY_METHOD_VA(Bitmap, setConfig,
     int format;
     if (!PyArg_ParseTuple(args, "i", &format)) {
         PyErr_SetString(PyExc_TypeError, "setConfig expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->setConfig((plBitmap::ColorFormat)format);
     Py_RETURN_NONE;
@@ -96,7 +96,7 @@ PY_PLASMA_TYPE_INIT(Bitmap)
     pyBitmap_Type.tp_getset = pyBitmap_GetSet;
     pyBitmap_Type.tp_base = &pyKeyedObject_Type;
     if (PyType_CheckAndReady(&pyBitmap_Type) < 0)
-        return NULL;
+        return nullptr;
 
     // Flags
     PY_TYPE_ADD_CONST(Bitmap, "kAlphaChannelFlag", plBitmap::kAlphaChannelFlag);

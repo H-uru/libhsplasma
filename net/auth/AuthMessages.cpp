@@ -683,8 +683,8 @@ const pnNetMsg* GET_Cli2Auth(uint32_t msgId)
         &Cli2Auth_ClientRegisterRequest,
         &Cli2Auth_ClientSetCCRLevel,
         &Cli2Auth_AcctLoginRequest,
-        NULL /* kCli2Auth_AcctSetEulaVersion */,
-        NULL /* kCli2Auth_AcctSetDataRequest */,
+        nullptr /* kCli2Auth_AcctSetEulaVersion */,
+        nullptr /* kCli2Auth_AcctSetDataRequest */,
         &Cli2Auth_AcctSetPlayerRequest,
         &Cli2Auth_AcctCreateRequest,
         &Cli2Auth_AcctChangePasswordRequest,
@@ -693,12 +693,12 @@ const pnNetMsg* GET_Cli2Auth(uint32_t msgId)
         &Cli2Auth_AcctActivateRequest,
         &Cli2Auth_AcctCreateFromKeyRequest,
         &Cli2Auth_PlayerDeleteRequest,
-        NULL /* kCli2Auth_PlayerUndeleteRequest */,
-        NULL /* kCli2Auth_PlayerSelectRequest */,
-        NULL /* kCli2Auth_PlayerRenameRequest */,
+        nullptr /* kCli2Auth_PlayerUndeleteRequest */,
+        nullptr /* kCli2Auth_PlayerSelectRequest */,
+        nullptr /* kCli2Auth_PlayerRenameRequest */,
         &Cli2Auth_PlayerCreateRequest,
-        NULL /* kCli2Auth_PlayerSetStatus */,
-        NULL /* kCli2Auth_PlayerChat */,
+        nullptr /* kCli2Auth_PlayerSetStatus */,
+        nullptr /* kCli2Auth_PlayerChat */,
         &Cli2Auth_UpgradeVisitorRequest,
         &Cli2Auth_SetPlayerBanStatusRequest,
         &Cli2Auth_KickPlayer,
@@ -707,7 +707,7 @@ const pnNetMsg* GET_Cli2Auth(uint32_t msgId)
         &Cli2Auth_VaultNodeCreate,
         &Cli2Auth_VaultNodeFetch,
         &Cli2Auth_VaultNodeSave,
-        NULL /* kCli2Auth_VaultNodeDelete */,
+        nullptr /* kCli2Auth_VaultNodeDelete */,
         &Cli2Auth_VaultNodeAdd,
         &Cli2Auth_VaultNodeRemove,
         &Cli2Auth_VaultFetchNodeRefs,
@@ -738,9 +738,9 @@ const pnNetMsg* GET_Cli2Auth(uint32_t msgId)
         &Cli2Auth_AgeRequestEx,
     };
     if (msgId >= 0x1000)
-        return (msgId < kCli2Auth_LastExMessage ? s_messagesEx[msgId & 0x0FFF] : NULL);
+        return (msgId < kCli2Auth_LastExMessage ? s_messagesEx[msgId & 0x0FFF] : nullptr);
     else
-        return (msgId < kCli2Auth_LastMessage ? s_messages[msgId] : NULL);
+        return (msgId < kCli2Auth_LastMessage ? s_messages[msgId] : nullptr);
 }
 
 const pnNetMsg* GET_Auth2Cli(uint32_t msgId)
@@ -751,7 +751,7 @@ const pnNetMsg* GET_Auth2Cli(uint32_t msgId)
         &Auth2Cli_NotifyNewBuild,
         &Auth2Cli_ClientRegisterReply,
         &Auth2Cli_AcctLoginReply,
-        NULL /* kAuth2Cli_AcctData */,
+        nullptr /* kAuth2Cli_AcctData */,
         &Auth2Cli_AcctPlayerInfo,
         &Auth2Cli_AcctSetPlayerReply,
         &Auth2Cli_AcctCreateReply,
@@ -760,15 +760,15 @@ const pnNetMsg* GET_Auth2Cli(uint32_t msgId)
         &Auth2Cli_AcctSetBillingTypeReply,
         &Auth2Cli_AcctActivateReply,
         &Auth2Cli_AcctCreateFromKeyReply,
-        NULL /* kAuth2Cli_PlayerList */,
-        NULL /* kAuth2Cli_PlayerChat */,
+        nullptr /* kAuth2Cli_PlayerList */,
+        nullptr /* kAuth2Cli_PlayerChat */,
         &Auth2Cli_PlayerCreateReply,
         &Auth2Cli_PlayerDeleteReply,
         &Auth2Cli_UpgradeVisitorReply,
         &Auth2Cli_SetPlayerBanStatusReply,
         &Auth2Cli_ChangePlayerNameReply,
         &Auth2Cli_SendFriendInviteReply,
-        NULL /* kAuth2Cli_FriendNotify */,
+        nullptr /* kAuth2Cli_FriendNotify */,
         &Auth2Cli_VaultNodeCreated,
         &Auth2Cli_VaultNodeFetched,
         &Auth2Cli_VaultNodeChanged,
@@ -800,7 +800,7 @@ const pnNetMsg* GET_Auth2Cli(uint32_t msgId)
         &Auth2Cli_AgeReplyEx,
     };
     if (msgId >= 0x1000)
-        return (msgId < kAuth2Cli_LastExMessage ? s_messagesEx[msgId & 0x0FFF] : NULL);
+        return (msgId < kAuth2Cli_LastExMessage ? s_messagesEx[msgId & 0x0FFF] : nullptr);
     else
-        return (msgId < kAuth2Cli_LastMessage ? s_messages[msgId] : NULL);
+        return (msgId < kAuth2Cli_LastMessage ? s_messages[msgId] : nullptr);
 }

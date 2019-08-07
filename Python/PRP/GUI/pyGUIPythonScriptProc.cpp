@@ -28,7 +28,7 @@ PY_PLASMA_TYPE_INIT(GUIPythonScriptProc)
     pyGUIPythonScriptProc_Type.tp_new = pyGUIPythonScriptProc_new;
     pyGUIPythonScriptProc_Type.tp_base = &pyGUICtrlProcWriteableObject_Type;
     if (PyType_CheckAndReady(&pyGUIPythonScriptProc_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyGUIPythonScriptProc_Type);
     return (PyObject*)&pyGUIPythonScriptProc_Type;

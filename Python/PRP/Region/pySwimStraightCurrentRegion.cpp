@@ -45,7 +45,7 @@ PY_PLASMA_TYPE_INIT(SwimStraightCurrentRegion)
     pySwimStraightCurrentRegion_Type.tp_getset = pySwimStraightCurrentRegion_GetSet;
     pySwimStraightCurrentRegion_Type.tp_base = &pySwimRegionInterface_Type;
     if (PyType_CheckAndReady(&pySwimStraightCurrentRegion_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pySwimStraightCurrentRegion_Type);
     return (PyObject*)&pySwimStraightCurrentRegion_Type;

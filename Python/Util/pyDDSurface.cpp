@@ -33,11 +33,11 @@ PY_METHOD_VA(DDSurface, read,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->read(stream->fThis);
     Py_RETURN_NONE;
@@ -50,11 +50,11 @@ PY_METHOD_VA(DDSurface, write,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->write(stream->fThis);
     Py_RETURN_NONE;
@@ -67,11 +67,11 @@ PY_METHOD_VA(DDSurface, setFromMipmap,
     pyMipmap* tex;
     if (!PyArg_ParseTuple(args, "O", &tex)) {
         PyErr_SetString(PyExc_TypeError, "setFromMipmap expects a plMipmap");
-        return NULL;
+        return nullptr;
     }
     if (!pyMipmap_Check((PyObject*)tex)) {
         PyErr_SetString(PyExc_TypeError, "setFromMipmap expects a plMipmap");
-        return NULL;
+        return nullptr;
     }
     self->fThis->setFromMipmap(tex->fThis);
     Py_RETURN_NONE;
@@ -84,7 +84,7 @@ PY_METHOD_VA(DDSurface, createMipmap,
     const char* name = "";
     if (!PyArg_ParseTuple(args, "|s", &name)) {
         PyErr_SetString(PyExc_TypeError, "createMipmap expects a string");
-        return NULL;
+        return nullptr;
     }
 
     plMipmap* mm = self->fThis->createMipmap();
@@ -99,7 +99,7 @@ PY_METHOD_VA(DDSurface, calcBufferSize,
     int width, height;
     if (!PyArg_ParseTuple(args, "ii", &width, &height)) {
         PyErr_SetString(PyExc_TypeError, "calcBufferSize expects int, int");
-        return NULL;
+        return nullptr;
     }
     size_t bufSize = self->fThis->calcBufferSize(width, height);
     return pyPlasma_convert(bufSize);
@@ -235,7 +235,7 @@ PY_GETSET_SETTER_DECL(DDSurface, data)
 {
     PY_PROPERTY_CHECK_NULL(data)
     if (value == Py_None) {
-        self->fThis->setData(0, NULL);
+        self->fThis->setData(0, nullptr);
     } else if (PyBytes_Check(value)) {
         char* data;
         Py_ssize_t size;
@@ -309,7 +309,7 @@ PY_PLASMA_TYPE_INIT(DDSurface)
     pyDDSurface_Type.tp_methods = pyDDSurface_Methods;
     pyDDSurface_Type.tp_getset = pyDDSurface_GetSet;
     if (PyType_CheckAndReady(&pyDDSurface_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(DDSurface, "DDSD_CAPS", plDDSurface::DDSD_CAPS);
     PY_TYPE_ADD_CONST(DDSurface, "DDSD_HEIGHT", plDDSurface::DDSD_HEIGHT);

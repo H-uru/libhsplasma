@@ -30,7 +30,7 @@ PY_METHOD_VA(GeometrySpan, addPermaLight,
     PyObject* light;
     if (!(PyArg_ParseTuple(args, "O", &light) && pyKey_Check(light))) {
         PyErr_SetString(PyExc_TypeError, "addPermaLight expects a plKey");
-        return NULL;
+        return nullptr;
     }
 
     self->fThis->addPermaLight(pyPlasma_get<plKey>(light));
@@ -44,7 +44,7 @@ PY_METHOD_VA(GeometrySpan, delPermaLight,
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delPermaLight expects an int");
-        return NULL;
+        return nullptr;
     }
 
     self->fThis->delPermaLight((size_t)idx);
@@ -64,7 +64,7 @@ PY_METHOD_VA(GeometrySpan, addPermaProj,
     PyObject* light;
     if (!(PyArg_ParseTuple(args, "O", &light) && pyKey_Check(light))) {
         PyErr_SetString(PyExc_TypeError, "addPermaProj expects a plKey");
-        return NULL;
+        return nullptr;
     }
 
     self->fThis->addPermaProj(pyPlasma_get<plKey>(light));
@@ -78,7 +78,7 @@ PY_METHOD_VA(GeometrySpan, delPermaProj,
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delPermaProj expects an int");
-        return NULL;
+        return nullptr;
     }
 
     self->fThis->delPermaProj((size_t)idx);
@@ -239,7 +239,7 @@ PY_PLASMA_TYPE_INIT(GeometrySpan)
     pyGeometrySpan_Type.tp_methods = pyGeometrySpan_Methods;
     pyGeometrySpan_Type.tp_getset = pyGeometrySpan_GetSet;
     if (PyType_CheckAndReady(&pyGeometrySpan_Type) < 0)
-        return NULL;
+        return nullptr;
 
     // Format
     PY_TYPE_ADD_CONST(GeometrySpan, "kUVCountMask", plGeometrySpan::kUVCountMask);

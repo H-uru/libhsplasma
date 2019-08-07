@@ -55,32 +55,32 @@ void plLayerAnimationBase::IPrcWrite(pfPrcHelper* prc)
 {
     plLayerInterface::IPrcWrite(prc);
 
-    if (fPreshadeColorCtl != NULL) {
+    if (fPreshadeColorCtl) {
         prc->writeSimpleTag("PreshadeColorCtl");
         fPreshadeColorCtl->prcWrite(prc);
         prc->closeTag();
     }
-    if (fRuntimeColorCtl != NULL) {
+    if (fRuntimeColorCtl) {
         prc->writeSimpleTag("RuntimeColorCtl");
         fRuntimeColorCtl->prcWrite(prc);
         prc->closeTag();
     }
-    if (fAmbientColorCtl != NULL) {
+    if (fAmbientColorCtl) {
         prc->writeSimpleTag("AmbientColorCtl");
         fAmbientColorCtl->prcWrite(prc);
         prc->closeTag();
     }
-    if (fSpecularColorCtl != NULL) {
+    if (fSpecularColorCtl) {
         prc->writeSimpleTag("SpecularColorCtl");
         fSpecularColorCtl->prcWrite(prc);
         prc->closeTag();
     }
-    if (fOpacityCtl != NULL) {
+    if (fOpacityCtl) {
         prc->writeSimpleTag("OpacityCtl");
         fOpacityCtl->prcWrite(prc);
         prc->closeTag();
     }
-    if (fTransformCtl != NULL) {
+    if (fTransformCtl) {
         prc->writeSimpleTag("TransformCtl");
         fTransformCtl->prcWrite(prc);
         prc->closeTag();

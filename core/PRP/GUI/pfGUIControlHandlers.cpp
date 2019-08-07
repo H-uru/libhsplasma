@@ -36,7 +36,7 @@ pfGUICtrlProcWriteableObject* pfGUICtrlProcWriteableObject::Read(hsStream* S)
         proc->IRead(S);
         break;
     default:
-        proc = NULL;
+        proc = nullptr;
     }
 
     return proc;
@@ -44,7 +44,7 @@ pfGUICtrlProcWriteableObject* pfGUICtrlProcWriteableObject::Read(hsStream* S)
 
 void pfGUICtrlProcWriteableObject::Write(hsStream* S, pfGUICtrlProcWriteableObject* proc)
 {
-    if (proc == NULL) {
+    if (proc == nullptr) {
         S->writeInt(kNull);
     } else {
         S->writeInt(proc->fType);
@@ -54,7 +54,7 @@ void pfGUICtrlProcWriteableObject::Write(hsStream* S, pfGUICtrlProcWriteableObje
 
 void pfGUICtrlProcWriteableObject::PrcWrite(pfPrcHelper* prc, pfGUICtrlProcWriteableObject* proc)
 {
-    if (proc == NULL) {
+    if (proc == nullptr) {
         prc->startTag("pfGUICtrlProcObject");
         prc->writeParam("NULL", true);
         prc->endTag(true);
@@ -69,7 +69,7 @@ pfGUICtrlProcWriteableObject* pfGUICtrlProcWriteableObject::PrcParse(const pfPrc
 
     if (tag->getName() == "pfGUICtrlProcObject") {
         if (tag->getParam("NULL", "false").to_bool())
-            return NULL;
+            return nullptr;
         throw pfPrcParseException(__FILE__, __LINE__, "Abstract class");
     } else if (tag->getName() == "pfGUICloseDlgProc") {
         proc = new pfGUICloseDlgProc();

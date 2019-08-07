@@ -28,7 +28,7 @@ PY_PLASMA_TYPE_INIT(ResponderMsg)
     pyResponderMsg_Type.tp_new = pyResponderMsg_new;
     pyResponderMsg_Type.tp_base = &pyMessage_Type;
     if (PyType_CheckAndReady(&pyResponderMsg_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyResponderMsg_Type);
     return (PyObject*)&pyResponderMsg_Type;

@@ -123,7 +123,7 @@ int main(int argc, char* argv[])
         outDir = getOutputDir(fFiles[i], page);
         outFile = outDir + filenameConvert(fFiles[i]);
       #ifdef _WIN32
-        CreateDirectoryW(outDir.to_wchar().data(), NULL);
+        CreateDirectoryW(outDir.to_wchar().data(), nullptr);
       #else
         mkdir(outDir.c_str(), S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH);
       #endif
@@ -143,7 +143,7 @@ int main(int argc, char* argv[])
         if (!noHdr) {
             prc.writeComment("Generator: PrcExtract");
             prc.writeComment(("Source: " + fFiles[i]).c_str());
-            time_t ts = time(NULL);
+            time_t ts = time(nullptr);
             char buf[256];
             strftime(buf, 256, "Created: %Y/%m/%d %H:%M:%S", localtime(&ts));
             prc.writeComment(buf);

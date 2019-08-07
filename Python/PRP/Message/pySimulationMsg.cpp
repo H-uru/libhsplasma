@@ -28,7 +28,7 @@ PY_PLASMA_TYPE_INIT(SimulationMsg)
     pySimulationMsg_Type.tp_new = pySimulationMsg_new;
     pySimulationMsg_Type.tp_base = &pyMessage_Type;
     if (PyType_CheckAndReady(&pySimulationMsg_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pySimulationMsg_Type);
     return (PyObject*)&pySimulationMsg_Type;

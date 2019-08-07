@@ -67,7 +67,7 @@ void hsAffineParts::prcParse(const pfPrcTag* tag)
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
     const pfPrcTag* child = tag->getFirstChild();
-    while (child != NULL) {
+    while (child) {
         if (child->getName() == "I") {
             fI = child->getParam("value", "0").to_int();
         } else if (child->getName() == "T") {

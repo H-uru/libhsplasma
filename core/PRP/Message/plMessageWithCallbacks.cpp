@@ -30,7 +30,7 @@ void plMessageWithCallbacks::read(hsStream* S, plResManager* mgr)
     fCallbacks.resize(S->readInt());
     for (size_t i=0; i<fCallbacks.size(); i++) {
         fCallbacks[i] = plMessage::Convert(mgr->ReadCreatable(S));
-        if (fCallbacks[i] == NULL)
+        if (fCallbacks[i] == nullptr)
             throw hsNotImplementedException(__FILE__, __LINE__, "Callback Message");
     }
 }

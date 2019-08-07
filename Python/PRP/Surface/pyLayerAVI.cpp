@@ -28,7 +28,7 @@ PY_PLASMA_TYPE_INIT(LayerAVI)
     pyLayerAVI_Type.tp_new = pyLayerAVI_new;
     pyLayerAVI_Type.tp_base = &pyLayerMovie_Type;
     if (PyType_CheckAndReady(&pyLayerAVI_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyLayerAVI_Type);
     return (PyObject*)&pyLayerAVI_Type;

@@ -36,7 +36,7 @@ PY_METHOD_VA(SpaceTree, getNode,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "getNode expects an int");
-        return NULL;
+        return nullptr;
     }
     return pySpaceTreeNode_FromSpaceTreeNode(self->fThis->getNode(idx));
 }
@@ -53,11 +53,11 @@ PY_METHOD_VA(SpaceTree, addLeaf,
     pyBounds3Ext* bounds;
     if (!PyArg_ParseTuple(args, "O", &bounds)) {
         PyErr_SetString(PyExc_TypeError, "addLeaf expects an hsBounds3Ext");
-        return NULL;
+        return nullptr;
     }
     if (!pyBounds3Ext_Check((PyObject*)bounds)) {
         PyErr_SetString(PyExc_TypeError, "addLeaf expects an hsBounds3Ext");
-        return NULL;
+        return nullptr;
     }
     return pyPlasma_convert(self->fThis->addLeaf(*bounds->fThis));
 }
@@ -70,11 +70,11 @@ PY_METHOD_VA(SpaceTree, addParent,
     int left, right;
     if (!PyArg_ParseTuple(args, "Oii", &bounds, &left, &right)) {
         PyErr_SetString(PyExc_TypeError, "addParent expects hsBounds3Ext, int, int");
-        return NULL;
+        return nullptr;
     }
     if (!pyBounds3Ext_Check((PyObject*)bounds)) {
         PyErr_SetString(PyExc_TypeError, "addParent expects hsBounds3Ext, int, int");
-        return NULL;
+        return nullptr;
     }
     return pyPlasma_convert(self->fThis->addParent(*bounds->fThis, left, right));
 }
@@ -97,7 +97,7 @@ PY_PLASMA_TYPE_INIT(SpaceTree)
     pySpaceTree_Type.tp_methods = pySpaceTree_Methods;
     pySpaceTree_Type.tp_base = &pyCreatable_Type;
     if (PyType_CheckAndReady(&pySpaceTree_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pySpaceTree_Type);
     return (PyObject*)&pySpaceTree_Type;

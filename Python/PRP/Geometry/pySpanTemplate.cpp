@@ -28,11 +28,11 @@ PY_METHOD_VA(SpanTemplate, read,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->read(stream->fThis);
     Py_RETURN_NONE;
@@ -45,11 +45,11 @@ PY_METHOD_VA(SpanTemplate, write,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->write(stream->fThis);
     Py_RETURN_NONE;
@@ -144,7 +144,7 @@ PY_PLASMA_TYPE_INIT(SpanTemplate)
     pySpanTemplate_Type.tp_methods = pySpanTemplate_Methods;
     pySpanTemplate_Type.tp_getset = pySpanTemplate_GetSet;
     if (PyType_CheckAndReady(&pySpanTemplate_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pySpanTemplate_Type);
     return (PyObject*)&pySpanTemplate_Type;

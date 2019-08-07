@@ -42,7 +42,7 @@ PY_PLASMA_TYPE_INIT(FollowMod)
     pyFollowMod_Type.tp_getset = pyFollowMod_GetSet;
     pyFollowMod_Type.tp_base = &pySingleModifier_Type;
     if (PyType_CheckAndReady(&pyFollowMod_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(FollowMod, "kFollowPlayer", plFollowMod::kFollowPlayer);
     PY_TYPE_ADD_CONST(FollowMod, "kFollowObject", plFollowMod::kFollowObject);

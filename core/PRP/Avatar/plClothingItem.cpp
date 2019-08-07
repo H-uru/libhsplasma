@@ -239,7 +239,7 @@ void plClothingItem::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
             fAccessory = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "DefaultTints") {
         const pfPrcTag* child = tag->getFirstChild();
-        while (child != NULL) {
+        while (child) {
             if (child->getName() == "Tint1") {
                 fDefaultTint1[0] = child->getParam("red", "0").to_uint();
                 fDefaultTint1[1] = child->getParam("green", "0").to_uint();

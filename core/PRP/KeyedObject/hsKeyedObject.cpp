@@ -32,7 +32,7 @@ void hsKeyedObject::read(hsStream* S, plResManager* mgr)
         myKey = mgr->readKey(S);
     else
         myKey = mgr->readUoid(S);
-    if (myKey != NULL) {
+    if (myKey.Exists()) {
         // In case we're replacing a key
         delete myKey->getObj();
         myKey->setObj(this);
@@ -56,7 +56,7 @@ void hsKeyedObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
 {
     if (tag->getName() == "plKey") {
         myKey = mgr->prcParseKey(tag);
-        if (myKey != NULL)
+        if (myKey.Exists())
             myKey->setObj(this);
     } else {
         plCreatable::IPrcParse(tag, mgr);
@@ -66,7 +66,7 @@ void hsKeyedObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
 void hsKeyedObject::setKey(plKey key)
 {
     myKey = key;
-    if (myKey != NULL)
+    if (myKey.Exists())
         myKey->setObj(this);
 }
 

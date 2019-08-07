@@ -56,7 +56,7 @@ void plNetMsgGameMessage::IPrcWrite(pfPrcHelper* prc)
 {
     plNetMessage::IPrcWrite(prc);   // Skip raw stream writing
 
-    if (fMessage != NULL) {
+    if (fMessage) {
         prc->writeSimpleTag("GameMessage");
         fMessage->prcWrite(prc);
         prc->closeTag();
@@ -76,7 +76,7 @@ void plNetMsgGameMessage::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
     if (tag->getName() == "GameMessage") {
         delete fMessage;
         if (tag->getParam("NULL", "false").to_bool())
-            fMessage = NULL;
+            fMessage = nullptr;
         else
             fMessage = plMessage::Convert(mgr->prcParseCreatable(tag));
     } else if (tag->getName() == "DeliveryTime") {

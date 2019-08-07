@@ -37,7 +37,7 @@ PY_PLASMA_TYPE_INIT(SoundVolumeApplicator)
     pySoundVolumeApplicator_Type.tp_getset = pySoundVolumeApplicator_GetSet;
     pySoundVolumeApplicator_Type.tp_base = &pyAGApplicator_Type;
     if (PyType_CheckAndReady(&pySoundVolumeApplicator_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pySoundVolumeApplicator_Type);
     return (PyObject*)&pySoundVolumeApplicator_Type;

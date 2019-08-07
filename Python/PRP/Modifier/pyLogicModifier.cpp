@@ -35,11 +35,11 @@ PY_METHOD_VA(LogicModifier, addCondition,
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
         PyErr_SetString(PyExc_TypeError, "addCondition expects a plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addCondition expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addCondition(*key->fThis);
     Py_RETURN_NONE;
@@ -52,7 +52,7 @@ PY_METHOD_VA(LogicModifier, delCondition,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delCondition expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delCondition(idx);
     Py_RETURN_NONE;
@@ -95,7 +95,7 @@ PY_PLASMA_TYPE_INIT(LogicModifier)
     pyLogicModifier_Type.tp_getset = pyLogicModifier_GetSet;
     pyLogicModifier_Type.tp_base = &pyLogicModBase_Type;
     if (PyType_CheckAndReady(&pyLogicModifier_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyLogicModifier_Type);
     return (PyObject*)&pyLogicModifier_Type;

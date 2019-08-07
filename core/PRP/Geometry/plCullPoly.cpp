@@ -75,7 +75,7 @@ void plCullPoly::prcParse(const pfPrcTag* tag)
     fFlags = tag->getParam("Flags", "0").to_uint();
 
     const pfPrcTag* child = tag->getFirstChild();
-    while (child != NULL) {
+    while (child) {
         if (child->getName() == "Normal") {
             fDist = child->getParam("Dist", "0").to_float();
             if (child->hasChildren())

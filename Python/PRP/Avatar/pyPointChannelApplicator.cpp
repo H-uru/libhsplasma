@@ -29,7 +29,7 @@ PY_PLASMA_TYPE_INIT(PointChannelApplicator)
     pyPointChannelApplicator_Type.tp_new = pyPointChannelApplicator_new;
     pyPointChannelApplicator_Type.tp_base = &pyAGApplicator_Type;
     if (PyType_CheckAndReady(&pyPointChannelApplicator_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyPointChannelApplicator_Type);
     return (PyObject*)&pyPointChannelApplicator_Type;

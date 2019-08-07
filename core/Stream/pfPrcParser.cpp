@@ -37,7 +37,7 @@ pfPrcTag::~pfPrcTag()
 
 pfPrcTag* pfPrcTag::Destroy()
 {
-    while (fFirstChild != NULL)
+    while (fFirstChild)
         fFirstChild = fFirstChild->Destroy();
     pfPrcTag* next = fNextSibling;
     delete this;
@@ -63,7 +63,7 @@ size_t pfPrcTag::countChildren() const
 {
     const pfPrcTag* childPtr = fFirstChild;
     size_t nChildren = 0;
-    while (childPtr != NULL) {
+    while (childPtr) {
         nChildren++;
         childPtr = childPtr->fNextSibling;
     }
@@ -83,7 +83,7 @@ void pfPrcTag::readHexStream(size_t maxLen, unsigned char* buf) const
 /* pfPrcParser */
 pfPrcParser::~pfPrcParser()
 {
-    if (fRootTag != NULL)
+    if (fRootTag)
         fRootTag->Destroy();
 }
 
@@ -107,7 +107,7 @@ void pfPrcParser::read(hsStream* S)
 pfPrcTag* pfPrcParser::readTag(hsTokenStream* tok)
 {
     if (!tok->hasNext())
-        return NULL;
+        return nullptr;
 
     ST::string str = tok->next();
     while ((str != "<") && tok->hasNext()) {

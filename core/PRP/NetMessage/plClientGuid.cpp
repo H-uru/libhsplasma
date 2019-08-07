@@ -136,7 +136,7 @@ void plClientGuid::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
     if (tag->getName() == "NetMsgParams") {
         fFlags = tag->getParam("Flags", "0").to_uint();
         const pfPrcTag* child = tag->getFirstChild();
-        while (child != NULL) {
+        while (child) {
             if (child->getName() == "AccountUuid") {
                 if (child->hasChildren())
                     fAcctUuid.prcParse(child->getFirstChild());

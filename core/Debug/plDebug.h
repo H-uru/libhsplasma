@@ -33,7 +33,7 @@ private:
     static ST::string fDebugFile;
 
 public:
-    static void Init(int level, hsStream* stream = NULL);
+    static void Init(int level, hsStream* stream = nullptr);
     static void InitFile(int level, const char* filename = "Plasma.log");
 
     static void Error(const char* line)

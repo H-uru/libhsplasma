@@ -30,7 +30,7 @@ void plTMController::read(hsStream* S, plResManager* mgr)
         setPosController(new plCompoundPosController());
     else if (type == plPosController::kSimple)
         setPosController(new plSimplePosController());
-    if (fPosController != NULL)
+    if (fPosController)
         fPosController->read(S, mgr);
 
     type = S->readInt();
@@ -38,33 +38,33 @@ void plTMController::read(hsStream* S, plResManager* mgr)
         setRotController(new plCompoundRotController());
     else if (type == plRotController::kSimple)
         setRotController(new plSimpleRotController());
-    if (fRotController != NULL)
+    if (fRotController)
         fRotController->read(S, mgr);
 
     type = S->readInt();
     if (type == plScaleController::kSimple)
         setScaleController(new plSimpleScaleController());
-    if (fScaleController != NULL)
+    if (fScaleController)
         fScaleController->read(S, mgr);
 }
 
 void plTMController::write(hsStream* S, plResManager* mgr)
 {
-    if (fPosController != NULL) {
+    if (fPosController) {
         S->writeInt(fPosController->getType());
         fPosController->write(S, mgr);
     } else {
         S->writeInt(0);
     }
 
-    if (fRotController != NULL) {
+    if (fRotController) {
         S->writeInt(fRotController->getType());
         fRotController->write(S, mgr);
     } else {
         S->writeInt(0);
     }
 
-    if (fScaleController != NULL) {
+    if (fScaleController) {
         S->writeInt(fScaleController->getType());
         fScaleController->write(S, mgr);
     } else {
@@ -75,7 +75,7 @@ void plTMController::write(hsStream* S, plResManager* mgr)
 void plTMController::IPrcWrite(pfPrcHelper* prc)
 {
     prc->writeSimpleTag("Position");
-    if (fPosController != NULL) {
+    if (fPosController) {
         fPosController->prcWrite(prc);
     } else {
         prc->startTag("plPosController");
@@ -85,7 +85,7 @@ void plTMController::IPrcWrite(pfPrcHelper* prc)
     prc->closeTag();
 
     prc->writeSimpleTag("Rotation");
-    if (fRotController != NULL) {
+    if (fRotController) {
         fRotController->prcWrite(prc);
     } else {
         prc->startTag("plRotController");
@@ -95,7 +95,7 @@ void plTMController::IPrcWrite(pfPrcHelper* prc)
     prc->closeTag();
 
     prc->writeSimpleTag("Scale");
-    if (fScaleController != NULL) {
+    if (fScaleController) {
         fScaleController->prcWrite(prc);
     } else {
         prc->startTag("plScaleController");

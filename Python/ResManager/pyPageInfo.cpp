@@ -36,11 +36,11 @@ PY_METHOD_VA(PageInfo, read,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->read(stream->fThis);
     Py_RETURN_NONE;
@@ -53,11 +53,11 @@ PY_METHOD_VA(PageInfo, write,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->write(stream->fThis);
     Py_RETURN_NONE;
@@ -70,11 +70,11 @@ PY_METHOD_VA(PageInfo, writeSums,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "writeSums expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "writeSums expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->writeSums(stream->fThis);
     Py_RETURN_NONE;
@@ -87,7 +87,7 @@ PY_METHOD_VA(PageInfo, getFilename,
     int version;
     if (!PyArg_ParseTuple(args, "i", &version)) {
         PyErr_SetString(PyExc_TypeError, "getFilename expects an int");
-        return NULL;
+        return nullptr;
     }
     return pyPlasma_convert(self->fThis->getFilename((PlasmaVer)version));
 }
@@ -128,7 +128,7 @@ PY_PLASMA_TYPE_INIT(PageInfo)
     pyPageInfo_Type.tp_methods = pyPageInfo_Methods;
     pyPageInfo_Type.tp_getset = pyPageInfo_GetSet;
     if (PyType_CheckAndReady(&pyPageInfo_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(PageInfo, "kPartialPatchFile", plPageInfo::kPartialPatchFile);
     PY_TYPE_ADD_CONST(PageInfo, "kOldDataChecksum", plPageInfo::kOldDataChecksum);

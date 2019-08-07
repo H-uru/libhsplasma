@@ -21,7 +21,7 @@
 
 void pnRC4Socket::init(size_t keySize, const unsigned char* keyData)
 {
-    if (keyData != NULL) {
+    if (keyData) {
         RC4_set_key(&fSend, keySize, keyData);
         RC4_set_key(&fRecv, keySize, keyData);
         fEncrypted = true;

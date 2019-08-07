@@ -30,11 +30,11 @@ PY_METHOD_VA(KeyFrame, read,
     int type;
     if (!PyArg_ParseTuple(args, "Oi", &stream, &type)) {
         PyErr_SetString(PyExc_TypeError, "read expects hsStream, int");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects hsStream, int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->read(stream->fThis, type);
     Py_RETURN_NONE;
@@ -47,11 +47,11 @@ PY_METHOD_VA(KeyFrame, write,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->write(stream->fThis);
     Py_RETURN_NONE;
@@ -83,7 +83,7 @@ PY_PLASMA_TYPE_INIT(KeyFrame)
     pyKeyFrame_Type.tp_methods = pyKeyFrame_Methods;
     pyKeyFrame_Type.tp_getset = pyKeyFrame_GetSet;
     if (PyType_CheckAndReady(&pyKeyFrame_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(KeyFrame, "kUnknownKeyFrame", hsKeyFrame::kUnknownKeyFrame);
     PY_TYPE_ADD_CONST(KeyFrame, "kPoint3KeyFrame", hsKeyFrame::kPoint3KeyFrame);

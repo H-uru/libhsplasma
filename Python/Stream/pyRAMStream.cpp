@@ -30,7 +30,7 @@ PY_METHOD_VA(RAMStream, resize,
 
     if (!PyArg_ParseTuple(args, "i", &newSize)) {
         PyErr_SetString(PyExc_TypeError, "resize expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->resize(newSize);
     Py_RETURN_NONE;
@@ -43,7 +43,7 @@ static PyMethodDef pyRAMStream_Methods[] = {
 
 PY_GETSET_GETTER_DECL(RAMStream, buffer)
 {
-    PyObject* bufObj = PyBytes_FromStringAndSize(NULL, self->fThis->size());
+    PyObject* bufObj = PyBytes_FromStringAndSize(nullptr, self->fThis->size());
     char* data = PyBytes_AS_STRING(bufObj);
     self->fThis->copyTo(data, self->fThis->size());
     return bufObj;
@@ -78,7 +78,7 @@ PY_PLASMA_TYPE_INIT(RAMStream)
     pyRAMStream_Type.tp_getset = pyRAMStream_GetSet;
     pyRAMStream_Type.tp_base = &pyStream_Type;
     if (PyType_CheckAndReady(&pyRAMStream_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyRAMStream_Type);
     return (PyObject*)&pyRAMStream_Type;

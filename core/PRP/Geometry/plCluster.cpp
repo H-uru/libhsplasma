@@ -68,7 +68,7 @@ void plCluster::prcParse(const pfPrcTag* tag, plClusterGroup* group)
     fGroup = group;
     unsigned int numVerts = fGroup->getTemplate().getNumVerts();
     const pfPrcTag* child = tag->getFirstChild();
-    while (child != NULL) {
+    while (child) {
         if (child->getName() == "Encoding") {
             if (child->hasChildren())
                 fEncoding.prcParse(child->getFirstChild());

@@ -37,7 +37,7 @@ PY_PLASMA_TYPE_INIT(Win32Sound)
     pyWin32Sound_Type.tp_getset = pyWin32Sound_GetSet;
     pyWin32Sound_Type.tp_base = &pySound_Type;
     if (PyType_CheckAndReady(&pyWin32Sound_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(Win32Sound, "kLeftChannel", plWin32Sound::kLeftChannel);
     PY_TYPE_ADD_CONST(Win32Sound, "kRightChannel", plWin32Sound::kRightChannel);

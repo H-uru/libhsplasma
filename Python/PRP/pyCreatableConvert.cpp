@@ -303,7 +303,7 @@
 
 PyObject* ICreate(plCreatable* pCre)
 {
-    if (pCre == NULL)
+    if (pCre == nullptr)
         Py_RETURN_NONE;
     if ((typeid(*pCre)) == typeid(hsKeyedObjectStub))
         return pyKeyedObjectStub_FromKeyedObjectStub(dynamic_cast<hsKeyedObjectStub*>(pCre));

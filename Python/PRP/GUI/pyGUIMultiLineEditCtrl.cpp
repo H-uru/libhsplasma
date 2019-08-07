@@ -36,7 +36,7 @@ PY_PLASMA_TYPE_INIT(GUIMultiLineEditCtrl)
     pyGUIMultiLineEditCtrl_Type.tp_getset = pyGUIMultiLineEditCtrl_GetSet;
     pyGUIMultiLineEditCtrl_Type.tp_base = &pyGUIControlMod_Type;
     if (PyType_CheckAndReady(&pyGUIMultiLineEditCtrl_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyGUIMultiLineEditCtrl_Type);
     return (PyObject*)&pyGUIMultiLineEditCtrl_Type;

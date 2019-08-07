@@ -29,7 +29,7 @@ PY_PLASMA_TYPE_INIT(VolActivatorConditionalObject)
     pyVolActivatorConditionalObject_Type.tp_new = pyVolActivatorConditionalObject_new;
     pyVolActivatorConditionalObject_Type.tp_base = &pyActivatorConditionalObject_Type;
     if (PyType_CheckAndReady(&pyVolActivatorConditionalObject_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyVolActivatorConditionalObject_Type);
     return (PyObject*)&pyVolActivatorConditionalObject_Type;

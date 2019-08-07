@@ -29,7 +29,7 @@ PY_PLASMA_TYPE_INIT(GUIClickMapCtrl)
     pyGUIClickMapCtrl_Type.tp_new = pyGUIClickMapCtrl_new;
     pyGUIClickMapCtrl_Type.tp_base = &pyGUIControlMod_Type;
     if (PyType_CheckAndReady(&pyGUIClickMapCtrl_Type) < 0)
-        return NULL;
+        return nullptr;
 
     /* Konstants */
     PY_TYPE_ADD_CONST(GUIClickMapCtrl, "kReportDragging", pfGUIClickMapCtrl::kReportDragging);
@@ -52,7 +52,7 @@ PY_PLASMA_TYPE_INIT(GUIDragBarCtrl)
     pyGUIDragBarCtrl_Type.tp_new = pyGUIDragBarCtrl_new;
     pyGUIDragBarCtrl_Type.tp_base = &pyGUIControlMod_Type;
     if (PyType_CheckAndReady(&pyGUIDragBarCtrl_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyGUIDragBarCtrl_Type);
     return (PyObject*)&pyGUIDragBarCtrl_Type;
@@ -71,7 +71,7 @@ PY_PLASMA_TYPE_INIT(GUIDraggableMod)
     pyGUIDraggableMod_Type.tp_new = pyGUIDraggableMod_new;
     pyGUIDraggableMod_Type.tp_base = &pyGUIControlMod_Type;
     if (PyType_CheckAndReady(&pyGUIDraggableMod_Type) < 0)
-        return NULL;
+        return nullptr;
 
     /* Konstants */
     PY_TYPE_ADD_CONST(GUIDraggableMod, "kReportDragging", pfGUIDraggableMod::kReportDragging);
@@ -95,7 +95,7 @@ PY_PLASMA_TYPE_INIT(GUIEditBoxMod)
     pyGUIEditBoxMod_Type.tp_new = pyGUIEditBoxMod_new;
     pyGUIEditBoxMod_Type.tp_base = &pyGUIControlMod_Type;
     if (PyType_CheckAndReady(&pyGUIEditBoxMod_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyGUIEditBoxMod_Type);
     return (PyObject*)&pyGUIEditBoxMod_Type;

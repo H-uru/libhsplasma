@@ -36,7 +36,7 @@ PY_PLASMA_TYPE_INIT(PanicLinkRegion)
     pyPanicLinkRegion_Type.tp_getset = pyPanicLinkRegion_GetSet;
     pyPanicLinkRegion_Type.tp_base = &pyCollisionDetector_Type;
     if (PyType_CheckAndReady(&pyPanicLinkRegion_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyPanicLinkRegion_Type);
     return (PyObject*)&pyPanicLinkRegion_Type;

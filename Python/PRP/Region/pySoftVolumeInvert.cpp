@@ -27,7 +27,7 @@ PY_PLASMA_TYPE_INIT(SoftVolumeInvert)
     pySoftVolumeInvert_Type.tp_new = pySoftVolumeInvert_new;
     pySoftVolumeInvert_Type.tp_base = &pySoftVolumeComplex_Type;
     if (PyType_CheckAndReady(&pySoftVolumeInvert_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pySoftVolumeInvert_Type);
     return (PyObject*)&pySoftVolumeInvert_Type;

@@ -187,7 +187,7 @@ pnSha1Hash pnSha1Hash::Sha0(const void* src, size_t len)
     }
 
     EVP_MD_CTX* sha_ctx = EVP_MD_CTX_create();
-    EVP_DigestInit_ex(sha_ctx, sha0_md, NULL);
+    EVP_DigestInit_ex(sha_ctx, sha0_md, nullptr);
     EVP_DigestUpdate(sha_ctx, src, len);
     EVP_DigestFinal_ex(sha_ctx, reinterpret_cast<unsigned char *>(hash.fData), &out_len);
     EVP_MD_CTX_destroy(sha_ctx);
@@ -211,7 +211,7 @@ pnSha1Hash pnSha1Hash::Sha1(const void* src, size_t len)
     }
 
     EVP_MD_CTX* sha1_ctx = EVP_MD_CTX_create();
-    EVP_DigestInit_ex(sha1_ctx, sha1_md, NULL);
+    EVP_DigestInit_ex(sha1_ctx, sha1_md, nullptr);
     EVP_DigestUpdate(sha1_ctx, src, len);
     EVP_DigestFinal_ex(sha1_ctx, reinterpret_cast<unsigned char *>(hash.fData), &out_len);
     EVP_MD_CTX_destroy(sha1_ctx);

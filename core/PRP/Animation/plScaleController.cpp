@@ -28,13 +28,13 @@ void plSimpleScaleController::read(hsStream* S, plResManager* mgr)
         setValue(new plScaleValueController());
         fValue->read(S, mgr);
     } else {
-        setValue(NULL);
+        setValue(nullptr);
     }
 }
 
 void plSimpleScaleController::write(hsStream* S, plResManager* mgr)
 {
-    if (fValue != NULL) {
+    if (fValue) {
         S->writeInt(1);
         fValue->write(S, mgr);
     } else {
@@ -44,7 +44,7 @@ void plSimpleScaleController::write(hsStream* S, plResManager* mgr)
 
 void plSimpleScaleController::IPrcWrite(pfPrcHelper* prc)
 {
-    if (fValue != NULL) {
+    if (fValue) {
         fValue->prcWrite(prc);
     } else {
         prc->startTag("plScaleValueController");
@@ -60,7 +60,7 @@ void plSimpleScaleController::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
             setValue(new plScaleValueController());
             fValue->prcParse(tag, mgr);
         } else {
-            setValue(NULL);
+            setValue(nullptr);
         }
     } else {
         plCreatable::IPrcParse(tag, mgr);

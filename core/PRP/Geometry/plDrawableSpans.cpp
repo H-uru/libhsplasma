@@ -106,7 +106,7 @@ void plDrawableSpans::read(hsStream* S, plResManager* mgr)
         fSourceSpans[i] = new plGeometrySpan();
         fSourceSpans[i]->read(S);
         if (fSpans[i]->getMaterialIdx() == 0xFFFFFFFF)
-            fSourceSpans[i]->setMaterial(NULL);
+            fSourceSpans[i]->setMaterial(plKey());
         else
             fSourceSpans[i]->setMaterial(fMaterials[fSpans[i]->getMaterialIdx()]);
         fSourceSpans[i]->setFogEnvironment(fSpans[i]->getFogEnvironment());
@@ -330,7 +330,7 @@ void plDrawableSpans::IPrcWrite(pfPrcHelper* prc)
     prc->closeTag();
 
     prc->writeSimpleTag("SpaceTree");
-    if (fSpaceTree != NULL)
+    if (fSpaceTree)
         fSpaceTree->prcWrite(prc);
     prc->closeTag();
 
@@ -416,7 +416,7 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
             if (child->getName() != "Span")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             const pfPrcTag* subChild = child->getFirstChild();
-            while (subChild != NULL) {
+            while (subChild) {
                 if (subChild->getName() == "PermaLights") {
                     size_t nLights = subChild->countChildren();
                     const pfPrcTag* light = subChild->getFirstChild();
@@ -445,7 +445,7 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
             fSourceSpans[i] = new plGeometrySpan();
             fSourceSpans[i]->prcParse(tag);
             if (fSpans[i]->getMaterialIdx() == 0xFFFFFFFF)
-                fSourceSpans[i]->setMaterial(NULL);
+                fSourceSpans[i]->setMaterial(plKey());
             else
                 fSourceSpans[i]->setMaterial(fMaterials[fSpans[i]->getMaterialIdx()]);
             fSourceSpans[i]->setFogEnvironment(fSpans[i]->getFogEnvironment());
@@ -461,7 +461,7 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
             if (child->getName() != "TransformSet")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             const pfPrcTag* subChild = child->getFirstChild();
-            while (subChild != NULL) {
+            while (subChild) {
                 if (subChild->getName() == "LocalToWorld") {
                     if (subChild->hasChildren())
                         fLocalToWorlds[i].prcParse(subChild->getFirstChild());
@@ -570,7 +570,7 @@ void plDrawableSpans::BuildSpaceTree()
 plSpaceBuilderNode* plDrawableSpans::IBuildTree(std::vector<plSpaceBuilderNode*>& nodes)
 {
     if (nodes.empty())
-        return NULL;
+        return nullptr;
     if (nodes.size() == 1)
         return nodes[0];
 
@@ -639,7 +639,7 @@ void plDrawableSpans::ISortSpace(std::vector<plSpaceBuilderNode*>& nodes, int ax
         it->fNext = it + 1;
         it++;
     }
-    list[nodes.size() - 1].fNext = NULL;
+    list[nodes.size() - 1].fNext = nullptr;
 
     it = rad.sort(list, hsRadixSort::kFloat);
 

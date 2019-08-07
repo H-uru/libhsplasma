@@ -259,7 +259,7 @@ void plGeometrySpan::prcParse(const pfPrcTag* tag)
     fIndexData.clear();
 
     const pfPrcTag* child = tag->getFirstChild();
-    while (child != NULL) {
+    while (child) {
         if (child->getName() == "Vertices") {
             fNumVerts = child->countChildren();
             std::vector<TempVertex> verts(fNumVerts);
@@ -268,7 +268,7 @@ void plGeometrySpan::prcParse(const pfPrcTag* tag)
                 if (vertChild->getName() != "Vertex")
                     throw pfPrcTagException(__FILE__, __LINE__, vertChild->getName());
                 const pfPrcTag* subChild = vertChild->getFirstChild();
-                while (subChild != NULL) {
+                while (subChild) {
                     if (subChild->getName() == "Position") {
                         if (subChild->hasChildren())
                             verts[i].fPosition.prcParse(subChild->getFirstChild());

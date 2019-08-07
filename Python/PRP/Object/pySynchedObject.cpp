@@ -29,7 +29,7 @@ PY_METHOD_VA(SynchedObject, setExclude,
     const char* str;
     if (!PyArg_ParseTuple(args, "s", &str)) {
         PyErr_SetString(PyExc_TypeError, "setExclude expects a string");
-        return NULL;
+        return nullptr;
     }
     self->fThis->setExclude(str);
     Py_RETURN_NONE;
@@ -42,7 +42,7 @@ PY_METHOD_VA(SynchedObject, setVolatile,
     const char* str;
     if (!PyArg_ParseTuple(args, "s", &str)) {
         PyErr_SetString(PyExc_TypeError, "setVolatile expects a string");
-        return NULL;
+        return nullptr;
     }
     self->fThis->setVolatile(str);
     Py_RETURN_NONE;
@@ -134,7 +134,7 @@ PY_PLASMA_TYPE_INIT(SynchedObject)
     pySynchedObject_Type.tp_getset = pySynchedObject_GetSet;
     pySynchedObject_Type.tp_base = &pyKeyedObject_Type;
     if (PyType_CheckAndReady(&pySynchedObject_Type) < 0)
-        return NULL;
+        return nullptr;
 
     /* Flags */
     PY_TYPE_ADD_CONST(SynchedObject, "kDontDirty",

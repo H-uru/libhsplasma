@@ -25,7 +25,7 @@ PY_GETSET_GETTER_DECL(Icicle, sortData)
 {
     int size = self->fThis->getILength() / 3;
     const plGBufferTriangle* sortData = self->fThis->getSortData();
-    if (sortData == NULL) {
+    if (sortData == nullptr) {
         Py_RETURN_NONE;
     } else {
         PyObject* list = PyTuple_New(size);
@@ -39,7 +39,7 @@ PY_GETSET_SETTER_DECL(Icicle, sortData)
 {
     PY_PROPERTY_CHECK_NULL(sortData)
     if (value == Py_None) {
-        self->fThis->setSortData(NULL);
+        self->fThis->setSortData(nullptr);
         return 0;
     }
     pySequenceFastRef seq(value);
@@ -83,7 +83,7 @@ PY_PLASMA_TYPE_INIT(Icicle)
     pyIcicle_Type.tp_getset = pyIcicle_GetSet;
     pyIcicle_Type.tp_base = &pyVertexSpan_Type;
     if (PyType_CheckAndReady(&pyIcicle_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyIcicle_Type);
     return (PyObject*)&pyIcicle_Type;

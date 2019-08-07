@@ -29,7 +29,7 @@ PY_PLASMA_TYPE_INIT(LightSpecularApplicator)
     pyLightSpecularApplicator_Type.tp_new = pyLightSpecularApplicator_new;
     pyLightSpecularApplicator_Type.tp_base = &pyAGApplicator_Type;
     if (PyType_CheckAndReady(&pyLightSpecularApplicator_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyLightSpecularApplicator_Type);
     return (PyObject*)&pyLightSpecularApplicator_Type;

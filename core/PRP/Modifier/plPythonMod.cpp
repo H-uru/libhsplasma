@@ -183,7 +183,7 @@ void plPythonMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
 
             fAnimNotetracks[i].note_name = rec->getParam("NoteName", "");
             const pfPrcTag* child = rec->getFirstChild();
-            while (child != NULL) {
+            while (child) {
                 if (child->getName() == "ObjKey") {
                     if (child->hasChildren())
                         fAnimNotetracks[i].objKey = mgr->prcParseKey(child->getFirstChild());
@@ -218,7 +218,7 @@ void plPythonMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
             fMaterialAnim[i].material_name = rec->getParam("MaterialName", "");
             fMaterialAnim[i].note_name = rec->getParam("NoteName", "");
             const pfPrcTag* child = rec->getFirstChild();
-            while (child != NULL) {
+            while (child) {
                 if (child->getName() == "ModKey") {
                     if (child->hasChildren())
                         fMaterialAnim[i].modKey = mgr->prcParseKey(child->getFirstChild());

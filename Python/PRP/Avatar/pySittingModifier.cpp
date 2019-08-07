@@ -29,7 +29,7 @@ PY_METHOD_VA(SittingModifier, addNotifyKey,
     PyObject* key;
     if (!(PyArg_ParseTuple(args, "O", &key) && pyKey_Check(key))) {
         PyErr_SetString(PyExc_TypeError, "addNotifyKey expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addNotifyKey(*((pyKey*)key)->fThis);
     Py_RETURN_NONE;
@@ -48,7 +48,7 @@ PY_METHOD_VA(SittingModifier, delNotifyKey,
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delNotifyKey expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delNotifyKey((size_t)idx);
     Py_RETURN_NONE;
@@ -90,7 +90,7 @@ PY_PLASMA_TYPE_INIT(SittingModifier)
     pySittingModifier_Type.tp_getset = pySittingModifier_GetSet;
     pySittingModifier_Type.tp_base = &pySingleModifier_Type;
     if (PyType_CheckAndReady(&pySittingModifier_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(SittingModifier, "kApproachFront", plSittingModifier::kApproachFront);
     PY_TYPE_ADD_CONST(SittingModifier, "kApproachLeft", plSittingModifier::kApproachLeft);

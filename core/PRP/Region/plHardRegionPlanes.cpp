@@ -59,7 +59,7 @@ void plHardRegionPlanes::HardPlane::prcParse(const pfPrcTag* tag)
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
     const pfPrcTag* child = tag->getFirstChild();
-    while (child != NULL) {
+    while (child) {
         if (child->getName() == "Normal") {
             if (child->hasChildren())
                 fNorm.prcParse(child->getFirstChild());

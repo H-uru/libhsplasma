@@ -37,7 +37,7 @@ PY_PLASMA_TYPE_INIT(ScaleController)
     pyScaleController_Type.tp_getset = pyScaleController_GetSet;
     pyScaleController_Type.tp_base = &pyController_Type;
     if (PyType_CheckAndReady(&pyScaleController_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(ScaleController, "kSimple", plScaleController::kSimple);
 

@@ -35,7 +35,7 @@ PY_PLASMA_TYPE_INIT(GUIConsoleCmdProc)
     pyGUIConsoleCmdProc_Type.tp_getset = pyGUIConsoleCmdProc_GetSet;
     pyGUIConsoleCmdProc_Type.tp_base = &pyGUICtrlProcWriteableObject_Type;
     if (PyType_CheckAndReady(&pyGUIConsoleCmdProc_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyGUIConsoleCmdProc_Type);
     return (PyObject*)&pyGUIConsoleCmdProc_Type;

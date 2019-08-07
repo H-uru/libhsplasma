@@ -269,7 +269,7 @@ void plSDLMgr::ClearDescriptors()
 
 plStateDescriptor* plSDLMgr::GetDescriptor(const ST::string& name, int version)
 {
-    plStateDescriptor* desc = NULL;
+    plStateDescriptor* desc = nullptr;
     int hiVersion = 0;
     for (size_t i=0; i<fDescriptors.size(); i++) {
         if (fDescriptors[i]->getName() == name) {
@@ -281,7 +281,7 @@ plStateDescriptor* plSDLMgr::GetDescriptor(const ST::string& name, int version)
             }
         }
     }
-    if (desc != NULL) {
+    if (desc) {
         for (size_t i=0; i<desc->getNumVars(); i++) {
             if (desc->get(i)->getType() == plVarDescriptor::kStateDescriptor)
                 desc->get(i)->setStateDesc(GetDescriptor(desc->get(i)->getStateDescType(),

@@ -89,7 +89,7 @@ void pfGUIColorScheme::prcParse(const pfPrcTag* tag)
     fFontFlags = tag->getParam("flags", "0").to_uint();
 
     const pfPrcTag* child = tag->getFirstChild();
-    while (child != NULL) {
+    while (child) {
         if (child->getName() == "Foreground") {
             if (child->hasChildren())
                 fForeColor.prcParse(child->getFirstChild());
@@ -147,7 +147,7 @@ void pfGUIControlMod::read(hsStream* S, plResManager* mgr)
         setColorScheme(new pfGUIColorScheme());
         fColorScheme->read(S);
     } else {
-        setColorScheme(NULL);
+        setColorScheme(nullptr);
     }
 
     fSoundIndices.resize(S->readByte());
@@ -163,7 +163,7 @@ void pfGUIControlMod::write(hsStream* S, plResManager* mgr)
 {
     plSingleModifier::write(S, mgr);
 
-    if (fFlags[kHasProxy] && fProxy == NULL)
+    if (fFlags[kHasProxy] && !fProxy.Exists())
         fFlags[kHasProxy] = false;
     S->writeInt(fTagID);
     S->writeBool(fVisible);
@@ -177,7 +177,7 @@ void pfGUIControlMod::write(hsStream* S, plResManager* mgr)
         S->writeBool(false);
     }
 
-    if (fColorScheme != NULL) {
+    if (fColorScheme) {
         S->writeBool(true);
         fColorScheme->write(S);
     } else {
@@ -197,7 +197,7 @@ void pfGUIControlMod::IPrcWrite(pfPrcHelper* prc)
 {
     plSingleModifier::IPrcWrite(prc);
 
-    if (fFlags[kHasProxy] && fProxy == NULL)
+    if (fFlags[kHasProxy] && !fProxy.Exists())
         fFlags[kHasProxy] = false;
     prc->startTag("ControlParams");
     prc->writeParam("TagID", fTagID);
@@ -215,7 +215,7 @@ void pfGUIControlMod::IPrcWrite(pfPrcHelper* prc)
     plResManager::PrcWriteKey(prc, fDynTextMap);
     prc->closeTag();
 
-    if (fColorScheme != NULL) {
+    if (fColorScheme) {
         fColorScheme->prcWrite(prc);
     } else {
         prc->startTag("pfGUIColorScheme");
@@ -250,7 +250,7 @@ void pfGUIControlMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         if (tag->hasChildren())
             setHandler(pfGUICtrlProcWriteableObject::PrcParse(tag->getFirstChild()));
         else
-            setHandler(NULL);
+            setHandler(nullptr);
     } else if (tag->getName() == "DynTextLayer") {
         if (tag->hasChildren())
             fDynTextLayer = mgr->prcParseKey(tag->getFirstChild());
@@ -259,7 +259,7 @@ void pfGUIControlMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
             fDynTextMap = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "pfGUIColorScheme") {
         if (tag->getParam("NULL", "false").to_bool()) {
-            setColorScheme(NULL);
+            setColorScheme(nullptr);
         } else {
             setColorScheme(new pfGUIColorScheme());
             fColorScheme->prcParse(tag);

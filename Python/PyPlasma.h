@@ -45,7 +45,7 @@ struct pySequenceFastRef
         : fObj(PySequence_Fast(o, "Object is not a sequence")) { }
     ~pySequenceFastRef() { Py_XDECREF(fObj); }
 
-    bool isSequence() const { return fObj != NULL; }
+    bool isSequence() const { return fObj != nullptr; }
 
     Py_ssize_t size() { return PySequence_Fast_GET_SIZE(fObj); }
 
@@ -62,8 +62,8 @@ struct pySequenceFastRef
     #define PyInt_AsLong PyLong_AsLong
 
     // String -> Unicode
-    #define PyString_FromString(str) PyUnicode_DecodeUTF8((str), strlen((str)), NULL)
-    #define PyString_FromStringAndSize(str, len) PyUnicode_DecodeUTF8((str), (len), NULL)
+    #define PyString_FromString(str) PyUnicode_DecodeUTF8((str), strlen((str)), nullptr)
+    #define PyString_FromStringAndSize(str, len) PyUnicode_DecodeUTF8((str), (len), nullptr)
     #define PyAnyString_FromSTString PyUnicode_FromSTString
 
     // Py_TPFLAGS_CHECKTYPES is no longer used in Py3k
@@ -154,7 +154,7 @@ template <class pyType, class plType, typename... ArgsT>
 PyObject* PyPlasma_new(PyTypeObject* type, ArgsT&&... args)
 {
     pyType* self = (pyType*)type->tp_alloc(type, 0);
-    if (self != NULL) {
+    if (self) {
         self->fThis = new plType(std::forward<ArgsT&&>(args)...);
         self->fPyOwned = true;
     }
@@ -165,7 +165,7 @@ template <class pyType, class plType, typename... ArgsT>
 PyObject* PyPlasmaValue_new(PyTypeObject* type, ArgsT&&... args)
 {
     pyType* self = (pyType*)type->tp_alloc(type, 0);
-    if (self != NULL)
+    if (self)
         self->fThis = new plType(std::forward<ArgsT&&>(args)...);
     return (PyObject*)self;
 }
@@ -208,7 +208,7 @@ PyObject* PyPlasmaValue_new(PyTypeObject* type, ArgsT&&... args)
         (void)args;                                                     \
         (void)kwargs;                                                   \
         PyErr_SetString(PyExc_RuntimeError, message);                   \
-        return NULL;                                                    \
+        return nullptr;                                                 \
     }
 
 #define PY_PLASMA_INIT_DECL(pyType)                                     \
@@ -370,16 +370,16 @@ template <> inline size_t pyPlasma_get(PyObject* value) { return (size_t)(unsign
 #define PY_PROPERTY_GETSET_DECL(pyType, name)                           \
     static PyGetSetDef py##pyType##_##name##_getset = {                 \
         _pycs(#name), (getter)py##pyType##_get_##name,                  \
-        (setter)py##pyType##_set_##name, NULL, NULL                     \
+        (setter)py##pyType##_set_##name, nullptr, nullptr               \
     };
 
 #define PY_PROPERTY_GETSET_RO_DECL(pyType, name)                        \
     static PyGetSetDef py##pyType##_##name##_getset = {                 \
         _pycs(#name), (getter)py##pyType##_get_##name,                  \
-        NULL, NULL, NULL                                                \
+        nullptr, nullptr, nullptr                                       \
     };
 
-#define PY_GETSET_TERMINATOR { NULL, NULL, NULL, NULL, NULL }
+#define PY_GETSET_TERMINATOR { nullptr, nullptr, nullptr, nullptr, nullptr }
 
 #define PY_PROPERTY_READ(pyType, name, getter)                          \
     PY_GETSET_GETTER_DECL(pyType, name)                                 \
@@ -390,7 +390,7 @@ template <> inline size_t pyPlasma_get(PyObject* value) { return (size_t)(unsign
 /* Place this at the beginning of a property SETTER to ensure the value
  * is not NULL (i.e. that the caller didn't try to delete the property) */
 #define PY_PROPERTY_CHECK_NULL(name)                                    \
-    if (value == NULL) {                                                \
+    if (value == nullptr) {                                             \
         PyErr_SetString(PyExc_RuntimeError, #name " cannot be deleted"); \
         return -1;                                                      \
     }
@@ -544,7 +544,7 @@ template <> inline size_t pyPlasma_get(PyObject* value) { return (size_t)(unsign
     };                                                                  \
     PyObject* module##_##name(PyObject*, PyObject* args)
 
-#define PY_METHOD_TERMINATOR { NULL, NULL, 0, NULL }
+#define PY_METHOD_TERMINATOR { nullptr, nullptr, 0, nullptr }
 
 /* Helpers for declaring and populating the master PyTypeObject structure */
 #if (PY_MAJOR_VERSION >= 3) || ((PY_MAJOR_VERSION == 2) && (PY_MINOR_VERSION >= 6))
@@ -554,34 +554,37 @@ template <> inline size_t pyPlasma_get(PyObject* value) { return (size_t)(unsign
 #endif
 
 #if (PY_MAJOR_VERSION >= 4) || ((PY_MAJOR_VERSION == 3) && (PY_MINOR_VERSION >= 4))
-    #define _TP_FINALIZE_INIT NULL,
+    #define _TP_FINALIZE_INIT nullptr,
 #else
     #define _TP_FINALIZE_INIT
 #endif
 
 #define PY_PLASMA_TYPE(pyType, classname, doctext)                      \
     PyTypeObject py##pyType##_Type = {                                  \
-        PyVarObject_HEAD_INIT(NULL, 0)                                  \
+        PyVarObject_HEAD_INIT(nullptr, 0)                               \
         "PyHSPlasma." #classname,                                       \
         sizeof(py##pyType), 0,                                          \
-        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,     \
-        NULL, NULL, NULL, NULL, NULL,                                   \
+        nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,           \
+        nullptr, nullptr, nullptr,                                      \
+        nullptr, nullptr, nullptr, nullptr, nullptr,                    \
+        nullptr,                                                        \
         Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,                       \
         doctext,                                                        \
-        NULL, NULL, NULL, 0, NULL, NULL,                                \
-        NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0,                    \
-        NULL, NULL, NULL, NULL, NULL,                                   \
-        NULL, NULL, NULL, NULL, NULL,                                   \
-        NULL,                                                           \
+        nullptr, nullptr, nullptr, 0, nullptr, nullptr,                 \
+        nullptr, nullptr, nullptr, nullptr, nullptr,                    \
+        nullptr, nullptr, 0,                                            \
+        nullptr, nullptr, nullptr, nullptr, nullptr,                    \
+        nullptr, nullptr, nullptr, nullptr, nullptr,                    \
+        nullptr,                                                        \
         _TP_VERSION_TAG_INIT                                            \
         _TP_FINALIZE_INIT                                               \
     };
 
 #if (PY_MAJOR_VERSION < 3)
-    #define _NB_DIVIDE_INIT         NULL,
-    #define _NB_COERCE_INIT         NULL,
-    #define _NB_OCT_HEX_INIT        NULL, NULL,
-    #define _NB_INPLACE_DIVIDE_INIT NULL,
+    #define _NB_DIVIDE_INIT         nullptr,
+    #define _NB_COERCE_INIT         nullptr,
+    #define _NB_OCT_HEX_INIT        nullptr, nullptr,
+    #define _NB_INPLACE_DIVIDE_INIT nullptr,
     /* nb_nonzero was renamed to nb_bool in Python 3.0 */
     #define nb_bool                 nb_nonzero
 #else
@@ -592,37 +595,37 @@ template <> inline size_t pyPlasma_get(PyObject* value) { return (size_t)(unsign
 #endif
 
 #if ((PY_MAJOR_VERSION > 2) || (PY_MAJOR_VERSION == 2 && PY_MINOR_VERSION >= 5))
-    #define _NB_INDEX_INIT NULL,
+    #define _NB_INDEX_INIT nullptr,
 #else
     #define _NB_INDEX_INIT
 #endif
 
 #if ((PY_MAJOR_VERSION > 3) || (PY_MAJOR_VERSION == 3 && PY_MINOR_VERSION >= 5))
-    #define _NB_MATRIX_MULTIPLY_INIT NULL, NULL,
+    #define _NB_MATRIX_MULTIPLY_INIT nullptr, nullptr,
 #else
     #define _NB_MATRIX_MULTIPLY_INIT
 #endif
 
 #define PY_PLASMA_TYPE_AS_NUMBER(pyType)                                \
     static PyNumberMethods py##pyType##_As_Number = {                   \
-        NULL, NULL, NULL,                                               \
+        nullptr, nullptr, nullptr,                                      \
         _NB_DIVIDE_INIT                                                 \
-        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,                 \
-        NULL, NULL, NULL, NULL, NULL,                                   \
+        nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,  \
+        nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,           \
         _NB_COERCE_INIT                                                 \
-        NULL, NULL, NULL,                                               \
+        nullptr, nullptr, nullptr,                                      \
         _NB_OCT_HEX_INIT                                                \
-        NULL, NULL, NULL,                                               \
+        nullptr, nullptr, nullptr,                                      \
         _NB_INPLACE_DIVIDE_INIT                                         \
-        NULL, NULL, NULL, NULL, NULL, NULL, NULL,                       \
-        NULL, NULL, NULL, NULL,                                         \
+        nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,  \
+        nullptr, nullptr, nullptr, nullptr,                             \
         _NB_INDEX_INIT                                                  \
         _NB_MATRIX_MULTIPLY_INIT                                        \
     };
 
 #define PY_PLASMA_TYPE_AS_MAPPING(pyType)                               \
     static PyMappingMethods py##pyType##_As_Mapping = {                 \
-        NULL, NULL, NULL,                                               \
+        nullptr, nullptr, nullptr,                                      \
     };
 
 #define PY_PLASMA_TYPE_INIT(pyType)                                     \

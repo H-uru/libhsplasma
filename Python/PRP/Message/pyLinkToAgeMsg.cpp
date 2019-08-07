@@ -59,7 +59,7 @@ PY_PLASMA_TYPE_INIT(LinkToAgeMsg)
     pyLinkToAgeMsg_Type.tp_getset = pyLinkToAgeMsg_GetSet;
     pyLinkToAgeMsg_Type.tp_base = &pyMessage_Type;
     if (PyType_CheckAndReady(&pyLinkToAgeMsg_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyLinkToAgeMsg_Type);
     return (PyObject*)&pyLinkToAgeMsg_Type;

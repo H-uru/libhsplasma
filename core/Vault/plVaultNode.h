@@ -97,8 +97,8 @@ public:
     void read(hsStream* S);
     void write(hsStream* S);
 
-    size_t getSize() const { return (fBlob != NULL) ? fBlob->fSize : 0; }
-    const unsigned char* getData() const { return (fBlob != NULL) ? fBlob->fData : NULL; }
+    size_t getSize() const { return fBlob ? fBlob->fSize : 0; }
+    const unsigned char* getData() const { return fBlob ? fBlob->fData : nullptr; }
     void setData(size_t size, const unsigned char* data);
 };
 

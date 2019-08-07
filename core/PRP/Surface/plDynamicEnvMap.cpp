@@ -115,7 +115,7 @@ void plDynamicEnvMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         fIncCharacters = tag->getParam("IncCharacters", "false").to_bool();
 
         const pfPrcTag* child = tag->getFirstChild();
-        while (child != NULL) {
+        while (child) {
             if (child->getName() == "Pos") {
                 if (child->hasChildren())
                     fPos.prcParse(child->getFirstChild());
@@ -278,7 +278,7 @@ void plDynamicCamMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         fIncCharacters = tag->getParam("IncCharacters", "false").to_bool();
 
         const pfPrcTag* child = tag->getFirstChild();
-        while (child != NULL) {
+        while (child) {
             if (child->getName() == "hsColorRGBA") {
                 fColor.prcParse(child);
             } else {

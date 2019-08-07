@@ -50,7 +50,7 @@ plKeyData* plKeyData::PrcParse(const pfPrcTag* tag)
         key->fUoid.prcParse(tag);
         return key;
     } else {
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -67,7 +67,7 @@ void plKeyData::setObj(class hsKeyedObject* obj)
     if (obj == fObjPtr)
         return;
 
-    if (fObjPtr != NULL && !fObjPtr->isStub())
+    if (fObjPtr && !fObjPtr->isStub())
         throw hsBadParamException(__FILE__, __LINE__, "Trying to change already loaded object");
 
     fObjPtr = obj;
@@ -83,12 +83,12 @@ void plKeyData::setObj(class hsKeyedObject* obj)
 void plKeyData::deleteObj()
 {
     delete fObjPtr;
-    fObjPtr = 0;
+    fObjPtr = nullptr;
 }
 
 void plKeyData::addCallback(AfterLoadCallback callback)
 {
-    if (fObjPtr != NULL)
+    if (fObjPtr)
         callback(fObjPtr);
     else
         fCallbacks.push_back(callback);
@@ -97,28 +97,28 @@ void plKeyData::addCallback(AfterLoadCallback callback)
 /* plKey */
 plKey::plKey(const plKey& init) : fKeyData(init.fKeyData)
 {
-    if (fKeyData != NULL)
+    if (fKeyData)
         fKeyData->Ref();
 }
 
 plKey::plKey(plKeyData* init) : fKeyData(init)
 {
-    if (fKeyData != NULL)
+    if (fKeyData)
         fKeyData->Ref();
 }
 
 plKey::~plKey()
 {
-    if (fKeyData != NULL)
+    if (fKeyData)
         fKeyData->UnRef();
 }
 
 plKey& plKey::operator=(const plKey& other)
 {
     if (fKeyData != other.fKeyData) {
-        if (other.fKeyData != NULL)
+        if (other.fKeyData)
             other->Ref();
-        if (fKeyData != NULL)
+        if (fKeyData)
             fKeyData->UnRef();
         fKeyData = other.fKeyData;
     }
@@ -128,9 +128,9 @@ plKey& plKey::operator=(const plKey& other)
 plKey& plKey::operator=(plKeyData* other)
 {
     if (fKeyData != other) {
-        if (other != NULL)
+        if (other)
             other->Ref();
-        if (fKeyData != NULL)
+        if (fKeyData)
             fKeyData->UnRef();
         fKeyData = other;
     }
@@ -141,7 +141,7 @@ bool plKey::isLoaded() const
 {
     if (!Exists())
         return true;
-    return fKeyData->getObj() != NULL;
+    return fKeyData->getObj() != nullptr;
 }
 
 ST::string plKey::toString() const

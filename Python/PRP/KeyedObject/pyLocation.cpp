@@ -74,7 +74,7 @@ PY_PLASMA_RICHCOMPARE_DECL(Location)
         break;
     default:
         PyErr_SetString(PyExc_RuntimeError, "Comparison failed");
-        return NULL;
+        return nullptr;
     }
 
     return pyPlasma_convert(result);
@@ -87,11 +87,11 @@ PY_METHOD_VA(Location, read,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->read(stream->fThis);
     Py_RETURN_NONE;
@@ -104,11 +104,11 @@ PY_METHOD_VA(Location, write,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->write(stream->fThis);
     Py_RETURN_NONE;
@@ -161,7 +161,7 @@ PY_METHOD_VA(Location, parse,
     int loc;
     if (!PyArg_ParseTuple(args, "i", &loc)) {
         PyErr_SetString(PyExc_TypeError, "parse expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->parse(loc);
     Py_RETURN_NONE;
@@ -214,7 +214,7 @@ PY_PLASMA_TYPE_INIT(Location)
     pyLocation_Type.tp_methods = pyLocation_Methods;
     pyLocation_Type.tp_getset = pyLocation_GetSet;
     if (PyType_CheckAndReady(&pyLocation_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(Location, "kLocalOnly", plLocation::kLocalOnly);
     PY_TYPE_ADD_CONST(Location, "kVolatile", plLocation::kVolatile);

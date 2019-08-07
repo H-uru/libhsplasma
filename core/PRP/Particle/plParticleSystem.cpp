@@ -122,7 +122,7 @@ void plParticleSystem::IPrcWrite(pfPrcHelper* prc)
     plResManager::PrcWriteKey(prc, fMaterial);
     prc->closeTag();
 
-    if (fAmbientCtl != NULL) {
+    if (fAmbientCtl) {
         prc->writeSimpleTag("AmbientCtl");
         fAmbientCtl->prcWrite(prc);
         prc->closeTag();
@@ -131,7 +131,7 @@ void plParticleSystem::IPrcWrite(pfPrcHelper* prc)
         prc->writeParam("NULL", true);
         prc->endTag(true);
     }
-    if (fDiffuseCtl != NULL) {
+    if (fDiffuseCtl) {
         prc->writeSimpleTag("DiffuseCtl");
         fDiffuseCtl->prcWrite(prc);
         prc->closeTag();
@@ -140,7 +140,7 @@ void plParticleSystem::IPrcWrite(pfPrcHelper* prc)
         prc->writeParam("NULL", true);
         prc->endTag(true);
     }
-    if (fOpacityCtl != NULL) {
+    if (fOpacityCtl) {
         prc->writeSimpleTag("OpacityCtl");
         fOpacityCtl->prcWrite(prc);
         prc->closeTag();
@@ -149,7 +149,7 @@ void plParticleSystem::IPrcWrite(pfPrcHelper* prc)
         prc->writeParam("NULL", true);
         prc->endTag(true);
     }
-    if (fWidthCtl != NULL) {
+    if (fWidthCtl) {
         prc->writeSimpleTag("WidthCtl");
         fWidthCtl->prcWrite(prc);
         prc->closeTag();
@@ -158,7 +158,7 @@ void plParticleSystem::IPrcWrite(pfPrcHelper* prc)
         prc->writeParam("NULL", true);
         prc->endTag(true);
     }
-    if (fHeightCtl != NULL) {
+    if (fHeightCtl) {
         prc->writeSimpleTag("HeightCtl");
         fHeightCtl->prcWrite(prc);
         prc->closeTag();

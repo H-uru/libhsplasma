@@ -35,7 +35,7 @@ PY_PLASMA_NEW_DECL(CreatableStub)
 {
     pyCreatableStub* self = (pyCreatableStub*)type->tp_alloc(type, 0);
     // This will get populated in __init__(classID, size)
-    self->fThis = NULL;
+    self->fThis = nullptr;
     return (PyObject*)self;
 }
 
@@ -66,7 +66,7 @@ PY_PLASMA_TYPE_INIT(CreatableStub)
     pyCreatableStub_Type.tp_methods = pyCreatableStub_Methods;
     pyCreatableStub_Type.tp_base = &pyCreatable_Type;
     if (PyType_CheckAndReady(&pyCreatableStub_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyCreatableStub_Type);
     return (PyObject*)&pyCreatableStub_Type;

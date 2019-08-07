@@ -20,8 +20,8 @@
 /* plController */
 void plController::WriteController(hsStream* S, plResManager* mgr, plController* controller)
 {
-    if (controller == NULL) {
-        mgr->WriteCreatable(S, NULL);
+    if (controller == nullptr) {
+        mgr->WriteCreatable(S, nullptr);
         return;
     }
 
@@ -99,7 +99,7 @@ void plCompoundController::write(hsStream* S, plResManager* mgr)
 void plCompoundController::IPrcWrite(pfPrcHelper* prc)
 {
     prc->writeSimpleTag("X");
-    if (fXController != NULL) {
+    if (fXController) {
         fXController->prcWrite(prc);
     } else {
         prc->startTag("plController");
@@ -108,7 +108,7 @@ void plCompoundController::IPrcWrite(pfPrcHelper* prc)
     }
     prc->closeTag();
     prc->writeSimpleTag("Y");
-    if (fYController != NULL) {
+    if (fYController) {
         fYController->prcWrite(prc);
     } else {
         prc->startTag("plController");
@@ -117,7 +117,7 @@ void plCompoundController::IPrcWrite(pfPrcHelper* prc)
     }
     prc->closeTag();
     prc->writeSimpleTag("Z");
-    if (fZController != NULL) {
+    if (fZController) {
         fZController->prcWrite(prc);
     } else {
         prc->startTag("plController");

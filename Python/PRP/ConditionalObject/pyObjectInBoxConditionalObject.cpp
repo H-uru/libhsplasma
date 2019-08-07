@@ -29,7 +29,7 @@ PY_PLASMA_TYPE_INIT(ObjectInBoxConditionalObject)
     pyObjectInBoxConditionalObject_Type.tp_new = pyObjectInBoxConditionalObject_new;
     pyObjectInBoxConditionalObject_Type.tp_base = &pyConditionalObject_Type;
     if (PyType_CheckAndReady(&pyObjectInBoxConditionalObject_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyObjectInBoxConditionalObject_Type);
     return (PyObject*)&pyObjectInBoxConditionalObject_Type;

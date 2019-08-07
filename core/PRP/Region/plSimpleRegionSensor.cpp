@@ -35,13 +35,13 @@ void plSimpleRegionSensor::write(hsStream* S, plResManager* mgr)
 {
     plSingleModifier::write(S, mgr);
 
-    if (fEnterMsg != NULL) {
+    if (fEnterMsg) {
         S->writeBool(true);
         mgr->WriteCreatable(S, fEnterMsg);
     } else {
         S->writeBool(false);
     }
-    if (fExitMsg != NULL) {
+    if (fExitMsg) {
         S->writeBool(true);
         mgr->WriteCreatable(S, fExitMsg);
     } else {
@@ -54,7 +54,7 @@ void plSimpleRegionSensor::IPrcWrite(pfPrcHelper* prc)
     plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("EnterMsg");
-    if (fEnterMsg != NULL) {
+    if (fEnterMsg) {
         prc->endTag(false);
         fEnterMsg->prcWrite(prc);
         prc->closeTag();
@@ -63,7 +63,7 @@ void plSimpleRegionSensor::IPrcWrite(pfPrcHelper* prc)
         prc->endTag(true);
     }
     prc->startTag("ExitMsg");
-    if (fExitMsg != NULL) {
+    if (fExitMsg) {
         prc->endTag(false);
         fExitMsg->prcWrite(prc);
         prc->closeTag();
@@ -77,12 +77,12 @@ void plSimpleRegionSensor::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
 {
     if (tag->getName() == "EnterMsg") {
         if (tag->getParam("NULL", "false").to_bool())
-            setEnterMsg(NULL);
+            setEnterMsg(nullptr);
         else if (tag->hasChildren())
             setEnterMsg(plMessage::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else if (tag->getName() == "ExitMsg") {
         if (tag->getParam("NULL", "false").to_bool())
-            setExitMsg(NULL);
+            setExitMsg(nullptr);
         else if (tag->hasChildren())
             setExitMsg(plMessage::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else {

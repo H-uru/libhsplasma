@@ -101,7 +101,7 @@ void plOneTimeParticleGenerator::IPrcParse(const pfPrcTag* tag, plResManager* mg
             if (child->getName() != "Source")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             const pfPrcTag* subChild = child->getFirstChild();
-            while (subChild != NULL) {
+            while (subChild) {
                 if (subChild->getName() == "Position") {
                     if (subChild->hasChildren())
                         fPosition[i].prcParse(subChild->getFirstChild());

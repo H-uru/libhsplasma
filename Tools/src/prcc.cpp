@@ -107,7 +107,7 @@ int main(int argc, char* argv[])
             if (outputFile.empty())
                 outputFile = "out.po";
             plCreatable* cre = rm.prcParseCreatable(root);
-            if (cre != NULL) {
+            if (cre) {
                 hsFileStream out;
                 out.setVer(outVer);
                 out.open(outputFile, fmCreate);

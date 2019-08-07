@@ -35,11 +35,11 @@ PY_METHOD_VA(Cluster, read,
     pyClusterGroup* group;
     if (!PyArg_ParseTuple(args, "OO", &stream, &group)) {
         PyErr_SetString(PyExc_TypeError, "read expects hsStream, plClusterGroup");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream) || !pyClusterGroup_Check((PyObject*)group)) {
         PyErr_SetString(PyExc_TypeError, "read expects hsStream, plClusterGroup");
-        return NULL;
+        return nullptr;
     }
     self->fThis->read(stream->fThis, group->fThis);
     Py_RETURN_NONE;
@@ -52,11 +52,11 @@ PY_METHOD_VA(Cluster, write,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects an hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->write(stream->fThis);
     Py_RETURN_NONE;
@@ -76,11 +76,11 @@ PY_METHOD_VA(Cluster, addInstance,
     pySpanInstance* instance;
     if (!PyArg_ParseTuple(args, "O", &instance)) {
         PyErr_SetString(PyExc_TypeError, "addInstance expects a plSpanInstance");
-        return NULL;
+        return nullptr;
     }
     if (!pySpanInstance_Check((PyObject*)instance)) {
         PyErr_SetString(PyExc_TypeError, "addInstance expects a plSpanInstance");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addInstance(instance->fThis);
     instance->fPyOwned = false;
@@ -94,7 +94,7 @@ PY_METHOD_VA(Cluster, delInstance,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delInstance expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delInstance(idx);
     Py_RETURN_NONE;
@@ -140,7 +140,7 @@ PY_PLASMA_TYPE_INIT(Cluster)
     pyCluster_Type.tp_methods = pyCluster_Methods;
     pyCluster_Type.tp_getset = pyCluster_GetSet;
     if (PyType_CheckAndReady(&pyCluster_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyCluster_Type);
     return (PyObject*)&pyCluster_Type;

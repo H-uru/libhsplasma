@@ -28,7 +28,7 @@ PY_METHOD_VA(SoundMsg, getCmd,
     int cmd;
     if (!PyArg_ParseTuple(args, "i", &cmd)) {
         PyErr_SetString(PyExc_TypeError, "getCmd expects an int");
-        return NULL;
+        return nullptr;
     }
     return pyPlasma_convert(self->fThis->getCmd(cmd));
 }
@@ -41,7 +41,7 @@ PY_METHOD_VA(SoundMsg, setCmd,
     int value = 1;
     if (!PyArg_ParseTuple(args, "i|i", &cmd, &value)) {
         PyErr_SetString(PyExc_TypeError, "setCmd expects an int and an optional int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->setCmd(cmd, value != 0);
     Py_RETURN_NONE;
@@ -87,7 +87,7 @@ PY_PLASMA_TYPE_INIT(SoundMsg)
     pySoundMsg_Type.tp_getset = pySoundMsg_GetSet;
     pySoundMsg_Type.tp_base = &pyMessageWithCallbacks_Type;
     if (PyType_CheckAndReady(&pySoundMsg_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(SoundMsg, "kPlay", plSoundMsg::kPlay);
     PY_TYPE_ADD_CONST(SoundMsg, "kStop", plSoundMsg::kStop);

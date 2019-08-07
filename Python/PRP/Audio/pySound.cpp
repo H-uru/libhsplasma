@@ -73,7 +73,7 @@ PY_PLASMA_TYPE_INIT(Sound)
     pySound_Type.tp_getset = pySound_GetSet;
     pySound_Type.tp_base = &pySynchedObject_Type;
     if (PyType_CheckAndReady(&pySound_Type) < 0)
-        return NULL;
+        return nullptr;
 
     /* Konstants */
     PY_TYPE_ADD_CONST(Sound, "kPropIs3DSound", plSound::kPropIs3DSound);

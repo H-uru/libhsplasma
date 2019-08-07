@@ -20,7 +20,7 @@
 pfSizedStream::pfSizedStream(hsStream* S, uint32_t len)
     : fBase(S), fLength(len)
 {
-    if (S != NULL) {
+    if (S) {
         ver = S->getVer();
 
         fBegin = S->pos();

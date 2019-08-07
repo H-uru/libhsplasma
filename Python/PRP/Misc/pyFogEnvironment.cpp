@@ -46,7 +46,7 @@ PY_PLASMA_TYPE_INIT(FogEnvironment)
     pyFogEnvironment_Type.tp_getset = pyFogEnvironment_GetSet;
     pyFogEnvironment_Type.tp_base = &pyKeyedObject_Type;
     if (PyType_CheckAndReady(&pyFogEnvironment_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(FogEnvironment, "kLinearFog", plFogEnvironment::kLinearFog);
     PY_TYPE_ADD_CONST(FogEnvironment, "kExpFog",    plFogEnvironment::kExpFog);

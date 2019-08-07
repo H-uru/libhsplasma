@@ -29,11 +29,11 @@ PY_METHOD_VA(GUIDialogMod, addControl,
     pyKey* control;
     if (!PyArg_ParseTuple(args, "O", &control)) {
         PyErr_SetString(PyExc_TypeError, "addControl expects a plKey");
-        return NULL;
+        return nullptr;
     }
     if (!pyKey_Check((PyObject*)control)) {
         PyErr_SetString(PyExc_TypeError, "addControl expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addControl(*control->fThis);
     Py_RETURN_NONE;
@@ -46,7 +46,7 @@ PY_METHOD_VA(GUIDialogMod, delControl,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delControl expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delControl(idx);
     Py_RETURN_NONE;
@@ -105,7 +105,7 @@ PY_PLASMA_TYPE_INIT(GUIDialogMod)
     pyGUIDialogMod_Type.tp_getset = pyGUIDialogMod_GetSet;
     pyGUIDialogMod_Type.tp_base = &pySingleModifier_Type;
     if (PyType_CheckAndReady(&pyGUIDialogMod_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyGUIDialogMod_Type);
     return (PyObject*) &pyGUIDialogMod_Type;

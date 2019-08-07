@@ -27,7 +27,7 @@ PY_PLASMA_TYPE_INIT(ParticleApplicator)
     pyParticleApplicator_Type.tp_new = pyParticleApplicator_new;
     pyParticleApplicator_Type.tp_base = &pyAGApplicator_Type;
     if (PyType_CheckAndReady(&pyParticleApplicator_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyParticleApplicator_Type);
     return (PyObject*)&pyParticleApplicator_Type;
@@ -43,7 +43,7 @@ PY_PLASMA_IFC_METHODS(ParticleApplicator, plParticleApplicator)
         py##pyType##_Type.tp_new = py##pyType##_new;            \
         py##pyType##_Type.tp_base = &pyParticleApplicator_Type; \
         if (PyType_CheckAndReady(&py##pyType##_Type) < 0)       \
-            return NULL;                                        \
+            return nullptr;                                     \
                                                                 \
         Py_INCREF(&py##pyType##_Type);                          \
         return (PyObject*)&py##pyType##_Type;                   \

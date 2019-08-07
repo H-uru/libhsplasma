@@ -94,7 +94,7 @@ void plAvSeekMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         fFlags = tag->getParam("Flags", "0").to_uint();
     } else if (tag->getName() == "SeekPoint") {
         const pfPrcTag* child = tag->getFirstChild();
-        while (child != NULL) {
+        while (child) {
             if (child->getName() == "plKey") {
                 fSeekPoint = mgr->prcParseKey(child);
             } else if (child->getName() == "TargetPos") {

@@ -28,13 +28,13 @@ void plSimpleRotController::read(hsStream* S, plResManager* mgr)
         setRot(new plQuatController());
         fRot->read(S, mgr);
     } else {
-        setRot(NULL);
+        setRot(nullptr);
     }
 }
 
 void plSimpleRotController::write(hsStream* S, plResManager* mgr)
 {
-    if (fRot != NULL) {
+    if (fRot) {
         S->writeInt(1);
         fRot->write(S, mgr);
     } else {
@@ -44,7 +44,7 @@ void plSimpleRotController::write(hsStream* S, plResManager* mgr)
 
 void plSimpleRotController::IPrcWrite(pfPrcHelper* prc)
 {
-    if (fRot != NULL) {
+    if (fRot) {
         fRot->prcWrite(prc);
     } else {
         prc->startTag("plQuatController");
@@ -60,7 +60,7 @@ void plSimpleRotController::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
             setRot(new plQuatController());
             fRot->prcParse(tag, mgr);
         } else {
-            setRot(NULL);
+            setRot(nullptr);
         }
     } else {
         plCreatable::IPrcParse(tag, mgr);
@@ -88,37 +88,37 @@ void plCompoundRotController::read(hsStream* S, plResManager* mgr)
         setX(new plScalarController());
         fXController->read(S, mgr);
     } else {
-        setX(NULL);
+        setX(nullptr);
     }
     if (S->readInt() != 0) {
         setY(new plScalarController());
         fYController->read(S, mgr);
     } else {
-        setY(NULL);
+        setY(nullptr);
     }
     if (S->readInt() != 0) {
         setZ(new plScalarController());
         fZController->read(S, mgr);
     } else {
-        setZ(NULL);
+        setZ(nullptr);
     }
 }
 
 void plCompoundRotController::write(hsStream* S, plResManager* mgr)
 {
-    if (fXController != NULL) {
+    if (fXController) {
         S->writeInt(1);
         fXController->write(S, mgr);
     } else {
         S->writeInt(0);
     }
-    if (fYController != NULL) {
+    if (fYController) {
         S->writeInt(1);
         fYController->write(S, mgr);
     } else {
         S->writeInt(0);
     }
-    if (fZController != NULL) {
+    if (fZController) {
         S->writeInt(1);
         fZController->write(S, mgr);
     } else {
@@ -129,7 +129,7 @@ void plCompoundRotController::write(hsStream* S, plResManager* mgr)
 void plCompoundRotController::IPrcWrite(pfPrcHelper* prc)
 {
     prc->writeSimpleTag("X");
-    if (fXController != NULL) {
+    if (fXController) {
         fXController->prcWrite(prc);
     } else {
         prc->startTag("plScalarController");
@@ -138,7 +138,7 @@ void plCompoundRotController::IPrcWrite(pfPrcHelper* prc)
     }
     prc->closeTag();
     prc->writeSimpleTag("Y");
-    if (fYController != NULL) {
+    if (fYController) {
         fYController->prcWrite(prc);
     } else {
         prc->startTag("plScalarController");
@@ -147,7 +147,7 @@ void plCompoundRotController::IPrcWrite(pfPrcHelper* prc)
     }
     prc->closeTag();
     prc->writeSimpleTag("Z");
-    if (fZController != NULL) {
+    if (fZController) {
         fZController->prcWrite(prc);
     } else {
         prc->startTag("plScalarController");
@@ -164,21 +164,21 @@ void plCompoundRotController::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
             setX(new plScalarController());
             fXController->prcParse(tag->getFirstChild(), mgr);
         } else {
-            setX(NULL);
+            setX(nullptr);
         }
     } else if (tag->getName() == "Y") {
         if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").to_bool()) {
             setY(new plScalarController());
             fYController->prcParse(tag->getFirstChild(), mgr);
         } else {
-            setY(NULL);
+            setY(nullptr);
         }
     } else if (tag->getName() == "Z") {
         if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").to_bool()) {
             setZ(new plScalarController());
             fZController->prcParse(tag->getFirstChild(), mgr);
         } else {
-            setZ(NULL);
+            setZ(nullptr);
         }
     } else {
         plCreatable::IPrcParse(tag, mgr);

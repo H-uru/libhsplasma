@@ -31,7 +31,7 @@ PY_METHOD_VA(ObjInterface, getProperty,
     int prop;
     if (!PyArg_ParseTuple(args, "i", &prop)) {
         PyErr_SetString(PyExc_TypeError, "getProperty expects an int");
-        return NULL;
+        return nullptr;
     }
     return pyPlasma_convert(self->fThis->getProperty(prop));
 }
@@ -43,7 +43,7 @@ PY_METHOD_VA(ObjInterface, setProperty,
     int prop, value;
     if (!PyArg_ParseTuple(args, "ii", &prop, &value)) {
         PyErr_SetString(PyExc_TypeError, "setProperty expects int, bool");
-        return NULL;
+        return nullptr;
     }
     self->fThis->setProperty(prop, value != 0);
     Py_RETURN_NONE;
@@ -71,7 +71,7 @@ PY_PLASMA_TYPE_INIT(ObjInterface)
     pyObjInterface_Type.tp_getset = pyObjInterface_GetSet;
     pyObjInterface_Type.tp_base = &pySynchedObject_Type;
     if (PyType_CheckAndReady(&pyObjInterface_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(ObjInterface, "kDisable", plObjInterface::kDisable);
 

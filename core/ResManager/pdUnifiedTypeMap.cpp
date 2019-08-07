@@ -1807,7 +1807,7 @@ const char* pdUnifiedTypeMap::fClassNames[TYPESPACE_MAX] = {
     "plHavokConstraintsMod", "plHingeConstraintMod", "plWheelConstraintMod",
     "plStrongSpringConstraintMod", "plArmatureLODMod", "plWin32StaticSound",
     "pfGameGUIMgr", "pfGUIDialogMod", "plCameraBrain1", "plVirtualCam1",
-    NULL, "plCameraBrain1_Drive", "plCameraBrain1_POA",
+    nullptr, "plCameraBrain1_Drive", "plCameraBrain1_POA",
     "plCameraBrain1_Avatar", "plCameraBrain1_Fixed", "plCameraBrain1_POAFixed",
     "pfGUIButtonMod", "plPythonFileMod", "pfGUIControlMod",
     "plExcludeRegionModifier", "pfGUIDraggableMod",
@@ -1856,9 +1856,9 @@ const char* pdUnifiedTypeMap::fClassNames[TYPESPACE_MAX] = {
     "plDistOpacityMod", "plArmatureModBase", "plSwimRegionInterface",
     "plSwimCircularCurrentRegion", "plParticleFollowSystemEffect",
     "plSwimStraightCurrentRegion", "pfObjectFlocker", "plGrassShaderMod",
-    "plDynamicCamMap", NULL, NULL, NULL, "plAutoWalkRegion", "plCrossfade",
-    "plParticleFadeOutEffect", "pfSecurePreloader", "plWindBoneMod",
-    "plCameraBrain_NovicePlus", "pfSubtitleMgr",
+    "plDynamicCamMap", nullptr, nullptr, nullptr, "plAutoWalkRegion",
+    "plCrossfade", "plParticleFadeOutEffect", "pfSecurePreloader",
+    "plWindBoneMod", "plCameraBrain_NovicePlus", "pfSubtitleMgr",
     "plPythonFileModConditionalObject", "plLayerTransform",
     "plBubbleShaderMod", "plLineFollowModBase", "plClientApp",
     "pfGUICreditsCtrl", "plCameraBrainUru", "plVirtualCamera",
@@ -1874,19 +1874,25 @@ const char* pdUnifiedTypeMap::fClassNames[TYPESPACE_MAX] = {
     "plPiranhaRegionModifier", "plRidingAnimatedPhysicalDetector",
     "plVolumeSensorConditionalObjectNoArbitration", "plFXMaterial",
     "plMovableMod", "plMaterial", "plEffect", "plParticleBulletEffect",
-    "plCameraBrain_Ground", "plCameraBrain_Flight", NULL, NULL, NULL, NULL,
-    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    "plCameraBrain_Ground", "plCameraBrain_Flight", nullptr, nullptr, nullptr,
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+    nullptr, nullptr, nullptr, nullptr,
 
     "plObjRefMsg", "plNodeRefMsg", "plMessage", "plRefMsg", "plGenRefMsg",
     "plTimeMsg", "plAnimCmdMsg", "plParticleUpdateMsg", "plLayRefMsg",
@@ -2055,16 +2061,19 @@ const char* pdUnifiedTypeMap::fClassNames[TYPESPACE_MAX] = {
     "plNetCommRegisterAgeMsg", "plAnimEvalMsg", "plAvBrainFlight",
     "plAvBrainNPC", "plAvBrainBlimp", "plAvBrainFlightNPC",
     "plParticleBulletHitMsg", "pfPanicLinkMsg", "plAvTaskOneShot",
-    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
 
-    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    "plVaultGameServerInitializationTask", "plNetClientFindDefaultAgeTask",
-    "plVaultAgeNode", "plVaultAgeInitializationTask", "plSetListenerMsg",
-    "plVaultSystemNode", "plAvBrainSwim", "plNetMsgVault", "plNetServerMsgVault",
-    "plVaultTask", "plVaultConnectTask", "plVaultNegotiateManifestTask",
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+    nullptr, "plVaultGameServerInitializationTask",
+    "plNetClientFindDefaultAgeTask", "plVaultAgeNode",
+    "plVaultAgeInitializationTask", "plSetListenerMsg", "plVaultSystemNode",
+    "plAvBrainSwim", "plNetMsgVault", "plNetServerMsgVault", "plVaultTask",
+    "plVaultConnectTask", "plVaultNegotiateManifestTask",
     "plVaultFetchNodesTask", "plVaultSaveNodeTask", "plVaultFindNodeTask",
     "plVaultAddNodeRefTask", "plVaultRemoveNodeRefTask", "plVaultSendNodeTask",
     "plVaultNotifyOperationCallbackTask", "plVNodeMgrInitializationTask",
@@ -2130,16 +2139,17 @@ const char* pdUnifiedTypeMap::fClassNames[TYPESPACE_MAX] = {
     "pfGmBlueSpiral", "plAccountUpdateMsg", "plAIMsg", "plAIBrainCreatedMsg",
     "pfGmClimbingWall", "plAIArrivedAtGoalMsg", "pfGmVarSync",
     "plLinearVelocityMsg", "plAngularVelocityMsg", "plRideAnimatedPhysMsg",
-    "plAvBrainRideAnimatedPhysical", NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    NULL, NULL, NULL, NULL, NULL, NULL, NULL
+    "plAvBrainRideAnimatedPhysical", nullptr, nullptr, nullptr, nullptr,
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr
 };
 
 const char* pdUnifiedTypeMap::ClassName(short typeIdx)
 {
     if (typeIdx < 0 || typeIdx >= TYPESPACE_MAX) {
         plDebug::Debug("pdUnifiedTypeMap::ClassName ERR: Got type {_04X}", typeIdx);
-        return NULL;
+        return nullptr;
     }
 
     return fClassNames[typeIdx];
@@ -2155,7 +2165,7 @@ const char* pdUnifiedTypeMap::ClassName(short typeIdx, PlasmaVer ver)
 short pdUnifiedTypeMap::ClassIndex(const char* typeName)
 {
     for (size_t i=0; i<TYPESPACE_MAX; i++)
-        if (fClassNames[i] != NULL && strcmp(fClassNames[i], typeName) == 0)
+        if (fClassNames[i] && strcmp(fClassNames[i], typeName) == 0)
             return i;
 
     plDebug::Debug("pdUnifiedTypeMap::ClassIndex ERR: Got class {}", typeName);

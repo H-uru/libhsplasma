@@ -122,7 +122,7 @@ void plAvTaskBrain::write(hsStream* S, plResManager* mgr)
 
 void plAvTaskBrain::IPrcWrite(pfPrcHelper* prc)
 {
-    if (fBrain != NULL) {
+    if (fBrain) {
         prc->writeSimpleTag("Brain");
         fBrain->prcWrite(prc);
         prc->closeTag();
@@ -137,7 +137,7 @@ void plAvTaskBrain::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
 {
     if (tag->getName() == "Brain") {
         if (tag->getParam("NULL", "false").to_bool())
-            setBrain(NULL);
+            setBrain(nullptr);
         else if (tag->hasChildren())
             setBrain(plArmatureBrain::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else {

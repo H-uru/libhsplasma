@@ -36,11 +36,11 @@ PY_METHOD_VA(AGAnim, addApplicator,
     pyAGApplicator* app;
     if (!PyArg_ParseTuple(args, "O", &app)) {
         PyErr_SetString(PyExc_TypeError, "addApplicator expects a plAGApplicator");
-        return NULL;
+        return nullptr;
     }
     if (!pyAGApplicator_Check((PyObject*)app)) {
         PyErr_SetString(PyExc_TypeError, "addApplicator expects a plAGApplicator");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addApplicator(app->fThis);
     app->fPyOwned = false;
@@ -54,7 +54,7 @@ PY_METHOD_VA(AGAnim, delApplicator,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delApplicator expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delApplicator(idx);
     Py_RETURN_NONE;
@@ -102,7 +102,7 @@ PY_PLASMA_TYPE_INIT(AGAnim)
     pyAGAnim_Type.tp_getset = pyAGAnim_GetSet;
     pyAGAnim_Type.tp_base = &pySynchedObject_Type;
     if (PyType_CheckAndReady(&pyAGAnim_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(AGAnim, "kBodyUnknown", plAGAnim::kBodyUnknown);
     PY_TYPE_ADD_CONST(AGAnim, "kBodyUpper", plAGAnim::kBodyUpper);

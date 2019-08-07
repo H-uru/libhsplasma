@@ -40,7 +40,7 @@ PY_PLASMA_TYPE_INIT(GUISkin)
     pyGUISkin_Type.tp_getset = pyGUISkin_GetSet;
     pyGUISkin_Type.tp_base = &pyKeyedObject_Type;
     if (PyType_CheckAndReady(&pyGUISkin_Type) < 0)
-        return NULL;
+        return nullptr;
 
     /* Konstants */
     PY_TYPE_ADD_CONST(GUISkin, "kUpLeftCorner", pfGUISkin::kUpLeftCorner);

@@ -230,7 +230,7 @@ plVarDescriptor* plStateDescriptor::get(const ST::string& name)
     for (size_t i=0; i<fVariables.size(); i++)
         if (fVariables[i]->getName() == name)
             return fVariables[i];
-    return NULL;
+    return nullptr;
 }
 
 void plStateDescriptor::set(const ST::string& name, plVarDescriptor* var)

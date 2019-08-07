@@ -29,7 +29,7 @@ PY_METHOD_VA(MessageWithCallbacks, addCallback,
     PyObject* msg;
     if (!(PyArg_ParseTuple(args, "O", &msg) && pyMessage_Check(msg))) {
         PyErr_SetString(PyExc_TypeError, "addCallback expects a plMessage");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addCallback(((pyMessage*)msg)->fThis);
     ((pyMessage*)msg)->fPyOwned = false;
@@ -50,11 +50,11 @@ PY_METHOD_VA(MessageWithCallbacks, delCallback,
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delCallback expects an int");
-        return NULL;
+        return nullptr;
     }
     if (size_t(idx) >= self->fThis->getCallbacks().size()) {
         PyErr_SetNone(PyExc_IndexError);
-        return NULL;
+        return nullptr;
     }
     self->fThis->delCallback((size_t)idx);
     Py_RETURN_NONE;
@@ -94,7 +94,7 @@ PY_PLASMA_TYPE_INIT(MessageWithCallbacks)
     pyMessageWithCallbacks_Type.tp_getset = pyMessageWithCallbacks_GetSet;
     pyMessageWithCallbacks_Type.tp_base = &pyMessage_Type;
     if (PyType_CheckAndReady(&pyMessageWithCallbacks_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyMessageWithCallbacks_Type);
     return (PyObject*)&pyMessageWithCallbacks_Type;

@@ -41,8 +41,8 @@ void plNPCSpawnMod::write(hsStream* S, plResManager* mgr)
     S->writeSafeStr(fAccountName);
     S->writeBool(fAutoSpawn);
 
-    S->writeBool(fNotify != NULL);
-    if (fNotify != NULL)
+    S->writeBool(fNotify != nullptr);
+    if (fNotify)
         mgr->WriteCreatable(S, fNotify);
 }
 
@@ -56,7 +56,7 @@ void plNPCSpawnMod::IPrcWrite(pfPrcHelper* prc)
     prc->writeParam("AutoSpawn", fAutoSpawn);
     prc->endTag(true);
 
-    if (fNotify != NULL) {
+    if (fNotify) {
         prc->writeSimpleTag("Notify");
         fNotify->prcWrite(prc);
         prc->closeTag();
@@ -75,7 +75,7 @@ void plNPCSpawnMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         fAutoSpawn = tag->getParam("AutoSpawn", "false").to_bool();
     } else if (tag->getName() == "Notify") {
         if (tag->getParam("NULL", "false").to_bool()) {
-            setNotify(NULL);
+            setNotify(nullptr);
         } else if (tag->hasChildren()) {
             setNotify(plNotifyMsg::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
         }

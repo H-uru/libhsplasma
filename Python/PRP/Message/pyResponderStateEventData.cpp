@@ -36,7 +36,7 @@ PY_PLASMA_TYPE_INIT(ResponderStateEventData)
     pyResponderStateEventData_Type.tp_getset = pyResponderStateEventData_GetSet;
     pyResponderStateEventData_Type.tp_base = &pyEventData_Type;
     if (PyType_CheckAndReady(&pyResponderStateEventData_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyResponderStateEventData_Type);
     return (PyObject*)&pyResponderStateEventData_Type;

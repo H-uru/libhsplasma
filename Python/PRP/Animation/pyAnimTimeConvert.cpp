@@ -30,11 +30,11 @@ PY_METHOD_VA(AnimTimeConvert, addCallback,
     pyEventCallbackMsg* msg;
     if (!PyArg_ParseTuple(args, "O", &msg)) {
         PyErr_SetString(PyExc_TypeError, "addCallback expects a plEventCallbackMsg");
-        return NULL;
+        return nullptr;
     }
     if (!pyEventCallbackMsg_Check((PyObject*)msg)) {
         PyErr_SetString(PyExc_TypeError, "addCallback expects a plEventCallbackMsg");
-        return NULL;
+        return nullptr;
     }
     msg->fPyOwned = false;
     self->fThis->addCallback(msg->fThis);
@@ -48,7 +48,7 @@ PY_METHOD_VA(AnimTimeConvert, delCallback,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delCallback expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->delCallback(idx);
     Py_RETURN_NONE;
@@ -157,7 +157,7 @@ PY_PLASMA_TYPE_INIT(AnimTimeConvert)
     pyAnimTimeConvert_Type.tp_getset = pyAnimTimeConvert_GetSet;
     pyAnimTimeConvert_Type.tp_base = &pyCreatable_Type;
     if (PyType_CheckAndReady(&pyAnimTimeConvert_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(AnimTimeConvert, "kNone", plAnimTimeConvert::kNone);
     PY_TYPE_ADD_CONST(AnimTimeConvert, "kStopped",plAnimTimeConvert::kStopped);

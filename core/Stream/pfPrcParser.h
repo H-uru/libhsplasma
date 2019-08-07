@@ -45,8 +45,8 @@ public:
     const std::list<ST::string>& getContents() const { return fContents; }
     const pfPrcTag* getFirstChild() const { return fFirstChild; }
     const pfPrcTag* getNextSibling() const { return fNextSibling; }
-    bool hasChildren() const { return (fFirstChild != NULL); }
-    bool hasNextSibling() const { return (fNextSibling != NULL); }
+    bool hasChildren() const { return (fFirstChild != nullptr); }
+    bool hasNextSibling() const { return (fNextSibling != nullptr); }
     bool isEndTag() const { return fIsEndTag; }
     bool hasParam(const ST::string& key) const;
     size_t countChildren() const;

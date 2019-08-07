@@ -27,7 +27,7 @@ PY_PLASMA_TYPE_INIT(ParticleGenerator)
     pyParticleGenerator_Type.tp_new = pyParticleGenerator_new;
     pyParticleGenerator_Type.tp_base = &pyCreatable_Type;
     if (PyType_CheckAndReady(&pyParticleGenerator_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyParticleGenerator_Type);
     return (PyObject*)&pyParticleGenerator_Type;

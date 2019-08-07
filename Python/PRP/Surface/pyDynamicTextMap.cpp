@@ -34,7 +34,7 @@ PY_GETSET_SETTER_DECL(DynamicTextMap, initBuffer)
 {
     PY_PROPERTY_CHECK_NULL(initBuffer)
     if (value == Py_None) {
-        self->fThis->setInitBuffer(NULL, 0);
+        self->fThis->setInitBuffer(nullptr, 0);
         return 0;
     }
     pySequenceFastRef seq(value);
@@ -78,7 +78,7 @@ PY_PLASMA_TYPE_INIT(DynamicTextMap)
     pyDynamicTextMap_Type.tp_getset = pyDynamicTextMap_GetSet;
     pyDynamicTextMap_Type.tp_base = &pyMipmap_Type;
     if (PyType_CheckAndReady(&pyDynamicTextMap_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyDynamicTextMap_Type);
     return (PyObject*)&pyDynamicTextMap_Type;

@@ -61,7 +61,7 @@ PY_PLASMA_TYPE_INIT(ParticleFlockEffect)
     pyParticleFlockEffect_Type.tp_getset = pyParticleFlockEffect_GetSet;
     pyParticleFlockEffect_Type.tp_base = &pyParticleEffect_Type;
     if (PyType_CheckAndReady(&pyParticleFlockEffect_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyParticleFlockEffect_Type);
     return (PyObject*)&pyParticleFlockEffect_Type;

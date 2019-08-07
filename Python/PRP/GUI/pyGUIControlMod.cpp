@@ -52,7 +52,7 @@ PY_PLASMA_TYPE_INIT(GUIColorScheme)
     pyGUIColorScheme_Type.tp_new = pyGUIColorScheme_new;
     pyGUIColorScheme_Type.tp_getset = pyGUIColorScheme_GetSet;
     if (PyType_CheckAndReady(&pyGUIColorScheme_Type) < 0)
-        return NULL;
+        return nullptr;
 
     /* Konstants */
     PY_TYPE_ADD_CONST(GUIColorScheme, "kFontBold", pfGUIColorScheme::kFontBold);
@@ -122,7 +122,7 @@ PY_GETSET_GETTER_DECL(GUIControlMod, colorScheme)
 PY_GETSET_SETTER_DECL(GUIControlMod, colorScheme)
 {
     if (value == Py_None) {
-        self->fThis->setColorScheme(NULL);
+        self->fThis->setColorScheme(nullptr);
         return 0;
     }
     if (!pyPlasma_check<pfGUIColorScheme>(value)) {
@@ -165,7 +165,7 @@ PY_PLASMA_TYPE_INIT(GUIControlMod)
     pyGUIControlMod_Type.tp_getset = pyGUIControlMod_GetSet;
     pyGUIControlMod_Type.tp_base = &pySingleModifier_Type;
     if (PyType_CheckAndReady(&pyGUIControlMod_Type) < 0)
-        return NULL;
+        return nullptr;
 
     /* Konstants */
     PY_TYPE_ADD_CONST(GUIControlMod, "kWantsInterest", pfGUIControlMod::kWantsInterest);

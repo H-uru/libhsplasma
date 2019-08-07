@@ -23,11 +23,11 @@
 
 #define GET_KEY_OBJECT(key, classname) \
     ((key.Exists() && key.isLoaded()) \
-     ? classname::Convert(key->getObj()) \
-     : NULL)
+        ? classname::Convert(key->getObj()) \
+        : nullptr)
 
 #define GET_OBJECT_KEY(obj) \
-    (obj == NULL ? plKey() : obj->getKey())
+    (obj == nullptr ? plKey() : obj->getKey())
 
 /**
  * \brief Contains plKey data.
@@ -321,7 +321,7 @@ public:
      * This will return false for empty keys, so it should be checked
      * any place where an empty key can be specified.
      */
-    bool Exists() const { return (fKeyData != NULL); }
+    bool Exists() const { return (fKeyData != nullptr); }
 
     /**
      * Returns whether the object referenced by the key is currently

@@ -38,7 +38,7 @@ static uint8_t* alloc_aligned(size_t bytes)
 static void free_aligned(uint8_t*& ptr)
 {
     delete[] reinterpret_cast<size_t*>(ptr);
-    ptr = NULL;
+    ptr = nullptr;
 }
 
 /* plMipmap */
@@ -303,7 +303,7 @@ void plMipmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         fImageData = alloc_aligned(fTotalSize);
 
         const pfPrcTag* child = tag->getFirstChild();
-        while (child != NULL) {
+        while (child) {
             if (child->getName() == "ImageData") {
                 if (child->getContents().size() != fTotalSize)
                     throw pfPrcParseException(__FILE__, __LINE__, "Image Data is not of the correct length");
@@ -549,7 +549,7 @@ void plMipmap::setLevelData(size_t idx, const void* data, size_t size)
 void plMipmap::setImageJPEG(const void* data, size_t size)
 {
     fJPEGCache.resize(size);
-    if (data != NULL)
+    if (data)
         memcpy(fJPEGCache.data(), data, size);
     DecompressImage(0, fImageData, fLevelData[0].fSize);
 }
@@ -557,7 +557,7 @@ void plMipmap::setImageJPEG(const void* data, size_t size)
 void plMipmap::setAlphaJPEG(const void* data, size_t size)
 {
     fJAlphaCache.resize(size);
-    if (data != NULL)
+    if (data)
         memcpy(fJAlphaCache.data(), data, size);
     DecompressImage(0, fImageData, fLevelData[0].fSize);
 }

@@ -44,12 +44,12 @@ void plAvBrainGeneric::read(hsStream* S, plResManager* mgr)
     if (S->readBool())
         setStartMessage(plMessage::Convert(mgr->ReadCreatable(S)));
     else
-        setStartMessage(NULL);
+        setStartMessage(nullptr);
 
     if (S->readBool())
         setEndMessage(plMessage::Convert(mgr->ReadCreatable(S)));
     else
-        setEndMessage(NULL);
+        setEndMessage(nullptr);
 
     fFadeIn = S->readFloat();
     fFadeOut = S->readFloat();
@@ -74,12 +74,12 @@ void plAvBrainGeneric::write(hsStream* S, plResManager* mgr)
     S->writeByte(fMode);
     S->writeBool(fForward);
 
-    S->writeBool(fStartMessage != NULL);
-    if (fStartMessage != NULL)
+    S->writeBool(fStartMessage != nullptr);
+    if (fStartMessage)
         mgr->WriteCreatable(S, fStartMessage);
 
-    S->writeBool(fEndMessage != NULL);
-    if (fEndMessage != NULL)
+    S->writeBool(fEndMessage != nullptr);
+    if (fEndMessage)
         mgr->WriteCreatable(S, fEndMessage);
 
     S->writeFloat(fFadeIn);
@@ -115,7 +115,7 @@ void plAvBrainGeneric::IPrcWrite(pfPrcHelper* prc)
     prc->writeParam("BodyUsage", fBodyUsage);
     prc->endTag(true);
 
-    if (fStartMessage != NULL) {
+    if (fStartMessage) {
         prc->writeSimpleTag("StartMessage");
         fStartMessage->prcWrite(prc);
         prc->closeTag();
@@ -125,7 +125,7 @@ void plAvBrainGeneric::IPrcWrite(pfPrcHelper* prc)
         prc->endTag(true);
     }
 
-    if (fEndMessage != NULL) {
+    if (fEndMessage) {
         prc->writeSimpleTag("EndMessage");
         fEndMessage->prcWrite(prc);
         prc->closeTag();
@@ -151,7 +151,7 @@ void plAvBrainGeneric::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
             if (child->getName() != "Stage")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             const pfPrcTag* stageChild = child->getFirstChild();
-            while (stageChild != NULL) {
+            while (stageChild) {
                 fStages[i] = new plAnimStage();
                 if (stageChild->getName() == "plAnimStage") {
                     fStages[i]->prcParse(stageChild, mgr);
@@ -175,13 +175,13 @@ void plAvBrainGeneric::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         fBodyUsage = (plAGAnim::BodyUsage)tag->getParam("BodyUsage", "0").to_uint();
     } else if (tag->getName() == "StartMessage") {
         if (tag->getParam("NULL", "False").to_bool()) {
-            setStartMessage(NULL);
+            setStartMessage(nullptr);
         } else if (tag->hasChildren()) {
             setStartMessage(plMessage::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
         }
     } else if (tag->getName() == "EndMessage") {
         if (tag->getParam("NULL", "False").to_bool()) {
-            setEndMessage(NULL);
+            setEndMessage(nullptr);
         } else if (tag->hasChildren()) {
             setEndMessage(plMessage::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
         }

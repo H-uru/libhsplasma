@@ -38,7 +38,7 @@ PY_METHOD_VA(Creatable, ClassIndexVer,
     int ver;
     if (!PyArg_ParseTuple(args, "i", &ver)) {
         PyErr_SetString(PyExc_TypeError, "ClassIndexVer expects an int");
-        return NULL;
+        return nullptr;
     }
     return pyPlasma_convert(self->fThis->ClassIndex((PlasmaVer)ver));
 }
@@ -57,7 +57,7 @@ PY_METHOD_VA(Creatable, ClassInstance,
     int classId;
     if (!PyArg_ParseTuple(args, "i", &classId)) {
         PyErr_SetString(PyExc_TypeError, "ClassInstance expects an int");
-        return NULL;
+        return nullptr;
     }
     return pyPlasma_convert(self->fThis->ClassInstance(classId));
 }
@@ -76,11 +76,11 @@ PY_METHOD_VA(Creatable, read,
     pyResManager* mgr;
     if (!PyArg_ParseTuple(args, "OO", &stream, &mgr)) {
         PyErr_SetString(PyExc_TypeError, "read expects hsStream, plResManager");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream) || !pyResManager_Check((PyObject*)mgr)) {
         PyErr_SetString(PyExc_TypeError, "read expects hsStream, plResManager");
-        return NULL;
+        return nullptr;
     }
     self->fThis->read(stream->fThis, mgr->fThis);
     Py_RETURN_NONE;
@@ -94,11 +94,11 @@ PY_METHOD_VA(Creatable, write,
     pyResManager* mgr;
     if (!PyArg_ParseTuple(args, "OO", &stream, &mgr)) {
         PyErr_SetString(PyExc_TypeError, "write expects hsStream, plResManager");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream) || !pyResManager_Check((PyObject*)mgr)) {
         PyErr_SetString(PyExc_TypeError, "write expects hsStream, plResManager");
-        return NULL;
+        return nullptr;
     }
     self->fThis->write(stream->fThis, mgr->fThis);
     Py_RETURN_NONE;
@@ -124,7 +124,7 @@ PY_PLASMA_TYPE_INIT(Creatable)
     pyCreatable_Type.tp_new = pyCreatable_new;
     pyCreatable_Type.tp_methods = pyCreatable_Methods;
     if (PyType_CheckAndReady(&pyCreatable_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyCreatable_Type);
     return (PyObject*)&pyCreatable_Type;

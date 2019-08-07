@@ -28,7 +28,7 @@ PY_PLASMA_TYPE_INIT(QuatConstant)
     pyQuatConstant_Type.tp_new = pyQuatConstant_new;
     pyQuatConstant_Type.tp_base = &pyQuatChannel_Type;
     if (PyType_CheckAndReady(&pyQuatConstant_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyQuatConstant_Type);
     return (PyObject*)&pyQuatConstant_Type;

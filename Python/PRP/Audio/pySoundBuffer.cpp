@@ -29,7 +29,7 @@ PY_PROPERTY(size_t, SoundBuffer, dataLength, getDataLength, setDataLength)
 
 PY_GETSET_GETTER_DECL(SoundBuffer, data)
 {
-    if (self->fThis->getData() == NULL) {
+    if (self->fThis->getData() == nullptr) {
         Py_RETURN_NONE;
     } else {
         return PyBytes_FromStringAndSize((const char*)self->fThis->getData(),
@@ -41,7 +41,7 @@ PY_GETSET_SETTER_DECL(SoundBuffer, data)
 {
     PY_PROPERTY_CHECK_NULL(data)
     if (value == Py_None) {
-        self->fThis->setData(0, NULL);
+        self->fThis->setData(0, nullptr);
         return 0;
     } else if (!PyBytes_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "data should be a binary string");
@@ -73,7 +73,7 @@ PY_PLASMA_TYPE_INIT(SoundBuffer)
     pySoundBuffer_Type.tp_getset = pySoundBuffer_GetSet;
     pySoundBuffer_Type.tp_base = &pyKeyedObject_Type;
     if (PyType_CheckAndReady(&pySoundBuffer_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(SoundBuffer, "kIsExternal", plSoundBuffer::kIsExternal);
     PY_TYPE_ADD_CONST(SoundBuffer, "kAlwaysExternal", plSoundBuffer::kAlwaysExternal);

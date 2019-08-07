@@ -22,7 +22,7 @@ PY_PLASMA_DEALLOC(Stream)
 
 PY_PLASMA_INIT_DECL(Stream)
 {
-    static char* kwlist[] = { _pycs("ver"), NULL };
+    static char* kwlist[] = { _pycs("ver"), nullptr };
 
     int ver = PlasmaVer::pvUnknown;
     if (!PyArg_ParseTupleAndKeywords(args, kwds, "|i", kwlist, &ver))
@@ -53,7 +53,7 @@ PY_METHOD_VA(Stream, seek,
     int32_t pos;
     if (!PyArg_ParseTuple(args, "i", &pos)) {
         PyErr_SetString(PyExc_TypeError, "seek expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->seek((uint32_t)pos);
     Py_RETURN_NONE;
@@ -66,7 +66,7 @@ PY_METHOD_VA(Stream, skip,
     uint32_t count;
     if (!PyArg_ParseTuple(args, "i", &count)) {
         PyErr_SetString(PyExc_TypeError, "skip expects an int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->skip(count);
     Py_RETURN_NONE;
@@ -97,9 +97,9 @@ PY_METHOD_VA(Stream, read,
     int size;
     if (!PyArg_ParseTuple(args, "i", &size)) {
         PyErr_SetString(PyExc_TypeError, "read expects an int");
-        return NULL;
+        return nullptr;
     }
-    PyObject* bufObj = PyBytes_FromStringAndSize(NULL, size);
+    PyObject* bufObj = PyBytes_FromStringAndSize(nullptr, size);
     try {
         char* buf = PyBytes_AS_STRING(bufObj);
         self->fThis->read((size_t)size, buf);
@@ -107,7 +107,7 @@ PY_METHOD_VA(Stream, read,
     } catch (...) {
         Py_DECREF(bufObj);
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -119,14 +119,14 @@ PY_METHOD_VA(Stream, write,
     int dataSize;
     if (!PyArg_ParseTuple(args, "s#", &data, &dataSize)) {
         PyErr_SetString(PyExc_TypeError, "write expects a binary string");
-        return NULL;
+        return nullptr;
     }
     try {
         self->fThis->write((size_t)dataSize, data);
         Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -137,17 +137,17 @@ PY_METHOD_VA(Stream, writeFrom,
     pyStream* from;
     if (!PyArg_ParseTuple(args, "O", &from)) {
         PyErr_SetString(PyExc_TypeError, "writeFrom expects a pyStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)from)) {
         PyErr_SetString(PyExc_TypeError, "writeFrom expects a pyStream");
-        return NULL;
+        return nullptr;
     }
     try {
         self->fThis->writeFrom(from->fThis);
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error copying stream");
-        return NULL;
+        return nullptr;
     }
 
     Py_RETURN_NONE;
@@ -159,7 +159,7 @@ PY_METHOD_NOARGS(Stream, readByte, nullptr)
         return pyPlasma_convert(self->fThis->readByte());
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -169,7 +169,7 @@ PY_METHOD_NOARGS(Stream, readShort, nullptr)
         return pyPlasma_convert(self->fThis->readShort());
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -179,7 +179,7 @@ PY_METHOD_NOARGS(Stream, readInt, nullptr)
         return pyPlasma_convert(self->fThis->readInt());
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -189,7 +189,7 @@ PY_METHOD_NOARGS(Stream, readFloat, nullptr)
         return pyPlasma_convert(self->fThis->readFloat());
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -199,7 +199,7 @@ PY_METHOD_NOARGS(Stream, readDouble, nullptr)
         return pyPlasma_convert(self->fThis->readDouble());
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -209,7 +209,7 @@ PY_METHOD_NOARGS(Stream, readBool, nullptr)
         return pyPlasma_convert(self->fThis->readBool());
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -219,7 +219,7 @@ PY_METHOD_NOARGS(Stream, readSafeStr, nullptr)
         return pyPlasma_convert(self->fThis->readSafeStr());
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -229,7 +229,7 @@ PY_METHOD_NOARGS(Stream, readSafeWStr, nullptr)
         return pyPlasma_convert(self->fThis->readSafeWStr());
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -239,7 +239,7 @@ PY_METHOD_NOARGS(Stream, readLine, nullptr)
         return pyPlasma_convert(self->fThis->readLine());
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -248,14 +248,14 @@ PY_METHOD_VA(Stream, writeByte, nullptr)
     int8_t b;
     if (!PyArg_ParseTuple(args, "b", &b)) {
         PyErr_SetString(PyExc_TypeError, "writeByte expects a byte");
-        return NULL;
+        return nullptr;
     }
     try {
         self->fThis->writeByte(b);
         Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -264,14 +264,14 @@ PY_METHOD_VA(Stream, writeShort, nullptr)
     int16_t h;
     if (!PyArg_ParseTuple(args, "h", &h)) {
         PyErr_SetString(PyExc_TypeError, "writeShort expects a short");
-        return NULL;
+        return nullptr;
     }
     try {
         self->fThis->writeShort(h);
         Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -280,14 +280,14 @@ PY_METHOD_VA(Stream, writeInt, nullptr)
     int32_t i;
     if (!PyArg_ParseTuple(args, "i", &i)) {
         PyErr_SetString(PyExc_TypeError, "writeInt expects an int");
-        return NULL;
+        return nullptr;
     }
     try {
         self->fThis->writeInt(i);
         Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -296,14 +296,14 @@ PY_METHOD_VA(Stream, writeFloat, nullptr)
     float f;
     if (!PyArg_ParseTuple(args, "f", &f)) {
         PyErr_SetString(PyExc_TypeError, "writeFloat expects a float");
-        return NULL;
+        return nullptr;
     }
     try {
         self->fThis->writeFloat(f);
         Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -312,14 +312,14 @@ PY_METHOD_VA(Stream, writeDouble, nullptr)
     double d;
     if (!PyArg_ParseTuple(args, "d", &d)) {
         PyErr_SetString(PyExc_TypeError, "writeDouble expects a double");
-        return NULL;
+        return nullptr;
     }
     try {
         self->fThis->writeDouble(d);
         Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -328,14 +328,14 @@ PY_METHOD_VA(Stream, writeBool, nullptr)
     bool b;
     if (!PyArg_ParseTuple(args, "b", &b)) {
         PyErr_SetString(PyExc_TypeError, "writeBool expects a bool");
-        return NULL;
+        return nullptr;
     }
     try {
         self->fThis->writeBool(b);
         Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -344,14 +344,14 @@ PY_METHOD_VA(Stream, writeSafeStr, nullptr)
     const char* str;
     if (!PyArg_ParseTuple(args, "s", &str)) {
         PyErr_SetString(PyExc_TypeError, "writeSafeStr expects a string");
-        return NULL;
+        return nullptr;
     }
     try {
         self->fThis->writeSafeStr(str);
         Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -360,14 +360,14 @@ PY_METHOD_VA(Stream, writeSafeWStr, nullptr)
     const char* str;
     if (!PyArg_ParseTuple(args, "s", &str)) {
         PyErr_SetString(PyExc_TypeError, "writeSafeWStr expects a string");
-        return NULL;
+        return nullptr;
     }
     try {
         self->fThis->writeSafeWStr(str);
         Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -376,14 +376,14 @@ PY_METHOD_VA(Stream, writeLine, nullptr)
     const char* str;
     if (!PyArg_ParseTuple(args, "s", &str)) {
         PyErr_SetString(PyExc_TypeError, "writeLine expects a string");
-        return NULL;
+        return nullptr;
     }
     try {
         self->fThis->writeLine(str);
         Py_RETURN_NONE;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error writing to stream");
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -440,7 +440,7 @@ PY_PLASMA_TYPE_INIT(Stream)
     pyStream_Type.tp_methods = pyStream_Methods;
     pyStream_Type.tp_getset = pyStream_GetSet;
     if (PyType_CheckAndReady(&pyStream_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyStream_Type);
     return (PyObject*)&pyStream_Type;

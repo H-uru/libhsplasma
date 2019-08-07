@@ -78,7 +78,7 @@ PY_PLASMA_TYPE_INIT(Shader)
     pyShader_Type.tp_getset = pyShader_GetSet;
     pyShader_Type.tp_base = &pyKeyedObject_Type;
     if (PyType_CheckAndReady(&pyShader_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(Shader, "kUnregistered", plShader::kUnregistered);
     PY_TYPE_ADD_CONST(Shader, "vs_WaveFixedFin6", plShader::vs_WaveFixedFin6);

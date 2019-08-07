@@ -30,11 +30,11 @@ PY_METHOD_VA(CompressedQuatKey64, setValue,
     int type;
     if (!PyArg_ParseTuple(args, "Oi", &value, &type)) {
         PyErr_SetString(PyExc_TypeError, "setValue expects hsQuat, int");
-        return NULL;
+        return nullptr;
     }
     if (!pyQuat_Check((PyObject*)value)) {
         PyErr_SetString(PyExc_TypeError, "setValue expects hsQuat, int");
-        return NULL;
+        return nullptr;
     }
     self->fThis->setQuat(*value->fThis, type);
     Py_RETURN_NONE;
@@ -66,7 +66,7 @@ PY_PLASMA_TYPE_INIT(CompressedQuatKey64)
     pyCompressedQuatKey64_Type.tp_getset = pyCompressedQuatKey64_GetSet;
     pyCompressedQuatKey64_Type.tp_base = &pyKeyFrame_Type;
     if (PyType_CheckAndReady(&pyCompressedQuatKey64_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(CompressedQuatKey64, "kCompQuatNukeX", hsCompressedQuatKey64::kCompQuatNukeX);
     PY_TYPE_ADD_CONST(CompressedQuatKey64, "kCompQuatNukeY", hsCompressedQuatKey64::kCompQuatNukeY);

@@ -37,7 +37,7 @@ PY_PLASMA_TYPE_INIT(BookEventData)
     pyBookEventData_Type.tp_getset = pyBookEventData_GetSet;
     pyBookEventData_Type.tp_base = &pyEventData_Type;
     if (PyType_CheckAndReady(&pyBookEventData_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyBookEventData_Type);
     return (PyObject*)&pyBookEventData_Type;

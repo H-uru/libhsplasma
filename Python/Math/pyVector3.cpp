@@ -25,14 +25,14 @@ PY_PLASMA_VALUE_DEALLOC(Vector3)
 PY_PLASMA_INIT_DECL(Vector3)
 {
     float x = 0.0f, y = 0.0f, z = 0.0f;
-    PyObject* init = NULL;
-    static char* kwlist[] = { _pycs("X"), _pycs("Y"), _pycs("Z"), NULL };
-    static char* kwlist2[] = { _pycs("vector"), NULL };
+    PyObject* init = nullptr;
+    static char* kwlist[] = { _pycs("X"), _pycs("Y"), _pycs("Z"), nullptr };
+    static char* kwlist2[] = { _pycs("vector"), nullptr };
 
     if (PyArg_ParseTupleAndKeywords(args, kwds, "fff", kwlist, &x, &y, &z)) {
         (*self->fThis) = hsVector3(x, y, z);
     } else if (PyErr_Clear(), PyArg_ParseTupleAndKeywords(args, kwds, "|O", kwlist2, &init)) {
-        if (init == NULL) {
+        if (init == nullptr) {
             (*self->fThis) = hsVector3();
             return 0;
         }
@@ -62,7 +62,7 @@ PY_PLASMA_NB_BINARYFUNC_DECL(Vector3, add)
 {
     if (!pyVector3_Check(left) || !pyVector3_Check(right)) {
         PyErr_SetString(PyExc_TypeError, "Incompatible Types");
-        return NULL;
+        return nullptr;
     }
     return pyPlasma_convert(pyPlasma_get<hsVector3>(left) + pyPlasma_get<hsVector3>(right));
 }
@@ -71,7 +71,7 @@ PY_PLASMA_NB_BINARYFUNC_DECL(Vector3, subtract)
 {
     if (!pyVector3_Check(left) || !pyVector3_Check(right)) {
         PyErr_SetString(PyExc_TypeError, "Incompatible Types");
-        return NULL;
+        return nullptr;
     }
     return pyPlasma_convert(pyPlasma_get<hsVector3>(left) - pyPlasma_get<hsVector3>(right));
 }
@@ -81,23 +81,23 @@ PY_PLASMA_NB_BINARYFUNC_DECL(Vector3, multiply)
     if (pyVector3_Check(left)) {
         if (pyVector3_Check(right)) {
             PyErr_SetString(PyExc_TypeError, "Vector Multiplication should use dotP and crossP");
-            return NULL;
+            return nullptr;
         } else if (pyPlasma_check<float>(right)) {
             return pyPlasma_convert(pyPlasma_get<hsVector3>(left) * pyPlasma_get<float>(right));
         } else {
             PyErr_SetString(PyExc_TypeError, "Incompatible Types");
-            return NULL;
+            return nullptr;
         }
     } else if (pyVector3_Check(right)) {
         if (pyPlasma_check<float>(left)) {
             return pyPlasma_convert(pyPlasma_get<hsVector3>(right) * pyPlasma_get<float>(left));
         } else {
             PyErr_SetString(PyExc_TypeError, "Incompatible Types");
-            return NULL;
+            return nullptr;
         }
     } else {
         PyErr_SetString(PyExc_TypeError, "This should not happen");
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -144,11 +144,11 @@ PY_METHOD_VA(Vector3, dotP,
     pyVector3* vec;
     if (!PyArg_ParseTuple(args, "O", &vec)) {
         PyErr_SetString(PyExc_TypeError, "dotP expects an hsVector3");
-        return NULL;
+        return nullptr;
     }
     if (!pyVector3_Check((PyObject*)vec)) {
         PyErr_SetString(PyExc_TypeError, "dotP expects an hsVector3");
-        return NULL;
+        return nullptr;
     }
     return pyPlasma_convert(self->fThis->dotP(*vec->fThis));
 }
@@ -160,11 +160,11 @@ PY_METHOD_VA(Vector3, crossP,
     pyVector3* vec;
     if (!PyArg_ParseTuple(args, "O", &vec)) {
         PyErr_SetString(PyExc_TypeError, "crossP expects an hsVector3");
-        return NULL;
+        return nullptr;
     }
     if (!pyVector3_Check((PyObject*)vec)) {
         PyErr_SetString(PyExc_TypeError, "crossP expects an hsVector3");
-        return NULL;
+        return nullptr;
     }
     return pyPlasma_convert(self->fThis->crossP(*vec->fThis));
 }
@@ -176,11 +176,11 @@ PY_METHOD_VA(Vector3, read,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->read(stream->fThis);
     Py_RETURN_NONE;
@@ -193,11 +193,11 @@ PY_METHOD_VA(Vector3, write,
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
-        return NULL;
+        return nullptr;
     }
     self->fThis->write(stream->fThis);
     Py_RETURN_NONE;
@@ -245,7 +245,7 @@ PY_PLASMA_TYPE_INIT(Vector3)
     pyVector3_Type.tp_getset = pyVector3_GetSet;
     pyVector3_Type.tp_flags |= Py_TPFLAGS_CHECKTYPES;
     if (PyType_CheckAndReady(&pyVector3_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pyVector3_Type);
     return (PyObject*)&pyVector3_Type;

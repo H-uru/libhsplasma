@@ -29,7 +29,7 @@ PY_METHOD_VA(WaveSet7, addShore,
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key) || !pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addShore expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addShore(*key->fThis);
     Py_RETURN_NONE;
@@ -48,11 +48,11 @@ PY_METHOD_VA(WaveSet7, delShore,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delShore expects an int");
-        return NULL;
+        return nullptr;
     }
     if (size_t(idx) >= self->fThis->getShores().size()) {
         PyErr_SetNone(PyExc_IndexError);
-        return NULL;
+        return nullptr;
     }
     self->fThis->delShore(idx);
     Py_RETURN_NONE;
@@ -65,7 +65,7 @@ PY_METHOD_VA(WaveSet7, addDecal,
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key) || !pyKey_Check((PyObject*)key)) {
         PyErr_SetString(PyExc_TypeError, "addDecal expects a plKey");
-        return NULL;
+        return nullptr;
     }
     self->fThis->addDecal(*key->fThis);
     Py_RETURN_NONE;
@@ -84,11 +84,11 @@ PY_METHOD_VA(WaveSet7, delDecal,
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delDecal expects an int");
-        return NULL;
+        return nullptr;
     }
     if (size_t(idx) >= self->fThis->getDecals().size()) {
         PyErr_SetNone(PyExc_IndexError);
-        return NULL;
+        return nullptr;
     }
     self->fThis->delDecal(idx);
     Py_RETURN_NONE;
@@ -152,7 +152,7 @@ PY_PLASMA_TYPE_INIT(WaveSet7)
     pyWaveSet7_Type.tp_getset = pyWaveSet7_GetSet;
     pyWaveSet7_Type.tp_base = &pyWaveSetBase_Type;
     if (PyType_CheckAndReady(&pyWaveSet7_Type) < 0)
-        return NULL;
+        return nullptr;
 
     PY_TYPE_ADD_CONST(WaveSet7, "kHasRefObject", plWaveSet7::kHasRefObject);
 

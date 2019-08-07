@@ -47,7 +47,7 @@ void hsBounds::prcParse(const pfPrcTag* tag)
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
     const pfPrcTag* child = tag->getFirstChild();
-    while (child != NULL) {
+    while (child) {
         IPrcParse(child);
         child = child->getNextSibling();
     }
@@ -238,7 +238,7 @@ void hsBounds3Ext::IPrcParse(const pfPrcTag* tag)
             fCorner.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "Axes") {
         const pfPrcTag* child = tag->getFirstChild();
-        for (int i=0; i<3 && child != NULL; i++) {
+        for (int i=0; i<3 && child != nullptr; i++) {
             if (child->getName() != "Axis")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
 
@@ -381,6 +381,6 @@ void hsBoundsOriented::setPlanes(unsigned int numPlanes, const hsPlane3* planes)
         for (size_t i=0; i<fNumPlanes; i++)
             fPlanes[i] = planes[i];
     } else {
-        fPlanes = NULL;
+        fPlanes = nullptr;
     }
 }

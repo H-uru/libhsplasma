@@ -132,7 +132,7 @@ void plSynchedObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
     if (tag->getName() == "SynchParams" || tag->getName() == "SyncParams") {
         fSynchFlags = tag->getParam("flags", "0").to_uint();
         const pfPrcTag* child = tag->getFirstChild();
-        while (child != NULL) {
+        while (child) {
             if (child->getName() == "ExcludePersistentStates") {
                 std::list<ST::string> states = child->getContents();
                 fSDLExcludeList = std::vector<ST::string>(states.begin(), states.end());

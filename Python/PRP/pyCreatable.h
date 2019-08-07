@@ -36,7 +36,7 @@ PyObject* ICreate(class plCreatable* pCre);
     {                                                                   \
         PY_PROPERTY_CHECK_NULL(name)                                    \
         if (value == Py_None) {                                         \
-            self->fThis->setter(NULL);                                  \
+            self->fThis->setter(nullptr);                               \
             return 0;                                                   \
         } else if (!py##pyType##_Check(value)) {                        \
             PyErr_SetString(PyExc_TypeError, #name " expected type " #plType); \
@@ -67,7 +67,7 @@ PyObject* ICreate(class plCreatable* pCre);
     {                                                                   \
         PY_PROPERTY_CHECK_NULL(name)                                    \
         if (value == Py_None) {                                         \
-            self->fThis->member = NULL;                                 \
+            self->fThis->member = nullptr;                              \
             return 0;                                                   \
         } else if (!py##pyType##_Check(value)) {                        \
             PyErr_SetString(PyExc_TypeError, #name " expected type " #plType); \

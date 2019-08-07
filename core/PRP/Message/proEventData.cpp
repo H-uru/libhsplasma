@@ -47,7 +47,7 @@ proEventData* proEventData::ICreateEventDataType(int type)
     case kOfferLinkBook: return new proOfferLinkBookEventData();
     case kBook:         return new proBookEventData();
     case kClimbingBlockerHit: return new proClimbingBlockerHitEventData();
-    default:            return NULL;
+    default:            return nullptr;
     }
 }
 
@@ -66,7 +66,7 @@ proEventData* proEventData::ICreateEventDataType(const char* typeName)
 proEventData* proEventData::Read(hsStream* S, plResManager* mgr)
 {
     proEventData* event = ICreateEventDataType(S->readInt());
-    if (event != NULL)
+    if (event)
         event->IRead(S, mgr);
     return event;
 }
@@ -87,9 +87,9 @@ void proEventData::prcWrite(pfPrcHelper* prc)
 proEventData* proEventData::PrcParse(const pfPrcTag* tag, plResManager* mgr)
 {
     proEventData* event = ICreateEventDataType(tag->getName().c_str());
-    if (event != NULL) {
+    if (event) {
         const pfPrcTag* child = tag->getFirstChild();
-        while (child != NULL) {
+        while (child) {
             event->IPrcParse(child, mgr);
             child = child->getNextSibling();
         }

@@ -75,8 +75,8 @@ static const char* getSockErrorStr()
 #ifdef _WIN32
     static char msgbuf[4096];
 
-    FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, WSAGetLastError(),
-                  0, msgbuf, 4096, NULL);
+    FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, nullptr, WSAGetLastError(),
+                  0, msgbuf, 4096, nullptr);
     return msgbuf;
 #else
     return strerror(errno);
@@ -137,7 +137,7 @@ bool pnSocket::connect(const char* address, unsigned short port)
         return false;
     }
 
-    for (addrinfo* ap = addr; ap != NULL; ap = ap->ai_next) {
+    for (addrinfo* ap = addr; ap; ap = ap->ai_next) {
         fSockHandle = socket(ap->ai_family, ap->ai_socktype, ap->ai_protocol);
         if (fSockHandle != INVALID_SOCKET) {
             if (::connect(fSockHandle, ap->ai_addr, ap->ai_addrlen) != -1)
@@ -167,7 +167,7 @@ bool pnSocket::bind(unsigned short port)
     conn.ai_protocol = 0;
 
     addrinfo* addr;
-    int res = getaddrinfo(NULL, ST::format("{}", port).c_str(),
+    int res = getaddrinfo(nullptr, ST::format("{}", port).c_str(),
                           &conn, &addr);
     if (res != 0) {
         ST::string msg = gai_strerror(res);
@@ -176,7 +176,7 @@ bool pnSocket::bind(unsigned short port)
         return false;
     }
 
-    for (addrinfo* ap = addr; ap != NULL; ap = ap->ai_next) {
+    for (addrinfo* ap = addr; ap; ap = ap->ai_next) {
         fSockHandle = socket(ap->ai_family, ap->ai_socktype, ap->ai_protocol);
         if (fSockHandle != INVALID_SOCKET) {
             if (::bind(fSockHandle, ap->ai_addr, ap->ai_addrlen) == 0)
@@ -200,14 +200,14 @@ pnSocket* pnSocket::listen(int backlog)
     if (::listen(fSockHandle, backlog) == -1) {
         if (fSockHandle != -1)
             plDebug::Error("Listen failed: {}", getSockErrorStr());
-        return NULL;
+        return nullptr;
     }
 
-    int client = accept(fSockHandle, NULL, NULL);
+    int client = accept(fSockHandle, nullptr, nullptr);
     if (client == -1) {
         if (fSockHandle != -1)
             plDebug::Error("Listen failed: {}", getSockErrorStr());
-        return NULL;
+        return nullptr;
     }
     return new pnSocket(client);
 }
@@ -281,7 +281,7 @@ bool pnSocket::waitForData(unsigned int utimeout)
     FD_SET(fSockHandle, &sread);
     stimeout.tv_sec = 0;
     stimeout.tv_usec = utimeout;
-    int si = select(fSockHandle+1, &sread, NULL, NULL, &stimeout);
+    int si = select(fSockHandle+1, &sread, nullptr, nullptr, &stimeout);
     if (si < 0)
         close();
     return si > 0;
@@ -293,7 +293,7 @@ unsigned long pnSocket::GetAddress(const char* addrName)
     std::lock_guard<std::mutex> lock(addrMutex);
     hostent* host = gethostbyname(addrName);
     unsigned long numAddr = 0;
-    if (host != NULL && host->h_addr_list != NULL)
+    if (host && host->h_addr_list)
         numAddr = ntohl(*(unsigned long*)host->h_addr_list[0]);
     return numAddr;
 }
@@ -416,7 +416,7 @@ static void SendBasic(unsigned char*& buf, const msgparm_t& data,
 
 bool pnSocket::sendMsg(const msgparm_t* data, const pnNetMsg* msg)
 {
-    if (msg == NULL)
+    if (msg == nullptr)
         return false;
 
 #ifdef COMMDEBUG
@@ -507,8 +507,8 @@ bool pnSocket::sendMsg(const msgparm_t* data, const pnNetMsg* msg)
 
 msgparm_t* pnSocket::recvMsg(const pnNetMsg* msg)
 {
-    if (msg == NULL)
-        return NULL;
+    if (msg == nullptr)
+        return nullptr;
 
 #ifdef COMMDEBUG
     plDebug::Debug("<RECV> {}", msg->fMsgName);

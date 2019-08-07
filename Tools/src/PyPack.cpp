@@ -327,7 +327,7 @@ int main(int argc, char* argv[])
             S.open(outdir + pakObjects[i].fFilename + "c", fmCreate);
             S.writeInt((eType == plEncryptedStream::kEncXtea || eType == plEncryptedStream::kEncNone)
                         ? kPyc22 : kPyc23);
-            time_t ts = time(NULL);
+            time_t ts = time(nullptr);
             S.writeInt(ts);
             S.write(pakObjects[i].fSize, pakObjects[i].fData);
         }

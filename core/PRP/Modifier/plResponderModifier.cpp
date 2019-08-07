@@ -65,7 +65,7 @@ void plResponderModifier::read(hsStream* S, plResManager* mgr)
             plMessage* msg = plMessage::Convert(mgr->ReadCreatable(S));
             int8_t waitOn = S->readByte();
             fStates[i]->fCmds[j] = new plResponderCmd(msg, waitOn);
-            if (msg == NULL)
+            if (msg == nullptr)
                 throw hsNotImplementedException(__FILE__, __LINE__, "Responder Message");
         }
         size_t count = S->readByte();
@@ -173,17 +173,17 @@ void plResponderModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
             fStates[i]->fSwitchToState = state->getParam("SwitchToState", "-1").to_int();
 
             const pfPrcTag* child = state->getFirstChild();
-            while (child != NULL) {
+            while (child) {
                 if (child->getName() == "Commands") {
                     fStates[i]->fCmds.resize(child->countChildren());
                     const pfPrcTag* cmdChild = child->getFirstChild();
                     for (size_t j=0; j<fStates[i]->fCmds.size(); j++) {
                         if (cmdChild->getName() != "Command")
                             throw pfPrcTagException(__FILE__, __LINE__, cmdChild->getName());
-                        plMessage* msg = NULL;
+                        plMessage* msg = nullptr;
                         int8_t waitOn = -1;
                         const pfPrcTag* subChild = cmdChild->getFirstChild();
-                        while (subChild != NULL) {
+                        while (subChild) {
                             if (subChild->getName() == "WaitOn") {
                                 waitOn = subChild->getParam("value", "-1").to_int();
                             } else {

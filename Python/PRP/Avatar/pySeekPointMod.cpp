@@ -37,7 +37,7 @@ PY_PLASMA_TYPE_INIT(SeekPointMod)
     pySeekPointMod_Type.tp_base = &pyMultiModifier_Type;
     pySeekPointMod_Type.tp_getset = pySeekPointMod_GetSet;
     if (PyType_CheckAndReady(&pySeekPointMod_Type) < 0)
-        return NULL;
+        return nullptr;
 
     Py_INCREF(&pySeekPointMod_Type);
     return (PyObject*)&pySeekPointMod_Type;

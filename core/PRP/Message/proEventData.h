@@ -26,9 +26,9 @@
 public:\
     static classname* Convert(proEventData* evt) \
     { \
-        if (evt != NULL && evt->EventType() == evtType) \
+        if (evt && evt->EventType() == evtType) \
             return (classname*)evt; \
-        return NULL; \
+        return nullptr; \
     }
 
 

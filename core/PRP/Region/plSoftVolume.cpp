@@ -86,7 +86,7 @@ void plSoftVolumeSimple::IPrcWrite(pfPrcHelper* prc)
 
     prc->startTag("Volume");
     prc->writeParam("SoftDist", fSoftDist);
-    if (fVolume == NULL) {
+    if (fVolume == nullptr) {
         prc->writeParam("Null", true);
         prc->endTag(true);
     } else {
@@ -103,7 +103,7 @@ void plSoftVolumeSimple::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         if (tag->hasChildren())
             setVolume(plVolumeIsect::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
         else
-            setVolume(NULL);
+            setVolume(nullptr);
     } else {
         plSoftVolume::IPrcParse(tag, mgr);
     }

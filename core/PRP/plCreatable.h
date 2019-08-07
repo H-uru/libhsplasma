@@ -32,10 +32,9 @@ public: \
     } \
     static classname* Convert(plCreatable* pCre, bool requireValid = true) \
     { \
-        if (pCre == NULL) \
-            return NULL; \
-        bool result = pCre->ClassInstance(classid); \
-        if (result) { \
+        if (pCre == nullptr) \
+            return nullptr; \
+        if (pCre->ClassInstance(classid)) { \
             return static_cast<classname*>(pCre); \
         } else if (requireValid) { \
             short otherClassId = pCre->ClassIndex(); \
@@ -44,7 +43,7 @@ public: \
                            pdUnifiedTypeMap::ClassName(otherClassId), \
                            pdUnifiedTypeMap::ClassName(classid))); \
         } else { \
-            return NULL; \
+            return nullptr; \
         } \
     }
 
