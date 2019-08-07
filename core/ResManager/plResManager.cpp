@@ -58,7 +58,7 @@ plKey plResManager::readKey(hsStream* S)
 plKey plResManager::readKeyNotify(hsStream* S, plKeyData::AfterLoadCallback callback)
 {
     plKey key = readKey(S);
-    key->addCallback(callback);
+    key->addCallback(std::move(callback));
     return key;
 }
 
@@ -74,7 +74,8 @@ plKey plResManager::readUoid(hsStream* S)
     return AddKey(k);
 }
 
-void plResManager::writeKey(hsStream* S, plKey key) {
+void plResManager::writeKey(hsStream* S, const plKey& key)
+{
     if (getVer() != S->getVer())
         throw hsVersionMismatchException(__FILE__, __LINE__);
 
@@ -90,7 +91,8 @@ void plResManager::writeKey(hsStream* S, hsKeyedObject* ko)
     writeKey(S, ko->getKey());
 }
 
-void plResManager::writeUoid(hsStream* S, plKey key) {
+void plResManager::writeUoid(hsStream* S, const plKey& key)
+{
     if (getVer() != S->getVer())
         throw hsVersionMismatchException(__FILE__, __LINE__);
 
@@ -119,11 +121,12 @@ plKey plResManager::prcParseKeyNotify(const pfPrcTag* tag,
                                       plKeyData::AfterLoadCallback callback)
 {
     plKey key = prcParseKey(tag);
-    key->addCallback(callback);
+    key->addCallback(std::move(callback));
     return key;
 }
 
-void plResManager::PrcWriteKey(pfPrcHelper* prc, plKey key) {
+void plResManager::PrcWriteKey(pfPrcHelper* prc, const plKey& key)
+{
     if (!key.Exists() || !key->getLocation().isValid()) {
         prc->startTag("plKey");
         prc->writeParam("NULL", true);
@@ -138,7 +141,8 @@ void plResManager::PrcWriteKey(pfPrcHelper* prc, hsKeyedObject* ko)
     PrcWriteKey(prc, ko->getKey());
 }
 
-hsKeyedObject* plResManager::getObject(plKey key) {
+hsKeyedObject* plResManager::getObject(const plKey& key)
+{
     plKey fk = keys.findKey(key);
     if (!fk.Exists())
         return nullptr;
@@ -748,7 +752,7 @@ std::vector<plKey> plResManager::getKeys(short type, bool checkKeys)
     return kList;
 }
 
-plKey plResManager::AddKey(plKey key)
+plKey plResManager::AddKey(const plKey& key)
 {
     plKey xkey = keys.findKey(key);
     if (xkey.Exists()) {
@@ -807,13 +811,13 @@ void plResManager::ChangeLocation(plLocation from, plLocation to)
 LoadProgressCallback plResManager::SetProgressFunc(LoadProgressCallback newFunc)
 {
     LoadProgressCallback old = progressFunc;
-    progressFunc = newFunc;
+    progressFunc = std::move(newFunc);
     return old;
 }
 
 PageUnloadCallback plResManager::SetPageUnloadFunc(PageUnloadCallback newFunc)
 {
     PageUnloadCallback old = pageUnloadFunc;
-    pageUnloadFunc = newFunc;
+    pageUnloadFunc = std::move(newFunc);
     return old;
 }

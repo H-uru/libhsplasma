@@ -195,7 +195,7 @@ public:
 
     const std::vector<plKey>& getMaterials() const { return fMaterials; }
     std::vector<plKey>& getMaterials() { return fMaterials; }
-    void addMaterial(plKey mat) { fMaterials.push_back(mat); }
+    void addMaterial(plKey mat) { fMaterials.emplace_back(std::move(mat)); }
     void clearMaterials() { fMaterials.clear(); }
 
     plSpaceTree* getSpaceTree() const { return fSpaceTree; }
@@ -208,14 +208,14 @@ public:
     void setProps(unsigned int props) { fProps = props; }
     void setCriteria(unsigned int crit) { fCriteria = crit; }
     void setRenderLevel(unsigned int level) { fRenderLevel = level; }
-    void setSceneNode(plKey node) { fSceneNode = node; }
+    void setSceneNode(plKey node) { fSceneNode = std::move(node); }
 
     void composeGeometry(bool clearspans=true, bool calcbounds=false);
     void decomposeGeometry(bool clearcolors=false);
     size_t buildDIIndex(const std::vector<plGeometrySpan*>& spans);
 
-    const std::vector<plGeometrySpan*> getSourceSpans() const { return fSourceSpans; }
-    std::vector<plGeometrySpan*> getSourceSpans() { return fSourceSpans; }
+    const std::vector<plGeometrySpan*>& getSourceSpans() const { return fSourceSpans; }
+    std::vector<plGeometrySpan*>& getSourceSpans() { return fSourceSpans; }
     size_t addSourceSpan(plGeometrySpan* span);
 };
 

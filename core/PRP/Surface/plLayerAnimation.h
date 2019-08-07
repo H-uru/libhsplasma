@@ -107,7 +107,7 @@ public:
     plKey getLinkKey() const { return fLinkKey; }
     bool getLeavingAge() const { return fLeavingAge; }
 
-    void setLinkKey(plKey key) { fLinkKey = key; }
+    void setLinkKey(plKey key) { fLinkKey = std::move(key); }
     void setLeavingAge(bool leaving) { fLeavingAge = leaving; }
 };
 

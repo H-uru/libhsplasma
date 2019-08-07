@@ -44,7 +44,7 @@ protected:
 
 public:
     plKey getSceneObj() const { return fSceneObj; }
-    void setSceneObj(const plKey& obj) { fSceneObj = obj; }
+    void setSceneObj(plKey obj) { fSceneObj = std::move(obj); }
 };
 
 

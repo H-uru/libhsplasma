@@ -150,25 +150,25 @@ public:
     plKey getBottomPos() const { return fBottomPos; }
 
     /** Sets the clickable plLogicModifier for this ladder's top end */
-    void setTopLogic(plKey topLogic) { fTopLogic = topLogic; }
+    void setTopLogic(plKey topLogic) { fTopLogic = std::move(topLogic); }
 
     /** Sets the clickable plLogicModifier for this ladder's bottom end */
-    void setBottomLogic(plKey bottomLogic) { fBottomLogic = bottomLogic; }
+    void setBottomLogic(plKey bottomLogic) { fBottomLogic = std::move(bottomLogic); }
 
     /** Sets the clickable plLogicModifier for this ladder's middle */
-    void setMainLogic(plKey mainLogic) { fMainLogic = mainLogic; }
+    void setMainLogic(plKey mainLogic) { fMainLogic = std::move(mainLogic); }
 
     /** Sets the plSceneNode for this ladder's top exit point */
-    void setExitTop(plKey exitTop) { fExitTop = exitTop; }
+    void setExitTop(plKey exitTop) { fExitTop = std::move(exitTop); }
 
     /** Sets the plSceneNode for this ladder's bottom exit point */
-    void setExitBottom(plKey exitBottom) { fExitBottom = exitBottom; }
+    void setExitBottom(plKey exitBottom) { fExitBottom = std::move(exitBottom); }
 
     /** Sets the plSceneNode for this ladder's top entry seekpoint */
-    void setTopPos(plKey topPos) { fTopPos = topPos; }
+    void setTopPos(plKey topPos) { fTopPos = std::move(topPos); }
 
     /** Sets the plSceneNode for this ladder's bottom entry seekpoint */
-    void setBottomPos(plKey bottomPos) { fBottomPos = bottomPos; }
+    void setBottomPos(plKey bottomPos) { fBottomPos = std::move(bottomPos); }
 };
 
 #endif

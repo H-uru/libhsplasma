@@ -161,7 +161,7 @@ void pfGUIPopUpMenu::addItem(const ST::string& name, pfGUICtrlProcWriteableObjec
     pfMenuItem item;
     item.fName = name;
     item.fHandler = handler;
-    item.fSubMenu = subMenu;
+    item.fSubMenu = std::move(subMenu);
     item.fYOffsetToNext = yoffs;
     fMenuItems.push_back(item);
 }

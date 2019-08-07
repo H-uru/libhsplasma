@@ -50,12 +50,12 @@ protected:
 public:
     const std::vector<plKey>& getSounds() const { return fSoundObjs; }
     std::vector<plKey>& getSounds() { return fSoundObjs; }
-    void addSound(plKey sound) { fSoundObjs.push_back(sound); }
+    void addSound(plKey sound) { fSoundObjs.emplace_back(std::move(sound)); }
     void delSound(size_t idx) { fSoundObjs.erase(fSoundObjs.begin() + idx); }
     void clearSounds() { fSoundObjs.clear(); }
 
     plKey getSceneNode() const { return fSceneNode; }
-    void setSceneNode(plKey node) { fSceneNode = node; }
+    void setSceneNode(plKey node) { fSceneNode = std::move(node); }
 };
 
 

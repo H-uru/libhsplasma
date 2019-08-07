@@ -38,8 +38,8 @@ public:
     plKey getUpControl() const { return fUpControl; }
     plKey getDownControl() const { return fDownControl; }
 
-    void setUpControl(plKey ctrl) { fUpControl = ctrl; }
-    void setDownControl(plKey ctrl) { fDownControl = ctrl; }
+    void setUpControl(plKey ctrl) { fUpControl = std::move(ctrl); }
+    void setDownControl(plKey ctrl) { fDownControl = std::move(ctrl); }
 };
 
 #endif

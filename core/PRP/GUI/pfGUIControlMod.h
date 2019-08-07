@@ -121,10 +121,10 @@ public:
 
     void setTagID(unsigned int id) { fTagID = id; }
     void setVisible(bool visible) { fVisible = visible; }
-    void setDynTextMap(plKey map) { fDynTextMap = map; }
-    void setDynTextLayer(plKey layer) { fDynTextLayer = layer; }
-    void setProxy(plKey proxy) { fProxy = proxy; }
-    void setSkin(plKey skin) { fSkin = skin; }
+    void setDynTextMap(plKey map) { fDynTextMap = std::move(map); }
+    void setDynTextLayer(plKey layer) { fDynTextLayer = std::move(layer); }
+    void setProxy(plKey proxy) { fProxy = std::move(proxy); }
+    void setSkin(plKey skin) { fSkin = std::move(skin); }
     void setHandler(pfGUICtrlProcWriteableObject* handler);
     void setColorScheme(pfGUIColorScheme* scheme);
 };

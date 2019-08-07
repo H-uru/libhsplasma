@@ -67,7 +67,7 @@ protected:
 
 public:
     plKey getWorldKey() const { return fWorldKey; }
-    void setWorldKey(const plKey& worldKey) { fWorldKey = worldKey; }
+    void setWorldKey(plKey worldKey) { fWorldKey = std::move(worldKey); }
 };
 
 #endif

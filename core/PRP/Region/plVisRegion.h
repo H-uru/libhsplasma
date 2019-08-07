@@ -43,8 +43,8 @@ public:
     plKey getRegion() const { return fRegion; }
     plKey getVisMgr() const { return fVisMgr; }
 
-    void setRegion(plKey region) { fRegion = region; }
-    void setVisMgr(plKey vismgr) { fVisMgr = vismgr; }
+    void setRegion(plKey region) { fRegion = std::move(region); }
+    void setVisMgr(plKey vismgr) { fVisMgr = std::move(vismgr); }
 };
 
 #endif

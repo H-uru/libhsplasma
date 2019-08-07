@@ -76,7 +76,7 @@ public:
     bool getIncludeCharacters() const { return fIncCharacters; }
 
     /** Set the root node */
-    void setRootNode(plKey rootNode) { fRootNode = rootNode; }
+    void setRootNode(plKey rootNode) { fRootNode = std::move(rootNode); }
 
     /** Set the position  */
     void setPosition(hsVector3 pos) { fPos = pos; }
@@ -162,7 +162,7 @@ public:
     std::vector<plKey>& getVisRegions() { return fVisRegions; }
 
     /** Adds a visregion to the list */
-    void addVisRegion(plKey key) { fVisRegions.push_back(key); }
+    void addVisRegion(plKey key) { fVisRegions.emplace_back(std::move(key)); }
 
     /** Removes a visregion from the list */
     void delVisRegion(size_t idx) { fVisRegions.erase(fVisRegions.begin() + idx); }
@@ -177,7 +177,7 @@ public:
     std::vector<plKey>& getTargetNodes() { return fTargetNodes; }
 
     /** Adds a target node to the list */
-    void addTargetNode(plKey key) { fTargetNodes.push_back(key); }
+    void addTargetNode(plKey key) { fTargetNodes.emplace_back(std::move(key)); }
 
     /** Removes a target node from the list */
     void delTargetNode(size_t idx) { fTargetNodes.erase(fTargetNodes.begin() + idx); }
@@ -192,7 +192,7 @@ public:
     std::vector<plKey>& getMatLayers() { return fMatLayers; }
 
     /** Adds a material layer to the list */
-    void addMatLayer(plKey key) { fMatLayers.push_back(key); }
+    void addMatLayer(plKey key) { fMatLayers.emplace_back(std::move(key)); }
 
     /** Removes a material layer from the list */
     void delMatLayer(size_t idx) { fMatLayers.erase(fMatLayers.begin() + idx); }
@@ -258,13 +258,13 @@ public:
     void setIncludeCharacters(bool incCharacters) { fIncCharacters = incCharacters; }
 
     /** Set the camera */
-    void setCamera(plKey camera) { fCamera = camera; }
+    void setCamera(plKey camera) { fCamera = std::move(camera); }
 
     /** Set the root node */
-    void setRootNode(plKey rootNode) { fRootNode = rootNode; }
+    void setRootNode(plKey rootNode) { fRootNode = std::move(rootNode); }
 
     /** Set the texture to display when disabled */
-    void setDisableTexture(plKey texture) { fDisableTexture = texture; }
+    void setDisableTexture(plKey texture) { fDisableTexture = std::move(texture); }
 };
 
 #endif

@@ -36,7 +36,7 @@ protected:
 public:
     const std::vector<plKey>& getImages() const { return fImages; }
     std::vector<plKey>& getImages() { return fImages; }
-    void addImage(plKey img) { fImages.push_back(img); }
+    void addImage(plKey img) { fImages.emplace_back(std::move(img)); }
     void delImage(size_t idx) { fImages.erase(fImages.begin() + idx); }
     void clearImages() { fImages.clear(); }
 };

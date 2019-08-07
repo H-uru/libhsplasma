@@ -123,13 +123,13 @@ public:
     plKey readUoid(hsStream* S);
 
     /** Write a plKey to a stream */
-    void writeKey(hsStream* S, plKey key);
+    void writeKey(hsStream* S, const plKey& key);
 
     /** Write the plKey that describes the specified hsKeyedObject to a stream */
     void writeKey(hsStream* S, hsKeyedObject* ko);
 
     /** Write a raw plKey to a stream (no "exists" bool for Uru streams) */
-    void writeUoid(hsStream* S, plKey key);
+    void writeUoid(hsStream* S, const plKey& key);
 
     /** Write the raw plKey that describes the hsKeyedObject to a stream */
     void writeUoid(hsStream* S, hsKeyedObject* ko);
@@ -144,7 +144,7 @@ public:
     plKey prcParseKeyNotify(const pfPrcTag* tag, plKeyData::AfterLoadCallback callback);
 
     /** Write a plKey to a PRC document. */
-    static void PrcWriteKey(pfPrcHelper* prc, plKey key);
+    static void PrcWriteKey(pfPrcHelper* prc, const plKey& key);
 
     /** Write the plKey that describes the specified hsKeyedObject to a PRC document. */
     static void PrcWriteKey(pfPrcHelper* prc, hsKeyedObject* ko);
@@ -156,7 +156,7 @@ public:
      * the key's internal object pointer.
      * \sa plKeyData::getObj()
      */
-    class hsKeyedObject* getObject(plKey key);
+    class hsKeyedObject* getObject(const plKey& key);
 
     /** Returns the total number of keys registered for the specified plLocation */
     unsigned int countKeys(const plLocation& loc) { return keys.countKeys(loc); }
@@ -340,7 +340,7 @@ public:
      * \return a copy of the key stored in the ResManager
      * \sa hsKeyedObject::init(), MoveKey(), AddObject()
      */
-    plKey AddKey(plKey key);
+    plKey AddKey(const plKey& key);
 
     /**
      * Change a plKey's location to the one specified.  This is probably
@@ -351,7 +351,7 @@ public:
      * updated location.
      * \sa AddKey(), AddObject()
      */
-    void MoveKey(plKey key, const plLocation& to) { keys.MoveKey(key, to); }
+    void MoveKey(const plKey& key, const plLocation& to) { keys.MoveKey(key, to); }
 
     /**
      * Manually register an hsKeyedObject with the ResManager.
@@ -387,7 +387,7 @@ public:
      * ResManager, and frees the memory associated with both.
      * This will allow you to delete an object from a page.
      */
-    void DelObject(plKey obj) { keys.del(obj); }
+    void DelObject(const plKey& obj) { keys.del(obj); }
 
     /**
      * Removes the page specified by loc from the ResManager, and

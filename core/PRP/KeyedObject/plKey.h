@@ -18,6 +18,7 @@
 #define _PLKEY_H
 
 #include "plUoid.h"
+#include <cstddef>
 #include <functional>
 #include <list>
 
@@ -53,14 +54,6 @@ public:
      */
     plKeyData() : fObjPtr(), fFileOff(), fObjSize(), fRefCnt() { }
 
-    /**
-     * Don't ever use this directly (i.e., don't ever allocate plKeyData
-     * objects on the stack).  The key will be automatically deleted
-     * once its ref count is zero (meaning there are no more keys that
-     * own references to this KeyData).
-     */
-    ~plKeyData() { }
-
     /** Return the number of active "owners" of this key. */
     uint32_t CountRefs() const { return fRefCnt; }
 
@@ -68,6 +61,14 @@ public:
 
 private:
     std::list<AfterLoadCallback> fCallbacks;
+
+    /**
+     * Don't ever use this directly (i.e., don't ever allocate plKeyData
+     * objects on the stack).  The key will be automatically deleted
+     * once its ref count is zero (meaning there are no more keys that
+     * own references to this KeyData).
+     */
+    ~plKeyData() { }
 
     void Ref() { ++fRefCnt; }
     void UnRef();
@@ -266,12 +267,22 @@ public:
     /** Copy constructor */
     plKey(const plKey& init);
 
+    /** Move constructor */
+    plKey(plKey&& move) noexcept : fKeyData(move.fKeyData)
+    {
+        move.fKeyData = nullptr;
+    }
+
     /**
      * Copy constructor for plKeyData pointers.  Usually you won't ever
      * need to use this directly; it's mostly here for internal use by
      * the plResManager.
      */
     plKey(plKeyData* init);
+
+    // Prevent unintentional conversions
+    plKey(std::nullptr_t) = delete;
+    plKey& operator=(std::nullptr_t) = delete;
 
     /**
      * Removes a reference to the key.  When there are no more references
@@ -294,6 +305,14 @@ public:
 
     /** Copies and refs the key data in other */
     plKey& operator=(const plKey& other);
+
+    /** Moves the key ref into this key */
+    plKey& operator=(plKey&& other) noexcept
+    {
+        fKeyData = other.fKeyData;
+        other.fKeyData = nullptr;
+        return *this;
+    }
 
     /** Refs the key data and stores it in this key */
     plKey& operator=(plKeyData* other);
@@ -322,6 +341,13 @@ public:
      * any place where an empty key can be specified.
      */
     bool Exists() const { return (fKeyData != nullptr); }
+
+    // Prevent unintentional use of some comparison operators when Exists()
+    // should be used instead
+    bool operator==(std::nullptr_t) const = delete;
+    bool operator!=(std::nullptr_t) const = delete;
+    operator bool() const = delete;
+    bool operator!() const = delete;
 
     /**
      * Returns whether the object referenced by the key is currently

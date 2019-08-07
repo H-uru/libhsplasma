@@ -140,12 +140,12 @@ public:
     unsigned int getMaxBoneIdx() const { return fMaxBoneIdx; }
     unsigned int getPenBoneIdx() const { return fPenBoneIdx; }
 
-    void setLocalToWorld(hsMatrix44 l2w) { fLocalToWorld = l2w; }
-    void setWorldToLocal(hsMatrix44 w2l) { fWorldToLocal = w2l; }
-    void setLocalBounds(hsBounds3Ext bounds) { fLocalBounds = bounds; }
-    void setWorldBounds(hsBounds3Ext bounds) { fWorldBounds = bounds; }
-    void setMaterial(plKey mat) { fMaterial = mat; }
-    void setFogEnvironment(plKey fog) { fFogEnviron = fog; }
+    void setLocalToWorld(const hsMatrix44& l2w) { fLocalToWorld = l2w; }
+    void setWorldToLocal(const hsMatrix44& w2l) { fWorldToLocal = w2l; }
+    void setLocalBounds(const hsBounds3Ext& bounds) { fLocalBounds = bounds; }
+    void setWorldBounds(const hsBounds3Ext& bounds) { fWorldBounds = bounds; }
+    void setMaterial(plKey mat) { fMaterial = std::move(mat); }
+    void setFogEnvironment(plKey fog) { fFogEnviron = std::move(fog); }
     void setMinDist(float dist) { fMinDist = dist; }
     void setMaxDist(float dist) { fMaxDist = dist; }
     void setWaterHeight(float height) { fWaterHeight = height; }
@@ -160,14 +160,14 @@ public:
     const std::vector<plKey>& getPermaLights() const { return fPermaLights; }
     std::vector<plKey>& getPermaLights() { return fPermaLights; }
     void setPermaLights(const std::vector<plKey>& lights) { fPermaLights = lights; }
-    void addPermaLight(plKey light) { fPermaLights.push_back(light); }
+    void addPermaLight(plKey light) { fPermaLights.emplace_back(std::move(light)); }
     void delPermaLight(size_t idx) { fPermaLights.erase(fPermaLights.begin() + idx); }
     void clearPermaLights() { fPermaLights.clear(); }
 
     const std::vector<plKey>& getPermaProjs() const { return fPermaProjs; }
     std::vector<plKey>& getPermaProjs() { return fPermaProjs; }
     void setPermaProjs(const std::vector<plKey>& lights) { fPermaProjs = lights; }
-    void addPermaProj(plKey light) { fPermaProjs.push_back(light); }
+    void addPermaProj(plKey light) { fPermaProjs.emplace_back(std::move(light)); }
     void delPermaProj(size_t idx) { fPermaProjs.erase(fPermaProjs.begin() + idx); }
     void clearPermaProjs() { fPermaProjs.clear(); }
 };

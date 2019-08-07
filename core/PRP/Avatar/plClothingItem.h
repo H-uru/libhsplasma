@@ -174,17 +174,17 @@ public:
     void setSortOrder(unsigned char order) { fSortOrder = order; }
 
     /** Set the clothing item's icon for AvatarCustomization. */
-    void setIcon(plKey icon) { fIcon = icon; }
+    void setIcon(plKey icon) { fIcon = std::move(icon); }
 
     /** Set the accessory key for this item. */
-    void setAccessory(plKey acc) { fAccessory = acc; }
+    void setAccessory(plKey acc) { fAccessory = std::move(acc); }
 
     /**
      * Set the key for the plSharedMesh that contains this item's geometry
      * at LOD level \a lodLevel.
      * \sa LODLevels
      */
-    void setMesh(int lodLevel, plKey mesh) { fMeshes[lodLevel] = mesh; }
+    void setMesh(int lodLevel, plKey mesh) { fMeshes[lodLevel] = std::move(mesh); }
 
     /** Set the default first tint color for this item. */
     void setDefaultTint1(const hsColorRGBA& tint);
@@ -204,7 +204,9 @@ public:
      * \sa ClothingLayers
      */
     void setElementTexture(int element, int layer, plKey texture)
-    { fTextures[element][layer] = texture; }
+    {
+        fTextures[element][layer] = std::move(texture);
+    }
 
     /**
      * Sets the element name for element number \a element to \a elementName.

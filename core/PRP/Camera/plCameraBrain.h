@@ -108,15 +108,15 @@ public:
     const hsBitVector& getEoAFlags() const { return fEoaFlags; }
     hsBitVector& getEoAFlags() { return fEoaFlags; }
 
-    void setSubject(const plKey& subject) { fSubject = subject; }
-    void setRail(const plKey& rail) { fRail = rail; }
+    void setSubject(plKey subject) { fSubject = std::move(subject); }
+    void setRail(plKey rail) { fRail = std::move(rail); }
     void setVelocity(float velocity) { fVelocity = velocity; }
     void setAcceleration(float acceleration) { fAccel = acceleration; }
     void setDeceleration(float deceleration) { fDecel = deceleration; }
     void setPOAVelocity(float poaVelocity) { fPOAVelocity = poaVelocity; }
     void setPOAAcceleration(float poaAcceleration) { fPOAAccel = poaAcceleration; }
     void setPOADeceleration(float poaDeceleration) { fPOADecel = poaDeceleration; }
-    void setPOAOffset(hsVector3 poaOffset) { fPOAOffset = poaOffset; }
+    void setPOAOffset(const hsVector3& poaOffset) { fPOAOffset = poaOffset; }
     void setXPanLimit(float xPanLimit) { fXPanLimit = xPanLimit; }
     void setZPanLimit(float zPanLimit) { fZPanLimit = zPanLimit; }
     void setPanSpeed(float panSpeed) { fPanSpeed = panSpeed; }
@@ -181,7 +181,7 @@ protected:
 
 public:
     plKey getTargetPoint() const { return fTargetPoint; }
-    void setTargetPoint(const plKey& targetPoint) { fTargetPoint = targetPoint; }
+    void setTargetPoint(plKey targetPoint) { fTargetPoint = std::move(targetPoint); }
 };
 
 
@@ -229,8 +229,8 @@ public:
     void setCircleFlags(unsigned int flags) { fCircleFlags = flags; }
     void setCenter(const hsVector3& center) { fCenter = center; }
     void setRadius(float radius) { fRadius = radius; }
-    void setCenterObject(const plKey& center) { fCenterObject = center; }
-    void setPOAObject(const plKey& poa) { fPOAObject = poa; }
+    void setCenterObject(plKey center) { fCenterObject = std::move(center); }
+    void setPOAObject(plKey poa) { fPOAObject = std::move(poa); }
     void setCirPerSec(float cirPerSec) { fCirPerSec = cirPerSec; }
 };
 

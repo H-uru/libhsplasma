@@ -136,10 +136,10 @@ public:
     void setCollideEnabled(bool enable) { fDisableCollide = !enable; }
     void setLOSDBs(unsigned short los) { fLOSDBs = los; }
 
-    void setObject(plKey object) { fObjectKey = object; }
-    void setSceneNode(plKey node) { fSceneNode = node; }
-    void setSubWorld(plKey world) { fSubWorld = world; }
-    void setSoundGroup(plKey group) { fSoundGroup = group; }
+    void setObject(plKey object) { fObjectKey = std::move(object); }
+    void setSceneNode(plKey node) { fSceneNode = std::move(node); }
+    void setSubWorld(plKey world) { fSubWorld = std::move(world); }
+    void setSoundGroup(plKey group) { fSoundGroup = std::move(group); }
     void setPos(const hsVector3& pos) { fPos = pos; }
     void setRot(const hsQuat& rot) { fRot = rot; }
 

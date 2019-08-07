@@ -80,7 +80,7 @@ public:
     void setOffset(const hsVector3& offset) { fOffset = offset; }
     void setLocalToParent(const hsMatrix44& l2p) { fLocalToParent = l2p; }
     void setParentToLocal(const hsMatrix44& p2l) { fParentToLocal = p2l; }
-    void setFaceObj(plKey obj) { fFaceObj = obj; }
+    void setFaceObj(plKey obj) { fFaceObj = std::move(obj); }
     void setMaxBounds(const hsBounds3Ext& bounds) { fMaxBounds = bounds; }
 };
 

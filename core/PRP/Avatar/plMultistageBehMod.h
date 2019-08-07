@@ -50,7 +50,7 @@ public:
 
     const std::vector<plKey>& getReceivers() const { return fReceivers; }
     std::vector<plKey>& getReceivers() { return fReceivers; }
-    void addReceiver(plKey receiver) { fReceivers.push_back(receiver); }
+    void addReceiver(plKey receiver) { fReceivers.emplace_back(std::move(receiver)); }
     void delReceiver(size_t idx) { fReceivers.erase(fReceivers.begin() + idx); }
     void clearReceivers() { fReceivers.clear(); }
 

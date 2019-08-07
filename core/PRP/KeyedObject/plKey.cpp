@@ -91,7 +91,7 @@ void plKeyData::addCallback(AfterLoadCallback callback)
     if (fObjPtr)
         callback(fObjPtr);
     else
-        fCallbacks.push_back(callback);
+        fCallbacks.emplace_back(std::move(callback));
 }
 
 /* plKey */

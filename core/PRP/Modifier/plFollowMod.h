@@ -62,7 +62,7 @@ public:
 
     void setLeaderType(FollowLeaderType leaderType)  { fLeaderType = leaderType; }
     void setMode(uint8_t mode) { fMode = mode; }
-    void setLeader(plKey obj) { fLeader = obj; }
+    void setLeader(plKey obj) { fLeader = std::move(obj); }
 
 };
 

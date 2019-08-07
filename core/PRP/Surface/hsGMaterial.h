@@ -59,13 +59,13 @@ protected:
 public:
     const std::vector<plKey>& getLayers() const { return fLayers; }
     std::vector<plKey>& getLayers() { return fLayers; }
-    void addLayer(plKey layer) { fLayers.push_back(layer); }
+    void addLayer(plKey layer) { fLayers.emplace_back(std::move(layer)); }
     void delLayer(size_t idx) { fLayers.erase(fLayers.begin() + idx); }
     void clearLayers() { fLayers.clear(); }
 
     const std::vector<plKey>& getPiggyBacks() const { return fPiggyBacks; }
     std::vector<plKey>& getPiggyBacks() { return fPiggyBacks; }
-    void addPiggyBack(plKey layer) { fPiggyBacks.push_back(layer); }
+    void addPiggyBack(plKey layer) { fPiggyBacks.emplace_back(std::move(layer)); }
     void delPiggyBack(size_t idx) { fPiggyBacks.erase(fPiggyBacks.begin() + idx); }
     void clearPiggyBacks() { fPiggyBacks.clear(); }
 

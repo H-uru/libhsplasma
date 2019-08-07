@@ -77,9 +77,9 @@ public:
     Alignment getAlignment() const { return fAlignment; }
 
     void setMargin(unsigned short margin) { fMargin = margin; }
-    void setSkin(plKey skin) { fSkin = skin; }
-    void setOriginContext(plKey context) { fOriginContext = context; }
-    void setOriginAnchor(plKey anchor) { fOriginAnchor = anchor; }
+    void setSkin(plKey skin) { fSkin = std::move(skin); }
+    void setOriginContext(plKey context) { fOriginContext = std::move(context); }
+    void setOriginAnchor(plKey anchor) { fOriginAnchor = std::move(anchor); }
     void setAlignment(Alignment align) { fAlignment = align; }
 };
 

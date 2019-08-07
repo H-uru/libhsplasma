@@ -99,7 +99,7 @@ void plDrawInterface::clearDrawables()
 
 void plDrawInterface::addDrawable(plKey draw, int key)
 {
-    fDrawables.push_back(draw);
+    fDrawables.emplace_back(std::move(draw));
     fDrawableKeys.push_back(key);
 }
 

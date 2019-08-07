@@ -77,9 +77,9 @@ public:
     plKey getDrawable() const { return fDrawable; }
     unsigned int getRenderLevel() const { return fRenderLevel; }
 
-    void setMaterial(plKey mat) { fMaterial = mat; }
-    void setSceneNode(plKey node) { fSceneNode = node; }
-    void setDrawable(plKey draw) { fDrawable = draw; }
+    void setMaterial(plKey mat) { fMaterial = std::move(mat); }
+    void setSceneNode(plKey node) { fSceneNode = std::move(node); }
+    void setDrawable(plKey draw) { fDrawable = std::move(draw); }
     void setRenderLevel(unsigned int level) { fRenderLevel = level; }
 
     const std::vector<plCluster*>& getClusters() const { return fClusters; }
@@ -90,13 +90,13 @@ public:
 
     const std::vector<plKey>& getRegions() const { return fRegions; }
     std::vector<plKey>& getRegions() { return fRegions; }
-    void addRegion(plKey region) { fRegions.push_back(region); }
+    void addRegion(plKey region) { fRegions.emplace_back(std::move(region)); }
     void delRegion(size_t idx) { fRegions.erase(fRegions.begin() + idx); }
     void clearRegions() { fRegions.clear(); }
 
     const std::vector<plKey>& getLights() const { return fLights; }
     std::vector<plKey>& getLights() { return fLights; }
-    void addLight(plKey light) { fLights.push_back(light); }
+    void addLight(plKey light) { fLights.emplace_back(std::move(light)); }
     void delLight(size_t idx) { fLights.erase(fLights.begin() + idx); }
     void clearLights() { fLights.clear(); }
 };

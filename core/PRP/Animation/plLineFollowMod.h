@@ -75,8 +75,8 @@ public:
 
     void setFollowMode(FollowMode mode) { fFollowMode = mode; }
     void setFollowFlags(unsigned short flags) { fFollowFlags = flags; }
-    void setPathParent(plKey parent) { fPathParent = parent; }
-    void setRefObj(plKey obj) { fRefObj = obj; }
+    void setPathParent(plKey parent) { fPathParent = std::move(parent); }
+    void setRefObj(plKey obj) { fRefObj = std::move(obj); }
     void setOffset(float offset) { fOffset = offset; }
     void setOffsetClamp(float clamp) { fOffsetClamp = clamp; }
     void setSpeedClamp(float clamp) { fSpeedClamp = clamp; }
@@ -84,7 +84,7 @@ public:
 
     const std::vector<plKey>& getStereizers() const { return fStereizers; }
     std::vector<plKey>& getStereizers() { return fStereizers; }
-    void addStereizer(plKey stereizer) { fStereizers.push_back(stereizer); }
+    void addStereizer(plKey stereizer) { fStereizers.emplace_back(std::move(stereizer)); }
     void delStereizer(size_t idx) { fStereizers.erase(fStereizers.begin() + idx); }
     void clearStereizers() { fStereizers.clear(); }
 };

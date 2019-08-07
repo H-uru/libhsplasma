@@ -70,13 +70,13 @@ public:
     void setLocalToLight(const hsMatrix44& xform) { fLocalToLight = xform; }
     void setLightToWorld(const hsMatrix44& xform) { fLightToWorld = xform; }
     void setWorldToLight(const hsMatrix44& xform) { fWorldToLight = xform; }
-    void setProjection(plKey proj) { fProjection = proj; }
-    void setSoftVolume(plKey vol) { fSoftVolume = vol; }
-    void setSceneNode(plKey node) { fSceneNode = node; }
+    void setProjection(plKey proj) { fProjection = std::move(proj); }
+    void setSoftVolume(plKey vol) { fSoftVolume = std::move(vol); }
+    void setSceneNode(plKey node) { fSceneNode = std::move(node); }
 
     const std::vector<plKey>& getVisRegions() const { return fVisRegions; }
     std::vector<plKey>& getVisRegions() { return fVisRegions; }
-    void addVisRegion(plKey region) { fVisRegions.push_back(region); }
+    void addVisRegion(plKey region) { fVisRegions.emplace_back(std::move(region)); }
     void delVisRegion(size_t idx) { fVisRegions.erase(fVisRegions.begin() + idx); }
     void clearVisRegions() { fVisRegions.clear(); }
 };

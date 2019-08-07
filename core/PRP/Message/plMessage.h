@@ -72,13 +72,13 @@ public:
     double getTimeStamp() const { return fTimeStamp; }
     unsigned int getBCastFlags() const { return fBCastFlags; }
 
-    void setSender(plKey sender) { fSender = sender; }
+    void setSender(plKey sender) { fSender = std::move(sender); }
     void setTimeStamp(double timestamp) { fTimeStamp = timestamp; }
     void setBCastFlags(unsigned int flags) { fBCastFlags = flags; }
 
     const std::vector<plKey>& getReceivers() const { return fReceivers; }
     std::vector<plKey>& getReceivers() { return fReceivers; }
-    void addReceiver(plKey receiver) { fReceivers.push_back(receiver); }
+    void addReceiver(plKey receiver) { fReceivers.emplace_back(std::move(receiver)); }
     void delReceiver(size_t idx) { fReceivers.erase(fReceivers.begin() + idx); }
     void clearReceivers() { fReceivers.clear(); }
 };

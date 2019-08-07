@@ -44,7 +44,7 @@ public:
     plKey getTarget() const { return fTarget; }
 
     void setAction(CallbackEvent value) { fAction = value; }
-    void setTarget(plKey value) { fTarget = value; }
+    void setTarget(plKey value) { fTarget = std::move(value); }
 };
 
 #endif
