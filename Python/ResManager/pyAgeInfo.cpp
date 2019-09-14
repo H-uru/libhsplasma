@@ -207,7 +207,7 @@ PY_METHOD_VA(AgeInfo, getCommonPageFilename,
 }
 
 PY_METHOD_VA(AgeInfo, getPageLoc,
-    "Params: idx\n"
+    "Params: idx, version\n"
     "Returns a plLocation for the specified page")
 {
     int idx, ver;
@@ -224,7 +224,7 @@ PY_METHOD_VA(AgeInfo, getPageLoc,
 }
 
 PY_METHOD_VA(AgeInfo, getCommonPageLoc,
-    "Params: idx\n"
+    "Params: idx, version\n"
     "Returns a plLocation for the specified common page")
 {
     int idx, ver;
