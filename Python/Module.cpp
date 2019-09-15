@@ -74,6 +74,7 @@
 #include "PRP/Geometry/pyGBufferGroup.h"
 #include "PRP/Geometry/pyGeometrySpan.h"
 #include "PRP/Geometry/pyOccluder.h"
+#include "PRP/Geometry/pySharedMesh.h"
 #include "PRP/Geometry/pySpaceTree.h"
 #include "PRP/Geometry/pySpan.h"
 #include "PRP/Geometry/pySpanInstance.h"
@@ -752,6 +753,7 @@ PyMODINIT_FUNC initPyHSPlasma()
     PyModule_AddObject(module, "plFilterCoordInterface", Init_pyFilterCoordInterface_Type());
     PyModule_AddObject(module, "plRidingAnimatedPhysicalDetector", Init_pyRidingAnimatedPhysicalDetector_Type());
 
+    PyModule_AddObject(module, "plSharedMesh", Init_pySharedMesh_Type());
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());
     PyModule_AddObject(module, "plCompoundController", Init_pyCompoundController_Type());
