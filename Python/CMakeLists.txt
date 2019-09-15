@@ -249,6 +249,7 @@ set(PRP_GEOM_SOURCES
     PRP/Geometry/pyMobileOccluder.cpp
     PRP/Geometry/pyOccluder.cpp
     PRP/Geometry/pyParticleSpan.cpp
+    PRP/Geometry/pySharedMesh.cpp
     PRP/Geometry/pySpaceTree.cpp
     PRP/Geometry/pySpaceTreeNode.cpp
     PRP/Geometry/pySpan.cpp
@@ -266,6 +267,7 @@ set(PRP_GEOM_HEADERS
     PRP/Geometry/pyGBufferGroup.h
     PRP/Geometry/pyGeometrySpan.h
     PRP/Geometry/pyOccluder.h
+    PRP/Geometry/pySharedMesh.h
     PRP/Geometry/pySpaceTree.h
     PRP/Geometry/pySpan.h
     PRP/Geometry/pySpanConvert.cpp

@@ -209,6 +209,7 @@
 #include "PRP/Geometry/pyClusterGroup.h"
 #include "PRP/Geometry/pyDrawableSpans.h"
 #include "PRP/Geometry/pyOccluder.h"
+#include "PRP/Geometry/pySharedMesh.h"
 #include "PRP/Geometry/pySpaceTree.h"
 #include "PRP/GUI/pyGUIButtonMod.h"
 #include "PRP/GUI/pyGUICheckBoxCtrl.h"
@@ -399,6 +400,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kMsgForwarder: return pyMsgForwarder_FromMsgForwarder(plMsgForwarder::Convert(pCre));
         case kOccluder: return pyOccluder_FromOccluder(plOccluder::Convert(pCre));
         case kMobileOccluder: return pyMobileOccluder_FromMobileOccluder(plMobileOccluder::Convert(pCre));
+        case kSharedMesh: return pySharedMesh_FromSharedMesh(plSharedMesh::Convert(pCre));
         case kMultistageBehMod: return pyMultistageBehMod_FromMultistageBehMod(plMultistageBehMod::Convert(pCre));
         case kInterfaceInfoModifier: return pyInterfaceInfoModifier_FromInterfaceInfoModifier(plInterfaceInfoModifier::Convert(pCre));
         case kPickingDetector: return pyPickingDetector_FromPickingDetector(plPickingDetector::Convert(pCre));
