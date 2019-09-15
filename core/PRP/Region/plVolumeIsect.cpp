@@ -501,7 +501,7 @@ void plComplexIsect::read(hsStream* S, plResManager* mgr)
     clearVolumes();
     fVolumes.resize(S->readShort());
     for (size_t i=0; i<fVolumes.size(); i++)
-        fVolumes[i] = plVolumeIsect::Convert(mgr->ReadCreatable(S));
+        fVolumes[i] = mgr->ReadCreatableC<plVolumeIsect>(S);
 }
 
 void plComplexIsect::write(hsStream* S, plResManager* mgr)
@@ -526,7 +526,7 @@ void plComplexIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         fVolumes.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fVolumes.size(); i++) {
-            fVolumes[i] = plVolumeIsect::Convert(mgr->prcParseCreatable(child));
+            fVolumes[i] = mgr->prcParseCreatableC<plVolumeIsect>(child);
             child = child->getNextSibling();
         }
     } else {

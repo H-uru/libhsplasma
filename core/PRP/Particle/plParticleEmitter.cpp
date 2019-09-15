@@ -23,7 +23,7 @@ plParticleEmitter::~plParticleEmitter()
 
 void plParticleEmitter::read(hsStream* S, plResManager* mgr)
 {
-    setGenerator(plParticleGenerator::Convert(mgr->ReadCreatable(S)));
+    setGenerator(mgr->ReadCreatableC<plParticleGenerator>(S));
 
     fSpanIndex = S->readInt();
     fMaxParticles = S->readInt();
@@ -62,7 +62,7 @@ void plParticleEmitter::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
 {
     if (tag->getName() == "Generator") {
         if (tag->hasChildren())
-            setGenerator(plParticleGenerator::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+            setGenerator(mgr->prcParseCreatableC<plParticleGenerator>(tag->getFirstChild()));
     } else if (tag->getName() == "EmitterParams") {
         fSpanIndex = tag->getParam("SpanIndex", "0").to_uint();
         fMaxParticles = tag->getParam("MaxParticles", "0").to_uint();

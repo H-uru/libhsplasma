@@ -39,7 +39,7 @@ void plAnimPath::read(hsStream* S, plResManager* mgr)
         fTMController->read(S, mgr);
         fController = nullptr;
     } else {
-        fController = plCompoundController::Convert(mgr->ReadCreatable(S));
+        fController = mgr->ReadCreatableC<plCompoundController>(S);
         fTMController = nullptr;
     }
 
@@ -124,7 +124,7 @@ void plAnimPath::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
                 fTMController->prcParse(tag->getFirstChild(), mgr);
                 fController = nullptr;
             } else {
-                fController = plCompoundController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+                fController = mgr->prcParseCreatableC<plCompoundController>(tag->getFirstChild());
                 fTMController = nullptr;
             }
         }

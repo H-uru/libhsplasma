@@ -39,7 +39,7 @@ void plArmatureModBase::read(hsStream* S, plResManager* mgr)
     clearBrains();
     fBrains.resize(S->readInt());
     for (size_t i=0; i<fBrains.size(); i++)
-        fBrains[i] = plArmatureBrain::Convert(mgr->ReadCreatable(S));
+        fBrains[i] = mgr->ReadCreatableC<plArmatureBrain>(S);
 
     fDetector = mgr->readKey(S);
 }
@@ -122,7 +122,7 @@ void plArmatureModBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         fBrains.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fBrains.size(); i++) {
-            fBrains[i] = plArmatureBrain::Convert(mgr->prcParseCreatable(child));
+            fBrains[i] = mgr->prcParseCreatableC<plArmatureBrain>(child);
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "Detector") {
@@ -156,7 +156,7 @@ void plArmatureMod::read(hsStream* S, plResManager* mgr)
         clearBrains();
         fBrains.resize(S->readInt());
         for (size_t i=0; i<fBrains.size(); i++)
-            fBrains[i] = plArmatureBrain::Convert(mgr->ReadCreatable(S));
+            fBrains[i] = mgr->ReadCreatableC<plArmatureBrain>(S);
 
         if (S->readBool())
             fClothingOutfit = mgr->readKey(S);
@@ -308,7 +308,7 @@ void plArmatureMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         fBrains.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fBrains.size(); i++) {
-            fBrains[i] = plArmatureBrain::Convert(mgr->prcParseCreatable(child));
+            fBrains[i] = mgr->prcParseCreatableC<plArmatureBrain>(child);
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "ClothingOutfit") {

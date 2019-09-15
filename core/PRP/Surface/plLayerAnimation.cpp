@@ -31,12 +31,12 @@ void plLayerAnimationBase::read(hsStream* S, plResManager* mgr)
 {
     plLayerInterface::read(S, mgr);
 
-    setPreshadeCtl(plController::Convert(mgr->ReadCreatable(S)));
-    setRuntimeCtl(plController::Convert(mgr->ReadCreatable(S)));
-    setAmbientCtl(plController::Convert(mgr->ReadCreatable(S)));
-    setSpecularCtl(plController::Convert(mgr->ReadCreatable(S)));
-    setOpacityCtl(plController::Convert(mgr->ReadCreatable(S)));
-    setTransformCtl(plController::Convert(mgr->ReadCreatable(S)));
+    setPreshadeCtl(mgr->ReadCreatableC<plController>(S));
+    setRuntimeCtl(mgr->ReadCreatableC<plController>(S));
+    setAmbientCtl(mgr->ReadCreatableC<plController>(S));
+    setSpecularCtl(mgr->ReadCreatableC<plController>(S));
+    setOpacityCtl(mgr->ReadCreatableC<plController>(S));
+    setTransformCtl(mgr->ReadCreatableC<plController>(S));
 }
 
 void plLayerAnimationBase::write(hsStream* S, plResManager* mgr)
@@ -96,22 +96,22 @@ void plLayerAnimationBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
 {
     if (tag->getName() == "PreshadeColorCtl") {
         if (tag->hasChildren())
-            setPreshadeCtl(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+            setPreshadeCtl(mgr->prcParseCreatableC<plController>(tag->getFirstChild()));
     } else if (tag->getName() == "RuntimeColorCtl") {
         if (tag->hasChildren())
-            setRuntimeCtl(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+            setRuntimeCtl(mgr->prcParseCreatableC<plController>(tag->getFirstChild()));
     } else if (tag->getName() == "AmbientColorCtl") {
         if (tag->hasChildren())
-            setAmbientCtl(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+            setAmbientCtl(mgr->prcParseCreatableC<plController>(tag->getFirstChild()));
     } else if (tag->getName() == "SpecularColorCtl") {
         if (tag->hasChildren())
-            setSpecularCtl(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+            setSpecularCtl(mgr->prcParseCreatableC<plController>(tag->getFirstChild()));
     } else if (tag->getName() == "OpacityCtl") {
         if (tag->hasChildren())
-            setOpacityCtl(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+            setOpacityCtl(mgr->prcParseCreatableC<plController>(tag->getFirstChild()));
     } else if (tag->getName() == "TransformCtl") {
         if (tag->hasChildren())
-            setTransformCtl(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+            setTransformCtl(mgr->prcParseCreatableC<plController>(tag->getFirstChild()));
     } else {
         plLayerInterface::IPrcParse(tag, mgr);
     }

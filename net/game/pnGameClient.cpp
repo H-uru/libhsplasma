@@ -16,6 +16,7 @@
 
 #include "pnGameClient.h"
 #include "GameMessages.h"
+#include "ResManager/plResManager.h"
 #include "Debug/plDebug.h"
 #include "Stream/hsRAMStream.h"
 #include "crypt/pnBigInteger.h"

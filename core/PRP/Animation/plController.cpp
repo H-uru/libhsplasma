@@ -84,9 +84,9 @@ plCompoundController::~plCompoundController()
 
 void plCompoundController::read(hsStream* S, plResManager* mgr)
 {
-    setXController(plController::Convert(mgr->ReadCreatable(S)));
-    setYController(plController::Convert(mgr->ReadCreatable(S)));
-    setZController(plController::Convert(mgr->ReadCreatable(S)));
+    setXController(mgr->ReadCreatableC<plController>(S));
+    setYController(mgr->ReadCreatableC<plController>(S));
+    setZController(mgr->ReadCreatableC<plController>(S));
 }
 
 void plCompoundController::write(hsStream* S, plResManager* mgr)
@@ -131,13 +131,13 @@ void plCompoundController::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
 {
     if (tag->getName() == "X") {
         if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").to_bool())
-            setXController(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+            setXController(mgr->prcParseCreatableC<plController>(tag->getFirstChild()));
     } else if (tag->getName() == "Y") {
         if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").to_bool())
-            setYController(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+            setYController(mgr->prcParseCreatableC<plController>(tag->getFirstChild()));
     } else if (tag->getName() == "Z") {
         if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").to_bool())
-            setZController(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+            setZController(mgr->prcParseCreatableC<plController>(tag->getFirstChild()));
     } else {
         plCreatable::IPrcParse(tag, mgr);
     }

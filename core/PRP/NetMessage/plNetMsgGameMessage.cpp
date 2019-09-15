@@ -28,7 +28,7 @@ void plNetMsgGameMessage::read(hsStream* S, plResManager* mgr)
 
     delete fMessage;
     hsRAMStream* msgStream = getStream();
-    fMessage = plMessage::Convert(mgr->ReadCreatable(msgStream));
+    fMessage = mgr->ReadCreatableC<plMessage>(msgStream);
 
     if (S->readBool())
         fDeliveryTime.read(S);
@@ -78,7 +78,7 @@ void plNetMsgGameMessage::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         if (tag->getParam("NULL", "false").to_bool())
             fMessage = nullptr;
         else
-            fMessage = plMessage::Convert(mgr->prcParseCreatable(tag));
+            fMessage = mgr->prcParseCreatableC<plMessage>(tag);
     } else if (tag->getName() == "DeliveryTime") {
         if (tag->hasChildren())
             fDeliveryTime.prcParse(tag->getFirstChild());

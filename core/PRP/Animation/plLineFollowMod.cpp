@@ -26,7 +26,7 @@ void plLineFollowMod::read(hsStream* S, plResManager* mgr)
 {
     plMultiModifier::read(S, mgr);
 
-    setPath(plAnimPath::Convert(mgr->ReadCreatable(S)));
+    setPath(mgr->ReadCreatableC<plAnimPath>(S));
     fPathParent = mgr->readKey(S);
     fRefObj = mgr->readKey(S);
 
@@ -101,7 +101,7 @@ void plLineFollowMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
 {
     if (tag->getName() == "Path") {
         if (tag->hasChildren())
-            setPath(plAnimPath::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+            setPath(mgr->prcParseCreatableC<plAnimPath>(tag->getFirstChild()));
     } else if (tag->getName() == "Parent") {
         if (tag->hasChildren())
             fPathParent = mgr->prcParseKey(tag->getFirstChild());

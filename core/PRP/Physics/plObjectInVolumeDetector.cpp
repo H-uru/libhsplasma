@@ -30,7 +30,7 @@ void plCameraRegionDetector::read(hsStream* S, plResManager* mgr)
     clearMessages();
     fMessages.resize(S->readInt());
     for (size_t i=0; i<fMessages.size(); i++)
-        fMessages[i] = plCameraMsg::Convert(mgr->ReadCreatable(S));
+        fMessages[i] = mgr->ReadCreatableC<plCameraMsg>(S);
 }
 
 void plCameraRegionDetector::write(hsStream* S, plResManager* mgr)
@@ -59,7 +59,7 @@ void plCameraRegionDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         fMessages.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fMessages.size(); i++) {
-            fMessages[i] = plCameraMsg::Convert(mgr->prcParseCreatable(child));
+            fMessages[i] = mgr->prcParseCreatableC<plCameraMsg>(child);
             child = child->getNextSibling();
         }
     } else {

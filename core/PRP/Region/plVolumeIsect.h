@@ -18,6 +18,7 @@
 #define _PLVOLUMEISECT_H
 
 #include "PRP/plCreatable.h"
+#include "ResManager/plResManager.h"
 #include "Math/hsGeometry3.h"
 #include "Math/hsMatrix44.h"
 #include "hsBounds.h"

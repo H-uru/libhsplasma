@@ -30,7 +30,7 @@ void plNPCSpawnMod::read(hsStream* S, plResManager* mgr)
     fAutoSpawn = S->readBool();
 
     if (S->readBool())
-        setNotify(plNotifyMsg::Convert(mgr->ReadCreatable(S)));
+        setNotify(mgr->ReadCreatableC<plNotifyMsg>(S));
 }
 
 void plNPCSpawnMod::write(hsStream* S, plResManager* mgr)
@@ -77,7 +77,7 @@ void plNPCSpawnMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         if (tag->getParam("NULL", "false").to_bool()) {
             setNotify(nullptr);
         } else if (tag->hasChildren()) {
-            setNotify(plNotifyMsg::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+            setNotify(mgr->prcParseCreatableC<plNotifyMsg>(tag->getFirstChild()));
         }
     } else {
         plSingleModifier::IPrcParse(tag, mgr);

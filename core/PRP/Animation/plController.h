@@ -18,6 +18,7 @@
 #define _PLCONTROLLER_H
 
 #include "PRP/plCreatable.h"
+#include "ResManager/plResManager.h"
 #include "hsKeys.h"
 
 class PLASMA_DLL plController : public plCreatable

@@ -18,6 +18,7 @@
 #define _PLAVTASK_H
 
 #include "PRP/plCreatable.h"
+#include "ResManager/plResManager.h"
 #include "plArmatureBrain.h"
 
 class PLASMA_DLL plAvTask : public plCreatable

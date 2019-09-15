@@ -19,6 +19,7 @@
 
 #include "PRP/plCreatable.h"
 #include "PRP/KeyedObject/plKey.h"
+#include "ResManager/plResManager.h"
 
 class PLASMA_DLL plMessage : public plCreatable
 {

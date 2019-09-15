@@ -31,7 +31,7 @@ void plLoadCloneMsg::read(hsStream* S, plResManager* mgr)
     fUserData = S->readInt();
     fValidMsg = S->readByte();
     fIsLoading = S->readByte();
-    setTriggerMsg(plMessage::Convert(mgr->ReadCreatable(S)));
+    setTriggerMsg(mgr->ReadCreatableC<plMessage>(S));
 }
 
 void plLoadCloneMsg::write(hsStream* S, plResManager* mgr)
@@ -94,7 +94,7 @@ void plLoadCloneMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         if (tag->getParam("NULL", "false").to_bool())
             setTriggerMsg(nullptr);
         else if (tag->hasChildren())
-            setTriggerMsg(plMessage::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+            setTriggerMsg(mgr->prcParseCreatableC<plMessage>(tag->getFirstChild()));
     } else {
         plMessage::IPrcParse(tag, mgr);
     }

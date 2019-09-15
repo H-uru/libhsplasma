@@ -134,7 +134,7 @@ void plDynaWakeMgr::read(hsStream* S, plResManager* mgr)
     plDynaRippleMgr::read(S, mgr);
 
     fDefaultDir.read(S);
-    setAnimPath(plAnimPath::Convert(mgr->ReadCreatable(S)));
+    setAnimPath(mgr->ReadCreatableC<plAnimPath>(S));
     fAnimWgt = S->readFloat();
     fVelWgt = S->readFloat();
 }
@@ -184,7 +184,7 @@ void plDynaWakeMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
             setAnimPath(nullptr);
         } else {
             if (tag->hasChildren())
-                setAnimPath(plAnimPath::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+                setAnimPath(mgr->prcParseCreatableC<plAnimPath>(tag->getFirstChild()));
         }
     } else {
         plDynaRippleMgr::IPrcParse(tag, mgr);

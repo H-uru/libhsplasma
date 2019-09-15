@@ -57,7 +57,7 @@ plScalarControllerChannel::~plScalarControllerChannel()
 void plScalarControllerChannel::read(hsStream* S, plResManager* mgr)
 {
     plAGChannel::read(S, mgr);
-    setController(plController::Convert(mgr->ReadCreatable(S)));
+    setController(mgr->ReadCreatableC<plController>(S));
 }
 
 void plScalarControllerChannel::write(hsStream* S, plResManager* mgr)
@@ -80,7 +80,7 @@ void plScalarControllerChannel::IPrcParse(const pfPrcTag* tag, plResManager* mgr
 {
     if (tag->getName() == "Controller") {
         if (tag->hasChildren())
-            setController(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+            setController(mgr->prcParseCreatableC<plController>(tag->getFirstChild()));
     } else {
         plAGChannel::IPrcParse(tag, mgr);
     }

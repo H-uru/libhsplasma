@@ -19,6 +19,7 @@
 
 #include "PRP/plCreatable.h"
 #include "PRP/Region/hsBounds.h"
+#include "ResManager/plResManager.h"
 #include "Sys/hsColor.h"
 #include "Math/hsMatrix44.h"
 #include "plParticleGenerator.h"

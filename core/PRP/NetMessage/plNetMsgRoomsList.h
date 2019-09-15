@@ -18,6 +18,7 @@
 #define _PLNETMSGROOMSLIST_H
 
 #include "plNetMessage.h"
+#include "PRP/KeyedObject/plLocation.h"
 
 class PLASMA_DLL plNetMsgRoomsList : public plNetMessage
 {

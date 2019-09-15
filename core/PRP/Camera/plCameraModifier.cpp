@@ -120,14 +120,14 @@ void plCameraModifier::read(hsStream* S, plResManager* mgr)
     fMessageQueue.resize(S->readInt());
     fSenderQueue.resize(fMessageQueue.size());
     for (size_t i=0; i<fMessageQueue.size(); i++)
-        fMessageQueue[i] = plMessage::Convert(mgr->ReadCreatable(S));
+        fMessageQueue[i] = mgr->ReadCreatableC<plMessage>(S);
     for (size_t i=0; i<fSenderQueue.size(); i++)
         fSenderQueue[i] = mgr->readKey(S);
 
     clearFOVInstructions();
     fFOVInstructions.resize(S->readInt());
     for (size_t i=0; i<fFOVInstructions.size(); i++)
-        fFOVInstructions[i] = plCameraMsg::Convert(mgr->ReadCreatable(S));
+        fFOVInstructions[i] = mgr->ReadCreatableC<plCameraMsg>(S);
 
     fAnimated = S->readBool();
     fStartAnimOnPush = S->readBool();
@@ -240,7 +240,7 @@ void plCameraModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         for (size_t i=0; i<fMessageQueue.size(); i++) {
             if (child->getName() != "Message")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
-            fMessageQueue[i] = plMessage::Convert(mgr->prcParseCreatable(child->getFirstChild()));
+            fMessageQueue[i] = mgr->prcParseCreatableC<plMessage>(child->getFirstChild());
             child = child->getNextSibling();
             if (child->getName() != "Sender")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
@@ -252,7 +252,7 @@ void plCameraModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         fFOVInstructions.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fFOVInstructions.size(); i++) {
-            fFOVInstructions[i] = plCameraMsg::Convert(mgr->prcParseCreatable(child));
+            fFOVInstructions[i] = mgr->prcParseCreatableC<plCameraMsg>(child);
             child = child->getNextSibling();
         }
     } else {

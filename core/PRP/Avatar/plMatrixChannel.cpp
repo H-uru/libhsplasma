@@ -64,7 +64,7 @@ plMatrixControllerChannel::~plMatrixControllerChannel()
 void plMatrixControllerChannel::read(hsStream* S, plResManager* mgr)
 {
     plAGChannel::read(S, mgr);
-    fController = plController::Convert(mgr->ReadCreatable(S));
+    fController = mgr->ReadCreatableC<plController>(S);
     fAP.read(S);
 }
 
@@ -93,7 +93,7 @@ void plMatrixControllerChannel::IPrcParse(const pfPrcTag* tag, plResManager* mgr
 {
     if (tag->getName() == "Controller") {
         if (tag->hasChildren())
-            fController = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+            fController = mgr->prcParseCreatableC<plController>(tag->getFirstChild());
     } else if (tag->getName() == "AffineParts") {
         if (tag->hasChildren())
             fAP.prcParse(tag->getFirstChild());

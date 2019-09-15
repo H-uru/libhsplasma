@@ -34,8 +34,8 @@ void plAGAnim::read(hsStream* S, plResManager* mgr)
     clearApplicators();
     fApps.resize(S->readInt());
     for (size_t i=0; i<fApps.size(); i++) {
-        plAGApplicator* agApp = plAGApplicator::Convert(mgr->ReadCreatable(S));
-        plAGChannel* agChan = plAGChannel::Convert(mgr->ReadCreatable(S));
+        auto agApp = mgr->ReadCreatableC<plAGApplicator>(S);
+        auto agChan = mgr->ReadCreatableC<plAGChannel>(S);
         agApp->setChannel(agChan);
         fApps[i] = agApp;
     }
@@ -108,10 +108,10 @@ void plAGAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
             while (subChild) {
                 if (subChild->getName() == "Applicator") {
                     if (subChild->hasChildren())
-                        agApp = plAGApplicator::Convert(mgr->prcParseCreatable(subChild->getFirstChild()));
+                        agApp = mgr->prcParseCreatableC<plAGApplicator>(subChild->getFirstChild());
                 } else if (subChild->getName() == "Channel") {
                     if (subChild->hasChildren())
-                        agChan = plAGChannel::Convert(mgr->prcParseCreatable(subChild->getFirstChild()));
+                        agChan = mgr->prcParseCreatableC<plAGChannel>(subChild->getFirstChild());
                 } else {
                     throw pfPrcTagException(__FILE__, __LINE__, subChild->getName());
                 }

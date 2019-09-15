@@ -31,7 +31,7 @@ void plAvBrainGeneric::read(hsStream* S, plResManager* mgr)
     clearStages();
     fStages.resize(S->readInt());
     for (size_t i=0; i<fStages.size(); i++) {
-        fStages[i] = plAnimStage::Convert(mgr->ReadCreatable(S));
+        fStages[i] = mgr->ReadCreatableC<plAnimStage>(S);
         fStages[i]->readAux(S);
     }
 
@@ -42,12 +42,12 @@ void plAvBrainGeneric::read(hsStream* S, plResManager* mgr)
     fForward = S->readBool();
 
     if (S->readBool())
-        setStartMessage(plMessage::Convert(mgr->ReadCreatable(S)));
+        setStartMessage(mgr->ReadCreatableC<plMessage>(S));
     else
         setStartMessage(nullptr);
 
     if (S->readBool())
-        setEndMessage(plMessage::Convert(mgr->ReadCreatable(S)));
+        setEndMessage(mgr->ReadCreatableC<plMessage>(S));
     else
         setEndMessage(nullptr);
 
@@ -177,13 +177,13 @@ void plAvBrainGeneric::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         if (tag->getParam("NULL", "False").to_bool()) {
             setStartMessage(nullptr);
         } else if (tag->hasChildren()) {
-            setStartMessage(plMessage::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+            setStartMessage(mgr->prcParseCreatableC<plMessage>(tag->getFirstChild()));
         }
     } else if (tag->getName() == "EndMessage") {
         if (tag->getParam("NULL", "False").to_bool()) {
             setEndMessage(nullptr);
         } else if (tag->hasChildren()) {
-            setEndMessage(plMessage::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+            setEndMessage(mgr->prcParseCreatableC<plMessage>(tag->getFirstChild()));
         }
     } else if (tag->getName() == "Recipient") {
         if (tag->hasChildren())

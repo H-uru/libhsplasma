@@ -21,8 +21,10 @@
 #include <mutex>
 
 #include "PlasmaDefs.h"
+#include "Debug/plDebug.h"
 #include "Util/PlasmaVersions.h"
 #include "PRP/KeyedObject/plLocation.h"
+#include "PRP/plCreatable.h"
 #include "pdUnifiedTypeMap.h"
 #include "Stream/pfPrcHelper.h"
 #include "plKeyCollector.h"
@@ -175,7 +177,7 @@ public:
      * \return a pointer to the plPageInfo describing the page.
      * \sa ReadPageRaw(), ReadPagePrc(), ReadAge(), ReadAgePrc()
      */
-    plPageInfo* ReadPage(hsStream* prxS, hsStream* prmS = NULL, bool stub = false);
+    plPageInfo* ReadPage(hsStream* prxS, hsStream* prmS = nullptr, bool stub = false);
 
     /**
      * Parse a page from a PRC data source, and register it with the ResManager.
@@ -271,20 +273,70 @@ public:
      * \return The plCreatable object.
      * \sa WriteCreatable(), prcParseCreatable()
      */
-    class plCreatable* ReadCreatable(hsStream* S, bool canStub = false, int stubLen = 0);
+    plCreatable* ReadCreatable(hsStream* S, bool canStub = false, int stubLen = 0);
+
+    /**
+     * Read a plCreatable from the stream.  This will be converted to the
+     * specified subclass if compatible.  If the read creatable is non-null
+     * but is not compatible with the expected type, this will print a
+     * warning.
+     * \param canStub Specifies whether an unsupported ClassIndex can be
+     *        made into a plCreatableStub without disrupting the stream.
+     * \param stubLen Specifies the size of the plCreatable for stubs
+     *        This only makes sense if canStub is true, and it MUST be
+     *        specified if canStub is true.
+     * \return The plCreatable object.
+     * \sa WriteCreatable(), prcParseCreatable()
+     */
+    template <class CreatableType>
+    CreatableType* ReadCreatableC(hsStream* S, bool canStub = false, int stubLen = 0)
+    {
+        plCreatable* pCre = ReadCreatable(S, canStub, stubLen);
+        if (!pCre)
+            return nullptr;
+
+        try {
+            return CreatableType::Convert(pCre);
+        } catch (...) {
+            delete pCre;
+            throw;
+        }
+    }
 
     /**
      * Writes a plCreatable to the stream.
      * \sa ReadCreatable(), prcParseCreatable()
      */
-    void WriteCreatable(hsStream* S, class plCreatable* pCre);
+    void WriteCreatable(hsStream* S, plCreatable* pCre);
 
     /**
      * Parse a plCreatable contained in the PRC tag.
      * \return a parsed plCreatable, or NULL if parsing failed.
      * \sa ReadCreatable(), WriteCreatable(), plCreatable::prcParse(), plCreatable::prcWrite()
      */
-    class plCreatable* prcParseCreatable(const pfPrcTag* tag);
+    plCreatable* prcParseCreatable(const pfPrcTag* tag);
+
+    /**
+     * Parse a plCreatable contained in the PRC tag, and convert it to the
+     * requested type.
+     * \return a parsed Creatable, or NULL if parsing failed.
+     * \sa ReadCreatable(), WriteCreatable(), plCreatable::prcParse(), plCreatable::prcWrite()
+     */
+    template <class CreatableType>
+    CreatableType* prcParseCreatableC(const pfPrcTag* tag)
+    {
+        plCreatable* pCre = prcParseCreatable(tag);
+        if (!pCre)
+            return nullptr;
+
+        try {
+            return CreatableType::Convert(pCre);
+        } catch (...) {
+            delete pCre;
+            throw;
+        }
+    }
+
 
     /**
      * Finds the plSceneNode associated with the page at loc.  If there is

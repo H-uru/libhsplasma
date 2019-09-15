@@ -17,7 +17,6 @@
 #ifndef _PLANIMTIMECONVERT_H
 #define _PLANIMTIMECONVERT_H
 
-#include "PRP/plCreatable.h"
 #include "PRP/Message/plEventCallbackMsg.h"
 #include "plATCEaseCurves.h"
 

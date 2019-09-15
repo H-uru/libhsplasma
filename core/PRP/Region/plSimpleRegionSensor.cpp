@@ -27,8 +27,8 @@ void plSimpleRegionSensor::read(hsStream* S, plResManager* mgr)
 {
     plSingleModifier::read(S, mgr);
 
-    setEnterMsg(S->readBool() ? plMessage::Convert(mgr->ReadCreatable(S)) : NULL);
-    setExitMsg(S->readBool() ? plMessage::Convert(mgr->ReadCreatable(S)) : NULL);
+    setEnterMsg(S->readBool() ? mgr->ReadCreatableC<plMessage>(S) : nullptr);
+    setExitMsg(S->readBool() ? mgr->ReadCreatableC<plMessage>(S) : nullptr);
 }
 
 void plSimpleRegionSensor::write(hsStream* S, plResManager* mgr)
@@ -79,12 +79,12 @@ void plSimpleRegionSensor::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         if (tag->getParam("NULL", "false").to_bool())
             setEnterMsg(nullptr);
         else if (tag->hasChildren())
-            setEnterMsg(plMessage::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+            setEnterMsg(mgr->prcParseCreatableC<plMessage>(tag->getFirstChild()));
     } else if (tag->getName() == "ExitMsg") {
         if (tag->getParam("NULL", "false").to_bool())
             setExitMsg(nullptr);
         else if (tag->hasChildren())
-            setExitMsg(plMessage::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+            setExitMsg(mgr->prcParseCreatableC<plMessage>(tag->getFirstChild()));
     } else {
         plSingleModifier::IPrcParse(tag, mgr);
     }

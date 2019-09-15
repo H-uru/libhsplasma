@@ -62,7 +62,7 @@ void plResponderModifier::read(hsStream* S, plResManager* mgr)
         fStates[i]->fSwitchToState = S->readByte();
         fStates[i]->fCmds.resize(S->readByte());
         for (size_t j=0; j<fStates[i]->fCmds.size(); j++) {
-            plMessage* msg = plMessage::Convert(mgr->ReadCreatable(S));
+            auto msg = mgr->ReadCreatableC<plMessage>(S);
             int8_t waitOn = S->readByte();
             fStates[i]->fCmds[j] = new plResponderCmd(msg, waitOn);
             if (msg == nullptr)
@@ -187,7 +187,7 @@ void plResponderModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
                             if (subChild->getName() == "WaitOn") {
                                 waitOn = subChild->getParam("value", "-1").to_int();
                             } else {
-                                msg = plMessage::Convert(mgr->prcParseCreatable(subChild));
+                                msg = mgr->prcParseCreatableC<plMessage>(subChild);
                             }
                             subChild = subChild->getNextSibling();
                         }

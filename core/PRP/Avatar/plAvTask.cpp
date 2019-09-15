@@ -112,7 +112,7 @@ plAvTaskBrain::~plAvTaskBrain()
 
 void plAvTaskBrain::read(hsStream* S, plResManager* mgr)
 {
-    setBrain(plArmatureBrain::Convert(mgr->ReadCreatable(S)));
+    setBrain(mgr->ReadCreatableC<plArmatureBrain>(S));
 }
 
 void plAvTaskBrain::write(hsStream* S, plResManager* mgr)
@@ -139,7 +139,7 @@ void plAvTaskBrain::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         if (tag->getParam("NULL", "false").to_bool())
             setBrain(nullptr);
         else if (tag->hasChildren())
-            setBrain(plArmatureBrain::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+            setBrain(mgr->prcParseCreatableC<plArmatureBrain>(tag->getFirstChild()));
     } else {
         plCreatable::IPrcParse(tag, mgr);
     }

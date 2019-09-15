@@ -24,7 +24,7 @@ plBoundInterface::~plBoundInterface()
 void plBoundInterface::read(hsStream* S, plResManager* mgr)
 {
     plObjInterface::read(S, mgr);
-    setBounds(plConvexVolume::Convert(mgr->ReadCreatable(S)));
+    setBounds(mgr->ReadCreatableC<plConvexVolume>(S));
 }
 
 void plBoundInterface::write(hsStream* S, plResManager* mgr)
@@ -46,7 +46,7 @@ void plBoundInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
 {
     if (tag->getName() == "Bounds") {
         if (tag->hasChildren())
-            setBounds(plConvexVolume::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+            setBounds(mgr->prcParseCreatableC<plConvexVolume>(tag->getFirstChild()));
     } else {
         plObjInterface::IPrcParse(tag, mgr);
     }

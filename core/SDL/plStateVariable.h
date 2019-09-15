@@ -24,6 +24,7 @@
 #include "Sys/hsColor.h"
 #include "Sys/plUnifiedTime.h"
 #include "PRP/plCreatable.h"
+#include "PRP/KeyedObject/plUoid.h"
 
 class PLASMA_DLL plStateVarNotificationInfo
 {
