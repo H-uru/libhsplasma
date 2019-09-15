@@ -46,7 +46,7 @@ public:
 
     const std::vector<plKey>& getRegions() const { return fRegions; }
     std::vector<plKey>& getRegions() { return fRegions; }
-    void addRegion(plKey obj) { fRegions.push_back(obj); }
+    void addRegion(plKey obj) { fRegions.emplace_back(std::move(obj)); }
     void delRegion(size_t idx) { fRegions.erase(fRegions.begin() + idx); }
     void clearRegions() { fRegions.clear(); }
 };

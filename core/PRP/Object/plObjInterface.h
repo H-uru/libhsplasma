@@ -49,7 +49,7 @@ public:
     void setProperty(size_t prop, bool value) { fProps.set(prop, value); }
 
     plKey getOwner() const { return fOwner; }
-    void setOwner(plKey owner) { fOwner = owner; }
+    void setOwner(plKey owner) { fOwner = std::move(owner); }
 };
 
 #endif

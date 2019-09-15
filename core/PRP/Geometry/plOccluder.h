@@ -50,7 +50,7 @@ public:
 
     void setPriority(float priority) { fPriority = priority; }
     void setWorldBounds(const hsBounds3Ext& bounds) { fWorldBounds = bounds; }
-    void setSceneNode(plKey node) { fSceneNode = node; }
+    void setSceneNode(plKey node) { fSceneNode = std::move(node); }
 
     const std::vector<plCullPoly>& getPolys() const { return fPolys; }
     std::vector<plCullPoly>& getPolys() { return fPolys; }
@@ -60,7 +60,7 @@ public:
 
     const std::vector<plKey>& getVisRegions() const { return fVisRegions; }
     std::vector<plKey>& getVisRegions() { return fVisRegions; }
-    void addVisRegion(plKey region) { fVisRegions.push_back(region); }
+    void addVisRegion(plKey region) { fVisRegions.emplace_back(std::move(region)); }
     void delVisRegion(size_t idx) { fVisRegions.erase(fVisRegions.begin() + idx); }
     void clearVisRegions() { fVisRegions.clear(); }
 };

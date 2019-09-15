@@ -36,7 +36,7 @@ protected:
 
 public:
     plKey getAudible() const { return fAudible; }
-    void setAudible(plKey audible) { fAudible = audible; }
+    void setAudible(plKey audible) { fAudible = std::move(audible); }
 };
 
 #endif

@@ -41,7 +41,8 @@ plKeyCollector::~plKeyCollector()
         plDebug::Warning("Warning: {} keys were still loaded when the ResManager was destroyed.\n", keysLeft);
 }
 
-plKey plKeyCollector::findKey(plKey match) {
+plKey plKeyCollector::findKey(const plKey& match)
+{
     plKey key;
     std::vector<plKey> kList = getKeys(match->getLocation(), match->getType());
     for (unsigned int i=0; i < kList.size(); i++) {
@@ -53,13 +54,15 @@ plKey plKeyCollector::findKey(plKey match) {
     return key;
 }
 
-void plKeyCollector::add(plKey key) {
+void plKeyCollector::add(const plKey& key)
+{
     keys[key->getLocation()][key->getType()].push_back(key);
     if (key->getID() == 0)
         key->setID(keys[key->getLocation()][key->getType()].size());
 }
 
-void plKeyCollector::del(plKey key) {
+void plKeyCollector::del(const plKey& key)
+{
     std::vector<plKey>& keyList = keys[key->getLocation()][key->getType()];
     std::vector<plKey>::iterator it = keyList.begin();
     size_t sub = 0;
@@ -245,7 +248,8 @@ void plKeyCollector::ChangeLocation(const plLocation& from, const plLocation& to
     keys.erase(keys.find(from));
 }
 
-void plKeyCollector::MoveKey(plKey key, const plLocation& to) {
+void plKeyCollector::MoveKey(const plKey& key, const plLocation& to)
+{
     std::vector<plKey>& keyList = keys[key->getLocation()][key->getType()];
     std::vector<plKey>::iterator it = keyList.begin();
     size_t sub = 0;

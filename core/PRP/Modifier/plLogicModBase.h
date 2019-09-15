@@ -49,8 +49,8 @@ protected:
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
-    const std::vector<plMessage*> getCommands() const { return fCommandList; }
-    std::vector<plMessage*> getCommands() { return fCommandList; }
+    const std::vector<plMessage*>& getCommands() const { return fCommandList; }
+    std::vector<plMessage*>& getCommands() { return fCommandList; }
     void addCommand(plMessage* cmd) { fCommandList.push_back(cmd); }
     void delCommand(size_t idx);
     void clearCommands();

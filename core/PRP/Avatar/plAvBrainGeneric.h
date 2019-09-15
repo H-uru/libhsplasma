@@ -112,7 +112,7 @@ public:
     void setFadeOut(float fade) { fFadeOut = fade; }
     void setMoveMode(MoveMode mode) { fMoveMode = mode; }
     void setBodyUsage(plAGAnim::BodyUsage usage) { fBodyUsage = usage; }
-    void setRecipient(plKey recp) { fRecipient = recp; }
+    void setRecipient(plKey recp) { fRecipient = std::move(recp); }
     void setStartMessage(plMessage* msg);
     void setEndMessage(plMessage* msg);
 };

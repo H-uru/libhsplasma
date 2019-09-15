@@ -37,7 +37,7 @@ protected:
 public:
     const std::vector<plKey>& getForwardKeys() const { return fForwardKeys; }
     std::vector<plKey>& getForwardKeys() { return fForwardKeys; }
-    void addForwardKey(plKey fwd) { fForwardKeys.push_back(fwd); }
+    void addForwardKey(plKey fwd) { fForwardKeys.emplace_back(std::move(fwd)); }
     void delForwardKey(size_t idx) { fForwardKeys.erase(fForwardKeys.begin() + idx); }
     void clearForwardKeys() { fForwardKeys.clear(); }
 };

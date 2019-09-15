@@ -135,9 +135,9 @@ public:
     void setDesiredVolume(float vol) { fDesiredVol = vol; }
     void setFadedVolume(float vol) { fFadedVolume = vol; }
     void setProperties(unsigned int props) { fProperties = props; }
-    void setSoftRegion(plKey region) { fSoftRegion = region; }
-    void setSoftOcclusionRegion(plKey region) { fSoftOcclusionRegion = region; }
-    void setDataBuffer(plKey buffer) { fDataBuffer = buffer; }
+    void setSoftRegion(plKey region) { fSoftRegion = std::move(region); }
+    void setSoftOcclusionRegion(plKey region) { fSoftOcclusionRegion = std::move(region); }
+    void setDataBuffer(plKey buffer) { fDataBuffer = std::move(buffer); }
     void setSubtitleId(const ST::string& subtitle) { fSubtitleId = subtitle; }
 
     const plEAXSourceSettings& getEAXSettings() const { return fEAXSettings; }

@@ -42,7 +42,7 @@ public:
     plKey getSwimRegion() const { return fSwimRegion; }
 
     void setIsEntering(bool entering) { fIsEntering = entering; }
-    void setSwimRegion(const plKey& region) { fSwimRegion = region; }
+    void setSwimRegion(plKey region) { fSwimRegion = std::move(region); }
 };
 
 #endif

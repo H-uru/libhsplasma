@@ -87,7 +87,7 @@ public:
     void setPullFarDistSq(float distSq) { fPullFarDistSq = distSq; }
     void setPullNearVel(float vel) { fPullNearVel = vel; }
     void setPullFarVel(float vel) { fPullFarVel = vel; }
-    void setCurrentObj(const plKey& currentObj) { fCurrentObj = currentObj; }
+    void setCurrentObj(plKey currentObj) { fCurrentObj = std::move(currentObj); }
 };
 
 
@@ -123,7 +123,7 @@ public:
     void setFarDist(float dist) { fFarDist = dist; }
     void setNearVel(float vel) { fNearVel = vel; }
     void setFarVel(float vel) { fFarVel = vel; }
-    void setCurrentObj(const plKey& currentObj) { fCurrentObj = currentObj; }
+    void setCurrentObj(plKey currentObj) { fCurrentObj = std::move(currentObj); }
 };
 
 #endif

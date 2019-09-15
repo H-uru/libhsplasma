@@ -62,7 +62,7 @@ public:
 
     size_t getTargetsCount() const HS_OVERRIDE { return fTarget.Exists() ? 1 : 0; }
     plKey getTarget(size_t /*pos*/) const HS_OVERRIDE { return fTarget; }
-    void addTarget(plKey target) HS_OVERRIDE { fTarget = target; };
+    void addTarget(plKey target) HS_OVERRIDE { fTarget = std::move(target); };
     void removeTarget(const plKey& /*target*/) HS_OVERRIDE { fTarget = plKey(); }
 };
 
@@ -89,7 +89,7 @@ public:
 
     size_t getTargetsCount() const HS_OVERRIDE { return fTargets.size(); }
     plKey getTarget(size_t pos) const HS_OVERRIDE { return fTargets[pos]; };
-    void addTarget(plKey target) HS_OVERRIDE { fTargets.push_back(target); };
+    void addTarget(plKey target) HS_OVERRIDE { fTargets.emplace_back(std::move(target)); };
     void removeTarget(const plKey& target) HS_OVERRIDE;
 };
 

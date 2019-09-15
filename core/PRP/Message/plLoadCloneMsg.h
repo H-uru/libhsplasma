@@ -55,8 +55,8 @@ public:
     unsigned int getOriginatingPlayerID() const { return fOriginatingPlayerID; }
     plMessage* getTriggerMsg() const { return fTriggerMsg; }
 
-    void setCloneKey(plKey key) { fCloneKey = key; }
-    void setRequestor(plKey key) { fRequestorKey = key; }
+    void setCloneKey(plKey key) { fCloneKey = std::move(key); }
+    void setRequestor(plKey key) { fRequestorKey = std::move(key); }
     void setValidMsg(unsigned char validMsg) { fValidMsg = validMsg; }
     void setIsLoading(unsigned char isLoading) { fIsLoading = isLoading; }
     void setUserData(unsigned int userData) { fUserData = userData; }

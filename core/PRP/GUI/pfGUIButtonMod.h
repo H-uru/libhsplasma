@@ -45,13 +45,13 @@ protected:
 public:
     const std::vector<plKey>& getAnimationKeys() const { return fAnimationKeys; }
     std::vector<plKey>& getAnimationKeys() { return fAnimationKeys; }
-    void addAnimationKey(plKey key) { fAnimationKeys.push_back(key); }
+    void addAnimationKey(plKey key) { fAnimationKeys.emplace_back(std::move(key)); }
     void delAnimationKey(size_t idx) { fAnimationKeys.erase(fAnimationKeys.begin() + idx); }
     void clearAnimationKeys() { fAnimationKeys.clear(); }
 
     const std::vector<plKey>& getMouseOverKeys() const { return fMouseOverAnimKeys; }
     std::vector<plKey>& getMouseOverKeys() { return fMouseOverAnimKeys; }
-    void addMouseOverKey(plKey key) { fMouseOverAnimKeys.push_back(key); }
+    void addMouseOverKey(plKey key) { fMouseOverAnimKeys.emplace_back(std::move(key)); }
     void delMouseOverKey(size_t idx) { fMouseOverAnimKeys.erase(fMouseOverAnimKeys.begin() + idx); }
     void clearMouseOverKeys() { fMouseOverAnimKeys.clear(); }
 
@@ -62,7 +62,7 @@ public:
 
     void setAnimationName(const ST::string& name) { fAnimName = name; }
     void setMouseOverAnimName(const ST::string& name) { fMouseOverAnimName = name; }
-    void setDraggable(plKey draggable) { fDraggable = draggable; }
+    void setDraggable(plKey draggable) { fDraggable = std::move(draggable); }
     void setNotifyType(int type) { fNotifyType = type; }
 };
 

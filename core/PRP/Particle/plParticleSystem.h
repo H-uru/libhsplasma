@@ -83,7 +83,7 @@ public:
     plController* getWidthCtl() const { return fWidthCtl; }
     plController* getHeightCtl() const { return fHeightCtl; }
 
-    void setMaterial(const plKey& mat) { fMaterial = mat; }
+    void setMaterial(plKey mat) { fMaterial = std::move(mat); }
     void setTiles(uint32_t xtiles, uint32_t ytiles) { fXTiles = xtiles; fYTiles = ytiles; }
     void setXTiles(uint32_t xtiles) { fXTiles = xtiles; }
     void setYTiles(uint32_t ytiles) { fYTiles = ytiles; }
@@ -109,25 +109,25 @@ public:
 
     const std::vector<plKey>& getForces() const { return fForces; }
     std::vector<plKey>& getForces() { return fForces; }
-    void addForce(plKey force) { fForces.push_back(force); }
+    void addForce(plKey force) { fForces.emplace_back(std::move(force)); }
     void delForce(size_t idx) { fForces.erase(fForces.begin() + idx); }
     void clearForces() { fForces.clear(); }
 
     const std::vector<plKey>& getEffects() const { return fEffects; }
     std::vector<plKey>& getEffects() { return fEffects; }
-    void addEffect(plKey force) { fEffects.push_back(force); }
+    void addEffect(plKey force) { fEffects.emplace_back(std::move(force)); }
     void delEffect(size_t idx) { fEffects.erase(fEffects.begin() + idx); }
     void clearEffects() { fEffects.clear(); }
 
     const std::vector<plKey>& getConstraints() const { return fConstraints; }
     std::vector<plKey>& getConstraints() { return fConstraints; }
-    void addConstraint(plKey force) { fConstraints.push_back(force); }
+    void addConstraint(plKey force) { fConstraints.emplace_back(std::move(force)); }
     void delConstraint(size_t idx) { fConstraints.erase(fConstraints.begin() + idx); }
     void clearConstraints() { fConstraints.clear(); }
 
     const std::vector<plKey>& getPermaLights() const { return fPermaLights; }
     std::vector<plKey>& getPermaLights() { return fPermaLights; }
-    void addPermaLight(plKey force) { fPermaLights.push_back(force); }
+    void addPermaLight(plKey force) { fPermaLights.emplace_back(std::move(force)); }
     void delPermaLight(size_t idx) { fPermaLights.erase(fPermaLights.begin() + idx); }
     void clearPermaLights() { fPermaLights.clear(); }
 };

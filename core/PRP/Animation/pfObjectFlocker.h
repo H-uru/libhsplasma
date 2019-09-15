@@ -64,9 +64,10 @@ public:
     void setNumBoids(unsigned char boids) { fNumBoids = boids; }
     void setUseTargetRotation(bool use) { fUseTargetRotation = use; }
     void setRandomizeAnimationStart(bool randomize) { fRandomizeAnimationStart = randomize; }
-    void setBoidKey(plKey boidKey) { fBoidKey = boidKey; }
+    void setBoidKey(plKey boidKey) { fBoidKey = std::move(boidKey); }
 
     pfFlock& getFlock() { return fFlock; }
+    const pfFlock& getFlock() const { return fFlock; }
 };
 
 #endif

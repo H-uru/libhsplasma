@@ -52,7 +52,7 @@ public:
     plKey getMorphSet() const { return fMorphSet; }
     uint8_t getFlags() const { return fFlags; }
 
-    void setMorphSet(plKey set) { fMorphSet = set; }
+    void setMorphSet(plKey set) { fMorphSet = std::move(set); }
     void setFlags(uint8_t flags) { fFlags = flags; }
 
     const std::vector<plGeometrySpan*>& getSpans() const { return fSpans; }

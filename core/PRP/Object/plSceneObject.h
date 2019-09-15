@@ -45,15 +45,15 @@ public:
     plKey getAudioInterface() const { return fAudioIntf; }
     plKey getSceneNode() const { return fSceneNode; }
 
-    void setDrawInterface(plKey intf) { fDrawIntf = intf; }
-    void setSimInterface(plKey intf) { fSimIntf = intf; }
-    void setCoordInterface(plKey intf) { fCoordIntf = intf; }
-    void setAudioInterface(plKey intf) { fAudioIntf = intf; }
-    void setSceneNode(plKey node) { fSceneNode = node; }
+    void setDrawInterface(plKey intf) { fDrawIntf = std::move(intf); }
+    void setSimInterface(plKey intf) { fSimIntf = std::move(intf); }
+    void setCoordInterface(plKey intf) { fCoordIntf = std::move(intf); }
+    void setAudioInterface(plKey intf) { fAudioIntf = std::move(intf); }
+    void setSceneNode(plKey node) { fSceneNode = std::move(node); }
 
     const std::vector<plKey>& getInterfaces() const { return fInterfaces; }
     std::vector<plKey>& getInterfaces() { return fInterfaces; }
-    void addInterface(plKey intf) { fInterfaces.push_back(intf); }
+    void addInterface(plKey intf) { fInterfaces.emplace_back(std::move(intf)); }
     void delInterface(size_t idx) { fInterfaces.erase(fInterfaces.begin() + idx); }
     void clearInterfaces() { fInterfaces.clear(); }
 

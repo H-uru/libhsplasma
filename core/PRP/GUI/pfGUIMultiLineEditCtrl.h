@@ -36,7 +36,7 @@ protected:
 
 public:
     plKey getScrollCtrl() const { return fScrollCtrl; }
-    void setScrollCtrl(plKey ctrl) { fScrollCtrl = ctrl; }
+    void setScrollCtrl(plKey ctrl) { fScrollCtrl = std::move(ctrl); }
 };
 
 #endif

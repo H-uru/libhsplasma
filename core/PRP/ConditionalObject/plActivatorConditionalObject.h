@@ -38,7 +38,7 @@ protected:
 public:
     const std::vector<plKey>& getActivators() const { return fActivators; }
     std::vector<plKey>& getActivators() { return fActivators; }
-    void addActivator(plKey activator) { fActivators.push_back(activator); }
+    void addActivator(plKey activator) { fActivators.emplace_back(std::move(activator)); }
     void delActivator(size_t idx) { fActivators.erase(fActivators.begin() + idx); }
     void clearActivators() { fActivators.clear(); }
 };

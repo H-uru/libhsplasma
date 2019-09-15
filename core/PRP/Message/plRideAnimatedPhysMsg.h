@@ -42,7 +42,7 @@ public:
     plKey getRegion() const { return fRegion; }
 
     void setEntering(bool entering) { fEntering = entering; }
-    void setRegion(const plKey& region) { fRegion = region; }
+    void setRegion(plKey region) { fRegion = std::move(region); }
 };
 
 #endif

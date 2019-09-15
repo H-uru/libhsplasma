@@ -57,9 +57,9 @@ public:
     ST::string getAnimLabel() const { return fAnimLabel; }
     bool getAllOrNothing() const { return fAllOrNothing; }
 
-    void setXAnim(plKey anim) { fXAnim = anim; }
-    void setYAnim(plKey anim) { fYAnim = anim; }
-    void setNotificationKey(plKey notify) { fNotificationKey = notify; }
+    void setXAnim(plKey anim) { fXAnim = std::move(anim); }
+    void setYAnim(plKey anim) { fYAnim = std::move(anim); }
+    void setNotificationKey(plKey notify) { fNotificationKey = std::move(notify); }
     void setAnimLabel(const ST::string& label) { fAnimLabel = label; }
     void setAllOrNothing(bool value) { fAllOrNothing = value; }
     void setNotify(plNotifyMsg* msg);

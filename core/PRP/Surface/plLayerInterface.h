@@ -84,10 +84,10 @@ public:
     plKey getTexture() const { return fTexture; }
     plKey getVertexShader() const { return fVertexShader; }
     plKey getPixelShader() const { return fPixelShader; }
-    void setUnderLay(plKey layer) { fUnderLay = layer; }
-    void setTexture(plKey tex) { fTexture = tex; }
-    void setVertexShader(plKey shader) { fVertexShader = shader; }
-    void setPixelShader(plKey shader) { fPixelShader = shader; }
+    void setUnderLay(plKey layer) { fUnderLay = std::move(layer); }
+    void setTexture(plKey tex) { fTexture = std::move(tex); }
+    void setVertexShader(plKey shader) { fVertexShader = std::move(shader); }
+    void setPixelShader(plKey shader) { fPixelShader = std::move(shader); }
 
     hsMatrix44 getTransform() const { return fTransform; }
     hsMatrix44 getBumpEnvTransform() const { return fBumpEnvXfm; }

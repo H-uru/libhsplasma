@@ -40,9 +40,9 @@ public:
     plKeyCollector() { }
     ~plKeyCollector();
 
-    plKey findKey(plKey match);
-    void add(plKey key);
-    void del(plKey key);
+    plKey findKey(const plKey& match);
+    void add(const plKey& key);
+    void del(const plKey& key);
     void delAll(const plLocation& loc);
     void cleanupKeys();
     void reserveKeySpace(const plLocation& loc, short type, int num);
@@ -56,7 +56,7 @@ public:
     std::vector<plLocation> getPages();
 
     void ChangeLocation(const plLocation& from, const plLocation& to);
-    void MoveKey(plKey key, const plLocation& to);
+    void MoveKey(const plKey& key, const plLocation& to);
 };
 
 #endif

@@ -56,7 +56,7 @@ public:
         float getPOADecel() const { return fPOADecel; }
         float getPOAVelocity() const { return fPOAVelocity; }
 
-        void setTransTo(const plKey& transTo) { fTransTo = transTo; }
+        void setTransTo(plKey transTo) { fTransTo = std::move(transTo); }
         void setCutPos(bool cutPos) { fCutPos = cutPos; }
         void setCutPOA(bool cutPOA) { fCutPOA = cutPOA; }
         void setIgnore(bool ignore) { fIgnore = ignore; }
@@ -106,7 +106,7 @@ public:
 
     void setFrom(const hsVector3& from) { fFrom = from; }
     void setAt(const hsVector3& at) { fAt = at; }
-    void setBrain(const plKey& brain) { fBrain = brain; }
+    void setBrain(plKey brain) { fBrain = std::move(brain); }
     void setFOVw(float fovW) { fFOVw = fovW; }
     void setFOVh(float fovH) { fFOVh = fovH; }
     void setAnimated(bool animated) { fAnimated = animated; }
@@ -125,10 +125,10 @@ public:
         return std::make_tuple(fMessageQueue[idx], fSenderQueue[idx]);
     }
 
-    void addMessage(plMessage* msg, const plKey& sender=plKey())
+    void addMessage(plMessage* msg, plKey sender=plKey())
     {
         fMessageQueue.push_back(msg);
-        fSenderQueue.push_back(sender);
+        fSenderQueue.emplace_back(std::move(sender));
     }
 
     void delMessage(size_t idx);

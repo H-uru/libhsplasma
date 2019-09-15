@@ -105,8 +105,8 @@ public:
     plKey getHittee() const { return fHittee; }
 
     void setEnter(bool enter) { fEnter = enter; }
-    void setHitter(plKey hitter) { fHitter = hitter; }
-    void setHittee(plKey hittee) { fHittee = hittee; }
+    void setHitter(plKey hitter) { fHitter = std::move(hitter); }
+    void setHittee(plKey hittee) { fHittee = std::move(hittee); }
 };
 
 
@@ -138,8 +138,8 @@ public:
     bool isEnabled() const { return fEnabled; }
     hsVector3 getHitPoint() const { return fHitPoint; }
 
-    void setPicker(plKey picker) { fPicker = picker; }
-    void setPicked(plKey picked) { fPicked = picked; }
+    void setPicker(plKey picker) { fPicker = std::move(picker); }
+    void setPicked(plKey picked) { fPicked = std::move(picked); }
     void setEnabled(bool enabled) { fEnabled = enabled; }
     void setHitPoint(const hsVector3& point) { fHitPoint = point; }
 };
@@ -206,7 +206,7 @@ public:
     void setName(const ST::string& name) { fName = name; }
     void setDataType(int type) { fDataType = type; }
     void setNumber(float number) { fNumber = number; }
-    void setKey(plKey key) { fKey = key; }
+    void setKey(plKey key) { fKey = std::move(key); }
 };
 
 
@@ -238,8 +238,8 @@ public:
     float getDot() const { return fDot; }
     bool isEnabled() const { return fEnabled; }
 
-    void setFacer(plKey facer) { fFacer = facer; }
-    void setFacee(plKey facee) { fFacee = facee; }
+    void setFacer(plKey facer) { fFacer = std::move(facer); }
+    void setFacee(plKey facee) { fFacee = std::move(facee); }
     void setDot(float dot) { fDot = dot; }
     void setEnabled(bool enabled) { fEnabled = enabled; }
 };
@@ -271,8 +271,8 @@ public:
     plKey getContainer() const { return fContainer; }
     bool isEntering() const { return fEntering; }
 
-    void setContained(plKey contained) { fContained = contained; }
-    void setContainer(plKey container) { fContainer = container; }
+    void setContained(plKey contained) { fContained = std::move(contained); }
+    void setContainer(plKey container) { fContainer = std::move(container); }
     void setEntering(bool entering) { fEntering = entering; }
 };
 
@@ -382,7 +382,7 @@ public:
 
     void setStage(int stage) { fStage = stage; }
     void setEvent(int event) { fEvent = event; }
-    void setAvatar(plKey avatar) { fAvatar = avatar; }
+    void setAvatar(plKey avatar) { fAvatar = std::move(avatar); }
 };
 
 
@@ -407,8 +407,8 @@ public:
     plKey getSpawner() const { return fSpawner; }
     plKey getSpawnee() const { return fSpawnee; }
 
-    void setSpawner(plKey spawner) { fSpawner = spawner; }
-    void setSpawnee(plKey spawnee) { fSpawnee = spawnee; }
+    void setSpawner(plKey spawner) { fSpawner = std::move(spawner); }
+    void setSpawnee(plKey spawnee) { fSpawnee = std::move(spawnee); }
 };
 
 
@@ -480,7 +480,7 @@ public:
     int getTargetAge() const { return fTargetAge; }
     int getOfferee() const { return fOfferee; }
 
-    void setOfferer(plKey offerer) { fOfferer = offerer; }
+    void setOfferer(plKey offerer) { fOfferer = std::move(offerer); }
     void setTargetAge(int age) { fTargetAge = age; }
     void setOfferee(int offeree) { fOfferee = offeree; }
 };
@@ -532,7 +532,7 @@ protected:
 
 public:
     plKey getBlocker() const { return fBlockerKey; }
-    void setBlocker(plKey blocker) { fBlockerKey = blocker; }
+    void setBlocker(plKey blocker) { fBlockerKey = std::move(blocker); }
 };
 
 #endif

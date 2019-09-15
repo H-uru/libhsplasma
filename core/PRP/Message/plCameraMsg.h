@@ -120,8 +120,8 @@ public:
     plCameraConfig& getConfig() { return fConfig; }
     bool getActivated() const { return fActivated; }
 
-    void setNewCam(const plKey& newCam) { fNewCam = newCam; }
-    void setTriggerer(const plKey& triggerer) { fTriggerer = triggerer; }
+    void setNewCam(plKey newCam) { fNewCam = std::move(newCam); }
+    void setTriggerer(plKey triggerer) { fTriggerer = std::move(triggerer); }
     void setTransTime(double time) { fTransTime = time; }
     void setConfig(const plCameraConfig& config) { fConfig = config; }
     void setActivated(bool activated) { fActivated = activated; }

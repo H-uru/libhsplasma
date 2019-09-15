@@ -124,7 +124,7 @@ protected:
 
 public:
     plKey getBase() const { return fBase; }
-    void setBase(plKey base) { fBase = base; }
+    void setBase(plKey base) { fBase = std::move(base); }
 };
 
 #endif

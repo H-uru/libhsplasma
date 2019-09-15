@@ -76,7 +76,7 @@ public:
     plKey getSubworld() const { return fSub; }
     bool getOnExit() const { return fOnExit; }
 
-    void setSubworld(plKey subworld) { fSub = subworld; }
+    void setSubworld(plKey subworld) { fSub = std::move(subworld); }
     void setOnExit(bool onExit) { fOnExit = onExit; }
 };
 

@@ -48,7 +48,7 @@ protected:
 
 public:
     plKey getPhysical() const { return fPhysical; }
-    void setPhysical(plKey phys) { fPhysical = phys; }
+    void setPhysical(plKey phys) { fPhysical = std::move(phys); }
 };
 
 #endif

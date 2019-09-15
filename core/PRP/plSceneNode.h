@@ -39,13 +39,13 @@ protected:
 public:
     const std::vector<plKey>& getSceneObjects() const { return fSceneObjects; }
     std::vector<plKey>& getSceneObjects() { return fSceneObjects; }
-    void addSceneObject(plKey obj) { fSceneObjects.push_back(obj); }
+    void addSceneObject(plKey obj) { fSceneObjects.emplace_back(std::move(obj)); }
     void delSceneObject(size_t idx) { fSceneObjects.erase(fSceneObjects.begin() + idx); }
     void clearSceneObjects() { fSceneObjects.clear(); }
 
     const std::vector<plKey>& getPoolObjects() const { return fPoolObjects; }
     std::vector<plKey>& getPoolObjects() { return fPoolObjects; }
-    void addPoolObject(plKey obj) { fPoolObjects.push_back(obj); }
+    void addPoolObject(plKey obj) { fPoolObjects.emplace_back(std::move(obj)); }
     void delPoolObject(size_t idx) { fPoolObjects.erase(fPoolObjects.begin() + idx); }
     void clearPoolObjects() { fPoolObjects.clear(); }
 };

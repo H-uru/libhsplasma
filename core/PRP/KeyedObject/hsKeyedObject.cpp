@@ -65,7 +65,7 @@ void hsKeyedObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
 
 void hsKeyedObject::setKey(plKey key)
 {
-    myKey = key;
+    myKey = std::move(key);
     if (myKey.Exists())
         myKey->setObj(this);
 }

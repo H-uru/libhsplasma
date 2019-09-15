@@ -67,7 +67,7 @@ public:
     unsigned short getItemMargin() const { return fItemMargin; }
     unsigned short getBorderMargin() const { return fBorderMargin; }
 
-    void setTexture(plKey tex) { fTexture = tex; }
+    void setTexture(plKey tex) { fTexture = std::move(tex); }
     void setItemMargin(unsigned short margin) { fItemMargin = margin; }
     void setBorderMargin(unsigned short margin) { fBorderMargin = margin; }
 };

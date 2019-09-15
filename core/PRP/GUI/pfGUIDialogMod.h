@@ -47,7 +47,7 @@ protected:
 public:
     const std::vector<plKey>& getControls() const { return fControls; }
     std::vector<plKey>& getControls() { return fControls; }
-    void addControl(plKey ctrl) { fControls.push_back(ctrl); }
+    void addControl(plKey ctrl) { fControls.emplace_back(std::move(ctrl)); }
     void delControl(size_t idx) { fControls.erase(fControls.begin() + idx); }
     void clearControls() { fControls.clear(); }
 
@@ -62,10 +62,10 @@ public:
 
     void setTagID(unsigned int id) { fTagID = id; }
     void setVersion(unsigned int version) { fVersion = version; }
-    void setRenderMod(plKey mod) { fRenderMod = mod; }
+    void setRenderMod(plKey mod) { fRenderMod = std::move(mod); }
     void setName(const ST::string& name) { fName = name; }
-    void setProcReceiver(plKey receiver) { fProcReceiver = receiver; }
-    void setSceneNode(plKey node) { fSceneNode = node; }
+    void setProcReceiver(plKey receiver) { fProcReceiver = std::move(receiver); }
+    void setSceneNode(plKey node) { fSceneNode = std::move(node); }
 };
 
 #endif

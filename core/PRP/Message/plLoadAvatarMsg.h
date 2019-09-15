@@ -48,7 +48,7 @@ public:
     ST::string getUserStr() const { return fUserStr; }
 
     void setIsPlayer(bool isPlayer) { fIsPlayer = isPlayer; }
-    void setSpawnPoint(plKey spawnPoint) { fSpawnPoint = spawnPoint; }
+    void setSpawnPoint(plKey spawnPoint) { fSpawnPoint = std::move(spawnPoint); }
     void setUserStr(const ST::string& userStr) { fUserStr = userStr; }
 
     void setInitialTask(plAvTask* InitialTask);

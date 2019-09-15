@@ -141,7 +141,7 @@ void plSceneObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
 
 void plSceneObject::addModifier(plKey intf)
 {
-    fModifiers.push_back(intf);
+    fModifiers.emplace_back(intf);
     intf->addCallback(std::bind(&plSceneObject::addTarget, this, std::placeholders::_1));
 }
 

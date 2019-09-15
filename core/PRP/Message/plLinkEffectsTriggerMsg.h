@@ -48,8 +48,8 @@ public:
     void setInvisLevel(unsigned int level) { fInvisLevel = level; }
     void setEffects(unsigned int effects) { fEffects = effects; }
     void setLeavingAge(bool leaving) { fLeavingAge = leaving; }
-    void setLinkKey(plKey linkKey) { fLinkKey = linkKey; }
-    void setLinkInAnimKey(plKey animKey) { fLinkInAnimKey = animKey; }
+    void setLinkKey(plKey linkKey) { fLinkKey = std::move(linkKey); }
+    void setLinkInAnimKey(plKey animKey) { fLinkInAnimKey = std::move(animKey); }
 };
 
 #endif
