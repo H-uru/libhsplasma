@@ -18,7 +18,6 @@
 #define PLSHAREDMESH_H
 
 #include "PRP/KeyedObject/hsKeyedObject.h"
-#include "PRP/Object/plSceneObject.h"
 #include "plGeometrySpan.h"
 
 class PLASMA_DLL plSharedMesh : public hsKeyedObject
