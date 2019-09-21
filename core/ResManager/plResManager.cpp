@@ -636,7 +636,7 @@ unsigned int plResManager::WriteObjects(hsStream* S, const plLocation& loc)
             if (kList[j]->getObj()) {
                 try {
 #ifdef RMTRACE
-                    plDebug::Debug("  * ({}) Writing {} @ 0x{_08X}", j, kList[j].getName(),
+                    plDebug::Debug("  * ({}) Writing {} @ 0x{_08X}", j, kList[j]->getName(),
                                    kList[j]->getFileOff());
 #endif
                     WriteCreatable(S, kList[j]->getObj());
