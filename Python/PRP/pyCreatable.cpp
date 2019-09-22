@@ -17,6 +17,7 @@
 #include "pyCreatable.h"
 
 #include <PRP/plCreatable.h>
+#include <Stream/hsRAMStream.h>
 #include "Stream/pyStream.h"
 #include "ResManager/pyResManager.h"
 
@@ -104,6 +105,24 @@ PY_METHOD_VA(Creatable, write,
     Py_RETURN_NONE;
 }
 
+PY_GETSET_GETTER_DECL(Creatable, prc)
+{
+    hsRAMStream S;
+    pfPrcHelper prc(&S);
+    self->fThis->prcWrite(&prc);
+
+    return PyString_FromStringAndSize((const char*)S.data(), S.size());
+}
+
+PY_PROPERTY_SETTER_MSG(Creatable, prc, "To set the contents, you must re-create the object")
+
+PY_PROPERTY_GETSET_DECL(Creatable, prc)
+
+static PyGetSetDef pyCreatable_GetSet[] = {
+    pyCreatable_prc_getset,
+    PY_GETSET_TERMINATOR
+};
+
 static PyMethodDef pyCreatable_Methods[] = {
     pyCreatable_ClassIndex_method,
     pyCreatable_ClassIndexVer_method,
@@ -123,6 +142,7 @@ PY_PLASMA_TYPE_INIT(Creatable)
     pyCreatable_Type.tp_init = pyCreatable___init__;
     pyCreatable_Type.tp_new = pyCreatable_new;
     pyCreatable_Type.tp_methods = pyCreatable_Methods;
+    pyCreatable_Type.tp_getset = pyCreatable_GetSet;
     if (PyType_CheckAndReady(&pyCreatable_Type) < 0)
         return nullptr;
 
