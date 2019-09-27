@@ -22,6 +22,7 @@
 #include "Math/pyGeometry3.h"
 #include "Math/pyMatrix.h"
 #include "ResManager/pyResManager.h"
+#include "SDL/pySDL.h"
 #include "Stream/pyStream.h"
 #include "Sys/pyColor.h"
 #include "Util/pyBitVector.h"
@@ -456,6 +457,11 @@ PyMODINIT_FUNC initPyHSPlasma()
 
     /* Debug */
     PyModule_AddObject(module, "plDebug", Init_pyDebug_Type());
+
+    /* SDL */
+    PyModule_AddObject(module, "plSDLMgr", Init_pySDLMgr_Type());
+    PyModule_AddObject(module, "plVarDescriptor", Init_pyVarDescriptor_Type());
+    PyModule_AddObject(module, "plStateDescriptor", Init_pyStateDescriptor_Type());
 
     /* Stream */
     PyModule_AddObject(module, "hsStream", Init_pyStream_Type());

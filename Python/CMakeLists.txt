@@ -623,6 +623,15 @@ set(RESMGR_HEADERS
     ResManager/pyResManager.h
 )
 
+set(SDL_SOURCES
+    SDL/pyStateDescriptor.cpp
+    SDL/pySDLMgr.cpp
+    SDL/pyVarDescriptor.cpp
+)
+set(SDL_HEADERS
+    SDL/pySDL.h
+)
+
 set(STREAM_SOURCES
     Stream/pyEncryptedStream.cpp
     Stream/pyFileStream.cpp
@@ -680,6 +689,7 @@ add_library(PyHSPlasma SHARED
             ${PRP_SURFACE_SOURCES}  ${PRP_SURFACE_HEADERS}
             ${PRP_SOURCES}          ${PRP_HEADERS}
             ${RESMGR_SOURCES}       ${RESMGR_HEADERS}
+            ${SDL_SOURCES}          ${SDL_HEADERS}
             ${STREAM_SOURCES}       ${STREAM_HEADERS}
             ${SYS_SOURCES}          ${SYS_HEADERS}
             ${UTIL_SOURCES}         ${UTIL_HEADERS}
