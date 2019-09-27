@@ -273,7 +273,7 @@ plStateDescriptor* plSDLMgr::GetDescriptor(const ST::string& name, int version)
     plStateDescriptor* desc = nullptr;
     int hiVersion = 0;
     for (size_t i=0; i<fDescriptors.size(); i++) {
-        if (fDescriptors[i]->getName() == name) {
+        if (fDescriptors[i]->getName().compare_i(name) == 0) {
             if (version == -1 && hiVersion <= fDescriptors[i]->getVersion()) {
                 desc = fDescriptors[i];
                 hiVersion = desc->getVersion();
