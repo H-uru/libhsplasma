@@ -40,6 +40,7 @@ public:
     void ReadDescriptors(hsStream* S);
     void ClearDescriptors();
     plStateDescriptor* GetDescriptor(const ST::string& name, int version = -1);
+    std::vector<ST::string> GetDescriptorNames() const;
 
     void read(hsStream* S);
     void write(hsStream* S);

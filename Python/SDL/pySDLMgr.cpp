@@ -81,6 +81,22 @@ static PyMethodDef pySDLMgr_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
+PY_GETSET_GETTER_DECL(SDLMgr, descriptorNames)
+{
+    auto descs = self->fThis->GetDescriptorNames();
+    PyObject* tup = PyTuple_New(descs.size());
+    for (size_t i = 0; i < descs.size(); ++i)
+        PyTuple_SET_ITEM(tup, i, PyString_FromSTString(descs[i]));
+    return tup;
+}
+
+PY_PROPERTY_GETSET_RO_DECL(SDLMgr, descriptorNames);
+
+static PyGetSetDef pySDLMgr_GetSet[] = {
+    pySDLMgr_descriptorNames_getset,
+    PY_GETSET_TERMINATOR
+};
+
 PY_PLASMA_TYPE(SDLMgr, plSDLMgr, "plSDLMgr wrapper")
 
 PY_PLASMA_TYPE_INIT(SDLMgr)
@@ -89,6 +105,7 @@ PY_PLASMA_TYPE_INIT(SDLMgr)
     pySDLMgr_Type.tp_init = pySDLMgr___init__;
     pySDLMgr_Type.tp_new = pySDLMgr_new;
     pySDLMgr_Type.tp_methods = pySDLMgr_Methods;
+    pySDLMgr_Type.tp_getset = pySDLMgr_GetSet;
     if (PyType_CheckAndReady(&pySDLMgr_Type) < 0)
         return nullptr;
 

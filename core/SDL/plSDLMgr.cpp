@@ -19,6 +19,7 @@
 #include "Stream/plEncryptedStream.h"
 #include <memory>
 #include <stdarg.h>
+#include <unordered_set>
 
 /* plSDLMgr */
 plSDLMgr::~plSDLMgr()
@@ -289,6 +290,14 @@ plStateDescriptor* plSDLMgr::GetDescriptor(const ST::string& name, int version)
         }
     }
     return desc;
+}
+
+std::vector<ST::string> plSDLMgr::GetDescriptorNames() const
+{
+    std::unordered_set<ST::string, ST::hash_i, ST::equal_i> descs;
+    for (const auto& it : fDescriptors)
+        descs.insert(it->getName());
+    return std::vector<ST::string>(descs.begin(), descs.end());
 }
 
 void plSDLMgr::read(hsStream* S)
