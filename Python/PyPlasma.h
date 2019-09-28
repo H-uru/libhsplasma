@@ -26,7 +26,8 @@
 PyObject* PyString_FromSTString(const ST::string& str);
 PyObject* PyUnicode_FromSTString(const ST::string& str);
 ST::string PyAnyString_AsSTString(PyObject* str);
-#define PyAnyString_Check(ob) (PyUnicode_Check(value) || PyBytes_Check(value))
+int PyAnyString_PathDecoder(PyObject* obj, void* str);
+#define PyAnyString_Check(ob) (PyUnicode_Check(ob) || PyBytes_Check(ob))
 
 int PyType_CheckAndReady(PyTypeObject* type);
 
@@ -417,6 +418,19 @@ template <> inline size_t pyPlasma_get(PyObject* value) { return (size_t)(unsign
         return 0;                                                       \
     }
 
+#define PY_PROPERTY_WRITE_PATHLIKE(pyType, name, setter)                \
+    PY_GETSET_SETTER_DECL(pyType, name)                                 \
+    {                                                                   \
+        PY_PROPERTY_CHECK_NULL(name)                                    \
+        ST::string path;                                                \
+        if (!PyAnyString_PathDecoder(value, &path)) {                   \
+            PyErr_SetString(PyExc_TypeError, #name " expected type string or os.PathLike object"); \
+            return -1;                                                  \
+        }                                                               \
+        self->fThis->setter(path);                                      \
+        return 0;                                                       \
+    }
+
 #define PY_PROPERTY_SETTER_MSG(pyType, name, message)                   \
     PY_GETSET_SETTER_DECL(pyType, name)                                 \
     {                                                                   \
@@ -434,6 +448,11 @@ template <> inline size_t pyPlasma_get(PyObject* value) { return (size_t)(unsign
 #define PY_PROPERTY_RO(pyType, name, getter)                            \
     PY_PROPERTY_READ(pyType, name, getter)                              \
     PY_PROPERTY_GETSET_RO_DECL(pyType, name)
+
+#define PY_PROPERTY_PATHLIKE(pyType, name, getter, setter)              \
+    PY_PROPERTY_READ(pyType, name, getter)                              \
+    PY_PROPERTY_WRITE_PATHLIKE(pyType, name, setter)                    \
+    PY_PROPERTY_GETSET_DECL(pyType, name)
 
 /* Helpers for properties that have direct-access to a member, rather than
  * using getter/setter functions */

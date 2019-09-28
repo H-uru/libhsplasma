@@ -101,9 +101,9 @@ static PyMethodDef pyPageInfo_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_PROPERTY(ST::string, PageInfo, age, getAge, setAge)
+PY_PROPERTY_PATHLIKE(PageInfo, age, getAge, setAge)
 PY_PROPERTY_RO(PageInfo, chapter, getChapter)
-PY_PROPERTY(ST::string, PageInfo, page, getPage, setPage)
+PY_PROPERTY_PATHLIKE(PageInfo, page, getPage, setPage)
 PY_PROPERTY(unsigned int, PageInfo, releaseVersion, getReleaseVersion, setReleaseVersion)
 PY_PROPERTY(unsigned int, PageInfo, flags, getFlags, setFlags)
 PY_PROPERTY(plLocation, PageInfo, location, getLocation, setLocation)

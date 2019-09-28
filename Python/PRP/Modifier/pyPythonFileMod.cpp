@@ -101,7 +101,7 @@ PY_GETSET_GETTER_DECL(PythonFileMod, parameters)
 PY_PROPERTY_SETTER_MSG(PythonFileMod, parameters, "To add parameters, use addParameter")
 PY_PROPERTY_GETSET_DECL(PythonFileMod, parameters)
 
-PY_PROPERTY(ST::string, PythonFileMod, filename, getFilename, setFilename)
+PY_PROPERTY_PATHLIKE(PythonFileMod, filename, getFilename, setFilename)
 
 static PyGetSetDef pyPythonFileMod_GetSet[] = {
     pyPythonFileMod_filename_getset,

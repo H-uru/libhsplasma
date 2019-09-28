@@ -22,7 +22,7 @@
 
 PY_PLASMA_NEW(LayerMovie, plLayerMovie)
 
-PY_PROPERTY(ST::string, LayerMovie, movieName, getMovieName, setMovieName)
+PY_PROPERTY_PATHLIKE(LayerMovie, movieName, getMovieName, setMovieName)
 
 static PyGetSetDef pyLayerMovie_GetSet[] = {
     pyLayerMovie_movieName_getset,

@@ -161,11 +161,11 @@ PY_METHOD_VA(ResManager, ReadPage,
     "Params: filename, [stub]\n"
     "Reads an entire PRP file and returns the plPageInfo for it")
 {
-    const char* filename;
+    ST::string filename;
     pyStream* prxStream;
     pyStream* prmStream = nullptr;
     int stub = false;
-    if (PyArg_ParseTuple(args, "s|i", &filename, &stub)) {
+    if (PyArg_ParseTuple(args, "O&|i", PyAnyString_PathDecoder, &filename, &stub)) {
         try {
             return pyPageInfo_FromPageInfo(self->fThis->ReadPage(filename, (stub != 0)));
         } catch (...) {
@@ -174,7 +174,7 @@ PY_METHOD_VA(ResManager, ReadPage,
         }
     } else if (PyErr_Clear(), PyArg_ParseTuple(args, "O|Oi", &prxStream, &prmStream, &stub)) {
         if (!pyStream_Check((PyObject*)prxStream) || (prmStream && !pyStream_Check((PyObject*)prmStream))) {
-            PyErr_SetString(PyExc_TypeError, "ReadPage expects a string or stream");
+            PyErr_SetString(PyExc_TypeError, "ReadPage expects a string, an hsStream, or an os.PathLike object");
             return nullptr;
         }
 
@@ -187,7 +187,7 @@ PY_METHOD_VA(ResManager, ReadPage,
             return nullptr;
         }
     } else {
-        PyErr_SetString(PyExc_TypeError, "ReadPage expects a string or stream");
+        PyErr_SetString(PyExc_TypeError, "ReadPage expects a string, an hsStream, or an os.PathLike object");
         return nullptr;
     }
 }
@@ -196,12 +196,12 @@ PY_METHOD_VA(ResManager, WritePage,
     "Params: filename, page\n"
     "Writes an entire page to a PRP file")
 {
-    const char* filename;
+    ST::string filename;
     pyStream* stream;
     pyPageInfo* page;
-    if (PyArg_ParseTuple(args, "sO", &filename, &page)) {
+    if (PyArg_ParseTuple(args, "O&O", PyAnyString_PathDecoder, &filename, &page)) {
         if (!pyPageInfo_Check((PyObject*)page)) {
-            PyErr_SetString(PyExc_TypeError, "WritePage expects string or hsStream, plPageInfo");
+            PyErr_SetString(PyExc_TypeError, "WritePage expects a string, hsStream, or os.PathLike object, and a plPageInfo");
             return nullptr;
         }
 
@@ -214,7 +214,7 @@ PY_METHOD_VA(ResManager, WritePage,
         }
     } else if (PyErr_Clear(), PyArg_ParseTuple(args, "OO", &stream, &page)) {
         if (!pyPageInfo_Check((PyObject*)page) || !pyStream_Check((PyObject*)stream)) {
-            PyErr_SetString(PyExc_TypeError, "WritePage expects string or hsStream, plPageInfo");
+            PyErr_SetString(PyExc_TypeError, "WritePage expects a string, hsStream, or os.PathLike object, and a plPageInfo");
             return nullptr;
         }
 
@@ -226,7 +226,7 @@ PY_METHOD_VA(ResManager, WritePage,
             return nullptr;
         }
     } else {
-        PyErr_SetString(PyExc_TypeError, "WritePage expects string or hsStream, plPageInfo");
+        PyErr_SetString(PyExc_TypeError, "WritePage expects a string, hsStream, or os.PathLike object, and a plPageInfo");
         return nullptr;
     }
 }
@@ -275,9 +275,9 @@ PY_METHOD_VA(ResManager, ReadAge,
     "Reads a .age file. If readPages is True, also loads all PRPs\n"
     "identified in the .age file")
 {
-    const char* filename;
+    ST::string filename;
     char readPages;
-    if (!PyArg_ParseTuple(args, "sb", &filename, &readPages)) {
+    if (!PyArg_ParseTuple(args, "O&b", PyAnyString_PathDecoder, &filename, &readPages)) {
         PyErr_SetString(PyExc_TypeError, "ReadAge expects string, bool");
         return nullptr;
     }
@@ -304,14 +304,14 @@ PY_METHOD_VA(ResManager, WriteAge,
     "Writes a plAgeInfo to the specified file\n"
     "Does NOT write any PRP files!")
 {
-    const char* filename;
+    ST::string filename;
     pyAgeInfo* age;
-    if (!PyArg_ParseTuple(args, "sO", &filename, &age)) {
-        PyErr_SetString(PyExc_TypeError, "WriteAge expects string, plAgeInfo");
+    if (!PyArg_ParseTuple(args, "O&O", PyAnyString_PathDecoder, &filename, &age)) {
+        PyErr_SetString(PyExc_TypeError, "WriteAge expects string or an os.PathLike object, plAgeInfo");
         return nullptr;
     }
     if (!pyAgeInfo_Check((PyObject*)age)) {
-        PyErr_SetString(PyExc_TypeError, "WriteAge expects string, plAgeInfo");
+        PyErr_SetString(PyExc_TypeError, "WriteAge expects string or an os.PathLike object, plAgeInfo");
         return nullptr;
     }
     try {

@@ -44,9 +44,9 @@ PY_METHOD_STATIC_VA(Debug, InitFile,
     "Initialize the debug logger to a file output")
 {
     int level = plDebug::kDLWarning;
-    const char* filename = "Plasma.log";
-    if (!PyArg_ParseTuple(args, "|is", &level, &filename)) {
-        PyErr_SetString(PyExc_TypeError, "InitFile expects int, string");
+    ST::string filename = ST_LITERAL("Plasma.log");
+    if (!PyArg_ParseTuple(args, "|iO&", &level, PyAnyString_PathDecoder, &filename)) {
+        PyErr_SetString(PyExc_TypeError, "InitFile expects int, string (or an os.PathLike object)");
         return nullptr;
     }
     plDebug::InitFile(level, filename);

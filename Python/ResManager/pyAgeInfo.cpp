@@ -28,11 +28,12 @@ PY_METHOD_VA(AgeInfo, readFromFile,
     "Params: filename\n"
     "Reads the AgeInfo from a .age file")
 {
-    const char* filename;
-    if (!PyArg_ParseTuple(args, "s", &filename)) {
-        PyErr_SetString(PyExc_TypeError, "readFromFile expects a string");
+    ST::string filename;
+    if (!PyArg_ParseTuple(args, "O&", PyAnyString_PathDecoder, &filename)) {
+        PyErr_SetString(PyExc_TypeError, "readFromFile expects a string or an os.PathLike object");
         return nullptr;
     }
+
     try {
         self->fThis->readFromFile(filename);
         Py_RETURN_NONE;
@@ -59,10 +60,10 @@ PY_METHOD_VA(AgeInfo, writeToFile,
     "Params: filename, version\n"
     "Write the AgeInfo to a .age file")
 {
-    const char* filename;
+    ST::string filename;
     int version;
-    if (!PyArg_ParseTuple(args, "si", &filename, &version)) {
-        PyErr_SetString(PyExc_TypeError, "writeToFile expects string, int");
+    if (!PyArg_ParseTuple(args, "O&i", PyAnyString_PathDecoder, &filename, &version)) {
+        PyErr_SetString(PyExc_TypeError, "writeToFile expects string or an os.PathLike object, int");
         return nullptr;
     }
     try {
@@ -258,7 +259,7 @@ static PyMethodDef pyAgeInfo_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_PROPERTY(ST::string, AgeInfo, name, getAgeName, setAgeName)
+PY_PROPERTY_PATHLIKE(AgeInfo, name, getAgeName, setAgeName)
 PY_PROPERTY(unsigned int, AgeInfo, startDateTime, getStartDateTime, setStartDateTime)
 PY_PROPERTY(float, AgeInfo, dayLength, getDayLength, setDayLength)
 PY_PROPERTY(short, AgeInfo, maxCapacity, getMaxCapacity, setMaxCapacity)

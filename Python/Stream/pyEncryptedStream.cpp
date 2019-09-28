@@ -26,14 +26,13 @@ PY_METHOD_VA(EncryptedStream, open,
     "Mode is: fmRead, fmWrite, fmReadWrite, fmCreate\n"
     "Encryption is: kEncNone, kEncXtea, kEncAES, kEncDroid, kEncAuto")
 {
-    const char* filename;
+    ST::string filename;
     pyStream* stream;
     int mode, encryption;
 
-    if (PyArg_ParseTuple(args, "sii", &filename, &mode, &encryption)) {
+    if (PyArg_ParseTuple(args, "O&ii", PyAnyString_PathDecoder, &filename, &mode, &encryption)) {
         try {
-            if (!self->fThis->open(filename, (FileMode)mode,
-                                   (plEncryptedStream::EncryptionType)encryption)) {
+            if (!self->fThis->open(filename, (FileMode)mode, (plEncryptedStream::EncryptionType)encryption)) {
                 PyErr_SetString(PyExc_IOError, "Error opening file");
                 return nullptr;
             }
@@ -45,7 +44,7 @@ PY_METHOD_VA(EncryptedStream, open,
         }
     } else if (PyErr_Clear(), PyArg_ParseTuple(args, "Oii", &stream, &mode, &encryption)) {
         if (!pyStream_Check((PyObject*)stream)) {
-            PyErr_SetString(PyExc_TypeError, "open expects string or stream, int, int");
+            PyErr_SetString(PyExc_TypeError, "open expects a string, hsStream stream, or an os.PathLike object, an int, and an int");
             return nullptr;
         }
 
@@ -62,7 +61,7 @@ PY_METHOD_VA(EncryptedStream, open,
             return nullptr;
         }
     } else {
-        PyErr_SetString(PyExc_TypeError, "open expects string or stream, int, int");
+        PyErr_SetString(PyExc_TypeError, "open expects a string, hsStream stream, or an os.PathLike object, an int, and an int");
         return nullptr;
     }
 }
@@ -108,9 +107,9 @@ PY_METHOD_STATIC_VA(EncryptedStream, IsFileEncrypted,
     "Params: filename\n"
     "Tests whether the specified file is encrypted")
 {
-    const char* filename;
-    if (!PyArg_ParseTuple(args, "s", &filename)) {
-        PyErr_SetString(PyExc_TypeError, "IsFileEncrypted expects a string");
+    ST::string filename;
+    if (!PyArg_ParseTuple(args, "O&", PyAnyString_PathDecoder, &filename)) {
+        PyErr_SetString(PyExc_TypeError, "IsFileEncrypted expects a string or an os.PathLike object");
         return nullptr;
     }
     return pyPlasma_convert(plEncryptedStream::IsFileEncrypted(filename));
