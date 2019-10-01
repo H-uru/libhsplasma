@@ -262,7 +262,7 @@ PY_METHOD_NOARGS(Mipmap, isAlphaJPEG,
 
 PY_METHOD_VA(Mipmap, DecompressImage,
     "Params: level\n"
-    "Deompresses the specified mip level and returns the uncompressed RGBA buffer")
+    "Decompresses the specified mip level and returns the uncompressed RGBA buffer")
 {
     int level;
     if (!PyArg_ParseTuple(args, "i", &level)) {
