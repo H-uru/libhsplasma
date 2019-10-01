@@ -263,7 +263,7 @@ int main(int argc, char* argv[])
         ST::string pattern = ST::format("{}*.po", getOutputDir(filename, page));
         WIN32_FIND_DATAW fd;
         HANDLE fr = FindFirstFileW(pattern.to_wchar().data(), &fd);
-        if (fr) {
+        if (fr != INVALID_HANDLE_VALUE) {
             do {
                 ST::string po_file = getOutputDir(filename, page) + fd.cFileName;
                 inFiles.push_back(po_file);
