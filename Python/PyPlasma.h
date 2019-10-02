@@ -252,10 +252,20 @@ PyObject* PyPlasmaValue_new(PyTypeObject* type, ArgsT&&... args)
     static PyObject* (*py##pyType##_repr)(PyObject*) = (reprfunc)py##pyType##_repr_impl; \
     PyObject* py##pyType##_repr_impl(py##pyType* self)
 
+#define PY_PLASMA_STR_DECL(pyType)                                      \
+    static PyObject* py##pyType##_str_impl(py##pyType*);                \
+    static PyObject* (*py##pyType##_str)(PyObject*) = (reprfunc)py##pyType##_str_impl; \
+    PyObject* py##pyType##_str_impl(py##pyType* self)
+
 #define PY_PLASMA_HASH_DECL(pyType)                                     \
     static Py_hash_t py##pyType##_hash_impl(py##pyType*);                    \
     static Py_hash_t (*py##pyType##_hash)(PyObject*) = (hashfunc)py##pyType##_hash_impl; \
     Py_hash_t py##pyType##_hash_impl(py##pyType* self)
+
+#define PY_PLASMA_LENGTH_DECL(pyType)                                   \
+    static Py_ssize_t py##pyType##_length_impl(py##pyType*);            \
+    static Py_ssize_t (*py##pyType##_length)(PyObject*) = (lenfunc)py##pyType##_length_impl; \
+    Py_ssize_t py##pyType##_length_impl(py##pyType* self)
 
 #define PY_PLASMA_RICHCOMPARE_DECL(pyType)                              \
     static PyObject* py##pyType##_richcompare_impl(py##pyType*, py##pyType*, int); \
