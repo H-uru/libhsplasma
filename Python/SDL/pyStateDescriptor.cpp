@@ -108,7 +108,7 @@ PY_METHOD_VA(StateDescriptor, delVariable,
 {
     Py_ssize_t idx;
     if (PyArg_ParseTuple(args, "n", &idx)) {
-        if (self->fThis->getNumVars() <= idx) {
+        if (self->fThis->getNumVars() <= size_t(idx)) {
             PyErr_SetNone(PyExc_IndexError);
             return nullptr;
         }

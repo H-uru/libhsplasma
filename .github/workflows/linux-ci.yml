@@ -1,0 +1,26 @@
+name: Linux-CI
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python_ver: [2.7, 3.6]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Build string_theory
+        run: |
+          mkdir -p build_deps && cd build_deps
+          git clone https://github.com/zrax/string_theory
+          mkdir -p string_theory/build && cd string_theory/build
+          cmake -DCMAKE_BUILD_TYPE=Debug -DST_BUILD_TESTS=OFF \
+            -DCMAKE_INSTALL_PREFIX="${GITHUB_WORKSPACE}/build_deps/prefix" ..
+          make -j2 && make install
+      - name: Build libhsplasma
+        run: |
+          mkdir build && cd build
+          cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}/build_deps/prefix" \
+            -DPython_ADDITIONAL_VERSIONS=${{ matrix.python_ver }} -DENABLE_PYTHON=ON \
+            -DENABLE_TOOLS=ON -DENABLE_NET=ON -DENABLE_PHYSX=OFF ..
+          make -j2
