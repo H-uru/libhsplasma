@@ -198,7 +198,7 @@ int main(int argc, char* argv[])
                 ST::printf(stderr, "{}:{}: {}\n", e.File(), e.Line(), e.what());
                 return 1;
             } catch (std::exception& e) {
-                ST::printf(stderr, "Caught Exception: {}wwwwwwwwwwwww\n", e.what());
+                ST::printf(stderr, "Caught Exception: {}\n", e.what());
                 return 1;
             }
         }

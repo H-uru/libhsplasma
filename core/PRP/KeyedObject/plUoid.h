@@ -27,7 +27,7 @@
  * any KeyedObject within a game.  This includes information such as name,
  * type and location of the object, so it can be compared or looked up
  * to find the actual object.  Most notably, plUoid is used by plKey as
- * an identification for the object that hte plKey references.
+ * an identification for the object that the plKey references.
  */
 class PLASMA_DLL plUoid
 {
