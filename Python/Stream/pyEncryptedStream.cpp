@@ -112,7 +112,12 @@ PY_METHOD_STATIC_VA(EncryptedStream, IsFileEncrypted,
         PyErr_SetString(PyExc_TypeError, "IsFileEncrypted expects a string or an os.PathLike object");
         return nullptr;
     }
-    return pyPlasma_convert(plEncryptedStream::IsFileEncrypted(filename));
+    try {
+        return pyPlasma_convert(plEncryptedStream::IsFileEncrypted(filename));
+    } catch (...) {
+        PyErr_SetString(PyExc_IOError, "Error opening file");
+        return nullptr;
+    }
 }
 
 PY_METHOD_NOARGS(EncryptedStream, __enter__, nullptr)
