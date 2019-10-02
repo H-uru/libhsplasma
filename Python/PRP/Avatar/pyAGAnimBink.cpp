@@ -21,8 +21,8 @@
 
 PY_PLASMA_NEW(AGAnimBink, plAGAnimBink)
 
-PY_PROPERTY(ST::string, AGAnimBink, binkFilename, getBinkFilename, setBinkFilename)
-PY_PROPERTY(ST::string, AGAnimBink,sgtFilename, getSgtFilename, setSgtFilename)
+PY_PROPERTY_PATHLIKE(AGAnimBink, binkFilename, getBinkFilename, setBinkFilename)
+PY_PROPERTY_PATHLIKE(AGAnimBink, sgtFilename, getSgtFilename, setSgtFilename)
 PY_PROPERTY(ST::string, AGAnimBink,subtitleId, getSubtitleId, setSubtitleId)
 
 static PyGetSetDef pyAGAnimBink_GetSet[] = {

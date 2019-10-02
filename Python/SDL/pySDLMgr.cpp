@@ -27,8 +27,8 @@ PY_METHOD_VA(SDLMgr, readDescriptors,
     "Params: filename or stream\n"
     "Reads SDL Descriptors from the provided filename or stream")
 {
-    const char* filename;
-    if (PyArg_ParseTuple(args, "s", &filename)) {
+    ST::string filename;
+    if (PyArg_ParseTuple(args, "O&", PyAnyString_PathDecoder, &filename)) {
         try {
             self->fThis->ReadDescriptors(filename);
         } catch (const hsException& ex) {
@@ -49,7 +49,7 @@ PY_METHOD_VA(SDLMgr, readDescriptors,
         Py_RETURN_NONE;
     }
 
-    PyErr_SetString(PyExc_TypeError, "readDescriptors expects a string or an hsStream");
+    PyErr_SetString(PyExc_TypeError, "readDescriptors expects a string, an hsStream, or an os.PathLike object");
     return nullptr;
 }
 

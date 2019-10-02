@@ -34,7 +34,7 @@ private:
 
 public:
     static void Init(int level, hsStream* stream = nullptr);
-    static void InitFile(int level, const char* filename = "Plasma.log");
+    static void InitFile(int level, const ST::string& filename = ST_LITERAL("Plasma.log"));
 
     static void Error(const char* line)
     {

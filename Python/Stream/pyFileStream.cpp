@@ -25,11 +25,11 @@ PY_METHOD_VA(FileStream, open,
     "Opens the specified file.\n"
     "Mode is: fmRead, fmWrite, fmReadWrite, fmCreate")
 {
-    const char* filename;
+    ST::string filename;
     int mode;
 
-    if (!PyArg_ParseTuple(args, "si", &filename, &mode)) {
-        PyErr_SetString(PyExc_TypeError, "open expects string, int");
+    if (!PyArg_ParseTuple(args, "O&i", PyAnyString_PathDecoder, &filename, &mode)) {
+        PyErr_SetString(PyExc_TypeError, "open expects string or an os.PathLike object, int");
         return nullptr;
     }
     try {

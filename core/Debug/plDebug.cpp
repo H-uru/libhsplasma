@@ -44,7 +44,7 @@ void plDebug::Init(int level, hsStream* stream)
     }
 }
 
-void plDebug::InitFile(int level, const char* filename)
+void plDebug::InitFile(int level, const ST::string& filename)
 {
     DeInit();
 
