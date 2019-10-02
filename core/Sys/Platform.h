@@ -64,12 +64,10 @@ inline double ENDSWAPD(double val)
     union
     {
         double fv;
-        uint32_t fb[2];
+        uint64_t fb;
     } conv;
     conv.fv = val;
-    uint32_t temp = conv.fb[0];
-    conv.fb[0] = ENDSWAP32(conv.fb[1]);
-    conv.fb[1] = ENDSWAP32(temp);
+    conv.fb = ENDSWAP64(conv.fb);
     return conv.fv;
 }
 
