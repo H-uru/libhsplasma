@@ -100,6 +100,7 @@ if(NOT ${CMAKE_SYSTEM_NAME} MATCHES "SunOS")
 endif()
 
 if(WIN32)
+    target_link_libraries(HSPlasmaNet crypt32)
     target_link_libraries(HSPlasmaNet ws2_32)
 endif(WIN32)
 
