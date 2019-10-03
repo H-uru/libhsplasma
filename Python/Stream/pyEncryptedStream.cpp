@@ -38,8 +38,8 @@ PY_METHOD_VA(EncryptedStream, open,
             }
             Py_INCREF(self);
             return (PyObject*)self;
-        } catch (...) {
-            PyErr_SetString(PyExc_IOError, "Error opening file");
+        } catch (const std::exception& ex) {
+            PyErr_SetString(PyExc_IOError, ex.what());
             return nullptr;
         }
     } else if (PyErr_Clear(), PyArg_ParseTuple(args, "Oii", &stream, &mode, &encryption)) {
@@ -56,8 +56,8 @@ PY_METHOD_VA(EncryptedStream, open,
             }
             Py_INCREF(self);
             return (PyObject*)self;
-        } catch (...) {
-            PyErr_SetString(PyExc_IOError, "Error opening stream");
+        } catch (const std::exception& ex) {
+            PyErr_SetString(PyExc_IOError, ex.what());
             return nullptr;
         }
     } else {
@@ -114,8 +114,8 @@ PY_METHOD_STATIC_VA(EncryptedStream, IsFileEncrypted,
     }
     try {
         return pyPlasma_convert(plEncryptedStream::IsFileEncrypted(filename));
-    } catch (...) {
-        PyErr_SetString(PyExc_IOError, "Error opening file");
+    } catch (const std::exception& ex) {
+        PyErr_SetString(PyExc_IOError, ex.what());
         return nullptr;
     }
 }
