@@ -44,6 +44,9 @@ void plAgeInfo::readFromStream(hsStream* S)
 {
     while (!S->eof()) {
         ST::string ln = S->readLine();
+        if (ln.trim().empty())
+            continue;
+
         std::vector<ST::string> parts = ln.split('=', 1);
         ST::string field = parts.at(0).to_lower();
         ST::string value = parts.at(1);
