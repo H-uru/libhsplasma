@@ -32,7 +32,7 @@ public:
         float fLeftKern, fRightKern;
 
     public:
-        plCharacter() noexcept
+        plCharacter() HS_NOEXCEPT
             : fBitmapOffset(), fHeight(), fBaseline(),
               fLeftKern(), fRightKern() { }
 
