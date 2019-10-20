@@ -268,7 +268,7 @@ public:
     plKey(const plKey& init);
 
     /** Move constructor */
-    plKey(plKey&& move) noexcept : fKeyData(move.fKeyData)
+    plKey(plKey&& move) HS_NOEXCEPT : fKeyData(move.fKeyData)
     {
         move.fKeyData = nullptr;
     }
@@ -307,7 +307,7 @@ public:
     plKey& operator=(const plKey& other);
 
     /** Moves the key ref into this key */
-    plKey& operator=(plKey&& other) noexcept
+    plKey& operator=(plKey&& other) HS_NOEXCEPT
     {
         fKeyData = other.fKeyData;
         other.fKeyData = nullptr;

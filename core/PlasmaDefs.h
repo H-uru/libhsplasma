@@ -42,7 +42,13 @@
 #define HS_OVERRIDE         override
 #define HS_FINAL            final
 #define HS_FINAL_OVERRIDE   override final  // Prefer both to satisfy -Wsuggest-override
-#define HS_NOEXCEPT         noexcept
+#if defined(_MSC_VER) && (_MSC_VER < 1900)
+#   define HS_NOEXCEPT      throw()
+#   define HS_CONSTEXPR     const
+#else
+#   define HS_NOEXCEPT      noexcept
+#   define HS_CONSTEXPR     constexpr
+#endif
 
 enum CallbackEvent
 {
@@ -85,7 +91,7 @@ enum ControlEventCode
 };
 
 template <typename T, size_t Size>
-constexpr size_t hsArraySize(T (&)[Size])
+HS_CONSTEXPR size_t hsArraySize(T(&)[Size])
 {
     return Size;
 }
