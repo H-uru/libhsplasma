@@ -25,6 +25,7 @@
 #include "SDL/pySDL.h"
 #include "Stream/pyStream.h"
 #include "Sys/pyColor.h"
+#include "Sys/pyUnifiedTime.h"
 #include "Util/pyBitVector.h"
 #include "Util/pyDDSurface.h"
 
@@ -473,9 +474,10 @@ PyMODINIT_FUNC initPyHSPlasma()
     PyModule_AddObject(module, "hsBitVector", Init_pyBitVector_Type());
     PyModule_AddObject(module, "plDDSurface", Init_pyDDSurface_Type());
 
-    /* pyColor */
+    /* Sys */
     PyModule_AddObject(module, "hsColorRGBA", Init_pyColorRGBA_Type());
     PyModule_AddObject(module, "hsColor32", Init_pyColor32_Type());
+    PyModule_AddObject(module, "plUnifiedTime", Init_pyUnifiedTime_Type());
 
     /* Math */
     PyModule_AddObject(module, "hsVector3", Init_pyVector3_Type());

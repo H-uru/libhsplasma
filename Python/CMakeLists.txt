@@ -645,9 +645,11 @@ set(STREAM_HEADERS
 set(SYS_SOURCES
     Sys/pyColor32.cpp
     Sys/pyColorRGBA.cpp
+    Sys/pyUnifiedTime.cpp
 )
 set(SYS_HEADERS
     Sys/pyColor.h
+    Sys/pyUnifiedTime.h
 )
 
 set(UTIL_SOURCES
