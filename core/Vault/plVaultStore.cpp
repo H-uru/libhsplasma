@@ -18,29 +18,29 @@
 #include "Stream/plEncryptedStream.h"
 #include "Util/hsBitVector.h"
 
-void plVaultStore::ImportFile(const char* filename)
+void plVaultStore::ImportFile(const ST::string& filename)
 {
-    hsStream* S;
     if (plEncryptedStream::IsFileEncrypted(filename)) {
-        S = new plEncryptedStream();
-        ((plEncryptedStream*)S)->open(filename, fmRead, plEncryptedStream::kEncAuto);
+        plEncryptedStream S;
+        S.open(filename, fmRead, plEncryptedStream::kEncAuto);
+        Import(&S);
     } else {
-        S = new hsFileStream();
-        ((hsFileStream*)S)->open(filename, fmRead);
+        hsFileStream S;
+        S.open(filename, fmRead);
+        Import(&S);
     }
+}
 
-    if (S->readByte() != 1) {
-        delete S;
+void plVaultStore::Import(hsStream* S)
+{
+    if (S->readByte() != 1)
         throw hsBadParamException(__FILE__, __LINE__, "Incorrect Vault File Version");
-    }
 
     hsBitVector fileFields;
     fileFields.read(S);
     if (fileFields[0]) {
-        if (S->readByte() != 3) {
-            delete S;
+        if (S->readByte() != 3)
             throw hsBadParamException(__FILE__, __LINE__, "Incorrect Vault Version");
-        }
 
         hsBitVector vaultFields;
         vaultFields.read(S);
@@ -66,21 +66,23 @@ void plVaultStore::ImportFile(const char* filename)
             }
         }
     }
-
-    delete S;
 }
 
-void plVaultStore::ExportFile(const char* filename, bool encrypt)
+void plVaultStore::ExportFile(const ST::string& filename, bool encrypt)
 {
-    hsStream* S;
     if (encrypt) {
-        S = new plEncryptedStream();
-        ((plEncryptedStream*)S)->open(filename, fmCreate, plEncryptedStream::kEncXtea);
+        plEncryptedStream S;
+        S.open(filename, fmCreate, plEncryptedStream::kEncXtea);
+        Export(&S);
     } else {
-        S = new hsFileStream();
-        ((hsFileStream*)S)->open(filename, fmCreate);
+        hsFileStream S;
+        S.open(filename, fmCreate);
+        Export(&S);
     }
+}
 
+void plVaultStore::Export(hsStream* S)
+{
     // Vault File
     S->writeByte(1);
 
@@ -106,8 +108,6 @@ void plVaultStore::ExportFile(const char* filename, bool encrypt)
     S->writeInt(fNodeRefs.size());
     for (std::list<plVaultNodeRef>::iterator it=fNodeRefs.begin(); it!=fNodeRefs.end(); it++)
         (*it).write(S);
-
-    delete S;
 }
 
 plVaultNode plVaultStore::getNode(unsigned int idx) const
