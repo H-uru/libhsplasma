@@ -645,9 +645,11 @@ set(STREAM_HEADERS
 set(SYS_SOURCES
     Sys/pyColor32.cpp
     Sys/pyColorRGBA.cpp
+    Sys/pyUnifiedTime.cpp
 )
 set(SYS_HEADERS
     Sys/pyColor.h
+    Sys/pyUnifiedTime.h
 )
 
 set(UTIL_SOURCES
@@ -657,6 +659,36 @@ set(UTIL_SOURCES
 set(UTIL_HEADERS
     Util/pyBitVector.h
     Util/pyDDSurface.h
+)
+
+set(VAULT_SOURCES
+    Vault/pyServerGuid.cpp
+    Vault/pyVault.cpp
+    Vault/pyVaultNode.cpp
+    Vault/pyVaultPlayerNode.cpp
+    Vault/pyVaultAgeNode.cpp
+    Vault/pyVaultGameServerNode.cpp
+    Vault/pyVaultAdminNode.cpp
+    Vault/pyVaultServerNode.cpp
+    Vault/pyVaultFolderNode.cpp
+    Vault/pyVaultPlayerInfoNode.cpp
+    Vault/pyVaultSystemNode.cpp
+    Vault/pyVaultImageNode.cpp
+    Vault/pyVaultTextNoteNode.cpp
+    Vault/pyVaultSDLNode.cpp
+    Vault/pyVaultAgeLinkNode.cpp
+    Vault/pyVaultChronicleNode.cpp
+    Vault/pyVaultPlayerInfoListNode.cpp
+    Vault/pyVaultMarkerNode.cpp
+    Vault/pyVaultAgeInfoNode.cpp
+    Vault/pyVaultAgeInfoListNode.cpp
+    Vault/pyVaultMarkerListNode.cpp
+    Vault/pyVaultStore.cpp
+)
+set(VAULT_HEADERS
+    Vault/pyServerGuid.h
+    Vault/pyVaultNode.h
+    Vault/pyVaultStore.h
 )
 
 set(PYTHON_SOURCES
@@ -693,6 +725,7 @@ add_library(PyHSPlasma SHARED
             ${STREAM_SOURCES}       ${STREAM_HEADERS}
             ${SYS_SOURCES}          ${SYS_HEADERS}
             ${UTIL_SOURCES}         ${UTIL_HEADERS}
+            ${VAULT_SOURCES}        ${VAULT_HEADERS}
             ${PYTHON_SOURCES}       ${PYTHON_HEADERS}
 )
 
@@ -748,3 +781,4 @@ source_group("SDL" FILES ${SDL_HEADERS} ${SDL_SOURCES})
 source_group("Stream" FILES ${STREAM_HEADERS} ${STREAM_SOURCES})
 source_group("Sys" FILES ${SYS_HEADERS} ${SYS_SOURCES})
 source_group("Util" FILES ${UTIL_HEADERS} ${UTIL_SOURCES})
+source_group("Vault" FILES ${VAULT_HEADERS} ${VAULT_SOURCES})

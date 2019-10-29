@@ -25,8 +25,12 @@
 #include "SDL/pySDL.h"
 #include "Stream/pyStream.h"
 #include "Sys/pyColor.h"
+#include "Sys/pyUnifiedTime.h"
 #include "Util/pyBitVector.h"
 #include "Util/pyDDSurface.h"
+#include "Vault/pyServerGuid.h"
+#include "Vault/pyVaultNode.h"
+#include "Vault/pyVaultStore.h"
 
 #include "PRP/pyCreatable.h"
 #include "PRP/pySceneNode.h"
@@ -473,9 +477,34 @@ PyMODINIT_FUNC initPyHSPlasma()
     PyModule_AddObject(module, "hsBitVector", Init_pyBitVector_Type());
     PyModule_AddObject(module, "plDDSurface", Init_pyDDSurface_Type());
 
-    /* pyColor */
+    /* Vault */
+    PyModule_AddObject(module, "plServerGuid", Init_pyServerGuid_Type());
+    PyModule_AddObject(module, "plVaultStore", Init_pyVaultStore_Type());
+    PyModule_AddObject(module, "plVault", Init_pyVault_Type());
+    PyModule_AddObject(module, "plVaultNode", Init_pyVaultNode_Type());
+    PyModule_AddObject(module, "plVaultPlayerNode", Init_pyVaultPlayerNode_Type());
+    PyModule_AddObject(module, "plVaultAgeNode", Init_pyVaultAgeNode_Type());
+    PyModule_AddObject(module, "plVaultGameServerNode", Init_pyVaultGameServerNode_Type());
+    PyModule_AddObject(module, "plVaultAdminNode", Init_pyVaultAdminNode_Type());
+    PyModule_AddObject(module, "plVaultServerNode", Init_pyVaultServerNode_Type());
+    PyModule_AddObject(module, "plVaultFolderNode", Init_pyVaultFolderNode_Type());
+    PyModule_AddObject(module, "plVaultPlayerInfoNode", Init_pyVaultPlayerInfoNode_Type());
+    PyModule_AddObject(module, "plVaultSystemNode", Init_pyVaultSystemNode_Type());
+    PyModule_AddObject(module, "plVaultImageNode", Init_pyVaultImageNode_Type());
+    PyModule_AddObject(module, "plVaultTextNoteNode", Init_pyVaultTextNoteNode_Type());
+    PyModule_AddObject(module, "plVaultSDLNode", Init_pyVaultSDLNode_Type());
+    PyModule_AddObject(module, "plVaultAgeLinkNode", Init_pyVaultAgeLinkNode_Type());
+    PyModule_AddObject(module, "plVaultChronicleNode", Init_pyVaultChronicleNode_Type());
+    PyModule_AddObject(module, "plVaultPlayerInfoListNode", Init_pyVaultPlayerInfoListNode_Type());
+    PyModule_AddObject(module, "plVaultMarkerNode", Init_pyVaultMarkerNode_Type());
+    PyModule_AddObject(module, "plVaultAgeInfoNode", Init_pyVaultAgeInfoNode_Type());
+    PyModule_AddObject(module, "plVaultAgeInfoListNode", Init_pyVaultAgeInfoListNode_Type());
+    PyModule_AddObject(module, "plVaultMarkerListNode", Init_pyVaultMarkerListNode_Type());
+
+    /* Sys */
     PyModule_AddObject(module, "hsColorRGBA", Init_pyColorRGBA_Type());
     PyModule_AddObject(module, "hsColor32", Init_pyColor32_Type());
+    PyModule_AddObject(module, "plUnifiedTime", Init_pyUnifiedTime_Type());
 
     /* Math */
     PyModule_AddObject(module, "hsVector3", Init_pyVector3_Type());

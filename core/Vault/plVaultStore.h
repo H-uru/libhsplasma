@@ -33,8 +33,10 @@ public:
     plVaultStore(unsigned int firstNode = 20001)
         : fFirstNodeID(firstNode), fLastNodeID(firstNode - 1) { }
 
-    void ImportFile(const char* filename);
-    void ExportFile(const char* filename, bool encrypt = true);
+    void ImportFile(const ST::string& filename);
+    void Import(hsStream* S);
+    void ExportFile(const ST::string& filename, bool encrypt = true);
+    void Export(hsStream* S);
 
     plVaultNode getNode(unsigned int idx) const;
     std::vector<plVaultNode> getChildren(unsigned int parent) const;
