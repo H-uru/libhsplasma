@@ -20,7 +20,7 @@ PY_PLASMA_VALUE_NEW(VaultChronicleNode, plVaultChronicleNode)
 
 PY_PROPERTY(int, VaultChronicleNode, entryType, getEntryType, setEntryType)
 PY_PROPERTY(ST::string, VaultChronicleNode, entryName, getEntryName, setEntryName)
-PY_PROPERTY(ST::string, VaultChronicleNode, entryValue, getEntryName, setEntryValue)
+PY_PROPERTY(ST::string, VaultChronicleNode, entryValue, getEntryValue, setEntryValue)
 
 static PyGetSetDef pyVaultChronicleNode_GetSet[] = {
     pyVaultChronicleNode_entryType_getset,
