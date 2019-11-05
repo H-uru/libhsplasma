@@ -165,6 +165,8 @@
 #include "PRP/Surface/pyBitmap.h"
 #include "PRP/Surface/pyCubicEnvironmap.h"
 #include "PRP/Surface/pyDistOpacityMod.h"
+#include "PRP/Surface/pyDynaDecalMgr.h"
+#include "PRP/Surface/pyDynaRippleMgr.h"
 #include "PRP/Surface/pyDynamicEnvMap.h"
 #include "PRP/Surface/pyDynamicTextMap.h"
 #include "PRP/Surface/pyFadeOpacityMod.h"
@@ -787,6 +789,15 @@ PyMODINIT_FUNC initPyHSPlasma()
     PyModule_AddObject(module, "plHKSubWorld", Init_pyHKSubWorld_Type());
     PyModule_AddObject(module, "plFilterCoordInterface", Init_pyFilterCoordInterface_Type());
     PyModule_AddObject(module, "plRidingAnimatedPhysicalDetector", Init_pyRidingAnimatedPhysicalDetector_Type());
+    PyModule_AddObject(module, "plDynaDecalMgr", Init_pyDynaDecalMgr_Type());
+    PyModule_AddObject(module, "plDynaBulletMgr", Init_pyDynaBulletMgr_Type());
+    PyModule_AddObject(module, "plDynaFootMgr", Init_pyDynaFootMgr_Type());
+    PyModule_AddObject(module, "plDynaRippleMgr", Init_pyDynaRippleMgr_Type());
+    PyModule_AddObject(module, "plDynaRippleVSMgr", Init_pyDynaRippleVSMgr_Type());
+    PyModule_AddObject(module, "plDynaTorpedoMgr", Init_pyDynaTorpedoMgr_Type());
+    PyModule_AddObject(module, "plDynaTorpedoVSMgr", Init_pyDynaTorpedoVSMgr_Type());
+    PyModule_AddObject(module, "plDynaPuddleMgr", Init_pyDynaPuddleMgr_Type());
+    PyModule_AddObject(module, "plDynaWakeMgr", Init_pyDynaWakeMgr_Type());
 
     PyModule_AddObject(module, "plSharedMesh", Init_pySharedMesh_Type());
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());

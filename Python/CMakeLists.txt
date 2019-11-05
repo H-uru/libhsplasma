@@ -559,6 +559,15 @@ set(PRP_SURFACE_SOURCES
     PRP/Surface/pyCubicEnvironmap.cpp
     PRP/Surface/pyCubicRenderTarget.cpp
     PRP/Surface/pyDistOpacityMod.cpp
+    PRP/Surface/pyDynaBulletMgr.cpp
+    PRP/Surface/pyDynaDecalMgr.cpp
+    PRP/Surface/pyDynaFootMgr.cpp
+    PRP/Surface/pyDynaPuddleMgr.cpp
+    PRP/Surface/pyDynaRippleMgr.cpp
+    PRP/Surface/pyDynaRippleVSMgr.cpp
+    PRP/Surface/pyDynaTorpedoMgr.cpp
+    PRP/Surface/pyDynaTorpedoVSMgr.cpp
+    PRP/Surface/pyDynaWakeMgr.cpp
     PRP/Surface/pyDynamicCamMap.cpp
     PRP/Surface/pyDynamicEnvMap.cpp
     PRP/Surface/pyDynamicTextMap.cpp
@@ -588,6 +597,8 @@ set(PRP_SURFACE_HEADERS
     PRP/Surface/pyBitmap.h
     PRP/Surface/pyCubicEnvironmap.h
     PRP/Surface/pyDistOpacityMod.h
+    PRP/Surface/pyDynaDecalMgr.h
+    PRP/Surface/pyDynaRippleMgr.h
     PRP/Surface/pyDynamicEnvMap.h
     PRP/Surface/pyDynamicTextMap.h
     PRP/Surface/pyFadeOpacityMod.h

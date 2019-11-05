@@ -34,6 +34,13 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    hsVector3 getInitUVW() const { return fInitUVW; }
+    hsVector3 getFinalUVW() const { return fFinalUVW; }
+
+    void setInitUVW(const hsVector3& value) { fInitUVW = value; }
+    void setFinalUVW(const hsVector3& value) { fFinalUVW = value; }
 };
 
 
@@ -51,6 +58,10 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    plKey getWaveSet() const { return fWaveSetBase; }
+    void setWaveSet(plKey value) { fWaveSetBase = std::move(value); }
 };
 
 
@@ -74,6 +85,10 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    plKey getWaveSet() const { return fWaveSetBase; }
+    void setWaveSet(plKey value) { fWaveSetBase = std::move(value); }
 };
 
 
@@ -103,7 +118,15 @@ protected:
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
+    hsVector3 getDefaultDir() const { return fDefaultDir; }
+    plAnimPath* getAnimPath() const { return fAnimPath; }
+    float getAnimWgt() const { return fAnimWgt; }
+    float getVelWgt() const { return fVelWgt; }
+
+    void setDefaultDir(const hsVector3& value) { fDefaultDir = value; }
     void setAnimPath(plAnimPath* path);
+    void setAnimWgt(float value) { fAnimWgt = value; }
+    void setVelWgt(float value) { fVelWgt = value; }
 };
 
 #endif
