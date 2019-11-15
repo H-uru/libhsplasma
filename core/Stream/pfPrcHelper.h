@@ -25,6 +25,7 @@ class PLASMA_DLL pfPrcHelper
 public:
     enum PrcExclude
     {
+        kNone = 0,
         kExcludeTextureData = 0x1,
         kExcludeVertexData = 0x2
     };

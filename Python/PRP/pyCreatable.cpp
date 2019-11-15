@@ -105,23 +105,23 @@ PY_METHOD_VA(Creatable, write,
     Py_RETURN_NONE;
 }
 
-PY_GETSET_GETTER_DECL(Creatable, prc)
+PY_METHOD_VA(Creatable, toPrc,
+    "Params: exclude\n"
+    "Writes this creatable to a PRC document and returns it as a string.")
 {
-    hsRAMStream S;
-    pfPrcHelper prc(&S);
-    self->fThis->prcWrite(&prc);
+    pfPrcHelper::PrcExclude exclude = pfPrcHelper::kNone;
+    if (!PyArg_ParseTuple(args, "|i", &exclude)) {
+        PyErr_SetString(PyExc_TypeError, "toPrc expects an optional int");
+        return nullptr;
+    }
 
-    return PyString_FromStringAndSize((const char*)S.data(), S.size());
+    try {
+        return pyPlasma_convert(self->fThis->toPrc(exclude));
+    } catch (const std::exception& ex) {
+        PyErr_SetString(PyExc_IOError, ex.what());
+        return nullptr;
+    }
 }
-
-PY_PROPERTY_SETTER_MSG(Creatable, prc, "To set the contents, you must re-create the object")
-
-PY_PROPERTY_GETSET_DECL(Creatable, prc)
-
-static PyGetSetDef pyCreatable_GetSet[] = {
-    pyCreatable_prc_getset,
-    PY_GETSET_TERMINATOR
-};
 
 static PyMethodDef pyCreatable_Methods[] = {
     pyCreatable_ClassIndex_method,
@@ -131,6 +131,7 @@ static PyMethodDef pyCreatable_Methods[] = {
     pyCreatable_isStub_method,
     pyCreatable_read_method,
     pyCreatable_write_method,
+    pyCreatable_toPrc_method,
     PY_METHOD_TERMINATOR
 };
 
@@ -142,7 +143,6 @@ PY_PLASMA_TYPE_INIT(Creatable)
     pyCreatable_Type.tp_init = pyCreatable___init__;
     pyCreatable_Type.tp_new = pyCreatable_new;
     pyCreatable_Type.tp_methods = pyCreatable_Methods;
-    pyCreatable_Type.tp_getset = pyCreatable_GetSet;
     if (PyType_CheckAndReady(&pyCreatable_Type) < 0)
         return nullptr;
 
