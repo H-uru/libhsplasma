@@ -113,6 +113,11 @@ public:
      */
     virtual void prcParse(const pfPrcTag* tag, plResManager* mgr);
 
+    /**
+     * Writes this creatable to a PRC document and returns it as a string.
+     */
+    ST::string toPrc(pfPrcHelper::PrcExclude exclude = pfPrcHelper::kNone);
+
 protected:
     /**
      * This must be overloaded by subclasses to write PRC data specific

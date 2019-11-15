@@ -17,6 +17,7 @@
 #include "pyCreatable.h"
 
 #include <PRP/plCreatable.h>
+#include <Stream/hsRAMStream.h>
 #include "Stream/pyStream.h"
 #include "ResManager/pyResManager.h"
 
@@ -104,6 +105,24 @@ PY_METHOD_VA(Creatable, write,
     Py_RETURN_NONE;
 }
 
+PY_METHOD_VA(Creatable, toPrc,
+    "Params: exclude\n"
+    "Writes this creatable to a PRC document and returns it as a string.")
+{
+    pfPrcHelper::PrcExclude exclude = pfPrcHelper::kNone;
+    if (!PyArg_ParseTuple(args, "|i", &exclude)) {
+        PyErr_SetString(PyExc_TypeError, "toPrc expects an optional int");
+        return nullptr;
+    }
+
+    try {
+        return pyPlasma_convert(self->fThis->toPrc(exclude));
+    } catch (const std::exception& ex) {
+        PyErr_SetString(PyExc_IOError, ex.what());
+        return nullptr;
+    }
+}
+
 static PyMethodDef pyCreatable_Methods[] = {
     pyCreatable_ClassIndex_method,
     pyCreatable_ClassIndexVer_method,
@@ -112,6 +131,7 @@ static PyMethodDef pyCreatable_Methods[] = {
     pyCreatable_isStub_method,
     pyCreatable_read_method,
     pyCreatable_write_method,
+    pyCreatable_toPrc_method,
     PY_METHOD_TERMINATOR
 };
 

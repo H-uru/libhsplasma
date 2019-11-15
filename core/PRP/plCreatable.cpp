@@ -15,6 +15,7 @@
  */
 
 #include "plCreatable.h"
+#include "Stream/hsRAMStream.h"
 
 /* plCreatable */
 short plCreatable::ClassIndex(PlasmaVer ver) const
@@ -44,6 +45,15 @@ void plCreatable::prcParse(const pfPrcTag* tag, plResManager* mgr)
         IPrcParse(child, mgr);
         child = child->getNextSibling();
     }
+}
+
+ST::string plCreatable::toPrc(pfPrcHelper::PrcExclude exclude)
+{
+    hsRAMStream S;
+    pfPrcHelper prc(&S);
+    prc.exclude(exclude);
+    prcWrite(&prc);
+    return ST::string::from_utf8((const char*)S.data(), S.size(), ST::assume_valid);
 }
 
 void plCreatable::IPrcParse(const pfPrcTag* tag, plResManager* mgr)

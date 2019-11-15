@@ -23,6 +23,7 @@
 #include "Math/pyMatrix.h"
 #include "ResManager/pyResManager.h"
 #include "SDL/pySDL.h"
+#include "Stream/pyPrcHelper.h"
 #include "Stream/pyStream.h"
 #include "Sys/pyColor.h"
 #include "Sys/pyUnifiedTime.h"
@@ -474,6 +475,7 @@ PyMODINIT_FUNC initPyHSPlasma()
     PyModule_AddObject(module, "hsFileStream", Init_pyFileStream_Type());
     PyModule_AddObject(module, "plEncryptedStream", Init_pyEncryptedStream_Type());
     PyModule_AddObject(module, "hsRAMStream", Init_pyRAMStream_Type());
+    PyModule_AddObject(module, "pfPrcHelper", Init_pyPrcHelper_Type());
 
     /* Util */
     PyModule_AddObject(module, "hsBitVector", Init_pyBitVector_Type());
