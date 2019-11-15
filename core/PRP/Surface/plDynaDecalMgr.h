@@ -47,6 +47,55 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    plKey getMatPreShade() const { return fMatPreShade; }
+    plKey getMatRTShade() const { return fMatRTShade; }
+    float getPartyTime() const { return fPartyTime; }
+    unsigned short getMaxNumVerts() const { return fMaxNumVerts; }
+    unsigned short getMaxNumIdx() const { return fMaxNumIdx; }
+    unsigned int getWaitOnEnable() const { return fWaitOnEnable; }
+    float getWetLength() const { return fWetLength; }
+    float getRampEnd() const { return fRampEnd; }
+    float getDecayStart() const { return fDecayStart; }
+    float getLifeSpan() const { return fLifeSpan; }
+    float getIntensity() const { return fIntensity; }
+    float getGridSizeU() const { return fGridSizeU; }
+    float getGridSizeV() const { return fGridSizeV; }
+    hsVector3 getScale() const { return fScale; }
+
+    void setMatPreShade(plKey value) { fMatPreShade = std::move(value); }
+    void setMatRTShade(plKey value) { fMatRTShade = std::move(value); }
+    void setPartyTime(float value) { fPartyTime = value; }
+    void setMaxNumVerts(unsigned short value) { fMaxNumVerts = value; }
+    void setMaxNumIdx(unsigned short value) { fMaxNumIdx = value; }
+    void setWaitOnEnable(unsigned int value) { fWaitOnEnable = value; }
+    void setWetLength(float value) { fWetLength = value; }
+    void setRampEnd(float value) { fRampEnd = value; }
+    void setDecayStart(float value) { fDecayStart = value; }
+    void setLifeSpan(float value) { fLifeSpan = value; }
+    void setIntensity(float value) { fIntensity = value; }
+    void setGridSizeU(float value) { fGridSizeU = value; }
+    void setGridSizeV(float value) { fGridSizeV = value; }
+    void setScale(const hsVector3& value) { fScale = value; }
+
+    void addTarget(plKey key) { fTargets.emplace_back(std::move(key)); }
+    void clearTargets() { fTargets.clear(); }
+    void delTarget(size_t idx) { fTargets.erase(fTargets.begin() + idx); }
+    size_t getNumTargets() const { return fTargets.size(); }
+    plKey getTarget(size_t idx) const { return fTargets[idx]; }
+
+    void addPartyObject(plKey key) { fPartyObjects.emplace_back(std::move(key)); }
+    void clearPartyObjects() { fPartyObjects.clear(); }
+    void delPartyObject(size_t idx) { fPartyObjects.erase(fPartyObjects.begin() + idx); }
+    size_t getNumPartyObjects() const { return fPartyObjects.size(); }
+    plKey getPartyObject(size_t idx) const { return fPartyObjects[idx]; }
+
+    void addNotify(plKey key) { fNotifies.emplace_back(std::move(key)); }
+    void clearNotifies() { fNotifies.clear(); }
+    void delNotify(size_t idx) { fNotifies.erase(fNotifies.begin() + idx); }
+    size_t getNumNotifies() const { return fNotifies.size(); }
+    plKey getNotify(size_t idx) const { return fNotifies[idx]; }
 };
 
 

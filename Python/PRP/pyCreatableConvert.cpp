@@ -289,6 +289,8 @@
 #include "PRP/Surface/pyBitmap.h"
 #include "PRP/Surface/pyCubicEnvironmap.h"
 #include "PRP/Surface/pyDistOpacityMod.h"
+#include "PRP/Surface/pyDynaDecalMgr.h"
+#include "PRP/Surface/pyDynaRippleMgr.h"
 #include "PRP/Surface/pyDynamicEnvMap.h"
 #include "PRP/Surface/pyDynamicTextMap.h"
 #include "PRP/Surface/pyFadeOpacityMod.h"
@@ -586,6 +588,15 @@ PyObject* ICreate(plCreatable* pCre)
         case kFilterCoordInterface: return pyFilterCoordInterface_FromFilterCoordInterface(plFilterCoordInterface::Convert(pCre));
         case kRidingAnimatedPhysicalDetector: return pyRidingAnimatedPhysicalDetector_FromRidingAnimatedPhysicalDetector(plRidingAnimatedPhysicalDetector::Convert(pCre));
         case kRideAnimatedPhysMsg: return pyRideAnimatedPhysMsg_FromRideAnimatedPhysMsg(plRideAnimatedPhysMsg::Convert(pCre));
+        case kDynaDecalMgr: return pyDynaDecalMgr_FromDynaDecalMgr(plDynaDecalMgr::Convert(pCre));
+        case kDynaBulletMgr: return pyDynaBulletMgr_FromDynaBulletMgr(plDynaBulletMgr::Convert(pCre));
+        case kDynaFootMgr: return pyDynaFootMgr_FromDynaFootMgr(plDynaFootMgr::Convert(pCre));
+        case kDynaRippleMgr: return pyDynaRippleMgr_FromDynaRippleMgr(plDynaRippleMgr::Convert(pCre));
+        case kDynaRippleVSMgr: return pyDynaRippleVSMgr_FromDynaRippleVSMgr(plDynaRippleVSMgr::Convert(pCre));
+        case kDynaTorpedoMgr: return pyDynaTorpedoMgr_FromDynaTorpedoMgr(plDynaTorpedoMgr::Convert(pCre));
+        case kDynaTorpedoVSMgr: return pyDynaTorpedoVSMgr_FromDynaTorpedoVSMgr(plDynaTorpedoVSMgr::Convert(pCre));
+        case kDynaPuddleMgr: return pyDynaPuddleMgr_FromDynaPuddleMgr(plDynaPuddleMgr::Convert(pCre));
+        case kDynaWakeMgr: return pyDynaWakeMgr_FromDynaWakeMgr(plDynaWakeMgr::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (pCre->ClassInstance(kMessage))
