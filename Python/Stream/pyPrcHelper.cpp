@@ -44,6 +44,8 @@ PY_PLASMA_TYPE(PrcHelper, pfPrcHelper, "pfPrcHelper wrapper")
 
 PY_PLASMA_TYPE_INIT(PrcHelper)
 {
+    pyPrcHelper_Type.tp_dealloc = pyPrcHelper_dealloc;
+    pyPrcHelper_Type.tp_init = pyPrcHelper___init__;
     pyPrcHelper_Type.tp_new = pyPrcHelper_new;
     if (PyType_CheckAndReady(&pyPrcHelper_Type) < 0)
         return nullptr;
