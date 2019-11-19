@@ -27,8 +27,8 @@ public:
     class PLASMA_DLL plCharacter
     {
     protected:
-        unsigned int fBitmapOffset, fHeight;
-        int fBaseline;
+        uint32_t fBitmapOffset, fHeight;
+        int32_t fBaseline;
         float fLeftKern, fRightKern;
 
     public:
@@ -42,15 +42,17 @@ public:
         void prcParse(const pfPrcTag* tag);
 
     public:
-        unsigned int getOffset() const { return fBitmapOffset; }
-        unsigned int getHeight() const { return fHeight; }
-        int getBaseline() const { return fBaseline; }
+        uint32_t getOffset() const { return fBitmapOffset; }
+        uint32_t getHeight() const { return fHeight; }
+        int32_t getBaseline() const { return fBaseline; }
         float getLeftKern() const { return fLeftKern; }
         float getRightKern() const { return fRightKern; }
 
-        void setOffset(unsigned int off) { fBitmapOffset = off; }
-        void setHeight(unsigned int height) { fHeight = height; }
-        void setBaseline(int baseline) { fBaseline = baseline; }
+        void setOffset(uint32_t off) { fBitmapOffset = off; }
+        void setHeight(uint32_t height) { fHeight = height; }
+        void setBaseline(int32_t baseline) { fBaseline = baseline; }
+        void setLeftKern(float kern) { fLeftKern = kern; }
+        void setRightKern(float kern) { fRightKern = kern; }
 
         void setKern(float left, float right)
         {
@@ -69,12 +71,12 @@ public:
 
 protected:
     ST::string fFace;
-    unsigned char fSize, fBPP;
-    unsigned short fFirstChar;
-    unsigned int fFlags, fWidth, fHeight;
+    uint8_t fSize, fBPP;
+    uint16_t fFirstChar;
+    uint32_t fFlags, fWidth, fHeight;
     unsigned char* fBmpData;
     std::vector<plCharacter> fCharacters;
-    int fMaxCharHeight;
+    int32_t fMaxCharHeight;
 
 public:
     plFont()
@@ -113,21 +115,23 @@ public:
     void setNumCharacters(size_t count) { fCharacters.resize(count); }
 
     const ST::string& getName() const { return fFace; }
-    unsigned char getSize() const { return fSize; }
-    unsigned char getBPP() const { return fBPP; }
-    unsigned int getWidth() const { return fWidth; }
-    unsigned int getHeight() const { return fHeight; }
-    unsigned short getFirstChar() const { return fFirstChar; }
-    int getMaxCharHeight() const { return fMaxCharHeight; }
+    uint8_t getSize() const { return fSize; }
+    uint8_t getBPP() const { return fBPP; }
+    uint32_t getWidth() const { return fWidth; }
+    uint32_t getHeight() const { return fHeight; }
+    uint16_t getFirstChar() const { return fFirstChar; }
+    int32_t getMaxCharHeight() const { return fMaxCharHeight; }
 
     void setName(const ST::string& name) { fFace = name; }
-    void setSize(unsigned char size) { fSize = size; }
-    void setBPP(unsigned char bpp) { fBPP = bpp; }
-    void setWidth(unsigned int width) { fWidth = width; }
-    void setHeight(unsigned int height) { fHeight = height; }
-    void setFirstChar(unsigned short first) { fFirstChar = first; }
-    void setMaxCharHeight(int maxCharHeight) { fMaxCharHeight = maxCharHeight; }
+    void setSize(uint8_t size) { fSize = size; }
+    void setBPP(uint8_t bpp) { fBPP = bpp; }
+    void setWidth(uint32_t width) { fWidth = width; }
+    void setHeight(uint32_t height) { fHeight = height; }
+    void setFirstChar(uint16_t first) { fFirstChar = first; }
+    void setMaxCharHeight(int32_t maxCharHeight) { fMaxCharHeight = maxCharHeight; }
 
+    uint32_t getFlags() const { return fFlags; }
+    void setFlags(uint32_t flags) { fFlags = flags; }
     bool isBold() const { return (fFlags & kFontBold) != 0; }
     bool isItalic() const { return (fFlags & kFontItalic) != 0; }
     void setBold(bool bold);

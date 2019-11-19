@@ -172,6 +172,7 @@
 #include "PRP/Surface/pyDynamicTextMap.h"
 #include "PRP/Surface/pyFadeOpacityMod.h"
 #include "PRP/Surface/pyFixedWaterState7.h"
+#include "PRP/Surface/pyFont.h"
 #include "PRP/Surface/pyGMaterial.h"
 #include "PRP/Surface/pyGMatState.h"
 #include "PRP/Surface/pyLayer.h"
@@ -800,6 +801,7 @@ PyMODINIT_FUNC initPyHSPlasma()
     PyModule_AddObject(module, "plDynaTorpedoVSMgr", Init_pyDynaTorpedoVSMgr_Type());
     PyModule_AddObject(module, "plDynaPuddleMgr", Init_pyDynaPuddleMgr_Type());
     PyModule_AddObject(module, "plDynaWakeMgr", Init_pyDynaWakeMgr_Type());
+    PyModule_AddObject(module, "plFont", Init_pyFont_Type());
 
     PyModule_AddObject(module, "plSharedMesh", Init_pySharedMesh_Type());
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
