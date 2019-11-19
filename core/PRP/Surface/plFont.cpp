@@ -189,7 +189,7 @@ void plFont::readP2F(hsStream* S)
     fMaxCharHeight = S->readInt();
     fBPP = S->readByte();
 
-    size_t size = (fBPP * fWidth * fHeight) / 8;
+    const size_t size = fHeight * getStride();
     delete[] fBmpData;
     if (size > 0) {
         fBmpData = new unsigned char[size];
@@ -217,7 +217,7 @@ void plFont::writeP2F(hsStream* S) const
     S->writeInt(fMaxCharHeight);
     S->writeByte(fBPP);
 
-    S->write((fBPP * fWidth * fHeight) / 8, fBmpData);
+    S->write(fHeight * getStride(), fBmpData);
 
     S->writeShort(fFirstChar);
     S->writeInt(fCharacters.size());
@@ -253,17 +253,17 @@ void plFont::readBitmap(hsStream* S)
     unsigned int nColors = S->readInt();
     S->readInt();           // # Important
 
-    unsigned int lineSize = ((fBPP * fWidth) / 8);
-    unsigned int linePad = lineSize % 4 == 0 ? 0 : 4 - (lineSize % 4);
-    unsigned int dataSize = lineSize * fHeight;
+    const size_t lineSize = getStride();
+    const size_t linePad = lineSize % 4 == 0 ? 0 : 4 - (lineSize % 4);
+    const size_t dataSize = lineSize * fHeight;
 
     // Color Table
     for (size_t i=0; i<nColors; i++)
-        S->readInt();
+        (void)S->readInt();
 
     // Bitmap Data:
     delete[] fBmpData;
-    fBmpData = new unsigned char [(fBPP * fWidth * fHeight) / 8];
+    fBmpData = new unsigned char[dataSize];
     unsigned char padding[4];
     for (size_t lin = fHeight; lin > 0; lin++) {
         S->read(lineSize, fBmpData + ((lin - 1) * lineSize));
@@ -278,13 +278,13 @@ void plFont::readBitmap(hsStream* S)
 
 void plFont::writeBitmap(hsStream* S) const
 {
-    unsigned int lineSize = ((fBPP * fWidth) / 8);
-    unsigned int linePad = lineSize % 4 == 0 ? 0 : 4 - (lineSize % 4);
-    unsigned int dataSize = lineSize * fHeight;
-    unsigned int nColors = (fBPP == 1) ? 2 : ((fBPP == 8) ? 256 : 0);
-    unsigned int hdrSize = 54 + nColors * 4;
+    const size_t lineSize = getStride();
+    const size_t linePad = lineSize % 4 == 0 ? 0 : 4 - (lineSize % 4);
+    const size_t dataSize = lineSize * fHeight;
+    const size_t nColors = (fBPP == 1) ? 2 : ((fBPP == 8) ? 256 : 0);
+    const size_t hdrSize = 54 + nColors * 4;
 
-    unsigned char* bmpDataInv = new unsigned char[dataSize];
+    auto bmpDataInv = new unsigned char[dataSize];
     memcpy(bmpDataInv, fBmpData, dataSize);
     if (fBPP == 8) {
         for (size_t i=0; i<dataSize; i++)

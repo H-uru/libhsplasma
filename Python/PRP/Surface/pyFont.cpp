@@ -89,6 +89,7 @@ PY_PROPERTY(uint32_t, Font, height, getHeight, setHeight)
 PY_PROPERTY(uint16_t, Font, firstChar, getFirstChar, setFirstChar)
 PY_PROPERTY(int32_t, Font, maxCharHeight, getMaxCharHeight, setMaxCharHeight)
 PY_PROPERTY(uint32_t, Font, flags, getFlags, setFlags)
+PY_PROPERTY_RO(Font, stride, getStride)
 
 // "Shortcut" properties for flags
 PY_PROPERTY(bool, Font, bold, isBold, setBold)
@@ -139,6 +140,7 @@ static PyGetSetDef pyFont_GetSet [] = {
     pyFont_firstChar_getset,
     pyFont_maxCharHeight_getset,
     pyFont_flags_getset,
+    pyFont_stride_getset,
     pyFont_bold_getset,
     pyFont_italic_getset,
     pyFont_characters_getset,
@@ -151,7 +153,12 @@ PY_PLASMA_SUBSCRIPT_DECL(Font)
         PyErr_SetString(PyExc_TypeError, "plFont subscript expects int index");
         return nullptr;
     }
-    return pyFontCharacter_FromFontCharacter(self->fThis->getCharacter(pyPlasma_get<int>(key)));
+    const int idx = pyPlasma_get<int>(key);
+    if (idx < 0 || size_t(idx) >= self->fThis->getNumCharacters()) {
+        PyErr_SetNone(PyExc_IndexError);
+        return nullptr;
+    }
+    return pyFontCharacter_FromFontCharacter(self->fThis->getCharacter(idx));
 }
 
 PY_PLASMA_ASS_SUBSCRIPT_DECL(Font)
@@ -160,11 +167,16 @@ PY_PLASMA_ASS_SUBSCRIPT_DECL(Font)
         PyErr_SetString(PyExc_TypeError, "plFont subscript expects int index");
         return -1;
     }
+    const int idx = pyPlasma_get<int>(key);
+    if (idx < 0 || size_t(idx) >= self->fThis->getNumCharacters()) {
+        PyErr_SetNone(PyExc_IndexError);
+        return -1;
+    }
     if (!pyFontCharacter_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "plFont subscript values should be plFont::plCharacter objects");
         return -1;
     }
-    (*self->fThis).getCharacter(pyPlasma_get<int>(key)) = *((pyFontCharacter*)value)->fThis;
+    (*self->fThis).getCharacter(idx) = *((pyFontCharacter*)value)->fThis;
     return 0;
 }
 
@@ -243,11 +255,30 @@ PY_METHOD_VA(Font, writeBitmap,
     Py_RETURN_NONE;
 }
 
+PY_METHOD_VA(Font, getGlyph,
+    "Params: index\n"
+    "Return the bitmap data for the specified character")
+{
+    int idx;
+    if (!PyArg_ParseTuple(args, "i", &idx)) {
+        PyErr_SetString(PyExc_TypeError, "getGlyph expects an int");
+        return nullptr;
+    }
+    if (idx < 0 || size_t(idx) >= self->fThis->getNumCharacters()) {
+        PyErr_SetNone(PyExc_IndexError);
+        return nullptr;
+    }
+
+    return PyBytes_FromStringAndSize((const char *)self->fThis->getGlyph(idx),
+                                     self->fThis->getGlyphSize(idx));
+}
+
 static PyMethodDef pyFont_Methods[] = {
     pyFont_readP2F_method,
     pyFont_writeP2F_method,
     pyFont_readBitmap_method,
     pyFont_writeBitmap_method,
+    pyFont_getGlyph_method,
     PY_METHOD_TERMINATOR
 };
 

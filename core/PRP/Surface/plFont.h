@@ -111,6 +111,8 @@ public:
     const plCharacter& getCharacter(size_t idx) const { return fCharacters[idx]; }
     plCharacter& getCharacter(size_t idx) { return fCharacters[idx]; }
     const unsigned char* getGlyph(size_t idx) const { return fBmpData + fCharacters[idx].getOffset(); }
+    size_t getStride() const { return ((fBPP * fWidth) + 7) / 8; }
+    size_t getGlyphSize(size_t idx) const { return fCharacters[idx].getHeight() * getStride(); }
     size_t getNumCharacters() const { return fCharacters.size(); }
     void setNumCharacters(size_t count) { fCharacters.resize(count); }
 
