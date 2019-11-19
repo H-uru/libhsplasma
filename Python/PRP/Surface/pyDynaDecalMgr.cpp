@@ -54,7 +54,7 @@ PY_METHOD_VA(DynaDecalMgr, delTarget,
         return nullptr;
     }
 
-    if (idx >= self->fThis->getNumTargets()) {
+    if (idx < 0 || size_t(idx) >= self->fThis->getNumTargets()) {
         PyErr_SetNone(PyExc_IndexError);
         return nullptr;
     }
@@ -94,7 +94,7 @@ PY_METHOD_VA(DynaDecalMgr, delPartyObject,
         return nullptr;
     }
 
-    if (idx >= self->fThis->getNumPartyObjects()) {
+    if (idx < 0 || size_t(idx) >= self->fThis->getNumPartyObjects()) {
         PyErr_SetNone(PyExc_IndexError);
         return nullptr;
     }
@@ -134,7 +134,7 @@ PY_METHOD_VA(DynaDecalMgr, delNotify,
         return nullptr;
     }
 
-    if (idx >= self->fThis->getNumNotifies()) {
+    if (idx < 0 || size_t(idx) >= self->fThis->getNumNotifies()) {
         PyErr_SetNone(PyExc_IndexError);
         return nullptr;
     }
