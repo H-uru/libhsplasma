@@ -294,6 +294,7 @@
 #include "PRP/Surface/pyDynamicEnvMap.h"
 #include "PRP/Surface/pyDynamicTextMap.h"
 #include "PRP/Surface/pyFadeOpacityMod.h"
+#include "PRP/Surface/pyFont.h"
 #include "PRP/Surface/pyGMaterial.h"
 #include "PRP/Surface/pyGMatState.h"
 #include "PRP/Surface/pyLayer.h"
@@ -597,6 +598,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kDynaTorpedoVSMgr: return pyDynaTorpedoVSMgr_FromDynaTorpedoVSMgr(plDynaTorpedoVSMgr::Convert(pCre));
         case kDynaPuddleMgr: return pyDynaPuddleMgr_FromDynaPuddleMgr(plDynaPuddleMgr::Convert(pCre));
         case kDynaWakeMgr: return pyDynaWakeMgr_FromDynaWakeMgr(plDynaWakeMgr::Convert(pCre));
+        case kFont: return pyFont_FromFont(plFont::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (pCre->ClassInstance(kMessage))

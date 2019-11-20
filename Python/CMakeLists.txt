@@ -573,6 +573,7 @@ set(PRP_SURFACE_SOURCES
     PRP/Surface/pyDynamicTextMap.cpp
     PRP/Surface/pyFadeOpacityMod.cpp
     PRP/Surface/pyFixedWaterState7.cpp
+    PRP/Surface/pyFont.cpp
     PRP/Surface/pyGMatState.cpp
     PRP/Surface/pyGMaterial.cpp
     PRP/Surface/pyLayer.cpp
@@ -603,6 +604,7 @@ set(PRP_SURFACE_HEADERS
     PRP/Surface/pyDynamicTextMap.h
     PRP/Surface/pyFadeOpacityMod.h
     PRP/Surface/pyFixedWaterState7.h
+    PRP/Surface/pyFont.h
     PRP/Surface/pyGMatState.h
     PRP/Surface/pyGMaterial.h
     PRP/Surface/pyLayer.h
