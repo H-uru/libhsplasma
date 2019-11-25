@@ -15,6 +15,8 @@
  */
 
 #include "plGBufferGroup.h"
+#include "plGeometrySpan.h"
+#include "plIcicle.h"
 #include <string_theory/format>
 
 /* plGBufferCell */
@@ -491,6 +493,17 @@ std::vector<unsigned short> plGBufferGroup::getIndices(size_t idx, size_t start,
     return buf;
 }
 
+unsigned int plGBufferGroup::getNumVertices(size_t cell) const
+{
+    if (fCells.size() <= cell)
+        return 0;
+
+    unsigned int count = 0;
+    for (const auto& i : fCells[cell])
+        count += i.fLength;
+    return count;
+}
+
 void plGBufferGroup::addVertices(const std::vector<plGBufferVertex>& verts)
 {
     size_t vtxSize = verts.size() * fStride;
@@ -545,6 +558,118 @@ void plGBufferGroup::addIndices(const std::vector<unsigned short>& indices)
 
     for (size_t i=0; i<fIdxBuffCounts[idx]; i++)
         fIdxBuffStorage[idx][i] = indices[i];
+}
+
+void plGBufferGroup::IPackIcicle(const plGeometrySpan* geoSpan, plIcicle* ice)
+{
+    size_t i;
+    for (i = 0; i < fIdxBuffStorage.size(); ++i) {
+        if (geoSpan->getNumIndices() + fIdxBuffCounts[i] < kMaxIndicesPerBuffer)
+            break;
+    }
+    if (i == fIdxBuffStorage.size()) {
+        fIdxBuffStorage.push_back(nullptr);
+        fIdxBuffCounts.push_back(0);
+    }
+
+    unsigned int idxOffset = fIdxBuffCounts[i];
+    unsigned short* idxStorage = new unsigned short[idxOffset + geoSpan->getNumIndices()];
+    if (idxOffset != 0)
+        memcpy(idxStorage, fIdxBuffStorage[i], idxOffset * sizeof(unsigned short));
+    fIdxBuffCounts[i] += geoSpan->getNumIndices();
+    delete fIdxBuffStorage[i];
+    fIdxBuffStorage[i] = idxStorage;
+
+    for (size_t j = 0; j < geoSpan->getNumIndices(); ++j)
+        idxStorage[idxOffset + j] = geoSpan->getIndex(j) + (unsigned short)ice->getVStartIdx();
+
+    ice->setIBufferIdx(i);
+    ice->setIStartIdx(idxOffset);
+    ice->setILength(geoSpan->getNumIndices());
+}
+
+void plGBufferGroup::IPackVertexSpan(const plGeometrySpan* geoSpan, plVertexSpan* vSpan)
+{
+    size_t i;
+    for (i = 0; i < fVertBuffStorage.size(); ++i) {
+        if (geoSpan->getNumVertices() + getNumVertices(i) < kMaxVertsPerBuffer)
+            break;
+    }
+    if (i == fVertBuffStorage.size()) {
+        fVertBuffStorage.push_back(nullptr);
+        fVertBuffSizes.push_back(0);
+        fCompGBuffStorage.push_back(nullptr);
+        fCompGBuffSizes.push_back(0);
+        fCells.emplace_back();
+    }
+
+    unsigned int vertOffset = fVertBuffSizes[i];
+    unsigned int vertBuffSize = vertOffset + (geoSpan->getNumVertices() * fStride);
+    unsigned char* vertStorage = new unsigned char[vertBuffSize];
+    if (vertOffset != 0)
+        memcpy(vertStorage, fVertBuffStorage[i], vertOffset);
+    fVertBuffSizes[i] = vertBuffSize;
+    delete fVertBuffStorage[i];
+    fVertBuffStorage[i] = vertStorage;
+
+    unsigned char* destp = (unsigned char*)(vertStorage + vertOffset);
+    for (const auto& vertex : geoSpan->getVertices()) {
+        static_assert(sizeof(vertex.fPosition) == sizeof(float) * 3, "vertex position unexpected size");
+        memcpy(destp, &vertex.fPosition, sizeof(vertex.fPosition));
+        destp += sizeof(vertex.fPosition);
+
+        int weightCount = (fFormat & kSkinWeightMask) >> 4;
+        if (weightCount > 0) {
+            memcpy(destp, vertex.fWeights, weightCount * sizeof(float));
+            destp += weightCount * sizeof(float);
+
+            if (fFormat & kSkinIndices) {
+                memcpy(destp, &vertex.fIndices, sizeof(uint32_t));
+                destp += sizeof(uint32_t);
+            }
+        }
+
+        static_assert(sizeof(vertex.fNormal) == sizeof(float) * 3, "vertex normal unexpected size");
+        memcpy(destp, &vertex.fNormal, sizeof(vertex.fNormal));
+        destp += sizeof(vertex.fNormal);
+
+        memcpy(destp, &vertex.fColor, sizeof(uint32_t));
+        destp += sizeof(uint32_t);
+        memcpy(destp, &vertex.fSpecularColor, sizeof(uint32_t));
+        destp += sizeof(uint32_t);
+
+        static_assert(sizeof(vertex.fUVs[0]) == sizeof(float) * 3, "vertex uv unexpected size");
+        size_t uvCount = fFormat & kUVCountMask;
+        memcpy(destp, vertex.fUVs, sizeof(vertex.fUVs[0]) * uvCount);
+        destp += sizeof(vertex.fUVs[0]) * uvCount;
+    }
+
+    std::vector<plGBufferCell>& cells = fCells[i];
+    if (cells.empty()) {
+        vSpan->setCellIdx(0);
+        vSpan->setCellOffset(0);
+        cells.emplace_back(vertOffset, -1, geoSpan->getNumVertices());
+    } else {
+        vSpan->setCellIdx(cells.size() - 1);
+        vSpan->setCellOffset(cells.back().fLength);
+        cells.back().fLength += geoSpan->getNumVertices();
+    }
+
+    vSpan->setVBufferIdx(i);
+    for (size_t j = 0; j < cells.size() - 1; ++j)
+        vSpan->setVStartIdx(vSpan->getVStartIdx() + cells[j].fLength);
+    vSpan->setVStartIdx(vSpan->getVStartIdx() + vSpan->getCellOffset());
+    vSpan->setVLength(geoSpan->getNumVertices());
+}
+
+void plGBufferGroup::packGeoSpan(const plGeometrySpan* geoSpan, plIcicle* ice)
+{
+    if (fFormat != geoSpan->getFormat())
+        throw hsBadParamException(__FILE__, __LINE__, "Vertex formats do not match");
+
+    // In Plasma-speak, this is the non-isolated interleaved format.
+    IPackVertexSpan(geoSpan, ice);
+    IPackIcicle(geoSpan, ice);
 }
 
 void plGBufferGroup::setFormat(unsigned int format)

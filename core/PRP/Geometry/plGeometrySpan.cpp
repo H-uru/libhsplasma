@@ -52,7 +52,7 @@ void plGeometrySpan::read(hsStream* S)
     }
     fProps = S->readInt();
     fNumVerts = S->readInt();
-    fNumIndices = S->readInt();
+    uint32_t numIndices = S->readInt();
     if (!S->getVer().isHexIsle()) {
         S->readInt();  // Discarded
         S->readByte(); // Discarded
@@ -85,9 +85,9 @@ void plGeometrySpan::read(hsStream* S)
         fSpecularRGBA.clear();
     }
 
-    if (fNumIndices > 0) {
-        fIndexData.resize(fNumIndices);
-        S->readShorts(fNumIndices, (uint16_t*)&fIndexData[0]);
+    if (numIndices > 0) {
+        fIndexData.resize(numIndices);
+        S->readShorts(numIndices, (uint16_t*)&fIndexData[0]);
     } else {
         fIndexData.clear();
     }
@@ -117,7 +117,7 @@ void plGeometrySpan::write(hsStream* S)
     S->writeByte(fFormat);
     S->writeInt(fProps);
     S->writeInt(fNumVerts);
-    S->writeInt(fNumIndices);
+    S->writeInt(fIndexData.size());
     S->writeInt(0);
     S->writeByte(0);
     S->writeInt(fDecalLevel);
@@ -135,8 +135,8 @@ void plGeometrySpan::write(hsStream* S)
         S->writeInts(fNumVerts, (uint32_t*)&fSpecularRGBA[0]);
 
     }
-    if (fNumIndices > 0)
-        S->writeShorts(fNumIndices, (uint16_t*)&fIndexData[0]);
+    if (!fIndexData.empty())
+        S->writeShorts(fIndexData.size(), (uint16_t*)&fIndexData[0]);
 
     S->writeInt(fInstanceGroup);
     if (fInstanceGroup != 0) {
@@ -215,7 +215,7 @@ void plGeometrySpan::prcWrite(pfPrcHelper* prc)
         prc->closeTag();
 
         prc->writeSimpleTag("Triangles");
-        for (size_t i=0; i<fNumIndices; i += 3) {
+        for (size_t i=0; i<fIndexData.size(); i += 3) {
             prc->writeTagNoBreak("Triangle");
             prc->directWrite(ST::format("{} {} {}",
                              fIndexData[i], fIndexData[i+1], fIndexData[i+2]));
@@ -340,10 +340,10 @@ void plGeometrySpan::prcParse(const pfPrcTag* tag)
                 clrChild = clrChild->getNextSibling();
             }
         } else if (child->getName() == "Triangles") {
-            fNumIndices = child->countChildren() * 3;
-            fIndexData.resize(fNumIndices);
+            size_t numIndices = child->countChildren() * 3;
+            fIndexData.resize(numIndices);
             const pfPrcTag* triChild = child->getFirstChild();
-            for (size_t i=0; i<fNumIndices; i += 3) {
+            for (size_t i=0; i<numIndices; i += 3) {
                 if (triChild->getName() != "Triangle")
                     throw pfPrcTagException(__FILE__, __LINE__, triChild->getName());
                 std::list<ST::string> idxList = triChild->getContents();

@@ -200,7 +200,9 @@ PY_PROPERTY(plKey, GeometrySpan, material, getMaterial, setMaterial)
 PY_PROPERTY(unsigned int, GeometrySpan, maxBoneIdx, getMaxBoneIdx, setMaxBoneIdx)
 PY_PROPERTY(float, GeometrySpan, maxDist, getMaxDist, setMaxDist)
 PY_PROPERTY(float, GeometrySpan, minDist, getMinDist, setMinDist)
+PY_PROPERTY_RO(GeometrySpan, numIndices, getNumIndices)
 PY_PROPERTY(unsigned int, GeometrySpan, numMatrices, getNumMatrices, setNumMatrices)
+PY_PROPERTY_RO(GeometrySpan, numVertices, getNumVertices)
 PY_PROPERTY(unsigned int, GeometrySpan, penBoneIdx, getPenBoneIdx, setPenBoneIdx)
 PY_PROPERTY(unsigned int, GeometrySpan, props, getProps, setProps)
 PY_PROPERTY(float, GeometrySpan, waterHeight, getWaterHeight, setWaterHeight)
@@ -219,7 +221,9 @@ static PyGetSetDef pyGeometrySpan_GetSet[] = {
     pyGeometrySpan_maxBoneIdx_getset,
     pyGeometrySpan_maxDist_getset,
     pyGeometrySpan_minDist_getset,
+    pyGeometrySpan_numIndices_getset,
     pyGeometrySpan_numMatrices_getset,
+    pyGeometrySpan_numVertices_getset,
     pyGeometrySpan_penBoneIdx_getset,
     pyGeometrySpan_props_getset,
     pyGeometrySpan_vertices_getset,
