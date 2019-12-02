@@ -588,12 +588,22 @@ template <> inline size_t pyPlasma_get(PyObject* value) { return (size_t)(unsign
     #define _TP_FINALIZE_INIT
 #endif
 
+// tp_print moved to the end, and two new vectorcall fields inserted in Python 3.8...
+#if (PY_MAJOR_VERSION >= 4) || ((PY_MAJOR_VERSION == 3) && (PY_MINOR_VERSION >= 8))
+    #define _TP_PRINT_OR_VECTORCALL_OFFSET 0
+    #define _TP_VECTORCALL_PRINT nullptr, nullptr,
+#else
+    #define _TP_PRINT_OR_VECTORCALL_OFFSET nullptr
+    #define _TP_VECTORCALL_PRINT
+#endif
+
 #define PY_PLASMA_TYPE(pyType, classname, doctext)                      \
     PyTypeObject py##pyType##_Type = {                                  \
         PyVarObject_HEAD_INIT(nullptr, 0)                               \
         "PyHSPlasma." #classname,                                       \
         sizeof(py##pyType), 0,                                          \
-        nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,           \
+        nullptr, _TP_PRINT_OR_VECTORCALL_OFFSET,                        \
+        nullptr, nullptr, nullptr, nullptr,                             \
         nullptr, nullptr, nullptr,                                      \
         nullptr, nullptr, nullptr, nullptr, nullptr,                    \
         nullptr,                                                        \
@@ -607,6 +617,7 @@ template <> inline size_t pyPlasma_get(PyObject* value) { return (size_t)(unsign
         nullptr,                                                        \
         _TP_VERSION_TAG_INIT                                            \
         _TP_FINALIZE_INIT                                               \
+        _TP_VECTORCALL_PRINT                                            \
     };
 
 #if (PY_MAJOR_VERSION < 3)
