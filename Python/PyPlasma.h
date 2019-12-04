@@ -300,11 +300,12 @@ PyObject* PyPlasmaValue_new(PyTypeObject* type, ArgsT&&... args)
     int py##pyType##_nb_##name##_impl(py##pyType* self)
 
 /* Helpers for getters and setters */
-inline PyObject* pyPlasma_convert(uint8_t value) { return PyInt_FromLong((long)(unsigned long)value); }
+inline PyObject* pyPlasma_convert(char value) { return PyInt_FromLong(std::is_signed<char>::value ? (long)value : (long)(unsigned long)value); }
+inline PyObject* pyPlasma_convert(unsigned char value) { return PyInt_FromLong((long)(unsigned long)value); }
 inline PyObject* pyPlasma_convert(uint16_t value) { return PyInt_FromLong((long)(unsigned long)value); }
 inline PyObject* pyPlasma_convert(uint32_t value) { return PyInt_FromLong((long)(unsigned long)value); }
 inline PyObject* pyPlasma_convert(uint64_t value) { return PyInt_FromLong((long)(unsigned long)value); }
-inline PyObject* pyPlasma_convert(int8_t value) { return PyInt_FromLong((long)value); }
+inline PyObject* pyPlasma_convert(signed char value) { return PyInt_FromLong((long)value); }
 inline PyObject* pyPlasma_convert(int16_t value) { return PyInt_FromLong((long)value); }
 inline PyObject* pyPlasma_convert(int32_t value) { return PyInt_FromLong((long)value); }
 inline PyObject* pyPlasma_convert(int64_t value) { return PyInt_FromLong((long)value); }
@@ -327,11 +328,12 @@ inline int pyPlasma_check(PyObject* value)
     return T::unimplemented_specialization_for_pyPlasma_check();
 }
 
-template <> inline int pyPlasma_check<uint8_t>(PyObject* value) { return PyInt_Check(value); }
+template <> inline int pyPlasma_check<char>(PyObject* value) { return PyInt_Check(value); }
+template <> inline int pyPlasma_check<unsigned char>(PyObject* value) { return PyInt_Check(value); }
 template <> inline int pyPlasma_check<uint16_t>(PyObject* value) { return PyInt_Check(value); }
 template <> inline int pyPlasma_check<uint32_t>(PyObject* value) { return PyInt_Check(value); }
 template <> inline int pyPlasma_check<uint64_t>(PyObject* value) { return PyInt_Check(value); }
-template <> inline int pyPlasma_check<int8_t>(PyObject* value) { return PyInt_Check(value); }
+template <> inline int pyPlasma_check<signed char>(PyObject* value) { return PyInt_Check(value); }
 template <> inline int pyPlasma_check<int16_t>(PyObject* value) { return PyInt_Check(value); }
 template <> inline int pyPlasma_check<int32_t>(PyObject* value) { return PyInt_Check(value); }
 template <> inline int pyPlasma_check<int64_t>(PyObject* value) { return PyInt_Check(value); }
@@ -349,11 +351,12 @@ inline T pyPlasma_get(PyObject* value)
     return T::unimplemented_specialization_for_pyPlasma_get();
 }
 
-template <> inline uint8_t pyPlasma_get(PyObject* value) { return (uint8_t)(unsigned long)PyInt_AsLong(value); }
+template <> inline char pyPlasma_get(PyObject* value) { return (char)PyInt_AsLong(value); }
+template <> inline unsigned char pyPlasma_get(PyObject* value) { return (unsigned char)(unsigned long)PyInt_AsLong(value); }
 template <> inline uint16_t pyPlasma_get(PyObject* value) { return (uint16_t)(unsigned long)PyInt_AsLong(value); }
 template <> inline uint32_t pyPlasma_get(PyObject* value) { return (uint32_t)(unsigned long)PyInt_AsLong(value); }
 template <> inline uint64_t pyPlasma_get(PyObject* value) { return (uint64_t)(unsigned long)PyInt_AsLong(value); }
-template <> inline int8_t pyPlasma_get(PyObject* value) { return (int8_t)PyInt_AsLong(value); }
+template <> inline signed char pyPlasma_get(PyObject* value) { return (signed char)PyInt_AsLong(value); }
 template <> inline int16_t pyPlasma_get(PyObject* value) { return (int16_t)PyInt_AsLong(value); }
 template <> inline int32_t pyPlasma_get(PyObject* value) { return (int32_t)PyInt_AsLong(value); }
 template <> inline int64_t pyPlasma_get(PyObject* value) { return (int64_t)PyInt_AsLong(value); }
