@@ -752,7 +752,7 @@ if(NOT WIN32)
                           SUFFIX ".so"
     )
 
-    execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import sys, distutils.sysconfig; sys.stdout.write(distutils.sysconfig.get_python_lib())"
+    execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import sys, distutils.sysconfig; sys.stdout.write(distutils.sysconfig.get_python_lib(prefix='${CMAKE_INSTALL_PREFIX}'))"
                     OUTPUT_VARIABLE _PYTHON_LIB_DIR
     )
     install(TARGETS PyHSPlasma
