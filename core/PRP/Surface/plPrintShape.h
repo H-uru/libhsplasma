@@ -35,6 +35,15 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    float getWidth() const { return fWidth; }
+    float getLength() const { return fLength; }
+    float getHeight() const { return fHeight; }
+
+    void setWidth(float width) { fWidth = width; }
+    void setLength(float length) { fLength = length; }
+    void setHeight(float height) { fHeight = height; }
 };
 
 
@@ -52,6 +61,13 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    void addDecalMgr(plKey mgr) { fDecalMgrs.emplace_back(std::move(mgr)); }
+    void clearDecalMgrs() { fDecalMgrs.clear(); }
+    void delDecalMgr(size_t idx) { fDecalMgrs.erase(fDecalMgrs.begin() + idx); }
+    plKey getDecalMgr(size_t idx) const { return fDecalMgrs[idx]; }
+    size_t getNumDecalMgrs() const { return fDecalMgrs.size(); }
 };
 
 #endif
