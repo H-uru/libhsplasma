@@ -89,7 +89,7 @@ protected:
     float fMinDist, fMaxDist;
     float fWaterHeight;
     unsigned int fProps;
-    unsigned int fNumVerts, fNumIndices;
+    unsigned int fNumVerts;
     std::vector<unsigned char> fVertexData;
     std::vector<unsigned short> fIndexData;
     unsigned int fDecalLevel;
@@ -109,7 +109,7 @@ public:
     plGeometrySpan()
         : fFormat(), fNumMatrices(), fBaseMatrix(), fLocalUVWChans(),
           fMaxBoneIdx(), fPenBoneIdx(), fMinDist(), fMaxDist(), fWaterHeight(),
-          fProps(), fNumVerts(), fNumIndices(), fDecalLevel(), fInstanceGroup() { }
+          fProps(), fNumVerts(), fDecalLevel(), fInstanceGroup() { }
 
     static unsigned int CalcVertexSize(unsigned char format);
 
@@ -120,6 +120,7 @@ public:
 
     std::vector<TempVertex> getVertices() const;
     void setVertices(const std::vector<TempVertex>& verts);
+    unsigned short getIndex(size_t idx) const { return fIndexData[idx]; }
     std::vector<unsigned short> getIndices() const { return fIndexData; }
     void setIndices(const std::vector<unsigned short>& indices) { fIndexData = indices; }
 
@@ -135,6 +136,8 @@ public:
     unsigned int getFormat() const { return fFormat; }
     unsigned int getNumMatrices() const { return fNumMatrices; }
     unsigned int getProps() const { return fProps; }
+    unsigned int getNumVertices() const { return fNumVerts; }
+    unsigned int getNumIndices() const { return fIndexData.size(); }
     unsigned int getBaseMatrix() const { return fBaseMatrix; }
     unsigned int getLocalUVWChans() const { return fLocalUVWChans; }
     unsigned int getMaxBoneIdx() const { return fMaxBoneIdx; }

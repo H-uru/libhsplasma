@@ -150,11 +150,16 @@ protected:
                      std::vector<plSpaceBuilderNode*>& right);
     void ISortSpace(std::vector<plSpaceBuilderNode*>& nodes, int axis);
 
+    /**
+     * Finds a buffer group with enough space for the requested amount of vertices.
+     */
+    size_t IFindBufferGroup(unsigned int format, unsigned int vertsNeeded);
+
 public:
     size_t getNumSpans() const { return fSpans.size(); }
     plSpan* getSpan(size_t idx) const { return fSpans[idx]; }
     plIcicle* getIcicle(size_t idx) const { return (plIcicle*)fSpans[idx]; }
-    size_t addIcicle(const plIcicle& span);
+    size_t addIcicle(plIcicle* span);
     void clearSpans();
 
     size_t getNumBufferGroups() const { return fGroups.size(); }

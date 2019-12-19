@@ -661,14 +661,12 @@ void plDrawableSpans::clearSpans()
     fSpanSourceIndices.clear();
 }
 
-size_t plDrawableSpans::addIcicle(const plIcicle& span)
+size_t plDrawableSpans::addIcicle(plIcicle* span)
 {
-    plIcicle* iceCopy = new plIcicle(span);
-    fIcicles.push_back(iceCopy);
-    size_t iceId = fIcicles.size() - 1;
-    fSpans.push_back(fIcicles[iceId]);
-    fSpanSourceIndices.push_back(iceId | kSpanTypeIcicle);
-    return fSpans.size() - 1;
+    fIcicles.push_back(span);
+    fSpans.push_back(span);
+    fSpanSourceIndices.push_back((fIcicles.size() - 1) | kSpanTypeIcicle);
+    return fIcicles.size() - 1;
 }
 
 size_t plDrawableSpans::createBufferGroup(unsigned char format)
@@ -744,9 +742,22 @@ void plDrawableSpans::setSpaceTree(plSpaceTree* tree)
     fSpaceTree = tree;
 }
 
+size_t plDrawableSpans::IFindBufferGroup(unsigned int format, unsigned int vertsNeeded)
+{
+    // For some reason, Plasma attempts to maintain only one vertex storage buffer per group
+    for (size_t i = 0; i < fGroups.size(); ++i) {
+        plGBufferGroup* group = fGroups[i];
+        if (group->getFormat() == format) {
+            if (group->getNumVertices() + vertsNeeded < plGBufferGroup::kMaxVertsPerBuffer)
+                return i;
+        }
+    }
+
+    return createBufferGroup(format);
+}
+
 void plDrawableSpans::composeGeometry(bool clearspans, bool calcbounds)
 {
-    std::map<unsigned int, std::pair<plGBufferGroup*, size_t> > groups;
     for (auto group = fGroups.begin(); group != fGroups.end(); ++group)
         delete *group;
     for (auto span = fSpans.begin(); span != fSpans.end(); ++span)
@@ -754,44 +765,7 @@ void plDrawableSpans::composeGeometry(bool clearspans, bool calcbounds)
 
     for (size_t i=0; i<fSourceSpans.size(); i++) {
         plGeometrySpan* span = fSourceSpans[i];
-        unsigned int format = span->getFormat();
-        plGBufferGroup* group = groups[format].first;
-        if (!group) {
-            group = new plGBufferGroup(format);
-            groups[format] = std::make_pair(group, fGroups.size());
-            fGroups.push_back(group);
-        }
-        size_t buf_idx = group->getNumVertBuffers();
-        std::vector<unsigned short> indices = span->getIndices();
-        std::vector<plGeometrySpan::TempVertex> verts = span->getVertices();
-
-        plGBufferCell cell;
-        cell.fColorStart = -1;
-        cell.fVtxStart = 0;
-        cell.fLength = verts.size();
-        std::vector<plGBufferCell> cell_tmp;
-        cell_tmp.push_back(cell);
-
-        std::vector<plGBufferVertex> new_verts;
-        new_verts.resize(verts.size());
-        for (size_t j=0; j<verts.size(); j++) {
-            plGeometrySpan::TempVertex v1 = verts[j];
-            plGBufferVertex v2;
-            v2.fPos = v1.fPosition;
-            v2.fNormal = v1.fNormal;
-            for (size_t k=0; k<8; k++) {
-                v2.fUVWs[k] = v1.fUVs[k];
-            }
-            for (size_t k=0; k<3; k++) {
-                v2.fSkinWeights[k] = v1.fWeights[k];
-            }
-            v2.fSkinIdx = v1.fIndices;
-            v2.fColor = v1.fColor;
-            new_verts[j] = v2;
-        }
-        group->addIndices(indices);
-        group->addVertices(new_verts);
-        group->addCells(cell_tmp);
+        size_t group = IFindBufferGroup(span->getFormat(), span->getNumVertices());
 
         auto mat_f = std::find(fMaterials.begin(), fMaterials.end(), span->getMaterial());
         size_t mat_idx = -1;
@@ -802,38 +776,32 @@ void plDrawableSpans::composeGeometry(bool clearspans, bool calcbounds)
             mat_idx = mat_f - fMaterials.begin();
         }
 
-        plIcicle icicle;
-        icicle.setIBufferIdx(buf_idx);
-        icicle.setIStartIdx(0);
-        icicle.setILength(indices.size());
-        icicle.setVBufferIdx(buf_idx);
-        icicle.setVStartIdx(0);
-        icicle.setVLength(verts.size());
-        icicle.setCellIdx(0);
-        icicle.setCellOffset(0);
-        icicle.setLocalToWorld(span->getLocalToWorld());
-        icicle.setWorldToLocal(span->getWorldToLocal());
-        icicle.setMaterialIdx(mat_idx);
-        icicle.setGroupIdx(groups[format].second);
+        plIcicle* icicle = new plIcicle;
+        fGroups[group]->packGeoSpan(span, icicle);
+
+        icicle->setLocalToWorld(span->getLocalToWorld());
+        icicle->setWorldToLocal(span->getWorldToLocal());
+        icicle->setMaterialIdx(mat_idx);
+        icicle->setGroupIdx(group);
         uint32_t props = plSpan::deswizzleGeoFlags(span->getProps());
         if (span->getPermaLights().size() > 0)
             props |= plSpan::kPropHasPermaLights;
         if (span->getPermaProjs().size() > 0)
             props |= plSpan::kPropHasPermaProjs;
-        icicle.setProps(props);
-        icicle.setBaseMatrix(span->getBaseMatrix());
-        icicle.setFogEnvironment(span->getFogEnvironment());
-        icicle.setLocalBounds(span->getLocalBounds());
-        icicle.setWorldBounds(span->getWorldBounds());
-        icicle.setLocalUVWChans(span->getLocalUVWChans());
-        icicle.setMaxBoneIdx(span->getMaxBoneIdx());
-        icicle.setMinDist(span->getMinDist());
-        icicle.setMaxDist(span->getMaxDist());
-        icicle.setWaterHeight(span->getWaterHeight());
-        icicle.setPenBoneIdx(span->getPenBoneIdx());
-        icicle.setNumMatrices(span->getNumMatrices());
-        icicle.setPermaLights(span->getPermaLights());
-        icicle.setPermaProjs(span->getPermaProjs());
+        icicle->setProps(props);
+        icicle->setBaseMatrix(span->getBaseMatrix());
+        icicle->setFogEnvironment(span->getFogEnvironment());
+        icicle->setLocalBounds(span->getLocalBounds());
+        icicle->setWorldBounds(span->getWorldBounds());
+        icicle->setLocalUVWChans(span->getLocalUVWChans());
+        icicle->setMaxBoneIdx(span->getMaxBoneIdx());
+        icicle->setMinDist(span->getMinDist());
+        icicle->setMaxDist(span->getMaxDist());
+        icicle->setWaterHeight(span->getWaterHeight());
+        icicle->setPenBoneIdx(span->getPenBoneIdx());
+        icicle->setNumMatrices(span->getNumMatrices());
+        icicle->setPermaLights(span->getPermaLights());
+        icicle->setPermaProjs(span->getPermaProjs());
         addIcicle(icicle);
     }
 

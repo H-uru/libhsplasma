@@ -48,7 +48,7 @@ PY_METHOD_VA(DrawableSpans, addIcicle,
         PyErr_SetString(PyExc_TypeError, "addIcicle expects a plIcicle");
         return nullptr;
     }
-    return pyPlasma_convert(self->fThis->addIcicle(*ice->fThis));
+    return pyPlasma_convert(self->fThis->addIcicle(ice->fThis));
 }
 
 PY_METHOD_VA(DrawableSpans, createBufferGroup,

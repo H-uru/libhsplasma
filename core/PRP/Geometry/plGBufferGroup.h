@@ -27,6 +27,9 @@ public:
 
 public:
     plGBufferCell() : fVtxStart(), fColorStart(), fLength() { }
+    plGBufferCell(unsigned int vtxStart, unsigned int colorStart, unsigned int length)
+        : fVtxStart(vtxStart), fColorStart(colorStart), fLength(length)
+    { }
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -90,6 +93,12 @@ public:
         kStoreIsDirty = 0x4
     };
 
+    enum
+    {
+        kMaxVertsPerBuffer = 32000,
+        kMaxIndicesPerBuffer = 32000,
+    };
+
 protected:
     unsigned int fFormat, fStride, fLiteStride, fGBuffStorageType;
     std::vector<unsigned int> fVertBuffSizes, fIdxBuffCounts, fCompGBuffSizes;
@@ -100,6 +109,9 @@ protected:
 
     unsigned int ICalcVertexSize(unsigned int& lStride);
     bool INeedVertRecompression(PlasmaVer ver) const;
+
+    void IPackVertexSpan(const class plGeometrySpan* geoSpan, class plVertexSpan* vSpan);
+    void IPackIcicle(const class plGeometrySpan* geoSpan, class plIcicle* ice);
 
 public:
     plGBufferGroup(unsigned char fmt) : fGBuffStorageType(kStoreUncompressed)
@@ -120,6 +132,8 @@ public:
     std::vector<unsigned short> getIndices(size_t idx, size_t start = 0, size_t count = (size_t)-1, size_t offset = 0) const;
     std::vector<plGBufferCell> getCells(size_t idx) const { return fCells[idx]; }
 
+    unsigned int getNumVertices(size_t cell = 0) const;
+
     unsigned int getFormat() const { return fFormat; }
     size_t getSkinWeights() const { return (fFormat & kSkinWeightMask) >> 4; }
     size_t getNumUVs() const { return (fFormat & kUVCountMask); }
@@ -127,7 +141,8 @@ public:
 
     void addVertices(const std::vector<plGBufferVertex>& verts);
     void addIndices(const std::vector<unsigned short>& indices);
-    void addCells(const std::vector<plGBufferCell>& cells) { fCells.push_back(cells); }
+    void addCells(std::vector<plGBufferCell> cells) { fCells.emplace_back(std::move(cells)); }
+    void packGeoSpan(const class plGeometrySpan* geoSpan, class plIcicle* ice);
     void setFormat(unsigned int format);
     void setSkinWeights(size_t skinWeights);
     void setNumUVs(size_t numUVs);
