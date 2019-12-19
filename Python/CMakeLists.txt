@@ -555,6 +555,7 @@ set(PRP_REGION_HEADERS
 )
 
 set(PRP_SURFACE_SOURCES
+    PRP/Surface/pyActivePrintShape.cpp
     PRP/Surface/pyBitmap.cpp
     PRP/Surface/pyCubicEnvironmap.cpp
     PRP/Surface/pyCubicRenderTarget.cpp
@@ -587,6 +588,7 @@ set(PRP_SURFACE_SOURCES
     PRP/Surface/pyLayerMovie.cpp
     PRP/Surface/pyLayerSDLAnimation.cpp
     PRP/Surface/pyMipmap.cpp
+    PRP/Surface/pyPrintShape.cpp
     PRP/Surface/pyRenderTarget.cpp
     PRP/Surface/pyShader.cpp
     PRP/Surface/pyShaderConst.cpp
@@ -610,6 +612,7 @@ set(PRP_SURFACE_HEADERS
     PRP/Surface/pyLayer.h
     PRP/Surface/pyLayerAnimation.h
     PRP/Surface/pyLayerMovie.h
+    PRP/Surface/pyPrintShape.h
     PRP/Surface/pyRenderTarget.h
     PRP/Surface/pyShader.h
     PRP/Surface/pyWaveSet.h

@@ -178,6 +178,7 @@
 #include "PRP/Surface/pyLayer.h"
 #include "PRP/Surface/pyLayerAnimation.h"
 #include "PRP/Surface/pyLayerMovie.h"
+#include "PRP/Surface/pyPrintShape.h"
 #include "PRP/Surface/pyRenderTarget.h"
 #include "PRP/Surface/pyShader.h"
 #include "PRP/Surface/pyWaveSet.h"
@@ -802,6 +803,8 @@ PyMODINIT_FUNC initPyHSPlasma()
     PyModule_AddObject(module, "plDynaPuddleMgr", Init_pyDynaPuddleMgr_Type());
     PyModule_AddObject(module, "plDynaWakeMgr", Init_pyDynaWakeMgr_Type());
     PyModule_AddObject(module, "plFont", Init_pyFont_Type());
+    PyModule_AddObject(module, "plPrintShape", Init_pyPrintShape_Type());
+    PyModule_AddObject(module, "plActivePrintShape", Init_pyActivePrintShape_Type());
 
     PyModule_AddObject(module, "plSharedMesh", Init_pySharedMesh_Type());
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());

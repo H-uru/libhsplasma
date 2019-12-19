@@ -300,6 +300,7 @@
 #include "PRP/Surface/pyLayer.h"
 #include "PRP/Surface/pyLayerAnimation.h"
 #include "PRP/Surface/pyLayerMovie.h"
+#include "PRP/Surface/pyPrintShape.h"
 #include "PRP/Surface/pyRenderTarget.h"
 #include "PRP/Surface/pyShader.h"
 #include "PRP/Surface/pyWaveSet.h"
@@ -599,6 +600,8 @@ PyObject* ICreate(plCreatable* pCre)
         case kDynaPuddleMgr: return pyDynaPuddleMgr_FromDynaPuddleMgr(plDynaPuddleMgr::Convert(pCre));
         case kDynaWakeMgr: return pyDynaWakeMgr_FromDynaWakeMgr(plDynaWakeMgr::Convert(pCre));
         case kFont: return pyFont_FromFont(plFont::Convert(pCre));
+        case kPrintShape: return pyPrintShape_FromPrintShape(plPrintShape::Convert(pCre));
+        case kActivePrintShape: return pyActivePrintShape_FromActivePrintShape(plActivePrintShape::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (pCre->ClassInstance(kMessage))
