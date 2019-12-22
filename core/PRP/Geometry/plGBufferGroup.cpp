@@ -17,6 +17,7 @@
 #include "plGBufferGroup.h"
 #include "plGeometrySpan.h"
 #include "plIcicle.h"
+#include <cstring>
 #include <string_theory/format>
 
 /* plGBufferCell */
