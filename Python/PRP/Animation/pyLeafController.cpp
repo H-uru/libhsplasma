@@ -58,7 +58,7 @@ PY_GETSET_GETTER_DECL(LeafController, keys)
     const std::vector<hsKeyFrame*>& keys = self->fThis->getKeys();
     PyObject* keyTup = PyTuple_New(keys.size());
     for (size_t i=0; i<keys.size(); i++)
-        PyTuple_SET_ITEM(keyTup, i, pyKeyFrame_FromKeyFrame(keys[i]));
+        PyTuple_SET_ITEM(keyTup, i, pyPlasma_convert(keys[i]));
     PyObject* tup = PyTuple_New(2);
     PyTuple_SET_ITEM(tup, 0, keyTup);
     PyTuple_SET_ITEM(tup, 1, pyPlasma_convert(self->fThis->getType()));
