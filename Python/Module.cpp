@@ -601,6 +601,7 @@ PyMODINIT_FUNC initPyHSPlasma()
     PyModule_AddObject(module, "plSpawnPointInfo", Init_pySpawnPointInfo_Type());
     PyModule_AddObject(module, "plFixedWaterState7", Init_pyFixedWaterState7_Type());
     PyModule_AddObject(module, "plCameraConfig", Init_pyCameraConfig_Type());
+    PyModule_AddObject(module, "plAgeLinkEffects", Init_pyAgeLinkEffects_Type());
 
     /* Creatables */
     PyModule_AddObject(module, "plCreatable", Init_pyCreatable_Type());

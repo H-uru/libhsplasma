@@ -18,9 +18,7 @@
 
 #include <PRP/Message/plLinkToAgeMsg.h>
 #include "pyMessage.h"
-#include "PRP/pyCreatable.h"
 #include "PRP/Misc/pyAgeLinkInfo.h"
-#include <PRP/Modifier/pyPythonFileMod.h>
 
 PY_PLASMA_NEW(LinkToAgeMsg, plLinkToAgeMsg)
 
@@ -46,8 +44,31 @@ PY_GETSET_SETTER_DECL(LinkToAgeMsg, ageLink)
 
 PY_PROPERTY_GETSET_DECL(LinkToAgeMsg, ageLink)
 
+PY_GETSET_GETTER_DECL(LinkToAgeMsg, linkEffects)
+{
+    // This cannot be a subclass, since it's an inline member
+    return pyAgeLinkEffects_FromAgeLinkEffects(&self->fThis->getLinkEffects());
+}
+
+PY_GETSET_SETTER_DECL(LinkToAgeMsg, linkEffects)
+{
+    PY_PROPERTY_CHECK_NULL(linkEffects)
+
+    plAgeLinkEffects& effects = self->fThis->getLinkEffects();
+    if (pyAgeLinkEffects_Check(value)) {
+        effects = *((pyAgeLinkEffects*)value)->fThis;
+        return 0;
+    } else {
+        PyErr_SetString(PyExc_TypeError, "linkEffects expected type plAgeLinkEffects");
+        return -1;
+    }
+}
+
+PY_PROPERTY_GETSET_DECL(LinkToAgeMsg, linkEffects)
+
 static PyGetSetDef pyLinkToAgeMsg_GetSet[] = {
     pyLinkToAgeMsg_ageLink_getset,
+    pyLinkToAgeMsg_linkEffects_getset,
     PY_GETSET_TERMINATOR
 };
 

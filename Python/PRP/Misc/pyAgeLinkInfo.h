@@ -21,5 +21,6 @@
 
 PY_WRAP_PLASMA(AgeInfoStruct, class plAgeInfoStruct);
 PY_WRAP_PLASMA(AgeLinkStruct, class plAgeLinkStruct);
+PY_WRAP_PLASMA(AgeLinkEffects, class plAgeLinkEffects);
 
 #endif
