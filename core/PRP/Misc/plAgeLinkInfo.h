@@ -208,7 +208,7 @@ public:
     bool getBool3() const { return fBool3; }
     bool getBool4() const { return fBool4; }
 
-    void setLinkInAnimName(const ST::string& name) { fLinkInAnimName = name; }
+    void setLinkInAnimName(ST::string name) { fLinkInAnimName = std::move(name); }
     void setBool1(bool value) { fBool1 = value; }
     void setBool2(bool value) { fBool2 = value; }
     void setBool3(bool value) { fBool3 = value; }

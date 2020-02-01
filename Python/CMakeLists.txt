@@ -414,6 +414,7 @@ set(PRP_MSG_HEADERS
 )
 
 set(PRP_MISC_SOURCES
+    PRP/Misc/pyAgeLinkEffects.cpp
     PRP/Misc/pyAgeInfoStruct.cpp
     PRP/Misc/pyAgeLinkStruct.cpp
     PRP/Misc/pyFogEnvironment.cpp
