@@ -108,7 +108,7 @@ protected:
 public:
     plGeometrySpan()
         : fFormat(), fNumMatrices(), fBaseMatrix(), fLocalUVWChans(),
-          fMaxBoneIdx(), fPenBoneIdx(), fMinDist(), fMaxDist(), fWaterHeight(),
+          fMaxBoneIdx(), fPenBoneIdx(), fMinDist(-1), fMaxDist(-1), fWaterHeight(),
           fProps(), fNumVerts(), fDecalLevel(), fInstanceGroup() { }
 
     static unsigned int CalcVertexSize(unsigned char format);
