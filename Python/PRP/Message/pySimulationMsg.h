@@ -20,6 +20,7 @@
 #include "PyPlasma.h"
 
 PY_WRAP_PLASMA(SimulationMsg, class plSimulationMsg);
+PY_WRAP_PLASMA(SimSuppressMsg, class plSimSuppressMsg);
 PY_WRAP_PLASMA(SubWorldMsg, class plSubWorldMsg);
 
 #endif

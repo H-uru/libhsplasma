@@ -383,6 +383,7 @@ set(PRP_MSG_SOURCES
     PRP/Message/pyResponderMsg.cpp
     PRP/Message/pyResponderStateEventData.cpp
     PRP/Message/pyRideAnimatedPhysMsg.cpp
+    PRP/Message/pySimSuppressMsg.cpp
     PRP/Message/pySimulationMsg.cpp
     PRP/Message/pySoundMsg.cpp
     PRP/Message/pySpawnedEventData.cpp

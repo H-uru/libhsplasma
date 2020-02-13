@@ -908,6 +908,7 @@ PyMODINIT_FUNC initPyHSPlasma()
     PyModule_AddObject(module, "plSimulationMsg", Init_pySimulationMsg_Type());
     PyModule_AddObject(module, "plSubWorldMsg", Init_pySubWorldMsg_Type());
     PyModule_AddObject(module, "plRideAnimatedPhysMsg", Init_pyRideAnimatedPhysMsg_Type());
+    PyModule_AddObject(module, "plSimSuppressMsg", Init_pySimSuppressMsg_Type());
 
 #if PY_MAJOR_VERSION >= 3
     return module;
