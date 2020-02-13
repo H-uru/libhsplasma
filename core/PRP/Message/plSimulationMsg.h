@@ -47,6 +47,10 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    bool getSuppress() const { return fSuppress; }
+    void setSuppress(bool value) { fSuppress = value; }
 };
 
 

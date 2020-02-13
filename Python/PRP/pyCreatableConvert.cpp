@@ -602,6 +602,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kFont: return pyFont_FromFont(plFont::Convert(pCre));
         case kPrintShape: return pyPrintShape_FromPrintShape(plPrintShape::Convert(pCre));
         case kActivePrintShape: return pyActivePrintShape_FromActivePrintShape(plActivePrintShape::Convert(pCre));
+        case kSimSuppressMsg: return pySimSuppressMsg_FromSimSuppressMsg(plSimSuppressMsg::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (pCre->ClassInstance(kMessage))
