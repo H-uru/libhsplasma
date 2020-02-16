@@ -193,8 +193,17 @@ ST::string hsStream::readLine()
     }
     if (c != '\n' && c != '\r')
         line.append_char(c);
-    if (c == '\r')
-        readByte(); // Eat the \n in Windows-style EOLs
+    if (c == '\r') {
+        if (!eof()) {
+            // Eat the \n in Windows-style EOLs
+            char nextChar = readByte();
+            if (nextChar != '\n') {
+                // Old-school MacOS carriage return without line feed...
+                // Rewind one character.
+                skip(-1);
+            }
+        }
+    }
     return line.to_string();
 }
 
