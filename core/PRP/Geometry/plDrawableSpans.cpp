@@ -727,13 +727,14 @@ void plDrawableSpans::clearTransforms()
     fBoneToLocals.clear();
 }
 
-void plDrawableSpans::addTransform(const hsMatrix44& l2w, const hsMatrix44& w2l,
-                                   const hsMatrix44& l2b, const hsMatrix44& b2l)
+size_t plDrawableSpans::addTransform(const hsMatrix44& l2w, const hsMatrix44& w2l,
+                                     const hsMatrix44& l2b, const hsMatrix44& b2l)
 {
     fLocalToWorlds.push_back(l2w);
     fWorldToLocals.push_back(w2l);
     fLocalToBones.push_back(l2b);
     fBoneToLocals.push_back(b2l);
+    return fLocalToBones.size() - 1;
 }
 
 void plDrawableSpans::setSpaceTree(plSpaceTree* tree)
