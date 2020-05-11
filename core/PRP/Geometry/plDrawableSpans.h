@@ -188,8 +188,8 @@ public:
     hsMatrix44 getLocalToBone(size_t idx) const { return fLocalToBones[idx]; }
     hsMatrix44 getBoneToLocal(size_t idx) const { return fBoneToLocals[idx]; }
     void clearTransforms();
-    void addTransform(const hsMatrix44& l2w, const hsMatrix44& w2l,
-                      const hsMatrix44& l2b, const hsMatrix44& b2l);
+    size_t addTransform(const hsMatrix44& l2w, const hsMatrix44& w2l,
+                        const hsMatrix44& l2b, const hsMatrix44& b2l);
 
     const hsBounds3Ext& getLocalBounds() { return fLocalBounds; }
     const hsBounds3Ext& getWorldBounds() { return fWorldBounds; }

@@ -264,8 +264,7 @@ PY_METHOD_VA(DrawableSpans, addTransform,
         PyErr_SetString(PyExc_TypeError, "addTransform expects 4 hsMatrix44s");
         return nullptr;
     }
-    self->fThis->addTransform(*l2w->fThis, *w2l->fThis, *l2b->fThis, *b2l->fThis);
-    Py_RETURN_NONE;
+    return pyPlasma_convert(self->fThis->addTransform(*l2w->fThis, *w2l->fThis, *l2b->fThis, *b2l->fThis));
 }
 
 PY_METHOD_NOARGS(DrawableSpans, clearMaterials,
