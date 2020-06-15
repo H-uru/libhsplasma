@@ -297,6 +297,7 @@
 #include "PRP/Surface/pyFont.h"
 #include "PRP/Surface/pyGMaterial.h"
 #include "PRP/Surface/pyGMatState.h"
+#include "PRP/Surface/pyGrassShaderMod.h"
 #include "PRP/Surface/pyLayer.h"
 #include "PRP/Surface/pyLayerAnimation.h"
 #include "PRP/Surface/pyLayerMovie.h"
@@ -603,6 +604,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kPrintShape: return pyPrintShape_FromPrintShape(plPrintShape::Convert(pCre));
         case kActivePrintShape: return pyActivePrintShape_FromActivePrintShape(plActivePrintShape::Convert(pCre));
         case kSimSuppressMsg: return pySimSuppressMsg_FromSimSuppressMsg(plSimSuppressMsg::Convert(pCre));
+        case kGrassShaderMod: return pyGrassShaderMod_FromGrassShaderMod(plGrassShaderMod::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (pCre->ClassInstance(kMessage))

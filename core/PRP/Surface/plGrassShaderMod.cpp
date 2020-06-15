@@ -19,9 +19,7 @@
 /* plGrassWave */
 void plGrassWave::read(hsStream* S)
 {
-    fDistX = S->readFloat();
-    fDistY = S->readFloat();
-    fDistZ = S->readFloat();
+    fDist.read(S);
     fDirX = S->readFloat();
     fDirY = S->readFloat();
     fSpeed = S->readFloat();
@@ -29,9 +27,7 @@ void plGrassWave::read(hsStream* S)
 
 void plGrassWave::write(hsStream* S)
 {
-    S->writeFloat(fDistX);
-    S->writeFloat(fDistY);
-    S->writeFloat(fDistZ);
+    fDist.write(S);
     S->writeFloat(fDirX);
     S->writeFloat(fDirY);
     S->writeFloat(fSpeed);
@@ -40,9 +36,9 @@ void plGrassWave::write(hsStream* S)
 void plGrassWave::prcWrite(pfPrcHelper* prc)
 {
     prc->startTag("plGrassWave");
-    prc->writeParam("DistX", fDistX);
-    prc->writeParam("DistY", fDistY);
-    prc->writeParam("DistZ", fDistZ);
+    prc->writeParam("DistX", fDist.X);
+    prc->writeParam("DistY", fDist.Y);
+    prc->writeParam("DistZ", fDist.Z);
     prc->writeParam("DirX", fDirX);
     prc->writeParam("DirY", fDirY);
     prc->writeParam("Speed", fSpeed);
@@ -54,9 +50,9 @@ void plGrassWave::prcParse(const pfPrcTag* tag)
     if (tag->getName() != "plGrassWave")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    fDistX = tag->getParam("DistX", "0").to_float();
-    fDistY = tag->getParam("DistY", "0").to_float();
-    fDistZ = tag->getParam("DistZ", "0").to_float();
+    fDist.X = tag->getParam("DistX", "0").to_float();
+    fDist.Y = tag->getParam("DistY", "0").to_float();
+    fDist.Z = tag->getParam("DistZ", "0").to_float();
     fDirX = tag->getParam("DirX", "0").to_float();
     fDirY = tag->getParam("DirY", "0").to_float();
     fSpeed = tag->getParam("Speed", "0").to_float();
@@ -113,4 +109,18 @@ void plGrassShaderMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
     } else {
         plModifier::IPrcParse(tag, mgr);
     }
+}
+
+plGrassWave& plGrassShaderMod::getWave(size_t idx)
+{
+    if (idx < kNumWaves)
+        return fWaves[idx];
+    throw hsOutOfBoundsException(__FILE__, __LINE__);
+}
+
+const plGrassWave& plGrassShaderMod::getWave(size_t idx) const
+{
+    if (idx < kNumWaves)
+        return fWaves[idx];
+    throw hsOutOfBoundsException(__FILE__, __LINE__);
 }
