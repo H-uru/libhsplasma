@@ -579,6 +579,8 @@ set(PRP_SURFACE_SOURCES
     PRP/Surface/pyFont.cpp
     PRP/Surface/pyGMatState.cpp
     PRP/Surface/pyGMaterial.cpp
+    PRP/Surface/pyGrassShaderMod.cpp
+    PRP/Surface/pyGrassWave.cpp
     PRP/Surface/pyLayer.cpp
     PRP/Surface/pyLayerAVI.cpp
     PRP/Surface/pyLayerAnimation.cpp
@@ -611,6 +613,7 @@ set(PRP_SURFACE_HEADERS
     PRP/Surface/pyFont.h
     PRP/Surface/pyGMatState.h
     PRP/Surface/pyGMaterial.h
+    PRP/Surface/pyGrassShaderMod.h
     PRP/Surface/pyLayer.h
     PRP/Surface/pyLayerAnimation.h
     PRP/Surface/pyLayerMovie.h

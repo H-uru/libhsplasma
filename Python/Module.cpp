@@ -175,6 +175,7 @@
 #include "PRP/Surface/pyFont.h"
 #include "PRP/Surface/pyGMaterial.h"
 #include "PRP/Surface/pyGMatState.h"
+#include "PRP/Surface/pyGrassShaderMod.h"
 #include "PRP/Surface/pyLayer.h"
 #include "PRP/Surface/pyLayerAnimation.h"
 #include "PRP/Surface/pyLayerMovie.h"
@@ -602,6 +603,7 @@ PyMODINIT_FUNC initPyHSPlasma()
     PyModule_AddObject(module, "plFixedWaterState7", Init_pyFixedWaterState7_Type());
     PyModule_AddObject(module, "plCameraConfig", Init_pyCameraConfig_Type());
     PyModule_AddObject(module, "plAgeLinkEffects", Init_pyAgeLinkEffects_Type());
+    PyModule_AddObject(module, "plGrassWave", Init_pyGrassWave_Type());
 
     /* Creatables */
     PyModule_AddObject(module, "plCreatable", Init_pyCreatable_Type());
@@ -806,6 +808,7 @@ PyMODINIT_FUNC initPyHSPlasma()
     PyModule_AddObject(module, "plFont", Init_pyFont_Type());
     PyModule_AddObject(module, "plPrintShape", Init_pyPrintShape_Type());
     PyModule_AddObject(module, "plActivePrintShape", Init_pyActivePrintShape_Type());
+    PyModule_AddObject(module, "plGrassShaderMod", Init_pyGrassShaderMod_Type());
 
     PyModule_AddObject(module, "plSharedMesh", Init_pySharedMesh_Type());
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());

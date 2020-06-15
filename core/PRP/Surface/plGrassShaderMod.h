@@ -18,21 +18,33 @@
 #define _PLGRASSSHADERMOD_H
 
 #include "PRP/Modifier/plModifier.h"
+#include "Math/hsGeometry3.h"
 
 class PLASMA_DLL plGrassWave
 {
 protected:
-    float fDistX, fDistY, fDistZ;
+    hsVector3 fDist;
     float fDirX, fDirY, fSpeed;
 
 public:
     plGrassWave()
-        : fDistX(), fDistY(), fDistZ(), fDirX(), fDirY(), fSpeed() { }
+        : fDirX(), fDirY(), fSpeed() { }
 
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
+
+public:
+    hsVector3 getDist() const { return fDist; }
+    float getDirX() const { return fDirX; }
+    float getDirY() const { return fDirY; }
+    float getSpeed() const { return fSpeed; }
+
+    void setDist(hsVector3 dist) { fDist = std::move(dist); }
+    void setDirX(float dir) { fDirX = dir; }
+    void setDirY(float dir) { fDirY = dir; }
+    void setSpeed(float speed) { fSpeed = speed; }
 };
 
 
@@ -54,6 +66,13 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    plGrassWave& getWave(size_t idx);
+    const plGrassWave& getWave(size_t idx) const;
+    plKey getMaterial() const { return fMaterial; }
+
+    void setMaterial(plKey material) { fMaterial = std::move(material); }
 };
 
 #endif
