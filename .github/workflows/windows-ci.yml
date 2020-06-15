@@ -69,8 +69,9 @@ jobs:
             -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/build/install" `
             -DCMAKE_UNITY_BUILD=${{ matrix.platform.unity }} `
             -DVCPKG_TARGET_TRIPLET=windows-hsplasma `
-            -DPYTHON_EXECUTABLE="${{ env.pythonLocation }}/python.exe" `
-            -DPYTHON_LIBRARY="${{ env.pythonLocation }}/libs/python$("${{ matrix.platform.python }}".replace('.', '')).lib" `
+            -DPython3_EXECUTABLE="${{ env.pythonLocation }}/python.exe" `
+            -DPython3_LIBRARY="${{ env.pythonLocation }}/libs/python$("${{ matrix.platform.python }}".replace('.', '')).lib" `
+            -DPython3_INCLUDE_DIR="${{ env.pythonLocation }}/include" `
             -S . -B build
 
       - name: Build

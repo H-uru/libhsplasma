@@ -1,12 +1,4 @@
-find_package(PythonLibs 3.2 REQUIRED)
-# Use only the major.minor version -- no patch, no +, etc
-STRING(REGEX REPLACE "([0-9]\\.[0-9]+)[0-9.+]*" "\\1" PYTHONLIBS_VERSION_STRING_FILTERED "${PYTHONLIBS_VERSION_STRING}")
-find_package(PythonInterp "${PYTHONLIBS_VERSION_STRING_FILTERED}" REQUIRED)
-# make sure the versions match
-STRING(REGEX REPLACE "([0-9]\\.[0-9]+)[0-9.+]*" "\\1" PYTHON_VERSION_STRING_FILTERED "${PYTHON_VERSION_STRING}")
-if (NOT "${PYTHONLIBS_VERSION_STRING_FILTERED}" STREQUAL "${PYTHON_VERSION_STRING_FILTERED}")
-    message(FATAL_ERROR "Versions of Python libraries (${PYTHONLIBS_VERSION_STRING_FILTERED}) and Python interpreter (${PYTHON_VERSION_STRING_FILTERED}) do not match. Please configure the paths manually.")
-endif()
+find_package(Python3 3.2 REQUIRED COMPONENTS Interpreter Development)
 
 if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_CLANG)
     set(CMAKE_CXX_FLAGS "-fno-strict-aliasing ${CMAKE_CXX_FLAGS}")
@@ -22,7 +14,6 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
     endif()
 endif()
 
-include_directories(${PYTHON_INCLUDE_DIRS})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 set(DEBUG_SOURCES
@@ -737,45 +728,41 @@ set(PYTHON_HEADERS
     PyPlasma.h
 )
 
-add_library(PyHSPlasma SHARED
-            ${DEBUG_SOURCES}        ${DEBUG_HEADERS}
-            ${MATH_SOURCES}         ${MATH_HEADERS}
-            ${PRP_ANIM_SOURCES}     ${PRP_ANIM_HEADERS}
-            ${PRP_AUDIO_SOURCES}    ${PRP_AUDIO_HEADERS}
-            ${PRP_AVATAR_SOURCES}   ${PRP_AVATAR_HEADERS}
-            ${PRP_CAMERA_SOURCES}   ${PRP_CAMERA_HEADERS}
-            ${PRP_COND_SOURCES}     ${PRP_COND_HEADERS}
-            ${PRP_GEOM_SOURCES}     ${PRP_GEOM_HEADERS}
-            ${PRP_GUI_SOURCES}      ${PRP_GUI_HEADERS}
-            ${PRP_KEYOBJ_SOURCES}   ${PRP_KEYOBJ_HEADERS}
-            ${PRP_LIGHT_SOURCES}    ${PRP_LIGHT_HEADERS}
-            ${PRP_MSG_SOURCES}      ${PRP_MSG_HEADERS}
-            ${PRP_MISC_SOURCES}     ${PRP_MISC_HEADERS}
-            ${PRP_MOD_SOURCES}      ${PRP_MOD_HEADERS}
-            ${PRP_OBJ_SOURCES}      ${PRP_OBJ_HEADERS}
-            ${PRP_PARTICLE_SOURCES} ${PRP_PARTICLE_HEADERS}
-            ${PRP_PHYS_SOURCES}     ${PRP_PHYS_HEADERS}
-            ${PRP_REGION_SOURCES}   ${PRP_REGION_HEADERS}
-            ${PRP_SURFACE_SOURCES}  ${PRP_SURFACE_HEADERS}
-            ${PRP_SOURCES}          ${PRP_HEADERS}
-            ${RESMGR_SOURCES}       ${RESMGR_HEADERS}
-            ${SDL_SOURCES}          ${SDL_HEADERS}
-            ${STREAM_SOURCES}       ${STREAM_HEADERS}
-            ${SYS_SOURCES}          ${SYS_HEADERS}
-            ${UTIL_SOURCES}         ${UTIL_HEADERS}
-            ${VAULT_SOURCES}        ${VAULT_HEADERS}
-            ${PYTHON_SOURCES}       ${PYTHON_HEADERS}
+Python3_add_library(PyHSPlasma MODULE
+                    ${DEBUG_SOURCES}        ${DEBUG_HEADERS}
+                    ${MATH_SOURCES}         ${MATH_HEADERS}
+                    ${PRP_ANIM_SOURCES}     ${PRP_ANIM_HEADERS}
+                    ${PRP_AUDIO_SOURCES}    ${PRP_AUDIO_HEADERS}
+                    ${PRP_AVATAR_SOURCES}   ${PRP_AVATAR_HEADERS}
+                    ${PRP_CAMERA_SOURCES}   ${PRP_CAMERA_HEADERS}
+                    ${PRP_COND_SOURCES}     ${PRP_COND_HEADERS}
+                    ${PRP_GEOM_SOURCES}     ${PRP_GEOM_HEADERS}
+                    ${PRP_GUI_SOURCES}      ${PRP_GUI_HEADERS}
+                    ${PRP_KEYOBJ_SOURCES}   ${PRP_KEYOBJ_HEADERS}
+                    ${PRP_LIGHT_SOURCES}    ${PRP_LIGHT_HEADERS}
+                    ${PRP_MSG_SOURCES}      ${PRP_MSG_HEADERS}
+                    ${PRP_MISC_SOURCES}     ${PRP_MISC_HEADERS}
+                    ${PRP_MOD_SOURCES}      ${PRP_MOD_HEADERS}
+                    ${PRP_OBJ_SOURCES}      ${PRP_OBJ_HEADERS}
+                    ${PRP_PARTICLE_SOURCES} ${PRP_PARTICLE_HEADERS}
+                    ${PRP_PHYS_SOURCES}     ${PRP_PHYS_HEADERS}
+                    ${PRP_REGION_SOURCES}   ${PRP_REGION_HEADERS}
+                    ${PRP_SURFACE_SOURCES}  ${PRP_SURFACE_HEADERS}
+                    ${PRP_SOURCES}          ${PRP_HEADERS}
+                    ${RESMGR_SOURCES}       ${RESMGR_HEADERS}
+                    ${SDL_SOURCES}          ${SDL_HEADERS}
+                    ${STREAM_SOURCES}       ${STREAM_HEADERS}
+                    ${SYS_SOURCES}          ${SYS_HEADERS}
+                    ${UTIL_SOURCES}         ${UTIL_HEADERS}
+                    ${VAULT_SOURCES}        ${VAULT_HEADERS}
+                    ${PYTHON_SOURCES}       ${PYTHON_HEADERS}
 )
 
-target_link_libraries(PyHSPlasma HSPlasma ${PYTHON_LIBRARIES})
+target_link_libraries(PyHSPlasma PUBLIC HSPlasma)
 set_target_properties(PyHSPlasma PROPERTIES PREFIX "")
 
 if(NOT WIN32)
-    set_target_properties(PyHSPlasma PROPERTIES
-                          SUFFIX ".so"
-    )
-
-    execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import sys, distutils.sysconfig; sys.stdout.write(distutils.sysconfig.get_python_lib(prefix='${CMAKE_INSTALL_PREFIX}'))"
+    execute_process(COMMAND Python3::Interpreter -c "import sys, distutils.sysconfig; sys.stdout.write(distutils.sysconfig.get_python_lib(prefix='${CMAKE_INSTALL_PREFIX}'))"
                     OUTPUT_VARIABLE _PYTHON_LIB_DIR
     )
     install(TARGETS PyHSPlasma
@@ -783,13 +770,9 @@ if(NOT WIN32)
     )
     install(FILES PyHSPlasma.pyi DESTINATION ${_PYTHON_LIB_DIR})
 else()
-    set_target_properties(PyHSPlasma PROPERTIES
-                          SUFFIX ".pyd"
-    )
-
     install(TARGETS PyHSPlasma
             RUNTIME DESTINATION bin
-            LIBRARY DESTINATION lib
+            LIBRARY DESTINATION bin
             ARCHIVE DESTINATION lib
     )
     install(FILES PyHSPlasma.pyi DESTINATION bin)
