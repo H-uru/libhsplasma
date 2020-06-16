@@ -158,16 +158,78 @@ void plConeIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
 }
 
 
+/* plConvexIsect::SinglePlane */
+void plConvexIsect::SinglePlane::read(hsStream* S)
+{
+    fNorm.read(S);
+    fPos.read(S);
+    fDist = S->readFloat();
+    fWorldNorm.read(S);
+    fWorldDist = S->readFloat();
+}
+
+void plConvexIsect::SinglePlane::write(hsStream* S)
+{
+    fNorm.write(S);
+    fPos.write(S);
+    S->writeFloat(fDist);
+    fWorldNorm.write(S);
+    S->writeFloat(fWorldDist);
+}
+
+void plConvexIsect::SinglePlane::prcWrite(pfPrcHelper* prc)
+{
+    prc->startTag("SinglePlane");
+    prc->writeParam("Dist", fDist);
+    prc->writeParam("WorldDist", fWorldDist);
+    prc->endTag();
+    prc->writeSimpleTag("Normal");
+    fNorm.prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("Position");
+    fPos.prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("WorldNormal");
+    fWorldNorm.prcWrite(prc);
+    prc->closeTag();
+    prc->closeTag();
+}
+
+void plConvexIsect::SinglePlane::prcParse(const pfPrcTag* tag)
+{
+    if (tag->getName() != "SinglePlane")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+    fDist = tag->getParam("Dist", "0").to_float();
+    fWorldDist = tag->getParam("WorldDist", "0").to_float();
+
+    const pfPrcTag* child = tag->getFirstChild();
+    while (child) {
+        if (child->getName() == "Normal") {
+            if (child->hasChildren())
+                fNorm.prcParse(child->getFirstChild());
+        }
+        else if (child->getName() == "Position") {
+            if (child->hasChildren())
+                fPos.prcParse(child->getFirstChild());
+        }
+        else if (child->getName() == "WorldNormal") {
+            if (child->hasChildren())
+                fWorldNorm.prcParse(child->getFirstChild());
+        }
+        else {
+            throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+        }
+        child = child->getNextSibling();
+    }
+}
+
+
 /* plConvexIsect */
 void plConvexIsect::read(hsStream* S, plResManager* mgr)
 {
     fPlanes.resize(S->readShort());
     for (size_t i=0; i<fPlanes.size(); i++) {
-        fPlanes[i].fNorm.read(S);
-        fPlanes[i].fPos.read(S);
-        fPlanes[i].fDist = S->readFloat();
-        fPlanes[i].fWorldNorm.read(S);
-        fPlanes[i].fWorldDist = S->readFloat();
+        fPlanes[i].read(S);
     }
 }
 
@@ -175,11 +237,7 @@ void plConvexIsect::write(hsStream* S, plResManager* mgr)
 {
     S->writeShort(fPlanes.size());
     for (size_t i=0; i<fPlanes.size(); i++) {
-        fPlanes[i].fNorm.write(S);
-        fPlanes[i].fPos.write(S);
-        S->writeFloat(fPlanes[i].fDist);
-        fPlanes[i].fWorldNorm.write(S);
-        S->writeFloat(fPlanes[i].fWorldDist);
+        fPlanes[i].write(S);
     }
 }
 
@@ -187,20 +245,7 @@ void plConvexIsect::IPrcWrite(pfPrcHelper* prc)
 {
     prc->writeSimpleTag("Planes");
     for (size_t i=0; i<fPlanes.size(); i++) {
-        prc->startTag("SinglePlane");
-        prc->writeParam("Dist", fPlanes[i].fDist);
-        prc->writeParam("WorldDist", fPlanes[i].fWorldDist);
-        prc->endTag();
-          prc->writeSimpleTag("Normal");
-          fPlanes[i].fNorm.prcWrite(prc);
-          prc->closeTag();
-          prc->writeSimpleTag("Position");
-          fPlanes[i].fPos.prcWrite(prc);
-          prc->closeTag();
-          prc->writeSimpleTag("WorldNormal");
-          fPlanes[i].fWorldNorm.prcWrite(prc);
-          prc->closeTag();
-        prc->closeTag();
+        fPlanes[i].prcWrite(prc);
     }
     prc->closeTag(); // Planes
 }
@@ -211,27 +256,7 @@ void plConvexIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         fPlanes.resize(tag->countChildren());
         const pfPrcTag* planeChild = tag->getFirstChild();
         for (size_t i=0; i<fPlanes.size(); i++) {
-            if (planeChild->getName() != "SinglePlane")
-                throw pfPrcTagException(__FILE__, __LINE__, planeChild->getName());
-            fPlanes[i].fDist = planeChild->getParam("Dist", "0").to_float();
-            fPlanes[i].fWorldDist = planeChild->getParam("WorldDist", "0").to_float();
-
-            const pfPrcTag* child = planeChild->getFirstChild();
-            while (child) {
-                if (child->getName() == "Normal") {
-                    if (child->hasChildren())
-                        fPlanes[i].fNorm.prcParse(child->getFirstChild());
-                } else if (child->getName() == "Position") {
-                    if (child->hasChildren())
-                        fPlanes[i].fPos.prcParse(child->getFirstChild());
-                } else if (child->getName() == "WorldNormal") {
-                    if (child->hasChildren())
-                        fPlanes[i].fWorldNorm.prcParse(child->getFirstChild());
-                } else {
-                    throw pfPrcTagException(__FILE__, __LINE__, child->getName());
-                }
-                child = child->getNextSibling();
-            }
+            fPlanes[i].prcParse(planeChild);
             planeChild = planeChild->getNextSibling();
         }
     } else {
@@ -246,33 +271,34 @@ void plConvexIsect::addPlane(hsVector3 normal, const hsVector3& pos)
     // Check to see if we already have this plane -- if so, make sure that we have the outermost
     // point associated with it
     for (SinglePlane& i : fPlanes) {
-        if (i.fNorm.dotP(normal) >= 0.9998f) {
+        if (i.getNorm().dotP(normal) >= 0.9998f) {
             float dist = normal.dotP(pos);
-            if (dist > i.fDist) {
-                i.fDist = dist;
-                i.fPos = pos;
+            if (dist > i.getDist()) {
+                i.setDist(dist);
+                i.setPos(pos);
             }
             return;
         }
     }
 
     SinglePlane plane;
-    plane.fNorm = normal;
-    plane.fPos = pos;
-    plane.fDist = normal.dotP(pos);
-    plane.fWorldNorm = normal;
-    plane.fWorldDist = plane.fDist;
+    plane.setNorm(normal);
+    plane.setPos(pos);
+    plane.setDist(normal.dotP(pos));
+    plane.setWorldNorm(normal);
+    plane.setWorldDist(plane.getDist());
     fPlanes.push_back(plane);
 }
 
 void plConvexIsect::transform(const hsMatrix44& localToWorld, const hsMatrix44& worldToLocal)
 {
     for (SinglePlane& i : fPlanes) {
-        i.fWorldNorm = worldToLocal.multVector(i.fNorm);
-        i.fWorldNorm.normalize();
+        hsVector3 worldNorm = worldToLocal.multVector(i.getNorm());
+        worldNorm.normalize();
+        i.setWorldNorm(worldNorm);
 
-        hsVector3 pos = localToWorld.multPoint(i.fPos);
-        i.fWorldDist = i.fWorldNorm.dotP(pos);
+        hsVector3 pos = localToWorld.multPoint(i.getPos());
+        i.setWorldDist(i.getWorldNorm().dotP(pos));
     }
 }
 

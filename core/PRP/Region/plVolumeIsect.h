@@ -75,12 +75,32 @@ class PLASMA_DLL plConvexIsect : public plVolumeIsect
     CREATABLE(plConvexIsect, kConvexIsect, plVolumeIsect)
 
 public:
-    struct PLASMA_DLL SinglePlane
+    class PLASMA_DLL SinglePlane
     {
+    protected:
         hsVector3 fNorm, fPos, fWorldNorm;
         float fDist, fWorldDist;
 
+    public:
         SinglePlane() : fDist(), fWorldDist() { }
+
+        void read(hsStream* S);
+        void write(hsStream* S);
+        void prcWrite(pfPrcHelper* prc);
+        void prcParse(const pfPrcTag* tag);
+
+    public:
+        hsVector3 getNorm() const { return fNorm; }
+        hsVector3 getPos() const { return fPos; }
+        hsVector3 getWorldNorm() const { return fWorldNorm; }
+        float getDist() const { return fDist; }
+        float getWorldDist() const { return fWorldDist; }
+
+        void setNorm(hsVector3 norm) { fNorm = norm; }
+        void setPos(hsVector3 pos) { fPos = pos; }
+        void setWorldNorm(hsVector3 worldNorm) { fWorldNorm = worldNorm; }
+        void setDist(float dist) { fDist = dist; }
+        void setWorldDist(float worldDist) { fWorldDist = worldDist; }
     };
 
 protected:
@@ -95,6 +115,9 @@ protected:
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
+    const std::vector<SinglePlane>& getPlanes() const { return fPlanes; }
+    std::vector<SinglePlane>& getPlanes() { return fPlanes; }
+
     /** Adds or updates a given plane */
     void addPlane(hsVector3 normal, const hsVector3& pos);
 
