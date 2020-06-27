@@ -96,9 +96,9 @@ public:
         float getDist() const { return fDist; }
         float getWorldDist() const { return fWorldDist; }
 
-        void setNorm(hsVector3 norm) { fNorm = norm; }
-        void setPos(hsVector3 pos) { fPos = pos; }
-        void setWorldNorm(hsVector3 worldNorm) { fWorldNorm = worldNorm; }
+        void setNorm(hsVector3 norm) { fNorm = std::move(norm); }
+        void setPos(hsVector3 pos) { fPos = std::move(pos); }
+        void setWorldNorm(hsVector3 worldNorm) { fWorldNorm = std::move(worldNorm); }
         void setDist(float dist) { fDist = dist; }
         void setWorldDist(float worldDist) { fWorldDist = worldDist; }
     };
@@ -120,6 +120,7 @@ public:
 
     /** Adds or updates a given plane */
     void addPlane(hsVector3 normal, const hsVector3& pos);
+    void addPlane(SinglePlane plane) { fPlanes.push_back(std::move(plane)); };
 
     /** Calculates worldspace transformation for this volume  */
     void transform(const hsMatrix44& localToWorld, const hsMatrix44& worldToLocal);

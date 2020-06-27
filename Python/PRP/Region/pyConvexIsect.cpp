@@ -63,7 +63,7 @@ PY_GETSET_GETTER_DECL(ConvexIsect, planes)
 {
     PyObject* list = PyTuple_New(self->fThis->getPlanes().size());
     for (size_t i = 0; i < self->fThis->getPlanes().size(); i++)
-        PyTuple_SET_ITEM(list, i, pySinglePlane_FromSinglePlane(&(self->fThis->getPlanes()[i])));
+        PyTuple_SET_ITEM(list, i, pySinglePlane_FromSinglePlane(self->fThis->getPlanes()[i]));
     return list;
 }
 
@@ -98,7 +98,9 @@ PY_PLASMA_IFC_METHODS(ConvexIsect, plConvexIsect)
 
 /* pySinglePlane */
 
-PY_PLASMA_NEW(SinglePlane, plConvexIsect::SinglePlane)
+PY_PLASMA_VALUE_DEALLOC(SinglePlane)
+PY_PLASMA_EMPTY_INIT(SinglePlane)
+PY_PLASMA_VALUE_NEW(SinglePlane, plConvexIsect::SinglePlane)
 
 PY_PROPERTY(hsVector3, SinglePlane, norm, getNorm, setNorm)
 PY_PROPERTY(hsVector3, SinglePlane, pos, getPos, setPos)
@@ -119,6 +121,8 @@ PY_PLASMA_TYPE(SinglePlane, plConvexIsect::SinglePlane, "plConvexIsect::SinglePl
 
 PY_PLASMA_TYPE_INIT(SinglePlane)
 {
+    pySinglePlane_Type.tp_dealloc = pySinglePlane_dealloc;
+    pySinglePlane_Type.tp_init = pySinglePlane___init__;
     pySinglePlane_Type.tp_new = pySinglePlane_new;
     pySinglePlane_Type.tp_getset = pySinglePlane_GetSet;
     if (PyType_CheckAndReady(&pySinglePlane_Type) < 0)
@@ -128,4 +132,4 @@ PY_PLASMA_TYPE_INIT(SinglePlane)
     return (PyObject*)&pySinglePlane_Type;
 }
 
-PY_PLASMA_IFC_METHODS(SinglePlane, plConvexIsect::SinglePlane)
+PY_PLASMA_VALUE_IFC_METHODS(SinglePlane, plConvexIsect::SinglePlane)

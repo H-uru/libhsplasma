@@ -20,8 +20,8 @@
 #include "PyPlasma.h"
 #include <PRP/Region/plVolumeIsect.h>
 
-PY_WRAP_PLASMA(VolumeIsect, class plVolumeIsect);
-PY_WRAP_PLASMA(SinglePlane, class plConvexIsect::SinglePlane);
-PY_WRAP_PLASMA(ConvexIsect, class plConvexIsect);
+PY_WRAP_PLASMA(VolumeIsect, plVolumeIsect);
+PY_WRAP_PLASMA_VALUE(SinglePlane, plConvexIsect::SinglePlane);
+PY_WRAP_PLASMA(ConvexIsect, plConvexIsect);
 
 #endif

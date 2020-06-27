@@ -207,16 +207,13 @@ void plConvexIsect::SinglePlane::prcParse(const pfPrcTag* tag)
         if (child->getName() == "Normal") {
             if (child->hasChildren())
                 fNorm.prcParse(child->getFirstChild());
-        }
-        else if (child->getName() == "Position") {
+        } else if (child->getName() == "Position") {
             if (child->hasChildren())
                 fPos.prcParse(child->getFirstChild());
-        }
-        else if (child->getName() == "WorldNormal") {
+        } else if (child->getName() == "WorldNormal") {
             if (child->hasChildren())
                 fWorldNorm.prcParse(child->getFirstChild());
-        }
-        else {
+        } else {
             throw pfPrcTagException(__FILE__, __LINE__, child->getName());
         }
         child = child->getNextSibling();
