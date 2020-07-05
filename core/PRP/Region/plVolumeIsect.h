@@ -120,7 +120,7 @@ public:
 
     /** Adds or updates a given plane */
     void addPlane(hsVector3 normal, const hsVector3& pos);
-    void addPlane(SinglePlane plane) { fPlanes.push_back(std::move(plane)); };
+    void addPlane(SinglePlane plane) { fPlanes.emplace_back(std::move(plane)); };
 
     /** Calculates worldspace transformation for this volume  */
     void transform(const hsMatrix44& localToWorld, const hsMatrix44& worldToLocal);
