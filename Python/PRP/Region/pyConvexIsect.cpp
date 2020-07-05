@@ -26,17 +26,22 @@ PY_PLASMA_NEW(ConvexIsect, plConvexIsect)
 
 PY_METHOD_VA(ConvexIsect, addPlane,
     "Adds or updates a given plane\n"
-    "Params: normal, position")
+    "Params: normal, position, or a plConvexIsect.SinglePlane")
 {
     PyObject* normal;
     PyObject* position;
-    if (!PyArg_ParseTuple(args, "OO", &normal, &position) || !pyVector3_Check(normal) ||
-        !pyVector3_Check(position)) {
-        PyErr_SetString(PyExc_TypeError, "addPlane expects hsVector3, hsVector3");
+    PyObject* plane;
+    if (PyArg_ParseTuple(args, "OO", &normal, &position) && pyVector3_Check(normal) &&
+        pyVector3_Check(position)) {
+        self->fThis->addPlane(*((pyVector3*)normal)->fThis, *((pyVector3*)position)->fThis);
+        Py_RETURN_NONE;
+    } else if (PyErr_Clear(), PyArg_ParseTuple(args, "O", &plane) && pySinglePlane_Check(plane)) {
+        self->fThis->addPlane(*(((pySinglePlane*)plane)->fThis));
+        Py_RETURN_NONE;
+    } else {
+        PyErr_SetString(PyExc_TypeError, "addPlane expects hsVector3, hsVector3, or a plConvexIsect.SinglePlane");
         return nullptr;
     }
-    self->fThis->addPlane(*((pyVector3*)normal)->fThis, *((pyVector3*)position)->fThis);
-    Py_RETURN_NONE;
 }
 
 PY_METHOD_VA(ConvexIsect, transform,
