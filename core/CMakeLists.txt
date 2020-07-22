@@ -336,6 +336,7 @@ set(PRP_MSG_SOURCES
     PRP/Message/plSwimMsg.cpp
     PRP/Message/plTimerCallbackMsg.cpp
     PRP/Message/plTransitionMsg.cpp
+    PRP/Message/plWarpMsg.cpp
     PRP/Message/proEventData.cpp
 )
 set(PRP_MSG_HEADERS
@@ -373,6 +374,7 @@ set(PRP_MSG_HEADERS
     PRP/Message/plSwimMsg.h
     PRP/Message/plTimerCallbackMsg.h
     PRP/Message/plTransitionMsg.h
+    PRP/Message/plWarpMsg.h
     PRP/Message/proEventData.h
 )
 
