@@ -47,7 +47,7 @@ void plTransitionMsg::IPrcWrite(pfPrcHelper* prc)
 
 void plTransitionMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
 {
-    if (tag->getName() == "TimerCallback") {
+    if (tag->getName() == "TransitionParams") {
         fEffect = tag->getParam("Effect", "0").to_uint();
         fLengthInSecs = tag->getParam("Length", "0").to_float();
         fHoldUntilNext = tag->getParam("HoldUntilNext", "0").to_int();
