@@ -112,6 +112,7 @@
 #include "PRP/Message/plSwimMsg.h"
 #include "PRP/Message/plTimerCallbackMsg.h"
 #include "PRP/Message/plTransitionMsg.h"
+#include "PRP/Message/plWarpMsg.h"
 #include "PRP/Misc/plFogEnvironment.h"
 #include "PRP/Modifier/plAliasModifier.h"
 #include "PRP/Modifier/plAnimEventModifier.h"
@@ -251,6 +252,7 @@
 #include "PRP/Message/pySoundMsg.h"
 #include "PRP/Message/pySwimMsg.h"
 #include "PRP/Message/pyTimerCallbackMsg.h"
+#include "PRP/Message/pyWarpMsg.h"
 #include "PRP/Misc/pyRenderLevel.h"
 #include "PRP/Misc/pyAgeLinkInfo.h"
 #include "PRP/Misc/pyFogEnvironment.h"
@@ -605,6 +607,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kActivePrintShape: return pyActivePrintShape_FromActivePrintShape(plActivePrintShape::Convert(pCre));
         case kSimSuppressMsg: return pySimSuppressMsg_FromSimSuppressMsg(plSimSuppressMsg::Convert(pCre));
         case kGrassShaderMod: return pyGrassShaderMod_FromGrassShaderMod(plGrassShaderMod::Convert(pCre));
+        case kWarpMsg: return pyWarpMsg_FromWarpMsg(plWarpMsg::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (pCre->ClassInstance(kMessage))

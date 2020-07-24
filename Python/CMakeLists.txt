@@ -390,6 +390,7 @@ set(PRP_MSG_SOURCES
     PRP/Message/pySubWorldMsg.cpp
     PRP/Message/pySwimMsg.cpp
     PRP/Message/pyTimerCallbackMsg.cpp
+    PRP/Message/pyWarpMsg.cpp
     PRP/Message/pyVariableEventData.cpp
 )
 set(PRP_MSG_HEADERS
@@ -412,6 +413,7 @@ set(PRP_MSG_HEADERS
     PRP/Message/pySwimMsg.h
     PRP/Message/pyResponderMsg.h
     PRP/Message/pyTimerCallbackMsg.h
+    PRP/Message/pyWarpMsg.h
 )
 
 set(PRP_MISC_SOURCES

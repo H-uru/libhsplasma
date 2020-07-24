@@ -110,6 +110,7 @@
 #include "PRP/Message/plSwimMsg.h"
 #include "PRP/Message/plTimerCallbackMsg.h"
 #include "PRP/Message/plTransitionMsg.h"
+#include "PRP/Message/plWarpMsg.h"
 #include "PRP/Misc/plFogEnvironment.h"
 #include "PRP/Modifier/plAliasModifier.h"
 #include "PRP/Modifier/plAnimEventModifier.h"
@@ -647,7 +648,7 @@ plCreatable* plFactory::Create(short typeIdx)
         //case kSpawnRequestMsg: return new plSpawnRequestMsg();
         case kLoadCloneMsg: return new plLoadCloneMsg();
         case kEnableMsg: return new plEnableMsg();
-        //case kWarpMsg: return new plWarpMsg();
+        case kWarpMsg: return new plWarpMsg();
         //case kAttachMsg: return new plAttachMsg();
         //case kConsole: return new pfConsole();
         //case kRenderMsg: return new plRenderMsg();

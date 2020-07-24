@@ -127,6 +127,7 @@
 #include "PRP/Message/pySoundMsg.h"
 #include "PRP/Message/pySwimMsg.h"
 #include "PRP/Message/pyTimerCallbackMsg.h"
+#include "PRP/Message/pyWarpMsg.h"
 #include "PRP/Misc/pyRenderLevel.h"
 #include "PRP/Misc/pyAgeLinkInfo.h"
 #include "PRP/Misc/pyFogEnvironment.h"
@@ -891,6 +892,7 @@ PyMODINIT_FUNC initPyHSPlasma()
     PyModule_AddObject(module, "plMessageWithCallbacks", Init_pyMessageWithCallbacks_Type());
     PyModule_AddObject(module, "plAnimCmdMsg", Init_pyAnimCmdMsg_Type());
     PyModule_AddObject(module, "plTimerCallbackMsg", Init_pyTimerCallbackMsg_Type());
+    PyModule_AddObject(module, "plWarpMsg", Init_pyWarpMsg_Type());
     PyModule_AddObject(module, "plEnableMsg", Init_pyEnableMsg_Type());
     PyModule_AddObject(module, "plExcludeRegionMsg", Init_pyExcludeRegionMsg_Type());
     PyModule_AddObject(module, "plVolumeIsect", Init_pyVolumeIsect_Type());
