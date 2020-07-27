@@ -9,9 +9,9 @@ environment:
       VisualStudioVersion: 12.0
       CMAKE_GENERATOR: Visual Studio 12 2013
       PYTHON_PREFIX: C:\Python27
-      CMAKE_PARAMS: -DPYTHON_INCLUDE_DIR=C:/Python27/include
-        -DPYTHON_LIBRARY=C:/Python27/libs/python27.lib
-        -DPYTHON_EXECUTABLE=C:/Python27/python.exe
+      CMAKE_PARAMS: -DPython_EXECUTABLE=C:/Python27/python.exe
+        -DPython_INCLUDE_DIR=C:/Python27/include
+        -DPython_LIBRARY=C:/Python27/libs/python27.lib
       PREFIX_TARGET: vc2013-x86-static
       DIST_SUFFIX: '%PREFIX_TARGET%-py27'
 
@@ -19,9 +19,9 @@ environment:
       VisualStudioVersion: 14.0
       CMAKE_GENERATOR: Visual Studio 14 2015
       PYTHON_PREFIX: C:\Python36
-      CMAKE_PARAMS: -DPYTHON_INCLUDE_DIR=C:/Python36/include
-        -DPYTHON_LIBRARY=C:/Python36/libs/python36.lib
-        -DPYTHON_EXECUTABLE=C:/Python36/python.exe
+      CMAKE_PARAMS: -DPython_EXECUTABLE=C:/Python36/python.exe
+        -DPython_INCLUDE_DIR=C:/Python36/include
+        -DPython_LIBRARY=C:/Python36/libs/python36.lib
       PREFIX_TARGET: vc2015-x86-static
       DIST_SUFFIX: '%PREFIX_TARGET%-py36'
 
@@ -29,9 +29,9 @@ environment:
       VisualStudioVersion: 15.0
       CMAKE_GENERATOR: Visual Studio 15 2017 Win64
       PYTHON_PREFIX: C:\Python36-x64
-      CMAKE_PARAMS: -DPYTHON_INCLUDE_DIR=C:/Python36-x64/include
-        -DPYTHON_LIBRARY=C:/Python36-x64/libs/python36.lib
-        -DPYTHON_EXECUTABLE=C:/Python36-x64/python.exe
+      CMAKE_PARAMS: -DPython_EXECUTABLE=C:/Python36-x64/python.exe
+        -DPython_INCLUDE_DIR=C:/Python36-x64/include
+        -DPython_LIBRARY=C:/Python36-x64/libs/python36.lib
       PREFIX_TARGET: vc2017-x64-static
       DIST_SUFFIX: '%PREFIX_TARGET%-py36'
 

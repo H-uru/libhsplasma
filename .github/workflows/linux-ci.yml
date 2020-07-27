@@ -9,6 +9,20 @@ jobs:
         python_ver: [2.7, 3.6]
     steps:
       - uses: actions/checkout@v1
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python_ver }}
+
+      - name: Find Python Artifacts
+        id: python_artifacts
+        shell: python
+        run: |
+          from distutils.sysconfig import get_config_var
+          import sys
+          print("::set-env name=PYTHON_EXECUTABLE::{}".format(sys.executable))
+          print("::set-env name=PYTHON_LIB::{}/{}".format(get_config_var("LIBPL"), get_config_var("LIBRARY")))
+          print("::set-env name=PYTHON_INCLUDE::{}".format(get_config_var("INCLUDEPY")))
+
       - name: Build string_theory
         run: |
           mkdir -p build_deps && cd build_deps
@@ -21,6 +35,6 @@ jobs:
         run: |
           mkdir build && cd build
           cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}/build_deps/prefix" \
-            -DPython_ADDITIONAL_VERSIONS=${{ matrix.python_ver }} -DENABLE_PYTHON=ON \
+            -DPython_EXECUTABLE=$PYTHON_EXECUTABLE -DPython_LIBRARY=$PYTHON_LIB -DPython_INCLUDE_DIR=$PYTHON_INCLUDE -DENABLE_PYTHON=ON \
             -DENABLE_TOOLS=ON -DENABLE_NET=ON -DENABLE_PHYSX=OFF ..
           make -j2
