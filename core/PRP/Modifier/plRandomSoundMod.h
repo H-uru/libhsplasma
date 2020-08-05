@@ -49,6 +49,13 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    const std::vector<plRandomSoundModGroup>& getGroups() const { return fGroups; }
+    std::vector<plRandomSoundModGroup>& getGroups() { return fGroups; }
+    void addGroup(const plRandomSoundModGroup& group) { fGroups.push_back(group); }
+    void delGroup(size_t idx) { fGroups.erase(fGroups.begin() + idx); }
+    void clearGroups() { fGroups.clear(); }
 };
 
 #endif

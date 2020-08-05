@@ -443,6 +443,8 @@ set(PRP_MOD_SOURCES
     PRP/Modifier/pyPostEffectMod.cpp
     PRP/Modifier/pyPythonFileMod.cpp
     PRP/Modifier/pyPythonParameter.cpp
+    PRP/Modifier/pyRandomCommandMod.cpp
+    PRP/Modifier/pyRandomSoundMod.cpp
     PRP/Modifier/pyResponderEnableMsg.cpp
     PRP/Modifier/pyResponderModifier.cpp
     PRP/Modifier/pyResponderModifier_Cmd.cpp
@@ -460,6 +462,8 @@ set(PRP_MOD_HEADERS
     PRP/Modifier/pyOneShotMod.h
     PRP/Modifier/pyPostEffectMod.h
     PRP/Modifier/pyPythonFileMod.h
+    PRP/Modifier/pyRandomCommandMod.h
+    PRP/Modifier/pyRandomSoundMod.h
     PRP/Modifier/pyResponderModifier.h
     PRP/Modifier/pySpawnModifier.h
 )
