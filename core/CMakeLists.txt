@@ -819,7 +819,14 @@ install(TARGETS HSPlasma
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
 )
-install(FILES HSPlasmaConfig.cmake DESTINATION share/cmake/HSPlasma)
+
+include(CMakePackageConfigHelpers)
+configure_package_config_file(HSPlasmaConfig.cmake.in
+                              ${CMAKE_CURRENT_BINARY_DIR}/HSPlasmaConfig.cmake
+                              INSTALL_DESTINATION ${CMAKE_INSTALL_PREFIX}/share/cmake/HSPlasma)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/HSPlasmaConfig.cmake
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/share/cmake/HSPlasma)
+
 install(FILES ${DEBUG_HEADERS} DESTINATION include/HSPlasma/Debug)
 install(FILES ${MATH_HEADERS} DESTINATION include/HSPlasma/Math)
 install(FILES ${PRP_ANIM_HEADERS} DESTINATION include/HSPlasma/PRP/Animation)

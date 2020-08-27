@@ -117,7 +117,14 @@ install(TARGETS HSPlasmaNet
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
 )
-install(FILES HSPlasmaNetConfig.cmake DESTINATION share/cmake/HSPlasmaNet)
+
+include(CMakePackageConfigHelpers)
+configure_package_config_file(HSPlasmaNetConfig.cmake.in
+                              ${CMAKE_CURRENT_BINARY_DIR}/HSPlasmaNetConfig.cmake
+                              INSTALL_DESTINATION ${CMAKE_INSTALL_PREFIX}/share/cmake/HSPlasmaNet)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/HSPlasmaNetConfig.cmake
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/share/cmake/HSPlasmaNet)
+
 install(FILES ${PN_AUTH_HEADERS} DESTINATION include/HSPlasmaNet/auth)
 install(FILES ${PN_CRYPT_HEADERS} DESTINATION include/HSPlasmaNet/crypt)
 install(FILES ${PN_FILE_HEADERS} DESTINATION include/HSPlasmaNet/file)
