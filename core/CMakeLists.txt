@@ -806,6 +806,10 @@ if(PHYSX_FOUND AND ENABLE_PHYSX)
     target_link_libraries(HSPlasma ${PHYSX_COOKING_LIBRARY})
 endif(PHYSX_FOUND AND ENABLE_PHYSX)
 
+target_include_directories(HSPlasma PUBLIC
+                           $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}>
+                           $<INSTALL_INTERFACE:include/HSPlasma>)
+
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libhsplasma.pc.in.cmake ${CMAKE_CURRENT_BINARY_DIR}/libhsplasma.pc @ONLY)
 
 # Package Installation

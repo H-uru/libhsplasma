@@ -104,6 +104,10 @@ if(WIN32)
     target_link_libraries(HSPlasmaNet ws2_32)
 endif(WIN32)
 
+target_include_directories(HSPlasmaNet PUBLIC
+                           $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}>
+                           $<INSTALL_INTERFACE:include/HSPlasmaNet>)
+
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libhsplasmanet.pc.in.cmake ${CMAKE_CURRENT_BINARY_DIR}/libhsplasmanet.pc @ONLY)
 
 # Package installation

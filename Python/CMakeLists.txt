@@ -22,7 +22,6 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
     endif()
 endif()
 
-include_directories(${PROJECT_SOURCE_DIR}/core)
 include_directories(${PYTHON_INCLUDE_DIRS})
 include_directories(./)
 
