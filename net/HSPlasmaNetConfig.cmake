@@ -1,5 +1,0 @@
-find_package(HSPlasma)
-get_filename_component(SELF_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
-get_filename_component(HSPlasmaNet_INCLUDE_DIR "${SELF_DIR}/../../../include/HSPlasmaNet" ABSOLUTE)
-set(HSPlasmaNet_INCLUDE_DIRS ${HSPlasmaNet_INCLUDE_DIR} ${HSPlasma_INCLUDE_DIRS})
-set(HSPlasmaNet_LIBRARIES HSPlasmaNet HSPlasma)

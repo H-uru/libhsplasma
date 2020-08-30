@@ -1,0 +1,8 @@
+include(${CMAKE_CURRENT_LIST_DIR}/HSPlasmaNet-targets.cmake)
+
+@PACKAGE_INIT@
+
+find_package(HSPlasma)
+set_and_check(HSPlasmaNet_INCLUDE_DIR "${PACKAGE_PREFIX_DIR}/include/HSPlasmaNet")
+set(HSPlasmaNet_INCLUDE_DIRS ${HSPlasmaNet_INCLUDE_DIR} ${HSPlasma_INCLUDE_DIRS})
+set(HSPlasmaNet_LIBRARIES HSPlasmaNet HSPlasma)
