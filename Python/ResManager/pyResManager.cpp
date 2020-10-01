@@ -461,11 +461,11 @@ PY_METHOD_VA(ResManager, getKeys,
     int type;
     char checkKeys = 0;
     if (!PyArg_ParseTuple(args, "Oi|b", &loc, &type, &checkKeys)) {
-        PyErr_SetString(PyExc_TypeError, "getTypes expects plLocation, int");
+        PyErr_SetString(PyExc_TypeError, "getKeys expects plLocation, int");
         return nullptr;
     }
     if (!pyLocation_Check((PyObject*)loc)) {
-        PyErr_SetString(PyExc_TypeError, "getTypes expects plLocation, int");
+        PyErr_SetString(PyExc_TypeError, "getKeys expects plLocation, int");
         return nullptr;
     }
 
