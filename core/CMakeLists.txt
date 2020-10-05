@@ -60,6 +60,7 @@ set(PRP_ANIM_SOURCES
     PRP/Animation/plStereizer.cpp
     PRP/Animation/plTMController.cpp
     PRP/Animation/plViewFaceModifier.cpp
+    PRP/Animation/plWindBoneMod.cpp
 )
 set(PRP_ANIM_HEADERS
     PRP/Animation/hsKeys.h
@@ -79,6 +80,7 @@ set(PRP_ANIM_HEADERS
     PRP/Animation/plStereizer.h
     PRP/Animation/plTMController.h
     PRP/Animation/plViewFaceModifier.h
+    PRP/Animation/plWindBoneMod.h
 )
 
 set(PRP_AUDIO_SOURCES

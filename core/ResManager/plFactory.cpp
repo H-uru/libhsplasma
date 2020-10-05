@@ -26,6 +26,7 @@
 #include "PRP/Animation/pfObjectFlocker.h"
 #include "PRP/Animation/plStereizer.h"
 #include "PRP/Animation/plViewFaceModifier.h"
+#include "PRP/Animation/plWindBoneMod.h"
 #include "PRP/Audio/plAudible.h"
 #include "PRP/Audio/plCrossfade.h"
 #include "PRP/Audio/plDirectMusicSound.h"
@@ -518,7 +519,7 @@ plCreatable* plFactory::Create(short typeIdx)
         case kCrossfade: return new plCrossfade();
         case kParticleFadeOutEffect: return new plParticleFadeOutEffect();
         //case kSecurePreloader: return new pfSecurePreloader();
-        //case kWindBoneMod: return new plWindBoneMod();
+        case kWindBoneMod: return new plWindBoneMod();
         case kCameraBrain_NovicePlus: return new plCameraBrain_NovicePlus();
         //case kSubtitleMgr: return new pfSubtitleMgr();
         case kPythonFileModConditionalObject: return new plPythonFileModConditionalObject();
