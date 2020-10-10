@@ -224,7 +224,7 @@ x00DE U[00DE] P[00DE] L[00DE] E[00BB] H[00BB] plAnimTimeConvertSDLModifier
 x00DF U[00DF] P[00DF] L[00DF] E[00BC] H[00BC] plResponderSDLModifier
 x00E0 U[00E0] P[00E0] L[00E0] E[00BD] H[00BD] plSoundSDLModifier
 x00E1 U[00E1] P[00E1] L[00E1] E[00BE] H[00BE] plResManagerHelper
-x00E2 U[00E2] P[00E2] L[----] E[----] H[----] plHKSubWorld
+x00E2 U[00E2] P[00E2] L[013C] E[----] H[----] plHKSubWorld
 x00E3 U[00E3] P[00E3] L[00E3] E[00BF] H[00BF] plArmatureEffect
 x00E4 U[00E4] P[00E4] L[00E4] E[00C0] H[00C0] plArmatureEffectFootSound
 x00E5 U[00E5] P[00E5] L[00E5] E[----] H[----] plEAXListenerMod
