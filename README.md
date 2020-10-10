@@ -10,12 +10,8 @@ for all major operating systems.
 A typical build looks something like this:
 
     $ mkdir build
-    $ cd ./build
-    $ cmake ..
-
-To build with Python support run this cmake command:
-
-    $ cmake -DENABLE_PYTHON=ON ..
+    $ cd build
+    $ cmake -DCMAKE_BUILD_TYPE=Release ..
 
 On Unix-like systems (Linux, MacOSX) you should then be able to:
 
@@ -64,14 +60,31 @@ but are currently untested):
 - Microsoft Visual C++ 2013 or later
 
 
-Win32/64 Special Considerations
--------------------------------
+Using vcpkg on Windows
+----------------------
 
-### Python:
-Python is pretty straightforward if you only create release builds.  The
-default Windows installations come with the necessary header and lib files,
-so you just need to point VS to those.  Building Debug builds against
-Python 2.x, however, requires that you get the actual source packages from
-python.org and compile them yourself.  Recent Python 3.x versions now
-include the debug libraries in the installer, which can be used instead
-of compiling your own versions.
+When building with Microsoft Visual C++ 2015 or later, the recommended way
+to get all prerequisite libraries (except for PhysX) is with
+[vcpkg](https://github.com/microsoft/vcpkg). The recommended configuration
+is to build everything except Python as a static library.  For now (as of
+Oct. 2020), Python needs to be built as a DLL in order for PyHSPlasma to
+correctly export its symbols. However, the built Python DLLs do NOT need to
+be distributed with the compiled .pyd files.
+
+To make building the prerequisites simpler, you can use the
+`libhsplasma-vcpkg.cmake` file in the root of the libhsplasma source directory
+as a vcpkg toolchain file:
+
+    copy libhsplasma-vcpkg.cmake <Path to vcpkg>\triplets
+    cd <Path to vcpkg>
+    .\vcpkg install --triplet libhsplasma-vcpkg string-theory zlib libjpeg-turbo libpng openssl python3
+
+(Note: use `python2` instead of `python3` when building PyHSPlasma for
+Python 2.7).
+
+Then, when configuring libhsplasma with CMake, you can just point it to your
+vcpkg install directory with the custom triplet:
+
+    mkdir build
+    cd build
+    cmake -DCMAKE_PREFIX_PATH=<Path to vcpkg>\installed\libhsplasma-vcpkg;<Path to vcpkg>\installed\libhsplasma-vcpkg\debug ..
