@@ -15,6 +15,7 @@
  */
 
 #include "plWindBoneMod.h"
+#include <algorithm>
 
 /* plWindBoneOscillator */
 void plWindBoneOscillator::read(hsStream* S)
