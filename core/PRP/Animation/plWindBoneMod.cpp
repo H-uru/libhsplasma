@@ -15,34 +15,35 @@
  */
 
 #include "plWindBoneMod.h"
+#include <algorithm>
 
 /* plWindBoneOscillator */
 void plWindBoneOscillator::read(hsStream* S)
 {
-    fUnknown1 = S->readFloat();
-    fUnknown2 = S->readFloat();
-    fUnknown3 = S->readFloat();
-    fUnknown4 = S->readFloat();
-    fUnknown5 = S->readFloat();
+    fDistX = S->readFloat();
+    fDistY = S->readFloat();
+    fDirX = S->readFloat();
+    fDirY = S->readFloat();
+    fSpeed = S->readFloat();
 }
 
 void plWindBoneOscillator::write(hsStream* S)
 {
-    S->writeFloat(fUnknown1);
-    S->writeFloat(fUnknown2);
-    S->writeFloat(fUnknown3);
-    S->writeFloat(fUnknown4);
-    S->writeFloat(fUnknown5);
+    S->writeFloat(fDistX);
+    S->writeFloat(fDistY);
+    S->writeFloat(fDirX);
+    S->writeFloat(fDirY);
+    S->writeFloat(fSpeed);
 }
 
 void plWindBoneOscillator::prcWrite(pfPrcHelper* prc)
 {
     prc->startTag("plWindBoneOscillator");
-    prc->writeParam("Unknown1", fUnknown1);
-    prc->writeParam("Unknown2", fUnknown2);
-    prc->writeParam("Unknown3", fUnknown3);
-    prc->writeParam("Unknown4", fUnknown4);
-    prc->writeParam("Unknown5", fUnknown5);
+    prc->writeParam("DistX", fDistX);
+    prc->writeParam("DistY", fDistY);
+    prc->writeParam("DirX", fDirX);
+    prc->writeParam("DirY", fDirY);
+    prc->writeParam("Speed", fSpeed);
     prc->endTag(true);
 }
 
@@ -51,11 +52,11 @@ void plWindBoneOscillator::prcParse(const pfPrcTag* tag)
     if (tag->getName() != "plWindBoneOscillator")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    fUnknown1 = tag->getParam("Unknown1", "0").to_float();
-    fUnknown2 = tag->getParam("Unknown2", "0").to_float();
-    fUnknown3 = tag->getParam("Unknown3", "0").to_float();
-    fUnknown4 = tag->getParam("Unknown4", "0").to_float();
-    fUnknown5 = tag->getParam("Unknown5", "0").to_float();
+    fDistX = tag->getParam("DistX", "0").to_float();
+    fDistY = tag->getParam("DistY", "0").to_float();
+    fDirX = tag->getParam("DirX", "0").to_float();
+    fDirY = tag->getParam("DirY", "0").to_float();
+    fSpeed = tag->getParam("Speed", "0").to_float();
 }
 
 
