@@ -22,11 +22,11 @@
 class PLASMA_DLL plWindBoneOscillator
 {
 protected:
-    float fUnknown1, fUnknown2, fUnknown3, fUnknown4, fUnknown5;
+    float fDistX, fDistY, fDirX, fDirY, fSpeed;
 
 public:
     plWindBoneOscillator()
-        : fUnknown1(), fUnknown2(), fUnknown3(), fUnknown4(), fUnknown5() { }
+        : fDistX(), fDistY(), fDirX(), fDirY(), fSpeed() { }
 
     void read(hsStream* S);
     void write(hsStream* S);
