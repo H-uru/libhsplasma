@@ -362,7 +362,7 @@ uint32_t pnVaultNode::getModifyTime() const
 ST::string pnVaultNode::getCreateAgeName() const
 {
     return (fFieldMask & (1<<kCreateAgeName)) != 0
-           ? fCreateAgeName : ST::null;
+           ? fCreateAgeName : ST::string();
 }
 
 plUuid pnVaultNode::getCreateAgeUuid() const
@@ -406,19 +406,19 @@ plUuid pnVaultNode::getUuid(size_t which) const
 ST::string pnVaultNode::getString64(size_t which) const
 {
     return (fFieldMask & (uint64_t)((1<<kString64_1) << which)) != 0
-           ? fString64[which] : ST::null;
+           ? fString64[which] : ST::string();
 }
 
 ST::string pnVaultNode::getIString64(size_t which) const
 {
     return (fFieldMask & (uint64_t)((1<<kIString64_1) << which)) != 0
-           ? fIString64[which] : ST::null;
+           ? fIString64[which] : ST::string();
 }
 
 ST::string pnVaultNode::getText(size_t which) const
 {
     return (fFieldMask & (uint64_t)((1<<kText_1) << which)) != 0
-           ? fText[which] : ST::null;
+           ? fText[which] : ST::string();
 }
 
 plVaultBlob pnVaultNode::getBlob(size_t which) const

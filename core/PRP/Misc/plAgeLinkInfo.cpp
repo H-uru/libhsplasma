@@ -198,13 +198,13 @@ void plAgeInfoStruct::setAgeLanguage(int lang)
 
 void plAgeInfoStruct::clearAgeFilename()
 {
-    fAgeFilename = ST::null;
+    fAgeFilename = ST::string();
     fFlags &= ~kHasAgeFilename;
 }
 
 void plAgeInfoStruct::clearAgeInstanceName()
 {
-    fAgeInstanceName = ST::null;
+    fAgeInstanceName = ST::string();
     fFlags &= ~kHasAgeInstanceName;
 }
 
@@ -216,13 +216,13 @@ void plAgeInfoStruct::clearAgeInstanceGuid()
 
 void plAgeInfoStruct::clearAgeUserDefinedName()
 {
-    fAgeUserDefinedName = ST::null;
+    fAgeUserDefinedName = ST::string();
     fFlags &= ~kHasAgeUserDefinedName;
 }
 
 void plAgeInfoStruct::clearAgeDescription()
 {
-    fAgeDescription = ST::null;
+    fAgeDescription = ST::string();
     fFlags &= ~kHasAgeDescription;
 }
 
@@ -452,7 +452,7 @@ void plAgeLinkStruct::clearAmCCR()
 
 void plAgeLinkStruct::clearParentAgeFilename()
 {
-    fParentAgeFilename = ST::null;
+    fParentAgeFilename = ST::string();
     fFlags &= ~kHasParentAgeFilename;
 }
 

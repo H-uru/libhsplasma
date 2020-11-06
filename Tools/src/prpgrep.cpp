@@ -52,7 +52,7 @@ static ST::string GetLine(hsStream* S)
     }
 
     // Should never get here...
-    return ST::null;
+    return ST::string();
 }
 
 static void DoSearch(hsStream* S, const ST::string& pattern,

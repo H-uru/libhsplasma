@@ -82,7 +82,7 @@ void plPythonParameter::read(hsStream* S, plResManager* mgr)
     case kSubtitle:
         size = S->readInt();
         if (size == 0) {
-            fStrValue = ST::null;
+            fStrValue = ST::string();
             return;
         }
         fStrValue = S->readStr(size - 1);

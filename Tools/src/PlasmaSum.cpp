@@ -70,7 +70,7 @@ static ST::string cdUp(ST::string path)
         return up + PATHSEPSTR;
     } else {
         // Relative path specified
-        return up.empty() ? ST::null : up + PATHSEPSTR;
+        return up.empty() ? ST::string() : up + PATHSEPSTR;
     }
 }
 
@@ -354,7 +354,7 @@ int main(int argc, char* argv[])
             }
 
             for (const ST::string& path : addPaths) {
-                std::unique_ptr<hsFileStream> IS = FindFilePath(path, ST::null);
+                std::unique_ptr<hsFileStream> IS = FindFilePath(path, ST::string());
                 if (!IS) {
                     ST::printf(stderr, "Warning: path '{}' not found\n", path);
                     continue;

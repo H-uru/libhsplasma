@@ -49,7 +49,7 @@ protected:
 class hsNotImplementedException : public hsException {
 public:
     inline hsNotImplementedException(const char* file, unsigned long line,
-                                     const ST::string& feature = ST::null) HS_NOEXCEPT
+                                     const ST::string& feature = {}) HS_NOEXCEPT
         : hsException(file, line)
     {
         if (feature.empty())
@@ -62,7 +62,7 @@ public:
 class hsBadParamException : public hsException {
 public:
     inline hsBadParamException(const char* file, unsigned long line,
-                               const ST::string& details = ST::null) HS_NOEXCEPT
+                               const ST::string& details = {}) HS_NOEXCEPT
         : hsException(ST_LITERAL("Bad parameter"), file, line)
     {
         if (!details.empty())
