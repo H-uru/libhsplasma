@@ -125,7 +125,7 @@ ST::string hsStream::readSafeStr()
         if (ver < MAKE_VERSION(2, 0, 63, 5) && readShort() != 0) {
             skip(-2);
         }
-        return ST::null;
+        return ST::string();
     }
 
     ST::char_buffer result;

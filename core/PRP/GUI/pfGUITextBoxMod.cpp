@@ -33,7 +33,7 @@ void pfGUITextBoxMod::read(hsStream* S, plResManager* mgr)
             && S->readBool())
         fLocalizationPath = S->readSafeWStr();
     else
-        fLocalizationPath = ST::null;
+        fLocalizationPath = ST::string();
 }
 
 void pfGUITextBoxMod::write(hsStream* S, plResManager* mgr)
