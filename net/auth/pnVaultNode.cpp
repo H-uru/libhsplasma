@@ -581,7 +581,7 @@ void pnVaultNodeRef::write(unsigned char* buffer)
     NCWriteBuffer<uint8_t>(buffer, fSeen);
 }
 
-bool pnVaultNodeRef::operator==(const pnVaultNodeRef& ref)
+bool pnVaultNodeRef::operator==(const pnVaultNodeRef& ref) const
 {
     return (ref.fParent == fParent) && (ref.fChild == fChild);
 }

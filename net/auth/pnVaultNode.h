@@ -126,7 +126,7 @@ struct PLASMANET_DLL pnVaultNodeRef
 
     void read(const unsigned char* buffer);
     void write(unsigned char* buffer);
-    bool operator==(const pnVaultNodeRef& ref);
+    bool operator==(const pnVaultNodeRef& ref) const;
 };
 
 #endif
