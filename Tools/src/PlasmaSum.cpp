@@ -71,13 +71,13 @@ void PrintFile(const SumEntry& file, char op) {
 }
 
 ST::string FixSlashes(const ST::string& src) {
-    if (src.is_empty())
+    if (src.empty())
         return src;
 
     ST::char_buffer dest;
-    char* pbuf = dest.create_writable_buffer(src.size());
-    memcpy(pbuf, src.c_str(), src.size() + 1);
-    for (char* pc = pbuf; *pc != 0; pc++) {
+    dest.allocate(src.size());
+    memcpy(dest.data(), src.c_str(), src.size() + 1);
+    for (char* pc = dest.data(); *pc != 0; pc++) {
         if (*pc == '/' || *pc == '\\')
             *pc = PATHSEP;
     }
@@ -95,24 +95,24 @@ ST::string cdUp(ST::string path) {
 #endif
 
     // Not very robust, but it works for one level of parent scanning
-    if (path.is_empty())
+    if (path.empty())
         return ".." PATHSEPSTR;
 
     // Strip the ending slash, if necessary, and then go up one dir
-    if (path.char_at(path.size()-1) == PATHSEP)
+    if (path.at(path.size()-1) == PATHSEP)
         path = path.left(path.size() - 1);
     ST::string up = path.before_last(PATHSEP);
-    if (path.char_at(0) == PATHSEP) {
+    if (path.at(0) == PATHSEP) {
         // Absolute path specified -- make sure we keep it that way
         return up + PATHSEPSTR;
     } else {
         // Relative path specified
-        return up.is_empty() ? "" : up + PATHSEPSTR;
+        return up.empty() ? "" : up + PATHSEPSTR;
     }
 }
 
 hsFileStream* FindFilePath(ST::string path, ST::string base) {
-    if (path.is_empty())
+    if (path.empty())
         return NULL;
 
     // Scan first from the provided path:

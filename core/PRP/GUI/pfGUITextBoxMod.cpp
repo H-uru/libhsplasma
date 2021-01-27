@@ -41,8 +41,8 @@ void pfGUITextBoxMod::write(hsStream* S, plResManager* mgr) {
     S->writeStr(fText);
 
     if (!S->getVer().isUruSP() || S->getVer().isUniversal()) {
-        S->writeBool(!fLocalizationPath.is_empty());
-        if (!fLocalizationPath.is_empty())
+        S->writeBool(!fLocalizationPath.empty());
+        if (!fLocalizationPath.empty())
             S->writeSafeWStr(fLocalizationPath);
     }
 }

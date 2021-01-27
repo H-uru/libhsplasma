@@ -111,13 +111,13 @@ int main(int argc, char* argv[]) {
         } else if (argv[i][0] == '-') {
             ST::printf(stderr, "Warning: unrecognized option {}\n", argv[i]);
         } else {
-            if (inputFile.is_empty())
+            if (inputFile.empty())
                 inputFile = argv[i];
             else
                 ST::printf(stderr, "Warning: ignoring extra parameter {}\n", argv[i]);
         }
     }
-    if (outputFile.is_empty())
+    if (outputFile.empty())
         outputFile = "out.prc";
     if (!inVer.isValid() && inputFile.after_last('.') != "prp" && inputFile.after_last('.') != "age") {
         fputs("Error: Plasma version must be specified for object decompilation\n", stderr);

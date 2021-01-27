@@ -26,3 +26,5 @@ Misc/TypeMap
 /dat
 /docs/api
 /*.kdev4
+
+/build

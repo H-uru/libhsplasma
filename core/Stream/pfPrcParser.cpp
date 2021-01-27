@@ -189,6 +189,6 @@ pfPrcTagException::pfPrcTagException(const char* file, unsigned long line,
                                      const ST::string& tag) HS_NOEXCEPT
                  : pfPrcParseException(file, line, NULL) {
     fWhat = "Unexpected tag";
-    if (!tag.is_empty())
+    if (!tag.empty())
         fWhat += ": " + tag;
 }

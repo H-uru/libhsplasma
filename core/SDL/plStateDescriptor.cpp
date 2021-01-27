@@ -129,7 +129,7 @@ plVarDescriptor::Type plVarDescriptor::GetTypeFromString(const ST::string& type,
         else
             return kStateDescriptor;
     } else {
-        if (type.char_at(0) == '$')
+        if (type.at(0) == '$')
             return kStateDescriptor;
         else if (itype == "int")
             return kInt;

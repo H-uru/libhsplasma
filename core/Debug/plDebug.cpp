@@ -57,7 +57,7 @@ void plDebug::InitFile(int level, const char* filename) {
 }
 
 void plDebug::DelayInit() {
-    if (fDebugFile.is_empty()) {
+    if (fDebugFile.empty()) {
         // Nobody ever called Init(), so use stderr
         Init(kDLWarning, NULL);
     } else {
