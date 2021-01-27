@@ -312,8 +312,8 @@ ST::string pnSocket::recvString(size_t maxlen)
 
     if (size > 0) {
         ST::utf16_buffer str;
-        str.allocate(size);
-        recv(str.data(), size * sizeof(char16_t));
+        char16_t* buf = str.create_writable_buffer(size);
+        recv(buf, size * sizeof(char16_t));
         return ST::string::from_utf16(str);
     } else {
         return ST::string();

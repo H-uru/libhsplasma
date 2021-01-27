@@ -133,7 +133,7 @@ int main(int argc, char* argv[]) {
                     objName = objName.substr(1, objName.size() - 2);
                 }
             } else {
-                if (prpFile.empty()) {
+                if (prpFile.is_empty()) {
                     prpFile = argv[i];
                 } else {
                     ST::printf(stderr, "Unknown action: {}\n"
@@ -143,7 +143,7 @@ int main(int argc, char* argv[]) {
             }
         }
     }
-    if ((action & kActionMask) == kActionUnknown || prpFile.empty()) {
+    if ((action & kActionMask) == kActionUnknown || prpFile.is_empty()) {
         doHelp(argv[0]);
         return 1;
     }
@@ -230,7 +230,7 @@ int main(int argc, char* argv[]) {
                        plFactory::ClassName(objType), objName);
             return 1;
         }
-        if (outFile.empty())
+        if (outFile.is_empty())
             outFile = ST::format("[{_04X}]{}.{}", objType, objName,
                                  (action & kModePRC) != 0 ? "prc" : "po");
         hsFileStream out;

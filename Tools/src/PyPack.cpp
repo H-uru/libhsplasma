@@ -121,13 +121,13 @@ int main(int argc, char* argv[]) {
         } else if (strcmp(argv[i], "-eoa") == 0) {
             eType = plEncryptedStream::kEncAES;
         } else {
-            if (!pakfile.empty())
+            if (!pakfile.is_empty())
                 infiles.push_back(pakfile);
             pakfile = argv[i];
         }
     }
 
-    if (pakfile.empty()) {
+    if (pakfile.is_empty()) {
         doHelp();
         return 1;
     }
@@ -317,7 +317,7 @@ int main(int argc, char* argv[]) {
             IS->read(pakObjects[i].fSize, pakObjects[i].fData);
 
             hsFileStream S;
-            if (!outdir.empty())
+            if (!outdir.is_empty())
                 outdir += PATHSEPSTR;
             S.open(outdir + pakObjects[i].fFilename + "c", fmCreate);
             S.writeInt((eType == plEncryptedStream::kEncXtea || eType == plEncryptedStream::kEncNone)

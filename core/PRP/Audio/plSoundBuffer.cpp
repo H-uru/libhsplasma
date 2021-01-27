@@ -96,7 +96,7 @@ void plSoundBuffer::write(hsStream* S, plResManager* mgr) {
     S->writeInt(fFlags);
     S->writeInt(fDataLength);
     ST::string writeFileName = fFileName;
-    if (!fFileName.empty()) {
+    if (!fFileName.is_empty()) {
         writeFileName = strrchr(fFileName.c_str(), '\\');
         if (writeFileName != NULL)
             fFileName = writeFileName;

@@ -108,8 +108,8 @@ ST::string plUuid::toString() const {
 }
 
 void plUuid::fromString(const ST::string& str) {
-    if (str.size() != 36 || str.at(8) != '-' || str.at(13) != '-' ||
-                            str.at(18) != '-' || str.at(23) != '-')
+    if (str.size() != 36 || str.char_at(8) != '-' || str.char_at(13) != '-' ||
+                            str.char_at(18) != '-' || str.char_at(23) != '-')
         throw hsBadParamException(__FILE__, __LINE__, "Incorrect Uuid format");
 
     fData1 = str.substr(0, 8).to_uint(16);

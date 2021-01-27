@@ -174,9 +174,9 @@
 /* For compatibility with plString's CleanFileName utility */
 static ST::string CleanFileName(const ST::string& fname, bool allowPathChars) {
     ST::char_buffer result;
-    result.allocate(fname.size());
-    memcpy(result.data(), fname.c_str(), fname.size() + 1);
-    for (char* bp = result.data(); *bp; bp++) {
+    char* buf = result.create_writable_buffer(fname.size());
+    memcpy(buf, fname.c_str(), fname.size() + 1);
+    for (char* bp = buf; *bp; bp++) {
         if (*bp == '?' || *bp == '*' || *bp == '<' || *bp == '>' ||
             *bp == '"' || *bp == '|' || *bp < (char)0x20)
             *bp = '_';

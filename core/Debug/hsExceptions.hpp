@@ -51,7 +51,7 @@ public:
                               const ST::string& feature = ST::null) HS_NOEXCEPT
         : hsException(file, line)
     {
-        if (feature.empty())
+        if (feature.is_empty())
             fWhat = "Not implemented";
         else
             fWhat = ST::string("`") + feature + "' not implemented";
@@ -65,7 +65,7 @@ public:
         : hsException(file, line)
     {
         fWhat = "Bad parameter";
-        if (!details.empty())
+        if (!details.is_empty())
             fWhat += ST::string(": ") + details;
     }
 };

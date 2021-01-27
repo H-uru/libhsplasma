@@ -68,7 +68,7 @@ int main(int argc, char* argv[]) {
         } else if (argv[i][0] == '-') {
             ST::printf(stderr, "Warning: unrecognized option {}\n", argv[i]);
         } else {
-            if (inputFile.empty())
+            if (inputFile.is_empty())
                 inputFile = argv[i];
             else
                 ST::printf(stderr, "Warning: ignoring extra parameter {}\n", argv[i]);
@@ -92,17 +92,17 @@ int main(int argc, char* argv[]) {
         prc.read(&S);
         const pfPrcTag* root = prc.getRoot();
         if (root->getName() == "Page") {
-            if (outputFile.empty())
+            if (outputFile.is_empty())
                 outputFile = "out.prp";
             plPageInfo* page = rm.ReadPagePrc(root);
             rm.WritePage(outputFile, page);
         } else if (root->getName() == "Age") {
-            if (outputFile.empty())
+            if (outputFile.is_empty())
                 outputFile = "out.age";
             plAgeInfo* age = rm.ReadAgePrc(root);
             rm.WriteAge(outputFile, age);
         } else {
-            if (outputFile.empty())
+            if (outputFile.is_empty())
                 outputFile = "out.po";
             plCreatable* cre = rm.prcParseCreatable(root);
             if (cre != NULL) {

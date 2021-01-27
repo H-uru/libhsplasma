@@ -51,8 +51,8 @@ ST::string plServerGuid::toString() const {
 plServerGuid plServerGuid::FromString(const ST::string& str) {
     plServerGuid guid;
     for (size_t i=0; i<8; i++) {
-        char x = str.at((2*i)  );
-        char y = str.at((2*i)+1);
+        char x = str.char_at((2*i)  );
+        char y = str.char_at((2*i)+1);
         if (x >= '0' && x <= '9')
             guid[i] = x - '0';
         else if (x >= 'A' && x <= 'F')
