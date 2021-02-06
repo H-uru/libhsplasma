@@ -1,0 +1,77 @@
+name: Windows-CI
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.platform.image }}
+    strategy:
+      matrix:
+        platform:
+          - { image: windows-2019, generator: Visual Studio 16 2019, cmake-arch: Win32, arch: x86, python: 3.9, str: windows-x86-v142 }
+          - { image: windows-2019, generator: Visual Studio 16 2019, cmake-arch: x64, arch: x64, python: 3.8, str: windows-x64-v142 }
+          - { image: windows-2016, generator: Visual Studio 15 2017, cmake-arch: Win32, arch: x86, python: 3.7, str: windows-x86-v141 }
+          - { image: windows-2016, generator: Visual Studio 15 2017, cmake-arch: x64, arch: x64, python: 3.6, str: windows-x64-v141 }
+    env:
+      VCPKG_BINARY_SOURCES: 'clear'
+
+    steps:
+      - name: Checkout HSPlasma
+        uses: actions/checkout@v2
+      - name: Checkout vcpkg
+        uses: actions/checkout@v2
+        with:
+          repository: microsoft/vcpkg
+          path: vcpkg
+
+      # Use actions/cache for our library cache because we use multiple compilers per triplet.
+      # This would cause package hash collisions in the NuGet store, triggering upload race failures.
+      - name: Determine vcpkg rev
+        id: vcpkg-rev
+        run: |
+          Set-Location vcpkg
+          Write-Host "::set-output name=ref::$(git rev-parse HEAD)"
+
+      - name: Restore Dependency Libraries
+        uses: actions/cache@v2
+        with:
+          path: build/vcpkg_installed
+          key: vcpkg-${{ matrix.platform.str }} ${{ steps.vcpkg-rev.outputs.ref }} ${{ hashFiles('vcpkg.json') }}
+          restore-keys: |
+            vcpkg-${{ matrix.platform.str }} ${{ steps.vcpkg-rev.outputs.ref }}
+            vcpkg-${{ matrix.platform.str }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.platform.python }}
+          architecture: ${{ matrix.platform.arch }}
+
+      - name: Configure
+        run: |
+          cmake `
+            -G "${{ matrix.platform.generator }}" -A "${{ matrix.platform.cmake-arch }}" `
+            -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}"/vcpkg/scripts/buildsystems/vcpkg.cmake `
+            -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/build/install" `
+            -DVCPKG_TARGET_TRIPLET=${{ matrix.platform.arch }}-windows-static-md `
+            -DPYTHON_EXECUTABLE="${{ env.pythonLocation }}/python.exe" `
+            -DPYTHON_LIBRARY="${{ env.pythonLocation }}/libs/python$("${{ matrix.platform.python }}".replace('.', '')).lib" `
+            -S . -B build
+
+      - name: Build
+        run: |
+          cmake --build build --config Release -j 2
+
+      - name: Install
+        run: |
+          cmake --build build --target INSTALL --config Release -j 2
+
+      - name: Test
+        run: |
+          Set-Location build/install/bin
+          python -c "import PyHSPlasma; print(dir(PyHSPlasma))"
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: libhsplasma-${{ matrix.platform.str }}-py${{ matrix.platform.python }}
+          path: build/install

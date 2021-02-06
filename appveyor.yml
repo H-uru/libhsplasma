@@ -18,22 +18,12 @@ environment:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       VisualStudioVersion: 14.0
       CMAKE_GENERATOR: Visual Studio 14 2015
-      PYTHON_PREFIX: C:\Python36
-      CMAKE_PARAMS: -DPYTHON_INCLUDE_DIR=C:/Python36/include
-        -DPYTHON_LIBRARY=C:/Python36/libs/python36.lib
-        -DPYTHON_EXECUTABLE=C:/Python36/python.exe
+      PYTHON_PREFIX: C:\Python35
+      CMAKE_PARAMS: -DPYTHON_INCLUDE_DIR=C:/Python35/include
+        -DPYTHON_LIBRARY=C:/Python35/libs/python35.lib
+        -DPYTHON_EXECUTABLE=C:/Python35/python.exe
       PREFIX_TARGET: vc2015-x86-static
-      DIST_SUFFIX: '%PREFIX_TARGET%-py36'
-
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      VisualStudioVersion: 15.0
-      CMAKE_GENERATOR: Visual Studio 15 2017 Win64
-      PYTHON_PREFIX: C:\Python36-x64
-      CMAKE_PARAMS: -DPYTHON_INCLUDE_DIR=C:/Python36-x64/include
-        -DPYTHON_LIBRARY=C:/Python36-x64/libs/python36.lib
-        -DPYTHON_EXECUTABLE=C:/Python36-x64/python.exe
-      PREFIX_TARGET: vc2017-x64-static
-      DIST_SUFFIX: '%PREFIX_TARGET%-py36'
+      DIST_SUFFIX: '%PREFIX_TARGET%-py35'
 
 before_build:
   # Download prefix libs
