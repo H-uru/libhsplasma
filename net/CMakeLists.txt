@@ -112,7 +112,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libhsplasmanet.pc.in.cmake ${CMAKE_CU
 
 # Package installation
 install(TARGETS HSPlasmaNet
-        EXPORT HSPlasma-targets
+        EXPORT HSPlasmaNet-targets
         RUNTIME DESTINATION bin
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
