@@ -821,6 +821,7 @@ install(TARGETS HSPlasma
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
 )
+install(EXPORT HSPlasma-targets DESTINATION share/cmake/HSPlasma)
 
 include(CMakePackageConfigHelpers)
 configure_package_config_file(HSPlasmaConfig.cmake.in

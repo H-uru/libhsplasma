@@ -63,5 +63,3 @@ endif()
 if(ENABLE_NET)
     add_subdirectory(net)
 endif()
-
-install(EXPORT HSPlasma-targets DESTINATION share/cmake/HSPlasma)
