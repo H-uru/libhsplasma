@@ -802,11 +802,10 @@ add_library(HSPlasma
             ${RIJNDAEL_SOURCES}
             ${SQUISH_SOURCES}
 )
-target_link_libraries(HSPlasma ${PNG_LIBRARIES} ${JPEG_LIBRARIES} ${ZLIB_LIBRARIES}
-                      ${CMAKE_THREAD_LIBS_INIT} ${STRING_THEORY_LIBRARIES})
-if(PHYSX_FOUND AND ENABLE_PHYSX)
-    target_link_libraries(HSPlasma ${PHYSX_COOKING_LIBRARY})
-endif(PHYSX_FOUND AND ENABLE_PHYSX)
+target_link_libraries(HSPlasma
+                      JPEG::JPEG PNG::PNG string_theory Threads::Threads ZLIB::ZLIB
+                      $<$<AND:$<BOOL:${ENABLE_PHYSX}>,$<BOOL:${PHYSX_FOUND}>>:${PHYSX_COOKING_LIBRARY}>
+)
 
 target_include_directories(HSPlasma PUBLIC
                            $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}>

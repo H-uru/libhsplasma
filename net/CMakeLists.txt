@@ -94,15 +94,11 @@ add_library(HSPlasmaNet
             ${PN_GATE_SOURCES}  ${PN_GATE_HEADERS}
             ${PN_SOURCES}       ${PN_HEADERS}
 )
-target_link_libraries(HSPlasmaNet HSPlasma ${STRING_THEORY_LIBRARIES})
-if(NOT ${CMAKE_SYSTEM_NAME} MATCHES "SunOS")
-    target_link_libraries(HSPlasmaNet ${OPENSSL_LIBRARIES})
-endif()
-
-if(WIN32)
-    target_link_libraries(HSPlasmaNet crypt32)
-    target_link_libraries(HSPlasmaNet ws2_32)
-endif(WIN32)
+target_link_libraries(HSPlasmaNet
+                      HSPlasma string_theory
+                      $<$<NOT:$<PLATFORM_ID:SunOS>>:OpenSSL::Crypto>
+                      $<$<PLATFORM_ID:Windows>:ws2_32>
+)
 
 target_include_directories(HSPlasmaNet PUBLIC
                            $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}>
