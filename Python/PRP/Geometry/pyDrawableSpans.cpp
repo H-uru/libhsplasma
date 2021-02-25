@@ -78,8 +78,8 @@ PY_METHOD_VA(DrawableSpans, deleteBufferGroup,
 }
 
 PY_METHOD_VA(DrawableSpans, getVerts,
-    "Params: buffer, idx\n"
-    "Retrieves a list of verts from the specified buffer and group")
+    "Params: icicle\n"
+    "Retrieves a list of verts from the specified icicle")
 {
     pyIcicle* ice;
     if (!PyArg_ParseTuple(args, "O", &ice)) {
@@ -98,9 +98,8 @@ PY_METHOD_VA(DrawableSpans, getVerts,
 }
 
 PY_METHOD_VA(DrawableSpans, getIndices,
-    "Params: buffer, idx\n"
-    "Retrieves a list of face-vertex indices (ungrouped) from the specified\n"
-    "buffer and group")
+    "Params: icicle\n"
+    "Retrieves a list of face-vertex indices (ungrouped) from the specified icicle")
 {
     pyIcicle* ice;
     if (!PyArg_ParseTuple(args, "O", &ice)) {

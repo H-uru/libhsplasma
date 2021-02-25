@@ -32,7 +32,7 @@ PY_METHOD_NOARGS(LogicModBase, clearCommands, "Remove all commands")
 }
 
 PY_METHOD_VA(LogicModBase, addCommand,
-    "Params: key\n"
+    "Params: msg\n"
     "Add a command")
 {
     pyMessage* msg;

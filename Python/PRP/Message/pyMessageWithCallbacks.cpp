@@ -23,7 +23,7 @@
 PY_PLASMA_NEW(MessageWithCallbacks, plMessageWithCallbacks)
 
 PY_METHOD_VA(MessageWithCallbacks, addCallback,
-    "Params: key\n"
+    "Params: msg\n"
     "Adds a callback message")
 {
     PyObject* msg;

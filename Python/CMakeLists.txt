@@ -767,6 +767,7 @@ if(NOT WIN32)
     install(TARGETS PyHSPlasma
             DESTINATION ${_PYTHON_LIB_DIR}
     )
+    install(FILES PyHSPlasma.pyi DESTINATION ${_PYTHON_LIB_DIR})
 else()
     set_target_properties(PyHSPlasma PROPERTIES
                           SUFFIX ".pyd"
@@ -777,6 +778,7 @@ else()
             LIBRARY DESTINATION lib
             ARCHIVE DESTINATION lib
     )
+    install(FILES PyHSPlasma.pyi DESTINATION bin)
 endif()
 
 #Visual studio source grouping
