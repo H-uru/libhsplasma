@@ -1,0 +1,22 @@
+{
+  "name": "libhsplasma",
+  "version-string": "2021.02.05",
+  "description": "Cross-platform Plasma data and network library",
+  "dependencies": [
+    "libjpeg-turbo",
+    "libpng",
+    "string-theory",
+    "zlib"
+  ],
+  "features": {
+    "net": {
+      "description": "MOUL networking support",
+      "dependencies": [
+        "openssl"
+      ]
+    }
+  },
+  "default-features": [
+    "net"
+  ]
+}
