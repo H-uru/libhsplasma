@@ -64,6 +64,21 @@ void hsBounds::IPrcParse(const pfPrcTag* tag)
 
 
 /* hsBounds3 */
+const unsigned int hsBounds3::CornerIndices[36] = {
+    0, 2, 1,
+    1, 2, 3,
+    0, 1, 4,
+    1, 5, 4,
+    0, 4, 2,
+    2, 4, 6,
+    1, 3, 7,
+    7, 5, 1,
+    3, 2, 7,
+    2, 6, 7,
+    4, 7, 6,
+    4, 5, 7
+};
+
 void hsBounds3::init(const hsVector3& right)
 {
     fMins = right;

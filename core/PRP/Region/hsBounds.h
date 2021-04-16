@@ -87,6 +87,8 @@ public:
     void setCenter(const hsVector3& center) { fCenter = center; }
 
     const hsVector3& updateCenter();
+
+    static const unsigned int CornerIndices[36];
 };
 
 
