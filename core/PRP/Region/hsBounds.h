@@ -88,7 +88,7 @@ public:
 
     const hsVector3& updateCenter();
 
-    static const unsigned int CornerIndices[36];
+    static const std::array<unsigned int, 36> CornerIndices;
 };
 
 

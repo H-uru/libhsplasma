@@ -816,6 +816,6 @@ void plGenericPhysical::calcBoxBounds(size_t numPoints, const hsVector3* points)
     hsBounds3Corners corners = bounds.getCorners();
     fVerts.reserve(corners.size());
     std::copy(corners.begin(), corners.end(), std::back_inserter(fVerts));
-    fVerts.reserve(std::size(hsBounds3::CornerIndices));
-    std::copy(&hsBounds3::CornerIndices[0], &hsBounds3::CornerIndices[std::size(hsBounds3::CornerIndices)], std::back_inserter(fIndices));
+    fVerts.reserve(hsBounds3::CornerIndices.size());
+    std::copy(hsBounds3::CornerIndices.begin(), hsBounds3::CornerIndices.end(), std::back_inserter(fIndices));
 }

@@ -64,7 +64,7 @@ void hsBounds::IPrcParse(const pfPrcTag* tag)
 
 
 /* hsBounds3 */
-const unsigned int hsBounds3::CornerIndices[36] = {
+const std::array<unsigned int, 36> hsBounds3::CornerIndices = {
     0, 2, 1,
     1, 2, 3,
     0, 1, 4,
