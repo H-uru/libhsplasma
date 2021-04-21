@@ -38,9 +38,6 @@ protected:
 
 public:
     plCullPoly() : fFlags(kNone), fDist(), fRadius() { }
-    plCullPoly(const plCullPoly& init)
-        : fFlags(init.fFlags), fVerts(init.fVerts), fNorm(init.fNorm),
-          fCenter(init.fCenter), fDist(init.fDist), fRadius(init.fRadius) { }
 
     void read(hsStream* S);
     void write(hsStream* S);

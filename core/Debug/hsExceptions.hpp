@@ -31,12 +31,6 @@ public:
     inline hsException(const char* file, unsigned long line) HS_NOEXCEPT
         : fWhat("Undefined Plasma Exception"), fFile(file), fLine(line) { }
 
-    inline hsException& operator=(const hsException& other) HS_NOEXCEPT
-    {
-        fWhat = other.fWhat;
-        return *this;
-    }
-
     inline const char* what() const HS_NOEXCEPT HS_OVERRIDE { return fWhat.c_str(); }
     inline const char* File() const HS_NOEXCEPT { return fFile; }
     inline unsigned long Line() const HS_NOEXCEPT { return fLine; }
