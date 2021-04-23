@@ -25,11 +25,74 @@
 /* plRandomSoundModGroup */
 PY_PLASMA_NEW(RandomSoundModGroup, plRandomSoundModGroup)
 
+PY_METHOD_VA(RandomSoundModGroup, addIndex,
+    "Params: index\n"
+    "Add an index to this RandomSoundModGroup")
+{
+    unsigned short index;
+    if (!PyArg_ParseTuple(args, "H", &index)) {
+        PyErr_SetString(PyExc_TypeError, "addIndex expects an unsigned short");
+        return nullptr;
+    }
+    self->fThis->addIndex(index);
+    Py_RETURN_NONE;
+}
+
+PY_METHOD_VA(RandomSoundModGroup, delIndex,
+    "Params: idx\n"
+    "Delete an index from this RandomSoundModGroup")
+{
+    Py_ssize_t idx;
+    if (!PyArg_ParseTuple(args, "n", &idx)) {
+        PyErr_SetString(PyExc_TypeError, "delGroup expects an int");
+        return nullptr;
+    }
+    if ((size_t)idx < self->fThis->getIndices().size()) {
+        self->fThis->delIndex(idx);
+        Py_RETURN_NONE;
+    } else {
+        PyErr_SetNone(PyExc_IndexError);
+        return nullptr;
+    }
+}
+
+PY_METHOD_NOARGS(RandomSoundModGroup, clearIndices,
+    "Remove all indices from this RandomSoundModGroup")
+{
+    self->fThis->clearIndices();
+    Py_RETURN_NONE;
+}
+
+static PyMethodDef pyRandomSoundModGroup_Methods[] = {
+    pyRandomSoundModGroup_addIndex_method,
+    pyRandomSoundModGroup_delIndex_method,
+    pyRandomSoundModGroup_clearIndices_method,
+    PY_METHOD_TERMINATOR
+};
+
+PY_GETSET_GETTER_DECL(RandomSoundModGroup, indices)
+{
+    PyObject* tup = PyTuple_New(self->fThis->getIndices().size());
+    for (size_t i = 0; i < self->fThis->getIndices().size(); ++i)
+        PyTuple_SET_ITEM(tup, i, PyLong_FromUnsignedLong(self->fThis->getIndices()[i]));
+    return tup;
+}
+
+PY_PROPERTY_SETTER_MSG(RandomSoundModGroup, indices, "To add groups, use addIndex()")
+PY_PROPERTY_GETSET_DECL(RandomSoundModGroup, indices)
+
+static PyGetSetDef pyRandomSoundModGroup_GetSet[] = {
+    pyRandomSoundModGroup_indices_getset,
+    nullptr
+};
+
 PY_PLASMA_TYPE(RandomSoundModGroup, plRandomSoundModGroup, "plRandomSoundModGroup wrapper")
 
 PY_PLASMA_TYPE_INIT(RandomSoundModGroup)
 {
     pyRandomSoundModGroup_Type.tp_new = pyRandomSoundModGroup_new;
+    pyRandomSoundModGroup_Type.tp_methods = pyRandomSoundModGroup_Methods;
+    pyRandomSoundModGroup_Type.tp_getset = pyRandomSoundModGroup_GetSet;
     if (PyType_CheckAndReady(&pyRandomSoundModGroup_Type) < 0)
         return nullptr;
 
