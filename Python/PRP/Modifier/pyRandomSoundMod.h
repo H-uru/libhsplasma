@@ -19,7 +19,7 @@
 
 #include "PyPlasma.h"
 
-PY_WRAP_PLASMA(RandomSoundModGroup, class plRandomSoundModGroup);
+PY_WRAP_PLASMA_VALUE(RandomSoundModGroup, class plRandomSoundModGroup);
 PY_WRAP_PLASMA(RandomSoundMod, class plRandomSoundMod);
 
 #endif

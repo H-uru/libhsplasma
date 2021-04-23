@@ -23,7 +23,9 @@
 
 
 /* plRandomSoundModGroup */
-PY_PLASMA_NEW(RandomSoundModGroup, plRandomSoundModGroup)
+PY_PLASMA_VALUE_DEALLOC(RandomSoundModGroup)
+
+PY_PLASMA_VALUE_NEW(RandomSoundModGroup, plRandomSoundModGroup)
 
 PY_METHOD_VA(RandomSoundModGroup, addIndex,
     "Params: index\n"
@@ -90,6 +92,7 @@ PY_PLASMA_TYPE(RandomSoundModGroup, plRandomSoundModGroup, "plRandomSoundModGrou
 
 PY_PLASMA_TYPE_INIT(RandomSoundModGroup)
 {
+    pyRandomSoundModGroup_Type.tp_dealloc = pyRandomSoundModGroup_dealloc;
     pyRandomSoundModGroup_Type.tp_new = pyRandomSoundModGroup_new;
     pyRandomSoundModGroup_Type.tp_methods = pyRandomSoundModGroup_Methods;
     pyRandomSoundModGroup_Type.tp_getset = pyRandomSoundModGroup_GetSet;
@@ -100,7 +103,7 @@ PY_PLASMA_TYPE_INIT(RandomSoundModGroup)
     return (PyObject*)&pyRandomSoundModGroup_Type;
 }
 
-PY_PLASMA_IFC_METHODS(RandomSoundModGroup, plRandomSoundModGroup)
+PY_PLASMA_VALUE_IFC_METHODS(RandomSoundModGroup, plRandomSoundModGroup)
 
 
 /* plRandomSoundMod */
@@ -119,7 +122,6 @@ PY_METHOD_VA(RandomSoundMod, addGroup,
         PyErr_SetString(PyExc_TypeError, "addGroup expects a plRandomSoundModGroup");
         return nullptr;
     }
-    group->fPyOwned = false;
     self->fThis->addGroup(*group->fThis);
     Py_RETURN_NONE;
 }
@@ -160,7 +162,7 @@ PY_GETSET_GETTER_DECL(RandomSoundMod, groups)
 {
     PyObject* list = PyTuple_New(self->fThis->getGroups().size());
     for (size_t i = 0; i < self->fThis->getGroups().size(); ++i)
-        PyTuple_SET_ITEM(list, i, pyRandomSoundModGroup_FromRandomSoundModGroup(&self->fThis->getGroups()[i]));
+        PyTuple_SET_ITEM(list, i, pyRandomSoundModGroup_FromRandomSoundModGroup(self->fThis->getGroups()[i]));
     return list;
 }
 
