@@ -53,7 +53,7 @@ protected:
 public:
     const std::vector<plRandomSoundModGroup>& getGroups() const { return fGroups; }
     std::vector<plRandomSoundModGroup>& getGroups() { return fGroups; }
-    void addGroup(const plRandomSoundModGroup& group) { fGroups.push_back(group); }
+    void addGroup(plRandomSoundModGroup group) { fGroups.emplace_back(std::move(group)); }
     void delGroup(size_t idx) { fGroups.erase(fGroups.begin() + idx); }
     void clearGroups() { fGroups.clear(); }
 };

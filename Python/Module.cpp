@@ -144,7 +144,6 @@
 #include "PRP/Modifier/pyRandomCommandMod.h"
 #include "PRP/Modifier/pyRandomSoundMod.h"
 #include "PRP/Modifier/pyResponderModifier.h"
-#include "PRP/Modifier/pyResponderModifier.h"
 #include "PRP/Modifier/pySpawnModifier.h"
 #include "PRP/Object/pyObjInterface.h"
 #include "PRP/Object/pySceneObject.h"
