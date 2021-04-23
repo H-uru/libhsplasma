@@ -34,7 +34,7 @@ public:
     void prcParse(const pfPrcTag* tag);
 
     const std::vector<unsigned short>& getIndices() const { return fIndices; }
-    std::vector<unsigned short> getIndices() { return fIndices; }
+    std::vector<unsigned short>& getIndices() { return fIndices; }
     void addIndex(unsigned short index) { fIndices.push_back(index); }
     void delIndex(size_t idx) { fIndices.erase(fIndices.begin() + idx); }
     void clearIndices() { fIndices.clear(); }
