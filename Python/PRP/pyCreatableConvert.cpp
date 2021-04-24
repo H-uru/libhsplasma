@@ -284,6 +284,7 @@
 #include "PRP/Physics/pyHKSubWorld.h"
 #include "PRP/Physics/pyObjectInVolumeDetector.h"
 #include "PRP/Physics/pyPhysical.h"
+#include "PRP/Physics/pyPhysicalSndGroup.h"
 #include "PRP/Region/pyBounds.h"
 #include "PRP/Region/pyConvexVolume.h"
 #include "PRP/Region/pySimpleRegionSensor.h"
@@ -613,6 +614,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kSimSuppressMsg: return pySimSuppressMsg_FromSimSuppressMsg(plSimSuppressMsg::Convert(pCre));
         case kGrassShaderMod: return pyGrassShaderMod_FromGrassShaderMod(plGrassShaderMod::Convert(pCre));
         case kWarpMsg: return pyWarpMsg_FromWarpMsg(plWarpMsg::Convert(pCre));
+        case kPhysicalSndGroup: return pyPhysicalSndGroup_FromPhysicalSndGroup(plPhysicalSndGroup::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (pCre->ClassInstance(kMessage))

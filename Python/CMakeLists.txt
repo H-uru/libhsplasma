@@ -516,6 +516,7 @@ set(PRP_PHYS_SOURCES
     PRP/Physics/pyObjectInVolumeAndFacingDetector.cpp
     PRP/Physics/pyPanicLinkRegion.cpp
     PRP/Physics/pyPhysical.cpp
+    PRP/Physics/pyPhysicalSndGroup.cpp
     PRP/Physics/pyPickingDetector.cpp
     PRP/Physics/pySimDefs.cpp
     PRP/Physics/pySubworldRegionDetector.cpp
@@ -526,6 +527,7 @@ set(PRP_PHYS_HEADERS
     PRP/Physics/pyHKSubWorld.h
     PRP/Physics/pyObjectInVolumeDetector.h
     PRP/Physics/pyPhysical.h
+    PRP/Physics/pyPhysicalSndGroup.h
 )
 
 set(PRP_REGION_SOURCES
