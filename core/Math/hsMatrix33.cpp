@@ -91,3 +91,5 @@ void hsMatrix33::prcParse(const pfPrcTag* tag)
     if (*iter++ != "]")
         throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix33 Format error");
 }
+
+#undef DATA

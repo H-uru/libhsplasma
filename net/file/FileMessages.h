@@ -14,6 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef _FILEMESSAGES_H
+#define _FILEMESSAGES_H
+
 enum /* Client -> Server */
 {
     kCli2File_PingRequest = 0,
@@ -32,3 +35,5 @@ enum /* Server -> Client */
     kFile2Cli_ManifestReply = 20,
     kFile2Cli_FileDownloadReply = 21,
 };
+
+#endif
