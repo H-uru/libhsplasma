@@ -51,6 +51,17 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    unsigned char getState() const { return fState; }
+    unsigned char getMode() const { return fMode; }
+    float getMinDelay() const { return fMinDelay; }
+    float getMaxDelay() const { return fMaxDelay; }
+
+    void setState(unsigned char state) { fState = state; }
+    void setMode(unsigned char mode) { fMode = mode; }
+    void setMinDelay(float minDelay) { fMinDelay = minDelay; }
+    void setMaxDelay(float maxDelay) { fMaxDelay = maxDelay; }
 };
 
 #endif
