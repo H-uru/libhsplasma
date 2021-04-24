@@ -40,7 +40,7 @@ PY_METHOD_VA(PhysicalSndGroup, delImpactSound, "Params: idx")
         PyErr_SetString(PyExc_TypeError, "delImpactSound expects an int");
         return nullptr;
     }
-    if (idx < (Py_ssize_t)self->fThis->getImpactSounds().size()) {
+    if ((size_t)idx < self->fThis->getImpactSounds().size()) {
         self->fThis->delImpactSound(idx);
         Py_RETURN_NONE;
     } else {
@@ -73,7 +73,7 @@ PY_METHOD_VA(PhysicalSndGroup, delSlideSound, "Params: idx")
         PyErr_SetString(PyExc_TypeError, "delSlideSound expects an int");
         return nullptr;
     }
-    if (idx < (Py_ssize_t)self->fThis->getSlideSounds().size()) {
+    if ((size_t)idx < self->fThis->getSlideSounds().size()) {
         self->fThis->delSlideSound(idx);
         Py_RETURN_NONE;
     } else {
