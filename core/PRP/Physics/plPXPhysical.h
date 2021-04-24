@@ -14,6 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef _PLPXPHYSICAL_H
+#define _PLPXPHYSICAL_H
+
 /* The enumerations in this file are internal use ONLY.
  * Do NOT include this file in your own code!
  */
@@ -135,3 +138,5 @@ private:
     static void readSuffix(hsStream* S);
     static void skipMaxDependantList(hsStream*S, unsigned int size);
 };
+
+#endif

@@ -14,6 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef _GATEKEEPERMESSAGES_H
+#define _GATEKEEPERMESSAGES_H
+
 #include "../pnNetMsg.h"
 
 enum /* Client -> Server */
@@ -30,3 +33,5 @@ enum /* Server -> Client */
 
 PLASMANET_DLL const pnNetMsg* GET_Cli2GateKeeper(uint32_t msgId);
 PLASMANET_DLL const pnNetMsg* GET_GateKeeper2Cli(uint32_t msgId);
+
+#endif

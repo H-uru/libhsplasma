@@ -15,6 +15,7 @@
  */
 
 #ifndef _PYCOLOR_H
+#define _PYCOLOR_H
 
 #include "PyPlasma.h"
 #include <Sys/hsColor.h>

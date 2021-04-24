@@ -7,10 +7,10 @@ jobs:
     strategy:
       matrix:
         platform:
-          - { image: windows-2019, generator: Visual Studio 16 2019, cmake-arch: Win32, arch: x86, python: 3.9, str: windows-x86-v142 }
-          - { image: windows-2019, generator: Visual Studio 16 2019, cmake-arch: x64, arch: x64, python: 3.8, str: windows-x64-v142 }
-          - { image: windows-2016, generator: Visual Studio 15 2017, cmake-arch: Win32, arch: x86, python: 3.7, str: windows-x86-v141 }
-          - { image: windows-2016, generator: Visual Studio 15 2017, cmake-arch: x64, arch: x64, python: 3.6, str: windows-x64-v141 }
+          - { image: windows-2019, generator: Visual Studio 16 2019, cmake-arch: Win32, arch: x86, python: 3.9, unity: ON, str: windows-x86-v142 }
+          - { image: windows-2019, generator: Visual Studio 16 2019, cmake-arch: x64, arch: x64, python: 3.8, unity: OFF, str: windows-x64-v142 }
+          - { image: windows-2016, generator: Visual Studio 15 2017, cmake-arch: Win32, arch: x86, python: 3.7, unity: OFF, str: windows-x86-v141 }
+          - { image: windows-2016, generator: Visual Studio 15 2017, cmake-arch: x64, arch: x64, python: 3.6, unity: ON, str: windows-x64-v141 }
     env:
       VCPKG_BINARY_SOURCES: 'clear'
 
@@ -52,6 +52,7 @@ jobs:
             -G "${{ matrix.platform.generator }}" -A "${{ matrix.platform.cmake-arch }}" `
             -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}"/vcpkg/scripts/buildsystems/vcpkg.cmake `
             -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/build/install" `
+            -DCMAKE_UNITY_BUILD=${{ matrix.platform.unity }} `
             -DVCPKG_TARGET_TRIPLET=${{ matrix.platform.arch }}-windows-static-md `
             -DPYTHON_EXECUTABLE="${{ env.pythonLocation }}/python.exe" `
             -DPYTHON_LIBRARY="${{ env.pythonLocation }}/libs/python$("${{ matrix.platform.python }}".replace('.', '')).lib" `

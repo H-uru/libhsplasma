@@ -14,8 +14,8 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _PLENABLEMSG_H
-#define _PLENABLEMSG_H
+#ifndef _PLCONSOLEMSG_H
+#define _PLCONSOLEMSG_H
 
 #include "plMessage.h"
 
