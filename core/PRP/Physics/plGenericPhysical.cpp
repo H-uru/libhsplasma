@@ -804,8 +804,10 @@ void plGenericPhysical::calcBoxBounds(size_t numPoints, const hsVector3* points)
     fVerts.clear();
 
     hsBounds3Ext bounds;
-    bounds.setMins(points[0]);
-    bounds.setMaxs(points[0]);
+    if (numPoints > 0) {
+        bounds.setMins(points[0]);
+        bounds.setMaxs(points[0]);
+    }
     for (size_t i = 0; i < numPoints; ++i)
         bounds += points[i];
     bounds.unalign();
