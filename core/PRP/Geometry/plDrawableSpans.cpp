@@ -528,10 +528,16 @@ void plDrawableSpans::calcBounds()
         hsBounds3Ext world;
 
         world.setFlags(hsBounds3Ext::kAxisAligned);
+        hsVector3* localPoints = new hsVector3[verts.size()];
+        hsVector3* worldPoints = new hsVector3[verts.size()];
         for (size_t j = 0; j < verts.size(); j++) {
-            loc += verts[j].fPos;
-            world += fIcicles[i]->getLocalToWorld().multPoint(verts[j].fPos);
+            localPoints[j] = verts[j].fPos;
+            worldPoints[j] = fIcicles[i]->getLocalToWorld().multPoint(verts[j].fPos);
         }
+        loc.setFromPoints(verts.size(), localPoints);
+        world.setFromPoints(verts.size(), worldPoints);
+        delete[] localPoints;
+        delete[] worldPoints;
         loc.unalign();
 
         fIcicles[i]->setLocalBounds(loc);
