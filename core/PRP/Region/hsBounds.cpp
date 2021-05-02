@@ -176,7 +176,7 @@ hsBounds3Corners hsBounds3::getCorners() const
     return corners;
 }
 
-void hsBounds3::setFromPoints(unsigned int numPoints, const hsVector3* points)
+void hsBounds3::setFromPoints(size_t numPoints, const hsVector3* points)
 {
     if (numPoints > 0) {
         setMins(points[0]);
