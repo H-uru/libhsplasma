@@ -108,7 +108,25 @@ PY_GETSET_GETTER_DECL(PhysicalSndGroup, impactSounds)
         PyTuple_SET_ITEM(tup, i, pyPlasma_convert(sounds[i]));
     return tup;
 }
-PY_PROPERTY_SETTER_MSG(PhysicalSndGroup, impactSounds, "To add impact sounds, use addImpactSound()")
+PY_GETSET_SETTER_DECL(PhysicalSndGroup, impactSounds)
+{
+    PY_PROPERTY_CHECK_NULL(impactSounds);
+    pySequenceFastRef seq(value);
+    if (!seq.isSequence()) {
+        PyErr_SetString(PyExc_TypeError, "impactSounds should be a sequence of plKey");
+        return -1;
+    }
+    self->fThis->getImpactSounds().resize(seq.size());
+    for (size_t i = 0; i < self->fThis->getImpactSounds().size(); ++i) {
+        PyObject* item = seq.get(i);
+        if (!pyPlasma_check<plKey>(item)) {
+            PyErr_SetString(PyExc_TypeError, "impactSounds should be a sequence of plKey");
+            return -1;
+        }
+        self->fThis->getImpactSounds()[i] = pyPlasma_get<plKey>(item);
+    }
+    return 0;
+}
 PY_PROPERTY_GETSET_DECL(PhysicalSndGroup, impactSounds)
 
 PY_GETSET_GETTER_DECL(PhysicalSndGroup, slideSounds)
@@ -119,12 +137,30 @@ PY_GETSET_GETTER_DECL(PhysicalSndGroup, slideSounds)
         PyTuple_SET_ITEM(tup, i, pyPlasma_convert(sounds[i]));
     return tup;
 }
-PY_PROPERTY_SETTER_MSG(PhysicalSndGroup, slideSounds, "To add slide sounds, use addSlideSound()")
+PY_GETSET_SETTER_DECL(PhysicalSndGroup, slideSounds)
+{
+    PY_PROPERTY_CHECK_NULL(slideSounds);
+    pySequenceFastRef seq(value);
+    if (!seq.isSequence()) {
+        PyErr_SetString(PyExc_TypeError, "slideSounds should be a sequence of plKey");
+        return -1;
+    }
+    self->fThis->getSlideSounds().resize(seq.size());
+    for (size_t i = 0; i < self->fThis->getSlideSounds().size(); ++i) {
+        PyObject* item = seq.get(i);
+        if (!pyPlasma_check<plKey>(item)) {
+            PyErr_SetString(PyExc_TypeError, "slideSounds should be a sequence of plKey");
+            return -1;
+        }
+        self->fThis->getSlideSounds()[i] = pyPlasma_get<plKey>(item);
+    }
+    return 0;
+}
 PY_PROPERTY_GETSET_DECL(PhysicalSndGroup, slideSounds)
 
 static PyGetSetDef pyPhysicalSndGroup_GetSet[] = {
     pyPhysicalSndGroup_group_getset,
-    pyPhysicalSndGroup_slideSounds_getset,
+    pyPhysicalSndGroup_impactSounds_getset,
     pyPhysicalSndGroup_slideSounds_getset,
     PY_GETSET_TERMINATOR
 };
