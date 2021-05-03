@@ -178,10 +178,8 @@ hsBounds3Corners hsBounds3::getCorners() const
 
 void hsBounds3::setFromPoints(size_t numPoints, const hsVector3* points)
 {
-    if (numPoints > 0) {
-        setMins(points[0]);
-        setMaxs(points[0]);
-    }
+    setMins(points[0]);
+    setMaxs(points[0]);
     for (size_t i = 0; i < numPoints; ++i)
         (*this) += points[i];
 }

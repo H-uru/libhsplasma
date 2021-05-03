@@ -27,7 +27,6 @@
 #include "plGeometrySpan.h"
 #include <vector>
 #include <list>
-#include <memory>
 
 class PLASMA_DLL plDISpanIndex
 {

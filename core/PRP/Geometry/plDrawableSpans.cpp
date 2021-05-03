@@ -18,6 +18,7 @@
 #include "Debug/plDebug.h"
 #include "Util/hsRadixSort.h"
 #include <algorithm>
+#include <memory>
 
 /* plDISpanIndex */
 plDISpanIndex& plDISpanIndex::operator=(const plDISpanIndex& cpy) {
