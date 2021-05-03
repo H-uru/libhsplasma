@@ -24,7 +24,13 @@ class PLASMA_DLL plPhysicalSndGroup : public hsKeyedObject
     CREATABLE(plPhysicalSndGroup, kPhysicalSndGroup, hsKeyedObject)
 
 public:
-    enum SoundGroup { kNone, kMetal, kGrass, kWood, kStone };
+    enum SoundGroup
+    {
+        kNone, kMetal, kGrass, kWood,
+        kStone, kWater, kBone, kDirt,
+        kRug, kCone, kUser1, kUser2,
+        kUser3
+    };
 
 protected:
     unsigned int fGroup;

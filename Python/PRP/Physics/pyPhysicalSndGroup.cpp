@@ -181,6 +181,14 @@ PY_PLASMA_TYPE_INIT(PhysicalSndGroup)
     PY_TYPE_ADD_CONST(PhysicalSndGroup, "kGrass", plPhysicalSndGroup::kGrass);
     PY_TYPE_ADD_CONST(PhysicalSndGroup, "kWood", plPhysicalSndGroup::kWood);
     PY_TYPE_ADD_CONST(PhysicalSndGroup, "kStone", plPhysicalSndGroup::kStone);
+    PY_TYPE_ADD_CONST(PhysicalSndGroup, "kWater", plPhysicalSndGroup::kWater);
+    PY_TYPE_ADD_CONST(PhysicalSndGroup, "kBone", plPhysicalSndGroup::kBone);
+    PY_TYPE_ADD_CONST(PhysicalSndGroup, "kDirt", plPhysicalSndGroup::kDirt);
+    PY_TYPE_ADD_CONST(PhysicalSndGroup, "kRug", plPhysicalSndGroup::kRug);
+    PY_TYPE_ADD_CONST(PhysicalSndGroup, "kCone", plPhysicalSndGroup::kCone);
+    PY_TYPE_ADD_CONST(PhysicalSndGroup, "kUser1", plPhysicalSndGroup::kUser1);
+    PY_TYPE_ADD_CONST(PhysicalSndGroup, "kUser2", plPhysicalSndGroup::kUser2);
+    PY_TYPE_ADD_CONST(PhysicalSndGroup, "kUser3", plPhysicalSndGroup::kUser3);
 
     Py_INCREF(&pyPhysicalSndGroup_Type);
     return (PyObject*)&pyPhysicalSndGroup_Type;
