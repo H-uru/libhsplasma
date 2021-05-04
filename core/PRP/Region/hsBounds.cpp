@@ -65,18 +65,18 @@ void hsBounds::IPrcParse(const pfPrcTag* tag)
 
 /* hsBounds3 */
 const std::array<unsigned int, 36> hsBounds3::CornerIndices = {
-    0, 2, 1,
-    1, 2, 3,
-    0, 1, 4,
-    1, 5, 4,
-    0, 4, 2,
-    2, 4, 6,
-    1, 3, 7,
-    7, 5, 1,
-    3, 2, 7,
-    2, 6, 7,
-    4, 7, 6,
-    4, 5, 7
+    0, 1, 2,
+    1, 3, 2,
+    0, 4, 1,
+    1, 4, 5,
+    0, 2, 4,
+    2, 6, 4,
+    1, 7, 3,
+    7, 1, 5,
+    3, 7, 2,
+    2, 7, 6,
+    4, 6, 7,
+    4, 7, 5
 };
 
 void hsBounds3::init(const hsVector3& right)
@@ -174,6 +174,14 @@ hsBounds3Corners hsBounds3::getCorners() const
         corners[i].Z = (i & 0x04) ? fMins.Z : fMaxs.Z;
     }
     return corners;
+}
+
+void hsBounds3::setFromPoints(size_t numPoints, const hsVector3* points)
+{
+    setMins(points[0]);
+    setMaxs(points[0]);
+    for (size_t i = 0; i < numPoints; ++i)
+        (*this) += points[i];
 }
 
 const hsVector3& hsBounds3::updateCenter()

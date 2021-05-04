@@ -18,6 +18,7 @@
 #include "Debug/plDebug.h"
 #include "Util/hsRadixSort.h"
 #include <algorithm>
+#include <memory>
 
 /* plDISpanIndex */
 plDISpanIndex& plDISpanIndex::operator=(const plDISpanIndex& cpy) {
@@ -528,10 +529,14 @@ void plDrawableSpans::calcBounds()
         hsBounds3Ext world;
 
         world.setFlags(hsBounds3Ext::kAxisAligned);
+        auto localPoints = std::make_unique<hsVector3[]>(verts.size());
+        auto worldPoints = std::make_unique<hsVector3[]>(verts.size());
         for (size_t j = 0; j < verts.size(); j++) {
-            loc += verts[j].fPos;
-            world += fIcicles[i]->getLocalToWorld().multPoint(verts[j].fPos);
+            localPoints[j] = verts[j].fPos;
+            worldPoints[j] = fIcicles[i]->getLocalToWorld().multPoint(verts[j].fPos);
         }
+        loc.setFromPoints(verts.size(), localPoints.get());
+        world.setFromPoints(verts.size(), worldPoints.get());
         loc.unalign();
 
         fIcicles[i]->setLocalBounds(loc);
