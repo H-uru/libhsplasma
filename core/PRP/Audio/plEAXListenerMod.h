@@ -36,6 +36,13 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    plKey getSoftRegion() const { return fSoftRegion; }
+    EAXREVERBPROPERTIES getListenerProps() const { return fListenerProps; }
+
+    void setSoftRegion(plKey region) { fSoftRegion = std::move(region); }
+    void setListenerProps(EAXREVERBPROPERTIES properties) { fListenerProps = std::move(properties); }
 };
 
 class PLASMA_DLL plEAXEffect : public plSingleModifier

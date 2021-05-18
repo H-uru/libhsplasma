@@ -59,6 +59,7 @@
 #include "PRP/Avatar/pySeekPointMod.h"
 #include "PRP/Avatar/pySittingModifier.h"
 #include "PRP/Audio/pyAudible.h"
+#include "PRP/Audio/pyEaxListenerMod.h"
 #include "PRP/Audio/pySound.h"
 #include "PRP/Audio/pySoundBuffer.h"
 #include "PRP/Audio/pyWin32Sound.h"
@@ -713,6 +714,8 @@ PyMODINIT_FUNC initPyHSPlasma()
     PyModule_AddObject(module, "plLogicModifier", Init_pyLogicModifier_Type());
     PyModule_AddObject(module, "plAudible", Init_pyAudible_Type());
     PyModule_AddObject(module, "plAudibleNull", Init_pyAudibleNull_Type());
+    PyModule_AddObject(module, "plEAXListenerMod", Init_pyEAXListenerMod_Type());
+    PyModule_AddObject(module, "EaxReverbProperties", Init_pyEaxReverbProperties_Type());
     PyModule_AddObject(module, "plWinAudible", Init_pyWinAudible_Type());
     PyModule_AddObject(module, "pl2WayWinAudible", Init_py2WayWinAudible_Type());
     PyModule_AddObject(module, "plClothingItem", Init_pyClothingItem_Type());
