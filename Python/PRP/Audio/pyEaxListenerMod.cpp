@@ -147,6 +147,7 @@ PY_PLASMA_TYPE_INIT(EaxReverbProperties)
         return nullptr;
 
     /* EAX reverb presets */
+    PY_TYPE_ADD_PRESET(REVERB_PRESET_GENERIC)
     PY_TYPE_ADD_PRESET(REVERB_PRESET_PADDEDCELL)
     PY_TYPE_ADD_PRESET(REVERB_PRESET_ROOM)
     PY_TYPE_ADD_PRESET(REVERB_PRESET_BATHROOM)
@@ -263,9 +264,12 @@ PY_PLASMA_TYPE_INIT(EaxReverbProperties)
     /* EAX reverb flags */
     PY_TYPE_ADD_CONST(EaxReverbProperties, "kFlagDecayTimeScale", 0x1);
     PY_TYPE_ADD_CONST(EaxReverbProperties, "kFlagReflectionsScale", 0x2);
-    PY_TYPE_ADD_CONST(EaxReverbProperties, "kFlagReverbScale", 0x4);
-    PY_TYPE_ADD_CONST(EaxReverbProperties, "kFlagReverbDelayScale", 0x8);
-    PY_TYPE_ADD_CONST(EaxReverbProperties, "kFlagDecayHFLimit", 0x10);
+    PY_TYPE_ADD_CONST(EaxReverbProperties, "kFlagReflectionsDelayScale", 0x4);
+    PY_TYPE_ADD_CONST(EaxReverbProperties, "kFlagReverbScale", 0x8);
+    PY_TYPE_ADD_CONST(EaxReverbProperties, "kFlagReverbDelayScale", 0x10);
+    PY_TYPE_ADD_CONST(EaxReverbProperties, "kFlagEchoTimeScale", 0x40);
+    PY_TYPE_ADD_CONST(EaxReverbProperties, "kFlagModulationTimeScale", 0x80);
+    PY_TYPE_ADD_CONST(EaxReverbProperties, "kFlagDecayHFLimit", 0x20);
 
     Py_INCREF(&pyEaxReverbProperties_Type);
     return (PyObject*)&pyEaxReverbProperties_Type;
