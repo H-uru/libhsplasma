@@ -376,6 +376,13 @@ PY_METHOD_VA(DrawableSpans, addSourceSpan,
     return pyPlasma_convert(self->fThis->addSourceSpan(span->fThis));
 }
 
+PY_METHOD_NOARGS(DrawableSpans, clearSourceSpans,
+    "Removes all GeometrySpans from this DrawableSpans' sources")
+{
+    self->fThis->clearSourceSpans();
+    Py_RETURN_NONE;
+}
+
 static PyMethodDef pyDrawableSpans_Methods[] = {
     pyDrawableSpans_clearSpans_method,
     pyDrawableSpans_addIcicle_method,
@@ -399,6 +406,7 @@ static PyMethodDef pyDrawableSpans_Methods[] = {
     pyDrawableSpans_decomposeGeometry_method,
     pyDrawableSpans_buildDIIndex_method,
     pyDrawableSpans_addSourceSpan_method,
+    pyDrawableSpans_clearSourceSpans_method,
     PY_METHOD_TERMINATOR
 };
 
