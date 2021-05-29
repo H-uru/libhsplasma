@@ -266,6 +266,27 @@ PY_METHOD_VA(DrawableSpans, addTransform,
     return pyPlasma_convert(self->fThis->addTransform(*l2w->fThis, *w2l->fThis, *l2b->fThis, *b2l->fThis));
 }
 
+PY_METHOD_VA(DrawableSpans, getTransform,
+    "Params: idx\n"
+    "Gets a transform set by index from the DrawableSpans")
+{
+    Py_ssize_t idx;
+    if (!PyArg_ParseTuple(args, "n", &idx)) {
+        PyErr_SetString(PyExc_TypeError, "getTransform expects an int");
+        return nullptr;
+    }
+    if ((size_t)idx >= self->fThis->getNumTransforms()) {
+        PyErr_SetNone(PyExc_IndexError);
+        return nullptr;
+    }
+
+    auto transform = self->fThis->getTransform(idx);
+    return Py_BuildValue("OOOO", pyMatrix44_FromMatrix44(std::get<0>(transform)),
+        pyMatrix44_FromMatrix44(std::get<1>(transform)),
+        pyMatrix44_FromMatrix44(std::get<2>(transform)),
+        pyMatrix44_FromMatrix44(std::get<3>(transform)));
+}
+
 PY_METHOD_NOARGS(DrawableSpans, clearMaterials,
     "Remove all material refs from the DrawableSpans")
 {
@@ -398,6 +419,7 @@ static PyMethodDef pyDrawableSpans_Methods[] = {
     pyDrawableSpans_addDIIndex_method,
     pyDrawableSpans_clearTransforms_method,
     pyDrawableSpans_addTransform_method,
+    pyDrawableSpans_getTransform_method,
     pyDrawableSpans_clearMaterials_method,
     pyDrawableSpans_addMaterial_method,
     pyDrawableSpans_calcBounds_method,
@@ -442,6 +464,8 @@ PY_GETSET_GETTER_DECL(DrawableSpans, DIIndices)
 
 PY_PROPERTY_SETTER_MSG(DrawableSpans, DIIndices, "To add DI Indices, use addDIIndex()")
 PY_PROPERTY_GETSET_DECL(DrawableSpans, DIIndices)
+
+PY_PROPERTY_RO(DrawableSpans, numTransforms, getNumTransforms)
 
 PY_GETSET_GETTER_DECL(DrawableSpans, localToWorlds)
 {
@@ -526,6 +550,7 @@ static PyGetSetDef pyDrawableSpans_GetSet[] = {
     pyDrawableSpans_spans_getset,
     pyDrawableSpans_bufferGroups_getset,
     pyDrawableSpans_DIIndices_getset,
+    pyDrawableSpans_numTransforms_getset,
     pyDrawableSpans_localToWorlds_getset,
     pyDrawableSpans_worldToLocals_getset,
     pyDrawableSpans_localToBones_getset,
