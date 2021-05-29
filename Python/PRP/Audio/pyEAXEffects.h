@@ -14,13 +14,23 @@
 * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _PYEAXLISTENERMOD_H
-#define _PYEAXLISTENERMOD_H
+#ifndef _PYEAXEFFECTS_H
+#define _PYEAXEFFECTS_H
 
 #include "PyPlasma.h"
-#include <PRP/Audio/plEAXListenerMod.h>
+#include <PRP/Audio/plEAXEffects.h>
 
-PY_WRAP_PLASMA(EAXListenerMod, plEAXListenerMod);
-PY_WRAP_PLASMA_VALUE(EAXReverbProperties, EAXREVERBPROPERTIES);
+PY_WRAP_PLASMA(EAXSourceSettings, plEAXSourceSettings);
+PY_WRAP_PLASMA(EAXSourceSoftSettings, plEAXSourceSoftSettings);
+
+inline PyObject* pyPlasma_convert(plEAXSourceSettings* value)
+{
+    return pyEAXSourceSettings_FromEAXSourceSettings(value);
+}
+
+inline PyObject* pyPlasma_convert(plEAXSourceSoftSettings* value)
+{
+    return pyEAXSourceSoftSettings_FromEAXSourceSoftSettings(value);
+}
 
 #endif

@@ -27,7 +27,7 @@ PY_PROPERTY(plKey, EAXListenerMod, softRegion, getSoftRegion, setSoftRegion)
 PY_GETSET_GETTER_DECL(EAXListenerMod, listenerProps)
 {
     // This cannot be a subclass, since it's an inline member
-    return pyEaxReverbProperties_FromEaxReverbProperties(self->fThis->getListenerProps());
+    return pyEAXReverbProperties_FromEAXReverbProperties(self->fThis->getListenerProps());
 }
 
 PY_GETSET_SETTER_DECL(EAXListenerMod, listenerProps)
@@ -40,13 +40,13 @@ PY_GETSET_SETTER_DECL(EAXListenerMod, listenerProps)
         self->fThis->setListenerProps(eaxrp);
         return 0;
     }
-    else if (pyEaxReverbProperties_Check(value)) {
-        eaxrp = *((pyEaxReverbProperties*)value)->fThis;
+    else if (pyEAXReverbProperties_Check(value)) {
+        eaxrp = *((pyEAXReverbProperties*)value)->fThis;
         self->fThis->setListenerProps(eaxrp);
         return 0;
     }
     else {
-        PyErr_SetString(PyExc_TypeError, "listenerProps must be a EaxReverbProperties");
+        PyErr_SetString(PyExc_TypeError, "listenerProps must be a EAXReverbProperties");
         return -1;
     }
 }
@@ -76,74 +76,74 @@ PY_PLASMA_TYPE_INIT(EAXListenerMod)
 
 PY_PLASMA_IFC_METHODS(EAXListenerMod, plEAXListenerMod)
 
-/* EaxReverbProperties */
+/* EAXReverbProperties */
 
-PY_PLASMA_VALUE_DEALLOC(EaxReverbProperties)
-PY_PLASMA_EMPTY_INIT(EaxReverbProperties)
-PY_PLASMA_VALUE_NEW(EaxReverbProperties, EAXREVERBPROPERTIES)
+PY_PLASMA_VALUE_DEALLOC(EAXReverbProperties)
+PY_PLASMA_EMPTY_INIT(EAXReverbProperties)
+PY_PLASMA_VALUE_NEW(EAXReverbProperties, EAXREVERBPROPERTIES)
 
-PY_PROPERTY_MEMBER(unsigned long, EaxReverbProperties, environment, ulEnvironment)
-PY_PROPERTY_MEMBER(float, EaxReverbProperties, environmentSize, flEnvironmentSize)
-PY_PROPERTY_MEMBER(float, EaxReverbProperties, environmentDiffusion, flEnvironmentDiffusion)
-PY_PROPERTY_MEMBER(long, EaxReverbProperties, room, lRoom)
-PY_PROPERTY_MEMBER(long, EaxReverbProperties, roomHF, lRoomHF)
-PY_PROPERTY_MEMBER(long, EaxReverbProperties, roomLF, lRoomLF)
-PY_PROPERTY_MEMBER(float, EaxReverbProperties, decayTime, flDecayTime)
-PY_PROPERTY_MEMBER(float, EaxReverbProperties, decayHFRatio, flDecayHFRatio)
-PY_PROPERTY_MEMBER(float, EaxReverbProperties, decayLFRatio, flDecayLFRatio)
-PY_PROPERTY_MEMBER(long, EaxReverbProperties, reflections, lReflections)
-PY_PROPERTY_MEMBER(float, EaxReverbProperties, reflectionsDelay, flReflectionsDelay)
-PY_PROPERTY_MEMBER(long, EaxReverbProperties, reverb, lReverb)
-PY_PROPERTY_MEMBER(float, EaxReverbProperties, reverbDelay, flReverbDelay)
-PY_PROPERTY_MEMBER(float, EaxReverbProperties, echoTime, flEchoTime)
-PY_PROPERTY_MEMBER(float, EaxReverbProperties, echoDepth, flEchoDepth)
-PY_PROPERTY_MEMBER(float, EaxReverbProperties, modulationTime, flModulationTime)
-PY_PROPERTY_MEMBER(float, EaxReverbProperties, modulationDepth, flModulationDepth)
-PY_PROPERTY_MEMBER(float, EaxReverbProperties, airAbsorptionHF, flAirAbsorptionHF)
-PY_PROPERTY_MEMBER(float, EaxReverbProperties, hfReference, flHFReference)
-PY_PROPERTY_MEMBER(float, EaxReverbProperties, lfReference, flLFReference)
-PY_PROPERTY_MEMBER(float, EaxReverbProperties, roomRolloffFactor, flRoomRolloffFactor)
-PY_PROPERTY_MEMBER(unsigned long, EaxReverbProperties, flags, ulFlags)
+PY_PROPERTY_MEMBER(unsigned long, EAXReverbProperties, environment, ulEnvironment)
+PY_PROPERTY_MEMBER(float, EAXReverbProperties, environmentSize, flEnvironmentSize)
+PY_PROPERTY_MEMBER(float, EAXReverbProperties, environmentDiffusion, flEnvironmentDiffusion)
+PY_PROPERTY_MEMBER(long, EAXReverbProperties, room, lRoom)
+PY_PROPERTY_MEMBER(long, EAXReverbProperties, roomHF, lRoomHF)
+PY_PROPERTY_MEMBER(long, EAXReverbProperties, roomLF, lRoomLF)
+PY_PROPERTY_MEMBER(float, EAXReverbProperties, decayTime, flDecayTime)
+PY_PROPERTY_MEMBER(float, EAXReverbProperties, decayHFRatio, flDecayHFRatio)
+PY_PROPERTY_MEMBER(float, EAXReverbProperties, decayLFRatio, flDecayLFRatio)
+PY_PROPERTY_MEMBER(long, EAXReverbProperties, reflections, lReflections)
+PY_PROPERTY_MEMBER(float, EAXReverbProperties, reflectionsDelay, flReflectionsDelay)
+PY_PROPERTY_MEMBER(long, EAXReverbProperties, reverb, lReverb)
+PY_PROPERTY_MEMBER(float, EAXReverbProperties, reverbDelay, flReverbDelay)
+PY_PROPERTY_MEMBER(float, EAXReverbProperties, echoTime, flEchoTime)
+PY_PROPERTY_MEMBER(float, EAXReverbProperties, echoDepth, flEchoDepth)
+PY_PROPERTY_MEMBER(float, EAXReverbProperties, modulationTime, flModulationTime)
+PY_PROPERTY_MEMBER(float, EAXReverbProperties, modulationDepth, flModulationDepth)
+PY_PROPERTY_MEMBER(float, EAXReverbProperties, airAbsorptionHF, flAirAbsorptionHF)
+PY_PROPERTY_MEMBER(float, EAXReverbProperties, hfReference, flHFReference)
+PY_PROPERTY_MEMBER(float, EAXReverbProperties, lfReference, flLFReference)
+PY_PROPERTY_MEMBER(float, EAXReverbProperties, roomRolloffFactor, flRoomRolloffFactor)
+PY_PROPERTY_MEMBER(unsigned long, EAXReverbProperties, flags, ulFlags)
 
-static PyGetSetDef pyEaxReverbProperties_GetSet[] = {
-    pyEaxReverbProperties_environment_getset,
-    pyEaxReverbProperties_environmentSize_getset,
-    pyEaxReverbProperties_environmentDiffusion_getset,
-    pyEaxReverbProperties_room_getset,
-    pyEaxReverbProperties_roomHF_getset,
-    pyEaxReverbProperties_roomLF_getset,
-    pyEaxReverbProperties_decayTime_getset,
-    pyEaxReverbProperties_decayHFRatio_getset,
-    pyEaxReverbProperties_decayLFRatio_getset,
-    pyEaxReverbProperties_reflections_getset,
-    pyEaxReverbProperties_reflectionsDelay_getset,
-    pyEaxReverbProperties_reverb_getset,
-    pyEaxReverbProperties_reverbDelay_getset,
-    pyEaxReverbProperties_echoTime_getset,
-    pyEaxReverbProperties_echoDepth_getset,
-    pyEaxReverbProperties_modulationTime_getset,
-    pyEaxReverbProperties_modulationDepth_getset,
-    pyEaxReverbProperties_airAbsorptionHF_getset,
-    pyEaxReverbProperties_hfReference_getset,
-    pyEaxReverbProperties_lfReference_getset,
-    pyEaxReverbProperties_roomRolloffFactor_getset,
-    pyEaxReverbProperties_flags_getset,
+static PyGetSetDef pyEAXReverbProperties_GetSet[] = {
+    pyEAXReverbProperties_environment_getset,
+    pyEAXReverbProperties_environmentSize_getset,
+    pyEAXReverbProperties_environmentDiffusion_getset,
+    pyEAXReverbProperties_room_getset,
+    pyEAXReverbProperties_roomHF_getset,
+    pyEAXReverbProperties_roomLF_getset,
+    pyEAXReverbProperties_decayTime_getset,
+    pyEAXReverbProperties_decayHFRatio_getset,
+    pyEAXReverbProperties_decayLFRatio_getset,
+    pyEAXReverbProperties_reflections_getset,
+    pyEAXReverbProperties_reflectionsDelay_getset,
+    pyEAXReverbProperties_reverb_getset,
+    pyEAXReverbProperties_reverbDelay_getset,
+    pyEAXReverbProperties_echoTime_getset,
+    pyEAXReverbProperties_echoDepth_getset,
+    pyEAXReverbProperties_modulationTime_getset,
+    pyEAXReverbProperties_modulationDepth_getset,
+    pyEAXReverbProperties_airAbsorptionHF_getset,
+    pyEAXReverbProperties_hfReference_getset,
+    pyEAXReverbProperties_lfReference_getset,
+    pyEAXReverbProperties_roomRolloffFactor_getset,
+    pyEAXReverbProperties_flags_getset,
     PY_GETSET_TERMINATOR
 };
 
-PY_PLASMA_TYPE(EaxReverbProperties, EAXREVERBPROPERTIES, "EAXREVERBPROPERTIES wrapper")
+PY_PLASMA_TYPE(EAXReverbProperties, EAXREVERBPROPERTIES, "EAXREVERBPROPERTIES wrapper")
 
 #define PY_TYPE_ADD_PRESET(preset) \
-    PyDict_SetItemString(pyEaxReverbProperties_Type.tp_dict, #preset, \
-        pyEaxReverbProperties_FromEaxReverbProperties(EAXREVERBPROPERTIES(##preset##)));
+    PyDict_SetItemString(pyEAXReverbProperties_Type.tp_dict, #preset, \
+        pyEAXReverbProperties_FromEAXReverbProperties(EAXREVERBPROPERTIES(##preset##)));
 
-PY_PLASMA_TYPE_INIT(EaxReverbProperties)
+PY_PLASMA_TYPE_INIT(EAXReverbProperties)
 {
-    pyEaxReverbProperties_Type.tp_dealloc = pyEaxReverbProperties_dealloc;
-    pyEaxReverbProperties_Type.tp_init = pyEaxReverbProperties___init__;
-    pyEaxReverbProperties_Type.tp_new = pyEaxReverbProperties_new;
-    pyEaxReverbProperties_Type.tp_getset = pyEaxReverbProperties_GetSet;
-    if (PyType_CheckAndReady(&pyEaxReverbProperties_Type) < 0)
+    pyEAXReverbProperties_Type.tp_dealloc = pyEAXReverbProperties_dealloc;
+    pyEAXReverbProperties_Type.tp_init = pyEAXReverbProperties___init__;
+    pyEAXReverbProperties_Type.tp_new = pyEAXReverbProperties_new;
+    pyEAXReverbProperties_Type.tp_getset = pyEAXReverbProperties_GetSet;
+    if (PyType_CheckAndReady(&pyEAXReverbProperties_Type) < 0)
         return nullptr;
 
     /* EAX reverb presets */
@@ -262,17 +262,17 @@ PY_PLASMA_TYPE_INIT(EaxReverbProperties)
     PY_TYPE_ADD_PRESET(REVERB_PRESET_SMALLWATERROOM)
 
     /* EAX reverb flags */
-    PY_TYPE_ADD_CONST(EaxReverbProperties, "kFlagDecayTimeScale", 0x1);
-    PY_TYPE_ADD_CONST(EaxReverbProperties, "kFlagReflectionsScale", 0x2);
-    PY_TYPE_ADD_CONST(EaxReverbProperties, "kFlagReflectionsDelayScale", 0x4);
-    PY_TYPE_ADD_CONST(EaxReverbProperties, "kFlagReverbScale", 0x8);
-    PY_TYPE_ADD_CONST(EaxReverbProperties, "kFlagReverbDelayScale", 0x10);
-    PY_TYPE_ADD_CONST(EaxReverbProperties, "kFlagEchoTimeScale", 0x40);
-    PY_TYPE_ADD_CONST(EaxReverbProperties, "kFlagModulationTimeScale", 0x80);
-    PY_TYPE_ADD_CONST(EaxReverbProperties, "kFlagDecayHFLimit", 0x20);
+    PY_TYPE_ADD_CONST(EAXReverbProperties, "kFlagDecayTimeScale", 0x1);
+    PY_TYPE_ADD_CONST(EAXReverbProperties, "kFlagReflectionsScale", 0x2);
+    PY_TYPE_ADD_CONST(EAXReverbProperties, "kFlagReflectionsDelayScale", 0x4);
+    PY_TYPE_ADD_CONST(EAXReverbProperties, "kFlagReverbScale", 0x8);
+    PY_TYPE_ADD_CONST(EAXReverbProperties, "kFlagReverbDelayScale", 0x10);
+    PY_TYPE_ADD_CONST(EAXReverbProperties, "kFlagEchoTimeScale", 0x40);
+    PY_TYPE_ADD_CONST(EAXReverbProperties, "kFlagModulationTimeScale", 0x80);
+    PY_TYPE_ADD_CONST(EAXReverbProperties, "kFlagDecayHFLimit", 0x20);
 
-    Py_INCREF(&pyEaxReverbProperties_Type);
-    return (PyObject*)&pyEaxReverbProperties_Type;
+    Py_INCREF(&pyEAXReverbProperties_Type);
+    return (PyObject*)&pyEAXReverbProperties_Type;
 }
 
-PY_PLASMA_VALUE_IFC_METHODS(EaxReverbProperties, EAXREVERBPROPERTIES)
+PY_PLASMA_VALUE_IFC_METHODS(EAXReverbProperties, EAXREVERBPROPERTIES)
