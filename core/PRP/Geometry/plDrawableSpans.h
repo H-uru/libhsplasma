@@ -27,6 +27,7 @@
 #include "plGeometrySpan.h"
 #include <vector>
 #include <list>
+#include <tuple>
 
 class PLASMA_DLL plDISpanIndex
 {
@@ -190,6 +191,11 @@ public:
     void clearTransforms();
     size_t addTransform(const hsMatrix44& l2w, const hsMatrix44& w2l,
                         const hsMatrix44& l2b, const hsMatrix44& b2l);
+    std::tuple<hsMatrix44, hsMatrix44, hsMatrix44, hsMatrix44> getTransform(size_t idx) const
+    {
+        return std::make_tuple(fLocalToWorlds[idx], fWorldToLocals[idx],
+                               fLocalToBones[idx], fBoneToLocals[idx]);
+    }
 
     const hsBounds3Ext& getLocalBounds() { return fLocalBounds; }
     const hsBounds3Ext& getWorldBounds() { return fWorldBounds; }
@@ -222,6 +228,7 @@ public:
     const std::vector<plGeometrySpan*>& getSourceSpans() const { return fSourceSpans; }
     std::vector<plGeometrySpan*>& getSourceSpans() { return fSourceSpans; }
     size_t addSourceSpan(plGeometrySpan* span);
+    void clearSourceSpans();
 };
 
 #endif

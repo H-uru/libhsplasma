@@ -35,6 +35,8 @@ plDrawableSpans::~plDrawableSpans()
         delete *group;
     for (auto span = fSpans.begin(); span != fSpans.end(); ++span)
         delete *span;
+    for (auto span : fSourceSpans)
+        delete span;
     delete fSpaceTree;
 }
 
@@ -816,7 +818,7 @@ void plDrawableSpans::composeGeometry(bool clearspans, bool calcbounds)
     BuildSpaceTree();
 
     if (clearspans)
-        fSourceSpans.clear();
+        clearSourceSpans();
 }
 
 void plDrawableSpans::decomposeGeometry(bool clearcolors)
@@ -906,4 +908,11 @@ size_t plDrawableSpans::addSourceSpan(plGeometrySpan* span)
 {
     fSourceSpans.push_back(span);
     return fSourceSpans.size() - 1;
+}
+
+void plDrawableSpans::clearSourceSpans()
+{
+    for (auto span : fSourceSpans)
+        delete span;
+    fSourceSpans.clear();
 }
