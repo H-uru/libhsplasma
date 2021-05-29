@@ -35,8 +35,8 @@ plDrawableSpans::~plDrawableSpans()
         delete *group;
     for (auto span = fSpans.begin(); span != fSpans.end(); ++span)
         delete *span;
-    for (auto span = fSourceSpans.begin(); span != fSourceSpans.end(); ++span)
-        delete *span;
+    for (auto span : fSourceSpans)
+        delete span;
     delete fSpaceTree;
 }
 
@@ -912,7 +912,7 @@ size_t plDrawableSpans::addSourceSpan(plGeometrySpan* span)
 
 void plDrawableSpans::clearSourceSpans()
 {
-    for (auto span = fSourceSpans.begin(); span != fSourceSpans.end(); ++span)
-        delete *span;
+    for (auto span : fSourceSpans)
+        delete span;
     fSourceSpans.clear();
 }

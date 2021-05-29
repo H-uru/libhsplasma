@@ -193,7 +193,8 @@ public:
                         const hsMatrix44& l2b, const hsMatrix44& b2l);
     std::tuple<hsMatrix44, hsMatrix44, hsMatrix44, hsMatrix44> getTransform(size_t idx) const
     {
-        return std::make_tuple(fLocalToWorlds[idx], fWorldToLocals[idx], fLocalToBones[idx], fBoneToLocals[idx]);
+        return std::make_tuple(fLocalToWorlds[idx], fWorldToLocals[idx],
+                               fLocalToBones[idx], fBoneToLocals[idx]);
     }
 
     const hsBounds3Ext& getLocalBounds() { return fLocalBounds; }
