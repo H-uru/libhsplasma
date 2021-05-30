@@ -262,14 +262,14 @@ PY_PLASMA_TYPE_INIT(EAXReverbProperties)
     PY_TYPE_ADD_PRESET(REVERB_PRESET_SMALLWATERROOM)
 
     /* EAX reverb flags */
-    PY_TYPE_ADD_CONST(EAXReverbProperties, "kFlagDecayTimeScale", 0x1);
-    PY_TYPE_ADD_CONST(EAXReverbProperties, "kFlagReflectionsScale", 0x2);
-    PY_TYPE_ADD_CONST(EAXReverbProperties, "kFlagReflectionsDelayScale", 0x4);
-    PY_TYPE_ADD_CONST(EAXReverbProperties, "kFlagReverbScale", 0x8);
-    PY_TYPE_ADD_CONST(EAXReverbProperties, "kFlagReverbDelayScale", 0x10);
-    PY_TYPE_ADD_CONST(EAXReverbProperties, "kFlagEchoTimeScale", 0x40);
-    PY_TYPE_ADD_CONST(EAXReverbProperties, "kFlagModulationTimeScale", 0x80);
-    PY_TYPE_ADD_CONST(EAXReverbProperties, "kFlagDecayHFLimit", 0x20);
+    PY_TYPE_ADD_CONST(EAXReverbProperties, "kFlagDecayTimeScale", REVERB_FLAG_DECAY_TIME_SCALE);
+    PY_TYPE_ADD_CONST(EAXReverbProperties, "kFlagReflectionsScale", REVERB_FLAG_REFLECTIONS_SCALE);
+    PY_TYPE_ADD_CONST(EAXReverbProperties, "kFlagReflectionsDelayScale", REVERB_FLAG_REFLECTIONS_DELAY_SCALE);
+    PY_TYPE_ADD_CONST(EAXReverbProperties, "kFlagReverbScale", REVERB_FLAG_REVERB_SCALE);
+    PY_TYPE_ADD_CONST(EAXReverbProperties, "kFlagReverbDelayScale", REVERB_FLAG_REVERB_DELAY_SCALE);
+    PY_TYPE_ADD_CONST(EAXReverbProperties, "kFlagEchoTimeScale", REVERB_FLAG_ECHO_TIME_SCALE);
+    PY_TYPE_ADD_CONST(EAXReverbProperties, "kFlagModulationTimeScale", REVERB_FLAG_MODULATION_TIME_SCALE);
+    PY_TYPE_ADD_CONST(EAXReverbProperties, "kFlagDecayHFLimit", REVERB_FLAG_DECAY_HF_LIMIT);
 
     Py_INCREF(&pyEAXReverbProperties_Type);
     return (PyObject*)&pyEAXReverbProperties_Type;

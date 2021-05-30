@@ -420,3 +420,22 @@ void ConvertOcclusionParameters(EAXOCCLUSIONPROPERTIES *pOcProp, EFXLOWPASSFILTE
 	{ 26,  19.6f,	0.840f,	-1000,  -500,	0,		4.62f,	0.64f,	1.23f,  -700,	0.032f,	0.00f,0.00f,0.00f,	-200,	0.049f,		0.00f,0.00f,0.00f,	0.250f, 0.000f, 0.250f, 0.110f, -5.0f,  5000.0f,	250.0f, 0.00f,	0x3f }
 #define REVERB_PRESET_SMALLWATERROOM \
 	{ 26,  36.2f,	0.700f, -1000,  -698,   0,		1.51f,	1.25f,	1.14f,  -100,	0.020f, 0.00f,0.00f,0.00f,	300,	0.030f,		0.00f,0.00f,0.00f,	0.179f, 0.150f, 0.895f, 0.190f, -7.0f,  5000.0f,	250.0f, 0.00f, 0x0 }
+
+/* Reverb Flags */
+
+// Reverberation decay time
+constexpr unsigned long REVERB_FLAG_DECAY_TIME_SCALE = 0x1;
+// Reflection level
+constexpr unsigned long REVERB_FLAG_REFLECTIONS_SCALE = 0x2;
+// Initial reflection delay time
+constexpr unsigned long REVERB_FLAG_REFLECTIONS_DELAY_SCALE = 0x4;
+// Reverberation level
+constexpr unsigned long REVERB_FLAG_REVERB_SCALE = 0x8;
+// Late reverberation delay time
+constexpr unsigned long REVERB_FLAG_REVERB_DELAY_SCALE = 0x10;
+// Echo time
+constexpr unsigned long REVERB_FLAG_ECHO_TIME_SCALE = 0x40;
+// Modulation time
+constexpr unsigned long REVERB_FLAG_MODULATION_TIME_SCALE = 0x80;
+// Limit unnaturally long decay times of high-frequency sounds by forcing a limit to the decay time to be calculated from the Air Absorption HF value
+constexpr unsigned long REVERB_FLAG_DECAY_HF_LIMIT = 0x20;
