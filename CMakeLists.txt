@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.12)
 project(libhsplasma)
 
 set(CMAKE_CXX_STANDARD 14)
@@ -63,5 +63,3 @@ endif()
 if(ENABLE_NET)
     add_subdirectory(net)
 endif()
-
-install(EXPORT HSPlasma-targets DESTINATION share/cmake/HSPlasma)
