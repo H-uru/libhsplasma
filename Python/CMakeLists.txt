@@ -443,6 +443,8 @@ set(PRP_MOD_SOURCES
     PRP/Modifier/pyPostEffectMod.cpp
     PRP/Modifier/pyPythonFileMod.cpp
     PRP/Modifier/pyPythonParameter.cpp
+    PRP/Modifier/pyRandomCommandMod.cpp
+    PRP/Modifier/pyRandomSoundMod.cpp
     PRP/Modifier/pyResponderEnableMsg.cpp
     PRP/Modifier/pyResponderModifier.cpp
     PRP/Modifier/pyResponderModifier_Cmd.cpp
@@ -460,6 +462,8 @@ set(PRP_MOD_HEADERS
     PRP/Modifier/pyOneShotMod.h
     PRP/Modifier/pyPostEffectMod.h
     PRP/Modifier/pyPythonFileMod.h
+    PRP/Modifier/pyRandomCommandMod.h
+    PRP/Modifier/pyRandomSoundMod.h
     PRP/Modifier/pyResponderModifier.h
     PRP/Modifier/pySpawnModifier.h
 )
@@ -512,6 +516,7 @@ set(PRP_PHYS_SOURCES
     PRP/Physics/pyObjectInVolumeAndFacingDetector.cpp
     PRP/Physics/pyPanicLinkRegion.cpp
     PRP/Physics/pyPhysical.cpp
+    PRP/Physics/pyPhysicalSndGroup.cpp
     PRP/Physics/pyPickingDetector.cpp
     PRP/Physics/pySimDefs.cpp
     PRP/Physics/pySubworldRegionDetector.cpp
@@ -522,6 +527,7 @@ set(PRP_PHYS_HEADERS
     PRP/Physics/pyHKSubWorld.h
     PRP/Physics/pyObjectInVolumeDetector.h
     PRP/Physics/pyPhysical.h
+    PRP/Physics/pyPhysicalSndGroup.h
 )
 
 set(PRP_REGION_SOURCES
@@ -767,6 +773,7 @@ if(NOT WIN32)
     install(TARGETS PyHSPlasma
             DESTINATION ${_PYTHON_LIB_DIR}
     )
+    install(FILES PyHSPlasma.pyi DESTINATION ${_PYTHON_LIB_DIR})
 else()
     set_target_properties(PyHSPlasma PROPERTIES
                           SUFFIX ".pyd"
@@ -777,6 +784,7 @@ else()
             LIBRARY DESTINATION lib
             ARCHIVE DESTINATION lib
     )
+    install(FILES PyHSPlasma.pyi DESTINATION bin)
 endif()
 
 #Visual studio source grouping

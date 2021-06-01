@@ -790,8 +790,7 @@ void plGenericPhysical::setTMDBuffer(size_t tmdSize, const unsigned char* tmdBuf
 void plGenericPhysical::calcSphereBounds(size_t numPoints, const hsVector3* points)
 {
     hsBounds3 bounds;
-    for (size_t i = 0; i < numPoints; ++i)
-        bounds += points[i];
+    bounds.setFromPoints(numPoints, points);
 
     hsVector3 distance = (bounds.getMaxs() - bounds.getMins()) * .5f;
     fRadius = std::max(distance.X, std::max(distance.Y, distance.Z));
@@ -804,8 +803,7 @@ void plGenericPhysical::calcBoxBounds(size_t numPoints, const hsVector3* points)
     fVerts.clear();
 
     hsBounds3Ext bounds;
-    for (size_t i = 0; i < numPoints; ++i)
-        bounds += points[i];
+    bounds.setFromPoints(numPoints, points);
     bounds.unalign();
 
     // PhysX and ODE can do true boxes
@@ -816,4 +814,6 @@ void plGenericPhysical::calcBoxBounds(size_t numPoints, const hsVector3* points)
     hsBounds3Corners corners = bounds.getCorners();
     fVerts.reserve(corners.size());
     std::copy(corners.begin(), corners.end(), std::back_inserter(fVerts));
+    fVerts.reserve(hsBounds3::CornerIndices.size());
+    std::copy(hsBounds3::CornerIndices.begin(), hsBounds3::CornerIndices.end(), std::back_inserter(fIndices));
 }

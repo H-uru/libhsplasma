@@ -813,6 +813,11 @@ target_include_directories(HSPlasma PUBLIC
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libhsplasma.pc.in.cmake ${CMAKE_CURRENT_BINARY_DIR}/libhsplasma.pc @ONLY)
 
+# Too many ODR violations in squish
+if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.16)
+    set_property(SOURCE ${SQUISH_SOURCES} PROPERTY SKIP_UNITY_BUILD_INCLUSION TRUE)
+endif()
+
 # Package Installation
 install(TARGETS HSPlasma
         EXPORT HSPlasma-targets

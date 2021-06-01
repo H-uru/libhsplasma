@@ -14,6 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef _PLMD5HASH_H
+#define _PLMD5HASH_H
+
 #include "Stream/hsStream.h"
 #include <string_theory/string>
 
@@ -52,3 +55,5 @@ private:
     plMD5();
     void processBlock(const unsigned char* block);
 };
+
+#endif

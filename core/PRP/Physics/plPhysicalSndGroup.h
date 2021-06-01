@@ -24,7 +24,13 @@ class PLASMA_DLL plPhysicalSndGroup : public hsKeyedObject
     CREATABLE(plPhysicalSndGroup, kPhysicalSndGroup, hsKeyedObject)
 
 public:
-    enum SoundGroup { kNone, kMetal, kGrass, kWood, kStone };
+    enum SoundGroup
+    {
+        kNone, kMetal, kGrass, kWood,
+        kStone, kWater, kBone, kDirt,
+        kRug, kCone, kUser1, kUser2,
+        kUser3
+    };
 
 protected:
     unsigned int fGroup;
@@ -39,6 +45,22 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    unsigned int getGroup() const { return fGroup; }
+    void setGroup(unsigned int group) { fGroup = group; }
+
+    const std::vector<plKey>& getImpactSounds() const { return fImpactSounds; }
+    std::vector<plKey>& getImpactSounds() { return fImpactSounds; }
+    void addImpactSound(plKey sound) { fImpactSounds.emplace_back(std::move(sound)); }
+    void delImpactSound(size_t idx) { fImpactSounds.erase(fImpactSounds.begin() + idx); }
+    void clearImpactSounds() { fImpactSounds.clear(); }
+
+    const std::vector<plKey>& getSlideSounds() const { return fSlideSounds; }
+    std::vector<plKey>& getSlideSounds() { return fSlideSounds; }
+    void addSlideSound(plKey sound) { fSlideSounds.emplace_back(std::move(sound)); }
+    void delSlideSound(size_t idx) { fSlideSounds.erase(fSlideSounds.begin() + idx); }
+    void clearSlideSounds() { fSlideSounds.clear(); }
 };
 
 #endif

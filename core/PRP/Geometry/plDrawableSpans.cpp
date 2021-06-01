@@ -18,6 +18,7 @@
 #include "Debug/plDebug.h"
 #include "Util/hsRadixSort.h"
 #include <algorithm>
+#include <memory>
 
 /* plDISpanIndex */
 plDISpanIndex& plDISpanIndex::operator=(const plDISpanIndex& cpy) {
@@ -34,6 +35,8 @@ plDrawableSpans::~plDrawableSpans()
         delete *group;
     for (auto span = fSpans.begin(); span != fSpans.end(); ++span)
         delete *span;
+    for (auto span : fSourceSpans)
+        delete span;
     delete fSpaceTree;
 }
 
@@ -528,10 +531,14 @@ void plDrawableSpans::calcBounds()
         hsBounds3Ext world;
 
         world.setFlags(hsBounds3Ext::kAxisAligned);
+        auto localPoints = std::make_unique<hsVector3[]>(verts.size());
+        auto worldPoints = std::make_unique<hsVector3[]>(verts.size());
         for (size_t j = 0; j < verts.size(); j++) {
-            loc += verts[j].fPos;
-            world += fIcicles[i]->getLocalToWorld().multPoint(verts[j].fPos);
+            localPoints[j] = verts[j].fPos;
+            worldPoints[j] = fIcicles[i]->getLocalToWorld().multPoint(verts[j].fPos);
         }
+        loc.setFromPoints(verts.size(), localPoints.get());
+        world.setFromPoints(verts.size(), worldPoints.get());
         loc.unalign();
 
         fIcicles[i]->setLocalBounds(loc);
@@ -811,7 +818,7 @@ void plDrawableSpans::composeGeometry(bool clearspans, bool calcbounds)
     BuildSpaceTree();
 
     if (clearspans)
-        fSourceSpans.clear();
+        clearSourceSpans();
 }
 
 void plDrawableSpans::decomposeGeometry(bool clearcolors)
@@ -901,4 +908,11 @@ size_t plDrawableSpans::addSourceSpan(plGeometrySpan* span)
 {
     fSourceSpans.push_back(span);
     return fSourceSpans.size() - 1;
+}
+
+void plDrawableSpans::clearSourceSpans()
+{
+    for (auto span : fSourceSpans)
+        delete span;
+    fSourceSpans.clear();
 }

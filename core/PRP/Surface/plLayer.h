@@ -15,6 +15,7 @@
  */
 
 #ifndef _PLLAYER_H
+#define _PLLAYER_H
 
 #include "plLayerInterface.h"
 

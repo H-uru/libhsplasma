@@ -86,7 +86,10 @@ public:
     void setMaxs(const hsVector3& maxs) { fMaxs = maxs; }
     void setCenter(const hsVector3& center) { fCenter = center; }
 
+    void setFromPoints(size_t numPoints, const hsVector3* points);
     const hsVector3& updateCenter();
+
+    static const std::array<unsigned int, 36> CornerIndices;
 };
 
 

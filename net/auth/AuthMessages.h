@@ -14,6 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef _AUTHMESSAGES_H
+#define _AUTHMESSAGES_H
+
 #include "../pnNetMsg.h"
 
 enum /* Client -> Server */
@@ -80,3 +83,5 @@ enum /* Server -> Client */
 
 PLASMANET_DLL const pnNetMsg* GET_Cli2Auth(uint32_t msgId);
 PLASMANET_DLL const pnNetMsg* GET_Auth2Cli(uint32_t msgId);
+
+#endif

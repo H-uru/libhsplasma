@@ -128,6 +128,7 @@
 #include "PRP/Modifier/plPostEffectMod.h"
 #include "PRP/Modifier/plPythonFileMod.h"
 #include "PRP/Modifier/plPythonMod.h"
+#include "PRP/Modifier/plRandomCommandMod.h"
 #include "PRP/Modifier/plRandomSoundMod.h"
 #include "PRP/Modifier/plResponderModifier.h"
 #include "PRP/Modifier/plSpawnModifier.h"
@@ -265,6 +266,8 @@
 #include "PRP/Modifier/pyOneShotMod.h"
 #include "PRP/Modifier/pyPostEffectMod.h"
 #include "PRP/Modifier/pyPythonFileMod.h"
+#include "PRP/Modifier/pyRandomCommandMod.h"
+#include "PRP/Modifier/pyRandomSoundMod.h"
 #include "PRP/Modifier/pyResponderModifier.h"
 #include "PRP/Modifier/pySpawnModifier.h"
 #include "PRP/Object/pyObjInterface.h"
@@ -281,6 +284,7 @@
 #include "PRP/Physics/pyHKSubWorld.h"
 #include "PRP/Physics/pyObjectInVolumeDetector.h"
 #include "PRP/Physics/pyPhysical.h"
+#include "PRP/Physics/pyPhysicalSndGroup.h"
 #include "PRP/Region/pyBounds.h"
 #include "PRP/Region/pyConvexVolume.h"
 #include "PRP/Region/pySimpleRegionSensor.h"
@@ -384,6 +388,8 @@ PyObject* ICreate(plCreatable* pCre)
         case kOneShotMod: return pyOneShotMod_FromOneShotMod(plOneShotMod::Convert(pCre));
         case kObjectInVolumeDetector: return pyObjectInVolumeDetector_FromObjectInVolumeDetector(plObjectInVolumeDetector::Convert(pCre));
         case kObjectInVolumeAndFacingDetector: return pyObjectInVolumeAndFacingDetector_FromObjectInVolumeAndFacingDetector(plObjectInVolumeAndFacingDetector::Convert(pCre));
+        case kRandomCommandMod: return pyRandomCommandMod_FromRandomCommandMod(plRandomCommandMod::Convert(pCre));
+        case kRandomSoundMod: return pyRandomSoundMod_FromRandomSoundMod(plRandomSoundMod::Convert(pCre));
         case kResponderModifier: return pyResponderModifier_FromResponderModifier(plResponderModifier::Convert(pCre));
         case kFollowMod: return pyFollowMod_FromFollowMod(plFollowMod::Convert(pCre));
         case kFadeOpacityMod: return pyFadeOpacityMod_FromFadeOpacityMod(plFadeOpacityMod::Convert(pCre));
@@ -608,6 +614,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kSimSuppressMsg: return pySimSuppressMsg_FromSimSuppressMsg(plSimSuppressMsg::Convert(pCre));
         case kGrassShaderMod: return pyGrassShaderMod_FromGrassShaderMod(plGrassShaderMod::Convert(pCre));
         case kWarpMsg: return pyWarpMsg_FromWarpMsg(plWarpMsg::Convert(pCre));
+        case kPhysicalSndGroup: return pyPhysicalSndGroup_FromPhysicalSndGroup(plPhysicalSndGroup::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (pCre->ClassInstance(kMessage))

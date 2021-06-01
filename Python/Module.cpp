@@ -141,6 +141,8 @@
 #include "PRP/Modifier/pyOneShotMod.h"
 #include "PRP/Modifier/pyPostEffectMod.h"
 #include "PRP/Modifier/pyPythonFileMod.h"
+#include "PRP/Modifier/pyRandomCommandMod.h"
+#include "PRP/Modifier/pyRandomSoundMod.h"
 #include "PRP/Modifier/pyResponderModifier.h"
 #include "PRP/Modifier/pySpawnModifier.h"
 #include "PRP/Object/pyObjInterface.h"
@@ -157,6 +159,7 @@
 #include "PRP/Physics/pyHKSubWorld.h"
 #include "PRP/Physics/pyObjectInVolumeDetector.h"
 #include "PRP/Physics/pyPhysical.h"
+#include "PRP/Physics/pyPhysicalSndGroup.h"
 #include "PRP/Region/pyBounds.h"
 #include "PRP/Region/pyConvexVolume.h"
 #include "PRP/Region/pySimpleRegionSensor.h"
@@ -686,6 +689,8 @@ PyMODINIT_FUNC initPyHSPlasma()
     PyModule_AddObject(module, "plLayerBink", Init_pyLayerBink_Type());
     PyModule_AddObject(module, "plOneShotMod", Init_pyOneShotMod_Type());
     PyModule_AddObject(module, "plPostEffectMod", Init_pyPostEffectMod_Type());
+    PyModule_AddObject(module, "plRandomCommandMod", Init_pyRandomCommandMod_Type());
+    PyModule_AddObject(module, "plRandomSoundMod", Init_pyRandomSoundMod_Type());
     PyModule_AddObject(module, "plResponderModifier", Init_pyResponderModifier_Type());
     PyModule_AddObject(module, "plCubicEnvironmap", Init_pyCubicEnvironmap_Type());
     PyModule_AddObject(module, "plDistOpacityMod", Init_pyDistOpacityMod_Type());
@@ -810,6 +815,7 @@ PyMODINIT_FUNC initPyHSPlasma()
     PyModule_AddObject(module, "plPrintShape", Init_pyPrintShape_Type());
     PyModule_AddObject(module, "plActivePrintShape", Init_pyActivePrintShape_Type());
     PyModule_AddObject(module, "plGrassShaderMod", Init_pyGrassShaderMod_Type());
+    PyModule_AddObject(module, "plPhysicalSndGroup", Init_pyPhysicalSndGroup_Type());
 
     PyModule_AddObject(module, "plSharedMesh", Init_pySharedMesh_Type());
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());

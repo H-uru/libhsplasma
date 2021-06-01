@@ -14,6 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef _GAMEMESSAGES_H
+#define _GAMEMESSAGES_H
+
 #include "../pnNetMsg.h"
 
 enum /* Client -> Server */
@@ -30,3 +33,5 @@ enum /* Server -> Client */
 
 PLASMANET_DLL const pnNetMsg* GET_Cli2Game(uint32_t msgId);
 PLASMANET_DLL const pnNetMsg* GET_Game2Cli(uint32_t msgId);
+
+#endif

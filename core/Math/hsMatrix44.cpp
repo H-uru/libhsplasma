@@ -389,3 +389,5 @@ ST::string hsMatrix44::toString() const
         DATA(2, 0), DATA(2, 1), DATA(2, 2), DATA(2, 3),
         DATA(3, 0), DATA(3, 1), DATA(3, 2), DATA(3, 3));
 }
+
+#undef DATA
