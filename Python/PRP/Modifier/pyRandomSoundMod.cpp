@@ -85,7 +85,7 @@ PY_PROPERTY_GETSET_DECL(RandomSoundModGroup, indices)
 
 static PyGetSetDef pyRandomSoundModGroup_GetSet[] = {
     pyRandomSoundModGroup_indices_getset,
-    nullptr
+    PY_GETSET_TERMINATOR
 };
 
 PY_PLASMA_TYPE(RandomSoundModGroup, plRandomSoundModGroup, "plRandomSoundModGroup wrapper")
