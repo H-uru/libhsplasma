@@ -686,24 +686,45 @@ void plMipmap::DecompressImage(size_t level, void* dest, size_t size)
     }
 }
 
-void plMipmap::CompressImage(size_t level, void* src, size_t size)
+void plMipmap::CompressImage(size_t level, void* src, size_t size, BlockQuality quality)
 {
     const LevelData& lvl = fLevelData[level];
 
     if (fCompressionType == kDirectXCompression) {
         unsigned char* imgPtr = fImageData + fLevelData[level].fOffset;
-        if (fDXInfo.fCompressionType == kDXT1) {
-            squish::CompressImage((squish::u8*)src, lvl.fWidth, lvl.fHeight,
-                                  imgPtr, squish::kDxt1 | squish::kColourRangeFit);
-        } else if (fDXInfo.fCompressionType == kDXT3) {
-            squish::CompressImage((squish::u8*)src, lvl.fWidth, lvl.fHeight,
-                                  imgPtr, squish::kDxt3 | squish::kColourRangeFit);
-        } else if (fDXInfo.fCompressionType == kDXT5) {
-            squish::CompressImage((squish::u8*)src, lvl.fWidth, lvl.fHeight,
-                                  imgPtr, squish::kDxt5 | squish::kColourRangeFit);
-        } else {
+
+        int squishFlags = 0;
+        switch (fDXInfo.fCompressionType) {
+        case kDXT1:
+            squishFlags |= squish::kDxt1;
+            break;
+        case kDXT3:
+            squishFlags |= squish::kDxt3;
+            break;
+        case kDXT5:
+            squishFlags |= squish::kDxt5;
+            break;
+        default:
             throw hsBadParamException(__FILE__, __LINE__);
+            break;
         }
+        switch (quality) {
+        case kBlockQualityNormal:
+            squishFlags |= squish::kColourRangeFit;
+            break;
+        case kBlockQualityHigh:
+            squishFlags |= squish::kColourClusterFit;
+            break;
+        case kBlockQualityUltra:
+            squishFlags |= squish::kColourIterativeClusterFit;
+            break;
+        default:
+            throw hsBadParamException(__FILE__, __LINE__);
+            break;
+        }
+
+        squish::CompressImage((squish::u8*)src, lvl.fWidth, lvl.fHeight,
+                              imgPtr, squishFlags);
     } else {
         throw hsNotImplementedException(__FILE__, __LINE__, "Compression not currently supported for format.");
     }

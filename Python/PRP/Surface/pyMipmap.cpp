@@ -282,18 +282,20 @@ PY_METHOD_VA(Mipmap, DecompressImage,
     return img;
 }
 
-PY_METHOD_VA(Mipmap, CompressImage,
-    "Params: level, data\n"
+PY_METHOD_KWARGS(Mipmap, CompressImage,
+    "Params: level, data, quality\n"
     "Compresses the specified mip level")
 {
+    static char* kwlist[] = { _pycs("level"), _pycs("data"), _pycs("quality"), nullptr };
     int level, dataSize;
     char* data;
-    if (!PyArg_ParseTuple(args, "is#", &level, &data, &dataSize)) {
-        PyErr_SetString(PyExc_TypeError, "CompressImage expects an int and a binary string");
+    plMipmap::BlockQuality quality = plMipmap::kBlockQualityNormal;
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "is#|i", kwlist, &level, &data, &dataSize, &quality)) {
+        PyErr_SetString(PyExc_TypeError, "CompressImage expects an int, a binary string, and an optional int");
         return nullptr;
     }
     try {
-        self->fThis->CompressImage(level, data, dataSize);
+        self->fThis->CompressImage(level, data, dataSize, quality);
     } catch (hsBadParamException& ex) {
         PyErr_SetString(PyExc_RuntimeError, ex.what());
         return nullptr;
@@ -365,6 +367,11 @@ PY_PLASMA_TYPE_INIT(Mipmap)
     pyMipmap_Type.tp_base = &pyBitmap_Type;
     if (PyType_CheckAndReady(&pyMipmap_Type) < 0)
         return nullptr;
+
+    // CompressImage quality
+    PY_TYPE_ADD_CONST(Mipmap, "kBlockQualityNormal", plMipmap::kBlockQualityNormal);
+    PY_TYPE_ADD_CONST(Mipmap, "kBlockQualityHigh", plMipmap::kBlockQualityHigh);
+    PY_TYPE_ADD_CONST(Mipmap, "kBlockQualityUltra", plMipmap::kBlockQualityUltra);
 
     Py_INCREF(&pyMipmap_Type);
     return (PyObject*)&pyMipmap_Type;
