@@ -26,6 +26,13 @@ class PLASMA_DLL plMipmap : public plBitmap
 public:
     enum { kColorDataRLE = 0x1, kAlphaDataRLE = 0x2 };
 
+    enum BlockQuality
+    {
+        kBlockQualityNormal,
+        kBlockQualityHigh,
+        kBlockQualityUltra,
+    };
+
 protected:
     struct PLASMA_DLL LevelData
     {
@@ -103,7 +110,7 @@ public:
 
     size_t GetUncompressedSize(size_t level) const;
     void DecompressImage(size_t level, void* dest, size_t size);
-    void CompressImage(size_t level, void* src, size_t size);
+    void CompressImage(size_t level, void* src, size_t size, BlockQuality quality = kBlockQualityNormal);
 };
 
 
