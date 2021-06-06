@@ -94,6 +94,42 @@ PY_METHOD_VA(WaveSet7, delDecal,
     Py_RETURN_NONE;
 }
 
+PY_METHOD_VA(WaveSet7, addBuoy,
+    "Params: key\n"
+    "Add a buoy")
+{
+    pyKey* key;
+    if (!PyArg_ParseTuple(args, "O", &key) || !pyKey_Check((PyObject*)key)) {
+        PyErr_SetString(PyExc_TypeError, "addBuoy expects a plKey");
+        return nullptr;
+    }
+    self->fThis->addBuoy(*key->fThis);
+    Py_RETURN_NONE;
+}
+
+PY_METHOD_NOARGS(WaveSet7, clearBuoys, "Remove all buoys")
+{
+    self->fThis->clearBuoys();
+    Py_RETURN_NONE;
+}
+
+PY_METHOD_VA(WaveSet7, delBuoy,
+    "Params: idx\n"
+    "Remove a buoy")
+{
+    int idx;
+    if (!PyArg_ParseTuple(args, "i", &idx)) {
+        PyErr_SetString(PyExc_TypeError, "delBuoy expects an int");
+        return nullptr;
+    }
+    if (size_t(idx) >= self->fThis->getBuoys().size()) {
+        PyErr_SetNone(PyExc_IndexError);
+        return nullptr;
+    }
+    self->fThis->delBuoy(idx);
+    Py_RETURN_NONE;
+}
+
 static PyMethodDef pyWaveSet7_Methods[] = {
     pyWaveSet7_addShore_method,
     pyWaveSet7_clearShores_method,
@@ -101,6 +137,9 @@ static PyMethodDef pyWaveSet7_Methods[] = {
     pyWaveSet7_addDecal_method,
     pyWaveSet7_clearDecals_method,
     pyWaveSet7_delDecal_method,
+    pyWaveSet7_addBuoy_method,
+    pyWaveSet7_clearBuoys_method,
+    pyWaveSet7_delBuoy_method,
     PY_METHOD_TERMINATOR
 };
 
@@ -128,6 +167,18 @@ PY_GETSET_GETTER_DECL(WaveSet7, decals)
 PY_PROPERTY_SETTER_MSG(WaveSet7, decals, "To add decals, use addDecal")
 PY_PROPERTY_GETSET_DECL(WaveSet7, decals)
 
+PY_GETSET_GETTER_DECL(WaveSet7, buoys)
+{
+    const std::vector<plKey>& buoys = self->fThis->getBuoys();
+    PyObject* tuple = PyTuple_New(buoys.size());
+    for (size_t i = 0; i < buoys.size(); ++i)
+        PyTuple_SET_ITEM(tuple, i, pyKey_FromKey(buoys[i]));
+    return tuple;
+}
+
+PY_PROPERTY_SETTER_MSG(WaveSet7, buoys, "To add buoys, use addBuoy")
+PY_PROPERTY_GETSET_DECL(WaveSet7, buoys)
+
 PY_PROPERTY_PROXY(plFixedWaterState7, WaveSet7, state, getState)
 PY_PROPERTY(float, WaveSet7, maxLen, getMaxLen, setMaxLen)
 PY_PROPERTY(plKey, WaveSet7, envMap, getEnvMap, setEnvMap)
@@ -137,6 +188,7 @@ static PyGetSetDef pyWaveSet7_GetSet[] = {
     pyWaveSet7_state_getset,
     pyWaveSet7_shores_getset,
     pyWaveSet7_decals_getset,
+    pyWaveSet7_buoys_getset,
     pyWaveSet7_maxLen_getset,
     pyWaveSet7_envMap_getset,
     pyWaveSet7_refObj_getset,
@@ -155,6 +207,7 @@ PY_PLASMA_TYPE_INIT(WaveSet7)
         return nullptr;
 
     PY_TYPE_ADD_CONST(WaveSet7, "kHasRefObject", plWaveSet7::kHasRefObject);
+    PY_TYPE_ADD_CONST(WaveSet7, "kHasBuoys", plWaveSet7::kHasBuoys);
 
     Py_INCREF(&pyWaveSet7_Type);
     return (PyObject*)&pyWaveSet7_Type;

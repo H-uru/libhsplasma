@@ -58,6 +58,11 @@ void plWaveSet7::read(hsStream* S, plResManager* mgr)
     fEnvMap = mgr->readKey(S);
     if (fFlags[kHasRefObject])
         fRefObj = mgr->readKey(S);
+    if (fFlags[kHasBuoys]) {
+        fBuoys.resize(S->readInt());
+        for (size_t i=0; i<fBuoys.size(); i++)
+            fBuoys[i] = mgr->readKey(S);
+    }
 }
 
 void plWaveSet7::write(hsStream* S, plResManager* mgr)
@@ -76,6 +81,13 @@ void plWaveSet7::write(hsStream* S, plResManager* mgr)
     mgr->writeKey(S, fEnvMap);
     if (fFlags[kHasRefObject])
         mgr->writeKey(S, fRefObj);
+
+    // Buoys are only supported in MOUL, behind a flag for backwards compat
+    if (S->getVer().isMoul() && fFlags[kHasBuoys]) {
+        S->writeInt(fBuoys.size());
+        for (size_t i=0; i<fBuoys.size(); i++)
+            mgr->writeKey(S, fBuoys[i]);
+    }
 }
 
 void plWaveSet7::IPrcWrite(pfPrcHelper* prc)
@@ -95,6 +107,10 @@ void plWaveSet7::IPrcWrite(pfPrcHelper* prc)
     prc->writeSimpleTag("Decals");
     for (size_t i=0; i<fDecals.size(); i++)
         plResManager::PrcWriteKey(prc, fDecals[i]);
+    prc->closeTag();
+    prc->writeSimpleTag("Buoys");
+    for (size_t i=0; i<fBuoys.size(); i++)
+        plResManager::PrcWriteKey(prc, fBuoys[i]);
     prc->closeTag();
 
     prc->writeSimpleTag("EnvMap");
@@ -126,6 +142,13 @@ void plWaveSet7::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fDecals.size(); i++) {
             fDecals[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "Buoys") {
+        fBuoys.resize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fBuoys.size(); i++) {
+            fBuoys[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "EnvMap") {
