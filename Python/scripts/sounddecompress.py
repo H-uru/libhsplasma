@@ -33,9 +33,6 @@
         (Override base Uru and output directory only)
 """
 
-
-from __future__ import print_function
-
 import os
 import sys
 import glob
@@ -114,9 +111,12 @@ def getDecompressQueue(datadir):
                             else:
                                 channelOptions = {}
 
-                            if (soundBuffer.flags & soundBuffer.kOnlyRightChannel): channel = channelOptions["Right"] = True
-                            if (soundBuffer.flags & soundBuffer.kOnlyLeftChannel): channel = channelOptions["Left"] = True
-                            if channelOptions == {}: channelOptions["Both"] = True
+                            if (soundBuffer.flags & soundBuffer.kOnlyRightChannel):
+                                channel = channelOptions["Right"] = True
+                            if (soundBuffer.flags & soundBuffer.kOnlyLeftChannel):
+                                channel = channelOptions["Left"] = True
+                            if channelOptions == {}:
+                                channelOptions["Both"] = True
 
                             if not (soundBuffer.flags & soundBuffer.kStreamCompressed):
                                 queue[soundBuffer.fileName] = channelOptions
@@ -202,9 +202,9 @@ def writeQueueToXML(outfile):
             sfNode = root.createElement("soundfile")
             sfNode.setAttribute("name", soundfile)
             coNode = root.createElement("channeloutputs")
-            coNode.setAttribute("stereo", str(queue[soundfile].has_key("Both") and queue[soundfile]["Both"]))
-            coNode.setAttribute("left", str(queue[soundfile].has_key("Left") and queue[soundfile]["Left"]))
-            coNode.setAttribute("right", str(queue[soundfile].has_key("Right") and queue[soundfile]["Right"]))
+            coNode.setAttribute("stereo", str("Both" in queue[soundfile] and queue[soundfile]["Both"]))
+            coNode.setAttribute("left", str("Left" in queue[soundfile] and queue[soundfile]["Left"]))
+            coNode.setAttribute("right", str("Right" in queue[soundfile] and queue[soundfile]["Right"]))
             sfNode.appendChild(coNode)
             root.documentElement.appendChild(sfNode)
 
