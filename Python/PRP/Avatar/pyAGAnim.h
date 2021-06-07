@@ -32,13 +32,13 @@ inline PyObject* pyPlasma_convert(plAGAnim::BodyUsage value)
 template <>
 inline int pyPlasma_check<plAGAnim::BodyUsage>(PyObject* value)
 {
-    return PyInt_Check(value);
+    return PyAnyInt_Check(value);
 }
 
 template <>
 inline plAGAnim::BodyUsage pyPlasma_get(PyObject* value)
 {
-    return (plAGAnim::BodyUsage)PyInt_AsLong(value);
+    return (plAGAnim::BodyUsage)PyLong_AsLong(value);
 }
 
 #endif

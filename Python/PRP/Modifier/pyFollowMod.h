@@ -31,13 +31,13 @@ inline PyObject* pyPlasma_convert(plFollowMod::FollowLeaderType value)
 template <>
 inline int pyPlasma_check<plFollowMod::FollowLeaderType>(PyObject* value)
 {
-    return PyInt_Check(value);
+    return PyAnyInt_Check(value);
 }
 
 template <>
 inline plFollowMod::FollowLeaderType pyPlasma_get(PyObject* value)
 {
-    return (plFollowMod::FollowLeaderType)PyInt_AsLong(value);
+    return (plFollowMod::FollowLeaderType)PyLong_AsLong(value);
 }
 
 #endif

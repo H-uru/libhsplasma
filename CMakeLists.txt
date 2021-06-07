@@ -41,13 +41,6 @@ option(ENABLE_NET "Build HSPlasmaNet" ON)
 option(ENABLE_PHYSX "Build with PhysX Support" ON)
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 
-try_compile(NEED_SIZE_T_OVERLOAD ${PROJECT_BINARY_DIR}
-            ${PROJECT_SOURCE_DIR}/cmake/check_size_t_overload.cpp)
-
-configure_file(${PROJECT_SOURCE_DIR}/cmake/PlasmaConfig.h.in
-               ${PROJECT_BINARY_DIR}/PlasmaConfig.h)
-include_directories(${PROJECT_BINARY_DIR})
-
 find_package(string_theory 2.0 REQUIRED)
 
 add_subdirectory(core)

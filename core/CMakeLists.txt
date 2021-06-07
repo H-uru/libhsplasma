@@ -734,7 +734,6 @@ set(VAULT_HEADERS
 
 set(PLASMA_HEADERS
     PlasmaDefs.h
-    ${PROJECT_BINARY_DIR}/PlasmaConfig.h
 )
 
 set(RIJNDAEL_SOURCES
