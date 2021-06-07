@@ -19,20 +19,21 @@
 
 #include "hsStream.h"
 
-class PLASMA_DLL pfSizedStream : public hsStream
+class PLASMA_DLL pfSizedStream HS_FINAL : public hsStream
 {
 private:
     hsStream* fBase;
     uint32_t fLength; //!< the length of the substream - not the end position of it!
     uint32_t fBegin;
+    uint32_t fPos;
 
 public:
     pfSizedStream(hsStream* S, uint32_t len);
     ~pfSizedStream() { } // Do NOT free fBase!!!
 
     uint32_t size() const HS_OVERRIDE { return fLength; }
-    uint32_t pos() const HS_OVERRIDE { return fBase->pos() - fBegin; }
-    bool eof() const HS_OVERRIDE { return fBase->eof() || pos() == fLength; }
+    uint32_t pos() const HS_OVERRIDE { return fPos; }
+    bool eof() const HS_OVERRIDE { return fPos == fLength || fBase->eof(); }
 
     void seek(uint32_t pos) HS_OVERRIDE;
     void skip(int32_t count) HS_OVERRIDE;

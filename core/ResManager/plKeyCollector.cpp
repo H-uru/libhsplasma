@@ -44,7 +44,7 @@ plKeyCollector::~plKeyCollector()
 plKey plKeyCollector::findKey(const plKey& match)
 {
     plKey key;
-    std::vector<plKey> kList = getKeys(match->getLocation(), match->getType());
+    const auto& kList = keys[match->getLocation()][match->getType()];
     for (unsigned int i=0; i < kList.size(); i++) {
         if (*kList[i] == *match) {
             key = kList[i];
