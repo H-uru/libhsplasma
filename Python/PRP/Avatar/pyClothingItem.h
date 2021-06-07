@@ -27,12 +27,12 @@ inline PyObject* pyPlasma_convert(plClothingItem::Tilesets value) { return PyInt
 inline PyObject* pyPlasma_convert(plClothingItem::Types value) { return PyInt_FromLong((long)value); }
 inline PyObject* pyPlasma_convert(plClothingItem::Groups value) { return PyInt_FromLong((long)value); }
 
-template <> inline int pyPlasma_check<plClothingItem::Tilesets>(PyObject* value) { return PyInt_Check(value); }
-template <> inline int pyPlasma_check<plClothingItem::Types>(PyObject* value) { return PyInt_Check(value); }
-template <> inline int pyPlasma_check<plClothingItem::Groups>(PyObject* value) { return PyInt_Check(value); }
+template <> inline int pyPlasma_check<plClothingItem::Tilesets>(PyObject* value) { return PyAnyInt_Check(value); }
+template <> inline int pyPlasma_check<plClothingItem::Types>(PyObject* value) { return PyAnyInt_Check(value); }
+template <> inline int pyPlasma_check<plClothingItem::Groups>(PyObject* value) { return PyAnyInt_Check(value); }
 
-template <> inline plClothingItem::Tilesets pyPlasma_get(PyObject* value) { return (plClothingItem::Tilesets)PyInt_AsLong(value); }
-template <> inline plClothingItem::Types pyPlasma_get(PyObject* value) { return (plClothingItem::Types)PyInt_AsLong(value); }
-template <> inline plClothingItem::Groups pyPlasma_get(PyObject* value) { return (plClothingItem::Groups)PyInt_AsLong(value); }
+template <> inline plClothingItem::Tilesets pyPlasma_get(PyObject* value) { return (plClothingItem::Tilesets)PyLong_AsLong(value); }
+template <> inline plClothingItem::Types pyPlasma_get(PyObject* value) { return (plClothingItem::Types)PyLong_AsLong(value); }
+template <> inline plClothingItem::Groups pyPlasma_get(PyObject* value) { return (plClothingItem::Groups)PyLong_AsLong(value); }
 
 #endif

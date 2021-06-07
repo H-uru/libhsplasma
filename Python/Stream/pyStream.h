@@ -34,13 +34,13 @@ inline PyObject* pyPlasma_convert(const PlasmaVer& value)
 template <>
 inline int pyPlasma_check<PlasmaVer>(PyObject* value)
 {
-    return PyInt_Check(value);
+    return PyAnyInt_Check(value);
 }
 
 template <>
 inline PlasmaVer pyPlasma_get(PyObject* value)
 {
-    return PlasmaVer((int)PyInt_AsLong(value));
+    return PlasmaVer((int)PyLong_AsLong(value));
 }
 
 #endif

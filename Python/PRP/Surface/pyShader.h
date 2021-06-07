@@ -32,13 +32,13 @@ inline PyObject* pyPlasma_convert(plShader::plShaderID value)
 template <>
 inline int pyPlasma_check<plShader::plShaderID>(PyObject* value)
 {
-    return PyInt_Check(value);
+    return PyAnyInt_Check(value);
 }
 
 template <>
 inline plShader::plShaderID pyPlasma_get(PyObject* value)
 {
-    return (plShader::plShaderID)PyInt_AsLong(value);
+    return (plShader::plShaderID)PyLong_AsLong(value);
 }
 
 #endif

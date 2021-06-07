@@ -17,8 +17,6 @@
 #ifndef _PLASMA_DEFS_H
 #define _PLASMA_DEFS_H
 
-#include "PlasmaConfig.h"
-
 #ifdef _WIN32
   #ifdef BUILD_PLASMA_DLL
     #define PLASMA_DLL __declspec(dllexport)

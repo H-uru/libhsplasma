@@ -28,8 +28,8 @@ PY_WRAP_PLASMA(StateDescriptor, class plStateDescriptor);
 /* Python property helpers */
 inline PyObject* pyPlasma_convert(plVarDescriptor::Type value) { return PyInt_FromLong((long)value); }
 
-template <> inline int pyPlasma_check<plVarDescriptor::Type>(PyObject* value) { return PyInt_Check(value); }
+template <> inline int pyPlasma_check<plVarDescriptor::Type>(PyObject* value) { return PyAnyInt_Check(value); }
 
-template <> inline plVarDescriptor::Type pyPlasma_get(PyObject* value) { return (plVarDescriptor::Type)PyInt_AsLong(value); }
+template <> inline plVarDescriptor::Type pyPlasma_get(PyObject* value) { return (plVarDescriptor::Type)PyLong_AsLong(value); }
 
 #endif

@@ -35,13 +35,13 @@ inline PyObject* pyPlasma_convert(plSimDefs::Bounds value)
 template <>
 inline int pyPlasma_check<plSimDefs::Bounds>(PyObject* value)
 {
-    return PyInt_Check(value);
+    return PyAnyInt_Check(value);
 }
 
 template <>
 inline plSimDefs::Bounds pyPlasma_get(PyObject* value)
 {
-    return (plSimDefs::Bounds)PyInt_AsLong(value);
+    return (plSimDefs::Bounds)PyLong_AsLong(value);
 }
 
 #endif

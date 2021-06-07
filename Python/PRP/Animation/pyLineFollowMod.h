@@ -32,13 +32,13 @@ inline PyObject* pyPlasma_convert(plLineFollowMod::FollowMode value)
 template <>
 inline int pyPlasma_check<plLineFollowMod::FollowMode>(PyObject* value)
 {
-    return PyInt_Check(value);
+    return PyAnyInt_Check(value);
 }
 
 template <>
 inline plLineFollowMod::FollowMode pyPlasma_get(PyObject* value)
 {
-    return (plLineFollowMod::FollowMode)PyInt_AsLong(value);
+    return (plLineFollowMod::FollowMode)PyLong_AsLong(value);
 }
 
 #endif
