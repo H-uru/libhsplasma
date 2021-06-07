@@ -53,7 +53,7 @@ struct pySequenceFastRef
     PyObject* get(Py_ssize_t idx) { return PySequence_Fast_GET_ITEM(fObj, idx); }
 };
 
-#if (PY_MAJOR_VERSION < 3) || ((PY_MAJOR_VERSION == 3) && (PY_MINOR_VERSION < 3))
+#if (PY_MAJOR_VERSION < 3) || ((PY_MAJOR_VERSION == 3) && (PY_MINOR_VERSION < 2))
     #error Your Python version is too old.  Only 3.2 and later are supported
 #endif
 
