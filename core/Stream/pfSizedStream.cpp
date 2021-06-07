@@ -18,7 +18,7 @@
 #include "Debug/plDebug.h"
 
 pfSizedStream::pfSizedStream(hsStream* S, uint32_t len)
-    : fBase(S), fLength(len)
+    : fBase(S), fLength(len), fPos()
 {
     if (S) {
         ver = S->getVer();
@@ -41,37 +41,43 @@ void pfSizedStream::seek(uint32_t pos)
     }
 
     fBase->seek(fBegin + pos);
+    fPos = std::min(pos, fLength);
 }
 
 void pfSizedStream::skip(int32_t count)
 {
-    if (pos() + count > fLength) { // pos() is the index in the sub-stream
+    if (fPos + count > fLength) { // fPos is the index in the sub-stream
         throw hsFileReadException(__FILE__, __LINE__,
                          ST::format("Seek out of range: {} bytes requested, {} available",
-                         count, (fLength - pos())).c_str());
+                         count, (fLength - fPos)).c_str());
     }
 
     fBase->skip(count);
+    fPos += count;
 }
 
 size_t pfSizedStream::read(size_t size, void* buf)
 {
-    if (pos() + size > fLength) { // pos() is the index in the sub-stream
+    if (fPos + size > fLength) { // fPos is the index in the sub-stream
         throw hsFileReadException(__FILE__, __LINE__,
                          ST::format("Read past end of sized stream: {} bytes requested, {} available",
-                         size, (fLength - pos())).c_str());
+                         size, (fLength - fPos)).c_str());
     }
 
-    return fBase->read(size, buf);
+    size_t nread = fBase->read(size, buf);
+    fPos += nread;
+    return nread;
 }
 
 size_t pfSizedStream::write(size_t size, const void* buf)
 {
-    if (pos() + size > fLength) { // pos() is the index in the sub-stream
+    if (fPos + size > fLength) { // fPos is the index in the sub-stream
         throw hsFileReadException(__FILE__, __LINE__,
                          ST::format("Write past end of sized stream: {} bytes requested, {} available",
-                         size, (fLength - pos())).c_str());
+                         size, (fLength - fPos)).c_str());
     }
 
-    return fBase->write(size, buf);
+    size_t nwrite = fBase->write(size, buf);
+    fPos += nwrite;
+    return nwrite;
 }
