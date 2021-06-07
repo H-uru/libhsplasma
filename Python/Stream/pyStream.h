@@ -28,13 +28,13 @@ PY_WRAP_PLASMA(RAMStream, class hsRAMStream);
 /* Python property helpers */
 inline PyObject* pyPlasma_convert(const PlasmaVer& value)
 {
-    return PyInt_FromLong((long)(int)value);
+    return PyLong_FromLong((long)(int)value);
 }
 
 template <>
 inline int pyPlasma_check<PlasmaVer>(PyObject* value)
 {
-    return PyAnyInt_Check(value);
+    return PyLong_Check(value);
 }
 
 template <>

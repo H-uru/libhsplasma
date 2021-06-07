@@ -23,8 +23,9 @@ PY_PROPERTY(int, VaultAgeLinkNode, volatile, getVolatile, setVolatile)
 
 PY_GETSET_GETTER_DECL(VaultAgeLinkNode, spawnPoints)
 {
-    return PyString_FromStringAndSize((const char*)self->fThis->getSpawnPoints().getData(),
-                                      self->fThis->getSpawnPoints().getSize());
+    return PyUnicode_DecodeUTF8((const char*)self->fThis->getSpawnPoints().getData(),
+                                self->fThis->getSpawnPoints().getSize(),
+                                nullptr);
 }
 
 PY_GETSET_SETTER_DECL(VaultAgeLinkNode, spawnPoints)

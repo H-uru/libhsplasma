@@ -24,7 +24,7 @@ PY_PLASMA_NEW(StateDescriptor, plStateDescriptor)
 
 PY_PLASMA_REPR_DECL(StateDescriptor)
 {
-    return PyString_FromSTString(ST::format("<plStateDescriptor '{}'>", self->fThis->getName()));
+    return PyUnicode_FromSTString(ST::format("<plStateDescriptor '{}'>", self->fThis->getName()));
 }
 
 PY_PLASMA_LENGTH_DECL(StateDescriptor)
@@ -84,7 +84,7 @@ PY_PLASMA_ASS_SUBSCRIPT_DECL(StateDescriptor)
 
 PY_PLASMA_STR_DECL(StateDescriptor)
 {
-    return PyString_FromSTString(self->fThis->getName());
+    return PyUnicode_FromSTString(self->fThis->getName());
 }
 
 PY_METHOD_VA(StateDescriptor, addVariable,

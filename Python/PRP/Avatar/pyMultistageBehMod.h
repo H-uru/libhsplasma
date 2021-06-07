@@ -26,23 +26,24 @@ PY_WRAP_PLASMA(AnimStage, class plAnimStage);
 /* Python property helpers */
 inline PyObject* pyPlasma_convert(plAnimStage::PlayType value)
 {
-    return PyInt_FromLong((long)value);
+    return PyLong_FromLong((long)value);
 }
 
 inline PyObject* pyPlasma_convert(plAnimStage::AdvanceType value)
 {
-    return PyInt_FromLong((long)value);
+    return PyLong_FromLong((long)value);
 }
 
 template <>
-inline int pyPlasma_check<plAnimStage::PlayType>(PyObject* value) {
-    return PyAnyInt_Check(value);
+inline int pyPlasma_check<plAnimStage::PlayType>(PyObject* value)
+{
+    return PyLong_Check(value);
 }
 
 template <>
 inline int pyPlasma_check<plAnimStage::AdvanceType>(PyObject* value)
 {
-    return PyAnyInt_Check(value);
+    return PyLong_Check(value);
 }
 
 template <>

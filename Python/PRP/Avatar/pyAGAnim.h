@@ -26,13 +26,13 @@ PY_WRAP_PLASMA(AgeGlobalAnim, class plAgeGlobalAnim);
 /* Python property helpers */
 inline PyObject* pyPlasma_convert(plAGAnim::BodyUsage value)
 {
-    return PyInt_FromLong((long)value);
+    return PyLong_FromLong((long)value);
 }
 
 template <>
 inline int pyPlasma_check<plAGAnim::BodyUsage>(PyObject* value)
 {
-    return PyAnyInt_Check(value);
+    return PyLong_Check(value);
 }
 
 template <>

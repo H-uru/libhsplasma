@@ -402,7 +402,6 @@ PY_PLASMA_TYPE_INIT(Matrix44)
     pyMatrix44_Type.tp_as_mapping = &pyMatrix44_As_Mapping;
     pyMatrix44_Type.tp_methods = pyMatrix44_Methods;
     pyMatrix44_Type.tp_getset = pyMatrix44_GetSet;
-    pyMatrix44_Type.tp_flags |= Py_TPFLAGS_CHECKTYPES;
     if (PyType_CheckAndReady(&pyMatrix44_Type) < 0)
         return nullptr;
 

@@ -24,12 +24,12 @@ PY_PLASMA_NEW(VarDescriptor, plVarDescriptor)
 
 PY_PLASMA_REPR_DECL(VarDescriptor)
 {
-    return PyString_FromSTString(ST::format("<plVarDescriptor '{}'>", self->fThis->getName()));
+    return PyUnicode_FromSTString(ST::format("<plVarDescriptor '{}'>", self->fThis->getName()));
 }
 
 PY_PLASMA_STR_DECL(VarDescriptor)
 {
-    return PyString_FromSTString(self->fThis->getName());
+    return PyUnicode_FromSTString(self->fThis->getName());
 }
 
 PY_PROPERTY(ST::string, VarDescriptor, name, getName, setName);

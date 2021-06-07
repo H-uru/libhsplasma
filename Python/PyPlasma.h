@@ -23,7 +23,6 @@
 #include <string_theory/string>
 #include <type_traits>
 
-PyObject* PyString_FromSTString(const ST::string& str);
 PyObject* PyUnicode_FromSTString(const ST::string& str);
 ST::string PyAnyString_AsSTString(PyObject* str);
 int PyAnyString_PathDecoder(PyObject* obj, void* str);
@@ -54,42 +53,8 @@ struct pySequenceFastRef
     PyObject* get(Py_ssize_t idx) { return PySequence_Fast_GET_ITEM(fObj, idx); }
 };
 
-// Python 3.x does things differently...  This should help to keep things
-// under control with both 2.x and 3.0 somewhat seamlessly.
-#if (PY_MAJOR_VERSION >= 3)
-    // Int -> Long
-    #define PyAnyInt_Check(ob) PyLong_Check(ob)
-    #define PyInt_FromLong PyLong_FromLong
-
-    // String -> Unicode
-    #define PyString_FromString(str) PyUnicode_DecodeUTF8((str), strlen((str)), nullptr)
-    #define PyString_FromStringAndSize(str, len) PyUnicode_DecodeUTF8((str), (len), nullptr)
-    #define PyAnyString_FromSTString PyUnicode_FromSTString
-
-    // Py_TPFLAGS_CHECKTYPES is no longer used in Py3k
-    #define Py_TPFLAGS_CHECKTYPES 0
-#elif (PY_MAJOR_VERSION == 2) && (PY_MINOR_VERSION >= 6)
-    #undef PyBytes_Check
-    #undef PyBytes_FromStringAndSize
-    #undef PyBytes_AsStringAndSize
-    #undef PyBytes_AsString
-    #undef PyBytes_AS_STRING
-
-    #define PyAnyInt_Check(ob) (PyInt_Check(ob) || PyLong_Check(ob))
-
-    #define PyAnyString_FromSTString PyString_FromSTString
-    #define PyBytes_Check(ob) PyString_Check(ob)
-    #define PyBytes_FromStringAndSize(v, len) PyString_FromStringAndSize(v, len)
-    #define PyBytes_AsStringAndSize(obj, buf, len) PyString_AsStringAndSize(obj, buf, len)
-    #define PyBytes_AsString PyString_AsString
-    #define PyBytes_AS_STRING PyString_AS_STRING
-#else
-    #error Your Python version is too old.  Only 2.6 and later are supported
-#endif
-
-// The type of hashfunc's return value changed in Python 3.2
-#if (PY_MAJOR_VERSION < 3) || ((PY_MAJOR_VERSION == 3) && (PY_MINOR_VERSION < 2))
-    typedef long Py_hash_t;
+#if (PY_MAJOR_VERSION < 3) || ((PY_MAJOR_VERSION == 3) && (PY_MINOR_VERSION < 3))
+    #error Your Python version is too old.  Only 3.2 and later are supported
 #endif
 
 // C doesn't have boolean types until C11, which Python doesn't use
@@ -301,54 +266,25 @@ PyObject* PyPlasmaValue_new(PyTypeObject* type, ArgsT&&... args)
     int py##pyType##_nb_##name##_impl(py##pyType* self)
 
 /* Helpers for getters and setters */
-inline PyObject* pyPlasma_convert(char value) { return PyInt_FromLong(std::is_signed<char>::value ? (long)value : (long)(unsigned long)value); }
-inline PyObject* pyPlasma_convert(unsigned char value) { return PyInt_FromLong((long)(unsigned long)value); }
-inline PyObject* pyPlasma_convert(unsigned short value) { return PyInt_FromLong((long)(unsigned long)value); }
-
-inline PyObject* pyPlasma_convert(unsigned int value)
-{
-#if INT_MAX < LONG_MAX
-    return PyInt_FromLong((long)(unsigned long)value);
-#else
-    // PyInt stores a long internally, but a (32-bit) unsigned int can store
-    // values that a (32-bit) signed long cannot, so we must also check and
-    // expand unsigned int values into to a PyLong if necessary.
-    return (value > LONG_MAX) ? PyLong_FromUnsignedLong((unsigned long)value)
-                              : PyInt_FromLong((long)(unsigned long)value);
-#endif
-}
-
-inline PyObject* pyPlasma_convert(unsigned long value)
-{
-    return (value > LONG_MAX) ? PyLong_FromUnsignedLong(value)
-                              : PyInt_FromLong((long)value);
-}
-
-inline PyObject* pyPlasma_convert(unsigned long long value)
-{
-    return (value > LONG_MAX) ? PyLong_FromUnsignedLongLong(value)
-                              : PyInt_FromLong((long)(unsigned long)value);
-}
-
-inline PyObject* pyPlasma_convert(signed char value) { return PyInt_FromLong((long)value); }
-inline PyObject* pyPlasma_convert(short value) { return PyInt_FromLong((long)value); }
-inline PyObject* pyPlasma_convert(int value) { return PyInt_FromLong((long)value); }
-inline PyObject* pyPlasma_convert(long value) { return PyInt_FromLong((long)value); }
-
-inline PyObject* pyPlasma_convert(long long value)
-{
-    return (value > LONG_MAX) ? PyLong_FromLongLong(value)
-                              : PyInt_FromLong((long)value);
-}
-
+inline PyObject* pyPlasma_convert(char value) { return PyLong_FromLong(std::is_signed<char>::value ? (long)value : (long)(unsigned long)value); }
+inline PyObject* pyPlasma_convert(unsigned char value) { return PyLong_FromLong((long)(unsigned long)value); }
+inline PyObject* pyPlasma_convert(unsigned short value) { return PyLong_FromLong((long)(unsigned long)value); }
+inline PyObject* pyPlasma_convert(unsigned int value) { return PyLong_FromUnsignedLong((unsigned long)value); }
+inline PyObject* pyPlasma_convert(unsigned long value) { return PyLong_FromUnsignedLong(value); }
+inline PyObject* pyPlasma_convert(unsigned long long value) { return PyLong_FromUnsignedLongLong(value); }
+inline PyObject* pyPlasma_convert(signed char value) { return PyLong_FromLong((long)value); }
+inline PyObject* pyPlasma_convert(short value) { return PyLong_FromLong((long)value); }
+inline PyObject* pyPlasma_convert(int value) { return PyLong_FromLong((long)value); }
+inline PyObject* pyPlasma_convert(long value) { return PyLong_FromLong((long)value); }
+inline PyObject* pyPlasma_convert(long long value) { return PyLong_FromLongLong(value); }
 inline PyObject* pyPlasma_convert(float value) { return PyFloat_FromDouble((double)value); }
 inline PyObject* pyPlasma_convert(double value) { return PyFloat_FromDouble(value); }
 inline PyObject* pyPlasma_convert(bool value) { return PyBool_FromBool(value); }
-inline PyObject* pyPlasma_convert(const ST::string& value) { return PyAnyString_FromSTString(value); }
-inline PyObject* pyPlasma_convert(const char* value) { return PyString_FromString(value); }
-inline PyObject* pyPlasma_convert(CallbackEvent value) { return PyInt_FromLong((long)value); }
-inline PyObject* pyPlasma_convert(ControlEventCode value) { return PyInt_FromLong((long)value); }
-inline PyObject* pyPlasma_convert(plKeyDef value) { return PyInt_FromLong((long)value); }
+inline PyObject* pyPlasma_convert(const ST::string& value) { return PyUnicode_FromSTString(value); }
+inline PyObject* pyPlasma_convert(const char* value) { return PyUnicode_DecodeUTF8(value, strlen(value), nullptr); }
+inline PyObject* pyPlasma_convert(CallbackEvent value) { return PyLong_FromLong((long)value); }
+inline PyObject* pyPlasma_convert(ControlEventCode value) { return PyLong_FromLong((long)value); }
+inline PyObject* pyPlasma_convert(plKeyDef value) { return PyLong_FromLong((long)value); }
 
 // Force compilers to throw an error for pointers without a specialization,
 // rather than converting them to an integral type and accepting it silently
@@ -360,24 +296,24 @@ inline int pyPlasma_check(PyObject* value)
     return T::unimplemented_specialization_for_pyPlasma_check();
 }
 
-template <> inline int pyPlasma_check<char>(PyObject* value) { return PyAnyInt_Check(value); }
-template <> inline int pyPlasma_check<unsigned char>(PyObject* value) { return PyAnyInt_Check(value); }
-template <> inline int pyPlasma_check<unsigned short>(PyObject* value) { return PyAnyInt_Check(value); }
-template <> inline int pyPlasma_check<unsigned int>(PyObject* value) { return PyAnyInt_Check(value); }
-template <> inline int pyPlasma_check<unsigned long>(PyObject* value) { return PyAnyInt_Check(value); }
-template <> inline int pyPlasma_check<unsigned long long>(PyObject* value) { return PyAnyInt_Check(value); }
-template <> inline int pyPlasma_check<signed char>(PyObject* value) { return PyAnyInt_Check(value); }
-template <> inline int pyPlasma_check<short>(PyObject* value) { return PyAnyInt_Check(value); }
-template <> inline int pyPlasma_check<int>(PyObject* value) { return PyAnyInt_Check(value); }
-template <> inline int pyPlasma_check<long>(PyObject* value) { return PyAnyInt_Check(value); }
-template <> inline int pyPlasma_check<long long>(PyObject* value) { return PyAnyInt_Check(value); }
+template <> inline int pyPlasma_check<char>(PyObject* value) { return PyLong_Check(value); }
+template <> inline int pyPlasma_check<unsigned char>(PyObject* value) { return PyLong_Check(value); }
+template <> inline int pyPlasma_check<unsigned short>(PyObject* value) { return PyLong_Check(value); }
+template <> inline int pyPlasma_check<unsigned int>(PyObject* value) { return PyLong_Check(value); }
+template <> inline int pyPlasma_check<unsigned long>(PyObject* value) { return PyLong_Check(value); }
+template <> inline int pyPlasma_check<unsigned long long>(PyObject* value) { return PyLong_Check(value); }
+template <> inline int pyPlasma_check<signed char>(PyObject* value) { return PyLong_Check(value); }
+template <> inline int pyPlasma_check<short>(PyObject* value) { return PyLong_Check(value); }
+template <> inline int pyPlasma_check<int>(PyObject* value) { return PyLong_Check(value); }
+template <> inline int pyPlasma_check<long>(PyObject* value) { return PyLong_Check(value); }
+template <> inline int pyPlasma_check<long long>(PyObject* value) { return PyLong_Check(value); }
 template <> inline int pyPlasma_check<float>(PyObject* value) { return PyFloat_Check(value); }
 template <> inline int pyPlasma_check<double>(PyObject* value) { return PyFloat_Check(value); }
-template <> inline int pyPlasma_check<bool>(PyObject* value) { return PyAnyInt_Check(value); }
+template <> inline int pyPlasma_check<bool>(PyObject* value) { return PyLong_Check(value); }
 template <> inline int pyPlasma_check<ST::string>(PyObject* value) { return PyAnyString_Check(value); }
-template <> inline int pyPlasma_check<CallbackEvent>(PyObject* value) { return PyAnyInt_Check(value); }
-template <> inline int pyPlasma_check<ControlEventCode>(PyObject* value) { return PyAnyInt_Check(value); }
-template <> inline int pyPlasma_check<plKeyDef>(PyObject* value) { return PyAnyInt_Check(value); }
+template <> inline int pyPlasma_check<CallbackEvent>(PyObject* value) { return PyLong_Check(value); }
+template <> inline int pyPlasma_check<ControlEventCode>(PyObject* value) { return PyLong_Check(value); }
+template <> inline int pyPlasma_check<plKeyDef>(PyObject* value) { return PyLong_Check(value); }
 
 template <typename T>
 inline T pyPlasma_get(PyObject* value)
@@ -399,35 +335,12 @@ template <> inline unsigned char pyPlasma_get(PyObject* value) { return (unsigne
 template <> inline unsigned short pyPlasma_get(PyObject* value) { return (unsigned short)PyLong_AsUnsignedLong(value); }
 template <> inline unsigned int pyPlasma_get(PyObject* value) { return (unsigned int)PyLong_AsUnsignedLong(value); }
 template <> inline unsigned long pyPlasma_get(PyObject* value) { return PyLong_AsUnsignedLong(value); }
-
-template <> inline unsigned long long pyPlasma_get(PyObject* value)
-{
-#if (PY_MAJOR_VERSION >= 3)
-    return PyLong_AsUnsignedLongLong(value);
-#else
-    // NOTE:  Keeping PyLong_AsUnsignedLong here because there is no
-    // PyInt_AsUnsignedLong, and PyLong_AsUnsignedLong does a helpful check
-    // for negative values for us...
-    return PyLong_Check(value) ? PyLong_AsUnsignedLongLong(value)
-                               : PyLong_AsUnsignedLong(value);
-#endif
-}
-
+template <> inline unsigned long long pyPlasma_get(PyObject* value) { return PyLong_AsUnsignedLongLong(value); }
 template <> inline signed char pyPlasma_get(PyObject* value) { return (signed char)PyLong_AsLong(value); }
 template <> inline short pyPlasma_get(PyObject* value) { return (short)PyLong_AsLong(value); }
 template <> inline int pyPlasma_get(PyObject* value) { return (int)PyLong_AsLong(value); }
 template <> inline long pyPlasma_get(PyObject* value) { return PyLong_AsLong(value); }
-
-template <> inline long long pyPlasma_get(PyObject* value)
-{
-#if (PY_MAJOR_VERSION >= 3)
-    return PyLong_AsLongLong(value);
-#else
-    return PyLong_Check(value) ? PyLong_AsLongLong(value)
-                               : PyInt_AsLong(value);
-#endif
-}
-
+template <> inline long long pyPlasma_get(PyObject* value) { return PyLong_AsLongLong(value); }
 template <> inline float pyPlasma_get(PyObject* value) { return (float)PyFloat_AsDouble(value); }
 template <> inline double pyPlasma_get(PyObject* value) { return PyFloat_AsDouble(value); }
 template <> inline bool pyPlasma_get(PyObject* value) { return PyLong_AsLong(value) != 0; }
@@ -641,12 +554,6 @@ template <> inline plKeyDef pyPlasma_get(PyObject* value) { return (plKeyDef)PyL
 #define PY_METHOD_TERMINATOR { nullptr, nullptr, 0, nullptr }
 
 /* Helpers for declaring and populating the master PyTypeObject structure */
-#if (PY_MAJOR_VERSION >= 3) || ((PY_MAJOR_VERSION == 2) && (PY_MINOR_VERSION >= 6))
-    #define _TP_VERSION_TAG_INIT 0,
-#else
-    #define _TP_VERSION_TAG_INIT
-#endif
-
 #if (PY_MAJOR_VERSION >= 4) || ((PY_MAJOR_VERSION == 3) && (PY_MINOR_VERSION >= 4))
     #define _TP_FINALIZE_INIT nullptr,
 #else
@@ -684,31 +591,10 @@ template <> inline plKeyDef pyPlasma_get(PyObject* value) { return (plKeyDef)PyL
         nullptr, nullptr, 0,                                            \
         nullptr, nullptr, nullptr, nullptr, nullptr,                    \
         nullptr, nullptr, nullptr, nullptr, nullptr,                    \
-        nullptr,                                                        \
-        _TP_VERSION_TAG_INIT                                            \
+        nullptr, 0,                                                     \
         _TP_FINALIZE_INIT                                               \
         _TP_VECTORCALL_PRINT                                            \
     };
-
-#if (PY_MAJOR_VERSION < 3)
-    #define _NB_DIVIDE_INIT         nullptr,
-    #define _NB_COERCE_INIT         nullptr,
-    #define _NB_OCT_HEX_INIT        nullptr, nullptr,
-    #define _NB_INPLACE_DIVIDE_INIT nullptr,
-    /* nb_nonzero was renamed to nb_bool in Python 3.0 */
-    #define nb_bool                 nb_nonzero
-#else
-    #define _NB_DIVIDE_INIT
-    #define _NB_COERCE_INIT
-    #define _NB_OCT_HEX_INIT
-    #define _NB_INPLACE_DIVIDE_INIT
-#endif
-
-#if ((PY_MAJOR_VERSION > 2) || (PY_MAJOR_VERSION == 2 && PY_MINOR_VERSION >= 5))
-    #define _NB_INDEX_INIT nullptr,
-#else
-    #define _NB_INDEX_INIT
-#endif
 
 #if ((PY_MAJOR_VERSION > 3) || (PY_MAJOR_VERSION == 3 && PY_MINOR_VERSION >= 5))
     #define _NB_MATRIX_MULTIPLY_INIT nullptr, nullptr,
@@ -719,17 +605,13 @@ template <> inline plKeyDef pyPlasma_get(PyObject* value) { return (plKeyDef)PyL
 #define PY_PLASMA_TYPE_AS_NUMBER(pyType)                                \
     static PyNumberMethods py##pyType##_As_Number = {                   \
         nullptr, nullptr, nullptr,                                      \
-        _NB_DIVIDE_INIT                                                 \
         nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,  \
         nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,           \
-        _NB_COERCE_INIT                                                 \
         nullptr, nullptr, nullptr,                                      \
-        _NB_OCT_HEX_INIT                                                \
         nullptr, nullptr, nullptr,                                      \
-        _NB_INPLACE_DIVIDE_INIT                                         \
         nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,  \
         nullptr, nullptr, nullptr, nullptr,                             \
-        _NB_INDEX_INIT                                                  \
+        nullptr,                                                        \
         _NB_MATRIX_MULTIPLY_INIT                                        \
     };
 

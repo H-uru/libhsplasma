@@ -24,8 +24,9 @@ PY_PROPERTY(ST::string, VaultTextNoteNode, noteTitle, getNoteTitle, setNoteTitle
 
 PY_GETSET_GETTER_DECL(VaultTextNoteNode, noteContents)
 {
-    return PyString_FromStringAndSize((const char*)self->fThis->getNoteContents().getData(),
-                                      self->fThis->getNoteContents().getSize());
+    return PyUnicode_DecodeUTF8((const char*)self->fThis->getNoteContents().getData(),
+                                self->fThis->getNoteContents().getSize(),
+                                nullptr);
 }
 
 PY_GETSET_SETTER_DECL(VaultTextNoteNode, noteContents)

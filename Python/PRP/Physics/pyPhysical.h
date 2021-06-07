@@ -29,13 +29,13 @@ PyObject* Init_pySimDefs_Type();
 /* Python property helpers */
 inline PyObject* pyPlasma_convert(plSimDefs::Bounds value)
 {
-    return PyInt_FromLong((long)value);
+    return PyLong_FromLong((long)value);
 }
 
 template <>
 inline int pyPlasma_check<plSimDefs::Bounds>(PyObject* value)
 {
-    return PyAnyInt_Check(value);
+    return PyLong_Check(value);
 }
 
 template <>

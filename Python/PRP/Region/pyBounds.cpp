@@ -26,7 +26,7 @@ PY_PLASMA_VALUE_NEW(Bounds, hsBounds)
 PY_METHOD_NOARGS(Bounds, ClassName,
     "Returns the RTTI Class name of this Bounds object")
 {
-    return PyString_FromString(self->fThis->ClassName());
+    return pyPlasma_convert(self->fThis->ClassName());
 }
 
 PY_METHOD_VA(Bounds, read,

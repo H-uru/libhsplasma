@@ -18,11 +18,6 @@
 #include <string_theory/stdio>
 #include <unordered_set>
 
-PyObject* PyString_FromSTString(const ST::string& str)
-{
-    return PyString_FromStringAndSize(str.c_str(), str.size());
-}
-
 PyObject* PyUnicode_FromSTString(const ST::string& str)
 {
     return PyUnicode_DecodeUTF8(str.c_str(), str.size(), nullptr);
@@ -46,7 +41,6 @@ ST::string PyAnyString_AsSTString(PyObject* str)
 
 int PyAnyString_PathDecoder(PyObject* obj, void* str)
 {
-#if (PY_MAJOR_VERSION > 3) || ((PY_MAJOR_VERSION == 3) && (PY_MINOR_VERSION >= 2))
     PyObject* fsConvert;
     if (PyUnicode_FSDecoder(obj, &fsConvert)) {
         *((ST::string*)str) = PyAnyString_AsSTString(fsConvert);
@@ -54,13 +48,6 @@ int PyAnyString_PathDecoder(PyObject* obj, void* str)
         return 1;
     }
     return 0;
-#else
-    if (PyAnyString_Check(obj)) {
-        *((ST::string*)str) = PyAnyString_AsSTString(obj);
-        return 1;
-    }
-    return 0;
-#endif
 }
 
 int PyType_CheckAndReady(PyTypeObject* type)

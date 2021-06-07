@@ -221,7 +221,6 @@ static PyMethodDef PyHSPlasma_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-#if PY_MAJOR_VERSION >= 3
 static PyModuleDef PyHSPlasma_Module = {
     PyModuleDef_HEAD_INIT,      /* m_base */
     "PyHSPlasma",               /* m_name */
@@ -233,7 +232,6 @@ static PyModuleDef PyHSPlasma_Module = {
     nullptr,                    /* m_clear */
     nullptr,                    /* m_free */
 };
-#endif
 
 static void initPyHSPlasma_Constants(PyObject* module)
 {
@@ -455,18 +453,10 @@ static void initPyHSPlasma_Constants(PyObject* module)
     PyModule_AddIntConstant(module, "KEY_UNMAPPED", KEY_UNMAPPED);
 }
 
-#if PY_MAJOR_VERSION >= 3
 PyMODINIT_FUNC PyInit_PyHSPlasma()
 {
     PyObject* module = PyModule_Create(&PyHSPlasma_Module);
 
-#else
-PyMODINIT_FUNC initPyHSPlasma()
-{
-    PyObject* module = Py_InitModule3("PyHSPlasma", PyHSPlasma_Methods,
-                                      "libHSPlasma Python Interface Module");
-
-#endif
     initPyHSPlasma_Constants(module);
 
     /* Debug */
@@ -921,7 +911,5 @@ PyMODINIT_FUNC initPyHSPlasma()
     PyModule_AddObject(module, "plRideAnimatedPhysMsg", Init_pyRideAnimatedPhysMsg_Type());
     PyModule_AddObject(module, "plSimSuppressMsg", Init_pySimSuppressMsg_Type());
 
-#if PY_MAJOR_VERSION >= 3
     return module;
-#endif
 }
