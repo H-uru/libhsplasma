@@ -441,7 +441,7 @@ class BuildQueueThread(threading.Thread):
                                     channel = channelOptions["Right"] = True
                                 if (soundBuffer.flags & soundBuffer.kOnlyLeftChannel):
                                     channel = channelOptions["Left"] = True
-                                if channelOptions == {}:
+                                if not channelOptions:
                                     channelOptions["Both"] = True
 
                                 if not (soundBuffer.flags & soundBuffer.kStreamCompressed):
