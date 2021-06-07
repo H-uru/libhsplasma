@@ -41,7 +41,7 @@ void pfSizedStream::seek(uint32_t pos)
     }
 
     fBase->seek(fBegin + pos);
-    fPos = pos > fLength ? fLength : pos;
+    fPos = pos;
 }
 
 void pfSizedStream::skip(int32_t count)
