@@ -26,13 +26,13 @@ PY_WRAP_PLASMA(Shader, class plShader);
 /* Python property helpers */
 inline PyObject* pyPlasma_convert(plShader::plShaderID value)
 {
-    return PyInt_FromLong((long)value);
+    return PyLong_FromLong((long)value);
 }
 
 template <>
 inline int pyPlasma_check<plShader::plShaderID>(PyObject* value)
 {
-    return PyAnyInt_Check(value);
+    return PyLong_Check(value);
 }
 
 template <>

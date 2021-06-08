@@ -23,9 +23,9 @@
 PY_WRAP_PLASMA(GUIPopUpMenu, class pfGUIPopUpMenu)
 
 /* Python property helpers */
-inline PyObject* pyPlasma_convert(pfGUIPopUpMenu::Alignment value) { return PyInt_FromLong((long)value); }
+inline PyObject* pyPlasma_convert(pfGUIPopUpMenu::Alignment value) { return PyLong_FromLong((long)value); }
 
-template <> inline int pyPlasma_check<pfGUIPopUpMenu::Alignment>(PyObject* value) { return PyAnyInt_Check(value); }
+template <> inline int pyPlasma_check<pfGUIPopUpMenu::Alignment>(PyObject* value) { return PyLong_Check(value); }
 
 template <> inline pfGUIPopUpMenu::Alignment pyPlasma_get(PyObject* value) { return (pfGUIPopUpMenu::Alignment)PyLong_AsLong(value); }
 

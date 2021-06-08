@@ -32,7 +32,8 @@ def readObjects(location):
     data = []
     # read all the objects
     for type in rm.getTypes(location):
-        while len(data) <= type: data.append({}) # fill array
+        while len(data) <= type:
+            data.append({}) # fill array
         for key in rm.getKeys(location, type):
             if key.exists() and key.isLoaded():
                 data[type][key.name] = key.object.stub.getData()
@@ -40,24 +41,25 @@ def readObjects(location):
 
 
 def checkObjectsEqual(objs1, objs2, ignorePhysics):
-    if len(objs1) != len(objs2): raise Exception('Number of types changed')
+    if len(objs1) != len(objs2):
+        raise Exception('Number of types changed')
     for type in range(0, len(objs1)):
         typeName = PyHSPlasma.plFactory.ClassName(type, rm.getVer())
         # compare the objects of this type
         for name in objs1[type].keys():
             if not name in objs2[type].keys():
-                print 'Type [%04X]%s, object %s missing' % (type, typeName, name)
+                print('Type [%04X]%s, object %s missing' % (type, typeName, name))
             if ignorePhysics and type == PyHSPlasma.plFactory.kGenericPhysical: continue
             obj1 = objs1[type][name]
             obj2 = objs2[type][name]
             if len(obj1) != len(obj2):
-                print 'Type [%04X]%s, object %s changed changed size (%d => %d)' % (type, typeName, name, len(obj1), len(obj2))
+                print('Type [%04X]%s, object %s changed changed size (%d => %d)' % (type, typeName, name, len(obj1), len(obj2)))
             if obj1 != obj2:
-                print 'Type [%04X]%s, object %s changed but stay same size' % (type, typeName, name)
+                print('Type [%04X]%s, object %s changed but stay same size' % (type, typeName, name))
         # check if something got added
         for name in objs2[type].keys():
             if not name in objs1[type].keys():
-                print 'Type [%04X]%s, object %s added' % (type, typeName, name)
+                print('Type [%04X]%s, object %s added' % (type, typeName, name))
 
 
 def compareFiles(file1, file2, ignorePhysics):
@@ -126,6 +128,6 @@ for files in args:
                     raise Exception("Unable to completely load age "+age.name+": Can't find page "+str(loc))
             rm.UnloadAge(age.name)
         else:
-            print "Error: Unknown file type!";
+            print("Error: Unknown file type!")
 overprint("Done!")
 sys.stdout.write("\n")

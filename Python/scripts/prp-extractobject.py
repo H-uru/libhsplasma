@@ -24,14 +24,14 @@ import sys
 import PyHSPlasma
 
 if len(sys.argv) != 5:
-    print "Usage: %s filename typename objectname outfile" % sys.argv[0]
+    print("Usage: %s filename typename objectname outfile" % sys.argv[0])
     sys.exit(0)
 
 rm = PyHSPlasma.plResManager()
 page = rm.ReadPage(sys.argv[1], True)
 type = PyHSPlasma.plFactory.ClassIndex(sys.argv[2])
 if type < 0:
-    print "Type '%s' is invalid" % sys.argv[2]
+    print("Type '%s' is invalid" % sys.argv[2])
     sys.exit(1)
 keys = rm.getKeys(page.location, type)
 
@@ -43,8 +43,8 @@ for key in keys:
     f = open(sys.argv[4], 'w')
     f.write(data)
     f.close()
-    print "Data successfully written to %s" % sys.argv[4]
+    print("Data successfully written to %s" % sys.argv[4])
     sys.exit(0)
 
-print "Could not find object %s of type %s" % (sys.argv[3], sys.argv[2])
+print("Could not find object %s of type %s" % (sys.argv[3], sys.argv[2]))
 sys.exit(1)

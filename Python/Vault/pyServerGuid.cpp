@@ -80,7 +80,7 @@ PY_PLASMA_ASS_SUBSCRIPT_DECL(ServerGuid)
 
 PY_PLASMA_STR_DECL(ServerGuid)
 {
-    return PyAnyString_FromSTString(self->fThis->toString());
+    return PyUnicode_FromSTString(self->fThis->toString());
 }
 
 PY_PLASMA_RICHCOMPARE_DECL(ServerGuid)

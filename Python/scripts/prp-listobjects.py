@@ -23,7 +23,7 @@
 import PyHSPlasma, sys
 
 if not len(sys.argv) in [2, 3]:
-    print "Usage: %s filename [typename]" % sys.argv[0]
+    print("Usage: %s filename [typename]" % sys.argv[0])
     sys.exit(0)
 
 rm = PyHSPlasma.plResManager()
@@ -33,9 +33,9 @@ if len(sys.argv) <= 2: # default to scene objects
 else:
     type = PyHSPlasma.plFactory.ClassIndex(sys.argv[2])
     if type < 0:
-        print "Type '%s' is invalid" % sys.argv[2]
+        print("Type '%s' is invalid" % sys.argv[2])
         sys.exit(1)
 keys = rm.getKeys(page.location, type)
 
 for key in keys:
-    print key.name
+    print(key.name)

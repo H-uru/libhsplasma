@@ -4,9 +4,6 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python_ver: [2.7, 3.6]
     steps:
       - uses: actions/checkout@v1
       - name: Build string_theory
@@ -21,6 +18,5 @@ jobs:
         run: |
           mkdir build && cd build
           cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}/build_deps/prefix" \
-            -DPython_ADDITIONAL_VERSIONS=${{ matrix.python_ver }} -DENABLE_PYTHON=ON \
-            -DENABLE_TOOLS=ON -DENABLE_NET=ON -DENABLE_PHYSX=OFF ..
+            -DENABLE_PYTHON=ON -DENABLE_TOOLS=ON -DENABLE_NET=ON -DENABLE_PHYSX=OFF ..
           make -j2

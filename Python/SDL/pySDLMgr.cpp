@@ -86,7 +86,7 @@ PY_GETSET_GETTER_DECL(SDLMgr, descriptorNames)
     auto descs = self->fThis->GetDescriptorNames();
     PyObject* tup = PyTuple_New(descs.size());
     for (size_t i = 0; i < descs.size(); ++i)
-        PyTuple_SET_ITEM(tup, i, PyString_FromSTString(descs[i]));
+        PyTuple_SET_ITEM(tup, i, PyUnicode_FromSTString(descs[i]));
     return tup;
 }
 

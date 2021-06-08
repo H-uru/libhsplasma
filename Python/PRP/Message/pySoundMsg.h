@@ -25,13 +25,13 @@ PY_WRAP_PLASMA(SoundMsg, class plSoundMsg);
 /* Python property helpers */
 inline PyObject* pyPlasma_convert(plSoundMsg::FadeType value)
 {
-    return PyInt_FromLong((long)value);
+    return PyLong_FromLong((long)value);
 }
 
 template <>
 inline int pyPlasma_check<plSoundMsg::FadeType>(PyObject* value)
 {
-    return PyAnyInt_Check(value);
+    return PyLong_Check(value);
 }
 
 template <>

@@ -219,7 +219,6 @@ PY_PLASMA_TYPE_INIT(Quat)
     pyQuat_Type.tp_as_number = &pyQuat_As_Number;
     pyQuat_Type.tp_methods = pyQuat_Methods;
     pyQuat_Type.tp_getset = pyQuat_GetSet;
-    pyQuat_Type.tp_flags |= Py_TPFLAGS_CHECKTYPES;
     if (PyType_CheckAndReady(&pyQuat_Type) < 0)
         return nullptr;
 
