@@ -42,7 +42,7 @@ void hsKeyFrame::read(hsStream* S, unsigned int type)
             fType == kScaleKeyFrame) && ((fFlags & kBezController) != 0))
             fType++;    //  Use Bezier version
     } else if (S->getVer().isNewPlasma()) {
-        setFrame(S->readFloat());
+        setFrameTime(S->readFloat());
     } else {
         setFrame((unsigned int)S->readShort());
     }
