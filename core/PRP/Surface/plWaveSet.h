@@ -46,18 +46,19 @@ class PLASMA_DLL plWaveSet7 : public plWaveSetBase
     CREATABLE(plWaveSet7, kWaveSet7, plWaveSetBase)
 
 public:
-    enum { kHasRefObject = 0x10 };
+    enum { kHasRefObject = 0x10, kHasBuoys = 0x11 };
 
 protected:
     plFixedWaterState7 fState;
     float fMaxLen;
-    std::vector<plKey> fShores, fDecals;
+    std::vector<plKey> fShores, fDecals, fBuoys;
     plKey fEnvMap, fRefObj;
 
 public:
     plWaveSet7() : fMaxLen()
     {
         fFlags.setName(kHasRefObject, "kHasRefObject");
+        fFlags.setName(kHasBuoys, "kHasBuoys");
     }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -79,6 +80,12 @@ public:
     void addDecal(plKey key) { fDecals.emplace_back(std::move(key)); }
     void delDecal(size_t idx) { fDecals.erase(fDecals.begin() + idx); }
     void clearDecals() { fDecals.clear(); }
+
+    std::vector<plKey>& getBuoys() { return fBuoys; }
+    const std::vector<plKey>& getBuoys() const { return fBuoys; }
+    void addBuoy(plKey key) { fBuoys.emplace_back(std::move(key)); }
+    void delBuoy(size_t idx) { fBuoys.erase(fBuoys.begin() + idx); }
+    void clearBuoys() { fBuoys.clear(); }
 
     plFixedWaterState7& getState() { return fState; }
     const plFixedWaterState7& getState() const { return fState; }
