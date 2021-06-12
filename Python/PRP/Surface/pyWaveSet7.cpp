@@ -117,8 +117,8 @@ PY_METHOD_VA(WaveSet7, delBuoy,
     "Params: idx\n"
     "Remove a buoy")
 {
-    int idx;
-    if (!PyArg_ParseTuple(args, "i", &idx)) {
+    Py_ssize_t idx;
+    if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delBuoy expects an int");
         return nullptr;
     }
