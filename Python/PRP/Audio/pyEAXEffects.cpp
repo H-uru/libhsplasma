@@ -17,8 +17,6 @@
 #include "pyEAXEffects.h"
 
 #include <PRP/Audio/plEAXEffects.h>
-#include "PRP/Modifier/pyModifier.h"
-#include "PRP/KeyedObject/pyKey.h"
 
 PY_PLASMA_NEW(EAXSourceSettings, plEAXSourceSettings)
 
