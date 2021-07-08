@@ -234,6 +234,7 @@ void plKeyCollector::ChangeLocation(const plLocation& from, const plLocation& to
             for (size_t j=0; j<keys[from][i].size(); j++) {
                 keys[to][i][begin+j] = keys[from][i][j];
                 keys[to][i][begin+j]->setLocation(to);
+                keys[to][i][begin+j]->setID(begin+j+1);
             }
         }
     }
@@ -259,5 +260,6 @@ void plKeyCollector::MoveKey(const plKey& key, const plLocation& to)
     if (keys[key->getLocation()].empty())
         keys.erase(key->getLocation());
     key->setLocation(to);
-    add(key);
+    keys[to][key->getType()].push_back(key);
+    key->setID(keys[to][key->getType()].size());
 }
