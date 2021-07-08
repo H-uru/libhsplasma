@@ -632,7 +632,13 @@ unsigned int plResManager::WriteObjects(hsStream* S, const plLocation& loc)
 #endif
         for (unsigned int j=0; j<kList.size(); j++) {
             kList[j]->setFileOff(S->pos());
-            kList[j]->setID(j + 1);
+            unsigned int objID = j + 1;
+            if (kList[j]->getID() != objID) {
+                plDebug::Warning("Object ID changing ({} -> {}) during write: [{04X}]:{}",
+                                 kList[j]->getID(), objID, kList[j]->getType(),
+                                 kList[j]->getUoid().getName());
+            }
+            kList[j]->setID(objID);
             if (kList[j]->getObj()) {
                 try {
 #ifdef RMTRACE
