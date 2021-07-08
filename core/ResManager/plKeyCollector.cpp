@@ -147,20 +147,12 @@ void plKeyCollector::reserveKeySpace(const plLocation& loc, short type, int num)
 void plKeyCollector::sortKeys(const plLocation& loc)
 {
     std::vector<short> types = getTypes(loc);
-    std::list<plKey> sortKeys;
-    for (unsigned int i=0; i<types.size(); i++) {
-        sortKeys.clear();
-        unsigned int id = 1;
-        unsigned int nKeys = keys[loc][types[i]].size();
-        for (unsigned int j=0; j<nKeys; j++) {
-            for (unsigned int k=0; k<nKeys; k++) {
-                if (keys[loc][types[i]][k]->getID() == id) {
-                    sortKeys.push_back(keys[loc][types[i]][k]);
-                    id++;
-                }
-            }
+    for (unsigned short type : types) {
+        std::sort(keys[loc][type].begin(), keys[loc][type].end(),
+            [](const plKey& a, const plKey& b) { return a->getID() < b->getID(); });
+        for (unsigned int i = 0; i < keys[loc][type].size(); ++i) {
+            keys[loc][type][i]->setID(i + 1);
         }
-        keys[loc][types[i]] = std::vector<plKey>(sortKeys.begin(), sortKeys.end());
     }
 }
 

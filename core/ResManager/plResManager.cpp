@@ -506,6 +506,8 @@ unsigned int plResManager::ReadKeyring(hsStream* S, const plLocation& loc)
         }
     }
 
+    keys.sortKeys(loc);
+
     return pageKeys;
 }
 
