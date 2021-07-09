@@ -147,20 +147,12 @@ void plKeyCollector::reserveKeySpace(const plLocation& loc, short type, int num)
 void plKeyCollector::sortKeys(const plLocation& loc)
 {
     std::vector<short> types = getTypes(loc);
-    std::list<plKey> sortKeys;
-    for (unsigned int i=0; i<types.size(); i++) {
-        sortKeys.clear();
-        unsigned int id = 1;
-        unsigned int nKeys = keys[loc][types[i]].size();
-        for (unsigned int j=0; j<nKeys; j++) {
-            for (unsigned int k=0; k<nKeys; k++) {
-                if (keys[loc][types[i]][k]->getID() == id) {
-                    sortKeys.push_back(keys[loc][types[i]][k]);
-                    id++;
-                }
-            }
+    for (short type : types) {
+        std::sort(keys[loc][type].begin(), keys[loc][type].end(),
+            [](const plKey& a, const plKey& b) { return a->getID() < b->getID(); });
+        for (size_t i = 0; i < keys[loc][type].size(); ++i) {
+            keys[loc][type][i]->setID(i + 1);
         }
-        keys[loc][types[i]] = std::vector<plKey>(sortKeys.begin(), sortKeys.end());
     }
 }
 
@@ -242,6 +234,7 @@ void plKeyCollector::ChangeLocation(const plLocation& from, const plLocation& to
             for (size_t j=0; j<keys[from][i].size(); j++) {
                 keys[to][i][begin+j] = keys[from][i][j];
                 keys[to][i][begin+j]->setLocation(to);
+                keys[to][i][begin+j]->setID(begin+j+1);
             }
         }
     }
@@ -267,5 +260,6 @@ void plKeyCollector::MoveKey(const plKey& key, const plLocation& to)
     if (keys[key->getLocation()].empty())
         keys.erase(key->getLocation());
     key->setLocation(to);
-    add(key);
+    keys[to][key->getType()].push_back(key);
+    key->setID(keys[to][key->getType()].size());
 }
