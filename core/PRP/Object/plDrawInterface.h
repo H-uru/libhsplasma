@@ -42,6 +42,7 @@ public:
     int getDrawableKey(size_t idx) const { return fDrawableKeys[idx]; }
     void clearDrawables();
     void addDrawable(plKey draw, int key);
+    void setDrawable(size_t idx, plKey draw, int key);
     void delDrawable(size_t idx);
 
     const std::vector<plKey>& getRegions() const { return fRegions; }

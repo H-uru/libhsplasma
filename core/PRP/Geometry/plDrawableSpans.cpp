@@ -910,6 +910,12 @@ size_t plDrawableSpans::addSourceSpan(plGeometrySpan* span)
     return fSourceSpans.size() - 1;
 }
 
+void plDrawableSpans::delSourceSpan(size_t idx)
+{
+    delete fSourceSpans[idx];
+    fSourceSpans.erase(fSourceSpans.begin() + idx);
+}
+
 void plDrawableSpans::clearSourceSpans()
 {
     for (auto span : fSourceSpans)
