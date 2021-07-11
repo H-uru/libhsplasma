@@ -228,6 +228,7 @@ public:
     const std::vector<plGeometrySpan*>& getSourceSpans() const { return fSourceSpans; }
     std::vector<plGeometrySpan*>& getSourceSpans() { return fSourceSpans; }
     size_t addSourceSpan(plGeometrySpan* span);
+    void delSourceSpan(size_t idx);
     void clearSourceSpans();
 };
 

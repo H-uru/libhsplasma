@@ -103,6 +103,12 @@ void plDrawInterface::addDrawable(plKey draw, int key)
     fDrawableKeys.push_back(key);
 }
 
+void plDrawInterface::setDrawable(size_t idx, plKey draw, int key)
+{
+    fDrawables[idx] = std::move(draw);
+    fDrawableKeys[idx] = key;
+}
+
 void plDrawInterface::delDrawable(size_t idx)
 {
     fDrawables.erase(fDrawables.begin() + idx);
