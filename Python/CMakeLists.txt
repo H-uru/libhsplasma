@@ -103,6 +103,8 @@ set(PRP_AUDIO_SOURCES
     PRP/Audio/py2WayWinAudible.cpp
     PRP/Audio/pyAudible.cpp
     PRP/Audio/pyAudibleNull.cpp
+    PRP/Audio/pyEAXEffects.cpp
+    PRP/Audio/pyEAXListenerMod.cpp
     PRP/Audio/pyFadeParams.cpp
     PRP/Audio/pySound.cpp
     PRP/Audio/pySoundBuffer.cpp
@@ -114,6 +116,8 @@ set(PRP_AUDIO_SOURCES
 )
 set(PRP_AUDIO_HEADERS
     PRP/Audio/pyAudible.h
+    PRP/Audio/pyEAXEffects.h
+    PRP/Audio/pyEAXListenerMod.h
     PRP/Audio/pySound.h
     PRP/Audio/pySoundBuffer.h
     PRP/Audio/pyWin32Sound.h

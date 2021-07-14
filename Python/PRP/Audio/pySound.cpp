@@ -19,6 +19,7 @@
 #include "PRP/Object/pySynchedObject.h"
 #include "PRP/pyCreatable.h"
 #include "PRP/KeyedObject/pyKey.h"
+#include "pyEAXEffects.h"
 
 PY_PLASMA_NEW_MSG(Sound, "plSound is abstract")
 
@@ -41,6 +42,7 @@ PY_PROPERTY(plKey, Sound, softRegion, getSoftRegion, setSoftRegion)
 PY_PROPERTY(plKey, Sound, softOcclusionRegion, getSoftOcclusionRegion, setSoftOcclusionRegion)
 PY_PROPERTY(plKey, Sound, dataBuffer, getDataBuffer, setDataBuffer)
 PY_PROPERTY(ST::string, Sound, subtitleId, getSubtitleId, setSubtitleId)
+PY_PROPERTY_PROXY_RO(plEAXSourceSettings, Sound, eaxSettings, getEAXSettings)
 
 static PyGetSetDef pySound_GetSet[] = {
     pySound_type_getset,
@@ -62,6 +64,7 @@ static PyGetSetDef pySound_GetSet[] = {
     pySound_softOcclusionRegion_getset,
     pySound_dataBuffer_getset,
     pySound_subtitleId_getset,
+    pySound_eaxSettings_getset,
     PY_GETSET_TERMINATOR
 };
 
