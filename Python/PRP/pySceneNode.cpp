@@ -46,6 +46,24 @@ PY_METHOD_VA(SceneNode, addSceneObject,
     Py_RETURN_NONE;
 }
 
+PY_METHOD_VA(SceneNode, delSceneObject,
+    "Params: idx\n"
+    "Deletes a Scene Object from the Scene Node")
+{
+    Py_ssize_t idx;
+    if (!PyArg_ParseTuple(args, "n", &idx)) {
+        PyErr_SetString(PyExc_TypeError, "delSceneObject expects an int");
+        return nullptr;
+    }
+    if ((size_t)idx >= self->fThis->getSceneObjects().size()) {
+        PyErr_SetNone(PyExc_IndexError);
+        return nullptr;
+    }
+
+    self->fThis->delSceneObject((size_t)idx);
+    Py_RETURN_NONE;
+}
+
 PY_METHOD_VA(SceneNode, addPoolObject,
     "Params: key\n"
     "Adds the Object to the Scene Node")
@@ -60,6 +78,24 @@ PY_METHOD_VA(SceneNode, addPoolObject,
         return nullptr;
     }
     self->fThis->addPoolObject(*key->fThis);
+    Py_RETURN_NONE;
+}
+
+PY_METHOD_VA(SceneNode, delPoolObject,
+    "Params: idx\n"
+    "Deletes a pool object from the Scene Node")
+{
+    Py_ssize_t idx;
+    if (!PyArg_ParseTuple(args, "n", &idx)) {
+        PyErr_SetString(PyExc_TypeError, "delPoolObject expects an int");
+        return nullptr;
+    }
+    if ((size_t)idx >= self->fThis->getPoolObjects().size()) {
+        PyErr_SetNone(PyExc_IndexError);
+        return nullptr;
+    }
+
+    self->fThis->delPoolObject((size_t)idx);
     Py_RETURN_NONE;
 }
 
@@ -122,7 +158,9 @@ PY_METHOD_VA(SceneNode, addPoolObjects,
 PyMethodDef pySceneNode_Methods[] = {
     pySceneNode_clear_method,
     pySceneNode_addSceneObject_method,
+    pySceneNode_delSceneObject_method,
     pySceneNode_addPoolObject_method,
+    pySceneNode_delPoolObject_method,
     pySceneNode_addSceneObjects_method,
     pySceneNode_addPoolObjects_method,
     PY_METHOD_TERMINATOR
