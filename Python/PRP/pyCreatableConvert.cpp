@@ -192,6 +192,7 @@
 #include "PRP/Avatar/pySeekPointMod.h"
 #include "PRP/Avatar/pySittingModifier.h"
 #include "PRP/Audio/pyAudible.h"
+#include "PRP/Audio/pyEAXListenerMod.h"
 #include "PRP/Audio/pySound.h"
 #include "PRP/Audio/pySoundBuffer.h"
 #include "PRP/Audio/pyWin32Sound.h"
@@ -348,6 +349,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kLimitedDirLightInfo: return pyLimitedDirLightInfo_FromLimitedDirLightInfo(plLimitedDirLightInfo::Convert(pCre));
         case kOmniLightInfo: return pyOmniLightInfo_FromOmniLightInfo(plOmniLightInfo::Convert(pCre));
         case kSpotLightInfo: return pySpotLightInfo_FromSpotLightInfo(plSpotLightInfo::Convert(pCre));
+        case kEAXListenerMod: return pyEAXListenerMod_FromEAXListenerMod(plEAXListenerMod::Convert(pCre));
         case kSoundBuffer: return pySoundBuffer_FromSoundBuffer(plSoundBuffer::Convert(pCre));
         case kSound: return pySound_FromSound(plSound::Convert(pCre));
         case kWin32Sound: return pyWin32Sound_FromWin32Sound(plWin32Sound::Convert(pCre));
