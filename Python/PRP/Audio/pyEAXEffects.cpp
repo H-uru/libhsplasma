@@ -54,7 +54,7 @@ static PyGetSetDef pyEAXSourceSettings_GetSet[] = {
 PY_PLASMA_TYPE(EAXSourceSettings, plEAXSourceSettings,
     "plEAXSourceSettings wrapper")
 
-    PY_PLASMA_TYPE_INIT(EAXSourceSettings)
+PY_PLASMA_TYPE_INIT(EAXSourceSettings)
 {
     pyEAXSourceSettings_Type.tp_new = pyEAXSourceSettings_new;
     pyEAXSourceSettings_Type.tp_getset = pyEAXSourceSettings_GetSet;
@@ -99,7 +99,7 @@ static PyGetSetDef pyEAXSourceSoftSettings_GetSet[] = {
 PY_PLASMA_TYPE(EAXSourceSoftSettings, plEAXSourceSoftSettings,
     "plEAXSourceSoftSettings wrapper")
 
-    PY_PLASMA_TYPE_INIT(EAXSourceSoftSettings)
+PY_PLASMA_TYPE_INIT(EAXSourceSoftSettings)
 {
     pyEAXSourceSoftSettings_Type.tp_new = pyEAXSourceSoftSettings_new;
     pyEAXSourceSoftSettings_Type.tp_methods = pyEAXSourceSoftSettings_Methods;
