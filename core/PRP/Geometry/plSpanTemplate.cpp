@@ -123,9 +123,9 @@ void plSpanTemplate::prcParse(const pfPrcTag* tag)
             for (size_t i=0; i<fNumVerts; i++) {
                 if (vertChild->getName() != "Vertex")
                     throw pfPrcTagException(__FILE__, __LINE__, vertChild->getName());
-                verts[i].fColor1 = tag->getParam("Color1", "0").to_uint();
-                verts[i].fColor2 = tag->getParam("Color2", "0").to_uint();
-                verts[i].fWeightIdx = tag->getParam("WeightIdx", "0").to_int();
+                verts[i].fColor1 = vertChild->getParam("Color1", "0").to_uint();
+                verts[i].fColor2 = vertChild->getParam("Color2", "0").to_uint();
+                verts[i].fWeightIdx = vertChild->getParam("WeightIdx", "0").to_int();
                 const pfPrcTag* subChild = vertChild->getFirstChild();
                 while (subChild) {
                     if (subChild->getName() == "Position") {
