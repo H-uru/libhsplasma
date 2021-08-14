@@ -46,3 +46,21 @@ void plLayerInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         plSynchedObject::IPrcParse(tag, mgr);
     }
 }
+
+plKey plLayerInterface::getBottomOfStack() const
+{
+    const plLayerInterface* bottom = this;
+    while (bottom->fUnderLay.Exists()) {
+        if (!bottom->fUnderLay.isLoaded()) {
+            plDebug::Warning("plLayerInterface::getBottomOfStack: '{}' underLay '{}' is not loaded",
+                bottom->getKey().toString(), bottom->fUnderLay.toString());
+            // What use is returning an unloaded bottom layer?
+            break;
+        }
+        const plLayerInterface* underLay = plLayerInterface::Convert(bottom->fUnderLay->getObj(), false);
+        if (underLay == nullptr)
+            break;
+        bottom = underLay;
+    }
+    return bottom->getKey();
+}
