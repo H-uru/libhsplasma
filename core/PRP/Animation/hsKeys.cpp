@@ -534,25 +534,25 @@ hsQuat hsCompressedQuatKey64::getQuat() const
     switch (fData[0] >> 30) {
     case kCompQuatNukeX:
         quat.Y = ((unsigned)((fData[0] >> 10) & 0xFFFFF) / k20BitScaleRange) - kOneOverRootTwo;
-        quat.Z = ((unsigned)(((fData[0] & 0x3FF) << 11) | (fData[1] >> 21)) / k20BitScaleRange) - kOneOverRootTwo;
+        quat.Z = ((unsigned)(((fData[0] & 0x3FF) << 11) | (fData[1] >> 21)) / k21BitScaleRange) - kOneOverRootTwo;
         quat.W = ((unsigned)(fData[1] & 0x1FFFFF) / k21BitScaleRange) - kOneOverRootTwo;
         quat.X = sqrt(1.0f - (quat.Y * quat.Y) - (quat.Z * quat.Z) - (quat.W * quat.W));
         break;
     case kCompQuatNukeY:
         quat.X = ((unsigned)((fData[0] >> 10) & 0xFFFFF) / k20BitScaleRange) - kOneOverRootTwo;
-        quat.Z = ((unsigned)(((fData[0] & 0x3FF) << 11) | (fData[1] >> 21)) / k20BitScaleRange) - kOneOverRootTwo;
+        quat.Z = ((unsigned)(((fData[0] & 0x3FF) << 11) | (fData[1] >> 21)) / k21BitScaleRange) - kOneOverRootTwo;
         quat.W = ((unsigned)(fData[1] & 0x1FFFFF) / k21BitScaleRange) - kOneOverRootTwo;
         quat.Y = sqrt(1.0f - (quat.X * quat.X) - (quat.Z * quat.Z) - (quat.W * quat.W));
         break;
     case kCompQuatNukeZ:
         quat.X = ((unsigned)((fData[0] >> 10) & 0xFFFFF) / k20BitScaleRange) - kOneOverRootTwo;
-        quat.Y = ((unsigned)(((fData[0] & 0x3FF) << 11) | (fData[1] >> 21)) / k20BitScaleRange) - kOneOverRootTwo;
+        quat.Y = ((unsigned)(((fData[0] & 0x3FF) << 11) | (fData[1] >> 21)) / k21BitScaleRange) - kOneOverRootTwo;
         quat.W = ((unsigned)(fData[1] & 0x1FFFFF) / k21BitScaleRange) - kOneOverRootTwo;
         quat.Z = sqrt(1.0f - (quat.X * quat.X) - (quat.Y * quat.Y) - (quat.W * quat.W));
         break;
     default:
         quat.X = ((unsigned)((fData[0] >> 10) & 0xFFFFF) / k20BitScaleRange) - kOneOverRootTwo;
-        quat.Y = ((unsigned)(((fData[0] & 0x3FF) << 11) | (fData[1] >> 21)) / k20BitScaleRange) - kOneOverRootTwo;
+        quat.Y = ((unsigned)(((fData[0] & 0x3FF) << 11) | (fData[1] >> 21)) / k21BitScaleRange) - kOneOverRootTwo;
         quat.Z = ((unsigned)(fData[1] & 0x1FFFFF) / k21BitScaleRange) - kOneOverRootTwo;
         quat.W = sqrt(1.0f - (quat.X * quat.X) - (quat.Y * quat.Y) - (quat.Z * quat.Z));
         break;
@@ -566,28 +566,28 @@ void hsCompressedQuatKey64::setQuat(const hsQuat& quat, unsigned char format)
     fData[1] = 0;
     switch (format & 0x3) {
     case kCompQuatNukeX:
-        fData[0] |= ((unsigned)((quat.Y + kOneOverRootTwo) * k20BitScaleRange) & 0xFFFFF) << 10;
-        fData[0] |= ((unsigned)((quat.Z + kOneOverRootTwo) * k20BitScaleRange) & 0x3FF) >> 11;
-        fData[1] |= ((unsigned)((quat.Z + kOneOverRootTwo) * k20BitScaleRange)) << 21;
-        fData[1] |= ((unsigned)((quat.W + kOneOverRootTwo) * k21BitScaleRange) & 0x1FFFFF);
+        fData[0] |= ((uint32_t)((quat.Y + kOneOverRootTwo) * k20BitScaleRange)) << 10;
+        fData[0] |= ((uint32_t)((quat.Z + kOneOverRootTwo) * k21BitScaleRange)) >> 11;
+        fData[1] |= ((uint32_t)((quat.Z + kOneOverRootTwo) * k21BitScaleRange)) << 21;
+        fData[1] |= ((uint32_t)((quat.W + kOneOverRootTwo) * k21BitScaleRange));
         break;
     case kCompQuatNukeY:
-        fData[0] |= ((unsigned)((quat.X + kOneOverRootTwo) * k20BitScaleRange) & 0xFFFFF) << 10;
-        fData[0] |= ((unsigned)((quat.Z + kOneOverRootTwo) * k20BitScaleRange) & 0x3FF) >> 11;
-        fData[1] |= ((unsigned)((quat.Z + kOneOverRootTwo) * k20BitScaleRange)) << 21;
-        fData[1] |= ((unsigned)((quat.W + kOneOverRootTwo) * k21BitScaleRange) & 0x1FFFFF);
+        fData[0] |= ((uint32_t)((quat.X + kOneOverRootTwo) * k20BitScaleRange)) << 10;
+        fData[0] |= ((uint32_t)((quat.Z + kOneOverRootTwo) * k21BitScaleRange)) >> 11;
+        fData[1] |= ((uint32_t)((quat.Z + kOneOverRootTwo) * k21BitScaleRange)) << 21;
+        fData[1] |= ((uint32_t)((quat.W + kOneOverRootTwo) * k21BitScaleRange));
         break;
     case kCompQuatNukeZ:
-        fData[0] |= ((unsigned)((quat.X + kOneOverRootTwo) * k20BitScaleRange) & 0xFFFFF) << 10;
-        fData[0] |= ((unsigned)((quat.Y + kOneOverRootTwo) * k20BitScaleRange) & 0x3FF) >> 11;
-        fData[1] |= ((unsigned)((quat.Y + kOneOverRootTwo) * k20BitScaleRange)) << 21;
-        fData[1] |= ((unsigned)((quat.W + kOneOverRootTwo) * k21BitScaleRange) & 0x1FFFFF);
+        fData[0] |= ((uint32_t)((quat.X + kOneOverRootTwo) * k20BitScaleRange)) << 10;
+        fData[0] |= ((uint32_t)((quat.Y + kOneOverRootTwo) * k21BitScaleRange)) >> 11;
+        fData[1] |= ((uint32_t)((quat.Y + kOneOverRootTwo) * k21BitScaleRange)) << 21;
+        fData[1] |= ((uint32_t)((quat.W + kOneOverRootTwo) * k21BitScaleRange));
         break;
     default:
-        fData[0] |= ((unsigned)((quat.X + kOneOverRootTwo) * k20BitScaleRange) & 0xFFFFF) << 10;
-        fData[0] |= ((unsigned)((quat.Y + kOneOverRootTwo) * k20BitScaleRange) & 0x3FF) >> 11;
-        fData[1] |= ((unsigned)((quat.Y + kOneOverRootTwo) * k20BitScaleRange)) << 21;
-        fData[1] |= ((unsigned)((quat.Z + kOneOverRootTwo) * k21BitScaleRange) & 0x1FFFFF);
+        fData[0] |= ((uint32_t)((quat.X + kOneOverRootTwo) * k20BitScaleRange)) << 10;
+        fData[0] |= ((uint32_t)((quat.Y + kOneOverRootTwo) * k21BitScaleRange)) >> 11;
+        fData[1] |= ((uint32_t)((quat.Y + kOneOverRootTwo) * k21BitScaleRange)) << 21;
+        fData[1] |= ((uint32_t)((quat.Z + kOneOverRootTwo) * k21BitScaleRange));
         break;
     }
 }
