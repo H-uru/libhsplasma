@@ -42,6 +42,7 @@ PY_PROPERTY(unsigned int, LayerInterface, UVWSrc, getUVWSrc, setUVWSrc)
 PY_PROPERTY(float, LayerInterface, LODBias, getLODBias, setLODBias)
 PY_PROPERTY(float, LayerInterface, specularPower, getSpecularPower, setSpecularPower)
 PY_PROPERTY_PROXY_RO(hsGMatState, LayerInterface, state, getState)
+PY_PROPERTY_RO(LayerInterface, bottomOfStack, getBottomOfStack)
 
 static PyGetSetDef pyLayerInterface_GetSet[] = {
     pyLayerInterface_underLay_getset,
@@ -59,6 +60,7 @@ static PyGetSetDef pyLayerInterface_GetSet[] = {
     pyLayerInterface_LODBias_getset,
     pyLayerInterface_specularPower_getset,
     pyLayerInterface_state_getset,
+    pyLayerInterface_bottomOfStack_getset,
     PY_GETSET_TERMINATOR
 };
 

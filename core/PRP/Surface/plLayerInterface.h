@@ -114,6 +114,8 @@ public:
 
     const hsGMatState& getState() const { return fState; }
     hsGMatState& getState() { return fState; }
+
+    plKey getBottomOfStack() const;
 };
 
 #endif
