@@ -49,7 +49,7 @@ protected:
 
 public:
     plController* getPreshadeCtl() const { return fPreshadeColorCtl; }
-    plController* getRuntimeCtl() const { return fSpecularColorCtl; }
+    plController* getRuntimeCtl() const { return fRuntimeColorCtl; }
     plController* getAmbientCtl() const { return fAmbientColorCtl; }
     plController* getSpecularCtl() const { return fSpecularColorCtl; }
     plController* getOpacityCtl() const { return fOpacityCtl; }
