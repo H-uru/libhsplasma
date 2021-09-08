@@ -1,4 +1,0 @@
-#!/bin/bash
-
-echo "Error: ./configure is now deprecated.  Please use CMake instead"
-exit 1
