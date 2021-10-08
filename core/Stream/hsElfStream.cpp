@@ -49,7 +49,12 @@ ST::string hsElfStream::readLine()
     line.allocate(segSize);
     read(segSize, line.data());
     decipher((unsigned char*)line.data(), segSize, (p & 0xFF));
-    return line;
+    try {
+        return ST::string::from_utf8(line);
+    } catch (const ST::unicode_error &err) {
+        // ELF Lines might not be UTF-8
+        return ST::string::from_latin_1(line);
+    }
 }
 
 void hsElfStream::writeLine(const ST::string& ln, bool winEOL)
