@@ -349,6 +349,14 @@ static pnNetMsgField Cli2Auth_AgeRequestEx_Fields[] = {
 };
 MAKE_NETMSG(Cli2Auth_AgeRequestEx)
 
+static pnNetMsgField Cli2Auth_ScoreGetHighScores_Fields[] = {
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Age ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Max scores
+    { kFieldString,    64, sizeof(char16_t)   },  // Game Name
+};
+MAKE_NETMSG(Cli2Auth_ScoreGetHighScores)
+
 
 /* Server -> Client */
 static pnNetMsgField Auth2Cli_PingReply_Fields[] = {
@@ -675,6 +683,21 @@ static pnNetMsgField Auth2Cli_AgeReplyEx_Fields[] = {
 };
 MAKE_NETMSG(Auth2Cli_AgeReplyEx)
 
+static pnNetMsgField Auth2Cli_ScoreGetHighScoresReply_Fields[] = {
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Score Count
+    { kFieldVarCount,   0, sizeof(uint8_t)    },  // Score Data
+    { kFieldVarPtr,     0, 0                  },
+};
+MAKE_NETMSG(Auth2Cli_ScoreGetHighScoresReply)
+
+static pnNetMsgField Auth2Cli_ServerCaps_Fields[] = {
+    { kFieldVarCount,   0, sizeof(uint8_t)    },  // Server Caps
+    { kFieldVarPtr,     0, 0                  },
+};
+MAKE_NETMSG(Auth2Cli_ServerCaps)
+
 
 const pnNetMsg* GET_Cli2Auth(uint32_t msgId)
 {
@@ -736,6 +759,7 @@ const pnNetMsg* GET_Cli2Auth(uint32_t msgId)
     };
     static const pnNetMsg* s_messagesEx[] = {
         &Cli2Auth_AgeRequestEx,
+        &Cli2Auth_ScoreGetHighScores,
     };
     if (msgId >= 0x1000)
         return (msgId < kCli2Auth_LastExMessage ? s_messagesEx[msgId & 0x0FFF] : nullptr);
@@ -798,6 +822,8 @@ const pnNetMsg* GET_Auth2Cli(uint32_t msgId)
     };
     static const pnNetMsg* s_messagesEx[] = {
         &Auth2Cli_AgeReplyEx,
+        &Auth2Cli_ScoreGetHighScoresReply,
+        &Auth2Cli_ServerCaps,
     };
     if (msgId >= 0x1000)
         return (msgId < kAuth2Cli_LastExMessage ? s_messagesEx[msgId & 0x0FFF] : nullptr);
