@@ -247,7 +247,8 @@ bool pnAuthClient::Dispatch::dispatch(pnSocket* sock)
         {
             size_t scoreCount = msgbuf[2].fUint;
             pnNetGameScore* scores = new pnNetGameScore[scoreCount];
-            const uint8_t* buf = msgbuf[3].fData;
+            const uint8_t* buf = msgbuf[4].fData;
+            size_t bufLen = msgbuf[3].fUint;
             for (size_t i=0; i<scoreCount; i++) {
                 scores[i].fScoreId     = NCReadBuffer<uint32_t>(buf);
                 scores[i].fOwnerId     = NCReadBuffer<uint32_t>(buf);
@@ -313,6 +314,36 @@ bool pnAuthClient::Dispatch::dispatch(pnSocket* sock)
                                 pdUnifiedTypeMap::PlasmaToMapped(msgbuf[0].fUint, PlasmaVer::pvMoul),
                                 pdUnifiedTypeMap::ClassName(msgbuf[0].fUint, PlasmaVer::pvMoul));
             }
+        }
+        break;
+    case kAuth2Cli_ScoreGetHighScoresReply:
+        {
+            size_t scoreCount = msgbuf[2].fUint;
+            pnNetGameScore* scores = new pnNetGameScore[scoreCount];
+            const uint8_t* buf = msgbuf[4].fData;
+            size_t bufLen = msgbuf[3].fUint;
+            for (size_t i=0; i<scoreCount; i++) {
+                scores[i].fScoreId     = NCReadBuffer<uint32_t>(buf);
+                scores[i].fOwnerId     = NCReadBuffer<uint32_t>(buf);
+                scores[i].fCreatedTime = NCReadBuffer<uint32_t>(buf);
+                scores[i].fGameType    = NCReadBuffer<uint32_t>(buf);
+                scores[i].fValue       = NCReadBuffer<int32_t>(buf);
+                size_t strDataSize     = NCReadBuffer<uint32_t>(buf);
+                scores[i].fGameName    = ST::string::from_utf16((const char16_t*)buf);
+                buf += strDataSize;
+            }
+            fReceiver->onScoreGetHighScoresReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
+                            scoreCount, scores);
+            delete[] scores;
+        }
+        break;
+    case kAuth2Cli_ServerCaps:
+        {
+            hsRAMStream rs(PlasmaVer::pvMoul);
+            rs.copyFrom(msgbuf[1].fData, msgbuf[0].fUint);
+            hsBitVector caps;
+            caps.read(&rs);
+            fReceiver->onServerCaps(caps);
         }
         break;
     }
@@ -1078,6 +1109,20 @@ void pnAuthClient::propagateMessage(plCreatable* pCre)
     NCFreeMessage(msg, desc);
 }
 
+uint32_t pnAuthClient::sendScoreGetHighScores(uint32_t ageId, uint32_t maxScores, const ST::string &gameName)
+{
+    const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_ScoreGetHighScores);
+    msgparm_t* msg = NCAllocMessage(desc);
+    uint32_t transId = nextTransId();
+    msg[0].fUint = transId;
+    msg[1].fUint = ageId;
+    msg[2].fUint = maxScores;
+    msg[3].fString = NCCopyString(gameName);
+    fSock->sendMsg(msg, desc);
+    NCFreeMessage(msg, desc);
+    return transId;
+}
+
 void pnAuthClient::onPingReply(uint32_t transId, uint32_t pingTimeMs)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_PingReply");
@@ -1330,4 +1375,14 @@ void pnAuthClient::onScoreGetRanksReply(uint32_t transId, ENetError result,
 void pnAuthClient::onPropagateMessage(plCreatable* msg)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_PropagateBuffer");
+}
+
+void pnAuthClient::onScoreGetHighScoresReply(uint32_t transId, ENetError result, uint32_t score_count, const pnNetGameScore* scores)
+{
+    plDebug::Warning("Warning: Ignoring Auth2Cli_ScoreGetHighScoresReply");
+}
+
+void pnAuthClient::onServerCaps(const hsBitVector& caps)
+{
+    plDebug::Warning("Warning: Ignoring Auth2Cli_ServerCaps");
 }
