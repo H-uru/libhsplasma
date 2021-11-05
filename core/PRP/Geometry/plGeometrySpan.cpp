@@ -162,6 +162,22 @@ void plGeometrySpan::prcWrite(pfPrcHelper* prc)
         prc->writeParam("WaterHeight", fWaterHeight);
     prc->endTag();
 
+    prc->writeSimpleTag("LocalToWorld");
+      fLocalToWorld.prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("WorldToLocal");
+      fWorldToLocal.prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("LocalBounds");
+      fLocalBounds.prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("OBBToLocal");
+      fOBBToLocal.prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("LocalToOBB");
+      fLocalToOBB.prcWrite(prc);
+    prc->closeTag();
+
     if (!prc->isExcluded(pfPrcHelper::kExcludeVertexData)) {
         std::vector<TempVertex> verts = getVertices();
         prc->writeSimpleTag("Vertices");
@@ -260,7 +276,22 @@ void plGeometrySpan::prcParse(const pfPrcTag* tag)
 
     const pfPrcTag* child = tag->getFirstChild();
     while (child) {
-        if (child->getName() == "Vertices") {
+        if (child->getName() == "LocalToWorld") {
+            if (child->hasChildren())
+                fLocalToWorld.prcParse(child->getFirstChild());
+        } else if (child->getName() == "WorldToLocal") {
+            if (child->hasChildren())
+                fWorldToLocal.prcParse(child->getFirstChild());
+        } else if (child->getName() == "LocalBounds") {
+            if (child->hasChildren())
+                fLocalBounds.prcParse(child->getFirstChild());
+        } else if (child->getName() == "OBBToLocal") {
+            if (child->hasChildren())
+                fOBBToLocal.prcParse(child->getFirstChild());
+        } else if (child->getName() == "LocalToOBB") {
+            if (child->hasChildren())
+                fLocalToOBB.prcParse(child->getFirstChild());
+        } else if (child->getName() == "Vertices") {
             fNumVerts = child->countChildren();
             std::vector<TempVertex> verts(fNumVerts);
             const pfPrcTag* vertChild = child->getFirstChild();
