@@ -20,7 +20,7 @@
 #include "Stream/pfPrcHelper.h"
 #include "Stream/pfPrcParser.h"
 
-struct PLASMA_DLL plGenericType
+struct HSPLASMA_EXPORT plGenericType
 {
 public:
     enum Type
@@ -50,7 +50,7 @@ public:
 };
 
 
-class PLASMA_DLL plGenericVar
+class HSPLASMA_EXPORT plGenericVar
 {
 private:
     ST::string fName;
@@ -80,7 +80,7 @@ public:
 };
 
 
-class PLASMA_DLL plNetSharedState
+class HSPLASMA_EXPORT plNetSharedState
 {
 private:
     ST::string fName;

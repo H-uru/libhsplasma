@@ -19,7 +19,7 @@
 
 #include "plModifier.h"
 
-class PLASMA_DLL plOneShotMod : public plMultiModifier
+class HSPLASMA_EXPORT plOneShotMod : public plMultiModifier
 {
     CREATABLE(plOneShotMod, kOneShotMod, plMultiModifier)
 

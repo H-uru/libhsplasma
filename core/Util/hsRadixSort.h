@@ -20,7 +20,7 @@
 #include "PlasmaDefs.h"
 #include <stdlib.h>
 
-struct PLASMA_DLL hsRadixSortElem
+struct HSPLASMA_EXPORT hsRadixSortElem
 {
     union
     {
@@ -33,7 +33,7 @@ struct PLASMA_DLL hsRadixSortElem
     hsRadixSortElem* fNext;
 };
 
-class PLASMA_DLL hsRadixSort
+class HSPLASMA_EXPORT hsRadixSort
 {
 public:
     enum

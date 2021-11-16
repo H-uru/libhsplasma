@@ -21,7 +21,7 @@
 #include "PRP/Animation/plController.h"
 
 /* Point Channels */
-class PLASMA_DLL plPointChannel : public plAGChannel
+class HSPLASMA_EXPORT plPointChannel : public plAGChannel
 {
     CREATABLE(plPointChannel, kPointChannel, plAGChannel)
 
@@ -34,13 +34,13 @@ public:
 };
 
 
-class PLASMA_DLL plPointBlend : public plPointChannel
+class HSPLASMA_EXPORT plPointBlend : public plPointChannel
 {
     CREATABLE(plPointBlend, kPointBlend, plPointChannel)
 };
 
 
-class PLASMA_DLL plPointConstant : public plPointChannel
+class HSPLASMA_EXPORT plPointConstant : public plPointChannel
 {
     CREATABLE(plPointConstant, kPointConstant, plPointChannel)
 
@@ -54,14 +54,14 @@ protected:
 };
 
 
-class PLASMA_DLL plPointControllerCacheChannel : public plPointChannel
+class HSPLASMA_EXPORT plPointControllerCacheChannel : public plPointChannel
 {
     CREATABLE(plPointControllerCacheChannel, kPointControllerCacheChannel,
               plPointChannel)
 };
 
 
-class PLASMA_DLL plPointControllerChannel : public plPointChannel
+class HSPLASMA_EXPORT plPointControllerChannel : public plPointChannel
 {
     CREATABLE(plPointControllerChannel, kPointControllerChannel, plPointChannel)
 
@@ -85,14 +85,14 @@ public:
 };
 
 
-class PLASMA_DLL plPointTimeScale : public plPointChannel
+class HSPLASMA_EXPORT plPointTimeScale : public plPointChannel
 {
     CREATABLE(plPointTimeScale, kPointTimeScale, plPointChannel)
 };
 
 
 /* Point Channel Applicators */
-class PLASMA_DLL plPointChannelApplicator : public plAGApplicator
+class HSPLASMA_EXPORT plPointChannelApplicator : public plAGApplicator
 {
     CREATABLE(plPointChannelApplicator, kPointChannelApplicator, plAGApplicator)
 };

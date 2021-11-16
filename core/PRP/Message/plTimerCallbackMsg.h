@@ -19,7 +19,7 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plTimerCallbackMsg : public plMessage
+class HSPLASMA_EXPORT plTimerCallbackMsg : public plMessage
 {
     CREATABLE(plTimerCallbackMsg, kTimerCallbackMsg, plMessage)
 

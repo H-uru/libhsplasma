@@ -19,7 +19,7 @@
 
 #include "plLayerInterface.h"
 
-class PLASMA_DLL plLayer : public plLayerInterface
+class HSPLASMA_EXPORT plLayer : public plLayerInterface
 {
     CREATABLE(plLayer, kLayer, plLayerInterface)
 
@@ -33,7 +33,7 @@ protected:
 };
 
 
-class PLASMA_DLL plLayerDepth : public plLayer
+class HSPLASMA_EXPORT plLayerDepth : public plLayer
 {
     CREATABLE(plLayerDepth, kLayerDepth, plLayer)
 };

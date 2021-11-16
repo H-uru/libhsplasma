@@ -20,12 +20,12 @@
 #include "PRP/Modifier/plModifier.h"
 #include "PRP/Geometry/plDrawableSpans.h"
 
-class PLASMA_DLL plShadowCaster : public plMultiModifier
+class HSPLASMA_EXPORT plShadowCaster : public plMultiModifier
 {
     CREATABLE(plShadowCaster, kShadowCaster, plMultiModifier)
 
 public:
-    struct PLASMA_DLL DrawSpan
+    struct HSPLASMA_EXPORT DrawSpan
     {
         plDrawableSpans* fDraw;
         plSpan* fSpan;

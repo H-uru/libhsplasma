@@ -19,7 +19,7 @@
 
 #include "PRP/Modifier/plModifier.h"
 
-class PLASMA_DLL plSeekPointMod : public plMultiModifier
+class HSPLASMA_EXPORT plSeekPointMod : public plMultiModifier
 {
     CREATABLE(plSeekPointMod, kSeekPointMod, plMultiModifier)
 

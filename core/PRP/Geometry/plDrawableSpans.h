@@ -29,7 +29,7 @@
 #include <list>
 #include <tuple>
 
-class PLASMA_DLL plDISpanIndex
+class HSPLASMA_EXPORT plDISpanIndex
 {
 public:
     enum
@@ -50,7 +50,7 @@ public:
 };
 
 
-class PLASMA_DLL plDrawable : public hsKeyedObject
+class HSPLASMA_EXPORT plDrawable : public hsKeyedObject
 {
     CREATABLE(plDrawable, kDrawable, hsKeyedObject)
 
@@ -110,7 +110,7 @@ public:
 };
 
 
-class PLASMA_DLL plDrawableSpans : public plDrawable
+class HSPLASMA_EXPORT plDrawableSpans : public plDrawable
 {
     CREATABLE(plDrawableSpans, kDrawableSpans, plDrawable)
 

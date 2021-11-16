@@ -26,7 +26,7 @@
 #include "PRP/plCreatable.h"
 #include "PRP/KeyedObject/plUoid.h"
 
-class PLASMA_DLL plStateVarNotificationInfo
+class HSPLASMA_EXPORT plStateVarNotificationInfo
 {
 protected:
     ST::string fHintString;
@@ -37,7 +37,7 @@ public:
 };
 
 
-class PLASMA_DLL plStateVariable
+class HSPLASMA_EXPORT plStateVariable
 {
 protected:
     unsigned char fContents;
@@ -70,7 +70,7 @@ public:
 };
 
 
-class PLASMA_DLL plSDStateVariable : public plStateVariable
+class HSPLASMA_EXPORT plSDStateVariable : public plStateVariable
 {
 protected:
     std::vector<class plStateDataRecord*> fDataRecList;
@@ -94,7 +94,7 @@ public:
 };
 
 
-class PLASMA_DLL plSimpleStateVariable : public plStateVariable
+class HSPLASMA_EXPORT plSimpleStateVariable : public plStateVariable
 {
 protected:
     union

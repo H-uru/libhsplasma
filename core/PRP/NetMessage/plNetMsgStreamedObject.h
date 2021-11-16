@@ -20,7 +20,7 @@
 #include "plNetMsgStream.h"
 #include "plNetMsgObject.h"
 
-class PLASMA_DLL plNetMsgStreamedObject : public plNetMsgObject
+class HSPLASMA_EXPORT plNetMsgStreamedObject : public plNetMsgObject
 {
     CREATABLE(plNetMsgStreamedObject, kNetMsgStreamedObject, plNetMsgObject)
 

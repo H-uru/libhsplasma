@@ -19,62 +19,62 @@
 
 #include "PRP/Avatar/plAGApplicator.h"
 
-class PLASMA_DLL plParticleApplicator : public plAGApplicator
+class HSPLASMA_EXPORT plParticleApplicator : public plAGApplicator
 {
     CREATABLE(plParticleApplicator, kParticleApplicator, plAGApplicator)
 };
 
 
-class PLASMA_DLL plParticleAngleApplicator : public plParticleApplicator
+class HSPLASMA_EXPORT plParticleAngleApplicator : public plParticleApplicator
 {
     CREATABLE(plParticleAngleApplicator, kParticleAngleApplicator,
               plParticleApplicator)
 };
 
 
-class PLASMA_DLL plParticleLifeMinApplicator : public plParticleApplicator
+class HSPLASMA_EXPORT plParticleLifeMinApplicator : public plParticleApplicator
 {
     CREATABLE(plParticleLifeMinApplicator, kParticleLifeMinApplicator,
               plParticleApplicator)
 };
 
 
-class PLASMA_DLL plParticleLifeMaxApplicator : public plParticleApplicator
+class HSPLASMA_EXPORT plParticleLifeMaxApplicator : public plParticleApplicator
 {
     CREATABLE(plParticleLifeMaxApplicator, kParticleLifeMaxApplicator,
               plParticleApplicator)
 };
 
 
-class PLASMA_DLL plParticlePPSApplicator : public plParticleApplicator
+class HSPLASMA_EXPORT plParticlePPSApplicator : public plParticleApplicator
 {
     CREATABLE(plParticlePPSApplicator, kParticlePPSApplicator,
               plParticleApplicator)
 };
 
 
-class PLASMA_DLL plParticleScaleMinApplicator : public plParticleApplicator
+class HSPLASMA_EXPORT plParticleScaleMinApplicator : public plParticleApplicator
 {
     CREATABLE(plParticleScaleMinApplicator, kParticleScaleMinApplicator,
               plParticleApplicator)
 };
 
 
-class PLASMA_DLL plParticleScaleMaxApplicator : public plParticleApplicator
+class HSPLASMA_EXPORT plParticleScaleMaxApplicator : public plParticleApplicator
 {
     CREATABLE(plParticleScaleMaxApplicator, kParticleScaleMaxApplicator,
               plParticleApplicator)
 };
 
 
-class PLASMA_DLL plParticleVelMinApplicator : public plParticleApplicator
+class HSPLASMA_EXPORT plParticleVelMinApplicator : public plParticleApplicator
 {
     CREATABLE(plParticleVelMinApplicator, kParticleVelMinApplicator,
               plParticleApplicator)
 };
 
 
-class PLASMA_DLL plParticleVelMaxApplicator : public plParticleApplicator
+class HSPLASMA_EXPORT plParticleVelMaxApplicator : public plParticleApplicator
 {
     CREATABLE(plParticleVelMaxApplicator, kParticleVelMaxApplicator,
               plParticleApplicator)

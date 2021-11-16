@@ -21,7 +21,7 @@
 #include "Math/hsGeometry3.h"
 #include "Util/hsBitVector.h"
 
-class PLASMA_DLL plCameraConfig
+class HSPLASMA_EXPORT plCameraConfig
 {
 public:
     enum
@@ -73,7 +73,7 @@ public:
 };
 
 
-class PLASMA_DLL plCameraMsg : public plMessage
+class HSPLASMA_EXPORT plCameraMsg : public plMessage
 {
     CREATABLE(plCameraMsg, kCameraMsg, plMessage)
 

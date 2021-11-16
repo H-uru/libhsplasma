@@ -17,7 +17,6 @@
 #ifndef _PNNETMSG_H
 #define _PNNETMSG_H
 
-#include "PlasmaDefs.h"
 #include "Protocol.h"
 #include "Sys/plUuid.h"
 #include <string_theory/string>
@@ -30,13 +29,13 @@ enum ENetMsgFieldType
     kFieldVarPtr, kFieldRawData, kFieldRawPtr, kFieldRawVarPtr, kFieldVarCount
 };
 
-struct PLASMANET_DLL pnNetMsgField
+struct HSPLASMANET_EXPORT pnNetMsgField
 {
     ENetMsgFieldType fType;
     unsigned int fCount, fSize;
 };
 
-struct PLASMANET_DLL pnNetMsg
+struct HSPLASMANET_EXPORT pnNetMsg
 {
     unsigned int fMsgId;
     const char* const fMsgName;
@@ -96,14 +95,14 @@ void NCWriteUtf16(uint8_t*& buffer, const ST::string& str)
         name##_Fields \
     };
 
-PLASMANET_DLL msgparm_t* NCAllocMessage(const pnNetMsg* msg);
-PLASMANET_DLL char16_t* NCCopyString(const ST::string& string);
-PLASMANET_DLL void NCFreeMessage(msgparm_t* data, const pnNetMsg* msg);
-PLASMANET_DLL size_t NCMessageSize(const msgparm_t* data, const pnNetMsg* msg);
+HSPLASMANET_EXPORT msgparm_t* NCAllocMessage(const pnNetMsg* msg);
+HSPLASMANET_EXPORT char16_t* NCCopyString(const ST::string& string);
+HSPLASMANET_EXPORT void NCFreeMessage(msgparm_t* data, const pnNetMsg* msg);
+HSPLASMANET_EXPORT size_t NCMessageSize(const msgparm_t* data, const pnNetMsg* msg);
 
 
 /* Other stuff that doesn't really belong anywhere else */
-struct PLASMANET_DLL pnNetAgeInfo
+struct HSPLASMANET_EXPORT pnNetAgeInfo
 {
     enum { Stride = 0x9A0 };
 
@@ -115,6 +114,6 @@ struct PLASMANET_DLL pnNetAgeInfo
     void write(unsigned char* buffer);
 };
 
-PLASMANET_DLL plUuid NCGetUuid(const msgparm_t& field);
+HSPLASMANET_EXPORT plUuid NCGetUuid(const msgparm_t& field);
 
 #endif

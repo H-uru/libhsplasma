@@ -19,7 +19,7 @@
 
 #include "pfGUIControlMod.h"
 
-class PLASMA_DLL pfGUIRadioGroupCtrl : public pfGUIControlMod
+class HSPLASMA_EXPORT pfGUIRadioGroupCtrl : public pfGUIControlMod
 {
     CREATABLE(pfGUIRadioGroupCtrl, kGUIRadioGroupCtrl, pfGUIControlMod)
 

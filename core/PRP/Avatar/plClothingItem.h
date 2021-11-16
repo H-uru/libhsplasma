@@ -30,7 +30,7 @@
  * clothing manager.
  */
 
-class PLASMA_DLL plClothingItem : public hsKeyedObject
+class HSPLASMA_EXPORT plClothingItem : public hsKeyedObject
 {
     CREATABLE(plClothingItem, kClothingItem, hsKeyedObject)
 

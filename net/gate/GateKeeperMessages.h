@@ -31,7 +31,7 @@ enum /* Server -> Client */
     kGateKeeper2Cli_AuthSrvIpAddressReply, kGateKeeper2Cli_LastMessage,
 };
 
-PLASMANET_DLL const pnNetMsg* GET_Cli2GateKeeper(uint32_t msgId);
-PLASMANET_DLL const pnNetMsg* GET_GateKeeper2Cli(uint32_t msgId);
+HSPLASMANET_EXPORT const pnNetMsg* GET_Cli2GateKeeper(uint32_t msgId);
+HSPLASMANET_EXPORT const pnNetMsg* GET_GateKeeper2Cli(uint32_t msgId);
 
 #endif

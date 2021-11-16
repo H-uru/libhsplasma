@@ -38,7 +38,7 @@
  * but rather keep it contained in a plKey object, and use plKeyData's members
  * through the plKey's overloaded pointer operators.
  */
-class PLASMA_DLL plKeyData
+class HSPLASMA_EXPORT plKeyData
 {
 private:
     plUoid fUoid;
@@ -255,7 +255,7 @@ public:
  * plKey's members, with the addition of Exists() and isLoaded(), which
  * are direct members of the plKey container.
  */
-class PLASMA_DLL plKey HS_FINAL
+class HSPLASMA_EXPORT plKey HS_FINAL
 {
 private:
     plKeyData* fKeyData;

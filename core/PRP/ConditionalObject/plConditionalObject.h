@@ -20,7 +20,7 @@
 #include "PRP/KeyedObject/hsKeyedObject.h"
 #include "Util/hsBitVector.h"
 
-class PLASMA_DLL plConditionalObject : public hsKeyedObject
+class HSPLASMA_EXPORT plConditionalObject : public hsKeyedObject
 {
     CREATABLE(plConditionalObject, kConditionalObject, hsKeyedObject)
 
@@ -46,14 +46,14 @@ public:
 };
 
 
-class PLASMA_DLL plPickedConditionalObject : public plConditionalObject
+class HSPLASMA_EXPORT plPickedConditionalObject : public plConditionalObject
 {
     CREATABLE(plPickedConditionalObject, kPickedConditionalObject,
               plConditionalObject)
 };
 
 
-class PLASMA_DLL plPythonFileModConditionalObject : public plConditionalObject
+class HSPLASMA_EXPORT plPythonFileModConditionalObject : public plConditionalObject
 {
     CREATABLE(plPythonFileModConditionalObject,
               kPythonFileModConditionalObject,

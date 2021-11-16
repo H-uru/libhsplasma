@@ -19,7 +19,7 @@
 
 #include "PRP/KeyedObject/plLocation.h"
 
-class PLASMA_DLL plNetGroupId
+class HSPLASMA_EXPORT plNetGroupId
 {
 public:
     enum

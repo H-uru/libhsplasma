@@ -20,7 +20,7 @@
 #include "PRP/Modifier/plModifier.h"
 #include "Math/hsGeometry3.h"
 
-class PLASMA_DLL plStereizer : public plSingleModifier
+class HSPLASMA_EXPORT plStereizer : public plSingleModifier
 {
     CREATABLE(plStereizer, kStereizer, plSingleModifier)
 

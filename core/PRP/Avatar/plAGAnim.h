@@ -20,7 +20,7 @@
 #include "PRP/Object/plSynchedObject.h"
 #include "plAGApplicator.h"
 
-class PLASMA_DLL plAGAnim : public plSynchedObject
+class HSPLASMA_EXPORT plAGAnim : public plSynchedObject
 {
     CREATABLE(plAGAnim, kAGAnim, plSynchedObject)
 
@@ -65,7 +65,7 @@ public:
     void setName(const ST::string& name) { fName = name; }
 };
 
-class PLASMA_DLL plAgeGlobalAnim : public plAGAnim
+class HSPLASMA_EXPORT plAgeGlobalAnim : public plAGAnim
 {
     CREATABLE(plAgeGlobalAnim, kAgeGlobalAnim, plAGAnim)
 

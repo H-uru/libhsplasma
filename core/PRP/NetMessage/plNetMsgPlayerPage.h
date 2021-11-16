@@ -20,7 +20,7 @@
 #include "plNetMessage.h"
 #include "PRP/KeyedObject/plUoid.h"
 
-class PLASMA_DLL plNetMsgPlayerPage : public plNetMessage
+class HSPLASMA_EXPORT plNetMsgPlayerPage : public plNetMessage
 {
     CREATABLE(plNetMsgPlayerPage, kNetMsgPlayerPage, plNetMessage)
 

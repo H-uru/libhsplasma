@@ -23,7 +23,7 @@
 #include "Math/hsMatrix44.h"
 #include "Util/hsBitVector.h"
 
-class PLASMA_DLL plRenderTarget : public plBitmap
+class HSPLASMA_EXPORT plRenderTarget : public plBitmap
 {
     CREATABLE(plRenderTarget, kRenderTarget, plBitmap)
 
@@ -94,7 +94,7 @@ public:
 };
 
 
-class PLASMA_DLL plCubicRenderTarget : public plRenderTarget
+class HSPLASMA_EXPORT plCubicRenderTarget : public plRenderTarget
 {
     CREATABLE(plCubicRenderTarget, kCubicRenderTarget, plRenderTarget)
 

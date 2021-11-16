@@ -19,7 +19,7 @@
 
 #include "PRP/KeyedObject/hsKeyedObject.h"
 
-class PLASMA_DLL pfGUISkin : public hsKeyedObject
+class HSPLASMA_EXPORT pfGUISkin : public hsKeyedObject
 {
     CREATABLE(pfGUISkin, kGUISkin, hsKeyedObject)
 
@@ -32,7 +32,7 @@ public:
         kTreeButtonOpen, kNumElements
     };
 
-    struct PLASMA_DLL pfSRect
+    struct HSPLASMA_EXPORT pfSRect
     {
         unsigned short fX, fY, fWidth, fHeight;
 

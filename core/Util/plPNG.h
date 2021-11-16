@@ -34,7 +34,7 @@ public:
 };
 
 
-class PLASMA_DLL plPNG
+class HSPLASMA_EXPORT plPNG
 {
 public:
     static void DecompressPNG(hsStream* S, void* buf, size_t size);

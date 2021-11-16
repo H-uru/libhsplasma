@@ -19,7 +19,7 @@
 
 #include "PRP/KeyedObject/hsKeyedObject.h"
 
-class PLASMA_DLL plMsgForwarder : public hsKeyedObject
+class HSPLASMA_EXPORT plMsgForwarder : public hsKeyedObject
 {
     CREATABLE(plMsgForwarder, kMsgForwarder, hsKeyedObject)
 

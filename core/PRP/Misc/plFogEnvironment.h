@@ -20,7 +20,7 @@
 #include "PRP/KeyedObject/hsKeyedObject.h"
 #include "Sys/hsColor.h"
 
-class PLASMA_DLL plFogEnvironment : public hsKeyedObject
+class HSPLASMA_EXPORT plFogEnvironment : public hsKeyedObject
 {
     CREATABLE(plFogEnvironment, kFogEnvironment, hsKeyedObject)
 

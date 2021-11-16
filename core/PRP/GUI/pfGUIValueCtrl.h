@@ -19,7 +19,7 @@
 
 #include "pfGUIControlMod.h"
 
-class PLASMA_DLL pfGUIValueCtrl : public pfGUIControlMod
+class HSPLASMA_EXPORT pfGUIValueCtrl : public pfGUIControlMod
 {
     CREATABLE(pfGUIValueCtrl, kGUIValueCtrl, pfGUIControlMod)
 

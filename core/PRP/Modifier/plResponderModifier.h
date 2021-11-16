@@ -20,12 +20,12 @@
 #include "plModifier.h"
 #include "PRP/Message/plMessage.h"
 
-class PLASMA_DLL plResponderModifier : public plSingleModifier
+class HSPLASMA_EXPORT plResponderModifier : public plSingleModifier
 {
     CREATABLE(plResponderModifier, kResponderModifier, plSingleModifier)
 
 public:
-    class PLASMA_DLL plResponderCmd
+    class HSPLASMA_EXPORT plResponderCmd
     {
     public:
         plMessage* fMsg;
@@ -36,7 +36,7 @@ public:
         ~plResponderCmd() { delete fMsg; }
     };
 
-    class PLASMA_DLL plResponderState
+    class HSPLASMA_EXPORT plResponderState
     {
     public:
         std::vector<plResponderCmd*> fCmds;
@@ -92,7 +92,7 @@ public:
 };
 
 
-class PLASMA_DLL plResponderEnableMsg : public plMessage
+class HSPLASMA_EXPORT plResponderEnableMsg : public plMessage
 {
     CREATABLE(plResponderEnableMsg, kResponderEnableMsg, plMessage)
 

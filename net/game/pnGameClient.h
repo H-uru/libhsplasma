@@ -24,7 +24,7 @@
 #include "crypt/pnRC4.h"
 #include "pnSocketInterface.h"
 
-class PLASMANET_DLL pnGameClient : public pnClient
+class HSPLASMANET_EXPORT pnGameClient : public pnClient
 {
 public:
     pnGameClient(plResManager* mgr, bool deleteMsgs = true, bool threaded = true)

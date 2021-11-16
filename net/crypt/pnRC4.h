@@ -27,7 +27,7 @@ enum ECryptAlgorithm
     kNumCryptAlgorithms
 };
 
-class PLASMANET_DLL pnRC4Socket : public pnSocket
+class HSPLASMANET_EXPORT pnRC4Socket : public pnSocket
 {
 protected:
     RC4_KEY fSend, fRecv;

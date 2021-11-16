@@ -21,7 +21,7 @@
 #include "ResManager/plResManager.h"
 #include "plArmatureBrain.h"
 
-class PLASMA_DLL plAvTask : public plCreatable
+class HSPLASMA_EXPORT plAvTask : public plCreatable
 {
     CREATABLE(plAvTask, kAvTask, plCreatable)
 
@@ -34,7 +34,7 @@ protected:
 };
 
 
-class PLASMA_DLL plAvAnimTask : public plAvTask
+class HSPLASMA_EXPORT plAvAnimTask : public plAvTask
 {
     CREATABLE(plAvAnimTask, kAvAnimTask, plAvTask)
 
@@ -58,13 +58,13 @@ protected:
 };
 
 
-class PLASMA_DLL plAvOneShotTask : public plAvTask
+class HSPLASMA_EXPORT plAvOneShotTask : public plAvTask
 {
     CREATABLE(plAvOneShotTask, kAvOneShotTask, plAvTask)
 };
 
 
-class PLASMA_DLL plAvOneShotLinkTask : public plAvOneShotTask
+class HSPLASMA_EXPORT plAvOneShotLinkTask : public plAvOneShotTask
 {
     CREATABLE(plAvOneShotLinkTask, kAvOneShotLinkTask, plAvOneShotTask)
 
@@ -81,13 +81,13 @@ protected:
 };
 
 
-class PLASMA_DLL plAvSeekTask : public plAvTask
+class HSPLASMA_EXPORT plAvSeekTask : public plAvTask
 {
     CREATABLE(plAvSeekTask, kAvSeekTask, plAvTask)
 };
 
 
-class PLASMA_DLL plAvTaskBrain : public plAvTask
+class HSPLASMA_EXPORT plAvTaskBrain : public plAvTask
 {
     CREATABLE(plAvTaskBrain, kAvTaskBrain, plAvTask)
 
@@ -112,7 +112,7 @@ public:
 
 
 // Yay redundancy
-class PLASMA_DLL plAvTaskSeek : public plAvTask
+class HSPLASMA_EXPORT plAvTaskSeek : public plAvTask
 {
     CREATABLE(plAvTaskSeek, kAvTaskSeek, plAvTask)
 };

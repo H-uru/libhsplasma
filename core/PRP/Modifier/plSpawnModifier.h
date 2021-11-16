@@ -21,13 +21,13 @@
 
 // Yeah, I dunno either...
 
-class PLASMA_DLL plSpawnModifier : public plMultiModifier
+class HSPLASMA_EXPORT plSpawnModifier : public plMultiModifier
 {
     CREATABLE(plSpawnModifier, kSpawnModifier, plMultiModifier)
 };
 
 
-class PLASMA_DLL plSpawnMod : public plModifier
+class HSPLASMA_EXPORT plSpawnMod : public plModifier
 {
     CREATABLE(plSpawnMod, kSpawnMod, plModifier)
 

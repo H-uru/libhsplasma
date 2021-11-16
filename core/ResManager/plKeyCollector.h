@@ -31,7 +31,7 @@ typedef std::map<plLocation, std::map<short, std::vector<plKey>>> keymap_t;
  * the manner that deleting keys from here will cause the associated
  * hsKeyedObject to also be deleted.
  */
-class PLASMA_DLL plKeyCollector
+class HSPLASMA_EXPORT plKeyCollector
 {
 private:
     keymap_t keys;

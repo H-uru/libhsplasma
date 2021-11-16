@@ -21,12 +21,12 @@
 #include "PRP/Message/plCameraMsg.h"
 #include <tuple>
 
-class PLASMA_DLL plCameraModifier : public plSingleModifier
+class HSPLASMA_EXPORT plCameraModifier : public plSingleModifier
 {
     CREATABLE(plCameraModifier, kCameraModifier, plSingleModifier)
 
 public:
-    class PLASMA_DLL CamTrans
+    class HSPLASMA_EXPORT CamTrans
     {
     protected:
         plKey fTransTo;

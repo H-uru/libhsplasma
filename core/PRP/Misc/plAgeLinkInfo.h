@@ -21,7 +21,7 @@
 #include "Sys/plUuid.h"
 #include "plSpawnPointInfo.h"
 
-class PLASMA_DLL plAgeInfoStruct : public plCreatable
+class HSPLASMA_EXPORT plAgeInfoStruct : public plCreatable
 {
     CREATABLE(plAgeInfoStruct, kAgeInfoStruct, plCreatable)
 
@@ -93,7 +93,7 @@ public:
 };
 
 
-class PLASMA_DLL plAgeLinkStruct : public plCreatable
+class HSPLASMA_EXPORT plAgeLinkStruct : public plCreatable
 {
     CREATABLE(plAgeLinkStruct, kAgeLinkStruct, plCreatable)
 
@@ -185,7 +185,7 @@ public:
 };
 
 
-class PLASMA_DLL plAgeLinkEffects
+class HSPLASMA_EXPORT plAgeLinkEffects
 {
 protected:
     ST::string fLinkInAnimName;

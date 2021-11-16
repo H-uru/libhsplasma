@@ -19,13 +19,13 @@
 
 #include "plWin32Sound.h"
 
-class PLASMA_DLL plWin32StaticSound : public plWin32Sound
+class HSPLASMA_EXPORT plWin32StaticSound : public plWin32Sound
 {
     CREATABLE(plWin32StaticSound, kWin32StaticSound, plWin32Sound)
 };
 
 
-class PLASMA_DLL plWin32GroupedSound : public plWin32StaticSound
+class HSPLASMA_EXPORT plWin32GroupedSound : public plWin32StaticSound
 {
     CREATABLE(plWin32GroupedSound, kWin32GroupedSound, plWin32StaticSound)
 
@@ -47,7 +47,7 @@ public:
 };
 
 
-class PLASMA_DLL plWin32LinkSound : public plWin32StaticSound
+class HSPLASMA_EXPORT plWin32LinkSound : public plWin32StaticSound
 {
     CREATABLE(plWin32LinkSound, kWin32LinkSound, plWin32StaticSound)
 

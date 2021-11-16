@@ -19,7 +19,7 @@
  */
 #include "plPhysical.h"
 
-class PLASMA_DLL plODESimDefs
+class HSPLASMA_EXPORT plODESimDefs
 {
 public:
     enum Bounds

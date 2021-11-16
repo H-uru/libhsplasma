@@ -19,7 +19,7 @@
 
 #include "plRandomCommandMod.h"
 
-class PLASMA_DLL plRandomSoundModGroup
+class HSPLASMA_EXPORT plRandomSoundModGroup
 {
 protected:
     std::vector<unsigned short> fIndices;
@@ -41,7 +41,7 @@ public:
 };
 
 
-class PLASMA_DLL plRandomSoundMod : public plRandomCommandMod
+class HSPLASMA_EXPORT plRandomSoundMod : public plRandomCommandMod
 {
     CREATABLE(plRandomSoundMod, kRandomSoundMod, plRandomCommandMod)
 

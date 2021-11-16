@@ -17,10 +17,10 @@
 #ifndef _PNBIGINTEGER_H
 #define _PNBIGINTEGER_H
 
-#include "PlasmaDefs.h"
+#include "PlasmaNetDefs.h"
 #include <openssl/bn.h>
 
-class PLASMANET_DLL pnBigInteger
+class HSPLASMANET_EXPORT pnBigInteger
 {
 protected:
     BIGNUM* fValue;

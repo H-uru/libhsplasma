@@ -19,7 +19,7 @@
 
 #include "plModifier.h"
 
-class PLASMA_DLL plInterfaceInfoModifier : public plSingleModifier
+class HSPLASMA_EXPORT plInterfaceInfoModifier : public plSingleModifier
 {
     CREATABLE(plInterfaceInfoModifier, kInterfaceInfoModifier, plSingleModifier)
 

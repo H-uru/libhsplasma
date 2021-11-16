@@ -20,7 +20,7 @@
 #include <string_theory/format>
 #include "Stream/hsStdioStream.h"
 
-class PLASMA_DLL plDebug
+class HSPLASMA_EXPORT plDebug
 {
 public:
     enum DebugLevel { kDLNone, kDLError, kDLWarning, kDLDebug, kDLAll };

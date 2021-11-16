@@ -19,7 +19,7 @@
 
 #include "hsStream.h"
 
-class PLASMA_DLL hsElfStream : public hsFileStream
+class HSPLASMA_EXPORT hsElfStream : public hsFileStream
 {
 private:
     void decipher(unsigned char* v, int size, unsigned char hint);

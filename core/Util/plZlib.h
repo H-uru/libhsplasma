@@ -21,7 +21,7 @@
 
 #include <cstddef> // for size_t
 
-class PLASMA_DLL plZlib
+class HSPLASMA_EXPORT plZlib
 {
 public:
     static bool Uncompress(uint8_t* bufOut, size_t& bufLenOut, const uint8_t* bufIn, size_t bufLenIn);

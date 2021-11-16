@@ -19,19 +19,19 @@
 
 #include "PRP/KeyedObject/hsKeyedObject.h"
 
-class PLASMA_DLL plAudible : public hsKeyedObject
+class HSPLASMA_EXPORT plAudible : public hsKeyedObject
 {
     CREATABLE(plAudible, kAudible, hsKeyedObject)
 };
 
 
-class PLASMA_DLL plAudibleNull : public plAudible
+class HSPLASMA_EXPORT plAudibleNull : public plAudible
 {
     CREATABLE(plAudibleNull, kAudibleNull, plAudible)
 };
 
 
-class PLASMA_DLL plWinAudible : public plAudible
+class HSPLASMA_EXPORT plWinAudible : public plAudible
 {
     CREATABLE(plWinAudible, kWinAudible, plAudible)
 
@@ -59,7 +59,7 @@ public:
 };
 
 
-class PLASMA_DLL pl2WayWinAudible : public plWinAudible
+class HSPLASMA_EXPORT pl2WayWinAudible : public plWinAudible
 {
     CREATABLE(pl2WayWinAudible, k2WayWinAudible, plWinAudible)
 };

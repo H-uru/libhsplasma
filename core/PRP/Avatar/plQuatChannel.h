@@ -21,7 +21,7 @@
 #include "PRP/Animation/plController.h"
 
 /* Quat Channels */
-class PLASMA_DLL plQuatChannel : public plAGChannel
+class HSPLASMA_EXPORT plQuatChannel : public plAGChannel
 {
     CREATABLE(plQuatChannel, kQuatChannel, plAGChannel)
 
@@ -34,13 +34,13 @@ public:
 };
 
 
-class PLASMA_DLL plQuatBlend : public plQuatChannel
+class HSPLASMA_EXPORT plQuatBlend : public plQuatChannel
 {
     CREATABLE(plQuatBlend, kQuatBlend, plQuatChannel)
 };
 
 
-class PLASMA_DLL plQuatConstant : public plQuatChannel
+class HSPLASMA_EXPORT plQuatConstant : public plQuatChannel
 {
     CREATABLE(plQuatConstant, kQuatConstant, plQuatChannel)
 
@@ -54,14 +54,14 @@ protected:
 };
 
 
-class PLASMA_DLL plQuatTimeScale : public plQuatChannel
+class HSPLASMA_EXPORT plQuatTimeScale : public plQuatChannel
 {
     CREATABLE(plQuatTimeScale, kQuatTimeScale, plQuatChannel)
 };
 
 
 /* Quat Channel Applicators */
-class PLASMA_DLL plQuatChannelApplicator : public plAGApplicator
+class HSPLASMA_EXPORT plQuatChannelApplicator : public plAGApplicator
 {
     CREATABLE(plQuatChannelApplicator, kQuatChannelApplicator, plAGApplicator)
 };

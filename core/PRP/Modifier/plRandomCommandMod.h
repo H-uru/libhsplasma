@@ -20,7 +20,7 @@
 #include "plModifier.h"
 #include "Util/hsBitVector.h"
 
-class PLASMA_DLL plRandomCommandMod : public plSingleModifier
+class HSPLASMA_EXPORT plRandomCommandMod : public plSingleModifier
 {
     CREATABLE(plRandomCommandMod, kRandomCommandMod, plSingleModifier)
 

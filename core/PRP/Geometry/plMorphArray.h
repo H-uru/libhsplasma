@@ -19,7 +19,7 @@
 
 #include "plMorphDelta.h"
 
-class PLASMA_DLL plMorphArray
+class HSPLASMA_EXPORT plMorphArray
 {
 protected:
     std::vector<plMorphDelta> fDeltas;

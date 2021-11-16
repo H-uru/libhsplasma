@@ -17,7 +17,7 @@
 #ifndef _PROTOCOL_H
 #define _PROTOCOL_H
 
-#include "PlasmaDefs.h"
+#include "PlasmaNetDefs.h"
 #include "Sys/plUuid.h"
 
 enum ENetError
@@ -42,7 +42,7 @@ enum ENetError
     kNetErrInviteNoMatchingPlayer, kNetErrInviteTooManyHoods, kNetErrNeedToPay,
     kNetErrServerBusy, kNumNetErrors,
 };
-PLASMANET_DLL const char* GetNetErrorString(int errcode);
+HSPLASMANET_EXPORT const char* GetNetErrorString(int errcode);
 
 enum ENetProtocol
 {

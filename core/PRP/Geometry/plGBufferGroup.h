@@ -20,7 +20,7 @@
 #include "Math/hsGeometry3.h"
 #include "plVertCoder.h"
 
-class PLASMA_DLL plGBufferCell
+class HSPLASMA_EXPORT plGBufferCell
 {
 public:
     unsigned int fVtxStart, fColorStart, fLength;
@@ -38,7 +38,7 @@ public:
 };
 
 
-class PLASMA_DLL plGBufferTriangle
+class HSPLASMA_EXPORT plGBufferTriangle
 {
 public:
     unsigned short fIndex1, fIndex2, fIndex3, fSpanIndex;
@@ -54,7 +54,7 @@ public:
 };
 
 
-class PLASMA_DLL plGBufferVertex
+class HSPLASMA_EXPORT plGBufferVertex
 {
 public:
     hsVector3 fPos, fNormal;
@@ -68,7 +68,7 @@ public:
 };
 
 
-class PLASMA_DLL plGBufferGroup
+class HSPLASMA_EXPORT plGBufferGroup
 {
 public:
     enum Formats

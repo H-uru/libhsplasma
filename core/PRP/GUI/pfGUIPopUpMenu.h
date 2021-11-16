@@ -19,7 +19,7 @@
 
 #include "pfGUIDialogMod.h"
 
-class PLASMA_DLL pfGUIPopUpMenu : public pfGUIDialogMod
+class HSPLASMA_EXPORT pfGUIPopUpMenu : public pfGUIDialogMod
 {
     CREATABLE(pfGUIPopUpMenu, kGUIPopUpMenu, pfGUIDialogMod)
 
@@ -35,7 +35,7 @@ public:
         kOpenSubMenusOnHover, kScaleWithResolution
     };
 
-    struct PLASMA_DLL pfMenuItem
+    struct HSPLASMA_EXPORT pfMenuItem
     {
         ST::string fName;
         pfGUICtrlProcWriteableObject* fHandler;

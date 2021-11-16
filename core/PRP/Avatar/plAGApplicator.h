@@ -19,7 +19,7 @@
 
 #include "plAGChannel.h"
 
-class PLASMA_DLL plAGApplicator : public plCreatable
+class HSPLASMA_EXPORT plAGApplicator : public plCreatable
 {
     CREATABLE(plAGApplicator, kAGApplicator, plCreatable)
 
@@ -51,7 +51,7 @@ public:
 };
 
 
-class PLASMA_DLL plSoundVolumeApplicator : public plAGApplicator
+class HSPLASMA_EXPORT plSoundVolumeApplicator : public plAGApplicator
 {
     CREATABLE(plSoundVolumeApplicator, kSoundVolumeApplicator, plAGApplicator)
 
@@ -74,42 +74,42 @@ public:
 };
 
 
-class PLASMA_DLL plLightAmbientApplicator : public plAGApplicator
+class HSPLASMA_EXPORT plLightAmbientApplicator : public plAGApplicator
 {
     CREATABLE(plLightAmbientApplicator, kLightAmbientApplicator, plAGApplicator)
 };
 
-class PLASMA_DLL plLightDiffuseApplicator : public plAGApplicator
+class HSPLASMA_EXPORT plLightDiffuseApplicator : public plAGApplicator
 {
     CREATABLE(plLightDiffuseApplicator, kLightDiffuseApplicator, plAGApplicator)
 };
 
-class PLASMA_DLL plLightSpecularApplicator : public plAGApplicator
+class HSPLASMA_EXPORT plLightSpecularApplicator : public plAGApplicator
 {
     CREATABLE(plLightSpecularApplicator, kLightSpecularApplicator, plAGApplicator)
 };
 
-class PLASMA_DLL plOmniApplicator : public plAGApplicator
+class HSPLASMA_EXPORT plOmniApplicator : public plAGApplicator
 {
     CREATABLE(plOmniApplicator, kOmniApplicator, plAGApplicator)
 };
 
-class PLASMA_DLL plOmniCutoffApplicator : public plAGApplicator
+class HSPLASMA_EXPORT plOmniCutoffApplicator : public plAGApplicator
 {
     CREATABLE(plOmniCutoffApplicator, kOmniCutoffApplicator, plAGApplicator)
 };
 
-class PLASMA_DLL plOmniSqApplicator : public plAGApplicator
+class HSPLASMA_EXPORT plOmniSqApplicator : public plAGApplicator
 {
     CREATABLE(plOmniSqApplicator, kOmniSqApplicator, plAGApplicator)
 };
 
-class PLASMA_DLL plSpotInnerApplicator : public plAGApplicator
+class HSPLASMA_EXPORT plSpotInnerApplicator : public plAGApplicator
 {
     CREATABLE(plSpotInnerApplicator, kSpotInnerApplicator, plAGApplicator)
 };
 
-class PLASMA_DLL plSpotOuterApplicator : public plAGApplicator
+class HSPLASMA_EXPORT plSpotOuterApplicator : public plAGApplicator
 {
     CREATABLE(plSpotOuterApplicator, kSpotOuterApplicator, plAGApplicator)
 };

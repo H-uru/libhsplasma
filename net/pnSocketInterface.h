@@ -17,7 +17,7 @@
 #ifndef _PNSOCKETINTERFACE_H
 #define _PNSOCKETINTERFACE_H
 
-#include "PlasmaDefs.h"
+#include "PlasmaNetDefs.h"
 
 class pnSocket;
 

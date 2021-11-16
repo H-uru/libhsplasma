@@ -19,7 +19,7 @@
 
 #include "pfGUIControlMod.h"
 
-class PLASMA_DLL pfGUICheckBoxCtrl : public pfGUIControlMod
+class HSPLASMA_EXPORT pfGUICheckBoxCtrl : public pfGUIControlMod
 {
     CREATABLE(pfGUICheckBoxCtrl, kGUICheckBoxCtrl, pfGUIControlMod)
 

@@ -19,7 +19,7 @@
 
 #include "hsStream.h"
 
-class PLASMA_DLL hsStdioStream : public hsFileStream
+class HSPLASMA_EXPORT hsStdioStream : public hsFileStream
 {
 protected:
     FILE* Fin;

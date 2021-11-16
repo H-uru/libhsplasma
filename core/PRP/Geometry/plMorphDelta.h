@@ -20,7 +20,7 @@
 #include "PRP/plCreatable.h"
 #include "Math/hsGeometry3.h"
 
-class PLASMA_DLL plVertDelta
+class HSPLASMA_EXPORT plVertDelta
 {
 protected:
     unsigned short fIdx, fPadding;
@@ -34,7 +34,7 @@ public:
 };
 
 
-class PLASMA_DLL plMorphSpan
+class HSPLASMA_EXPORT plMorphSpan
 {
 protected:
     std::vector<plVertDelta> fDeltas;
@@ -52,7 +52,7 @@ public:
 };
 
 
-class PLASMA_DLL plMorphDelta : public plCreatable
+class HSPLASMA_EXPORT plMorphDelta : public plCreatable
 {
     CREATABLE(plMorphDelta, kMorphDelta, plCreatable)
 

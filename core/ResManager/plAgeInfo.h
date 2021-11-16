@@ -22,7 +22,7 @@
 
 /* Loosely based on plAgeDescription */
 
-class PLASMA_DLL plAgeInfo
+class HSPLASMA_EXPORT plAgeInfo
 {
 public:
     enum CommonPages { kTextures, kGlobal, kNumCommonPages };
@@ -37,7 +37,7 @@ public:
         kIsVolatile = 0x8
     };
 
-    struct PLASMA_DLL PageEntry
+    struct HSPLASMA_EXPORT PageEntry
     {
         ST::string fName;
         int fSeqSuffix;

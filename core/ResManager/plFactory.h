@@ -20,7 +20,7 @@
 #include "pdUnifiedTypeMap.h"
 #include <functional>
 
-class PLASMA_DLL plFactory
+class HSPLASMA_EXPORT plFactory
 {
 public:
     static class plCreatable* Create(short typeIdx);

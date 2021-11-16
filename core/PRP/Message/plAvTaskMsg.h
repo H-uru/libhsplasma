@@ -20,7 +20,7 @@
 #include "plAvatarMsg.h"
 #include "PRP/Avatar/plAvTask.h"
 
-class PLASMA_DLL plAvTaskMsg : public plAvatarMsg
+class HSPLASMA_EXPORT plAvTaskMsg : public plAvatarMsg
 {
     CREATABLE(plAvTaskMsg, kAvTaskMsg, plAvatarMsg)
 
@@ -44,7 +44,7 @@ public:
 };
 
 
-class PLASMA_DLL plAvPushBrainMsg : public plAvTaskMsg
+class HSPLASMA_EXPORT plAvPushBrainMsg : public plAvTaskMsg
 {
     CREATABLE(plAvPushBrainMsg, kAvPushBrainMsg, plAvTaskMsg)
 
@@ -68,7 +68,7 @@ public:
 };
 
 
-class PLASMA_DLL plAvPopBrainMsg : public plAvTaskMsg
+class HSPLASMA_EXPORT plAvPopBrainMsg : public plAvTaskMsg
 {
     CREATABLE(plAvPopBrainMsg, kAvPopBrainMsg, plAvTaskMsg)
 };

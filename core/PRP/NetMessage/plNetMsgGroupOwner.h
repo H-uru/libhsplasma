@@ -20,12 +20,12 @@
 #include "plNetMessage.h"
 #include "plNetGroupId.h"
 
-class PLASMA_DLL plNetMsgGroupOwner : public plNetMsgServerToClient
+class HSPLASMA_EXPORT plNetMsgGroupOwner : public plNetMsgServerToClient
 {
     CREATABLE(plNetMsgGroupOwner, kNetMsgGroupOwner, plNetMsgServerToClient)
 
 public:
-    struct PLASMA_DLL GroupInfo
+    struct HSPLASMA_EXPORT GroupInfo
     {
         plNetGroupId fGroupID;
         bool fOwnIt;

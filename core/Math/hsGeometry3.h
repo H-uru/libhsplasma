@@ -24,7 +24,7 @@
 /**
  * \brief Stores a vector in 3D space.
  */
-struct PLASMA_DLL hsVector3
+struct HSPLASMA_EXPORT hsVector3
 {
     float X, Y, Z;
 
@@ -131,7 +131,7 @@ struct PLASMA_DLL hsVector3
 /**
  * \brief Describes an infinite plane in 3D space.
  */
-struct PLASMA_DLL hsPlane3
+struct HSPLASMA_EXPORT hsPlane3
 {
     /** The Normal direction of the plane (should be a unit vector). */
     hsVector3 N;
@@ -162,7 +162,7 @@ struct PLASMA_DLL hsPlane3
 /**
  * \brief Stores a point in 2D space.
  */
-struct PLASMA_DLL hsFloatPoint2
+struct HSPLASMA_EXPORT hsFloatPoint2
 {
     float X, Y;
 

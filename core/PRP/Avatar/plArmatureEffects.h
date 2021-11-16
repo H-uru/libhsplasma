@@ -19,13 +19,13 @@
 
 #include "PRP/KeyedObject/hsKeyedObject.h"
 
-class PLASMA_DLL plArmatureEffect : public hsKeyedObject
+class HSPLASMA_EXPORT plArmatureEffect : public hsKeyedObject
 {
     CREATABLE(plArmatureEffect, kArmatureEffect, hsKeyedObject)
 };
 
 
-class PLASMA_DLL plArmatureEffectFootSound : public plArmatureEffect
+class HSPLASMA_EXPORT plArmatureEffectFootSound : public plArmatureEffect
 {
     CREATABLE(plArmatureEffectFootSound, kArmatureEffectFootSound, plArmatureEffect)
 
@@ -42,7 +42,7 @@ protected:
 };
 
 
-class PLASMA_DLL plArmatureEffectsMgr : public hsKeyedObject
+class HSPLASMA_EXPORT plArmatureEffectsMgr : public hsKeyedObject
 {
     CREATABLE(plArmatureEffectsMgr, kArmatureEffectsMgr, hsKeyedObject)
 

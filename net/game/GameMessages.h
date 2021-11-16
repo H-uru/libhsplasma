@@ -31,7 +31,7 @@ enum /* Server -> Client */
     kGame2Cli_GameMgrMsg, kGame2Cli_LastMessage,
 };
 
-PLASMANET_DLL const pnNetMsg* GET_Cli2Game(uint32_t msgId);
-PLASMANET_DLL const pnNetMsg* GET_Game2Cli(uint32_t msgId);
+HSPLASMANET_EXPORT const pnNetMsg* GET_Cli2Game(uint32_t msgId);
+HSPLASMANET_EXPORT const pnNetMsg* GET_Game2Cli(uint32_t msgId);
 
 #endif

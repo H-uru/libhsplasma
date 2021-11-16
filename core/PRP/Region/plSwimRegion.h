@@ -19,7 +19,7 @@
 
 #include "PRP/Object/plObjInterface.h"
 
-class PLASMA_DLL plSwimRegionInterface : public plObjInterface
+class HSPLASMA_EXPORT plSwimRegionInterface : public plObjInterface
 {
     CREATABLE(plSwimRegionInterface, kSwimRegionInterface, plObjInterface)
 
@@ -51,7 +51,7 @@ public:
 };
 
 
-class PLASMA_DLL plSwimCircularCurrentRegion : public plSwimRegionInterface
+class HSPLASMA_EXPORT plSwimCircularCurrentRegion : public plSwimRegionInterface
 {
     CREATABLE(plSwimCircularCurrentRegion, kSwimCircularCurrentRegion,
               plSwimRegionInterface)
@@ -91,7 +91,7 @@ public:
 };
 
 
-class PLASMA_DLL plSwimStraightCurrentRegion : public plSwimRegionInterface
+class HSPLASMA_EXPORT plSwimStraightCurrentRegion : public plSwimRegionInterface
 {
     CREATABLE(plSwimStraightCurrentRegion, kSwimStraightCurrentRegion,
               plSwimRegionInterface)

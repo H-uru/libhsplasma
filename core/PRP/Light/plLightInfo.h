@@ -22,7 +22,7 @@
 #include "Sys/hsColor.h"
 #include "Math/hsMatrix44.h"
 
-class PLASMA_DLL plLightInfo : public plObjInterface
+class HSPLASMA_EXPORT plLightInfo : public plObjInterface
 {
     CREATABLE(plLightInfo, kLightInfo, plObjInterface)
 

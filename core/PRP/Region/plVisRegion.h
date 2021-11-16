@@ -19,7 +19,7 @@
 
 #include "PRP/Object/plObjInterface.h"
 
-class PLASMA_DLL plVisRegion : public plObjInterface
+class HSPLASMA_EXPORT plVisRegion : public plObjInterface
 {
     CREATABLE(plVisRegion, kVisRegion, plObjInterface)
 

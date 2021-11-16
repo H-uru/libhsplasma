@@ -22,7 +22,7 @@
 #include "Math/hsGeometry3.h"
 #include "Math/hsMatrix44.h"
 
-class PLASMA_DLL plSpanEncoding
+class HSPLASMA_EXPORT plSpanEncoding
 {
 public:
     enum
@@ -64,7 +64,7 @@ public:
 };
 
 
-class PLASMA_DLL plSpanInstance
+class HSPLASMA_EXPORT plSpanInstance
 {
 protected:
     unsigned char* fPosDelta;

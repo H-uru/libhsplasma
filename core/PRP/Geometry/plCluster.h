@@ -21,7 +21,7 @@
 
 class plClusterGroup;
 
-class PLASMA_DLL plCluster
+class HSPLASMA_EXPORT plCluster
 {
 protected:
     std::vector<plSpanInstance*> fInstances;

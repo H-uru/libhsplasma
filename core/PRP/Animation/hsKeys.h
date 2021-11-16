@@ -21,7 +21,7 @@
 #include "Math/hsMatrix44.h"
 #include "Math/hsAffineParts.h"
 
-struct PLASMA_DLL hsKeyFrame
+struct HSPLASMA_EXPORT hsKeyFrame
 {
     enum
     {
@@ -62,7 +62,7 @@ public:
     void setFrameTime(float frame);
 };
 
-struct PLASMA_DLL hsPoint3Key : public hsKeyFrame
+struct HSPLASMA_EXPORT hsPoint3Key : public hsKeyFrame
 {
     hsVector3 fInTan, fOutTan;
     hsVector3 fValue;
@@ -75,7 +75,7 @@ struct PLASMA_DLL hsPoint3Key : public hsKeyFrame
     hsPoint3Key& operator=(const hsKeyFrame& rhs) HS_OVERRIDE;
 };
 
-struct PLASMA_DLL hsScalarKey : public hsKeyFrame
+struct HSPLASMA_EXPORT hsScalarKey : public hsKeyFrame
 {
     float fInTan, fOutTan;
     float fValue;
@@ -88,7 +88,7 @@ struct PLASMA_DLL hsScalarKey : public hsKeyFrame
     hsScalarKey& operator=(const hsKeyFrame& rhs) HS_OVERRIDE;
 };
 
-struct PLASMA_DLL hsScaleKey : public hsKeyFrame
+struct HSPLASMA_EXPORT hsScaleKey : public hsKeyFrame
 {
     hsVector3 fInTan, fOutTan;
 
@@ -104,7 +104,7 @@ struct PLASMA_DLL hsScaleKey : public hsKeyFrame
     hsScaleKey& operator=(const hsKeyFrame& rhs) HS_OVERRIDE;
 };
 
-struct PLASMA_DLL hsQuatKey : public hsKeyFrame
+struct HSPLASMA_EXPORT hsQuatKey : public hsKeyFrame
 {
     hsQuat fValue;
 
@@ -116,7 +116,7 @@ struct PLASMA_DLL hsQuatKey : public hsKeyFrame
     hsQuatKey& operator=(const hsKeyFrame& rhs) HS_OVERRIDE;
 };
 
-struct PLASMA_DLL hsCompressedQuatKey32 : public hsKeyFrame
+struct HSPLASMA_EXPORT hsCompressedQuatKey32 : public hsKeyFrame
 {
 public:
     enum { kCompQuatNukeX, kCompQuatNukeY, kCompQuatNukeZ, kCompQuatNukeW };
@@ -138,7 +138,7 @@ public:
     hsCompressedQuatKey32& operator=(const hsKeyFrame& rhs) HS_OVERRIDE;
 };
 
-struct PLASMA_DLL hsCompressedQuatKey64 : public hsKeyFrame
+struct HSPLASMA_EXPORT hsCompressedQuatKey64 : public hsKeyFrame
 {
 public:
     enum { kCompQuatNukeX, kCompQuatNukeY, kCompQuatNukeZ, kCompQuatNukeW };
@@ -161,7 +161,7 @@ public:
     hsCompressedQuatKey64& operator=(const hsKeyFrame& rhs) HS_OVERRIDE;
 };
 
-struct PLASMA_DLL hsG3DSMaxKeyFrame : public hsKeyFrame
+struct HSPLASMA_EXPORT hsG3DSMaxKeyFrame : public hsKeyFrame
 {
     hsAffineParts fValue;
 
@@ -173,7 +173,7 @@ struct PLASMA_DLL hsG3DSMaxKeyFrame : public hsKeyFrame
     hsG3DSMaxKeyFrame& operator=(const hsKeyFrame& rhs) HS_OVERRIDE;
 };
 
-struct PLASMA_DLL hsMatrix33Key : public hsKeyFrame
+struct HSPLASMA_EXPORT hsMatrix33Key : public hsKeyFrame
 {
     hsMatrix33 fValue;
 
@@ -185,7 +185,7 @@ struct PLASMA_DLL hsMatrix33Key : public hsKeyFrame
     hsMatrix33Key& operator=(const hsKeyFrame& rhs) HS_OVERRIDE;
 };
 
-struct PLASMA_DLL hsMatrix44Key : public hsKeyFrame
+struct HSPLASMA_EXPORT hsMatrix44Key : public hsKeyFrame
 {
     hsMatrix44 fValue;
 

@@ -20,7 +20,7 @@
 #include "PRP/KeyedObject/hsKeyedObject.h"
 #include "plGeometrySpan.h"
 
-class PLASMA_DLL plSharedMesh : public hsKeyedObject
+class HSPLASMA_EXPORT plSharedMesh : public hsKeyedObject
 {
     CREATABLE(plSharedMesh, kSharedMesh, hsKeyedObject)
 

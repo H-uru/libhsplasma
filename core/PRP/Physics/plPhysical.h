@@ -19,7 +19,7 @@
 
 #include "PRP/Object/plSynchedObject.h"
 
-class PLASMA_DLL plSimDefs
+class HSPLASMA_EXPORT plSimDefs
 {
 public:
     enum Bounds
@@ -60,7 +60,7 @@ public:
     static const char* GroupNames[];
 };
 
-class PLASMA_DLL plPhysical : public plSynchedObject
+class HSPLASMA_EXPORT plPhysical : public plSynchedObject
 {
     CREATABLE(plPhysical, kPhysical, plSynchedObject)
 };

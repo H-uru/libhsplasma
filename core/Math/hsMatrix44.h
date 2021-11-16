@@ -23,7 +23,7 @@
 
 // Just remember: http://xkcd.org/184/
 
-struct PLASMA_DLL hsMatrix44
+struct HSPLASMA_EXPORT hsMatrix44
 {
 public:
     enum { kRight, kUp, kView };  // Axes

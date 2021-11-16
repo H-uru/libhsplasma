@@ -22,7 +22,7 @@
 #include "Math/hsMatrix44.h"
 #include "PRP/Region/hsBounds.h"
 
-class PLASMA_DLL plViewFaceModifier : public plSingleModifier
+class HSPLASMA_EXPORT plViewFaceModifier : public plSingleModifier
 {
     CREATABLE(plViewFaceModifier, kViewFaceModifier, plSingleModifier)
 

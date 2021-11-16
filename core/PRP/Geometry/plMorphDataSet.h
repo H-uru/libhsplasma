@@ -20,7 +20,7 @@
 #include "PRP/KeyedObject/hsKeyedObject.h"
 #include "plMorphArray.h"
 
-class PLASMA_DLL plMorphDataSet : public hsKeyedObject
+class HSPLASMA_EXPORT plMorphDataSet : public hsKeyedObject
 {
     CREATABLE(plMorphDataSet, kMorphDataSet, hsKeyedObject)
 

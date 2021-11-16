@@ -21,7 +21,7 @@
 #include "Sys/plUnifiedTime.h"
 #include "Sys/plUuid.h"
 
-class PLASMA_DLL plNetMessage : public plCreatable
+class HSPLASMA_EXPORT plNetMessage : public plCreatable
 {
     CREATABLE(plNetMessage, kNetMessage, plCreatable)
 
@@ -94,7 +94,7 @@ public:
 };
 
 
-class PLASMA_DLL plNetMsgServerToClient : public plNetMessage
+class HSPLASMA_EXPORT plNetMsgServerToClient : public plNetMessage
 {
     CREATABLE(plNetMsgServerToClient, kNetMsgServerToClient, plNetMessage)
 };

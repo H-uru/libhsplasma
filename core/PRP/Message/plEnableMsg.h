@@ -20,7 +20,7 @@
 #include "plMessage.h"
 #include "Util/hsBitVector.h"
 
-class PLASMA_DLL plEnableMsg : public plMessage
+class HSPLASMA_EXPORT plEnableMsg : public plMessage
 {
     CREATABLE(plEnableMsg, kEnableMsg, plMessage)
 

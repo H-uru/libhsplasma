@@ -19,7 +19,7 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plExcludeRegionMsg : public plMessage
+class HSPLASMA_EXPORT plExcludeRegionMsg : public plMessage
 {
     CREATABLE(plExcludeRegionMsg, kExcludeRegionMsg, plMessage)
 

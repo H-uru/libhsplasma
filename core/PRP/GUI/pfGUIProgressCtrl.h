@@ -19,7 +19,7 @@
 
 #include "pfGUIValueCtrl.h"
 
-class PLASMA_DLL pfGUIProgressCtrl : public pfGUIValueCtrl
+class HSPLASMA_EXPORT pfGUIProgressCtrl : public pfGUIValueCtrl
 {
     CREATABLE(pfGUIProgressCtrl, kGUIProgressCtrl, pfGUIValueCtrl)
 

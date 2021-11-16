@@ -20,7 +20,7 @@
 #include "plAGAnim.h"
 #include <map>
 
-class PLASMA_DLL plATCAnim : public plAGAnim
+class HSPLASMA_EXPORT plATCAnim : public plAGAnim
 {
     CREATABLE(plATCAnim, kATCAnim, plAGAnim)
 
@@ -113,7 +113,7 @@ public:
 };
 
 
-class PLASMA_DLL plEmoteAnim : public plATCAnim
+class HSPLASMA_EXPORT plEmoteAnim : public plATCAnim
 {
     CREATABLE(plEmoteAnim, kEmoteAnim, plATCAnim)
 
@@ -141,7 +141,7 @@ public:
     void setFadeOut(float fade) { fFadeOut = fade; }
 };
 
-class PLASMA_DLL plAGAnimBink : public plATCAnim
+class HSPLASMA_EXPORT plAGAnimBink : public plATCAnim
 {
     CREATABLE(plAGAnimBink, kAGAnimBink, plATCAnim)
 

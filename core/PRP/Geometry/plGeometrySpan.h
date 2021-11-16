@@ -25,7 +25,7 @@
 #include "Math/hsGeometry3.h"
 #include "PRP/KeyedObject/plKey.h"
 
-class PLASMA_DLL plGeometrySpan
+class HSPLASMA_EXPORT plGeometrySpan
 {
 public:
     enum
@@ -68,7 +68,7 @@ public:
 
     enum { kNoGroupID = 0 };
 
-    struct PLASMA_DLL TempVertex
+    struct HSPLASMA_EXPORT TempVertex
     {
         hsVector3 fPosition, fNormal;
         unsigned int fColor, fSpecularColor;

@@ -19,7 +19,7 @@
 
 #include "plObjInterface.h"
 
-class PLASMA_DLL plDrawInterface : public plObjInterface
+class HSPLASMA_EXPORT plDrawInterface : public plObjInterface
 {
     CREATABLE(plDrawInterface, kDrawInterface, plObjInterface)
 
@@ -53,7 +53,7 @@ public:
 };
 
 
-class PLASMA_DLL plInstanceDrawInterface : public plDrawInterface
+class HSPLASMA_EXPORT plInstanceDrawInterface : public plDrawInterface
 {
     CREATABLE(plInstanceDrawInterface, kInstanceDrawInterface, plDrawInterface)
 

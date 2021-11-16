@@ -29,7 +29,7 @@
  * direction specified.
  */
 
-class PLASMA_DLL plAvLadderMod : public plSingleModifier
+class HSPLASMA_EXPORT plAvLadderMod : public plSingleModifier
 {
     CREATABLE(plAvLadderMod, kAvLadderMod, plSingleModifier)
 
@@ -111,7 +111,7 @@ public:
 * the ladder.
 */
 
-class PLASMA_DLL plLadderModifier : public plSingleModifier
+class HSPLASMA_EXPORT plLadderModifier : public plSingleModifier
 {
     CREATABLE(plLadderModifier, kLadderModifier, plSingleModifier)
 

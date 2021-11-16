@@ -19,7 +19,7 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plServerReplyMsg : public plMessage
+class HSPLASMA_EXPORT plServerReplyMsg : public plMessage
 {
     CREATABLE(plServerReplyMsg, kServerReplyMsg, plMessage)
 

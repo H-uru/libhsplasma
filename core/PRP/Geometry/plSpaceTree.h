@@ -22,7 +22,7 @@
 #include "PRP/Region/hsBounds.h"
 #include "Util/hsBitVector.h"
 
-struct PLASMA_DLL plSpaceBuilderNode
+struct HSPLASMA_EXPORT plSpaceBuilderNode
 {
     hsBounds3Ext fBounds;
     plSpaceBuilderNode* fChildren[2];
@@ -37,7 +37,7 @@ struct PLASMA_DLL plSpaceBuilderNode
 };
 
 
-class PLASMA_DLL plSpaceTreeNode
+class HSPLASMA_EXPORT plSpaceTreeNode
 {
 public:
     enum
@@ -84,7 +84,7 @@ public:
     void setLeafIndex(short idx);
 };
 
-class PLASMA_DLL plSpaceTree : public plCreatable
+class HSPLASMA_EXPORT plSpaceTree : public plCreatable
 {
     CREATABLE(plSpaceTree, kSpaceTree, plCreatable)
 

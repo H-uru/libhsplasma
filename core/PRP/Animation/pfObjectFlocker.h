@@ -19,12 +19,12 @@
 
 #include "PRP/Modifier/plModifier.h"
 
-class PLASMA_DLL pfObjectFlocker : public plSingleModifier
+class HSPLASMA_EXPORT pfObjectFlocker : public plSingleModifier
 {
     CREATABLE(pfObjectFlocker, kObjectFlocker, plSingleModifier)
 
 public:
-    struct PLASMA_DLL pfFlock
+    struct HSPLASMA_EXPORT pfFlock
     {
         float fGoalWeight, fRandomWeight;
         float fSeparationWeight, fSeparationRadius;

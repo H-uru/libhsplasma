@@ -21,7 +21,7 @@
 #include "ResManager/plResManager.h"
 #include "hsKeys.h"
 
-class PLASMA_DLL plController : public plCreatable
+class HSPLASMA_EXPORT plController : public plCreatable
 {
     CREATABLE(plController, kController, plCreatable)
 
@@ -30,7 +30,7 @@ public:
 };
 
 
-class PLASMA_DLL plCompoundController : public plController
+class HSPLASMA_EXPORT plCompoundController : public plController
 {
     CREATABLE(plCompoundController, kCompoundController, plController)
 

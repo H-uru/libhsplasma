@@ -19,7 +19,7 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plInputIfaceMgrMsg : public plMessage
+class HSPLASMA_EXPORT plInputIfaceMgrMsg : public plMessage
 {
     CREATABLE(plInputIfaceMgrMsg, kInputIfaceMgrMsg, plMessage)
 

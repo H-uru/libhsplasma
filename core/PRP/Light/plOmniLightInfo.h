@@ -19,7 +19,7 @@
 
 #include "plLightInfo.h"
 
-class PLASMA_DLL plOmniLightInfo : public plLightInfo
+class HSPLASMA_EXPORT plOmniLightInfo : public plLightInfo
 {
     CREATABLE(plOmniLightInfo, kOmniLightInfo, plLightInfo)
 
@@ -50,7 +50,7 @@ public:
 };
 
 
-class PLASMA_DLL plSpotLightInfo : public plOmniLightInfo
+class HSPLASMA_EXPORT plSpotLightInfo : public plOmniLightInfo
 {
     CREATABLE(plSpotLightInfo, kSpotLightInfo, plOmniLightInfo)
 

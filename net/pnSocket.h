@@ -17,13 +17,14 @@
 #ifndef _PNSOCKET_H
 #define _PNSOCKET_H
 
+#include "PlasmaNetDefs.h"
 #include "Sys/hsThread.h"
 #include "pnNetMsg.h"
 #include <cstdlib>
 #include <list>
 #include <string_theory/string>
 
-class PLASMANET_DLL pnSocket
+class HSPLASMANET_EXPORT pnSocket
 {
 protected:
     int fSockHandle;

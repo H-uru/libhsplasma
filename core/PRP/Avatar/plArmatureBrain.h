@@ -19,7 +19,7 @@
 
 #include "PRP/plCreatable.h"
 
-class PLASMA_DLL plArmatureBrain : public plCreatable
+class HSPLASMA_EXPORT plArmatureBrain : public plCreatable
 {
     CREATABLE(plArmatureBrain, kArmatureBrain, plCreatable)
 
@@ -40,7 +40,7 @@ private:
 };
 
 
-class PLASMA_DLL plAvBrainHuman : public plArmatureBrain
+class HSPLASMA_EXPORT plAvBrainHuman : public plArmatureBrain
 {
     CREATABLE(plAvBrainHuman, kAvBrainHuman, plArmatureBrain)
 
@@ -63,49 +63,49 @@ public:
 };
 
 
-class PLASMA_DLL plAvBrainClimb : public plArmatureBrain
+class HSPLASMA_EXPORT plAvBrainClimb : public plArmatureBrain
 {
     CREATABLE(plAvBrainClimb, kAvBrainClimb, plArmatureBrain)
 };
 
 
-class PLASMA_DLL plAvBrainAvatar : public plArmatureBrain
+class HSPLASMA_EXPORT plAvBrainAvatar : public plArmatureBrain
 {
     CREATABLE(plAvBrainAvatar, kAvBrainAvatar, plArmatureBrain)
 };
 
-class PLASMA_DLL plAvBrainCritter : public plArmatureBrain
+class HSPLASMA_EXPORT plAvBrainCritter : public plArmatureBrain
 {
     CREATABLE(plAvBrainCritter, kAvBrainCritter, plArmatureBrain)
 };
 
 
-class PLASMA_DLL plAvBrainDrive : public plArmatureBrain
+class HSPLASMA_EXPORT plAvBrainDrive : public plArmatureBrain
 {
     CREATABLE(plAvBrainDrive, kAvBrainDrive, plArmatureBrain)
 };
 
 
-class PLASMA_DLL plAvBrainPirahna : public plArmatureBrain
+class HSPLASMA_EXPORT plAvBrainPirahna : public plArmatureBrain
 {
     CREATABLE(plAvBrainPirahna, kAvBrainPirahna, plArmatureBrain)
 };
 
 
-class PLASMA_DLL plAvBrainQuab : public plArmatureBrain
+class HSPLASMA_EXPORT plAvBrainQuab : public plArmatureBrain
 {
     CREATABLE(plAvBrainQuab, kAvBrainQuab, plArmatureBrain)
 };
 
 
-class PLASMA_DLL plAvBrainRideAnimatedPhysical : public plArmatureBrain
+class HSPLASMA_EXPORT plAvBrainRideAnimatedPhysical : public plArmatureBrain
 {
     CREATABLE(plAvBrainRideAnimatedPhysical, kAvBrainRideAnimatedPhysical,
               plArmatureBrain)
 };
 
 
-class PLASMA_DLL plAvBrainSwim : public plArmatureBrain
+class HSPLASMA_EXPORT plAvBrainSwim : public plArmatureBrain
 {
     CREATABLE(plAvBrainSwim, kAvBrainSwim, plArmatureBrain)
 };

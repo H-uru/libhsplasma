@@ -20,7 +20,7 @@
 #include "Stream/pfPrcHelper.h"
 #include "Stream/pfPrcParser.h"
 
-class PLASMA_DLL pfGUICtrlProcObject
+class HSPLASMA_EXPORT pfGUICtrlProcObject
 {
 public:
     pfGUICtrlProcObject() { }
@@ -28,10 +28,10 @@ public:
 };
 
 
-class PLASMA_DLL pfGUIDialogProc : public pfGUICtrlProcObject { };
+class HSPLASMA_EXPORT pfGUIDialogProc : public pfGUICtrlProcObject { };
 
 
-class PLASMA_DLL pfGUICtrlProcWriteableObject : public pfGUICtrlProcObject
+class HSPLASMA_EXPORT pfGUICtrlProcWriteableObject : public pfGUICtrlProcObject
 {
 public:
     enum Types { kNull, kConsoleCmd, kPythonScript, kCloseDlg };
@@ -56,7 +56,7 @@ public:
 };
 
 
-class PLASMA_DLL pfGUICloseDlgProc : public pfGUICtrlProcWriteableObject
+class HSPLASMA_EXPORT pfGUICloseDlgProc : public pfGUICtrlProcWriteableObject
 {
 public:
     pfGUICloseDlgProc() { fType = kCloseDlg; }
@@ -69,7 +69,7 @@ protected:
 };
 
 
-class PLASMA_DLL pfGUIConsoleCmdProc : public pfGUICtrlProcWriteableObject
+class HSPLASMA_EXPORT pfGUIConsoleCmdProc : public pfGUICtrlProcWriteableObject
 {
 protected:
     ST::string fCommand;
@@ -89,7 +89,7 @@ public:
 };
 
 
-class PLASMA_DLL pfGUIPythonScriptProc : public pfGUICtrlProcWriteableObject
+class HSPLASMA_EXPORT pfGUIPythonScriptProc : public pfGUICtrlProcWriteableObject
 {
 public:
      pfGUIPythonScriptProc() { fType = kPythonScript; }

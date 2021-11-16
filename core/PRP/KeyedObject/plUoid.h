@@ -29,7 +29,7 @@
  * to find the actual object.  Most notably, plUoid is used by plKey as
  * an identification for the object that the plKey references.
  */
-class PLASMA_DLL plUoid
+class HSPLASMA_EXPORT plUoid
 {
 private:
     enum ContentsFlags

@@ -21,7 +21,7 @@
 #include "PRP/KeyedObject/plUoid.h"
 #include "plNetMessage.h"
 
-class PLASMA_DLL plNetMsgMemberInfoHelper : public plCreatable
+class HSPLASMA_EXPORT plNetMsgMemberInfoHelper : public plCreatable
 {
     CREATABLE(plNetMsgMemberInfoHelper, kNetMsgMemberInfoHelper, plCreatable)
 
@@ -51,7 +51,7 @@ public:
 };
 
 
-class PLASMA_DLL plNetMsgMembersList : public plNetMsgServerToClient
+class HSPLASMA_EXPORT plNetMsgMembersList : public plNetMsgServerToClient
 {
     CREATABLE(plNetMsgMembersList, kNetMsgMembersList, plNetMsgServerToClient)
 
@@ -75,7 +75,7 @@ public:
 };
 
 
-class PLASMA_DLL plNetMsgMemberUpdate : public plNetMsgServerToClient
+class HSPLASMA_EXPORT plNetMsgMemberUpdate : public plNetMsgServerToClient
 {
     CREATABLE(plNetMsgMemberUpdate, kNetMsgMemberUpdate, plNetMsgServerToClient)
 
@@ -100,7 +100,7 @@ public:
 };
 
 
-class PLASMA_DLL plNetMsgMembersListReq : public plNetMessage
+class HSPLASMA_EXPORT plNetMsgMembersListReq : public plNetMessage
 {
     CREATABLE(plNetMsgMembersListReq, kNetMsgMembersListReq, plNetMessage)
 };

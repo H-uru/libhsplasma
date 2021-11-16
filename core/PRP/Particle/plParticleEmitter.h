@@ -24,7 +24,7 @@
 #include "Math/hsMatrix44.h"
 #include "plParticleGenerator.h"
 
-class PLASMA_DLL plParticleEmitter : public plCreatable
+class HSPLASMA_EXPORT plParticleEmitter : public plCreatable
 {
     CREATABLE(plParticleEmitter, kParticleEmitter, plCreatable)
 

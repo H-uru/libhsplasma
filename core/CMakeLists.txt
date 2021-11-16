@@ -18,8 +18,6 @@ if(PHYSX_FOUND AND ENABLE_PHYSX)
     include_directories(${PHYSX_INCLUDE_DIRS})
 endif(PHYSX_FOUND AND ENABLE_PHYSX)
 
-add_definitions(-DBUILD_PLASMA_DLL)
-
 set(DEBUG_SOURCES
     Debug/plDebug.cpp
 )
@@ -808,6 +806,7 @@ target_link_libraries(HSPlasma
 
 target_include_directories(HSPlasma PUBLIC
                            $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}>
+                           $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
                            $<INSTALL_INTERFACE:include/HSPlasma>)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libhsplasma.pc.in.cmake ${CMAKE_CURRENT_BINARY_DIR}/libhsplasma.pc @ONLY)
@@ -816,6 +815,9 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libhsplasma.pc.in.cmake ${CMAKE_CURRE
 if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.16)
     set_property(SOURCE ${SQUISH_SOURCES} PROPERTY SKIP_UNITY_BUILD_INCLUSION TRUE)
 endif()
+
+include(GenerateExportHeader)
+generate_export_header(HSPlasma)
 
 # Package Installation
 install(TARGETS HSPlasma

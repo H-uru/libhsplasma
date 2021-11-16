@@ -19,7 +19,7 @@
 
 #include "hsStream.h"
 
-class PLASMA_DLL plEncryptedStream : public hsStream
+class HSPLASMA_EXPORT plEncryptedStream : public hsStream
 {
 public:
     enum EncryptionType { kEncNone, kEncXtea, kEncAES, kEncDroid, kEncAuto };

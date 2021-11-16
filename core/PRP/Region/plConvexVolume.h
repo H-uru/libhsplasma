@@ -20,7 +20,7 @@
 #include "PRP/plCreatable.h"
 #include "Math/hsGeometry3.h"
 
-class PLASMA_DLL plConvexVolume : public plCreatable
+class HSPLASMA_EXPORT plConvexVolume : public plCreatable
 {
     CREATABLE(plConvexVolume, kConvexVolume, plCreatable)
 

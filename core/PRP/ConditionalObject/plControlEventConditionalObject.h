@@ -19,7 +19,7 @@
 
 #include "plConditionalObject.h"
 
-class PLASMA_DLL plControlEventConditionalObject : public plConditionalObject
+class HSPLASMA_EXPORT plControlEventConditionalObject : public plConditionalObject
 {
     CREATABLE(plControlEventConditionalObject,
               kControlEventConditionalObject,
