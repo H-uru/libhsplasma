@@ -20,7 +20,7 @@
 #include "pfGUIValueCtrl.h"
 #include "Math/hsGeometry3.h"
 
-class PLASMA_DLL pfGUIKnobCtrl : public pfGUIValueCtrl
+class HSPLASMA_EXPORT pfGUIKnobCtrl : public pfGUIValueCtrl
 {
     CREATABLE(pfGUIKnobCtrl, kGUIKnobCtrl, pfGUIValueCtrl)
 

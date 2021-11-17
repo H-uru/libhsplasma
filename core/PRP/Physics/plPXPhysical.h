@@ -22,7 +22,7 @@
  */
 #include "plPhysical.h"
 
-class PLASMA_DLL plPXSimDefs
+class HSPLASMA_EXPORT plPXSimDefs
 {
 public:
     enum Bounds
@@ -126,7 +126,7 @@ public:
 
 class plGenericPhysical;
 
-class PLASMA_DLL PXCookedData
+class HSPLASMA_EXPORT PXCookedData
 {
 public:
     static void readTriangleMesh(hsStream* S, plGenericPhysical* physical);

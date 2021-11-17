@@ -20,10 +20,10 @@
 #include "Math/hsGeometry3.h"
 #include "Sys/hsColor.h"
 
-class PLASMA_DLL plFixedWaterState6
+class HSPLASMA_EXPORT plFixedWaterState6
 {
 public:
-    struct PLASMA_DLL WaveState
+    struct HSPLASMA_EXPORT WaveState
     {
         float fMaxLength, fMinLength, fAmpOverLen, fChop, fAngleDev;
 

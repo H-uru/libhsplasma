@@ -22,7 +22,7 @@
 #include "Sys/plUuid.h"
 #include "Protocol.h"
 
-class PLASMANET_DLL pnVaultNode
+class HSPLASMANET_EXPORT pnVaultNode
 {
 public:
     enum
@@ -117,7 +117,7 @@ private:
     void IClearField(size_t which, size_t size);
 };
 
-struct PLASMANET_DLL pnVaultNodeRef
+struct HSPLASMANET_EXPORT pnVaultNodeRef
 {
     enum { Stride = 13 };
 

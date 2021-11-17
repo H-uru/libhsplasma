@@ -19,7 +19,7 @@
 
 #include "PRP/Modifier/plModifier.h"
 
-class PLASMA_DLL plSittingModifier : public plSingleModifier
+class HSPLASMA_EXPORT plSittingModifier : public plSingleModifier
 {
     CREATABLE(plSittingModifier, kSittingModifier, plSingleModifier)
 

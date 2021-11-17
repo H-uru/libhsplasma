@@ -24,7 +24,7 @@
  * \brief Stores a UUID (Universally Unique Identifier).
  */
 
-struct PLASMA_DLL plUuid {
+struct HSPLASMA_EXPORT plUuid {
 private:
     unsigned int fData1;
     unsigned short fData2, fData3;

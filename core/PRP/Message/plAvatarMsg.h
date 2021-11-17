@@ -19,13 +19,13 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plAvatarMsg : public plMessage
+class HSPLASMA_EXPORT plAvatarMsg : public plMessage
 {
     CREATABLE(plAvatarMsg, kAvatarMsg, plMessage)
 };
 
 
-class PLASMA_DLL plArmatureUpdateMsg : public plAvatarMsg
+class HSPLASMA_EXPORT plArmatureUpdateMsg : public plAvatarMsg
 {
     CREATABLE(plArmatureUpdateMsg, kArmatureUpdateMsg, plAvatarMsg)
 
@@ -43,7 +43,7 @@ protected:
 };
 
 
-class PLASMA_DLL plAvatarSetTypeMsg : public plAvatarMsg
+class HSPLASMA_EXPORT plAvatarSetTypeMsg : public plAvatarMsg
 {
     CREATABLE(plAvatarSetTypeMsg, kAvatarSetTypeMsg, plAvatarMsg)
 
@@ -62,7 +62,7 @@ protected:
 };
 
 
-class PLASMA_DLL plAvatarStealthModeMsg : public plAvatarMsg
+class HSPLASMA_EXPORT plAvatarStealthModeMsg : public plAvatarMsg
 {
     CREATABLE(plAvatarStealthModeMsg, kAvatarStealthModeMsg, plAvatarMsg)
 
@@ -80,7 +80,7 @@ protected:
 };
 
 
-class PLASMA_DLL plAvBrainGenericMsg : public plAvatarMsg
+class HSPLASMA_EXPORT plAvBrainGenericMsg : public plAvatarMsg
 {
     CREATABLE(plAvBrainGenericMsg, kAvBrainGenericMsg, plAvatarMsg)
 
@@ -109,7 +109,7 @@ protected:
 };
 
 
-class PLASMA_DLL plAvTaskSeekDoneMsg : public plAvatarMsg
+class HSPLASMA_EXPORT plAvTaskSeekDoneMsg : public plAvatarMsg
 {
     CREATABLE(plAvTaskSeekDoneMsg, kAvTaskSeekDoneMsg, plAvatarMsg)
 

@@ -20,7 +20,7 @@
 #include "Util/hsBitVector.h"
 #include "plSynchedObject.h"
 
-class PLASMA_DLL plObjInterface : public plSynchedObject
+class HSPLASMA_EXPORT plObjInterface : public plSynchedObject
 {
     CREATABLE(plObjInterface, kObjInterface, plSynchedObject)
 

@@ -19,7 +19,7 @@
 
 #include "plBitmap.h"
 
-class PLASMA_DLL plMipmap : public plBitmap
+class HSPLASMA_EXPORT plMipmap : public plBitmap
 {
     CREATABLE(plMipmap, kMipmap, plBitmap)
 
@@ -34,7 +34,7 @@ public:
     };
 
 protected:
-    struct PLASMA_DLL LevelData
+    struct HSPLASMA_EXPORT LevelData
     {
         uint32_t fSize, fOffset;
         uint32_t fWidth, fHeight;
@@ -114,7 +114,7 @@ public:
 };
 
 
-class PLASMA_DLL plLODMipmap : public plMipmap
+class HSPLASMA_EXPORT plLODMipmap : public plMipmap
 {
     CREATABLE(plLODMipmap, kLODMipmap, plMipmap)
 

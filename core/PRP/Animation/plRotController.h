@@ -19,7 +19,7 @@
 
 #include "plKeyControllers.hpp"
 
-class PLASMA_DLL plRotController : public plController
+class HSPLASMA_EXPORT plRotController : public plController
 {
     CREATABLE(plRotController, kRotController, plController)
 
@@ -31,7 +31,7 @@ public:
 };
 
 
-class PLASMA_DLL plSimpleRotController : public plRotController
+class HSPLASMA_EXPORT plSimpleRotController : public plRotController
 {
     CREATABLE(plSimpleRotController, kSimpleRotController, plRotController)
 
@@ -56,7 +56,7 @@ public:
 };
 
 
-class PLASMA_DLL plCompoundRotController : public plRotController
+class HSPLASMA_EXPORT plCompoundRotController : public plRotController
 {
     CREATABLE(plCompoundRotController, kCompoundRotController, plRotController)
 

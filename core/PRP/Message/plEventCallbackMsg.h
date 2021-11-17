@@ -19,7 +19,7 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plEventCallbackMsg : public plMessage
+class HSPLASMA_EXPORT plEventCallbackMsg : public plMessage
 {
     CREATABLE(plEventCallbackMsg, kEventCallbackMsg, plMessage)
 
@@ -54,12 +54,12 @@ public:
 };
 
 
-class PLASMA_DLL plEventCallbackSetupMsg : public plMessage
+class HSPLASMA_EXPORT plEventCallbackSetupMsg : public plMessage
 {
     CREATABLE(plEventCallbackSetupMsg, kEventCallbackSetupMsg, plMessage)
 
 public:
-    struct PLASMA_DLL plAnimCallbackSetup
+    struct HSPLASMA_EXPORT plAnimCallbackSetup
     {
         ST::string fMarker;
         plKey fReceiver;

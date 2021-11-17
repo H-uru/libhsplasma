@@ -20,7 +20,7 @@
 #include "PRP/Object/plObjInterface.h"
 #include "PRP/Region/plConvexVolume.h"
 
-class PLASMA_DLL plBoundInterface : public plObjInterface
+class HSPLASMA_EXPORT plBoundInterface : public plObjInterface
 {
     CREATABLE(plBoundInterface, kBoundInterface, plObjInterface)
 

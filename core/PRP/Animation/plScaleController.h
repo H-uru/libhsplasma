@@ -19,7 +19,7 @@
 
 #include "plKeyControllers.hpp"
 
-class PLASMA_DLL plScaleController : public plController
+class HSPLASMA_EXPORT plScaleController : public plController
 {
     CREATABLE(plScaleController, kScaleController, plController)
 
@@ -31,7 +31,7 @@ public:
 };
 
 
-class PLASMA_DLL plSimpleScaleController : public plScaleController
+class HSPLASMA_EXPORT plSimpleScaleController : public plScaleController
 {
     CREATABLE(plSimpleScaleController, kSimpleScaleController, plScaleController)
 

@@ -25,13 +25,13 @@
 #include "crypt/pnRC4.h"
 #include "pnSocketInterface.h"
 
-struct PLASMANET_DLL pnAuthFileItem
+struct HSPLASMANET_EXPORT pnAuthFileItem
 {
     ST::string fFilename;
     uint32_t fFileSize;
 };
 
-struct PLASMANET_DLL pnNetGameScore
+struct HSPLASMANET_EXPORT pnNetGameScore
 {
     uint32_t fScoreId, fOwnerId;
     uint32_t fCreatedTime, fGameType;
@@ -39,14 +39,14 @@ struct PLASMANET_DLL pnNetGameScore
     ST::string fGameName;
 };
 
-struct PLASMANET_DLL pnNetGameRank
+struct HSPLASMANET_EXPORT pnNetGameRank
 {
     uint32_t fRank;
     int32_t fScore;
     ST::string fName;
 };
 
-class PLASMANET_DLL pnAuthClient : public pnClient
+class HSPLASMANET_EXPORT pnAuthClient : public pnClient
 {
 public:
     pnAuthClient(plResManager* mgr, bool deleteMsgs = true, bool threaded = true)

@@ -19,7 +19,7 @@
 
 #include "PRP/KeyedObject/hsKeyedObject.h"
 
-class PLASMA_DLL plWAVHeader
+class HSPLASMA_EXPORT plWAVHeader
 {
 public:
     enum { kPCMFormatTag = 0x1 };
@@ -56,7 +56,7 @@ public:
 };
 
 
-class PLASMA_DLL plSoundBuffer : public hsKeyedObject
+class HSPLASMA_EXPORT plSoundBuffer : public hsKeyedObject
 {
     CREATABLE(plSoundBuffer, kSoundBuffer, hsKeyedObject)
 

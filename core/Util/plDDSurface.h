@@ -19,7 +19,7 @@
 
 #include "Stream/hsStream.h"
 
-class PLASMA_DLL plDDSurface
+class HSPLASMA_EXPORT plDDSurface
 {
 public:
     enum Flags
@@ -154,7 +154,7 @@ public:
         FOURCC_DXT5 = 0x35545844,
     };
 
-    struct PLASMA_DLL plDDColorKey
+    struct HSPLASMA_EXPORT plDDColorKey
     {
         unsigned int fColorSpaceLow, fColorSpaceHigh;
 
@@ -164,7 +164,7 @@ public:
         void write(hsStream* S);
     };
 
-    struct PLASMA_DLL plDDPixelFormat
+    struct HSPLASMA_EXPORT plDDPixelFormat
     {
         unsigned int fFlags;
         unsigned int fFourCC;

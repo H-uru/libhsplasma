@@ -19,7 +19,7 @@
 
 #include "PRP/Object/plSynchedObject.h"
 
-class PLASMA_DLL hsGMaterial : public plSynchedObject
+class HSPLASMA_EXPORT hsGMaterial : public plSynchedObject
 {
     CREATABLE(hsGMaterial, kGMaterial, plSynchedObject)
 

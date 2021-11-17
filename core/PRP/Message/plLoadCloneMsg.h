@@ -19,7 +19,7 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plLoadCloneMsg : public plMessage
+class HSPLASMA_EXPORT plLoadCloneMsg : public plMessage
 {
     CREATABLE(plLoadCloneMsg, kLoadCloneMsg, plMessage)
 

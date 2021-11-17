@@ -22,7 +22,7 @@
 #include "Math/hsMatrix44.h"
 #include "plCullPoly.h"
 
-class PLASMA_DLL plOccluder : public plObjInterface
+class HSPLASMA_EXPORT plOccluder : public plObjInterface
 {
     CREATABLE(plOccluder, kOccluder, plObjInterface)
 
@@ -66,7 +66,7 @@ public:
 };
 
 
-class PLASMA_DLL plMobileOccluder : public plOccluder
+class HSPLASMA_EXPORT plMobileOccluder : public plOccluder
 {
     CREATABLE(plMobileOccluder, kMobileOccluder, plOccluder)
 

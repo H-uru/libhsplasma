@@ -19,7 +19,7 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plSwimMsg : public plMessage
+class HSPLASMA_EXPORT plSwimMsg : public plMessage
 {
     CREATABLE(plSwimMsg, kSwimMsg, plMessage)
 

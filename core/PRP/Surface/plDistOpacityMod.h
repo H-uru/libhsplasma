@@ -19,7 +19,7 @@
 
 #include "../Modifier/plModifier.h"
 
-class PLASMA_DLL plDistOpacityMod : public plSingleModifier
+class HSPLASMA_EXPORT plDistOpacityMod : public plSingleModifier
 {
     CREATABLE(plDistOpacityMod, kDistOpacityMod, plSingleModifier)
 

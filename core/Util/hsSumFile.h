@@ -21,7 +21,7 @@
 
 #include "Util/plMD5.h"
 
-class PLASMA_DLL hsSumFile
+class HSPLASMA_EXPORT hsSumFile
 {
 public:
     enum UpdateResult

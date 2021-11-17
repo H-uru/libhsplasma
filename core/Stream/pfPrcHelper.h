@@ -20,7 +20,7 @@
 #include "hsStream.h"
 #include <stack>
 
-class PLASMA_DLL pfPrcHelper
+class HSPLASMA_EXPORT pfPrcHelper
 {
 public:
     enum PrcExclude

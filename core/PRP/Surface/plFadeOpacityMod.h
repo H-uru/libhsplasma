@@ -19,7 +19,7 @@
 
 #include "PRP/Modifier/plModifier.h"
 
-class PLASMA_DLL plFadeOpacityMod : public plSingleModifier
+class HSPLASMA_EXPORT plFadeOpacityMod : public plSingleModifier
 {
     CREATABLE(plFadeOpacityMod, kFadeOpacityMod, plSingleModifier)
 

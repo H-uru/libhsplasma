@@ -20,7 +20,7 @@
 #include "PRP/Modifier/plModifier.h"
 #include "Math/hsGeometry3.h"
 
-class PLASMA_DLL plGrassWave
+class HSPLASMA_EXPORT plGrassWave
 {
 protected:
     hsVector3 fDist;
@@ -48,7 +48,7 @@ public:
 };
 
 
-class PLASMA_DLL plGrassShaderMod : public plModifier
+class HSPLASMA_EXPORT plGrassShaderMod : public plModifier
 {
     CREATABLE(plGrassShaderMod, kGrassShaderMod, plModifier)
 

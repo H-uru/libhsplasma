@@ -27,7 +27,7 @@
  * mostly for use in animations and other movement.
  */
 
-class PLASMA_DLL hsAffineParts
+class HSPLASMA_EXPORT hsAffineParts
 {
 public:
     /**

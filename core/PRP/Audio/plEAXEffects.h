@@ -20,7 +20,7 @@
 #include "Stream/pfPrcHelper.h"
 #include "Stream/pfPrcParser.h"
 
-class PLASMA_DLL plEAXSourceSoftSettings
+class HSPLASMA_EXPORT plEAXSourceSoftSettings
 {
 protected:
     short fOcclusion;
@@ -48,7 +48,7 @@ public:
 };
 
 
-class PLASMA_DLL plEAXSourceSettings
+class HSPLASMA_EXPORT plEAXSourceSettings
 {
 protected:
     short fRoom, fRoomHF;

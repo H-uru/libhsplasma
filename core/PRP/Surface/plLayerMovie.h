@@ -19,7 +19,7 @@
 
 #include "plLayerAnimation.h"
 
-class PLASMA_DLL plLayerMovie : public plLayerAnimation
+class HSPLASMA_EXPORT plLayerMovie : public plLayerAnimation
 {
     CREATABLE(plLayerMovie, kLayerMovie, plLayerAnimation)
 
@@ -42,13 +42,13 @@ public:
 };
 
 
-class PLASMA_DLL plLayerAVI : public plLayerMovie
+class HSPLASMA_EXPORT plLayerAVI : public plLayerMovie
 {
     CREATABLE(plLayerAVI, kLayerAVI, plLayerMovie)
 };
 
 
-class PLASMA_DLL plLayerBink : public plLayerMovie
+class HSPLASMA_EXPORT plLayerBink : public plLayerMovie
 {
     CREATABLE(plLayerBink, kLayerBink, plLayerMovie)
 };

@@ -19,7 +19,7 @@
 
 #include "hsStream.h"
 
-class PLASMA_DLL pfSizedStream HS_FINAL : public hsStream
+class HSPLASMA_EXPORT pfSizedStream HS_FINAL : public hsStream
 {
 private:
     hsStream* fBase;

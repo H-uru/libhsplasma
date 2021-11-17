@@ -19,7 +19,7 @@
 
 #include "pfGUIControlMod.h"
 
-class PLASMA_DLL pfGUIMultiLineEditCtrl : public pfGUIControlMod
+class HSPLASMA_EXPORT pfGUIMultiLineEditCtrl : public pfGUIControlMod
 {
     CREATABLE(pfGUIMultiLineEditCtrl, kGUIMultiLineEditCtrl, pfGUIControlMod)
 

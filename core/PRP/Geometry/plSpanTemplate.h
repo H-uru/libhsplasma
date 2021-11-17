@@ -19,7 +19,7 @@
 
 #include "Math/hsGeometry3.h"
 
-class PLASMA_DLL plSpanTemplate
+class HSPLASMA_EXPORT plSpanTemplate
 {
 public:
     enum
@@ -33,7 +33,7 @@ public:
         kColor2Mask = 0x400
     };
 
-    struct PLASMA_DLL Vertex
+    struct HSPLASMA_EXPORT Vertex
     {
         hsVector3 fPosition, fNormal;
         unsigned int fColor1, fColor2;

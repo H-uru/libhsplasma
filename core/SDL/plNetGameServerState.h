@@ -21,7 +21,7 @@
 #include "plStateDataRecord.h"
 #include "Sys/plUuid.h"
 
-class PLASMA_DLL plNetServerSessionInfo
+class HSPLASMA_EXPORT plNetServerSessionInfo
 {
 public:
     enum
@@ -68,7 +68,7 @@ public:
 };
 
 
-class PLASMA_DLL plNetGameServerState
+class HSPLASMA_EXPORT plNetGameServerState
 {
 public:
     enum Flags

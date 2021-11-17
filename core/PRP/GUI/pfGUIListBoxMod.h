@@ -20,7 +20,7 @@
 #include "pfGUIControlMod.h"
 #include "pfGUISkin.h"
 
-class PLASMA_DLL pfGUIListElement
+class HSPLASMA_EXPORT pfGUIListElement
 {
 public:
     enum Types { kText, kPicture, kTreeRoot };
@@ -42,7 +42,7 @@ public:
 };
 
 
-class PLASMA_DLL pfGUIListBoxMod : public pfGUIControlMod
+class HSPLASMA_EXPORT pfGUIListBoxMod : public pfGUIControlMod
 {
     CREATABLE(pfGUIListBoxMod, kGUIListBoxMod, pfGUIControlMod)
 

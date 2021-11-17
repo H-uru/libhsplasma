@@ -22,7 +22,7 @@
 
 typedef std::array<hsVector3, 8> hsBounds3Corners;
 
-class PLASMA_DLL hsBounds
+class HSPLASMA_EXPORT hsBounds
 {
 protected:
     int fType;
@@ -47,7 +47,7 @@ public:
     void setType(int type) { fType = type; }
 };
 
-class PLASMA_DLL hsBounds3 : public hsBounds
+class HSPLASMA_EXPORT hsBounds3 : public hsBounds
 {
 public:
     enum
@@ -93,7 +93,7 @@ public:
 };
 
 
-class PLASMA_DLL hsBounds3Ext : public hsBounds3
+class HSPLASMA_EXPORT hsBounds3Ext : public hsBounds3
 {
 public:
     enum
@@ -144,7 +144,7 @@ public:
 };
 
 
-class PLASMA_DLL hsBoundsOriented : public hsBounds
+class HSPLASMA_EXPORT hsBoundsOriented : public hsBounds
 {
 protected:
     unsigned int fCenterValid;

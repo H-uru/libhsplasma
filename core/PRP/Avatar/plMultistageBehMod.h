@@ -20,7 +20,7 @@
 #include "PRP/Modifier/plModifier.h"
 #include "plAnimStage.h"
 
-class PLASMA_DLL plMultistageBehMod : public plSingleModifier
+class HSPLASMA_EXPORT plMultistageBehMod : public plSingleModifier
 {
     CREATABLE(plMultistageBehMod, kMultistageBehMod, plSingleModifier)
 

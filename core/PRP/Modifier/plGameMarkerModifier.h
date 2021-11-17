@@ -19,7 +19,7 @@
 
 #include "plModifier.h"
 
-class PLASMA_DLL plGameMarkerModifier : public plSingleModifier
+class HSPLASMA_EXPORT plGameMarkerModifier : public plSingleModifier
 {
     CREATABLE(plGameMarkerModifier, kGameMarkerModifier, plSingleModifier)
 

@@ -20,7 +20,7 @@
 #include "PRP/Object/plObjInterface.h"
 #include "plLightInfo.h"
 
-class PLASMA_DLL plShadowMaster : public plObjInterface
+class HSPLASMA_EXPORT plShadowMaster : public plObjInterface
 {
     CREATABLE(plShadowMaster, kShadowMaster, plObjInterface)
 
@@ -68,13 +68,13 @@ public:
 };
 
 
-class PLASMA_DLL plPointShadowMaster : public plShadowMaster
+class HSPLASMA_EXPORT plPointShadowMaster : public plShadowMaster
 {
     CREATABLE(plPointShadowMaster, kPointShadowMaster, plShadowMaster)
 };
 
 
-class PLASMA_DLL plDirectShadowMaster : public plShadowMaster
+class HSPLASMA_EXPORT plDirectShadowMaster : public plShadowMaster
 {
     CREATABLE(plDirectShadowMaster, kDirectShadowMaster, plShadowMaster)
 };

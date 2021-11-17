@@ -28,7 +28,7 @@
 
 enum FileMode { fmRead, fmWrite, fmReadWrite, fmCreate };
 
-class PLASMA_DLL hsStream
+class HSPLASMA_EXPORT hsStream
 {
 protected:
     PlasmaVer ver;
@@ -85,7 +85,7 @@ public:
     virtual void writeLine(const ST::string& ln, bool winEOL = false);
 };
 
-class PLASMA_DLL hsFileStream : public hsStream {
+class HSPLASMA_EXPORT hsFileStream : public hsStream {
 protected:
     FILE* F;
     FileMode fm;

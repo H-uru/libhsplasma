@@ -71,10 +71,10 @@ namespace plVault
     };
 }
 
-class PLASMA_DLL plVaultBlob
+class HSPLASMA_EXPORT plVaultBlob
 {
 private:
-    struct PLASMA_DLL BlobData
+    struct HSPLASMA_EXPORT BlobData
     {
         unsigned int fRefs;
         size_t fSize;
@@ -102,7 +102,7 @@ public:
     void setData(size_t size, const unsigned char* data);
 };
 
-class PLASMA_DLL plVaultNode
+class HSPLASMA_EXPORT plVaultNode
 {
 public:
     enum

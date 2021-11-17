@@ -39,7 +39,7 @@
  * \endcode
  */
 
-class PLASMA_DLL hsBitVector
+class HSPLASMA_EXPORT hsBitVector
 {
 public:
     /**
@@ -50,7 +50,7 @@ public:
      * of the Bit Vector directly, instead of needing the set() method.
      */
 
-    class PLASMA_DLL Bit
+    class HSPLASMA_EXPORT Bit
     {
     private:
         hsBitVector& fVector;

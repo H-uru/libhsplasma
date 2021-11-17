@@ -51,7 +51,7 @@ public: \
 
 class plResManager;
 
-class PLASMA_DLL plCreatable
+class HSPLASMA_EXPORT plCreatable
 {
 public:
     plCreatable() { }
@@ -150,7 +150,7 @@ protected:
  * a good idea to use a real Creatable class whenever possible.
  * \sa hsKeyedObjectStub
  */
-class PLASMA_DLL plCreatableStub : public plCreatable
+class HSPLASMA_EXPORT plCreatableStub : public plCreatable
 {
 private:
     short fClassIdx;

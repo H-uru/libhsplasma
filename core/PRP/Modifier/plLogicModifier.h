@@ -19,7 +19,7 @@
 
 #include "plLogicModBase.h"
 
-class PLASMA_DLL plLogicModifier : public plLogicModBase
+class HSPLASMA_EXPORT plLogicModifier : public plLogicModBase
 {
     CREATABLE(plLogicModifier, kLogicModifier, plLogicModBase)
 

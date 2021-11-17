@@ -24,7 +24,7 @@
 #include "pnSocketInterface.h"
 
 
-class PLASMANET_DLL pnGateKeeperClient : public pnClient
+class HSPLASMANET_EXPORT pnGateKeeperClient : public pnClient
 {
 public:
     pnGateKeeperClient(bool threaded = true)

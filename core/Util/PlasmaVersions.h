@@ -75,7 +75,7 @@ public:\
 #define MAKE_VERSION(plsMaj, plsMin, revMaj, revMin) \
     ((plsMaj << 28) | (plsMin << 24) | (revMaj << 12) | revMin)
 
-class PLASMA_DLL PlasmaVer
+class HSPLASMA_EXPORT PlasmaVer
 {
 public:
     /* These MUST remain in order for version matching to work */

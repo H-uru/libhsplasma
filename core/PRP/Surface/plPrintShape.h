@@ -19,7 +19,7 @@
 
 #include "PRP/Object/plObjInterface.h"
 
-class PLASMA_DLL plPrintShape : public plObjInterface
+class HSPLASMA_EXPORT plPrintShape : public plObjInterface
 {
     CREATABLE(plPrintShape, kPrintShape, plObjInterface)
 
@@ -47,7 +47,7 @@ public:
 };
 
 
-class PLASMA_DLL plActivePrintShape : public plPrintShape
+class HSPLASMA_EXPORT plActivePrintShape : public plPrintShape
 {
     CREATABLE(plActivePrintShape, kActivePrintShape, plPrintShape)
 

@@ -19,7 +19,7 @@
 
 #include "PRP/Modifier/plModifier.h"
 
-class PLASMA_DLL plWindBoneOscillator
+class HSPLASMA_EXPORT plWindBoneOscillator
 {
 protected:
     float fDistX, fDistY, fDirX, fDirY, fSpeed;
@@ -34,7 +34,7 @@ public:
     void prcParse(const pfPrcTag* tag);
 };
 
-class PLASMA_DLL plWindBoneMod : public plModifier
+class HSPLASMA_EXPORT plWindBoneMod : public plModifier
 {
     CREATABLE(plWindBoneMod, kWindBoneMod, plModifier)
 

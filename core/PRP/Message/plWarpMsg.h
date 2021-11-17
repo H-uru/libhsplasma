@@ -20,7 +20,7 @@
 #include "plMessage.h"
 #include "Math/hsMatrix44.h"
 
-class PLASMA_DLL plWarpMsg : public plMessage
+class HSPLASMA_EXPORT plWarpMsg : public plMessage
 {
     CREATABLE(plWarpMsg, kWarpMsg, plMessage)
 

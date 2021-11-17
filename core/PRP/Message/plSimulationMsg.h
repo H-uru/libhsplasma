@@ -19,19 +19,19 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plSimulationMsg : public plMessage
+class HSPLASMA_EXPORT plSimulationMsg : public plMessage
 {
     CREATABLE(plSimulationMsg, kSimulationMsg, plMessage)
 };
 
 
-class PLASMA_DLL plSimStateMsg : public plSimulationMsg
+class HSPLASMA_EXPORT plSimStateMsg : public plSimulationMsg
 {
     CREATABLE(plSimStateMsg, kSimStateMsg, plSimulationMsg)
 };
 
 
-class PLASMA_DLL plSimSuppressMsg : public plSimStateMsg
+class HSPLASMA_EXPORT plSimSuppressMsg : public plSimStateMsg
 {
     CREATABLE(plSimSuppressMsg, kSimSuppressMsg, plSimStateMsg)
 
@@ -54,7 +54,7 @@ public:
 };
 
 
-class PLASMA_DLL plSubWorldMsg : public plSimulationMsg
+class HSPLASMA_EXPORT plSubWorldMsg : public plSimulationMsg
 {
     CREATABLE(plSubWorldMsg, kSubWorldMsg, plSimulationMsg)
 

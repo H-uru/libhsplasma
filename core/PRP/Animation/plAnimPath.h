@@ -22,7 +22,7 @@
 #include "Math/hsMatrix44.h"
 #include "plTMController.h"
 
-class PLASMA_DLL plAnimPath : public plCreatable
+class HSPLASMA_EXPORT plAnimPath : public plCreatable
 {
     CREATABLE(plAnimPath, kAnimPath, plCreatable)
 

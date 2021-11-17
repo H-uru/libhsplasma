@@ -20,13 +20,13 @@
 #include "PRP/plCreatable.h"
 #include "Math/hsGeometry3.h"
 
-class PLASMA_DLL plParticleGenerator : public plCreatable
+class HSPLASMA_EXPORT plParticleGenerator : public plCreatable
 {
     CREATABLE(plParticleGenerator, kParticleGenerator, plCreatable)
 };
 
 
-class PLASMA_DLL plOneTimeParticleGenerator : public plParticleGenerator
+class HSPLASMA_EXPORT plOneTimeParticleGenerator : public plParticleGenerator
 {
     CREATABLE(plOneTimeParticleGenerator, kOneTimeParticleGenerator,
               plParticleGenerator)
@@ -67,7 +67,7 @@ public:
 };
 
 
-class PLASMA_DLL plSimpleParticleGenerator : public plParticleGenerator
+class HSPLASMA_EXPORT plSimpleParticleGenerator : public plParticleGenerator
 {
     CREATABLE(plSimpleParticleGenerator, kSimpleParticleGenerator,
               plParticleGenerator)

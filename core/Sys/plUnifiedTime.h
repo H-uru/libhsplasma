@@ -32,7 +32,7 @@ int gettimeofday(struct timeval* tv, void* tz);
 #include "Stream/pfPrcHelper.h"
 #include "Stream/pfPrcParser.h"
 
-class PLASMA_DLL plUnifiedTime
+class HSPLASMA_EXPORT plUnifiedTime
 {
 public:
     enum Mode { kGMT, kLocal };
@@ -115,7 +115,7 @@ protected:
     tm* IGetTime(const time_t* secs) const;
 };
 
-plUnifiedTime PLASMA_DLL operator+(const plUnifiedTime& left, const plUnifiedTime& right);
-plUnifiedTime PLASMA_DLL operator-(const plUnifiedTime& left, const plUnifiedTime& right);
+plUnifiedTime HSPLASMA_EXPORT operator+(const plUnifiedTime& left, const plUnifiedTime& right);
+plUnifiedTime HSPLASMA_EXPORT operator-(const plUnifiedTime& left, const plUnifiedTime& right);
 
 #endif

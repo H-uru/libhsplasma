@@ -20,7 +20,7 @@
 #include "Stream/pfPrcHelper.h"
 #include "Stream/pfPrcParser.h"
 
-class PLASMA_DLL hsGMatState
+class HSPLASMA_EXPORT hsGMatState
 {
 public:
     enum hsGMatBlendFlags

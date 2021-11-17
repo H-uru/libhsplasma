@@ -21,7 +21,7 @@
 #include "plMorphArray.h"
 #include "plSharedMesh.h"
 
-class PLASMA_DLL plMorphSequence : public plSingleModifier
+class HSPLASMA_EXPORT plMorphSequence : public plSingleModifier
 {
     CREATABLE(plMorphSequence, kMorphSequence, plSingleModifier)
 

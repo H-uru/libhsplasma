@@ -21,7 +21,7 @@
 #include "PRP/Misc/plAgeLinkInfo.h"
 #include "PRP/plCreatableListHelper.h"
 
-class PLASMA_DLL plLinkToAgeMsg : public plMessage
+class HSPLASMA_EXPORT plLinkToAgeMsg : public plMessage
 {
     CREATABLE(plLinkToAgeMsg, kLinkToAgeMsg, plMessage)
 
@@ -55,13 +55,13 @@ public:
 };
 
 
-class PLASMA_DLL plLinkInDoneMsg : public plMessage
+class HSPLASMA_EXPORT plLinkInDoneMsg : public plMessage
 {
     CREATABLE(plLinkInDoneMsg, kLinkInDoneMsg, plMessage)
 };
 
 
-class PLASMA_DLL plLinkingMgrMsg : public plMessage
+class HSPLASMA_EXPORT plLinkingMgrMsg : public plMessage
 {
     CREATABLE(plLinkingMgrMsg, kLinkingMgrMsg, plMessage)
 

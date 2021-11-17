@@ -21,7 +21,7 @@
 #include "PRP/KeyedObject/plKey.h"
 #include "ResManager/plResManager.h"
 
-class PLASMA_DLL plMessage : public plCreatable
+class HSPLASMA_EXPORT plMessage : public plCreatable
 {
     CREATABLE(plMessage, kMessage, plCreatable)
 

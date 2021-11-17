@@ -21,7 +21,7 @@
 #include "Math/hsGeometry3.h"
 #include "3rdPartyLibs/AL/EFX-Util.h"
 
-class PLASMA_DLL plEAXListenerMod : public plSingleModifier
+class HSPLASMA_EXPORT plEAXListenerMod : public plSingleModifier
 {
     CREATABLE(plEAXListenerMod, kEAXListenerMod, plSingleModifier)
 
@@ -46,12 +46,12 @@ public:
     void setListenerProps(EAXREVERBPROPERTIES properties) { fListenerProps = std::move(properties); }
 };
 
-class PLASMA_DLL plEAXEffect : public plSingleModifier
+class HSPLASMA_EXPORT plEAXEffect : public plSingleModifier
 {
     CREATABLE(plEAXEffect, kEAXEffect, plSingleModifier)
 };
 
-class PLASMA_DLL plEAXReverbEffect : public plEAXEffect
+class HSPLASMA_EXPORT plEAXReverbEffect : public plEAXEffect
 {
     CREATABLE(plEAXReverbEffect, kEAXReverbEffect, plEAXEffect)
 

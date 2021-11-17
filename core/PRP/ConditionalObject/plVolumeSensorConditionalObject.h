@@ -19,7 +19,7 @@
 
 #include "plConditionalObject.h"
 
-class PLASMA_DLL plVolumeSensorConditionalObject : public plConditionalObject
+class HSPLASMA_EXPORT plVolumeSensorConditionalObject : public plConditionalObject
 {
     CREATABLE(plVolumeSensorConditionalObject,
               kVolumeSensorConditionalObject,
@@ -55,7 +55,7 @@ public:
 };
 
 
-class PLASMA_DLL plVolumeSensorConditionalObjectNoArbitration : public plVolumeSensorConditionalObject
+class HSPLASMA_EXPORT plVolumeSensorConditionalObjectNoArbitration : public plVolumeSensorConditionalObject
 {
     CREATABLE(plVolumeSensorConditionalObjectNoArbitration,
               kVolumeSensorConditionalObjectNoArbitration,

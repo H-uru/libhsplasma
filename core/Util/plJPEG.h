@@ -36,7 +36,7 @@ public:
 };
 
 
-class PLASMA_DLL plJPEG
+class HSPLASMA_EXPORT plJPEG
 {
 private:
     jpeg_compress_struct cinfo;

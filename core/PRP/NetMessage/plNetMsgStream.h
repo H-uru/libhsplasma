@@ -21,7 +21,7 @@
 #include "Stream/hsRAMStream.h"
 #include "Util/plZlib.h"
 
-class PLASMA_DLL plNetMsgStreamHelper : public plCreatable
+class HSPLASMA_EXPORT plNetMsgStreamHelper : public plCreatable
 {
     CREATABLE(plNetMsgStreamHelper, kNetMsgStreamHelper, plCreatable)
 
@@ -65,7 +65,7 @@ private:
 };
 
 
-class PLASMA_DLL plNetMsgStream : public plNetMessage
+class HSPLASMA_EXPORT plNetMsgStream : public plNetMessage
 {
     CREATABLE(plNetMsgStream, kNetMsgStream, plNetMessage)
 

@@ -19,7 +19,7 @@
 
 #include "PRP/KeyedObject/hsKeyedObject.h"
 
-class PLASMA_DLL plShaderConst
+class HSPLASMA_EXPORT plShaderConst
 {
 public:
     union
@@ -46,7 +46,7 @@ public:
 };
 
 
-class PLASMA_DLL plShader : public hsKeyedObject
+class HSPLASMA_EXPORT plShader : public hsKeyedObject
 {
     CREATABLE(plShader, kShader, hsKeyedObject)
 

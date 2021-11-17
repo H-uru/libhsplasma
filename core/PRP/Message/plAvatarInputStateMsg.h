@@ -19,7 +19,7 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plAvatarInputStateMsg : public plMessage
+class HSPLASMA_EXPORT plAvatarInputStateMsg : public plMessage
 {
     CREATABLE(plAvatarInputStateMsg, kAvatarInputStateMsg, plMessage)
 

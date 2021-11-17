@@ -20,7 +20,7 @@
 #include "plConditionalObject.h"
 #include "Sys/Platform.h"
 
-class PLASMA_DLL plKeyPressConditionalObject : public plConditionalObject
+class HSPLASMA_EXPORT plKeyPressConditionalObject : public plConditionalObject
 {
     CREATABLE(plKeyPressConditionalObject, kKeyPressConditionalObject,
               plConditionalObject)

@@ -20,12 +20,12 @@
 #include "plNetMessage.h"
 #include "PRP/KeyedObject/plLocation.h"
 
-class PLASMA_DLL plNetMsgRoomsList : public plNetMessage
+class HSPLASMA_EXPORT plNetMsgRoomsList : public plNetMessage
 {
     CREATABLE(plNetMsgRoomsList, kNetMsgRoomsList, plNetMessage)
 
 public:
-    struct PLASMA_DLL Room
+    struct HSPLASMA_EXPORT Room
     {
         plLocation fLocation;
         ST::string fName;
@@ -51,7 +51,7 @@ public:
 };
 
 
-class PLASMA_DLL plNetMsgPagingRoom : public plNetMsgRoomsList
+class HSPLASMA_EXPORT plNetMsgPagingRoom : public plNetMsgRoomsList
 {
     CREATABLE(plNetMsgPagingRoom, kNetMsgPagingRoom, plNetMsgRoomsList)
 
@@ -83,7 +83,7 @@ public:
 };
 
 
-class PLASMA_DLL plNetMsgGameStateRequest : public plNetMsgRoomsList
+class HSPLASMA_EXPORT plNetMsgGameStateRequest : public plNetMsgRoomsList
 {
     CREATABLE(plNetMsgGameStateRequest, kNetMsgGameStateRequest, plNetMsgRoomsList)
 };

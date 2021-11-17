@@ -23,7 +23,7 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
 endif()
 
 include_directories(${PYTHON_INCLUDE_DIRS})
-include_directories(./)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 set(DEBUG_SOURCES
     Debug/pyDebug.cpp

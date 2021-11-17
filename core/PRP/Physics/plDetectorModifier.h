@@ -19,7 +19,7 @@
 
 #include "PRP/Modifier/plModifier.h"
 
-class PLASMA_DLL plDetectorModifier : public plSingleModifier
+class HSPLASMA_EXPORT plDetectorModifier : public plSingleModifier
 {
     CREATABLE(plDetectorModifier, kDetectorModifier, plSingleModifier)
 
@@ -50,7 +50,7 @@ public:
 };
 
 
-class PLASMA_DLL plPickingDetector : public plDetectorModifier
+class HSPLASMA_EXPORT plPickingDetector : public plDetectorModifier
 {
     CREATABLE(plPickingDetector, kPickingDetector, plDetectorModifier)
 };

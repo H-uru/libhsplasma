@@ -22,7 +22,7 @@
 
 #define TYPESPACE_MAX 0x500
 
-class PLASMA_DLL pdUnifiedTypeMap
+class HSPLASMA_EXPORT pdUnifiedTypeMap
 {
 private:
     static const short fUruM2PTable[TYPESPACE_MAX];

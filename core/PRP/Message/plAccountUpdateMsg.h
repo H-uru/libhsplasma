@@ -19,7 +19,7 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plAccountUpdateMsg : public plMessage
+class HSPLASMA_EXPORT plAccountUpdateMsg : public plMessage
 {
     CREATABLE(plAccountUpdateMsg, kAccountUpdateMsg, plMessage)
 

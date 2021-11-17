@@ -18,7 +18,7 @@
 
 #include "PRP/Modifier/plModifier.h"
 
-class PLASMA_DLL plImageLibMod : public plSingleModifier
+class HSPLASMA_EXPORT plImageLibMod : public plSingleModifier
 {
     CREATABLE(plImageLibMod, kImageLibMod, plSingleModifier)
 

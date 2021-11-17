@@ -20,7 +20,7 @@
 #include "plSDLMgr.h"
 #include "plStateVariable.h"
 
-class PLASMA_DLL plStateDataRecord
+class HSPLASMA_EXPORT plStateDataRecord
 {
 public:
     enum Flags

@@ -21,7 +21,7 @@
 #include "PRP/KeyedObject/plLocation.h"
 #include "Stream/pfPrcHelper.h"
 
-class PLASMA_DLL plPageInfo
+class HSPLASMA_EXPORT plPageInfo
 {
 public:
     enum Flags

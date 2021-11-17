@@ -19,7 +19,7 @@
 
 #include "plObjInterface.h"
 
-class PLASMA_DLL plAudioInterface : public plObjInterface
+class HSPLASMA_EXPORT plAudioInterface : public plObjInterface
 {
     CREATABLE(plAudioInterface, kAudioInterface, plObjInterface)
 

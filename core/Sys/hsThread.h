@@ -21,7 +21,7 @@
 #include <mutex>
 #include <thread>
 
-class PLASMA_DLL hsThread
+class HSPLASMA_EXPORT hsThread
 {
 private:
     enum

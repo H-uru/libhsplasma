@@ -19,7 +19,7 @@
 
 #include "PRP/plCreatable.h"
 
-class PLASMA_DLL plAGChannel : public plCreatable
+class HSPLASMA_EXPORT plAGChannel : public plCreatable
 {
     CREATABLE(plAGChannel, kAGChannel, plCreatable)
 

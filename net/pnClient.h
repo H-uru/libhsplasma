@@ -17,13 +17,12 @@
 #ifndef _PNCLIENT_H
 #define _PNCLIENT_H
 
-#include "PlasmaDefs.h"
 #include "Protocol.h"
 #include "Sys/hsThread.h"
 
 class pnSocketInterface;
 
-class PLASMANET_DLL pnClient
+class HSPLASMANET_EXPORT pnClient
 {
 public:
     pnClient() : fIface() { }

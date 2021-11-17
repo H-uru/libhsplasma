@@ -19,12 +19,12 @@
 
 #include "plHardRegion.h"
 
-class PLASMA_DLL plHardRegionPlanes : public plHardRegion
+class HSPLASMA_EXPORT plHardRegionPlanes : public plHardRegion
 {
     CREATABLE(plHardRegionPlanes, kHardRegionPlanes, plHardRegion)
 
 public:
-    class PLASMA_DLL HardPlane
+    class HSPLASMA_EXPORT HardPlane
     {
     public:
         hsVector3 fNorm, fWorldNorm;

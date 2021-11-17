@@ -19,7 +19,7 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plCursorChangeMsg : public plMessage
+class HSPLASMA_EXPORT plCursorChangeMsg : public plMessage
 {
     CREATABLE(plCursorChangeMsg, kCursorChangeMsg, plMessage)
 

@@ -21,10 +21,10 @@
 #include <vector>
 #include <queue>
 
-class PLASMA_DLL hsTokenStream
+class HSPLASMA_EXPORT hsTokenStream
 {
 public:
-    struct PLASMA_DLL Region
+    struct HSPLASMA_EXPORT Region
     {
         ST::string fStart;
         ST::string fEnd;

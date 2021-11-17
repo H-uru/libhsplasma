@@ -20,12 +20,12 @@
 #include "PRP/Modifier/plModifier.h"
 #include "Math/hsGeometry3.h"
 
-class PLASMA_DLL plVehicleModifier : public plSingleModifier
+class HSPLASMA_EXPORT plVehicleModifier : public plSingleModifier
 {
     CREATABLE(plVehicleModifier, kVehicleModifier, plSingleModifier)
 
 public:
-    struct PLASMA_DLL Wheel
+    struct HSPLASMA_EXPORT Wheel
     {
         plKey fWheelObj;
         hsVector3 fPosition, fDirection;

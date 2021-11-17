@@ -19,7 +19,7 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plPseudoLinkEffectMsg : public plMessage
+class HSPLASMA_EXPORT plPseudoLinkEffectMsg : public plMessage
 {
     CREATABLE(plPseudoLinkEffectMsg, kPseudoLinkEffectMsg, plMessage)
 

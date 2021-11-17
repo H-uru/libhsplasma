@@ -19,7 +19,7 @@
 
 #include "plModifier.h"
 
-struct PLASMA_DLL plPythonParameter
+struct HSPLASMA_EXPORT plPythonParameter
 {
 public:
     enum
@@ -63,7 +63,7 @@ public:
 };
 
 
-class PLASMA_DLL plPythonFileMod : public plMultiModifier
+class HSPLASMA_EXPORT plPythonFileMod : public plMultiModifier
 {
     CREATABLE(plPythonFileMod, kPythonFileMod, plMultiModifier)
 

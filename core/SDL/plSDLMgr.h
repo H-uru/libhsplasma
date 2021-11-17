@@ -21,7 +21,7 @@
 #include "Debug/hsExceptions.hpp"
 #include "Stream/hsStream.h"
 
-class PLASMA_DLL plSDLMgr
+class HSPLASMA_EXPORT plSDLMgr
 {
 protected:
     std::vector<plStateDescriptor*> fDescriptors;

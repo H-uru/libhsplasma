@@ -20,10 +20,10 @@
 #include "PRP/KeyedObject/plKey.h"
 #include "ResManager/plResManager.h"
 
-class PLASMA_DLL plOneShotCallbacks
+class HSPLASMA_EXPORT plOneShotCallbacks
 {
 public:
-    class PLASMA_DLL plOneShotCallback
+    class HSPLASMA_EXPORT plOneShotCallback
     {
     public:
         ST::string fMarker;

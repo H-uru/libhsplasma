@@ -19,7 +19,7 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plArmatureEffectStateMsg : public plMessage
+class HSPLASMA_EXPORT plArmatureEffectStateMsg : public plMessage
 {
     CREATABLE(plArmatureEffectStateMsg, kArmatureEffectStateMsg, plMessage)
 

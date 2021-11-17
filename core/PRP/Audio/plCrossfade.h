@@ -20,7 +20,7 @@
 #include "PRP/Modifier/plModifier.h"
 #include "PRP/Message/plMessage.h"
 
-class PLASMA_DLL plCrossfade : public plSingleModifier
+class HSPLASMA_EXPORT plCrossfade : public plSingleModifier
 {
     CREATABLE(plCrossfade, kCrossfade, plSingleModifier)
 
@@ -57,7 +57,7 @@ public:
     void setRegistered(bool registered) { fRegistered = registered; }
 };
 
-class PLASMA_DLL plCrossfadeMsg : public plMessage
+class HSPLASMA_EXPORT plCrossfadeMsg : public plMessage
 {
     CREATABLE(plCrossfadeMsg, kCrossfadeMsg, plMessage)
 };

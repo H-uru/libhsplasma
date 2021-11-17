@@ -24,7 +24,7 @@
 #include "PRP/Light/plLightInfo.h"
 #include "plGeometrySpan.h"
 
-class PLASMA_DLL plSpan
+class HSPLASMA_EXPORT plSpan
 {
 public:
     enum

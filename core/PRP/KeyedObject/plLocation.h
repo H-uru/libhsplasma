@@ -22,7 +22,7 @@
 #include "Stream/pfPrcHelper.h"
 #include "Stream/pfPrcParser.h"
 
-class PLASMA_DLL plLocation
+class HSPLASMA_EXPORT plLocation
 {
 public:
     enum LocFlags

@@ -21,8 +21,6 @@ if(PLASMANET_COMMDEBUG)
     add_definitions("-DCOMMDEBUG")
 endif()
 
-add_definitions(-DBUILD_PLASMANET_DLL)
-
 set(PN_AUTH_SOURCES
     auth/AuthMessages.cpp
     auth/pnAuthClient.cpp
@@ -79,6 +77,7 @@ set(PN_SOURCES
     pnSocketInterface.cpp
 )
 set(PN_HEADERS
+    PlasmaNetDefs.h
     Protocol.h
     pnClient.h
     pnNetMsg.h
@@ -102,9 +101,13 @@ target_link_libraries(HSPlasmaNet
 
 target_include_directories(HSPlasmaNet PUBLIC
                            $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}>
+                           $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
                            $<INSTALL_INTERFACE:include/HSPlasmaNet>)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libhsplasmanet.pc.in.cmake ${CMAKE_CURRENT_BINARY_DIR}/libhsplasmanet.pc @ONLY)
+
+include(GenerateExportHeader)
+generate_export_header(HSPlasmaNet)
 
 # Package installation
 install(TARGETS HSPlasmaNet

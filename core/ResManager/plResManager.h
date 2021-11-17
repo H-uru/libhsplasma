@@ -52,7 +52,7 @@ struct plPageStream
  * handle PRC data and store Age or PRP information.  Most of the
  * top-level file-based operations you'll do will start from here.
  */
-class PLASMA_DLL plResManager
+class HSPLASMA_EXPORT plResManager
 {
 private:
     std::mutex fResMgrMutex;

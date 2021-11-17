@@ -19,28 +19,28 @@
 
 #include "plModifier.h"
 
-struct PLASMA_DLL PY_MATERIAL_ANIM
+struct HSPLASMA_EXPORT PY_MATERIAL_ANIM
 {
     ST::string material_name;
     ST::string note_name;
     plKey modKey;
 };
 
-struct PLASMA_DLL PY_NOTETRACK
+struct HSPLASMA_EXPORT PY_NOTETRACK
 {
     plKey objKey;
     ST::string note_name;
     plKey modKey;
 };
 
-struct PLASMA_DLL PY_SOUND_IDX
+struct HSPLASMA_EXPORT PY_SOUND_IDX
 {
     ST::string sound_name;
     int sound_index;
 };
 
 
-class PLASMA_DLL plPythonMod : public plMultiModifier
+class HSPLASMA_EXPORT plPythonMod : public plMultiModifier
 {
     CREATABLE(plPythonMod, kPythonMod, plMultiModifier)
 

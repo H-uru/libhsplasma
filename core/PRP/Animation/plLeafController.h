@@ -19,7 +19,7 @@
 
 #include "plController.h"
 
-class PLASMA_DLL plLeafController : public plController
+class HSPLASMA_EXPORT plLeafController : public plController
 {
     CREATABLE(plLeafController, kLeafController, plController)
 

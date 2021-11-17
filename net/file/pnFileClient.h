@@ -23,7 +23,7 @@
 #include "pnSocket.h"
 #include "pnSocketInterface.h"
 
-struct PLASMANET_DLL pnFileManifest
+struct HSPLASMANET_EXPORT pnFileManifest
 {
     ST::string fFilename, fDownloadName;
     plMD5Hash fHash, fCompressedHash;
@@ -34,7 +34,7 @@ struct PLASMANET_DLL pnFileManifest
     size_t calcSize() const;
 };
 
-class PLASMANET_DLL pnFileClient : public pnClient
+class HSPLASMANET_EXPORT pnFileClient : public pnClient
 {
 public:
     pnFileClient(bool threaded=true)

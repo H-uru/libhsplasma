@@ -22,7 +22,7 @@
 #include <map>
 #include <list>
 
-class PLASMA_DLL pfPrcTag
+class HSPLASMA_EXPORT pfPrcTag
 {
 protected:
     ST::string fName;
@@ -55,7 +55,7 @@ public:
 };
 
 
-class PLASMA_DLL pfPrcParser
+class HSPLASMA_EXPORT pfPrcParser
 {
 private:
     pfPrcTag* fRootTag;

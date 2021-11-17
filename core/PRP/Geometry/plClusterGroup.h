@@ -22,7 +22,7 @@
 #include "plCluster.h"
 #include "plSpanTemplate.h"
 
-class PLASMA_DLL plLODDist
+class HSPLASMA_EXPORT plLODDist
 {
 protected:
     float fMinDist, fMaxDist;
@@ -42,7 +42,7 @@ public:
     void setMax(float dist) { fMaxDist = dist; }
 };
 
-class PLASMA_DLL plClusterGroup : public hsKeyedObject
+class HSPLASMA_EXPORT plClusterGroup : public hsKeyedObject
 {
     CREATABLE(plClusterGroup, kClusterGroup, hsKeyedObject)
 

@@ -32,7 +32,7 @@ public:\
     }
 
 
-class PLASMA_DLL proEventData
+class HSPLASMA_EXPORT proEventData
 {
 public:
     enum eventType
@@ -78,7 +78,7 @@ protected:
 };
 
 
-class PLASMA_DLL proCollisionEventData : public proEventData
+class HSPLASMA_EXPORT proCollisionEventData : public proEventData
 {
     EVTDATA(proCollisionEventData, kCollision)
 
@@ -110,7 +110,7 @@ public:
 };
 
 
-class PLASMA_DLL proPickedEventData : public proEventData
+class HSPLASMA_EXPORT proPickedEventData : public proEventData
 {
     EVTDATA(proPickedEventData, kPicked)
 
@@ -145,7 +145,7 @@ public:
 };
 
 
-class PLASMA_DLL proControlKeyEventData : public proEventData
+class HSPLASMA_EXPORT proControlKeyEventData : public proEventData
 {
     EVTDATA(proControlKeyEventData, kControlKey)
 
@@ -174,7 +174,7 @@ public:
 };
 
 
-class PLASMA_DLL proVariableEventData : public proEventData
+class HSPLASMA_EXPORT proVariableEventData : public proEventData
 {
     EVTDATA(proVariableEventData, kVariable)
 
@@ -210,7 +210,7 @@ public:
 };
 
 
-class PLASMA_DLL proFacingEventData : public proEventData
+class HSPLASMA_EXPORT proFacingEventData : public proEventData
 {
     EVTDATA(proFacingEventData, kFacing)
 
@@ -245,7 +245,7 @@ public:
 };
 
 
-class PLASMA_DLL proContainedEventData : public proEventData
+class HSPLASMA_EXPORT proContainedEventData : public proEventData
 {
     EVTDATA(proContainedEventData, kContained)
 
@@ -277,7 +277,7 @@ public:
 };
 
 
-class PLASMA_DLL proActivateEventData : public proEventData
+class HSPLASMA_EXPORT proActivateEventData : public proEventData
 {
     EVTDATA(proActivateEventData, kActivate)
 
@@ -305,7 +305,7 @@ public:
 };
 
 
-class PLASMA_DLL proCallbackEventData : public proEventData
+class HSPLASMA_EXPORT proCallbackEventData : public proEventData
 {
     EVTDATA(proCallbackEventData, kCallback)
 
@@ -330,7 +330,7 @@ public:
 };
 
 
-class PLASMA_DLL proResponderStateEventData : public proEventData
+class HSPLASMA_EXPORT proResponderStateEventData : public proEventData
 {
     EVTDATA(proResponderStateEventData, kResponderState)
 
@@ -355,7 +355,7 @@ public:
 };
 
 
-class PLASMA_DLL proMultiStageEventData : public proEventData
+class HSPLASMA_EXPORT proMultiStageEventData : public proEventData
 {
     EVTDATA(proMultiStageEventData, kMultiStage)
 
@@ -386,7 +386,7 @@ public:
 };
 
 
-class PLASMA_DLL proSpawnedEventData : public proEventData
+class HSPLASMA_EXPORT proSpawnedEventData : public proEventData
 {
     EVTDATA(proSpawnedEventData, kSpawned)
 
@@ -412,7 +412,7 @@ public:
 };
 
 
-class PLASMA_DLL proClickDragEventData : public proEventData
+class HSPLASMA_EXPORT proClickDragEventData : public proEventData
 {
     EVTDATA(proClickDragEventData, kClickDrag)
 
@@ -426,7 +426,7 @@ protected:
 };
 
 
-class PLASMA_DLL proCoopEventData : public proEventData
+class HSPLASMA_EXPORT proCoopEventData : public proEventData
 {
     EVTDATA(proCoopEventData, kCoop)
 
@@ -455,7 +455,7 @@ public:
 };
 
 
-class PLASMA_DLL proOfferLinkBookEventData : public proEventData
+class HSPLASMA_EXPORT proOfferLinkBookEventData : public proEventData
 {
     EVTDATA(proOfferLinkBookEventData, kOfferLinkBook)
 
@@ -486,7 +486,7 @@ public:
 };
 
 
-class PLASMA_DLL proBookEventData : public proEventData
+class HSPLASMA_EXPORT proBookEventData : public proEventData
 {
     EVTDATA(proBookEventData, kBook)
 
@@ -514,7 +514,7 @@ public:
 };
 
 
-class PLASMA_DLL proClimbingBlockerHitEventData : public proEventData
+class HSPLASMA_EXPORT proClimbingBlockerHitEventData : public proEventData
 {
     EVTDATA(proClimbingBlockerHitEventData, kClimbingBlockerHit)
 

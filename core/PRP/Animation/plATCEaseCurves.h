@@ -19,7 +19,7 @@
 
 #include "PRP/plCreatable.h"
 
-class PLASMA_DLL plATCEaseCurve : public plCreatable
+class HSPLASMA_EXPORT plATCEaseCurve : public plCreatable
 {
     CREATABLE(plATCEaseCurve, kATCEaseCurve, plCreatable)
 
@@ -58,7 +58,7 @@ public:
 };
 
 
-class PLASMA_DLL plSplineEaseCurve : public plATCEaseCurve
+class HSPLASMA_EXPORT plSplineEaseCurve : public plATCEaseCurve
 {
     CREATABLE(plSplineEaseCurve, kSplineEaseCurve, plATCEaseCurve)
 
@@ -84,7 +84,7 @@ public:
 };
 
 
-class PLASMA_DLL plConstAccelEaseCurve : public plATCEaseCurve
+class HSPLASMA_EXPORT plConstAccelEaseCurve : public plATCEaseCurve
 {
     CREATABLE(plConstAccelEaseCurve, kConstAccelEaseCurve, plATCEaseCurve)
 };

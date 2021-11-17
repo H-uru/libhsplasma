@@ -19,7 +19,7 @@
 
 #include "hsStream.h"
 
-class PLASMA_DLL hsRAMStream : public hsStream
+class HSPLASMA_EXPORT hsRAMStream : public hsStream
 {
 protected:
     uint8_t* fData;

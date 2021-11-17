@@ -20,7 +20,7 @@
 #include "Util/hsBitVector.h"
 #include "Stream/hsStream.h"
 
-class PLASMA_DLL hsG3DDeviceMode
+class HSPLASMA_EXPORT hsG3DDeviceMode
 {
 private:
     unsigned int fFlags;
@@ -56,7 +56,7 @@ public:
     void setCanRenderToCubics(bool b) { fCanRenderToCubics = b; }
 };
 
-class PLASMA_DLL hsG3DDeviceRecord
+class HSPLASMA_EXPORT hsG3DDeviceRecord
 {
 public:
     struct FogKnee
@@ -154,7 +154,7 @@ public:
     void setMaxAnisotropicSamples(unsigned char aniso) { fMaxAnisotropicSamples = aniso; }
 };
 
-class PLASMA_DLL hsG3DDeviceModeRecord
+class HSPLASMA_EXPORT hsG3DDeviceModeRecord
 {
 private:
     hsG3DDeviceRecord fRecord;

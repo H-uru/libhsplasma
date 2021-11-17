@@ -26,7 +26,7 @@
  * isValid() function on returned plStateDescriptor objects.
  */
 
-class PLASMA_DLL plVarDescriptor
+class HSPLASMA_EXPORT plVarDescriptor
 {
 public:
     enum Type
@@ -92,7 +92,7 @@ public:
 };
 
 
-class PLASMA_DLL plStateDescriptor
+class HSPLASMA_EXPORT plStateDescriptor
 {
 protected:
     ST::string fName;

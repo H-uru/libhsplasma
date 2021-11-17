@@ -22,7 +22,7 @@
 #include <map>
 #include <list>
 
-class PLASMA_DLL plVaultStore
+class HSPLASMA_EXPORT plVaultStore
 {
 protected:
     std::map<unsigned int, plVaultNode> fNodes;

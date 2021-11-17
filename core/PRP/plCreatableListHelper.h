@@ -20,7 +20,7 @@
 #include "plCreatable.h"
 #include "ResManager/plResManager.h"
 
-class PLASMA_DLL plCreatableListHelper : public plCreatable
+class HSPLASMA_EXPORT plCreatableListHelper : public plCreatable
 {
     CREATABLE(plCreatableListHelper, kCreatableListHelper, plCreatable)
 

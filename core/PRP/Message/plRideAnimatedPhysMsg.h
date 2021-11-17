@@ -19,7 +19,7 @@
 
 #include "plMessage.h"
 
-class PLASMA_DLL plRideAnimatedPhysMsg : public plMessage
+class HSPLASMA_EXPORT plRideAnimatedPhysMsg : public plMessage
 {
     CREATABLE(plRideAnimatedPhysMsg, kRideAnimatedPhysMsg, plMessage)
 

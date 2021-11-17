@@ -19,7 +19,7 @@
 
 #include "plConditionalObject.h"
 
-class PLASMA_DLL plActivatorConditionalObject : public plConditionalObject
+class HSPLASMA_EXPORT plActivatorConditionalObject : public plConditionalObject
 {
     CREATABLE(plActivatorConditionalObject, kActivatorConditionalObject,
               plConditionalObject)
@@ -44,7 +44,7 @@ public:
 };
 
 
-class PLASMA_DLL plActivatorActivatorConditionalObject : public plActivatorConditionalObject
+class HSPLASMA_EXPORT plActivatorActivatorConditionalObject : public plActivatorConditionalObject
 {
     CREATABLE(plActivatorActivatorConditionalObject,
               kActivatorActivatorConditionalObject,
@@ -52,7 +52,7 @@ class PLASMA_DLL plActivatorActivatorConditionalObject : public plActivatorCondi
 };
 
 
-class PLASMA_DLL plVolActivatorConditionalObject : public plActivatorConditionalObject
+class HSPLASMA_EXPORT plVolActivatorConditionalObject : public plActivatorConditionalObject
 {
     CREATABLE(plVolActivatorConditionalObject,
               kVolActivatorConditionalObject,

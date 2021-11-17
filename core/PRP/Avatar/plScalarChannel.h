@@ -21,7 +21,7 @@
 #include "PRP/Animation/plController.h"
 
 /* Scalar Channels */
-class PLASMA_DLL plScalarChannel : public plAGChannel
+class HSPLASMA_EXPORT plScalarChannel : public plAGChannel
 {
     CREATABLE(plScalarChannel, kScalarChannel, plAGChannel)
 
@@ -34,13 +34,13 @@ public:
 };
 
 
-class PLASMA_DLL plScalarBlend : public plScalarChannel
+class HSPLASMA_EXPORT plScalarBlend : public plScalarChannel
 {
     CREATABLE(plScalarBlend, kScalarBlend, plScalarChannel)
 };
 
 
-class PLASMA_DLL plScalarConstant : public plScalarChannel
+class HSPLASMA_EXPORT plScalarConstant : public plScalarChannel
 {
     CREATABLE(plScalarConstant, kScalarConstant, plScalarChannel)
 
@@ -54,14 +54,14 @@ protected:
 };
 
 
-class PLASMA_DLL plScalarControllerCacheChannel : public plScalarChannel
+class HSPLASMA_EXPORT plScalarControllerCacheChannel : public plScalarChannel
 {
     CREATABLE(plScalarControllerCacheChannel, kScalarControllerCacheChannel,
               plScalarChannel)
 };
 
 
-class PLASMA_DLL plScalarControllerChannel : public plScalarChannel
+class HSPLASMA_EXPORT plScalarControllerChannel : public plScalarChannel
 {
     CREATABLE(plScalarControllerChannel, kScalarControllerChannel,
               plScalarChannel)
@@ -86,24 +86,24 @@ public:
 };
 
 
-class PLASMA_DLL plScalarTimeScale : public plScalarChannel
+class HSPLASMA_EXPORT plScalarTimeScale : public plScalarChannel
 {
     CREATABLE(plScalarTimeScale, kScalarTimeScale, plScalarChannel)
 };
 
-class PLASMA_DLL plScalarSDLChannel : public plScalarChannel
+class HSPLASMA_EXPORT plScalarSDLChannel : public plScalarChannel
 {
     CREATABLE(plScalarSDLChannel, kScalarSDLChannel, plScalarChannel)
 };
 
-class PLASMA_DLL plATCChannel : public plScalarChannel
+class HSPLASMA_EXPORT plATCChannel : public plScalarChannel
 {
     CREATABLE(plATCChannel, kATCChannel, plScalarChannel)
 };
 
 
 /* Scalar Channel Applicators */
-class PLASMA_DLL plScalarChannelApplicator : public plAGApplicator
+class HSPLASMA_EXPORT plScalarChannelApplicator : public plAGApplicator
 {
     CREATABLE(plScalarChannelApplicator, kScalarChannelApplicator,
               plAGApplicator)
