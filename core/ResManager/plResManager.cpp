@@ -521,7 +521,7 @@ void plResManager::WriteKeyring(hsStream* S, const plLocation& loc)
         unsigned int lenPos = S->pos();
         if (S->getVer() >= MAKE_VERSION(2, 0, 70, 0) && !S->getVer().isUniversal()) {
             S->writeInt(0);
-            S->writeByte(0);
+            S->writeByte(1); // Indicates the key list is not sorted by name
         }
         S->writeInt(kList.size());
         for (unsigned int j=0; j<kList.size(); j++)
