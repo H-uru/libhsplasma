@@ -92,6 +92,7 @@ PY_PROPERTY(plKey, SharedMesh, morphSet, getMorphSet, setMorphSet)
 PyGetSetDef pySharedMesh_GetSet[] = {
     pySharedMesh_flags_getset,
     pySharedMesh_morphSet_getset,
+    pySharedMesh_spans_getset,
     PY_GETSET_TERMINATOR
 };
 
