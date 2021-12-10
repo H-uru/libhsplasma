@@ -26,9 +26,9 @@ plKeyCollector::~plKeyCollector()
 
     // This is now the "ultimate owner" of KeyedObjects, so we must delete
     // all the KOs that we own...
-    for (keymap_t::iterator it = keys.begin(); it != keys.end(); it++) {
-        for (std::map<short, std::vector<plKey> >::iterator i2 = it->second.begin(); i2 != it->second.end(); i2++) {
-            for (std::vector<plKey>::iterator i3 = i2->second.begin(); i3 != i2->second.end(); i3++) {
+    for (auto it = keys.begin(); it != keys.end(); it++) {
+        for (auto i2 = it->second.begin(); i2 != it->second.end(); i2++) {
+            for (auto i3 = i2->second->begin(); i3 != i2->second->end(); i3++) {
                 if ((*i3).Exists() && (*i3).isLoaded()) {
                     ++keysLeft;
                     delete (*i3)->getObj();
@@ -45,7 +45,7 @@ plKey plKeyCollector::findKey(const plKey& match)
 {
     plKey key;
     const auto& kList = keys[match->getLocation()][match->getType()];
-    for (unsigned int i=0; i < kList.size(); i++) {
+    for (unsigned int i=0; i < kList->size(); i++) {
         if (*kList[i] == *match) {
             key = kList[i];
             break;
@@ -56,26 +56,26 @@ plKey plKeyCollector::findKey(const plKey& match)
 
 void plKeyCollector::add(const plKey& key)
 {
-    keys[key->getLocation()][key->getType()].push_back(key);
+    keys[key->getLocation()][key->getType()]->push_back(key);
     if (key->getID() == 0)
-        key->setID(keys[key->getLocation()][key->getType()].size());
+        key->setID(keys[key->getLocation()][key->getType()]->size());
 }
 
 void plKeyCollector::del(const plKey& key)
 {
-    std::vector<plKey>& keyList = keys[key->getLocation()][key->getType()];
-    std::vector<plKey>::iterator it = keyList.begin();
+    auto& keyList = keys[key->getLocation()][key->getType()];
+    std::vector<plKey>::iterator it = keyList->begin();
     size_t sub = 0;
-    while (it != keyList.end()) {
+    while (it != keyList->end()) {
         if ((*it) == key) {
-            it = keyList.erase(it);
+            it = keyList->erase(it);
             sub++;
         } else {
             (*it)->setID((*it)->getID() - sub);
             it++;
         }
     }
-    if (keyList.empty())
+    if (keyList->empty())
         keys[key->getLocation()].erase(key->getType());
     if (keys[key->getLocation()].empty())
         keys.erase(key->getLocation());
@@ -86,14 +86,14 @@ void plKeyCollector::del(const plKey& key)
 
 void plKeyCollector::delAll(const plLocation& loc)
 {
-    std::map<short, std::vector<plKey> >& locList = keys[loc];
+    auto& locList = keys[loc];
     auto loc_iter = locList.begin();
     while (loc_iter != locList.end()) {
-        auto key_iter = loc_iter->second.begin();
-        while (key_iter != loc_iter->second.end()) {
+        auto key_iter = loc_iter->second->begin();
+        while (key_iter != loc_iter->second->end()) {
             if (key_iter->Exists() && key_iter->isLoaded()) {
                 (*key_iter)->deleteObj();
-                key_iter = loc_iter->second.erase(key_iter);
+                key_iter = loc_iter->second->erase(key_iter);
             } else {
                 ++key_iter;
             }
@@ -109,12 +109,12 @@ void plKeyCollector::cleanupKeys()
     while (loc_iter != keys.end()) {
         auto tp_iter = loc_iter->second.begin();
         while (tp_iter != loc_iter->second.end()) {
-            auto key_iter = tp_iter->second.begin();
-            while (key_iter != tp_iter->second.end()) {
+            auto key_iter = tp_iter->second->begin();
+            while (key_iter != tp_iter->second->end()) {
                 const plKey &key = *key_iter;
                 if (!key.Exists()) {
                     plDebug::Warning("WARNING: Got NULL key in the ResManager!\n");
-                    key_iter = tp_iter->second.erase(key_iter);
+                    key_iter = tp_iter->second->erase(key_iter);
                     continue;
                 }
 
@@ -122,12 +122,12 @@ void plKeyCollector::cleanupKeys()
                         || (!key.isLoaded() && key->CountRefs() == 1)) {
                     // We are the only remaining owner of this key.  Nuke it.
                     key->deleteObj();
-                    key_iter = tp_iter->second.erase(key_iter);
+                    key_iter = tp_iter->second->erase(key_iter);
                 } else {
                     ++key_iter;
                 }
             }
-            if (tp_iter->second.empty())
+            if (tp_iter->second->empty())
                 tp_iter = loc_iter->second.erase(tp_iter);
             else
                 ++tp_iter;
@@ -141,16 +141,16 @@ void plKeyCollector::cleanupKeys()
 
 void plKeyCollector::reserveKeySpace(const plLocation& loc, short type, int num)
 {
-    keys[loc][type].reserve(num);
+    keys[loc][type]->reserve(num);
 }
 
 void plKeyCollector::sortKeys(const plLocation& loc)
 {
     std::vector<short> types = getTypes(loc);
     for (short type : types) {
-        std::sort(keys[loc][type].begin(), keys[loc][type].end(),
+        std::sort(keys[loc][type]->begin(), keys[loc][type]->end(),
             [](const plKey& a, const plKey& b) { return a->getID() < b->getID(); });
-        for (size_t i = 0; i < keys[loc][type].size(); ++i) {
+        for (size_t i = 0; i < keys[loc][type]->size(); ++i) {
             keys[loc][type][i]->setID(i + 1);
         }
     }
@@ -175,7 +175,7 @@ std::vector<plKey> plKeyCollector::getKeys(const plLocation& loc, short type,
     if (checkKeys) {
         std::list<plKey> kList;
         std::vector<plKey>::iterator it;
-        for (it = keys[loc][type].begin(); it != keys[loc][type].end(); it++) {
+        for (it = keys[loc][type]->begin(); it != keys[loc][type]->end(); it++) {
             if ((*it).Exists() && (*it).isLoaded())
                 kList.push_back(*it);
             else
@@ -183,7 +183,7 @@ std::vector<plKey> plKeyCollector::getKeys(const plLocation& loc, short type,
         }
         return std::vector<plKey>(kList.begin(), kList.end());
     } else {
-        return keys[loc][type];
+        return *keys[loc][type];
     }
 }
 
@@ -194,7 +194,7 @@ std::vector<short> plKeyCollector::getTypes(const plLocation& loc, bool checkKey
         if (checkKeys) {
             bool hasValidKeys = false;
             std::vector<plKey>::iterator it;
-            for (it = keys[loc][i].begin(); it != keys[loc][i].end(); it++) {
+            for (it = keys[loc][i]->begin(); it != keys[loc][i]->end(); it++) {
                 if ((*it).Exists() && (*it).isLoaded()) {
                     hasValidKeys = true;
                     break;
@@ -205,7 +205,7 @@ std::vector<short> plKeyCollector::getTypes(const plLocation& loc, bool checkKey
             if (hasValidKeys)
                 types.push_back(i);
         } else {
-            if (keys[loc][i].size() > 0)
+            if (keys[loc][i]->size() > 0)
                 types.push_back(i);
         }
     }
@@ -226,12 +226,12 @@ void plKeyCollector::ChangeLocation(const plLocation& from, const plLocation& to
     for (unsigned int i=0; i<TYPESPACE_MAX; i++) {
         if (from == to) {
             // Only flags are different
-            for (size_t j=0; j<keys[from][i].size(); j++)
+            for (size_t j=0; j<keys[from][i]->size(); j++)
                 keys[from][i][j]->setLocation(to);
         } else {
-            size_t begin = keys[to][i].size();
-            keys[to][i].resize(begin + keys[from][i].size());
-            for (size_t j=0; j<keys[from][i].size(); j++) {
+            size_t begin = keys[to][i]->size();
+            keys[to][i]->resize(begin + keys[from][i]->size());
+            for (size_t j=0; j<keys[from][i]->size(); j++) {
                 keys[to][i][begin+j] = keys[from][i][j];
                 keys[to][i][begin+j]->setLocation(to);
                 keys[to][i][begin+j]->setID(begin+j+1);
@@ -243,23 +243,23 @@ void plKeyCollector::ChangeLocation(const plLocation& from, const plLocation& to
 
 void plKeyCollector::MoveKey(const plKey& key, const plLocation& to)
 {
-    std::vector<plKey>& keyList = keys[key->getLocation()][key->getType()];
-    std::vector<plKey>::iterator it = keyList.begin();
+    auto& keyList = keys[key->getLocation()][key->getType()];
+    std::vector<plKey>::iterator it = keyList->begin();
     size_t sub = 0;
-    while (it != keyList.end()) {
+    while (it != keyList->end()) {
         if ((*it) == key) {
-            it = keyList.erase(it);
+            it = keyList->erase(it);
             sub++;
         } else {
             (*it)->setID((*it)->getID() - sub);
             it++;
         }
     }
-    if (keyList.empty())
+    if (keyList->empty())
         keys[key->getLocation()].erase(key->getType());
     if (keys[key->getLocation()].empty())
         keys.erase(key->getLocation());
     key->setLocation(to);
-    keys[to][key->getType()].push_back(key);
-    key->setID(keys[to][key->getType()].size());
+    keys[to][key->getType()]->push_back(key);
+    key->setID(keys[to][key->getType()]->size());
 }

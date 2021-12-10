@@ -21,7 +21,38 @@
 #include <map>
 #include <vector>
 
-typedef std::map<plLocation, std::map<short, std::vector<plKey>>> keymap_t;
+class plKeyVector
+{
+    std::vector<plKey> fKeys;
+    uint32_t fFlags;
+
+public:
+    plKeyVector() : fFlags() { }
+
+    bool checkFlag(uint32_t flag) const
+    {
+        return (fFlags & flag);
+    }
+
+    void setFlag(uint32_t flag, bool on = true)
+    {
+        if (on)
+            fFlags |= flag;
+        else
+            fFlags &= ~flag;
+    }
+
+    std::vector<plKey>* operator ->() { return &fKeys; }
+    const std::vector<plKey>* operator ->() const { return &fKeys; }
+
+    std::vector<plKey>& operator *() { return fKeys; }
+    const std::vector<plKey>& operator *() const { return fKeys; }
+
+    plKey& operator[](size_t idx) { return fKeys[idx]; }
+    const plKey& operator[](size_t idx) const { return fKeys[idx]; }
+};
+
+typedef std::map<plLocation, std::map<short, plKeyVector>> keymap_t;
 
 /**
  * \brief This class is used internally by the plResManager as a storage
