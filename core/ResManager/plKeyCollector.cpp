@@ -152,23 +152,6 @@ uint32_t plKeyCollector::getFlags(const plLocation& loc, short type)
 
 void plKeyCollector::setFlags(const plLocation& loc, short type, uint32_t flags)
 {
-    // Previous revisions of libHSPlasma did not properly set the kNotOptimized
-    // flag for unsorted key lists. So, we need to debunk improperly flagged
-    // phony "optimized" key lists. Note that this check can only ever trigger
-    // for MOUL, Myst V, and Hex Isle.
-    if (!(flags & kNotOptimized)) {
-        for (size_t i = 0; i < keys[loc][type]->size() - 1; ++i) {
-            const plKey& a = keys[loc][type][i];
-            const plKey& b = keys[loc][type][i + 1];
-            if (!(a->getName().compare_i(b->getName()) < 0)) {
-                plDebug::Warning("Keyring for page {} type {:04X} erroneously thinks it's optimized ({} >= {})",
-                    loc.toString(), type, a.toString(), b.toString());
-                flags |= kNotOptimized;
-                break;
-            }
-        }
-    }
-
     keys[loc][type].setFlags(flags);
 }
 
@@ -180,9 +163,20 @@ void plKeyCollector::sortKeys(const plLocation& loc)
             [](const plKey& a, const plKey& b) { return a->getID() < b->getID(); });
         for (size_t i = 0; i < keys[loc][type]->size(); ++i) {
             size_t newID = i + 1;
-            if (keys[loc][type][i]->getID() != newID) {
+            if (keys[loc][type][i]->getID() != newID)
                 keys[loc][type][i]->setID(newID);
-                keys[loc][type].setFlag(kNotOptimized);
+
+            // Side effect: verify that pages are telling the truth about
+            // whether or not they are optimized. Fixes incorrect pages
+            // exported by previous revisions of HSPlasma.
+            if (!keys[loc][type].checkFlag(kNotOptimized) && newID < keys[loc][type]->size()) {
+                const plKey& a = keys[loc][type][i];
+                const plKey& b = keys[loc][type][newID];
+                if (!(a->getName().compare_i(b->getName()) < 0)) {
+                    plDebug::Warning("Keyring for page {} type {:04X} erroneously thinks it's optimized ({} >= {})",
+                        loc.toString(), type, a.toString(), b.toString());
+                    keys[loc][type].setFlag(kNotOptimized);
+                }
             }
         }
     }
