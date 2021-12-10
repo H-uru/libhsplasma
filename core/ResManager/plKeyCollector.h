@@ -29,6 +29,8 @@ class plKeyVector
 public:
     plKeyVector() : fFlags() { }
 
+    uint32_t getFlags() const { return fFlags; }
+
     bool checkFlag(uint32_t flag) const
     {
         return (fFlags & flag);
@@ -41,6 +43,8 @@ public:
         else
             fFlags &= ~flag;
     }
+
+    void setFlags(uint32_t flags) { fFlags = flags; }
 
     std::vector<plKey>* operator ->() { return &fKeys; }
     const std::vector<plKey>* operator ->() const { return &fKeys; }
@@ -68,6 +72,15 @@ private:
     keymap_t keys;
 
 public:
+    enum
+    {
+        /**
+         * Indicates the keys are NOT sorted by name.
+         */
+        kNotOptimized = 0x01,
+    };
+
+public:
     plKeyCollector() { }
     ~plKeyCollector();
 
@@ -77,7 +90,23 @@ public:
     void delAll(const plLocation& loc);
     void cleanupKeys();
     void reserveKeySpace(const plLocation& loc, short type, int num);
+
+    uint32_t getFlags(const plLocation& loc, short type);
+    void setFlags(const plLocation& loc, short type, uint32_t flags);
+
+    /**
+     * Sorts the keys by index.
+     * This sorts the keys by their existing IDs, renumbering any keys that have duplicated IDs
+     * and ensuring that all key IDs are contiguous.
+     */
     void sortKeys(const plLocation& loc);
+
+    /**
+     * Sorts the keys by name.
+     * This is used by Myst V, Hex Isle, and some variants of MOUL to perform
+     * "optimized" name-based key lookups.
+     */
+    void optimizeKeys(const plLocation& loc);
 
     unsigned int countTypes(const plLocation& loc, bool checkKeys = false);
     unsigned int countKeys(const plLocation& loc, bool checkKeys = false);

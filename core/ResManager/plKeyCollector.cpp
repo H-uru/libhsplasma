@@ -59,6 +59,7 @@ void plKeyCollector::add(const plKey& key)
     keys[key->getLocation()][key->getType()]->push_back(key);
     if (key->getID() == 0)
         key->setID(keys[key->getLocation()][key->getType()]->size());
+    keys[key->getLocation()][key->getType()].setFlag(kNotOptimized);
 }
 
 void plKeyCollector::del(const plKey& key)
@@ -144,6 +145,33 @@ void plKeyCollector::reserveKeySpace(const plLocation& loc, short type, int num)
     keys[loc][type]->reserve(num);
 }
 
+uint32_t plKeyCollector::getFlags(const plLocation& loc, short type)
+{
+    return keys[loc][type].getFlags();
+}
+
+void plKeyCollector::setFlags(const plLocation& loc, short type, uint32_t flags)
+{
+    // Previous revisions of libHSPlasma did not properly set the kNotOptimized
+    // flag for unsorted key lists. So, we need to debunk improperly flagged
+    // phony "optimized" key lists. Note that this check can only ever trigger
+    // for MOUL, Myst V, and Hex Isle.
+    if (!(flags & kNotOptimized)) {
+        for (size_t i = 0; i < keys[loc][type]->size() - 1; ++i) {
+            const plKey& a = keys[loc][type][i];
+            const plKey& b = keys[loc][type][i + 1];
+            if (!(a->getName().compare_i(b->getName()) < 0)) {
+                plDebug::Warning("Keyring for page {} type {:04X} erroneously thinks it's optimized ({} >= {})",
+                    loc.toString(), type, a.toString(), b.toString());
+                flags |= kNotOptimized;
+                break;
+            }
+        }
+    }
+
+    keys[loc][type].setFlags(flags);
+}
+
 void plKeyCollector::sortKeys(const plLocation& loc)
 {
     std::vector<short> types = getTypes(loc);
@@ -151,8 +179,24 @@ void plKeyCollector::sortKeys(const plLocation& loc)
         std::sort(keys[loc][type]->begin(), keys[loc][type]->end(),
             [](const plKey& a, const plKey& b) { return a->getID() < b->getID(); });
         for (size_t i = 0; i < keys[loc][type]->size(); ++i) {
-            keys[loc][type][i]->setID(i + 1);
+            size_t newID = i + 1;
+            if (keys[loc][type][i]->getID() != newID) {
+                keys[loc][type][i]->setID(newID);
+                keys[loc][type].setFlag(kNotOptimized);
+            }
         }
+    }
+}
+
+void plKeyCollector::optimizeKeys(const plLocation& loc)
+{
+    std::vector<short> types = getTypes(loc);
+    for (short type : types) {
+        std::sort(keys[loc][type]->begin(), keys[loc][type]->end(),
+            [](const plKey& a, const plKey& b) { return a->getName().compare_i(b->getName()) < 0; });
+        for (size_t i = 0; i < keys[loc][type]->size(); ++i)
+            keys[loc][type][i]->setID(i + 1);
+        keys[loc][type].setFlag(kNotOptimized, false);
     }
 }
 
@@ -236,6 +280,7 @@ void plKeyCollector::ChangeLocation(const plLocation& from, const plLocation& to
                 keys[to][i][begin+j]->setLocation(to);
                 keys[to][i][begin+j]->setID(begin+j+1);
             }
+            keys[to][i].setFlag(kNotOptimized);
         }
     }
     keys.erase(keys.find(from));
@@ -262,4 +307,5 @@ void plKeyCollector::MoveKey(const plKey& key, const plLocation& to)
     key->setLocation(to);
     keys[to][key->getType()]->push_back(key);
     key->setID(keys[to][key->getType()]->size());
+    keys[to][key->getType()].setFlag(kNotOptimized);
 }
