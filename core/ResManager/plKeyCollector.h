@@ -46,8 +46,14 @@ public:
 
     void setFlags(uint32_t flags) { fFlags = flags; }
 
-    std::vector<plKey>* operator ->() { return &fKeys; }
-    const std::vector<plKey>* operator ->() const { return &fKeys; }
+    std::vector<plKey>::iterator begin() HS_NOEXCEPT { return fKeys.begin(); }
+    bool empty() const HS_NOEXCEPT { return fKeys.empty(); }
+    std::vector<plKey>::iterator end() HS_NOEXCEPT { return fKeys.end(); }
+    std::vector<plKey>::iterator erase(std::vector<plKey>::iterator pos) { return fKeys.erase(pos); }
+    void push_back(const plKey& value) { fKeys.push_back(value); }
+    void reserve(size_t count) { fKeys.reserve(count); }
+    void resize(size_t count) { fKeys.resize(count); }
+    size_t size() const HS_NOEXCEPT { return fKeys.size(); }
 
     std::vector<plKey>& operator *() { return fKeys; }
     const std::vector<plKey>& operator *() const { return fKeys; }
