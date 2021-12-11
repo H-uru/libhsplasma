@@ -162,16 +162,14 @@ void plKeyCollector::sortKeys(const plLocation& loc)
         std::sort(keys[loc][type]->begin(), keys[loc][type]->end(),
             [](const plKey& a, const plKey& b) { return a->getID() < b->getID(); });
         for (size_t i = 0; i < keys[loc][type]->size(); ++i) {
-            size_t newID = i + 1;
-            if (keys[loc][type][i]->getID() != newID)
-                keys[loc][type][i]->setID(newID);
+            keys[loc][type][i]->setID(i + 1);
 
             // Side effect: verify that pages are telling the truth about
             // whether or not they are optimized. Fixes incorrect pages
             // exported by previous revisions of HSPlasma.
-            if (!keys[loc][type].checkFlag(kNotOptimized) && newID < keys[loc][type]->size()) {
+            if (!keys[loc][type].checkFlag(kNotOptimized) && i + 1 < keys[loc][type]->size()) {
                 const plKey& a = keys[loc][type][i];
-                const plKey& b = keys[loc][type][newID];
+                const plKey& b = keys[loc][type][i + 1];
                 if (!(a->getName().compare_i(b->getName()) < 0)) {
                     plDebug::Warning("Keyring for page {} type {:04X} erroneously thinks it's optimized ({} >= {})",
                         loc.toString(), type, a.toString(), b.toString());

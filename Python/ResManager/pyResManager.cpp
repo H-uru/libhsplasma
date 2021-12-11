@@ -484,7 +484,7 @@ PY_METHOD_VA(ResManager, optimizeKeys,
 {
     pyLocation* loc;
     if (!PyArg_ParseTuple(args, "O", &loc) || !!pyLocation_Check((PyObject*)loc)) {
-        PyErr_SetString(PyExc_TypeError, "optimizeKeys expects plLocation");
+        PyErr_SetString(PyExc_TypeError, "optimizeKeys expects a plLocation");
         return nullptr;
     }
     self->fThis->optimizeKeys(*loc->fThis);
