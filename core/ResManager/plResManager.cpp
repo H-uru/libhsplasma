@@ -481,9 +481,10 @@ unsigned int plResManager::ReadKeyring(hsStream* S, const plLocation& loc)
     unsigned int tCount = S->readInt();
     for (unsigned int i=0; i<tCount; i++) {
         short type = pdUnifiedTypeMap::PlasmaToMapped(S->readShort(), S->getVer()); // objType
+        uint32_t flags = plKeyCollector::kNotOptimized;
         if (S->getVer() >= MAKE_VERSION(2, 0, 70, 0) && !S->getVer().isUniversal()) {
             S->readInt();   // # of bytes after this int to next key list
-            S->readByte();  // flag?
+            flags = S->readByte();
         }
         unsigned int oCount = S->readInt();
         keys.reserveKeySpace(loc, type, oCount);
@@ -504,6 +505,9 @@ unsigned int plResManager::ReadKeyring(hsStream* S, const plLocation& loc)
                 keys.add(key);
             }
         }
+
+        // Override whatever the key collector thinks the flags should be with what the PRP says.
+        keys.setFlags(loc, type, flags);
     }
 
     keys.sortKeys(loc);
@@ -521,7 +525,7 @@ void plResManager::WriteKeyring(hsStream* S, const plLocation& loc)
         unsigned int lenPos = S->pos();
         if (S->getVer() >= MAKE_VERSION(2, 0, 70, 0) && !S->getVer().isUniversal()) {
             S->writeInt(0);
-            S->writeByte(0);
+            S->writeByte((uint8_t)keys.getFlags(loc, types[i]));
         }
         S->writeInt(kList.size());
         for (unsigned int j=0; j<kList.size(); j++)
@@ -762,6 +766,11 @@ std::vector<plKey> plResManager::getKeys(short type, bool checkKeys)
         kList.insert(kList.end(), kPageKeys.begin(), kPageKeys.end());
     }
     return kList;
+}
+
+void plResManager::optimizeKeys(const plLocation& loc)
+{
+    keys.optimizeKeys(loc);
 }
 
 plKey plResManager::AddKey(const plKey& key)

@@ -476,6 +476,21 @@ PY_METHOD_VA(ResManager, getKeys,
     return list;
 }
 
+PY_METHOD_VA(ResManager, optimizeKeys,
+    "Params: location\n"
+    "Sorts keys in the keyring by name. This is probably a good idea\n"
+    "to do if you're changing a PRP for MOUL or Myst V that has objects\n"
+    "(such as journal images) that are looked up by name.")
+{
+    pyLocation* loc;
+    if (!PyArg_ParseTuple(args, "O", &loc) || !!pyLocation_Check((PyObject*)loc)) {
+        PyErr_SetString(PyExc_TypeError, "optimizeKeys expects a plLocation");
+        return nullptr;
+    }
+    self->fThis->optimizeKeys(*loc->fThis);
+    Py_RETURN_NONE;
+}
+
 PY_METHOD_VA(ResManager, AddObject,
     "Params: location, object\n"
     "Registers the object to `location` and adds it to the ResManager")
@@ -628,6 +643,7 @@ static PyMethodDef pyResManager_Methods[] = {
     pyResManager_getLocations_method,
     pyResManager_getTypes_method,
     pyResManager_getKeys_method,
+    pyResManager_optimizeKeys_method,
     pyResManager_AddObject_method,
     pyResManager_AddPage_method,
     pyResManager_AddAge_method,

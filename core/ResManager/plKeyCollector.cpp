@@ -26,9 +26,9 @@ plKeyCollector::~plKeyCollector()
 
     // This is now the "ultimate owner" of KeyedObjects, so we must delete
     // all the KOs that we own...
-    for (keymap_t::iterator it = keys.begin(); it != keys.end(); it++) {
-        for (std::map<short, std::vector<plKey> >::iterator i2 = it->second.begin(); i2 != it->second.end(); i2++) {
-            for (std::vector<plKey>::iterator i3 = i2->second.begin(); i3 != i2->second.end(); i3++) {
+    for (auto it = keys.begin(); it != keys.end(); it++) {
+        for (auto i2 = it->second.begin(); i2 != it->second.end(); i2++) {
+            for (auto i3 = i2->second.begin(); i3 != i2->second.end(); i3++) {
                 if ((*i3).Exists() && (*i3).isLoaded()) {
                     ++keysLeft;
                     delete (*i3)->getObj();
@@ -59,11 +59,12 @@ void plKeyCollector::add(const plKey& key)
     keys[key->getLocation()][key->getType()].push_back(key);
     if (key->getID() == 0)
         key->setID(keys[key->getLocation()][key->getType()].size());
+    keys[key->getLocation()][key->getType()].setFlag(kNotOptimized);
 }
 
 void plKeyCollector::del(const plKey& key)
 {
-    std::vector<plKey>& keyList = keys[key->getLocation()][key->getType()];
+    auto& keyList = keys[key->getLocation()][key->getType()];
     std::vector<plKey>::iterator it = keyList.begin();
     size_t sub = 0;
     while (it != keyList.end()) {
@@ -86,7 +87,7 @@ void plKeyCollector::del(const plKey& key)
 
 void plKeyCollector::delAll(const plLocation& loc)
 {
-    std::map<short, std::vector<plKey> >& locList = keys[loc];
+    auto& locList = keys[loc];
     auto loc_iter = locList.begin();
     while (loc_iter != locList.end()) {
         auto key_iter = loc_iter->second.begin();
@@ -144,6 +145,16 @@ void plKeyCollector::reserveKeySpace(const plLocation& loc, short type, int num)
     keys[loc][type].reserve(num);
 }
 
+uint32_t plKeyCollector::getFlags(const plLocation& loc, short type)
+{
+    return keys[loc][type].getFlags();
+}
+
+void plKeyCollector::setFlags(const plLocation& loc, short type, uint32_t flags)
+{
+    keys[loc][type].setFlags(flags);
+}
+
 void plKeyCollector::sortKeys(const plLocation& loc)
 {
     std::vector<short> types = getTypes(loc);
@@ -152,7 +163,32 @@ void plKeyCollector::sortKeys(const plLocation& loc)
             [](const plKey& a, const plKey& b) { return a->getID() < b->getID(); });
         for (size_t i = 0; i < keys[loc][type].size(); ++i) {
             keys[loc][type][i]->setID(i + 1);
+
+            // Side effect: verify that pages are telling the truth about
+            // whether or not they are optimized. Fixes incorrect pages
+            // exported by previous revisions of HSPlasma.
+            if (!keys[loc][type].checkFlag(kNotOptimized) && i + 1 < keys[loc][type].size()) {
+                const plKey& a = keys[loc][type][i];
+                const plKey& b = keys[loc][type][i + 1];
+                if (!(a->getName().compare_i(b->getName()) < 0)) {
+                    plDebug::Warning("Keyring for page {} type {:04X} erroneously thinks it's optimized ({} >= {})",
+                        loc.toString(), type, a.toString(), b.toString());
+                    keys[loc][type].setFlag(kNotOptimized);
+                }
+            }
         }
+    }
+}
+
+void plKeyCollector::optimizeKeys(const plLocation& loc)
+{
+    std::vector<short> types = getTypes(loc);
+    for (short type : types) {
+        std::sort(keys[loc][type].begin(), keys[loc][type].end(),
+            [](const plKey& a, const plKey& b) { return a->getName().compare_i(b->getName()) < 0; });
+        for (size_t i = 0; i < keys[loc][type].size(); ++i)
+            keys[loc][type][i]->setID(i + 1);
+        keys[loc][type].setFlag(kNotOptimized, false);
     }
 }
 
@@ -183,7 +219,7 @@ std::vector<plKey> plKeyCollector::getKeys(const plLocation& loc, short type,
         }
         return std::vector<plKey>(kList.begin(), kList.end());
     } else {
-        return keys[loc][type];
+        return keys[loc][type].toStdVector();
     }
 }
 
@@ -236,6 +272,7 @@ void plKeyCollector::ChangeLocation(const plLocation& from, const plLocation& to
                 keys[to][i][begin+j]->setLocation(to);
                 keys[to][i][begin+j]->setID(begin+j+1);
             }
+            keys[to][i].setFlag(kNotOptimized);
         }
     }
     keys.erase(keys.find(from));
@@ -243,7 +280,7 @@ void plKeyCollector::ChangeLocation(const plLocation& from, const plLocation& to
 
 void plKeyCollector::MoveKey(const plKey& key, const plLocation& to)
 {
-    std::vector<plKey>& keyList = keys[key->getLocation()][key->getType()];
+    auto& keyList = keys[key->getLocation()][key->getType()];
     std::vector<plKey>::iterator it = keyList.begin();
     size_t sub = 0;
     while (it != keyList.end()) {
@@ -262,4 +299,5 @@ void plKeyCollector::MoveKey(const plKey& key, const plLocation& to)
     key->setLocation(to);
     keys[to][key->getType()].push_back(key);
     key->setID(keys[to][key->getType()].size());
+    keys[to][key->getType()].setFlag(kNotOptimized);
 }

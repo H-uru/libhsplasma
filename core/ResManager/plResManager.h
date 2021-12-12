@@ -378,6 +378,13 @@ public:
     std::vector<plKey> getKeys(short type, bool checkKeys = false);
 
     /**
+     * Sorts keys in the keyring by name. This is probably a good idea
+     * to do if you're changing a PRP for MOUL or Myst V that has objects
+     * (such as journal images) that are looked up by name.
+     */
+    void optimizeKeys(const plLocation& loc);
+
+    /**
      * Manually register a plKey with the ResManager.
      *
      * Note: You should do this if you are creating a NEW hsKeyedObject
