@@ -219,7 +219,7 @@ std::vector<plKey> plKeyCollector::getKeys(const plLocation& loc, short type,
         }
         return std::vector<plKey>(kList.begin(), kList.end());
     } else {
-        return *keys[loc][type];
+        return keys[loc][type].toStdVector();
     }
 }
 

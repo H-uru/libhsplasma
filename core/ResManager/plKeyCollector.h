@@ -55,8 +55,8 @@ public:
     void resize(size_t count) { fKeys.resize(count); }
     size_t size() const HS_NOEXCEPT { return fKeys.size(); }
 
-    std::vector<plKey>& operator *() { return fKeys; }
-    const std::vector<plKey>& operator *() const { return fKeys; }
+    std::vector<plKey>& toStdVector() { return fKeys; }
+    const std::vector<plKey>& toStdVector() const { return fKeys; }
 
     plKey& operator[](size_t idx) { return fKeys[idx]; }
     const plKey& operator[](size_t idx) const { return fKeys[idx]; }
