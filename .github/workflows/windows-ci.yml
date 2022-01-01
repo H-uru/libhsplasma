@@ -7,6 +7,7 @@ jobs:
     strategy:
       matrix:
         platform:
+          - { image: windows-2022, generator: Visual Studio 17 2022, toolset: v143, cmake-arch: x64, arch: x64, python: "3.10", unity: ON, str: windows-x64-v143 }
           - { image: windows-2019, generator: Visual Studio 16 2019, toolset: v142, cmake-arch: Win32, arch: x86, python: 3.9, unity: ON, str: windows-x86-v142 }
           - { image: windows-2019, generator: Visual Studio 16 2019, toolset: v142, cmake-arch: x64, arch: x64, python: 3.8, unity: OFF, str: windows-x64-v142 }
           # The windows-2016 image with VS 2017 is going the way of the dodo, so just use VS2019 with the 2017 compiler.
