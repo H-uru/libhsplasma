@@ -7,12 +7,15 @@ jobs:
     strategy:
       matrix:
         platform:
-          - { image: windows-2019, generator: Visual Studio 16 2019, cmake-arch: Win32, arch: x86, python: 3.9, unity: ON, str: windows-x86-v142 }
-          - { image: windows-2019, generator: Visual Studio 16 2019, cmake-arch: x64, arch: x64, python: 3.8, unity: OFF, str: windows-x64-v142 }
-          - { image: windows-2016, generator: Visual Studio 15 2017, cmake-arch: Win32, arch: x86, python: 3.7, unity: OFF, str: windows-x86-v141 }
-          - { image: windows-2016, generator: Visual Studio 15 2017, cmake-arch: x64, arch: x64, python: 3.6, unity: ON, str: windows-x64-v141 }
+          - { image: windows-2019, generator: Visual Studio 16 2019, toolset: v142, cmake-arch: Win32, arch: x86, python: 3.9, unity: ON, str: windows-x86-v142 }
+          - { image: windows-2019, generator: Visual Studio 16 2019, toolset: v142, cmake-arch: x64, arch: x64, python: 3.8, unity: OFF, str: windows-x64-v142 }
+          # The windows-2016 image with VS 2017 is going the way of the dodo, so just use VS2019 with the 2017 compiler.
+          - { image: windows-2019, generator: Visual Studio 16 2019, toolset: v141, cmake-arch: Win32, arch: x86, python: 3.7, unity: OFF, str: windows-x86-v141 }
+          - { image: windows-2019, generator: Visual Studio 16 2019, toolset: v141, cmake-arch: x64, arch: x64, python: 3.6, unity: ON, str: windows-x64-v141 }
     env:
       VCPKG_BINARY_SOURCES: 'clear'
+      VCPKG_DEFAULT_HOST_TRIPLET: windows-hsplasma
+      VCPKG_OVERLAY_TRIPLETS: '${{ github.workspace }}/overlay-triplets'
 
     steps:
       - name: Checkout HSPlasma
@@ -22,6 +25,17 @@ jobs:
         with:
           repository: microsoft/vcpkg
           path: vcpkg
+
+      # Write out a custom vcpkg triplet for the toolset hackery we will do.
+      - name: Generate Triplet
+        run: |
+          mkdir -p overlay-triplets | Out-Null
+          Set-Content -Path "overlay-triplets/windows-hsplasma.cmake" @"
+            set(VCPKG_TARGET_ARCHITECTURE ${{ matrix.platform.arch }})
+            set(VCPKG_CRT_LINKAGE dynamic)
+            set(VCPKG_LIBRARY_LINKAGE static)
+            set(VCPKG_PLATFORM_TOOLSET ${{ matrix.platform.toolset }})
+          "@
 
       # Use actions/cache for our library cache because we use multiple compilers per triplet.
       # This would cause package hash collisions in the NuGet store, triggering upload race failures.
@@ -49,11 +63,11 @@ jobs:
       - name: Configure
         run: |
           cmake `
-            -G "${{ matrix.platform.generator }}" -A "${{ matrix.platform.cmake-arch }}" `
+            -G "${{ matrix.platform.generator }}" -A "${{ matrix.platform.cmake-arch }}" -T "${{ matrix.platform.toolset }}" `
             -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}"/vcpkg/scripts/buildsystems/vcpkg.cmake `
             -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/build/install" `
             -DCMAKE_UNITY_BUILD=${{ matrix.platform.unity }} `
-            -DVCPKG_TARGET_TRIPLET=${{ matrix.platform.arch }}-windows-static-md `
+            -DVCPKG_TARGET_TRIPLET=windows-hsplasma `
             -DPYTHON_EXECUTABLE="${{ env.pythonLocation }}/python.exe" `
             -DPYTHON_LIBRARY="${{ env.pythonLocation }}/libs/python$("${{ matrix.platform.python }}".replace('.', '')).lib" `
             -S . -B build
