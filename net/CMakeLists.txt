@@ -108,6 +108,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libhsplasmanet.pc.in.cmake ${CMAKE_CU
 
 include(GenerateExportHeader)
 generate_export_header(HSPlasmaNet)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/hsplasmanet_export.h DESTINATION include/HSPlasmaNet)
 
 # Package installation
 install(TARGETS HSPlasmaNet

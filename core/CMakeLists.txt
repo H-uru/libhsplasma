@@ -818,6 +818,7 @@ endif()
 
 include(GenerateExportHeader)
 generate_export_header(HSPlasma)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/hsplasma_export.h DESTINATION include/HSPlasma)
 
 # Package Installation
 install(TARGETS HSPlasma
