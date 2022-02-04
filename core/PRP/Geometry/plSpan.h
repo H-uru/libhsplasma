@@ -150,17 +150,17 @@ public:
 
     const std::vector<plKey>& getPermaLights() const { return fPermaLights; }
     std::vector<plKey>& getPermaLights() { return fPermaLights; }
-    void setPermaLights(const std::vector<plKey>& lights) { fPermaLights = lights; }
-    void addPermaLight(plKey light) { fPermaLights.emplace_back(std::move(light)); }
-    void delPermaLight(size_t idx) { fPermaLights.erase(fPermaLights.begin() + idx); }
-    void clearPermaLights() { fPermaLights.clear(); }
+    void setPermaLights(std::vector<plKey> lights);
+    void addPermaLight(plKey light);
+    void delPermaLight(size_t idx);
+    void clearPermaLights();
 
     const std::vector<plKey>& getPermaProjs() const { return fPermaProjs; }
     std::vector<plKey>& getPermaProjs() { return fPermaProjs; }
-    void setPermaProjs(const std::vector<plKey>& lights) { fPermaProjs = lights; }
-    void addPermaProj(plKey proj) { fPermaProjs.emplace_back(std::move(proj)); }
-    void delPermaProj(size_t idx) { fPermaProjs.erase(fPermaProjs.begin() + idx); }
-    void clearPermaProjs() { fPermaProjs.clear(); }
+    void setPermaProjs(std::vector<plKey> lights);
+    void addPermaProj(plKey proj);
+    void delPermaProj(size_t idx);
+    void clearPermaProjs();
 };
 
 #endif

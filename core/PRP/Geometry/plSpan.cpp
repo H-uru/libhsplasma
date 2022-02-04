@@ -200,3 +200,59 @@ void plSpan::IPrcParse(const pfPrcTag* tag)
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     }
 }
+
+void plSpan::setPermaLights(std::vector<plKey> lights)
+{
+    fPermaLights = std::move(lights);
+    if (fPermaLights.empty())
+        fProps &= ~kPropHasPermaLights;
+    else
+        fProps |= kPropHasPermaLights;
+}
+
+void plSpan::addPermaLight(plKey light)
+{
+    fPermaLights.emplace_back(std::move(light));
+    fProps |= kPropHasPermaLights;
+}
+
+void plSpan::delPermaLight(size_t idx)
+{
+    fPermaLights.erase(fPermaLights.begin() + idx);
+    if (fPermaLights.empty())
+        fProps &= ~kPropHasPermaLights;
+}
+
+void plSpan::clearPermaLights()
+{
+    fPermaLights.clear();
+    fProps &= ~kPropHasPermaLights;
+}
+
+void plSpan::setPermaProjs(std::vector<plKey> lights)
+{
+    fPermaProjs = std::move(lights);
+    if (fPermaProjs.empty())
+        fProps &= ~kPropHasPermaProjs;
+    else
+        fProps |= kPropHasPermaProjs;
+}
+
+void plSpan::addPermaProj(plKey proj)
+{
+    fPermaProjs.emplace_back(std::move(proj));
+    fProps |= kPropHasPermaProjs;
+}
+
+void plSpan::delPermaProj(size_t idx)
+{
+    fPermaProjs.erase(fPermaProjs.begin() + idx);
+    if (fPermaProjs.empty())
+        fProps &= ~kPropHasPermaProjs;
+}
+
+void plSpan::clearPermaProjs()
+{
+    fPermaProjs.clear();
+    fProps &= ~kPropHasPermaProjs;
+}
