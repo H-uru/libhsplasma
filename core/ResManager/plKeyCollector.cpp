@@ -171,7 +171,7 @@ void plKeyCollector::sortKeys(const plLocation& loc)
                 const plKey& a = keys[loc][type][i];
                 const plKey& b = keys[loc][type][i + 1];
                 if (!(a->getName().compare_i(b->getName()) < 0)) {
-                    plDebug::Warning("Keyring for page {} type {:04X} erroneously thinks it's optimized ({} >= {})",
+                    plDebug::Warning("Keyring for page {} type {04X} erroneously thinks it's optimized ({} >= {})",
                         loc.toString(), type, a.toString(), b.toString());
                     keys[loc][type].setFlag(kNotOptimized);
                 }
