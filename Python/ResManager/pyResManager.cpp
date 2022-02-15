@@ -483,7 +483,7 @@ PY_METHOD_VA(ResManager, optimizeKeys,
     "(such as journal images) that are looked up by name.")
 {
     pyLocation* loc;
-    if (!PyArg_ParseTuple(args, "O", &loc) || !!pyLocation_Check((PyObject*)loc)) {
+    if (!PyArg_ParseTuple(args, "O", &loc) || !pyLocation_Check((PyObject*)loc)) {
         PyErr_SetString(PyExc_TypeError, "optimizeKeys expects a plLocation");
         return nullptr;
     }
