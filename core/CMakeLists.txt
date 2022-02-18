@@ -803,6 +803,7 @@ target_link_libraries(HSPlasma
                       JPEG::JPEG PNG::PNG string_theory Threads::Threads ZLIB::ZLIB
                       $<$<AND:$<BOOL:${ENABLE_PHYSX}>,$<BOOL:${PHYSX_FOUND}>>:${PHYSX_COOKING_LIBRARY}>
 )
+target_compile_features(HSPlasma PUBLIC cxx_std_14)
 
 target_include_directories(HSPlasma PUBLIC
                            $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}>
