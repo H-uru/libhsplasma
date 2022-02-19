@@ -8,20 +8,6 @@ if (NOT "${PYTHONLIBS_VERSION_STRING_FILTERED}" STREQUAL "${PYTHON_VERSION_STRIN
     message(FATAL_ERROR "Versions of Python libraries (${PYTHONLIBS_VERSION_STRING_FILTERED}) and Python interpreter (${PYTHON_VERSION_STRING_FILTERED}) do not match. Please configure the paths manually.")
 endif()
 
-if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_CLANG)
-    set(CMAKE_CXX_FLAGS "-fno-strict-aliasing ${CMAKE_CXX_FLAGS}")
-    set(CMAKE_C_FLAGS "-fno-strict-aliasing ${CMAKE_C_FLAGS}")
-endif()
-
-if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
-    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 8.0)
-        # GCC 8 adds a warning that prevents us from using Python's C API
-        # in the "usual" way -- disable it for now.
-        set(CMAKE_CXX_FLAGS "-Wno-cast-function-type ${CMAKE_CXX_FLAGS}")
-        set(CMAKE_C_FLAGS "-Wno-cast-function-type ${CMAKE_C_FLAGS}")
-    endif()
-endif()
-
 include_directories(${PYTHON_INCLUDE_DIRS})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -762,9 +748,27 @@ add_library(PyHSPlasma SHARED
             ${VAULT_SOURCES}        ${VAULT_HEADERS}
             ${PYTHON_SOURCES}       ${PYTHON_HEADERS}
 )
+set_target_properties(PyHSPlasma PROPERTIES
+    CXX_VISIBILITY_PRESET hidden
+    VISIBILITY_INLINES_HIDDEN TRUE
+)
 
-target_link_libraries(PyHSPlasma HSPlasma ${PYTHON_LIBRARIES})
+target_link_libraries(PyHSPlasma
+    PUBLIC
+        HSPlasma
+        ${PYTHON_LIBRARIES}
+    PRIVATE
+        HSPlasmaCompilerInterface
+)
 set_target_properties(PyHSPlasma PROPERTIES PREFIX "")
+
+target_compile_options(PyHSPlasma
+    PRIVATE
+        $<$<BOOL:${COMPILER_USES_GCC_FLAGS}>:-fno-strict-aliasing>
+        # GCC 8 adds a warning that prevents us from using Python's C API
+        # in the "usual" way -- disable it for now.
+        $<$<AND:$<CXX_COMPILER_ID:GNU>,$<VERSION_GREATER:$<CXX_COMPILER_VERSION>,8.0>>:-Wno-cast-function-type>
+)
 
 if(NOT WIN32)
     set_target_properties(PyHSPlasma PROPERTIES

@@ -1,35 +1,30 @@
 cmake_minimum_required(VERSION 3.12)
 project(libhsplasma)
 
-set(CMAKE_CXX_VISIBILITY_PRESET hidden)
-set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
-
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
 option(ENABLE_SSE2 "Build with SSE2 CPU instructions" ON)
 
-set(CMAKE_C_FLAGS_DEBUG "-DDEBUG ${CMAKE_C_FLAGS_DEBUG}")
-set(CMAKE_CXX_FLAGS_DEBUG "-DDEBUG ${CMAKE_CXX_FLAGS_DEBUG}")
+# There are lots of variants of Clang, so just match it instead
+# of trying to hardwire them all in a generator expression.
 if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX OR
         CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
-    set(WARNING_FLAGS "-Wall -Wextra -Wno-unused-parameter")
-    set(CMAKE_CXX_FLAGS "${WARNING_FLAGS} ${CMAKE_CXX_FLAGS}")
-    set(CMAKE_C_FLAGS "${WARNING_FLAGS} ${CMAKE_C_FLAGS}")
-    if(ENABLE_SSE2)
-        set(CMAKE_CXX_FLAGS "-msse2 ${CMAKE_CXX_FLAGS}")
-        set(CMAKE_C_FLAGS "-msse2 ${CMAKE_C_FLAGS}")
-    endif()
+    set(COMPILER_USES_GCC_FLAGS TRUE)
 endif()
 
-if(APPLE)
-    add_definitions("-DMACOSX")
-endif()
-
-if(MSVC)
-    add_definitions("-D_CRT_SECURE_NO_WARNINGS")
-    set(CMAKE_CXX_FLAGS "/bigobj /wd4996 /wd4244 /wd4251 /wd4351 ${CMAKE_CXX_FLAGS}")
-    set(CMAKE_C_FLAGS "/wd4996 /wd4244 /wd4251 /wd4351 ${CMAKE_C_FLAGS}")
-endif()
+add_library(HSPlasmaCompilerInterface INTERFACE)
+target_compile_definitions(HSPlasmaCompilerInterface
+    INTERFACE
+        $<$<CONFIG:Debug>:DEBUG>
+        $<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
+        $<$<BOOL:${APPLE}>:MACOSX>
+)
+target_compile_options(HSPlasmaCompilerInterface
+    INTERFACE
+        $<$<CXX_COMPILER_ID:MSVC>:/bigobj /wd4996 /wd4244 /wd4251 /wd4351>
+        $<$<BOOL:${COMPILER_USES_GCC_FLAGS}>:-Wall -Wextra -Wno-unused-parameter>
+        $<$<AND:$<BOOL:${ENABLE_SSE2}>,$<BOOL:${COMPILER_USES_GCC_FLAGS}>>:-msse2>
+)
 
 # Turn everything on by default
 option(ENABLE_PYTHON "Build HSPlasma Python integration" ON)

@@ -93,10 +93,17 @@ add_library(HSPlasmaNet
             ${PN_GATE_SOURCES}  ${PN_GATE_HEADERS}
             ${PN_SOURCES}       ${PN_HEADERS}
 )
+set_target_properties(HSPlasmaNet PROPERTIES
+    CXX_VISIBILITY_PRESET hidden
+    VISIBILITY_INLINES_HIDDEN TRUE
+)
 target_link_libraries(HSPlasmaNet
-                      HSPlasma string_theory
-                      $<$<NOT:$<PLATFORM_ID:SunOS>>:OpenSSL::Crypto>
-                      $<$<PLATFORM_ID:Windows>:ws2_32>
+    PUBLIC
+        HSPlasma
+    PRIVATE
+        HSPlasmaCompilerInterface
+        $<$<NOT:$<PLATFORM_ID:SunOS>>:OpenSSL::Crypto>
+        $<$<PLATFORM_ID:Windows>:ws2_32>
 )
 
 target_include_directories(HSPlasmaNet PUBLIC

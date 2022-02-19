@@ -799,9 +799,20 @@ add_library(HSPlasma
             ${RIJNDAEL_SOURCES}
             ${SQUISH_SOURCES}
 )
+set_target_properties(HSPlasma PROPERTIES
+    CXX_VISIBILITY_PRESET hidden
+    VISIBILITY_INLINES_HIDDEN TRUE
+)
 target_link_libraries(HSPlasma
-                      JPEG::JPEG PNG::PNG string_theory Threads::Threads ZLIB::ZLIB
-                      $<$<AND:$<BOOL:${ENABLE_PHYSX}>,$<BOOL:${PHYSX_FOUND}>>:${PHYSX_COOKING_LIBRARY}>
+    PUBLIC
+        string_theory
+        Threads::Threads
+    PRIVATE
+        HSPlasmaCompilerInterface
+        JPEG::JPEG
+        $<$<AND:$<BOOL:${ENABLE_PHYSX}>,$<BOOL:${PHYSX_FOUND}>>:${PHYSX_COOKING_LIBRARY}>
+        PNG::PNG
+        ZLIB::ZLIB
 )
 target_compile_features(HSPlasma PUBLIC cxx_std_14)
 

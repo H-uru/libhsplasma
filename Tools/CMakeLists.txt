@@ -1,13 +1,11 @@
 try_compile(DIRENT_IS_CONST ${PROJECT_BINARY_DIR}
             ${PROJECT_SOURCE_DIR}/cmake/check_dirent.cpp
             OUTPUT_VARIABLE OUTPUT)
-if(DIRENT_IS_CONST)
-    add_definitions("-DDIRENT_IS_CONST")
-endif()
 
 macro(plasma_tool NAME)
     add_executable(${NAME} src/${NAME}.cpp)
-    target_link_libraries(${NAME} HSPlasma ${STRING_THEORY_LIBRARIES})
+    target_compile_definitions(${NAME} PRIVATE $<$<BOOL:${DIRENT_IS_CONST}>:DIRENT_IS_CONST>)
+    target_link_libraries(${NAME} PRIVATE HSPlasma HSPlasmaCompilerInterface)
     install(TARGETS ${NAME} RUNTIME DESTINATION bin)
 endmacro(plasma_tool)
 
