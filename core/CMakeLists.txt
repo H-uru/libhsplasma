@@ -811,9 +811,14 @@ target_include_directories(HSPlasma PUBLIC
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libhsplasma.pc.in.cmake ${CMAKE_CURRENT_BINARY_DIR}/libhsplasma.pc @ONLY)
 
-# Too many ODR violations in squish
+# Skip unity building source files where that would be a bad idea:
+# - Squish has too many ODR violations to practically fix.
+# - hsFileStream uses Windows.h on Windows, so avoid spreading that disease.
 if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.16)
-    set_property(SOURCE ${SQUISH_SOURCES} PROPERTY SKIP_UNITY_BUILD_INCLUSION TRUE)
+    set_property(SOURCE
+        ${SQUISH_SOURCES} Stream/hsStream.cpp
+        PROPERTY SKIP_UNITY_BUILD_INCLUSION TRUE
+    )
 endif()
 
 include(GenerateExportHeader)

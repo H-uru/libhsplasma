@@ -87,7 +87,11 @@ public:
 
 class HSPLASMA_EXPORT hsFileStream : public hsStream {
 protected:
+#ifdef WIN32
+    HANDLE F;
+#else
     FILE* F;
+#endif
     FileMode fm;
 
 public:
