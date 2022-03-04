@@ -110,10 +110,6 @@ inline double ENDSWAPD(double val)
     #define PATHSEPSTR "/"
 #endif
 
-#ifdef WIN32
-    typedef void* HANDLE;
-#endif
-
 enum plKeyDef
 {
     KEY_A = 'A', KEY_B, KEY_C, KEY_D, KEY_E, KEY_F, KEY_G, KEY_H, KEY_I, KEY_J,

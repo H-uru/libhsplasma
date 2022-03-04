@@ -371,7 +371,7 @@ bool hsFileStream::FileExists(const ST::string& file)
 
 bool hsFileStream::open(const ST::string& file, FileMode mode)
 {
-#ifdef WIN32
+#ifdef _WIN32
     DWORD access, disposition;
     switch (mode) {
     case FileMode::fmRead:
@@ -383,7 +383,7 @@ bool hsFileStream::open(const ST::string& file, FileMode mode)
         disposition = OPEN_ALWAYS;
         break;
     case FileMode::fmCreate:
-        access = GENERIC_WRITE;
+        access = GENERIC_READ | GENERIC_WRITE;
         disposition = CREATE_ALWAYS;
         break;
     case FileMode::fmReadWrite:
@@ -394,7 +394,8 @@ bool hsFileStream::open(const ST::string& file, FileMode mode)
         throw hsBadParamException(__FILE__, __LINE__, "Invalid mode");
     }
 
-    F = CreateFileW(file.to_wchar().data(), access, FILE_SHARE_READ, nullptr, disposition, FILE_ATTRIBUTE_NORMAL, nullptr);
+    F = CreateFileW(file.to_wchar().data(), access, FILE_SHARE_READ, nullptr,
+        disposition, FILE_ATTRIBUTE_NORMAL, nullptr);
     if (F == INVALID_HANDLE_VALUE) {
         F = nullptr;
         if (mode == fmRead || mode == fmReadWrite)
@@ -437,7 +438,7 @@ bool hsFileStream::open(const ST::string& file, FileMode mode)
 void hsFileStream::close()
 {
     if (F) {
-#ifdef WIN32
+#ifdef _WIN32
         CloseHandle(F);
 #else
         fclose(F);
@@ -451,8 +452,8 @@ uint32_t hsFileStream::size() const
     if (F == nullptr)
         return 0;
 
-#ifdef WIN32
-    DWORD sz = GetFileSize(F, nullptr);
+#ifdef _WIN32
+    auto sz = static_cast<uint32_t>(GetFileSize(F, nullptr));
 #else
     unsigned int p = ftell(F);
     fseek(F, 0, SEEK_END);
@@ -466,7 +467,7 @@ uint32_t hsFileStream::pos() const
 {
     if (F == nullptr)
         return 0;
-#ifdef WIN32
+#ifdef _WIN32
     return SetFilePointer(F, 0, nullptr, FILE_CURRENT);
 #else
     return ftell(F);
@@ -478,8 +479,14 @@ bool hsFileStream::eof() const
     if (F == nullptr)
         return true;
 
-#ifdef WIN32
-    return pos() == size();
+#ifdef _WIN32
+    uint8_t buf;
+    DWORD nread = 0;
+    BOOL result = ReadFile(F, &buf, 1, &nread, nullptr);
+    if (result == TRUE && nread == 0)
+        return true;
+    SetFilePointer(F, -1, nullptr, FILE_CURRENT);
+    return false;
 #else
     int c = fgetc(F);
     ungetc(c, F);
@@ -491,7 +498,7 @@ void hsFileStream::seek(uint32_t pos)
 {
     if (F == nullptr)
         return;
-#ifdef WIN32
+#ifdef _WIN32
     SetFilePointer(F, pos, nullptr, FILE_BEGIN);
 #else
     fseek(F, pos, SEEK_SET);
@@ -502,7 +509,7 @@ void hsFileStream::skip(int32_t count)
 {
     if (F == nullptr)
         return;
-#ifdef WIN32
+#ifdef _WIN32
     SetFilePointer(F, count, nullptr, FILE_CURRENT);
 #else
     fseek(F, count, SEEK_CUR);
@@ -513,7 +520,7 @@ void hsFileStream::fastForward()
 {
     if (F == nullptr)
         return;
-#ifdef WIN32
+#ifdef _WIN32
     SetFilePointer(F, 0, nullptr, FILE_END);
 #else
     fseek(F, 0, SEEK_END);
@@ -524,7 +531,7 @@ void hsFileStream::rewind()
 {
     if (F == nullptr)
         return;
-#ifdef WIN32
+#ifdef _WIN32
     SetFilePointer(F, 0, nullptr, FILE_BEGIN);
 #else
     fseek(F, 0, SEEK_SET);
@@ -535,7 +542,7 @@ void hsFileStream::flush()
 {
     if (F == nullptr)
         return;
-#ifdef WIN32
+#ifdef _WIN32
     FlushFileBuffers(F);
 #else
     fflush(F);
@@ -546,7 +553,7 @@ size_t hsFileStream::read(size_t size, void* buf)
 {
     if (F == nullptr || fm == fmWrite || fm == fmCreate)
         throw hsFileReadException(__FILE__, __LINE__);
-#ifdef WIN32
+#ifdef _WIN32
     DWORD nread = 0;
     ReadFile(F, buf, size, &nread, nullptr);
 #else
@@ -564,7 +571,7 @@ size_t hsFileStream::write(size_t size, const void* buf)
 {
     if (F == nullptr || fm == fmRead)
         throw hsFileWriteException(__FILE__, __LINE__);
-#ifdef WIN32
+#ifdef _WIN32
     DWORD nwrite = 0;
     WriteFile(F, buf, size, &nwrite, nullptr);
     return nwrite;
@@ -578,7 +585,7 @@ time_t hsFileStream::getModTime() const
     if (F == nullptr)
         return 0;
 
-#ifdef WIN32
+#ifdef _WIN32
     FILETIME modTime;
     GetFileTime(F, nullptr, nullptr, &modTime);
     return ((time_t)modTime.dwHighDateTime << 32) | modTime.dwLowDateTime;
