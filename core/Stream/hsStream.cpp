@@ -21,7 +21,7 @@
 #include "Sys/Platform.h"
 #include "Debug/plDebug.h"
 
-#ifdef WIN32
+#ifdef _WIN32
     #define WIN32_LEAN_AND_MEAN
     #define NOMINMAX
     #include <windows.h>
@@ -353,7 +353,7 @@ void hsStream::writeLine(const ST::string& ln, bool winEOL)
 /* hsFileStream */
 bool hsFileStream::FileExists(const ST::string& file)
 {
-#ifdef WIN32
+#ifdef _WIN32
     HANDLE eFile = CreateFileW(file.to_wchar().data(), GENERIC_READ,
         FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
     if (eFile == INVALID_HANDLE_VALUE)
