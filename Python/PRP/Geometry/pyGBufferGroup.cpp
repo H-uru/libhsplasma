@@ -80,7 +80,7 @@ PY_METHOD_VA(GBufferGroup, getVertices,
     if (start == 0 && len == -1)
         verts = self->fThis->getVertices(idx);
     else
-        verts = self->fThis->getVertices(start, len);
+        verts = self->fThis->getVertices(idx, start, len);
     PyObject* list = PyTuple_New(verts.size());
     for (size_t i=0; i<verts.size(); i++)
         PyTuple_SET_ITEM(list, i, pyGBufferVertex_FromGBufferVertex(verts[i]));
