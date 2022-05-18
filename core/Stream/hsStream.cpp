@@ -21,12 +21,6 @@
 #include "Sys/Platform.h"
 #include "Debug/plDebug.h"
 
-#ifdef _WIN32
-    #define WIN32_LEAN_AND_MEAN
-    #define NOMINMAX
-    #include <windows.h>
-#endif
-
 static const int eoaStrKey[8] = {'m','y','s','t','n','e','r','d'};
 
 /* hsStream */
@@ -353,59 +347,15 @@ void hsStream::writeLine(const ST::string& ln, bool winEOL)
 /* hsFileStream */
 bool hsFileStream::FileExists(const ST::string& file)
 {
-#ifdef _WIN32
-    HANDLE eFile = CreateFileW(file.to_wchar().data(), GENERIC_READ,
-        FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
-    if (eFile == INVALID_HANDLE_VALUE)
-        return false;
-    CloseHandle(eFile);
-    return true;
-#else
     FILE* eFile = fopen(file.c_str(), "rb");
     bool exist = (eFile != nullptr);
     if (exist)
         fclose(eFile);
     return exist;
-#endif
 }
 
 bool hsFileStream::open(const ST::string& file, FileMode mode)
 {
-#ifdef _WIN32
-    DWORD access, disposition;
-    switch (mode) {
-    case FileMode::fmRead:
-        access = GENERIC_READ;
-        disposition = OPEN_EXISTING;
-        break;
-    case FileMode::fmWrite:
-        access = GENERIC_WRITE;
-        disposition = OPEN_ALWAYS;
-        break;
-    case FileMode::fmCreate:
-        access = GENERIC_READ | GENERIC_WRITE;
-        disposition = CREATE_ALWAYS;
-        break;
-    case FileMode::fmReadWrite:
-        access = GENERIC_READ | GENERIC_WRITE;
-        disposition = OPEN_EXISTING;
-        break;
-    default:
-        throw hsBadParamException(__FILE__, __LINE__, "Invalid mode");
-    }
-
-    F = CreateFileW(file.to_wchar().data(), access, FILE_SHARE_READ, nullptr,
-        disposition, FILE_ATTRIBUTE_NORMAL, nullptr);
-    if (F == INVALID_HANDLE_VALUE) {
-        F = nullptr;
-        if (mode == fmRead || mode == fmReadWrite)
-            throw hsFileReadException(__FILE__, __LINE__, "File does not exist");
-        return false;
-    }
-
-    fm = mode;
-    return true;
-#else
     const char* fms;
     switch (mode) {
     case fmRead:
@@ -431,19 +381,13 @@ bool hsFileStream::open(const ST::string& file, FileMode mode)
     } else if (mode == fmRead || mode == fmReadWrite) {
         throw hsFileReadException(__FILE__, __LINE__, "File does not exist");
     }
-#endif
     return false;
 }
 
 void hsFileStream::close()
 {
-    if (F) {
-#ifdef _WIN32
-        CloseHandle(F);
-#else
+    if (F)
         fclose(F);
-#endif
-    }
     F = nullptr;
 }
 
@@ -451,15 +395,10 @@ uint32_t hsFileStream::size() const
 {
     if (F == nullptr)
         return 0;
-
-#ifdef _WIN32
-    auto sz = static_cast<uint32_t>(GetFileSize(F, nullptr));
-#else
     unsigned int p = ftell(F);
     fseek(F, 0, SEEK_END);
     unsigned int sz = ftell(F);
     fseek(F, p, SEEK_SET);
-#endif
     return sz;
 }
 
@@ -467,98 +406,58 @@ uint32_t hsFileStream::pos() const
 {
     if (F == nullptr)
         return 0;
-#ifdef _WIN32
-    return SetFilePointer(F, 0, nullptr, FILE_CURRENT);
-#else
     return ftell(F);
-#endif
 }
 
 bool hsFileStream::eof() const
 {
     if (F == nullptr)
         return true;
-
-#ifdef _WIN32
-    uint8_t buf;
-    DWORD nread = 0;
-    BOOL result = ReadFile(F, &buf, 1, &nread, nullptr);
-    if (result == TRUE && nread == 0)
-        return true;
-    SetFilePointer(F, -1, nullptr, FILE_CURRENT);
-    return false;
-#else
     int c = fgetc(F);
     ungetc(c, F);
     return (c == EOF);
-#endif
 }
 
 void hsFileStream::seek(uint32_t pos)
 {
     if (F == nullptr)
         return;
-#ifdef _WIN32
-    SetFilePointer(F, pos, nullptr, FILE_BEGIN);
-#else
     fseek(F, pos, SEEK_SET);
-#endif
 }
 
 void hsFileStream::skip(int32_t count)
 {
     if (F == nullptr)
         return;
-#ifdef _WIN32
-    SetFilePointer(F, count, nullptr, FILE_CURRENT);
-#else
     fseek(F, count, SEEK_CUR);
-#endif
 }
 
 void hsFileStream::fastForward()
 {
     if (F == nullptr)
         return;
-#ifdef _WIN32
-    SetFilePointer(F, 0, nullptr, FILE_END);
-#else
     fseek(F, 0, SEEK_END);
-#endif
 }
 
 void hsFileStream::rewind()
 {
     if (F == nullptr)
         return;
-#ifdef _WIN32
-    SetFilePointer(F, 0, nullptr, FILE_BEGIN);
-#else
     fseek(F, 0, SEEK_SET);
-#endif
 }
 
 void hsFileStream::flush()
 {
     if (F == nullptr)
         return;
-#ifdef _WIN32
-    FlushFileBuffers(F);
-#else
     fflush(F);
-#endif
 }
 
 size_t hsFileStream::read(size_t size, void* buf)
 {
     if (F == nullptr || fm == fmWrite || fm == fmCreate)
         throw hsFileReadException(__FILE__, __LINE__);
-#ifdef _WIN32
-    DWORD nread = 0;
-    ReadFile(F, buf, size, &nread, nullptr);
-#else
     size_t nread = fread(buf, 1, size, F);
-#endif
     if (nread != size) {
         throw hsFileReadException(__FILE__, __LINE__,
                          ST::format("Read past end of file: {} bytes requested, {} available",
@@ -571,13 +470,7 @@ size_t hsFileStream::write(size_t size, const void* buf)
 {
     if (F == nullptr || fm == fmRead)
         throw hsFileWriteException(__FILE__, __LINE__);
-#ifdef _WIN32
-    DWORD nwrite = 0;
-    WriteFile(F, buf, size, &nwrite, nullptr);
-    return nwrite;
-#else
     return fwrite(buf, 1, size, F);
-#endif
 }
 
 time_t hsFileStream::getModTime() const
@@ -585,13 +478,7 @@ time_t hsFileStream::getModTime() const
     if (F == nullptr)
         return 0;
 
-#ifdef _WIN32
-    FILETIME modTime;
-    GetFileTime(F, nullptr, nullptr, &modTime);
-    return ((time_t)modTime.dwHighDateTime << 32) | modTime.dwLowDateTime;
-#else
     struct stat stbuf;
     fstat(fileno(F), &stbuf);
     return stbuf.st_mtime;
-#endif
 }
