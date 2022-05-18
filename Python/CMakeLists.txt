@@ -1,4 +1,4 @@
-find_package(PythonLibs REQUIRED)
+find_package(PythonLibs 3.2 REQUIRED)
 # Use only the major.minor version -- no patch, no +, etc
 STRING(REGEX REPLACE "([0-9]\\.[0-9])[0-9.+]*" "\\1" PYTHONLIBS_VERSION_STRING_FILTERED "${PYTHONLIBS_VERSION_STRING}")
 find_package(PythonInterp "${PYTHONLIBS_VERSION_STRING_FILTERED}" REQUIRED)
