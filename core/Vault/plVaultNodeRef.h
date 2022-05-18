@@ -17,7 +17,7 @@
 #ifndef _PLVAULTNODEREF_H
 #define _PLVAULTNODEREF_H
 
-#include "../Sys/plUnifiedTime.h"
+#include "Sys/plUnifiedTime.h"
 
 class HSPLASMA_EXPORT plVaultNodeRef
 {
