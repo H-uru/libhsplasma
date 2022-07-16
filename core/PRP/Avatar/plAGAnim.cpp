@@ -31,6 +31,12 @@ void plAGAnim::read(hsStream* S, plResManager* mgr)
     fStart = S->readFloat();
     fEnd = S->readFloat();
 
+    // MQO data
+    if (S->getVer().isMoul() && pdUnifiedTypeMap::CurrentVersion(this->ClassIndex()) >= 5) {
+        fUnknownMQO1 = S->readFloat();
+        fUnknownMQO2 = S->readFloat();
+    }
+
     clearApplicators();
     fApps.resize(S->readInt());
     for (size_t i=0; i<fApps.size(); i++) {
@@ -52,6 +58,12 @@ void plAGAnim::write(hsStream* S, plResManager* mgr)
     S->writeFloat(fStart);
     S->writeFloat(fEnd);
 
+    // MQO data
+    if (S->getVer().isMoul() && pdUnifiedTypeMap::CurrentVersion(this->ClassIndex()) >= 5) {
+        S->writeFloat(fUnknownMQO1);
+        S->writeFloat(fUnknownMQO2);
+    }
+
     S->writeInt(fApps.size());
     for (size_t i=0; i<fApps.size(); i++) {
         mgr->WriteCreatable(S, fApps[i]);
@@ -70,6 +82,8 @@ void plAGAnim::IPrcWrite(pfPrcHelper* prc)
     prc->writeParam("Name", fName);
     prc->writeParam("Start", fStart);
     prc->writeParam("End", fEnd);
+    prc->writeParam("UnknownMQO1", fUnknownMQO1);
+    prc->writeParam("UnknownMQO2", fUnknownMQO2);
     prc->writeParam("EoaFlag", fEoaFlag);
     prc->endTag(true);
 
@@ -93,6 +107,8 @@ void plAGAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         fName = tag->getParam("Name", "");
         fStart = tag->getParam("Start", "0").to_float();
         fEnd = tag->getParam("End", "0").to_float();
+        fUnknownMQO1 = tag->getParam("UnknownMQO1", "0").to_float();
+        fUnknownMQO2 = tag->getParam("UnknownMQO2", "0").to_float();
         fEoaFlag = tag->getParam("EoaFlag", "0").to_uint();
     } else if (tag->getName() == "Applicators") {
         clearApplicators();
