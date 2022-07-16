@@ -28,6 +28,10 @@ void hsVector3::read(hsStream* S)
     X = S->readFloat();
     Y = S->readFloat();
     Z = S->readFloat();
+
+    if (S->getVer() < MAKE_VERSION(2, 0, 62, 0)) {
+        S->readFloat();
+    }
 }
 
 void hsVector3::write(hsStream* S)
@@ -35,6 +39,10 @@ void hsVector3::write(hsStream* S)
     S->writeFloat(X);
     S->writeFloat(Y);
     S->writeFloat(Z);
+
+    if (S->getVer() < MAKE_VERSION(2, 0, 62, 0)) {
+        S->writeFloat(0.f);
+    }
 }
 
 void hsVector3::prcWrite(pfPrcHelper* prc)

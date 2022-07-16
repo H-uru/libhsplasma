@@ -98,6 +98,7 @@ protected:
     plCameraConfig fConfig;
     bool fActivated;
     hsBitVector fCmd;
+    hsVector3 fUnknownMQO;
 
 public:
     plCameraMsg();
