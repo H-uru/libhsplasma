@@ -25,13 +25,13 @@ class HSPLASMA_EXPORT plOneShotMod : public plMultiModifier
 
 protected:
     ST::string fAnimName;
-    bool fDrivable, fReversable, fSmartSeek, fNoSeek;
+    bool fDrivable, fReversable, fSmartSeek, fNoSeek, fUnknownMQO;
     float fSeekDuration;
 
 public:
     plOneShotMod()
         : fDrivable(), fReversable(), fSmartSeek(), fNoSeek(true),
-          fSeekDuration() { }
+          fUnknownMQO(), fSeekDuration() { }
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

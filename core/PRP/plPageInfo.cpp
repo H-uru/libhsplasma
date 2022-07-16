@@ -133,6 +133,25 @@ void plPageInfo::read(hsStream* S)
                                  pdUnifiedTypeMap::ClassVersion(type, S->getVer()), ver);
             }
         }
+
+        // We have a slight problem with MQO data, because it is effectively
+        // indistinguishable from MOUL data. Most classes correctly use the
+        // type map to indicate when they have been updated, with the exception
+        // of plMessages embedded within ResponderModifiers. We have no way of
+        // knowing when there is extra data to read in those messages, and
+        // failing to read it correctly will corrupt the stream and probably
+        // crash.
+        //
+        // Since there is a finite set of MQO files, we're going to hackily
+        // check what Age we're reading here and compare the Age name and
+        // sequence prefix against known MQO Ages, and then set our stream
+        // version to pvMqo (which isn't actually accurate, but we need *some*
+        // way to track this when reading)
+        if ((fAge == "Courtyard" && fLocation.getSeqPrefix() == 3)
+            || (fAge == "Forest" && fLocation.getSeqPrefix() == 5)
+            || (fAge == "PortalWell" && fLocation.getSeqPrefix() == 1)) {
+            S->setVer(PlasmaVer::pvMqo);
+        }
     }
 
     plDebug::Debug("* Loading: {} ({})\n"
