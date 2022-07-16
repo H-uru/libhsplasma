@@ -26,8 +26,12 @@ void plOneShotMod::read(hsStream* S, plResManager* mgr)
     fReversable = S->readBool();
     fSmartSeek = S->readBool();
 
-    if (S->getVer() > 0x02006304) { /*TODO: Verify! */
+    if (S->getVer() > MAKE_VERSION(2, 0, 63, 4)) {
         fNoSeek = S->readBool();
+    }
+
+    if (S->getVer().isMoul() && pdUnifiedTypeMap::CurrentVersion(this->ClassIndex()) >= 3) {
+        fUnknownMQO = S->readBool();
     }
 }
 
@@ -41,6 +45,10 @@ void plOneShotMod::write(hsStream* S, plResManager* mgr)
     S->writeBool(fReversable);
     S->writeBool(fSmartSeek);
     S->writeBool(fNoSeek);
+
+    if (S->getVer().isMoul() && pdUnifiedTypeMap::CurrentVersion(this->ClassIndex()) >= 3) {
+        S->writeBool(fUnknownMQO);
+    }
 }
 
 void plOneShotMod::IPrcWrite(pfPrcHelper* prc)
@@ -54,6 +62,7 @@ void plOneShotMod::IPrcWrite(pfPrcHelper* prc)
     prc->writeParam("Reversable", fReversable);
     prc->writeParam("SmartSeek", fSmartSeek);
     prc->writeParam("NoSeek", fNoSeek);
+    prc->writeParam("UnknownMQO", fUnknownMQO);
     prc->endTag(true);
 }
 
@@ -66,6 +75,7 @@ void plOneShotMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         fReversable = tag->getParam("Reversable", "false").to_bool();
         fSmartSeek = tag->getParam("SmartSeek", "false").to_bool();
         fNoSeek = tag->getParam("NoSeek", "true").to_bool();
+        fUnknownMQO = tag->getParam("UnknownMQO", "false").to_bool();
     } else {
         plMultiModifier::IPrcParse(tag, mgr);
     }
