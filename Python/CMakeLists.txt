@@ -189,6 +189,7 @@ set(PRP_AVATAR_HEADERS
     PRP/Avatar/pyAGMasterMod.h
     PRP/Avatar/pyAGModifier.h
     PRP/Avatar/pyATCAnim.h
+    PRP/Avatar/pyClothingItem.h
     PRP/Avatar/pyLadderModifier.h
     PRP/Avatar/pyMultistageBehMod.h
     PRP/Avatar/pySeekPointMod.h

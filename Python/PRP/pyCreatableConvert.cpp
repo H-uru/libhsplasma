@@ -187,6 +187,7 @@
 #include "PRP/Avatar/pyAGMasterMod.h"
 #include "PRP/Avatar/pyAGModifier.h"
 #include "PRP/Avatar/pyATCAnim.h"
+#include "PRP/Avatar/pyClothingItem.h"
 #include "PRP/Avatar/pyLadderModifier.h"
 #include "PRP/Avatar/pyMultistageBehMod.h"
 #include "PRP/Avatar/pySeekPointMod.h"
@@ -553,6 +554,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kGUIValueCtrl: return pyGUIValueCtrl_FromGUIValueCtrl(pfGUIValueCtrl::Convert(pCre));
         case kImageLibMod: return pyImageLibMod_FromImageLibMod(plImageLibMod::Convert(pCre));
         case kPostEffectMod: return pyPostEffectMod_FromPostEffectMod(plPostEffectMod::Convert(pCre));
+        case kClothingItem: return pyClothingItem_FromClothingItem(plClothingItem::Convert(pCre));
         case kAvLadderMod: return pyAvLadderMod_FromAvLadderMod(plAvLadderMod::Convert(pCre));
         case kLadderModifier: return pyLadderModifier_FromLadderModifier(plLadderModifier::Convert(pCre));
         case kCameraBrain: return pyCameraBrain_FromCameraBrain(plCameraBrain::Convert(pCre));
