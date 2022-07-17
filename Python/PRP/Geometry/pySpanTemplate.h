@@ -20,7 +20,7 @@
 #include "PyPlasma.h"
 #include <PRP/Geometry/plSpanTemplate.h>
 
-PY_WRAP_PLASMA(SpanTemplateVertex, plSpanTemplate::Vertex);
+PY_WRAP_PLASMA_VALUE(SpanTemplateVertex, plSpanTemplate::Vertex);
 PY_WRAP_PLASMA(SpanTemplate, plSpanTemplate);
 
 /* Python property helpers */
