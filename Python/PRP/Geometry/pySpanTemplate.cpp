@@ -66,7 +66,7 @@ PY_GETSET_GETTER_DECL(SpanTemplate, vertices)
     std::vector<plSpanTemplate::Vertex> verts = self->fThis->getVertices();
     PyObject* list = PyTuple_New(verts.size());
     for (size_t i=0; i<verts.size(); i++)
-        PyTuple_SET_ITEM(list, i, pySpanTemplateVertex_FromSpanTemplateVertex(&verts[i]));
+        PyTuple_SET_ITEM(list, i, pySpanTemplateVertex_FromSpanTemplateVertex(verts[i]));
     return list;
 }
 
