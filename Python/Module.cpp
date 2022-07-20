@@ -455,6 +455,10 @@ static void initPyHSPlasma_Constants(PyObject* module)
     PyModule_AddIntConstant(module, "KEY_UNMAPPED", KEY_UNMAPPED);
 }
 
+#if !defined(_WIN32) && ((PY_MAJOR_VERSION == 3) && (PY_MINOR_VERSION < 9))
+PyMODINIT_FUNC PyInit_PyHSPlasma() __attribute__((visibility("default")));
+#endif
+
 PyMODINIT_FUNC PyInit_PyHSPlasma()
 {
     PyObject* module = PyModule_Create(&PyHSPlasma_Module);
