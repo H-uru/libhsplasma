@@ -24,7 +24,7 @@ PY_PLASMA_VALUE_DEALLOC(Quat)
 
 PY_PLASMA_INIT_DECL(Quat)
 {
-    float x = 0.0f, y = 0.0f, z = 0.0f, w = 0.0f;
+    float x = 0.0f, y = 0.0f, z = 0.0f, w = 1.0f;
     PyObject* init = nullptr;
     static char* kwlist[] = { _pycs("X"), _pycs("Y"), _pycs("Z"), _pycs("W"), nullptr };
     static char* kwlist2[] = { _pycs("quat"), nullptr };
