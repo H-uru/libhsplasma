@@ -23,7 +23,7 @@ struct HSPLASMA_EXPORT hsQuat
 {
     float X, Y, Z, W;
 
-    hsQuat() : X(), Y(), Z(), W() { }
+    hsQuat() : X(), Y(), Z(), W(1.f) { }
     hsQuat(float _x, float _y, float _z, float _w) : X(_x), Y(_y), Z(_z), W(_w) { }
     hsQuat(float rad, const hsVector3& axis);
 
