@@ -44,8 +44,12 @@ private:
     jpeg_error_mgr jerr;
 
 public:
+    /* Read JPEG file from stream into buffer as bitmap data. */
     static void DecompressJPEG(hsStream* S, void* buf, size_t size);
-    static void CompressJPEG(hsStream* S, void* buf, size_t size);
+
+    /* Write JPEG file to stream from bitmap data buffer. */
+    static void CompressJPEG(hsStream* S, void* buf, size_t size,
+                             uint32_t width, uint32_t height, uint32_t bpp);
 
 private:
     plJPEG();

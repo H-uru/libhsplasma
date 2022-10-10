@@ -22,6 +22,9 @@ extern "C" {
 #include <jerror.h>
 }
 
+
+// Input Stream interface
+
 #define INPUT_BUF_SIZE  4096
 
 /* hsStream JPEG source -- modelled after IJG's stdio src */
@@ -105,6 +108,73 @@ GLOBAL(void) jpeg_hsStream_src(j_decompress_ptr dinfo, hsStream* S)
     src->stream = S;
     src->pub.bytes_in_buffer = 0;
     src->pub.next_input_byte = nullptr;
+}
+
+
+// Output Stream interface
+
+#define OUTPUT_BUF_SIZE  4096
+
+/* hsStream JPEG destination -- modelled after IJG's stdio dest */
+typedef struct
+{
+    struct jpeg_destination_mgr pub;
+    hsStream* stream;
+    JOCTET* buffer;
+    boolean start_of_stream;
+} jpeg_hsStream_destination;
+
+METHODDEF(void) init_hsStream_destination(j_compress_ptr cinfo)
+{
+    jpeg_hsStream_destination* dest = (jpeg_hsStream_destination*)cinfo->dest;
+    dest->start_of_stream = TRUE;
+}
+
+METHODDEF(boolean) hsStream_empty_output_buffer(j_compress_ptr cinfo)
+{
+    jpeg_hsStream_destination* dest = (jpeg_hsStream_destination*)cinfo->dest;
+
+    dest->stream->write(OUTPUT_BUF_SIZE, dest->buffer);
+
+    memset(dest->buffer, 0, OUTPUT_BUF_SIZE);
+
+    dest->pub.next_output_byte = dest->buffer;
+    dest->pub.free_in_buffer = OUTPUT_BUF_SIZE;
+    dest->start_of_stream = FALSE;
+
+    return TRUE;
+}
+
+METHODDEF(void) hsStream_term_destination(j_compress_ptr cinfo)
+{ 
+    jpeg_hsStream_destination* dest = (jpeg_hsStream_destination*)cinfo->dest;
+    size_t datacount = OUTPUT_BUF_SIZE - dest->pub.free_in_buffer;
+    if (datacount > 0)
+        dest->stream->write(datacount, dest->buffer);
+    dest->stream->flush();
+}
+
+GLOBAL(void) jpeg_hsStream_dest(j_compress_ptr cinfo, hsStream* S)
+{
+    jpeg_hsStream_destination* dest;
+
+    if (cinfo->dest == nullptr) {
+        cinfo->dest = (struct jpeg_destination_mgr*)
+            (*cinfo->mem->alloc_small)((j_common_ptr)cinfo, JPOOL_PERMANENT,
+                sizeof(jpeg_hsStream_destination));
+        dest = (jpeg_hsStream_destination*)cinfo->dest;
+        dest->buffer = (JOCTET*)
+            (*cinfo->mem->alloc_small)((j_common_ptr)cinfo, JPOOL_PERMANENT,
+                OUTPUT_BUF_SIZE * sizeof(JOCTET));
+    }
+
+    dest = (jpeg_hsStream_destination*)cinfo->dest;
+    dest->pub.init_destination = init_hsStream_destination;
+    dest->pub.empty_output_buffer = hsStream_empty_output_buffer;
+    dest->pub.term_destination = hsStream_term_destination;
+    dest->stream = S;
+    dest->pub.free_in_buffer = OUTPUT_BUF_SIZE;
+    dest->pub.next_output_byte = dest->buffer;
 }
 
 // JPEG error handler for libPlasma
@@ -207,7 +277,44 @@ void plJPEG::DecompressJPEG(hsStream* S, void* buf, size_t size)
     jpeg_finish_decompress(&ji.dinfo);
 }
 
-void plJPEG::CompressJPEG(hsStream* S, void* buf, size_t size)
+void plJPEG::CompressJPEG(hsStream* S, void* buf, size_t size, uint32_t width, uint32_t height, uint32_t bpp)
 {
-    throw hsNotImplementedException(__FILE__, __LINE__);
+    plJPEG& ji = Instance();
+
+    JSAMPLE* image_buffer = reinterpret_cast<JSAMPLE*>(buf);
+
+    jpeg_create_compress(&ji.cinfo);
+    jpeg_hsStream_dest(&ji.cinfo, S);
+
+    ji.cinfo.image_width = width;
+    ji.cinfo.image_height = height;
+    ji.cinfo.input_components = bpp / 8;
+    if (ji.cinfo.input_components == 4)
+        ji.cinfo.in_color_space = JCS_EXT_RGBX;
+    else
+        ji.cinfo.in_color_space = JCS_RGB;
+
+    jpeg_set_defaults(&ji.cinfo);
+    jpeg_set_quality(&ji.cinfo, 100, TRUE);
+    jpeg_start_compress(&ji.cinfo, TRUE);
+    
+    uint32_t row_stride = ji.cinfo.image_width * ji.cinfo.input_components;
+    RAII_JSAMPROW<1> jbuffer(row_stride);
+
+    size_t offs = 0;
+    while (ji.cinfo.next_scanline < ji.cinfo.image_height) {
+        if (offs + row_stride > size)
+            throw hsJPEGException(__FILE__, __LINE__, "buffer overread");
+
+        for (size_t x = 0; x < ji.cinfo.image_width; x++) {
+            memcpy(jbuffer.data[0] + (x * ji.cinfo.input_components),
+                   ((unsigned char*)image_buffer) + offs + (x * ji.cinfo.input_components),
+                   ji.cinfo.input_components);
+        }
+        (void)jpeg_write_scanlines(&ji.cinfo, jbuffer.data, 1);
+        offs += row_stride;
+    }
+
+    jpeg_finish_compress(&ji.cinfo);
+    jpeg_destroy_compress(&ji.cinfo);
 }
