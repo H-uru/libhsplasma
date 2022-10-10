@@ -37,7 +37,10 @@ public:
 class HSPLASMA_EXPORT plPNG
 {
 public:
+    /* Read PNG file from stream into buffer as bitmap data. */
     static void DecompressPNG(hsStream* S, void* buf, size_t size);
+
+    /* Write PNG file to stream from bitmap data buffer. */
     static void CompressPNG(hsStream* S, const void* buf, size_t size,
                             uint32_t width, uint32_t height, int pixelSize);
 
