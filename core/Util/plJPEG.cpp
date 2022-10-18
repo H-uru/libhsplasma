@@ -16,6 +16,7 @@
 
 #include "plJPEG.h"
 #include "Debug/plDebug.h"
+#include "PRP/Surface/plMipmap.h"
 #include <cstring>
 
 extern "C" {
@@ -275,6 +276,56 @@ void plJPEG::DecompressJPEG(hsStream* S, void* buf, size_t size)
     }
 
     jpeg_finish_decompress(&ji.dinfo);
+}
+
+
+plMipmap* plJPEG::DecompressJPEG(hsStream* S)
+{
+    plJPEG& ji = Instance();
+
+    jpeg_hsStream_src(&ji.dinfo, S);
+    jpeg_read_header(&ji.dinfo, TRUE);
+    jpeg_start_decompress(&ji.dinfo);
+
+    int row_stride = ji.dinfo.output_width * ji.dinfo.output_components;
+    int out_stride = ji.dinfo.output_width * 4;    // Always decompress to RGBA
+    RAII_JSAMPROW<1> jbuffer(row_stride);
+
+    // Start with a reasonable guess for the size of the buffer
+    auto buffer = new std::vector<uint8_t>(ji.dinfo.output_width * ji.dinfo.output_height * 4);
+
+    size_t offs = 0;
+    while (ji.dinfo.output_scanline < ji.dinfo.output_height) {
+        while (offs + out_stride > buffer->capacity()) {
+            buffer->reserve(buffer->capacity() + INPUT_BUF_SIZE);
+        }
+        jpeg_read_scanlines(&ji.dinfo, jbuffer.data, 1);
+        memset(((unsigned char*)buffer->data()) + offs, 255, out_stride);
+        for (size_t x = 0; x < ji.dinfo.output_width; x++) {
+            memcpy(((unsigned char*)buffer->data()) + offs + (x * 4),
+                jbuffer.data[0] + (x * ji.dinfo.output_components),
+                ji.dinfo.out_color_components);
+        }
+        offs += out_stride;
+    }
+
+    // Data stored as RGB on disk but Plasma uses BGR
+    uint32_t* dp = reinterpret_cast<uint32_t*>(buffer->data());
+    for (size_t i = 0; i < buffer->size(); i += 4) {
+        *dp = (*dp & 0xFF00FF00)
+            | (*dp & 0x00FF0000) >> 16
+            | (*dp & 0x000000FF) << 16;
+        dp++;
+    }
+
+    jpeg_finish_decompress(&ji.dinfo);
+    buffer->shrink_to_fit();
+
+    plMipmap* newMipmap = new plMipmap(ji.dinfo.output_width, ji.dinfo.output_height, 1, plMipmap::kUncompressed, plMipmap::kRGB8888);
+    newMipmap->setImageData(buffer->data(), buffer->size());
+
+    delete buffer;
+    return newMipmap;
 }
 
 void plJPEG::CompressJPEG(hsStream* S, void* buf, size_t size, uint32_t width, uint32_t height, uint32_t bpp)

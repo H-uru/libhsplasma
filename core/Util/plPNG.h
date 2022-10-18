@@ -17,7 +17,8 @@
 #ifndef _PLPNG_H
 #define _PLPNG_H
 
-#include "PRP/Surface/plMipmap.h"
+#include "PlasmaDefs.h"
+#include "Debug/hsExceptions.hpp"
 
 #include <png.h>
 
@@ -34,11 +35,17 @@ public:
 };
 
 
+class hsStream;
+class plMipmap;
+
 class HSPLASMA_EXPORT plPNG
 {
 public:
     /* Read PNG file from stream into buffer as bitmap data. */
     static void DecompressPNG(hsStream* S, void* buf, size_t size);
+
+    /* Read PNG file from stream directly into a plMipmap. */
+    static plMipmap* DecompressPNG(hsStream* S);
 
     /* Write PNG file to stream from bitmap data buffer. */
     static void CompressPNG(hsStream* S, const void* buf, size_t size,
