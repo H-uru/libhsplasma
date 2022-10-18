@@ -243,10 +243,11 @@ void plJPEG::DecompressJPEG(hsStream* S, void* buf, size_t size)
 
     jpeg_hsStream_src(&ji.dinfo, S);
     jpeg_read_header(&ji.dinfo, TRUE);
+    ji.dinfo.out_color_space = JCS_EXT_BGRA;    // Data stored as RGB on disk but Plasma uses BGR
     jpeg_start_decompress(&ji.dinfo);
 
-    int row_stride = ji.dinfo.output_width * ji.dinfo.output_components;
-    int out_stride = ji.dinfo.output_width * 4;    // Always decompress to RGBA
+    int row_stride = ji.dinfo.output_width * ji.dinfo.out_color_components;
+    int out_stride = row_stride;
     RAII_JSAMPROW<1> jbuffer(row_stride);
 
     size_t offs = 0;
@@ -254,25 +255,12 @@ void plJPEG::DecompressJPEG(hsStream* S, void* buf, size_t size)
         if (offs + out_stride > size)
             throw hsJPEGException(__FILE__, __LINE__, "buffer overflow");
         jpeg_read_scanlines(&ji.dinfo, jbuffer.data, 1);
-        memset(((unsigned char*)buf) + offs, 0, out_stride);
         for (size_t x = 0; x<ji.dinfo.output_width; x++) {
             memcpy(((unsigned char*)buf) + offs + (x * 4),
-                   jbuffer.data[0] + (x * ji.dinfo.output_components),
+                   jbuffer.data[0] + (x * ji.dinfo.out_color_components),
                    ji.dinfo.out_color_components);
         }
         offs += out_stride;
-    }
-
-    // Data stored as RGB on disk but Plasma uses BGR
-    if (reinterpret_cast<uintptr_t>(buf) % alignof(uint32_t) != 0)
-        throw hsBadParamException(__FILE__, __LINE__, "buf should be aligned on a 32-bit boundary");
-
-    uint32_t* dp = reinterpret_cast<uint32_t*>(buf);
-    for (size_t i=0; i<size; i += 4) {
-        *dp = (*dp & 0xFF00FF00)
-            | (*dp & 0x00FF0000) >> 16
-            | (*dp & 0x000000FF) << 16;
-        dp++;
     }
 
     jpeg_finish_decompress(&ji.dinfo);
@@ -285,14 +273,15 @@ plMipmap* plJPEG::DecompressJPEG(hsStream* S)
 
     jpeg_hsStream_src(&ji.dinfo, S);
     jpeg_read_header(&ji.dinfo, TRUE);
+    ji.dinfo.out_color_space = JCS_EXT_BGRA;    // Data stored as RGB on disk but Plasma uses BGR
     jpeg_start_decompress(&ji.dinfo);
 
-    int row_stride = ji.dinfo.output_width * ji.dinfo.output_components;
-    int out_stride = ji.dinfo.output_width * 4;    // Always decompress to RGBA
+    int row_stride = ji.dinfo.output_width * ji.dinfo.out_color_components;
+    int out_stride = row_stride;
     RAII_JSAMPROW<1> jbuffer(row_stride);
 
-    // Start with a reasonable guess for the size of the buffer
-    auto buffer = new std::vector<uint8_t>(ji.dinfo.output_width * ji.dinfo.output_height * 4);
+    // Start with a reasonable size for the buffer
+    auto buffer = new std::vector<uint8_t>(ji.dinfo.output_width * ji.dinfo.output_height * ji.dinfo.out_color_components);
 
     size_t offs = 0;
     while (ji.dinfo.output_scanline < ji.dinfo.output_height) {
@@ -300,22 +289,12 @@ plMipmap* plJPEG::DecompressJPEG(hsStream* S)
             buffer->reserve(buffer->capacity() + INPUT_BUF_SIZE);
         }
         jpeg_read_scanlines(&ji.dinfo, jbuffer.data, 1);
-        memset(((unsigned char*)buffer->data()) + offs, 255, out_stride);
         for (size_t x = 0; x < ji.dinfo.output_width; x++) {
             memcpy(((unsigned char*)buffer->data()) + offs + (x * 4),
-                jbuffer.data[0] + (x * ji.dinfo.output_components),
+                jbuffer.data[0] + (x * ji.dinfo.out_color_components),
                 ji.dinfo.out_color_components);
         }
         offs += out_stride;
-    }
-
-    // Data stored as RGB on disk but Plasma uses BGR
-    uint32_t* dp = reinterpret_cast<uint32_t*>(buffer->data());
-    for (size_t i = 0; i < buffer->size(); i += 4) {
-        *dp = (*dp & 0xFF00FF00)
-            | (*dp & 0x00FF0000) >> 16
-            | (*dp & 0x000000FF) << 16;
-        dp++;
     }
 
     jpeg_finish_decompress(&ji.dinfo);
