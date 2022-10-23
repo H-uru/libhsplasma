@@ -195,7 +195,7 @@ plMipmap* plPNG::DecompressPNG(hsStream* S)
     newMipmap = new plMipmap(pngWidth, pngHeight, 1, plMipmap::kUncompressed, plMipmap::kRGB8888);
     
     char* destp = (char*)newMipmap->getImageData();
-    png_bytep* row_ptrs = new png_bytep[pngHeight];
+    auto row_ptrs = std::make_unique<png_bytep[]>(pngHeight);
     const unsigned int stride = pngWidth * depth * channels / 8;
 
     //  Assign row pointers to the appropriate locations in the newly-created Mipmap
@@ -203,12 +203,11 @@ plMipmap* plPNG::DecompressPNG(hsStream* S)
         row_ptrs[i] = (png_bytep)destp + (i * stride);
     }
 
-    png_read_image(pngReader, row_ptrs);
+    png_read_image(pngReader, row_ptrs.get());
     png_read_end(pngReader, endInfo);
     
     //  Clean up allocated structs
     png_destroy_read_struct(&pngReader, &pngInfo, &endInfo);
-    delete[] row_ptrs;
 
     return newMipmap;
 }
