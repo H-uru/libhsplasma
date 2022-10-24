@@ -34,7 +34,7 @@ jobs:
             export CC=gcc-9
             export CXX=g++-9
           fi
-          cmake -DCMAKE_BUILD_TYPE=Debug \
+          cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_FIND_FRAMEWORK=LAST \
             -DCMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}/build_deps/prefix;/usr/local/opt/jpeg-turbo;/usr/local/opt/openssl" \
             -DENABLE_PYTHON=ON -DENABLE_TOOLS=ON -DENABLE_NET=ON -DENABLE_PHYSX=OFF ..
           make -j2
