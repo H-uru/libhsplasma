@@ -248,7 +248,6 @@ bool pnAuthClient::Dispatch::dispatch(pnSocket* sock)
             size_t scoreCount = msgbuf[2].fUint;
             pnNetGameScore* scores = new pnNetGameScore[scoreCount];
             const uint8_t* buf = msgbuf[4].fData;
-            size_t bufLen = msgbuf[3].fUint;
             for (size_t i=0; i<scoreCount; i++) {
                 scores[i].fScoreId     = NCReadBuffer<uint32_t>(buf);
                 scores[i].fOwnerId     = NCReadBuffer<uint32_t>(buf);
@@ -321,7 +320,6 @@ bool pnAuthClient::Dispatch::dispatch(pnSocket* sock)
             size_t scoreCount = msgbuf[2].fUint;
             pnNetGameScore* scores = new pnNetGameScore[scoreCount];
             const uint8_t* buf = msgbuf[4].fData;
-            size_t bufLen = msgbuf[3].fUint;
             for (size_t i=0; i<scoreCount; i++) {
                 scores[i].fScoreId     = NCReadBuffer<uint32_t>(buf);
                 scores[i].fOwnerId     = NCReadBuffer<uint32_t>(buf);
