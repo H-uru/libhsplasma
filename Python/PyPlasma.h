@@ -627,4 +627,8 @@ template <> inline plKeyDef pyPlasma_get(PyObject* value) { return (plKeyDef)PyL
     PyDict_SetItemString(py##pyType##_Type.tp_dict, name,               \
                          pyPlasma_convert(value))
 
+#ifndef Py_SET_TYPE
+    #define Py_SET_TYPE(ob, type)  Py_TYPE(ob) = type
+#endif
+
 #endif

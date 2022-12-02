@@ -66,65 +66,65 @@ PY_GETSET_SETTER_DECL(VaultNode, nodeType)
         unsigned int newType = pyPlasma_get<unsigned int>(value);
         switch (newType) {
         case plVault::kNodePlayer:
-            Py_TYPE(self) = &pyVaultPlayerNode_Type;
+            Py_SET_TYPE(self, &pyVaultPlayerNode_Type);
             break;
         case plVault::kNodeAge:
-            Py_TYPE(self) = &pyVaultAgeNode_Type;
+            Py_SET_TYPE(self, &pyVaultAgeNode_Type);
             break;
         case plVault::kNodeGameServer:
-            Py_TYPE(self) = &pyVaultGameServerNode_Type;
+            Py_SET_TYPE(self, &pyVaultGameServerNode_Type);
             break;
         case plVault::kNodeAdmin:
-            Py_TYPE(self) = &pyVaultAdminNode_Type;
+            Py_SET_TYPE(self, &pyVaultAdminNode_Type);
             break;
         case plVault::kNodeVaultServer:
-            Py_TYPE(self) = &pyVaultServerNode_Type;
+            Py_SET_TYPE(self, &pyVaultServerNode_Type);
             break;
         case plVault::kNodeFolder:
-            Py_TYPE(self) = &pyVaultFolderNode_Type;
+            Py_SET_TYPE(self, &pyVaultFolderNode_Type);
             break;
         case plVault::kNodePlayerInfo:
-            Py_TYPE(self) = &pyVaultPlayerInfoNode_Type;
+            Py_SET_TYPE(self, &pyVaultPlayerInfoNode_Type);
             break;
         case plVault::kNodeSystem:
-            Py_TYPE(self) = &pyVaultSystemNode_Type;
+            Py_SET_TYPE(self, &pyVaultSystemNode_Type);
             break;
         case plVault::kNodeImage:
-            Py_TYPE(self) = &pyVaultImageNode_Type;
+            Py_SET_TYPE(self, &pyVaultImageNode_Type);
             break;
         case plVault::kNodeTextNote:
-            Py_TYPE(self) = &pyVaultTextNoteNode_Type;
+            Py_SET_TYPE(self, &pyVaultTextNoteNode_Type);
             break;
         case plVault::kNodeSDL:
-            Py_TYPE(self) = &pyVaultSDLNode_Type;
+            Py_SET_TYPE(self, &pyVaultSDLNode_Type);
             break;
         case plVault::kNodeAgeLink:
-            Py_TYPE(self) = &pyVaultAgeLinkNode_Type;
+            Py_SET_TYPE(self, &pyVaultAgeLinkNode_Type);
             break;
         case plVault::kNodeChronicle:
-            Py_TYPE(self) = &pyVaultChronicleNode_Type;
+            Py_SET_TYPE(self, &pyVaultChronicleNode_Type);
             break;
         case plVault::kNodePlayerInfoList:
-            Py_TYPE(self) = &pyVaultPlayerInfoListNode_Type;
+            Py_SET_TYPE(self, &pyVaultPlayerInfoListNode_Type);
             break;
         case plVault::kNodeMarker:
-            Py_TYPE(self) = &pyVaultMarkerNode_Type;
+            Py_SET_TYPE(self, &pyVaultMarkerNode_Type);
             break;
         case plVault::kNodeAgeInfo:
-            Py_TYPE(self) = &pyVaultAgeInfoNode_Type;
+            Py_SET_TYPE(self, &pyVaultAgeInfoNode_Type);
             break;
         case plVault::kNodeAgeInfoList:
-            Py_TYPE(self) = &pyVaultAgeInfoListNode_Type;
+            Py_SET_TYPE(self, &pyVaultAgeInfoListNode_Type);
             break;
         case plVault::kNodeMarkerList:
-            Py_TYPE(self) = &pyVaultMarkerListNode_Type;
+            Py_SET_TYPE(self, &pyVaultMarkerListNode_Type);
             break;
         case plVault::kNodeInvalid:
         case plVault::kNodeVNodeMgrLow:
         case plVault::kNodeCCR:
         case plVault::kNodeVNodeMgrHigh:
         case plVault::kNodeUNUSED:
-            Py_TYPE(self) = &pyVaultNode_Type;
+            Py_SET_TYPE(self, &pyVaultNode_Type);
             break;
         default:
             PyErr_SetString(PyExc_ValueError, "Invalid node type");
