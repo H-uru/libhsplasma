@@ -245,8 +245,8 @@ void plSimpleParticleGenerator::IPrcParse(const pfPrcTag* tag, plResManager* mgr
         for (size_t i = 0; i < count; ++i) {
             if (child->getName() != "Source")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
-            fInitPitch[i] = tag->getParam("Pitch", "0").to_float();
-            fInitYaw[i] = tag->getParam("Yaw", "0").to_float();
+            fInitPitch[i] = child->getParam("Pitch", "0").to_float();
+            fInitYaw[i] = child->getParam("Yaw", "0").to_float();
             if (child->hasChildren())
                 fInitPos[i].prcParse(child->getFirstChild());
             child = child->getNextSibling();
