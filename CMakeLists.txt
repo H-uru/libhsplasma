@@ -9,7 +9,26 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
-option(ENABLE_SSE2 "Build with SSE2 CPU instructions" ON)
+include(CheckCXXCompilerFlag)
+include(CMakePushCheckState)
+
+# Note that recent versions of MSVC default to producing SSE2 instructions for x86
+# targets, so it's ok to simply fail this check for MSVC. It will always produce SSE2
+# code for x86 targets in that case.
+set(SSE2_COMPILER_FLAGS "-msse2")
+CMAKE_PUSH_CHECK_STATE()
+set(CMAKE_REQUIRED_FLAGS "-Werror")
+check_cxx_compiler_flag("${SSE2_COMPILER_FLAGS}" SSE2_SUPPORTED)
+CMAKE_POP_CHECK_STATE()
+
+include(CMakeDependentOption)
+cmake_dependent_option(
+    ENABLE_SSE2
+    "Build with SSE2 CPU instructions"
+    ON
+    SSE2_SUPPORTED
+    OFF
+)
 
 set(CMAKE_C_FLAGS_DEBUG "-DDEBUG ${CMAKE_C_FLAGS_DEBUG}")
 set(CMAKE_CXX_FLAGS_DEBUG "-DDEBUG ${CMAKE_CXX_FLAGS_DEBUG}")
@@ -18,10 +37,10 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX OR
     set(WARNING_FLAGS "-Wall -Wextra -Wno-unused-parameter")
     set(CMAKE_CXX_FLAGS "${WARNING_FLAGS} ${CMAKE_CXX_FLAGS}")
     set(CMAKE_C_FLAGS "${WARNING_FLAGS} ${CMAKE_C_FLAGS}")
-    if(ENABLE_SSE2)
-        set(CMAKE_CXX_FLAGS "-msse2 ${CMAKE_CXX_FLAGS}")
-        set(CMAKE_C_FLAGS "-msse2 ${CMAKE_C_FLAGS}")
-    endif()
+endif()
+if(ENABLE_SSE2)
+    set(CMAKE_CXX_FLAGS "${SSE2_COMPILER_FLAGS} ${CMAKE_CXX_FLAGS}")
+    set(CMAKE_C_FLAGS "${SSE2_COMPILER_FLAGS} ${CMAKE_C_FLAGS}")
 endif()
 
 if(APPLE)
