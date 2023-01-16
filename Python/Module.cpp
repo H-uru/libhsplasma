@@ -479,6 +479,9 @@ PyMODINIT_FUNC PyInit_PyHSPlasma()
     PyModule_AddObject(module, "plEncryptedStream", Init_pyEncryptedStream_Type());
     PyModule_AddObject(module, "hsRAMStream", Init_pyRAMStream_Type());
     PyModule_AddObject(module, "pfPrcHelper", Init_pyPrcHelper_Type());
+#ifdef _WIN32
+    PyModule_AddObject(module, "hsWindowsStream", Init_pyWindowsStream_Type());
+#endif
 
     /* Util */
     PyModule_AddObject(module, "hsBitVector", Init_pyBitVector_Type());

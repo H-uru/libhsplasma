@@ -671,6 +671,7 @@ set(STREAM_SOURCES
     Stream/pyPrcHelper.cpp
     Stream/pyRAMStream.cpp
     Stream/pyStream.cpp
+    Stream/pyWindowsStream.cpp
 )
 set(STREAM_HEADERS
     Stream/pyPrcHelper.h

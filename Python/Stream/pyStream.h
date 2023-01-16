@@ -25,6 +25,10 @@ PY_WRAP_PLASMA(FileStream, class hsFileStream);
 PY_WRAP_PLASMA(EncryptedStream, class plEncryptedStream);
 PY_WRAP_PLASMA(RAMStream, class hsRAMStream);
 
+#ifdef _WIN32
+PY_WRAP_PLASMA(WindowsStream, class hsWindowsStream);
+#endif
+
 /* Python property helpers */
 inline PyObject* pyPlasma_convert(const PlasmaVer& value)
 {
