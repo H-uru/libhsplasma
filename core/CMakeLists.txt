@@ -658,6 +658,7 @@ set(STREAM_SOURCES
     Stream/hsRAMStream.cpp
     Stream/hsStdioStream.cpp
     Stream/hsStream.cpp
+    Stream/hsWindowsStream.cpp
     Stream/hsTokenStream.cpp
     Stream/pfPrcHelper.cpp
     Stream/pfPrcParser.cpp
@@ -670,6 +671,7 @@ set(STREAM_HEADERS
     Stream/hsStdioStream.h
     Stream/hsStream.h
     Stream/hsTokenStream.h
+    Stream/hsWindowsStream.h
     Stream/pfPrcHelper.h
     Stream/pfPrcParser.h
     Stream/pfSizedStream.h
@@ -811,9 +813,11 @@ target_include_directories(HSPlasma PUBLIC
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libhsplasma.pc.in.cmake ${CMAKE_CURRENT_BINARY_DIR}/libhsplasma.pc @ONLY)
 
-# Too many ODR violations in squish
 if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.16)
+    # Too many ODR violations in squish
     set_property(SOURCE ${SQUISH_SOURCES} PROPERTY SKIP_UNITY_BUILD_INCLUSION TRUE)
+    # Avoid polluting the library with Windows junk
+    set_property(SOURCE "Stream/hsWindowsStream.cpp" PROPERTY SKIP_UNITY_BUILD_INCLUSION TRUE)
 endif()
 
 include(GenerateExportHeader)
