@@ -81,6 +81,7 @@ set(PRP_ANIM_SOURCES
     PRP/Animation/pySimpleRotController.cpp
     PRP/Animation/pySimpleScaleController.cpp
     PRP/Animation/pySplineEaseCurve.cpp
+    PRP/Animation/pyStereizer.cpp
     PRP/Animation/pyTMController.cpp
     PRP/Animation/pyViewFaceModifier.cpp
 )
@@ -96,6 +97,7 @@ set(PRP_ANIM_HEADERS
     PRP/Animation/pyPosController.h
     PRP/Animation/pyRotController.h
     PRP/Animation/pyScaleController.h
+    PRP/Animation/pyStereizer.h
     PRP/Animation/pyViewFaceModifier.h
 )
 
