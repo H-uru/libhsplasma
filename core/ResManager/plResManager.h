@@ -65,6 +65,7 @@ protected:
     LoadProgressCallback progressFunc;
     PageUnloadCallback pageUnloadFunc;
     bool mustStub;
+    bool preserveIDs;
 
 private:
     unsigned int ReadKeyring(hsStream* S, const plLocation& loc);
@@ -82,8 +83,8 @@ public:
      * ReadPage() or ReadAge()
      * \sa setVer(), getVer()
      */
-    plResManager(PlasmaVer pv = PlasmaVer::pvUnknown)
-        : fPlasmaVer(PlasmaVer::pvUnknown), mustStub(false)
+    plResManager(PlasmaVer pv = PlasmaVer::pvUnknown, bool preserveObjIDs = false)
+        : fPlasmaVer(PlasmaVer::pvUnknown), mustStub(), preserveIDs(preserveObjIDs)
     {
         setVer(pv);
     }

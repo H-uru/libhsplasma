@@ -243,7 +243,10 @@ void plResManager::WritePage(hsStream* S, plPageInfo* page)
     S->setVer(getVer());
     std::vector<short> types = keys.getTypes(page->getLocation());
     page->setClassList(types);
-    //keys.sortKeys(page->getLocation());
+
+    if (preserveIDs)
+        keys.sortKeys(page->getLocation());
+
     page->write(S);
     page->setDataStart(S->pos());
     page->setNumObjects(WriteObjects(S, page->getLocation()));
@@ -510,7 +513,8 @@ unsigned int plResManager::ReadKeyring(hsStream* S, const plLocation& loc)
         keys.setFlags(loc, type, flags);
     }
 
-    keys.sortKeys(loc);
+    if (!preserveIDs)
+        keys.sortKeys(loc);
 
     return pageKeys;
 }
@@ -638,13 +642,16 @@ unsigned int plResManager::WriteObjects(hsStream* S, const plLocation& loc)
 #endif
         for (unsigned int j=0; j<kList.size(); j++) {
             kList[j]->setFileOff(S->pos());
-            unsigned int objID = j + 1;
-            if (kList[j]->getID() != objID) {
-                plDebug::Warning("Object ID changing ({} -> {}) during write: [{04X}]:{}",
-                                 kList[j]->getID(), objID, kList[j]->getType(),
-                                 kList[j]->getUoid().getName());
+            if (!preserveIDs) {
+                unsigned int objID = j + 1;
+                if (kList[j]->getID() != objID) {
+                    plDebug::Warning("Object ID changing ({} -> {}) during write: [{04X}]:{}",
+                                     kList[j]->getID(), objID, kList[j]->getType(),
+                                     kList[j]->getUoid().getName());
+                }
+                kList[j]->setID(objID);
             }
-            kList[j]->setID(objID);
+
             if (kList[j]->getObj()) {
                 try {
 #ifdef RMTRACE

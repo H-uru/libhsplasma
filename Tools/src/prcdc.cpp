@@ -127,8 +127,7 @@ int main(int argc, char* argv[])
     }
 
     plDebug::Init(plDebug::kDLAll);
-    plResManager rm;
-    rm.setVer(inVer, true);
+    plResManager rm(inVer, true);
 
     hsFileStream out;
     out.open(outputFile, fmCreate);
