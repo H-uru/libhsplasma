@@ -46,6 +46,7 @@
 #include "PRP/Animation/pyPosController.h"
 #include "PRP/Animation/pyRotController.h"
 #include "PRP/Animation/pyScaleController.h"
+#include "PRP/Animation/pyStereizer.h"
 #include "PRP/Animation/pyViewFaceModifier.h"
 #include "PRP/Avatar/pyAGAnim.h"
 #include "PRP/Avatar/pyAGApplicator.h"
@@ -819,6 +820,7 @@ PyMODINIT_FUNC PyInit_PyHSPlasma()
     PyModule_AddObject(module, "plActivePrintShape", Init_pyActivePrintShape_Type());
     PyModule_AddObject(module, "plGrassShaderMod", Init_pyGrassShaderMod_Type());
     PyModule_AddObject(module, "plPhysicalSndGroup", Init_pyPhysicalSndGroup_Type());
+    PyModule_AddObject(module, "plStereizer", Init_pyStereizer_Type());
 
     PyModule_AddObject(module, "plSharedMesh", Init_pySharedMesh_Type());
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());

@@ -180,6 +180,7 @@
 #include "PRP/Animation/pyPosController.h"
 #include "PRP/Animation/pyRotController.h"
 #include "PRP/Animation/pyScaleController.h"
+#include "PRP/Animation/pyStereizer.h"
 #include "PRP/Animation/pyViewFaceModifier.h"
 #include "PRP/Avatar/pyAGAnim.h"
 #include "PRP/Avatar/pyAGApplicator.h"
@@ -619,6 +620,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kGrassShaderMod: return pyGrassShaderMod_FromGrassShaderMod(plGrassShaderMod::Convert(pCre));
         case kWarpMsg: return pyWarpMsg_FromWarpMsg(plWarpMsg::Convert(pCre));
         case kPhysicalSndGroup: return pyPhysicalSndGroup_FromPhysicalSndGroup(plPhysicalSndGroup::Convert(pCre));
+        case kStereizer: return pyStereizer_FromStereizer(plStereizer::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (pCre->ClassInstance(kMessage))
