@@ -27,9 +27,10 @@ static void doHelp(const char* exename)
     ST::printf("Usage: {} infile [options]\n", exename);
     puts("");
     puts("Options:");
-    puts("\t-o file  Write output to `file`");
-    puts("\t-v ver   Select output version (prime, pots, moul, eoa, hex, universal)");
-    puts("\t--help   Display this help and then exit");
+    puts("\t-o file     Write output to `file`");
+    puts("\t-v ver      Select output version (prime, pots, moul, eoa, hex, universal)");
+    puts("\t--keep-ids  Preserve the object IDs in the prc file");
+    puts("\t--help      Display this help and then exit");
     puts("");
 }
 
@@ -37,6 +38,7 @@ int main(int argc, char* argv[])
 {
     ST::string inputFile, outputFile;
     PlasmaVer outVer = PlasmaVer::pvUnknown;
+    bool keepIDs = false;
 
     if (argc == 1) {
         doHelp(argv[0]);
@@ -64,6 +66,8 @@ int main(int argc, char* argv[])
                 ST::printf(stderr, "Error: unrecognized version: {}\n", ver);
                 return 1;
             }
+        } else if (strcmp(argv[i], "--keep-ids") == 0) {
+            keepIDs = true;
         } else if (strcmp(argv[i], "-?") == 0 || strcmp(argv[i], "--help") == 0) {
             doHelp(argv[0]);
             return 0;
@@ -82,8 +86,7 @@ int main(int argc, char* argv[])
     }
 
     plDebug::Init(plDebug::kDLAll);
-    plResManager rm;
-    rm.setVer(outVer, true);
+    plResManager rm(outVer, keepIDs);
     hsFileStream S;
     if (!S.open(inputFile, fmRead)) {
         fputs("Error opening input file\n", stderr);

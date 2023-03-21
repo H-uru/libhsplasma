@@ -136,6 +136,10 @@ void plUoid::prcParse(const pfPrcTag* tag)
     loadMask.prcParse(tag);
     cloneID = tag->getParam("CloneID", "0").to_uint();
     clonePlayerID = tag->getParam("ClonePlayerID", "0").to_uint();
+
+    unsigned int oid = tag->getParam("ObjID", "0").to_uint();
+    if (oid != 0)
+        objID = oid;
 }
 
 ST::string plUoid::toString() const
