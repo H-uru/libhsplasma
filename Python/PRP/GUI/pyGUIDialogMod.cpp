@@ -107,6 +107,10 @@ PY_PLASMA_TYPE_INIT(GUIDialogMod)
     if (PyType_CheckAndReady(&pyGUIDialogMod_Type) < 0)
         return nullptr;
 
+    /* Konstants */
+    PY_TYPE_ADD_CONST(GUIDialogMod, "kModal", pfGUIDialogMod::kModal);
+    PY_TYPE_ADD_CONST(GUIDialogMod, "kDerivedFlagsStart", pfGUIDialogMod::kDerivedFlagsStart);
+
     Py_INCREF(&pyGUIDialogMod_Type);
     return (PyObject*) &pyGUIDialogMod_Type;
 }
