@@ -19,7 +19,7 @@ from os import PathLike
 import sys
 from typing import *
 
-KeyedT = TypeVar("KeyedT", bound=(hsKeyedObject, hsKeyedObjectStub))
+KeyedT = TypeVar("KeyedT", bound=Union[hsKeyedObject, hsKeyedObjectStub])
 
 A_CONTROL_MOUSE_X: int
 A_CONTROL_MOUSE_Y: int
@@ -1139,7 +1139,7 @@ class plAGApplicator(plCreatable):
     enabled: bool = ...
 
 class plAGChannel(plCreatable):
-    name: name = ...
+    name: str = ...
 
 class plAGMasterMod(plSingleModifier):
     eoaKeys: Sequence[plKey] = ...
@@ -5307,7 +5307,7 @@ class plStateDescriptor:
     def __len__(self) -> int: ...
     def __setitem__(self, index: Union[int, str], object: plVarDescriptor) -> None: ...
 
-class plStereizer:
+class plStereizer(plSingleModifier):
     kLeftChannel: int = ...
     kHasMaster: int = ...
 
