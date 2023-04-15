@@ -101,6 +101,7 @@ PY_PLASMA_TYPE_INIT(GUIProgressCtrl)
     PY_TYPE_ADD_CONST(GUIProgressCtrl, "kMapToScreenRange", pfGUIProgressCtrl::kMapToScreenRange);
     PY_TYPE_ADD_CONST(GUIProgressCtrl, "kTriggerOnlyOnMouseUp", pfGUIProgressCtrl::kTriggerOnlyOnMouseUp);
     PY_TYPE_ADD_CONST(GUIProgressCtrl, "kMapToAnimationRange", pfGUIProgressCtrl::kMapToAnimationRange);
+    PY_TYPE_ADD_CONST(GUIProgressCtrl, "kAnimateSound", pfGUIProgressCtrl::kAnimateSound);
 
     Py_INCREF(&pyGUIProgressCtrl_Type);
     return (PyObject*)&pyGUIProgressCtrl_Type;

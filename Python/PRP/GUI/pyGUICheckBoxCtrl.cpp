@@ -96,6 +96,12 @@ PY_PLASMA_TYPE_INIT(GUICheckBoxCtrl)
     if (PyType_CheckAndReady(&pyGUICheckBoxCtrl_Type) < 0)
         return nullptr;
 
+    /* Konstants */
+    PY_TYPE_ADD_CONST(GUICheckBoxCtrl, "kMouseDown", pfGUICheckBoxCtrl::kMouseDown);
+    PY_TYPE_ADD_CONST(GUICheckBoxCtrl, "kMouseUp", pfGUICheckBoxCtrl::kMouseUp);
+    PY_TYPE_ADD_CONST(GUICheckBoxCtrl, "kMouseOver", pfGUICheckBoxCtrl::kMouseOver);
+    PY_TYPE_ADD_CONST(GUICheckBoxCtrl, "kMouseOff", pfGUICheckBoxCtrl::kMouseOff);
+
     Py_INCREF(&pyGUICheckBoxCtrl_Type);
     return (PyObject*)&pyGUICheckBoxCtrl_Type;
 }

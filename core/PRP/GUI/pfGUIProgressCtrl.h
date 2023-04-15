@@ -29,6 +29,10 @@ public:
         kReverseValues = kDerivedFlagsStart, kLeftRightOrientation,
         kMapToScreenRange, kTriggerOnlyOnMouseUp, kMapToAnimationRange
     };
+    enum SoundEvents
+    {
+        kAnimateSound
+    };
 
 protected:
     std::vector<plKey> fAnimationKeys;
