@@ -156,6 +156,10 @@ PY_PLASMA_TYPE_INIT(GUIButtonMod)
     PY_TYPE_ADD_CONST(GUIButtonMod, "kNotifyOnUp", pfGUIButtonMod::kNotifyOnUp);
     PY_TYPE_ADD_CONST(GUIButtonMod, "kNotifyOnDown", pfGUIButtonMod::kNotifyOnDown);
     PY_TYPE_ADD_CONST(GUIButtonMod, "kNotifyOnUpAndDown", pfGUIButtonMod::kNotifyOnUpAndDown);
+    PY_TYPE_ADD_CONST(GUIButtonMod, "kMouseDown", pfGUIButtonMod::kMouseDown);
+    PY_TYPE_ADD_CONST(GUIButtonMod, "kMouseUp", pfGUIButtonMod::kMouseUp);
+    PY_TYPE_ADD_CONST(GUIButtonMod, "kMouseOver", pfGUIButtonMod::kMouseOver);
+    PY_TYPE_ADD_CONST(GUIButtonMod, "kMouseOff", pfGUIButtonMod::kMouseOff);
 
     Py_INCREF(&pyGUIButtonMod_Type);
     return (PyObject*)&pyGUIButtonMod_Type;

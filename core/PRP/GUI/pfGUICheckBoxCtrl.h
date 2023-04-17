@@ -23,6 +23,9 @@ class HSPLASMA_EXPORT pfGUICheckBoxCtrl : public pfGUIControlMod
 {
     CREATABLE(pfGUICheckBoxCtrl, kGUICheckBoxCtrl, pfGUIControlMod)
 
+public:
+    enum SoundEvents { kMouseDown, kMouseUp, kMouseOver, kMouseOff };
+
 protected:
     std::vector<plKey> fAnimKeys;
     ST::string fAnimName;

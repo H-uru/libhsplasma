@@ -25,6 +25,7 @@ class HSPLASMA_EXPORT pfGUIButtonMod : public pfGUIControlMod
 
 public:
     enum NotifyType { kNotifyOnUp, kNotifyOnDown, kNotifyOnUpAndDown };
+    enum SoundEvents { kMouseDown, kMouseUp, kMouseOver, kMouseOff };
 
 protected:
     std::vector<plKey> fAnimationKeys, fMouseOverAnimKeys;
