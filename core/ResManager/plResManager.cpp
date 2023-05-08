@@ -338,17 +338,21 @@ plAgeInfo* plResManager::ReadAge(const ST::string& filename, bool readPages)
 
         PlasmaVer ageVer = PlasmaVer::pvUnknown;
         bool packed = true;
-        if (age->getNumPages() > 0) {
-            ST::string file = ST::format("{}_District_{}",
+        for (size_t i = 0; i < age->getNumPages(); ++i) {
+            ST::string base = ST::format("{}_District_{}",
                     age->getAgeName(),
-                    age->getPage(0).fName);
-            if (hsFileStream::FileExists(path + file + ".prp")) {
+                    age->getPage(i).fName);
+            if (hsFileStream::FileExists(path + base + ".prp")) {
                 ageVer = MAKE_VERSION(2, 0, 63, 12);
-            } else if (hsFileStream::FileExists(path + file + ".prx")) {
+                break;
+            } else if (hsFileStream::FileExists(path + base + ".prx")) {
                 ageVer = MAKE_VERSION(2, 0, 63, 12);
                 packed = false;
-            } else {
+                break;
+            } else if (hsFileStream::FileExists(path +
+                            ST::format("{}_{}.prp", age->getAgeName(), age->getPage(i).fName))) {
                 ageVer = MAKE_VERSION(2, 1, 6, 10);
+                break;
             }
         }
 
