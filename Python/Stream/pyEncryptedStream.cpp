@@ -66,6 +66,12 @@ PY_METHOD_VA(EncryptedStream, open,
     }
 }
 
+PY_METHOD_NOARGS(EncryptedStream, close, "Closes the stream, if it is open")
+{
+    self->fThis->close();
+    Py_RETURN_NONE;
+}
+
 /* I really wanted this one to actually take a tuple, since it is a fixed-size
  * input value that is closely related.  However, the old code expected a
  * list, and requiring a tuple would break backwards compatibility, so we
@@ -134,6 +140,7 @@ PY_METHOD_VA(EncryptedStream, __exit__, nullptr)
 
 static PyMethodDef pyEncryptedStream_Methods[] = {
     pyEncryptedStream_open_method,
+    pyEncryptedStream_close_method,
     pyEncryptedStream_setKey_method,
     pyEncryptedStream_getEncType_method,
     pyEncryptedStream_IsFileEncrypted_method,

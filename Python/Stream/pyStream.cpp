@@ -34,12 +34,6 @@ PY_PLASMA_INIT_DECL(Stream)
 
 PY_PLASMA_NEW_MSG(Stream, "hsStream is abstract")
 
-PY_METHOD_NOARGS(Stream, close, "Closes the stream, if it is open")
-{
-    self->fThis->close();
-    Py_RETURN_NONE;
-}
-
 PY_METHOD_NOARGS(Stream, eof,
     "Returns True if the position is at the end of the stream")
 {
@@ -388,7 +382,6 @@ PY_METHOD_VA(Stream, writeLine, nullptr)
 }
 
 static PyMethodDef pyStream_Methods[] = {
-    pyStream_close_method,
     pyStream_eof_method,
     pyStream_seek_method,
     pyStream_skip_method,

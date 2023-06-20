@@ -50,7 +50,7 @@ public:
 
     bool open(const ST::string& file, FileMode mode, EncryptionType type);
     bool open(hsStream* S, FileMode mode, EncryptionType type);
-    void close() HS_OVERRIDE;
+    void close();
     void setKey(const unsigned int* keys);
     EncryptionType getEncType() const { return fEType; }
 

@@ -31,8 +31,8 @@ public:
     explicit hsWindowsStream(int pv = PlasmaVer::pvUnknown) : hsStream(pv), F(), fm() {}
     ~hsWindowsStream() { close(); }
 
-    virtual bool open(const ST::string& file, FileMode mode);
-    void close() HS_OVERRIDE;
+    bool open(const ST::string& file, FileMode mode);
+    void close();
 
     uint32_t size() const HS_OVERRIDE;
     uint32_t pos() const HS_OVERRIDE;
