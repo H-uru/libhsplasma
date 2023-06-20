@@ -47,6 +47,12 @@ PY_METHOD_VA(WindowsStream, open,
     }
 }
 
+PY_METHOD_NOARGS(WindowsStream, close, "Closes the file, if it is open")
+{
+    self->fThis->close();
+    Py_RETURN_NONE;
+}
+
 PY_METHOD_NOARGS(WindowsStream, __enter__, nullptr)
 {
     Py_INCREF(self);
@@ -61,6 +67,7 @@ PY_METHOD_VA(WindowsStream, __exit__, nullptr)
 
 static PyMethodDef pyWindowsStream_Methods[] = {
     pyWindowsStream_open_method,
+    pyWindowsStream_close_method,
     pyWindowsStream___enter___method,
     pyWindowsStream___exit___method,
     PY_METHOD_TERMINATOR

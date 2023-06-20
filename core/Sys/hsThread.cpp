@@ -20,7 +20,6 @@
 hsThread::~hsThread()
 {
     wait();
-    destroy();
 }
 
 void hsThread::threadEntry(hsThread* self)

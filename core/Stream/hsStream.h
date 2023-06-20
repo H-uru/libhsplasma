@@ -37,10 +37,8 @@ public:
     explicit hsStream(int pv = PlasmaVer::pvUnknown) { setVer(PlasmaVer(pv)); }
     virtual ~hsStream() { }
 
-    virtual void close() { }
-
     PlasmaVer getVer() const { return ver; }
-    virtual void setVer(PlasmaVer pv) { ver = pv; }
+    void setVer(PlasmaVer pv) { ver = pv; }
 
     virtual uint32_t size() const = 0;
     virtual uint32_t pos() const = 0;
@@ -96,8 +94,8 @@ public:
 
     static bool FileExists(const ST::string& file);
 
-    virtual bool open(const ST::string& file, FileMode mode);
-    void close() HS_OVERRIDE;
+    bool open(const ST::string& file, FileMode mode);
+    void close();
 
     uint32_t size() const HS_OVERRIDE;
     uint32_t pos() const HS_OVERRIDE;

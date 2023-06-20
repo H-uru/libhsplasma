@@ -45,6 +45,12 @@ PY_METHOD_VA(FileStream, open,
     }
 }
 
+PY_METHOD_NOARGS(FileStream, close, "Closes the file, if it is open")
+{
+    self->fThis->close();
+    Py_RETURN_NONE;
+}
+
 PY_METHOD_NOARGS(FileStream, __enter__, nullptr)
 {
     Py_INCREF(self);
@@ -59,6 +65,7 @@ PY_METHOD_VA(FileStream, __exit__, nullptr)
 
 static PyMethodDef pyFileStream_Methods[] = {
     pyFileStream_open_method,
+    pyFileStream_close_method,
     pyFileStream___enter___method,
     pyFileStream___exit___method,
     PY_METHOD_TERMINATOR

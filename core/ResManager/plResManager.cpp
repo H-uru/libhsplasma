@@ -356,50 +356,46 @@ plAgeInfo* plResManager::ReadAge(const ST::string& filename, bool readPages)
             }
         }
 
-        hsFileStream* S = nullptr;
         std::vector<plPageInfo*> agepages;
 
         for (size_t i=0; i<age->getNumCommonPages(ageVer); i++) {
             if (hsFileStream::FileExists(path + age->getCommonPageFilename(i, ageVer))) {
-                S = new hsFileStream();
-                if (!S->open(path + age->getCommonPageFilename(i, ageVer), fmRead)) {
+                hsFileStream S;
+                if (!S.open(path + age->getCommonPageFilename(i, ageVer), fmRead)) {
                     throw hsFileReadException(__FILE__, __LINE__, filename.c_str());
                 }
-                ReadPage(S, agepages);
-                S->close();
-                delete S;
+                ReadPage(&S, agepages);
+                S.close();
             }
         }
 
         for (size_t i=0; i<age->getNumPages(); i++) {
             if (hsFileStream::FileExists(path + age->getPageFilename(i, ageVer))) {
-                S = new hsFileStream();
-                if (!S->open(path + age->getPageFilename(i, ageVer), fmRead)) {
+                hsFileStream S;
+                if (!S.open(path + age->getPageFilename(i, ageVer), fmRead)) {
                     throw hsFileReadException(__FILE__, __LINE__, filename.c_str());
                 }
-                ReadPage(S, agepages);
-                S->close();
-                delete S;
+                ReadPage(&S, agepages);
+                S.close();
             }
         }
 
         for (size_t i=0; i < agepages.size(); i++) {
-            S = new hsFileStream();
-            S->setVer(getVer());
+            hsFileStream S;
+            S.setVer(getVer());
             ST::string file = path + agepages[i]->getFilename(ageVer);
             if (!packed) {
                 file = file.before_last('.') + ".prm";
             }
 
-            if (!S->open(file, fmRead)) {
+            if (!S.open(file, fmRead)) {
                 throw hsFileReadException(__FILE__, __LINE__, filename.c_str());
             }
 
             agepages[i]->setNumObjects(
-                    ReadObjects(S, agepages[i]->getLocation()));
+                    ReadObjects(&S, agepages[i]->getLocation()));
 
-            S->close();
-            delete S;
+            S.close();
         }
     }
 

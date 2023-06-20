@@ -38,7 +38,6 @@ private:
 public:
     hsThread() : fState(kStatePending) { }
     virtual ~hsThread();
-    virtual void destroy() { }
 
     void start();
     void wait();
