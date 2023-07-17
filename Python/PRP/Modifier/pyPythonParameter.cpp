@@ -207,6 +207,7 @@ PY_PLASMA_TYPE_INIT(PythonParameter)
     PY_TYPE_ADD_CONST(PythonParameter, "kGlobalSDLVar", plPythonParameter::kGlobalSDLVar);
     PY_TYPE_ADD_CONST(PythonParameter, "kSubtitle", plPythonParameter::kSubtitle);
     PY_TYPE_ADD_CONST(PythonParameter, "kBlowerComponent", plPythonParameter::kBlowerComponent);
+    PY_TYPE_ADD_CONST(PythonParameter, "kLayer", plPythonParameter::kLayer);
     PY_TYPE_ADD_CONST(PythonParameter, "kNone", plPythonParameter::kNone);
 
     Py_INCREF(&pyPythonParameter_Type);

@@ -24,7 +24,7 @@ const char* plPythonParameter::ValueTypeNames[] = {
     "Animation", "AnimationName", "Behavior", "Material", "GUIPopUpMenu",
     "GUISkin", "WaterComponent", "SwimCurrentInterface", "ClusterComponent",
     "MaterialAnimation", "GrassShaderComponent", "GlobalSDLVar", "Subtitle",
-    "BlowerComponent", "None"
+    "BlowerComponent", "Layer", "None"
 };
 
 plPythonParameter& plPythonParameter::operator=(const plPythonParameter& init)
@@ -222,6 +222,15 @@ unsigned int plPythonParameter::PlasmaToMapped(unsigned int type, PlasmaVer ver)
         case 26: return kNone;
         default: return 0;
         }
+    } else if (ver.isMoul()) {
+        switch (type) {
+        case 20: return kClusterComponent;
+        case 21: return kMaterialAnimation;
+        case 22: return kGrassShaderComponent;
+        case 23: return kLayer;
+        case 24: return kNone;
+        default: return 0;
+        }
     } else {
         switch (type) {
         case 20: return kClusterComponent;
@@ -248,6 +257,15 @@ unsigned int plPythonParameter::MappedToPlasma(unsigned int type, PlasmaVer ver)
         case kBlowerComponent: return 24;
         case kGrassShaderComponent: return 25;
         case kNone: return 26;
+        default: return 0;
+        }
+    } else if (ver.isMoul()) {
+        switch (type) {
+        case kClusterComponent: return 20;
+        case kMaterialAnimation: return 21;
+        case kGrassShaderComponent: return 22;
+        case kLayer: return 23;
+        case kNone: return 24;
         default: return 0;
         }
     } else {

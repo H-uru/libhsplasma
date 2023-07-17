@@ -29,7 +29,7 @@ public:
         kAnimation, kAnimationName, kBehavior, kMaterial, kGUIPopUpMenu,
         kGUISkin, kWaterComponent, kSwimCurrentInterface, kClusterComponent,
         kMaterialAnimation, kGrassShaderComponent, kGlobalSDLVar, kSubtitle,
-        kBlowerComponent, kNone
+        kBlowerComponent, kLayer, kNone
     };
 
     static const char* ValueTypeNames[];
