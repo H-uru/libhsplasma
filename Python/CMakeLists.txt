@@ -762,8 +762,10 @@ target_link_libraries(PyHSPlasma PUBLIC HSPlasma)
 set_target_properties(PyHSPlasma PROPERTIES PREFIX "")
 
 if(NOT WIN32)
-    execute_process(COMMAND Python3::Interpreter -c "import sys, distutils.sysconfig; sys.stdout.write(distutils.sysconfig.get_python_lib(prefix='${CMAKE_INSTALL_PREFIX}'))"
-                    OUTPUT_VARIABLE _PYTHON_LIB_DIR
+    execute_process(
+        COMMAND "${Python3_EXECUTABLE}" -c
+        "import sys, sysconfig; sys.stdout.write(sysconfig.get_path('purelib', vars={'base': '${CMAKE_INSTALL_PREFIX}'}))"
+        OUTPUT_VARIABLE _PYTHON_LIB_DIR
     )
     install(TARGETS PyHSPlasma
             DESTINATION ${_PYTHON_LIB_DIR}
