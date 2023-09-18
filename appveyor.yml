@@ -10,8 +10,9 @@ environment:
       CMAKE_GENERATOR: Visual Studio 12 2013
       PYTHON_PREFIX: C:\Python34
       CMAKE_PARAMS: -DPYTHON_INCLUDE_DIR=C:/Python34/include
-        -DPYTHON_LIBRARY=C:/Python34/libs/python34.lib
-        -DPYTHON_EXECUTABLE=C:/Python34/python.exe
+        -DPython3_LIBRARY=C:/Python34/libs/python34.lib
+        -DPython3_EXECUTABLE=C:/Python34/python.exe
+        -DPython3_INCLUDE_DIR=C:/Python34/include
       PREFIX_TARGET: vc2013-x86-static
       DIST_SUFFIX: '%PREFIX_TARGET%-py34'
 
