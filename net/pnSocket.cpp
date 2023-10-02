@@ -18,9 +18,6 @@
 #include "Debug/plDebug.h"
 #include <cstring>
 
-static const char* getSockErrorStr();
-static int sockError();
-
 #ifdef _WIN32
 #   include <winsock2.h>
 #   include <ws2tcpip.h>
@@ -32,8 +29,6 @@ static int sockError();
     static WSADATA s_wsadata;
 
     static void closeWinsock() { WSACleanup(); }
-
-    static int sockError() { return WSAGetLastError(); }
 
 #   ifndef AI_ADDRCONFIG
 #       define AI_ADDRCONFIG 0x0020
@@ -56,13 +51,7 @@ static int sockError();
     typedef void* sockbuf_t;
     typedef const void* const_sockbuf_t;
 
-    static int sockError() { return errno; }
-
 #   define INVALID_SOCKET (-1)
-#endif
-
-#ifdef _MSC_VER
-#   define ECONNRESET WSAECONNRESET
 #endif
 
 // For Solaris
@@ -80,6 +69,15 @@ static const char* getSockErrorStr()
     return msgbuf;
 #else
     return strerror(errno);
+#endif
+}
+
+static bool checkConnReset()
+{
+#ifdef _MSC_VER
+    return WSAGetLastError() == WSAECONNRESET;
+#else
+    return errno == ECONNRESET;
 #endif
 }
 
@@ -245,7 +243,7 @@ long pnSocket::send(const void* buffer, size_t size)
 long pnSocket::recv(void* buffer, size_t size)
 {
     long count = ::recv(fSockHandle, (sockbuf_t)buffer, size, 0);
-    if (count == -1 && sockError() != ECONNRESET) {
+    if (count == -1 && !checkConnReset()) {
         plDebug::Error("Recv failed: {}", getSockErrorStr());
         close();
     }
@@ -255,7 +253,7 @@ long pnSocket::recv(void* buffer, size_t size)
 long pnSocket::peek(void* buffer, size_t size)
 {
     long count = ::recv(fSockHandle, (sockbuf_t)buffer, size, MSG_PEEK);
-    if (count == -1 && sockError() != ECONNRESET)
+    if (count == -1 && !checkConnReset())
         plDebug::Error("Peek failed: {}", getSockErrorStr());
     return count;
 }
