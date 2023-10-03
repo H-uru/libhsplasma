@@ -117,7 +117,10 @@ install(TARGETS HSPlasmaNet
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
 )
-install(EXPORT HSPlasmaNet-targets DESTINATION share/cmake/HSPlasmaNet)
+install(EXPORT HSPlasmaNet-targets
+        DESTINATION share/cmake/HSPlasmaNet
+        NAMESPACE HSPlasma::
+)
 
 include(CMakePackageConfigHelpers)
 configure_package_config_file(HSPlasmaNetConfig.cmake.in
