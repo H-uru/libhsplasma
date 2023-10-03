@@ -94,9 +94,11 @@ add_library(HSPlasmaNet
             ${PN_SOURCES}       ${PN_HEADERS}
 )
 target_link_libraries(HSPlasmaNet
-                      HSPlasma string_theory
-                      $<$<NOT:$<PLATFORM_ID:SunOS>>:OpenSSL::Crypto>
-                      $<$<PLATFORM_ID:Windows>:ws2_32>
+                      PUBLIC
+                        HSPlasma
+                      PRIVATE
+                        $<$<NOT:$<PLATFORM_ID:SunOS>>:OpenSSL::Crypto>
+                        $<$<PLATFORM_ID:Windows>:ws2_32>
 )
 
 target_include_directories(HSPlasmaNet PUBLIC

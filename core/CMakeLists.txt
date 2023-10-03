@@ -802,8 +802,14 @@ add_library(HSPlasma
             ${SQUISH_SOURCES}
 )
 target_link_libraries(HSPlasma
-                      JPEG::JPEG PNG::PNG string_theory Threads::Threads ZLIB::ZLIB
-                      $<$<AND:$<BOOL:${ENABLE_PHYSX}>,$<BOOL:${PHYSX_FOUND}>>:${PHYSX_COOKING_LIBRARY}>
+                      PUBLIC
+                        string_theory
+                        Threads::Threads
+                      PRIVATE
+                        JPEG::JPEG
+                        PNG::PNG
+                        ZLIB::ZLIB
+                        $<$<AND:$<BOOL:${ENABLE_PHYSX}>,$<BOOL:${PHYSX_FOUND}>>:${PHYSX_COOKING_LIBRARY}>
 )
 
 target_include_directories(HSPlasma PUBLIC
