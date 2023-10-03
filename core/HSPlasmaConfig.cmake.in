@@ -13,3 +13,5 @@ include(${CMAKE_CURRENT_LIST_DIR}/HSPlasma-targets.cmake)
 
 check_required_components("HSPlasma")
 set_and_check(HSPlasma_INCLUDE_DIRS "${PACKAGE_PREFIX_DIR}/include/HSPlasma")
+
+add_library(HSPlasma ALIAS HSPlasma::HSPlasma)

@@ -12,4 +12,6 @@ check_required_components("HSPlasmaNet")
 set_and_check(HSPlasmaNet_INCLUDE_DIR "${PACKAGE_PREFIX_DIR}/include/HSPlasmaNet")
 
 set(HSPlasmaNet_INCLUDE_DIRS ${HSPlasmaNet_INCLUDE_DIR} ${HSPlasma_INCLUDE_DIRS})
-set(HSPlasmaNet_LIBRARIES HSPlasmaNet HSPlasma)
+set(HSPlasmaNet_LIBRARIES HSPlasma::HSPlasmaNet HSPlasma::HSPlasma)
+
+add_library(HSPlasmaNet ALIAS HSPlasma::HSPlasmaNet)
