@@ -244,9 +244,6 @@ void plResManager::WritePage(hsStream* S, plPageInfo* page)
     std::vector<short> types = keys.getTypes(page->getLocation());
     page->setClassList(types);
 
-    if (preserveIDs)
-        keys.sortKeys(page->getLocation());
-
     page->write(S);
     page->setDataStart(S->pos());
     page->setNumObjects(WriteObjects(S, page->getLocation()));
