@@ -28,11 +28,15 @@ PY_PLASMA_DEALLOC(ResManager)
 
 PY_PLASMA_INIT_DECL(ResManager)
 {
+    char* kwdlist[] = { "version", "preserveObjIDs", nullptr };
+
     int version = PlasmaVer::pvUnknown;
-    if (!PyArg_ParseTuple(args, "|i", &version))
+    bool preserveObjIDs = false;
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|ib", kwdlist, &version, &preserveObjIDs))
         return -1;
 
     self->fThis->setVer((PlasmaVer)version);
+    self->fThis->setPreserveObjIDs(preserveObjIDs);
     return 0;
 }
 
@@ -654,6 +658,13 @@ static PyMethodDef pyResManager_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
+PY_PROPERTY(bool, ResManager, preserveObjIDs, getPreserveObjIDs, setPreserveObjIDs)
+
+static PyGetSetDef pyResManager_GetSet[] = {
+    pyResManager_preserveObjIDs_getset,
+    PY_GETSET_TERMINATOR
+};
+
 PY_PLASMA_TYPE(ResManager, plResManager, "Resource Manager")
 
 PY_PLASMA_TYPE_INIT(ResManager)
@@ -662,6 +673,7 @@ PY_PLASMA_TYPE_INIT(ResManager)
     pyResManager_Type.tp_init = pyResManager___init__;
     pyResManager_Type.tp_new = pyResManager_new;
     pyResManager_Type.tp_methods = pyResManager_Methods;
+    pyResManager_Type.tp_getset = pyResManager_GetSet;
     if (PyType_CheckAndReady(&pyResManager_Type) < 0)
         return nullptr;
 

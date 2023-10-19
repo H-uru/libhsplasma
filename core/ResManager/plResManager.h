@@ -107,6 +107,24 @@ public:
     void setVer(PlasmaVer pv, bool force = false);
 
     /**
+     * Set whether or not keyed object IDs should be preserved from
+     * PRPs that are read in.  By default, key IDs are reordered to be
+     * consecutive when a PRP is read.  This setting doesn't have any
+     * effect on data already loaded.
+     * \param preserve Preserve keyed object IDs
+     * \sa getPreserveObjIDs()
+     */
+    void setPreserveObjIDs(bool preserve) { preserveIDs = preserve; }
+
+    /**
+     * Get whether or not keyed object IDs are preserved from PRPs
+     * that are read in.  By default, key IDs are reordered to be
+     * consecutive when a PRP is read.
+     * \sa setPreserveObjIDs()
+     */
+    bool getPreserveObjIDs() const { return preserveIDs; }
+
+    /**
      * Return the version of data files this ResManager expects to
      * deal with.  Used for reading or writing data to files only.
      * \sa setVer()
