@@ -109,7 +109,7 @@ public:
     /**
      * Set whether or not keyed object IDs should be preserved from
      * PRPs that are read in.  By default, key IDs are reordered to be
-     * consecutive when a PRP is read.  This sitting doesn't have any
+     * consecutive when a PRP is read.  This setting doesn't have any
      * effect on data already loaded.
      * \param preserve Preserve keyed object IDs
      * \sa getPreserveObjIDs()
