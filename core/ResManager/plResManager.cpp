@@ -71,7 +71,11 @@ plKey plResManager::readUoid(hsStream* S)
     k->readUoid(S);
     if (!k->getLocation().isValid())
         return plKey();
-    return AddKey(k);
+
+    plKey newkey = AddKey(k);
+    if (preserveIDs)
+        newkey->setID(k->getID());
+    return newkey;
 }
 
 void plResManager::writeKey(hsStream* S, const plKey& key)
