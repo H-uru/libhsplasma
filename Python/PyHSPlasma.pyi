@@ -3868,7 +3868,7 @@ class plLayerLinkAnimation(plLayerAnimation):
 class plLayerMovie(plLayerAnimation):
     movieName: Union[PathLike, str] = ...
 
-class plLayerSDLAnimation(plLayerAnimation):
+class plLayerSDLAnimation(plLayerAnimationBase):
     varName: str = ...
 
 class plLeafController(plController):

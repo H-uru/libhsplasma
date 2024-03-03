@@ -34,7 +34,7 @@ PY_PLASMA_TYPE_INIT(LayerSDLAnimation)
 {
     pyLayerSDLAnimation_Type.tp_new = pyLayerSDLAnimation_new;
     pyLayerSDLAnimation_Type.tp_getset = pyLayerSDLAnimation_GetSet;
-    pyLayerSDLAnimation_Type.tp_base = &pyLayerAnimation_Type;
+    pyLayerSDLAnimation_Type.tp_base = &pyLayerAnimationBase_Type;
     if (PyType_CheckAndReady(&pyLayerSDLAnimation_Type) < 0)
         return nullptr;
 

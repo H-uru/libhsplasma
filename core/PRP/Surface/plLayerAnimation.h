@@ -112,7 +112,7 @@ public:
 };
 
 
-class HSPLASMA_EXPORT plLayerSDLAnimation : public plLayerAnimation
+class HSPLASMA_EXPORT plLayerSDLAnimation : public plLayerAnimationBase
 {
     CREATABLE(plLayerSDLAnimation, kLayerSDLAnimation, plLayerAnimationBase)
 
