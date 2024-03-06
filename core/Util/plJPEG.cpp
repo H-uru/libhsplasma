@@ -117,13 +117,13 @@ GLOBAL(void) jpeg_hsStream_src(j_decompress_ptr dinfo, hsStream* S)
 #define OUTPUT_BUF_SIZE  4096
 
 /* hsStream JPEG destination -- modelled after IJG's stdio dest */
-typedef struct
+struct jpeg_hsStream_destination
 {
     struct jpeg_destination_mgr pub;
     hsStream* stream;
     JOCTET* buffer;
     boolean start_of_stream;
-} jpeg_hsStream_destination;
+};
 
 METHODDEF(void) init_hsStream_destination(j_compress_ptr cinfo)
 {
@@ -161,11 +161,11 @@ GLOBAL(void) jpeg_hsStream_dest(j_compress_ptr cinfo, hsStream* S)
 
     if (cinfo->dest == nullptr) {
         cinfo->dest = (struct jpeg_destination_mgr*)
-            (*cinfo->mem->alloc_small)((j_common_ptr)cinfo, JPOOL_PERMANENT,
+            cinfo->mem->alloc_small((j_common_ptr)cinfo, JPOOL_PERMANENT,
                 sizeof(jpeg_hsStream_destination));
         dest = (jpeg_hsStream_destination*)cinfo->dest;
         dest->buffer = (JOCTET*)
-            (*cinfo->mem->alloc_small)((j_common_ptr)cinfo, JPOOL_PERMANENT,
+            cinfo->mem->alloc_small((j_common_ptr)cinfo, JPOOL_PERMANENT,
                 OUTPUT_BUF_SIZE * sizeof(JOCTET));
     }
 
@@ -290,7 +290,7 @@ plMipmap* plJPEG::DecompressJPEG(hsStream* S)
         }
         jpeg_read_scanlines(&ji.dinfo, jbuffer.data, 1);
         for (size_t x = 0; x < ji.dinfo.output_width; x++) {
-            memcpy(((unsigned char*)buffer.data()) + offs + (x * 4),
+            memcpy(buffer.data() + offs + (x * 4),
                 jbuffer.data[0] + (x * ji.dinfo.out_color_components),
                 ji.dinfo.out_color_components);
         }
