@@ -192,6 +192,18 @@ void plJPEG::DecompressJPEG(hsStream* S, void* buf, size_t size)
         offs += out_stride;
     }
 
+    // Data stored as RGB on disk but Plasma uses BGR
+    if (reinterpret_cast<uintptr_t>(buf) % alignof(uint32_t) != 0)
+        throw hsBadParamException(__FILE__, __LINE__, "buf should be aligned on a 32-bit boundary");
+
+    uint32_t* dp = reinterpret_cast<uint32_t*>(buf);
+    for (size_t i=0; i<size; i += 4) {
+        *dp = (*dp & 0xFF00FF00)
+            | (*dp & 0x00FF0000) >> 16
+            | (*dp & 0x000000FF) << 16;
+        dp++;
+    }
+
     jpeg_finish_decompress(&ji.dinfo);
 }
 

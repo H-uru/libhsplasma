@@ -82,6 +82,7 @@ public:
     unsigned int getWidth() const { return fWidth; }
     unsigned int getHeight() const { return fHeight; }
     const void* getImageData() const { return fImageData; }
+    void* getImageData() { return fImageData; }
     size_t getTotalSize() const { return fTotalSize; }
     size_t getNumLevels() const { return fLevelData.size(); }
     unsigned int getLevelSize(size_t idx) const { return fLevelData[idx].fSize; }
