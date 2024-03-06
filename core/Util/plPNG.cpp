@@ -194,7 +194,7 @@ plMipmap* plPNG::DecompressPNG(hsStream* S)
     /// Construct a new mipmap to hold everything
     newMipmap = new plMipmap(pngWidth, pngHeight, 1, plMipmap::kUncompressed, plMipmap::kRGB8888);
     
-    char* destp = (char*)newMipmap->getImageData();
+    char* destp = static_cast<char *>(newMipmap->getImageData());
     auto row_ptrs = std::make_unique<png_bytep[]>(pngHeight);
     const unsigned int stride = pngWidth * depth * channels / 8;
 
