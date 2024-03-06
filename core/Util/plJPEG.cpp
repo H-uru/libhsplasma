@@ -17,7 +17,9 @@
 #include "plJPEG.h"
 #include "Debug/plDebug.h"
 #include "PRP/Surface/plMipmap.h"
+
 #include <cstring>
+#include <memory>
 
 extern "C" {
 #include <jerror.h>
@@ -281,16 +283,14 @@ plMipmap* plJPEG::DecompressJPEG(hsStream* S)
     RAII_JSAMPROW<1> jbuffer(row_stride);
 
     // Start with a reasonable size for the buffer
-    std::vector<uint8_t> buffer(ji.dinfo.output_width * ji.dinfo.output_height * ji.dinfo.out_color_components);
+    auto buffer_size = ji.dinfo.output_width * ji.dinfo.output_height * ji.dinfo.out_color_components;
+    auto buffer = std::make_unique<unsigned char[]>(buffer_size);
 
     size_t offs = 0;
     while (ji.dinfo.output_scanline < ji.dinfo.output_height) {
-        while (offs + out_stride > buffer.capacity()) {
-            buffer.reserve(buffer.capacity() + INPUT_BUF_SIZE);
-        }
         jpeg_read_scanlines(&ji.dinfo, jbuffer.data, 1);
         for (size_t x = 0; x < ji.dinfo.output_width; x++) {
-            memcpy(buffer.data() + offs + (x * 4),
+            memcpy(buffer.get() + offs + (x * 4),
                 jbuffer.data[0] + (x * ji.dinfo.out_color_components),
                 ji.dinfo.out_color_components);
         }
@@ -298,10 +298,9 @@ plMipmap* plJPEG::DecompressJPEG(hsStream* S)
     }
 
     jpeg_finish_decompress(&ji.dinfo);
-    buffer.shrink_to_fit();
 
     plMipmap* newMipmap = new plMipmap(ji.dinfo.output_width, ji.dinfo.output_height, 1, plMipmap::kUncompressed, plMipmap::kRGB8888);
-    newMipmap->setImageData(buffer.data(), buffer.size());
+    newMipmap->setImageData(buffer.get(), buffer_size);
 
     return newMipmap;
 }
