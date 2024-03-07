@@ -632,7 +632,7 @@ size_t plMipmap::GetUncompressedSize(size_t level) const
     return lvl.fHeight * lvl.fWidth * (fPixelSize / 8);
 }
 
-void plMipmap::DecompressImage(size_t level, void* dest, size_t size)
+void plMipmap::DecompressImage(size_t level, void* dest, size_t size) const
 {
     const LevelData& lvl = fLevelData[level];
 

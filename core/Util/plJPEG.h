@@ -17,7 +17,8 @@
 #ifndef _PLJPEG_H
 #define _PLJPEG_H
 
-#include "PRP/Surface/plMipmap.h"
+#include "PlasmaDefs.h"
+#include "Debug/hsExceptions.hpp"
 
 extern "C" {
 #include <jpeglib.h>
@@ -36,6 +37,9 @@ public:
 };
 
 
+class hsStream;
+class plMipmap;
+
 class HSPLASMA_EXPORT plJPEG
 {
 private:
@@ -44,8 +48,15 @@ private:
     jpeg_error_mgr jerr;
 
 public:
+    /* Read JPEG file from stream into buffer as bitmap data. */
     static void DecompressJPEG(hsStream* S, void* buf, size_t size);
-    static void CompressJPEG(hsStream* S, void* buf, size_t size);
+
+    /* Read JPEG file from stream directly into a plMipmap. */
+    static plMipmap* DecompressJPEG(hsStream* S);
+
+    /* Write JPEG file to stream from bitmap data buffer. */
+    static void CompressJPEG(hsStream* S, void* buf, size_t size,
+                             uint32_t width, uint32_t height, uint32_t bpp);
 
 private:
     plJPEG();

@@ -110,7 +110,7 @@ public:
     bool isAlphaJPEG() const { return !fJAlphaCache.empty(); }
 
     size_t GetUncompressedSize(size_t level) const;
-    void DecompressImage(size_t level, void* dest, size_t size);
+    void DecompressImage(size_t level, void* dest, size_t size) const;
     void CompressImage(size_t level, void* src, size_t size, BlockQuality quality = kBlockQualityNormal);
 };
 

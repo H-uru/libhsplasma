@@ -16,6 +16,7 @@
 
 #include "plPNG.h"
 #include "Debug/plDebug.h"
+#include "PRP/Surface/plMipmap.h"
 
 #include <memory>
 
@@ -118,6 +119,97 @@ void plPNG::DecompressPNG(hsStream* S, void* buf, size_t size)
     png_read_end(pngReader, endInfo);
     
     png_destroy_read_struct(&pngReader, &pngInfo, &endInfo);
+}
+
+plMipmap* plPNG::DecompressPNG(hsStream* S)
+{
+    plMipmap* newMipmap = nullptr;
+    
+    png_structp pngReader;
+    png_infop pngInfo;
+    png_infop endInfo;
+    
+    png_byte sig[PNG_SIG_LENGTH];
+    S->read(sizeof(sig), sig);
+    if (!png_check_sig(sig, PNG_SIG_LENGTH))
+        throw hsPNGException(__FILE__, __LINE__, "Invalid PNG header");
+
+    pngReader = png_create_read_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
+    if (!pngReader)
+        throw hsPNGException(__FILE__, __LINE__, "Error initializing PNG reader");
+
+    pngInfo = png_create_info_struct(pngReader);
+    if (!pngInfo) {
+        png_destroy_read_struct(&pngReader, nullptr, nullptr);
+        throw hsPNGException(__FILE__, __LINE__, "Error initializing PNG info structure");
+    }
+
+    endInfo = png_create_info_struct(pngReader);
+    if (!endInfo) {
+        png_destroy_read_struct(&pngReader, &pngInfo, nullptr);
+        throw hsPNGException(__FILE__, __LINE__, "Error initializing PNG info structure");
+    }
+
+    png_set_read_fn(pngReader, (png_voidp)S, &pl_png_read);
+    png_set_sig_bytes(pngReader, PNG_SIG_LENGTH);
+    
+    png_read_info(pngReader, pngInfo);
+    png_uint_32 pngWidth  = png_get_image_width(pngReader, pngInfo);
+    png_uint_32 pngHeight = png_get_image_height(pngReader, pngInfo);
+    png_uint_32 depth     = png_get_bit_depth(pngReader, pngInfo);
+    png_uint_32 channels  = png_get_channels(pngReader, pngInfo);
+    png_uint_32 colorType = png_get_color_type(pngReader, pngInfo);
+
+    // Convert input to RGB
+    switch (colorType) {
+    case PNG_COLOR_TYPE_PALETTE:
+        png_set_palette_to_rgb(pngReader);
+        channels = 3;
+        break;
+
+    case PNG_COLOR_TYPE_GRAY:
+        if (depth < 8)
+            png_set_expand_gray_1_2_4_to_8(pngReader);
+        depth = 8;
+        break;
+
+    default:
+        /* Already RGB - nothing to do */
+        break;
+    }
+
+    if (png_get_valid(pngReader, pngInfo, PNG_INFO_tRNS)) {
+        // Convert 1-bit alpha to 8-bit alpha if necessary
+        png_set_tRNS_to_alpha(pngReader);
+        channels += 1;
+    } else if (channels == 3) {
+        // Add opaque alpha channel
+        png_set_filler(pngReader, 0xFF, PNG_FILLER_AFTER);
+        channels += 1;
+    }
+
+    // Plasma uses BGR for DirectX
+    png_set_bgr(pngReader);
+    
+    /// Construct a new mipmap to hold everything
+    newMipmap = new plMipmap(pngWidth, pngHeight, 1, plMipmap::kUncompressed, plMipmap::kRGB8888);
+    
+    char* destp = static_cast<char *>(newMipmap->getImageData());
+    auto row_ptrs = std::make_unique<png_bytep[]>(pngHeight);
+    const unsigned int stride = pngWidth * depth * channels / 8;
+
+    //  Assign row pointers to the appropriate locations in the newly-created Mipmap
+    for (size_t i = 0; i < pngHeight; i++) {
+        row_ptrs[i] = (png_bytep)destp + (i * stride);
+    }
+
+    png_read_image(pngReader, row_ptrs.get());
+    png_read_end(pngReader, endInfo);
+    
+    //  Clean up allocated structs
+    png_destroy_read_struct(&pngReader, &pngInfo, &endInfo);
+
+    return newMipmap;
 }
 
 void plPNG::CompressPNG(hsStream* S, const void* buf, size_t size,
