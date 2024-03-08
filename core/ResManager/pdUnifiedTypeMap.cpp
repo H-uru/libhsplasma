@@ -2187,6 +2187,7 @@ short pdUnifiedTypeMap::PlasmaToMapped(short typeIdx, PlasmaVer ver)
     case PlasmaVer::pvPots:
         return fPotSP2MTable[typeIdx];
     case PlasmaVer::pvMoul:
+    case PlasmaVer::pvMqo:
         return fLiveP2MTable[typeIdx];
     case PlasmaVer::pvEoa:
         return fEoaP2MTable[typeIdx];
@@ -2214,6 +2215,7 @@ short pdUnifiedTypeMap::MappedToPlasma(short typeIdx, PlasmaVer ver)
     case PlasmaVer::pvPots:
         return fPotSM2PTable[typeIdx];
     case PlasmaVer::pvMoul:
+    case PlasmaVer::pvMqo:
         return fLiveM2PTable[typeIdx];
     case PlasmaVer::pvEoa:
         return fEoaM2PTable[typeIdx];
@@ -2233,6 +2235,7 @@ short pdUnifiedTypeMap::ClassVersion(short typeIdx, PlasmaVer ver)
 
     switch (ver) {
     case PlasmaVer::pvMoul:
+    case PlasmaVer::pvMqo:
         return fLiveVerTable[PlasmaToMapped(typeIdx, ver)];
     case PlasmaVer::pvEoa:
         return fEoaVerTable[PlasmaToMapped(typeIdx, ver)];
@@ -2259,6 +2262,7 @@ void pdUnifiedTypeMap::SetCurrentVersionBase(PlasmaVer ver)
 
     switch (ver) {
     case PlasmaVer::pvMoul:
+    case PlasmaVer::pvMqo:
         base = fLiveVerTable;
         break;
     case PlasmaVer::pvEoa:
