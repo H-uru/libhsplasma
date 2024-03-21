@@ -22,46 +22,12 @@
 #include <string_theory/stdio>
 #include <list>
 
-static char lnbuf[4096];
-static char* lnbuf_ptr = &lnbuf[4096];
-
-static ST::string GetLine(hsStream* S)
-{
-    if (lnbuf_ptr >= &lnbuf[4096]) {
-        size_t len = S->size() - S->pos();
-        if (len > 4096)
-            len = 4096;
-        S->read(len, lnbuf);
-        if (len < 4096)
-            lnbuf[len] = 0;
-        lnbuf_ptr = lnbuf;
-    }
-
-    char* bp = lnbuf_ptr;
-    while (true) {
-        if (bp >= &lnbuf[4096]) {
-            ST::string prefix(lnbuf_ptr, bp - lnbuf_ptr);
-            lnbuf_ptr = &lnbuf[4096];
-            return prefix + GetLine(S);
-        } else if (*bp == '\n' || *bp == 0) {
-            ST::string ln(lnbuf_ptr, bp - lnbuf_ptr);
-            lnbuf_ptr = bp + 1;
-            return ln;
-        }
-        bp++;
-    }
-
-    // Should never get here...
-    return ST::string();
-}
-
 static void DoSearch(hsStream* S, const ST::string& pattern,
                      const ST::string& filename, const plKey& key)
 {
     unsigned int ln = 1;
-    lnbuf_ptr = &lnbuf[4096];
     while (!S->eof()) {
-        ST::string text = GetLine(S);
+        ST::string text = S->readLine();
         if (text.find(pattern) >= 0) {
             // Strip initial whitespace
             const char* txtout = text.c_str();
