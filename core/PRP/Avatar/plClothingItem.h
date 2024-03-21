@@ -127,7 +127,7 @@ public:
      * at LOD of \a lodLevel.
      * \sa LODLevels
      */
-    plKey getMesh(int lodLevel) const { return fMeshes[lodLevel]; }
+    plKey getMesh(size_t lodLevel) const { return fMeshes[lodLevel]; }
 
     /** Returns the default first tint color for the item. */
     hsColorRGBA getDefaultTint1() const
@@ -184,7 +184,7 @@ public:
      * at LOD level \a lodLevel.
      * \sa LODLevels
      */
-    void setMesh(int lodLevel, plKey mesh) { fMeshes[lodLevel] = std::move(mesh); }
+    void setMesh(size_t lodLevel, plKey mesh) { fMeshes[lodLevel] = std::move(mesh); }
 
     /** Set the default first tint color for this item. */
     void setDefaultTint1(const hsColorRGBA& tint);
@@ -206,7 +206,7 @@ public:
      * to \a texture.
      * \sa ClothingLayers
      */
-    void setElementTexture(int element, int layer, plKey texture)
+    void setElementTexture(size_t element, size_t layer, plKey texture)
     {
         fTextures[element][layer] = std::move(texture);
     }
@@ -214,7 +214,7 @@ public:
     /**
      * Sets the element name for element number \a element to \a elementName.
      */
-    void setElementName(int element, const ST::string& elementName)
+    void setElementName(size_t element, const ST::string& elementName)
     {
         fElementNames[element] = elementName;
     }
@@ -224,7 +224,7 @@ public:
      * \a layer.
      * \sa ClothingLayers
      */
-    plKey getElementTexture(int element, int layer) const
+    plKey getElementTexture(size_t element, size_t layer) const
     {
         return fTextures[element][layer];
     }
@@ -232,13 +232,13 @@ public:
     /**
      * Returns the element name for element number \a element.
      */
-    ST::string getElementName(int element) const
+    ST::string getElementName(size_t element) const
     {
         return fElementNames[element];
     }
 
     /** Remove the specified element from the clothing item. */
-    void delElement(int element);
+    void delElement(size_t element);
 };
 
 #endif

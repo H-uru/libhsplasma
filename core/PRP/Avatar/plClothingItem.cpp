@@ -286,7 +286,7 @@ void plClothingItem::addElement(const ST::string& elementName)
     fTextures.push_back(new plKey[kLayerMax]);
 }
 
-void plClothingItem::delElement(int element)
+void plClothingItem::delElement(size_t element)
 {
     delete[] fTextures[element];
     fTextures.erase(fTextures.begin() + element);

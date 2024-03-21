@@ -28,8 +28,8 @@ PY_METHOD_VA(ClothingItem, getMesh,
     "Params: lod\n"
     "Gets the Key of the mesh for the specified LOD")
 {
-    int lod = plClothingItem::kLODHigh;
-    if (!PyArg_ParseTuple(args, "i", &lod)) {
+    Py_ssize_t lod = plClothingItem::kLODHigh;
+    if (!PyArg_ParseTuple(args, "n", &lod)) {
         PyErr_SetString(PyExc_TypeError, "getMesh expects int");
         return nullptr;
     }
@@ -45,10 +45,10 @@ PY_METHOD_VA(ClothingItem, setMesh,
     "Params: lod, mesh\n"
     "Sets the Key of the mesh for the specified LOD")
 {
-    int lod = plClothingItem::kLODHigh;
+    Py_ssize_t lod = plClothingItem::kLODHigh;
     pyKey* key;
 
-    if (!PyArg_ParseTuple(args, "iO", &lod, &key)) {
+    if (!PyArg_ParseTuple(args, "nO", &lod, &key)) {
         PyErr_SetString(PyExc_TypeError, "setMesh expects int, plKey");
         return nullptr;
     }
