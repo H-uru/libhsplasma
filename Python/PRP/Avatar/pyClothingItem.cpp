@@ -28,8 +28,8 @@ PY_METHOD_VA(ClothingItem, getMesh,
     "Params: lod\n"
     "Gets the Key of the mesh for the specified LOD")
 {
-    int lod = plClothingItem::kLODHigh;
-    if (!PyArg_ParseTuple(args, "i", &lod)) {
+    Py_ssize_t lod = plClothingItem::kLODHigh;
+    if (!PyArg_ParseTuple(args, "n", &lod)) {
         PyErr_SetString(PyExc_TypeError, "getMesh expects int");
         return nullptr;
     }
@@ -41,10 +41,10 @@ PY_METHOD_VA(ClothingItem, setMesh,
     "Params: lod, mesh\n"
     "Sets the Key of the mesh for the specified LOD")
 {
-    int lod = plClothingItem::kLODHigh;
+    Py_ssize_t lod = plClothingItem::kLODHigh;
     pyKey* key;
 
-    if (!PyArg_ParseTuple(args, "iO", &lod, &key)) {
+    if (!PyArg_ParseTuple(args, "nO", &lod, &key)) {
         PyErr_SetString(PyExc_TypeError, "setMesh expects int, plKey");
         return nullptr;
     }
@@ -61,8 +61,8 @@ PY_METHOD_VA(ClothingItem, getElementTexture,
     "Params: element, layer\n"
     "Gets the Key of the texture for the specified element and layer")
 {
-    int element, layer;
-    if (!PyArg_ParseTuple(args, "ii", &element, &layer)) {
+    Py_ssize_t element, layer;
+    if (!PyArg_ParseTuple(args, "nn", &element, &layer)) {
         PyErr_SetString(PyExc_TypeError, "getElementTexture expects int, int");
         return nullptr;
     }
@@ -74,10 +74,10 @@ PY_METHOD_VA(ClothingItem, setElementTexture,
     "Params: element idx, layer idx, texture\n"
     "Sets the texture of the specified element and layer")
 {
-    int element, layer;
+    Py_ssize_t element, layer;
     pyKey* key;
 
-    if (!PyArg_ParseTuple(args, "iiO", &element, &layer, &key)) {
+    if (!PyArg_ParseTuple(args, "nnO", &element, &layer, &key)) {
         PyErr_SetString(PyExc_TypeError, "setElementTexture expects int, int, plKey");
         return nullptr;
     }
@@ -94,8 +94,8 @@ PY_METHOD_VA(ClothingItem, getElementName,
     "Params: element idx\n"
     "Gets the name of the specified element")
 {
-    int element;
-    if (!PyArg_ParseTuple(args, "i", &element)) {
+    Py_ssize_t element;
+    if (!PyArg_ParseTuple(args, "n", &element)) {
         PyErr_SetString(PyExc_TypeError, "getElementName expects int");
         return nullptr;
     }
@@ -107,9 +107,9 @@ PY_METHOD_VA(ClothingItem, setElementName,
     "Params: element idx, name\n"
     "Sets the name of the specified element")
 {
-    int element;
+    Py_ssize_t element;
     const char* name;
-    if (!PyArg_ParseTuple(args, "is", &element, &name)) {
+    if (!PyArg_ParseTuple(args, "ns", &element, &name)) {
         PyErr_SetString(PyExc_TypeError, "setElementName expects int, string");
         return nullptr;
     }
@@ -136,8 +136,8 @@ PY_METHOD_VA(ClothingItem, delElement,
     "Params: element idx\n"
     "Remove an element from the clothingItem")
 {
-    int idx;
-    if (!PyArg_ParseTuple(args, "i", &idx)) {
+    Py_ssize_t idx;
+    if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delElement expects an int");
         return nullptr;
     }
