@@ -29,6 +29,9 @@ public:
     void write(hsStream* S, plResManager* mgr);
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag, plResManager* mgr);
+
+    const std::vector<plMorphDelta>& getDeltas() const { return fDeltas; }
+    std::vector<plMorphDelta>& getDeltas() { return fDeltas; }
 };
 
 #endif

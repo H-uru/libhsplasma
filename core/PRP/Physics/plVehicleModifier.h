@@ -47,6 +47,13 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    plKey getRoot() const { return fRoot; }
+    const Wheel& getWheel(size_t idx) const { return fWheels[idx]; }
+    Wheel& getWheel(size_t idx) { return fWheels[idx]; }
+
+    void setRoot(plKey root) { fRoot = std::move(root); }
 };
 
 #endif

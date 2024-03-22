@@ -36,6 +36,21 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    plKey getGreenAnimKey() const { return fGreenAnimKey; }
+    plKey getRedAnimKey() const { return fRedAnimKey; }
+    plKey getOpenAnimKey() const { return fOpenAnimKey; }
+    plKey getBounceAnimKey() const { return fBounceAnimKey; }
+    unsigned short getPlaceSoundIdx() const { return fPlaceSoundIdx; }
+    unsigned short getHitSoundIdx() const { return fHitSoundIdx; }
+
+    void setGreenAnimKey(plKey greenAnimKey) { fGreenAnimKey = std::move(greenAnimKey); }
+    void setRedAnimKey(plKey redAnimKey) { fRedAnimKey = std::move(redAnimKey); }
+    void setOpenAnimKey(plKey openAnimKey) { fOpenAnimKey = std::move(openAnimKey); }
+    void setBounceAnimKey(plKey bounceAnimKey) { fBounceAnimKey = std::move(bounceAnimKey); }
+    void setPlaceSoundIdx(unsigned short placeSoundIdx) { fPlaceSoundIdx = placeSoundIdx; }
+    void setHitSoundIdx(unsigned short hitSoundIdx) { fHitSoundIdx = hitSoundIdx; }
 };
 
 #endif

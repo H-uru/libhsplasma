@@ -39,6 +39,10 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    const std::vector<plKey>& getMods() const { return fMods; }
+    std::vector<plKey>& getMods() { return fMods; }
 };
 
 
@@ -67,6 +71,10 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    const std::vector<plKey>& getEffects() const { return fEffects; }
+    std::vector<plKey>& getEffects() { return fEffects; }
 };
 
 #endif
