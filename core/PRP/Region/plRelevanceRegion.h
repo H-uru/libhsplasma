@@ -34,6 +34,11 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    plKey getRegion() const { return fRegion; }
+
+    void setRegion(plKey region) { fRegion = std::move(region); }
 };
 
 #endif

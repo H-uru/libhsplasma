@@ -64,6 +64,13 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    const std::vector<plMorphSpan>& getSpans() const { return fSpans; }
+    std::vector<plMorphSpan>& getSpans() { return fSpans; }
+    float getWeight() const { return fWeight; }
+
+    void setWeight(float weight) { fWeight = weight; }
 };
 
 #endif
