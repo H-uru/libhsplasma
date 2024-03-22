@@ -176,6 +176,7 @@ PY_PROPERTY(plKey, ClothingItem, icon, getIcon, setIcon)
 PY_PROPERTY(plKey, ClothingItem, accessory, getAccessory, setAccessory)
 PY_PROPERTY(hsColorRGBA, ClothingItem, defaultTint1, getDefaultTint1, setDefaultTint1)
 PY_PROPERTY(hsColorRGBA, ClothingItem, defaultTint2, getDefaultTint2, setDefaultTint2)
+PY_PROPERTY_RO(ClothingItem, numElements, getNumElements)
 
 PyGetSetDef pyClothingItem_GetSet[] = {
     pyClothingItem_itemName_getset,
@@ -189,6 +190,7 @@ PyGetSetDef pyClothingItem_GetSet[] = {
     pyClothingItem_accessory_getset,
     pyClothingItem_defaultTint1_getset,
     pyClothingItem_defaultTint2_getset,
+    pyClothingItem_numElements_getset,
     PY_GETSET_TERMINATOR
 };
 

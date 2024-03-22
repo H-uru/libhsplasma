@@ -192,6 +192,9 @@ public:
     /** Set the default second tint color for this item. */
     void setDefaultTint2(const hsColorRGBA& tint);
 
+    /** Returns the number of elements in this clothing item. */
+    size_t getNumElements() const { return fElementNames.size(); }
+
     /** Remove all elements from the clothing item. */
     void clearElements();
 
