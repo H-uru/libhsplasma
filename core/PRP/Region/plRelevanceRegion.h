@@ -26,12 +26,8 @@ class HSPLASMA_EXPORT plRelevanceRegion : public plObjInterface
 
 protected:
     plKey fRegion;
-    hsBitVector fRegionsICareAbout;
-    unsigned int fMgrIdx;
 
 public:
-    plRelevanceRegion() : fMgrIdx((unsigned int)-1) { }
-
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
