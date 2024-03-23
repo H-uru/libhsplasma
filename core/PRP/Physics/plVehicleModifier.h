@@ -34,9 +34,11 @@ public:
         Wheel() : fRadius(1.0f) { }
     };
 
+    enum { kNumWheels = 4 };
+
 protected:
     plKey fRoot;
-    Wheel fWheels[4];
+    Wheel fWheels[kNumWheels];
 
 public:
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
