@@ -39,11 +39,10 @@ class HSPLASMA_EXPORT plMorphSpan
 protected:
     std::vector<plVertDelta> fDeltas;
     unsigned short fNumUVWChans;
-    hsVector3* fUVWs;
+    std::vector<hsVector3> fUVWs;
 
 public:
-    plMorphSpan() : fNumUVWChans(), fUVWs() { }
-    ~plMorphSpan();
+    plMorphSpan() : fNumUVWChans() { }
 
     void read(hsStream* S);
     void write(hsStream* S);
