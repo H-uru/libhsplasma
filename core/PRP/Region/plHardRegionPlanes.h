@@ -24,13 +24,11 @@ class HSPLASMA_EXPORT plHardRegionPlanes : public plHardRegion
     CREATABLE(plHardRegionPlanes, kHardRegionPlanes, plHardRegion)
 
 public:
-    class HSPLASMA_EXPORT HardPlane
+    struct HSPLASMA_EXPORT HardPlane
     {
-    public:
         hsVector3 fNorm, fWorldNorm;
         hsVector3 fPos, fWorldPos;
 
-    public:
         void read(hsStream* S);
         void write(hsStream* S);
         void prcWrite(pfPrcHelper* prc);
