@@ -19,6 +19,7 @@
 #include <PRP/Audio/plEAXListenerMod.h>
 #include "PRP/Modifier/pyModifier.h"
 #include "PRP/KeyedObject/pyKey.h"
+#include <3rdPartyLibs/AL/EFX-Util.h>
 #include <3rdPartyLibs/AL/efx-unofficial.h>
 
 PY_PLASMA_NEW(EAXListenerMod, plEAXListenerMod)

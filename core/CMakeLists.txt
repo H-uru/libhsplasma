@@ -98,6 +98,7 @@ set(PRP_AUDIO_HEADERS
     PRP/Audio/plDirectMusicSound.h
     PRP/Audio/plEAXEffects.h
     PRP/Audio/plEAXListenerMod.h
+    PRP/Audio/plEAXStructures.h
     PRP/Audio/plSound.h
     PRP/Audio/plSoundBuffer.h
     PRP/Audio/plWin32Sound.h
