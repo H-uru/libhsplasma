@@ -17,9 +17,9 @@
 #ifndef _PLEAXLISTENERMOD_H
 #define _PLEAXLISTENERMOD_H
 
+#include "plEAXStructures.h"
 #include "PRP/Modifier/plModifier.h"
 #include "Math/hsGeometry3.h"
-#include "3rdPartyLibs/AL/EFX-Util.h"
 
 class HSPLASMA_EXPORT plEAXListenerMod : public plSingleModifier
 {
