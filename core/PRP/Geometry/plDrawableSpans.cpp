@@ -549,10 +549,10 @@ void plDrawableSpans::calcBounds()
             reboundPts[0].Z = fIcicles[i]->getWaterHeight() - kMaxWaveHeight;
             reboundPts[1].Z = fIcicles[i]->getWaterHeight() + kMaxWaveHeight;
 
-            world.setFromPoints(std::size(reboundPts), reboundPts);
+            world.setFromPoints(2, reboundPts);
             for (hsVector3& pt : reboundPts)
                 pt = fIcicles[i]->getWorldToLocal().multPoint(pt);
-            loc.setFromPoints(std::size(reboundPts), reboundPts);
+            loc.setFromPoints(2, reboundPts);
         } else {
             auto localPoints = std::make_unique<hsVector3[]>(verts.size());
             auto worldPoints = std::make_unique<hsVector3[]>(verts.size());
