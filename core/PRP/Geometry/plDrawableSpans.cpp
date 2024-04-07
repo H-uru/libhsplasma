@@ -531,14 +531,38 @@ void plDrawableSpans::calcBounds()
         hsBounds3Ext world;
 
         world.setFlags(hsBounds3Ext::kAxisAligned);
-        auto localPoints = std::make_unique<hsVector3[]>(verts.size());
-        auto worldPoints = std::make_unique<hsVector3[]>(verts.size());
-        for (size_t j = 0; j < verts.size(); j++) {
-            localPoints[j] = verts[j].fPos;
-            worldPoints[j] = fIcicles[i]->getLocalToWorld().multPoint(verts[j].fPos);
+        if (fIcicles[i]->getProps() & plSpan::kWaterHeight) {
+            constexpr float kMaxWaveHeight = 5.f;
+
+            auto localPoints = std::make_unique<hsVector3[]>(verts.size());
+            for (size_t j = 0; j < verts.size(); j++)
+                localPoints[j] = verts[j].fPos;
+            loc.setFromPoints(verts.size(), localPoints.get());
+
+            // Water is flattened at runtime to the water height Z
+            // coordinate. The bounding box needs to be bloated out
+            // a bit, though, to account for the maximum possible geometry
+            // waves.
+            hsVector3 reboundPts[]{ loc.getMins(), loc.getMaxs() };
+            for (hsVector3& pt : reboundPts)
+                pt = fIcicles[i]->getLocalToWorld().multPoint(pt);
+            reboundPts[0].Z = fIcicles[i]->getWaterHeight() - kMaxWaveHeight;
+            reboundPts[1].Z = fIcicles[i]->getWaterHeight() + kMaxWaveHeight;
+
+            world.setFromPoints(std::size(reboundPts), reboundPts);
+            for (hsVector3& pt : reboundPts)
+                pt = fIcicles[i]->getWorldToLocal().multPoint(pt);
+            loc.setFromPoints(std::size(reboundPts), reboundPts);
+        } else {
+            auto localPoints = std::make_unique<hsVector3[]>(verts.size());
+            auto worldPoints = std::make_unique<hsVector3[]>(verts.size());
+            for (size_t j = 0; j < verts.size(); j++) {
+                localPoints[j] = verts[j].fPos;
+                worldPoints[j] = fIcicles[i]->getLocalToWorld().multPoint(verts[j].fPos);
+            }
+            loc.setFromPoints(verts.size(), localPoints.get());
+            world.setFromPoints(verts.size(), worldPoints.get());
         }
-        loc.setFromPoints(verts.size(), localPoints.get());
-        world.setFromPoints(verts.size(), worldPoints.get());
         loc.unalign();
 
         fIcicles[i]->setLocalBounds(loc);
