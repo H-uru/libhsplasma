@@ -110,7 +110,7 @@ PY_METHOD_VA(Stream, write,
     "Writes `data` (as a binary string) to the stream")
 {
     const char* data;
-    int dataSize;
+    Py_ssize_t dataSize;
     if (!PyArg_ParseTuple(args, "s#", &data, &dataSize)) {
         PyErr_SetString(PyExc_TypeError, "write expects a binary string");
         return nullptr;
