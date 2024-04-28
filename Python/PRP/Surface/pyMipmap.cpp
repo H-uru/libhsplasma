@@ -124,7 +124,7 @@ PY_METHOD_VA(Mipmap, setRawImage,
     "Set the raw full image data (not for JPEG or RLE encoding)")
 {
     const char* data;
-    int dataSize;
+    Py_ssize_t dataSize;
     if (!PyArg_ParseTuple(args, "s#", &data, &dataSize)) {
         PyErr_SetString(PyExc_TypeError, "setRawImage expects a binary string");
         return nullptr;
@@ -138,7 +138,8 @@ PY_METHOD_VA(Mipmap, setLevel,
     "Set the image data for a specified mip level")
 {
     const char* data;
-    int dataSize, level;
+    Py_ssize_t dataSize;
+    int level;
     if (!PyArg_ParseTuple(args, "is#", &level, &data, &dataSize)) {
         PyErr_SetString(PyExc_TypeError, "setLevel expects int, binary string");
         return nullptr;
@@ -157,7 +158,7 @@ PY_METHOD_VA(Mipmap, setImageJPEG,
     "Set the image data as a JPEG stream")
 {
     const char* data;
-    int dataSize;
+    Py_ssize_t dataSize;
     if (!PyArg_ParseTuple(args, "s#", &data, &dataSize)) {
         PyErr_SetString(PyExc_TypeError, "setImageJPEG expects a binary string");
         return nullptr;
@@ -176,7 +177,7 @@ PY_METHOD_VA(Mipmap, setAlphaJPEG,
     "Set the alpha data as a JPEG stream")
 {
     const char* data;
-    int dataSize;
+    Py_ssize_t dataSize;
     if (!PyArg_ParseTuple(args, "s#", &data, &dataSize)) {
         PyErr_SetString(PyExc_TypeError, "setAlphaJPEG expects a binary string");
         return nullptr;
@@ -195,7 +196,7 @@ PY_METHOD_VA(Mipmap, setColorData,
     "Set the RGB color data for a JPEG mipmap")
 {
     const char* data;
-    int dataSize;
+    Py_ssize_t dataSize;
     if (!PyArg_ParseTuple(args, "s#", &data, &dataSize)) {
         PyErr_SetString(PyExc_TypeError, "setColorData expects a binary string");
         return nullptr;
@@ -214,7 +215,7 @@ PY_METHOD_VA(Mipmap, setAlphaData,
     "Set the alpha data for a JPEG mipmap")
 {
     const char* data;
-    int dataSize;
+    Py_ssize_t dataSize;
     if (!PyArg_ParseTuple(args, "s#", &data, &dataSize)) {
         PyErr_SetString(PyExc_TypeError, "setAlphaData expects a binary string");
         return nullptr;
@@ -287,7 +288,8 @@ PY_METHOD_KWARGS(Mipmap, CompressImage,
     "Compresses the specified mip level")
 {
     static char* kwlist[] = { _pycs("level"), _pycs("data"), _pycs("quality"), nullptr };
-    int level, dataSize;
+    int level;
+    Py_ssize_t dataSize;
     char* data;
     plMipmap::BlockQuality quality = plMipmap::kBlockQualityNormal;
     if (!PyArg_ParseTupleAndKeywords(args, kwds, "is#|i", kwlist, &level, &data, &dataSize, &quality)) {

@@ -17,6 +17,8 @@
 #ifndef _PYPLASMA_H
 #define _PYPLASMA_H
 
+#define PY_SSIZE_T_CLEAN
+
 #include <Python.h>
 #include <PlasmaDefs.h>
 #include <Sys/Platform.h>
