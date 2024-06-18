@@ -28,7 +28,7 @@ PY_PLASMA_DEALLOC(ResManager)
 
 PY_PLASMA_INIT_DECL(ResManager)
 {
-    char* kwdlist[] = { "version", "preserveObjIDs", nullptr };
+    char* kwdlist[] = { _pycs("version"), _pycs("preserveObjIDs"), nullptr };
 
     int version = PlasmaVer::pvUnknown;
     bool preserveObjIDs = false;
