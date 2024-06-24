@@ -99,6 +99,10 @@ void plGenericPhysical::read(hsStream* S, plResManager* mgr)
 {
     plSynchedObject::read(S, mgr);
 
+    if (S->getVer() < MAKE_VERSION(2, 0, 63, 0)) {
+        return;
+    }
+
     if (S->getVer().isUniversal())
         fInternalType = (PhysType)S->readInt();
     else if (S->getVer().isNewPlasma())
