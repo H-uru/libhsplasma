@@ -20,13 +20,11 @@
 #include "PRP/plCreatable.h"
 #include "Math/hsGeometry3.h"
 
-class HSPLASMA_EXPORT plVertDelta
+struct HSPLASMA_EXPORT plVertDelta
 {
-protected:
     unsigned short fIdx, fPadding;
     hsVector3 fPos, fNorm;
 
-public:
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
@@ -34,16 +32,13 @@ public:
 };
 
 
-class HSPLASMA_EXPORT plMorphSpan
+struct HSPLASMA_EXPORT plMorphSpan
 {
-protected:
     std::vector<plVertDelta> fDeltas;
     unsigned short fNumUVWChans;
-    hsVector3* fUVWs;
+    std::vector<hsVector3> fUVWs;
 
-public:
-    plMorphSpan() : fNumUVWChans(), fUVWs() { }
-    ~plMorphSpan();
+    plMorphSpan() : fNumUVWChans() { }
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -69,6 +64,13 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    const std::vector<plMorphSpan>& getSpans() const { return fSpans; }
+    std::vector<plMorphSpan>& getSpans() { return fSpans; }
+    float getWeight() const { return fWeight; }
+
+    void setWeight(float weight) { fWeight = weight; }
 };
 
 #endif

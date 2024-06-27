@@ -41,7 +41,13 @@ protected:
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
+    const std::vector<plKey>& getReceivers() const { return fReceivers; }
+    std::vector<plKey>& getReceivers() { return fReceivers; }
+    plMessage* getCallback() const { return fCallback; }
+    bool isDisabled() const { return fDisabled; }
+
     void setCallback(plMessage* callback);
+    void setDisabled(bool disabled) { fDisabled = disabled; }
 };
 
 #endif
