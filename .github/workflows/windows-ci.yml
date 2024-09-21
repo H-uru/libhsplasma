@@ -7,6 +7,8 @@ jobs:
     strategy:
       matrix:
         platform:
+          - { image: windows-2022, generator: Visual Studio 17 2022, toolset: v143, cmake-arch: x64, arch: x64, python: "3.12", unity: ON, str: windows-x64-v143 }
+          - { image: windows-2022, generator: Visual Studio 17 2022, toolset: v143, cmake-arch: x64, arch: x64, python: "3.11", unity: ON, str: windows-x64-v143 }
           - { image: windows-2022, generator: Visual Studio 17 2022, toolset: v143, cmake-arch: x64, arch: x64, python: "3.10", unity: ON, str: windows-x64-v143 }
           - { image: windows-2019, generator: Visual Studio 16 2019, toolset: v142, cmake-arch: Win32, arch: x86, python: 3.9, unity: ON, str: windows-x86-v142 }
           - { image: windows-2019, generator: Visual Studio 16 2019, toolset: v142, cmake-arch: x64, arch: x64, python: 3.8, unity: OFF, str: windows-x64-v142 }
@@ -20,9 +22,9 @@ jobs:
 
     steps:
       - name: Checkout HSPlasma
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Checkout vcpkg
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: microsoft/vcpkg
           path: vcpkg
@@ -44,10 +46,10 @@ jobs:
         id: vcpkg-rev
         run: |
           Set-Location vcpkg
-          Write-Host "::set-output name=ref::$(git rev-parse HEAD)"
+          "ref=$(git rev-parse HEAD)" >> $env:GITHUB_OUTPUT
 
       - name: Restore Dependency Libraries
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: build/vcpkg_installed
           key: vcpkg-${{ matrix.platform.str }} ${{ steps.vcpkg-rev.outputs.ref }} ${{ hashFiles('vcpkg.json') }}
@@ -56,7 +58,7 @@ jobs:
             vcpkg-${{ matrix.platform.str }}
 
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.platform.python }}
           architecture: ${{ matrix.platform.arch }}
@@ -88,7 +90,7 @@ jobs:
           python -c "import PyHSPlasma; print(dir(PyHSPlasma))"
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: libhsplasma-${{ matrix.platform.str }}-py${{ matrix.platform.python }}
           path: build/install
