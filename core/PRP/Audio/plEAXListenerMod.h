@@ -75,6 +75,15 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    plKey getSoftRegion() const { return fSoftRegion; }
+    const EAXREVERBPROPERTIES& getListenerProps() const { return fListenerProps; }
+    EAXREVERBPROPERTIES& getListenerProps() { return fListenerProps; }
+    const std::vector<Aperture>& getApertures() const { return fApertures; }
+    std::vector<Aperture>& getApertures() { return fApertures; }
+
+    void setSoftRegion(plKey region) { fSoftRegion = std::move(region); }
 };
 
 #endif
