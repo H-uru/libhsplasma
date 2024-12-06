@@ -685,11 +685,13 @@ set(UTIL_SOURCES
     Util/pyBitVector.cpp
     Util/pyDDSurface.cpp
     Util/pyJPEG.cpp
+    Util/pyPNG.cpp
 )
 set(UTIL_HEADERS
     Util/pyBitVector.h
     Util/pyDDSurface.h
     Util/pyJPEG.h
+    Util/pyPNG.h
 )
 
 set(VAULT_SOURCES

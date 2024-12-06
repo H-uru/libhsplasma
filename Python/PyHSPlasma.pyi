@@ -4487,6 +4487,11 @@ class plPhysicalSndGroup(hsKeyedObject):
 class plPickingDetector(plDetectorModifier):
     ...
 
+class plPNG:
+    @staticmethod
+    def DecompressPNG(stream: hsStream) -> plMipmap:
+        ...
+
 class plPoint3Controller(plLeafController):
     ...
 
