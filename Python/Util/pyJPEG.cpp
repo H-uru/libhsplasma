@@ -42,7 +42,13 @@ PY_METHOD_STATIC_VA(JPEG, DecompressJPEG,
 
     // We're doing this manually because the new Mipmap object is being
     // released to Python code.
-    pyMipmap* mmObj = PyObject_New(pyMipmap, &pyMipmap_Type);
+    pyMipmap* mmObj = nullptr;
+    try {
+        mmObj = PyObject_New(pyMipmap, &pyMipmap_Type);
+    } catch (const hsJPEGException& ex) {
+        PyErr_SetString(PyExc_RuntimeError, ex.what());
+        return nullptr;
+    }
     mmObj->fPyOwned = true;
     mmObj->fThis = mm;
     return (PyObject*)mmObj;

@@ -20,6 +20,8 @@
 
 #include <memory>
 
+#include <png.h>
+
 /* Don't know why this isn't provided by libpng itself... */
 #define PNG_SIG_LENGTH (8)
 

@@ -20,8 +20,6 @@
 #include "PlasmaDefs.h"
 #include "Debug/hsExceptions.hpp"
 
-#include <png.h>
-
 class hsPNGException : public hsException
 {
 public:

@@ -20,10 +20,6 @@
 #include "PlasmaDefs.h"
 #include "Debug/hsExceptions.hpp"
 
-extern "C" {
-#include <jpeglib.h>
-}
-
 class hsJPEGException : public hsException
 {
 public:
@@ -42,11 +38,6 @@ class plMipmap;
 
 class HSPLASMA_EXPORT plJPEG
 {
-private:
-    jpeg_compress_struct cinfo;
-    jpeg_decompress_struct dinfo;
-    jpeg_error_mgr jerr;
-
 public:
     /* Read JPEG file from stream into buffer as bitmap data. */
     static void DecompressJPEG(hsStream* S, void* buf, size_t size);
@@ -59,10 +50,7 @@ public:
                              uint32_t width, uint32_t height, uint32_t bpp);
 
 private:
-    plJPEG();
-    ~plJPEG();
-
-    static plJPEG& Instance();
+    plJPEG() = delete;
 };
 
 #endif
