@@ -29,6 +29,8 @@
 #include "Sys/pyUnifiedTime.h"
 #include "Util/pyBitVector.h"
 #include "Util/pyDDSurface.h"
+#include "Util/pyJPEG.h"
+#include "Util/pyPNG.h"
 #include "Vault/pyServerGuid.h"
 #include "Vault/pyVaultNode.h"
 #include "Vault/pyVaultStore.h"
@@ -487,6 +489,8 @@ PyMODINIT_FUNC PyInit_PyHSPlasma()
     /* Util */
     PyModule_AddObject(module, "hsBitVector", Init_pyBitVector_Type());
     PyModule_AddObject(module, "plDDSurface", Init_pyDDSurface_Type());
+    PyModule_AddObject(module, "plJPEG", Init_pyJPEG_Type());
+    PyModule_AddObject(module, "plPNG", Init_pyPNG_Type());
 
     /* Vault */
     PyModule_AddObject(module, "plServerGuid", Init_pyServerGuid_Type());

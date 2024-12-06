@@ -22,6 +22,7 @@
 #include <memory>
 
 extern "C" {
+#include <jpeglib.h>
 #include <jerror.h>
 }
 
@@ -192,34 +193,58 @@ METHODDEF(void) plasma_output_message(j_common_ptr cinfo)
 METHODDEF(void) plasma_error_exit(j_common_ptr cinfo)
 {
     (*cinfo->err->output_message)(cinfo);
-    jpeg_destroy(cinfo);
     throw hsJPEGException(__FILE__, __LINE__, jpeg_error_buf);
 }
 
-
 /* plJPEG */
-plJPEG& plJPEG::Instance()
+class plJPEG_CInfo
 {
-    static plJPEG s_instance;
-    return s_instance;
-}
+    jpeg_compress_struct fStruct;
+    jpeg_error_mgr fErrorMgr;
 
-plJPEG::plJPEG()
+public:
+    plJPEG_CInfo()
+    {
+        fStruct.err = jpeg_std_error(&fErrorMgr);
+        fErrorMgr.error_exit = plasma_error_exit;
+        fErrorMgr.output_message = plasma_output_message;
+
+        jpeg_create_compress(&fStruct);
+    }
+
+    ~plJPEG_CInfo()
+    {
+        jpeg_destroy_compress(&fStruct);
+    }
+
+    j_compress_ptr operator &() { return &fStruct; }
+    j_compress_ptr operator ->() { return &fStruct; }
+};
+
+class plJPEG_DInfo
 {
-    cinfo.err = jpeg_std_error(&jerr);
-    dinfo.err = cinfo.err;
-    cinfo.err->error_exit = plasma_error_exit;
-    cinfo.err->output_message = plasma_output_message;
+    jpeg_decompress_struct fStruct;
+    jpeg_error_mgr fErrorMgr;
 
-    jpeg_create_compress(&cinfo);
-    jpeg_create_decompress(&dinfo);
-}
+public:
+    plJPEG_DInfo()
+    {
+        fStruct.err = jpeg_std_error(&fErrorMgr);
+        fErrorMgr.error_exit = plasma_error_exit;
+        fErrorMgr.output_message = plasma_output_message;
 
-plJPEG::~plJPEG()
-{
-    jpeg_destroy_compress(&cinfo);
-    jpeg_destroy_decompress(&dinfo);
-}
+        jpeg_create_decompress(&fStruct);
+    }
+
+    ~plJPEG_DInfo()
+    {
+        jpeg_destroy_decompress(&fStruct);
+    }
+
+    j_decompress_ptr operator &() { return &fStruct; }
+    j_decompress_ptr operator ->() { return &fStruct; }
+};
+
 
 template <size_t _Rows>
 struct RAII_JSAMPROW
@@ -241,65 +266,65 @@ struct RAII_JSAMPROW
 
 void plJPEG::DecompressJPEG(hsStream* S, void* buf, size_t size)
 {
-    plJPEG& ji = Instance();
+    plJPEG_DInfo dinfo;
 
-    jpeg_hsStream_src(&ji.dinfo, S);
-    jpeg_read_header(&ji.dinfo, TRUE);
-    ji.dinfo.out_color_space = JCS_EXT_BGRA;    // Data stored as RGB on disk but Plasma uses BGR
-    jpeg_start_decompress(&ji.dinfo);
+    jpeg_hsStream_src(&dinfo, S);
+    jpeg_read_header(&dinfo, TRUE);
+    dinfo->out_color_space = JCS_EXT_BGRA;    // Data stored as RGB on disk but Plasma uses BGR
+    jpeg_start_decompress(&dinfo);
 
-    int row_stride = ji.dinfo.output_width * ji.dinfo.out_color_components;
+    int row_stride = dinfo->output_width * dinfo->out_color_components;
     int out_stride = row_stride;
     RAII_JSAMPROW<1> jbuffer(row_stride);
 
     size_t offs = 0;
-    while (ji.dinfo.output_scanline < ji.dinfo.output_height) {
+    while (dinfo->output_scanline < dinfo->output_height) {
         if (offs + out_stride > size)
             throw hsJPEGException(__FILE__, __LINE__, "buffer overflow");
-        jpeg_read_scanlines(&ji.dinfo, jbuffer.data, 1);
-        for (size_t x = 0; x<ji.dinfo.output_width; x++) {
+        jpeg_read_scanlines(&dinfo, jbuffer.data, 1);
+        for (size_t x = 0; x<dinfo->output_width; x++) {
             memcpy(((unsigned char*)buf) + offs + (x * 4),
-                   jbuffer.data[0] + (x * ji.dinfo.out_color_components),
-                   ji.dinfo.out_color_components);
+                   jbuffer.data[0] + (x * dinfo->out_color_components),
+                   dinfo->out_color_components);
         }
         offs += out_stride;
     }
 
-    jpeg_finish_decompress(&ji.dinfo);
+    jpeg_finish_decompress(&dinfo);
 }
 
 
 plMipmap* plJPEG::DecompressJPEG(hsStream* S)
 {
-    plJPEG& ji = Instance();
+    plJPEG_DInfo dinfo;
 
-    jpeg_hsStream_src(&ji.dinfo, S);
-    jpeg_read_header(&ji.dinfo, TRUE);
-    ji.dinfo.out_color_space = JCS_EXT_BGRA;    // Data stored as RGB on disk but Plasma uses BGR
-    jpeg_start_decompress(&ji.dinfo);
+    jpeg_hsStream_src(&dinfo, S);
+    jpeg_read_header(&dinfo, TRUE);
+    dinfo->out_color_space = JCS_EXT_BGRA;    // Data stored as RGB on disk but Plasma uses BGR
+    jpeg_start_decompress(&dinfo);
 
-    int row_stride = ji.dinfo.output_width * ji.dinfo.out_color_components;
+    int row_stride = dinfo->output_width * dinfo->out_color_components;
     int out_stride = row_stride;
     RAII_JSAMPROW<1> jbuffer(row_stride);
 
     // Start with a reasonable size for the buffer
-    auto buffer_size = ji.dinfo.output_width * ji.dinfo.output_height * ji.dinfo.out_color_components;
+    auto buffer_size = dinfo->output_width * dinfo->output_height * dinfo->out_color_components;
     auto buffer = std::make_unique<unsigned char[]>(buffer_size);
 
     size_t offs = 0;
-    while (ji.dinfo.output_scanline < ji.dinfo.output_height) {
-        jpeg_read_scanlines(&ji.dinfo, jbuffer.data, 1);
-        for (size_t x = 0; x < ji.dinfo.output_width; x++) {
+    while (dinfo->output_scanline < dinfo->output_height) {
+        jpeg_read_scanlines(&dinfo, jbuffer.data, 1);
+        for (size_t x = 0; x < dinfo->output_width; x++) {
             memcpy(buffer.get() + offs + (x * 4),
-                jbuffer.data[0] + (x * ji.dinfo.out_color_components),
-                ji.dinfo.out_color_components);
+                jbuffer.data[0] + (x * dinfo->out_color_components),
+                dinfo->out_color_components);
         }
         offs += out_stride;
     }
 
-    jpeg_finish_decompress(&ji.dinfo);
+    jpeg_finish_decompress(&dinfo);
 
-    plMipmap* newMipmap = new plMipmap(ji.dinfo.output_width, ji.dinfo.output_height, 1, plMipmap::kUncompressed, plMipmap::kRGB8888);
+    plMipmap* newMipmap = new plMipmap(dinfo->output_width, dinfo->output_height, 1, plMipmap::kUncompressed, plMipmap::kRGB8888);
     newMipmap->setImageData(buffer.get(), buffer_size);
 
     return newMipmap;
@@ -307,42 +332,40 @@ plMipmap* plJPEG::DecompressJPEG(hsStream* S)
 
 void plJPEG::CompressJPEG(hsStream* S, void* buf, size_t size, uint32_t width, uint32_t height, uint32_t bpp)
 {
-    plJPEG& ji = Instance();
+    plJPEG_CInfo cinfo;
 
     JSAMPLE* image_buffer = reinterpret_cast<JSAMPLE*>(buf);
 
-    jpeg_create_compress(&ji.cinfo);
-    jpeg_hsStream_dest(&ji.cinfo, S);
+    jpeg_hsStream_dest(&cinfo, S);
 
-    ji.cinfo.image_width = width;
-    ji.cinfo.image_height = height;
-    ji.cinfo.input_components = bpp / 8;
-    if (ji.cinfo.input_components == 4)
-        ji.cinfo.in_color_space = JCS_EXT_RGBX;
+    cinfo->image_width = width;
+    cinfo->image_height = height;
+    cinfo->input_components = bpp / 8;
+    if (cinfo->input_components == 4)
+        cinfo->in_color_space = JCS_EXT_RGBX;
     else
-        ji.cinfo.in_color_space = JCS_RGB;
+        cinfo->in_color_space = JCS_RGB;
 
-    jpeg_set_defaults(&ji.cinfo);
-    jpeg_set_quality(&ji.cinfo, 100, TRUE);
-    jpeg_start_compress(&ji.cinfo, TRUE);
-    
-    uint32_t row_stride = ji.cinfo.image_width * ji.cinfo.input_components;
+    jpeg_set_defaults(&cinfo);
+    jpeg_set_quality(&cinfo, 100, TRUE);
+    jpeg_start_compress(&cinfo, TRUE);
+
+    uint32_t row_stride = cinfo->image_width * cinfo->input_components;
     RAII_JSAMPROW<1> jbuffer(row_stride);
 
     size_t offs = 0;
-    while (ji.cinfo.next_scanline < ji.cinfo.image_height) {
+    while (cinfo->next_scanline < cinfo->image_height) {
         if (offs + row_stride > size)
             throw hsJPEGException(__FILE__, __LINE__, "buffer overread");
 
-        for (size_t x = 0; x < ji.cinfo.image_width; x++) {
-            memcpy(jbuffer.data[0] + (x * ji.cinfo.input_components),
-                   ((unsigned char*)image_buffer) + offs + (x * ji.cinfo.input_components),
-                   ji.cinfo.input_components);
+        for (size_t x = 0; x < cinfo->image_width; x++) {
+            memcpy(jbuffer.data[0] + (x * cinfo->input_components),
+                   ((unsigned char*)image_buffer) + offs + (x * cinfo->input_components),
+                   cinfo->input_components);
         }
-        (void)jpeg_write_scanlines(&ji.cinfo, jbuffer.data, 1);
+        (void)jpeg_write_scanlines(&cinfo, jbuffer.data, 1);
         offs += row_stride;
     }
 
-    jpeg_finish_compress(&ji.cinfo);
-    jpeg_destroy_compress(&ji.cinfo);
+    jpeg_finish_compress(&cinfo);
 }
