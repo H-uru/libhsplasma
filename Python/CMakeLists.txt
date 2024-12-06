@@ -684,10 +684,12 @@ set(SYS_HEADERS
 set(UTIL_SOURCES
     Util/pyBitVector.cpp
     Util/pyDDSurface.cpp
+    Util/pyJPEG.cpp
 )
 set(UTIL_HEADERS
     Util/pyBitVector.h
     Util/pyDDSurface.h
+    Util/pyJPEG.h
 )
 
 set(VAULT_SOURCES
