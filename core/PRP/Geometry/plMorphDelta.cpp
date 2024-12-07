@@ -75,24 +75,15 @@ void plVertDelta::prcParse(const pfPrcTag* tag)
 
 
 /* plMorphSpan */
-plMorphSpan::~plMorphSpan()
-{
-    delete[] fUVWs;
-}
-
 void plMorphSpan::read(hsStream* S)
 {
     fDeltas.resize(S->readInt());
     fNumUVWChans = S->readInt();
-    delete[] fUVWs;
-    if (fNumUVWChans > 0)
-        fUVWs = new hsVector3[fNumUVWChans * fDeltas.size()];
-    else
-        fUVWs = nullptr;
+    fUVWs.resize(fNumUVWChans * fDeltas.size());
 
     for (size_t i=0; i<fDeltas.size(); i++)
         fDeltas[i].read(S);
-    for (size_t i=0; i<(fDeltas.size() * fNumUVWChans); i++)
+    for (size_t i=0; i<fUVWs.size(); i++)
         fUVWs[i].read(S);
 }
 
@@ -103,7 +94,7 @@ void plMorphSpan::write(hsStream* S)
 
     for (size_t i=0; i<fDeltas.size(); i++)
         fDeltas[i].write(S);
-    for (size_t i=0; i<(fDeltas.size() * fNumUVWChans); i++)
+    for (size_t i=0; i<fUVWs.size(); i++)
         fUVWs[i].write(S);
 }
 
@@ -119,7 +110,7 @@ void plMorphSpan::prcWrite(pfPrcHelper* prc)
     prc->startTag("UVWs");
     prc->writeParam("Channels", fNumUVWChans);
     prc->endTag();
-    for (size_t i=0; i<(fDeltas.size() * fNumUVWChans); i++)
+    for (size_t i=0; i<fUVWs.size(); i++)
         fUVWs[i].prcWrite(prc);
     prc->closeTag();
 
@@ -141,14 +132,13 @@ void plMorphSpan::prcParse(const pfPrcTag* tag)
                 subchild = subchild->getNextSibling();
             }
         } else if (child->getName() == "UVWs") {
-            delete[] fUVWs;
             fNumUVWChans = child->getParam("Channels", "0").to_uint();
             size_t nUVWs = fDeltas.size() * fNumUVWChans;
             if (child->countChildren() != nUVWs)
                 throw pfPrcParseException(__FILE__, __LINE__, "UVW count mismatch");
-            fUVWs = new hsVector3[nUVWs];
+            fUVWs.resize(nUVWs);
             const pfPrcTag* subchild = child->getFirstChild();
-            for (size_t i=0; i<nUVWs; i++) {
+            for (size_t i=0; i<fUVWs.size(); i++) {
                 fUVWs[i].prcParse(subchild);
                 subchild = subchild->getNextSibling();
             }

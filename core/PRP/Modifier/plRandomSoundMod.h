@@ -38,6 +38,9 @@ public:
     void addIndex(unsigned short index) { fIndices.push_back(index); }
     void delIndex(size_t idx) { fIndices.erase(fIndices.begin() + idx); }
     void clearIndices() { fIndices.clear(); }
+
+    short getGroupedIdx() const { return fGroupedIdx; }
+    void setGroupedIdx(short groupedIdx) { fGroupedIdx = groupedIdx; }
 };
 
 
