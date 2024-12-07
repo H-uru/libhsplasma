@@ -16,6 +16,7 @@
 
 #include "pyModifier.h"
 
+#include "PRP/KeyedObject/pyKey.h"
 #include <PRP/Modifier/plModifier.h>
 #include "PRP/pyCreatable.h"
 
@@ -52,12 +53,26 @@ static PyMethodDef pySingleModifier_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
+PY_GETSET_GETTER_DECL(SingleModifier, target)
+{
+    return pyPlasma_convert(self->fThis->getTarget(0));
+}
+
+PY_PROPERTY_WRITE(plKey, SingleModifier, target, addTarget)
+PY_PROPERTY_GETSET_DECL(SingleModifier, target)
+
+static PyGetSetDef pySingleModifier_GetSet[] = {
+    pySingleModifier_target_getset,
+    PY_GETSET_TERMINATOR
+};
+
 PY_PLASMA_TYPE(SingleModifier, plSingleModifier, "plSingleModifier wrapper")
 
 PY_PLASMA_TYPE_INIT(SingleModifier)
 {
     pySingleModifier_Type.tp_new = pySingleModifier_new;
     pySingleModifier_Type.tp_methods = pySingleModifier_Methods;
+    pySingleModifier_Type.tp_getset = pySingleModifier_GetSet;
     pySingleModifier_Type.tp_base = &pyModifier_Type;
     if (PyType_CheckAndReady(&pySingleModifier_Type) < 0)
         return nullptr;
