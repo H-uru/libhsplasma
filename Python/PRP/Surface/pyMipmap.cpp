@@ -350,11 +350,31 @@ PY_PROPERTY_READ(Mipmap, numLevels, getNumLevels)
 PY_PROPERTY_SETTER_MSG(Mipmap, numLevels, "To set the number of mip levels, you must re-create the mipmap object")
 PY_PROPERTY_GETSET_DECL(Mipmap, numLevels)
 
+PY_GETSET_GETTER_DECL(Mipmap, jpegImage)
+{
+    return PyBytes_FromStringAndSize((const char*)self->fThis->getJpegImage(),
+                                     self->fThis->getJpegSize());
+}
+
+PY_PROPERTY_SETTER_MSG(Mipmap, jpegImage, "To set the image data, use the mipmap set methods")
+PY_PROPERTY_GETSET_DECL(Mipmap, jpegImage)
+
+PY_GETSET_GETTER_DECL(Mipmap, jpegAlpha)
+{
+    return PyBytes_FromStringAndSize((const char*)self->fThis->getJpegAlpha(),
+                                     self->fThis->getJpegAlphaSize());
+}
+
+PY_PROPERTY_SETTER_MSG(Mipmap, jpegAlpha, "To set the image data, use the mipmap set methods")
+PY_PROPERTY_GETSET_DECL(Mipmap, jpegAlpha)
+
 static PyGetSetDef pyMipmap_GetSet[] = {
     pyMipmap_width_getset,
     pyMipmap_height_getset,
     pyMipmap_imageData_getset,
     pyMipmap_numLevels_getset,
+    pyMipmap_jpegImage_getset,
+    pyMipmap_jpegAlpha_getset,
     PY_GETSET_TERMINATOR
 };
 
