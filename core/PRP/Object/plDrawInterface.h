@@ -70,6 +70,13 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    unsigned int getTargetID() const { return fTargetID; }
+    plKey getDrawable() const { return fDrawable; }
+
+    void setTargetID(unsigned int targetID) { fTargetID = targetID; }
+    void setDrawable(plKey drawable) { fDrawable = std::move(drawable); }
 };
 
 #endif
