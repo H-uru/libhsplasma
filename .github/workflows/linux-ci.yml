@@ -6,6 +6,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libjpeg-turbo8-dev libpng-dev
       - name: Build string_theory
         run: |
           mkdir -p build_deps && cd build_deps
