@@ -54,7 +54,7 @@ uint16_t hsStream::readShort()
 void hsStream::readShorts(size_t count, uint16_t* buf)
 {
     read(sizeof(uint16_t) * count, buf);
-#ifdef WORDS_BIGENDIAN
+#ifdef HS_BIG_ENDIAN
     for (size_t i=0; i<count; i++)
         buf[i] = LESWAP16(buf[i]);
 #endif
@@ -70,7 +70,7 @@ uint32_t hsStream::readInt()
 void hsStream::readInts(size_t count, uint32_t* buf)
 {
     read(sizeof(uint32_t) * count, buf);
-#ifdef WORDS_BIGENDIAN
+#ifdef HS_BIG_ENDIAN
     for (size_t i=0; i<count; i++)
         buf[i] = LESWAP32(buf[i]);
 #endif
@@ -220,7 +220,7 @@ void hsStream::writeShort(uint16_t v)
 
 void hsStream::writeShorts(size_t count, const uint16_t* buf)
 {
-#ifdef WORDS_BIGENDIAN
+#ifdef HS_BIG_ENDIAN
     uint16_t* swbuf = new uint16_t[count];
     for (size_t i=0; i<count; i++)
         swbuf[i] = LESWAP16(buf[i]);
@@ -239,7 +239,7 @@ void hsStream::writeInt(uint32_t v)
 
 void hsStream::writeInts(size_t count, const uint32_t* buf)
 {
-#ifdef WORDS_BIGENDIAN
+#ifdef HS_BIG_ENDIAN
     uint32_t* swbuf = new uint32_t[count];
     for (size_t i=0; i<count; i++)
         swbuf[i] = LESWAP32(buf[i]);
