@@ -71,11 +71,7 @@ inline double ENDSWAPD(double val)
     return conv.fv;
 }
 
-#if defined(MACOSX) && defined(__BIG_ENDIAN__)
-    #define WORDS_BIGENDIAN
-#endif
-
-#ifdef WORDS_BIGENDIAN
+#ifdef HS_BIG_ENDIAN
     #define LESWAP16(val) ENDSWAP16(val)
     #define BESWAP16(val) (val)
     #define LESWAP32(val) ENDSWAP32(val)
