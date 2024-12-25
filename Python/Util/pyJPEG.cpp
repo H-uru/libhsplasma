@@ -21,7 +21,6 @@
 
 #include <Util/plJPEG.h>
 
-PY_PLASMA_EMPTY_INIT(JPEG)
 PY_PLASMA_NEW_MSG(JPEG, "plJPEG cannot be constructed")
 
 PY_METHOD_STATIC_VA(JPEG, DecompressJPEG,

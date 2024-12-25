@@ -21,7 +21,6 @@
 
 #include <Util/plPNG.h>
 
-PY_PLASMA_EMPTY_INIT(PNG)
 PY_PLASMA_NEW_MSG(PNG, "plPNG cannot be constructed")
 
 PY_METHOD_STATIC_VA(PNG, DecompressPNG,
