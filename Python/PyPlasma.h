@@ -582,6 +582,12 @@ template <> inline plKeyDef pyPlasma_get(PyObject* value) { return (plKeyDef)PyL
     #define _TP_WATCHED_INIT
 #endif
 
+#if (PY_MAJOR_VERSION >= 4) || ((PY_MAJOR_VERSION == 3) && (PY_MINOR_VERSION >= 13))
+    #define _TP_VERSIONS_USED 0,
+#else
+    #define _TP_VERSIONS_USED
+#endif
+
 #define PY_PLASMA_TYPE(pyType, classname, doctext)                      \
     PyTypeObject py##pyType##_Type = {                                  \
         PyVarObject_HEAD_INIT(nullptr, 0)                               \
@@ -603,6 +609,7 @@ template <> inline plKeyDef pyPlasma_get(PyObject* value) { return (plKeyDef)PyL
         _TP_FINALIZE_INIT                                               \
         _TP_VECTORCALL_PRINT                                            \
         _TP_WATCHED_INIT                                                \
+        _TP_VERSIONS_USED                                               \
     };
 
 #if ((PY_MAJOR_VERSION > 3) || (PY_MAJOR_VERSION == 3 && PY_MINOR_VERSION >= 5))
