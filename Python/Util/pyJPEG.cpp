@@ -37,17 +37,17 @@ PY_METHOD_STATIC_VA(JPEG, DecompressJPEG,
         return nullptr;
     }
 
-    plMipmap* mm = plJPEG::DecompressJPEG(((pyStream*)streamObj)->fThis);
-
-    // We're doing this manually because the new Mipmap object is being
-    // released to Python code.
-    pyMipmap* mmObj = nullptr;
+    plMipmap* mm = nullptr;
     try {
-        mmObj = PyObject_New(pyMipmap, &pyMipmap_Type);
+        mm = plJPEG::DecompressJPEG(((pyStream*)streamObj)->fThis);
     } catch (const hsJPEGException& ex) {
         PyErr_SetString(PyExc_RuntimeError, ex.what());
         return nullptr;
     }
+
+    // We're doing this manually because the new Mipmap object is being
+    // released to Python code.
+    pyMipmap* mmObj = PyObject_New(pyMipmap, &pyMipmap_Type);
     mmObj->fPyOwned = true;
     mmObj->fThis = mm;
     return (PyObject*)mmObj;
