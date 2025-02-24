@@ -199,7 +199,7 @@ public:
     void addElement(const ST::string& elementName);
 
     /** Return the number of elements in the clothing item. */
-    int getNumElements() const { return fElementNames.size(); }
+    size_t getNumElements() const { return fElementNames.size(); }
 
     /**
      * Sets the texture for element number \a element, at layer \a layer

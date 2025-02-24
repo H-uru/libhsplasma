@@ -70,15 +70,18 @@ PY_METHOD_VA(ClothingItem, getElementTexture,
     "Params: element, layer\n"
     "Gets the Key of the texture for the specified element and layer")
 {
-    int element, layer;
-    if (!PyArg_ParseTuple(args, "ii", &element, &layer)) {
+    Py_ssize_t element, layer;
+    if (!PyArg_ParseTuple(args, "nn", &element, &layer)) {
         PyErr_SetString(PyExc_TypeError, "getElementTexture expects int, int");
         return nullptr;
     }
 
-    if (element >= 0 && element < self->fThis->getNumElements()) {
-        if (layer >= 0 && layer < plClothingItem::kLayerMax) {
-            return pyPlasma_convert(self->fThis->getElementTexture(element, layer));
+    size_t element_s = size_t(element);
+    size_t layer_s = size_t(layer);
+
+    if (element_s < self->fThis->getNumElements()) {
+        if (layer_s < plClothingItem::kLayerMax) {
+            return pyPlasma_convert(self->fThis->getElementTexture(element_s, layer_s));
         }
 
         PyErr_SetString(PyExc_IndexError, "layer index out of range");
@@ -93,10 +96,10 @@ PY_METHOD_VA(ClothingItem, setElementTexture,
     "Params: element idx, layer idx, texture\n"
     "Sets the texture of the specified element and layer")
 {
-    int element, layer;
+    Py_ssize_t element, layer;
     pyKey* key;
 
-    if (!PyArg_ParseTuple(args, "iiO", &element, &layer, &key)) {
+    if (!PyArg_ParseTuple(args, "nnO", &element, &layer, &key)) {
         PyErr_SetString(PyExc_TypeError, "setElementTexture expects int, int, plKey");
         return nullptr;
     }
@@ -105,9 +108,12 @@ PY_METHOD_VA(ClothingItem, setElementTexture,
         return nullptr;
     }
 
-    if (element >= 0 && element < self->fThis->getNumElements()) {
-        if (layer >= 0 && layer < plClothingItem::kLayerMax) {
-            self->fThis->setElementTexture(element, layer, *(key->fThis));
+    size_t element_s = size_t(element);
+    size_t layer_s = size_t(layer);
+
+    if (element_s < self->fThis->getNumElements()) {
+        if (layer_s < plClothingItem::kLayerMax) {
+            self->fThis->setElementTexture(element_s, layer_s, *(key->fThis));
             Py_RETURN_NONE;
         }
 
@@ -123,14 +129,16 @@ PY_METHOD_VA(ClothingItem, getElementName,
     "Params: element idx\n"
     "Gets the name of the specified element")
 {
-    int element;
-    if (!PyArg_ParseTuple(args, "i", &element)) {
+    Py_ssize_t element;
+    if (!PyArg_ParseTuple(args, "n", &element)) {
         PyErr_SetString(PyExc_TypeError, "getElementName expects int");
         return nullptr;
     }
 
-    if (element >= 0 && element < self->fThis->getNumElements())
-        return pyPlasma_convert(self->fThis->getElementName(element));
+    size_t element_s = size_t(element);
+
+    if (element_s < self->fThis->getNumElements())
+        return pyPlasma_convert(self->fThis->getElementName(element_s));
 
     PyErr_SetString(PyExc_IndexError, "element index out of range");
     return nullptr;
@@ -140,15 +148,17 @@ PY_METHOD_VA(ClothingItem, setElementName,
     "Params: element idx, name\n"
     "Sets the name of the specified element")
 {
-    int element;
+    Py_ssize_t element;
     const char* name;
-    if (!PyArg_ParseTuple(args, "is", &element, &name)) {
+    if (!PyArg_ParseTuple(args, "ns", &element, &name)) {
         PyErr_SetString(PyExc_TypeError, "setElementName expects int, string");
         return nullptr;
     }
 
-    if (element >= 0 && element < self->fThis->getNumElements()) {
-        self->fThis->setElementName(element, name);
+    size_t element_s = size_t(element);
+
+    if (element_s < self->fThis->getNumElements()) {
+        self->fThis->setElementName(element_s, name);
         Py_RETURN_NONE;
     }
 
@@ -174,14 +184,16 @@ PY_METHOD_VA(ClothingItem, delElement,
     "Params: element idx\n"
     "Remove an element from the clothingItem")
 {
-    int idx;
-    if (!PyArg_ParseTuple(args, "i", &idx)) {
+    Py_ssize_t idx;
+    if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delElement expects an int");
         return nullptr;
     }
 
-    if (idx >= 0 && idx < self->fThis->getNumElements()) {
-        self->fThis->delElement(idx);
+    size_t idx_s = size_t(idx);
+
+    if (idx_s < self->fThis->getNumElements()) {
+        self->fThis->delElement(idx_s);
         Py_RETURN_NONE;
     }
 
