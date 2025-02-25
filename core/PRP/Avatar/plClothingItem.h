@@ -198,6 +198,9 @@ public:
     /** Add a named element to the clothing item. */
     void addElement(const ST::string& elementName);
 
+    /** Return the number of elements in the clothing item. */
+    size_t getNumElements() const { return fElementNames.size(); }
+
     /**
      * Sets the texture for element number \a element, at layer \a layer
      * to \a texture.

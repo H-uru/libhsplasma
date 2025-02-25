@@ -34,7 +34,11 @@ PY_METHOD_VA(ClothingItem, getMesh,
         return nullptr;
     }
 
-    return pyPlasma_convert(self->fThis->getMesh(lod));
+    if (lod >= 0 && lod < plClothingItem::LODLevels::kNumLODLevels)
+        return pyPlasma_convert(self->fThis->getMesh(lod));
+
+    PyErr_SetString(PyExc_IndexError, "mesh index out of range");
+    return nullptr;
 }
 
 PY_METHOD_VA(ClothingItem, setMesh,
@@ -53,31 +57,49 @@ PY_METHOD_VA(ClothingItem, setMesh,
         return nullptr;
     }
 
-    self->fThis->setMesh(lod, *(key->fThis));
-    Py_RETURN_NONE;
+    if (lod >= 0 && lod < plClothingItem::LODLevels::kNumLODLevels) {
+        self->fThis->setMesh(lod, *(key->fThis));
+        Py_RETURN_NONE;
+    }
+
+    PyErr_SetString(PyExc_IndexError, "mesh index out of range");
+    return nullptr;
 }
 
 PY_METHOD_VA(ClothingItem, getElementTexture,
     "Params: element, layer\n"
     "Gets the Key of the texture for the specified element and layer")
 {
-    int element, layer;
-    if (!PyArg_ParseTuple(args, "ii", &element, &layer)) {
+    Py_ssize_t element, layer;
+    if (!PyArg_ParseTuple(args, "nn", &element, &layer)) {
         PyErr_SetString(PyExc_TypeError, "getElementTexture expects int, int");
         return nullptr;
     }
 
-    return pyPlasma_convert(self->fThis->getElementTexture(element, layer));
+    size_t element_s = size_t(element);
+    size_t layer_s = size_t(layer);
+
+    if (element_s < self->fThis->getNumElements()) {
+        if (layer_s < plClothingItem::kLayerMax) {
+            return pyPlasma_convert(self->fThis->getElementTexture(element_s, layer_s));
+        }
+
+        PyErr_SetString(PyExc_IndexError, "layer index out of range");
+        return nullptr;
+    }
+
+    PyErr_SetString(PyExc_IndexError, "element index out of range");
+    return nullptr;
 }
 
 PY_METHOD_VA(ClothingItem, setElementTexture,
     "Params: element idx, layer idx, texture\n"
     "Sets the texture of the specified element and layer")
 {
-    int element, layer;
+    Py_ssize_t element, layer;
     pyKey* key;
 
-    if (!PyArg_ParseTuple(args, "iiO", &element, &layer, &key)) {
+    if (!PyArg_ParseTuple(args, "nnO", &element, &layer, &key)) {
         PyErr_SetString(PyExc_TypeError, "setElementTexture expects int, int, plKey");
         return nullptr;
     }
@@ -86,36 +108,62 @@ PY_METHOD_VA(ClothingItem, setElementTexture,
         return nullptr;
     }
 
-    self->fThis->setElementTexture(element, layer, *(key->fThis));
-    Py_RETURN_NONE;
+    size_t element_s = size_t(element);
+    size_t layer_s = size_t(layer);
+
+    if (element_s < self->fThis->getNumElements()) {
+        if (layer_s < plClothingItem::kLayerMax) {
+            self->fThis->setElementTexture(element_s, layer_s, *(key->fThis));
+            Py_RETURN_NONE;
+        }
+
+        PyErr_SetString(PyExc_IndexError, "layer index out of range");
+        return nullptr;
+    }
+
+    PyErr_SetString(PyExc_IndexError, "element index out of range");
+    return nullptr;
 }
 
 PY_METHOD_VA(ClothingItem, getElementName,
     "Params: element idx\n"
     "Gets the name of the specified element")
 {
-    int element;
-    if (!PyArg_ParseTuple(args, "i", &element)) {
+    Py_ssize_t element;
+    if (!PyArg_ParseTuple(args, "n", &element)) {
         PyErr_SetString(PyExc_TypeError, "getElementName expects int");
         return nullptr;
     }
 
-    return pyPlasma_convert(self->fThis->getElementName(element));
+    size_t element_s = size_t(element);
+
+    if (element_s < self->fThis->getNumElements())
+        return pyPlasma_convert(self->fThis->getElementName(element_s));
+
+    PyErr_SetString(PyExc_IndexError, "element index out of range");
+    return nullptr;
 }
 
 PY_METHOD_VA(ClothingItem, setElementName,
     "Params: element idx, name\n"
     "Sets the name of the specified element")
 {
-    int element;
+    Py_ssize_t element;
     const char* name;
-    if (!PyArg_ParseTuple(args, "is", &element, &name)) {
+    if (!PyArg_ParseTuple(args, "ns", &element, &name)) {
         PyErr_SetString(PyExc_TypeError, "setElementName expects int, string");
         return nullptr;
     }
 
-    self->fThis->setElementName(element, name);
-    Py_RETURN_NONE;
+    size_t element_s = size_t(element);
+
+    if (element_s < self->fThis->getNumElements()) {
+        self->fThis->setElementName(element_s, name);
+        Py_RETURN_NONE;
+    }
+
+    PyErr_SetString(PyExc_IndexError, "element index out of range");
+    return nullptr;
 }
 
 PY_METHOD_VA(ClothingItem, addElement,
@@ -136,13 +184,21 @@ PY_METHOD_VA(ClothingItem, delElement,
     "Params: element idx\n"
     "Remove an element from the clothingItem")
 {
-    int idx;
-    if (!PyArg_ParseTuple(args, "i", &idx)) {
+    Py_ssize_t idx;
+    if (!PyArg_ParseTuple(args, "n", &idx)) {
         PyErr_SetString(PyExc_TypeError, "delElement expects an int");
         return nullptr;
     }
-    self->fThis->delElement(idx);
-    Py_RETURN_NONE;
+
+    size_t idx_s = size_t(idx);
+
+    if (idx_s < self->fThis->getNumElements()) {
+        self->fThis->delElement(idx_s);
+        Py_RETURN_NONE;
+    }
+
+    PyErr_SetString(PyExc_IndexError, "element index out of range");
+    return nullptr;
 }
 
 PY_METHOD_NOARGS(ClothingItem, clearElements,
@@ -176,6 +232,7 @@ PY_PROPERTY(plKey, ClothingItem, icon, getIcon, setIcon)
 PY_PROPERTY(plKey, ClothingItem, accessory, getAccessory, setAccessory)
 PY_PROPERTY(hsColorRGBA, ClothingItem, defaultTint1, getDefaultTint1, setDefaultTint1)
 PY_PROPERTY(hsColorRGBA, ClothingItem, defaultTint2, getDefaultTint2, setDefaultTint2)
+PY_PROPERTY_RO(ClothingItem, numElements, getNumElements)
 
 PyGetSetDef pyClothingItem_GetSet[] = {
     pyClothingItem_itemName_getset,
@@ -189,6 +246,7 @@ PyGetSetDef pyClothingItem_GetSet[] = {
     pyClothingItem_accessory_getset,
     pyClothingItem_defaultTint1_getset,
     pyClothingItem_defaultTint2_getset,
+    pyClothingItem_numElements_getset,
     PY_GETSET_TERMINATOR
 };
 
@@ -207,6 +265,7 @@ PY_PLASMA_TYPE_INIT(ClothingItem)
     PY_TYPE_ADD_CONST(ClothingItem, "kLODHigh", plClothingItem::kLODHigh);
     PY_TYPE_ADD_CONST(ClothingItem, "kLODMedium", plClothingItem::kLODMedium);
     PY_TYPE_ADD_CONST(ClothingItem, "kLODLow", plClothingItem::kLODLow);
+    PY_TYPE_ADD_CONST(ClothingItem, "kNumLODLevels", plClothingItem::kNumLODLevels);
 
     /* ClothingLayer Konstants */
     PY_TYPE_ADD_CONST(ClothingItem, "kLayerBase", plClothingItem::kLayerBase);
@@ -219,6 +278,7 @@ PY_PLASMA_TYPE_INIT(ClothingItem)
     PY_TYPE_ADD_CONST(ClothingItem, "kLayerSkinBlend6", plClothingItem::kLayerSkinBlend6);
     PY_TYPE_ADD_CONST(ClothingItem, "kLayerTint1", plClothingItem::kLayerTint1);
     PY_TYPE_ADD_CONST(ClothingItem, "kLayerTint2", plClothingItem::kLayerTint2);
+    PY_TYPE_ADD_CONST(ClothingItem, "kLayerMax", plClothingItem::kLayerMax);
 
     /* Tileset Konstants */
     PY_TYPE_ADD_CONST(ClothingItem, "kSetShirt", plClothingItem::kSetShirt);
