@@ -57,7 +57,7 @@ plKey plLayerInterface::getBottomOfStack() const
             // What use is returning an unloaded bottom layer?
             break;
         }
-        const plLayerInterface* underLay = plLayerInterface::Convert(bottom->fUnderLay->getObj(), false);
+        const plLayerInterface* underLay = bottom->fUnderLay->getObj<plLayerInterface>(false);
         if (underLay == nullptr)
             break;
         bottom = underLay;

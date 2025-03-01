@@ -21,6 +21,7 @@
 #include <cstddef>
 #include <functional>
 #include <list>
+#include <type_traits>
 
 #define GET_KEY_OBJECT(key, classname) \
     ((key.Exists() && key.isLoaded()) \
@@ -138,10 +139,32 @@ public:
     const plUoid& getUoid() const { return fUoid; }
 
     /** Returns a pointer to the object referenced by this key */
-    class hsKeyedObject* getObj() { return fObjPtr; }
+    template<typename _KeyedObjT = class hsKeyedObject>
+    _KeyedObjT* getObj(bool requireValid = true)
+    {
+        static_assert(
+            std::is_base_of_v<class hsKeyedObject, _KeyedObjT>,
+            "Cannot convert to a type that does not derive from hsKeyedObject"
+        );
+        // If they just want the KeyedObject, avoid calling all the convert functions.
+        if constexpr (std::is_same_v<class hsKeyedObject, _KeyedObjT>)
+            return fObjPtr;
+        return _KeyedObjT::Convert(fObjPtr, requireValid);
+    }
 
     /** Returns a const pointer to the object referenced by this key */
-    const class hsKeyedObject* getObj() const { return fObjPtr; }
+    template<typename _KeyedObjT = class hsKeyedObject>
+    const _KeyedObjT* getObj(bool requireValid = true) const
+    {
+        static_assert(
+            std::is_base_of_v<class hsKeyedObject, _KeyedObjT>,
+            "Cannot convert to a type that does not derive from hsKeyedObject"
+        );
+        // If they just want the KeyedObject, avoid calling all the convert functions.
+        if constexpr (std::is_same_v<class hsKeyedObject, _KeyedObjT>)
+            return fObjPtr;
+        return _KeyedObjT::Convert(fObjPtr, requireValid);
+    }
 
     /** Sets the object referenced by this key. */
     void setObj(class hsKeyedObject* obj);

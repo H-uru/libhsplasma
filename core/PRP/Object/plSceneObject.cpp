@@ -154,7 +154,7 @@ void plSceneObject::delModifier(size_t idx)
         if (key->getObj()->isStub()) {
             plDebug::Warning("WARNING:  Removing STUB modifier from SceneObject");
         } else {
-            plModifier* mod = plModifier::Convert(key->getObj());
+            plModifier* mod = key->getObj<plModifier>();
             mod->removeTarget(getKey());
         }
     }
@@ -169,7 +169,7 @@ void plSceneObject::clearModifiers()
                 plDebug::Warning("WARNING:  Removing STUB modifier from SceneObject");
                 continue;
             }
-            plModifier* mod = plModifier::Convert(key->getObj(), false);
+            plModifier* mod = key->getObj<plModifier>(false);
             mod->removeTarget(getKey());
         }
     }

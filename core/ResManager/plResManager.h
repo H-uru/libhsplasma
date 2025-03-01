@@ -177,7 +177,14 @@ public:
      * the key's internal object pointer.
      * \sa plKeyData::getObj()
      */
-    class hsKeyedObject* getObject(const plKey& key);
+    template<typename _KeyedObjectT = class hsKeyedObject>
+    _KeyedObjectT* getObject(const plKey& key, bool requireValid = true)
+    {
+        plKey fk = keys.findKey(key);
+        if (!fk.Exists())
+            return nullptr;
+        return fk->getObj<_KeyedObjectT>(requireValid);
+    }
 
     /** Returns the total number of keys registered for the specified plLocation */
     unsigned int countKeys(const plLocation& loc) { return keys.countKeys(loc); }
