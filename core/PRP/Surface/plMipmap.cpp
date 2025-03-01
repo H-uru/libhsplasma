@@ -15,6 +15,8 @@
  */
 
 #include "plMipmap.h"
+
+#include <algorithm>
 #include <cstring>
 #include <cstdlib>
 
@@ -335,6 +337,15 @@ void plMipmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
     }
 }
 
+static bool directXCompressionPossibleForSize(uint32_t width, uint32_t height)
+{
+    // DirectX compression (DXT) operates on 4x4 pixel blocks,
+    // so bitmaps smaller than that cannot be DXT-compressed.
+    // In a DXT-compressed plMipmap, any mipmap levels that are too small
+    // for DXT compression are instead stored as uncompressed data.
+    return width >= 4 && height >= 4;
+}
+
 size_t plMipmap::IBuildLevelSizes()
 {
     unsigned int curWidth = fWidth;
@@ -343,11 +354,8 @@ size_t plMipmap::IBuildLevelSizes()
     size_t curOffs = 0;
 
     for (size_t i=0; i<fLevelData.size(); i++) {
-        if (fCompressionType == kDirectXCompression) {
-            if ((curHeight | curWidth) & 3)
-                fLevelData[i].fSize = curStride * curHeight;
-            else
-                fLevelData[i].fSize = (fDXInfo.fBlockSize * curHeight * curWidth) / 16;
+        if (fCompressionType == kDirectXCompression && directXCompressionPossibleForSize(curWidth, curHeight)) {
+            fLevelData[i].fSize = (fDXInfo.fBlockSize * curHeight * curWidth) / 16;
         } else {
             fLevelData[i].fSize = curStride * curHeight;
         }
@@ -632,6 +640,25 @@ size_t plMipmap::GetUncompressedSize(size_t level) const
     return lvl.fHeight * lvl.fWidth * (fPixelSize / 8);
 }
 
+/**
+ * Convert an uncompressed bitmap from RGBA to BGRA or vice versa.
+ *
+ * \param src The bitmap to be converted. Must be 4-byte-aligned.
+ * \param pixelCount Number of pixels (4-byte units) in the bitmap.
+ * \param dest Destination buffer for the converted bitmap. Must be 4-byte-aligned.
+ */
+static void swapRGBAFromToBGRA(const void* src, size_t pixelCount, void* dest)
+{
+    auto sp = static_cast<const uint32_t*>(src);
+    auto dp = static_cast<uint32_t*>(dest);
+    for (size_t i = 0; i < pixelCount; i++) {
+        dp[i] = (sp[i] & 0xFF000000) // A
+            | (sp[i] & 0x00FF0000) >> 16 // R or B
+            | (sp[i] & 0x0000FF00) // G
+            | (sp[i] & 0x000000FF) << 16; // B or R
+    }
+}
+
 void plMipmap::DecompressImage(size_t level, void* dest, size_t size) const
 {
     const LevelData& lvl = fLevelData[level];
@@ -668,7 +695,13 @@ void plMipmap::DecompressImage(size_t level, void* dest, size_t size) const
         free_aligned(jbuffer);
     } else if (fCompressionType == kDirectXCompression) {
         unsigned char* imgPtr = fImageData + fLevelData[level].fOffset;
-        if (fDXInfo.fCompressionType == kDXT1) {
+        if (!directXCompressionPossibleForSize(lvl.fWidth, lvl.fHeight)) {
+            // Mipmap level too small to be compressed.
+            size_t pixelCount = std::min(size, static_cast<size_t>(fLevelData[level].fSize)) / 4; 
+            // Uncompressed mipmap level data is stored in BGRA order,
+            // but callers expect RGBA to be returned for kDirectXCompression...
+            swapRGBAFromToBGRA(imgPtr, pixelCount, dest);
+        } else if (fDXInfo.fCompressionType == kDXT1) {
             squish::DecompressImage((squish::u8*)dest, lvl.fWidth, lvl.fHeight,
                                     imgPtr, squish::kDxt1);
         } else if (fDXInfo.fCompressionType == kDXT3) {
@@ -692,6 +725,14 @@ void plMipmap::CompressImage(size_t level, void* src, size_t size, BlockQuality 
 
     if (fCompressionType == kDirectXCompression) {
         unsigned char* imgPtr = fImageData + fLevelData[level].fOffset;
+
+        if (!directXCompressionPossibleForSize(lvl.fWidth, lvl.fHeight)) {
+            // Mipmap level too small to be compressed.
+            size_t pixelCount = std::min(size, static_cast<size_t>(fLevelData[level].fSize)) / 4; 
+            // Uncompressed mipmap level data is stored in BGRA order, but callers pass RGBA here...
+            swapRGBAFromToBGRA(src, pixelCount, imgPtr);
+            return;
+        }
 
         int squishFlags = 0;
         switch (fDXInfo.fCompressionType) {
