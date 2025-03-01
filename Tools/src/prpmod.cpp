@@ -204,7 +204,7 @@ int main(int argc, char* argv[])
         }
 
         if (cre) {
-            hsKeyedObject* kobj = hsKeyedObject::Convert(cre);
+            hsKeyedObject* kobj = hsKeyedObject::Convert(cre, false);
             if (kobj == nullptr) {
                 ST::printf(stderr, "Creatable '{}' is not a keyed object\n",
                            plFactory::ClassName(cre->ClassIndex()));
