@@ -34,9 +34,11 @@ public:
         Wheel() : fRadius(1.0f) { }
     };
 
+    enum { kNumWheels = 4 };
+
 protected:
     plKey fRoot;
-    Wheel fWheels[4];
+    Wheel fWheels[kNumWheels];
 
 public:
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -45,6 +47,13 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    plKey getRoot() const { return fRoot; }
+    const Wheel& getWheel(size_t idx) const { return fWheels[idx]; }
+    Wheel& getWheel(size_t idx) { return fWheels[idx]; }
+
+    void setRoot(plKey root) { fRoot = std::move(root); }
 };
 
 #endif

@@ -26,18 +26,19 @@ class HSPLASMA_EXPORT plRelevanceRegion : public plObjInterface
 
 protected:
     plKey fRegion;
-    hsBitVector fRegionsICareAbout;
-    unsigned int fMgrIdx;
 
 public:
-    plRelevanceRegion() : fMgrIdx((unsigned int)-1) { }
-
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    plKey getRegion() const { return fRegion; }
+
+    void setRegion(plKey region) { fRegion = std::move(region); }
 };
 
 #endif
