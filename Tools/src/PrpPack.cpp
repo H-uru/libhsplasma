@@ -74,13 +74,13 @@ static ST::string filenameConvert(const ST::string& filename, eDirection dir)
     } else if (dir == kCreate) {
         ST::string ext = newName.substr(dotLoc);
         if (ext == ".prd")
-            newName.replace(".prd", ".prp");
+            newName = newName.replace(".prd", ".prp");
         else if (ext != ".prp")
             newName += ".prp";
     } else {
         ST::string ext = newName.substr(dotLoc);
         if (ext == ".prp")
-            newName.replace(".prp", ".prd");
+            newName = newName.replace(".prp", ".prd");
         else if (ext != ".prd")
             newName += ".prd";
     }
