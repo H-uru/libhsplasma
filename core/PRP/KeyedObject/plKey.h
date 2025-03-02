@@ -83,6 +83,8 @@ public:
      */
     bool operator==(const plKeyData& other) const { return (fUoid == other.fUoid); }
 
+    bool operator!=(const plKeyData& other) const { return !operator==(other); }
+
     /**
      * Read a key directly from the key index of a PRP file.  This will
      * include the file offset and size where the hsKeyedObject is stored.
