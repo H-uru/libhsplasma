@@ -20,7 +20,7 @@
 bool plLocation::operator==(const plLocation& other) const
 {
     return (fState == other.fState && fPageNum == other.fPageNum
-            && fSeqPrefix == other.fSeqPrefix);
+            && fSeqPrefix == other.fSeqPrefix && fFlags == other.fFlags);
 }
 
 bool plLocation::operator!=(const plLocation& other) const
@@ -31,9 +31,15 @@ bool plLocation::operator!=(const plLocation& other) const
 
 bool plLocation::operator<(const plLocation& other) const
 {
-    if (fSeqPrefix == other.fSeqPrefix)
+    if (fState != other.fState) {
+        return fState < other.fState;
+    } else if (fSeqPrefix != other.fSeqPrefix) {
+        return fSeqPrefix < other.fSeqPrefix;
+    } else if (fPageNum != other.fPageNum) {
         return fPageNum < other.fPageNum;
-    return fSeqPrefix < other.fSeqPrefix;
+    } else {
+        return fFlags < other.fFlags;
+    }
 }
 
 void plLocation::parse(unsigned int id)
