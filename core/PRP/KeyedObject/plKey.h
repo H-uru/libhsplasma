@@ -81,7 +81,7 @@ public:
      * equivalent.  This basically just calls the == operator on the
      * plUoid (so storage information is not compared).
      */
-    bool operator==(plKeyData& other) const { return (fUoid == other.fUoid); }
+    bool operator==(const plKeyData& other) const { return (fUoid == other.fUoid); }
 
     /**
      * Read a key directly from the key index of a PRP file.  This will
