@@ -347,10 +347,10 @@ public:
     bool operator==(const plKeyData* other) const { return fKeyData == other; }
 
     /** Returns true if the keys point to different plKeyData structures */
-    bool operator!=(const plKey& other) const { return fKeyData != other.fKeyData; }
+    bool operator!=(const plKey& other) const { return !operator==(other); }
 
     /** Returns true if this key's plKeyData is NOT 'other' */
-    bool operator!=(const plKeyData* other) const { return fKeyData != other; }
+    bool operator!=(const plKeyData* other) const { return !operator==(other); }
 
     /** Provides sorting functionality for STL containers */
     bool operator<(const plKey& other) const

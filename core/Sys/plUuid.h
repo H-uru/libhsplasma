@@ -53,7 +53,7 @@ public:
     bool operator==(const plUuid& other) const;
 
     /** Returns true if the two UUIDs are non-identical. */
-    bool operator!=(const plUuid& other) const;
+    bool operator!=(const plUuid& other) const { return !operator==(other); }
 
     /** Read the UUID from a stream */
     void read(hsStream* S);
