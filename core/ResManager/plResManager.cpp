@@ -145,14 +145,6 @@ void plResManager::PrcWriteKey(pfPrcHelper* prc, hsKeyedObject* ko)
     PrcWriteKey(prc, ko->getKey());
 }
 
-hsKeyedObject* plResManager::getObject(const plKey& key)
-{
-    plKey fk = keys.findKey(key);
-    if (!fk.Exists())
-        return nullptr;
-    return fk->getObj();
-}
-
 plPageInfo* plResManager::ReadPage(const ST::string& filename, bool stub)
 {
     bool packed = true;
@@ -744,7 +736,7 @@ plSceneNode* plResManager::getSceneNode(const plLocation& loc)
     std::vector<plKey> kList = keys.getKeys(loc, kSceneNode);
     if (kList.empty())
         return nullptr;
-    return plSceneNode::Convert(kList[0]->getObj());
+    return kList[0]->getObj<plSceneNode>();
 }
 
 std::vector<plLocation> plResManager::getLocations()
