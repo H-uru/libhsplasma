@@ -53,7 +53,7 @@ public:
     void setVer(PlasmaVer pv) { fVer = pv; }
 
     bool operator==(const plLocation& other) const;
-    bool operator!=(const plLocation& other) const;
+    bool operator!=(const plLocation& other) const { return !operator==(other); }
     bool operator<(const plLocation& other) const;
 
     void parse(unsigned int id);

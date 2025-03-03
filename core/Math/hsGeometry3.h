@@ -47,10 +47,7 @@ struct HSPLASMA_EXPORT hsVector3
     }
 
     /** Returns true if the values of the vectors are non-identical */
-    bool operator!=(const hsVector3& other) const
-    {
-        return (X != other.X) || (Y != other.Y) || (Z != other.Z);
-    }
+    bool operator!=(const hsVector3& other) const { return !operator==(other); }
 
     /** Reads the vector from a stream */
     void read(hsStream* S);

@@ -151,11 +151,6 @@ bool plUnifiedTime::operator==(const plUnifiedTime& other)
     return (fSecs == other.fSecs && fMicros == other.fMicros);
 }
 
-bool plUnifiedTime::operator!=(const plUnifiedTime& other)
-{
-    return (fSecs != other.fSecs || fMicros != other.fMicros);
-}
-
 bool plUnifiedTime::operator<(const plUnifiedTime& other)
 {
     if (fSecs < other.fSecs)
