@@ -36,6 +36,11 @@ bool plLocation::operator<(const plLocation& other) const
     }
 }
 
+bool plLocation::isSamePage(const plLocation& other) const
+{
+    return fState == other.fState && fSeqPrefix == other.fSeqPrefix && fPageNum == other.fPageNum;
+}
+
 void plLocation::parse(unsigned int id)
 {
     if (id == 0xFFFFFFFF) {
