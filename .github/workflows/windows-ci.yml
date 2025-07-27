@@ -13,8 +13,8 @@ jobs:
           - { image: windows-2022, generator: Visual Studio 17 2022, toolset: v143, cmake-arch: x64, arch: x64, python: "3.10", unity: ON, str: windows-x64-v143 }
           - { image: windows-2022, generator: Visual Studio 17 2022, toolset: v142, cmake-arch: Win32, arch: x86, python: 3.9, unity: ON, str: windows-x86-v142 }
           - { image: windows-2022, generator: Visual Studio 17 2022, toolset: v142, cmake-arch: x64, arch: x64, python: 3.8, unity: OFF, str: windows-x64-v142 }
-          - { image: windows-2022, generator: Visual Studio 17 2022, toolset: v141, cmake-arch: Win32, arch: x86, python: 3.7, unity: OFF, str: windows-x86-v141 }
-          - { image: windows-2022, generator: Visual Studio 17 2022, toolset: v141, cmake-arch: x64, arch: x64, python: 3.6, unity: ON, str: windows-x64-v141 }
+          - { image: windows-2022, generator: Visual Studio 17 2022, toolset: v142, cmake-arch: Win32, arch: x86, python: 3.7, unity: OFF, str: windows-x86-v142 }
+          - { image: windows-2022, generator: Visual Studio 17 2022, toolset: v142, cmake-arch: x64, arch: x64, python: 3.6, unity: ON, str: windows-x64-v142 }
     env:
       VCPKG_BINARY_SOURCES: 'clear'
       VCPKG_DEFAULT_HOST_TRIPLET: windows-hsplasma
