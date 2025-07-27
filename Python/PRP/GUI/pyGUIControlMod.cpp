@@ -129,6 +129,8 @@ PY_GETSET_SETTER_DECL(GUIControlMod, colorScheme)
         PyErr_SetString(PyExc_TypeError, "colorScheme should be a pfGUIColorScheme");
         return -1;
     }
+
+    ((pyGUIColorScheme*)value)->fPyOwned = false;
     self->fThis->setColorScheme(pyPlasma_get<pfGUIColorScheme*>(value));
     return 0;
 }

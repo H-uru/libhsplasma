@@ -46,6 +46,7 @@ PyObject* ICreateGUIControlHandler(class pfGUICtrlProcObject*);
             PyErr_SetString(PyExc_TypeError, #name " expected type pf" #pyType); \
             return -1;                                                  \
         }                                                               \
+        ((py##pyType*)value)->fPyOwned = false;                         \
         self->fThis->setter(((py##pyType*)value)->fThis);               \
         return 0;                                                       \
     }
