@@ -7,6 +7,7 @@ jobs:
     strategy:
       matrix:
         platform:
+          - { image: windows-2022, generator: Visual Studio 17 2022, toolset: v143, cmake-arch: x64, arch: x64, python: "3.13", unity: OFF, str: windows-x64-v143 }
           - { image: windows-2022, generator: Visual Studio 17 2022, toolset: v143, cmake-arch: x64, arch: x64, python: "3.12", unity: ON, str: windows-x64-v143 }
           - { image: windows-2022, generator: Visual Studio 17 2022, toolset: v143, cmake-arch: x64, arch: x64, python: "3.11", unity: ON, str: windows-x64-v143 }
           - { image: windows-2022, generator: Visual Studio 17 2022, toolset: v143, cmake-arch: x64, arch: x64, python: "3.10", unity: ON, str: windows-x64-v143 }
