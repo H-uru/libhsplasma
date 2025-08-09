@@ -69,6 +69,8 @@ public:
         /** Comparison operator */
         bool operator==(bool value) const;
 
+        bool operator!=(bool value) const { return !operator==(value); }
+
         /** Assignment operator -- modifies the hsBitVector */
         Bit& operator=(bool value);
     };

@@ -29,7 +29,7 @@ public:
     plMD5Hash();
     plMD5Hash(const char* hex) { fromHex(hex); }
     bool operator==(const plMD5Hash& cmp) const;
-    bool operator!=(const plMD5Hash& cmp) const;
+    bool operator!=(const plMD5Hash& cmp) const { return !operator==(cmp); }
 
     ST::string toHex() const;
     void fromHex(const char* hex);
