@@ -43,7 +43,16 @@ protected:
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
+    const std::vector<plKey>& getMeshes() const { return fMeshKeys; }
+    std::vector<plKey>& getMeshes() { return fMeshKeys; }
+    const std::vector<std::vector<plKey>>& getUnusedBones() const { return fUnusedBones; }
+    std::vector<std::vector<plKey>>& getUnusedBones() { return fUnusedBones; }
+    const std::vector<plArmatureBrain*>& getBrains() const { return fBrains; }
+    std::vector<plArmatureBrain*>& getBrains() { return fBrains; }
+    plKey getDetector() const { return fDetector; }
+
     void clearBrains();
+    void setDetector(plKey detector) { fDetector = std::move(detector); }
 };
 
 
@@ -79,6 +88,33 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    plKey getDefaultMesh() const { return fDefaultMesh; }
+    const ST::string& getRootName() const { return fRootName; }
+    plKey getClothingOutfit() const { return fClothingOutfit; }
+    int getBodyType() const { return fBodyType; }
+    plKey getEffects() const { return fEffects; }
+    hsVector3 getMins() const { return fMins; }
+    hsVector3 getMaxs() const { return fMaxs; }
+    float getPhysHeight() const { return fPhysHeight; }
+    float getPhysWidth() const { return fPhysWidth; }
+    const ST::string& getFootstepAge() const { return fFootstepAge; }
+    const ST::string& getFootstepPage() const { return fFootstepPage; }
+    const ST::string& getFootstepType() const { return fFootstepType; }
+
+    void setDefaultMesh(plKey defaultMesh) { fDefaultMesh = std::move(defaultMesh); }
+    void setRootName(ST::string rootName) { fRootName = std::move(rootName); }
+    void setClothingOutfit(plKey clothingOutfit) { fClothingOutfit = std::move(clothingOutfit); }
+    void setBodyType(int bodyType) { fBodyType = bodyType; }
+    void setEffects(plKey effects) { fEffects = std::move(effects); }
+    void setMins(hsVector3 mins) { fMins = mins; }
+    void setMaxs(hsVector3 maxs) { fMaxs = maxs; }
+    void setPhysHeight(float physHeight) { fPhysHeight = physHeight; }
+    void setPhysWidth(float physWidth) { fPhysWidth = physWidth; }
+    void setFootstepAge(ST::string footstepAge) { fFootstepAge = std::move(footstepAge); }
+    void setFootstepPage(ST::string footstepPage) { fFootstepPage = std::move(footstepPage); }
+    void setFootstepType(ST::string footstepType) { fFootstepType = std::move(footstepType); }
 };
 
 
