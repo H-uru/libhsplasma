@@ -18,9 +18,13 @@
 
 void plLoadMask::read(hsStream* S)
 {
-    unsigned char m = S->readByte();
-    fQuality[0] = (m >> 4) | 0xF0;
-    fQuality[1] = m | 0xF0;
+    if (S->getVer() < MAKE_VERSION(2, 0, 63, 0) && S->getVer().isValid()) {
+        S->readInt();
+    } else {
+        unsigned char m = S->readByte();
+        fQuality[0] = (m >> 4) | 0xF0;
+        fQuality[1] = m | 0xF0;
+    }
 }
 
 void plLoadMask::write(hsStream* S)

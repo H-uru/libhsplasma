@@ -116,6 +116,7 @@
 #include "PRP/Modifier/plAliasModifier.h"
 #include "PRP/Modifier/plAnimEventModifier.h"
 #include "PRP/Modifier/plAxisAnimModifier.h"
+#include "PRP/Modifier/plCloneSpawnModifier.h"
 #include "PRP/Modifier/plExcludeRegionModifier.h"
 #include "PRP/Modifier/plFollowMod.h"
 #include "PRP/Modifier/plGameMarkerModifier.h"
@@ -381,7 +382,7 @@ plCreatable* plFactory::Create(short typeIdx)
         case kGUIKnobCtrl: return new pfGUIKnobCtrl();
         case kAvLadderMod: return new plAvLadderMod();
         case kCameraBrain1_FirstPerson: return new plCameraBrain1_FirstPerson();
-        //case kCloneSpawnModifier: return new plCloneSpawnModifier();
+        case kCloneSpawnModifier: return new plCloneSpawnModifier();
         case kClothingItem: return new plClothingItem();
         case kClothingOutfit: return new plClothingOutfit();
         case kClothingBase: return new plClothingBase();
