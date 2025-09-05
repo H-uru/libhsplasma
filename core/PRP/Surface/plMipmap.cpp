@@ -281,8 +281,15 @@ void plMipmap::IPrcWrite(pfPrcHelper* prc)
         }
 
         prc->closeTag();    // JPEG
-    } else {
+    } else if (fCompressionType == kDirectXCompression) {
         prc->writeSimpleTag("DDS");
+        if (!prc->isExcluded(pfPrcHelper::kExcludeTextureData))
+            prc->writeHexStream(fTotalSize, fImageData);
+        else
+            prc->writeComment("Texture data excluded");
+        prc->closeTag();
+    } else {
+        prc->writeSimpleTag("ImageData");
         if (!prc->isExcluded(pfPrcHelper::kExcludeTextureData))
             prc->writeHexStream(fTotalSize, fImageData);
         else
