@@ -283,7 +283,10 @@ void plMipmap::IPrcWrite(pfPrcHelper* prc)
         prc->closeTag();    // JPEG
     } else {
         prc->writeSimpleTag("DDS");
-        prc->writeHexStream(fTotalSize, fImageData);
+        if (!prc->isExcluded(pfPrcHelper::kExcludeTextureData))
+            prc->writeHexStream(fTotalSize, fImageData);
+        else
+            prc->writeComment("Texture data excluded");
         prc->closeTag();
     }
 }
