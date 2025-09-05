@@ -330,7 +330,7 @@ plMipmap* plJPEG::DecompressJPEG(hsStream* S)
     return newMipmap;
 }
 
-void plJPEG::CompressJPEG(hsStream* S, void* buf, size_t size, uint32_t width, uint32_t height, uint32_t bpp)
+void plJPEG::CompressJPEG(hsStream* S, void* buf, size_t size, uint32_t width, uint32_t height, uint32_t bpp, int quality)
 {
     plJPEG_CInfo cinfo;
 
@@ -347,7 +347,7 @@ void plJPEG::CompressJPEG(hsStream* S, void* buf, size_t size, uint32_t width, u
         cinfo->in_color_space = JCS_RGB;
 
     jpeg_set_defaults(&cinfo);
-    jpeg_set_quality(&cinfo, 100, TRUE);
+    jpeg_set_quality(&cinfo, quality, TRUE);
     jpeg_start_compress(&cinfo, TRUE);
 
     uint32_t row_stride = cinfo->image_width * cinfo->input_components;

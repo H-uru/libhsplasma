@@ -656,6 +656,7 @@ set(SDL_HEADERS
 
 set(STREAM_SOURCES
     Stream/hsElfStream.cpp
+    Stream/hsNullStream.cpp
     Stream/hsRAMStream.cpp
     Stream/hsStdioStream.cpp
     Stream/hsStream.cpp
@@ -668,6 +669,7 @@ set(STREAM_SOURCES
 )
 set(STREAM_HEADERS
     Stream/hsElfStream.h
+    Stream/hsNullStream.h
     Stream/hsRAMStream.h
     Stream/hsStdioStream.h
     Stream/hsStream.h

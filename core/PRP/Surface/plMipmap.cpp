@@ -19,11 +19,13 @@
 #include <algorithm>
 #include <cstring>
 #include <cstdlib>
+#include <memory>
 
 #include "Debug/plDebug.h"
 #include "Util/plJPEG.h"
 #include "Util/plPNG.h"
 #include "Util/plDDSurface.h"
+#include "Stream/hsNullStream.h"
 #include "Stream/hsRAMStream.h"
 #include "3rdPartyLibs/squish/squish.h"
 
@@ -778,6 +780,75 @@ void plMipmap::CompressImage(size_t level, void* src, size_t size, BlockQuality 
                               imgPtr, squishFlags);
     } else {
         throw hsNotImplementedException(__FILE__, __LINE__, "Compression not currently supported for format.");
+    }
+}
+
+void plMipmap::CompressJPEG(int quality, bool force)
+{
+    if (fCompressionType != kJPEGCompression)
+        throw hsBadParamException(__FILE__, __LINE__, "JPEG compression only supported on JPEG mipmaps");
+
+    // We don't want to recompress if we already have JPEG data.
+    // That can cause data loss, artificating, and diff churn.
+    // But, if they say force... go for it.
+    bool compressColor = fJPEGCache.empty() || force;
+    bool compressAlpha = fJAlphaCache.empty() || force;
+
+    if (!force) {
+        {
+            hsNullStream S;
+            IWriteRLEImage(&S, false);
+            compressColor = S.size() >= 5 * 1024;
+        }
+        {
+            hsNullStream S;
+            IWriteRLEImage(&S, true);
+            compressAlpha = S.size() >= 5 * 1024;
+        }
+    }
+
+    if (compressColor) {
+        auto colorBuf = std::make_unique <uint8_t[]>(fWidth * fHeight * 3);
+
+        // Guess what? plJPEG::CompressImage() expects RGB, not BGR.
+        // Just roll our own conversion loop here.
+        const unsigned char* sp = (const unsigned char*)fImageData;
+        unsigned char* dp = (unsigned char*)colorBuf.get();
+        for (size_t i = 0; i < fLevelData[0].fSize; i += 4) {
+            unsigned char b = *sp++;
+            unsigned char g = *sp++;
+            unsigned char r = *sp++;
+            sp++;           // Skip alpha
+            *dp++ = r;
+            *dp++ = g;
+            *dp++ = b;
+        }
+
+        hsRAMStream S;
+        plJPEG::CompressJPEG(&S, colorBuf.get(), fWidth * fHeight * 3, fWidth, fHeight, 24, quality);
+        fJPEGCache.resize(S.size());
+        memcpy(fJPEGCache.data(), S.data(), S.size());
+    }
+
+    if (compressAlpha) {
+        auto alphaBuf = std::make_unique <uint8_t[]>(fWidth * fHeight * 3);
+
+        // extractAlphaData only extracts 1 byte per pixel, but plJPEG expects 3 bytes per pixel.
+        // Cyan's alpha JPEGs stuff the alpha byte into the red channel only.
+        const unsigned char* sp = (const unsigned char*)fImageData;
+        unsigned char* dp = (unsigned char*)alphaBuf.get();
+        for (size_t i = 0; i < fLevelData[0].fSize; i += 4) {
+            sp += 3;        // Skip RGB
+            *dp++ = *sp++;  // Alpha (R)
+            *dp++ = 0;      // G
+            *dp++ = 0;      // B
+        }
+
+        hsRAMStream S;
+        // Cyan's alpha JPEGs are always 100% quality.
+        plJPEG::CompressJPEG(&S, alphaBuf.get(), fWidth * fHeight * 3, fWidth, fHeight, 24, 100);
+        fJAlphaCache.resize(S.size());
+        memcpy(fJAlphaCache.data(), S.data(), S.size());
     }
 }
 

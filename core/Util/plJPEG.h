@@ -47,7 +47,8 @@ public:
 
     /* Write JPEG file to stream from bitmap data buffer. */
     static void CompressJPEG(hsStream* S, void* buf, size_t size,
-                             uint32_t width, uint32_t height, uint32_t bpp);
+                             uint32_t width, uint32_t height, uint32_t bpp,
+                             int quality = 100);
 
 private:
     plJPEG() = delete;
