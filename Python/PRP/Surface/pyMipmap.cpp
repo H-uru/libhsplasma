@@ -308,6 +308,26 @@ PY_METHOD_KWARGS(Mipmap, CompressImage,
     Py_RETURN_NONE;
 }
 
+PY_METHOD_KWARGS(Mipmap, CompressJPEG,
+    "Params: quality, force\n"
+    "Compresses the mipmap to JPEG format")
+{
+    static char* kwlist[] = { _pycs("quality"), _pycs("force"), nullptr };
+    int quality = 70;
+    int force = 0;
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|ii", kwlist, &quality, &force)) {
+        PyErr_SetString(PyExc_TypeError, "CompressJPEG expects an optional int and an optional boolean");
+        return nullptr;
+    }
+    try {
+        self->fThis->CompressJPEG(quality, force != 0);
+    } catch (const hsBadParamException& ex) {
+        PyErr_SetString(PyExc_RuntimeError, ex.what());
+        return nullptr;
+    }
+    Py_RETURN_NONE;
+}
+
 static PyMethodDef pyMipmap_Methods[] = {
     pyMipmap_readData_method,
     pyMipmap_writeData_method,
@@ -326,6 +346,7 @@ static PyMethodDef pyMipmap_Methods[] = {
     pyMipmap_isAlphaJPEG_method,
     pyMipmap_DecompressImage_method,
     pyMipmap_CompressImage_method,
+    pyMipmap_CompressJPEG_method,
     PY_METHOD_TERMINATOR
 };
 

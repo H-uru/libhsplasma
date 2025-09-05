@@ -112,6 +112,14 @@ public:
     size_t GetUncompressedSize(size_t level) const;
     void DecompressImage(size_t level, void* dest, size_t size) const;
     void CompressImage(size_t level, void* src, size_t size, BlockQuality quality = kBlockQualityNormal);
+
+    /**
+     * Compress mipmap to JPEG format.
+     * This compresses the image data to JPEG with the specified quality.
+     * If the mipmap will not benefit from JPEG compression (i.e. the RLE
+     * map is under 5 KB), then no compression is done unless 'force' is true.
+     */
+    void CompressJPEG(int quality = 70, bool force = false);
 };
 
 
