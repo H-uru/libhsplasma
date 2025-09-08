@@ -55,8 +55,8 @@ struct pySequenceFastRef
     PyObject* get(Py_ssize_t idx) { return PySequence_Fast_GET_ITEM(fObj, idx); }
 };
 
-#if (PY_MAJOR_VERSION < 3) || ((PY_MAJOR_VERSION == 3) && (PY_MINOR_VERSION < 2))
-    #error Your Python version is too old.  Only 3.2 and later are supported
+#if (PY_MAJOR_VERSION < 3) || ((PY_MAJOR_VERSION == 3) && (PY_MINOR_VERSION < 7))
+    #error Your Python version is too old.  Only 3.7 and later are supported
 #endif
 
 // C doesn't have boolean types until C11, which Python doesn't use
@@ -556,11 +556,6 @@ template <> inline plKeyDef pyPlasma_get(PyObject* value) { return (plKeyDef)PyL
 #define PY_METHOD_TERMINATOR { nullptr, nullptr, 0, nullptr }
 
 /* Helpers for declaring and populating the master PyTypeObject structure */
-#if (PY_MAJOR_VERSION >= 4) || ((PY_MAJOR_VERSION == 3) && (PY_MINOR_VERSION >= 4))
-    #define _TP_FINALIZE_INIT nullptr,
-#else
-    #define _TP_FINALIZE_INIT
-#endif
 
 // tp_print moved to the end, and two new vectorcall fields inserted in Python 3.8...
 // tp_print removed entirely from Python 3.9...
@@ -606,17 +601,11 @@ template <> inline plKeyDef pyPlasma_get(PyObject* value) { return (plKeyDef)PyL
         nullptr, nullptr, nullptr, nullptr, nullptr,                    \
         nullptr, nullptr, nullptr, nullptr, nullptr,                    \
         nullptr, 0,                                                     \
-        _TP_FINALIZE_INIT                                               \
+        nullptr,                                                        \
         _TP_VECTORCALL_PRINT                                            \
         _TP_WATCHED_INIT                                                \
         _TP_VERSIONS_USED                                               \
     };
-
-#if ((PY_MAJOR_VERSION > 3) || (PY_MAJOR_VERSION == 3 && PY_MINOR_VERSION >= 5))
-    #define _NB_MATRIX_MULTIPLY_INIT nullptr, nullptr,
-#else
-    #define _NB_MATRIX_MULTIPLY_INIT
-#endif
 
 #define PY_PLASMA_TYPE_AS_NUMBER(pyType)                                \
     static PyNumberMethods py##pyType##_As_Number = {                   \
@@ -628,7 +617,7 @@ template <> inline plKeyDef pyPlasma_get(PyObject* value) { return (plKeyDef)PyL
         nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,  \
         nullptr, nullptr, nullptr, nullptr,                             \
         nullptr,                                                        \
-        _NB_MATRIX_MULTIPLY_INIT                                        \
+        nullptr, nullptr,                                               \
     };
 
 #define PY_PLASMA_TYPE_AS_MAPPING(pyType)                               \

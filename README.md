@@ -49,7 +49,7 @@ For libHSPlasmaNet
 
 For PyHSPlasma
 
-- [Python 3.2+](http://www.python.org/)
+- [Python 3.7+](http://www.python.org/)
 
 You will also need CMake and a C++ compiler with at least some C++11 support.
 The following compiler versions are currently supported (others may work,
