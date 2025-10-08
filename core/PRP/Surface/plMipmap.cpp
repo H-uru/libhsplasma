@@ -701,7 +701,7 @@ void plMipmap::DecompressImage(size_t level, void* dest, size_t size) const
             unsigned int* dp = (unsigned int*)dest;
             unsigned int* sp = (unsigned int*)jbuffer;
             for (size_t i=0; i<(size/4); i++)
-                dp[i] = (dp[i] & 0x00FFFFFF) | ((sp[i] << 24) & 0xFF000000);
+                dp[i] = (dp[i] & 0x00FFFFFF) | ((sp[i] << 8) & 0xFF000000);
         }
 
         free_aligned(jbuffer);
