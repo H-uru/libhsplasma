@@ -34,6 +34,10 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    const std::vector<plMorphArray>& getMorphs() const { return fMorphs; }
+    std::vector<plMorphArray>& getMorphs() { return fMorphs; }
 };
 
 #endif

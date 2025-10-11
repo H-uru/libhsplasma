@@ -53,6 +53,17 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    unsigned char getGroup() const { return fGroup; }
+    plKey getBase() const { return fBase; }
+    plKey getTargetTexture() const { return fTargetTexture; }
+    plKey getMaterial() const { return fMaterial; }
+
+    void setGroup(unsigned char group) { fGroup = group; }
+    void setBase(plKey base) { fBase = std::move(base); }
+    void setTargetTexture(plKey targetTexture) { fTargetTexture = std::move(targetTexture); }
+    void setMaterial(plKey material) { fMaterial = std::move(material); }
 };
 
 
@@ -71,6 +82,15 @@ public:
 protected:
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+
+public:
+    const ST::string& getName() const { return fName; }
+    const ST::string& getLayoutName() const { return fLayoutName; }
+    plKey getBaseTexture() const { return fBaseTexture; }
+
+    void setName(ST::string name) { fName = std::move(name); }
+    void setLayoutName(ST::string layoutName) { fLayoutName = std::move(layoutName); }
+    void setBaseTexture(plKey baseTexture) { fBaseTexture = std::move(baseTexture); }
 };
 
 #endif

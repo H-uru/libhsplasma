@@ -21,7 +21,7 @@ void plVehicleModifier::read(hsStream* S, plResManager* mgr)
     plSingleModifier::read(S, mgr);
 
     fRoot = mgr->readKey(S);
-    for (size_t i=0; i<4; i++) {
+    for (size_t i=0; i<kNumWheels; i++) {
         fWheels[i].fWheelObj = mgr->readKey(S);
         fWheels[i].fPosition.read(S);
         fWheels[i].fDirection.read(S);
@@ -34,7 +34,7 @@ void plVehicleModifier::write(hsStream* S, plResManager* mgr)
     plSingleModifier::write(S, mgr);
 
     mgr->writeKey(S, fRoot);
-    for (size_t i=0; i<4; i++) {
+    for (size_t i=0; i<kNumWheels; i++) {
         mgr->writeKey(S, fWheels[i].fWheelObj);
         fWheels[i].fPosition.write(S);
         fWheels[i].fDirection.write(S);
@@ -51,7 +51,7 @@ void plVehicleModifier::IPrcWrite(pfPrcHelper* prc)
     prc->closeTag();
 
     prc->writeSimpleTag("Wheels");
-    for (size_t i=0; i<4; i++) {
+    for (size_t i=0; i<kNumWheels; i++) {
         prc->startTag("Wheel");
         prc->writeParam("Radius", fWheels[i].fRadius);
         prc->endTag();
@@ -72,10 +72,10 @@ void plVehicleModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
     if (tag->getName() == "Root") {
         fRoot = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "Wheels") {
-        if (tag->countChildren() != 4)
+        if (tag->countChildren() != kNumWheels)
             throw pfPrcParseException(__FILE__, __LINE__, "Wheels should contain 4 children");
         const pfPrcTag* wheel = tag->getFirstChild();
-        for (size_t i=0; i<4; i++) {
+        for (size_t i=0; i<kNumWheels; i++) {
             if (wheel->getName() != "Wheel")
                 throw pfPrcTagException(__FILE__, __LINE__, wheel->getName());
             fWheels[i].fRadius = wheel->getParam("Radius", "0").to_float();
