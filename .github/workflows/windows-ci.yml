@@ -78,6 +78,7 @@ jobs:
       - name: Build
         run: |
           cmake --build build --config Release -j 2
+          cmake --build build --target RUN_TESTS --config Release -j 2
 
       - name: Install
         run: |

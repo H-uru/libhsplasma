@@ -24,3 +24,4 @@ jobs:
           cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}/build_deps/prefix" \
             -DENABLE_PYTHON=ON -DENABLE_TOOLS=ON -DENABLE_NET=ON -DENABLE_PHYSX=OFF ..
           make -j2
+          make test
