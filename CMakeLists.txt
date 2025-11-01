@@ -66,6 +66,7 @@ option(ENABLE_PYTHON "Build HSPlasma Python integration" ON)
 option(ENABLE_TOOLS "Build the HSPlasma tools" ON)
 option(ENABLE_NET "Build HSPlasmaNet" ON)
 option(ENABLE_PHYSX "Build with PhysX Support" ON)
+option(ENABLE_TESTS "Build test suite" ON)
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 
 find_package(string_theory 2.0 REQUIRED)
@@ -82,6 +83,11 @@ endif()
 
 if(ENABLE_NET)
     add_subdirectory(net)
+endif()
+
+if(ENABLE_TESTS)
+    enable_testing()
+    add_subdirectory(Tests)
 endif()
 
 include(FeatureSummary)

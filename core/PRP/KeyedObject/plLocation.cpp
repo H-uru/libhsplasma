@@ -15,6 +15,7 @@
  */
 
 #include "plLocation.h"
+#include "Debug/plDebug.h"
 #include <string_theory/format>
 
 bool plLocation::operator==(const plLocation& other) const
@@ -53,20 +54,37 @@ void plLocation::parse(unsigned int id)
         throw hsBadParamException(__FILE__, __LINE__, "Universal PRPs don't use encoded locations");
 
     fState = kStateNormal;
-    if ((id & 0x80000000) != 0) {
-        id -= (fVer.isLive() ? 0xFF000001 : 0xFFFF0001);
-        fSeqPrefix = id >> (fVer.isLive() ? 16 : 8);
-        fPageNum = id - (fSeqPrefix << (fVer.isLive() ? 16 : 8));
-        fSeqPrefix = -fSeqPrefix;
+    if (fVer.isLive()) {
+        if (id >= 0xFF01'0000) {
+            id -= 0xFF00'0001;
+            fSeqPrefix = -(int)(id >> 16);
+        } else {
+            id -= 33;
+            fSeqPrefix = id >> 16;
+        }
+        fPageNum = (int16_t)(id & 0xFFFF);
     } else {
-        id -= 33;
-        fSeqPrefix = id >> (fVer.isLive() ? 16 : 8);
-        fPageNum = id - (fSeqPrefix << (fVer.isLive() ? 16 : 8));
+        if (id >= 0xFFFF'0100) {
+            id -= 0xFFFF'0001;
+            fSeqPrefix = -(int)(id >> 8);
+        } else {
+            id -= 33;
+            fSeqPrefix = id >> 8;
+        }
+        fPageNum = (int8_t)(id & 0xFF);
     }
-    if (fVer.isLive())
-        fPageNum = (signed short)(unsigned short)fPageNum;
-    else
-        fPageNum = (signed char)(unsigned char)fPageNum;
+
+    // Plasma does not actually use negative page numbers.  However, for
+    // correctly mapping and converting the "reserved" pages at the end of the
+    // max-uint8/max-uint16 range, we pretend they are signed and negative.
+    // In order to leave more room for non-reserved pages, we only apply this
+    // special logic up to -32
+    if (fPageNum < -32) {
+        if (fVer.isLive())
+            fPageNum += 0x10000;
+        else
+            fPageNum += 0x100;
+    }
 }
 
 unsigned int plLocation::unparse() const
@@ -78,16 +96,26 @@ unsigned int plLocation::unparse() const
     if (fVer.isUniversal())
         throw hsBadParamException(__FILE__, __LINE__, "Universal PRPs don't use encoded locations");
 
-    int pgNum;
-    if (fVer.isLive())
-        pgNum = (unsigned short)(signed short)fPageNum;
-    else
-        pgNum = (unsigned char)(signed char)fPageNum;
-    if (fSeqPrefix < 0) {
-        return pgNum - (fSeqPrefix << (fVer.isLive() ? 16 : 8))
-                     + (fVer.isLive() ? 0xFF000001 : 0xFFFF0001);
+    if (fVer.isLive()) {
+        if (fSeqPrefix < -254 || fSeqPrefix > 0xFEFF)
+            plDebug::Warning("Sequence prefix {} cannot be uniquely encoded.", fSeqPrefix);
+        if (fPageNum < -32 || fPageNum > 0xFFDF)
+            plDebug::Warning("Page number {} cannot be uniquely encoded.", fPageNum);
+
+        if (fSeqPrefix < 0)
+            return (-fSeqPrefix << 16) + (fPageNum & 0xFFFF) + 0xFF00'0001;
+        else
+            return (fSeqPrefix << 16) + (fPageNum & 0xFFFF) + 33;
     } else {
-        return pgNum + (fSeqPrefix << (fVer.isLive() ? 16 : 8)) + 33;
+        if (fSeqPrefix < -254 || fSeqPrefix > 0xFF'FEFF)
+            plDebug::Warning("Sequence prefix {} cannot be uniquely encoded.", fSeqPrefix);
+        if (fPageNum < -32 || fPageNum > 0xDF)
+            plDebug::Warning("Page number {} cannot be uniquely encoded.", fPageNum);
+
+        if (fSeqPrefix < 0)
+            return (-fSeqPrefix << 8) + (fPageNum & 0xFF) + 0xFFFF'0001;
+        else
+            return (fSeqPrefix << 8) + (fPageNum & 0xFF) + 33;
     }
 }
 
