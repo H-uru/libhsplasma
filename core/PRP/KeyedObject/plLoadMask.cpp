@@ -18,15 +18,25 @@
 
 void plLoadMask::read(hsStream* S)
 {
-    unsigned char m = S->readByte();
-    fQuality[0] = (m >> 4) | 0xF0;
-    fQuality[1] = m | 0xF0;
+    if (S->getVer() < MAKE_VERSION(2, 0, 63, 0) && S->getVer().isValid()) {
+        fQuality[0] = (unsigned char)S->readShort();
+        fQuality[1] = (unsigned char)S->readShort();
+    } else {
+        unsigned char m = S->readByte();
+        fQuality[0] = (m >> 4) | 0xF0;
+        fQuality[1] = m | 0xF0;
+    }
 }
 
 void plLoadMask::write(hsStream* S)
 {
-    unsigned char m = (fQuality[1] & 0x0F) | (fQuality[0] << 4);
-    S->writeByte(m);
+    if (S->getVer() < MAKE_VERSION(2, 0, 63, 0) && S->getVer().isValid()) {
+        S->writeShort((unsigned short)fQuality[0]);
+        S->writeShort((unsigned short)fQuality[1]);
+    } else {
+        unsigned char m = (fQuality[1] & 0x0F) | (fQuality[0] << 4);
+        S->writeByte(m);
+    }
 }
 
 void plLoadMask::prcWrite(pfPrcHelper* prc)

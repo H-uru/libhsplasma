@@ -33,11 +33,12 @@ public:
 protected:
     std::vector<plAGApplicator*> fApps;
     float fBlend, fStart, fEnd;
+    float fUnknownMQO1, fUnknownMQO2;
     ST::string fName;
     unsigned char fEoaFlag;
 
 public:
-    plAGAnim() : fBlend(), fStart(), fEnd(), fEoaFlag() { }
+    plAGAnim() : fBlend(), fStart(), fEnd(), fUnknownMQO1(), fUnknownMQO2(), fEoaFlag() { }
     ~plAGAnim();
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;

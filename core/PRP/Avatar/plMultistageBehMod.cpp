@@ -28,7 +28,10 @@ void plMultistageBehMod::read(hsStream* S, plResManager* mgr)
 
     fFreezePhys = S->readBool();
     fSmartSeek = S->readBool();
-    fReverseFBControlsOnRelease = S->readBool();
+
+    if (S->getVer() >= MAKE_VERSION(2, 0, 62, 12)) {
+        fReverseFBControlsOnRelease = S->readBool();
+    }
 
     clearStages();
     fStages.resize(S->readInt());
@@ -48,7 +51,10 @@ void plMultistageBehMod::write(hsStream* S, plResManager* mgr)
 
     S->writeBool(fFreezePhys);
     S->writeBool(fSmartSeek);
-    S->writeBool(fReverseFBControlsOnRelease);
+
+    if (S->getVer() >= MAKE_VERSION(2, 0, 62, 12)) {
+        S->writeBool(fReverseFBControlsOnRelease);
+    }
 
     S->writeInt(fStages.size());
     for (size_t i=0; i<fStages.size(); i++)

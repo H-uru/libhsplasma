@@ -395,6 +395,7 @@ set(PRP_MOD_SOURCES
     PRP/Modifier/plAliasModifier.cpp
     PRP/Modifier/plAnimEventModifier.cpp
     PRP/Modifier/plAxisAnimModifier.cpp
+    PRP/Modifier/plCloneSpawnModifier.cpp
     PRP/Modifier/plExcludeRegionModifier.cpp
     PRP/Modifier/plFollowMod.cpp
     PRP/Modifier/plGameMarkerModifier.cpp
@@ -417,6 +418,7 @@ set(PRP_MOD_HEADERS
     PRP/Modifier/plAliasModifier.h
     PRP/Modifier/plAnimEventModifier.h
     PRP/Modifier/plAxisAnimModifier.h
+    PRP/Modifier/plCloneSpawnModifier.h
     PRP/Modifier/plExcludeRegionModifier.h
     PRP/Modifier/plFollowMod.h
     PRP/Modifier/plGameMarkerModifier.h

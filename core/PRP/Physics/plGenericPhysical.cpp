@@ -416,7 +416,7 @@ void plGenericPhysical::IReadHKPhysical(hsStream* S, plResManager* mgr)
     float rad = S->readFloat();
     hsVector3 axis;
     axis.read(S);
-    fRot = hsQuat(rad, axis);
+    fRot = hsQuat(axis.X, axis.Y, axis.Z, rad);
 
     unsigned int hMemberGroup, hReportGroup, hCollideGroup;
     fMass = S->readFloat();
@@ -450,7 +450,10 @@ void plGenericPhysical::IReadHKPhysical(hsStream* S, plResManager* mgr)
     fSceneNode = mgr->readKey(S);
     fLOSDBs = S->readInt();
     fSubWorld = mgr->readKey(S);
-    fSoundGroup = mgr->readKey(S);
+
+    if (S->getVer() >= MAKE_VERSION(2, 0, 63, 0)) {
+        fSoundGroup = mgr->readKey(S);
+    }
 
 #ifdef DEBUG
     unsigned int memGroup = plHKSimDefs::setMemGroup(this);
@@ -651,7 +654,10 @@ void plGenericPhysical::IWriteHKPhysical(hsStream* S, plResManager* mgr)
     mgr->writeKey(S, fSceneNode);
     S->writeInt(fLOSDBs);
     mgr->writeKey(S, fSubWorld);
-    mgr->writeKey(S, fSoundGroup);
+
+    if (S->getVer() >= MAKE_VERSION(2, 0, 63, 0)) {
+        mgr->writeKey(S, fSoundGroup);
+    }
 }
 
 void plGenericPhysical::IWriteODEPhysical(hsStream* S, plResManager* mgr)

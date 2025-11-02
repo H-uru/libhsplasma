@@ -85,6 +85,7 @@ public:
         pvPrime     = MAKE_VERSION(2, 0, 63, 11),
         pvPots      = MAKE_VERSION(2, 0, 63, 12),
         pvMoul      = MAKE_VERSION(2, 0, 70,  0),
+        pvMqo       = MAKE_VERSION(2, 0, 70,  1),
         pvEoa       = MAKE_VERSION(2, 1,  6, 10),
         pvHex       = MAKE_VERSION(3, 0,  0,  0),
         pvUniversal = -1,
@@ -115,7 +116,8 @@ public:
 
     bool isPrime() const { return fVersion == pvPrime; }
     bool isPots() const { return fVersion == pvPots; }
-    bool isMoul() const { return fVersion == pvMoul; }
+    bool isMoul() const { return fVersion == pvMoul || fVersion == pvMqo; }
+    bool isMqo() const { return fVersion == pvMqo; }
     bool isEoa() const { return fVersion == pvEoa; }
     bool isHexIsle() const { return fVersion == pvHex; }
 
@@ -127,7 +129,7 @@ public:
     bool isSafeVer() const
     {
         return fVersion == pvPrime || fVersion == pvPots || fVersion == pvMoul
-            || fVersion == pvEoa || fVersion == pvHex;
+            || fVersion == pvMqo || fVersion == pvEoa || fVersion == pvHex;
     }
 
     static const char* GetVersionName(PlasmaVer ver);

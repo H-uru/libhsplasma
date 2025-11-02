@@ -154,6 +154,10 @@ void plCameraMsg::read(hsStream* S, plResManager* mgr)
     fNewCam = mgr->readKey(S);
     fTriggerer = mgr->readKey(S);
     fConfig.read(S);
+
+    if (S->getVer().isMqo()) {
+        fUnknownMQO.read(S);
+    }
 }
 
 void plCameraMsg::write(hsStream* S, plResManager* mgr)
@@ -166,6 +170,10 @@ void plCameraMsg::write(hsStream* S, plResManager* mgr)
     mgr->writeKey(S, fNewCam);
     mgr->writeKey(S, fTriggerer);
     fConfig.write(S);
+
+    if (S->getVer().isMqo()) {
+        fUnknownMQO.write(S);
+    }
 }
 
 void plCameraMsg::IPrcWrite(pfPrcHelper* prc)
@@ -189,6 +197,10 @@ void plCameraMsg::IPrcWrite(pfPrcHelper* prc)
     prc->closeTag();
 
     fConfig.prcWrite(prc);
+
+    prc->writeSimpleTag("UnknownMQO");
+    fUnknownMQO.prcWrite(prc);
+    prc->closeTag();
 }
 
 void plCameraMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
@@ -207,6 +219,9 @@ void plCameraMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
             fTriggerer = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "plCameraConfig") {
         fConfig.prcParse(tag);
+    } else if (tag->getName() == "UnknownMQO") {
+        if (tag->hasChildren())
+            fUnknownMQO.prcParse(tag->getFirstChild());
     } else {
         plMessage::IPrcParse(tag, mgr);
     }

@@ -49,6 +49,10 @@ void plUoid::read(hsStream* S)
     unsigned char contents = 0;
     if (S->getVer() < MAKE_VERSION(2, 0, 63, 0) && S->getVer().isValid()) {
         contents = kHasCloneIDs;
+
+        if (S->getVer() > MAKE_VERSION(2, 0, 62, 0)) {
+            contents |= kHasLoadMask;
+        }
     } else {
         contents = S->readByte();
     }

@@ -24,7 +24,9 @@ const char* PlasmaVer::GetVersionName(PlasmaVer ver)
         case pvPots:
             return "PotS/CC";
         case pvMoul:
-            return "MOUL/MQO";
+            return "MOUL";
+        case pvMqo:
+            return "MQO";
         case pvEoa:
             return "Myst V/Crowthistle";
         case pvHex:
@@ -49,6 +51,8 @@ PlasmaVer PlasmaVer::GetSafestVersion(PlasmaVer ver)
         return pvPots;
     else if (ver <= pvMoul)
         return pvMoul;
+    else if (ver == pvMqo)
+        return pvMqo;
     else if (ver == pvEoa)
         return pvEoa;
     else if (ver == pvHex)
