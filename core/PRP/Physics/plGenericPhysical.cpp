@@ -416,7 +416,7 @@ void plGenericPhysical::IReadHKPhysical(hsStream* S, plResManager* mgr)
     float rad = S->readFloat();
     hsVector3 axis;
     axis.read(S);
-    fRot = hsQuat(rad, axis);
+    fRot = hsQuat(axis.X, axis.Y, axis.Z, rad);
 
     unsigned int hMemberGroup, hReportGroup, hCollideGroup;
     fMass = S->readFloat();
