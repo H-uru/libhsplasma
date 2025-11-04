@@ -9,7 +9,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libjpeg-turbo8-dev libpng-dev
+          sudo apt-get install -y libjpeg-turbo8-dev libpng-dev catch2
       - name: Build string_theory
         run: |
           mkdir -p build_deps && cd build_deps
