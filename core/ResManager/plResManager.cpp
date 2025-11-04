@@ -273,7 +273,7 @@ plPageInfo* plResManager::FindPage(const plLocation& loc)
 {
     std::vector<plPageInfo*>::iterator pi = pages.begin();
     while (pi != pages.end()) {
-        if ((*pi)->getLocation() == loc)
+        if ((*pi)->getLocation().isSamePage(loc))
             return *pi;
         pi++;
     }
@@ -282,16 +282,16 @@ plPageInfo* plResManager::FindPage(const plLocation& loc)
 
 void plResManager::UnloadPage(const plLocation& loc)
 {
-    // Make a copy, in case someone passed us the page's getLocation() reference
-    plLocation pageLoc = loc;
-
     for (auto it = pages.begin(); it != pages.end(); it++) {
-        if ((*it)->getLocation() == loc) {
+        if ((*it)->getLocation().isSamePage(loc)) {
+            // Copy the location so we can still use it
+            // after the plPageInfo has been deleted.
+            plLocation foundLocation = (*it)->getLocation();
             if (pageUnloadFunc)
-                pageUnloadFunc(loc);
+                pageUnloadFunc(foundLocation);
             delete *it;
             pages.erase(it);
-            keys.delAll(pageLoc);
+            keys.delAll(foundLocation);
             break;
         }
     }

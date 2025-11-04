@@ -61,11 +61,6 @@ bool plMD5Hash::operator==(const plMD5Hash& cmp) const
     return memcmp(fHash, cmp.fHash, sizeof(fHash)) == 0;
 }
 
-bool plMD5Hash::operator!=(const plMD5Hash& cmp) const
-{
-    return memcmp(fHash, cmp.fHash, sizeof(fHash)) != 0;
-}
-
 ST::string plMD5Hash::toHex() const
 {
     // Little-endian byte order

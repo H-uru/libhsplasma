@@ -34,10 +34,7 @@ struct HSPLASMA_EXPORT hsQuat
         return (X == other.X) && (Y == other.Y) && (Z == other.Z) && (W == other.W);
     }
 
-    bool operator!=(const hsQuat& other) const
-    {
-        return (X != other.X) || (Y != other.Y) || (Z != other.Z) || (W != other.W);
-    }
+    bool operator!=(const hsQuat& other) const { return !operator==(other); }
 
     hsQuat operator+(const hsQuat& rt) const
     {
