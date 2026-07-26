@@ -51,30 +51,42 @@ PY_PLASMA_RICHCOMPARE_DECL(Location)
 {
     bool result = false;
 
-    switch (op) {
-    case Py_LT:
-        result = ((*left->fThis) < (*right->fThis));
-        break;
-    case Py_LE:
-        result = ((*left->fThis) == (*right->fThis))
-               || ((*left->fThis) < (*right->fThis));
-        break;
-    case Py_EQ:
-        result = ((*left->fThis) == (*right->fThis));
-        break;
-    case Py_NE:
-        result = !((*left->fThis) == (*right->fThis));
-        break;
-    case Py_GT:
-        result = !((*left->fThis) < (*right->fThis))
-               && !((*left->fThis) == (*right->fThis));
-        break;
-    case Py_GE:
-        result = !((*left->fThis) < (*right->fThis));
-        break;
-    default:
-        PyErr_SetString(PyExc_RuntimeError, "Comparison failed");
-        return nullptr;
+    if (!pyLocation_Check((PyObject*)right)) {
+        if ((PyObject*)right == Py_None) {
+            if (op == Py_NE || op == Py_LT)
+                result = true;
+            else
+                result = false;
+        } else {
+            PyErr_SetString(PyExc_TypeError, "Incompatible types in comparison");
+            return nullptr;
+        }
+    } else {
+        switch (op) {
+        case Py_LT:
+            result = ((*left->fThis) < (*right->fThis));
+            break;
+        case Py_LE:
+            result = ((*left->fThis) == (*right->fThis))
+                   || ((*left->fThis) < (*right->fThis));
+            break;
+        case Py_EQ:
+            result = ((*left->fThis) == (*right->fThis));
+            break;
+        case Py_NE:
+            result = !((*left->fThis) == (*right->fThis));
+            break;
+        case Py_GT:
+            result = !((*left->fThis) < (*right->fThis))
+                   && !((*left->fThis) == (*right->fThis));
+            break;
+        case Py_GE:
+            result = !((*left->fThis) < (*right->fThis));
+            break;
+        default:
+            PyErr_SetString(PyExc_RuntimeError, "Comparison failed");
+            return nullptr;
+        }
     }
 
     return pyPlasma_convert(result);
