@@ -1,6 +1,8 @@
 // Subset of 3rdPartyLibs/AL/EFX-Util.h containing only the structures
 // used in the public API of plEAXListenerMod.
 
+#include "PlasmaDefs.h"
+
 #ifndef EAXVECTOR_DEFINED
 #define EAXVECTOR_DEFINED
 typedef struct _EAXVECTOR
@@ -15,19 +17,19 @@ typedef struct _EAXVECTOR
 #define EAXREVERBPROPERTIES_DEFINED
 typedef struct _EAXREVERBPROPERTIES
 {
-    unsigned long ulEnvironment;
+    uint32_t ulEnvironment;
     float flEnvironmentSize;
     float flEnvironmentDiffusion;
-    long lRoom;
-    long lRoomHF;
-    long lRoomLF;
+    int32_t lRoom;
+    int32_t lRoomHF;
+    int32_t lRoomLF;
     float flDecayTime;
     float flDecayHFRatio;
     float flDecayLFRatio;
-    long lReflections;
+    int32_t lReflections;
     float flReflectionsDelay;
     EAXVECTOR vReflectionsPan;
-    long lReverb;
+    int32_t lReverb;
     float flReverbDelay;
     EAXVECTOR vReverbPan;
     float flEchoTime;
@@ -38,6 +40,6 @@ typedef struct _EAXREVERBPROPERTIES
     float flHFReference;
     float flLFReference;
     float flRoomRolloffFactor;
-    unsigned long ulFlags;
+    uint32_t ulFlags;
 } EAXREVERBPROPERTIES, *LPEAXREVERBPROPERTIES;
 #endif

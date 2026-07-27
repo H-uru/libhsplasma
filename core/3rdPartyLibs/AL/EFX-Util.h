@@ -6,6 +6,8 @@
 *                                                                   *
 \*******************************************************************/
 
+#include "PlasmaDefs.h"
+
 #ifndef EAXVECTOR_DEFINED
 #define EAXVECTOR_DEFINED
 typedef struct _EAXVECTOR {
@@ -19,19 +21,19 @@ typedef struct _EAXVECTOR {
 #define EAXREVERBPROPERTIES_DEFINED
 typedef struct _EAXREVERBPROPERTIES
 {
-    unsigned long ulEnvironment;
+    uint32_t ulEnvironment;
     float flEnvironmentSize;
     float flEnvironmentDiffusion;
-    long lRoom;
-    long lRoomHF;
-    long lRoomLF;
+    int32_t lRoom;
+    int32_t lRoomHF;
+    int32_t lRoomLF;
     float flDecayTime;
     float flDecayHFRatio;
     float flDecayLFRatio;
-    long lReflections;
+    int32_t lReflections;
     float flReflectionsDelay;
     EAXVECTOR vReflectionsPan;
-    long lReverb;
+    int32_t lReverb;
     float flReverbDelay;
     EAXVECTOR vReverbPan;
     float flEchoTime;
@@ -42,7 +44,7 @@ typedef struct _EAXREVERBPROPERTIES
     float flHFReference;
     float flLFReference;
     float flRoomRolloffFactor;
-    unsigned long ulFlags;
+    uint32_t ulFlags;
 } EAXREVERBPROPERTIES, *LPEAXREVERBPROPERTIES;
 #endif
 
@@ -72,7 +74,7 @@ typedef struct
 	float flHFReference;
 	float flLFReference;
 	float flRoomRolloffFactor;
-	int	iDecayHFLimit;
+	int32_t iDecayHFLimit;
 } EFXEAXREVERBPROPERTIES, *LPEFXEAXREVERBPROPERTIES;
 #endif
 
@@ -80,7 +82,7 @@ typedef struct
 #define EAXOBSTRUCTIONPROPERTIES_DEFINED
 typedef struct _EAXOBSTRUCTIONPROPERTIES
 {
-    long          lObstruction;
+    int32_t       lObstruction;
     float         flObstructionLFRatio;
 } EAXOBSTRUCTIONPROPERTIES, *LPEAXOBSTRUCTIONPROPERTIES;
 #endif
@@ -89,7 +91,7 @@ typedef struct _EAXOBSTRUCTIONPROPERTIES
 #define EAXOCCLUSIONPROPERTIES_DEFINED
 typedef struct _EAXOCCLUSIONPROPERTIES
 {
-    long          lOcclusion;
+    int32_t       lOcclusion;
     float         flOcclusionLFRatio;
     float         flOcclusionRoomRatio;
     float         flOcclusionDirectRatio;
@@ -100,7 +102,7 @@ typedef struct _EAXOCCLUSIONPROPERTIES
 #define EAXEXCLUSIONPROPERTIES_DEFINED
 typedef struct _EAXEXCLUSIONPROPERTIES
 {
-    long          lExclusion;
+    int32_t       lExclusion;
     float         flExclusionLFRatio;
 } EAXEXCLUSIONPROPERTIES, *LPEAXEXCLUSIONPROPERTIES;
 #endif
