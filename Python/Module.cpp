@@ -137,6 +137,7 @@
 #include "PRP/Misc/pyAgeLinkInfo.h"
 #include "PRP/Misc/pyFogEnvironment.h"
 #include "PRP/Misc/pySpawnPointInfo.h"
+#include "PRP/Modifier/pyAxisAnimModifier.h"
 #include "PRP/Modifier/pyExcludeRegionModifier.h"
 #include "PRP/Modifier/pyFollowMod.h"
 #include "PRP/Modifier/pyInterfaceInfoModifier.h"
@@ -825,6 +826,7 @@ PyMODINIT_FUNC PyInit_PyHSPlasma()
     PyModule_AddObject(module, "plGrassShaderMod", Init_pyGrassShaderMod_Type());
     PyModule_AddObject(module, "plPhysicalSndGroup", Init_pyPhysicalSndGroup_Type());
     PyModule_AddObject(module, "plStereizer", Init_pyStereizer_Type());
+    PyModule_AddObject(module, "plAxisAnimModifier", Init_pyAxisAnimModifier_Type());
 
     PyModule_AddObject(module, "plSharedMesh", Init_pySharedMesh_Type());
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
