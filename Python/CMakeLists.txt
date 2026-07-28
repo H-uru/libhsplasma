@@ -429,6 +429,7 @@ set(PRP_MISC_HEADERS
 )
 
 set(PRP_MOD_SOURCES
+    PRP/Modifier/pyAxisAnimModifier.cpp
     PRP/Modifier/pyExcludeRegionModifier.cpp
     PRP/Modifier/pyFollowMod.cpp
     PRP/Modifier/pyInterfaceInfoModifier.cpp
@@ -451,6 +452,7 @@ set(PRP_MOD_SOURCES
     PRP/Modifier/pySpawnModifier.cpp
 )
 set(PRP_MOD_HEADERS
+    PRP/Modifier/pyAxisAnimModifier.h
     PRP/Modifier/pyExcludeRegionModifier.h
     PRP/Modifier/pyFollowMod.h
     PRP/Modifier/pyInterfaceInfoModifier.h

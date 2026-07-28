@@ -260,6 +260,7 @@
 #include "PRP/Misc/pyRenderLevel.h"
 #include "PRP/Misc/pyAgeLinkInfo.h"
 #include "PRP/Misc/pyFogEnvironment.h"
+#include "PRP/Modifier/pyAxisAnimModifier.h"
 #include "PRP/Modifier/pyExcludeRegionModifier.h"
 #include "PRP/Modifier/pyFollowMod.h"
 #include "PRP/Modifier/pyInterfaceInfoModifier.h"
@@ -621,6 +622,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kWarpMsg: return pyWarpMsg_FromWarpMsg(plWarpMsg::Convert(pCre));
         case kPhysicalSndGroup: return pyPhysicalSndGroup_FromPhysicalSndGroup(plPhysicalSndGroup::Convert(pCre));
         case kStereizer: return pyStereizer_FromStereizer(plStereizer::Convert(pCre));
+        case kAxisAnimModifier: return pyAxisAnimModifier_FromAxisAnimModifier(plAxisAnimModifier::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (pCre->ClassInstance(kMessage))
