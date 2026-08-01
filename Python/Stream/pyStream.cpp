@@ -44,12 +44,12 @@ PY_METHOD_VA(Stream, seek,
     "Params: position\n"
     "Seeks to the specified position within the stream")
 {
-    int32_t pos;
-    if (!PyArg_ParseTuple(args, "i", &pos)) {
-        PyErr_SetString(PyExc_TypeError, "seek expects an int");
+    uint32_t pos;
+    if (!PyArg_ParseTuple(args, "I", &pos)) {
+        PyErr_SetString(PyExc_TypeError, "seek expects an unsigned int");
         return nullptr;
     }
-    self->fThis->seek((uint32_t)pos);
+    self->fThis->seek(pos);
     Py_RETURN_NONE;
 }
 
@@ -58,8 +58,8 @@ PY_METHOD_VA(Stream, skip,
     "Skips `count` bytes within the stream")
 {
     uint32_t count;
-    if (!PyArg_ParseTuple(args, "i", &count)) {
-        PyErr_SetString(PyExc_TypeError, "skip expects an int");
+    if (!PyArg_ParseTuple(args, "I", &count)) {
+        PyErr_SetString(PyExc_TypeError, "skip expects an unsigned int");
         return nullptr;
     }
     self->fThis->skip(count);
@@ -88,8 +88,8 @@ PY_METHOD_VA(Stream, read,
     "Params: size\n"
     "Reads `size` bytes and returns a binary string with the data")
 {
-    int size;
-    if (!PyArg_ParseTuple(args, "i", &size)) {
+    Py_ssize_t size;
+    if (!PyArg_ParseTuple(args, "n", &size)) {
         PyErr_SetString(PyExc_TypeError, "read expects an int");
         return nullptr;
     }
