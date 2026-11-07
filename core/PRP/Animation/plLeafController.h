@@ -59,7 +59,10 @@ public:
     const std::vector<hsKeyFrame*>& getKeys() const { return fKeys; }
     const std::vector<class plEaseController*>& getEaseControllers() const { return fEaseControllers; }
 
+    /** Copy keyframes into the leaf controller, replacing any existing keyframes. */
     void setKeys(const std::vector<hsKeyFrame*>& keys, unsigned int type);
+
+    /** Copy ease controllers into the leaf controller, replacing any existing ease controllers. */
     void setEaseControllers(const std::vector<class plEaseController*>& controllers);
 };
 

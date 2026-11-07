@@ -100,8 +100,8 @@ PY_GETSET_SETTER_DECL(LeafController, keys)
             return -1;
         }
         keyframes.push_back(keyframe);
-        ((pyKeyFrame*)key)->fPyOwned = false;
     }
+    // The leaf controller copies the keyframes, so we do not need to transfer ownership here.
     self->fThis->setKeys(keyframes, keyType);
     return 0;
 }
@@ -133,8 +133,8 @@ PY_GETSET_SETTER_DECL(LeafController, easeControllers)
             return -1;
         }
         controllers[i] = ((pyEaseController*)itm)->fThis;
-        ((pyEaseController*)itm)->fPyOwned = false;
     }
+    // The leaf controller copies the ease controllers, so we do not need to transfer ownership here.
     self->fThis->setEaseControllers(controllers);
     return 0;
 }
