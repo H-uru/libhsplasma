@@ -102,25 +102,19 @@ PY_PLASMA_RICHCOMPARE_DECL(ServerGuid)
     }
 }
 
-PY_PLASMA_TYPE(ServerGuid, hsServerGuid, "plServerGuid wrapper")
-PY_PLASMA_TYPE_AS_MAPPING(ServerGuid)
+static PyType_Slot pyServerGuid_Slots[] = {
+    PY_TYPE_SLOT(Py_tp_doc, "plServerGuid wrapper"),
+    PY_TYPE_SLOT(Py_tp_dealloc, pyServerGuid_dealloc),
+    PY_TYPE_SLOT(Py_tp_init, pyServerGuid___init__),
+    PY_TYPE_SLOT(Py_tp_new, pyServerGuid_new),
+    PY_TYPE_SLOT(Py_tp_richcompare, pyServerGuid_richcompare),
+    PY_TYPE_SLOT(Py_tp_str, pyServerGuid_str),
+    PY_TYPE_SLOT(Py_mp_ass_subscript, pyServerGuid_mp_ass_subscript),
+    PY_TYPE_SLOT(Py_mp_length, pyServerGuid_length),
+    PY_TYPE_SLOT(Py_mp_subscript, pyServerGuid_mp_subscript),
+    PY_TYPE_SLOT_TERMINATOR
+};
 
-PY_PLASMA_TYPE_INIT(ServerGuid)
-{
-    pyServerGuid_As_Mapping.mp_length = pyServerGuid_length;
-    pyServerGuid_As_Mapping.mp_subscript = pyServerGuid_mp_subscript;
-    pyServerGuid_As_Mapping.mp_ass_subscript = pyServerGuid_mp_ass_subscript;
-    pyServerGuid_Type.tp_dealloc = pyServerGuid_dealloc;
-    pyServerGuid_Type.tp_init = pyServerGuid___init__;
-    pyServerGuid_Type.tp_new = pyServerGuid_new;
-    pyServerGuid_Type.tp_as_mapping = &pyServerGuid_As_Mapping;
-    pyServerGuid_Type.tp_str = pyServerGuid_str;
-    pyServerGuid_Type.tp_richcompare = pyServerGuid_richcompare;
-    if (PyType_CheckAndReady(&pyServerGuid_Type) < 0)
-        return nullptr;
-
-    Py_INCREF(&pyServerGuid_Type);
-    return (PyObject*)&pyServerGuid_Type;
-}
+PY_PLASMA_TYPE_NO_BASE(ServerGuid, "hsServerGuid") { }
 
 PY_PLASMA_VALUE_IFC_METHODS(ServerGuid, plServerGuid)

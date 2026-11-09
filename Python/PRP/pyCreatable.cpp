@@ -135,19 +135,15 @@ static PyMethodDef pyCreatable_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_PLASMA_TYPE(Creatable, plCreatable, "plCreatable wrapper")
+static PyType_Slot pyCreatable_Slots[] = {
+    PY_TYPE_SLOT(Py_tp_doc, "plCreatable wrapper"),
+    PY_TYPE_SLOT(Py_tp_dealloc, pyCreatable_dealloc),
+    PY_TYPE_SLOT(Py_tp_init, pyCreatable___init__),
+    PY_TYPE_SLOT(Py_tp_methods, pyCreatable_Methods),
+    PY_TYPE_SLOT(Py_tp_new, pyCreatable_new),
+    PY_TYPE_SLOT_TERMINATOR
+};
 
-PY_PLASMA_TYPE_INIT(Creatable)
-{
-    pyCreatable_Type.tp_dealloc = pyCreatable_dealloc;
-    pyCreatable_Type.tp_init = pyCreatable___init__;
-    pyCreatable_Type.tp_new = pyCreatable_new;
-    pyCreatable_Type.tp_methods = pyCreatable_Methods;
-    if (PyType_CheckAndReady(&pyCreatable_Type) < 0)
-        return nullptr;
-
-    Py_INCREF(&pyCreatable_Type);
-    return (PyObject*)&pyCreatable_Type;
-}
+PY_PLASMA_TYPE_NO_BASE(Creatable, "plCreatable") { }
 
 PY_PLASMA_IFC_METHODS(Creatable, plCreatable)

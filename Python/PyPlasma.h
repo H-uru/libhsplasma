@@ -30,8 +30,6 @@ ST::string PyAnyString_AsSTString(PyObject* str);
 int PyAnyString_PathDecoder(PyObject* obj, void* str);
 #define PyAnyString_Check(ob) (PyUnicode_Check(ob) || PyBytes_Check(ob))
 
-int PyType_CheckAndReady(PyTypeObject* type);
-
 // The Python API insists that character constants are "char *" without the
 // const. Sane compilers complain about this (with good reason). Therefore:
 template <size_t size>
@@ -71,7 +69,7 @@ struct pySequenceFastRef
         plType* fThis;                                          \
         bool fPyOwned;                                          \
     };                                                          \
-    extern PyTypeObject py##pyType##_Type;                      \
+    extern PyTypeObject* py##pyType##_Type;                     \
     PyObject* Init_py##pyType##_Type();                         \
     int py##pyType##_Check(PyObject* obj);                      \
     PyObject* py##pyType##_From##pyType(plType*);
@@ -84,7 +82,7 @@ struct pySequenceFastRef
         PyObject_HEAD                                           \
         plType* fThis;                                          \
     };                                                          \
-    extern PyTypeObject py##pyType##_Type;                      \
+    extern PyTypeObject* py##pyType##_Type;                     \
     PyObject* Init_py##pyType##_Type();                         \
     int py##pyType##_Check(PyObject* obj);                      \
     PyObject* py##pyType##_From##pyType(const plType&);
@@ -92,8 +90,8 @@ struct pySequenceFastRef
 #define PY_PLASMA_CHECK_TYPE(pyType)                                    \
     int py##pyType##_Check(PyObject* obj)                               \
     {                                                                   \
-        if (obj->ob_type == &py##pyType##_Type                          \
-            || PyType_IsSubtype(obj->ob_type, &py##pyType##_Type))      \
+        if (obj->ob_type == py##pyType##_Type                           \
+            || PyType_IsSubtype(obj->ob_type, py##pyType##_Type))       \
             return 1;                                                   \
         return 0;                                                       \
     }
@@ -104,7 +102,7 @@ struct pySequenceFastRef
     {                                                                   \
         if (!obj)                                                       \
             Py_RETURN_NONE;                                             \
-        py##pyType* pyobj = PyObject_New(py##pyType, &py##pyType##_Type); \
+        py##pyType* pyobj = PyObject_New(py##pyType, py##pyType##_Type); \
         pyobj->fThis = obj;                                             \
         pyobj->fPyOwned = false;                                        \
         return (PyObject*)pyobj;                                        \
@@ -114,7 +112,7 @@ struct pySequenceFastRef
     PY_PLASMA_CHECK_TYPE(pyType)                                        \
     PyObject* py##pyType##_From##pyType(const plType& obj)              \
     {                                                                   \
-        py##pyType* pyobj = PyObject_New(py##pyType, &py##pyType##_Type); \
+        py##pyType* pyobj = PyObject_New(py##pyType, py##pyType##_Type); \
         pyobj->fThis = new plType(obj);                                 \
         return (PyObject*)pyobj;                                        \
     }
@@ -555,81 +553,57 @@ template <> inline plKeyDef pyPlasma_get(PyObject* value) { return (plKeyDef)PyL
 
 #define PY_METHOD_TERMINATOR { nullptr, nullptr, 0, nullptr }
 
-/* Helpers for declaring and populating the master PyTypeObject structure */
+#define PY_TYPE_SLOT(name, func)                                        \
+    { name, (void*)func }
 
-// tp_print moved to the end, and two new vectorcall fields inserted in Python 3.8...
-// tp_print removed entirely from Python 3.9...
-#if (PY_MAJOR_VERSION >= 4) || ((PY_MAJOR_VERSION == 3) && (PY_MINOR_VERSION >= 8))
-    #define _TP_PRINT_OR_VECTORCALL_OFFSET 0
-#if (PY_MAJOR_VERSION == 3) && (PY_MINOR_VERSION == 8)
-    #define _TP_VECTORCALL_PRINT nullptr, nullptr,
-#else
-    #define _TP_VECTORCALL_PRINT nullptr,
-#endif
-#else
-    #define _TP_PRINT_OR_VECTORCALL_OFFSET nullptr
-    #define _TP_VECTORCALL_PRINT
-#endif
+#define PY_TYPE_SLOT_TERMINATOR                                         \
+      { 0, nullptr }
 
-#if (PY_MAJOR_VERSION >= 4) || ((PY_MAJOR_VERSION == 3) && (PY_MINOR_VERSION >= 12))
-    #define _TP_WATCHED_INIT 0,
-#else
-    #define _TP_WATCHED_INIT
-#endif
+#define PY_PLASMA_TYPE(pyType, classname, pyBaseType, basename)         \
+    PyTypeObject* py##pyType##_Type = nullptr;                          \
+    static void IInit_py##pyType##_Type();                              \
+    PyObject* Init_py##pyType##_Type() {                                \
+        if (pyBaseType == nullptr) {                                    \
+            PySys_WriteStderr(                                          \
+                "ERROR: Base " basename " for type " classname " "      \
+                "is not initialized.\nClasses derived from "            \
+                basename " WILL NOT WORK CORRECTLY\n"                   \
+            );                                                          \
+            PyErr_SetString(                                            \
+                 PyExc_SystemError,                                     \
+                 "Base " basename " for type " classname " is not "     \
+                 "initialized"                                          \
+            );                                                          \
+            return nullptr;                                             \
+        }                                                               \
+        PyType_Spec spec{                                               \
+            "PyHSPlasma." classname,                                    \
+             sizeof(py##pyType), 0,                                     \
+             Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,                  \
+             py##pyType##_##Slots                                       \
+        };                                                              \
+        /* Python <3.10 requires a tuple of bases. */                   \
+        PyObject* bases = PyTuple_Pack(1, pyBaseType);                  \
+        py##pyType##_Type = (PyTypeObject*)PyType_FromSpecWithBases(    \
+             &spec,                                                     \
+             bases                                                      \
+        );                                                              \
+        Py_DECREF(bases);                                               \
+        if (py##pyType##_Type == nullptr)                               \
+            return nullptr;                                             \
+        IInit_py##pyType##_Type();                                      \
+        Py_INCREF(py##pyType##_Type);                                   \
+        return (PyObject*)py##pyType##_Type;                            \
+    }                                                                   \
+    static void IInit_py##pyType##_Type()
 
-#if (PY_MAJOR_VERSION >= 4) || ((PY_MAJOR_VERSION == 3) && (PY_MINOR_VERSION >= 13))
-    #define _TP_VERSIONS_USED 0,
-#else
-    #define _TP_VERSIONS_USED
-#endif
-
-#define PY_PLASMA_TYPE(pyType, classname, doctext)                      \
-    PyTypeObject py##pyType##_Type = {                                  \
-        PyVarObject_HEAD_INIT(nullptr, 0)                               \
-        "PyHSPlasma." #classname,                                       \
-        sizeof(py##pyType), 0,                                          \
-        nullptr, _TP_PRINT_OR_VECTORCALL_OFFSET,                        \
-        nullptr, nullptr, nullptr, nullptr,                             \
-        nullptr, nullptr, nullptr,                                      \
-        nullptr, nullptr, nullptr, nullptr, nullptr,                    \
-        nullptr,                                                        \
-        Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,                       \
-        doctext,                                                        \
-        nullptr, nullptr, nullptr, 0, nullptr, nullptr,                 \
-        nullptr, nullptr, nullptr, nullptr, nullptr,                    \
-        nullptr, nullptr, 0,                                            \
-        nullptr, nullptr, nullptr, nullptr, nullptr,                    \
-        nullptr, nullptr, nullptr, nullptr, nullptr,                    \
-        nullptr, 0,                                                     \
-        nullptr,                                                        \
-        _TP_VECTORCALL_PRINT                                            \
-        _TP_WATCHED_INIT                                                \
-        _TP_VERSIONS_USED                                               \
-    };
-
-#define PY_PLASMA_TYPE_AS_NUMBER(pyType)                                \
-    static PyNumberMethods py##pyType##_As_Number = {                   \
-        nullptr, nullptr, nullptr,                                      \
-        nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,  \
-        nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,           \
-        nullptr, nullptr, nullptr,                                      \
-        nullptr, nullptr, nullptr,                                      \
-        nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,  \
-        nullptr, nullptr, nullptr, nullptr,                             \
-        nullptr,                                                        \
-        nullptr, nullptr,                                               \
-    };
-
-#define PY_PLASMA_TYPE_AS_MAPPING(pyType)                               \
-    static PyMappingMethods py##pyType##_As_Mapping = {                 \
-        nullptr, nullptr, nullptr,                                      \
-    };
-
-#define PY_PLASMA_TYPE_INIT(pyType)                                     \
-    PyObject* Init_py##pyType##_Type()
+#define PY_PLASMA_TYPE_NO_BASE(pyType, classname)                       \
+    PY_PLASMA_TYPE(pyType, classname, &PyBaseObject_Type, "object")
+#define PY_PLASMA_TYPE_WITH_BASE(pyType, classname, pyBaseType, basename) \
+    PY_PLASMA_TYPE(pyType, classname, py##pyBaseType##_Type, basename)
 
 #define PY_TYPE_ADD_CONST(pyType, name, value)                          \
-    PyDict_SetItemString(py##pyType##_Type.tp_dict, name,               \
+    PyDict_SetItemString(py##pyType##_Type->tp_dict, name,              \
                          pyPlasma_convert(value))
 
 #ifndef Py_SET_TYPE

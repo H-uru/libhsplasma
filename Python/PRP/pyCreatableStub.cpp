@@ -57,19 +57,17 @@ static PyMethodDef pyCreatableStub_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_PLASMA_TYPE(CreatableStub, plCreatableStub, "plCreatableStub wrapper")
+static PyType_Slot pyCreatableStub_Slots[] = {
+    PY_TYPE_SLOT(Py_tp_doc, "plCreatableStub wrapper"),
+    PY_TYPE_SLOT(Py_tp_init, pyCreatableStub___init__),
+    PY_TYPE_SLOT(Py_tp_methods, pyCreatableStub_Methods),
+    PY_TYPE_SLOT(Py_tp_new, pyCreatableStub_new),
+    PY_TYPE_SLOT_TERMINATOR
+};
 
-PY_PLASMA_TYPE_INIT(CreatableStub)
-{
-    pyCreatableStub_Type.tp_init = pyCreatableStub___init__;
-    pyCreatableStub_Type.tp_new = pyCreatableStub_new;
-    pyCreatableStub_Type.tp_methods = pyCreatableStub_Methods;
-    pyCreatableStub_Type.tp_base = &pyCreatable_Type;
-    if (PyType_CheckAndReady(&pyCreatableStub_Type) < 0)
-        return nullptr;
-
-    Py_INCREF(&pyCreatableStub_Type);
-    return (PyObject*)&pyCreatableStub_Type;
-}
+PY_PLASMA_TYPE_WITH_BASE(
+    CreatableStub, "plCreatableStub",
+    Creatable, "plCreatable"
+) { }
 
 PY_PLASMA_IFC_METHODS(CreatableStub, plCreatableStub)
