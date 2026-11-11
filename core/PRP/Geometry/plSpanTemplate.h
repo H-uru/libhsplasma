@@ -30,7 +30,9 @@ public:
         kWgtIdxMask = 0x8,
         kUVWMask = 0xF0,
         kWeightMask = 0x300,
-        kColor2Mask = 0x400
+        kColor2Mask = 0x400,
+
+        kMaxNumUVChannels = 8,
     };
 
     struct HSPLASMA_EXPORT Vertex

@@ -50,6 +50,8 @@ void plGeometrySpan::read(hsStream* S)
     } else {
         fFormat = S->readByte();
     }
+    if ((fFormat & kUVCountMask) > kMaxNumUVChannels)
+        throw hsBadParamException(__FILE__, __LINE__, "Too many UVW channels in plGeometrySpan");
     fProps = S->readInt();
     fNumVerts = S->readInt();
     uint32_t numIndices = S->readInt();
@@ -263,6 +265,8 @@ void plGeometrySpan::prcParse(const pfPrcTag* tag)
     fMinDist = tag->getParam("MinDist", "0").to_float();
     fMaxDist = tag->getParam("MaxDist", "0").to_float();
     fFormat = tag->getParam("Format", "0").to_uint();
+    if ((fFormat & kUVCountMask) > kMaxNumUVChannels)
+        throw pfPrcParseException(__FILE__, __LINE__, "Too many UVW channels in plGeometrySpan");
     fProps = tag->getParam("Props", "0").to_uint();
     fDecalLevel = tag->getParam("DecalLevel", "0").to_uint();
     fWaterHeight = tag->getParam("WaterHeight", "0").to_float();

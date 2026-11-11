@@ -31,6 +31,11 @@ void plSpanTemplate::read(hsStream* S)
 
     fNumVerts = S->readShort();
     setFormat(S->readShort());
+    if ((fFormat & kUVWMask) / 0x10 > kMaxNumUVChannels) {
+        fData = nullptr;
+        fIndices = nullptr;
+        throw hsBadParamException(__FILE__, __LINE__, "Too many UVW channels in plSpanTemplate");
+    }
     fNumTris = S->readShort();
     fData = new unsigned char[fNumVerts * fStride];
     fIndices = new unsigned short[fNumTris * 3];
@@ -114,6 +119,8 @@ void plSpanTemplate::prcParse(const pfPrcTag* tag)
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
     fFormat = tag->getParam("Format", "0").to_uint();
+    if ((fFormat & kUVWMask) / 0x10 > kMaxNumUVChannels)
+        throw pfPrcParseException(__FILE__, __LINE__, "Too many UVW channels in plSpanTemplate");
     const pfPrcTag* child = tag->getFirstChild();
     while (child) {
         if (child->getName() == "Vertices") {

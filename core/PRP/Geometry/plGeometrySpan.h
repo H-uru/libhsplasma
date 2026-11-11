@@ -73,7 +73,7 @@ public:
         hsVector3 fPosition, fNormal;
         unsigned int fColor, fSpecularColor;
         hsColorRGBA fMultColor, fAddColor;
-        hsVector3 fUVs[8];
+        hsVector3 fUVs[kMaxNumUVChannels];
         float fWeights[3];
         unsigned int fIndices;
     };

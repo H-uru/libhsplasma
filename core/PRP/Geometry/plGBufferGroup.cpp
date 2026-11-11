@@ -161,6 +161,8 @@ void plGBufferGroup::read(hsStream* S)
         throw hsNotImplementedException(__FILE__, __LINE__, "HexIsle GBufferGroup");
     } else {
         fFormat = S->readByte();
+        if ((fFormat & kUVCountMask) > kMaxNumUVChannels)
+            throw hsBadParamException(__FILE__, __LINE__, "Too many UVW channels in plGBufferGroup");
         S->readInt();
         fStride = ICalcVertexSize(fLiteStride);
     }
@@ -351,6 +353,8 @@ void plGBufferGroup::prcParse(const pfPrcTag* tag)
     if (tag->getName() != "plGBufferGroup")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     fFormat = tag->getParam("Format", "0").to_uint();
+    if ((fFormat & kUVCountMask) > kMaxNumUVChannels)
+        throw pfPrcParseException(__FILE__, __LINE__, "Too many UVW channels in plGBufferGroup");
     fStride = ICalcVertexSize(fLiteStride);
 
     clearVertices();
