@@ -72,4 +72,4 @@ PY_PLASMA_TYPE_INIT(CreatableStub)
     return (PyObject*)&pyCreatableStub_Type;
 }
 
-PY_PLASMA_IFC_METHODS(CreatableStub, const plCreatableStub)
+PY_PLASMA_IFC_METHODS(CreatableStub, plCreatableStub)

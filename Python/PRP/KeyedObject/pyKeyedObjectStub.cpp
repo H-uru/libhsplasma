@@ -22,12 +22,22 @@
 
 PY_PLASMA_INIT_DECL(KeyedObjectStub)
 {
+    pyCreatableStub* stubObj;
     const char* name = "";
-    if (!PyArg_ParseTuple(args, "|s", &name)) {
-        PyErr_SetString(PyExc_TypeError, "__init__ expects an optional string");
+    if (!PyArg_ParseTuple(args, "O|s", &stubObj, &name)) {
+        PyErr_SetString(PyExc_TypeError, "__init__ expects a plCreatableStub and an optional string");
         return -1;
     }
 
+    if (stubObj == nullptr || !pyCreatableStub_Check((PyObject*)stubObj)) {
+        PyErr_SetString(PyExc_TypeError, "__init__ expects a plCreatableStub and an optional string");
+        return -1;
+    }
+
+    // A stub object must be passed in because the hsKeyedObjectStub dereferences
+    // it in `init()` to set the key's class type.
+    stubObj->fPyOwned = false;
+    self->fThis->setStub(stubObj->fThis);
     self->fThis->init(name);
     return 0;
 }
@@ -48,7 +58,7 @@ PY_PLASMA_TYPE_INIT(KeyedObjectStub)
     pyKeyedObjectStub_Type.tp_init = pyKeyedObjectStub___init__;
     pyKeyedObjectStub_Type.tp_new = pyKeyedObjectStub_new;
     pyKeyedObjectStub_Type.tp_getset = pyKeyedObjectStub_GetSet;
-    pyKeyedObjectStub_Type.tp_base = &pyCreatable_Type;
+    pyKeyedObjectStub_Type.tp_base = &pyKeyedObject_Type;
     if (PyType_CheckAndReady(&pyKeyedObjectStub_Type) < 0)
         return nullptr;
 
