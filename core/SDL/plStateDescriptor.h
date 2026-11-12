@@ -117,7 +117,11 @@ public:
 
     plVarDescriptor* get(size_t idx) { return fVariables[idx]; }
     plVarDescriptor* get(const ST::string& name);
-    void set(size_t idx, plVarDescriptor* var) { fVariables[idx] = var; }
+    void set(size_t idx, plVarDescriptor* var)
+    {
+        delete fVariables[idx];
+        fVariables[idx] = var;
+    }
     void set(const ST::string& name, plVarDescriptor* var);
 
     size_t getNumVars() const { return fVariables.size(); }

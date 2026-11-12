@@ -240,9 +240,11 @@ void plStateDescriptor::set(const ST::string& name, plVarDescriptor* var)
         if (fVariables[i]->getName() == name)
             idx = i;
     if (idx == (size_t)-1) {
-        fVariables.push_back(new plVarDescriptor());
+        fVariables.push_back(nullptr);
         idx = fVariables.size() - 1;
     }
+
+    delete fVariables[idx];
     fVariables[idx] = var;
 }
 
