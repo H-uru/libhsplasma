@@ -28,7 +28,7 @@ PY_PLASMA_INIT_DECL(PrcHelper)
         return -1;
     }
 
-    *(self->fThis) = pfPrcHelper(stream->fThis);
+    self->fThis = new pfPrcHelper(stream->fThis);
     return 0;
 }
 
