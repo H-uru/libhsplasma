@@ -20,7 +20,7 @@
 #include "PyPlasma.h"
 
 PY_WRAP_PLASMA(Creatable, class plCreatable);
-PY_WRAP_PLASMA(CreatableStub, const class plCreatableStub);
+PY_WRAP_PLASMA(CreatableStub, class plCreatableStub);
 
 PyObject* ICreate(class plCreatable* pCre);
 
