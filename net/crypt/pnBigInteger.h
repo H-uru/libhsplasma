@@ -49,8 +49,8 @@ public:
     // Comparison
     bool operator==(const pnBigInteger& num) const;
     bool operator==(unsigned int num) const;
-    bool operator!=(const pnBigInteger& num) const;
-    bool operator!=(unsigned int num) const;
+    bool operator!=(const pnBigInteger& num) const { return !operator==(num); }
+    bool operator!=(unsigned int num) const { return !operator==(num); }
     bool operator<(const pnBigInteger& num) const;
     bool operator<(unsigned int num) const;
     bool operator>(const pnBigInteger& num) const;

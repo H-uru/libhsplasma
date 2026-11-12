@@ -104,16 +104,6 @@ bool pnBigInteger::operator==(unsigned int num) const
     return BN_is_word(fValue, num) != 0;
 }
 
-bool pnBigInteger::operator!=(const pnBigInteger& num) const
-{
-    return BN_cmp(fValue, num.fValue) != 0;
-}
-
-bool pnBigInteger::operator!=(unsigned int num) const
-{
-    return BN_is_word(fValue, num) == 0;
-}
-
 bool pnBigInteger::operator<(const pnBigInteger& num) const
 {
     return BN_cmp(fValue, num.fValue) < 0;

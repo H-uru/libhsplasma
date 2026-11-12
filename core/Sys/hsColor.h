@@ -45,7 +45,7 @@ public:
     void set(const hsColorRGBA& init);
 
     bool operator==(const hsColorRGBA& other) const;
-    bool operator!=(const hsColorRGBA& other) const;
+    bool operator!=(const hsColorRGBA& other) const { return !operator==(other); }
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -74,7 +74,7 @@ public:
         : b(blue), g(green), r(red), a(alpha) { }
 
     bool operator==(const hsColor32& other) const;
-    bool operator!=(const hsColor32& other) const;
+    bool operator!=(const hsColor32& other) const { return !operator==(other); }
 
     void read32(hsStream* S);
     void write32(hsStream* S);

@@ -63,7 +63,7 @@ public:
     plUnifiedTime& operator+=(const plUnifiedTime& other);
     plUnifiedTime& operator-=(const plUnifiedTime& other);
     bool operator==(const plUnifiedTime& other);
-    bool operator!=(const plUnifiedTime& other);
+    bool operator!=(const plUnifiedTime& other) { return !operator==(other); }
     bool operator<(const plUnifiedTime& other);
     bool operator>(const plUnifiedTime& other);
     bool operator<=(const plUnifiedTime& other);

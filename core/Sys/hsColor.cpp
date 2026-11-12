@@ -49,11 +49,6 @@ bool hsColorRGBA::operator==(const hsColorRGBA& other) const
     return (r == other.r) && (g == other.g) && (b == other.b) && (a == other.a);
 }
 
-bool hsColorRGBA::operator!=(const hsColorRGBA& other) const
-{
-    return (r != other.r) || (g != other.g) || (b != other.b) || (a != other.a);
-}
-
 void hsColorRGBA::read(hsStream* S)
 {
     r = S->readFloat();
@@ -111,11 +106,6 @@ void hsColorRGBA::prcParse(const pfPrcTag* tag)
 bool hsColor32::operator==(const hsColor32& other) const
 {
     return (color == other.color);
-}
-
-bool hsColor32::operator!=(const hsColor32& other) const
-{
-    return (color != other.color);
 }
 
 void hsColor32::read32(hsStream* S)

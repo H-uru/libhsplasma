@@ -127,6 +127,7 @@ struct HSPLASMANET_EXPORT pnVaultNodeRef
     void read(const unsigned char* buffer);
     void write(unsigned char* buffer);
     bool operator==(const pnVaultNodeRef& ref) const;
+    bool operator!=(const pnVaultNodeRef& ref) const { return !operator==(ref); }
 };
 
 #endif

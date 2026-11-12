@@ -53,8 +53,11 @@ public:
     void setVer(PlasmaVer pv) { fVer = pv; }
 
     bool operator==(const plLocation& other) const;
-    bool operator!=(const plLocation& other) const;
+    bool operator!=(const plLocation& other) const { return !operator==(other); }
     bool operator<(const plLocation& other) const;
+
+    /** Compare two locations only by their state and sequence number, ignoring flags. */
+    bool isSamePage(const plLocation& other) const;
 
     void parse(unsigned int id);
     unsigned int unparse() const;

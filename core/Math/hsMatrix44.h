@@ -45,6 +45,7 @@ public:
     float operator()(int y, int x) const { return data[y+(x*4)]; }
     float& operator()(int y, int x) { return data[y+(x*4)]; }
     bool operator==(const hsMatrix44& other) const;
+    bool operator!=(const hsMatrix44& other) const { return !operator==(other); }
     const float* glMatrix() const { return data; }
 
     hsMatrix44 operator*(const hsMatrix44& right) const;
