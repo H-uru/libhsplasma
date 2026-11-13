@@ -80,7 +80,12 @@ public:
         kSkin3Weights = 0x30,
         kSkinWeightMask = 0x30,
         kSkinIndices = 0x40,
-        kEncoded = 0x80
+        kEncoded = 0x80,
+
+        // Pipeline-wide safe maximum number of UVW channels: fUVWs[10] and the
+        // vertex coder's fFloats room both constrain this, and the smaller bound
+        // (the coder) is 8. A format with more is rejected on read.
+        kMaxNumUVChannels = 8,
     };
 
     enum GeometryStorage

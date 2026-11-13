@@ -18,24 +18,18 @@
 #include <string_theory/format>
 #include <cstring>
 
-plSpanTemplate::~plSpanTemplate()
-{
-    delete[] fData;
-    delete[] fIndices;
-}
-
 void plSpanTemplate::read(hsStream* S)
 {
-    delete[] fData;
-    delete[] fIndices;
+    fData.reset();
+    fIndices.reset();
 
     fNumVerts = S->readShort();
     setFormat(S->readShort());
     fNumTris = S->readShort();
-    fData = new unsigned char[fNumVerts * fStride];
-    fIndices = new unsigned short[fNumTris * 3];
-    S->read(fStride * fNumVerts, fData);
-    S->read(fNumTris * 3 * sizeof(unsigned short), fIndices);
+    fData = std::make_unique<unsigned char[]>(fNumVerts * fStride);
+    fIndices = std::make_unique<unsigned short[]>(fNumTris * 3);
+    S->read(fStride * fNumVerts, fData.get());
+    S->read(fNumTris * 3 * sizeof(unsigned short), fIndices.get());
 }
 
 void plSpanTemplate::write(hsStream* S)
@@ -43,8 +37,8 @@ void plSpanTemplate::write(hsStream* S)
     S->writeShort(fNumVerts);
     S->writeShort(fFormat);
     S->writeShort(fNumTris);
-    S->write(fStride * fNumVerts, fData);
-    S->write(fNumTris * 3 * sizeof(unsigned short), fIndices);
+    S->write(fStride * fNumVerts, fData.get());
+    S->write(fNumTris * 3 * sizeof(unsigned short), fIndices.get());
 }
 
 void plSpanTemplate::prcWrite(pfPrcHelper* prc)
@@ -113,7 +107,7 @@ void plSpanTemplate::prcParse(const pfPrcTag* tag)
     if (tag->getName() != "plSpanTemplate")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    fFormat = tag->getParam("Format", "0").to_uint();
+    setFormat(tag->getParam("Format", "0").to_uint());
     const pfPrcTag* child = tag->getFirstChild();
     while (child) {
         if (child->getName() == "Vertices") {
@@ -159,7 +153,7 @@ void plSpanTemplate::prcParse(const pfPrcTag* tag)
             setVertices(verts);
         } else if (child->getName() == "Indices") {
             fNumTris = child->countChildren();
-            fIndices = new unsigned short[fNumTris * 3];
+            fIndices = std::make_unique<unsigned short[]>(fNumTris * 3);
             const pfPrcTag* idxChild = child->getFirstChild();
             for (size_t i=0; i<(size_t)(fNumTris * 3); i += 3) {
                 std::list<ST::string> idxList = idxChild->getContents();
@@ -181,7 +175,7 @@ void plSpanTemplate::prcParse(const pfPrcTag* tag)
 std::vector<plSpanTemplate::Vertex> plSpanTemplate::getVertices() const
 {
     std::vector<Vertex> verts(fNumVerts);
-    unsigned char* dataPtr = fData;
+    unsigned char* dataPtr = fData.get();
     for (size_t i=0; i<fNumVerts; i++) {
         if (fFormat & kPosMask) {
             verts[i].fPosition.X = *(float*)dataPtr;
@@ -233,17 +227,15 @@ std::vector<plSpanTemplate::Vertex> plSpanTemplate::getVertices() const
 
 void plSpanTemplate::setVertices(const std::vector<Vertex>& verts)
 {
-    delete[] fData;
-    if (verts.empty()) {
-        fData = nullptr;
+    fData.reset();
+    if (verts.empty())
         return;
-    }
 
     fStride = CalcStride(fFormat);
     fNumVerts = verts.size();
-    fData = new unsigned char[fNumVerts * fStride];
+    fData = std::make_unique<unsigned char[]>(fNumVerts * fStride);
 
-    unsigned char* dataPtr = fData;
+    unsigned char* dataPtr = fData.get();
     for (size_t i=0; i<fNumVerts; i++) {
         if (fFormat & kPosMask) {
             *(float*)dataPtr = verts[i].fPosition.X;
@@ -294,18 +286,19 @@ void plSpanTemplate::setVertices(const std::vector<Vertex>& verts)
 
 void plSpanTemplate::setIndices(unsigned short count, const unsigned short* indices)
 {
-    delete[] fIndices;
-    if (count == 0) {
-        fIndices = nullptr;
+    fIndices.reset();
+    if (count == 0)
         return;
-    }
-    fIndices = new unsigned short[count];
-    memcpy(fIndices, indices, count * sizeof(unsigned short));
+    fIndices = std::make_unique<unsigned short[]>(count);
+    memcpy(fIndices.get(), indices, count * sizeof(unsigned short));
 }
 
 void plSpanTemplate::setFormat(unsigned short fmt)
 {
     fFormat = fmt;
+    if ((fFormat & kUVWMask) / 0x10 > kMaxNumUVChannels)
+        throw hsBadParamException(__FILE__, __LINE__, "Too many UVW channels in plSpanTemplate");
+
     fStride = CalcStride(fFormat);
 }
 

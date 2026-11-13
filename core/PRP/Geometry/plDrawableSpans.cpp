@@ -61,6 +61,7 @@ void plDrawableSpans::read(hsStream* S, plResManager* mgr)
         fIcicles[i]->read(S);
     }
 
+    fParticleSpans.clear();
     if (!S->getVer().isHexIsle()) {
         if (S->readInt() != 0)
             throw hsBadParamException(__FILE__, __LINE__, "Unsupported field count > 0");
@@ -68,13 +69,9 @@ void plDrawableSpans::read(hsStream* S, plResManager* mgr)
 
     fSpans.resize(S->readInt());
     fSpanSourceIndices.resize(fSpans.size());
-    for (size_t i=0; i<fSpanSourceIndices.size(); i++) {
+    for (size_t i=0; i<fSpanSourceIndices.size(); i++)
         fSpanSourceIndices[i] = S->readInt();
-        if ((fSpanSourceIndices[i] & kSpanTypeMask) == kSpanTypeIcicle)
-            fSpans[i] = fIcicles[fSpanSourceIndices[i] & kSpanIDMask];
-        else if ((fSpanSourceIndices[i] & kSpanTypeMask) == kSpanTypeParticleSpan)
-            fSpans[i] = fParticleSpans[fSpanSourceIndices[i] & kSpanIDMask];
-    }
+    checkAndMapSourceSpans();
 
     for (size_t i=0; i<fSpans.size(); i++)
         fSpans[i]->setFogEnvironment(mgr->readKey(S));
@@ -105,13 +102,16 @@ void plDrawableSpans::read(hsStream* S, plResManager* mgr)
     fSourceSpans.resize(S->readInt());
     if (fSourceSpans.size() > 0 && !S->getVer().isUniversal())
         plDebug::Debug("Reading deprecated SourceSpans");
+    if (fSourceSpans.size() > fSpans.size())
+        throw hsBadParamException(__FILE__, __LINE__, "source span count exceeds span count");
     for (size_t i=0; i<fSourceSpans.size(); i++) {
         fSourceSpans[i] = new plGeometrySpan();
         fSourceSpans[i]->read(S);
-        if (fSpans[i]->getMaterialIdx() == 0xFFFFFFFF)
+        const unsigned int matIdx = fSpans[i]->getMaterialIdx();
+        if (matIdx == 0xFFFFFFFF || matIdx >= fMaterials.size())
             fSourceSpans[i]->setMaterial(plKey());
         else
-            fSourceSpans[i]->setMaterial(fMaterials[fSpans[i]->getMaterialIdx()]);
+            fSourceSpans[i]->setMaterial(fMaterials[matIdx]);
         fSourceSpans[i]->setFogEnvironment(fSpans[i]->getFogEnvironment());
     }
 
@@ -356,6 +356,9 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "Icicles") {
+        // Spans already point at (and own) the current icicles
+        if (!fSpans.empty())
+            throw pfPrcParseException(__FILE__, __LINE__, "Icicles after SpanSourceIndices");
         for (size_t i=0; i<fIcicles.size(); i++)
             delete fIcicles[i];
         fIcicles.resize(tag->countChildren());
@@ -366,6 +369,9 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "ParticleSpans") {
+        // Spans already point at (and own) the current particle spans
+        if (!fSpans.empty())
+            throw pfPrcParseException(__FILE__, __LINE__, "ParticleSpans after SpanSourceIndices");
         for (size_t i=0; i<fParticleSpans.size(); i++)
             delete fParticleSpans[i];
         fParticleSpans.resize(tag->countChildren());
@@ -384,12 +390,9 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             fSpanSourceIndices[i] = child->getParam("value", "0").to_uint()
                                   | child->getParam("type", "0").to_uint();
-            if ((fSpanSourceIndices[i] & kSpanTypeMask) == kSpanTypeIcicle)
-                fSpans[i] = fIcicles[fSpanSourceIndices[i] & kSpanIDMask];
-            else if ((fSpanSourceIndices[i] & kSpanTypeMask) == kSpanTypeParticleSpan)
-                fSpans[i] = fParticleSpans[fSpanSourceIndices[i] & kSpanIDMask];
             child = child->getNextSibling();
         }
+        checkAndMapSourceSpans();
     } else if (tag->getName() == "FogEnvironments") {
         size_t nChildren = tag->countChildren();
         if (nChildren != fSpans.size())
@@ -442,15 +445,18 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "SourceSpans") {
+        if (tag->countChildren() > fSpans.size())
+            throw pfPrcParseException(__FILE__, __LINE__, "Source span count exceeds span count");
         fSourceSpans.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fSourceSpans.size(); i++) {
             fSourceSpans[i] = new plGeometrySpan();
             fSourceSpans[i]->prcParse(tag);
-            if (fSpans[i]->getMaterialIdx() == 0xFFFFFFFF)
+            const unsigned int matIdx = fSpans[i]->getMaterialIdx();
+            if (matIdx == 0xFFFFFFFF || matIdx >= fMaterials.size())
                 fSourceSpans[i]->setMaterial(plKey());
             else
-                fSourceSpans[i]->setMaterial(fMaterials[fSpans[i]->getMaterialIdx()]);
+                fSourceSpans[i]->setMaterial(fMaterials[matIdx]);
             fSourceSpans[i]->setFogEnvironment(fSpans[i]->getFogEnvironment());
             child = child->getNextSibling();
         }
@@ -856,7 +862,9 @@ void plDrawableSpans::decomposeGeometry(bool clearcolors)
         span->setWorldToLocal(icicle->getWorldToLocal());
         span->setLocalBounds(icicle->getLocalBounds());
         span->setWorldBounds(icicle->getWorldBounds());
-        span->setMaterial(fMaterials[icicle->getMaterialIdx()]);
+        const unsigned int matIdx = icicle->getMaterialIdx();
+        if (matIdx < fMaterials.size())
+            span->setMaterial(fMaterials[matIdx]);
         span->setFogEnvironment(icicle->getFogEnvironment());
         span->setMinDist(icicle->getMinDist());
         span->setMaxDist(icicle->getMaxDist());
@@ -945,4 +953,44 @@ void plDrawableSpans::clearSourceSpans()
     for (auto span : fSourceSpans)
         delete span;
     fSourceSpans.clear();
+}
+
+void plDrawableSpans::checkAndMapSourceSpans()
+{
+    hsBitVector icicleUsed, particleUsed;
+    for (size_t i=0; i<fSpanSourceIndices.size(); i++) {
+        const unsigned int spanIdx = fSpanSourceIndices[i] & kSpanIDMask;
+        const unsigned int spanType = fSpanSourceIndices[i] & kSpanTypeMask;
+        hsBitVector* used = nullptr;
+        if (spanType == kSpanTypeIcicle && spanIdx < fIcicles.size())
+            used = &icicleUsed;
+        else if (spanType == kSpanTypeParticleSpan && spanIdx < fParticleSpans.size())
+            used = &particleUsed;
+
+        // fSpans owns what it points to, so each source may back one span only.
+        if (used && !(*used)[spanIdx]) {
+            (*used)[spanIdx] = true;
+            continue;
+        }
+
+        // Free allocated spans before rejecting the page
+        for (auto icicle : fIcicles)
+            delete icicle;
+        fIcicles.clear();
+        for (auto particle : fParticleSpans)
+            delete particle;
+        fParticleSpans.clear();
+        fSpans.clear();
+        throw hsBadParamException(__FILE__, __LINE__, used ? "Duplicate span source index"
+                                                           : "Invalid span source index");
+    }
+
+    for (size_t i=0; i<fSpanSourceIndices.size(); i++) {
+        const unsigned int spanIdx = fSpanSourceIndices[i] & kSpanIDMask;
+        const unsigned int spanType = fSpanSourceIndices[i] & kSpanTypeMask;
+        if (spanType == kSpanTypeIcicle)
+            fSpans[i] = fIcicles[spanIdx];
+        else if (spanType == kSpanTypeParticleSpan)
+            fSpans[i] = fParticleSpans[spanIdx];
+    }
 }

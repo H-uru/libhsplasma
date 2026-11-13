@@ -230,6 +230,9 @@ public:
     size_t addSourceSpan(plGeometrySpan* span);
     void delSourceSpan(size_t idx);
     void clearSourceSpans();
+
+private:
+    void checkAndMapSourceSpans();
 };
 
 #endif

@@ -150,7 +150,7 @@ bool plGBufferGroup::INeedVertRecompression(PlasmaVer ver) const
 void plGBufferGroup::read(hsStream* S)
 {
     if (S->getVer().isHexIsle()) {
-        fFormat = S->readInt();
+        setFormat(S->readInt());
         S->readByte();
         S->readByte();
         S->readBool();
@@ -160,9 +160,8 @@ void plGBufferGroup::read(hsStream* S)
         // Don't know what the format parameters are, so better to just crash
         throw hsNotImplementedException(__FILE__, __LINE__, "HexIsle GBufferGroup");
     } else {
-        fFormat = S->readByte();
+        setFormat(S->readByte());
         S->readInt();
-        fStride = ICalcVertexSize(fLiteStride);
     }
 
     clearVertices();
@@ -350,8 +349,7 @@ void plGBufferGroup::prcParse(const pfPrcTag* tag)
 {
     if (tag->getName() != "plGBufferGroup")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
-    fFormat = tag->getParam("Format", "0").to_uint();
-    fStride = ICalcVertexSize(fLiteStride);
+    setFormat(tag->getParam("Format", "0").to_uint());
 
     clearVertices();
     clearIndices();
@@ -676,6 +674,8 @@ void plGBufferGroup::packGeoSpan(const plGeometrySpan* geoSpan, plIcicle* ice)
 void plGBufferGroup::setFormat(unsigned int format)
 {
     fFormat = format;
+    if ((fFormat & kUVCountMask) > kMaxNumUVChannels)
+        throw hsBadParamException(__FILE__, __LINE__, "Too many UVW channels in plGBufferGroup");
     fStride = ICalcVertexSize(fLiteStride);
     fGBuffStorageType |= kStoreIsDirty;
 }

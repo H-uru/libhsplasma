@@ -185,7 +185,9 @@ static void WriteObj(plSceneObject* obj, hsStream* S, bool doXform)
 
             unsigned int uvwSrc = 0;
             hsMatrix44 uvwXform;
-            plKey matKey = span->getMaterials()[ice->getMaterialIdx()];
+            plKey matKey;
+            if (ice->getMaterialIdx() < span->getMaterials().size())
+                matKey = span->getMaterials()[ice->getMaterialIdx()];
             if (matKey.Exists()) {
                 hsGMaterial* mat = matKey->getObj<hsGMaterial>(false);
                 if (mat && mat->getLayers().size() > 0) {
