@@ -152,7 +152,7 @@ public:
     void setMinDist(float dist) { fMinDist = dist; }
     void setMaxDist(float dist) { fMaxDist = dist; }
     void setWaterHeight(float height) { fWaterHeight = height; }
-    void setFormat(unsigned int format) { fFormat = format; }
+    void setFormat(unsigned int format);
     void setNumMatrices(unsigned int num) { fNumMatrices = num; }
     void setProps(unsigned int props) { fProps = props; }
     void setBaseMatrix(unsigned int base) { fBaseMatrix = base; }

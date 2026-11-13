@@ -42,16 +42,14 @@ void plGeometrySpan::read(hsStream* S)
     fMinDist = S->readFloat();
     fMaxDist = S->readFloat();
     if (S->getVer().isHexIsle()) {
-        fFormat = S->readInt();
+        setFormat(S->readInt());
         S->readByte();
         S->readByte();
         // Don't know what the format parameters are, so better to just crash
         throw hsNotImplementedException(__FILE__, __LINE__, "HexIsle GSpans");
     } else {
-        fFormat = S->readByte();
+        setFormat(S->readByte());
     }
-    if ((fFormat & kUVCountMask) > kMaxNumUVChannels)
-        throw hsBadParamException(__FILE__, __LINE__, "Too many UVW channels in plGeometrySpan");
     fProps = S->readInt();
     fNumVerts = S->readInt();
     uint32_t numIndices = S->readInt();
@@ -264,9 +262,7 @@ void plGeometrySpan::prcParse(const pfPrcTag* tag)
     fPenBoneIdx = tag->getParam("PenBoneIdx", "0").to_uint();
     fMinDist = tag->getParam("MinDist", "0").to_float();
     fMaxDist = tag->getParam("MaxDist", "0").to_float();
-    fFormat = tag->getParam("Format", "0").to_uint();
-    if ((fFormat & kUVCountMask) > kMaxNumUVChannels)
-        throw pfPrcParseException(__FILE__, __LINE__, "Too many UVW channels in plGeometrySpan");
+    setFormat(tag->getParam("Format", "0").to_uint());
     fProps = tag->getParam("Props", "0").to_uint();
     fDecalLevel = tag->getParam("DecalLevel", "0").to_uint();
     fWaterHeight = tag->getParam("WaterHeight", "0").to_float();
@@ -484,4 +480,11 @@ void plGeometrySpan::setVertices(const std::vector<TempVertex>& verts)
         fMultColor[i] = verts[i].fMultColor;
         fAddColor[i] = verts[i].fAddColor;
     }
+}
+
+void plGeometrySpan::setFormat(unsigned int format)
+{
+    fFormat = format;
+    if ((fFormat & kUVCountMask) > kMaxNumUVChannels)
+        throw hsBadParamException(__FILE__, __LINE__, "Too many UVW channels in plGeometrySpan");
 }
