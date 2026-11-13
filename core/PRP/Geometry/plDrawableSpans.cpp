@@ -69,39 +69,9 @@ void plDrawableSpans::read(hsStream* S, plResManager* mgr)
 
     fSpans.resize(S->readInt());
     fSpanSourceIndices.resize(fSpans.size());
-    hsBitVector icicleUsed, particleUsed;
-    for (size_t i=0; i<fSpanSourceIndices.size(); i++) {
+    for (size_t i=0; i<fSpanSourceIndices.size(); i++)
         fSpanSourceIndices[i] = S->readInt();
-        const unsigned int spanIdx = fSpanSourceIndices[i] & kSpanIDMask;
-        const unsigned int spanType = fSpanSourceIndices[i] & kSpanTypeMask;
-        hsBitVector* used = nullptr;
-        if (spanType == kSpanTypeIcicle && spanIdx < fIcicles.size())
-            used = &icicleUsed;
-        else if (spanType == kSpanTypeParticleSpan && spanIdx < fParticleSpans.size())
-            used = &particleUsed;
-
-        // fSpans owns what it points to, so each source may back one span only.
-        if (used && !(*used)[spanIdx]) {
-            (*used)[spanIdx] = true;
-            continue;
-        }
-
-        // Free allocated spans before rejecting the page
-        for (auto icicle : fIcicles)
-            delete icicle;
-        fIcicles.clear();
-        fSpans.clear();
-        throw hsBadParamException(__FILE__, __LINE__, used ? "Duplicate span source index"
-                                                           : "Invalid span source index");
-    }
-    for (size_t i=0; i<fSpanSourceIndices.size(); i++) {
-        const unsigned int spanIdx = fSpanSourceIndices[i] & kSpanIDMask;
-        const unsigned int spanType = fSpanSourceIndices[i] & kSpanTypeMask;
-        if (spanType == kSpanTypeIcicle)
-            fSpans[i] = fIcicles[spanIdx];
-        else if (spanType == kSpanTypeParticleSpan)
-            fSpans[i] = fParticleSpans[spanIdx];
-    }
+    checkAndMapSourceSpans();
 
     for (size_t i=0; i<fSpans.size(); i++)
         fSpans[i]->setFogEnvironment(mgr->readKey(S));
@@ -422,40 +392,7 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
                                   | child->getParam("type", "0").to_uint();
             child = child->getNextSibling();
         }
-        hsBitVector icicleUsed, particleUsed;
-        for (size_t i=0; i<fSpanSourceIndices.size(); i++) {
-            const unsigned int spanIdx = fSpanSourceIndices[i] & kSpanIDMask;
-            const unsigned int spanType = fSpanSourceIndices[i] & kSpanTypeMask;
-            hsBitVector* used = nullptr;
-            if (spanType == kSpanTypeIcicle && spanIdx < fIcicles.size())
-                used = &icicleUsed;
-            else if (spanType == kSpanTypeParticleSpan && spanIdx < fParticleSpans.size())
-                used = &particleUsed;
-
-            /// fSpans owns what it points to, so each source may back one span only.
-            if (used && !(*used)[spanIdx]) {
-                (*used)[spanIdx] = true;
-                continue;
-            }
-            // Free allocated spans before rejecting the page
-            for (auto icicle : fIcicles)
-                delete icicle;
-            fIcicles.clear();
-            for (auto particle : fParticleSpans)
-                delete particle;
-            fParticleSpans.clear();
-            fSpans.clear();
-            throw pfPrcParseException(__FILE__, __LINE__, used ? "Duplicate span source index"
-                                                               : "Invalid span source index");
-        }
-        for (size_t i=0; i<fSpanSourceIndices.size(); i++) {
-            const unsigned int spanIdx = fSpanSourceIndices[i] & kSpanIDMask;
-            const unsigned int spanType = fSpanSourceIndices[i] & kSpanTypeMask;
-            if (spanType == kSpanTypeIcicle)
-                fSpans[i] = fIcicles[spanIdx];
-            else if (spanType == kSpanTypeParticleSpan)
-                fSpans[i] = fParticleSpans[spanIdx];
-        }
+        checkAndMapSourceSpans();
     } else if (tag->getName() == "FogEnvironments") {
         size_t nChildren = tag->countChildren();
         if (nChildren != fSpans.size())
@@ -1016,4 +953,44 @@ void plDrawableSpans::clearSourceSpans()
     for (auto span : fSourceSpans)
         delete span;
     fSourceSpans.clear();
+}
+
+void plDrawableSpans::checkAndMapSourceSpans()
+{
+    hsBitVector icicleUsed, particleUsed;
+    for (size_t i=0; i<fSpanSourceIndices.size(); i++) {
+        const unsigned int spanIdx = fSpanSourceIndices[i] & kSpanIDMask;
+        const unsigned int spanType = fSpanSourceIndices[i] & kSpanTypeMask;
+        hsBitVector* used = nullptr;
+        if (spanType == kSpanTypeIcicle && spanIdx < fIcicles.size())
+            used = &icicleUsed;
+        else if (spanType == kSpanTypeParticleSpan && spanIdx < fParticleSpans.size())
+            used = &particleUsed;
+
+        // fSpans owns what it points to, so each source may back one span only.
+        if (used && !(*used)[spanIdx]) {
+            (*used)[spanIdx] = true;
+            continue;
+        }
+
+        // Free allocated spans before rejecting the page
+        for (auto icicle : fIcicles)
+            delete icicle;
+        fIcicles.clear();
+        for (auto particle : fParticleSpans)
+            delete particle;
+        fParticleSpans.clear();
+        fSpans.clear();
+        throw hsBadParamException(__FILE__, __LINE__, used ? "Duplicate span source index"
+                                                           : "Invalid span source index");
+    }
+
+    for (size_t i=0; i<fSpanSourceIndices.size(); i++) {
+        const unsigned int spanIdx = fSpanSourceIndices[i] & kSpanIDMask;
+        const unsigned int spanType = fSpanSourceIndices[i] & kSpanTypeMask;
+        if (spanType == kSpanTypeIcicle)
+            fSpans[i] = fIcicles[spanIdx];
+        else if (spanType == kSpanTypeParticleSpan)
+            fSpans[i] = fParticleSpans[spanIdx];
+    }
 }
