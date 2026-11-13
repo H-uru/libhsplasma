@@ -51,8 +51,19 @@ class TestTypeRefCount(unittest.TestCase):
         old_refcount = sys.getrefcount(pClass)
         try:
             initfunc()
-        except Exception as e:
-            raise unittest.SkipTest(f"cannot instantiate {pClass.__name__}") from e
+        except RuntimeError as e:
+            # RuntimeError is the exception type raised by PyHSPlasma's NEW_MSG macros,
+            # so this is presumably just a "you can't construct this" message. If there's
+            # a custom creator defined for this class, then we need to fail loudly even
+            # if that's the case.
+            if initfunc == pClass:
+                raise unittest.SkipTest(f"cannot instantiate {pClass.__name__}: '{e!s}'") from e
+            else:
+                raise
+        except TypeError as e:
+            # This is *probably* a missing argument to `__init__` - skip the test for now
+            # but print the reason in the skip message.
+            raise unittest.SkipTest(f"cannot instantiate {pClass.__name__}: '{e!s}") from e
         else:
             new_refcount = sys.getrefcount(pClass)
             self.assertEqual(new_refcount, old_refcount, "type refcount issue, check tp_dealloc")
