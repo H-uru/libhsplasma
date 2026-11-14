@@ -19,7 +19,7 @@
 
 #include "PyPlasma.h"
 
-extern PyTypeObject pyDebug_Type;
+extern PyTypeObject* pyDebug_Type;
 PyObject* Init_pyDebug_Type();
 
 #endif

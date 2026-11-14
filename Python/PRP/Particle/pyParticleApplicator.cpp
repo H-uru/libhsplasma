@@ -20,34 +20,33 @@
 #include "PRP/Avatar/pyAGApplicator.h"
 
 PY_PLASMA_NEW(ParticleApplicator, plParticleApplicator)
-PY_PLASMA_TYPE(ParticleApplicator, plParticleApplicator, "plParticleApplicator wrapper")
 
-PY_PLASMA_TYPE_INIT(ParticleApplicator)
-{
-    pyParticleApplicator_Type.tp_new = pyParticleApplicator_new;
-    pyParticleApplicator_Type.tp_base = &pyAGApplicator_Type;
-    if (PyType_CheckAndReady(&pyParticleApplicator_Type) < 0)
-        return nullptr;
+static PyType_Slot pyParticleApplicator_Slots[] = {
+    PY_TYPE_SLOT(Py_tp_doc, "plParticleApplicator wrapper"),
+    PY_TYPE_SLOT(Py_tp_new, pyParticleApplicator_new),
+    PY_TYPE_SLOT_TERMINATOR
+};
 
-    Py_INCREF(&pyParticleApplicator_Type);
-    return (PyObject*)&pyParticleApplicator_Type;
-}
+PY_PLASMA_TYPE_WITH_BASE(
+    ParticleApplicator, "plParticleApplicator",
+    AGApplicator, "plAGApplicator"
+) { }
 
 PY_PLASMA_IFC_METHODS(ParticleApplicator, plParticleApplicator)
 
 #define PY_ParticleApplicator_Subtype(pyType)                   \
     PY_PLASMA_NEW(pyType, pl##pyType)                           \
-    PY_PLASMA_TYPE(pyType, pl##pyType, "pl" #pyType " wrapper") \
-    PY_PLASMA_TYPE_INIT(pyType)                                 \
-    {                                                           \
-        py##pyType##_Type.tp_new = py##pyType##_new;            \
-        py##pyType##_Type.tp_base = &pyParticleApplicator_Type; \
-        if (PyType_CheckAndReady(&py##pyType##_Type) < 0)       \
-            return nullptr;                                     \
-                                                                \
-        Py_INCREF(&py##pyType##_Type);                          \
-        return (PyObject*)&py##pyType##_Type;                   \
-    }                                                           \
+    static PyType_Slot py##pyType##_Slots[] = {                 \
+        PY_TYPE_SLOT(Py_tp_doc, "pl" #pyType " wrapper"),       \
+        PY_TYPE_SLOT(Py_tp_new, py##pyType##_new),              \
+        PY_TYPE_SLOT_TERMINATOR                                 \
+    };                                                          \
+    PY_PLASMA_TYPE_WITH_BASE(                                   \
+        pyType,                                                 \
+        "pl" #pyType,                                           \
+        ParticleApplicator,                                     \
+        "plParticleApplicator"                                  \
+    ) { }                                                       \
     PY_PLASMA_IFC_METHODS(pyType, pl##pyType)
 
 PY_ParticleApplicator_Subtype(ParticleAngleApplicator)

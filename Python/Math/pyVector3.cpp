@@ -224,30 +224,24 @@ PyGetSetDef pyVector3_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PY_PLASMA_TYPE(Vector3, hsVector3, "hsVector3/hsPoint3 wrapper")
-PY_PLASMA_TYPE_AS_NUMBER(Vector3)
+static PyType_Slot pyVector3_Slots[] = {
+    PY_TYPE_SLOT(Py_tp_doc, "hsVector3/hsPoint3 wrapper"),
+    PY_TYPE_SLOT(Py_tp_dealloc, pyVector3_dealloc),
+    PY_TYPE_SLOT(Py_tp_getset, pyVector3_GetSet),
+    PY_TYPE_SLOT(Py_tp_init, pyVector3___init__),
+    PY_TYPE_SLOT(Py_tp_methods, pyVector3_Methods),
+    PY_TYPE_SLOT(Py_tp_new, pyVector3_new),
+    PY_TYPE_SLOT(Py_tp_repr, pyVector3_repr),
+    PY_TYPE_SLOT(Py_nb_absolute, pyVector3_nb_absolute),
+    PY_TYPE_SLOT(Py_nb_add, pyVector3_nb_add),
+    PY_TYPE_SLOT(Py_nb_bool, pyVector3_nb_nonzero),
+    PY_TYPE_SLOT(Py_nb_multiply, pyVector3_nb_multiply),
+    PY_TYPE_SLOT(Py_nb_negative, pyVector3_nb_negative),
+    PY_TYPE_SLOT(Py_nb_positive, pyVector3_nb_positive),
+    PY_TYPE_SLOT(Py_nb_subtract, pyVector3_nb_subtract),
+    PY_TYPE_SLOT_TERMINATOR
+};
 
-PY_PLASMA_TYPE_INIT(Vector3)
-{
-    pyVector3_As_Number.nb_add = pyVector3_nb_add;
-    pyVector3_As_Number.nb_subtract = pyVector3_nb_subtract;
-    pyVector3_As_Number.nb_multiply = pyVector3_nb_multiply;
-    pyVector3_As_Number.nb_negative = pyVector3_nb_negative;
-    pyVector3_As_Number.nb_positive = pyVector3_nb_positive;
-    pyVector3_As_Number.nb_absolute = pyVector3_nb_absolute;
-    pyVector3_As_Number.nb_bool = pyVector3_nb_nonzero;
-    pyVector3_Type.tp_dealloc = pyVector3_dealloc;
-    pyVector3_Type.tp_init = pyVector3___init__;
-    pyVector3_Type.tp_new = pyVector3_new;
-    pyVector3_Type.tp_repr = pyVector3_repr;
-    pyVector3_Type.tp_as_number = &pyVector3_As_Number;
-    pyVector3_Type.tp_methods = pyVector3_Methods;
-    pyVector3_Type.tp_getset = pyVector3_GetSet;
-    if (PyType_CheckAndReady(&pyVector3_Type) < 0)
-        return nullptr;
-
-    Py_INCREF(&pyVector3_Type);
-    return (PyObject*)&pyVector3_Type;
-}
+PY_PLASMA_TYPE_NO_BASE(Vector3, "hsVector3") { }
 
 PY_PLASMA_VALUE_IFC_METHODS(Vector3, hsVector3)

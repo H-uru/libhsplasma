@@ -15,8 +15,6 @@
  */
 
 #include "PyPlasma.h"
-#include <string_theory/stdio>
-#include <unordered_set>
 
 PyObject* PyUnicode_FromSTString(const ST::string& str)
 {
@@ -48,21 +46,4 @@ int PyAnyString_PathDecoder(PyObject* obj, void* str)
         return 1;
     }
     return 0;
-}
-
-int PyType_CheckAndReady(PyTypeObject* type)
-{
-    static std::unordered_set<PyTypeObject*> init_bases;
-    if (type->tp_base && init_bases.find(type->tp_base) == init_bases.end()) {
-        ST::printf(stderr, "ERROR: Base {} for type {} is not initialized\n",
-                   type->tp_base->tp_name, type->tp_name);
-        ST::printf(stderr, "Classes derived from {} WILL NOT WORK CORRECTLY\n",
-                   type->tp_base->tp_name);
-    }
-    int result = PyType_Ready(type);
-    if (result == 0)
-        init_bases.insert(type);
-    else
-        ST::printf(stderr, "WARN: Failed to ready {}\n", type->tp_name);
-    return result;
 }
