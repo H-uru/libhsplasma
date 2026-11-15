@@ -472,6 +472,23 @@ inline T pyPlasma_get(const pySequenceFastRef& value)
         return 0;                                                       \
     }
 
+#define PY_PROPERTY_WRITE_VECTOR(type, pyType, name, setter)            \
+    PY_GETSET_SETTER_DECL(pyType, name)                                 \
+    {                                                                   \
+        PY_PROPERTY_CHECK_NULL(name)                                    \
+        if (value == Py_None) {                                         \
+            self->fThis->setter(std::vector<type>());                   \
+            return 0;                                                   \
+        }                                                               \
+        pySequenceFastRef seq(value);                                   \
+        if (!pyPlasma_check<std::vector<type>>(seq)) {                  \
+            PyErr_SetString(PyExc_TypeError, #name " expected an iterable of " #type); \
+            return -1;                                                  \
+        }                                                               \
+        self->fThis->setter(pyPlasma_get<std::vector<type>>(seq));      \
+        return 0;                                                       \
+    }
+
 #define PY_PROPERTY_SETTER_MSG(pyType, name, message)                   \
     PY_GETSET_SETTER_DECL(pyType, name)                                 \
     {                                                                   \
@@ -493,6 +510,11 @@ inline T pyPlasma_get(const pySequenceFastRef& value)
 #define PY_PROPERTY_PATHLIKE(pyType, name, getter, setter)              \
     PY_PROPERTY_READ(pyType, name, getter)                              \
     PY_PROPERTY_WRITE_PATHLIKE(pyType, name, setter)                    \
+    PY_PROPERTY_GETSET_DECL(pyType, name)
+
+#define PY_PROPERTY_VECTOR(type, pyType, name, getter, setter)          \
+    PY_PROPERTY_READ(pyType, name, getter)                              \
+    PY_PROPERTY_WRITE_VECTOR(type, pyType, name, setter)                \
     PY_PROPERTY_GETSET_DECL(pyType, name)
 
 /* Helpers for properties that have direct-access to a member, rather than

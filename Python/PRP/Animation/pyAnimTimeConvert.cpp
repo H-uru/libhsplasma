@@ -67,29 +67,6 @@ static PyMethodDef pyAnimTimeConvert_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(AnimTimeConvert, stopPoints)
-{
-    return pyPlasma_convert(self->fThis->getStopPoints());
-}
-
-PY_GETSET_SETTER_DECL(AnimTimeConvert, stopPoints)
-{
-    PY_PROPERTY_CHECK_NULL(stops)
-    if (value == Py_None) {
-        self->fThis->setStopPoints(std::vector<float>());
-        return 0;
-    }
-
-    pySequenceFastRef seq(value);
-    if (!pyPlasma_check<std::vector<float>>(seq)) {
-        PyErr_SetString(PyExc_TypeError, "stopPoints should be a sequence of floats");
-        return -1;
-    }
-    self->fThis->setStopPoints(pyPlasma_get<std::vector<float>>(seq));
-    return 0;
-}
-
-PY_PROPERTY_GETSET_DECL(AnimTimeConvert, stopPoints)
 
 PY_GETSET_GETTER_DECL(AnimTimeConvert, callbacks)
 {
@@ -112,6 +89,9 @@ PY_PROPERTY(float, AnimTimeConvert, currentAnimTime, getCurrentAnimTime,
             setCurrentAnimTime)
 PY_PROPERTY(double, AnimTimeConvert, lastEvalWorldTime, getLastEvalWorldTime,
             setLastEvalWorldTime)
+
+PY_PROPERTY_VECTOR(float, AnimTimeConvert, stopPoints, getStopPoints,
+                   setStopPoints)
 
 PY_PROPERTY_CREATABLE(plATCEaseCurve, ATCEaseCurve, AnimTimeConvert,
                       easeInCurve, getEaseInCurve, setEaseInCurve)
