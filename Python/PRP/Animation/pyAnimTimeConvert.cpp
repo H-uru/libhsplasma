@@ -69,10 +69,7 @@ static PyMethodDef pyAnimTimeConvert_Methods[] = {
 
 PY_GETSET_GETTER_DECL(AnimTimeConvert, stopPoints)
 {
-    PyObject* list = PyTuple_New(self->fThis->getStopPoints().size());
-    for (size_t i=0; i<self->fThis->getStopPoints().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getStopPoints()[i]));
-    return list;
+    return pyPlasma_convert(self->fThis->getStopPoints());
 }
 
 PY_GETSET_SETTER_DECL(AnimTimeConvert, stopPoints)
@@ -82,21 +79,13 @@ PY_GETSET_SETTER_DECL(AnimTimeConvert, stopPoints)
         self->fThis->setStopPoints(std::vector<float>());
         return 0;
     }
+
     pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
+    if (!pyPlasma_check<std::vector<float>>(seq)) {
         PyErr_SetString(PyExc_TypeError, "stopPoints should be a sequence of floats");
         return -1;
     }
-    std::vector<float> stops(seq.size());
-    for (size_t i=0; i<stops.size(); i++) {
-        PyObject* itm = seq.get(i);
-        if (!pyPlasma_check<float>(itm)) {
-            PyErr_SetString(PyExc_TypeError, "stopPoints should be a sequence of floats");
-            return -1;
-        }
-        stops[i] = pyPlasma_get<float>(itm);
-    }
-    self->fThis->setStopPoints(stops);
+    self->fThis->setStopPoints(pyPlasma_get<std::vector<float>>(seq));
     return 0;
 }
 

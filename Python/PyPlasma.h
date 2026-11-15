@@ -24,6 +24,7 @@
 #include <Sys/Platform.h>
 #include <string_theory/string>
 #include <type_traits>
+#include <vector>
 
 PyObject* PyUnicode_FromSTString(const ST::string& str);
 ST::string PyAnyString_AsSTString(PyObject* str);
@@ -43,16 +44,19 @@ struct pySequenceFastRef
 {
     PyObject* fObj;
 
-    pySequenceFastRef(PyObject* o)
+    explicit pySequenceFastRef(PyObject* o)
         : fObj(PySequence_Fast(o, "Object is not a sequence")) { }
+    pySequenceFastRef(const pySequenceFastRef&) = delete;
+    pySequenceFastRef(pySequenceFastRef&&) = delete;
+
     ~pySequenceFastRef() { Py_XDECREF(fObj); }
 
     bool isSequence() const { return fObj != nullptr; }
 
-    Py_ssize_t size() { return PySequence_Fast_GET_SIZE(fObj); }
+    Py_ssize_t size() const { return PySequence_Fast_GET_SIZE(fObj); }
 
     /** Returns a borrowed reference within the sequence FAST storage */
-    PyObject* get(Py_ssize_t idx) { return PySequence_Fast_GET_ITEM(fObj, idx); }
+    PyObject* get(Py_ssize_t idx) const { return PySequence_Fast_GET_ITEM(fObj, idx); }
 };
 
 #if (PY_MAJOR_VERSION < 3) || ((PY_MAJOR_VERSION == 3) && (PY_MINOR_VERSION < 7))
@@ -267,6 +271,16 @@ PyObject* PyPlasmaValue_new(PyTypeObject* type, ArgsT&&... args)
     static int (*py##pyType##_nb_##name)(PyObject*) = (inquiry)&py##pyType##_nb_##name##_impl; \
     int py##pyType##_nb_##name##_impl(py##pyType* self)
 
+/* Traits for std::vector variants of the getters and setters. */
+template <typename T>
+struct pyPlasmaVectorTraits : std::false_type {};
+
+template <typename T, typename Alloc>
+struct pyPlasmaVectorTraits<std::vector<T, Alloc>> : std::true_type
+{
+    using element = T;
+};
+
 /* Helpers for getters and setters */
 inline PyObject* pyPlasma_convert(char value) { return PyLong_FromLong(std::is_signed<char>::value ? (long)value : (long)(unsigned long)value); }
 inline PyObject* pyPlasma_convert(unsigned char value) { return PyLong_FromLong((long)(unsigned long)value); }
@@ -287,6 +301,15 @@ inline PyObject* pyPlasma_convert(const char* value) { return PyUnicode_DecodeUT
 inline PyObject* pyPlasma_convert(CallbackEvent value) { return PyLong_FromLong((long)value); }
 inline PyObject* pyPlasma_convert(ControlEventCode value) { return PyLong_FromLong((long)value); }
 inline PyObject* pyPlasma_convert(plKeyDef value) { return PyLong_FromLong((long)value); }
+
+template <typename T>
+inline PyObject* pyPlasma_convert(const std::vector<T>& value)
+{
+    PyObject* tup = PyTuple_New(value.size());
+    for (size_t i = 0; i < value.size(); ++i)
+        PyTuple_SET_ITEM(tup, i, pyPlasma_convert(value[i]));
+    return tup;
+}
 
 // Force compilers to throw an error for pointers without a specialization,
 // rather than converting them to an integral type and accepting it silently
@@ -316,6 +339,22 @@ template <> inline int pyPlasma_check<ST::string>(PyObject* value) { return PyAn
 template <> inline int pyPlasma_check<CallbackEvent>(PyObject* value) { return PyLong_Check(value); }
 template <> inline int pyPlasma_check<ControlEventCode>(PyObject* value) { return PyLong_Check(value); }
 template <> inline int pyPlasma_check<plKeyDef>(PyObject* value) { return PyLong_Check(value); }
+
+template <typename T>
+inline int pyPlasma_check(const pySequenceFastRef& value)
+{
+    static_assert(pyPlasmaVectorTraits<T>::value, "Can only convert an iterable to std::vector");
+    using element = typename pyPlasmaVectorTraits<T>::element;
+
+    if (!value.isSequence())
+        return 0;
+    for (Py_ssize_t i = 0; i < value.size(); ++i) {
+        if (!pyPlasma_check<element>(value.get(i)))
+            return 0;
+    }
+
+    return 1;
+}
 
 template <typename T>
 inline T pyPlasma_get(PyObject* value)
@@ -350,6 +389,28 @@ template <> inline ST::string pyPlasma_get(PyObject* value) { return PyAnyString
 template <> inline CallbackEvent pyPlasma_get(PyObject* value) { return (CallbackEvent)PyLong_AsLong(value); }
 template <> inline ControlEventCode pyPlasma_get(PyObject* value) { return (ControlEventCode)PyLong_AsLong(value); }
 template <> inline plKeyDef pyPlasma_get(PyObject* value) { return (plKeyDef)PyLong_AsLong(value); }
+
+/* Some types have memory management concerns and instances of them cannot
+ * simply be stolen and stashed into a vector. Think creatables. Any non-pointer
+ * copyable type is safe. */
+template <typename T>
+struct pyPlasmaGetIntoVectorAllowed : std::bool_constant<!std::is_pointer_v<T>> {};
+
+template <typename T>
+inline T pyPlasma_get(const pySequenceFastRef& value)
+{
+    static_assert(pyPlasmaVectorTraits<T>::value, "Can only convert an iterable to std::vector");
+    using element = typename pyPlasmaVectorTraits<T>::element;
+    static_assert(
+        pyPlasmaGetIntoVectorAllowed<element>::value,
+        "Vectors of this type have ownership semantics that must be handled manually"
+    );
+
+    T vec(value.size());
+    for (Py_ssize_t i = 0; i < value.size(); ++i)
+        vec[i] = pyPlasma_get<element>(value.get(i));
+    return vec;
+}
 
 /* Helpers for properties (GetSet objects in the Python/C API) */
 #define PY_GETSET_GETTER_DECL(pyType, name)                             \
