@@ -21,6 +21,8 @@
 #include "plFont.h"
 #include "Sys/hsColor.h"
 
+#include <vector>
+
 class HSPLASMA_EXPORT plDynamicTextMap : public plMipmap
 {
     CREATABLE(plDynamicTextMap, kDynamicTextMap, plMipmap)
@@ -39,14 +41,12 @@ public:
 protected:
     unsigned int fVisWidth, fVisHeight;
     bool fHasAlpha, fHasBeenCreated;
-    unsigned int* fInitBuffer;
-    size_t fInitBufferLen;
+    std::vector<unsigned int> fInitBuffer;
 
 public:
     plDynamicTextMap()
-        : fVisWidth(), fVisHeight(), fHasAlpha(), fHasBeenCreated(),
-          fInitBuffer(), fInitBufferLen() { }
-    ~plDynamicTextMap();
+        : fVisWidth(), fVisHeight(), fHasAlpha(), fHasBeenCreated()
+     { }
 
     void Create(unsigned int width, unsigned int height, bool hasAlpha,
                 unsigned int extraWidth, unsigned int extraHeight);
@@ -62,8 +62,8 @@ public:
     unsigned int getVisWidth() const { return fVisWidth; }
     unsigned int getVisHeight() const { return fVisHeight; }
     bool hasAlpha() const { return fHasAlpha; }
-    size_t getInitBufferSize() const { return fInitBufferLen; }
-    const unsigned int* getInitBuffer() const { return fInitBuffer; }
+    size_t getInitBufferSize() const { return fInitBuffer.size(); }
+    const unsigned int* getInitBuffer() const { return fInitBuffer.data(); }
 
     void setVisWidth(unsigned int width) { fVisWidth = width; }
     void setVisHeight(unsigned int height) { fVisHeight = height; }

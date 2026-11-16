@@ -16,12 +16,6 @@
 
 #include "plDynamicTextMap.h"
 #include "Debug/plDebug.h"
-#include <cstring>
-
-plDynamicTextMap::~plDynamicTextMap()
-{
-    delete[] fInitBuffer;
-}
 
 void plDynamicTextMap::Create(unsigned int width, unsigned int height,
                               bool hasAlpha, unsigned int extraWidth,
@@ -58,12 +52,12 @@ void plDynamicTextMap::read(hsStream* S, plResManager* mgr)
     fVisHeight = S->readInt();
     fHasAlpha = S->readBool();
 
-    fInitBufferLen = S->readInt();
-    if (fInitBufferLen != 0) {
-        if (fInitBufferLen != (size_t)(fVisWidth * fVisHeight))
+    uint32_t initBufferLen = S->readInt();
+    if (initBufferLen != 0) {
+        if (initBufferLen != (size_t)(fVisWidth * fVisHeight))
             plDebug::Warning("Got incorrect init buffer size");
-        fInitBuffer = new unsigned int[fInitBufferLen];
-        S->readInts(fInitBufferLen, (uint32_t*)fInitBuffer);
+        fInitBuffer.resize(initBufferLen);
+        S->readInts(initBufferLen, fInitBuffer.data());
     }
     Create(fVisWidth, fVisHeight, fHasAlpha, 0, 0);
 }
@@ -76,9 +70,9 @@ void plDynamicTextMap::write(hsStream* S, plResManager* mgr)
     S->writeInt(fVisHeight);
     S->writeBool(fHasAlpha);
 
-    S->writeInt(fInitBufferLen);
-    if (fInitBuffer)
-        S->writeInts(fInitBufferLen, (uint32_t*)fInitBuffer);
+    S->writeInt(fInitBuffer.size());
+    if (!fInitBuffer.empty())
+        S->writeInts(fInitBuffer.size(), fInitBuffer.data());
 }
 
 void plDynamicTextMap::IPrcWrite(pfPrcHelper* prc)
@@ -91,9 +85,10 @@ void plDynamicTextMap::IPrcWrite(pfPrcHelper* prc)
     prc->writeParam("HasAlpha", fHasAlpha);
     prc->endTag(true);
 
-    if (fInitBuffer) {
+    if (!fInitBuffer.empty()) {
         prc->writeSimpleTag("InitBuffer");
-        prc->writeHexStream(fInitBufferLen, (unsigned char*)fInitBuffer);
+        prc->writeHexStream(fInitBuffer.size() * sizeof(unsigned int),
+                            (unsigned char*)fInitBuffer.data());
         prc->closeTag();
     } else {
         prc->startTag("InitBuffer");
@@ -110,11 +105,19 @@ void plDynamicTextMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         fHasAlpha = tag->getParam("HasAlpha", "false").to_bool();
     } else if (tag->getName() == "InitBuffer") {
         if (tag->getParam("NULL", "false").to_bool()) {
-            fInitBuffer = nullptr;
+            fInitBuffer.clear();
         } else {
-            fInitBufferLen = tag->getContents().size();
-            fInitBuffer = new unsigned int[fInitBufferLen];
-            tag->readHexStream(fInitBufferLen, (unsigned char*)fInitBuffer);
+            size_t initBufferSize = tag->getContents().size();
+            if (initBufferSize % sizeof(unsigned int) != 0) {
+                plDebug::Warning("Got incorrect init buffer shape");
+                initBufferSize = initBufferSize / sizeof(unsigned int) + 1;
+            } else {
+                initBufferSize /= sizeof(unsigned int);
+            }
+
+            fInitBuffer.resize(initBufferSize);
+            tag->readHexStream(tag->getContents().size(),
+                               (unsigned char*)fInitBuffer.data());
         }
     } else {
         plBitmap::IPrcParse(tag, mgr);
@@ -123,8 +126,5 @@ void plDynamicTextMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
 
 void plDynamicTextMap::setInitBuffer(const unsigned int* buffer, size_t size)
 {
-    fInitBufferLen = size;
-    delete[] fInitBuffer;
-    fInitBuffer = new unsigned int[size];
-    memcpy(fInitBuffer, buffer, size * sizeof(unsigned int));
+    fInitBuffer = std::vector<unsigned int>(buffer, buffer + size);
 }
