@@ -61,41 +61,8 @@ static PyMethodDef pySpanTemplate_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(SpanTemplate, indices)
-{
-    const unsigned short* indices = self->fThis->getIndices();
-    size_t numIndices = self->fThis->getNumTris() * 3;
-    PyObject* list = PyTuple_New(numIndices);
-    for (size_t i=0; i<numIndices; i++)
-        PyTuple_SET_ITEM(list, i, pyPlasma_convert(indices[i]));
-    return list;
-}
-
-PY_GETSET_SETTER_DECL(SpanTemplate, indices)
-{
-    PY_PROPERTY_CHECK_NULL(indices)
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "indices should be a sequence of ints");
-        return -1;
-    }
-    Py_ssize_t numIndices = seq.size();
-    std::vector<unsigned short> indices(numIndices);
-    for (Py_ssize_t i=0; i<numIndices; i++) {
-        PyObject* itm = seq.get(i);
-        if (!pyPlasma_check<unsigned short>(itm)) {
-            PyErr_SetString(PyExc_TypeError, "indices should be a sequence of ints");
-            return -1;
-        }
-        indices[i] = pyPlasma_get<unsigned short>(itm);
-    }
-    self->fThis->setIndices(numIndices, indices.data());
-    return 0;
-}
-
-PY_PROPERTY_GETSET_DECL(SpanTemplate, indices)
-
 PY_PROPERTY_VECTOR(plSpanTemplate::Vertex, SpanTemplate, vertices, getVertices, setVertices)
+PY_PROPERTY_VECTOR(unsigned short, SpanTemplate, indices, getIndicesVec, setIndices)
 PY_PROPERTY(unsigned short, SpanTemplate, format, getFormat, setFormat)
 
 static PyGetSetDef pySpanTemplate_GetSet[] = {

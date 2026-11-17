@@ -16,20 +16,18 @@
 
 #include "plSpanTemplate.h"
 #include <string_theory/format>
-#include <cstring>
 
 void plSpanTemplate::read(hsStream* S)
 {
     fData.reset();
-    fIndices.reset();
 
     fNumVerts = S->readShort();
     setFormat(S->readShort());
     fNumTris = S->readShort();
     fData = std::make_unique<unsigned char[]>(fNumVerts * fStride);
-    fIndices = std::make_unique<unsigned short[]>(fNumTris * 3);
+    fIndices.resize(fNumTris * 3);
     S->read(fStride * fNumVerts, fData.get());
-    S->read(fNumTris * 3 * sizeof(unsigned short), fIndices.get());
+    S->read(fNumTris * 3 * sizeof(unsigned short), fIndices.data());
 }
 
 void plSpanTemplate::write(hsStream* S)
@@ -38,7 +36,7 @@ void plSpanTemplate::write(hsStream* S)
     S->writeShort(fFormat);
     S->writeShort(fNumTris);
     S->write(fStride * fNumVerts, fData.get());
-    S->write(fNumTris * 3 * sizeof(unsigned short), fIndices.get());
+    S->write(fNumTris * 3 * sizeof(unsigned short), fIndices.data());
 }
 
 void plSpanTemplate::prcWrite(pfPrcHelper* prc)
@@ -153,7 +151,7 @@ void plSpanTemplate::prcParse(const pfPrcTag* tag)
             setVertices(verts);
         } else if (child->getName() == "Indices") {
             fNumTris = child->countChildren();
-            fIndices = std::make_unique<unsigned short[]>(fNumTris * 3);
+            fIndices.resize(fNumTris * 3);
             const pfPrcTag* idxChild = child->getFirstChild();
             for (size_t i=0; i<(size_t)(fNumTris * 3); i += 3) {
                 std::list<ST::string> idxList = idxChild->getContents();
@@ -286,11 +284,7 @@ void plSpanTemplate::setVertices(const std::vector<Vertex>& verts)
 
 void plSpanTemplate::setIndices(unsigned short count, const unsigned short* indices)
 {
-    fIndices.reset();
-    if (count == 0)
-        return;
-    fIndices = std::make_unique<unsigned short[]>(count);
-    memcpy(fIndices.get(), indices, count * sizeof(unsigned short));
+    fIndices = std::vector<unsigned short>(indices, indices + count);
 }
 
 void plSpanTemplate::setFormat(unsigned short fmt)
