@@ -479,6 +479,16 @@ plController* plLeafController::EncapsulateKeyController() const
 
 void plLeafController::setKeys(const std::vector<hsKeyFrame*>& keys, unsigned int type)
 {
+    for (const hsKeyFrame* key : keys) {
+        if (key->getType() != type)
+            throw hsBadParamException(__FILE__, __LINE__,
+                ST::format("keys should be of type {}, not {}",
+                    hsKeyFrame::TypeNames[type],
+                    hsKeyFrame::TypeNames[key->getType()]
+                )
+            );
+    }
+
     DeallocKeys();
     AllocKeys(keys.size(), type);
     for (size_t i=0; i<keys.size(); i++)

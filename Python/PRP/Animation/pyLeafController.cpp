@@ -55,12 +55,8 @@ static PyMethodDef pyLeafController_Methods[] = {
 
 PY_GETSET_GETTER_DECL(LeafController, keys)
 {
-    const std::vector<hsKeyFrame*>& keys = self->fThis->getKeys();
-    PyObject* keyTup = PyTuple_New(keys.size());
-    for (size_t i=0; i<keys.size(); i++)
-        PyTuple_SET_ITEM(keyTup, i, pyPlasma_convert(keys[i]));
     PyObject* tup = PyTuple_New(2);
-    PyTuple_SET_ITEM(tup, 0, keyTup);
+    PyTuple_SET_ITEM(tup, 0, pyPlasma_convert(self->fThis->getKeys()));
     PyTuple_SET_ITEM(tup, 1, pyPlasma_convert(self->fThis->getType()));
     return tup;
 }
@@ -76,33 +72,20 @@ PY_GETSET_SETTER_DECL(LeafController, keys)
     PyObject* keySeqObj = PyTuple_GET_ITEM(value, 0);
     PyObject* keyTypeObj = PyTuple_GET_ITEM(value, 1);
     pySequenceFastRef keySeq(keySeqObj);
-    if (!keySeq.isSequence()|| !pyPlasma_check<unsigned int>(keyTypeObj)) {
+    if (!pyPlasma_check<std::vector<hsKeyFrame*>>(keySeq)|| !pyPlasma_check<unsigned int>(keyTypeObj)) {
         PyErr_SetString(PyExc_TypeError, "keys should be a tuple of: sequence (keyframes), int");
         return -1;
     }
 
-    Py_ssize_t keyCount = keySeq.size();
-    std::vector<hsKeyFrame*> keyframes;
-    keyframes.reserve(keyCount);
-    unsigned int keyType = pyPlasma_get<unsigned int>(keyTypeObj);
-    for (Py_ssize_t i = 0; i < keyCount; ++i) {
-        PyObject* key = keySeq.get(i);
-        if (!pyKeyFrame_Check(key)) {
-            PyErr_SetString(PyExc_TypeError, "keys should be a tuple of: sequence (keyframes), int");
-            return -1;
-        }
-        hsKeyFrame* keyframe = ((pyKeyFrame*)key)->fThis;
-        if (keyframe->getType() != keyType) {
-            PyErr_SetString(PyExc_TypeError, ST::format("keys should be of type {}, not {}",
-                                                        hsKeyFrame::TypeNames[keyType],
-                                                        hsKeyFrame::TypeNames[keyframe->getType()]
-                                                        ).c_str());
-            return -1;
-        }
-        keyframes.push_back(keyframe);
+    auto keyframes = pyPlasma_get<std::vector<hsKeyFrame*>>(keySeq);
+    auto keyType = pyPlasma_get<unsigned int>(keyTypeObj);
+    try {
+        // The leaf controller copies the keyframes, so we do not need to transfer ownership here.
+        self->fThis->setKeys(keyframes, keyType);
+    } catch (const hsBadParamException& exc) {
+        PyErr_SetString(PyExc_TypeError, exc.what());
+        return -1;
     }
-    // The leaf controller copies the keyframes, so we do not need to transfer ownership here.
-    self->fThis->setKeys(keyframes, keyType);
     return 0;
 }
 

@@ -43,20 +43,12 @@ PY_GETSET_SETTER_DECL(Icicle, sortData)
         return 0;
     }
     pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "sortData should be a sequence of plGBufferTriangles");
+    if (!pyPlasma_check<std::vector<plGBufferTriangle>>(seq)) {
+        PyErr_SetString(PyExc_TypeError, "sortData should be an iterable of plGBufferTriangles");
         return -1;
     }
-    Py_ssize_t size = seq.size();
-    std::vector<plGBufferTriangle> sortData(size);
-    for (Py_ssize_t i=0; i<size; i++) {
-        PyObject* item = seq.get(i);
-        if (!pyGBufferTriangle_Check(item)) {
-            PyErr_SetString(PyExc_TypeError, "sortData should be a sequence of plGBufferTriangles");
-            return -1;
-        }
-        sortData[i] = *((pyGBufferTriangle*)item)->fThis;
-    }
+
+    auto sortData = pyPlasma_get<std::vector<plGBufferTriangle>>(seq);
     self->fThis->setSortData(&sortData[0]);
     return 0;
 }

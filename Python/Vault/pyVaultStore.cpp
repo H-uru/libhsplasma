@@ -122,11 +122,7 @@ PY_METHOD_VA(VaultStore, getChildren,
         return nullptr;
     }
 
-    std::vector<plVaultNode> children = self->fThis->getChildren(idx);
-    PyObject* tup = PyTuple_New(children.size());
-    for (size_t i = 0; i < children.size(); ++i)
-        PyTuple_SET_ITEM(tup, i, pyPlasma_convert(children[i]));
-    return tup;
+    return pyPlasma_convert(self->fThis->getChildren(idx));
 }
 
 PY_METHOD_VA(VaultStore, findParents,
@@ -139,11 +135,7 @@ PY_METHOD_VA(VaultStore, findParents,
         return nullptr;
     }
 
-    std::vector<plVaultNode> children = self->fThis->findParents(idx);
-    PyObject* tup = PyTuple_New(children.size());
-    for (size_t i = 0; i < children.size(); ++i)
-        PyTuple_SET_ITEM(tup, i, pyPlasma_convert(children[i]));
-    return tup;
+    return pyPlasma_convert(self->fThis->findParents(idx));
 }
 
 PY_METHOD_VA(VaultStore, addNode,
