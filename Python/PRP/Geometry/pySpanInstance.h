@@ -28,4 +28,9 @@ inline PyObject* pyPlasma_convert(class plSpanEncoding* value)
     return pySpanEncoding_FromSpanEncoding(value);
 }
 
+inline PyObject* pyPlasma_convert(class plSpanInstance* value)
+{
+    return pySpanInstance_FromSpanInstance(value);
+}
+
 #endif

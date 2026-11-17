@@ -199,14 +199,7 @@ PY_PROPERTY(bool, CameraModifier, startAnimOnPush, getStartAnimOnPush, setStartA
 PY_PROPERTY(bool, CameraModifier, stopAnimOnPop, getStopAnimOnPop, setStopAnimOnPop)
 PY_PROPERTY(bool, CameraModifier, resetAnimOnPop, getResetAnimOnPop, setResetAnimOnPop)
 
-PY_GETSET_GETTER_DECL(CameraModifier, trans)
-{
-    const std::vector<plCameraModifier::CamTrans*>& trans = self->fThis->getTrans();
-    PyObject* tup = PyTuple_New(trans.size());
-    for (size_t i = 0; i < trans.size(); ++i)
-        PyTuple_SET_ITEM(tup, i, pyCamTrans_FromCamTrans(trans[i]));
-    return tup;
-}
+PY_PROPERTY_READ(CameraModifier, trans, getTrans)
 PY_PROPERTY_SETTER_MSG(CameraModifier, trans, "To add transitions, use addTrans()")
 PY_PROPERTY_GETSET_DECL(CameraModifier, trans)
 

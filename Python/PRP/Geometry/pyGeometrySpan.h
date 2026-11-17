@@ -21,6 +21,8 @@
 
 PY_WRAP_PLASMA(GeometrySpan, class plGeometrySpan);
 
+inline PyObject* pyPlasma_convert(plGeometrySpan* value) { return pyGeometrySpan_FromGeometrySpan(value); }
+
 template <> inline int pyPlasma_check<plGeometrySpan*>(PyObject* obj) { return pyGeometrySpan_Check(obj); }
 
 template <> inline plGeometrySpan* pyPlasma_get(PyObject* obj) { return ((pyGeometrySpan*)obj)->fThis; }

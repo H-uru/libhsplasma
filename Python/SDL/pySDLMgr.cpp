@@ -81,15 +81,7 @@ static PyMethodDef pySDLMgr_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(SDLMgr, descriptorNames)
-{
-    auto descs = self->fThis->GetDescriptorNames();
-    PyObject* tup = PyTuple_New(descs.size());
-    for (size_t i = 0; i < descs.size(); ++i)
-        PyTuple_SET_ITEM(tup, i, PyUnicode_FromSTString(descs[i]));
-    return tup;
-}
-
+PY_PROPERTY_READ(SDLMgr, descriptorNames, GetDescriptorNames)
 PY_PROPERTY_GETSET_RO_DECL(SDLMgr, descriptorNames);
 
 static PyGetSetDef pySDLMgr_GetSet[] = {

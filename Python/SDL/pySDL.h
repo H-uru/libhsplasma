@@ -26,6 +26,7 @@ PY_WRAP_PLASMA(VarDescriptor, class plVarDescriptor);
 PY_WRAP_PLASMA(StateDescriptor, class plStateDescriptor);
 
 /* Python property helpers */
+inline PyObject* pyPlasma_convert(plVarDescriptor* value) { return pyVarDescriptor_FromVarDescriptor(value); }
 inline PyObject* pyPlasma_convert(plVarDescriptor::Type value) { return PyLong_FromLong((long)value); }
 
 template <> inline int pyPlasma_check<plVarDescriptor::Type>(PyObject* value) { return PyLong_Check(value); }

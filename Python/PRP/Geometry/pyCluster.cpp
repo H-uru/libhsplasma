@@ -109,14 +109,7 @@ static PyMethodDef pyCluster_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(Cluster, instances)
-{
-    PyObject* list = PyTuple_New(self->fThis->getInstances().size());
-    for (size_t i=0; i<self->fThis->getInstances().size(); i++)
-        PyTuple_SET_ITEM(list, i, pySpanInstance_FromSpanInstance(self->fThis->getInstances()[i]));
-    return list;
-}
-
+PY_PROPERTY_READ(Cluster, instances, getInstances)
 PY_PROPERTY_SETTER_MSG(Cluster, instances, "To add instances, use addInstance")
 PY_PROPERTY_GETSET_DECL(Cluster, instances)
 

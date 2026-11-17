@@ -29,6 +29,7 @@ PY_WRAP_PLASMA(GBufferGroup, class plGBufferGroup);
 inline PyObject* pyPlasma_convert(const plGBufferCell& cell) { return pyGBufferCell_FromGBufferCell(cell); }
 inline PyObject* pyPlasma_convert(const plGBufferTriangle& triangle) { return pyGBufferTriangle_FromGBufferTriangle(triangle); }
 inline PyObject* pyPlasma_convert(const plGBufferVertex& vertex) { return pyGBufferVertex_FromGBufferVertex(vertex); }
+inline PyObject* pyPlasma_convert(plGBufferGroup* group) { return pyGBufferGroup_FromGBufferGroup(group); }
 
 template <> inline int pyPlasma_check<plGBufferCell>(PyObject* obj) { return pyGBufferCell_Check(obj); }
 template <> inline int pyPlasma_check<plGBufferTriangle>(PyObject* obj) { return pyGBufferTriangle_Check(obj); }

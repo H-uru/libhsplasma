@@ -23,4 +23,6 @@
 PY_WRAP_PLASMA(CamTrans, plCameraModifier::CamTrans)
 PY_WRAP_PLASMA(CameraModifier, plCameraModifier)
 
+inline PyObject* pyPlasma_convert(plCameraModifier::CamTrans* value) { return pyCamTrans_FromCamTrans(value); }
+
 #endif

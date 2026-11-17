@@ -146,14 +146,7 @@ static PyMethodDef pyClusterGroup_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(ClusterGroup, clusters)
-{
-    PyObject* list = PyTuple_New(self->fThis->getClusters().size());
-    for (size_t i=0; i<self->fThis->getClusters().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyCluster_FromCluster(self->fThis->getClusters()[i]));
-    return list;
-}
-
+PY_PROPERTY_READ(ClusterGroup, clusters, getClusters)
 PY_PROPERTY_SETTER_MSG(ClusterGroup, clusters, "To add clusters, use addCluster")
 PY_PROPERTY_GETSET_DECL(ClusterGroup, clusters)
 

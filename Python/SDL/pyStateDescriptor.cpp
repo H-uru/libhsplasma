@@ -145,14 +145,7 @@ PY_PROPERTY(ST::string, StateDescriptor, name, getName, setName);
 PY_PROPERTY(int, StateDescriptor, version, getVersion, setVersion);
 PY_PROPERTY_RO(StateDescriptor, valid, isValid);
 
-PY_GETSET_GETTER_DECL(StateDescriptor, variables)
-{
-    PyObject* tup = PyTuple_New(self->fThis->getNumVars());
-    for (size_t i = 0; i < self->fThis->getNumVars(); ++i)
-        PyTuple_SET_ITEM(tup, i, pyVarDescriptor_FromVarDescriptor(self->fThis->get(i)));
-    return tup;
-}
-
+PY_PROPERTY_READ(StateDescriptor, variables, getVariables)
 PY_PROPERTY_GETSET_RO_DECL(StateDescriptor, variables);
 
 static PyGetSetDef pyStateDescriptor_GetSet[] = {

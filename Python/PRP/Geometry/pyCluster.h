@@ -21,4 +21,6 @@
 
 PY_WRAP_PLASMA(Cluster, class plCluster);
 
+inline PyObject* pyPlasma_convert(class plCluster* value) { return pyCluster_FromCluster(value); }
+
 #endif
