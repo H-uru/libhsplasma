@@ -537,9 +537,33 @@ inline T pyPlasma_get(const pySequenceFastRef& value)
         return 0;                                                       \
     }
 
+#define PY_PROPERTY_MEMBER_WRITE_VECTOR(type, pyType, name, member)     \
+    PY_GETSET_SETTER_DECL(pyType, name)                                 \
+    {                                                                   \
+        static_assert(!std::is_pointer_v<type>,                         \
+                      "Vectors of pointers need ownership handling");   \
+        PY_PROPERTY_CHECK_NULL(name)                                    \
+        if (value == Py_None) {                                         \
+            self->fThis->member = std::vector<type>();                  \
+            return 0;                                                   \
+        }                                                               \
+        pySequenceFastRef seq(value);                                   \
+        if (!pyPlasma_check<std::vector<type>>(seq)) {                  \
+            PyErr_SetString(PyExc_TypeError, #name " expected an iterable of " #type); \
+            return -1;                                                  \
+        }                                                               \
+        self->fThis->member = pyPlasma_get<std::vector<type>>(seq);     \
+        return 0;                                                       \
+    }
+
 #define PY_PROPERTY_MEMBER(type, pyType, name, member)                  \
     PY_PROPERTY_MEMBER_READ(pyType, name, member)                       \
     PY_PROPERTY_MEMBER_WRITE(type, pyType, name, member)                \
+    PY_PROPERTY_GETSET_DECL(pyType, name)
+
+#define PY_PROPERTY_MEMBER_VECTOR(type, pyType, name, member)           \
+    PY_PROPERTY_MEMBER_READ(pyType, name, member)                       \
+    PY_PROPERTY_MEMBER_WRITE_VECTOR(type, pyType, name, member)         \
     PY_PROPERTY_GETSET_DECL(pyType, name)
 
 /* Helpers for properties that proxy an object through a reference, rather

@@ -22,37 +22,8 @@ PY_PLASMA_VALUE_DEALLOC(DISpanIndex)
 PY_PLASMA_EMPTY_INIT(DISpanIndex)
 PY_PLASMA_VALUE_NEW(DISpanIndex, plDISpanIndex)
 
-PY_GETSET_GETTER_DECL(DISpanIndex, indices)
-{
-    PyObject* list = PyTuple_New(self->fThis->fIndices.size());
-    for (size_t i=0; i<self->fThis->fIndices.size(); i++)
-        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->fIndices[i]));
-    return list;
-}
-
-PY_GETSET_SETTER_DECL(DISpanIndex, indices)
-{
-    PY_PROPERTY_CHECK_NULL(indices)
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "indices should be a list of ints");
-        return -1;
-    }
-    self->fThis->fIndices.resize(seq.size());
-    for (size_t i=0; i<self->fThis->fIndices.size(); i++) {
-        PyObject* item = seq.get(i);
-        if (!pyPlasma_check<unsigned int>(item)) {
-            PyErr_SetString(PyExc_TypeError, "indices should be a list of ints");
-            return -1;
-        }
-        self->fThis->fIndices[i] = pyPlasma_get<unsigned int>(item);
-    }
-    return 0;
-}
-
-PY_PROPERTY_GETSET_DECL(DISpanIndex, indices)
-
 PY_PROPERTY_MEMBER(uint8_t, DISpanIndex, flags, fFlags)
+PY_PROPERTY_MEMBER_VECTOR(unsigned int, DISpanIndex, indices, fIndices)
 
 static PyGetSetDef pyDISpanIndex_GetSet[] = {
     pyDISpanIndex_flags_getset,
