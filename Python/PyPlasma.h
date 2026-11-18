@@ -390,21 +390,11 @@ template <> inline CallbackEvent pyPlasma_get(PyObject* value) { return (Callbac
 template <> inline ControlEventCode pyPlasma_get(PyObject* value) { return (ControlEventCode)PyLong_AsLong(value); }
 template <> inline plKeyDef pyPlasma_get(PyObject* value) { return (plKeyDef)PyLong_AsLong(value); }
 
-/* Some types have memory management concerns and instances of them cannot
- * simply be stolen and stashed into a vector. Think creatables. Any non-pointer
- * copyable type is safe. */
-template <typename T>
-struct pyPlasmaGetIntoVectorAllowed : std::bool_constant<!std::is_pointer_v<T>> {};
-
 template <typename T>
 inline T pyPlasma_get(const pySequenceFastRef& value)
 {
     static_assert(pyPlasmaVectorTraits<T>::value, "Can only convert an iterable to std::vector");
     using element = typename pyPlasmaVectorTraits<T>::element;
-    static_assert(
-        pyPlasmaGetIntoVectorAllowed<element>::value,
-        "Vectors of this type have ownership semantics that must be handled manually"
-    );
 
     T vec(value.size());
     for (Py_ssize_t i = 0; i < value.size(); ++i)
@@ -475,6 +465,8 @@ inline T pyPlasma_get(const pySequenceFastRef& value)
 #define PY_PROPERTY_WRITE_VECTOR(type, pyType, name, setter)            \
     PY_GETSET_SETTER_DECL(pyType, name)                                 \
     {                                                                   \
+        static_assert(!std::is_pointer_v<type>,                         \
+                      "Vectors of pointers need ownership handling");   \
         PY_PROPERTY_CHECK_NULL(name)                                    \
         if (value == Py_None) {                                         \
             self->fThis->setter(std::vector<type>());                   \
