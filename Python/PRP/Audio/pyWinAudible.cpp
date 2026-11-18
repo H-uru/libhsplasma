@@ -65,18 +65,7 @@ static PyMethodDef pyWinAudible_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(WinAudible, sounds)
-{
-    const std::vector<plKey>& sounds = self->fThis->getSounds();
-    PyObject* list = PyTuple_New(sounds.size());
-    for (size_t i=0; i<sounds.size(); i++)
-        PyTuple_SET_ITEM(list, i, pyPlasma_convert(sounds[i]));
-    return list;
-}
-
-PY_PROPERTY_SETTER_MSG(WinAudible, sounds, "To add sounds, use addSound()")
-PY_PROPERTY_GETSET_DECL(WinAudible, sounds)
-
+PY_PROPERTY_VECTOR(plKey, WinAudible, sounds, getSounds, setSounds)
 PY_PROPERTY(plKey, WinAudible, sceneNode, getSceneNode, setSceneNode)
 
 static PyGetSetDef pyWinAudible_GetSet[] = {

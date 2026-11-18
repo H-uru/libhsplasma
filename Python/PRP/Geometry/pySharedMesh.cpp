@@ -73,18 +73,9 @@ static PyMethodDef pySharedMesh_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-
-PY_GETSET_GETTER_DECL(SharedMesh, spans)
-{
-    PyObject* list = PyTuple_New(self->fThis->getSpans().size());
-    for (size_t i = 0; i < self->fThis->getSpans().size(); ++i)
-        PyTuple_SET_ITEM(list, i, pyGeometrySpan_FromGeometrySpan(self->fThis->getSpans()[i]));
-    return list;
-}
-
+PY_PROPERTY_READ(SharedMesh, spans, getSpans)
 PY_PROPERTY_SETTER_MSG(SharedMesh, spans, "To add spans, use addSpan()")
 PY_PROPERTY_GETSET_DECL(SharedMesh, spans)
-
 
 PY_PROPERTY(uint8_t, SharedMesh, flags, getFlags, setFlags)
 PY_PROPERTY(plKey, SharedMesh, morphSet, getMorphSet, setMorphSet)

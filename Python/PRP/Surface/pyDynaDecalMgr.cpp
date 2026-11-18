@@ -158,27 +158,6 @@ static PyMethodDef pyDynaDecalMgr_Methods[] = {
 
 PY_PROPERTY(plKey, DynaDecalMgr, matPreShade, getMatPreShade, setMatPreShade)
 PY_PROPERTY(plKey, DynaDecalMgr, matRTShade, getMatRTShade, setMatRTShade)
-
-PY_GETSET_GETTER_DECL(DynaDecalMgr, targets)
-{
-    PyObject* tup = PyTuple_New(self->fThis->getNumTargets());
-    for (size_t i = 0; i < self->fThis->getNumTargets(); ++i)
-        PyTuple_SET_ITEM(tup, i, pyPlasma_convert(self->fThis->getTarget(i)));
-    return tup;
-}
-PY_PROPERTY_SETTER_MSG(DynaDecalMgr, targets, "To add a target, use addTarget()")
-PY_PROPERTY_GETSET_DECL(DynaDecalMgr, targets)
-
-PY_GETSET_GETTER_DECL(DynaDecalMgr, partyObjects)
-{
-    PyObject* tup = PyTuple_New(self->fThis->getNumPartyObjects());
-    for (size_t i = 0; i < self->fThis->getNumPartyObjects(); ++i)
-        PyTuple_SET_ITEM(tup, i, pyPlasma_convert(self->fThis->getPartyObject(i)));
-    return tup;
-}
-PY_PROPERTY_SETTER_MSG(DynaDecalMgr, partyObjects, "To add a partyObject, use addPartyObject()")
-PY_PROPERTY_GETSET_DECL(DynaDecalMgr, partyObjects)
-
 PY_PROPERTY(float, DynaDecalMgr, partyTime, getPartyTime, setPartyTime)
 PY_PROPERTY(unsigned short, DynaDecalMgr, maxNumVerts, getMaxNumVerts, setMaxNumVerts)
 PY_PROPERTY(unsigned short, DynaDecalMgr, maxNumIdx, getMaxNumIdx, setMaxNumIdx)
@@ -191,16 +170,9 @@ PY_PROPERTY(float, DynaDecalMgr, intensity, getIntensity, setIntensity)
 PY_PROPERTY(float, DynaDecalMgr, gridSizeU, getGridSizeU, setGridSizeU)
 PY_PROPERTY(float, DynaDecalMgr, gridSizeV, getGridSizeV, setGridSizeV)
 PY_PROPERTY(hsVector3, DynaDecalMgr, scale, getScale, setScale)
-
-PY_GETSET_GETTER_DECL(DynaDecalMgr, notifies)
-{
-    PyObject* tup = PyTuple_New(self->fThis->getNumNotifies());
-    for (size_t i = 0; i < self->fThis->getNumNotifies(); ++i)
-        PyTuple_SET_ITEM(tup, i, pyPlasma_convert(self->fThis->getNotify(i)));
-    return tup;
-}
-PY_PROPERTY_SETTER_MSG(DynaDecalMgr, notifies, "To add a notify, use addNotify()")
-PY_PROPERTY_GETSET_DECL(DynaDecalMgr, notifies)
+PY_PROPERTY_VECTOR(plKey, DynaDecalMgr, targets, getTargets, setTargets)
+PY_PROPERTY_VECTOR(plKey, DynaDecalMgr, partyObjects, getPartyObjects, setPartyObjects)
+PY_PROPERTY_VECTOR(plKey, DynaDecalMgr, notifies, getNotifies, setNotifies)
 
 static PyGetSetDef pyDynaDecalMgr_GetSet[] = {
     pyDynaDecalMgr_matPreShade_getset,

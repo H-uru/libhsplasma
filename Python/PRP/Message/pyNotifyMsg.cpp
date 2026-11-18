@@ -67,14 +67,7 @@ static PyMethodDef pyNotifyMsg_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(NotifyMsg, events)
-{
-    PyObject* list = PyTuple_New(self->fThis->getEvents().size());
-    for (size_t i=0; i<self->fThis->getEvents().size(); i++)
-        PyTuple_SET_ITEM(list, i, ICreateEventData(self->fThis->getEvents()[i]));
-    return list;
-}
-
+PY_PROPERTY_READ(NotifyMsg, events, getEvents)
 PY_PROPERTY_SETTER_MSG(NotifyMsg, events, "To add events, use addEvent")
 PY_PROPERTY_GETSET_DECL(NotifyMsg, events)
 

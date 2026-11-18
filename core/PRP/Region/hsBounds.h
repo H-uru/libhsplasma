@@ -18,6 +18,7 @@
 #define _HSBOUNDS_H
 
 #include <array>
+#include <vector>
 #include "Math/hsGeometry3.h"
 
 typedef std::array<hsVector3, 8> hsBounds3Corners;
@@ -149,15 +150,12 @@ class HSPLASMA_EXPORT hsBoundsOriented : public hsBounds
 protected:
     unsigned int fCenterValid;
     hsVector3 fCenter;
-    hsPlane3* fPlanes;
-    unsigned int fNumPlanes;
+    std::vector<hsPlane3> fPlanes;
 
 public:
     const char* ClassName() const HS_OVERRIDE { return "hsBoundsOriented"; }
 
-    hsBoundsOriented() : fCenterValid(), fPlanes(), fNumPlanes() { }
-    hsBoundsOriented(const hsBoundsOriented&);
-    ~hsBoundsOriented();
+    hsBoundsOriented() : fCenterValid() { }
 
     void read(hsStream* S) HS_OVERRIDE;
     void write(hsStream* S) HS_OVERRIDE;
@@ -169,12 +167,14 @@ protected:
 public:
     unsigned int getCenterValid() const { return fCenterValid; }
     hsVector3 getCenter() const { return fCenter; }
-    unsigned int getNumPlanes() const { return fNumPlanes; }
-    const hsPlane3* getPlanes() const { return fPlanes; }
+    size_t getNumPlanes() const { return fPlanes.size(); }
+    const hsPlane3* getPlanes() const { return fPlanes.data(); }
+    const std::vector<hsPlane3>& getPlanesVec() const { return fPlanes; }
 
     void setCenterValid(unsigned int valid) { fCenterValid = valid; }
     void setCenter(const hsVector3& center) { fCenter = center; }
-    void setPlanes(unsigned int numPlanes, const hsPlane3* planes);
+    void setPlanes(size_t numPlanes, const hsPlane3* planes);
+    void setPlanes(std::vector<hsPlane3> planes) { fPlanes = std::move(planes); }
 };
 
 #endif

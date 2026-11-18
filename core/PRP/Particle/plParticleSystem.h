@@ -109,24 +109,28 @@ public:
 
     const std::vector<plKey>& getForces() const { return fForces; }
     std::vector<plKey>& getForces() { return fForces; }
+    void setForces(std::vector<plKey> forces) { fForces = std::move(forces); }
     void addForce(plKey force) { fForces.emplace_back(std::move(force)); }
     void delForce(size_t idx) { fForces.erase(fForces.begin() + idx); }
     void clearForces() { fForces.clear(); }
 
     const std::vector<plKey>& getEffects() const { return fEffects; }
     std::vector<plKey>& getEffects() { return fEffects; }
+    void setEffects(std::vector<plKey> effects) { fEffects = std::move(effects); }
     void addEffect(plKey force) { fEffects.emplace_back(std::move(force)); }
     void delEffect(size_t idx) { fEffects.erase(fEffects.begin() + idx); }
     void clearEffects() { fEffects.clear(); }
 
     const std::vector<plKey>& getConstraints() const { return fConstraints; }
     std::vector<plKey>& getConstraints() { return fConstraints; }
+    void setConstraints(std::vector<plKey> constraints) { fConstraints = std::move(constraints); }
     void addConstraint(plKey force) { fConstraints.emplace_back(std::move(force)); }
     void delConstraint(size_t idx) { fConstraints.erase(fConstraints.begin() + idx); }
     void clearConstraints() { fConstraints.clear(); }
 
     const std::vector<plKey>& getPermaLights() const { return fPermaLights; }
     std::vector<plKey>& getPermaLights() { return fPermaLights; }
+    void setPermaLights(std::vector<plKey> lights) { fPermaLights = std::move(lights); }
     void addPermaLight(plKey force) { fPermaLights.emplace_back(std::move(force)); }
     void delPermaLight(size_t idx) { fPermaLights.erase(fPermaLights.begin() + idx); }
     void clearPermaLights() { fPermaLights.clear(); }

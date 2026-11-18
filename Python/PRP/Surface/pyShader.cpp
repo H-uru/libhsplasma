@@ -22,42 +22,7 @@
 
 PY_PLASMA_NEW(Shader, plShader)
 
-PY_GETSET_GETTER_DECL(Shader, constants)
-{
-    PyObject* list = PyTuple_New(self->fThis->getConsts().size());
-    for (size_t i=0; self->fThis->getConsts().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyShaderConst_FromShaderConst(self->fThis->getConsts()[i]));
-    return list;
-}
-
-PY_GETSET_SETTER_DECL(Shader, constants)
-{
-    PY_PROPERTY_CHECK_NULL(consts)
-    if (value == Py_None) {
-        self->fThis->setConsts(std::vector<plShaderConst>());
-        return 0;
-    }
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "constants should be a sequence of plShaderConsts");
-        return -1;
-    }
-    Py_ssize_t count = seq.size();
-    std::vector<plShaderConst> constList(count);
-    for (Py_ssize_t i=0; i<count; i++) {
-        PyObject* item = seq.get(i);
-        if (!pyShaderConst_Check(item)) {
-            PyErr_SetString(PyExc_TypeError, "constants should be a sequence of plShaderConsts");
-            return -1;
-        }
-        constList[i] = *((pyShaderConst*)item)->fThis;
-    }
-    self->fThis->setConsts(constList);
-    return 0;
-}
-
-PY_PROPERTY_GETSET_DECL(Shader, constants)
-
+PY_PROPERTY_VECTOR(plShaderConst, Shader, constants, getConsts, setConsts)
 PY_PROPERTY(plShader::plShaderID, Shader, id, getID, setID)
 PY_PROPERTY(unsigned char, Shader, input, getInput, setInput)
 PY_PROPERTY(unsigned char, Shader, output, getOutput, setOutput)

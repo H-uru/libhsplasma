@@ -149,6 +149,24 @@ void plSynchedObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
     }
 }
 
+void plSynchedObject::setExcludes(std::vector<ST::string> sdl)
+{
+    if (sdl.empty())
+        fSynchFlags &= ~kExcludePersistentState;
+    else
+        fSynchFlags |= kExcludePersistentState;
+    fSDLExcludeList = std::move(sdl);
+}
+
+void plSynchedObject::setVolatiles(std::vector<ST::string> sdl)
+{
+    if (sdl.empty())
+        fSynchFlags &= ~kHasVolatileState;
+    else
+        fSynchFlags |= kHasVolatileState;
+    fSDLVolatileList = std::move(sdl);
+}
+
 void plSynchedObject::setExclude(const ST::string& sdl)
 {
     fSynchFlags |= kExcludePersistentState;

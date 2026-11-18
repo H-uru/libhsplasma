@@ -61,4 +61,14 @@ inline PyObject* pyPlasma_convert(hsKeyFrame* key)
     }
 }
 
+template <> inline int pyPlasma_check<hsKeyFrame*>(PyObject* obj)
+{
+    return pyKeyFrame_Check(obj);
+}
+
+template <> inline hsKeyFrame* pyPlasma_get<hsKeyFrame*>(PyObject* obj)
+{
+    return ((pyKeyFrame*)obj)->fThis;
+}
+
 #endif

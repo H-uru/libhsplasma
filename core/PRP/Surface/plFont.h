@@ -110,6 +110,8 @@ public:
     plCharacter& operator[](size_t idx) { return fCharacters[idx]; }
     const plCharacter& getCharacter(size_t idx) const { return fCharacters[idx]; }
     plCharacter& getCharacter(size_t idx) { return fCharacters[idx]; }
+    const std::vector<plCharacter>& getCharacters() const { return fCharacters; }
+    void setCharacters(std::vector<plCharacter> characters) { fCharacters = std::move(characters); }
     const unsigned char* getGlyph(size_t idx) const { return fBmpData + fCharacters[idx].getOffset(); }
     size_t getStride() const { return ((fBPP * fWidth) + 7) / 8; }
     size_t getGlyphSize(size_t idx) const { return fCharacters[idx].getHeight() * getStride(); }

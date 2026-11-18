@@ -70,20 +70,10 @@ PY_PROPERTY(unsigned short, LineFollowMod, followFlags, getFollowFlags, setFollo
 PY_PROPERTY_CREATABLE(plAnimPath, AnimPath, LineFollowMod, path, getPath, setPath)
 PY_PROPERTY(plKey, LineFollowMod, pathParent, getPathParent, setPathParent)
 PY_PROPERTY(plKey, LineFollowMod, refObj, getRefObj, setRefObj)
+PY_PROPERTY_VECTOR(plKey, LineFollowMod, stereizers, getStereizers, setStereizers)
 PY_PROPERTY(float, LineFollowMod, offset, getOffset, setOffset)
 PY_PROPERTY(float, LineFollowMod, offsetClamp, getOffsetClamp, setOffsetClamp)
 PY_PROPERTY(float, LineFollowMod, speedClamp, getSpeedClamp, setOffsetClamp)
-
-PY_GETSET_GETTER_DECL(LineFollowMod, stereizers)
-{
-    const std::vector<plKey>& stereizers = self->fThis->getStereizers();
-    PyObject* tup = PyTuple_New(stereizers.size());
-    for (size_t i = 0; i < stereizers.size(); ++i)
-        PyTuple_SET_ITEM(tup, i, pyKey_FromKey(stereizers[i]));
-    return tup;
-}
-PY_PROPERTY_SETTER_MSG(LineFollowMod, stereizers, "To add stereizers, use addStereizer()")
-PY_PROPERTY_GETSET_DECL(LineFollowMod, stereizers)
 
 static PyGetSetDef pyLineFollowMod_GetSet[] = {
     pyLineFollowMod_followMode_getset,

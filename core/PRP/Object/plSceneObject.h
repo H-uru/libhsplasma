@@ -53,12 +53,14 @@ public:
 
     const std::vector<plKey>& getInterfaces() const { return fInterfaces; }
     std::vector<plKey>& getInterfaces() { return fInterfaces; }
+    void setInterfaces(std::vector<plKey> intfs) { fInterfaces = std::move(intfs); }
     void addInterface(plKey intf) { fInterfaces.emplace_back(std::move(intf)); }
     void delInterface(size_t idx) { fInterfaces.erase(fInterfaces.begin() + idx); }
     void clearInterfaces() { fInterfaces.clear(); }
 
     const std::vector<plKey>& getModifiers() const { return fModifiers; }
     std::vector<plKey>& getModifiers() { return fModifiers; }
+    void setModifiers(std::vector<plKey> modifiers);
     void addModifier(plKey intf);
     void delModifier(size_t idx);
     void clearModifiers();

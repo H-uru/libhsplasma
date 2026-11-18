@@ -24,4 +24,10 @@ PY_WRAP_PLASMA(VolumeIsect, plVolumeIsect);
 PY_WRAP_PLASMA_VALUE(SinglePlane, plConvexIsect::SinglePlane);
 PY_WRAP_PLASMA(ConvexIsect, plConvexIsect);
 
+inline PyObject* pyPlasma_convert(const plConvexIsect::SinglePlane& value) { return pySinglePlane_FromSinglePlane(value); }
+
+template <> inline int pyPlasma_check<plConvexIsect::SinglePlane>(PyObject* obj) { return pySinglePlane_Check(obj); }
+
+template <> inline plConvexIsect::SinglePlane pyPlasma_get(PyObject* obj) { return *((pySinglePlane*)obj)->fThis; }
+
 #endif

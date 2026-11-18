@@ -117,70 +117,6 @@ static PyMethodDef pyGenericPhysical_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(GenericPhysical, verts)
-{
-    PyObject* list = PyTuple_New(self->fThis->getVerts().size());
-    for (size_t i=0; i<self->fThis->getVerts().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getVerts()[i]));
-    return list;
-}
-
-PY_GETSET_SETTER_DECL(GenericPhysical, verts)
-{
-    PY_PROPERTY_CHECK_NULL(verts)
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "verts should be a sequence of hsVector3s");
-        return -1;
-    }
-    Py_ssize_t nVerts = seq.size();
-    std::vector<hsVector3> verts(nVerts);
-    for (Py_ssize_t i=0; i<nVerts; i++) {
-        PyObject* vert = seq.get(i);
-        if (vert == nullptr || !pyPlasma_check<hsVector3>(vert)) {
-            PyErr_SetString(PyExc_TypeError, "verts should be a sequence of hsVector3s");
-            return -1;
-        }
-        verts[i] = pyPlasma_get<hsVector3>(vert);
-    }
-    self->fThis->getVerts() = verts;
-    return 0;
-}
-
-PY_PROPERTY_GETSET_DECL(GenericPhysical, verts)
-
-PY_GETSET_GETTER_DECL(GenericPhysical, indices)
-{
-    PyObject* list = PyTuple_New(self->fThis->getIndices().size());
-    for (size_t i=0; i<self->fThis->getIndices().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getIndices()[i]));
-    return list;
-}
-
-PY_GETSET_SETTER_DECL(GenericPhysical, indices)
-{
-    PY_PROPERTY_CHECK_NULL(indices)
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "indices should be a sequence of ints");
-        return -1;
-    }
-    Py_ssize_t nIndices = seq.size();
-    std::vector<unsigned int> indices(nIndices);
-    for (Py_ssize_t i=0; i<nIndices; i++) {
-        PyObject* idx = seq.get(i);
-        if (idx == nullptr || !pyPlasma_check<unsigned int>(idx)) {
-            PyErr_SetString(PyExc_TypeError, "indices should be a sequence of ints");
-            return -1;
-        }
-        indices[i] = pyPlasma_get<unsigned int>(idx);
-    }
-    self->fThis->getIndices() = indices;
-    return 0;
-}
-
-PY_PROPERTY_GETSET_DECL(GenericPhysical, indices)
-
 PY_PROPERTY(float, GenericPhysical, mass, getMass, setMass)
 PY_PROPERTY(float, GenericPhysical, friction, getFriction, setFriction)
 PY_PROPERTY(float, GenericPhysical, restitution, getRestitution, setRestitution)
@@ -203,6 +139,8 @@ PY_PROPERTY(hsVector3, GenericPhysical, dimensions, getDimensions, setDimensions
 PY_PROPERTY(hsVector3, GenericPhysical, offset, getOffset, setOffset)
 PY_PROPERTY(float, GenericPhysical, radius, getRadius, setRadius)
 PY_PROPERTY(float, GenericPhysical, length, getLength, setLength)
+PY_PROPERTY_VECTOR(hsVector3, GenericPhysical, verts, getVerts, setVerts)
+PY_PROPERTY_VECTOR(unsigned int, GenericPhysical, indices, getIndices, setIndices)
 
 PY_GETSET_GETTER_DECL(GenericPhysical, TMDBuffer)
 {

@@ -76,6 +76,7 @@ public:
 
     const std::vector<plKey>& getVisRegions() const { return fVisRegions; }
     std::vector<plKey>& getVisRegions() { return fVisRegions; }
+    void setVisRegions(std::vector<plKey> regions) { fVisRegions = std::move(regions); }
     void addVisRegion(plKey region) { fVisRegions.emplace_back(std::move(region)); }
     void delVisRegion(size_t idx) { fVisRegions.erase(fVisRegions.begin() + idx); }
     void clearVisRegions() { fVisRegions.clear(); }

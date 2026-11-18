@@ -54,69 +54,9 @@ static PyMethodDef pySynchedObject_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(SynchedObject, excludes)
-{
-    plSynchedObject* so = self->fThis;
-    PyObject* list = PyTuple_New(so->getExcludes().size());
-    for (size_t i=0; i<so->getExcludes().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyPlasma_convert(so->getExcludes()[i]));
-    return list;
-}
-
-PY_GETSET_SETTER_DECL(SynchedObject, excludes)
-{
-    PY_PROPERTY_CHECK_NULL(excludes)
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "excludes should be a sequence of strings");
-        return -1;
-    }
-    Py_ssize_t count = seq.size();
-    for (Py_ssize_t i=0; i<count; i++) {
-        PyObject* item = seq.get(i);
-        if (!pyPlasma_check<ST::string>(item)) {
-            PyErr_SetString(PyExc_TypeError, "excludes should be a list of strings");
-            return -1;
-        }
-        self->fThis->setExclude(pyPlasma_get<ST::string>(item));
-    }
-    return 0;
-}
-
-PY_PROPERTY_GETSET_DECL(SynchedObject, excludes)
-
-PY_GETSET_GETTER_DECL(SynchedObject, volatiles)
-{
-    plSynchedObject* so = self->fThis;
-    PyObject* list = PyTuple_New(so->getVolatiles().size());
-    for (size_t i=0; i<so->getVolatiles().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyPlasma_convert(so->getVolatiles()[i]));
-    return list;
-}
-
-PY_GETSET_SETTER_DECL(SynchedObject, volatiles)
-{
-    PY_PROPERTY_CHECK_NULL(volatiles)
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "volatiles should be a list of strings");
-        return -1;
-    }
-    Py_ssize_t count = seq.size();
-    for (Py_ssize_t i=0; i<count; i++) {
-        PyObject* item = seq.get(i);
-        if (!pyPlasma_check<ST::string>(item)) {
-            PyErr_SetString(PyExc_TypeError, "volatiles should be a list of strings");
-            return -1;
-        }
-        self->fThis->setVolatile(pyPlasma_get<ST::string>(item));
-    }
-    return 0;
-}
-
-PY_PROPERTY_GETSET_DECL(SynchedObject, volatiles)
-
 PY_PROPERTY(int, SynchedObject, synchFlags, getSynchFlags, setSynchFlags)
+PY_PROPERTY_VECTOR(ST::string, SynchedObject, excludes, getExcludes, setExcludes)
+PY_PROPERTY_VECTOR(ST::string, SynchedObject, volatiles, getVolatiles, setVolatiles)
 
 static PyGetSetDef pySynchedObject_GetSet[] = {
     pySynchedObject_synchFlags_getset,

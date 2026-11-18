@@ -66,17 +66,7 @@ static PyMethodDef pySoftVolumeComplex_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(SoftVolumeComplex, subVolumes)
-{
-    const std::vector<plKey>& sv = self->fThis->getSubVolumes();
-    PyObject* tup = PyTuple_New(sv.size());
-    for (size_t i = 0; i < sv.size(); ++i)
-        PyTuple_SET_ITEM(tup, i, pyKey_FromKey(sv[i]));
-    return tup;
-}
-
-PY_PROPERTY_SETTER_MSG(SoftVolumeComplex, subVolumes, "To add subvolumes, use addSubVolume")
-PY_PROPERTY_GETSET_DECL(SoftVolumeComplex, subVolumes)
+PY_PROPERTY_VECTOR(plKey, SoftVolumeComplex, subVolumes, getSubVolumes, setSubVolumes)
 
 PyGetSetDef pySoftVolumeComplex_GetSet[] = {
     pySoftVolumeComplex_subVolumes_getset,

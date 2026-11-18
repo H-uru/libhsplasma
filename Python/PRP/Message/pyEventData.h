@@ -39,4 +39,6 @@ PY_WRAP_PLASMA(ClimbingBlockerHitEventData, class proClimbingBlockerHitEventData
 
 PyObject* ICreateEventData(class proEventData*);
 
+inline PyObject* pyPlasma_convert(class proEventData* value) { return ICreateEventData(value); }
+
 #endif

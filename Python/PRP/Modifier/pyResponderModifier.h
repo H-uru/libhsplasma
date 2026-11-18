@@ -25,4 +25,14 @@ PY_WRAP_PLASMA(ResponderModifier_State, plResponderModifier::plResponderState);
 PY_WRAP_PLASMA(ResponderModifier, plResponderModifier);
 PY_WRAP_PLASMA(ResponderEnableMsg, plResponderEnableMsg);
 
+inline PyObject* pyPlasma_convert(plResponderModifier::plResponderCmd* value)
+{
+    return pyResponderModifier_Cmd_FromResponderModifier_Cmd(value);
+}
+
+inline PyObject* pyPlasma_convert(plResponderModifier::plResponderState* value)
+{
+    return pyResponderModifier_State_FromResponderModifier_State(value);
+}
+
 #endif

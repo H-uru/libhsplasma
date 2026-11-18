@@ -21,107 +21,11 @@
 
 PY_PLASMA_NEW(SimpleParticleGenerator, plSimpleParticleGenerator)
 
-PY_GETSET_GETTER_DECL(SimpleParticleGenerator, initPos)
-{
-    const auto& pos = self->fThis->getInitPos();
-    PyObject* result = PyTuple_New(pos.size());
-    for (size_t i = 0; i < pos.size(); ++i)
-        PyTuple_SET_ITEM(result, i, pyVector3_FromVector3(pos[i]));
-    return result;
-}
-
-PY_GETSET_SETTER_DECL(SimpleParticleGenerator, initPos)
-{
-    PY_PROPERTY_CHECK_NULL(initPos);
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "initPos should be a sequence of hsVector3 objects");
-        return -1;
-    }
-    std::vector<hsVector3> pos(seq.size());
-    for (size_t i = 0; i < pos.size(); ++i) {
-        PyObject* vec = seq.get(i);
-        if (!pyVector3_Check(vec)) {
-            PyErr_SetString(PyExc_TypeError, "initPos should be a sequence of hsVector3 objects");
-            return -1;
-        }
-        pos[i] = *((pyVector3*)vec)->fThis;
-    }
-    self->fThis->setInitPos(pos);
-    return 0;
-}
-
-PY_PROPERTY_GETSET_DECL(SimpleParticleGenerator, initPos)
-
-
-PY_GETSET_GETTER_DECL(SimpleParticleGenerator, initPitch)
-{
-    const auto& pitch = self->fThis->getInitPitch();
-    PyObject* result = PyTuple_New(pitch.size());
-    for (size_t i = 0; i < pitch.size(); ++i)
-        PyTuple_SET_ITEM(result, i, pyPlasma_convert(pitch[i]));
-    return result;
-}
-
-PY_GETSET_SETTER_DECL(SimpleParticleGenerator, initPitch)
-{
-    PY_PROPERTY_CHECK_NULL(initPitch);
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "initPitch should be a sequence of floats");
-        return -1;
-    }
-    std::vector<float> pitch(seq.size());
-    for (size_t i = 0; i < pitch.size(); ++i) {
-        PyObject* value = seq.get(i);
-        if (!pyPlasma_check<float>(value)) {
-            PyErr_SetString(PyExc_TypeError, "initPitch should be a sequence of floats");
-            return -1;
-        }
-        pitch[i] = pyPlasma_get<float>(value);
-    }
-    self->fThis->setInitPitch(pitch);
-    return 0;
-}
-
-PY_PROPERTY_GETSET_DECL(SimpleParticleGenerator, initPitch)
-
-
-PY_GETSET_GETTER_DECL(SimpleParticleGenerator, initYaw)
-{
-    const auto& yaw = self->fThis->getInitYaw();
-    PyObject* result = PyTuple_New(yaw.size());
-    for (size_t i = 0; i < yaw.size(); ++i)
-        PyTuple_SET_ITEM(result, i, pyPlasma_convert(yaw[i]));
-    return result;
-}
-
-PY_GETSET_SETTER_DECL(SimpleParticleGenerator, initYaw)
-{
-    PY_PROPERTY_CHECK_NULL(initYaw);
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "initYaw should be a sequence of floats");
-        return -1;
-    }
-    std::vector<float> yaw(seq.size());
-    for (size_t i = 0; i < yaw.size(); ++i) {
-        PyObject* value = seq.get(i);
-        if (!pyPlasma_check<float>(value)) {
-            PyErr_SetString(PyExc_TypeError, "initYaw should be a sequence of floats");
-            return -1;
-        }
-        yaw[i] = pyPlasma_get<float>(value);
-    }
-    self->fThis->setInitYaw(yaw);
-    return 0;
-}
-
-PY_PROPERTY_GETSET_DECL(SimpleParticleGenerator, initYaw)
-
-
 PY_PROPERTY(float, SimpleParticleGenerator, particlesPerSecond,
             getParticlesPerSecond, setParticlesPerSecond)
+PY_PROPERTY_VECTOR(hsVector3, SimpleParticleGenerator, initPos, getInitPos, setInitPos)
+PY_PROPERTY_VECTOR(float, SimpleParticleGenerator, initPitch, getInitPitch, setInitPitch)
+PY_PROPERTY_VECTOR(float, SimpleParticleGenerator, initYaw, getInitYaw, setInitYaw)
 PY_PROPERTY(float, SimpleParticleGenerator, angleRange, getAngleRange, setAngleRange)
 PY_PROPERTY(float, SimpleParticleGenerator, velMin, getVelMin, setVelMin)
 PY_PROPERTY(float, SimpleParticleGenerator, velMax, getVelMax, setVelMax)

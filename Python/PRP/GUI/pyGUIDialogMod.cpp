@@ -66,6 +66,7 @@ static PyMethodDef pyGUIDialogMod_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
+PY_PROPERTY_VECTOR(plKey, GUIDialogMod, controls, getControls, setControls)
 PY_PROPERTY(int, GUIDialogMod, tagID, getTagID, setTagID)
 PY_PROPERTY(int, GUIDialogMod, version, getVersion, setVersion)
 PY_PROPERTY(plKey, GUIDialogMod, renderMod, getRenderMod, setRenderMod)
@@ -73,16 +74,6 @@ PY_PROPERTY(ST::string, GUIDialogMod, name, getName, setName)
 PY_PROPERTY(plKey, GUIDialogMod, procReceiver, getProcReceiver, setProcReceiver)
 PY_PROPERTY(plKey, GUIDialogMod, sceneNode, getSceneNode, setSceneNode)
 PY_PROPERTY_PROXY(pfGUIColorScheme, GUIDialogMod, colorScheme, getColorScheme)
-
-PY_GETSET_GETTER_DECL(GUIDialogMod, controls)
-{
-    PyObject* list = PyTuple_New(self->fThis->getControls().size());
-    for (size_t i = 0; i < self->fThis->getControls().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getControls()[i]));
-    return list;
-}
-PY_PROPERTY_SETTER_MSG(GUIDialogMod, controls, "To add controls, use addControl()")
-PY_PROPERTY_GETSET_DECL(GUIDialogMod, controls)
 
 static PyGetSetDef pyGUIDialogMod_GetSet[] = {
     pyGUIDialogMod_tagID_getset,

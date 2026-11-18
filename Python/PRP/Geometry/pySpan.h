@@ -26,4 +26,6 @@ PY_WRAP_PLASMA(ParticleSpan, class plParticleSpan);
 
 PyObject* ICreateSpan(class plSpan*);
 
+inline PyObject* pyPlasma_convert(class plSpan* value) { return ICreateSpan(value); }
+
 #endif

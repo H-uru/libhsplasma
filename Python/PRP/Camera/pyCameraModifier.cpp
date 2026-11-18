@@ -199,14 +199,7 @@ PY_PROPERTY(bool, CameraModifier, startAnimOnPush, getStartAnimOnPush, setStartA
 PY_PROPERTY(bool, CameraModifier, stopAnimOnPop, getStopAnimOnPop, setStopAnimOnPop)
 PY_PROPERTY(bool, CameraModifier, resetAnimOnPop, getResetAnimOnPop, setResetAnimOnPop)
 
-PY_GETSET_GETTER_DECL(CameraModifier, trans)
-{
-    const std::vector<plCameraModifier::CamTrans*>& trans = self->fThis->getTrans();
-    PyObject* tup = PyTuple_New(trans.size());
-    for (size_t i = 0; i < trans.size(); ++i)
-        PyTuple_SET_ITEM(tup, i, pyCamTrans_FromCamTrans(trans[i]));
-    return tup;
-}
+PY_PROPERTY_READ(CameraModifier, trans, getTrans)
 PY_PROPERTY_SETTER_MSG(CameraModifier, trans, "To add transitions, use addTrans()")
 PY_PROPERTY_GETSET_DECL(CameraModifier, trans)
 
@@ -224,14 +217,7 @@ PY_GETSET_GETTER_DECL(CameraModifier, messageQueue)
 PY_PROPERTY_SETTER_MSG(CameraModifier, messageQueue, "To add messages, use addMessage()")
 PY_PROPERTY_GETSET_DECL(CameraModifier, messageQueue)
 
-PY_GETSET_GETTER_DECL(CameraModifier, fovInstructions)
-{
-    const std::vector<plCameraMsg*>& msgs = self->fThis->getFOVInstructions();
-    PyObject* tup = PyTuple_New(msgs.size());
-    for (size_t i = 0; i < msgs.size(); ++i)
-        PyTuple_SET_ITEM(tup, i, ICreate(msgs[i]));
-    return tup;
-}
+PY_PROPERTY_READ(CameraModifier, fovInstructions, getFOVInstructions)
 PY_PROPERTY_SETTER_MSG(CameraModifier, fovInstructions, "To add FOV Instructions, use addFOVInstruction()")
 PY_PROPERTY_GETSET_DECL(CameraModifier, fovInstructions)
 

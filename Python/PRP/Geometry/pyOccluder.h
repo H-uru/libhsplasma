@@ -19,8 +19,16 @@
 
 #include "PyPlasma.h"
 
+#include <PRP/Geometry/plOccluder.h>
+
 PY_WRAP_PLASMA_VALUE(CullPoly, class plCullPoly);
 PY_WRAP_PLASMA(Occluder, class plOccluder);
 PY_WRAP_PLASMA(MobileOccluder, class plMobileOccluder);
+
+inline PyObject* pyPlasma_convert(const plCullPoly& poly) { return pyCullPoly_FromCullPoly(poly); }
+
+template <> inline int pyPlasma_check<plCullPoly>(PyObject* obj) { return pyCullPoly_Check(obj); }
+
+template <> inline plCullPoly pyPlasma_get<plCullPoly>(PyObject* obj) { return *((pyCullPoly*)obj)->fThis; }
 
 #endif

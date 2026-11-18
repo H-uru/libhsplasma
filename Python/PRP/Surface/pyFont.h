@@ -23,4 +23,10 @@
 PY_WRAP_PLASMA(Font, class plFont);
 PY_WRAP_PLASMA_VALUE(FontCharacter, plFont::plCharacter);
 
+inline PyObject* pyPlasma_convert(plFont::plCharacter value) { return pyFontCharacter_FromFontCharacter(value); }
+
+template <> inline int pyPlasma_check<plFont::plCharacter>(PyObject* obj) { return pyFontCharacter_Check(obj); }
+
+template <> inline plFont::plCharacter pyPlasma_get(PyObject* obj) { return *((pyFontCharacter*)obj)->fThis; }
+
 #endif

@@ -90,12 +90,14 @@ public:
 
     const std::vector<plKey>& getRegions() const { return fRegions; }
     std::vector<plKey>& getRegions() { return fRegions; }
+    void setRegions(std::vector<plKey> regions) { fRegions = std::move(regions); }
     void addRegion(plKey region) { fRegions.emplace_back(std::move(region)); }
     void delRegion(size_t idx) { fRegions.erase(fRegions.begin() + idx); }
     void clearRegions() { fRegions.clear(); }
 
     const std::vector<plKey>& getLights() const { return fLights; }
     std::vector<plKey>& getLights() { return fLights; }
+    void setLights(std::vector<plKey> lights) { fLights = std::move(lights); }
     void addLight(plKey light) { fLights.emplace_back(std::move(light)); }
     void delLight(size_t idx) { fLights.erase(fLights.begin() + idx); }
     void clearLights() { fLights.clear(); }

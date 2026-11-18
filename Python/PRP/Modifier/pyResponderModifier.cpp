@@ -66,14 +66,7 @@ static PyMethodDef pyResponderModifier_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(ResponderModifier, states)
-{
-    PyObject* list = PyTuple_New(self->fThis->getStates().size());
-    for (size_t i=0; i<self->fThis->getStates().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyResponderModifier_State_FromResponderModifier_State(self->fThis->getStates()[i]));
-    return list;
-}
-
+PY_PROPERTY_READ(ResponderModifier, states, getStates)
 PY_PROPERTY_SETTER_MSG(ResponderModifier, states, "To add states, use addState")
 PY_PROPERTY_GETSET_DECL(ResponderModifier, states)
 

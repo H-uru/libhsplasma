@@ -41,6 +41,7 @@ protected:
 public:
     const std::vector<plKey>& getConditions() const { return fConditionList; }
     std::vector<plKey>& getConditions() { return fConditionList; }
+    void setConditions(std::vector<plKey> conditions) { fConditionList = std::move(conditions); }
     void addCondition(plKey cond) { fConditionList.emplace_back(std::move(cond)); }
     void delCondition(size_t idx) { fConditionList.erase(fConditionList.begin() + idx); }
     void clearConditions() { fConditionList.clear(); }

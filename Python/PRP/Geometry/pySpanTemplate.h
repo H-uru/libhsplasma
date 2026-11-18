@@ -29,4 +29,19 @@ inline PyObject* pyPlasma_convert(plSpanTemplate* value)
     return pySpanTemplate_FromSpanTemplate(value);
 }
 
+inline PyObject* pyPlasma_convert(const plSpanTemplate::Vertex& value)
+{
+    return pySpanTemplateVertex_FromSpanTemplateVertex(value);
+}
+
+template <> inline int pyPlasma_check<plSpanTemplate::Vertex>(PyObject* obj)
+{
+    return pySpanTemplateVertex_Check(obj);
+}
+
+template <> inline plSpanTemplate::Vertex pyPlasma_get(PyObject* obj)
+{
+    return *((pySpanTemplateVertex*)obj)->fThis;
+}
+
 #endif

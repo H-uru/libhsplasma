@@ -159,12 +159,14 @@ protected:
 public:
     size_t getNumSpans() const { return fSpans.size(); }
     plSpan* getSpan(size_t idx) const { return fSpans[idx]; }
+    const std::vector<plSpan*>& getSpans() const { return fSpans; }
     plIcicle* getIcicle(size_t idx) const { return (plIcicle*)fSpans[idx]; }
     size_t addIcicle(plIcicle* span);
     void clearSpans();
 
     size_t getNumBufferGroups() const { return fGroups.size(); }
     plGBufferGroup* getBuffer(size_t group) const { return fGroups[group]; }
+    const std::vector<plGBufferGroup*>& getBufferGroups() const { return fGroups; }
     size_t createBufferGroup(unsigned char format);
     void deleteBufferGroup(size_t group);
     std::vector<plGBufferVertex> getVerts(const plIcicle* span) const;
@@ -179,6 +181,7 @@ public:
     plDISpanIndex& getDIIndex(size_t idx) { return fDIIndices[idx]; }
     const std::vector<plDISpanIndex>& getDIIndices() const { return fDIIndices; }
     std::vector<plDISpanIndex>& getDIIndices() { return fDIIndices; }
+    void setDIIndices(std::vector<plDISpanIndex> indices) { fDIIndices = std::move(indices); }
     size_t addDIIndex(const plDISpanIndex& idx);
     void delDIIndex(size_t idx) { fDIIndices.erase(fDIIndices.begin() + idx); }
     void clearDIIndices() { fDIIndices.clear(); }
@@ -188,6 +191,10 @@ public:
     hsMatrix44 getWorldToLocal(size_t idx) const { return fWorldToLocals[idx]; }
     hsMatrix44 getLocalToBone(size_t idx) const { return fLocalToBones[idx]; }
     hsMatrix44 getBoneToLocal(size_t idx) const { return fBoneToLocals[idx]; }
+    const std::vector<hsMatrix44>& getLocalToWorlds() const { return fLocalToWorlds; }
+    const std::vector<hsMatrix44>& getWorldToLocals() const { return fWorldToLocals; }
+    const std::vector<hsMatrix44>& getLocalToBones() const { return fLocalToBones; }
+    const std::vector<hsMatrix44>& getBoneToLocals() const { return fWorldToLocals; }
     void clearTransforms();
     size_t addTransform(const hsMatrix44& l2w, const hsMatrix44& w2l,
                         const hsMatrix44& l2b, const hsMatrix44& b2l);
@@ -206,6 +213,7 @@ public:
 
     const std::vector<plKey>& getMaterials() const { return fMaterials; }
     std::vector<plKey>& getMaterials() { return fMaterials; }
+    void setMaterials(std::vector<plKey> materials) { fMaterials = std::move(materials); }
     void addMaterial(plKey mat) { fMaterials.emplace_back(std::move(mat)); }
     void clearMaterials() { fMaterials.clear(); }
 

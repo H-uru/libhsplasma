@@ -50,17 +50,6 @@ static PyMethodDef pyLightInfo_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(LightInfo, visRegions)
-{
-    PyObject* list = PyTuple_New(self->fThis->getVisRegions().size());
-    for (size_t i=0; i<self->fThis->getVisRegions().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getVisRegions()[i]));
-    return list;
-}
-
-PY_PROPERTY_SETTER_MSG(LightInfo, visRegions, "To add Vis Regions, use addVisRegion()")
-PY_PROPERTY_GETSET_DECL(LightInfo, visRegions)
-
 PY_PROPERTY(hsColorRGBA, LightInfo, ambient, getAmbient, setAmbient)
 PY_PROPERTY(hsColorRGBA, LightInfo, diffuse, getDiffuse, setDiffuse)
 PY_PROPERTY(hsColorRGBA, LightInfo, specular, getSpecular, setSpecular)
@@ -71,6 +60,7 @@ PY_PROPERTY(hsMatrix44, LightInfo, worldToLight, getWorldToLight, setWorldToLigh
 PY_PROPERTY(plKey, LightInfo, projection, getProjection, setProjection)
 PY_PROPERTY(plKey, LightInfo, softVolume, getSoftVolume, setSoftVolume)
 PY_PROPERTY(plKey, LightInfo, sceneNode, getSceneNode, setSceneNode)
+PY_PROPERTY_VECTOR(plKey, LightInfo, visRegions, getVisRegions, setVisRegions)
 
 static PyGetSetDef pyLightInfo_GetSet[] = {
     pyLightInfo_ambient_getset,

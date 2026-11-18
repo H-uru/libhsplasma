@@ -67,15 +67,7 @@ static PyMethodDef pyActivePrintShape_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(ActivePrintShape, decalMgrs)
-{
-    PyObject* tup = PyTuple_New(self->fThis->getNumDecalMgrs());
-    for (size_t i = 0; i < self->fThis->getNumDecalMgrs(); ++i)
-        PyTuple_SET_ITEM(tup, i, pyPlasma_convert(self->fThis->getDecalMgr(i)));
-    return tup;
-}
-
-PY_PROPERTY_GETSET_RO_DECL(ActivePrintShape, decalMgrs)
+PY_PROPERTY_VECTOR(plKey, ActivePrintShape, decalMgrs, getDecalMgrs, setDecalMgrs)
 
 static PyGetSetDef pyActivePrintShape_GetSet[] = {
     pyActivePrintShape_decalMgrs_getset,

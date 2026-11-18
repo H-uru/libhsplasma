@@ -21,72 +21,10 @@
 
 PY_PLASMA_NEW(OneTimeParticleGenerator, plOneTimeParticleGenerator)
 
-PY_GETSET_GETTER_DECL(OneTimeParticleGenerator, position)
-{
-    const auto& pos = self->fThis->getPosition();
-    PyObject* result = PyTuple_New(pos.size());
-    for (size_t i = 0; i < pos.size(); ++i)
-        PyTuple_SET_ITEM(result, i, pyVector3_FromVector3(pos[i]));
-    return result;
-}
-
-PY_GETSET_SETTER_DECL(OneTimeParticleGenerator, position)
-{
-    PY_PROPERTY_CHECK_NULL(position);
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "position should be a sequence of hsVector3 objects");
-        return -1;
-    }
-    std::vector<hsVector3> pos(seq.size());
-    for (size_t i = 0; i < pos.size(); ++i) {
-        PyObject* vec = seq.get(i);
-        if (!pyVector3_Check(vec)) {
-            PyErr_SetString(PyExc_TypeError, "position should be a sequence of hsVector3 objects");
-            return -1;
-        }
-        pos[i] = *((pyVector3*)vec)->fThis;
-    }
-    self->fThis->setPosition(pos);
-    return 0;
-}
-
-PY_PROPERTY_GETSET_DECL(OneTimeParticleGenerator, position)
-
-
-PY_GETSET_GETTER_DECL(OneTimeParticleGenerator, direction)
-{
-    const auto& dir = self->fThis->getDirection();
-    PyObject* result = PyTuple_New(dir.size());
-    for (size_t i = 0; i < dir.size(); ++i)
-        PyTuple_SET_ITEM(result, i, pyVector3_FromVector3(dir[i]));
-    return result;
-}
-
-PY_GETSET_SETTER_DECL(OneTimeParticleGenerator, direction)
-{
-    PY_PROPERTY_CHECK_NULL(direction);
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "direction should be a sequence of hsVector3 objects");
-        return -1;
-    }
-    std::vector<hsVector3> dir(seq.size());
-    for (size_t i = 0; i < dir.size(); ++i) {
-        PyObject* vec = seq.get(i);
-        if (!pyVector3_Check(vec)) {
-            PyErr_SetString(PyExc_TypeError, "direction should be a sequence of hsVector3 objects");
-            return -1;
-        }
-        dir[i] = *((pyVector3*)vec)->fThis;
-    }
-    self->fThis->setDirection(dir);
-    return 0;
-}
-
-PY_PROPERTY_GETSET_DECL(OneTimeParticleGenerator, direction)
-
-
+PY_PROPERTY_VECTOR(hsVector3, OneTimeParticleGenerator, position, getPosition,
+                   setPosition)
+PY_PROPERTY_VECTOR(hsVector3, OneTimeParticleGenerator, direction, getDirection,
+                   setDirection)
 PY_PROPERTY(float, OneTimeParticleGenerator, XSize, getXSize, setXSize)
 PY_PROPERTY(float, OneTimeParticleGenerator, YSize, getYSize, setYSize)
 PY_PROPERTY(float, OneTimeParticleGenerator, scaleMin, getScaleMin, setScaleMin)

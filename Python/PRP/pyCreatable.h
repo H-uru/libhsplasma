@@ -24,6 +24,8 @@ PY_WRAP_PLASMA(CreatableStub, class plCreatableStub);
 
 PyObject* ICreate(class plCreatable* pCre);
 
+inline PyObject* pyPlasma_convert(class plCreatable* pCre) { return ICreate(pCre); }
+
 /* Python property helpers */
 #define PY_PROPERTY_CREATABLE_READ(myType, name, getter)                \
     PY_GETSET_GETTER_DECL(myType, name)                                 \

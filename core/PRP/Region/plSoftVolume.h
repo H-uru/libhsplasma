@@ -106,6 +106,7 @@ protected:
 public:
     std::vector<plKey>& getSubVolumes() { return fSubVolumes; }
     const std::vector<plKey>& getSubVolumes() const { return fSubVolumes; }
+    void setSubVolumes(std::vector<plKey> subVolumes) { fSubVolumes = std::move(subVolumes); }
     void addSubVolume(plKey key) { fSubVolumes.emplace_back(std::move(key)); }
     void clearSubVolumes() { fSubVolumes.clear(); }
     void delSubVolume(size_t idx) { fSubVolumes.erase(fSubVolumes.begin() + idx); }

@@ -16,24 +16,14 @@
 
 #include "plIcicle.h"
 
+#include <string_theory/format>
+
 /* plIcicle */
 plIcicle::plIcicle(const plIcicle& init)
     : plVertexSpan(init), fIBufferIdx(init.fIBufferIdx),
-      fIStartIdx(init.fIStartIdx), fILength(init.fILength)
-{
-    if (fProps & kPropFacesSortable) {
-        fSortData = new plGBufferTriangle[fILength / 3];
-        for (size_t i=0; i<(fILength / 3); i++)
-            fSortData[i] = init.fSortData[i];
-    } else {
-        fSortData = nullptr;
-    }
-}
-
-plIcicle::~plIcicle()
-{
-    delete[] fSortData;
-}
+      fIStartIdx(init.fIStartIdx), fILength(init.fILength),
+      fSortData(init.fSortData)
+{ }
 
 void plIcicle::read(hsStream* S)
 {
@@ -44,12 +34,11 @@ void plIcicle::read(hsStream* S)
     }
     fILength = S->readInt();
     if (fProps & kPropFacesSortable) {
-        delete[] fSortData;
-        fSortData = new plGBufferTriangle[fILength / 3];
-        for (size_t i=0; i<(fILength / 3); i++)
+        fSortData.resize(fILength / 3);
+        for (size_t i = 0; i < (fILength / 3); i++)
             fSortData[i].read(S);
     } else {
-        fSortData = nullptr;
+        fSortData.clear();
     }
 }
 
@@ -92,8 +81,8 @@ void plIcicle::IPrcParse(const pfPrcTag* tag)
     } else if (tag->getName() == "SortData") {
         if (tag->countChildren() != (fILength / 3))
             throw pfPrcParseException(__FILE__, __LINE__, "SortData should have exactly Length/3 triangles");
-        delete[] fSortData;
-        fSortData = new plGBufferTriangle[fILength / 3];
+
+        fSortData.resize(fILength / 3);
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<(fILength / 3); i++) {
             fSortData[i].prcParse(child);
@@ -106,18 +95,30 @@ void plIcicle::IPrcParse(const pfPrcTag* tag)
 
 void plIcicle::setSortData(const plGBufferTriangle* data)
 {
-    delete[] fSortData;
     if (data == nullptr) {
         fProps &= ~kPropFacesSortable;
-        fSortData = nullptr;
+        fSortData.clear();
     } else {
         fProps |= kPropFacesSortable;
-        fSortData = new plGBufferTriangle[fILength / 3];
-        for (size_t i=0; i<(fILength / 3); i++)
-            fSortData[i] = data[i];
+        fSortData = std::vector<plGBufferTriangle>(data, data + (fILength / 3));
     }
 }
 
+void plIcicle::setSortData(std::vector<plGBufferTriangle> sortData)
+{
+    if (sortData.empty()) {
+        fProps &= ~kPropFacesSortable;
+        fSortData.clear();
+        return;
+    }
+
+    if (sortData.size() != (fILength / 3))
+        throw hsBadParamException(__FILE__, __LINE__, ST::format("Expected {} triangles, not {}",
+                                  fILength/3, sortData.size()));
+
+    fProps |= kPropFacesSortable;
+    fSortData = std::move(sortData);
+}
 
 /* plParticleSpan */
 void plParticleSpan::IPrcParse(const pfPrcTag* tag)

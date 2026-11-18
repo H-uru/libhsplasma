@@ -24,4 +24,10 @@
 
 PY_WRAP_PLASMA_VALUE(TempVertex, plGeometrySpan::TempVertex);
 
+inline PyObject* pyPlasma_convert(const plGeometrySpan::TempVertex& obj) { return pyTempVertex_FromTempVertex(obj); }
+
+template <> inline int pyPlasma_check<plGeometrySpan::TempVertex>(PyObject* obj) { return pyTempVertex_Check(obj); }
+
+template <> inline plGeometrySpan::TempVertex pyPlasma_get(PyObject* obj) { return *((pyTempVertex*)obj)->fThis; }
+
 #endif

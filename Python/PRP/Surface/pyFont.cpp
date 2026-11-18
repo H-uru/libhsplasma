@@ -97,39 +97,7 @@ PY_PROPERTY(bool, Font, italic, isItalic, setItalic)
 
 // This will get/set the whole list of characters at once.  Alternatively,
 // pyFont also has __getitem__, __setitem__, len() support.
-PY_GETSET_GETTER_DECL(Font, characters)
-{
-    PyObject* chars = PyTuple_New(self->fThis->getNumCharacters());
-    for (size_t i = 0; i < self->fThis->getNumCharacters(); ++i)
-        PyTuple_SET_ITEM(chars, i, pyFontCharacter_FromFontCharacter(self->fThis->getCharacter(i)));
-    return chars;
-}
-
-PY_GETSET_SETTER_DECL(Font, characters)
-{
-    PY_PROPERTY_CHECK_NULL(characters);
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "characters should be a sequence of plFont::plCharacter objects");
-        return -1;
-    }
-
-    // Pre-check the contents of the sequence before writing to the plFont
-    size_t numChars = seq.size();
-    for (size_t i = 0; i < numChars; ++i) {
-        if (!pyFontCharacter_Check(seq.get(i))) {
-            PyErr_SetString(PyExc_TypeError, "characters should be a sequence of plFont::plCharacter objects");
-            return -1;
-        }
-    }
-
-    self->fThis->setNumCharacters(numChars);
-    for (size_t i = 0; i < numChars; ++i)
-        self->fThis->getCharacter(i) = *((pyFontCharacter*)seq.get(i))->fThis;
-    return 0;
-}
-
-PY_PROPERTY_GETSET_DECL(Font, characters)
+PY_PROPERTY_VECTOR(plFont::plCharacter, Font, characters, getCharacters, setCharacters)
 
 static PyGetSetDef pyFont_GetSet [] = {
     pyFont_name_getset,

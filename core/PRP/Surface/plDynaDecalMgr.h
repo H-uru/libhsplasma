@@ -79,18 +79,27 @@ public:
     void setGridSizeV(float value) { fGridSizeV = value; }
     void setScale(const hsVector3& value) { fScale = value; }
 
+    const std::vector<plKey>& getTargets() const { return fTargets; }
+    std::vector<plKey>& getTargets() { return fTargets; }
+    void setTargets(std::vector<plKey> keys) { fTargets = std::move(keys); }
     void addTarget(plKey key) { fTargets.emplace_back(std::move(key)); }
     void clearTargets() { fTargets.clear(); }
     void delTarget(size_t idx) { fTargets.erase(fTargets.begin() + idx); }
     size_t getNumTargets() const { return fTargets.size(); }
     plKey getTarget(size_t idx) const { return fTargets[idx]; }
 
+    const std::vector<plKey>& getPartyObjects() const { return fPartyObjects; }
+    std::vector<plKey>& getPartyObjects() { return fPartyObjects; }
+    void setPartyObjects(std::vector<plKey> keys) { fPartyObjects = std::move(keys); }
     void addPartyObject(plKey key) { fPartyObjects.emplace_back(std::move(key)); }
     void clearPartyObjects() { fPartyObjects.clear(); }
     void delPartyObject(size_t idx) { fPartyObjects.erase(fPartyObjects.begin() + idx); }
     size_t getNumPartyObjects() const { return fPartyObjects.size(); }
     plKey getPartyObject(size_t idx) const { return fPartyObjects[idx]; }
 
+    const std::vector<plKey>& getNotifies() const { return fNotifies; }
+    std::vector<plKey>& getNotifies() { return fNotifies; }
+    void setNotifies(std::vector<plKey> keys) { fNotifies = std::move(keys); }
     void addNotify(plKey key) { fNotifies.emplace_back(std::move(key)); }
     void clearNotifies() { fNotifies.clear(); }
     void delNotify(size_t idx) { fNotifies.erase(fNotifies.begin() + idx); }

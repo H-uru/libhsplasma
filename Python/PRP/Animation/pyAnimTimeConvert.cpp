@@ -67,49 +67,7 @@ static PyMethodDef pyAnimTimeConvert_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(AnimTimeConvert, stopPoints)
-{
-    PyObject* list = PyTuple_New(self->fThis->getStopPoints().size());
-    for (size_t i=0; i<self->fThis->getStopPoints().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getStopPoints()[i]));
-    return list;
-}
-
-PY_GETSET_SETTER_DECL(AnimTimeConvert, stopPoints)
-{
-    PY_PROPERTY_CHECK_NULL(stops)
-    if (value == Py_None) {
-        self->fThis->setStopPoints(std::vector<float>());
-        return 0;
-    }
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "stopPoints should be a sequence of floats");
-        return -1;
-    }
-    std::vector<float> stops(seq.size());
-    for (size_t i=0; i<stops.size(); i++) {
-        PyObject* itm = seq.get(i);
-        if (!pyPlasma_check<float>(itm)) {
-            PyErr_SetString(PyExc_TypeError, "stopPoints should be a sequence of floats");
-            return -1;
-        }
-        stops[i] = pyPlasma_get<float>(itm);
-    }
-    self->fThis->setStopPoints(stops);
-    return 0;
-}
-
-PY_PROPERTY_GETSET_DECL(AnimTimeConvert, stopPoints)
-
-PY_GETSET_GETTER_DECL(AnimTimeConvert, callbacks)
-{
-    PyObject* list = PyTuple_New(self->fThis->getCallbacks().size());
-    for (size_t i=0; i<self->fThis->getCallbacks().size(); i++)
-        PyTuple_SET_ITEM(list, i, ICreate(self->fThis->getCallbacks()[i]));
-    return list;
-}
-
+PY_PROPERTY_READ(AnimTimeConvert, callbacks, getCallbacks)
 PY_PROPERTY_SETTER_MSG(AnimTimeConvert, callbacks, "To add callbacks, use addCallback()")
 PY_PROPERTY_GETSET_DECL(AnimTimeConvert, callbacks)
 
@@ -123,6 +81,9 @@ PY_PROPERTY(float, AnimTimeConvert, currentAnimTime, getCurrentAnimTime,
             setCurrentAnimTime)
 PY_PROPERTY(double, AnimTimeConvert, lastEvalWorldTime, getLastEvalWorldTime,
             setLastEvalWorldTime)
+
+PY_PROPERTY_VECTOR(float, AnimTimeConvert, stopPoints, getStopPoints,
+                   setStopPoints)
 
 PY_PROPERTY_CREATABLE(plATCEaseCurve, ATCEaseCurve, AnimTimeConvert,
                       easeInCurve, getEaseInCurve, setEaseInCurve)

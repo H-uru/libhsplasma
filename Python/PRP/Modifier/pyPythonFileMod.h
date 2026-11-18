@@ -19,7 +19,15 @@
 
 #include "PyPlasma.h"
 
+#include <PRP/Modifier/plPythonFileMod.h>
+
 PY_WRAP_PLASMA_VALUE(PythonParameter, struct plPythonParameter);
 PY_WRAP_PLASMA(PythonFileMod, class plPythonFileMod);
+
+inline PyObject* pyPlasma_convert(const plPythonParameter& value) { return pyPythonParameter_FromPythonParameter(value); }
+
+template <> inline int pyPlasma_check<plPythonParameter>(PyObject* obj) { return pyPythonParameter_Check(obj); }
+
+template <> inline plPythonParameter pyPlasma_get(PyObject* obj) { return *((pyPythonParameter*)obj)->fThis; }
 
 #endif

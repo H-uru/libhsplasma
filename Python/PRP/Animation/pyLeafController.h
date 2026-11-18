@@ -28,4 +28,10 @@ PY_WRAP_PLASMA(QuatController, class plQuatController);
 PY_WRAP_PLASMA(ScalarController, class plScalarController);
 PY_WRAP_PLASMA(ScaleValueController, class plScaleValueController);
 
+template <> struct pyPlasmaVectorPropertyWriteAllowed<plEaseController*> : std::true_type {};
+
+template <> inline int pyPlasma_check<class plEaseController*>(PyObject* obj) { return pyEaseController_Check(obj); }
+
+template <> inline class plEaseController* pyPlasma_get(PyObject* obj) { return ((pyEaseController*)obj)->fThis; }
+
 #endif

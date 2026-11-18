@@ -108,28 +108,11 @@ static PyMethodDef pyMultistageBehMod_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(MultistageBehMod, stages)
-{
-    PyObject* list = PyTuple_New(self->fThis->getStages().size());
-    for (size_t i=0; i<self->fThis->getStages().size(); i++)
-        PyTuple_SET_ITEM(list, i, ICreate(self->fThis->getStages()[i]));
-    return list;
-}
-
+PY_PROPERTY_READ(MultistageBehMod, stages, getStages)
 PY_PROPERTY_SETTER_MSG(MultistageBehMod, stages, "To add stages, use addStage()")
 PY_PROPERTY_GETSET_DECL(MultistageBehMod, stages)
 
-PY_GETSET_GETTER_DECL(MultistageBehMod, receivers)
-{
-    PyObject* list = PyTuple_New(self->fThis->getReceivers().size());
-    for (size_t i=0; i<self->fThis->getReceivers().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getReceivers()[i]));
-    return list;
-}
-
-PY_PROPERTY_SETTER_MSG(MultistageBehMod, receivers, "To add receivers, use addReceiver()")
-PY_PROPERTY_GETSET_DECL(MultistageBehMod, receivers)
-
+PY_PROPERTY_VECTOR(plKey, MultistageBehMod, receivers, getReceivers, setReceivers)
 PY_PROPERTY(bool, MultistageBehMod, freezePhys, getFreezePhys, setFreezePhys)
 PY_PROPERTY(bool, MultistageBehMod, smartSeek, getSmartSeek, setSmartSeek)
 PY_PROPERTY(bool, MultistageBehMod, reverseFBControlsOnRelease,

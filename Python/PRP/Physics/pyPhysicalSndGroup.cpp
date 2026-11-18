@@ -99,64 +99,8 @@ static PyMethodDef pyPhysicalSndGroup_Methods[] = {
 };
 
 PY_PROPERTY(unsigned int, PhysicalSndGroup, group, getGroup, setGroup)
-
-PY_GETSET_GETTER_DECL(PhysicalSndGroup, impactSounds)
-{
-    const std::vector<plKey>& sounds = self->fThis->getImpactSounds();
-    PyObject* tup = PyTuple_New(sounds.size());
-    for (size_t i = 0; i < sounds.size(); ++i)
-        PyTuple_SET_ITEM(tup, i, pyPlasma_convert(sounds[i]));
-    return tup;
-}
-PY_GETSET_SETTER_DECL(PhysicalSndGroup, impactSounds)
-{
-    PY_PROPERTY_CHECK_NULL(impactSounds);
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "impactSounds should be a sequence of plKey");
-        return -1;
-    }
-    self->fThis->getImpactSounds().resize(seq.size());
-    for (size_t i = 0; i < self->fThis->getImpactSounds().size(); ++i) {
-        PyObject* item = seq.get(i);
-        if (!pyPlasma_check<plKey>(item)) {
-            PyErr_SetString(PyExc_TypeError, "impactSounds should be a sequence of plKey");
-            return -1;
-        }
-        self->fThis->getImpactSounds()[i] = pyPlasma_get<plKey>(item);
-    }
-    return 0;
-}
-PY_PROPERTY_GETSET_DECL(PhysicalSndGroup, impactSounds)
-
-PY_GETSET_GETTER_DECL(PhysicalSndGroup, slideSounds)
-{
-    const std::vector<plKey>& sounds = self->fThis->getSlideSounds();
-    PyObject* tup = PyTuple_New(sounds.size());
-    for (size_t i = 0; i < sounds.size(); ++i)
-        PyTuple_SET_ITEM(tup, i, pyPlasma_convert(sounds[i]));
-    return tup;
-}
-PY_GETSET_SETTER_DECL(PhysicalSndGroup, slideSounds)
-{
-    PY_PROPERTY_CHECK_NULL(slideSounds);
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "slideSounds should be a sequence of plKey");
-        return -1;
-    }
-    self->fThis->getSlideSounds().resize(seq.size());
-    for (size_t i = 0; i < self->fThis->getSlideSounds().size(); ++i) {
-        PyObject* item = seq.get(i);
-        if (!pyPlasma_check<plKey>(item)) {
-            PyErr_SetString(PyExc_TypeError, "slideSounds should be a sequence of plKey");
-            return -1;
-        }
-        self->fThis->getSlideSounds()[i] = pyPlasma_get<plKey>(item);
-    }
-    return 0;
-}
-PY_PROPERTY_GETSET_DECL(PhysicalSndGroup, slideSounds)
+PY_PROPERTY_VECTOR(plKey, PhysicalSndGroup, impactSounds, getImpactSounds, setImpactSounds)
+PY_PROPERTY_VECTOR(plKey, PhysicalSndGroup, slideSounds, getSlideSounds, setSlideSounds)
 
 static PyGetSetDef pyPhysicalSndGroup_GetSet[] = {
     pyPhysicalSndGroup_group_getset,

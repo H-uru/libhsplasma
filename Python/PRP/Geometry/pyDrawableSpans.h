@@ -19,8 +19,16 @@
 
 #include "PyPlasma.h"
 
+#include <PRP/Geometry/plDrawableSpans.h>
+
 PY_WRAP_PLASMA_VALUE(DISpanIndex, class plDISpanIndex);
 PY_WRAP_PLASMA(Drawable, class plDrawable);
 PY_WRAP_PLASMA(DrawableSpans, class plDrawableSpans);
+
+inline PyObject* pyPlasma_convert(const plDISpanIndex& value) { return pyDISpanIndex_FromDISpanIndex(value); }
+
+template <> inline int pyPlasma_check<plDISpanIndex>(PyObject* obj) { return pyDISpanIndex_Check(obj); }
+
+template <> inline plDISpanIndex pyPlasma_get(PyObject* obj) { return *((pyDISpanIndex*)obj)->fThis; }
 
 #endif

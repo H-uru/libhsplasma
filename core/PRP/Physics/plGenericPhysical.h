@@ -148,7 +148,9 @@ public:
     void setRadius(float radius) { fRadius = radius; }
     void setLength(float length) { fLength = length; }
     void setVerts(size_t numVerts, const hsVector3* verts);
+    void setVerts(std::vector<hsVector3> verts) { fVerts = std::move(verts); }
     void setIndices(size_t numIndices, const unsigned int* indices);
+    void setIndices(std::vector<unsigned int> indices) { fIndices = std::move(indices); }
     void setTMDBuffer(size_t tmdSize, const unsigned char* tmdBuffer);
 
     // Direct baked data buffer access (Currently only for PhysX with baked data)

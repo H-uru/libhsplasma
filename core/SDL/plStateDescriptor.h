@@ -125,6 +125,7 @@ public:
     void set(const ST::string& name, plVarDescriptor* var);
 
     size_t getNumVars() const { return fVariables.size(); }
+    const std::vector<plVarDescriptor*>& getVariables() const { return fVariables; }
     void addVariable(plVarDescriptor* var) { fVariables.push_back(var); }
     void delVariable(size_t idx);
     void delVariable(const ST::string& name);

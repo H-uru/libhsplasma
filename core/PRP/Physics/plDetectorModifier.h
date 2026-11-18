@@ -38,6 +38,7 @@ protected:
 public:
     const std::vector<plKey>& getReceivers() const { return fReceivers; }
     std::vector<plKey>& getReceivers() { return fReceivers; }
+    void setReceivers(std::vector<plKey> rcvrs) { fReceivers = std::move(rcvrs); }
     void addReceiver(plKey rcvr) { fReceivers.emplace_back(std::move(rcvr)); }
     void delReceiver(size_t idx) { fReceivers.erase(fReceivers.begin() + idx); }
     void clearReceivers() { fReceivers.clear(); }

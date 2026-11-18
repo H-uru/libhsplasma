@@ -146,38 +146,9 @@ static PyMethodDef pyClusterGroup_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(ClusterGroup, clusters)
-{
-    PyObject* list = PyTuple_New(self->fThis->getClusters().size());
-    for (size_t i=0; i<self->fThis->getClusters().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyCluster_FromCluster(self->fThis->getClusters()[i]));
-    return list;
-}
-
+PY_PROPERTY_READ(ClusterGroup, clusters, getClusters)
 PY_PROPERTY_SETTER_MSG(ClusterGroup, clusters, "To add clusters, use addCluster")
 PY_PROPERTY_GETSET_DECL(ClusterGroup, clusters)
-
-PY_GETSET_GETTER_DECL(ClusterGroup, regions)
-{
-    PyObject* list = PyTuple_New(self->fThis->getRegions().size());
-    for (size_t i=0; i<self->fThis->getRegions().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getRegions()[i]));
-    return list;
-}
-
-PY_PROPERTY_SETTER_MSG(ClusterGroup, regions, "To add regions, use addRegion")
-PY_PROPERTY_GETSET_DECL(ClusterGroup, regions)
-
-PY_GETSET_GETTER_DECL(ClusterGroup, lights)
-{
-    PyObject* list = PyTuple_New(self->fThis->getLights().size());
-    for (size_t i=0; i<self->fThis->getLights().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getLights()[i]));
-    return list;
-}
-
-PY_PROPERTY_SETTER_MSG(ClusterGroup, lights, "To add lights, use addLight")
-PY_PROPERTY_GETSET_DECL(ClusterGroup, lights)
 
 PY_PROPERTY_PROXY_RO(plLODDist, ClusterGroup, LOD, getLOD)
 PY_PROPERTY_PROXY_RO(plSpanTemplate, ClusterGroup, template, getTemplate)
@@ -185,6 +156,8 @@ PY_PROPERTY(plKey, ClusterGroup, material, getMaterial, setMaterial)
 PY_PROPERTY(plKey, ClusterGroup, sceneNode, getSceneNode, setSceneNode)
 PY_PROPERTY(plKey, ClusterGroup, drawable, getDrawable, setDrawable)
 PY_PROPERTY(unsigned int, ClusterGroup, renderLevel, getRenderLevel, setRenderLevel)
+PY_PROPERTY_VECTOR(plKey, ClusterGroup, regions, getRegions, setRegions)
+PY_PROPERTY_VECTOR(plKey, ClusterGroup, lights, getLights, setLights)
 
 static PyGetSetDef pyClusterGroup_GetSet[] = {
     pyClusterGroup_LOD_getset,

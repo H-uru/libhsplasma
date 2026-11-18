@@ -67,15 +67,7 @@ static PyMethodDef pyAGAnim_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(AGAnim, applicators)
-{
-    plAGAnim* anim = self->fThis;
-    PyObject* list = PyTuple_New(anim->getApplicators().size());
-    for (size_t i=0; i < anim->getApplicators().size(); i++)
-        PyTuple_SET_ITEM(list, i, ICreate(anim->getApplicators()[i]));
-    return list;
-}
-
+PY_PROPERTY_READ(AGAnim, applicators, getApplicators)
 PY_PROPERTY_SETTER_MSG(AGAnim, applicators, "To add applicators, use addApplicator()")
 PY_PROPERTY_GETSET_DECL(AGAnim, applicators)
 

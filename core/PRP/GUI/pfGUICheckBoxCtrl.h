@@ -44,6 +44,7 @@ protected:
 public:
     const std::vector<plKey>& getAnimKeys() const { return fAnimKeys; }
     std::vector<plKey>& getAnimKeys() { return fAnimKeys; }
+    void setAnimKeys(std::vector<plKey> keys) { fAnimKeys = std::move(keys); }
     void addAnimKey(plKey key) { fAnimKeys.emplace_back(std::move(key)); }
     void delAnimKey(size_t idx) { fAnimKeys.erase(fAnimKeys.begin() + idx); }
     void clearAnimKeys() { fAnimKeys.clear(); }

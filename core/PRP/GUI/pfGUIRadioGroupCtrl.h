@@ -46,6 +46,7 @@ protected:
 public:
     const std::vector<plKey>& getControls() const { return fControls; }
     std::vector<plKey>& getControls() { return fControls; }
+    void setControls(std::vector<plKey> ctrls) { fControls = std::move(ctrls); }
     void addControl(plKey ctrl) { fControls.emplace_back(std::move(ctrl)); }
     void delControl(size_t idx) { fControls.erase(fControls.begin() + idx); }
     void clearControls() { fControls.clear(); }

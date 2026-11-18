@@ -21,40 +21,9 @@
 
 PY_PLASMA_VALUE_NEW(BoundsOriented, hsBoundsOriented)
 
-PY_GETSET_GETTER_DECL(BoundsOriented, planes)
-{
-    PyObject* list = PyTuple_New(self->fThis->getNumPlanes());
-    for (size_t i=0; i<self->fThis->getNumPlanes(); i++)
-        PyTuple_SET_ITEM(list, i, pyPlane3_FromPlane3(self->fThis->getPlanes()[i]));
-    return list;
-}
-
-PY_GETSET_SETTER_DECL(BoundsOriented, planes)
-{
-    PY_PROPERTY_CHECK_NULL(planes)
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "planes should be a sequence of hsPlane3 objects");
-        return -1;
-    }
-    Py_ssize_t numPlanes = seq.size();
-    std::vector<hsPlane3> planes(numPlanes);
-    for (Py_ssize_t i=0; i<numPlanes; i++) {
-        PyObject* item = seq.get(i);
-        if (!pyPlane3_Check(item)) {
-            PyErr_SetString(PyExc_TypeError, "planes should be a sequence of hsPlane3 objects");
-            return -1;
-        }
-        planes[i] = pyPlasma_get<hsPlane3>(item);
-    }
-    self->fThis->setPlanes(numPlanes, &planes[0]);
-    return 0;
-}
-
-PY_PROPERTY_GETSET_DECL(BoundsOriented, planes)
-
 PY_PROPERTY(hsVector3, BoundsOriented, center, getCenter, setCenter)
 PY_PROPERTY(unsigned int, BoundsOriented, centerValid, getCenterValid, setCenterValid)
+PY_PROPERTY_VECTOR(hsPlane3, BoundsOriented, planes, getPlanesVec, setPlanes)
 
 static PyGetSetDef pyBoundsOriented_GetSet[] = {
     pyBoundsOriented_center_getset,

@@ -20,6 +20,7 @@
 #include "Math/hsGeometry3.h"
 
 #include <memory>
+#include <vector>
 
 class HSPLASMA_EXPORT plSpanTemplate
 {
@@ -49,7 +50,7 @@ public:
 protected:
     unsigned short fNumVerts, fNumTris, fFormat, fStride;
     std::unique_ptr<unsigned char[]> fData;
-    std::unique_ptr<unsigned short[]> fIndices;
+    std::vector<unsigned short> fIndices;
 
 public:
     plSpanTemplate()
@@ -69,8 +70,10 @@ public:
     void setVertices(const std::vector<Vertex>& verts);
 
     unsigned short getNumTris() const { return fNumTris; }
-    const unsigned short* getIndices() const { return fIndices.get(); }
+    const unsigned short* getIndices() const { return fIndices.data(); }
+    const std::vector<unsigned short>& getIndicesVec() const { return fIndices; }
     void setIndices(unsigned short count, const unsigned short* indices);
+    void setIndices(std::vector<unsigned short> indices) { fIndices = std::move(indices); }
 
     unsigned short getFormat() const { return fFormat; }
     void setFormat(unsigned short fmt);

@@ -64,16 +64,7 @@ PyMethodDef pyConvexIsect_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(ConvexIsect, planes)
-{
-    PyObject* list = PyTuple_New(self->fThis->getPlanes().size());
-    for (size_t i = 0; i < self->fThis->getPlanes().size(); i++)
-        PyTuple_SET_ITEM(list, i, pySinglePlane_FromSinglePlane(self->fThis->getPlanes()[i]));
-    return list;
-}
-
-PY_PROPERTY_SETTER_MSG(ConvexIsect, planes, "To add planes, use addPlane")
-PY_PROPERTY_GETSET_DECL(ConvexIsect, planes)
+PY_PROPERTY_VECTOR(plConvexIsect::SinglePlane, ConvexIsect, planes, getPlanes, setPlanes)
 
 PyGetSetDef pyConvexIsect_GetSet[] = {
     pyConvexIsect_planes_getset,

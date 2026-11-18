@@ -65,18 +65,8 @@ static PyMethodDef pyGUIProgressCtrl_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(GUIProgressCtrl, animKeys)
-{
-    PyObject* list = PyTuple_New(self->fThis->getAnimKeys().size());
-    for (size_t i = 0; i<self->fThis->getAnimKeys().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getAnimKeys()[i]));
-    return list;
-}
-
-PY_PROPERTY_SETTER_MSG(GUIProgressCtrl, animKeys, "To add animations, use addAnimKey()")
-PY_PROPERTY_GETSET_DECL(GUIProgressCtrl, animKeys)
-
 PY_PROPERTY(ST::string, GUIProgressCtrl, animName, getAnimName, setAnimName)
+PY_PROPERTY_VECTOR(plKey, GUIProgressCtrl, animKeys, getAnimKeys, setAnimKeys)
 
 static PyGetSetDef pyGUIProgressCtrl_GetSet[] = {
     pyGUIProgressCtrl_animName_getset,

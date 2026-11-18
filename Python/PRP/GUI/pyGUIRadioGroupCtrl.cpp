@@ -65,17 +65,7 @@ static PyMethodDef pyGUIRadioGroupCtrl_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(GUIRadioGroupCtrl, controls)
-{
-    PyObject* list = PyTuple_New(self->fThis->getControls().size());
-    for (size_t i = 0; i<self->fThis->getControls().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getControls()[i]));
-    return list;
-}
-
-PY_PROPERTY_SETTER_MSG(GUIRadioGroupCtrl, controls, "To add controls, use addControl()")
-PY_PROPERTY_GETSET_DECL(GUIRadioGroupCtrl, controls)
-
+PY_PROPERTY_VECTOR(plKey, GUIRadioGroupCtrl, controls, getControls, setControls)
 PY_PROPERTY(int, GUIRadioGroupCtrl, defaultValue, getDefaultValue, setDefaultValue)
 
 static PyGetSetDef pyGUIRadioGroupCtrl_GetSet[] = {

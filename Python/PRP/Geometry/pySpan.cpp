@@ -122,28 +122,6 @@ static PyMethodDef pySpan_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(Span, permaLights)
-{
-    PyObject* list = PyTuple_New(self->fThis->getPermaLights().size());
-    for (size_t i=0; i<self->fThis->getPermaLights().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getPermaLights()[i]));
-    return list;
-}
-
-PY_PROPERTY_SETTER_MSG(Span, permaLights, "To add permaLights, use addPermaLight()")
-PY_PROPERTY_GETSET_DECL(Span, permaLights)
-
-PY_GETSET_GETTER_DECL(Span, permaProjs)
-{
-    PyObject* list = PyTuple_New(self->fThis->getPermaProjs().size());
-    for (size_t i=0; i<self->fThis->getPermaProjs().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getPermaProjs()[i]));
-    return list;
-}
-
-PY_PROPERTY_SETTER_MSG(Span, permaProjs, "To add permaProjs, use addPermaProj()")
-PY_PROPERTY_GETSET_DECL(Span, permaProjs)
-
 PY_PROPERTY(plKey, Span, fog, getFogEnvironment, setFogEnvironment) // Backwards compatibility
 PY_PROPERTY(plKey, Span, fogEnvironment, getFogEnvironment, setFogEnvironment)
 PY_PROPERTY(hsMatrix44, Span, localToWorld, getLocalToWorld, setLocalToWorld)
@@ -161,6 +139,8 @@ PY_PROPERTY(float, Span, maxDist, getMaxDist, setMaxDist)
 PY_PROPERTY(float, Span, waterHeight, getWaterHeight, setWaterHeight)
 PY_PROPERTY_BOUNDS(Bounds3Ext, Span, localBounds, getLocalBounds, setLocalBounds)
 PY_PROPERTY_BOUNDS(Bounds3Ext, Span, worldBounds, getWorldBounds, setWorldBounds)
+PY_PROPERTY_VECTOR(plKey, Span, permaLights, getPermaLights, setPermaLights)
+PY_PROPERTY_VECTOR(plKey, Span, permaProjs, getPermaProjs, setPermaProjs)
 
 static PyGetSetDef pySpan_GetSet[] = {
     pySpan_fogEnvironment_getset,
