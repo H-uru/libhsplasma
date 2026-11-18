@@ -20,18 +20,19 @@
 #include "plGBufferGroup.h"
 #include "plVertexSpan.h"
 
+#include <vector>
+
 class HSPLASMA_EXPORT plIcicle : public plVertexSpan
 {
 protected:
     unsigned int fIBufferIdx, fIStartIdx, fILength;
-    plGBufferTriangle* fSortData;
+    std::vector<plGBufferTriangle> fSortData;
 
 public:
     const char* ClassName() const HS_OVERRIDE { return "plIcicle"; }
 
     plIcicle() : fIBufferIdx(), fIStartIdx(), fILength(), fSortData() { }
     plIcicle(const plIcicle& init);
-    ~plIcicle();
 
     void read(hsStream* S) HS_OVERRIDE;
     void write(hsStream* S) HS_OVERRIDE;
@@ -44,12 +45,14 @@ public:
     unsigned int getIBufferIdx() const { return fIBufferIdx; }
     unsigned int getIStartIdx() const { return fIStartIdx; }
     unsigned int getILength() const { return fILength; }
-    const plGBufferTriangle* getSortData() const { return fSortData; }
+    const plGBufferTriangle* getSortData() const { return fSortData.data(); }
+    const std::vector<plGBufferTriangle>& getSortDataVec() const { return fSortData; }
 
     void setIBufferIdx(unsigned int idx) { fIBufferIdx = idx; }
     void setIStartIdx(unsigned int idx) { fIStartIdx = idx; }
     void setILength(unsigned int len) { fILength = len; }
     void setSortData(const plGBufferTriangle* data);
+    void setSortData(std::vector<plGBufferTriangle> sortData);
 };
 
 class HSPLASMA_EXPORT plParticleSpan : public plIcicle

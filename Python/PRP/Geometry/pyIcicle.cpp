@@ -21,35 +21,28 @@
 
 PY_PLASMA_NEW(Icicle, plIcicle)
 
-PY_GETSET_GETTER_DECL(Icicle, sortData)
-{
-    int size = self->fThis->getILength() / 3;
-    const plGBufferTriangle* sortData = self->fThis->getSortData();
-    if (sortData == nullptr) {
-        Py_RETURN_NONE;
-    } else {
-        PyObject* list = PyTuple_New(size);
-        for (int i=0; i<size; i++)
-            PyTuple_SET_ITEM(list, i, pyGBufferTriangle_FromGBufferTriangle(sortData[i]));
-        return list;
-    }
-}
+PY_PROPERTY_READ(Icicle, sortData, getSortDataVec)
 
 PY_GETSET_SETTER_DECL(Icicle, sortData)
 {
-    PY_PROPERTY_CHECK_NULL(sortData)
-    if (value == Py_None) {
+    if (value == nullptr || value == Py_None) {
         self->fThis->setSortData(nullptr);
         return 0;
     }
+
     pySequenceFastRef seq(value);
     if (!pyPlasma_check<std::vector<plGBufferTriangle>>(seq)) {
-        PyErr_SetString(PyExc_TypeError, "sortData should be an iterable of plGBufferTriangles");
+        PyErr_Format(PyExc_TypeError, "sortData expects an iterable of %u plGBufferTriangles",
+                     self->fThis->getILength() / 3);
         return -1;
     }
 
-    auto sortData = pyPlasma_get<std::vector<plGBufferTriangle>>(seq);
-    self->fThis->setSortData(&sortData[0]);
+    try {
+        self->fThis->setSortData(pyPlasma_get<std::vector<plGBufferTriangle>>(seq));
+    } catch (const hsBadParamException& ex) {
+        PyErr_SetString(PyExc_ValueError, ex.what());
+        return -1;
+    }
     return 0;
 }
 
