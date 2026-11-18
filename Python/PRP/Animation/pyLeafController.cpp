@@ -91,38 +91,10 @@ PY_GETSET_SETTER_DECL(LeafController, keys)
 
 PY_PROPERTY_GETSET_DECL(LeafController, keys)
 
-PY_GETSET_GETTER_DECL(LeafController, easeControllers)
-{
-    const std::vector<plEaseController*>& controllers = self->fThis->getEaseControllers();
-    PyObject* list = PyTuple_New(controllers.size());
-    for (size_t i=0; i<controllers.size(); i++)
-        PyTuple_SET_ITEM(list, i, ICreate(controllers[i]));
-    return list;
-}
-
-PY_GETSET_SETTER_DECL(LeafController, easeControllers)
-{
-    PY_PROPERTY_CHECK_NULL(easeControllers)
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "easeControllers should be a sequence of plEaseControllers");
-        return -1;
-    }
-    std::vector<plEaseController*> controllers(seq.size());
-    for (size_t i=0; i<controllers.size(); i++) {
-        PyObject* itm = seq.get(i);
-        if (!pyEaseController_Check(itm)) {
-            PyErr_SetString(PyExc_TypeError, "easeControllers should be a sequence of plEaseControllers");
-            return -1;
-        }
-        controllers[i] = ((pyEaseController*)itm)->fThis;
-    }
-    // The leaf controller copies the ease controllers, so we do not need to transfer ownership here.
-    self->fThis->setEaseControllers(controllers);
-    return 0;
-}
-
-PY_PROPERTY_GETSET_DECL(LeafController, easeControllers)
+// EaseControllers are copied by the setter, so there is no need to worry
+// about ownership transfer here.
+PY_PROPERTY_VECTOR(plEaseController*, LeafController, easeControllers,
+                   getEaseControllers, setEaseControllers)
 
 PY_PROPERTY_READ(LeafController, type, getType)
 PY_PROPERTY_SETTER_MSG(LeafController, type, "To set the key type, use the keys setter")

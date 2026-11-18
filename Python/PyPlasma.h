@@ -462,10 +462,13 @@ inline T pyPlasma_get(const pySequenceFastRef& value)
         return 0;                                                       \
     }
 
+template <typename T>
+struct pyPlasmaVectorPropertyWriteAllowed : std::bool_constant<!std::is_pointer_v<T>> {};
+
 #define PY_PROPERTY_WRITE_VECTOR(type, pyType, name, setter)            \
     PY_GETSET_SETTER_DECL(pyType, name)                                 \
     {                                                                   \
-        static_assert(!std::is_pointer_v<type>,                         \
+        static_assert(pyPlasmaVectorPropertyWriteAllowed<type>::value,  \
                       "Vectors of pointers need ownership handling");   \
         PY_PROPERTY_CHECK_NULL(name)                                    \
         if (value == Py_None) {                                         \
@@ -532,7 +535,7 @@ inline T pyPlasma_get(const pySequenceFastRef& value)
 #define PY_PROPERTY_MEMBER_WRITE_VECTOR(type, pyType, name, member)     \
     PY_GETSET_SETTER_DECL(pyType, name)                                 \
     {                                                                   \
-        static_assert(!std::is_pointer_v<type>,                         \
+        static_assert(pyPlasmaVectorPropertyWriteAllowed<type>::value,  \
                       "Vectors of pointers need ownership handling");   \
         PY_PROPERTY_CHECK_NULL(name)                                    \
         if (value == Py_None) {                                         \
