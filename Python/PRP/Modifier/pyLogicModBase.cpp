@@ -96,14 +96,7 @@ static PyMethodDef pyLogicModBase_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(LogicModBase, commands)
-{
-    PyObject* list = PyTuple_New(self->fThis->getCommands().size());
-    for (size_t i=0; i<self->fThis->getCommands().size(); i++)
-        PyTuple_SET_ITEM(list, i, ICreate(self->fThis->getCommands()[i]));
-    return list;
-}
-
+PY_PROPERTY_READ(LogicModBase, commands, getCommands)
 PY_PROPERTY_SETTER_MSG(LogicModBase, commands, "To add commands, use addCommand")
 PY_PROPERTY_GETSET_DECL(LogicModBase, commands)
 

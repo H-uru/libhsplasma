@@ -67,15 +67,7 @@ static PyMethodDef pyMessageWithCallbacks_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(MessageWithCallbacks, callbacks)
-{
-    const std::vector<plMessage*>& callbacks = self->fThis->getCallbacks();
-    PyObject* tup = PyTuple_New(callbacks.size());
-    for (size_t i = 0; i < callbacks.size(); ++i)
-        PyTuple_SET_ITEM(tup, i, ICreate(callbacks[i]));
-    return tup;
-}
-
+PY_PROPERTY_READ(MessageWithCallbacks, callbacks, getCallbacks)
 PY_PROPERTY_SETTER_MSG(MessageWithCallbacks, callbacks, "To add callbacks, use addCallback")
 PY_PROPERTY_GETSET_DECL(MessageWithCallbacks, callbacks)
 

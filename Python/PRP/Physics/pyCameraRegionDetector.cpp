@@ -63,14 +63,7 @@ static PyMethodDef pyCameraRegionDetector_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(CameraRegionDetector, messages)
-{
-    const std::vector<plCameraMsg*>& msgs = self->fThis->getMessages();
-    PyObject* tup = PyTuple_New(msgs.size());
-    for (size_t i = 0; i < msgs.size(); ++i)
-        PyTuple_SET_ITEM(tup, i, ICreate(msgs[i]));
-    return tup;
-}
+PY_PROPERTY_READ(CameraRegionDetector, messages, getMessages)
 PY_PROPERTY_SETTER_MSG(CameraRegionDetector, messages, "To add messages, use addMessage()")
 PY_PROPERTY_GETSET_DECL(CameraRegionDetector, messages)
 

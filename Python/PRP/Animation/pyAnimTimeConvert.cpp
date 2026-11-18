@@ -67,15 +67,7 @@ static PyMethodDef pyAnimTimeConvert_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-
-PY_GETSET_GETTER_DECL(AnimTimeConvert, callbacks)
-{
-    PyObject* list = PyTuple_New(self->fThis->getCallbacks().size());
-    for (size_t i=0; i<self->fThis->getCallbacks().size(); i++)
-        PyTuple_SET_ITEM(list, i, ICreate(self->fThis->getCallbacks()[i]));
-    return list;
-}
-
+PY_PROPERTY_READ(AnimTimeConvert, callbacks, getCallbacks)
 PY_PROPERTY_SETTER_MSG(AnimTimeConvert, callbacks, "To add callbacks, use addCallback()")
 PY_PROPERTY_GETSET_DECL(AnimTimeConvert, callbacks)
 
