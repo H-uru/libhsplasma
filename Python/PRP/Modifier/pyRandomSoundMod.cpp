@@ -17,7 +17,6 @@
 #include "pyRandomSoundMod.h"
 #include "pyRandomCommandMod.h"
 
-#include <PRP/Modifier/plRandomSoundMod.h>
 #include "pyModifier.h"
 #include "PRP/pyCreatable.h"
 
@@ -72,16 +71,7 @@ static PyMethodDef pyRandomSoundModGroup_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(RandomSoundModGroup, indices)
-{
-    PyObject* tup = PyTuple_New(self->fThis->getIndices().size());
-    for (size_t i = 0; i < self->fThis->getIndices().size(); ++i)
-        PyTuple_SET_ITEM(tup, i, PyLong_FromUnsignedLong(self->fThis->getIndices()[i]));
-    return tup;
-}
-
-PY_PROPERTY_SETTER_MSG(RandomSoundModGroup, indices, "To add groups, use addIndex()")
-PY_PROPERTY_GETSET_DECL(RandomSoundModGroup, indices)
+PY_PROPERTY_VECTOR(unsigned short, RandomSoundModGroup, indices, getIndices, setIndices)
 
 static PyGetSetDef pyRandomSoundModGroup_GetSet[] = {
     pyRandomSoundModGroup_indices_getset,
@@ -158,16 +148,7 @@ static PyMethodDef pyRandomSoundMod_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(RandomSoundMod, groups)
-{
-    PyObject* list = PyTuple_New(self->fThis->getGroups().size());
-    for (size_t i = 0; i < self->fThis->getGroups().size(); ++i)
-        PyTuple_SET_ITEM(list, i, pyRandomSoundModGroup_FromRandomSoundModGroup(self->fThis->getGroups()[i]));
-    return list;
-}
-
-PY_PROPERTY_SETTER_MSG(RandomSoundMod, groups, "To add groups, use addGroup()")
-PY_PROPERTY_GETSET_DECL(RandomSoundMod, groups)
+PY_PROPERTY_VECTOR(plRandomSoundModGroup, RandomSoundMod, groups, getGroups, setGroups)
 
 static PyGetSetDef pyRandomSoundMod_GetSet[] = {
     pyRandomSoundMod_groups_getset,

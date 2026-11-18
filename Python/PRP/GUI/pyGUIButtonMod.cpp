@@ -106,28 +106,10 @@ static PyMethodDef pyGUIButtonMod_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(GUIButtonMod, animationKeys)
-{
-    PyObject* list = PyTuple_New(self->fThis->getAnimationKeys().size());
-    for (size_t i = 0; i<self->fThis->getAnimationKeys().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getAnimationKeys()[i]));
-    return list;
-}
-PY_PROPERTY_SETTER_MSG(GUIButtonMod, animationKeys, "To add animations, use addAnimationKey()")
-PY_PROPERTY_GETSET_DECL(GUIButtonMod, animationKeys)
-
-PY_GETSET_GETTER_DECL(GUIButtonMod, mouseOverKeys)
-{
-    PyObject* list = PyTuple_New(self->fThis->getMouseOverKeys().size());
-    for (size_t i = 0; i<self->fThis->getMouseOverKeys().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getMouseOverKeys()[i]));
-    return list;
-}
-PY_PROPERTY_SETTER_MSG(GUIButtonMod, mouseOverKeys, "To add mouse-over animations, use addMouseOverKey()")
-PY_PROPERTY_GETSET_DECL(GUIButtonMod, mouseOverKeys)
-
+PY_PROPERTY_VECTOR(plKey, GUIButtonMod, animationKeys, getAnimationKeys, setAnimationKeys)
 PY_PROPERTY(ST::string, GUIButtonMod, animName, getAnimationName, setAnimationName)
 PY_PROPERTY(ST::string, GUIButtonMod, mouseOverAnimName, getMouseOverAnimName, setMouseOverAnimName)
+PY_PROPERTY_VECTOR(plKey, GUIButtonMod, mouseOverKeys, getMouseOverKeys, setMouseOverKeys)
 PY_PROPERTY(plKey, GUIButtonMod, draggable, getDraggable, setDraggable)
 PY_PROPERTY(int, GUIButtonMod, notifyType, getNotifyType, setNotifyType)
 

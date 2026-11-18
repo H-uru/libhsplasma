@@ -71,18 +71,21 @@ protected:
 public:
     std::vector<plKey>& getShores() { return fShores; }
     const std::vector<plKey>& getShores() const { return fShores; }
+    void setShores(std::vector<plKey> shores) { fShores = std::move(shores); }
     void addShore(plKey key) { fShores.emplace_back(std::move(key)); }
     void delShore(size_t idx) { fShores.erase(fShores.begin() + idx); }
     void clearShores() { fShores.clear(); }
 
     std::vector<plKey>& getDecals() { return fDecals; }
     const std::vector<plKey>& getDecals() const { return fDecals; }
+    void setDecals(std::vector<plKey> decals) { fDecals = std::move(decals); }
     void addDecal(plKey key) { fDecals.emplace_back(std::move(key)); }
     void delDecal(size_t idx) { fDecals.erase(fDecals.begin() + idx); }
     void clearDecals() { fDecals.clear(); }
 
     std::vector<plKey>& getBuoys() { return fBuoys; }
     const std::vector<plKey>& getBuoys() const { return fBuoys; }
+    void setBuoys(std::vector<plKey> buoys) { fBuoys = std::move(buoys); }
     void addBuoy(plKey key) { fBuoys.emplace_back(std::move(key)); }
     void delBuoy(size_t idx) { fBuoys.erase(fBuoys.begin() + idx); }
     void clearBuoys() { fBuoys.clear(); }

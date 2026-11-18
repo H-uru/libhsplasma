@@ -22,37 +22,7 @@
 
 PY_PLASMA_NEW(ConvexVolume, plConvexVolume)
 
-PY_GETSET_GETTER_DECL(ConvexVolume, localPlanes)
-{
-    const auto& planes = self->fThis->getLocalPlanes();
-    PyObject* result = PyTuple_New(planes.size());
-    for (size_t i = 0; i < planes.size(); ++i)
-        PyTuple_SET_ITEM(result, i, pyPlane3_FromPlane3(planes[i]));
-    return result;
-}
-
-PY_GETSET_SETTER_DECL(ConvexVolume, localPlanes)
-{
-    PY_PROPERTY_CHECK_NULL(localPlanes);
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "localPlanes should be a sequence of hsPlane3 objects");
-        return -1;
-    }
-    std::vector<hsPlane3> planes(seq.size());
-    for (size_t i = 0; i < planes.size(); ++i) {
-        PyObject* plane = seq.get(i);
-        if (!pyPlane3_Check(plane)) {
-            PyErr_SetString(PyExc_TypeError, "localPlanes should be a sequence of hsPlane3 objects");
-            return -1;
-        }
-        planes[i] = *((pyPlane3*)plane)->fThis;
-    }
-    self->fThis->setLocalPlanes(planes);
-    return 0;
-}
-
-PY_PROPERTY_GETSET_DECL(ConvexVolume, localPlanes)
+PY_PROPERTY_VECTOR(hsPlane3, ConvexVolume, localPlanes, getLocalPlanes, setLocalPlanes)
 
 static PyGetSetDef pyConvexVolume_GetSet[] = {
     pyConvexVolume_localPlanes_getset,

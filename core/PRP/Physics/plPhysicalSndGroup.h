@@ -52,12 +52,14 @@ public:
 
     const std::vector<plKey>& getImpactSounds() const { return fImpactSounds; }
     std::vector<plKey>& getImpactSounds() { return fImpactSounds; }
+    void setImpactSounds(std::vector<plKey> sounds) { fImpactSounds = std::move(sounds); }
     void addImpactSound(plKey sound) { fImpactSounds.emplace_back(std::move(sound)); }
     void delImpactSound(size_t idx) { fImpactSounds.erase(fImpactSounds.begin() + idx); }
     void clearImpactSounds() { fImpactSounds.clear(); }
 
     const std::vector<plKey>& getSlideSounds() const { return fSlideSounds; }
     std::vector<plKey>& getSlideSounds() { return fSlideSounds; }
+    void setSlideSounds(std::vector<plKey> sound) { fSlideSounds = std::move(sound); }
     void addSlideSound(plKey sound) { fSlideSounds.emplace_back(std::move(sound)); }
     void delSlideSound(size_t idx) { fSlideSounds.erase(fSlideSounds.begin() + idx); }
     void clearSlideSounds() { fSlideSounds.clear(); }

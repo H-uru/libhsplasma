@@ -87,6 +87,7 @@ public:
     void addStereizer(plKey stereizer) { fStereizers.emplace_back(std::move(stereizer)); }
     void delStereizer(size_t idx) { fStereizers.erase(fStereizers.begin() + idx); }
     void clearStereizers() { fStereizers.clear(); }
+    void setStereizers(std::vector<plKey> stereizers) { fStereizers = std::move(stereizers); }
 };
 
 class HSPLASMA_EXPORT plRailCameraMod : public plLineFollowMod

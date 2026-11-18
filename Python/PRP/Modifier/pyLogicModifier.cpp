@@ -65,17 +65,7 @@ static PyMethodDef pyLogicModifier_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(LogicModifier, conditions)
-{
-    PyObject* list = PyTuple_New(self->fThis->getConditions().size());
-    for (size_t i=0; i<self->fThis->getConditions().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getConditions()[i]));
-    return list;
-}
-
-PY_PROPERTY_SETTER_MSG(LogicModifier, conditions, "To add conditions, use addCondition")
-PY_PROPERTY_GETSET_DECL(LogicModifier, conditions)
-
+PY_PROPERTY_VECTOR(plKey, LogicModifier, conditions, getConditions, setConditions)
 PY_PROPERTY(unsigned int, LogicModifier, cursor, getCursor, setCursor)
 PY_PROPERTY(plKey, LogicModifier, parent, getParent, setParent)
 

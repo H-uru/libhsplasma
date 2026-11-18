@@ -66,18 +66,7 @@ static PyMethodDef pyExcludeRegionModifier_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(ExcludeRegionModifier, safePoints)
-{
-    const std::vector<plKey>& points = self->fThis->getSafePoints();
-    PyObject* tup = PyTuple_New(points.size());
-    for (size_t i = 0; i < points.size(); ++i)
-        PyTuple_SET_ITEM(tup, i, pyKey_FromKey(points[i]));
-    return tup;
-}
-
-PY_PROPERTY_SETTER_MSG(ExcludeRegionModifier, safePoints, "To add safePoints, use addSafePoint()")
-PY_PROPERTY_GETSET_DECL(ExcludeRegionModifier, safePoints)
-
+PY_PROPERTY_VECTOR(plKey, ExcludeRegionModifier, safePoints, getSafePoints, setSafePoints)
 PY_PROPERTY(bool, ExcludeRegionModifier, seek, getSeek, setSeek)
 PY_PROPERTY(float, ExcludeRegionModifier, seekTime, getSeekTime, setSeekTime)
 

@@ -64,11 +64,13 @@ public:
     bool hasAlpha() const { return fHasAlpha; }
     size_t getInitBufferSize() const { return fInitBuffer.size(); }
     const unsigned int* getInitBuffer() const { return fInitBuffer.data(); }
+    const std::vector<unsigned int>& getInitBufferVec() const { return fInitBuffer; }
 
     void setVisWidth(unsigned int width) { fVisWidth = width; }
     void setVisHeight(unsigned int height) { fVisHeight = height; }
     void setHasAlpha(bool hasAlpha) { fHasAlpha = hasAlpha; }
     void setInitBuffer(const unsigned int* buffer, size_t size);
+    void setInitBuffer(std::vector<unsigned int> buffer) { fInitBuffer = std::move(buffer); }
 };
 
 #endif

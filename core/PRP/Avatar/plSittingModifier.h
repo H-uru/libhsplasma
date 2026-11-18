@@ -56,6 +56,7 @@ public:
 
     const std::vector<plKey>& getNotifyKeys() const { return fNotifyKeys; }
     std::vector<plKey>& getNotifyKeys() { return fNotifyKeys; }
+    void setNotifyKeys(std::vector<plKey> notifies) { fNotifyKeys = std::move(notifies); }
     void addNotifyKey(plKey notify) { fNotifyKeys.emplace_back(std::move(notify)); }
     void delNotifyKey(size_t idx) { fNotifyKeys.erase(fNotifyKeys.begin() + idx); }
     void clearNotifyKeys() { fNotifyKeys.clear(); }

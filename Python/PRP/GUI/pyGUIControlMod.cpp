@@ -81,39 +81,6 @@ static PyMethodDef pyGUIControlMod_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(GUIControlMod, soundIndices)
-{
-    PyObject* list = PyTuple_New(self->fThis->getSoundIndices().size());
-    for (size_t i = 0; i<self->fThis->getSoundIndices().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getSoundIndices()[i]));
-    return list;
-}
-
-PY_GETSET_SETTER_DECL(GUIControlMod, soundIndices)
-{
-    PY_PROPERTY_CHECK_NULL(soundIndices)
-    if (value == Py_None) {
-        self->fThis->setSoundIndices(std::vector<int>());
-        return 0;
-    }
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "soundIndices should be a sequence of ints");
-        return -1;
-    }
-    std::vector<int> soundIndices(seq.size());
-    for (size_t i = 0; i<soundIndices.size(); i++) {
-        PyObject* itm = seq.get(i);
-        if (!pyPlasma_check<int>(itm)) {
-            PyErr_SetString(PyExc_TypeError, "soundIndices should be a sequence of ints");
-            return -1;
-        }
-        soundIndices[i] = pyPlasma_get<int>(itm);
-    }
-    self->fThis->setSoundIndices(soundIndices);
-    return 0;
-}
-
 PY_GETSET_GETTER_DECL(GUIControlMod, colorScheme)
 {
     return pyPlasma_convert(self->fThis->getColorScheme());
@@ -143,7 +110,7 @@ PY_PROPERTY(plKey, GUIControlMod, dynTextLayer, getDynTextLayer, setDynTextLayer
 PY_PROPERTY_GETSET_DECL(GUIControlMod, colorScheme)
 PY_PROPERTY(plKey, GUIControlMod, proxy, getProxy, setProxy)
 PY_PROPERTY(plKey, GUIControlMod, skin, getSkin, setSkin)
-PY_PROPERTY_GETSET_DECL(GUIControlMod, soundIndices)
+PY_PROPERTY_VECTOR(int, GUIControlMod, soundIndices, getSoundIndices, setSoundIndices)
 
 static PyGetSetDef pyGUIControlMod_GetSet[] = {
     pyGUIControlMod_tagID_getset,

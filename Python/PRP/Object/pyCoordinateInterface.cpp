@@ -67,21 +67,11 @@ PyMethodDef pyCoordinateInterface_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(CoordinateInterface, children)
-{
-    PyObject* list = PyTuple_New(self->fThis->getChildren().size());
-    for (size_t i=0; i<self->fThis->getChildren().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getChildren()[i]));
-    return list;
-}
-
-PY_PROPERTY_SETTER_MSG(CoordinateInterface, children, "To add Children, use addChild")
-PY_PROPERTY_GETSET_DECL(CoordinateInterface, children)
-
 PY_PROPERTY(hsMatrix44, CoordinateInterface, localToWorld, getLocalToWorld, setLocalToWorld)
 PY_PROPERTY(hsMatrix44, CoordinateInterface, worldToLocal, getWorldToLocal, setWorldToLocal)
 PY_PROPERTY(hsMatrix44, CoordinateInterface, localToParent, getLocalToParent, setLocalToParent)
 PY_PROPERTY(hsMatrix44, CoordinateInterface, parentToLocal, getParentToLocal, setParentToLocal)
+PY_PROPERTY_VECTOR(plKey, CoordinateInterface, children, getChildren, setChildren)
 
 PyGetSetDef pyCoordinateInterface_GetSet[] = {
     pyCoordinateInterface_localToWorld_getset,

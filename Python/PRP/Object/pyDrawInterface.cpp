@@ -124,16 +124,7 @@ PY_GETSET_GETTER_DECL(DrawInterface, drawables)
 PY_PROPERTY_SETTER_MSG(DrawInterface, drawables, "To add Drawables, use addDrawable")
 PY_PROPERTY_GETSET_DECL(DrawInterface, drawables)
 
-PY_GETSET_GETTER_DECL(DrawInterface, regions)
-{
-    PyObject* list = PyTuple_New(self->fThis->getRegions().size());
-    for (size_t i=0; i<self->fThis->getRegions().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getRegions()[i]));
-    return list;
-}
-
-PY_PROPERTY_SETTER_MSG(DrawInterface, regions, "To add Regions, use addRegion")
-PY_PROPERTY_GETSET_DECL(DrawInterface, regions)
+PY_PROPERTY_VECTOR(plKey, DrawInterface, regions, getRegions, setRegions)
 
 PyGetSetDef pyDrawInterface_GetSet[] = {
     pyDrawInterface_drawables_getset,

@@ -65,18 +65,7 @@ static PyMethodDef pyDetectorModifier_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(DetectorModifier, receivers)
-{
-    plDetectorModifier* mod = self->fThis;
-    PyObject* sequence = PyTuple_New(mod->getReceivers().size());
-    for (size_t i = 0; i < mod->getReceivers().size(); ++i)
-        PyTuple_SET_ITEM(sequence, i, pyKey_FromKey(mod->getReceivers()[i]));
-    return sequence;
-}
-
-PY_PROPERTY_SETTER_MSG(DetectorModifier, receivers, "To add receivers, use addReceiver")
-PY_PROPERTY_GETSET_DECL(DetectorModifier, receivers)
-
+PY_PROPERTY_VECTOR(plKey, DetectorModifier, receivers, getReceivers, setReceivers)
 PY_PROPERTY(plKey, DetectorModifier, remoteMod, getRemoteMod, setRemoteMod)
 PY_PROPERTY(plKey, DetectorModifier, proxy, getProxy, setProxy)
 

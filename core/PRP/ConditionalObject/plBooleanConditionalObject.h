@@ -38,6 +38,7 @@ protected:
 public:
     const std::vector<plKey>& getChildren() const { return fChildren; }
     std::vector<plKey>& getChildren() { return fChildren; }
+    void setChildren(std::vector<plKey> children) { fChildren = std::move(children); }
     void addChild(plKey child) { fChildren.emplace_back(std::move(child)); }
     void delChild(size_t idx) { fChildren.erase(fChildren.begin() + idx); }
     void clearChildren() { fChildren.clear(); }
@@ -63,6 +64,7 @@ protected:
 public:
     const std::vector<plKey>& getChildren() const { return fChildren; }
     std::vector<plKey>& getChildren() { return fChildren; }
+    void setChildren(std::vector<plKey> children) { fChildren = std::move(children); }
     void addChild(plKey child) { fChildren.emplace_back(std::move(child)); }
     void delChild(size_t idx) { fChildren.erase(fChildren.begin() + idx); }
     void clearChildren() { fChildren.clear(); }

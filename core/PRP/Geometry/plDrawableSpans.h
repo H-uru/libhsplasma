@@ -179,6 +179,7 @@ public:
     plDISpanIndex& getDIIndex(size_t idx) { return fDIIndices[idx]; }
     const std::vector<plDISpanIndex>& getDIIndices() const { return fDIIndices; }
     std::vector<plDISpanIndex>& getDIIndices() { return fDIIndices; }
+    void setDIIndices(std::vector<plDISpanIndex> indices) { fDIIndices = std::move(indices); }
     size_t addDIIndex(const plDISpanIndex& idx);
     void delDIIndex(size_t idx) { fDIIndices.erase(fDIIndices.begin() + idx); }
     void clearDIIndices() { fDIIndices.clear(); }
@@ -206,6 +207,7 @@ public:
 
     const std::vector<plKey>& getMaterials() const { return fMaterials; }
     std::vector<plKey>& getMaterials() { return fMaterials; }
+    void setMaterials(std::vector<plKey> materials) { fMaterials = std::move(materials); }
     void addMaterial(plKey mat) { fMaterials.emplace_back(std::move(mat)); }
     void clearMaterials() { fMaterials.clear(); }
 

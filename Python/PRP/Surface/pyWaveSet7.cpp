@@ -143,42 +143,9 @@ static PyMethodDef pyWaveSet7_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(WaveSet7, shores)
-{
-    const std::vector<plKey>& shores = self->fThis->getShores();
-    PyObject* tuple = PyTuple_New(shores.size());
-    for (size_t i = 0; i < shores.size(); ++i)
-        PyTuple_SET_ITEM(tuple, i, pyKey_FromKey(shores[i]));
-    return tuple;
-}
-
-PY_PROPERTY_SETTER_MSG(WaveSet7, shores, "To add shores, use addShore")
-PY_PROPERTY_GETSET_DECL(WaveSet7, shores)
-
-PY_GETSET_GETTER_DECL(WaveSet7, decals)
-{
-    const std::vector<plKey>& decals = self->fThis->getDecals();
-    PyObject* tuple = PyTuple_New(decals.size());
-    for (size_t i = 0; i < decals.size(); ++i)
-        PyTuple_SET_ITEM(tuple, i, pyKey_FromKey(decals[i]));
-    return tuple;
-}
-
-PY_PROPERTY_SETTER_MSG(WaveSet7, decals, "To add decals, use addDecal")
-PY_PROPERTY_GETSET_DECL(WaveSet7, decals)
-
-PY_GETSET_GETTER_DECL(WaveSet7, buoys)
-{
-    const std::vector<plKey>& buoys = self->fThis->getBuoys();
-    PyObject* tuple = PyTuple_New(buoys.size());
-    for (size_t i = 0; i < buoys.size(); ++i)
-        PyTuple_SET_ITEM(tuple, i, pyKey_FromKey(buoys[i]));
-    return tuple;
-}
-
-PY_PROPERTY_SETTER_MSG(WaveSet7, buoys, "To add buoys, use addBuoy")
-PY_PROPERTY_GETSET_DECL(WaveSet7, buoys)
-
+PY_PROPERTY_VECTOR(plKey, WaveSet7, shores, getShores, setShores)
+PY_PROPERTY_VECTOR(plKey, WaveSet7, decals, getDecals, setDecals)
+PY_PROPERTY_VECTOR(plKey, WaveSet7, buoys, getBuoys, setBuoys)
 PY_PROPERTY_PROXY(plFixedWaterState7, WaveSet7, state, getState)
 PY_PROPERTY(float, WaveSet7, maxLen, getMaxLen, setMaxLen)
 PY_PROPERTY(plKey, WaveSet7, envMap, getEnvMap, setEnvMap)

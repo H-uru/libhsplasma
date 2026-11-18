@@ -70,6 +70,8 @@ public:
 
     const std::vector<ST::string>& getExcludes() const { return fSDLExcludeList; }
     const std::vector<ST::string>& getVolatiles() const { return fSDLVolatileList; }
+    void setExcludes(std::vector<ST::string> sdl);
+    void setVolatiles(std::vector<ST::string> sdl);
     void setExclude(const ST::string& sdl);
     void setVolatile(const ST::string& sdl);
     void clearExcludes();

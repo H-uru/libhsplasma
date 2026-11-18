@@ -65,16 +65,7 @@ static PyMethodDef pyImageLibMod_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(ImageLibMod, images)
-{
-    PyObject* list = PyTuple_New(self->fThis->getImages().size());
-    for (size_t i = 0; i<self->fThis->getImages().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getImages()[i]));
-    return list;
-}
-
-PY_PROPERTY_SETTER_MSG(ImageLibMod, images, "To add images, use addImage()")
-PY_PROPERTY_GETSET_DECL(ImageLibMod, images)
+PY_PROPERTY_VECTOR(plKey, ImageLibMod, images, getImages, setImages)
 
 static PyGetSetDef pyImageLibMod_GetSet[] = {
     pyImageLibMod_images_getset,

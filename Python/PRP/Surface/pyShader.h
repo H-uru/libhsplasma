@@ -29,6 +29,11 @@ inline PyObject* pyPlasma_convert(plShader::plShaderID value)
     return PyLong_FromLong((long)value);
 }
 
+inline PyObject* pyPlasma_convert(const plShaderConst& value)
+{
+    return pyShaderConst_FromShaderConst(value);
+}
+
 template <>
 inline int pyPlasma_check<plShader::plShaderID>(PyObject* value)
 {
@@ -36,9 +41,21 @@ inline int pyPlasma_check<plShader::plShaderID>(PyObject* value)
 }
 
 template <>
+inline int pyPlasma_check<plShaderConst>(PyObject* value)
+{
+    return pyShaderConst_Check(value);
+}
+
+template <>
 inline plShader::plShaderID pyPlasma_get(PyObject* value)
 {
     return (plShader::plShaderID)PyLong_AsLong(value);
+}
+
+template <>
+inline plShaderConst pyPlasma_get(PyObject* value)
+{
+    return *((pyShaderConst*)value)->fThis;
 }
 
 #endif

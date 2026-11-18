@@ -106,28 +106,8 @@ static PyMethodDef pyGMaterial_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(GMaterial, layers)
-{
-    PyObject* list = PyTuple_New(self->fThis->getLayers().size());
-    for (size_t i=0; i<self->fThis->getLayers().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getLayers()[i]));
-    return list;
-}
-
-PY_PROPERTY_SETTER_MSG(GMaterial, layers, "To add layers, use addLayer()")
-PY_PROPERTY_GETSET_DECL(GMaterial, layers)
-
-PY_GETSET_GETTER_DECL(GMaterial, piggyBacks)
-{
-    PyObject* list = PyTuple_New(self->fThis->getPiggyBacks().size());
-    for (size_t i=0; i<self->fThis->getPiggyBacks().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getPiggyBacks()[i]));
-    return list;
-}
-
-PY_PROPERTY_SETTER_MSG(GMaterial, piggyBacks, "To add piggy-backs, use addPiggyBack()")
-PY_PROPERTY_GETSET_DECL(GMaterial, piggyBacks)
-
+PY_PROPERTY_VECTOR(plKey, GMaterial, layers, getLayers, setLayers)
+PY_PROPERTY_VECTOR(plKey, GMaterial, piggyBacks, getPiggyBacks, setPiggyBacks)
 PY_PROPERTY(unsigned int, GMaterial, compFlags, getCompFlags, setCompFlags)
 PY_PROPERTY(unsigned int, GMaterial, loadFlags, getLoadFlags, setLoadFlags)
 

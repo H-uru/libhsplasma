@@ -66,19 +66,10 @@ static PyMethodDef pyGUIKnobCtrl_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(GUIKnobCtrl, animationKeys)
-{
-    PyObject* list = PyTuple_New(self->fThis->getAnimationKeys().size());
-    for (size_t i = 0; i<self->fThis->getAnimationKeys().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getAnimationKeys()[i]));
-    return list;
-}
-PY_PROPERTY_SETTER_MSG(GUIKnobCtrl, animationKeys, "To add animations, use addAnimationKey()")
-PY_PROPERTY_GETSET_DECL(GUIKnobCtrl, animationKeys)
-
 PY_PROPERTY(ST::string, GUIKnobCtrl, animName, getAnimName, setAnimName)
 PY_PROPERTY(hsVector3, GUIKnobCtrl, animStartPos, getAnimStartPos, setAnimStartPos)
 PY_PROPERTY(hsVector3, GUIKnobCtrl, animEndPos, getAnimEndPos, setAnimEndPos)
+PY_PROPERTY_VECTOR(plKey, GUIKnobCtrl, animationKeys, getAnimationKeys, setAnimationKeys)
 
 static PyGetSetDef pyGUIKnobCtrl_GetSet[] = {
     pyGUIKnobCtrl_animName_getset,

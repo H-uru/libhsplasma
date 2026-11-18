@@ -66,16 +66,7 @@ static PyMethodDef pyInterfaceInfoModifier_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(InterfaceInfoModifier, intfKeys)
-{
-    PyObject* list = PyTuple_New(self->fThis->getIntfKeys().size());
-    for (size_t i=0; i<self->fThis->getIntfKeys().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getIntfKeys()[i]));
-    return list;
-}
-
-PY_PROPERTY_SETTER_MSG(InterfaceInfoModifier, intfKeys, "To add interface keys, use addIntfKey")
-PY_PROPERTY_GETSET_DECL(InterfaceInfoModifier, intfKeys)
+PY_PROPERTY_VECTOR(plKey, InterfaceInfoModifier, intfKeys, getIntfKeys, setIntfKeys)
 
 static PyGetSetDef pyInterfaceInfoModifier_GetSet[] = {
     pyInterfaceInfoModifier_intfKeys_getset,

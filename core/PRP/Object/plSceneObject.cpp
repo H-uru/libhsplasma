@@ -139,6 +139,16 @@ void plSceneObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
     }
 }
 
+void plSceneObject::setModifiers(std::vector<plKey> modifiers)
+{
+    clearModifiers();
+    fModifiers = std::move(modifiers);
+    for (plKey& modifier : fModifiers) {
+        if (modifier.Exists())
+            modifier->addCallback([this](hsKeyedObject* obj) { addTarget(obj); });
+    }
+}
+
 void plSceneObject::addModifier(plKey intf)
 {
     fModifiers.emplace_back(intf);

@@ -16,7 +16,6 @@
 
 #include "pyOccluder.h"
 
-#include <PRP/Geometry/plOccluder.h>
 #include "PRP/Object/pyObjInterface.h"
 #include "PRP/Region/pyBounds.h"
 #include "PRP/KeyedObject/pyKey.h"
@@ -97,28 +96,6 @@ PY_METHOD_VA(Occluder, delVisRegion,
     Py_RETURN_NONE;
 }
 
-PY_GETSET_GETTER_DECL(Occluder, polys)
-{
-    PyObject* list = PyTuple_New(self->fThis->getPolys().size());
-    for (size_t i=0; i<self->fThis->getPolys().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyCullPoly_FromCullPoly(self->fThis->getPolys()[i]));
-    return list;
-}
-
-PY_PROPERTY_SETTER_MSG(Occluder, polys, "To add polys, use addPoly()")
-PY_PROPERTY_GETSET_DECL(Occluder, polys)
-
-PY_GETSET_GETTER_DECL(Occluder, visRegions)
-{
-    PyObject* list = PyTuple_New(self->fThis->getVisRegions().size());
-    for (size_t i=0; i<self->fThis->getVisRegions().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getVisRegions()[i]));
-    return list;
-}
-
-PY_PROPERTY_SETTER_MSG(Occluder, visRegions, "To add visRegions, use addVisRegion()")
-PY_PROPERTY_GETSET_DECL(Occluder, visRegions)
-
 static PyMethodDef pyOccluder_Methods[] = {
     pyOccluder_clearPolys_method,
     pyOccluder_addPoly_method,
@@ -132,6 +109,8 @@ static PyMethodDef pyOccluder_Methods[] = {
 PY_PROPERTY(float, Occluder, priority, getPriority, setPriority)
 PY_PROPERTY_BOUNDS(Bounds3Ext, Occluder, worldBounds, getWorldBounds, setWorldBounds)
 PY_PROPERTY(plKey, Occluder, sceneNode, getSceneNode, setSceneNode)
+PY_PROPERTY_VECTOR(plCullPoly, Occluder, polys, getPolys, setPolys)
+PY_PROPERTY_VECTOR(plKey, Occluder, visRegions, getVisRegions, setVisRegions)
 
 static PyGetSetDef pyOccluder_GetSet[] = {
     pyOccluder_priority_getset,

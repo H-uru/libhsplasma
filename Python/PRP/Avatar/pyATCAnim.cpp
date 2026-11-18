@@ -96,38 +96,6 @@ PY_GETSET_GETTER_DECL(ATCAnim, loops)
 PY_PROPERTY_SETTER_MSG(ATCAnim, loops, "To add loops, use setLoop()")
 PY_PROPERTY_GETSET_DECL(ATCAnim, loops)
 
-PY_GETSET_GETTER_DECL(ATCAnim, stops)
-{
-    plATCAnim* anim = self->fThis;
-    PyObject* list = PyTuple_New(anim->getStops().size());
-    for (size_t i = 0; i < anim->getStops().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyPlasma_convert(anim->getStops()[i]));
-    return list;
-}
-
-PY_GETSET_SETTER_DECL(ATCAnim, stops)
-{
-    PY_PROPERTY_CHECK_NULL(stops)
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "stops should be a sequence of floats");
-        return -1;
-    }
-    std::vector<float> stops(seq.size());
-    for (size_t i=0; i<stops.size(); i++) {
-        PyObject* item = seq.get(i);
-        if (!pyPlasma_check<float>(item)) {
-            PyErr_SetString(PyExc_TypeError, "stops should be a sequence of floats");
-            return -1;
-        }
-        stops[i] = pyPlasma_get<float>(item);
-    }
-    self->fThis->setStops(stops);
-    return 0;
-}
-
-PY_PROPERTY_GETSET_DECL(ATCAnim, stops)
-
 PY_PROPERTY(float, ATCAnim, initial, getInitial, setInitial)
 PY_PROPERTY(float, ATCAnim, loopStart, getLoopStart, setLoopStart)
 PY_PROPERTY(float, ATCAnim, loopEnd, getLoopEnd, setLoopEnd)
@@ -141,6 +109,7 @@ PY_PROPERTY(float, ATCAnim, easeInMax, getEaseInMax, setEaseInMax)
 PY_PROPERTY(float, ATCAnim, easeOutLength, getEaseOutLength, setEaseOutLength)
 PY_PROPERTY(float, ATCAnim, easeOutMin, getEaseOutMin, setEaseOutMin)
 PY_PROPERTY(float, ATCAnim, easeOutMax, getEaseOutMax, setEaseOutMax)
+PY_PROPERTY_VECTOR(float, ATCAnim, stops, getStops, setStops)
 
 static PyGetSetDef pyATCAnim_GetSet[] = {
     pyATCAnim_initial_getset,

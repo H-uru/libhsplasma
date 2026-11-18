@@ -16,7 +16,6 @@
 
 #include "pyDrawableSpans.h"
 
-#include <PRP/Geometry/plDrawableSpans.h>
 #include "pySpan.h"
 #include "pyGBufferGroup.h"
 #include "pyGeometrySpan.h"
@@ -408,17 +407,6 @@ PY_PROPERTY_SETTER_MSG(DrawableSpans, bufferGroups,
                        "To add BufferGroups, use createBufferGroup()")
 PY_PROPERTY_GETSET_DECL(DrawableSpans, bufferGroups)
 
-PY_GETSET_GETTER_DECL(DrawableSpans, DIIndices)
-{
-    PyObject* list = PyTuple_New(self->fThis->getNumDIIndices());
-    for (size_t i=0; i<self->fThis->getNumDIIndices(); i++)
-        PyTuple_SET_ITEM(list, i, pyDISpanIndex_FromDISpanIndex(self->fThis->getDIIndex(i)));
-    return list;
-}
-
-PY_PROPERTY_SETTER_MSG(DrawableSpans, DIIndices, "To add DI Indices, use addDIIndex()")
-PY_PROPERTY_GETSET_DECL(DrawableSpans, DIIndices)
-
 PY_PROPERTY_RO(DrawableSpans, numTransforms, getNumTransforms)
 
 PY_GETSET_GETTER_DECL(DrawableSpans, localToWorlds)
@@ -469,17 +457,6 @@ PY_PROPERTY_SETTER_MSG(DrawableSpans, boneToLocals,
                        "To add transform matrices, use addTransform()")
 PY_PROPERTY_GETSET_DECL(DrawableSpans, boneToLocals)
 
-PY_GETSET_GETTER_DECL(DrawableSpans, materials)
-{
-    PyObject* list = PyTuple_New(self->fThis->getMaterials().size());
-    for (size_t i=0; i<self->fThis->getMaterials().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getMaterials()[i]));
-    return list;
-}
-
-PY_PROPERTY_SETTER_MSG(DrawableSpans, materials, "To add materials, use addMaterial()")
-PY_PROPERTY_GETSET_DECL(DrawableSpans, materials)
-
 PY_GETSET_GETTER_DECL(DrawableSpans, sourceSpans)
 {
     PyObject* list = PyTuple_New(self->fThis->getSourceSpans().size());
@@ -491,9 +468,11 @@ PY_GETSET_GETTER_DECL(DrawableSpans, sourceSpans)
 PY_PROPERTY_SETTER_MSG(DrawableSpans, sourceSpans, "To add sourceSpans, use addSourceSpan()")
 PY_PROPERTY_GETSET_DECL(DrawableSpans, sourceSpans)
 
+PY_PROPERTY_VECTOR(plDISpanIndex, DrawableSpans, DIIndices, getDIIndices, setDIIndices)
 PY_PROPERTY_BOUNDS(Bounds3Ext, DrawableSpans, localBounds, getLocalBounds, setLocalBounds)
 PY_PROPERTY_BOUNDS(Bounds3Ext, DrawableSpans, worldBounds, getWorldBounds, setWorldBounds)
 PY_PROPERTY_BOUNDS(Bounds3Ext, DrawableSpans, maxWorldBounds, getMaxWorldBounds, setMaxWorldBounds)
+PY_PROPERTY_VECTOR(plKey, DrawableSpans, materials, getMaterials, setMaterials)
 PY_PROPERTY_CREATABLE(plSpaceTree, SpaceTree, DrawableSpans, spaceTree, getSpaceTree, setSpaceTree)
 PY_PROPERTY(unsigned int, DrawableSpans, props, getProps, setProps)
 PY_PROPERTY(unsigned int, DrawableSpans, criteria, getCriteria, setCriteria)

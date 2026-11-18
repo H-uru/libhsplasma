@@ -35,6 +35,7 @@ public:
 
     const std::vector<unsigned short>& getIndices() const { return fIndices; }
     std::vector<unsigned short>& getIndices() { return fIndices; }
+    void setIndices(std::vector<unsigned short> indices) { fIndices = std::move(indices); }
     void addIndex(unsigned short index) { fIndices.push_back(index); }
     void delIndex(size_t idx) { fIndices.erase(fIndices.begin() + idx); }
     void clearIndices() { fIndices.clear(); }
@@ -62,6 +63,7 @@ protected:
 public:
     const std::vector<plRandomSoundModGroup>& getGroups() const { return fGroups; }
     std::vector<plRandomSoundModGroup>& getGroups() { return fGroups; }
+    void setGroups(std::vector<plRandomSoundModGroup> groups) { fGroups = std::move(groups); }
     void addGroup(plRandomSoundModGroup group) { fGroups.emplace_back(std::move(group)); }
     void delGroup(size_t idx) { fGroups.erase(fGroups.begin() + idx); }
     void clearGroups() { fGroups.clear(); }

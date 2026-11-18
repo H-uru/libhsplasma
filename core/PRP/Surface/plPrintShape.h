@@ -63,6 +63,9 @@ protected:
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
+    const std::vector<plKey>& getDecalMgrs() const { return fDecalMgrs; }
+    std::vector<plKey>& getDecalMgrs() { return fDecalMgrs; }
+    void setDecalMgrs(std::vector<plKey> keys) { fDecalMgrs = std::move(keys); }
     void addDecalMgr(plKey mgr) { fDecalMgrs.emplace_back(std::move(mgr)); }
     void clearDecalMgrs() { fDecalMgrs.clear(); }
     void delDecalMgr(size_t idx) { fDecalMgrs.erase(fDecalMgrs.begin() + idx); }

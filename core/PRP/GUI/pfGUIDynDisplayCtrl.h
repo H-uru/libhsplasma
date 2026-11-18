@@ -37,18 +37,21 @@ protected:
 public:
     const std::vector<plKey>& getTextMaps() const { return fTextMaps; }
     std::vector<plKey>& getTextMaps() { return fTextMaps; }
+    void setTextMaps(std::vector<plKey> maps) { fTextMaps = std::move(maps); }
     void addTextMap(plKey map) { fTextMaps.emplace_back(std::move(map)); }
     void delTextMap(size_t idx) { fTextMaps.erase(fTextMaps.begin() + idx); }
     void clearTextMaps() { fTextMaps.clear(); }
 
     const std::vector<plKey>& getLayers() const { return fLayers; }
     std::vector<plKey>& getLayers() { return fLayers; }
+    void setLayers(std::vector<plKey> layers) { fLayers = std::move(layers); }
     void addLayer(plKey map) { fLayers.emplace_back(std::move(map)); }
     void delLayer(size_t idx) { fLayers.erase(fLayers.begin() + idx); }
     void clearLayers() { fLayers.clear(); }
 
     const std::vector<plKey>& getMaterials() const { return fMaterials; }
     std::vector<plKey>& getMaterials() { return fMaterials; }
+    void setMaterials(std::vector<plKey> maps) { fMaterials = std::move(maps); }
     void addMaterial(plKey map) { fMaterials.emplace_back(std::move(map)); }
     void delMaterial(size_t idx) { fMaterials.erase(fMaterials.begin() + idx); }
     void clearMaterials() { fMaterials.clear(); }

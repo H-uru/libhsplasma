@@ -107,33 +107,13 @@ PyMethodDef pySceneObject_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(SceneObject, interfaces)
-{
-    PyObject* list = PyTuple_New(self->fThis->getInterfaces().size());
-    for (size_t i=0; i<self->fThis->getInterfaces().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getInterfaces()[i]));
-    return list;
-}
-
-PY_PROPERTY_SETTER_MSG(SceneObject, interfaces, "To add Interfaces, use addInterface")
-PY_PROPERTY_GETSET_DECL(SceneObject, interfaces)
-
-PY_GETSET_GETTER_DECL(SceneObject, modifiers)
-{
-    PyObject* list = PyTuple_New(self->fThis->getModifiers().size());
-    for (size_t i=0; i<self->fThis->getModifiers().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getModifiers()[i]));
-    return list;
-}
-
-PY_PROPERTY_SETTER_MSG(SceneObject, modifiers, "To add Modifiers, use addModifier")
-PY_PROPERTY_GETSET_DECL(SceneObject, modifiers)
-
 PY_PROPERTY(plKey, SceneObject, draw, getDrawInterface, setDrawInterface)
 PY_PROPERTY(plKey, SceneObject, sim, getSimInterface, setSimInterface)
 PY_PROPERTY(plKey, SceneObject, coord, getCoordInterface, setCoordInterface)
 PY_PROPERTY(plKey, SceneObject, audio, getAudioInterface, setAudioInterface)
 PY_PROPERTY(plKey, SceneObject, sceneNode, getSceneNode, setSceneNode)
+PY_PROPERTY_VECTOR(plKey, SceneObject, interfaces, getInterfaces, setInterfaces)
+PY_PROPERTY_VECTOR(plKey, SceneObject, modifiers, getModifiers, setModifiers)
 
 PyGetSetDef pySceneObject_GetSet[] = {
     pySceneObject_draw_getset,

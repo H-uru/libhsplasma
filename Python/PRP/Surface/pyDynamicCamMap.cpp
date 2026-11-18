@@ -171,147 +171,15 @@ static PyMethodDef pyDynamicCamMap_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(DynamicCamMap, visRegions)
-{
-    const std::vector<plKey>& keys = self->fThis->getVisRegions();
-    PyObject* regionList = PyTuple_New(keys.size());
-    for (size_t i=0; i<keys.size(); i++)
-        PyTuple_SET_ITEM(regionList, i, pyPlasma_convert(keys[i]));
-    return regionList;
-}
-
-PY_GETSET_SETTER_DECL(DynamicCamMap, visRegions)
-{
-    PY_PROPERTY_CHECK_NULL(visRegions)
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "visRegions should be a sequence of plKeys");
-        return -1;
-    }
-    Py_ssize_t count = seq.size();
-    std::vector<plKey> regions(count);
-    for (Py_ssize_t i=0; i<count; i++) {
-        PyObject* region = seq.get(i);
-        if (pyKey_Check(region)) {
-            regions[i] = pyPlasma_get<plKey>(region);
-        } else {
-            PyErr_SetString(PyExc_TypeError, "visRegions should be a sequence of plKeys");
-            return -1;
-        }
-    }
-    self->fThis->setVisRegions(regions);
-    return 0;
-}
-
-PY_PROPERTY_GETSET_DECL(DynamicCamMap, visRegions)
-
-PY_GETSET_GETTER_DECL(DynamicCamMap, targetNodes)
-{
-    const std::vector<plKey>& keys = self->fThis->getTargetNodes();
-    PyObject* nodeList = PyTuple_New(keys.size());
-    for (size_t i=0; i<keys.size(); i++)
-        PyTuple_SET_ITEM(nodeList, i, pyPlasma_convert(keys[i]));
-    return nodeList;
-}
-
-PY_GETSET_SETTER_DECL(DynamicCamMap, targetNodes)
-{
-    PY_PROPERTY_CHECK_NULL(targetNodes)
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "targetNodes should be a sequence of plKeys");
-        return -1;
-    }
-    Py_ssize_t count = seq.size();
-    std::vector<plKey> nodes(count);
-    for (Py_ssize_t i=0; i<count; i++) {
-        PyObject* node = seq.get(i);
-        if (pyKey_Check(node)){
-            nodes[i] = pyPlasma_get<plKey>(node);
-        } else {
-            PyErr_SetString(PyExc_TypeError, "targetNodes should be a sequence of plKeys");
-            return -1;
-        }
-    }
-    self->fThis->setTargetNodes(nodes);
-    return 0;
-}
-
-PY_PROPERTY_GETSET_DECL(DynamicCamMap, targetNodes)
-
-PY_GETSET_GETTER_DECL(DynamicCamMap, matLayers)
-{
-    const std::vector<plKey>& keys = self->fThis->getMatLayers();
-    PyObject* layerList = PyTuple_New(keys.size());
-    for (size_t i=0; i<keys.size(); i++)
-        PyTuple_SET_ITEM(layerList, i, pyPlasma_convert(keys[i]));
-    return layerList;
-}
-
-PY_GETSET_SETTER_DECL(DynamicCamMap, matLayers)
-{
-    PY_PROPERTY_CHECK_NULL(matLayers)
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "matLayers should be a sequence of plKeys");
-        return -1;
-    }
-    Py_ssize_t count = seq.size();
-    std::vector<plKey> layers(count);
-    for (Py_ssize_t i=0; i<count; i++) {
-        PyObject* layer = seq.get(i);
-        if (pyKey_Check(layer)){
-            layers[i] = pyPlasma_get<plKey>(layer);
-        } else {
-            PyErr_SetString(PyExc_TypeError, "matLayers should be a sequence of plKeys");
-            return -1;
-        }
-    }
-    self->fThis->setMatLayers(layers);
-    return 0;
-}
-
-PY_PROPERTY_GETSET_DECL(DynamicCamMap, matLayers)
-
-PY_GETSET_GETTER_DECL(DynamicCamMap, visRegionNames)
-{
-    const std::vector<ST::string>& names = self->fThis->getVisRegionNames();
-    PyObject* regionNameList = PyTuple_New(names.size());
-    for (size_t i=0; i<names.size(); i++)
-        PyTuple_SET_ITEM(regionNameList, i, pyPlasma_convert(names[i]));
-    return regionNameList;
-}
-
-PY_GETSET_SETTER_DECL(DynamicCamMap, visRegionNames)
-{
-    PY_PROPERTY_CHECK_NULL(visRegionNames)
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "visRegionNames should be a sequence of strings");
-        return -1;
-    }
-    Py_ssize_t count = seq.size();
-    std::vector<ST::string> names(count);
-    for (Py_ssize_t i=0; i<count; i++) {
-        PyObject* name = seq.get(i);
-        if (pyPlasma_check<ST::string>(name)) {
-            names[i] = pyPlasma_get<ST::string>(name);
-        } else {
-            PyErr_SetString(PyExc_TypeError, "visRegionNames should be a sequence of strings");
-            return -1;
-        }
-    }
-    self->fThis->setVisRegionNames(names);
-    return 0;
-}
-
-PY_PROPERTY_GETSET_DECL(DynamicCamMap, visRegionNames)
-
 PY_PROPERTY(float, DynamicCamMap, hither, getHither, setHither)
 PY_PROPERTY(float, DynamicCamMap, yon, getYon, setYon)
 PY_PROPERTY(float, DynamicCamMap, fogStart, getFogStart, setFogStart)
 PY_PROPERTY(hsColorRGBA, DynamicCamMap, color, getColor, setColor)
 PY_PROPERTY(float, DynamicCamMap, refreshRate, getRefreshRate, setRefreshRate)
+PY_PROPERTY_VECTOR(plKey, DynamicCamMap, visRegions, getVisRegions, setVisRegions)
+PY_PROPERTY_VECTOR(plKey, DynamicCamMap, targetNodes, getTargetNodes, setTargetNodes)
+PY_PROPERTY_VECTOR(plKey, DynamicCamMap, matLayers, getMatLayers, setMatLayers)
+PY_PROPERTY_VECTOR(ST::string, DynamicCamMap, visRegionNames, getVisRegionNames, setVisRegionNames)
 PY_PROPERTY(bool, DynamicCamMap, incCharacters, getIncludeCharacters,
             setIncludeCharacters)
 PY_PROPERTY(plKey, DynamicCamMap, camera, getCamera, setCamera)

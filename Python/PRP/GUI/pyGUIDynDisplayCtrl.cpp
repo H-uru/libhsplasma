@@ -145,35 +145,9 @@ static PyMethodDef pyGUIDynDisplayCtrl_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(GUIDynDisplayCtrl, textMaps)
-{
-    PyObject* list = PyTuple_New(self->fThis->getTextMaps().size());
-    for (size_t i = 0; i<self->fThis->getTextMaps().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getTextMaps()[i]));
-    return list;
-}
-PY_PROPERTY_SETTER_MSG(GUIDynDisplayCtrl, textMaps, "To add textMaps, use addTextMaps()")
-PY_PROPERTY_GETSET_DECL(GUIDynDisplayCtrl, textMaps)
-
-PY_GETSET_GETTER_DECL(GUIDynDisplayCtrl, layers)
-{
-    PyObject* list = PyTuple_New(self->fThis->getLayers().size());
-    for (size_t i = 0; i<self->fThis->getLayers().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getLayers()[i]));
-    return list;
-}
-PY_PROPERTY_SETTER_MSG(GUIDynDisplayCtrl, layers, "To add layers, use addLayer()")
-PY_PROPERTY_GETSET_DECL(GUIDynDisplayCtrl, layers)
-
-PY_GETSET_GETTER_DECL(GUIDynDisplayCtrl, materials)
-{
-    PyObject* list = PyTuple_New(self->fThis->getMaterials().size());
-    for (size_t i = 0; i<self->fThis->getMaterials().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getMaterials()[i]));
-    return list;
-}
-PY_PROPERTY_SETTER_MSG(GUIDynDisplayCtrl, materials, "To add materials, use addMaterial()")
-PY_PROPERTY_GETSET_DECL(GUIDynDisplayCtrl, materials)
+PY_PROPERTY_VECTOR(plKey, GUIDynDisplayCtrl, textMaps, getTextMaps, setTextMaps)
+PY_PROPERTY_VECTOR(plKey, GUIDynDisplayCtrl, layers, getLayers, setLayers)
+PY_PROPERTY_VECTOR(plKey, GUIDynDisplayCtrl, materials, getMaterials, setMaterials)
 
 static PyGetSetDef pyGUIDynDisplayCtrl_GetSet[] = {
     pyGUIDynDisplayCtrl_textMaps_getset,

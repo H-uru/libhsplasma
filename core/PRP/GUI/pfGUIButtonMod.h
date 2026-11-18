@@ -46,12 +46,14 @@ protected:
 public:
     const std::vector<plKey>& getAnimationKeys() const { return fAnimationKeys; }
     std::vector<plKey>& getAnimationKeys() { return fAnimationKeys; }
+    void setAnimationKeys(std::vector<plKey> keys) { fAnimationKeys = std::move(keys); }
     void addAnimationKey(plKey key) { fAnimationKeys.emplace_back(std::move(key)); }
     void delAnimationKey(size_t idx) { fAnimationKeys.erase(fAnimationKeys.begin() + idx); }
     void clearAnimationKeys() { fAnimationKeys.clear(); }
 
     const std::vector<plKey>& getMouseOverKeys() const { return fMouseOverAnimKeys; }
     std::vector<plKey>& getMouseOverKeys() { return fMouseOverAnimKeys; }
+    void setMouseOverKeys(std::vector<plKey> keys) { fMouseOverAnimKeys = std::move(keys); }
     void addMouseOverKey(plKey key) { fMouseOverAnimKeys.emplace_back(std::move(key)); }
     void delMouseOverKey(size_t idx) { fMouseOverAnimKeys.erase(fMouseOverAnimKeys.begin() + idx); }
     void clearMouseOverKeys() { fMouseOverAnimKeys.clear(); }

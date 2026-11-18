@@ -101,98 +101,10 @@ static PyMethodDef pyGeometrySpan_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(GeometrySpan, indices)
-{
-    PyObject* list = PyTuple_New(self->fThis->getIndices().size());
-    for (size_t i = 0; i < self->fThis->getIndices().size(); ++i)
-        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getIndices()[i]));
-    return list;
-}
-
-PY_GETSET_SETTER_DECL(GeometrySpan, indices)
-{
-    PY_PROPERTY_CHECK_NULL(indices)
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "indices should be a sequence of unsigned shorts");
-        return -1;
-    }
-    Py_ssize_t count = seq.size();
-    std::vector<unsigned short> idxVec(count);
-    for (Py_ssize_t i = 0; i < count; ++i) {
-        PyObject* idx = seq.get(i);
-        if (!pyPlasma_check<unsigned short>(idx)) {
-            PyErr_SetString(PyExc_TypeError, "indices should be a sequence of unsigned shorts");
-            return -1;
-        }
-        idxVec[i] = pyPlasma_get<unsigned short>(idx);
-    }
-    self->fThis->setIndices(idxVec);
-    return 0;
-}
-
-PY_PROPERTY_GETSET_DECL(GeometrySpan, indices)
-
-PY_GETSET_GETTER_DECL(GeometrySpan, vertices)
-{
-    std::vector<plGeometrySpan::TempVertex> verts = self->fThis->getVertices();
-    PyObject* list = PyTuple_New(verts.size());
-    for (size_t i = 0; i < verts.size(); ++i)
-        PyTuple_SET_ITEM(list, i, pyTempVertex_FromTempVertex(verts[i]));
-    return list;
-}
-
-PY_GETSET_SETTER_DECL(GeometrySpan, vertices)
-{
-    PY_PROPERTY_CHECK_NULL(vertices)
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "vertices should be a sequence of TempVertex");
-        return -1;
-    }
-    Py_ssize_t count = seq.size();
-    std::vector<plGeometrySpan::TempVertex> verts(count);
-    for (Py_ssize_t i = 0; i < count; ++i) {
-        PyObject* vert = seq.get(i);
-        if (!pyTempVertex_Check(vert)) {
-            PyErr_SetString(PyExc_TypeError, "vertices should be a sequence of TempVertex");
-            return -1;
-        }
-        verts[i] = *((pyTempVertex*)vert)->fThis;
-    }
-    self->fThis->setVertices(verts);
-    return 0;
-}
-
-PY_PROPERTY_GETSET_DECL(GeometrySpan, vertices)
-
-PY_GETSET_GETTER_DECL(GeometrySpan, permaLights)
-{
-    const std::vector<plKey>& lights = self->fThis->getPermaLights();
-    PyObject* tup = PyTuple_New(lights.size());
-    for (size_t i = 0; i < lights.size(); ++i)
-        PyTuple_SET_ITEM(tup, i, pyPlasma_convert(lights[i]));
-    return tup;
-}
-
-PY_PROPERTY_SETTER_MSG(GeometrySpan, permaLights, "To add PermaLights, use addPermaLight")
-PY_PROPERTY_GETSET_DECL(GeometrySpan, permaLights)
-
-PY_GETSET_GETTER_DECL(GeometrySpan, permaProjs)
-{
-    const std::vector<plKey>& lights = self->fThis->getPermaProjs();
-    PyObject* tup = PyTuple_New(lights.size());
-    for (size_t i = 0; i < lights.size(); ++i)
-        PyTuple_SET_ITEM(tup, i, pyPlasma_convert(lights[i]));
-    return tup;
-}
-
-PY_PROPERTY_SETTER_MSG(GeometrySpan, permaProjs, "To add PermaProjs, use addPermaLight")
-PY_PROPERTY_GETSET_DECL(GeometrySpan, permaProjs)
-
 PY_PROPERTY(unsigned int, GeometrySpan, baseMatrix, getBaseMatrix, setBaseMatrix)
 PY_PROPERTY(plKey, GeometrySpan, fogEnvironment, getFogEnvironment, setFogEnvironment)
 PY_PROPERTY(unsigned int, GeometrySpan, format, getFormat, setFormat)
+PY_PROPERTY_VECTOR(unsigned short, GeometrySpan, indices, getIndices, setIndices)
 PY_PROPERTY_BOUNDS(Bounds3Ext, GeometrySpan, localBounds, getLocalBounds, setLocalBounds)
 PY_PROPERTY(hsMatrix44, GeometrySpan, localToWorld, getLocalToWorld, setLocalToWorld)
 PY_PROPERTY(unsigned int, GeometrySpan, localUVWChans, getLocalUVWChans, setLocalUVWChans)
@@ -204,7 +116,10 @@ PY_PROPERTY_RO(GeometrySpan, numIndices, getNumIndices)
 PY_PROPERTY(unsigned int, GeometrySpan, numMatrices, getNumMatrices, setNumMatrices)
 PY_PROPERTY_RO(GeometrySpan, numVertices, getNumVertices)
 PY_PROPERTY(unsigned int, GeometrySpan, penBoneIdx, getPenBoneIdx, setPenBoneIdx)
+PY_PROPERTY_VECTOR(plKey, GeometrySpan, permaLights, getPermaLights, setPermaLights)
+PY_PROPERTY_VECTOR(plKey, GeometrySpan, permaProjs, getPermaProjs, setPermaProjs)
 PY_PROPERTY(unsigned int, GeometrySpan, props, getProps, setProps)
+PY_PROPERTY_VECTOR(plGeometrySpan::TempVertex, GeometrySpan, vertices, getVertices, setVertices)
 PY_PROPERTY(float, GeometrySpan, waterHeight, getWaterHeight, setWaterHeight)
 PY_PROPERTY_BOUNDS(Bounds3Ext, GeometrySpan, worldBounds, getWorldBounds, setWorldBounds)
 PY_PROPERTY(hsMatrix44, GeometrySpan, worldToLocal, getWorldToLocal, setWorldToLocal)

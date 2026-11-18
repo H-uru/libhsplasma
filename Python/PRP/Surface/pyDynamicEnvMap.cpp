@@ -29,70 +29,6 @@
 
 PY_PLASMA_NEW(DynamicEnvMap, plDynamicEnvMap)
 
-PY_GETSET_GETTER_DECL(DynamicEnvMap, visRegions)
-{
-    const std::vector<plKey>& keys = self->fThis->getVisRegions();
-    PyObject* regionList = PyTuple_New(keys.size());
-    for (size_t i=0; i<keys.size(); i++)
-        PyTuple_SET_ITEM(regionList, i, pyPlasma_convert(keys[i]));
-    return regionList;
-}
-
-PY_GETSET_SETTER_DECL(DynamicEnvMap, visRegions)
-{
-    PY_PROPERTY_CHECK_NULL(visRegions)
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "visRegions should be a sequence of plKeys");
-        return -1;
-    }
-    Py_ssize_t count = seq.size();
-    std::vector<plKey> regions(count);
-    for (Py_ssize_t i=0; i<count; i++) {
-        PyObject* region = seq.get(i);
-        if (pyKey_Check(region)) {
-            regions[i] = pyPlasma_get<plKey>(region);
-        } else {
-            PyErr_SetString(PyExc_TypeError, "visRegions should be a sequence of plKeys");
-            return -1;
-        }
-    }
-    self->fThis->setVisRegions(regions);
-    return 0;
-}
-
-PY_GETSET_GETTER_DECL(DynamicEnvMap, visRegionNames)
-{
-    const std::vector<ST::string>& names = self->fThis->getVisRegionNames();
-    PyObject* regionNameList = PyTuple_New(names.size());
-    for (size_t i=0; i<names.size(); i++)
-        PyTuple_SET_ITEM(regionNameList, i, pyPlasma_convert(names[i]));
-    return regionNameList;
-}
-
-PY_GETSET_SETTER_DECL(DynamicEnvMap, visRegionNames)
-{
-    PY_PROPERTY_CHECK_NULL(visRegionNames)
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "visRegionNames should be a sequence of strings");
-        return -1;
-    }
-    Py_ssize_t count = seq.size();
-    std::vector<ST::string> names(count);
-    for (Py_ssize_t i=0; i<count; i++) {
-        PyObject* name = seq.get(i);
-        if (pyPlasma_check<ST::string>(name)) {
-            names[i] = pyPlasma_get<ST::string>(name);
-        } else {
-            PyErr_SetString(PyExc_TypeError, "visRegionNames should be a sequence of strings");
-            return -1;
-        }
-    }
-    self->fThis->setVisRegionNames(names);
-    return 0;
-}
-
 PY_PROPERTY(plKey, DynamicEnvMap, rootNode, getRootNode, setRootNode)
 PY_PROPERTY(hsVector3, DynamicEnvMap, position, getPosition, setPosition)
 PY_PROPERTY(float, DynamicEnvMap, hither, getHither, setHither)
@@ -100,8 +36,8 @@ PY_PROPERTY(float, DynamicEnvMap, yon, getYon, setYon)
 PY_PROPERTY(float, DynamicEnvMap, fogStart, getFogStart, setFogStart)
 PY_PROPERTY(hsColorRGBA, DynamicEnvMap, color, getColor, setColor)
 PY_PROPERTY(float, DynamicEnvMap, refreshRate, getRefreshRate, setRefreshRate)
-PY_PROPERTY_GETSET_DECL(DynamicEnvMap, visRegions)
-PY_PROPERTY_GETSET_DECL(DynamicEnvMap, visRegionNames)
+PY_PROPERTY_VECTOR(plKey, DynamicEnvMap, visRegions, getVisRegions, setVisRegions)
+PY_PROPERTY_VECTOR(ST::string, DynamicEnvMap, visRegionNames, getVisRegionNames, setVisRegionNames)
 PY_PROPERTY(bool, DynamicEnvMap, incCharacters, getIncludeCharacters,
             setIncludeCharacters)
 

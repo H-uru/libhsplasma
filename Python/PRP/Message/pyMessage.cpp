@@ -65,20 +65,10 @@ static PyMethodDef pyMessage_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(Message, receivers)
-{
-    PyObject* list = PyTuple_New(self->fThis->getReceivers().size());
-    for (size_t i=0; i<self->fThis->getReceivers().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getReceivers()[i]));
-    return list;
-}
-
-PY_PROPERTY_SETTER_MSG(Message, receivers, "To add receivers, use addReceiver()")
-PY_PROPERTY_GETSET_DECL(Message, receivers)
-
 PY_PROPERTY(plKey, Message, sender, getSender, setSender)
 PY_PROPERTY(double, Message, timeStamp, getTimeStamp, setTimeStamp)
 PY_PROPERTY(unsigned int, Message, BCastFlags, getBCastFlags, setBCastFlags)
+PY_PROPERTY_VECTOR(plKey, Message, receivers, getReceivers, setReceivers)
 
 static PyGetSetDef pyMessage_GetSet[] = {
     pyMessage_sender_getset,

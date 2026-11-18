@@ -44,12 +44,14 @@ protected:
 public:
     const std::vector<plKey>& getPrivateAnims() const { return fPrivateAnims; }
     std::vector<plKey>& getPrivateAnims() { return fPrivateAnims; }
+    void setPrivateAnims(std::vector<plKey> anims) { fPrivateAnims = std::move(anims); }
     void addPrivateAnim(plKey key) { fPrivateAnims.emplace_back(std::move(key)); }
     void delPrivateAnim(size_t idx) { fPrivateAnims.erase(fPrivateAnims.begin() + idx); }
     void clearPrivateAnims() { fPrivateAnims.clear(); }
 
     const std::vector<plKey>& getEoaKeys() const { return fEoaKeys2; }
     std::vector<plKey>& getEoaKeys() { return fEoaKeys2; }
+    void setEoaKeys(std::vector<plKey> eoaKeys) { fEoaKeys2 = std::move(eoaKeys); }
     void addEoaKey(plKey key) { fEoaKeys2.emplace_back(std::move(key)); }
     void delEoaKey(size_t idx) { fEoaKeys2.erase(fEoaKeys2.begin() + idx); }
     void clearEoaKeys() { fEoaKeys2.clear(); }

@@ -19,7 +19,15 @@
 
 #include "PyPlasma.h"
 
+#include <PRP/Modifier/plRandomSoundMod.h>
+
 PY_WRAP_PLASMA_VALUE(RandomSoundModGroup, class plRandomSoundModGroup);
 PY_WRAP_PLASMA(RandomSoundMod, class plRandomSoundMod);
+
+inline PyObject* pyPlasma_convert(const plRandomSoundModGroup& value) { return pyRandomSoundModGroup_FromRandomSoundModGroup(value); }
+
+template <> inline int pyPlasma_check<plRandomSoundModGroup>(PyObject* obj) { return pyRandomSoundModGroup_Check(obj); }
+
+template <> inline plRandomSoundModGroup pyPlasma_get(PyObject* obj) { return *((pyRandomSoundModGroup*)obj)->fThis; }
 
 #endif

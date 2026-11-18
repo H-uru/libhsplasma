@@ -37,6 +37,7 @@ protected:
 public:
     const std::vector<plKey>& getIntfKeys() const { return fKeyList; }
     std::vector<plKey>& getIntfKeys() { return fKeyList; }
+    void setIntfKeys(std::vector<plKey> keys) { fKeyList = std::move(keys); }
     void addIntfKey(plKey key) { fKeyList.emplace_back(std::move(key)); }
     void delIntfKey(size_t idx) { fKeyList.erase(fKeyList.begin() + idx); }
     void clearIntfKeys() { fKeyList.clear(); }

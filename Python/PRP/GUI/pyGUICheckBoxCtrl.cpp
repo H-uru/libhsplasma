@@ -65,16 +65,7 @@ static PyMethodDef pyGUICheckBoxCtrl_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(GUICheckBoxCtrl, animKeys)
-{
-    PyObject* list = PyTuple_New(self->fThis->getAnimKeys().size());
-    for (size_t i = 0; i<self->fThis->getAnimKeys().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyPlasma_convert(self->fThis->getAnimKeys()[i]));
-    return list;
-}
-PY_PROPERTY_SETTER_MSG(GUICheckBoxCtrl, animKeys, "To add animations, use addAnimKey()")
-PY_PROPERTY_GETSET_DECL(GUICheckBoxCtrl, animKeys)
-
+PY_PROPERTY_VECTOR(plKey, GUICheckBoxCtrl, animKeys, getAnimKeys, setAnimKeys)
 PY_PROPERTY(ST::string, GUICheckBoxCtrl, animName, getAnimName, setAnimName)
 PY_PROPERTY(bool, GUICheckBoxCtrl, checked, isChecked, setChecked)
 

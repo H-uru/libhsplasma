@@ -54,12 +54,14 @@ public:
 
     const std::vector<plCullPoly>& getPolys() const { return fPolys; }
     std::vector<plCullPoly>& getPolys() { return fPolys; }
+    void setPolys(std::vector<plCullPoly> polys) { fPolys = std::move(polys); }
     void addPoly(const plCullPoly& poly) { fPolys.push_back(poly); }
     void delPoly(size_t idx) { fPolys.erase(fPolys.begin() + idx); }
     void clearPolys() { fPolys.clear(); }
 
     const std::vector<plKey>& getVisRegions() const { return fVisRegions; }
     std::vector<plKey>& getVisRegions() { return fVisRegions; }
+    void setVisRegions(std::vector<plKey> regions) { fVisRegions = std::move(regions); }
     void addVisRegion(plKey region) { fVisRegions.emplace_back(std::move(region)); }
     void delVisRegion(size_t idx) { fVisRegions.erase(fVisRegions.begin() + idx); }
     void clearVisRegions() { fVisRegions.clear(); }

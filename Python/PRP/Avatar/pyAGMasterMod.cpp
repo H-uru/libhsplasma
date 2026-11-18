@@ -96,31 +96,8 @@ static PyMethodDef pyAGMasterMod_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(AGMasterMod, privateAnims)
-{
-    const std::vector<plKey>& anims = self->fThis->getPrivateAnims();
-    PyObject* tup = PyTuple_New(anims.size());
-    for (size_t i = 0; i < anims.size(); ++i)
-        PyTuple_SET_ITEM(tup, i, pyKey_FromKey(anims[i]));
-    return tup;
-}
-
-PY_PROPERTY_SETTER_MSG(AGMasterMod, privateAnims,
-                       "To add privateAnims, use addPrivateAnim()")
-PY_PROPERTY_GETSET_DECL(AGMasterMod, privateAnims)
-
-PY_GETSET_GETTER_DECL(AGMasterMod, eoaKeys)
-{
-    const std::vector<plKey>& keys = self->fThis->getEoaKeys();
-    PyObject* tup = PyTuple_New(keys.size());
-    for (size_t i = 0; i < keys.size(); ++i)
-        PyTuple_SET_ITEM(tup, i, pyKey_FromKey(keys[i]));
-    return tup;
-}
-
-PY_PROPERTY_SETTER_MSG(AGMasterMod, eoaKeys, "To add eoaKeys, use addEoaKey()")
-PY_PROPERTY_GETSET_DECL(AGMasterMod, eoaKeys)
-
+PY_PROPERTY_VECTOR(plKey, AGMasterMod, privateAnims, getPrivateAnims, setPrivateAnims)
+PY_PROPERTY_VECTOR(plKey, AGMasterMod, eoaKeys, getEoaKeys, setEoaKeys)
 PY_PROPERTY(ST::string, AGMasterMod, groupName, getGroupName, setGroupName)
 PY_PROPERTY(bool, AGMasterMod, isGrouped, getIsGrouped, setIsGrouped)
 PY_PROPERTY(bool, AGMasterMod, isGroupMaster, getIsGroupMaster, setIsGroupMaster)

@@ -103,12 +103,14 @@ public:
 
     const std::vector<plKey>& getReceivers() const { return fReceivers; }
     std::vector<plKey>& getReceivers() { return fReceivers; }
+    void setReceivers(std::vector<plKey> rcvrs) { fReceivers = std::move(rcvrs); }
     void addReceiver(plKey rcvr) { fReceivers.emplace_back(std::move(rcvr)); }
     void delReceiver(size_t idx) { fReceivers.erase(fReceivers.begin() + idx); }
     void clearReceivers() { fReceivers.clear(); }
 
     const std::vector<plPythonParameter>& getParameters() const { return fParameters; }
     std::vector<plPythonParameter>& getParameters() { return fParameters; }
+    void setParameters(std::vector<plPythonParameter> params) { fParameters = std::move(params); }
     void addParameter(const plPythonParameter& param) { fParameters.push_back(param); }
     void delParameter(size_t idx) { fParameters.erase(fParameters.begin() + idx); }
     void clearParameters() { fParameters.clear(); }

@@ -117,6 +117,7 @@ protected:
 public:
     const std::vector<SinglePlane>& getPlanes() const { return fPlanes; }
     std::vector<SinglePlane>& getPlanes() { return fPlanes; }
+    void setPlanes(std::vector<SinglePlane> planes) { fPlanes = std::move(planes); }
 
     /** Adds or updates a given plane */
     void addPlane(hsVector3 normal, const hsVector3& pos);

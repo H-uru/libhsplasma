@@ -61,38 +61,6 @@ static PyMethodDef pySpanTemplate_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(SpanTemplate, vertices)
-{
-    std::vector<plSpanTemplate::Vertex> verts = self->fThis->getVertices();
-    PyObject* list = PyTuple_New(verts.size());
-    for (size_t i=0; i<verts.size(); i++)
-        PyTuple_SET_ITEM(list, i, pySpanTemplateVertex_FromSpanTemplateVertex(verts[i]));
-    return list;
-}
-
-PY_GETSET_SETTER_DECL(SpanTemplate, vertices)
-{
-    PY_PROPERTY_CHECK_NULL(vertices)
-    pySequenceFastRef seq(value);
-    if (!seq.isSequence()) {
-        PyErr_SetString(PyExc_TypeError, "vertices should be a sequence of plSpanTemplateVertex objects");
-        return -1;
-    }
-    std::vector<plSpanTemplate::Vertex> verts(seq.size());
-    for (size_t i=0; i<verts.size(); i++) {
-        PyObject* itm = seq.get(i);
-        if (!pySpanTemplateVertex_Check(itm)) {
-            PyErr_SetString(PyExc_TypeError, "vertices should be a sequence of plSpanTemplateVertex objects");
-            return -1;
-        }
-        verts[i] = *((pySpanTemplateVertex*)itm)->fThis;
-    }
-    self->fThis->setVertices(verts);
-    return 0;
-}
-
-PY_PROPERTY_GETSET_DECL(SpanTemplate, vertices)
-
 PY_GETSET_GETTER_DECL(SpanTemplate, indices)
 {
     const unsigned short* indices = self->fThis->getIndices();
@@ -127,6 +95,7 @@ PY_GETSET_SETTER_DECL(SpanTemplate, indices)
 
 PY_PROPERTY_GETSET_DECL(SpanTemplate, indices)
 
+PY_PROPERTY_VECTOR(plSpanTemplate::Vertex, SpanTemplate, vertices, getVertices, setVertices)
 PY_PROPERTY(unsigned short, SpanTemplate, format, getFormat, setFormat)
 
 static PyGetSetDef pySpanTemplate_GetSet[] = {

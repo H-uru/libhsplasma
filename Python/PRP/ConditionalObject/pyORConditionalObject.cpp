@@ -62,16 +62,7 @@ static PyMethodDef pyORConditionalObject_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(ORConditionalObject, children)
-{
-    PyObject* children = PyTuple_New(self->fThis->getChildren().size());
-    for (size_t i = 0; i < self->fThis->getChildren().size(); ++i)
-        PyTuple_SET_ITEM(children, i, pyPlasma_convert(self->fThis->getChildren()[i]));
-    return children;
-}
-
-PY_PROPERTY_SETTER_MSG(ORConditionalObject, children, "To add children, use addChild()")
-PY_PROPERTY_GETSET_DECL(ORConditionalObject, children)
+PY_PROPERTY_VECTOR(plKey, ORConditionalObject, children, getChildren, setChildren)
 
 static PyGetSetDef pyORConditionalObject_GetSet[] = {
     pyORConditionalObject_children_getset,

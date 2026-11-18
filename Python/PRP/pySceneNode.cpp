@@ -166,27 +166,8 @@ PyMethodDef pySceneNode_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_GETSET_GETTER_DECL(SceneNode, sceneObjects)
-{
-    PyObject* list = PyTuple_New(self->fThis->getSceneObjects().size());
-    for (size_t i=0; i<self->fThis->getSceneObjects().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getSceneObjects()[i]));
-    return list;
-}
-
-PY_PROPERTY_SETTER_MSG(SceneNode, sceneObjects, "To add Scene Objects, use addSceneObjects")
-PY_PROPERTY_GETSET_DECL(SceneNode, sceneObjects)
-
-PY_GETSET_GETTER_DECL(SceneNode, poolObjects)
-{
-    PyObject* list = PyTuple_New(self->fThis->getPoolObjects().size());
-    for (size_t i=0; i<self->fThis->getPoolObjects().size(); i++)
-        PyTuple_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getPoolObjects()[i]));
-    return list;
-}
-
-PY_PROPERTY_SETTER_MSG(SceneNode, poolObjects, "To add Pool Objects, use addPoolObjects")
-PY_PROPERTY_GETSET_DECL(SceneNode, poolObjects)
+PY_PROPERTY_VECTOR(plKey, SceneNode, sceneObjects, getSceneObjects, setSceneObjects)
+PY_PROPERTY_VECTOR(plKey, SceneNode, poolObjects, getPoolObjects, setPoolObjects)
 
 PyGetSetDef pySceneNode_GetSet[] = {
     pySceneNode_sceneObjects_getset,
