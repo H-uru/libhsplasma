@@ -128,21 +128,21 @@ static PyGetSetDef pyEAXReverbProperties_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PY_PLASMA_TYPE(EAXReverbProperties, EAXREVERBPROPERTIES, "EAXREVERBPROPERTIES wrapper")
+static PyType_Slot pyEAXReverbProperties_Slots[] = {
+    PY_TYPE_SLOT(Py_tp_doc, "EAXREVERBPROPERTIES wrapper"),
+    PY_TYPE_SLOT(Py_tp_dealloc, pyEAXReverbProperties_dealloc),
+    PY_TYPE_SLOT(Py_tp_getset, pyEAXReverbProperties_GetSet),
+    PY_TYPE_SLOT(Py_tp_init, pyEAXReverbProperties___init__),
+    PY_TYPE_SLOT(Py_tp_new, pyEAXReverbProperties_new),
+    PY_TYPE_SLOT_TERMINATOR
+};
 
 #define PY_TYPE_ADD_PRESET(preset) \
-    PyDict_SetItemString(pyEAXReverbProperties_Type.tp_dict, #preset, \
+    PyDict_SetItemString(pyEAXReverbProperties_Type->tp_dict, #preset, \
         pyEAXReverbProperties_FromEAXReverbProperties(EAXREVERBPROPERTIES(preset)));
 
-PY_PLASMA_TYPE_INIT(EAXReverbProperties)
+PY_PLASMA_TYPE_NO_BASE(EAXReverbProperties, "EAXREVERBPROPERTIES")
 {
-    pyEAXReverbProperties_Type.tp_dealloc = pyEAXReverbProperties_dealloc;
-    pyEAXReverbProperties_Type.tp_init = pyEAXReverbProperties___init__;
-    pyEAXReverbProperties_Type.tp_new = pyEAXReverbProperties_new;
-    pyEAXReverbProperties_Type.tp_getset = pyEAXReverbProperties_GetSet;
-    if (PyType_CheckAndReady(&pyEAXReverbProperties_Type) < 0)
-        return nullptr;
-
     /* EAX reverb presets */
     PY_TYPE_ADD_PRESET(REVERB_PRESET_GENERIC)
     PY_TYPE_ADD_PRESET(REVERB_PRESET_PADDEDCELL)
@@ -269,9 +269,6 @@ PY_PLASMA_TYPE_INIT(EAXReverbProperties)
     PY_TYPE_ADD_CONST(EAXReverbProperties, "kFlagDecayHFLimit", EAXLISTENERFLAGS_DECAYHFLIMIT);
     PY_TYPE_ADD_CONST(EAXReverbProperties, "kFlagReserved", EAXLISTENERFLAGS_RESERVED);
     PY_TYPE_ADD_CONST(EAXReverbProperties, "kDefaultFlags", EAXLISTENER_DEFAULTFLAGS);
-
-    Py_INCREF(&pyEAXReverbProperties_Type);
-    return (PyObject*)&pyEAXReverbProperties_Type;
 }
 
 PY_PLASMA_VALUE_IFC_METHODS(EAXReverbProperties, EAXREVERBPROPERTIES)

@@ -289,23 +289,19 @@ static PyGetSetDef pyKey_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PY_PLASMA_TYPE(Key, plKey, "plKey wrapper")
+static PyType_Slot pyKey_Slots[] = {
+    PY_TYPE_SLOT(Py_tp_doc, "plKey wrapper"),
+    PY_TYPE_SLOT(Py_tp_dealloc, pyKey_dealloc),
+    PY_TYPE_SLOT(Py_tp_getset, pyKey_GetSet),
+    PY_TYPE_SLOT(Py_tp_hash, pyKey_hash),
+    PY_TYPE_SLOT(Py_tp_methods, pyKey_Methods),
+    PY_TYPE_SLOT(Py_tp_new, pyKey_new),
+    PY_TYPE_SLOT(Py_tp_repr, pyKey_repr),
+    PY_TYPE_SLOT(Py_tp_richcompare, pyKey_richcompare),
+    PY_TYPE_SLOT_TERMINATOR
+};
 
-PY_PLASMA_TYPE_INIT(Key)
-{
-    pyKey_Type.tp_dealloc = pyKey_dealloc;
-    pyKey_Type.tp_new = pyKey_new;
-    pyKey_Type.tp_repr = pyKey_repr;
-    pyKey_Type.tp_hash = pyKey_hash;
-    pyKey_Type.tp_richcompare = pyKey_richcompare;
-    pyKey_Type.tp_methods = pyKey_Methods;
-    pyKey_Type.tp_getset = pyKey_GetSet;
-    if (PyType_CheckAndReady(&pyKey_Type) < 0)
-        return nullptr;
-
-    Py_INCREF(&pyKey_Type);
-    return (PyObject*)&pyKey_Type;
-}
+PY_PLASMA_TYPE_NO_BASE(Key, "plKey") { }
 
 PY_PLASMA_CHECK_TYPE(Key)
 
@@ -313,7 +309,7 @@ PyObject* pyKey_FromKey(const plKey& key)
 {
     if (!key.Exists())
         Py_RETURN_NONE;
-    pyKey* obj = PyObject_New(pyKey, &pyKey_Type);
+    pyKey* obj = PyObject_New(pyKey, pyKey_Type);
     obj->fThis = new plKey(key);
     return (PyObject*)obj;
 }

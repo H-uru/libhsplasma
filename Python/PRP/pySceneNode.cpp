@@ -194,19 +194,17 @@ PyGetSetDef pySceneNode_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PY_PLASMA_TYPE(SceneNode, plSceneNode, "plSceneNode wrapper")
+static PyType_Slot pySceneNode_Slots[] = {
+    PY_TYPE_SLOT(Py_tp_doc, "plSceneNode wrapper"),
+    PY_TYPE_SLOT(Py_tp_getset, pySceneNode_GetSet),
+    PY_TYPE_SLOT(Py_tp_methods, pySceneNode_Methods),
+    PY_TYPE_SLOT(Py_tp_new, pySceneNode_new),
+    PY_TYPE_SLOT_TERMINATOR
+};
 
-PY_PLASMA_TYPE_INIT(SceneNode)
-{
-    pySceneNode_Type.tp_new = pySceneNode_new;
-    pySceneNode_Type.tp_methods = pySceneNode_Methods;
-    pySceneNode_Type.tp_getset = pySceneNode_GetSet;
-    pySceneNode_Type.tp_base = &pyKeyedObject_Type;
-    if (PyType_CheckAndReady(&pySceneNode_Type) < 0)
-        return nullptr;
-
-    Py_INCREF(&pySceneNode_Type);
-    return (PyObject*)&pySceneNode_Type;
-}
+PY_PLASMA_TYPE_WITH_BASE(
+    SceneNode, "plSceneNode",
+    KeyedObject, "hsKeyedObject"
+) { }
 
 PY_PLASMA_IFC_METHODS(SceneNode, plSceneNode)

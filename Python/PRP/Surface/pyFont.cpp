@@ -60,20 +60,16 @@ static PyGetSetDef pyFontCharacter_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PY_PLASMA_TYPE(FontCharacter, plFont::plCharacter, "plFont::plCharacter wrapper")
+static PyType_Slot pyFontCharacter_Slots[] = {
+    PY_TYPE_SLOT(Py_tp_doc, "plFont::plCharacter wrapper"),
+    PY_TYPE_SLOT(Py_tp_dealloc, pyFontCharacter_dealloc),
+    PY_TYPE_SLOT(Py_tp_getset, pyFontCharacter_GetSet),
+    PY_TYPE_SLOT(Py_tp_init, pyFontCharacter___init__),
+    PY_TYPE_SLOT(Py_tp_new, pyFontCharacter_new),
+    PY_TYPE_SLOT_TERMINATOR
+};
 
-PY_PLASMA_TYPE_INIT(FontCharacter)
-{
-    pyFontCharacter_Type.tp_dealloc = pyFontCharacter_dealloc;
-    pyFontCharacter_Type.tp_init = pyFontCharacter___init__;
-    pyFontCharacter_Type.tp_new = pyFontCharacter_new;
-    pyFontCharacter_Type.tp_getset = pyFontCharacter_GetSet;
-    if (PyType_CheckAndReady(&pyFontCharacter_Type) < 0)
-        return nullptr;
-
-    Py_INCREF(&pyFontCharacter_Type);
-    return (PyObject*)&pyFontCharacter_Type;
-}
+PY_PLASMA_TYPE_NO_BASE(FontCharacter, "plFont::plCharacter") { }
 
 PY_PLASMA_VALUE_IFC_METHODS(FontCharacter, plFont::plCharacter)
 
@@ -185,8 +181,6 @@ PY_PLASMA_LENGTH_DECL(Font)
     return self->fThis->getNumCharacters();
 }
 
-PY_PLASMA_TYPE_AS_MAPPING(Font)
-
 PY_METHOD_VA(Font, readP2F,
     "Params: stream\n"
     "Read this font from a .p2f stream")
@@ -282,28 +276,23 @@ static PyMethodDef pyFont_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
-PY_PLASMA_TYPE(Font, plFont, "plFont wrapper")
+static PyType_Slot pyFont_Slots[] = {
+    PY_TYPE_SLOT(Py_tp_doc, "plFont wrapper"),
+    PY_TYPE_SLOT(Py_tp_getset, pyFont_GetSet),
+    PY_TYPE_SLOT(Py_tp_methods, pyFont_Methods),
+    PY_TYPE_SLOT(Py_tp_new, pyFont_new),
+    PY_TYPE_SLOT(Py_mp_ass_subscript, pyFont_mp_ass_subscript),
+    PY_TYPE_SLOT(Py_mp_length, pyFont_length),
+    PY_TYPE_SLOT(Py_mp_subscript, pyFont_mp_subscript),
+    PY_TYPE_SLOT_TERMINATOR
+};
 
-PY_PLASMA_TYPE_INIT(Font)
+PY_PLASMA_TYPE_WITH_BASE(Font, "plFont", KeyedObject, "hsKeyedObject")
 {
-    pyFont_As_Mapping.mp_subscript = pyFont_mp_subscript;
-    pyFont_As_Mapping.mp_ass_subscript = pyFont_mp_ass_subscript;
-    pyFont_As_Mapping.mp_length = pyFont_length;
-    pyFont_Type.tp_new = pyFont_new;
-    pyFont_Type.tp_as_mapping = &pyFont_As_Mapping;
-    pyFont_Type.tp_methods = pyFont_Methods;
-    pyFont_Type.tp_getset = pyFont_GetSet;
-    pyFont_Type.tp_base = &pyKeyedObject_Type;
-    if (PyType_CheckAndReady(&pyFont_Type) < 0)
-        return nullptr;
-
-    PyDict_SetItemString(pyFont_Type.tp_dict, "plCharacter", Init_pyFontCharacter_Type());
+    PyDict_SetItemString(pyFont_Type->tp_dict, "plCharacter", Init_pyFontCharacter_Type());
 
     PY_TYPE_ADD_CONST(Font, "kFontBold", plFont::kFontBold);
     PY_TYPE_ADD_CONST(Font, "kFontItalic", plFont::kFontItalic);
-
-    Py_INCREF(&pyFont_Type);
-    return (PyObject*)&pyFont_Type;
 }
 
 PY_PLASMA_IFC_METHODS(Font, plFont)

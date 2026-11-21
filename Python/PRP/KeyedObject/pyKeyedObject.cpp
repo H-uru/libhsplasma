@@ -71,20 +71,18 @@ static PyGetSetDef pyKeyedObject_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PY_PLASMA_TYPE(KeyedObject, hsKeyedObject, "hsKeyedObject wrapper")
+static PyType_Slot pyKeyedObject_Slots[] = {
+    PY_TYPE_SLOT(Py_tp_doc, "hsKeyedObject wrapper"),
+    PY_TYPE_SLOT(Py_tp_getset, pyKeyedObject_GetSet),
+    PY_TYPE_SLOT(Py_tp_init, pyKeyedObject___init__),
+    PY_TYPE_SLOT(Py_tp_methods, pyKeyedObject_Methods),
+    PY_TYPE_SLOT(Py_tp_new, pyKeyedObject_new),
+    PY_TYPE_SLOT_TERMINATOR
+};
 
-PY_PLASMA_TYPE_INIT(KeyedObject)
-{
-    pyKeyedObject_Type.tp_init = pyKeyedObject___init__;
-    pyKeyedObject_Type.tp_new = pyKeyedObject_new;
-    pyKeyedObject_Type.tp_methods = pyKeyedObject_Methods;
-    pyKeyedObject_Type.tp_getset = pyKeyedObject_GetSet;
-    pyKeyedObject_Type.tp_base = &pyCreatable_Type;
-    if (PyType_CheckAndReady(&pyKeyedObject_Type) < 0)
-        return nullptr;
-
-    Py_INCREF(&pyKeyedObject_Type);
-    return (PyObject*)&pyKeyedObject_Type;
-}
+PY_PLASMA_TYPE_WITH_BASE(
+    KeyedObject, "hsKeyedObject",
+    Creatable, "plCreatable"
+) { }
 
 PY_PLASMA_IFC_METHODS(KeyedObject, hsKeyedObject)

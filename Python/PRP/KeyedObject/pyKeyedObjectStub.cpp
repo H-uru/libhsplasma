@@ -51,19 +51,17 @@ static PyGetSetDef pyKeyedObjectStub_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PY_PLASMA_TYPE(KeyedObjectStub, hsKeyedObjectStub, "hsKeyedObjectStub wrapper")
+static PyType_Slot pyKeyedObjectStub_Slots[] = {
+    PY_TYPE_SLOT(Py_tp_doc, "hsKeyedObjectStub wrapper"),
+    PY_TYPE_SLOT(Py_tp_getset, pyKeyedObjectStub_GetSet),
+    PY_TYPE_SLOT(Py_tp_init, pyKeyedObjectStub___init__),
+    PY_TYPE_SLOT(Py_tp_new, pyKeyedObjectStub_new),
+    PY_TYPE_SLOT_TERMINATOR
+};
 
-PY_PLASMA_TYPE_INIT(KeyedObjectStub)
-{
-    pyKeyedObjectStub_Type.tp_init = pyKeyedObjectStub___init__;
-    pyKeyedObjectStub_Type.tp_new = pyKeyedObjectStub_new;
-    pyKeyedObjectStub_Type.tp_getset = pyKeyedObjectStub_GetSet;
-    pyKeyedObjectStub_Type.tp_base = &pyKeyedObject_Type;
-    if (PyType_CheckAndReady(&pyKeyedObjectStub_Type) < 0)
-        return nullptr;
-
-    Py_INCREF(&pyKeyedObjectStub_Type);
-    return (PyObject*)&pyKeyedObjectStub_Type;
-}
+PY_PLASMA_TYPE_WITH_BASE(
+    KeyedObjectStub, "hsKeyedObjectStub",
+    KeyedObject, "hsKeyedObject"
+) { }
 
 PY_PLASMA_IFC_METHODS(KeyedObjectStub, hsKeyedObjectStub)

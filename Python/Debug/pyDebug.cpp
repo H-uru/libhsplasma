@@ -101,22 +101,19 @@ static PyMethodDef pyDebug_Methods[] = {
     PY_METHOD_TERMINATOR
 };
 
+static PyType_Slot pyDebug_Slots[] = {
+    PY_TYPE_SLOT(Py_tp_doc, "Plasma debug logger class"),
+    PY_TYPE_SLOT(Py_tp_methods, pyDebug_Methods),
+    PY_TYPE_SLOT(Py_tp_new, pyDebug_new),
+    PY_TYPE_SLOT_TERMINATOR
+};
+
 typedef PyObject pyDebug;
-PY_PLASMA_TYPE(Debug, "plDebug", "Plasma debug logger class")
-
-PY_PLASMA_TYPE_INIT(Debug)
+PY_PLASMA_TYPE_NO_BASE(Debug, "plDebug")
 {
-    pyDebug_Type.tp_new = pyDebug_new;
-    pyDebug_Type.tp_methods = pyDebug_Methods;
-    if (PyType_CheckAndReady(&pyDebug_Type) < 0)
-        return nullptr;
-
     PY_TYPE_ADD_CONST(Debug, "kDLNone", plDebug::kDLNone);
     PY_TYPE_ADD_CONST(Debug, "kDLError", plDebug::kDLError);
     PY_TYPE_ADD_CONST(Debug, "kDLWarning", plDebug::kDLWarning);
     PY_TYPE_ADD_CONST(Debug, "kDLDebug", plDebug::kDLDebug);
     PY_TYPE_ADD_CONST(Debug, "kDLAll", plDebug::kDLAll);
-
-    Py_INCREF(&pyDebug_Type);
-    return (PyObject*)&pyDebug_Type;
 }

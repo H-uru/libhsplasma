@@ -278,18 +278,18 @@ static PyGetSetDef pyAgeInfo_GetSet[] = {
     PY_GETSET_TERMINATOR
 };
 
-PY_PLASMA_TYPE(AgeInfo, plAgeInfo, "plAgeInfo wrapper")
+static PyType_Slot pyAgeInfo_Slots[] = {
+    PY_TYPE_SLOT(Py_tp_doc, "plAgeInfo wrapper"),
+    PY_TYPE_SLOT(Py_tp_dealloc, pyAgeInfo_dealloc),
+    PY_TYPE_SLOT(Py_tp_getset, pyAgeInfo_GetSet),
+    PY_TYPE_SLOT(Py_tp_init, pyAgeInfo___init__),
+    PY_TYPE_SLOT(Py_tp_methods, pyAgeInfo_Methods),
+    PY_TYPE_SLOT(Py_tp_new, pyAgeInfo_new),
+    PY_TYPE_SLOT_TERMINATOR
+};
 
-PY_PLASMA_TYPE_INIT(AgeInfo)
+PY_PLASMA_TYPE_NO_BASE(AgeInfo, "plAgeInfo")
 {
-    pyAgeInfo_Type.tp_dealloc = pyAgeInfo_dealloc;
-    pyAgeInfo_Type.tp_init = pyAgeInfo___init__;
-    pyAgeInfo_Type.tp_new = pyAgeInfo_new;
-    pyAgeInfo_Type.tp_methods = pyAgeInfo_Methods;
-    pyAgeInfo_Type.tp_getset = pyAgeInfo_GetSet;
-    if (PyType_CheckAndReady(&pyAgeInfo_Type) < 0)
-        return nullptr;
-
     PY_TYPE_ADD_CONST(AgeInfo, "kFlagPreventAutoLoad", plAgeInfo::kPreventAutoLoad);
     PY_TYPE_ADD_CONST(AgeInfo, "kFlagLoadIfSDLPresent", plAgeInfo::kLoadIfSDLPresent);
     PY_TYPE_ADD_CONST(AgeInfo, "kFlagIsLocalOnly", plAgeInfo::kIsLocalOnly);
@@ -302,10 +302,8 @@ PY_PLASMA_TYPE_INIT(AgeInfo)
     PyObject* list = PyTuple_New(plAgeInfo::kNumCommonPages);
     for (size_t i=0; i<plAgeInfo::kNumCommonPages; i++)
         PyTuple_SET_ITEM(list, i, pyPlasma_convert(plAgeInfo::kCommonPages[i]));
-    PyDict_SetItemString(pyAgeInfo_Type.tp_dict, "kCommonPages", list);
-
-    Py_INCREF(&pyAgeInfo_Type);
-    return (PyObject*)&pyAgeInfo_Type;
+    PyDict_SetItemString(pyAgeInfo_Type->tp_dict, "kCommonPages", list);
+    // FIXME: list is leaked here.
 }
 
 PY_PLASMA_IFC_METHODS(AgeInfo, plAgeInfo)
